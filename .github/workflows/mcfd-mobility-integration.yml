@@ -1,0 +1,58 @@
+# This is a basic workflow to help you get started with Actions
+
+name: mcfd-mobility-CICD-social
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "prod" branch
+  push:
+    paths:
+      - '.gwa/**'
+    branches: [ "prod" ]
+  pull_request:
+    branches: [ "prod" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  NS: "mcfd-mobility"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          # TOKEN: ${{ secrets.GITHUB_TOKEN }} # Rate-limited by 60 per hour; use personal GitHub access token if more required
+
+      - name: Get GWA Command Line
+        run: |
+          curl -L -O https://github.com/bcgov/gwa-cli/releases/download/v1.3.1/gwa_v1.3.1_linux_x64.zip
+          unzip gwa_v1.3.1_linux_x64.zip
+          export PATH=`pwd`:$PATH
+      - name: Apply Namespace upstream Configuration
+        run: |
+          export PATH=`pwd`:$PATH
+          export API_VERSION=2
+          cd .gwa/$NS/upstream-targets
+          gwa init -P \
+            --namespace=$NS \
+            --client-id=${{ secrets.GWA_ACCT_ID }} \
+            --client-secret=${{ secrets.GWA_ACCT_SECRET }}
+          gwa pg
+      - name: Apply Namespace Configuration
+        run: |
+          export PATH=`pwd`:$PATH
+          export API_VERSION=2
+          cd .gwa/$NS
+          gwa init -P \
+            --namespace=$NS \
+            --client-id=${{ secrets.GWA_ACCT_ID }} \
+            --client-secret=${{ secrets.GWA_ACCT_SECRET }}
+          gwa pg
