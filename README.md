@@ -1,5 +1,13 @@
 # mcfd-mobility
 
+This is the main repository for the MCFD Mobility mobile app solution.
+
+Internally, the app is referred to as **Hestia**. You can find the app code in the */hestia* directory.
+
+## Architecture
+
+Hesita is written using .NET MAUI 7 (.NET 6 LTS).
+
 ## Licence
 
 Copyright 2019 Province of British Columbia
