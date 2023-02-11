@@ -6,7 +6,7 @@ Internally, the app is referred to as **Hestia**. You can find the app code in t
 
 ## Architecture
 
-Hesita is written using .NET MAUI 7 (.NET 6 LTS).
+Hesita is written using .NET MAUI 7 (.NET 7).
 
 ## Licence
 
