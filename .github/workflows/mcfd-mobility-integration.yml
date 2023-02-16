@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  NS: "mcfd-mobility"
+  NS: "bcicm"
 
 jobs:
   build:
