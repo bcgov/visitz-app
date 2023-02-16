@@ -37,6 +37,10 @@ Then follow:
             ? BigStringUtilities.DoSomeLargeAmountsOfProcessing(stringVal)
             : SmallerStringUtilities.TrimSomeWhitespace(stringVal)
         ```
+        
+4. Use `static readonly` instead of `const` for global constant values.
+
+    * [What is the difference between const and static in C#?](https://stackoverflow.com/a/2512962)
 
 ## Licence
 
