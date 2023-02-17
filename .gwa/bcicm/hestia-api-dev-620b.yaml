@@ -33,7 +33,7 @@ services:
             - RS256
           bearer_only: "yes"
           client_id: mcfd-mobility-4577
-          client_secret: null
+          client_secret: ""
           disable_access_token_header: "yes"
           disable_id_token_header: "yes"
           disable_userinfo_header: "yes"
