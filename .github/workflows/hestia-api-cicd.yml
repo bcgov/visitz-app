@@ -17,7 +17,6 @@ on:
 
 env:
   NS: "bcicm"
-  HestiaPath: "aps-hestia-config"
 
 jobs:
   build:
@@ -41,7 +40,7 @@ jobs:
         run: |
           export PATH=`pwd`:$PATH
           export API_VERSION=2
-          cd .gwa/$HestiaPath
+          cd .gwa/$NS
           gwa init -P \
             --namespace=$NS \
             --client-id=${{ secrets.GWA_ACCT_ID }} \
