@@ -2,19 +2,19 @@ services:
   - name: hestia-api-dev-620b
     host: wmcysndevds.icm.gov.bc.ca
     path: /api/v1/portal/getListOfEntity
-    tags: [ ns.bcicm.hestia ]
+    tags: [ ns.bcicm.hestia.dev ]
     plugins:
       - name: request-transformer
         enabled: true
         protocols: [http, https]
-        tags: [ ns.bcicm.hestia ]
+        tags: [ ns.bcicm.hestia.dev ]
         config: 
           remove:
             headers:
               - Cookie
       - name: acl
         enabled: true
-        tags: [ ns.bcicm.hestia ]
+        tags: [ ns.bcicm.hestia.dev ]
         config:
           allow:
             - BCCW-ACCESS
@@ -22,7 +22,7 @@ services:
           hide_groups_header: false
       - name: oidc
         enabled: true
-        tags: [ ns.bcicm.hestia ]
+        tags: [ ns.bcicm.hestia.dev ]
         config:
           access_token_as_bearer: "no"
           access_token_header_name: Authorization
@@ -69,7 +69,7 @@ services:
     retries: 0
     routes:
       - name: hestia-api-dev-620b-route
-        tags: [ ns.bcicm.hestia ]
+        tags: [ ns.bcicm.hestia.dev ]
         hosts:
           - hestia-dev.api.gov.bc.ca
         paths:
