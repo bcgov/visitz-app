@@ -36,16 +36,6 @@ jobs:
           curl -L -O https://github.com/bcgov/gwa-cli/releases/download/v1.3.1/gwa_v1.3.1_linux_x64.zip
           unzip gwa_v1.3.1_linux_x64.zip
           export PATH=`pwd`:$PATH
-      - name: Apply Namespace upstream Configuration
-        run: |
-          export PATH=`pwd`:$PATH
-          export API_VERSION=2
-          cd .gwa/$NS/upstream-targets
-          gwa init -P \
-            --namespace=$NS \
-            --client-id=${{ secrets.GWA_ACCT_ID }} \
-            --client-secret=${{ secrets.GWA_ACCT_SECRET }}
-          gwa pg
       - name: Apply Namespace Configuration
         run: |
           export PATH=`pwd`:$PATH
