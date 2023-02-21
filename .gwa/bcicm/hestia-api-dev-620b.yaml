@@ -4,6 +4,14 @@ services:
     path: /api/v1/portal/getListOfEntity
     tags: [ ns.bcicm.hestia ]
     plugins:
+      - name: request-transformer
+        enabled: true
+        protocols: [http, https]
+        tags: [ ns.bcicm.hestia ]
+        config: 
+          append:
+            headers:
+              - noop:noop
       - name: acl
         enabled: true
         tags: [ ns.bcicm.hestia ]
