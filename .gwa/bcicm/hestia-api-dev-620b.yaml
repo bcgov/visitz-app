@@ -40,8 +40,8 @@ services:
           discovery: https://dev.loginproxy.gov.bc.ca/auth/realms/standard/.well-known/openid-configuration
           filters: null
           groups_claim: client_roles
-          header_claims: [ preferred_username ]
-          header_names: [ X-Username ]
+          header_claims: [ idir_username, email ]
+          header_names: [ X-Idir-Username, X-User-Email ]
           id_token_header_name: X-ID-Token
           ignore_auth_filters: ""
           introspection_cache_ignore: "no"
