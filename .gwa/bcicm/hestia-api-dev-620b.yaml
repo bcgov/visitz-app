@@ -64,8 +64,8 @@ services:
           use_jwks: "yes"
           userinfo_header_name: X-USERINFO
           validate_scope: "yes"
-    port: 8080
-    protocol: http
+    port: 443
+    protocol: https
     retries: 0
     routes:
       - name: hestia-api-dev-620b-route
