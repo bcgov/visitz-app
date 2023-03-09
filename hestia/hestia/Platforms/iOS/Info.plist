@@ -28,5 +28,20 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Need your face Id to unlock the application</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>MCFD Mobile</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>hestia</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+		</dict>
+	</array>
 </dict>
 </plist>
