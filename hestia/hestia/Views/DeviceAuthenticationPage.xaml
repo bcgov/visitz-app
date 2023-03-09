@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:hestia.Views"
+             xmlns:viewmodels="clr-namespace:hestia.ViewModels"
+             x:Class="hestia.Views.DeviceAuthenticationPage"
+             x:DataType="viewmodels:DeviceAuthenticationViewModel"
+             Title="Device Authentication">
+
+    <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="#F2F2F2">
+        <Label 
+            Text="This app may contain sensitive information so we require that you use your devices's local authenticaiton to gain access."
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            FontSize="Header"
+            Padding="0,200,0,0"/>
+    </VerticalStackLayout>
+
+</views:BasePage>

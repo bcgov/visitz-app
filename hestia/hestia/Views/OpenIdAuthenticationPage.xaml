@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:hestia.Views"
+             x:Class="hestia.Views.OpenIdAuthenticationPage"
+             xmlns:viewmodels="clr-namespace:hestia.ViewModels"
+             x:DataType="viewmodels:OpenIdAuthenticationViewModel"
+             Title="Open Id Authentication">
+    <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="#FCBA19">
+    <Label 
+            Text="Login using your credentials."
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="Header"
+            Padding="0,200,0,0"/>
+    </VerticalStackLayout>
+</views:BasePage>
