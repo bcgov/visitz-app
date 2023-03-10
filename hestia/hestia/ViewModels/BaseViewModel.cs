@@ -7,7 +7,7 @@ namespace hestia.ViewModels
     /// The base class for all the view models. Common functionality can be defined here.
     /// </summary>
 	public partial class BaseViewModel : ObservableObject
-	{
+    {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNotBusy))]
         bool isBusy;

@@ -7,13 +7,13 @@ namespace hestia.ViewModels
     /// The OAuth login process is managed by this class.
     /// </summary>
 	public class OpenIdAuthenticationViewModel
-	{
+    {
         private readonly AuthenticationClient authClient;
 
         public OpenIdAuthenticationViewModel(AuthenticationClient authClient)
-		{
-			this.authClient = authClient;
-		}
+        {
+            this.authClient = authClient;
+        }
 
         public async Task<Result> Authenticate()
         {
