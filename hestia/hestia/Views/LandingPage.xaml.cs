@@ -9,13 +9,13 @@ public partial class LandingPage : BasePage
     LandingViewModel viewModel;
 
     public LandingPage(LandingViewModel viewModel, LandingRouter router)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         BindingContext = viewModel;
         this.viewModel = viewModel;
         this.router = router;
         ListenToViewModelProperties();
-	}
+    }
 
     protected override void OnLoadAsync()
     {

@@ -7,22 +7,22 @@ namespace hestia.Routers
     /// Use Router to move to different screens. Router handles navigation between screen.
     /// </summary>
     public class LandingRouter
-	{
-		public void RouteTo(Route route)
-		{
-			UnRegisterRoutes();
-			string routeStr = string.Empty;
-			switch (route)
-			{
-				case Route.DeviceAuthentication:
-					Routing.RegisterRoute(nameof(DeviceAuthenticationPage), typeof(DeviceAuthenticationPage));
-					routeStr = nameof(DeviceAuthenticationPage);
+    {
+        public void RouteTo(Route route)
+        {
+            UnRegisterRoutes();
+            string routeStr = string.Empty;
+            switch (route)
+            {
+                case Route.DeviceAuthentication:
+                    Routing.RegisterRoute(nameof(DeviceAuthenticationPage), typeof(DeviceAuthenticationPage));
+                    routeStr = nameof(DeviceAuthenticationPage);
                     break;
-				case Route.OpenIdAuthentication:
+                case Route.OpenIdAuthentication:
                     Routing.RegisterRoute(nameof(OpenIdAuthenticationPage), typeof(OpenIdAuthenticationPage));
-					routeStr = nameof(OpenIdAuthenticationPage);
-					break;
-				case Route.CasesAndIncidents:
+                    routeStr = nameof(OpenIdAuthenticationPage);
+                    break;
+                case Route.CasesAndIncidents:
                     Routing.RegisterRoute(nameof(CasesAndIncidentsPage), typeof(CasesAndIncidentsPage));
                     routeStr = nameof(CasesAndIncidentsPage);
                     break;
@@ -32,20 +32,21 @@ namespace hestia.Routers
             {
                 ((AppShell)Shell.Current).GoToAsyncRequest(routeStr);
             });
-		}
+        }
 
-		void UnRegisterRoutes()
-		{
+        void UnRegisterRoutes()
+        {
             Routing.UnRegisterRoute(nameof(DeviceAuthenticationPage));
             Routing.UnRegisterRoute(nameof(OpenIdAuthenticationPage));
             Routing.UnRegisterRoute(nameof(CasesAndIncidentsPage));
         }
 
-        public enum Route {
-			DeviceAuthentication,
-			OpenIdAuthentication,
-			CasesAndIncidents
+        public enum Route
+        {
+            DeviceAuthentication,
+            OpenIdAuthentication,
+            CasesAndIncidents
         }
-	}
+    }
 }
 

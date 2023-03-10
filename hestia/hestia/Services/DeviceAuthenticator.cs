@@ -8,7 +8,7 @@ namespace hestia.Services
     /// Authenticate a user via fingerprint, face id or any other biometic / local authentication method.
     /// </summary>
 	public class DeviceAuthenticator
-	{
+    {
         public async Task<Result> Authenticate()
         {
             var isAvailable = await CrossFingerprint.Current.IsAvailableAsync();
