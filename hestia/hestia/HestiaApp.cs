@@ -13,7 +13,7 @@ namespace hestia
     /// Application setup and configurations. (Separation of Concerns)
     /// </summary>
 	public class HestiaApp
-	{
+    {
         public static MauiApp Create()
         {
             var builder = MauiApp.CreateBuilder();

@@ -5,16 +5,16 @@ namespace hestia.Views;
 
 public partial class OpenIdAuthenticationPage : BasePage
 {
-	private OpenIdAuthenticationViewModel viewModel;
+    private OpenIdAuthenticationViewModel viewModel;
     private OpenIdAuthenticationRouter router;
 
     public OpenIdAuthenticationPage(OpenIdAuthenticationViewModel viewModel, OpenIdAuthenticationRouter router)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-		this.viewModel = viewModel;
-		this.router = router;
-	}
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+        this.viewModel = viewModel;
+        this.router = router;
+    }
 
     protected override async void OnLoadAsync()
     {

@@ -5,7 +5,7 @@ namespace hestia.Services.Authentication
     /// The class defined here collects the configuration settings for Authentication
     /// </summary>
 	public class AuthenticationClientOptions
-	{
+    {
         public AuthenticationClientOptions()
         {
             Scope = "";

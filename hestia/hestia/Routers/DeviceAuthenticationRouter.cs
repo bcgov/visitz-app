@@ -8,7 +8,7 @@ namespace hestia.Routers
     /// Use Router to move to different screens. Router handles navigation between screen.
     /// </summary>
 	public class DeviceAuthenticationRouter
-	{
+    {
         public void RouteUsing(DeviceAuthenticator.Result result)
         {
             if (!MainThread.IsMainThread)

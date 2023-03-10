@@ -2,8 +2,8 @@
 
 public partial class CasesAndIncidentsPage : BasePage
 {
-	public CasesAndIncidentsPage()
-	{
-		InitializeComponent();
-	}
+    public CasesAndIncidentsPage()
+    {
+        InitializeComponent();
+    }
 }
