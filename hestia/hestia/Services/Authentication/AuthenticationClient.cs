@@ -7,7 +7,7 @@ namespace hestia.Services.Authentication
     /// The class exposes the Browser property and provides the LoginAsync() method to start the authentication process.
     /// </summary>
 	public class AuthenticationClient
-	{
+    {
         private readonly OidcClient oidcClient;
 
         public AuthenticationClient(AuthenticationClientOptions options)

@@ -5,21 +5,21 @@ namespace hestia.Views;
 
 public partial class DeviceAuthenticationPage : BasePage
 {
-	DeviceAuthenticationViewModel viewModel;
-	DeviceAuthenticationRouter router;
+    DeviceAuthenticationViewModel viewModel;
+    DeviceAuthenticationRouter router;
 
     public DeviceAuthenticationPage(DeviceAuthenticationViewModel viewModel, DeviceAuthenticationRouter router)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-		this.viewModel = viewModel;
-		this.router = router;
-	}
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+        this.viewModel = viewModel;
+        this.router = router;
+    }
 
     protected override async void OnLoadAsync()
     {
         base.OnLoadAsync();
-		DeviceAuthenticator.Result result = await viewModel.Authenticate();
-		router.RouteUsing(result);
+        DeviceAuthenticator.Result result = await viewModel.Authenticate();
+        router.RouteUsing(result);
     }
 }
