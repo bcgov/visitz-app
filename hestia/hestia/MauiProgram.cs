@@ -7,9 +7,9 @@ namespace hestia;
 /// </summary>
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		return HestiaApp.Create();
-	}
+    public static MauiApp CreateMauiApp()
+    {
+        return HestiaApp.Create();
+    }
 }
 

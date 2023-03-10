@@ -8,9 +8,9 @@ namespace hestia.Routers
     /// Use Router to move to different screens. Router handles navigation between screen.
     /// </summary>
 	public class OpenIdAuthenticationRouter
-	{
-		public void routeUsing(OpenIdAuthenticationViewModel.Result result)
-		{
+    {
+        public void routeUsing(OpenIdAuthenticationViewModel.Result result)
+        {
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 if (result.IsError)
@@ -24,7 +24,7 @@ namespace hestia.Routers
                         GoToAsyncRequest($"..?navigatingBackFromPage={nameof(OpenIdAuthenticationPage)}");
                 }
             });
-		}
-	}
+        }
+    }
 }
 

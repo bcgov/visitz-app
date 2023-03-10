@@ -7,7 +7,7 @@
              x:DataType="viewmodels:OpenIdAuthenticationViewModel"
              Title="Open Id Authentication">
     <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="#FCBA19">
-    <Label 
+        <Label 
             Text="Login using your credentials."
             VerticalOptions="Center" 
             HorizontalOptions="Center"

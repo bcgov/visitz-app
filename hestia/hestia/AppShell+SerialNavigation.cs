@@ -34,7 +34,7 @@ namespace hestia
                 NavigationRequest navReq = new(state, animate, parameters);
                 navigationRequests.Add(navReq);
                 NavigateIfNeeded();
-            });            
+            });
         }
 
         async void NavigateIfNeeded()
@@ -45,7 +45,7 @@ namespace hestia
             }
             NavigationRequest request = navigationRequests.First();
             navigationRequests.RemoveAt(0);
-            await GoToAsync(request.state, request.animate, request.parameters ?? new Dictionary<string, object>{});
+            await GoToAsync(request.state, request.animate, request.parameters ?? new Dictionary<string, object> { });
         }
 
         struct NavigationRequest

@@ -5,9 +5,9 @@ public partial class BasePage : ContentPage
     protected bool DidViewAppear;
 
     public BasePage()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     protected override void OnAppearing()
     {
