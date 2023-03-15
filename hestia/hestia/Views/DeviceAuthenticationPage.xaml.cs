@@ -16,9 +16,9 @@ public partial class DeviceAuthenticationPage : BasePage
         this.router = router;
     }
 
-    protected override async void OnLoadAsync()
+    protected override async void OnLoad()
     {
-        base.OnLoadAsync();
+        base.OnLoad();
         DeviceAuthenticator.Result result = await viewModel.Authenticate();
         router.RouteUsing(result);
     }

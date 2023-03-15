@@ -1,5 +1,7 @@
 ﻿using System;
 using hestia.Services.Authentication;
+using hestia.Services.Networking;
+using IdentityModel.OidcClient;
 
 namespace hestia.ViewModels
 {
@@ -17,18 +19,23 @@ namespace hestia.ViewModels
 
         public async Task<Result> Authenticate()
         {
-            var loginResult = await authClient.LoginAsync();
-            if (loginResult.IsError)
+            try
             {
-                //Console.WriteLine($"loginResult.ErrorDescription: {loginResult.ErrorDescription}");
-                return new Result(isError: true, error: loginResult.Error, errorDescription: loginResult.ErrorDescription);
+                var loginResult = await authClient.LoginAsync();
+                if (loginResult.IsError)
+                {
+                    return new Result(isError: true, error: loginResult.Error, errorDescription: loginResult.ErrorDescription);
+                }
+                else
+                {
+                    TokenHolder.AccessToken = loginResult.AccessToken;
+                    return new Result(isError: false, error: null, errorDescription: null);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //Console.WriteLine("loginResult");
-                //Console.WriteLine($"loginResult: AccessToken: {loginResult.AccessToken}");
-                //Console.WriteLine($"loginResult: RefreshToken: {loginResult.RefreshToken}");
-                return new Result(isError: false, error: null, errorDescription: null);
+                Console.WriteLine($"Exception: {ex}");
+                return new Result(isError: true, error: "Exception", errorDescription: ex.ToString());
             }
         }
 
