@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 using hestia.Services.Authentication;
+using hestia.Services.Networking;
 using hestia.Services;
 using hestia.Views;
 using hestia.ViewModels;
 using hestia.Routers;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace hestia
 {
@@ -41,6 +41,16 @@ namespace hestia
                 Scope = "",
                 RedirectUri = "hestia://client"
             }));
+
+            builder.Services.AddSingleton<TokenHandler>();
+            // Definition of a named HttpClient instance ("CasesAndIncidentsAPI")
+            builder.Services.AddHttpClient("CasesAndIncidentsAPI",
+                client => client.BaseAddress = new Uri("https://icmint620b-cysndevds.api.gov.bc.ca/")
+                ).AddHttpMessageHandler<TokenHandler>();
+            // Creation of the actual HttpClient instance
+            builder.Services.AddTransient(
+                sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("CasesAndIncidentsAPI")
+                );
 
             builder.Services.AddTransient<DeviceAuthenticator>();
             builder.Services.AddTransient<DeviceAuthenticationRouter>();

@@ -16,9 +16,9 @@ public partial class OpenIdAuthenticationPage : BasePage
         this.router = router;
     }
 
-    protected override async void OnLoadAsync()
+    protected override async void OnLoad()
     {
-        base.OnLoadAsync();
+        base.OnLoad();
         OpenIdAuthenticationViewModel.Result result = await viewModel.Authenticate();
         router.routeUsing(result);
     }
