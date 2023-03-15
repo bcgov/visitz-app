@@ -17,9 +17,9 @@ public partial class LandingPage : BasePage
         ListenToViewModelProperties();
     }
 
-    protected override void OnLoadAsync()
+    protected override void OnLoad()
     {
-        base.OnLoadAsync();
+        base.OnLoad();
         //TriggerRouteUpdate();
 
         LandingRouter.Route solvedRoute = viewModel.SolveRoute();
