@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace hestia.Models.DTOs
 {
     public class FamilyMember

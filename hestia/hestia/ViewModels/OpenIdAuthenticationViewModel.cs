@@ -34,7 +34,6 @@ namespace hestia.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex}");
                 return new Result(isError: true, error: "Exception", errorDescription: ex.ToString());
             }
         }

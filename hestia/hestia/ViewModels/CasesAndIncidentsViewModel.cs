@@ -1,13 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using hestia.Models.DTOs;
 using hestia.Models.Payloads;
-
-
-using hestia.Services.Networking;
-
+using System.Collections.ObjectModel;
 
 namespace hestia.ViewModels
 {
@@ -16,6 +10,8 @@ namespace hestia.ViewModels
     /// </summary>
     public class CasesAndIncidentsViewModel : BaseViewModel
     {
+        public ObservableCollection<Models.BOs.ListCaseIncident2> BoCasesAndInsidents { get; set; } = new();
+
         private HttpClient httpClient;
         public CasesAndIncidentsViewModel(HttpClient httpClient)
         {
@@ -33,16 +29,21 @@ namespace hestia.ViewModels
             nvcContent.Headers.Clear();
             nvcContent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             try
-            {
+            {                
                 HttpResponseMessage response = await httpClient.PostAsync("", nvcContent);
                 string responseContent = await response.Content.ReadAsStringAsync();
                 CaseIncidentListDTO dto = JsonSerializer.Deserialize<CaseIncidentListDTO>(responseContent, options: null);
-                string caseIncidentNumber = dto.listCaseIncident.payLoad.listCaseIncidents.FirstOrDefault<ListCaseIncident2>().caseIncidentNumber;
-                Console.WriteLine($"caseIncidentNumber is {caseIncidentNumber}");
+                string caseIncidentNumber = dto.listCaseIncident.payLoad.listCaseIncidents.FirstOrDefault<Models.DTOs.ListCaseIncident2>().caseIncidentNumber;
+                BoCasesAndInsidents.Clear();
+                var caseIncidentListBO = Models.BOs.CaseIncidentListBO.ToBO(dto);
+                caseIncidentListBO?.listCaseIncident?.payLoad?.listCaseIncidents?.ForEach(item =>
+                {
+                    BoCasesAndInsidents.Add(item);
+                });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"exception is {ex.ToString()}");
+
             }
         }
     }
