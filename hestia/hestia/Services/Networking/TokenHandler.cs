@@ -9,8 +9,7 @@ namespace hestia.Services.Networking
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            string hardCodedToken = "<Token>";
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", hardCodedToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenHolder.AccessToken);
             return await base.SendAsync(request, cancellationToken);
         }
     }

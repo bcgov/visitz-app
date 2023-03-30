@@ -3,19 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:hestia.Views"
              xmlns:viewmodels="clr-namespace:hestia.ViewModels"
+             xmlns:local="clr-namespace:hestia.Services.Localization"
              x:Class="hestia.Views.DeviceAuthenticationPage"
              x:DataType="viewmodels:DeviceAuthenticationViewModel"
-             Title="Device Authentication">
+             Title=""
+             BackgroundColor="#003366">
 
-    <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="#F2F2F2">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Grid>
+            <Image Source="tilted_rectangle_bg.png" />
+            <Image Source="file_folder.png" />
+        </Grid>
         <Label 
-            Text="This app may contain sensitive information so we require that you use your devices's local authenticaiton to gain access."
+            Text="{local:Localize AuthenticationRequired}"
             VerticalOptions="Center" 
             HorizontalOptions="Center"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center"
-            FontSize="Header"
-            Padding="0,200,0,0"/>
+            TextColor="White"
+            FontFamily="BCSansBold"
+            FontSize="28"
+            Margin="0,100,0,0" />
+
+        <Label 
+            Text="{local:Localize DeviceAuthenticationDescription}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            TextColor="White"
+            FontFamily="BCSansBold"
+            FontSize="22"
+            LineBreakMode="WordWrap"
+            Margin="140,25,140,0" />
+
     </VerticalStackLayout>
 
 </views:BasePage>
