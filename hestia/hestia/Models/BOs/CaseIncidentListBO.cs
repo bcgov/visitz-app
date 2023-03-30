@@ -6,7 +6,6 @@ namespace hestia.Models.BOs
 {
     public class FamilyMember
     {
-        public string contactId { get; set; }
         public string keyPlayer { get; set; }
         public string lastName { get; set; }
         public string firstName { get; set; }
@@ -20,18 +19,9 @@ namespace hestia.Models.BOs
 
     public class ListCaseIncident2
     {
+        public string DisplayName => familyMembers.Where(mem => mem.keyPlayer.Equals("Y")).FirstOrDefault().lastName;
+
         public string caseIncidentNumber { get; set; }
-        public string entityType { get; set; }
-        public string caseIncidentType { get; set; }
-        public string workerId { get; set; }
-        public string workerFullName { get; set; }
-        public string unitNo { get; set; }
-        public string addressLine1 { get; set; }
-        public string addressLine2 { get; set; }
-        public string city { get; set; }
-        public string postalCode { get; set; }
-        public string provinceState { get; set; }
-        public string country { get; set; }
         public List<FamilyMember> familyMembers { get; set; }
         public string createdDate { get; set; }
     }
@@ -47,23 +37,42 @@ namespace hestia.Models.BOs
     public class CaseIncidentListBO
     {
         public ListCaseIncident listCaseIncident { get; set; }
-        /*
+
         public static CaseIncidentListBO ToBO(CaseIncidentListDTO dto)
         {
             var listCaseIncidents = dto?.listCaseIncident?.payLoad?.listCaseIncidents;
-            if (listCaseIncidents is null) return null;
-            List<ListCaseIncident2> boListCaseIncidents = listCaseIncidents.Select(obj =>
+            var newListCaseIncidents = new List<ListCaseIncident2>();
+            listCaseIncidents?.ForEach(item =>
             {
-                ListCaseIncident2 newObj = new();
-                if (!(obj.familyMembers is null))
-                {
-                    
-                }
+                List<FamilyMember> familyMembers = item?.familyMembers?.Select(fmObj =>
+                    new FamilyMember()
+                    {
+                        keyPlayer = fmObj?.keyPlayer,
+                        lastName = fmObj?.lastName,
+                        firstName = fmObj?.firstName,
+                        middleName = fmObj?.middleName
+                    }).ToList();
 
-                return newObj;
-            }).ToList();
+                ListCaseIncident2 newObj = new()
+                {
+                    caseIncidentNumber = item?.caseIncidentNumber,
+                    familyMembers = familyMembers,
+                    createdDate = item?.createdDate
+                };
+                newListCaseIncidents.Add(newObj);
+            });
+
+            return new CaseIncidentListBO()
+            {
+                listCaseIncident = new ListCaseIncident()
+                {
+                    payLoad = new PayLoad()
+                    {
+                        listCaseIncidents = newListCaseIncidents
+                    }
+                }
+            };
         }
-        */
     }
 }
 
