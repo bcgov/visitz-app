@@ -2,15 +2,19 @@
 using hestia.Models.DTOs;
 using hestia.Models.Payloads;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace hestia.ViewModels
 {
     /// <summary>
     /// The business logic for the cases and incidents list rendering goes here.
     /// </summary>
-    public class CasesAndIncidentsViewModel : BaseViewModel
+    public partial class CasesAndIncidentsViewModel : BaseViewModel
     {
         public ObservableCollection<Models.BOs.ListCaseIncident2> BoCasesAndInsidents { get; set; } = new();
+        [ObservableProperty]
+        public Models.BOs.ListCaseIncident2 selectedCaseIncident;
 
         private HttpClient httpClient;
         public CasesAndIncidentsViewModel(HttpClient httpClient)
@@ -29,7 +33,8 @@ namespace hestia.ViewModels
             nvcContent.Headers.Clear();
             nvcContent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             try
-            {                
+            {
+                httpClient.BaseAddress = new Uri("https://icmint620b-cysndevds.api.gov.bc.ca/");
                 HttpResponseMessage response = await httpClient.PostAsync("", nvcContent);
                 string responseContent = await response.Content.ReadAsStringAsync();
                 CaseIncidentListDTO dto = JsonSerializer.Deserialize<CaseIncidentListDTO>(responseContent, options: null);
@@ -45,6 +50,12 @@ namespace hestia.ViewModels
             {
 
             }
+        }
+
+        [RelayCommand]
+        void GoToNotes(Models.BOs.ListCaseIncident2 caseIncident)
+        {
+            SelectedCaseIncident = caseIncident;
         }
     }
 }
