@@ -41,3 +41,4 @@ public partial class CasesAndIncidentsPage : BasePage
         router.RouteUsing(caseIncident);
     }
 }
+
