@@ -41,6 +41,6 @@
             FontSize="22"
             LineBreakMode="WordWrap"
             Margin="140,25,140,0" />
-
     </VerticalStackLayout>
 </views:BasePage>
+

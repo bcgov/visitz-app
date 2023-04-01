@@ -16,7 +16,7 @@ namespace hestia.Routers
         {
             _localizer = localizer;
         }
-
+    
         public void RouteUsing(DeviceAuthenticator.Result result)
         {
             if (!MainThread.IsMainThread)
