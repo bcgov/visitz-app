@@ -6,7 +6,8 @@
              xmlns:models="clr-namespace:hestia.Models.BOs"
              x:Class="hestia.Views.CasesAndIncidentsPage"
              x:DataType="viewmodels:CasesAndIncidentsViewModel"
-             Title="Caseload">
+             Title="Caseload"
+             BackgroundColor="White">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
@@ -40,6 +41,12 @@
                         StrokeThickness="2"
                         Padding="20,20"
                         HorizontalOptions="Fill">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CasesAndIncidentsViewModel}}, Path=GoToNotesCommand}"
+                                                CommandParameter="{Binding .}"/>
+                            </Border.GestureRecognizers>
+
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="4,4,4,4"/>
                             </Border.StrokeShape>

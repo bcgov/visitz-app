@@ -88,6 +88,13 @@
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="appSettings.json" />
+	  <None Remove="Resources\AppIcon\appicon_round.svg" />
+	  <None Remove="Resources\Images\calendar.svg" />
+	  <None Remove="Resources\Images\folder.svg" />
+	  <None Remove="Resources\Images\family.svg" />
+	  <None Remove="Resources\Images\user.svg" />
+	  <None Remove="Resources\Images\phone.svg" />
+	  <None Remove="Resources\Images\mobile.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Services\" />
@@ -120,6 +127,13 @@
 	  <BundleResource Include="Resources\Images\temp_child_services.svg" />
 	  <BundleResource Include="Resources\Images\temp_case.svg" />
 	  <BundleResource Include="Resources\Images\bc_logo_text.svg" />
+	  <BundleResource Include="Resources\AppIcon\appicon_round.svg" />
+	  <BundleResource Include="Resources\Images\calendar.svg" />
+	  <BundleResource Include="Resources\Images\folder.svg" />
+	  <BundleResource Include="Resources\Images\family.svg" />
+	  <BundleResource Include="Resources\Images\user.svg" />
+	  <BundleResource Include="Resources\Images\phone.svg" />
+	  <BundleResource Include="Resources\Images\mobile.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Include="appSettings.json" />
@@ -142,14 +156,14 @@
 	  <Compile Remove="Resources\Localization\LocalizedStrings.fr-FR.Designer.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.Designer.cs">
-	    <DependentUpon>LocalizedStrings.resx</DependentUpon>
-	  </Compile>
 	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.en-US.Designer.cs">
 	    <DependentUpon>LocalizedStrings.en-US.resx</DependentUpon>
 	  </Compile>
 	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.fr.Designer.cs">
 	    <DependentUpon>LocalizedStrings.fr.resx</DependentUpon>
+	  </Compile>
+	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.Designer.cs">
+	    <DependentUpon>LocalizedStrings.resx</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 </Project>

@@ -28,9 +28,6 @@ namespace hestia.Extensions
             var assembly = Assembly.GetExecutingAssembly();
             using var stream = assembly.GetManifestResourceStream("hestia.appSettings.json");
             var authenticationOptions = new AuthenticationClientOptions();
-            // No support for ConfigurationBuilder -> AddJsonStream method in Android.
-            // Compiltion condition can be removed once that is supported in any of the future releases.
-#if !ANDROID
             var config = new ConfigurationBuilder()
                          .AddJsonStream(stream)
                          .Build();
@@ -44,7 +41,6 @@ namespace hestia.Extensions
                 Scope = "",
                 RedirectUri = settings.RedirectUri
             };
-#endif
             // This service is needed to inject IStringLocalizer into LocalizeExtension
             builder.Services.AddLocalization();
 
@@ -61,9 +57,8 @@ namespace hestia.Extensions
 
             builder.Services.AddSingleton<TokenHandler>();
             // Definition of a named HttpClient instance ("CasesAndIncidentsAPI")
-            builder.Services.AddHttpClient("CasesAndIncidentsAPI",
-                client => client.BaseAddress = new Uri("https://icmint620b-cysndevds.api.gov.bc.ca/")
-                ).AddHttpMessageHandler<TokenHandler>();
+            builder.Services.AddHttpClient("CasesAndIncidentsAPI").AddHttpMessageHandler<TokenHandler>();
+
             // Creation of the actual HttpClient instance
             builder.Services.AddTransient(
                 sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("CasesAndIncidentsAPI")
@@ -78,8 +73,16 @@ namespace hestia.Extensions
             builder.Services.AddTransient<OpenIdAuthenticationPage>();
             builder.Services.AddTransient<OpenIdAuthenticationViewModel>();
 
+            builder.Services.AddTransient<CasesAndIncidentsRouter>();
             builder.Services.AddTransient<CasesAndIncidentsPage>();
             builder.Services.AddTransient<CasesAndIncidentsViewModel>();
+
+            builder.Services.AddTransient<CaseNotesRouter>();
+            builder.Services.AddTransient<CaseNotesPage>();
+            builder.Services.AddTransient<CaseNotesViewModel>();
+
+            builder.Services.AddTransient<CaseIncidentDetailsPage>();
+            builder.Services.AddTransient<CaseIncidentDetailsViewModel>();
 
             return builder;
         }
