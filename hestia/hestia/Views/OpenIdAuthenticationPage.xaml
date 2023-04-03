@@ -2,16 +2,45 @@
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:hestia.Views"
-             x:Class="hestia.Views.OpenIdAuthenticationPage"
              xmlns:viewmodels="clr-namespace:hestia.ViewModels"
+             xmlns:local="clr-namespace:hestia.Services.Localization"
+             x:Class="hestia.Views.OpenIdAuthenticationPage"
              x:DataType="viewmodels:OpenIdAuthenticationViewModel"
-             Title="Open Id Authentication">
-    <VerticalStackLayout HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="#FCBA19">
+             Title=""
+             BackgroundColor="#003366">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Grid>
+            <Image Source="tilted_rectangle_bg.png" />
+            <Image Source="device.png" />
+        </Grid>
+
         <Label 
-            Text="Login using your credentials."
+            Text="{local:Localize LoginUsingCredentials}"
             VerticalOptions="Center" 
             HorizontalOptions="Center"
-            FontSize="Header"
-            Padding="0,200,0,0"/>
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            TextColor="White"
+            FontFamily="BCSansBold"
+            FontSize="28"
+            Margin="0,100,0,0" />
+
+        <Label 
+            Text="{local:Localize IntroduceIDIRCreds}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            TextColor="White"
+            FontFamily="BCSansBold"
+            FontSize="22"
+            LineBreakMode="WordWrap"
+            Margin="140,25,140,0" />
     </VerticalStackLayout>
 </views:BasePage>
+
