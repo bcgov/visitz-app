@@ -1,6 +1,7 @@
 ﻿using System;
 using hestia.Services;
 using hestia.Views;
+using hestia.Services.Localization;
 
 namespace hestia.Routers
 {
@@ -9,6 +10,13 @@ namespace hestia.Routers
     /// </summary>
 	public class DeviceAuthenticationRouter
     {
+        private LocalizeExtension _localizer;
+
+        public DeviceAuthenticationRouter(LocalizeExtension localizer)
+        {
+            _localizer = localizer;
+        }
+
         public void RouteUsing(DeviceAuthenticator.Result result)
         {
             if (!MainThread.IsMainThread)
@@ -22,18 +30,23 @@ namespace hestia.Routers
             switch (result)
             {
                 case DeviceAuthenticator.Result.NotConfigured:
-                    _ = Shell.Current.DisplayAlert("Unprotected Device!",
-                        "Please secure your device by setting up device lock and try again.", "Ok");
+                    _ = Shell.Current.DisplayAlert($"{_localizer.Localize("UnprotectedDevice")}!",
+                        _localizer.Localize("SecureDeviceAndTryAgain"), _localizer.Localize("Ok"));
                     break;
                 case DeviceAuthenticator.Result.Successful:
-                    ((AppShell)Shell.Current).
-                        GoToAsyncRequest($"..?navigatingBackFromPage={nameof(DeviceAuthenticationPage)}");
+                    navigateBack();
                     break;
                 case DeviceAuthenticator.Result.Failure:
-                    _ = Shell.Current.DisplayAlert("Access Denied",
-                        "Please try again.", "Ok");
+                    _ = Shell.Current.DisplayAlert(_localizer.Localize("AccessDenied"),
+                        _localizer.Localize("PleaseTryAgain"), _localizer.Localize("Ok"));
                     break;
             }
+        }
+
+        private void navigateBack()
+        {
+            ((AppShell)Shell.Current).
+                        GoToAsyncRequest($"..?navigatingBackFromPage={nameof(DeviceAuthenticationPage)}");
         }
     }
 }

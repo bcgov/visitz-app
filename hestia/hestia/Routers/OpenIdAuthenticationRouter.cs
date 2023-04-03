@@ -1,6 +1,7 @@
 ﻿using System;
 using hestia.Views;
 using hestia.ViewModels;
+using hestia.Services.Localization;
 
 namespace hestia.Routers
 {
@@ -9,14 +10,21 @@ namespace hestia.Routers
     /// </summary>
 	public class OpenIdAuthenticationRouter
     {
+        private LocalizeExtension _localizer;
+
+        public OpenIdAuthenticationRouter(LocalizeExtension localizer)
+        {
+            _localizer = localizer;
+        }
+
         public void routeUsing(OpenIdAuthenticationViewModel.Result result)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 if (result.IsError)
                 {
-                    _ = Shell.Current.DisplayAlert("Login Error!",
-                        result.ErrorDescription, "Ok");
+                    _ = Shell.Current.DisplayAlert($"{_localizer.Localize("LoginError")}!",
+                        result.ErrorDescription, _localizer.Localize("Ok"));
                 }
                 else
                 {

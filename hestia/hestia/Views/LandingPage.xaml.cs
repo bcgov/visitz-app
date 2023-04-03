@@ -17,11 +17,9 @@ public partial class LandingPage : BasePage
         ListenToViewModelProperties();
     }
 
-    protected override void OnLoadAsync()
+    protected override void OnLoad()
     {
-        base.OnLoadAsync();
-        //TriggerRouteUpdate();
-
+        base.OnLoad();
         LandingRouter.Route solvedRoute = viewModel.SolveRoute();
         router.RouteTo(solvedRoute);
     }
@@ -32,8 +30,6 @@ public partial class LandingPage : BasePage
         {
             if (args.PropertyName.Equals(nameof(viewModel.BackFromPage)))
             {
-                //Shell.Current.CurrentState
-
                 TriggerRouteUpdate();
             }
         };
