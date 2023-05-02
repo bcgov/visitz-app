@@ -1,0 +1,8 @@
+{
+  "AppSettings": {
+    "AuthenticationDomain": "",
+    "ClientId": "",
+    "ClientSecret": "",
+    "RedirectUri": ""
+  }
+}
