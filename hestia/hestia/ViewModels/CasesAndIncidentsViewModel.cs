@@ -34,7 +34,7 @@ namespace hestia.ViewModels
             nvcContent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             try
             {
-                httpClient.BaseAddress = new Uri("https://icmint620b-cysndevds.api.gov.bc.ca/");
+                httpClient.BaseAddress = new Uri("https://hestia-dev.api.gov.bc.ca/v1/620b");
                 HttpResponseMessage response = await httpClient.PostAsync("", nvcContent);
                 string responseContent = await response.Content.ReadAsStringAsync();
                 CaseIncidentListDTO dto = JsonSerializer.Deserialize<CaseIncidentListDTO>(responseContent, options: null);
