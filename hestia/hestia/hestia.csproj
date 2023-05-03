@@ -164,6 +164,8 @@
 	  </Compile>
 	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.Designer.cs">
 	    <DependentUpon>LocalizedStrings.resx</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
 	  </Compile>
 	</ItemGroup>
 </Project>
