@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>MCFD Mobile</ApplicationTitle>
+		<ApplicationTitle>MCFD Mobility</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>ca.bc.gov.hestia</ApplicationId>
