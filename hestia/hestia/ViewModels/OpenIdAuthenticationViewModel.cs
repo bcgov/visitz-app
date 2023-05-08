@@ -22,15 +22,11 @@ namespace hestia.ViewModels
             try
             {
                 var loginResult = await authClient.LoginAsync();
-                if (loginResult.IsError)
-                {
-                    return new Result(isError: true, error: loginResult.Error, errorDescription: loginResult.ErrorDescription);
-                }
-                else
-                {
+
+                if (!loginResult.IsError)
                     TokenHolder.AccessToken = loginResult.AccessToken;
-                    return new Result(isError: false, error: null, errorDescription: null);
-                }
+
+                return new Result(isError: loginResult.IsError, loginResult.Error, errorDescription: loginResult.ErrorDescription);
             }
             catch (Exception ex)
             {
