@@ -15,7 +15,8 @@ namespace hestia
             var builder = MauiApp.CreateBuilder();
             builder.UseMauiApp<App>()
                 .RegisterServices(); // Dependency Injection Setup
-            
+
+            HestiaLocalization.ConfigureLocalization(builder);
             HestiaFonts.ConfigureFonts(builder);
             HestiaAuth.ConfigureAuth(builder);
             HestiaApiConfig.ConfigureApi(builder);

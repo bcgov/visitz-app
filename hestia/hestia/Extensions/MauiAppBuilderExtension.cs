@@ -24,11 +24,6 @@ namespace hestia.Extensions
         /// <returns>MauiAppBuilder</returns>
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
         {
-            // This service is needed to inject IStringLocalizer into LocalizeExtension
-            builder.Services.AddLocalization();
-
-            builder.Services.AddSingleton<LocalizeExtension>();
-
             builder.Services.AddSingleton<LandingPage>();
             builder.Services.AddSingleton<LandingRouter>();
             builder.Services.AddSingleton<LandingViewModel>();
