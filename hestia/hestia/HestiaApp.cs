@@ -19,10 +19,8 @@ namespace hestia
             HestiaFonts.ConfigureFonts(builder);
             HestiaAuth.ConfigureAuth(builder);
             HestiaApiConfig.ConfigureApi(builder);
+            HestiaLogging.ConfigureLogging(builder);
 
-#if DEBUG
-            builder.Logging.AddDebug();
-#endif
             return builder.Build();
         }
     }

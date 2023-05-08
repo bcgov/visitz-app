@@ -27,9 +27,6 @@ namespace hestia.Extensions
             // This service is needed to inject IStringLocalizer into LocalizeExtension
             builder.Services.AddLocalization();
 
-            // IStringLocalizer appears to be dependent on a logging service 
-            builder.Services.AddLogging();
-
             builder.Services.AddSingleton<LocalizeExtension>();
 
             builder.Services.AddSingleton<LandingPage>();
