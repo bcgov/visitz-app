@@ -10,7 +10,7 @@ namespace hestia.Services.Authentication
     {
         private readonly OidcClient oidcClient;
 
-        public AuthenticationClient(AuthenticationClientOptions options)
+        public AuthenticationClient(Options options)
         {
             oidcClient = new OidcClient(new OidcClientOptions
             {
@@ -37,6 +37,26 @@ namespace hestia.Services.Authentication
         public async Task<LoginResult> LoginAsync()
         {
             return await oidcClient.LoginAsync();
+        }
+
+        public struct Options
+        {
+            public string Domain { get; set; }
+
+            public string ClientId { get; set; }
+
+            public string RedirectUri { get; set; }
+
+            public string Scope { get; set; }
+
+            public IdentityModel.OidcClient.Browser.IBrowser Browser { get; set; }
+
+            public Options()
+            {
+                Scope = "";
+                RedirectUri = "";
+                Browser = new WebBrowserAuthenticator();
+            }
         }
     }
 }
