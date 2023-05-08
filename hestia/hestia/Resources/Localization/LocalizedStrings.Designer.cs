@@ -185,5 +185,14 @@ namespace hestia.Resources.Localization {
                 return ResourceManager.GetString("UnprotectedDevice", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User cancelled IDIR login..
+        /// </summary>
+        internal static string UserCancelledAuth {
+            get {
+                return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
+            }
+        }
     }
 }

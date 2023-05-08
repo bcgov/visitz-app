@@ -159,4 +159,7 @@
   <data name="DeviceAuthTitle" xml:space="preserve">
     <value>Unlock MCFD Mobility</value>
   </data>
+  <data name="UserCancelledAuth" xml:space="preserve">
+    <value>User cancelled IDIR login.</value>
+  </data>
 </root>

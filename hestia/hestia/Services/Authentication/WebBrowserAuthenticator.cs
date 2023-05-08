@@ -1,4 +1,4 @@
-﻿using System;
+﻿using hestia.Resources.Localization;
 using IdentityModel.Client;
 using IdentityModel.OidcClient.Browser;
 
@@ -32,7 +32,7 @@ namespace hestia.Services.Authentication
                 return new BrowserResult
                 {
                     ResultType = BrowserResultType.UserCancel,
-                    ErrorDescription = "Login canceled by the user."
+                    ErrorDescription = LocalizedStrings.UserCancelledAuth
                 };
             }
         }
