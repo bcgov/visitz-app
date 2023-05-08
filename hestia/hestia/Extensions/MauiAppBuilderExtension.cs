@@ -25,22 +25,8 @@ namespace hestia.Extensions
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
         {
             // Reading environment variables
-            var assembly = Assembly.GetExecutingAssembly();
-            using var stream = assembly.GetManifestResourceStream("hestia.appSettings.json");
-            var authenticationOptions = new AuthenticationClientOptions();
-            var config = new ConfigurationBuilder()
-                         .AddJsonStream(stream)
-                         .Build();
-            builder.Configuration.AddConfiguration(config);
-            var settings = config.GetRequiredSection("AppSettings").Get<AppSettings>();
-            authenticationOptions = new()
-            {
-                Domain = settings.AuthenticationDomain,
-                ClientId = settings.ClientId,
-                ClientSecret = settings.ClientSecret,
-                Scope = "",
-                RedirectUri = settings.RedirectUri
-            };
+            
+            
             // This service is needed to inject IStringLocalizer into LocalizeExtension
             builder.Services.AddLocalization();
 
@@ -53,7 +39,7 @@ namespace hestia.Extensions
             builder.Services.AddSingleton<LandingRouter>();
             builder.Services.AddSingleton<LandingViewModel>();
 
-            builder.Services.AddSingleton(new AuthenticationClient(authenticationOptions));
+            
 
             builder.Services.AddSingleton<TokenHandler>();
             // Definition of a named HttpClient instance ("CasesAndIncidentsAPI")
