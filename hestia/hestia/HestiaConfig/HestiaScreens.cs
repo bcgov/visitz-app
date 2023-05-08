@@ -7,7 +7,7 @@ namespace hestia.HestiaConfig
 {
     public class HestiaScreens
     {
-        public static MauiAppBuilder ConfigureScreens(MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureHestiaScreens(MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<LandingPage>();
             builder.Services.AddSingleton<LandingRouter>();

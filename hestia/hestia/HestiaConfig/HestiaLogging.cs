@@ -4,7 +4,7 @@ namespace hestia.HestiaConfig
 {
     public class HestiaLogging
     {
-        public static MauiAppBuilder ConfigureLogging(MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureHestiaLogging(MauiAppBuilder builder)
         {
             // IStringLocalizer appears to be dependent on a logging service 
             builder.Services.AddLogging();

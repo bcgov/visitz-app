@@ -15,12 +15,12 @@ namespace hestia
             var builder = MauiApp.CreateBuilder();
             builder.UseMauiApp<App>();
 
-            HestiaLocalization.ConfigureLocalization(builder);
-            HestiaFonts.ConfigureFonts(builder);
-            HestiaAuth.ConfigureAuth(builder);
-            HestiaApiConfig.ConfigureApi(builder);
-            HestiaLogging.ConfigureLogging(builder);
-            HestiaScreens.ConfigureScreens(builder);
+            HestiaLocalization.ConfigureHestiaLocalization(builder);
+            HestiaFonts.ConfigureHestiaFonts(builder);
+            HestiaAuth.ConfigureHestiaAuth(builder);
+            HestiaApiConfig.ConfigureHestiaApi(builder);
+            HestiaLogging.ConfigureHestiaLogging(builder);
+            HestiaScreens.ConfigureHestiaScreens(builder);
 
             return builder.Build();
         }
