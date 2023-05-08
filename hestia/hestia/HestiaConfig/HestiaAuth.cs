@@ -27,7 +27,6 @@ namespace hestia.HestiaConfig
             {
                 Domain = settings.AuthenticationDomain,
                 ClientId = settings.ClientId,
-                ClientSecret = settings.ClientSecret,
                 Scope = "",
                 RedirectUri = settings.RedirectUri
             };
