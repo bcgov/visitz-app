@@ -9,7 +9,7 @@ namespace hestia.Services.Authentication
         public AuthenticationClientOptions()
         {
             Scope = "";
-            RedirectUri = "hestia://client";
+            RedirectUri = "";
             Browser = new WebBrowserAuthenticator();
         }
 
