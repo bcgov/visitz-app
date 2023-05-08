@@ -106,6 +106,24 @@ namespace hestia.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
+        /// </summary>
+        internal static string DeviceAuthReason {
+            get {
+                return ResourceManager.GetString("DeviceAuthReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlock MCFD Mobility.
+        /// </summary>
+        internal static string DeviceAuthTitle {
+            get {
+                return ResourceManager.GetString("DeviceAuthTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To access please introduce your IDIR credentials..
         /// </summary>
         internal static string IntroduceIDIRCreds {

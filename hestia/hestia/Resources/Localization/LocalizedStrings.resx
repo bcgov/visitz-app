@@ -153,4 +153,10 @@
   <data name="Caseload" xml:space="preserve">
     <value>Caseload</value>
   </data>
+  <data name="DeviceAuthReason" xml:space="preserve">
+    <value>MCFD Mobility contains Private Information and may only be accessed by authorized users.</value>
+  </data>
+  <data name="DeviceAuthTitle" xml:space="preserve">
+    <value>Unlock MCFD Mobility</value>
+  </data>
 </root>
