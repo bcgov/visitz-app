@@ -14,7 +14,7 @@ namespace hestia.Services.Authentication
         {
             oidcClient = new OidcClient(new OidcClientOptions
             {
-                Authority = $"https://{options.Domain}",
+                Authority = options.Domain,
                 ClientId = options.ClientId,
                 ClientSecret = options.ClientSecret,
                 Scope = options.Scope,
