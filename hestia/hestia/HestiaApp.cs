@@ -13,14 +13,14 @@ namespace hestia
         public static MauiApp Create()
         {
             var builder = MauiApp.CreateBuilder();
-            builder.UseMauiApp<App>()
-                .RegisterServices(); // Dependency Injection Setup
+            builder.UseMauiApp<App>();
 
             HestiaLocalization.ConfigureLocalization(builder);
             HestiaFonts.ConfigureFonts(builder);
             HestiaAuth.ConfigureAuth(builder);
             HestiaApiConfig.ConfigureApi(builder);
             HestiaLogging.ConfigureLogging(builder);
+            HestiaScreens.ConfigureScreens(builder);
 
             return builder.Build();
         }
