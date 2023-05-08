@@ -111,7 +111,6 @@
 	  <Folder Include="Resources\Localization\" />
 	  <Folder Include="Services\Localization\" />
 	  <Folder Include="Services\MAUI\" />
-	  <Folder Include="Extensions\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\BCSans-Bold.ttf" />
