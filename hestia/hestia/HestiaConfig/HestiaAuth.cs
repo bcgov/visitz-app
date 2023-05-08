@@ -23,7 +23,8 @@ namespace hestia.HestiaConfig
             builder.Configuration.AddConfiguration(config);
 
             var settings = config.GetRequiredSection(OidcSettings).Get<OidcSettings>();
-            var authenticationOptions = new AuthenticationClientOptions()
+
+            var options = new AuthenticationClient.Options()
             {
                 Domain = settings.AuthenticationDomain,
                 ClientId = settings.ClientId,
@@ -31,7 +32,7 @@ namespace hestia.HestiaConfig
                 RedirectUri = settings.RedirectUri
             };
 
-            builder.Services.AddSingleton(new AuthenticationClient(authenticationOptions));
+            builder.Services.AddSingleton(new AuthenticationClient(options));
 
             return builder;
         }
