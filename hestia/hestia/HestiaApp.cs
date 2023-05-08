@@ -17,6 +17,7 @@ namespace hestia
                 .RegisterServices(); // Dependency Injection Setup
             
             HestiaFonts.ConfigureFonts(builder);
+            HestiaAuth.ConfigureAuth(builder);
 
 #if DEBUG
             builder.Logging.AddDebug();
