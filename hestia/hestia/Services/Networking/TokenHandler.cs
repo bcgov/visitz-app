@@ -7,9 +7,11 @@ namespace hestia.Services.Networking
     /// </summary>
 	public class TokenHandler : DelegatingHandler
     {
+        private static readonly string Bearer = "Bearer";
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenHolder.AccessToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, TokenHolder.AccessToken);
             return await base.SendAsync(request, cancellationToken);
         }
     }
