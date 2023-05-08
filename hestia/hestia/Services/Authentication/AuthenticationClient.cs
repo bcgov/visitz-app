@@ -16,7 +16,6 @@ namespace hestia.Services.Authentication
             {
                 Authority = options.Domain,
                 ClientId = options.ClientId,
-                ClientSecret = options.ClientSecret,
                 Scope = options.Scope,
                 RedirectUri = options.RedirectUri,
                 Browser = options.Browser,
