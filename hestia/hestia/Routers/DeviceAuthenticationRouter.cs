@@ -37,6 +37,7 @@ namespace hestia.Routers
                     navigateBack();
                     break;
                 case DeviceAuthenticator.Result.Failure:
+                    // TODO: Instead of this error modal: using dynamic visibility, show message in ContentPage prompting for auth, show button to open DeviceAuthenticator
                     _ = Shell.Current.DisplayAlert(_localizer.Localize("AccessDenied"),
                         _localizer.Localize("PleaseTryAgain"), _localizer.Localize("Ok"));
                     break;
