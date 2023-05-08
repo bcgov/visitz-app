@@ -1,4 +1,5 @@
 ﻿using System;
+using hestia.Resources.Localization;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 
@@ -11,24 +12,17 @@ namespace hestia.Services
     {
         public async Task<Result> Authenticate()
         {
-            var isAvailable = await CrossFingerprint.Current.IsAvailableAsync();
-            if (isAvailable)
+            if (await CrossFingerprint.Current.IsAvailableAsync())
             {
-                var request = new AuthenticationRequestConfiguration("Login using biometrics",
-                    "Confirm access using biometrics/pattern/passcode")
+                var request = new AuthenticationRequestConfiguration(LocalizedStrings.DeviceAuthTitle,
+                    LocalizedStrings.DeviceAuthReason)
                 {
-                    FallbackTitle = "Use PIN/Pattern",
                     AllowAlternativeAuthentication = true,
                 };
+
                 var result = await CrossFingerprint.Current.AuthenticateAsync(request);
-                if (result.Authenticated)
-                {
-                    return Result.Successful;
-                }
-                else
-                {
-                    return Result.Failure;
-                }
+
+                return result.Authenticated ? Result.Successful : Result.Failure;
             }
             else
             {
