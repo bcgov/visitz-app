@@ -17,7 +17,7 @@ namespace hestia.HestiaConfig
 
         private static readonly string OidcSettings = "OidcSettings";
 
-        public static void ConfigureAuth(MauiAppBuilder builder)
+        public static void ConfigureHestiaAuth(MauiAppBuilder builder)
         {
             var assembly = Assembly.GetExecutingAssembly();
             using var stream = assembly.GetManifestResourceStream(Namespace + "." + AppSettingsFile);

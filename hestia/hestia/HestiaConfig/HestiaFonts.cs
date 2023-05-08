@@ -20,7 +20,7 @@ namespace hestia.HestiaConfig
         private static readonly string BcSansRegularFile = "BCSans-Regular.ttf";
         private static readonly string BcSansRegularAlias = "BCSansRegular";
 
-        public static MauiAppBuilder ConfigureFonts(MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureHestiaFonts(MauiAppBuilder builder)
         {
             return builder.ConfigureFonts(fonts =>
             {
