@@ -24,9 +24,6 @@ namespace hestia.Extensions
         /// <returns>MauiAppBuilder</returns>
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder builder)
         {
-            // Reading environment variables
-            
-            
             // This service is needed to inject IStringLocalizer into LocalizeExtension
             builder.Services.AddLocalization();
 
@@ -38,17 +35,6 @@ namespace hestia.Extensions
             builder.Services.AddSingleton<LandingPage>();
             builder.Services.AddSingleton<LandingRouter>();
             builder.Services.AddSingleton<LandingViewModel>();
-
-            
-
-            builder.Services.AddSingleton<TokenHandler>();
-            // Definition of a named HttpClient instance ("CasesAndIncidentsAPI")
-            builder.Services.AddHttpClient("CasesAndIncidentsAPI").AddHttpMessageHandler<TokenHandler>();
-
-            // Creation of the actual HttpClient instance
-            builder.Services.AddTransient(
-                sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("CasesAndIncidentsAPI")
-                );
 
             builder.Services.AddTransient<DeviceAuthenticator>();
             builder.Services.AddTransient<DeviceAuthenticationRouter>();
