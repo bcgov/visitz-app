@@ -1,23 +1,18 @@
 ﻿using hestia.Models;
 using hestia.Services.Authentication;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hestia.HestiaConfig
 {
-    public class HestiaAuth
+    public static class HestiaAuth
     {
         private static readonly string Namespace = "hestia";
         private static readonly string AppSettingsFile = "appSettings.json";
 
         private static readonly string OidcSettings = "OidcSettings";
 
-        public static void ConfigureHestiaAuth(MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureHestiaAuth(this MauiAppBuilder builder)
         {
             var assembly = Assembly.GetExecutingAssembly();
             using var stream = assembly.GetManifestResourceStream(Namespace + "." + AppSettingsFile);
@@ -38,6 +33,8 @@ namespace hestia.HestiaConfig
             };
 
             builder.Services.AddSingleton(new AuthenticationClient(authenticationOptions));
+
+            return builder;
         }
     }
 }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace hestia.HestiaConfig
+﻿namespace hestia.HestiaConfig
 {
-    public class HestiaFonts
+    public static class HestiaFonts
     {
         private static readonly string BcSansBoldFile = "BCSans-Bold.ttf";
         private static readonly string BcSansBoldAlias = "BCSansBold";
@@ -20,7 +14,7 @@ namespace hestia.HestiaConfig
         private static readonly string BcSansRegularFile = "BCSans-Regular.ttf";
         private static readonly string BcSansRegularAlias = "BCSansRegular";
 
-        public static MauiAppBuilder ConfigureHestiaFonts(MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureHestiaFonts(this MauiAppBuilder builder)
         {
             return builder.ConfigureFonts(fonts =>
             {

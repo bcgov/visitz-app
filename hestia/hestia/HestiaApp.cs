@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
-using hestia.Extensions;
-using hestia.HestiaConfig;
+﻿using hestia.HestiaConfig;
 
 namespace hestia
 {
@@ -13,14 +10,14 @@ namespace hestia
         public static MauiApp Create()
         {
             var builder = MauiApp.CreateBuilder();
-            builder.UseMauiApp<App>();
-
-            HestiaLocalization.ConfigureHestiaLocalization(builder);
-            HestiaFonts.ConfigureHestiaFonts(builder);
-            HestiaAuth.ConfigureHestiaAuth(builder);
-            HestiaApiConfig.ConfigureHestiaApi(builder);
-            HestiaLogging.ConfigureHestiaLogging(builder);
-            HestiaScreens.ConfigureHestiaScreens(builder);
+            builder
+                .UseMauiApp<App>()
+                .ConfigureHestiaLocalization()
+                .ConfigureHestiaFonts()
+                .ConfigureHestiaAuth()
+                .ConfigureHestiaApi()
+                .ConfigureHestiaLogging()
+                .ConfigureHestiaScreens();
 
             return builder.Build();
         }

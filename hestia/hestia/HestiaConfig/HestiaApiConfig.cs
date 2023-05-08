@@ -2,11 +2,11 @@
 
 namespace hestia.HestiaConfig
 {
-    public class HestiaApiConfig
+    public static class HestiaApiConfig
     {
         private const string HttpClientName = "CasesAndIncidentsAPI";
 
-        public static MauiAppBuilder ConfigureHestiaApi(MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureHestiaApi(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<TokenHandler>();
 

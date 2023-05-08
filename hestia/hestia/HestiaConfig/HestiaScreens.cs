@@ -5,9 +5,9 @@ using hestia.Views;
 
 namespace hestia.HestiaConfig
 {
-    public class HestiaScreens
+    public static class HestiaScreens
     {
-        public static MauiAppBuilder ConfigureHestiaScreens(MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureHestiaScreens(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<LandingPage>();
             builder.Services.AddSingleton<LandingRouter>();
