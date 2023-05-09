@@ -1,4 +1,5 @@
 ﻿using hestiapi.Models;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace hestiapi.Requests
@@ -11,6 +12,9 @@ namespace hestiapi.Requests
         private static readonly string WorkerIdKey = "workerId";
 
         private static readonly string GetListCaseIncidentKey = "getListCaseIncident";
+
+        private static readonly string ListCaseIncidentKey = "listCaseIncident";
+        private static readonly string ListCaseIncidentsListKey = "listCaseIncidents";
 
         private readonly string[] _workerIds;
 
@@ -54,11 +58,17 @@ namespace hestiapi.Requests
 
         public override IEnumerable<CaseloadBaseItem> HandleResponse(HttpResponseMessage response)
         {
-            var list = new List<CaseloadBaseItem>();
+            var content = response.Content.ReadAsStringAsync().Result;
 
-            // TODO: implement JSON processing
+            var caseloadJson = JsonDocument.Parse(content)
+                .RootElement
+                .GetProperty(ListCaseIncidentKey)
+                .GetProperty(PayloadKey)
+                .GetProperty(ListCaseIncidentsListKey);
 
-            return list;
+            var caseloadList = caseloadJson.Deserialize(typeof(List<CaseloadBaseItem>));
+
+            return (IEnumerable<CaseloadBaseItem>)caseloadList;
         }
     }
 }
