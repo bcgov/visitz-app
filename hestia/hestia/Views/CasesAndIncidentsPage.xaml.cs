@@ -6,10 +6,10 @@ namespace hestia.Views;
 
 public partial class CasesAndIncidentsPage : BasePage
 {
-    private CasesAndIncidentsViewModel viewModel;
+    private CaseloadViewModel viewModel;
     private CasesAndIncidentsRouter router;
 
-    public CasesAndIncidentsPage(CasesAndIncidentsViewModel viewModel, CasesAndIncidentsRouter router)
+    public CasesAndIncidentsPage(CaseloadViewModel viewModel, CasesAndIncidentsRouter router)
     {
         InitializeComponent();
         BindingContext = viewModel;

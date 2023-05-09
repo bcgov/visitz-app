@@ -10,14 +10,14 @@ namespace hestia.ViewModels
     /// <summary>
     /// The business logic for the cases and incidents list rendering goes here.
     /// </summary>
-    public partial class CasesAndIncidentsViewModel : BaseViewModel
+    public partial class CaseloadViewModel : BaseViewModel
     {
         public ObservableCollection<Models.BOs.ListCaseIncident2> BoCasesAndInsidents { get; set; } = new();
         [ObservableProperty]
         public Models.BOs.ListCaseIncident2 selectedCaseIncident;
 
         private HttpClient httpClient;
-        public CasesAndIncidentsViewModel(HttpClient httpClient)
+        public CaseloadViewModel(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
