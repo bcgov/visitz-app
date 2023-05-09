@@ -155,6 +155,9 @@
 	  <Compile Remove="Resources\Localization\LocalizedStrings.fr-FR.Designer.cs" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\hestiapi\hestiapi.csproj" />
+	</ItemGroup>
+	<ItemGroup>
 	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.en-US.Designer.cs">
 	    <DependentUpon>LocalizedStrings.en-US.resx</DependentUpon>
 	  </Compile>
