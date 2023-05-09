@@ -5,7 +5,7 @@ namespace hestiapi.Models
     [JsonDerivedType(typeof(CaseloadCaseEntity), CaseEntityKey)]
     [JsonDerivedType(typeof(CaseloadIncidentEntity), IncidentEntityKey)]
     [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
-    public class CaseloadBaseItem
+    public class CaseloadBaseEntity
     {
         private const string CaseEntityKey = "Case";
         private const string IncidentEntityKey = "Incident";

@@ -1,6 +1,6 @@
 ﻿namespace hestiapi.Models
 {
-    public class CaseloadCaseEntity : CaseloadBaseItem
+    public class CaseloadCaseEntity : CaseloadBaseEntity
     {
         public string CreatedDate { get; set; }
         public string KeyPlayerCellPhone { get; set; }
