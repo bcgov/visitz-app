@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Nodes;
+﻿using hestiapi.Models;
+using System.Text.Json.Nodes;
 
 namespace hestiapi.Requests
 {
-    internal class GetCaseloadEndpoint : HestiaBaseEndpoint
+    internal class GetCaseloadEndpoint : HestiaBaseEndpoint<IEnumerable<CaseloadBaseItem>>
     {
         private static readonly string CaseloadPath = "/v1/620b";
 
@@ -51,9 +52,13 @@ namespace hestiapi.Requests
             };
         }
 
-        public override HestiaBaseEndpoint HandleResponse()
+        public override IEnumerable<CaseloadBaseItem> HandleResponse(HttpResponseMessage response)
         {
-            throw new NotImplementedException();
+            var list = new List<CaseloadBaseItem>();
+
+            // TODO: implement JSON processing
+
+            return list;
         }
     }
 }
