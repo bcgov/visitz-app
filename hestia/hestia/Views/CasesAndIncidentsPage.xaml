@@ -5,7 +5,7 @@
              xmlns:viewmodels="clr-namespace:hestia.ViewModels"
              xmlns:models="clr-namespace:hestia.Models.BOs"
              x:Class="hestia.Views.CasesAndIncidentsPage"
-             x:DataType="viewmodels:CasesAndIncidentsViewModel"
+             x:DataType="viewmodels:CaseloadViewModel"
              Title="Caseload"
              BackgroundColor="White">
 
@@ -43,7 +43,7 @@
                         HorizontalOptions="Fill">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer 
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CasesAndIncidentsViewModel}}, Path=GoToNotesCommand}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=GoToNotesCommand}"
                                                 CommandParameter="{Binding .}"/>
                             </Border.GestureRecognizers>
 
