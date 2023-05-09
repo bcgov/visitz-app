@@ -1,6 +1,8 @@
-﻿namespace hestiapi.Requests
+﻿using System.Collections;
+
+namespace hestiapi.Requests
 {
-    internal abstract class HestiaBaseEndpoint
+    internal abstract class HestiaBaseEndpoint<ResponseType>
     {
         protected static readonly string DocRequestKey = "docRequest";
         protected static readonly string PayloadKey = "payLoad";
@@ -32,6 +34,6 @@
 
         public abstract HttpRequestMessage MakeRequest();
 
-        public abstract HestiaBaseEndpoint HandleResponse();
+        public abstract ResponseType HandleResponse(HttpResponseMessage response);
     }
 }
