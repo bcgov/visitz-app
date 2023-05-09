@@ -104,8 +104,6 @@
 	  <Folder Include="Services\Authentication\" />
 	  <Folder Include="Services\Networking\" />
 	  <Folder Include="Models\" />
-	  <Folder Include="Models\Payloads\" />
-	  <Folder Include="Models\DTOs\" />
 	  <Folder Include="Models\BOs\" />
 	  <Folder Include="Resources\Splash\" />
 	  <Folder Include="Resources\Localization\" />

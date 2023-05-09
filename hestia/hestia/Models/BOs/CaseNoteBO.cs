@@ -1,5 +1,4 @@
 ﻿using System;
-using hestia.Models.DTOs;
 
 namespace hestia.Models.BOs
 {

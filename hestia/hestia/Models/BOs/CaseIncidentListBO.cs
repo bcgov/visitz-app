@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using hestia.Models.DTOs;
 
 namespace hestia.Models.BOs
 {
