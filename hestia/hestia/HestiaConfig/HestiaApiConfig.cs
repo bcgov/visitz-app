@@ -4,16 +4,14 @@ namespace hestia.HestiaConfig
 {
     public static class HestiaApiConfig
     {
-        private const string HttpClientName = "CasesAndIncidentsAPI";
+        private const string HttpClientName = "HestiApiClient";
 
         public static MauiAppBuilder ConfigureHestiaApi(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<TokenHandler>();
 
-            // Definition of a named HttpClient instance ("CasesAndIncidentsAPI")
             builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<TokenHandler>();
 
-            // Creation of the actual HttpClient instance
             builder.Services.AddTransient(sp => 
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));
 
