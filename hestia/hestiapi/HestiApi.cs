@@ -1,5 +1,6 @@
 ﻿using hestiapi.Models;
 using hestiapi.Requests;
+using System.Net;
 
 namespace hestiapi
 {
@@ -31,6 +32,11 @@ namespace hestiapi
         public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
         {
             return await CallApi(new NotesEndpoint(BaseHestiApiUrl, entityNumber, entityType));
+        }
+
+        public async Task<HttpStatusCode> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)
+        {
+            return await CallApi(new SubmitNotesEndpoint(BaseHestiApiUrl, noteToSubmit));
         }
     }
 }
