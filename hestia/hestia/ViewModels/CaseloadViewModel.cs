@@ -11,10 +11,10 @@ namespace hestia.ViewModels
     /// </summary>
     public partial class CaseloadViewModel : BaseViewModel
     {
-        public ObservableCollection<ListCaseIncident2> Caseload { get; set; } = new();
+        public ObservableCollection<CaseloadBaseItem> Caseload { get; set; } = new();
 
         [ObservableProperty]
-        public ListCaseIncident2 selectedCaseIncident;
+        public CaseloadBaseItem selectedCaseIncident;
 
         private HttpClient httpClient;
 
@@ -45,7 +45,7 @@ namespace hestia.ViewModels
         }
 
         [RelayCommand]
-        void GoToNotes(ListCaseIncident2 caseloadItem)
+        void GoToNotes(CaseloadBaseItem caseloadItem)
         {
             SelectedCaseIncident = caseloadItem;
         }

@@ -13,7 +13,7 @@ namespace hestia.ViewModels
 	public partial class CaseNotesViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
-        public ListCaseIncident2 caseIncident;
+        public CaseloadBaseItem caseIncident;
 
         public ObservableCollection<NoteItem> CaseNotes { get; set; } = new();
 
@@ -31,7 +31,7 @@ namespace hestia.ViewModels
                 // TODO: Base URL should be read from an ApiSettings implementation
                 var api = new HestiApi(httpClient, "https://hestia-dev.api.gov.bc.ca");
 
-                var notesList = await api.GetNotesAsync(CaseIncident.caseIncidentNumber, CaseIncident.entityType);
+                var notesList = await api.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
 
                 CaseNotes.Clear();
 
@@ -46,7 +46,7 @@ namespace hestia.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            CaseIncident = query["caseIncident"] as ListCaseIncident2;
+            CaseIncident = query["caseIncident"] as CaseloadBaseItem;
         }
     }
 }

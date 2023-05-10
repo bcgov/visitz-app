@@ -9,12 +9,12 @@ namespace hestia.Routers
     /// </summary>
 	public class CaseNotesRouter
     {
-        public void RouteUsing(ListCaseIncident2 bo)
+        public void RouteUsing(CaseloadBaseItem bo)
         {
             routeToCaseIncidentDetailsPage(bo);
         }
 
-        private void routeToCaseIncidentDetailsPage(ListCaseIncident2 bo)
+        private void routeToCaseIncidentDetailsPage(CaseloadBaseItem bo)
         {
             Routing.RegisterRoute(nameof(CaseIncidentDetailsPage), typeof(CaseIncidentDetailsPage));
             MainThread.BeginInvokeOnMainThread(() =>
