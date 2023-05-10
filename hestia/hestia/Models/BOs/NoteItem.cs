@@ -10,13 +10,13 @@ namespace hestia.Models.BOs
     {
         public string NotePeriod { get; set; }
         public string CreatedDate { get; set; }
-        public string Notes { get; set; }
+        public string Content { get; set; }
 
         public NoteItem(NoteEntity note)
         {
             NotePeriod = note.NotePeriod;
             CreatedDate = note.CreatedDate.ToLongDateString(); // TODO use actual DateTime type
-            Notes = note.Content;
+            Content = note.Content;
         }
     }
 }
