@@ -36,7 +36,7 @@ public partial class CaseloadPage : BasePage
         };
     }
 
-    private void TriggerRouteUpdate(ListCaseIncident2 caseIncident)
+    private void TriggerRouteUpdate(CaseloadBaseItem caseIncident)
     {
         router.RouteUsing(caseIncident);
     }
