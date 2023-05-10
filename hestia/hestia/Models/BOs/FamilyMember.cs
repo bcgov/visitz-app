@@ -4,54 +4,54 @@ namespace hestia.Models.BOs
 {
     public class FamilyMember
     {
-        public string contactId { get; set; }
-        public string keyPlayer { get; set; }
-        public string lastName { get; set; }
-        public string firstName { get; set; }
-        public string middleName { get; set; }
-        public string dateOfBirth { get; set; }
-        public string sex { get; set; }
-        public string relationship { get; set; }
-        public string personIdICM { get; set; }
-        public string aboriginalOrigin { get; set; }
-        public string livingCommunityBand { get; set; }
-        public string email { get; set; }
-        public string homePhone { get; set; }
-        public string cellPhone { get; set; }
-        public string contactUnitNo { get; set; }
-        public string contactAddressLine1 { get; set; }
-        public string contactAddressLine2 { get; set; }
-        public string contactCity { get; set; }
-        public string contactPostalCode { get; set; }
-        public string contactProvinceState { get; set; }
-        public string contactCountry { get; set; }
+        public string ContactId { get; set; }
+        public string KeyPlayer { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string DateOfBirth { get; set; }
+        public string Sex { get; set; }
+        public string Relationship { get; set; }
+        public string PersonIdICM { get; set; }
+        public string AboriginalOrigin { get; set; }
+        public string LivingCommunityBand { get; set; }
+        public string Email { get; set; }
+        public string HomePhone { get; set; }
+        public string CellPhone { get; set; }
+        public string ContactUnitNo { get; set; }
+        public string ContactAddressLine1 { get; set; }
+        public string ContactAddressLine2 { get; set; }
+        public string ContactCity { get; set; }
+        public string ContactPostalCode { get; set; }
+        public string ContactProvinceState { get; set; }
+        public string ContactCountry { get; set; }
 
         public FamilyMember(FamilyMemberEntity familyMember)
         {
-            contactId = familyMember.ContactId;
-            keyPlayer = familyMember.KeyPlayer;
-            lastName = familyMember.LastName;
-            firstName = familyMember.FirstName;
-            middleName = familyMember.MiddleName;
+            ContactId = familyMember.ContactId;
+            KeyPlayer = familyMember.KeyPlayer;
+            LastName = familyMember.LastName;
+            FirstName = familyMember.FirstName;
+            MiddleName = familyMember.MiddleName;
 
             // TODO: Properly handle DateTime in FamilyMember object
-            dateOfBirth = familyMember.DateOfBirth.ToShortDateString();
+            DateOfBirth = familyMember.DateOfBirth.ToShortDateString();
 
-            sex = familyMember.Sex;
-            relationship = familyMember.Relationship;
-            personIdICM = familyMember.PersonIdICM;
-            aboriginalOrigin = familyMember.AboriginalOrigin;
-            livingCommunityBand = familyMember.LivingCommunityBand;
-            email = familyMember.Email;
-            homePhone = familyMember.HomePhone;
-            cellPhone = familyMember.CellPhone;
-            contactUnitNo = familyMember.ContactUnitNo;
-            contactAddressLine1 = familyMember.ContactAddressLine1;
-            contactAddressLine2 = familyMember.ContactAddressLine2;
-            contactCity = familyMember.ContactCity;
-            contactPostalCode = familyMember.ContactPostalCode;
-            contactProvinceState = familyMember.ContactProvinceState;
-            contactCountry = familyMember.ContactCountry;
+            Sex = familyMember.Sex;
+            Relationship = familyMember.Relationship;
+            PersonIdICM = familyMember.PersonIdICM;
+            AboriginalOrigin = familyMember.AboriginalOrigin;
+            LivingCommunityBand = familyMember.LivingCommunityBand;
+            Email = familyMember.Email;
+            HomePhone = familyMember.HomePhone;
+            CellPhone = familyMember.CellPhone;
+            ContactUnitNo = familyMember.ContactUnitNo;
+            ContactAddressLine1 = familyMember.ContactAddressLine1;
+            ContactAddressLine2 = familyMember.ContactAddressLine2;
+            ContactCity = familyMember.ContactCity;
+            ContactPostalCode = familyMember.ContactPostalCode;
+            ContactProvinceState = familyMember.ContactProvinceState;
+            ContactCountry = familyMember.ContactCountry;
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class ListCaseIncident2
     {
-        public string DisplayName => familyMembers.Where(mem => mem.keyPlayer.Equals("Y")).FirstOrDefault().lastName;
+        public string DisplayName => familyMembers.Where(mem => mem.KeyPlayer.Equals("Y")).FirstOrDefault().LastName;
 
         public string Address => formatAddress();
 

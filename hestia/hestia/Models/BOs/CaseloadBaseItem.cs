@@ -23,7 +23,7 @@ namespace hestia.Models.BOs
         public List<FamilyMember> FamilyMembers { get; set; }
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string DisplayName => FamilyMembers.Where(mem => mem.keyPlayer.Equals("Y")).FirstOrDefault().lastName;
+        public string DisplayName => FamilyMembers.Where(mem => mem.KeyPlayer.Equals("Y")).FirstOrDefault().LastName;
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string Address
