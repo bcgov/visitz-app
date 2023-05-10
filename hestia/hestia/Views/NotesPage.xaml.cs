@@ -3,12 +3,12 @@ using hestia.Routers;
 
 namespace hestia.Views;
 
-public partial class CaseNotesPage : hestia.Views.BasePage
+public partial class NotesPage : hestia.Views.BasePage
 {
-	private CaseNotesViewModel viewModel;
-	private CaseNotesRouter router;
+	private NotesViewModel viewModel;
+	private NotesRouter router;
 
-    public CaseNotesPage(CaseNotesViewModel viewModel, CaseNotesRouter router)
+    public NotesPage(NotesViewModel viewModel, NotesRouter router)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
@@ -18,7 +18,7 @@ public partial class CaseNotesPage : hestia.Views.BasePage
 
     protected override void OnLoad() {
 		base.OnLoad();
-		viewModel.FetchCaseNotes();
+		viewModel.FetchNotes();
 	}
 
     void CaseDetailsTapped(System.Object sender, System.EventArgs e)

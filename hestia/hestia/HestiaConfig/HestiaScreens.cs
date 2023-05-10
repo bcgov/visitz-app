@@ -26,9 +26,9 @@ namespace hestia.HestiaConfig
             builder.Services.AddTransient<CaseloadPage>();
             builder.Services.AddTransient<CaseloadViewModel>();
 
-            builder.Services.AddTransient<CaseNotesRouter>();
-            builder.Services.AddTransient<CaseNotesPage>();
-            builder.Services.AddTransient<CaseNotesViewModel>();
+            builder.Services.AddTransient<NotesRouter>();
+            builder.Services.AddTransient<NotesPage>();
+            builder.Services.AddTransient<NotesViewModel>();
 
             builder.Services.AddTransient<CaseIncidentDetailsPage>();
             builder.Services.AddTransient<CaseIncidentDetailsViewModel>();
