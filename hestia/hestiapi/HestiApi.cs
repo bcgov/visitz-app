@@ -23,7 +23,7 @@ namespace hestiapi
             return caseload.HandleResponse(response);
         }
 
-        public async Task<NotesListEntity> GetNotesAsync(string entityNumber, string entityType)
+        public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
         {
             var notes = new NotesEndpoint(BaseHestiApiUrl, entityNumber, entityType);
 
