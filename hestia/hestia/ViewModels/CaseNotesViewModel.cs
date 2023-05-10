@@ -35,7 +35,7 @@ namespace hestia.ViewModels
 
                 CaseNotes.Clear();
 
-                foreach (var note in notesList.Notes)
+                foreach (var note in notesList)
                     CaseNotes.Add(new NoteItem(note));
             }
             catch (Exception ex)

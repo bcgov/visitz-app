@@ -1,15 +1,10 @@
 ﻿using hestiapi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace hestiapi.Requests
 {
-    internal class NotesEndpoint : HestiaBaseEndpoint<NotesListEntity>
+    internal class NotesEndpoint : HestiaBaseEndpoint<IEnumerable<NoteEntity>>
     {
         private static readonly string GetNotesPath = "/v1/678";
 
@@ -18,6 +13,7 @@ namespace hestiapi.Requests
 
         private static readonly string EntityNumberKey = "entityNumber";
         private static readonly string EntityTypeKey = "entityType";
+        private static readonly string NotesKey = "notes";
 
         public string EntityNumber { get; }
         public string EntityType { get; }
@@ -56,18 +52,19 @@ namespace hestiapi.Requests
             };
         }
 
-        public override NotesListEntity HandleResponse(HttpResponseMessage response)
+        public override IEnumerable<NoteEntity> HandleResponse(HttpResponseMessage response)
         {
             var content = response.Content.ReadAsStringAsync().Result;
 
             var notesJson = JsonDocument.Parse(content)
                 .RootElement
                 .GetProperty(ResponseGetNotesKey)
-                .GetProperty(PayloadKey);
+                .GetProperty(PayloadKey)
+                .GetProperty(NotesKey);
 
-            var notesContent = notesJson.Deserialize(typeof(NotesListEntity));
+            var notesContent = notesJson.Deserialize(typeof(List<NoteEntity>));
 
-            return (NotesListEntity)notesContent;
+            return (List<NoteEntity>)notesContent;
         }
     }
 }
