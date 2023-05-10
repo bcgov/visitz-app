@@ -35,7 +35,7 @@ namespace hestiapi.Requests
                 {
                     [GetListCaseIncidentKey] = new JsonObject
                     {
-                        [PayloadKey] = new JsonObject
+                        [JsonKey.Payload] = new JsonObject
                         {
                             [WorkerIdsListKey] = WorkerIds
                         }
@@ -53,7 +53,7 @@ namespace hestiapi.Requests
         {
             return new HttpRequestMessage()
             {
-                Content = new FormUrlEncodedContent(FormDataCollection(DocRequestKey, RequestPayload)),
+                Content = new FormUrlEncodedContent(FormDataCollection(JsonKey.DocRequest, RequestPayload)),
                 Method = HttpMethod.Post,
                 RequestUri = RequestUri
             };
@@ -66,7 +66,7 @@ namespace hestiapi.Requests
             var caseloadJson = JsonDocument.Parse(content)
                 .RootElement
                 .GetProperty(ListCaseIncidentKey)
-                .GetProperty(PayloadKey)
+                .GetProperty(JsonKey.Payload)
                 .GetProperty(ListCaseIncidentsListKey);
 
             var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
