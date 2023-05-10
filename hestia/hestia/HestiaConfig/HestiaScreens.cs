@@ -22,7 +22,7 @@ namespace hestia.HestiaConfig
             builder.Services.AddTransient<OpenIdAuthenticationPage>();
             builder.Services.AddTransient<OpenIdAuthenticationViewModel>();
 
-            builder.Services.AddTransient<CasesAndIncidentsRouter>();
+            builder.Services.AddTransient<CaseloadRouter>();
             builder.Services.AddTransient<CaseloadPage>();
             builder.Services.AddTransient<CaseloadViewModel>();
 
