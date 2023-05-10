@@ -25,6 +25,6 @@ namespace hestiapi.Models
         public string PostalCode { get; set; }
         public string ProvinceState { get; set; }
         public string Country { get; set; }
-        public string FamilyMembers { get; set; }
+        public List<FamilyMemberEntity> FamilyMembers { get; set; }
     }
 }
