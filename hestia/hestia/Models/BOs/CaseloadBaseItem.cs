@@ -21,6 +21,11 @@ namespace hestia.Models.BOs
         public string ProvinceState { get; set; }
         public string Country { get; set; }
         public List<FamilyMember> FamilyMembers { get; set; }
+        public string KeyPlayerCellPhone { get; set; }
+        public string KeyPlayerEmail { get; set; }
+        public string KeyPlayerHomePhone { get; set; }
+        public string CreatedDate { get; set; }
+        public string DateReported { get; set; }
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string DisplayName => FamilyMembers.Where(mem => mem.KeyPlayer.Equals("Y")).FirstOrDefault().LastName;
@@ -65,6 +70,11 @@ namespace hestia.Models.BOs
             Country = caseloadEntity.Country;
             FamilyMembers = caseloadEntity.FamilyMembers
                 .ConvertAll(entity => new FamilyMember(entity));
+            KeyPlayerCellPhone = caseloadEntity.KeyPlayerCellPhone;
+            KeyPlayerEmail = caseloadEntity.KeyPlayerEmail;
+            KeyPlayerHomePhone = caseloadEntity.KeyPlayerHomePhone;
+            CreatedDate = caseloadEntity.CreatedDate;
+            DateReported = caseloadEntity.DateReported;
         }
     }
 }
