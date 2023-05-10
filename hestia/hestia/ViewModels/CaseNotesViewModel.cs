@@ -13,7 +13,7 @@ namespace hestia.ViewModels
 	public partial class CaseNotesViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
-        public Models.BOs.ListCaseIncident2 caseIncident;
+        public ListCaseIncident2 caseIncident;
 
         public ObservableCollection<NoteItem> CaseNotes { get; set; } = new();
 
@@ -46,7 +46,7 @@ namespace hestia.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            CaseIncident = query["caseIncident"] as Models.BOs.ListCaseIncident2;
+            CaseIncident = query["caseIncident"] as ListCaseIncident2;
         }
     }
 }
