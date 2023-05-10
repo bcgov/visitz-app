@@ -67,8 +67,7 @@ namespace hestia.Models.BOs
             PostalCode = caseloadEntity.PostalCode;
             ProvinceState = caseloadEntity.ProvinceState;
             Country = caseloadEntity.Country;
-            FamilyMembers = caseloadEntity.FamilyMembers
-                .ConvertAll(entity => new FamilyMember(entity));
+            FamilyMembers = FamilyMember.ConvertFromEntities(caseloadEntity.FamilyMembers);
             KeyPlayerCellPhone = caseloadEntity.KeyPlayerCellPhone;
             KeyPlayerEmail = caseloadEntity.KeyPlayerEmail;
             KeyPlayerHomePhone = caseloadEntity.KeyPlayerHomePhone;
