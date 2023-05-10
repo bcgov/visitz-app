@@ -7,7 +7,7 @@ namespace hestia.Routers
     /// <summary>
     /// Use Router to move to different screens. Router handles navigation between screens.
     /// </summary>
-	public class CasesAndIncidentsRouter
+	public class CaseloadRouter
     {
         public void RouteUsing(ListCaseIncident2 bo)
         {
