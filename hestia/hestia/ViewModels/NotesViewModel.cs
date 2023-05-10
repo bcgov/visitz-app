@@ -17,21 +17,18 @@ namespace hestia.ViewModels
 
         public ObservableCollection<NoteItem> Notes { get; set; } = new();
 
-        private HttpClient httpClient;
+        private readonly HestiApi hestiApi;
 
-        public NotesViewModel(HttpClient httpClient)
+        public NotesViewModel(HestiApi hestiApi)
         {
-            this.httpClient = httpClient;
+            this.hestiApi = hestiApi;
         }
 
         public async void FetchNotes()
         {
             try
             {
-                // TODO: Base URL should be read from an ApiSettings implementation
-                var api = new HestiApi(httpClient, "https://hestia-dev.api.gov.bc.ca");
-
-                var notesList = await api.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
+                var notesList = await hestiApi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
 
                 Notes.Clear();
 

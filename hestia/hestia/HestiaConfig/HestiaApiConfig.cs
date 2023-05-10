@@ -1,4 +1,5 @@
 ﻿using hestia.Services.Networking;
+using hestiapi;
 
 namespace hestia.HestiaConfig
 {
@@ -14,6 +15,9 @@ namespace hestia.HestiaConfig
 
             builder.Services.AddSingleton(sp => 
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));
+
+            builder.Services.AddSingleton(sp =>
+                new HestiApi(sp.GetService<HttpClient>(), "https://hestia-dev.api.gov.bc.ca"));
 
             return builder;
         }
