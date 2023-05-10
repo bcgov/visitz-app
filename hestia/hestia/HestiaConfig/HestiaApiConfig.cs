@@ -1,5 +1,7 @@
 ﻿using hestia.Services.Networking;
+using hestia.Settings;
 using hestiapi;
+using Microsoft.Extensions.Configuration;
 
 namespace hestia.HestiaConfig
 {
@@ -16,8 +18,11 @@ namespace hestia.HestiaConfig
             builder.Services.AddSingleton(sp => 
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));
 
-            builder.Services.AddSingleton(sp =>
-                new HestiApi(sp.GetService<HttpClient>(), "https://hestia-dev.api.gov.bc.ca"));
+            // TODO: Get AppSettings working correctly with DI
+            var apiConfig = new AppSettings().Api.ApiDomain;
+
+            builder.Services.AddSingleton(sp => 
+                new HestiApi(sp.GetService<HttpClient>(), apiConfig));
 
             return builder;
         }
