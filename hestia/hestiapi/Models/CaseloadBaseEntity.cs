@@ -2,14 +2,8 @@
 
 namespace hestiapi.Models
 {
-    [JsonDerivedType(typeof(CaseloadCaseEntity), CaseEntityKey)]
-    [JsonDerivedType(typeof(CaseloadIncidentEntity), IncidentEntityKey)]
-    [JsonPolymorphic(UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
     public class CaseloadBaseEntity
     {
-        private const string CaseEntityKey = "Case";
-        private const string IncidentEntityKey = "Incident";
-
         public string EntityType { get; set; }
         public string CaseIncidentNumber { get; set; }
         public string CaseIncidentType { get; set; }
@@ -26,5 +20,10 @@ namespace hestiapi.Models
         public string ProvinceState { get; set; }
         public string Country { get; set; }
         public List<FamilyMemberEntity> FamilyMembers { get; set; }
+        public string KeyPlayerCellPhone { get; set; }
+        public string KeyPlayerEmail { get; set; }
+        public string KeyPlayerHomePhone { get; set; }
+        public string CreatedDate { get; set; }
+        public string DateReported { get; set; }
     }
 }
