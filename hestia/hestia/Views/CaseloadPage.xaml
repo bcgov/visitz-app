@@ -22,7 +22,7 @@
         <Image Source="bc_logo_text.png" HorizontalOptions="Start" Margin="20,0,0,0" />
 
         <CollectionView
-                        ItemsSource="{Binding BoCasesAndInsidents}"
+                        ItemsSource="{Binding Caseload}"
                         SelectionMode="None" Grid.Row="1">
             <CollectionView.EmptyView>
                 <Grid>
@@ -67,7 +67,7 @@
                                         />
 
                                         <Label 
-                                        Text="{Binding caseIncidentNumber}"
+                                        Text="{Binding CaseIncidentNumber}"
                                         FontSize="17"
                                         FontFamily="BCSansRegular"
                                         Padding="10,10,0,0"
@@ -84,7 +84,7 @@
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
                                     <HorizontalStackLayout HorizontalOptions="End">
                                         <Label 
-                                    Text="{Binding createdDate, StringFormat='Open date: {0}'}"
+                                    Text="{Binding CreatedDate, StringFormat='Open date: {0}'}"
                                     TextColor="#606060"
                                     FontSize="12"
                                     FontFamily="BCSansRegular"
