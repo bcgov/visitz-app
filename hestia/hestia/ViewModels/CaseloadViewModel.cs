@@ -16,22 +16,19 @@ namespace hestia.ViewModels
         [ObservableProperty]
         public CaseloadItem selectedCaseIncident;
 
-        private HttpClient httpClient;
+        private readonly HestiApi hestiApi;
 
-        public CaseloadViewModel(HttpClient httpClient)
+        public CaseloadViewModel(HestiApi hestiApi)
         {
-            this.httpClient = httpClient;
+            this.hestiApi = hestiApi;
         }
 
         public async void FetchCasesAndIncidents()
         {
             try
             {
-                // TODO: Base URL should be read from an ApiSettings implementation
-                var api = new HestiApi(httpClient, "https://hestia-dev.api.gov.bc.ca");
-
                 // TODO: Worker ID should be collected from current JWT Access Token field "idir_username"
-                var caseloadContent = await api.GetCaseloadAsync("CGWRK68");
+                var caseloadContent = await hestiApi.GetCaseloadAsync("CGWRK68");
 
                 Caseload.Clear();
 
