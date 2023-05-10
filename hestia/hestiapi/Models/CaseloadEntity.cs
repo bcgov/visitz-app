@@ -2,7 +2,7 @@
 
 namespace hestiapi.Models
 {
-    public class CaseloadBaseEntity
+    public class CaseloadEntity
     {
         public string EntityType { get; set; }
         public string CaseIncidentNumber { get; set; }

@@ -2,7 +2,7 @@
 
 namespace hestia.Models.BOs
 {
-    public class CaseloadBaseItem
+    public class CaseloadItem
     {
         public string EntityType { get; set; }
         public string CaseIncidentNumber { get; set; }
@@ -50,7 +50,7 @@ namespace hestia.Models.BOs
             }
         }
 
-        public CaseloadBaseItem(CaseloadBaseEntity caseloadEntity)
+        public CaseloadItem(CaseloadEntity caseloadEntity)
         {
             EntityType = caseloadEntity.EntityType;
             CaseIncidentNumber = caseloadEntity.CaseIncidentNumber;

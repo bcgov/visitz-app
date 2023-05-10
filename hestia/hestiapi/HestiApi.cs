@@ -14,7 +14,7 @@ namespace hestiapi
             BaseHestiApiUrl = baseHestiApiUrl;
         }
 
-        public async Task<IEnumerable<CaseloadBaseEntity>> GetCaseloadAsync(params string[] workerIds)
+        public async Task<IEnumerable<CaseloadEntity>> GetCaseloadAsync(params string[] workerIds)
         {
             var caseload = new GetCaseloadEndpoint(BaseHestiApiUrl, workerIds);
 

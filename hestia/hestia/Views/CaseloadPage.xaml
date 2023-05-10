@@ -34,7 +34,7 @@
                 <GridItemsLayout  Orientation="Vertical" Span="1"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:CaseloadBaseItem">
+                <DataTemplate x:DataType="models:CaseloadItem">
                     <VerticalStackLayout Padding="20,0,20,0" Margin="0,10,0,0">
                         <Border  
                         Stroke="#DFDFE1"
@@ -50,7 +50,7 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="4,4,4,4"/>
                             </Border.StrokeShape>
-                            <Grid x:DataType="models:CaseloadBaseItem">
+                            <Grid x:DataType="models:CaseloadItem">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*"/>
