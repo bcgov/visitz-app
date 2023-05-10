@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace hestiapi.Requests
 {
-    internal class GetCaseloadEndpoint : HestiaBaseEndpoint<IEnumerable<CaseloadBaseEntity>>
+    internal class GetCaseloadEndpoint : HestiaBaseEndpoint<IEnumerable<CaseloadEntity>>
     {
         private static readonly string CaseloadPath = "/v1/620b";
 
@@ -59,7 +59,7 @@ namespace hestiapi.Requests
             };
         }
 
-        public override IEnumerable<CaseloadBaseEntity> HandleResponse(HttpResponseMessage response)
+        public override IEnumerable<CaseloadEntity> HandleResponse(HttpResponseMessage response)
         {
             var content = response.Content.ReadAsStringAsync().Result;
 
@@ -73,8 +73,8 @@ namespace hestiapi.Requests
 
             var caseloadList = caseloadJson
                 .EnumerateArray()
-                .Select(jsonItem => jsonItem.Deserialize(typeof(CaseloadBaseEntity), options))
-                .Cast<CaseloadBaseEntity>();
+                .Select(jsonItem => jsonItem.Deserialize(typeof(CaseloadEntity), options))
+                .Cast<CaseloadEntity>();
 
             return caseloadList;
         }

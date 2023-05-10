@@ -11,11 +11,11 @@ namespace hestia.ViewModels
 	public partial class CaseIncidentDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
-        public CaseloadBaseItem caseIncident;
+        public CaseloadItem caseIncident;
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            CaseIncident = query["caseIncident"] as CaseloadBaseItem;
+            CaseIncident = query["caseIncident"] as CaseloadItem;
         }
     }
 }
