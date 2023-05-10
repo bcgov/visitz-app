@@ -35,7 +35,7 @@ namespace hestia.Models.BOs
             MiddleName = familyMember.MiddleName;
 
             // TODO: Properly handle DateTime in FamilyMember object
-            DateOfBirth = familyMember.DateOfBirth.ToShortDateString();
+            DateOfBirth = familyMember.DateOfBirth;
 
             Sex = familyMember.Sex;
             Relationship = familyMember.Relationship;

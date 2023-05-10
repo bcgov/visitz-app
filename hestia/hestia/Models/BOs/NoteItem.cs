@@ -14,7 +14,7 @@ namespace hestia.Models.BOs
         public NoteItem(NoteEntity note)
         {
             NotePeriod = note.NotePeriod;
-            CreatedDate = note.CreatedDate.ToLongDateString(); // TODO use actual DateTime type
+            CreatedDate = note.CreatedDate; // TODO use actual DateTime type
             Content = note.Content;
         }
     }
