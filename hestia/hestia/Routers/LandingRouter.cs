@@ -23,8 +23,8 @@ namespace hestia.Routers
                     routeStr = nameof(OpenIdAuthenticationPage);
                     break;
                 case Route.CasesAndIncidents:
-                    Routing.RegisterRoute(nameof(CasesAndIncidentsPage), typeof(CasesAndIncidentsPage));
-                    routeStr = nameof(CasesAndIncidentsPage);
+                    Routing.RegisterRoute(nameof(CaseloadPage), typeof(CaseloadPage));
+                    routeStr = nameof(CaseloadPage);
                     break;
             }
 
@@ -38,7 +38,7 @@ namespace hestia.Routers
         {
             Routing.UnRegisterRoute(nameof(DeviceAuthenticationPage));
             Routing.UnRegisterRoute(nameof(OpenIdAuthenticationPage));
-            Routing.UnRegisterRoute(nameof(CasesAndIncidentsPage));
+            Routing.UnRegisterRoute(nameof(CaseloadPage));
         }
 
         public enum Route
