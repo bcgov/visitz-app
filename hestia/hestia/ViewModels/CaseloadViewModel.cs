@@ -12,11 +12,13 @@ namespace hestia.ViewModels
     /// </summary>
     public partial class CaseloadViewModel : BaseViewModel
     {
-        public ObservableCollection<Models.BOs.ListCaseIncident2> BoCasesAndInsidents { get; set; } = new();
+        public ObservableCollection<Models.BOs.ListCaseIncident2> Caseload { get; set; } = new();
+
         [ObservableProperty]
         public Models.BOs.ListCaseIncident2 selectedCaseIncident;
 
         private HttpClient httpClient;
+
         public CaseloadViewModel(HttpClient httpClient)
         {
             this.httpClient = httpClient;
@@ -30,11 +32,11 @@ namespace hestia.ViewModels
                 var api = new HestiApi(httpClient, "https://hestia-dev.api.gov.bc.ca");
 
                 // TODO: Worker ID should be collected from current JWT Access Token field "idir_username"
-                var caseload = await api.GetCaseloadAsync("CGWRK68");
+                var caseloadContent = await api.GetCaseloadAsync("CGWRK68");
 
-                BoCasesAndInsidents.Clear();
+                Caseload.Clear();
 
-                caseload.Select(item => BoCasesAndInsidents.Add(item));
+                caseloadContent.Select(item => Caseload.Add(item));
             }
             catch (Exception ex)
             {
@@ -43,9 +45,9 @@ namespace hestia.ViewModels
         }
 
         [RelayCommand]
-        void GoToNotes(Models.BOs.ListCaseIncident2 caseIncident)
+        void GoToNotes(Models.BOs.ListCaseIncident2 caseloadItem)
         {
-            SelectedCaseIncident = caseIncident;
+            SelectedCaseIncident = caseloadItem;
         }
     }
 }
