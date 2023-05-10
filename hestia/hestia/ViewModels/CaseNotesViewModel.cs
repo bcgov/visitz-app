@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using System.Text.Json;
 using hestia.Models.BOs;
+using hestiapi;
 
 namespace hestia.ViewModels
 {
@@ -26,27 +26,17 @@ namespace hestia.ViewModels
 
         public async void FetchCaseNotes()
         {
-            CaseIncidentNotesPayload payload = new();
-            payload.requestGetNotes.payLoad.entityNumber = CaseIncident.caseIncidentNumber;
-            payload.requestGetNotes.payLoad.entityType = CaseIncident.entityType;
-
-            string json = JsonSerializer.Serialize<CaseIncidentNotesPayload>(payload, options: null);
-            var nvc = new List<KeyValuePair<string, string>>();
-            nvc.Add(new KeyValuePair<string, string>("docRequest", json));
-            var nvcContent = new FormUrlEncodedContent(nvc);
-            nvcContent.Headers.Clear();
-            nvcContent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             try
             {
-                httpClient.BaseAddress = new Uri("https://hestia-dev.api.gov.bc.ca/v1/678");
-                HttpResponseMessage response = await httpClient.PostAsync("", nvcContent);
-                string responseContent = await response.Content.ReadAsStringAsync();
-                CaseIncidentNotesDTO dto = JsonSerializer.Deserialize<CaseIncidentNotesDTO>(responseContent, options: null);
+                // TODO: Base URL should be read from an ApiSettings implementation
+                var api = new HestiApi(httpClient, "https://hestia-dev.api.gov.bc.ca");
+
+                var notesList = await api.GetNotesAsync(CaseIncident.caseIncidentNumber, CaseIncident.entityType);
+
                 CaseNotes.Clear();
-                dto?.responseGetNotes?.payLoad?.notes?.ForEach(item =>
-                {
-                    CaseNotes.Add(CaseNoteBO.ToBO(item));
-                });
+
+                foreach (var note in notesList.Notes)
+                    CaseNotes.Add(new NoteItem(note));
             }
             catch (Exception ex)
             {
