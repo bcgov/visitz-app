@@ -10,21 +10,21 @@ namespace hestia.ViewModels
     /// <summary>
     /// The business logic for the cases notes rendering goes here.
     /// </summary>
-	public partial class CaseNotesViewModel : BaseViewModel, IQueryAttributable
+	public partial class NotesViewModel : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
         public CaseloadItem caseIncident;
 
-        public ObservableCollection<NoteItem> CaseNotes { get; set; } = new();
+        public ObservableCollection<NoteItem> Notes { get; set; } = new();
 
         private HttpClient httpClient;
 
-        public CaseNotesViewModel(HttpClient httpClient)
+        public NotesViewModel(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
 
-        public async void FetchCaseNotes()
+        public async void FetchNotes()
         {
             try
             {
@@ -33,10 +33,10 @@ namespace hestia.ViewModels
 
                 var notesList = await api.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
 
-                CaseNotes.Clear();
+                Notes.Clear();
 
                 foreach (var note in notesList)
-                    CaseNotes.Add(new NoteItem(note));
+                    Notes.Add(new NoteItem(note));
             }
             catch (Exception ex)
             {
