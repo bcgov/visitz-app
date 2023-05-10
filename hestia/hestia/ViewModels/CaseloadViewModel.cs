@@ -38,9 +38,10 @@ namespace hestia.ViewModels
                 foreach (var item in caseloadContent)
                     Caseload.Add(new CaseloadItem(item));
             }
-            catch (Exception ex)
+            catch (HestiaApiException ex)
             {
-
+                // TODO: Make actual error UI/UX to show this error
+                Console.WriteLine(ex.Message);
             }
         }
 
