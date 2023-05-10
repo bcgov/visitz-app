@@ -3,5 +3,8 @@
     "AuthenticationDomain": "{{AuthenticationDomain}}",
     "ClientId": "{{ClientId}}",
     "RedirectUri": "{{RedirectUri}}"
+  },
+  "ApiSettings": {
+    "ApiDomain": "{{HttpsApiDomain}}"
   }
 }
