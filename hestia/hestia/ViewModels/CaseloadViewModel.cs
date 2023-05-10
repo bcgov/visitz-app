@@ -36,7 +36,7 @@ namespace hestia.ViewModels
                 Caseload.Clear();
 
                 foreach (var item in caseloadContent)
-                    Caseload.Add(item);
+                    Caseload.Add(new CaseloadBaseItem(item));
             }
             catch (Exception ex)
             {
