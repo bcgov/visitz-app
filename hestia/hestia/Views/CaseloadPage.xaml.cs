@@ -4,12 +4,12 @@ using hestia.Models.BOs;
 
 namespace hestia.Views;
 
-public partial class CasesAndIncidentsPage : BasePage
+public partial class CaseloadPage : BasePage
 {
     private CaseloadViewModel viewModel;
     private CasesAndIncidentsRouter router;
 
-    public CasesAndIncidentsPage(CaseloadViewModel viewModel, CasesAndIncidentsRouter router)
+    public CaseloadPage(CaseloadViewModel viewModel, CasesAndIncidentsRouter router)
     {
         InitializeComponent();
         BindingContext = viewModel;

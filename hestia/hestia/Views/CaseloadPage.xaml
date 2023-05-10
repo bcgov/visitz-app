@@ -4,7 +4,7 @@
              xmlns:views="clr-namespace:hestia.Views"
              xmlns:viewmodels="clr-namespace:hestia.ViewModels"
              xmlns:models="clr-namespace:hestia.Models.BOs"
-             x:Class="hestia.Views.CasesAndIncidentsPage"
+             x:Class="hestia.Views.CaseloadPage"
              x:DataType="viewmodels:CaseloadViewModel"
              Title="Caseload"
              BackgroundColor="White">
