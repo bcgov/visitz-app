@@ -53,6 +53,11 @@ namespace hestia.Models.BOs
             ContactProvinceState = familyMember.ContactProvinceState;
             ContactCountry = familyMember.ContactCountry;
         }
+
+        public static List<FamilyMember> ConvertFromEntities(List<FamilyMemberEntity> familyMembers)
+        {
+            return familyMembers.ConvertAll(member =>  new FamilyMember(member));
+        }
     }
 }
 
