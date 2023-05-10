@@ -26,7 +26,7 @@ namespace hestiapi.Requests
                 {
                     [RequestGetNotesKey] = new JsonObject()
                     {
-                        [PayloadKey] = new JsonObject()
+                        [JsonKey.Payload] = new JsonObject()
                         {
                             [EntityNumberKey] = EntityNumber,
                             [EntityTypeKey] = EntityType
@@ -46,7 +46,7 @@ namespace hestiapi.Requests
         {
             return new HttpRequestMessage()
             {
-                Content = new FormUrlEncodedContent(FormDataCollection(DocRequestKey, RequestPayload)),
+                Content = new FormUrlEncodedContent(FormDataCollection(JsonKey.DocRequest, RequestPayload)),
                 Method = HttpMethod.Post,
                 RequestUri = RequestUri
             };
@@ -59,7 +59,7 @@ namespace hestiapi.Requests
             var notesJson = JsonDocument.Parse(content)
                 .RootElement
                 .GetProperty(ResponseGetNotesKey)
-                .GetProperty(PayloadKey)
+                .GetProperty(JsonKey.Payload)
                 .GetProperty(NotesKey);
 
             var notesContent = notesJson.Deserialize(typeof(List<NoteEntity>));

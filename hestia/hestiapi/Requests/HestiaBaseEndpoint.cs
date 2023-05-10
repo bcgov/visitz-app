@@ -4,9 +4,6 @@ namespace hestiapi.Requests
 {
     internal abstract class HestiaBaseEndpoint<ResponseType>
     {
-        protected static readonly string DocRequestKey = "docRequest";
-        protected static readonly string PayloadKey = "payLoad";
-
         protected static KeyValuePair<string, string> FormDataPair(string key, string value)
         {
             return new KeyValuePair<string, string>(key, value);
