@@ -18,6 +18,15 @@ namespace hestiapi.Requests
 
         private readonly string[] _workerIds;
 
+        private JsonArray WorkerIds
+        {
+            get
+            {
+                var ids = _workerIds.Select(id => new JsonObject { [WorkerIdKey] = id });
+                return new JsonArray(ids.ToArray());
+            }
+        }
+
         private string RequestPayload
         {
             get
@@ -28,13 +37,7 @@ namespace hestiapi.Requests
                     {
                         [PayloadKey] = new JsonObject
                         {
-                            [WorkerIdsListKey] = new JsonArray
-                            {
-                                _workerIds.Select(id => new JsonObject
-                                {
-                                    [WorkerIdKey] = id
-                                })
-                            }
+                            [WorkerIdsListKey] = WorkerIds
                         }
                     }
                 }.ToString();
@@ -66,9 +69,14 @@ namespace hestiapi.Requests
                 .GetProperty(PayloadKey)
                 .GetProperty(ListCaseIncidentsListKey);
 
-            var caseloadList = caseloadJson.Deserialize(typeof(List<CaseloadBaseEntity>));
+            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
-            return (IEnumerable<CaseloadBaseEntity>)caseloadList;
+            var caseloadList = caseloadJson
+                .EnumerateArray()
+                .Select(jsonItem => jsonItem.Deserialize(typeof(CaseloadBaseEntity), options))
+                .Cast<CaseloadBaseEntity>();
+
+            return caseloadList;
         }
     }
 }
