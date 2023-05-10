@@ -38,9 +38,10 @@ namespace hestia.ViewModels
                 foreach (var note in notesList)
                     Notes.Add(new NoteItem(note));
             }
-            catch (Exception ex)
+            catch (HestiaApiException ex)
             {
-
+                // TODO: Make actual error UI/UX to show this error
+                Console.WriteLine(ex.Message);
             }
         }
 

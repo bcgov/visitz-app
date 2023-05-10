@@ -18,6 +18,8 @@ namespace hestiapi
         {
             var response = await HttpClient.SendAsync(endpoint.MakeRequest());
 
+            HestiaApiException.ThrowIfInvalid(response);
+
             return endpoint.HandleResponse(response);
         }
 
