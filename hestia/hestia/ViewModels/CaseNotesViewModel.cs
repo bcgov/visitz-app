@@ -15,7 +15,7 @@ namespace hestia.ViewModels
         [ObservableProperty]
         public Models.BOs.ListCaseIncident2 caseIncident;
 
-        public ObservableCollection<CaseNoteBO> CaseNotes { get; set; } = new();
+        public ObservableCollection<NoteItem> CaseNotes { get; set; } = new();
 
         private HttpClient httpClient;
 

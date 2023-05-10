@@ -1,24 +1,22 @@
-﻿using System;
+﻿using hestiapi.Models;
+using System;
 
 namespace hestia.Models.BOs
 {
     /// <summary>
     /// The business object that would be used by the app source.
     /// </summary>
-    public class CaseNoteBO
+    public class NoteItem
     {
         public string NotePeriod { get; set; }
         public string CreatedDate { get; set; }
         public string Notes { get; set; }
 
-        public static CaseNoteBO ToBO(DTOs.Note dto)
+        public NoteItem(NoteEntity note)
         {
-            return new CaseNoteBO()
-            {
-                NotePeriod = dto.notePeriod,
-                CreatedDate = dto.createdDate,
-                Notes = dto.notes
-            };
+            NotePeriod = note.NotePeriod;
+            CreatedDate = note.CreatedDate.ToLongDateString(); // TODO use actual DateTime type
+            Notes = note.Content;
         }
     }
 }
