@@ -1,4 +1,6 @@
-﻿namespace hestia.Models.BOs
+﻿using hestiapi.Models;
+
+namespace hestia.Models.BOs
 {
     public class FamilyMember
     {
@@ -23,6 +25,34 @@
         public string contactPostalCode { get; set; }
         public string contactProvinceState { get; set; }
         public string contactCountry { get; set; }
+
+        public FamilyMember(FamilyMemberEntity familyMember)
+        {
+            contactId = familyMember.ContactId;
+            keyPlayer = familyMember.KeyPlayer;
+            lastName = familyMember.LastName;
+            firstName = familyMember.FirstName;
+            middleName = familyMember.MiddleName;
+
+            // TODO: Properly handle DateTime in FamilyMember object
+            dateOfBirth = familyMember.DateOfBirth.ToShortDateString();
+
+            sex = familyMember.Sex;
+            relationship = familyMember.Relationship;
+            personIdICM = familyMember.PersonIdICM;
+            aboriginalOrigin = familyMember.AboriginalOrigin;
+            livingCommunityBand = familyMember.LivingCommunityBand;
+            email = familyMember.Email;
+            homePhone = familyMember.HomePhone;
+            cellPhone = familyMember.CellPhone;
+            contactUnitNo = familyMember.ContactUnitNo;
+            contactAddressLine1 = familyMember.ContactAddressLine1;
+            contactAddressLine2 = familyMember.ContactAddressLine2;
+            contactCity = familyMember.ContactCity;
+            contactPostalCode = familyMember.ContactPostalCode;
+            contactProvinceState = familyMember.ContactProvinceState;
+            contactCountry = familyMember.ContactCountry;
+        }
     }
 }
 
