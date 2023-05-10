@@ -8,7 +8,7 @@ namespace hestiapi.Models
 
         public string NotePeriod { get; set; } // Intentionally a string, not DateTime
 
-        public DateTime CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
 
         [JsonPropertyName(NotesKey)]
         public string Content { get; set; }
