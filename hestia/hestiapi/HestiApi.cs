@@ -22,5 +22,14 @@ namespace hestiapi
             
             return caseload.HandleResponse(response);
         }
+
+        public async Task<NotesListEntity> GetNotesAsync(string entityNumber, string entityType)
+        {
+            var notes = new NotesEndpoint(BaseHestiApiUrl, entityNumber, entityType);
+
+            var response = await HttpClient.SendAsync(notes.MakeRequest());
+
+            return notes.HandleResponse(response);
+        }
     }
 }
