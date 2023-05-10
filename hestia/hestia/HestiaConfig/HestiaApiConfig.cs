@@ -12,7 +12,7 @@ namespace hestia.HestiaConfig
 
             builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<TokenHandler>();
 
-            builder.Services.AddTransient(sp => 
+            builder.Services.AddSingleton(sp => 
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));
 
             return builder;
