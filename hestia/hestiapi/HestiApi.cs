@@ -14,22 +14,21 @@ namespace hestiapi
             BaseHestiApiUrl = baseHestiApiUrl;
         }
 
+        private async Task<T> CallApi<T>(HestiaBaseEndpoint<T> endpoint)
+        {
+            var response = await HttpClient.SendAsync(endpoint.MakeRequest());
+
+            return endpoint.HandleResponse(response);
+        }
+
         public async Task<IEnumerable<CaseloadEntity>> GetCaseloadAsync(params string[] workerIds)
         {
-            var caseload = new GetCaseloadEndpoint(BaseHestiApiUrl, workerIds);
-
-            var response = await HttpClient.SendAsync(caseload.MakeRequest());
-            
-            return caseload.HandleResponse(response);
+            return await CallApi(new GetCaseloadEndpoint(BaseHestiApiUrl, workerIds));
         }
 
         public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
         {
-            var notes = new NotesEndpoint(BaseHestiApiUrl, entityNumber, entityType);
-
-            var response = await HttpClient.SendAsync(notes.MakeRequest());
-
-            return notes.HandleResponse(response);
+            return await CallApi(new NotesEndpoint(BaseHestiApiUrl, entityNumber, entityType));
         }
     }
 }
