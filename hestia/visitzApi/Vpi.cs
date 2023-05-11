@@ -4,12 +4,15 @@ using System.Net;
 
 namespace visitzApi
 {
-    public class VisitzApi
+    /// <summary>
+    /// VPI - Visitz (A)PI - convenience wrapper class for interaction with Visitz' API endpoints.
+    /// </summary>
+    public class Vpi
     {
         private HttpClient HttpClient { get; }
         private string BaseVisitzApiUrl { get; }
 
-        public VisitzApi(HttpClient httpClient, string baseVisitzApiUrl)
+        public Vpi(HttpClient httpClient, string baseVisitzApiUrl)
         {
             HttpClient = httpClient;
             BaseVisitzApiUrl = baseVisitzApiUrl;

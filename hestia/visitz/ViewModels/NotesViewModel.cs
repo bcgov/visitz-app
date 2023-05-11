@@ -17,9 +17,9 @@ namespace visitz.ViewModels
 
         public ObservableCollection<NoteItem> Notes { get; set; } = new();
 
-        private readonly VisitzApi visitzApi;
+        private readonly Vpi visitzApi;
 
-        public NotesViewModel(VisitzApi visitzApi)
+        public NotesViewModel(Vpi visitzApi)
         {
             this.visitzApi = visitzApi;
         }
