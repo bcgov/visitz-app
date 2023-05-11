@@ -1,6 +1,6 @@
-﻿namespace hestia.HestiaConfig
+﻿namespace visitz.VisitzConfig
 {
-    public static class HestiaFonts
+    public static class VisitzFonts
     {
         private static readonly string BcSansBoldFile = "BCSans-Bold.ttf";
         private static readonly string BcSansBoldAlias = "BCSansBold";
@@ -14,7 +14,7 @@
         private static readonly string BcSansRegularFile = "BCSans-Regular.ttf";
         private static readonly string BcSansRegularAlias = "BCSansRegular";
 
-        public static MauiAppBuilder ConfigureHestiaFonts(this MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureVisitzFonts(this MauiAppBuilder builder)
         {
             return builder.ConfigureFonts(fonts =>
             {

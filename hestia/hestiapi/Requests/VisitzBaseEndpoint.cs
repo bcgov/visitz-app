@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 
-namespace hestiapi.Requests
+namespace visitzApi.Requests
 {
-    internal abstract class HestiaBaseEndpoint<ResponseType>
+    internal abstract class VisitzBaseEndpoint<ResponseType>
     {
         protected static KeyValuePair<string, string> FormDataPair(string key, string value)
         {
@@ -23,7 +23,7 @@ namespace hestiapi.Requests
         public string RequestUrl => BaseUrl.TrimEnd('/') + "/" + RequestPath.TrimStart('/');
         public Uri RequestUri => new(RequestUrl);
 
-        public HestiaBaseEndpoint(string baseUrl, string requestPath)
+        public VisitzBaseEndpoint(string baseUrl, string requestPath)
         {
             BaseUrl = baseUrl;
             RequestPath = requestPath;

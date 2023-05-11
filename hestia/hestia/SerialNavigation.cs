@@ -1,5 +1,5 @@
 ﻿using System;
-namespace hestia
+namespace visitz
 {
     /// <summary>
     /// A work around implementation that prevents the navigation collision and the subsequent crash.

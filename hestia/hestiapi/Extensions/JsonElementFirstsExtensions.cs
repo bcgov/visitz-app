@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace hestiapi.Extensions
+namespace visitzApi.Extensions
 {
     internal static class JsonElementFirstsExtensions
     {

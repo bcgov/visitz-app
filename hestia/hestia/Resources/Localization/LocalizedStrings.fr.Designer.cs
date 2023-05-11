@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace hestia.Resources.Localization {
+namespace visitz.Resources.Localization {
     using System;
     
     
@@ -36,7 +36,7 @@ namespace hestia.Resources.Localization {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("hestia.Resources.Localization.LocalizedStrings.fr", typeof(LocalizedStrings_fr).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("visitz.Resources.Localization.LocalizedStrings.fr", typeof(LocalizedStrings_fr).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

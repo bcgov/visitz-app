@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace hestia.Services.Networking
+namespace visitz.Services.Networking
 {
     /// <summary>
     /// Injects the access token into each HTTP request to the API

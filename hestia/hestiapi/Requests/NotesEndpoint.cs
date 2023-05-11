@@ -1,10 +1,10 @@
-﻿using hestiapi.Models;
+﻿using visitzApi.Models;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace hestiapi.Requests
+namespace visitzApi.Requests
 {
-    internal class NotesEndpoint : HestiaBaseEndpoint<IEnumerable<NoteEntity>>
+    internal class NotesEndpoint : VisitzBaseEndpoint<IEnumerable<NoteEntity>>
     {
         private static readonly string GetNotesPath = "/v1/678";
 

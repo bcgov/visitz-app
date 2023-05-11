@@ -1,4 +1,4 @@
-﻿namespace hestia.Views;
+﻿namespace visitz.Views;
 
 public partial class BasePage : ContentPage
 {

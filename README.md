@@ -2,7 +2,7 @@
 
 This is the main repository for the MCFD Mobility mobile app solution.
 
-Internally, the app is referred to as **Hestia**. You can find the app code and its README in the */hestia* directory.
+Internally, the app is referred to as **Visitz**. You can find the app code and its README in the */visitz* directory.
 
 ## Licence
 

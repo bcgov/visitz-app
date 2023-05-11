@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using hestiapi;
-using hestia.Models.BOs;
+using visitzApi;
+using visitz.Models.BOs;
 
-namespace hestia.ViewModels
+namespace visitz.ViewModels
 {
     /// <summary>
     /// The business logic for the cases and incidents list rendering goes here.
@@ -16,11 +16,11 @@ namespace hestia.ViewModels
         [ObservableProperty]
         public CaseloadItem selectedCaseIncident;
 
-        private readonly HestiApi hestiApi;
+        private readonly VisitzApi visitzApi;
 
-        public CaseloadViewModel(HestiApi hestiApi)
+        public CaseloadViewModel(VisitzApi visitzApi)
         {
-            this.hestiApi = hestiApi;
+            this.visitzApi = visitzApi;
         }
 
         public async void FetchCasesAndIncidents()
@@ -28,14 +28,14 @@ namespace hestia.ViewModels
             try
             {
                 // TODO: Worker ID should be collected from current JWT Access Token field "idir_username"
-                var caseloadContent = await hestiApi.GetCaseloadAsync("CGWRK68");
+                var caseloadContent = await visitzApi.GetCaseloadAsync("CGWRK68");
 
                 Caseload.Clear();
 
                 foreach (var item in caseloadContent)
                     Caseload.Add(new CaseloadItem(item));
             }
-            catch (HestiaApiException ex)
+            catch (VisitzApiException ex)
             {
                 // TODO: Make actual error UI/UX to show this error
                 Console.WriteLine(ex.Message);

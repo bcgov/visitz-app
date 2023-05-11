@@ -1,11 +1,11 @@
-﻿using hestiapi.Models;
+﻿using visitzApi.Models;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace hestiapi.Requests
+namespace visitzApi.Requests
 {
-    internal class SubmitNotesEndpoint : HestiaBaseEndpoint<HttpStatusCode>
+    internal class SubmitNotesEndpoint : VisitzBaseEndpoint<HttpStatusCode>
     {
         private static readonly string SubmitNotesPath = "/v1/679";
 

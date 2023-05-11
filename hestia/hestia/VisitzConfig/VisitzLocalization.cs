@@ -1,10 +1,10 @@
-﻿using hestia.Services.Localization;
+﻿using visitz.Services.Localization;
 
-namespace hestia.HestiaConfig
+namespace visitz.VisitzConfig
 {
-    public static class HestiaLocalization
+    public static class VisitzLocalization
     {
-        public static MauiAppBuilder ConfigureHestiaLocalization(this MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureVisitzLocalization(this MauiAppBuilder builder)
         {
             // This service is needed to inject IStringLocalizer into LocalizeExtension
             builder.Services.AddLocalization();
