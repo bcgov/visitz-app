@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Extensions.Localization;
-using hestia.Resources.Localization;
-using hestia.Services.MAUI;
+using visitz.Resources.Localization;
+using visitz.Services.MAUI;
 
-namespace hestia.Services.Localization
+namespace visitz.Services.Localization
 {
     [ContentProperty(nameof(Key))]
     // We will use this name in XML like so: Text="{local:Localize hello_world}"

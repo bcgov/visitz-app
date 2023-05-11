@@ -1,4 +1,4 @@
-﻿namespace hestiapi.Models
+﻿namespace visitzApi.Models
 {
     public class FamilyMemberEntity
     {

@@ -1,13 +1,13 @@
-﻿using hestia.Routers;
-using hestia.Services;
-using hestia.ViewModels;
-using hestia.Views;
+﻿using visitz.Routers;
+using visitz.Services;
+using visitz.ViewModels;
+using visitz.Views;
 
-namespace hestia.HestiaConfig
+namespace visitz.VisitzConfig
 {
-    public static class HestiaScreens
+    public static class VisitzScreens
     {
-        public static MauiAppBuilder ConfigureHestiaScreens(this MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<LandingPage>();
             builder.Services.AddSingleton<LandingRouter>();

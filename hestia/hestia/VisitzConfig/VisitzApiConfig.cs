@@ -1,15 +1,15 @@
-﻿using hestia.Services.Networking;
-using hestia.Settings;
-using hestiapi;
+﻿using visitz.Services.Networking;
+using visitz.Settings;
+using visitzApi;
 using Microsoft.Extensions.Configuration;
 
-namespace hestia.HestiaConfig
+namespace visitz.VisitzConfig
 {
-    public static class HestiaApiConfig
+    public static class VisitzApiConfig
     {
-        private const string HttpClientName = "HestiApiClient";
+        private const string HttpClientName = "VisitzApiClient";
 
-        public static MauiAppBuilder ConfigureHestiaApi(this MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureVisitzApi(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<TokenHandler>();
 
@@ -22,7 +22,7 @@ namespace hestia.HestiaConfig
             var apiConfig = new AppSettings().Api.ApiDomain;
 
             builder.Services.AddSingleton(sp => 
-                new HestiApi(sp.GetService<HttpClient>(), apiConfig));
+                new VisitzApi(sp.GetService<HttpClient>(), apiConfig));
 
             return builder;
         }

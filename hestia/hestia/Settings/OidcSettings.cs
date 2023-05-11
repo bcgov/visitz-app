@@ -1,4 +1,4 @@
-﻿namespace hestia.Settings
+﻿namespace visitz.Settings
 {
     /// <summary>
     /// Environment variables model following appSettings.json structure.

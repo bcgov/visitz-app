@@ -1,10 +1,10 @@
-﻿using hestiapi.Models;
+﻿using visitzApi.Models;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace hestiapi.Requests
+namespace visitzApi.Requests
 {
-    internal class GetCaseloadEndpoint : HestiaBaseEndpoint<IEnumerable<CaseloadEntity>>
+    internal class GetCaseloadEndpoint : VisitzBaseEndpoint<IEnumerable<CaseloadEntity>>
     {
         private static readonly string CaseloadPath = "/v1/620b";
 

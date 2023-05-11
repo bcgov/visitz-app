@@ -1,4 +1,4 @@
-﻿namespace hestia;
+﻿namespace visitz;
 
 public partial class App : Application
 {

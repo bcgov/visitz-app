@@ -1,9 +1,9 @@
 ﻿using System;
-using hestia.Services.Authentication;
-using hestia.Services.Networking;
+using visitz.Services.Authentication;
+using visitz.Services.Networking;
 using IdentityModel.OidcClient;
 
-namespace hestia.ViewModels
+namespace visitz.ViewModels
 {
     /// <summary>
     /// The OAuth login process is managed by this class.

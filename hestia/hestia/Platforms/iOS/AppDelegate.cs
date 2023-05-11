@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace hestia;
+namespace visitz;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

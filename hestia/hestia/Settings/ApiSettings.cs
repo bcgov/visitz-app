@@ -1,4 +1,4 @@
-﻿namespace hestia.Settings
+﻿namespace visitz.Settings
 {
     public class ApiSettings
     {

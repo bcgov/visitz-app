@@ -1,23 +1,23 @@
-﻿using hestia.HestiaConfig;
+﻿using visitz.VisitzConfig;
 
-namespace hestia
+namespace visitz
 {
     /// <summary>
     /// Application setup and configurations. (Separation of Concerns)
     /// </summary>
-    public class HestiaApp
+    public class VisitzApp
     {
         public static MauiApp Create()
         {
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .ConfigureHestiaLocalization()
-                .ConfigureHestiaFonts()
-                .ConfigureHestiaAuth()
-                .ConfigureHestiaApi()
-                .ConfigureHestiaLogging()
-                .ConfigureHestiaScreens();
+                .ConfigureVisitzLocalization()
+                .ConfigureVisitzFonts()
+                .ConfigureVisitzAuth()
+                .ConfigureVisitzApi()
+                .ConfigureVisitzLogging()
+                .ConfigureVisitzScreens();
 
             return builder.Build();
         }

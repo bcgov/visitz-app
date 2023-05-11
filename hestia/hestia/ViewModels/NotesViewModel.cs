@@ -2,10 +2,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using hestia.Models.BOs;
-using hestiapi;
+using visitz.Models.BOs;
+using visitzApi;
 
-namespace hestia.ViewModels
+namespace visitz.ViewModels
 {
     /// <summary>
     /// The business logic for the cases notes rendering goes here.
@@ -17,25 +17,25 @@ namespace hestia.ViewModels
 
         public ObservableCollection<NoteItem> Notes { get; set; } = new();
 
-        private readonly HestiApi hestiApi;
+        private readonly VisitzApi visitzApi;
 
-        public NotesViewModel(HestiApi hestiApi)
+        public NotesViewModel(VisitzApi visitzApi)
         {
-            this.hestiApi = hestiApi;
+            this.visitzApi = visitzApi;
         }
 
         public async void FetchNotes()
         {
             try
             {
-                var notesList = await hestiApi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
+                var notesList = await visitzApi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
 
                 Notes.Clear();
 
                 foreach (var note in notesList)
                     Notes.Add(new NoteItem(note));
             }
-            catch (HestiaApiException ex)
+            catch (VisitzApiException ex)
             {
                 // TODO: Make actual error UI/UX to show this error
                 Console.WriteLine(ex.Message);

@@ -1,9 +1,9 @@
 ﻿using System;
-using hestia.Resources.Localization;
+using visitz.Resources.Localization;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 
-namespace hestia.Services
+namespace visitz.Services
 {
     /// <summary>
     /// Authenticate a user via fingerprint, face id or any other biometic / local authentication method.

@@ -1,7 +1,7 @@
 ﻿using System;
-using hestia.Services;
+using visitz.Services;
 
-namespace hestia.ViewModels
+namespace visitz.ViewModels
 {
     /// <summary>
     /// The business logic for the local device authentication(Biometrics, PIN, Pattern etc) goes here.
