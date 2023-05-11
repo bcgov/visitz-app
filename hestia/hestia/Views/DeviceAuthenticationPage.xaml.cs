@@ -1,7 +1,7 @@
-﻿using hestia.ViewModels;
-using hestia.Services;
-using hestia.Routers;
-namespace hestia.Views;
+﻿using visitz.ViewModels;
+using visitz.Services;
+using visitz.Routers;
+namespace visitz.Views;
 
 public partial class DeviceAuthenticationPage : BasePage
 {

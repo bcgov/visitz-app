@@ -1,10 +1,10 @@
-﻿using hestiapi.Extensions;
+﻿using visitzApi.Extensions;
 using System.Net;
 using System.Text.Json;
 
-namespace hestiapi
+namespace visitzApi
 {
-    public class HestiaApiException : Exception
+    public class VisitzApiException : Exception
     {
         private static readonly string ErrorKey = "error";
         private static readonly string ErrorDetailKey = "errorDetail";
@@ -13,7 +13,7 @@ namespace hestiapi
 
         public bool IsError => IsErroneousStatus(HttpStatusCode) || Message.Length > 0;
 
-        private HestiaApiException(HttpStatusCode statusCode, string errorMessage) : base(errorMessage)
+        private VisitzApiException(HttpStatusCode statusCode, string errorMessage) : base(errorMessage)
         {
             HttpStatusCode = statusCode;
         }
@@ -52,11 +52,11 @@ namespace hestiapi
         internal static void ThrowIfInvalid(HttpResponseMessage response)
         {
             if (IsErroneousStatus(response.StatusCode))
-                throw new HestiaApiException(response.StatusCode, 
+                throw new VisitzApiException(response.StatusCode, 
                         response.Content.ReadAsStringAsync().Result);
 
             else if (TryFindFirstJsonError(response, out string errorMessage))
-                throw new HestiaApiException(response.StatusCode, errorMessage);
+                throw new VisitzApiException(response.StatusCode, errorMessage);
         }
     }
 }

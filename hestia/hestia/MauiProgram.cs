@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace hestia;
+namespace visitz;
 
 /// <summary>
 /// The program that gets invoked before anything else by the .NET runtime.
@@ -9,7 +9,7 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        return HestiaApp.Create();
+        return VisitzApp.Create();
     }
 }
 

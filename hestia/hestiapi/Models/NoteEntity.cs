@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace hestiapi.Models
+namespace visitzApi.Models
 {
     public class NoteEntity
     {

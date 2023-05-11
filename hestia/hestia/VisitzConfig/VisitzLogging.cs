@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace hestia.HestiaConfig
+namespace visitz.VisitzConfig
 {
-    public static class HestiaLogging
+    public static class VisitzLogging
     {
-        public static MauiAppBuilder ConfigureHestiaLogging(this MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureVisitzLogging(this MauiAppBuilder builder)
         {
             // IStringLocalizer appears to be dependent on a logging service 
             builder.Services.AddLogging();

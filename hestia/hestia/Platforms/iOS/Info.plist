@@ -34,10 +34,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>ca.bc.gov.hestia</string>
+			<string>ca.bc.gov.visitz</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>hestia</string>
+				<string>visitz</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>

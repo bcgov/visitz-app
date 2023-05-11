@@ -1,6 +1,6 @@
-﻿using hestiapi.Models;
+﻿using visitzApi.Models;
 
-namespace hestia.Models.BOs
+namespace visitz.Models.BOs
 {
     public class CaseloadItem
     {

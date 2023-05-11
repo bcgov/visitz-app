@@ -1,8 +1,8 @@
-﻿using hestia.ViewModels;
-using hestia.Routers;
-using hestia.Models.BOs;
+﻿using visitz.ViewModels;
+using visitz.Routers;
+using visitz.Models.BOs;
 
-namespace hestia.Views;
+namespace visitz.Views;
 
 public partial class CaseloadPage : BasePage
 {

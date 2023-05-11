@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace hestia;
+namespace visitz;
 
 [Application]
 public class MainApplication : MauiApplication
