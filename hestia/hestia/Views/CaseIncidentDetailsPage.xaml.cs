@@ -1,5 +1,5 @@
-﻿using hestia.ViewModels;
-namespace hestia.Views;
+﻿using visitz.ViewModels;
+namespace visitz.Views;
 
 public partial class CaseIncidentDetailsPage : ContentPage
 {

@@ -1,6 +1,6 @@
-﻿using hestia.Views;
+﻿using visitz.Views;
 
-namespace hestia;
+namespace visitz;
 
 public partial class AppShell : Shell
 {

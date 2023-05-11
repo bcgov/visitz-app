@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace hestia;
+namespace visitz;
 
 public class Program
 {

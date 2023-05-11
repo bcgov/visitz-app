@@ -1,9 +1,9 @@
 ﻿using System;
-using hestia.Services;
-using hestia.Views;
-using hestia.Services.Localization;
+using visitz.Services;
+using visitz.Views;
+using visitz.Services.Localization;
 
-namespace hestia.Routers
+namespace visitz.Routers
 {
     /// <summary>
     /// Use Router to move to different screens. Router handles navigation between screen.

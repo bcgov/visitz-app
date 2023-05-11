@@ -1,9 +1,9 @@
-﻿using hestia.ViewModels;
-using hestia.Routers;
+﻿using visitz.ViewModels;
+using visitz.Routers;
 
-namespace hestia.Views;
+namespace visitz.Views;
 
-public partial class NotesPage : hestia.Views.BasePage
+public partial class NotesPage : visitz.Views.BasePage
 {
 	private NotesViewModel viewModel;
 	private NotesRouter router;

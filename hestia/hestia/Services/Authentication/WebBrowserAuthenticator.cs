@@ -1,8 +1,8 @@
-﻿using hestia.Resources.Localization;
+﻿using visitz.Resources.Localization;
 using IdentityModel.Client;
 using IdentityModel.OidcClient.Browser;
 
-namespace hestia.Services.Authentication
+namespace visitz.Services.Authentication
 {
     /// <summary>
     /// The class implements the IBrowser interface to handle the authentication step.

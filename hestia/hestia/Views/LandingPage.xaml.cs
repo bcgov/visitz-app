@@ -1,7 +1,7 @@
-﻿using hestia.ViewModels;
-using hestia.Routers;
+﻿using visitz.ViewModels;
+using visitz.Routers;
 
-namespace hestia.Views;
+namespace visitz.Views;
 
 public partial class LandingPage : BasePage
 {

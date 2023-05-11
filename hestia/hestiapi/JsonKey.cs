@@ -1,4 +1,4 @@
-﻿namespace hestiapi
+﻿namespace visitzApi
 {
     internal class JsonKey
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace hestia.Services.Networking
+namespace visitz.Services.Networking
 {
     public class TokenHolder
     {

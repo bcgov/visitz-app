@@ -33,7 +33,7 @@
 			<string>MCFD Mobile</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>hestia</string>
+				<string>visitz</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>

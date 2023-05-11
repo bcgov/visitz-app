@@ -1,8 +1,8 @@
 ﻿using System;
-using hestia.Routers;
-using hestia.Views;
+using visitz.Routers;
+using visitz.Views;
 
-namespace hestia.ViewModels
+namespace visitz.ViewModels
 {
     /// <summary>
     /// The logic to render the appropriate initial screen to the user after a app launch resides here.

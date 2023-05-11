@@ -1,7 +1,7 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace hestia.ViewModels
+namespace visitz.ViewModels
 {
     /// <summary>
     /// The base class for all the view models. Common functionality can be defined here.

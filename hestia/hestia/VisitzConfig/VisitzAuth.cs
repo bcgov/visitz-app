@@ -1,12 +1,12 @@
-﻿using hestia.Services.Authentication;
-using hestia.Settings;
+﻿using visitz.Services.Authentication;
+using visitz.Settings;
 using Microsoft.Extensions.Configuration;
 
-namespace hestia.HestiaConfig
+namespace visitz.VisitzConfig
 {
-    public static class HestiaAuth
+    public static class VisitzAuth
     {
-        public static MauiAppBuilder ConfigureHestiaAuth(this MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureVisitzAuth(this MauiAppBuilder builder)
         {
             // TODO: Get AppSettings working correctly with DI
             var settings = new AppSettings().Oidc;
