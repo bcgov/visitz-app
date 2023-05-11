@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace visitz;
+namespace Visitz;
 
 public class Program
 {

@@ -1,8 +1,8 @@
-﻿using visitz.ViewModels;
-using visitz.Routers;
-using visitz.Models.BOs;
+﻿using Visitz.ViewModels;
+using Visitz.Routers;
+using Visitz.Models.BOs;
 
-namespace visitz.Views;
+namespace Visitz.Views;
 
 public partial class CaseloadPage : BasePage
 {

@@ -6,7 +6,7 @@
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
-		<RootNamespace>visitz</RootNamespace>
+		<RootNamespace>Visitz</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -153,7 +153,7 @@
 	  <Compile Remove="Resources\Localization\LocalizedStrings.fr-FR.Designer.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\visitzApi\visitzApi.csproj" />
+	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.en-US.Designer.cs">

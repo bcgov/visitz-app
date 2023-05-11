@@ -1,4 +1,4 @@
-﻿namespace visitzApi
+﻿namespace VisitzApi
 {
     internal class JsonKey
     {

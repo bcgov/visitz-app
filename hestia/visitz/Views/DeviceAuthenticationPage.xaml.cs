@@ -1,7 +1,7 @@
-﻿using visitz.ViewModels;
-using visitz.Services;
-using visitz.Routers;
-namespace visitz.Views;
+﻿using Visitz.ViewModels;
+using Visitz.Services;
+using Visitz.Routers;
+namespace Visitz.Views;
 
 public partial class DeviceAuthenticationPage : BasePage
 {

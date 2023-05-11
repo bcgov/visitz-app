@@ -1,4 +1,4 @@
-﻿namespace visitz.Views;
+﻿namespace Visitz.Views;
 
 public partial class BasePage : ContentPage
 {

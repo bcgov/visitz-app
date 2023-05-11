@@ -1,5 +1,5 @@
-﻿using visitz.ViewModels;
-namespace visitz.Views;
+﻿using Visitz.ViewModels;
+namespace Visitz.Views;
 
 public partial class CaseIncidentDetailsPage : ContentPage
 {

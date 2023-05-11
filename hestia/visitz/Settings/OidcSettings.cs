@@ -1,4 +1,4 @@
-﻿namespace visitz.Settings
+﻿namespace Visitz.Settings
 {
     /// <summary>
     /// Environment variables model following appSettings.json structure.

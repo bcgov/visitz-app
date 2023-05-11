@@ -1,8 +1,8 @@
-﻿using visitzApi.Extensions;
+﻿using VisitzApi.Extensions;
 using System.Net;
 using System.Text.Json;
 
-namespace visitzApi
+namespace VisitzApi
 {
     public class VisitzApiException : Exception
     {

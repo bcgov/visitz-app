@@ -1,9 +1,9 @@
 ﻿using System;
-using visitz.Services;
-using visitz.Views;
-using visitz.Services.Localization;
+using Visitz.Services;
+using Visitz.Views;
+using Visitz.Services.Localization;
 
-namespace visitz.Routers
+namespace Visitz.Routers
 {
     /// <summary>
     /// Use Router to move to different screens. Router handles navigation between screen.
