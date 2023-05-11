@@ -22,7 +22,7 @@ namespace visitz.VisitzConfig
             var apiConfig = new AppSettings().Api.ApiDomain;
 
             builder.Services.AddSingleton(sp => 
-                new VisitzApi(sp.GetService<HttpClient>(), apiConfig));
+                new Vpi(sp.GetService<HttpClient>(), apiConfig));
 
             return builder;
         }
