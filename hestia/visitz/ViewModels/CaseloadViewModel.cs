@@ -16,9 +16,9 @@ namespace visitz.ViewModels
         [ObservableProperty]
         public CaseloadItem selectedCaseIncident;
 
-        private readonly VisitzApi visitzApi;
+        private readonly Vpi visitzApi;
 
-        public CaseloadViewModel(VisitzApi visitzApi)
+        public CaseloadViewModel(Vpi visitzApi)
         {
             this.visitzApi = visitzApi;
         }
