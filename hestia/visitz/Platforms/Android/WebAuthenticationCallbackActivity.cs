@@ -3,7 +3,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Webkit;
 
-namespace visitz.Platforms.Android
+namespace Visitz.Platforms.Android
 {
     [Activity(NoHistory = true, LaunchMode = LaunchMode.SingleTop, Exported = true)]
     [IntentFilter(new[] { global::Android.Content.Intent.ActionView },

@@ -1,9 +1,9 @@
-﻿using visitz.ViewModels;
-using visitz.Routers;
+﻿using Visitz.ViewModels;
+using Visitz.Routers;
 
-namespace visitz.Views;
+namespace Visitz.Views;
 
-public partial class NotesPage : visitz.Views.BasePage
+public partial class NotesPage : Visitz.Views.BasePage
 {
 	private NotesViewModel viewModel;
 	private NotesRouter router;

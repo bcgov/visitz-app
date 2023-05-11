@@ -1,8 +1,8 @@
 ﻿using System;
-using visitz.Routers;
-using visitz.Views;
+using Visitz.Routers;
+using Visitz.Views;
 
-namespace visitz.ViewModels
+namespace Visitz.ViewModels
 {
     /// <summary>
     /// The logic to render the appropriate initial screen to the user after a app launch resides here.

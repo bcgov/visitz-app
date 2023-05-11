@@ -1,4 +1,4 @@
-﻿namespace visitzApi.Models
+﻿namespace VisitzApi.Models
 {
     public class FamilyMemberEntity
     {

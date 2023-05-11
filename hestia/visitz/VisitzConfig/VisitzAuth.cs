@@ -1,8 +1,8 @@
-﻿using visitz.Services.Authentication;
-using visitz.Settings;
+﻿using Visitz.Services.Authentication;
+using Visitz.Settings;
 using Microsoft.Extensions.Configuration;
 
-namespace visitz.VisitzConfig
+namespace Visitz.VisitzConfig
 {
     public static class VisitzAuth
     {

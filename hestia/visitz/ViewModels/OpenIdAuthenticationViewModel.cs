@@ -1,9 +1,9 @@
 ﻿using System;
-using visitz.Services.Authentication;
-using visitz.Services.Networking;
+using Visitz.Services.Authentication;
+using Visitz.Services.Networking;
 using IdentityModel.OidcClient;
 
-namespace visitz.ViewModels
+namespace Visitz.ViewModels
 {
     /// <summary>
     /// The OAuth login process is managed by this class.

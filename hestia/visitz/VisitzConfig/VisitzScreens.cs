@@ -1,9 +1,9 @@
-﻿using visitz.Routers;
-using visitz.Services;
-using visitz.ViewModels;
-using visitz.Views;
+﻿using Visitz.Routers;
+using Visitz.Services;
+using Visitz.ViewModels;
+using Visitz.Views;
 
-namespace visitz.VisitzConfig
+namespace Visitz.VisitzConfig
 {
     public static class VisitzScreens
     {

@@ -1,7 +1,7 @@
-﻿using visitz.ViewModels;
-using visitz.Routers;
+﻿using Visitz.ViewModels;
+using Visitz.Routers;
 
-namespace visitz.Views;
+namespace Visitz.Views;
 
 public partial class OpenIdAuthenticationPage : BasePage
 {

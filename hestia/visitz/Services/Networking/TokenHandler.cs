@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace visitz.Services.Networking
+namespace Visitz.Services.Networking
 {
     /// <summary>
     /// Injects the access token into each HTTP request to the API

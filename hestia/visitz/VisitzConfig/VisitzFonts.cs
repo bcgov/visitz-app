@@ -1,4 +1,4 @@
-﻿namespace visitz.VisitzConfig
+﻿namespace Visitz.VisitzConfig
 {
     public static class VisitzFonts
     {

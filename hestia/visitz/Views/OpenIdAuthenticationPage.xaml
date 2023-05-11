@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:visitz.Views"
-             xmlns:viewmodels="clr-namespace:visitz.ViewModels"
-             xmlns:local="clr-namespace:visitz.Services.Localization"
-             x:Class="visitz.Views.OpenIdAuthenticationPage"
+             xmlns:views="clr-namespace:Visitz.Views"
+             xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+             xmlns:local="clr-namespace:Visitz.Services.Localization"
+             x:Class="Visitz.Views.OpenIdAuthenticationPage"
              x:DataType="viewmodels:OpenIdAuthenticationViewModel"
              Title=""
              BackgroundColor="#003366">
