@@ -1,5 +1,5 @@
 ﻿using System;
-namespace visitz.Services.MAUI
+namespace Visitz.Services.MAUI
 {
     /// <summary>
     /// Alternate service for Dependency Injection. Use this when there is a need to bypass constructor injection.

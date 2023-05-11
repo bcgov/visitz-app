@@ -1,4 +1,4 @@
-﻿namespace visitz.Settings
+﻿namespace Visitz.Settings
 {
     public class ApiSettings
     {

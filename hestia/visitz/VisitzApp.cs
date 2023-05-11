@@ -1,6 +1,6 @@
-﻿using visitz.VisitzConfig;
+﻿using Visitz.VisitzConfig;
 
-namespace visitz
+namespace Visitz
 {
     /// <summary>
     /// Application setup and configurations. (Separation of Concerns)

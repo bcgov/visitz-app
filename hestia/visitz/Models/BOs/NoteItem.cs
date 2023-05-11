@@ -1,6 +1,6 @@
-﻿using visitzApi.Models;
+﻿using VisitzApi.Models;
 
-namespace visitz.Models.BOs
+namespace Visitz.Models.BOs
 {
     /// <summary>
     /// The business object that would be used by the app source.

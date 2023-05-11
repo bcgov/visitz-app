@@ -1,7 +1,7 @@
 ﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace visitz.ViewModels
+namespace Visitz.ViewModels
 {
     /// <summary>
     /// The base class for all the view models. Common functionality can be defined here.

@@ -1,8 +1,8 @@
-﻿using visitzApi.Models;
-using visitzApi.Requests;
+﻿using VisitzApi.Models;
+using VisitzApi.Requests;
 using System.Net;
 
-namespace visitzApi
+namespace VisitzApi
 {
     /// <summary>
     /// VPI - Visitz (A)PI - convenience wrapper class for interaction with Visitz' API endpoints.

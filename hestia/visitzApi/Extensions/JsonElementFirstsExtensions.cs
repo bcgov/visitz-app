@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace visitzApi.Extensions
+namespace VisitzApi.Extensions
 {
     internal static class JsonElementFirstsExtensions
     {

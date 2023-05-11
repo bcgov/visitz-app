@@ -1,9 +1,9 @@
-﻿using visitz.Services.Networking;
-using visitz.Settings;
-using visitzApi;
+﻿using Visitz.Services.Networking;
+using Visitz.Settings;
+using VisitzApi;
 using Microsoft.Extensions.Configuration;
 
-namespace visitz.VisitzConfig
+namespace Visitz.VisitzConfig
 {
     public static class VisitzApiConfig
     {

@@ -1,8 +1,8 @@
-﻿using visitz.Resources.Localization;
+﻿using Visitz.Resources.Localization;
 using IdentityModel.Client;
 using IdentityModel.OidcClient.Browser;
 
-namespace visitz.Services.Authentication
+namespace Visitz.Services.Authentication
 {
     /// <summary>
     /// The class implements the IBrowser interface to handle the authentication step.

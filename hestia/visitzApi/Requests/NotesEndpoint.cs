@@ -1,8 +1,8 @@
-﻿using visitzApi.Models;
+﻿using VisitzApi.Models;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace visitzApi.Requests
+namespace VisitzApi.Requests
 {
     internal class NotesEndpoint : VisitzBaseEndpoint<IEnumerable<NoteEntity>>
     {

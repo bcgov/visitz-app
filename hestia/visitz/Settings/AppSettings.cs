@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
-namespace visitz.Settings
+namespace Visitz.Settings
 {
     public class AppSettings
     {
-        private static readonly string Namespace = "visitz";
+        private static readonly string Namespace = "Visitz";
         private static readonly string AppSettingsFile = "appSettings.json";
 
         private static readonly string ApiSettingsKey = "ApiSettings";

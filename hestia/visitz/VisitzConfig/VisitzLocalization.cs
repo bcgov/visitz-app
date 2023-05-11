@@ -1,6 +1,6 @@
-﻿using visitz.Services.Localization;
+﻿using Visitz.Services.Localization;
 
-namespace visitz.VisitzConfig
+namespace Visitz.VisitzConfig
 {
     public static class VisitzLocalization
     {

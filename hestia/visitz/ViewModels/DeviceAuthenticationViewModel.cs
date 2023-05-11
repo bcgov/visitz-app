@@ -1,7 +1,7 @@
 ﻿using System;
-using visitz.Services;
+using Visitz.Services;
 
-namespace visitz.ViewModels
+namespace Visitz.ViewModels
 {
     /// <summary>
     /// The business logic for the local device authentication(Biometrics, PIN, Pattern etc) goes here.
