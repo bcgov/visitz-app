@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace visitz;
+namespace Visitz;
 
 [Application]
 public class MainApplication : MauiApplication

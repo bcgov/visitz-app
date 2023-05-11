@@ -1,7 +1,7 @@
 ﻿using System;
 using IdentityModel.OidcClient;
 
-namespace visitz.Services.Authentication
+namespace Visitz.Services.Authentication
 {
     /// <summary>
     /// The class exposes the Browser property and provides the LoginAsync() method to start the authentication process.

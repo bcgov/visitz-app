@@ -2,7 +2,7 @@
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace visitz;
+namespace Visitz;
 
 class Program : MauiApplication
 {

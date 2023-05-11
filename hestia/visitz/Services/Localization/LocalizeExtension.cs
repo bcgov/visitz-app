@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Extensions.Localization;
-using visitz.Resources.Localization;
-using visitz.Services.MAUI;
+using Visitz.Resources.Localization;
+using Visitz.Services.MAUI;
 
-namespace visitz.Services.Localization
+namespace Visitz.Services.Localization
 {
     [ContentProperty(nameof(Key))]
     // We will use this name in XML like so: Text="{local:Localize hello_world}"

@@ -1,4 +1,4 @@
-﻿namespace visitz;
+﻿namespace Visitz;
 
 public partial class App : Application
 {

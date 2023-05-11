@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace visitz.VisitzConfig
+namespace Visitz.VisitzConfig
 {
     public static class VisitzLogging
     {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using visitzApi;
-using visitz.Models.BOs;
+using VisitzApi;
+using Visitz.Models.BOs;
 
-namespace visitz.ViewModels
+namespace Visitz.ViewModels
 {
     /// <summary>
     /// The business logic for the cases and incidents list rendering goes here.

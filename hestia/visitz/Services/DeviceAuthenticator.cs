@@ -1,9 +1,9 @@
 ﻿using System;
-using visitz.Resources.Localization;
+using Visitz.Resources.Localization;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 
-namespace visitz.Services
+namespace Visitz.Services
 {
     /// <summary>
     /// Authenticate a user via fingerprint, face id or any other biometic / local authentication method.

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace visitzApi.Requests
+namespace VisitzApi.Requests
 {
     internal abstract class VisitzBaseEndpoint<ResponseType>
     {

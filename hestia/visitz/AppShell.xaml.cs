@@ -1,6 +1,6 @@
-﻿using visitz.Views;
+﻿using Visitz.Views;
 
-namespace visitz;
+namespace Visitz;
 
 public partial class AppShell : Shell
 {

@@ -2,10 +2,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using visitz.Models.BOs;
-using visitzApi;
+using Visitz.Models.BOs;
+using VisitzApi;
 
-namespace visitz.ViewModels
+namespace Visitz.ViewModels
 {
     /// <summary>
     /// The business logic for the cases notes rendering goes here.
