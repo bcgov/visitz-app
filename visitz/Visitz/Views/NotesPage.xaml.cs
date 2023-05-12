@@ -3,7 +3,7 @@ using Visitz.Routers;
 
 namespace Visitz.Views;
 
-public partial class NotesPage : Visitz.Views.BasePage
+public partial class NotesPage : Visitz.Views.VisitzPage
 {
 	private NotesViewModel viewModel;
 	private NotesRouter router;

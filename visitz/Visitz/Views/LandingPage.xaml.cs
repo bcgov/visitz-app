@@ -3,7 +3,7 @@ using Visitz.Routers;
 
 namespace Visitz.Views;
 
-public partial class LandingPage : BasePage
+public partial class LandingPage : VisitzPage
 {
     LandingRouter router;
     LandingViewModel viewModel;
