@@ -30,7 +30,7 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>MCFD Mobile</string>
+			<string>MCFD Mobility</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>visitz</string>
