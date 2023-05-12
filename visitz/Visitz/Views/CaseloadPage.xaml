@@ -84,7 +84,7 @@
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
                                     <HorizontalStackLayout HorizontalOptions="End">
                                         <Label 
-                                    Text="{Binding CreatedDate, StringFormat='Open date: {0}'}"
+                                    Text="{Binding DisplayDate, StringFormat='Open date: {0}'}"
                                     TextColor="#606060"
                                     FontSize="12"
                                     FontFamily="BCSansRegular"
