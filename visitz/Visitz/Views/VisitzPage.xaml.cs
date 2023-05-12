@@ -4,7 +4,7 @@ public partial class VisitzPage : ContentPage
 {
     protected bool DidViewAppear;
 
-    public VisitzPage()
+    public VisitzPage() : base()
     {
         InitializeComponent();
     }
