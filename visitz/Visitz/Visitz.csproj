@@ -157,6 +157,9 @@
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Update="VisitzApp.xaml.cs">
+	    <DependentUpon>VisitzApp.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.en-US.Designer.cs">
 	    <DependentUpon>LocalizedStrings.en-US.resx</DependentUpon>
 	  </Compile>
