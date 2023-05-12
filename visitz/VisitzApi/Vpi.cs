@@ -1,6 +1,7 @@
 ﻿using VisitzApi.Models;
 using VisitzApi.Requests;
 using System.Net;
+using VisitzApi.ErrorHandling;
 
 namespace VisitzApi
 {

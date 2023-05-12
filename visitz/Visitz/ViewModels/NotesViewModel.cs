@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Visitz.Models.BOs;
 using VisitzApi;
+using VisitzApi.ErrorHandling;
 
 namespace Visitz.ViewModels
 {
