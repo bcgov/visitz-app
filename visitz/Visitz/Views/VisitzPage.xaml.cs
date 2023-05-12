@@ -1,6 +1,6 @@
 ﻿namespace Visitz.Views;
 
-public partial class VisitzPage : ContentPage
+public abstract partial class VisitzPage : ContentPage
 {
     protected bool DidViewAppear;
 
@@ -22,5 +22,5 @@ public partial class VisitzPage : ContentPage
     /// <summary>
     /// Subclasses can benefit by overriding this method which gets invoked once unlike `OnAppearing`
     /// </summary>
-    protected virtual void OnLoad() { }
+    protected abstract void OnLoad();
 }
