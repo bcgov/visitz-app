@@ -1,8 +1,8 @@
 ﻿namespace Visitz;
 
-public partial class App : Application
+public partial class VisitzApp : Application
 {
-    public App()
+    public VisitzApp()
     {
         InitializeComponent();
 
