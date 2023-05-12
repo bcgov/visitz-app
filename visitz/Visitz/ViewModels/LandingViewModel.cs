@@ -9,7 +9,7 @@ namespace Visitz.ViewModels
     /// </summary>
     // To capture the query parameter sent during the Shell navigation
     [QueryProperty(nameof(BackFromPage), "navigatingBackFromPage")]
-    public class LandingViewModel : BaseViewModel
+    public class LandingViewModel : VisitzViewModel
     {
         bool IsDeviceAuthenticationDone;
         bool IsOpenIdAuthenticationDone;
