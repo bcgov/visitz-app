@@ -23,8 +23,12 @@ namespace VisitzApi.ErrorHandling
         internal static void ThrowIfInvalid(HttpResponseMessage response)
         {
             if (IsErroneousStatus(response.StatusCode))
-                throw new VisitzApiException(response.StatusCode,
-                        response.Content.ReadAsStringAsync().Result);
+            {
+                if (!KongJsonMessage.TryFindMessage(response, out string message))
+                    message = response.Content.ReadAsStringAsync().Result;
+
+                throw new VisitzApiException(response.StatusCode, message);
+            }
 
             else if (WebMethodsJsonError.TryFindFirstError(response, out string errorMessage))
                 throw new VisitzApiException(response.StatusCode, errorMessage);
