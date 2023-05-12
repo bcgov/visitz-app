@@ -8,7 +8,7 @@ namespace Visitz.ViewModels
     /// <summary>
     /// The business logic for the cases and incidents details rendering goes here.
     /// </summary>
-	public partial class CaseIncidentDetailsViewModel : BaseViewModel, IQueryAttributable
+	public partial class CaseIncidentDetailsViewModel : VisitzViewModel, IQueryAttributable
     {
         [ObservableProperty]
         public CaseloadItem caseIncident;

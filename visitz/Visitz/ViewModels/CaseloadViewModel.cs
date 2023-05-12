@@ -10,7 +10,7 @@ namespace Visitz.ViewModels
     /// <summary>
     /// The business logic for the cases and incidents list rendering goes here.
     /// </summary>
-    public partial class CaseloadViewModel : BaseViewModel
+    public partial class CaseloadViewModel : VisitzViewModel
     {
         public ObservableCollection<CaseloadItem> Caseload { get; set; } = new();
 
