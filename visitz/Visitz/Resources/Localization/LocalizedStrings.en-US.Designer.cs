@@ -67,7 +67,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome to MCFD Mobile app!.
+        ///   Looks up a localized string similar to Welcome to MCFD Mobility app!.
         /// </summary>
         internal static string AppWelcome {
             get {
