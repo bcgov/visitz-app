@@ -11,7 +11,7 @@ namespace Visitz.ViewModels
     /// <summary>
     /// The business logic for the cases notes rendering goes here.
     /// </summary>
-	public partial class NotesViewModel : BaseViewModel, IQueryAttributable
+	public partial class NotesViewModel : VisitzViewModel, IQueryAttributable
     {
         [ObservableProperty]
         public CaseloadItem caseIncident;
