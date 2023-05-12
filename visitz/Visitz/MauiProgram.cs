@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Visitz.VisitzConfig;
 
 namespace Visitz;
 
@@ -9,7 +9,22 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        return VisitzApp.Create();
+        return CreateVisitzApp();
+    }
+
+    private static MauiApp CreateVisitzApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureVisitzLocalization()
+            .ConfigureVisitzFonts()
+            .ConfigureVisitzAuth()
+            .ConfigureVisitzApi()
+            .ConfigureVisitzLogging()
+            .ConfigureVisitzScreens();
+
+        return builder.Build();
     }
 }
 
