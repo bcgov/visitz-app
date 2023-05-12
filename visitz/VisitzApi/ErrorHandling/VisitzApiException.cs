@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace VisitzApi
+namespace VisitzApi.ErrorHandling
 {
     public class VisitzApiException : Exception
     {
@@ -52,7 +52,7 @@ namespace VisitzApi
         internal static void ThrowIfInvalid(HttpResponseMessage response)
         {
             if (IsErroneousStatus(response.StatusCode))
-                throw new VisitzApiException(response.StatusCode, 
+                throw new VisitzApiException(response.StatusCode,
                         response.Content.ReadAsStringAsync().Result);
 
             else if (TryFindFirstJsonError(response, out string errorMessage))
