@@ -3,7 +3,7 @@ using Visitz.Routers;
 
 namespace Visitz.Views;
 
-public partial class OpenIdAuthenticationPage : BasePage
+public partial class OpenIdAuthenticationPage : VisitzPage
 {
     private OpenIdAuthenticationViewModel viewModel;
     private OpenIdAuthenticationRouter router;

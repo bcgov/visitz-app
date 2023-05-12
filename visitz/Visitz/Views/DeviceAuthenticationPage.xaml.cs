@@ -3,7 +3,7 @@ using Visitz.Services;
 using Visitz.Routers;
 namespace Visitz.Views;
 
-public partial class DeviceAuthenticationPage : BasePage
+public partial class DeviceAuthenticationPage : VisitzPage
 {
     DeviceAuthenticationViewModel viewModel;
     DeviceAuthenticationRouter router;

@@ -174,5 +174,8 @@
 	  <Compile Update="Views\NotesPage.xaml.cs">
 	    <DependentUpon>NotesPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\VisitzPage.xaml.cs">
+	    <DependentUpon>VisitzPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 </Project>

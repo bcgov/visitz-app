@@ -4,7 +4,7 @@ using Visitz.Models.BOs;
 
 namespace Visitz.Views;
 
-public partial class CaseloadPage : BasePage
+public partial class CaseloadPage : VisitzPage
 {
     private CaseloadViewModel viewModel;
     private CaseloadRouter router;

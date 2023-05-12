@@ -1,10 +1,10 @@
 ﻿namespace Visitz.Views;
 
-public partial class BasePage : ContentPage
+public partial class VisitzPage : ContentPage
 {
     protected bool DidViewAppear;
 
-    public BasePage()
+    public VisitzPage()
     {
         InitializeComponent();
     }
