@@ -8,7 +8,7 @@ public partial class OpenIdAuthenticationPage : VisitzPage
     private OpenIdAuthenticationViewModel viewModel;
     private OpenIdAuthenticationRouter router;
 
-    public OpenIdAuthenticationPage(OpenIdAuthenticationViewModel viewModel, OpenIdAuthenticationRouter router)
+    public OpenIdAuthenticationPage(OpenIdAuthenticationViewModel viewModel, OpenIdAuthenticationRouter router) : base(viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
