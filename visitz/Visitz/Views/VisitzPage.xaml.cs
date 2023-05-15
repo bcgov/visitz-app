@@ -13,6 +13,7 @@ public abstract partial class VisitzPage : ContentPage
     public VisitzPage(VisitzViewModel visitzViewModel) : base()
     {
         ViewModel = visitzViewModel;
+        visitzViewModel.VisitzPage = this;
     }
 
     protected override void OnAppearing()

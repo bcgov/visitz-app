@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Visitz.Views;
 
 namespace Visitz.ViewModels
 {
@@ -13,6 +14,8 @@ namespace Visitz.ViewModels
 
         [ObservableProperty]
         string title;
+
+        public VisitzPage VisitzPage { get; set; }
 
         public bool IsNotBusy => !IsBusy;
 
