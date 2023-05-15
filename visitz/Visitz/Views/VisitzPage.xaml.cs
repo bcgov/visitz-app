@@ -6,9 +6,9 @@ public abstract partial class VisitzPage : ContentPage
 {
     protected bool DidViewAppear;
 
-    protected IVisitzLifecycle ViewModel { get; set; }
+    protected VisitzViewModel ViewModel { get; set; }
 
-    public VisitzPage(IVisitzLifecycle visitzViewModel) : base()
+    public VisitzPage(VisitzViewModel visitzViewModel) : base()
     {
         ViewModel = visitzViewModel;
     }
