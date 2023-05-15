@@ -1,5 +1,4 @@
-﻿using System;
-using Visitz.Resources.Localization;
+﻿using Visitz.Resources.Localization;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 

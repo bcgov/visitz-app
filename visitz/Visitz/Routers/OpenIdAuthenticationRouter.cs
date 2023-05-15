@@ -1,5 +1,4 @@
-﻿using System;
-using Visitz.Views;
+﻿using Visitz.Views;
 using Visitz.ViewModels;
 using Visitz.Services.Localization;
 

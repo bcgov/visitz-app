@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.Localization;
+﻿using Microsoft.Extensions.Localization;
 using Visitz.Resources.Localization;
-using Visitz.Services.MAUI;
 
 namespace Visitz.Services.Localization
 {
