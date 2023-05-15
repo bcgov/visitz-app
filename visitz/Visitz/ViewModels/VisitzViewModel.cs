@@ -1,5 +1,4 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Visitz.ViewModels
 {
@@ -17,26 +16,18 @@ namespace Visitz.ViewModels
 
         public bool IsNotBusy => !IsBusy;
 
-        public void Window_Activated(object sender, EventArgs e)
-        {
-        }
+        public void Window_Activated(object sender, EventArgs e) { }
 
-        public void Window_Created(object sender, EventArgs e)
-        {
-        }
+        public void Window_Created(object sender, EventArgs e) { }
 
-        public void Window_Deactivated(object sender, EventArgs e)
-        {
-        }
+        public void Window_Deactivated(object sender, EventArgs e) { }
 
         public void Window_Resumed(object sender, EventArgs e)
         {
             PageStarted();
         }
 
-        public void Window_Stopped(object sender, EventArgs e)
-        {
-        }
+        public void Window_Stopped(object sender, EventArgs e) { }
 
         public virtual void PageCreated() { }
 
