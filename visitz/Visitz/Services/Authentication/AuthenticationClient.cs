@@ -1,5 +1,4 @@
-﻿using System;
-using IdentityModel.OidcClient;
+﻿using IdentityModel.OidcClient;
 
 namespace Visitz.Services.Authentication
 {

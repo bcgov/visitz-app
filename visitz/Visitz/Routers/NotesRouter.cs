@@ -1,5 +1,4 @@
-﻿using System;
-using Visitz.Views;
+﻿using Visitz.Views;
 using Visitz.Models.BOs;
 
 namespace Visitz.Routers
