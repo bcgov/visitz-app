@@ -1,7 +1,6 @@
-﻿using System;
-using Visitz.Services.Authentication;
+﻿using Visitz.Services.Authentication;
 using Visitz.Services.Networking;
-using IdentityModel.OidcClient;
+using Visitz.Routers;
 
 namespace Visitz.ViewModels
 {
@@ -10,18 +9,27 @@ namespace Visitz.ViewModels
     /// </summary>
 	public class OpenIdAuthenticationViewModel : VisitzViewModel
     {
-        private readonly AuthenticationClient authClient;
+        private OpenIdAuthenticationRouter Router { get; }
 
-        public OpenIdAuthenticationViewModel(AuthenticationClient authClient)
+        private AuthenticationClient AuthClient { get; }
+
+        public OpenIdAuthenticationViewModel(OpenIdAuthenticationRouter router, AuthenticationClient authClient)
         {
-            this.authClient = authClient;
+            Router = router;
+            AuthClient = authClient;
+        }
+
+        public async override void PageStarted()
+        {
+            Result result = await Authenticate();
+            Router.routeUsing(result);
         }
 
         public async Task<Result> Authenticate()
         {
             try
             {
-                var loginResult = await authClient.LoginAsync();
+                var loginResult = await AuthClient.LoginAsync();
 
                 if (!loginResult.IsError)
                     TokenHolder.AccessToken = loginResult.AccessToken;
