@@ -16,8 +16,8 @@ public partial class NotesPage : Visitz.Views.VisitzPage
         this.router = router;
     }
 
-    protected override void OnLoad() {
-		base.OnLoad();
+    protected override void OnLoad()
+	{
 		viewModel.FetchNotes();
 	}
 

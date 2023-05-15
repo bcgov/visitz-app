@@ -19,7 +19,6 @@ public partial class LandingPage : VisitzPage
 
     protected override void OnLoad()
     {
-        base.OnLoad();
         LandingRouter.Route solvedRoute = viewModel.SolveRoute();
         router.RouteTo(solvedRoute);
     }
