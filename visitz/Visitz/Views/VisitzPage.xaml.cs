@@ -60,5 +60,5 @@ public abstract partial class VisitzPage : ContentPage
     /// <summary>
     /// Subclasses can benefit by overriding this method which gets invoked once unlike `OnAppearing`
     /// </summary>
-    protected abstract void OnLoad();
+    protected virtual void OnLoad() { }
 }
