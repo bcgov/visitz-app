@@ -46,7 +46,6 @@ public abstract partial class VisitzPage : ContentPage
         {
             SubscribeToWindow(CurrentWindow);
             ViewModel.PageStarted();
-            OnLoad();
             HasAppeared = true;
         }
     }
@@ -56,9 +55,4 @@ public abstract partial class VisitzPage : ContentPage
         base.OnDisappearing();
         UnsubscribeFromWindow(CurrentWindow);
     }
-
-    /// <summary>
-    /// Subclasses can benefit by overriding this method which gets invoked once unlike `OnAppearing`
-    /// </summary>
-    protected virtual void OnLoad() { }
 }
