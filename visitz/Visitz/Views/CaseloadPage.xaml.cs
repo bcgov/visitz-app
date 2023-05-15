@@ -19,7 +19,6 @@ public partial class CaseloadPage : VisitzPage
 
     protected override void OnLoad()
     {
-        base.OnLoad();
         viewModel.FetchCasesAndIncidents();
         ListenToViewModelProperties();
     }
