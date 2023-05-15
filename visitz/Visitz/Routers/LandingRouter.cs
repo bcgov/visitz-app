@@ -29,7 +29,7 @@ namespace Visitz.Routers
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                ((AppShell)Shell.Current).GoToAsyncRequest(routeStr);
+                ((VisitzShell)Shell.Current).GoToAsyncRequest(routeStr);
             });
         }
 

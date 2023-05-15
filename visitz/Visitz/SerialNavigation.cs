@@ -4,7 +4,7 @@
     /// A work around implementation that prevents the navigation collision and the subsequent crash.
     /// The implementation queues the navigation requests and works in a FIFO manner.
     /// </summary>
-    public partial class AppShell : Shell
+    public partial class VisitzShell : Shell
     {
         bool isNavigating;
         readonly List<NavigationRequest> navigationRequests = new();

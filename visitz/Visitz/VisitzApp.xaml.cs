@@ -6,7 +6,7 @@ public partial class VisitzApp : Application
     {
         InitializeComponent();
 
-        MainPage = new AppShell();
+        MainPage = new VisitzShell();
     }
 }
 

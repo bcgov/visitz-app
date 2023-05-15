@@ -45,7 +45,7 @@ namespace Visitz.Routers
 
         private void navigateBack()
         {
-            ((AppShell)Shell.Current).
+            ((VisitzShell)Shell.Current).
                         GoToAsyncRequest($"..?navigatingBackFromPage={nameof(DeviceAuthenticationPage)}");
         }
     }
