@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Visitz.Routers;
 using Visitz.Services;
 
 namespace Visitz.ViewModels
@@ -8,15 +8,19 @@ namespace Visitz.ViewModels
     /// </summary>
 	public class DeviceAuthenticationViewModel : VisitzViewModel
     {
+        DeviceAuthenticationRouter router;
         DeviceAuthenticator authenticator;
-        public DeviceAuthenticationViewModel(DeviceAuthenticator authenticator)
+
+        public DeviceAuthenticationViewModel(DeviceAuthenticationRouter router, DeviceAuthenticator authenticator)
         {
+            this.router = router;
             this.authenticator = authenticator;
         }
 
         public override async void PageStarted()
         {
-            return await authenticator.Authenticate();
+            DeviceAuthenticator.Result result = await authenticator.Authenticate();
+            router.RouteUsing(result);
         }
     }
 }
