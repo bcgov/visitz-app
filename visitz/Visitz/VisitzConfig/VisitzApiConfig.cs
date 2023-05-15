@@ -1,7 +1,6 @@
 ﻿using Visitz.Services.Networking;
 using Visitz.Settings;
 using VisitzApi;
-using Microsoft.Extensions.Configuration;
 
 namespace Visitz.VisitzConfig
 {

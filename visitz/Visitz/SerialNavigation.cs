@@ -1,5 +1,4 @@
-﻿using System;
-namespace Visitz
+﻿namespace Visitz
 {
     /// <summary>
     /// A work around implementation that prevents the navigation collision and the subsequent crash.

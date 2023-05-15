@@ -1,6 +1,5 @@
 ﻿using Visitz.Services.Authentication;
 using Visitz.Settings;
-using Microsoft.Extensions.Configuration;
 
 namespace Visitz.VisitzConfig
 {
