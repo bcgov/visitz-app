@@ -8,7 +8,7 @@ public partial class LandingPage : VisitzPage
     LandingRouter router;
     LandingViewModel viewModel;
 
-    public LandingPage(LandingViewModel viewModel, LandingRouter router)
+    public LandingPage(LandingViewModel viewModel, LandingRouter router) : base(viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;

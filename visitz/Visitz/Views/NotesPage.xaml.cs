@@ -8,7 +8,7 @@ public partial class NotesPage : Visitz.Views.VisitzPage
 	private NotesViewModel viewModel;
 	private NotesRouter router;
 
-    public NotesPage(NotesViewModel viewModel, NotesRouter router)
+    public NotesPage(NotesViewModel viewModel, NotesRouter router) : base(viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
