@@ -16,6 +16,10 @@ namespace Visitz.ViewModels
 
         public bool IsNotBusy => !IsBusy;
 
+        public virtual void PageCreated() { }
+
+        public virtual void PageStarted() { }
+
         public void SubscribeToWindow(Window window)
         {
             if (window == null)
@@ -36,10 +40,6 @@ namespace Visitz.ViewModels
         {
             PageStarted();
         }
-
-        public virtual void PageCreated() { }
-
-        public virtual void PageStarted() { }
     }
 }
 
