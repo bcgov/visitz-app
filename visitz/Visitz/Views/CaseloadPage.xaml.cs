@@ -9,7 +9,7 @@ public partial class CaseloadPage : VisitzPage
     private CaseloadViewModel viewModel;
     private CaseloadRouter router;
 
-    public CaseloadPage(CaseloadViewModel viewModel, CaseloadRouter router)
+    public CaseloadPage(CaseloadViewModel viewModel, CaseloadRouter router) : base(viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
