@@ -1,10 +1,9 @@
 ﻿namespace Visitz;
 
-public partial class AppShell : Shell
+public partial class VisitzShell : Shell
 {
-    public AppShell()
+    public VisitzShell()
     {
         InitializeComponent();
     }
 }
-
