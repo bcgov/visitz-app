@@ -45,6 +45,7 @@ public abstract partial class VisitzPage : ContentPage
         if (!HasAppeared)
         {
             SubscribeToWindow(CurrentWindow);
+            ViewModel.PageCreated();
             ViewModel.PageStarted();
             HasAppeared = true;
         }
