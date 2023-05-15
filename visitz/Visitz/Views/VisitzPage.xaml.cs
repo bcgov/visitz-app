@@ -4,7 +4,7 @@ namespace Visitz.Views;
 
 public abstract partial class VisitzPage : ContentPage 
 {
-    protected bool DidViewAppear;
+    protected bool HasAppeared;
 
     protected VisitzViewModel ViewModel { get; set; }
 
@@ -42,13 +42,13 @@ public abstract partial class VisitzPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        if (!DidViewAppear)
+        if (!HasAppeared)
         {
             SubscribeToWindow(CurrentWindow);
             ViewModel.PageStarted();
             OnLoad();
+            HasAppeared = true;
         }
-        DidViewAppear = true;
     }
 
     protected override void OnDisappearing()
