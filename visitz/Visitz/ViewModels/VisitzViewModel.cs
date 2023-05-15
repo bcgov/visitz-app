@@ -19,6 +19,12 @@ namespace Visitz.ViewModels
 
         public bool IsNotBusy => !IsBusy;
 
+        protected static async Task NavigateTo(Type page)
+        {
+            Routing.RegisterRoute(page.Name, page);
+            await Shell.Current.GoToAsync(page.Name);
+        }
+
         public virtual void PageCreated() { }
 
         public virtual void PageStarted() { }
