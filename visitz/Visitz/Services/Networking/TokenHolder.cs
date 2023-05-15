@@ -1,5 +1,4 @@
-﻿using System;
-namespace Visitz.Services.Networking
+﻿namespace Visitz.Services.Networking
 {
     public class TokenHolder
     {
