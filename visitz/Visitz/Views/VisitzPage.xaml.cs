@@ -17,36 +17,39 @@ public abstract partial class VisitzPage : ContentPage
 
     public void SubscribeToWindow(Window window)
     {
-        if (window != null)
-        {
-            window.Created += ViewModel.Window_Created;
-            window.Activated += ViewModel.Window_Activated;
-            window.Deactivated += ViewModel.Window_Deactivated;
-            window.Stopped += ViewModel.Window_Stopped;
-            window.Resumed += ViewModel.Window_Resumed;
-        }
+        if (window == null)
+            return;
+
+        window.Created += ViewModel.Window_Created;
+        window.Activated += ViewModel.Window_Activated;
+        window.Deactivated += ViewModel.Window_Deactivated;
+        window.Stopped += ViewModel.Window_Stopped;
+        window.Resumed += ViewModel.Window_Resumed;
     }
 
     public void UnsubscribeFromWindow(Window window)
     {
-        if (window != null)
-        {
-            window.Created -= ViewModel.Window_Created;
-            window.Activated -= ViewModel.Window_Activated;
-            window.Deactivated -= ViewModel.Window_Deactivated;
-            window.Stopped -= ViewModel.Window_Stopped;
-            window.Resumed -= ViewModel.Window_Resumed;
-        }
+        if (window == null)
+            return;
+        
+        window.Created -= ViewModel.Window_Created;
+        window.Activated -= ViewModel.Window_Activated;
+        window.Deactivated -= ViewModel.Window_Deactivated;
+        window.Stopped -= ViewModel.Window_Stopped;
+        window.Resumed -= ViewModel.Window_Resumed;
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
         if (!HasAppeared)
         {
             SubscribeToWindow(CurrentWindow);
+
             ViewModel.PageCreated();
             ViewModel.PageStarted();
+
             HasAppeared = true;
         }
     }
@@ -54,6 +57,7 @@ public abstract partial class VisitzPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+
         UnsubscribeFromWindow(CurrentWindow);
     }
 }
