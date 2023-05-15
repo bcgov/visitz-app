@@ -1,10 +1,9 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using Visitz.Models.BOs;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
+using Visitz.Routers;
 
 namespace Visitz.ViewModels
 {
@@ -18,18 +17,26 @@ namespace Visitz.ViewModels
 
         public ObservableCollection<NoteItem> Notes { get; set; } = new();
 
-        private readonly Vpi visitzApi;
+        NotesRouter Router { get; }
 
-        public NotesViewModel(Vpi visitzApi)
+        private Vpi Vpi { get; }
+
+        public NotesViewModel(NotesRouter router, Vpi visitzApi)
         {
-            this.visitzApi = visitzApi;
+            Router = router;
+            Vpi = visitzApi;
+        }
+
+        public override void PageCreated()
+        {
+            FetchNotes();
         }
 
         public async void FetchNotes()
         {
             try
             {
-                var notesList = await visitzApi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
+                var notesList = await Vpi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
 
                 Notes.Clear();
 
@@ -46,6 +53,11 @@ namespace Visitz.ViewModels
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             CaseIncident = query["caseIncident"] as CaseloadItem;
+        }
+
+        public void CaseDetailsTapped()
+        {
+            Router.RouteUsing(CaseIncident);
         }
     }
 }
