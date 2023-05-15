@@ -1,5 +1,4 @@
-﻿using System;
-using Visitz.Routers;
+﻿using Visitz.Routers;
 using Visitz.Views;
 
 namespace Visitz.ViewModels
@@ -11,6 +10,8 @@ namespace Visitz.ViewModels
     [QueryProperty(nameof(BackFromPage), "navigatingBackFromPage")]
     public class LandingViewModel : VisitzViewModel
     {
+        LandingRouter Router { get; }
+
         bool IsDeviceAuthenticationDone;
         bool IsOpenIdAuthenticationDone;
 
@@ -35,6 +36,11 @@ namespace Visitz.ViewModels
             }
         }
 
+        public LandingViewModel(LandingRouter router)
+        {
+            Router = router;
+        }
+
         public LandingRouter.Route SolveRoute()
         {
             if (IsDeviceAuthenticationDone)
@@ -46,6 +52,28 @@ namespace Visitz.ViewModels
             {
                 return LandingRouter.Route.DeviceAuthentication;
             }
+        }
+
+        public override void PageCreated()
+        {
+            PropertyChanged += LandingViewModel_PropertyChanged;
+        }
+
+        public override void PageStarted()
+        {
+            TriggerRouteUpdate();
+        }
+
+        private void LandingViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName.Equals(nameof(BackFromPage)))
+                TriggerRouteUpdate();
+        }
+
+        void TriggerRouteUpdate()
+        {
+            LandingRouter.Route solvedRoute = SolveRoute();
+            Router.RouteTo(solvedRoute);
         }
     }
 }
