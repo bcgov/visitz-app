@@ -4,10 +4,7 @@ public abstract partial class VisitzPage : ContentPage
 {
     protected bool DidViewAppear;
 
-    public VisitzPage() : base()
-    {
-        InitializeComponent();
-    }
+    public VisitzPage() : base() {}
 
     protected override void OnAppearing()
     {
