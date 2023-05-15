@@ -43,6 +43,7 @@ public abstract partial class VisitzPage : ContentPage
         if (!DidViewAppear)
         {
             SubscribeToWindow(Window ?? GetParentWindow());
+            ViewModel.PageStarted();
             OnLoad();
         }
         DidViewAppear = true;

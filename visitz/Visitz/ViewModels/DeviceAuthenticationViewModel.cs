@@ -14,7 +14,7 @@ namespace Visitz.ViewModels
             this.authenticator = authenticator;
         }
 
-        public async Task<DeviceAuthenticator.Result> Authenticate()
+        public override async void PageStarted()
         {
             return await authenticator.Authenticate();
         }

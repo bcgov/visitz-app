@@ -31,11 +31,14 @@ namespace Visitz.ViewModels
 
         public void Window_Resumed(object sender, EventArgs e)
         {
+            PageStarted();
         }
 
         public void Window_Stopped(object sender, EventArgs e)
         {
         }
+
+        public virtual void PageStarted() { }
     }
 }
 
