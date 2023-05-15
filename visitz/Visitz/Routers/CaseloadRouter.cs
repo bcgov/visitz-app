@@ -20,7 +20,7 @@ namespace Visitz.Routers
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 var navigationParameter = new Dictionary<string, object> { { "caseIncident", bo } };
-                ((AppShell)Shell.Current).GoToAsyncRequest(nameof(NotesPage), parameters: navigationParameter);
+                ((VisitzShell)Shell.Current).GoToAsyncRequest(nameof(NotesPage), parameters: navigationParameter);
             });
         }
     }

@@ -27,7 +27,7 @@ namespace Visitz.Routers
                 }
                 else
                 {
-                    ((AppShell)Shell.Current).
+                    ((VisitzShell)Shell.Current).
                         GoToAsyncRequest($"..?navigatingBackFromPage={nameof(OpenIdAuthenticationPage)}");
                 }
             });
