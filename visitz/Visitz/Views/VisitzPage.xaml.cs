@@ -8,6 +8,8 @@ public abstract partial class VisitzPage : ContentPage
 
     protected VisitzViewModel ViewModel { get; set; }
 
+    protected Window CurrentWindow => Window ?? GetParentWindow();
+
     public VisitzPage(VisitzViewModel visitzViewModel) : base()
     {
         ViewModel = visitzViewModel;
@@ -42,7 +44,7 @@ public abstract partial class VisitzPage : ContentPage
         base.OnAppearing();
         if (!DidViewAppear)
         {
-            SubscribeToWindow(Window ?? GetParentWindow());
+            SubscribeToWindow(CurrentWindow);
             ViewModel.PageStarted();
             OnLoad();
         }
@@ -52,7 +54,7 @@ public abstract partial class VisitzPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        UnsubscribeFromWindow(Window ?? GetParentWindow());
+        UnsubscribeFromWindow(CurrentWindow);
     }
 
     /// <summary>
