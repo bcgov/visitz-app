@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using VisitzApi;
 using Visitz.Models.BOs;
 using VisitzApi.ErrorHandling;
+using System.ComponentModel;
+using Visitz.Routers;
 
 namespace Visitz.ViewModels
 {
@@ -17,19 +19,40 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public CaseloadItem selectedCaseIncident;
 
-        private readonly Vpi visitzApi;
+        private Vpi Vpi { get; }
 
-        public CaseloadViewModel(Vpi visitzApi)
+        private CaseloadRouter Router { get; }
+
+        public CaseloadViewModel(CaseloadRouter router, Vpi visitzApi)
         {
-            this.visitzApi = visitzApi;
+            Vpi = visitzApi;
+            Router = router;
         }
 
-        public async void FetchCasesAndIncidents()
+        public override async void PageCreated()
+        {
+            PropertyChanged += CaseloadViewModel_PropertyChanged;
+            await FetchCasesAndIncidents();
+        }
+
+        private void CaseloadViewModel_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName.Equals(nameof(SelectedCaseIncident)))
+                if (SelectedCaseIncident is not null)
+                    TriggerRouteUpdate(SelectedCaseIncident);
+        }
+
+        private void TriggerRouteUpdate(CaseloadItem caseIncident)
+        {
+            Router.RouteUsing(caseIncident);
+        }
+
+        public async Task FetchCasesAndIncidents()
         {
             try
             {
                 // TODO: Worker ID should be collected from current JWT Access Token field "idir_username"
-                var caseloadContent = await visitzApi.GetCaseloadAsync("CGWRK68");
+                var caseloadContent = await Vpi.GetCaseloadAsync("CGWRK68");
 
                 Caseload.Clear();
 
