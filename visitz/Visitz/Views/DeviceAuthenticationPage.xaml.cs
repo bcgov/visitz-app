@@ -18,7 +18,6 @@ public partial class DeviceAuthenticationPage : VisitzPage
 
     protected override async void OnLoad()
     {
-        base.OnLoad();
         DeviceAuthenticator.Result result = await viewModel.Authenticate();
         router.RouteUsing(result);
     }

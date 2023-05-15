@@ -18,7 +18,6 @@ public partial class OpenIdAuthenticationPage : VisitzPage
 
     protected override async void OnLoad()
     {
-        base.OnLoad();
         OpenIdAuthenticationViewModel.Result result = await viewModel.Authenticate();
         router.routeUsing(result);
     }
