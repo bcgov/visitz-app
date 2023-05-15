@@ -8,7 +8,7 @@ public partial class DeviceAuthenticationPage : VisitzPage
     DeviceAuthenticationViewModel viewModel;
     DeviceAuthenticationRouter router;
 
-    public DeviceAuthenticationPage(DeviceAuthenticationViewModel viewModel, DeviceAuthenticationRouter router)
+    public DeviceAuthenticationPage(DeviceAuthenticationViewModel viewModel, DeviceAuthenticationRouter router) : base(viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
