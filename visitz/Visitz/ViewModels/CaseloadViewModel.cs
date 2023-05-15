@@ -6,6 +6,7 @@ using Visitz.Models.BOs;
 using VisitzApi.ErrorHandling;
 using System.ComponentModel;
 using Visitz.Routers;
+using Visitz.Services.Networking;
 
 namespace Visitz.ViewModels
 {
@@ -29,10 +30,16 @@ namespace Visitz.ViewModels
             Router = router;
         }
 
-        public override async void PageCreated()
+        public override void PageCreated()
         {
             PropertyChanged += CaseloadViewModel_PropertyChanged;
-            await FetchCasesAndIncidents();
+        }
+
+        public override async void PageStarted()
+        {
+            // TODO: Do a proper Token check here: Is access_token expired, is refresh_token expired?
+            if (TokenHolder.AccessToken != null)
+                await FetchCasesAndIncidents();
         }
 
         private void CaseloadViewModel_PropertyChanged(object sender, PropertyChangedEventArgs args)
