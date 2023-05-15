@@ -38,6 +38,8 @@ namespace Visitz.ViewModels
         {
         }
 
+        public virtual void PageCreated() { }
+
         public virtual void PageStarted() { }
     }
 }
