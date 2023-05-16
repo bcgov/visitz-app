@@ -6,13 +6,13 @@ namespace Visitz.ViewModels
 {
 	public class AppLockViewModel : VisitzViewModel
     {
-        DeviceAuthenticator authenticator;
+        private DeviceAuthenticator Authenticator { get; }
 
         public AppLockPage Page => (AppLockPage)VisitzPage;
 
         public AppLockViewModel(DeviceAuthenticator authenticator)
         {
-            this.authenticator = authenticator;
+            Authenticator = authenticator;
         }
 
         public override async void PageStarted()
@@ -22,7 +22,7 @@ namespace Visitz.ViewModels
 
         private async Task PromptAuthentication()
         {
-            DeviceAuthenticator.Result result = await authenticator.Authenticate();
+            DeviceAuthenticator.Result result = await Authenticator.Authenticate();
             await RouteUsing(result);
         }
 
