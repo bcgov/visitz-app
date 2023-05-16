@@ -156,7 +156,7 @@
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Compile Update="VisitzShell.xaml.cs">
+	  <Compile Update="Views\VisitzShell.xaml.cs">
 	    <DependentUpon>VisitzShell.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\AppLockPage.xaml.cs">
