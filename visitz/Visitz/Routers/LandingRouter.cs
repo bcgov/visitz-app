@@ -18,8 +18,8 @@ namespace Visitz.Routers
                     routeStr = nameof(AppLockPage);
                     break;
                 case Route.OpenIdAuthentication:
-                    Routing.RegisterRoute(nameof(OpenIdAuthenticationPage), typeof(OpenIdAuthenticationPage));
-                    routeStr = nameof(OpenIdAuthenticationPage);
+                    Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+                    routeStr = nameof(LoginPage);
                     break;
                 case Route.CasesAndIncidents:
                     Routing.RegisterRoute(nameof(CaseloadPage), typeof(CaseloadPage));
@@ -36,7 +36,7 @@ namespace Visitz.Routers
         void UnRegisterRoutes()
         {
             Routing.UnRegisterRoute(nameof(AppLockPage));
-            Routing.UnRegisterRoute(nameof(OpenIdAuthenticationPage));
+            Routing.UnRegisterRoute(nameof(LoginPage));
             Routing.UnRegisterRoute(nameof(CaseloadPage));
         }
 
