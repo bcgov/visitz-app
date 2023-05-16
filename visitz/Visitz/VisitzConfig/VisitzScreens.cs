@@ -14,8 +14,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddSingleton<LandingViewModel>();
 
             builder.Services.AddTransient<DeviceAuthenticator>();
-            builder.Services.AddTransient<DeviceAuthenticationPage>();
-            builder.Services.AddTransient<DeviceAuthenticationViewModel>();
+            builder.Services.AddTransient<AppLockPage>();
+            builder.Services.AddTransient<AppLockViewModel>();
 
             builder.Services.AddTransient<OpenIdAuthenticationRouter>();
             builder.Services.AddTransient<OpenIdAuthenticationPage>();
