@@ -9,10 +9,6 @@ namespace Visitz.VisitzConfig
     {
         public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
         {
-            builder.Services.AddSingleton<LandingPage>();
-            builder.Services.AddSingleton<LandingRouter>();
-            builder.Services.AddSingleton<LandingViewModel>();
-
             builder.Services.AddTransient<DeviceAuthenticator>();
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
