@@ -23,7 +23,7 @@ namespace Visitz.ViewModels
             {
                 page = value;
                 // Naviagtes back once the device authentication is successful.
-                if (page.Equals(nameof(DeviceAuthenticationPage)))
+                if (page.Equals(nameof(AppLockPage)))
                 {
                     IsDeviceAuthenticationDone = true;
                 }

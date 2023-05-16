@@ -5,13 +5,13 @@ using Visitz.Views;
 
 namespace Visitz.ViewModels
 {
-	public class DeviceAuthenticationViewModel : VisitzViewModel
+	public class AppLockViewModel : VisitzViewModel
     {
         DeviceAuthenticator authenticator;
 
-        public DeviceAuthenticationPage Page => (DeviceAuthenticationPage)VisitzPage;
+        public AppLockPage Page => (AppLockPage)VisitzPage;
 
-        public DeviceAuthenticationViewModel(DeviceAuthenticator authenticator)
+        public AppLockViewModel(DeviceAuthenticator authenticator)
         {
             this.authenticator = authenticator;
         }

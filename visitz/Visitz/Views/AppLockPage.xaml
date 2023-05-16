@@ -4,8 +4,8 @@
              xmlns:views="clr-namespace:Visitz.Views"
              xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
              xmlns:local="clr-namespace:Visitz.Services.Localization"
-             x:Class="Visitz.Views.DeviceAuthenticationPage"
-             x:DataType="viewmodels:DeviceAuthenticationViewModel"
+             x:Class="Visitz.Views.AppLockPage"
+             x:DataType="viewmodels:AppLockViewModel"
              Title=""
              BackgroundColor="#003366">
 

@@ -14,8 +14,8 @@ namespace Visitz.Routers
             switch (route)
             {
                 case Route.DeviceAuthentication:
-                    Routing.RegisterRoute(nameof(DeviceAuthenticationPage), typeof(DeviceAuthenticationPage));
-                    routeStr = nameof(DeviceAuthenticationPage);
+                    Routing.RegisterRoute(nameof(AppLockPage), typeof(AppLockPage));
+                    routeStr = nameof(AppLockPage);
                     break;
                 case Route.OpenIdAuthentication:
                     Routing.RegisterRoute(nameof(OpenIdAuthenticationPage), typeof(OpenIdAuthenticationPage));
@@ -35,7 +35,7 @@ namespace Visitz.Routers
 
         void UnRegisterRoutes()
         {
-            Routing.UnRegisterRoute(nameof(DeviceAuthenticationPage));
+            Routing.UnRegisterRoute(nameof(AppLockPage));
             Routing.UnRegisterRoute(nameof(OpenIdAuthenticationPage));
             Routing.UnRegisterRoute(nameof(CaseloadPage));
         }
