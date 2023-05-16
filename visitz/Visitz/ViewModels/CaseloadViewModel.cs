@@ -5,8 +5,8 @@ using VisitzApi;
 using Visitz.Models.BOs;
 using VisitzApi.ErrorHandling;
 using System.ComponentModel;
-using Visitz.Routers;
 using Visitz.Services.Networking;
+using Visitz.Views;
 
 namespace Visitz.ViewModels
 {
@@ -22,12 +22,9 @@ namespace Visitz.ViewModels
 
         private Vpi Vpi { get; }
 
-        private CaseloadRouter Router { get; }
-
-        public CaseloadViewModel(CaseloadRouter router, Vpi visitzApi)
+        public CaseloadViewModel(Vpi visitzApi)
         {
             Vpi = visitzApi;
-            Router = router;
         }
 
         public override void PageCreated()
@@ -42,16 +39,19 @@ namespace Visitz.ViewModels
                 await FetchCasesAndIncidents();
         }
 
-        private void CaseloadViewModel_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        private async void CaseloadViewModel_PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             if (args.PropertyName.Equals(nameof(SelectedCaseIncident)))
                 if (SelectedCaseIncident is not null)
-                    TriggerRouteUpdate(SelectedCaseIncident);
+                    await NavigateToNotesPage(SelectedCaseIncident);
         }
 
-        private void TriggerRouteUpdate(CaseloadItem caseIncident)
+        private async Task NavigateToNotesPage(CaseloadItem caseIncident)
         {
-            Router.RouteUsing(caseIncident);
+            await NavigateTo(typeof(NotesPage), new Dictionary<string, object> 
+            { 
+                { "caseIncident", caseIncident } 
+            });
         }
 
         public async Task FetchCasesAndIncidents()
