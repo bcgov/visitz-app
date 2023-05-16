@@ -16,7 +16,6 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<LoginViewModel>();
 
-            builder.Services.AddSingleton<CaseloadRouter>();
             builder.Services.AddSingleton<CaseloadPage>();
             builder.Services.AddSingleton<CaseloadViewModel>();
 
