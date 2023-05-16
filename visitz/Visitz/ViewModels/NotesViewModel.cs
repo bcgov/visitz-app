@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using Visitz.Models.BOs;
+using Visitz.Views;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
-using Visitz.Routers;
 
 namespace Visitz.ViewModels
 {
@@ -17,13 +17,10 @@ namespace Visitz.ViewModels
 
         public ObservableCollection<NoteItem> Notes { get; set; } = new();
 
-        NotesRouter Router { get; }
-
         private Vpi Vpi { get; }
 
-        public NotesViewModel(NotesRouter router, Vpi visitzApi)
+        public NotesViewModel(Vpi visitzApi)
         {
-            Router = router;
             Vpi = visitzApi;
         }
 
@@ -55,9 +52,17 @@ namespace Visitz.ViewModels
             CaseIncident = query["caseIncident"] as CaseloadItem;
         }
 
-        public void CaseDetailsTapped()
+        public async Task CaseDetailsTapped()
         {
-            Router.RouteUsing(CaseIncident);
+            await NavigateToCaseIncidentDetailsPage(CaseIncident);
+        }
+
+        private async Task NavigateToCaseIncidentDetailsPage(CaseloadItem caseloadItem)
+        {
+            await NavigateTo(typeof(CaseIncidentDetailsPage), new Dictionary<string, object> 
+            { 
+                { "caseIncident", caseloadItem }
+            });
         }
     }
 }
