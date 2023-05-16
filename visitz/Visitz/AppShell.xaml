@@ -9,7 +9,7 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate views:DeviceAuthenticationPage}"
+        ContentTemplate="{DataTemplate views:AppLockPage}"
         Route="LandingPage" />
 
 </Shell>
