@@ -22,8 +22,8 @@
         <Image Source="bc_logo_text.png" HorizontalOptions="Start" Margin="20,0,0,0" />
 
         <CollectionView
-                        ItemsSource="{Binding Caseload}"
-                        SelectionMode="None" Grid.Row="1">
+            ItemsSource="{Binding Caseload}"
+            SelectionMode="None" Grid.Row="1">
             <CollectionView.EmptyView>
                 <Grid>
                     <Image
@@ -37,14 +37,14 @@
                 <DataTemplate x:DataType="models:CaseloadItem">
                     <VerticalStackLayout Padding="20,0,20,0" Margin="0,10,0,0">
                         <Border  
-                        Stroke="#DFDFE1"
-                        StrokeThickness="2"
-                        Padding="20,20"
-                        HorizontalOptions="Fill">
+                            Stroke="#DFDFE1"
+                            StrokeThickness="2"
+                            Padding="20,20"
+                            HorizontalOptions="Fill">
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer 
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=GoToNotesCommand}"
-                                                CommandParameter="{Binding .}"/>
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=GoToNotesCommand}"
+                                    CommandParameter="{Binding .}"/>
                             </Border.GestureRecognizers>
 
                             <Border.StrokeShape>
@@ -59,19 +59,19 @@
                                 <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
                                     <HorizontalStackLayout>
                                         <Label 
-                                        Text="{Binding DisplayName}"
-                                        FontSize="17"
-                                        FontFamily="BCSansBold"
-                                        TextColor="#131315"
-                                        Padding="0,10,0,0"
-                                        />
+                                            Text="{Binding DisplayName}"
+                                            FontSize="17"
+                                            FontFamily="BCSansBold"
+                                            TextColor="#131315"
+                                            Padding="0,10,0,0"
+                                            />
 
                                         <Label 
-                                        Text="{Binding CaseIncidentNumber}"
-                                        FontSize="17"
-                                        FontFamily="BCSansRegular"
-                                        Padding="10,10,0,0"
-                                        />
+                                            Text="{Binding CaseIncidentNumber}"
+                                            FontSize="17"
+                                            FontFamily="BCSansRegular"
+                                            Padding="10,10,0,0"
+                                            />
                                     </HorizontalStackLayout>
 
                                     <HorizontalStackLayout>
@@ -84,12 +84,12 @@
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
                                     <HorizontalStackLayout HorizontalOptions="End">
                                         <Label 
-                                    Text="{Binding DisplayDate, StringFormat='Open date: {0}'}"
-                                    TextColor="#606060"
-                                    FontSize="12"
-                                    FontFamily="BCSansRegular"
-                                    VerticalOptions="Center"
-                                    />
+                                            Text="{Binding DisplayDate, StringFormat='Open date: {0}'}"
+                                            TextColor="#606060"
+                                            FontSize="12"
+                                            FontFamily="BCSansRegular"
+                                            VerticalOptions="Center"
+                                            />
                                         <Image Source="chevron_right" Margin="25,0,0,0" />
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
