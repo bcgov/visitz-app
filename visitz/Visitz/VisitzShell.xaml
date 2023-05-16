@@ -9,8 +9,8 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate views:AppLockPage}"
-        Route="AppLockPage" />
+        ContentTemplate="{DataTemplate views:CaseloadPage}"
+        Route="CaseloadPage" />
 
 </Shell>
 
