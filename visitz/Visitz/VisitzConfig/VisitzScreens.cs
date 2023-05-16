@@ -17,7 +17,6 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
 
-            builder.Services.AddTransient<OpenIdAuthenticationRouter>();
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<LoginViewModel>();
 

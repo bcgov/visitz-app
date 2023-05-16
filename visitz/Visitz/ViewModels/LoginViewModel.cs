@@ -1,6 +1,7 @@
 ﻿using Visitz.Services.Authentication;
 using Visitz.Services.Networking;
-using Visitz.Routers;
+using Visitz.Views;
+using Visitz.Resources.Localization;
 
 namespace Visitz.ViewModels
 {
@@ -9,20 +10,30 @@ namespace Visitz.ViewModels
     /// </summary>
 	public class LoginViewModel : VisitzViewModel
     {
-        private OpenIdAuthenticationRouter Router { get; }
-
         private AuthenticationClient AuthClient { get; }
 
-        public LoginViewModel(OpenIdAuthenticationRouter router, AuthenticationClient authClient)
+        public LoginViewModel(AuthenticationClient authClient)
         {
-            Router = router;
             AuthClient = authClient;
         }
 
         public async override void PageStarted()
         {
             Result result = await Authenticate();
-            Router.routeUsing(result);
+            await RouteUsing(result);
+        }
+
+        public async Task RouteUsing(Result result)
+        {
+            if (result.IsError)
+                // TODO: Show this error using UI instead of an alert
+                await Shell.Current.DisplayAlert(
+                    LocalizedStrings.LoginError,
+                    result.ErrorDescription,
+                    LocalizedStrings.Ok
+                );
+            else
+                await NavigateTo(typeof(CaseloadPage));
         }
 
         public async Task<Result> Authenticate()
