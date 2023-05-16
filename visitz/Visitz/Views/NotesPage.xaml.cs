@@ -1,5 +1,4 @@
 ﻿using Visitz.ViewModels;
-using Visitz.Routers;
 
 namespace Visitz.Views;
 
@@ -11,9 +10,9 @@ public partial class NotesPage : VisitzPage
 		BindingContext = viewModel;
     }
 
-    void CaseDetailsTapped(object sender, EventArgs e)
+    async void CaseDetailsTapped(object sender, EventArgs e)
     {
         if (ViewModel is NotesViewModel notesVm)
-            notesVm.CaseDetailsTapped();
+            await notesVm.CaseDetailsTapped();
     }
 }
