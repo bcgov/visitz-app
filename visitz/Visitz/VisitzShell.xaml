@@ -10,7 +10,7 @@
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate views:AppLockPage}"
-        Route="LandingPage" />
+        Route="AppLockPage" />
 
 </Shell>
 
