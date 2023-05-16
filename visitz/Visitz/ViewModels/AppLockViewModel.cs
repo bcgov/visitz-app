@@ -1,5 +1,4 @@
 ﻿using Visitz.Resources.Localization;
-using Visitz.Routers;
 using Visitz.Services;
 using Visitz.Views;
 
