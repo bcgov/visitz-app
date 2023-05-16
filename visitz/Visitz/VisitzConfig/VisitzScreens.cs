@@ -18,8 +18,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<AppLockViewModel>();
 
             builder.Services.AddTransient<OpenIdAuthenticationRouter>();
-            builder.Services.AddTransient<OpenIdAuthenticationPage>();
-            builder.Services.AddTransient<OpenIdAuthenticationViewModel>();
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<LoginViewModel>();
 
             builder.Services.AddTransient<CaseloadRouter>();
             builder.Services.AddTransient<CaseloadPage>();

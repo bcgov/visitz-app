@@ -4,8 +4,8 @@
              xmlns:views="clr-namespace:Visitz.Views"
              xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
              xmlns:local="clr-namespace:Visitz.Services.Localization"
-             x:Class="Visitz.Views.OpenIdAuthenticationPage"
-             x:DataType="viewmodels:OpenIdAuthenticationViewModel"
+             x:Class="Visitz.Views.LoginPage"
+             x:DataType="viewmodels:LoginViewModel"
              Title=""
              BackgroundColor="#003366">
 
