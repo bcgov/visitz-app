@@ -16,7 +16,7 @@ namespace Visitz.Routers
             _localizer = localizer;
         }
 
-        public void routeUsing(OpenIdAuthenticationViewModel.Result result)
+        public void routeUsing(LoginViewModel.Result result)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -28,7 +28,7 @@ namespace Visitz.Routers
                 else
                 {
                     ((VisitzShell)Shell.Current).
-                        GoToAsyncRequest($"..?navigatingBackFromPage={nameof(OpenIdAuthenticationPage)}");
+                        GoToAsyncRequest($"..?navigatingBackFromPage={nameof(LoginPage)}");
                 }
             });
         }
