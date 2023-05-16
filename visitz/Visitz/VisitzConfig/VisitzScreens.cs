@@ -1,5 +1,4 @@
-﻿using Visitz.Routers;
-using Visitz.Services;
+﻿using Visitz.Services;
 using Visitz.ViewModels;
 using Visitz.Views;
 
@@ -19,7 +18,6 @@ namespace Visitz.VisitzConfig
             builder.Services.AddSingleton<CaseloadPage>();
             builder.Services.AddSingleton<CaseloadViewModel>();
 
-            builder.Services.AddTransient<NotesRouter>();
             builder.Services.AddTransient<NotesPage>();
             builder.Services.AddTransient<NotesViewModel>();
 
