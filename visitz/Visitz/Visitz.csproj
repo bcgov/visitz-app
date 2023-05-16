@@ -101,7 +101,6 @@
 	  <Folder Include="Services\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
-	  <Folder Include="Routers\" />
 	  <Folder Include="Services\Authentication\" />
 	  <Folder Include="Services\Networking\" />
 	  <Folder Include="Models\" />
