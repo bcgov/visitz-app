@@ -7,13 +7,13 @@ namespace Visitz.ViewModels
     /// <summary>
     /// The OAuth login process is managed by this class.
     /// </summary>
-	public class OpenIdAuthenticationViewModel : VisitzViewModel
+	public class LoginViewModel : VisitzViewModel
     {
         private OpenIdAuthenticationRouter Router { get; }
 
         private AuthenticationClient AuthClient { get; }
 
-        public OpenIdAuthenticationViewModel(OpenIdAuthenticationRouter router, AuthenticationClient authClient)
+        public LoginViewModel(OpenIdAuthenticationRouter router, AuthenticationClient authClient)
         {
             Router = router;
             AuthClient = authClient;

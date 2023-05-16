@@ -28,7 +28,7 @@ namespace Visitz.ViewModels
                     IsDeviceAuthenticationDone = true;
                 }
                 // Naviagtes back once the OpenId authentication is successful.
-                else if (page.Equals(nameof(OpenIdAuthenticationPage)))
+                else if (page.Equals(nameof(LoginPage)))
                 {
                     IsOpenIdAuthenticationDone = true;
                 }

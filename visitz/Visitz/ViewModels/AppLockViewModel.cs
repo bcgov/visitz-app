@@ -40,7 +40,7 @@ namespace Visitz.ViewModels
                     break;
                 case DeviceAuthenticator.Result.Successful:
                     await Shell.Current.Navigation.PopAsync();
-                    await NavigateTo(typeof(OpenIdAuthenticationPage));
+                    await NavigateTo(typeof(LoginPage));
                     break;
                 case DeviceAuthenticator.Result.Failure:
                     // TODO: using dynamic visibility, show message in Page prompting for auth, show button to open auth prompt
