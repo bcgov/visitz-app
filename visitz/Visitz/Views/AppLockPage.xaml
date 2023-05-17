@@ -19,7 +19,7 @@
             <Image Source="file_folder.png" />
         </Grid>
         <Label 
-            Text="{local:Localize AuthenticationRequired}"
+            Text="{local:Localize DeviceAuthTitle}"
             VerticalOptions="Center" 
             HorizontalOptions="Center"
             HorizontalTextAlignment="Center"
@@ -30,7 +30,7 @@
             Margin="0,100,0,0" />
 
         <Label 
-            Text="{local:Localize DeviceAuthenticationDescription}"
+            Text="{local:Localize DeviceAuthReason}"
             VerticalOptions="Center" 
             HorizontalOptions="Center"
             HorizontalTextAlignment="Center"
