@@ -20,7 +20,7 @@ namespace Visitz.ViewModels
             await PromptAuthentication();
         }
 
-        private async Task PromptAuthentication()
+        public async Task PromptAuthentication()
         {
             DeviceAuthenticator.Result result = await Authenticator.Authenticate();
             await RouteUsing(result);
