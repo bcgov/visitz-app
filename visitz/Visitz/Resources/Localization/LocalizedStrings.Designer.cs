@@ -88,6 +88,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable device security.
+        /// </summary>
+        internal static string EnableDeviceSecurity {
+            get {
+                return ResourceManager.GetString("EnableDeviceSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {
@@ -97,20 +106,11 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please secure your device by setting up device lock and try again..
+        ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
         internal static string SecureDeviceAndTryAgain {
             get {
                 return ResourceManager.GetString("SecureDeviceAndTryAgain", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unprotected Device.
-        /// </summary>
-        internal static string UnprotectedDevice {
-            get {
-                return ResourceManager.GetString("UnprotectedDevice", resourceCulture);
             }
         }
         
