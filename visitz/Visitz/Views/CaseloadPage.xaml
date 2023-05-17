@@ -19,15 +19,14 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Image Source="bc_logo_text.png" HorizontalOptions="Start" Margin="20,0,0,0" />
+            <Image Source="bc_logo_text.png" HorizontalOptions="Start" Margin="20,0,0,0" />
 
         <CollectionView
             ItemsSource="{Binding Caseload}"
             SelectionMode="None" Grid.Row="1">
             <CollectionView.EmptyView>
                 <Grid>
-                    <Image
-                        Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
+                    <Image Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
                 </Grid>
             </CollectionView.EmptyView>
             <CollectionView.ItemsLayout>
