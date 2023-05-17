@@ -28,7 +28,7 @@ public partial class AppLockPage : VisitzPage
             .Services
             .GetRequiredService<AppLockPage>();
 
-        await Shell.Current.Navigation.PushModalAsync(lockPage);
+        await Shell.Current.Navigation.PushModalAsync(lockPage, false);
     }
 
     protected override bool OnBackButtonPressed()
