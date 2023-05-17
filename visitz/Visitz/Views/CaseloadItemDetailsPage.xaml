@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Visitz.Models.BOs"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
-             x:Class="Visitz.Views.CaseIncidentDetailsPage"
-             x:DataType="viewModels:CaseIncidentDetailsViewModel"
-             Title="CaseIncidentDetailsPage"
+             x:Class="Visitz.Views.CaseloadItemDetailsPage"
+             x:DataType="viewModels:CaseloadItemDetailsViewModel"
+             Title="CaseloadItemDetailsPage"
              BackgroundColor="#F3F3F5">
 
     <Grid>
