@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:VisitzPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Visitz.Controls"
              xmlns:views="clr-namespace:Visitz.Views"
              xmlns:models="clr-namespace:Visitz.Models.BOs"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
@@ -31,7 +32,7 @@
             </VerticalStackLayout>
         </Frame>
 
-        <Grid Grid.Row="1" BackgroundColor="White" Margin="0,15,0,0">
+        <Grid Grid.Row="1" BackgroundColor="White" Margin="0,15,0,0" RowSpacing="20" ColumnSpacing="20" Padding="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -58,90 +59,38 @@
                     />
             </HorizontalStackLayout>
 
-            <VerticalStackLayout Grid.Row="1" Margin="20,20,0,0">
-                <Label Text="Program Service Area" FontSize="15"
-                FontFamily="BCSansRegular"
-                TextColor="#606062"
-                Padding="0,10,0,0"
-                />
+            <controls:FormItem 
+                Grid.Row="1" 
+                Name="Program service area"
+                Value="{Binding CaseIncident.EntityType}" />
 
-                <Label Text="{Binding CaseIncident.CaseIncidentType}" FontSize="17"
-                FontFamily="BCSansRegular"
-                TextColor="#131315"
-                Margin="0,5,0,0"
-                />
-            </VerticalStackLayout>
+            <controls:FormItem 
+                Grid.Row="2" 
+                Name="Case Load"
+                Value="{Binding CaseIncident.CaseIncidentNumber}" />
 
-            <VerticalStackLayout Grid.Row="2" Margin="20,20,0,0">
-                <Label Text="Case Load" FontSize="15"
-                FontFamily="BCSansRegular"
-                TextColor="#606062"
-                Padding="0,10,0,0"
-                />
+            <controls:FormItem 
+                Grid.Row="3" 
+                Name="Open date"
+                Value="{Binding CaseIncident.DisplayDate}" />
 
-                <Label Text="{Binding CaseIncident.CaseIncidentNumber}" FontSize="17"
-                FontFamily="BCSansRegular"
-                TextColor="#131315"
-                Margin="0,5,0,0"
-                />
-            </VerticalStackLayout>
+            <controls:FormItem 
+                Grid.Row="4" 
+                Grid.ColumnSpan="2"
+                Name="Case address"
+                Value="{Binding CaseIncident.Address}" />
 
-            <VerticalStackLayout Grid.Row="3" Margin="20,20,0,0">
-                <Label Text="Open date" FontSize="15"
-                FontFamily="BCSansRegular"
-                TextColor="#606062"
-                Padding="0,10,0,0"
-                />
+            <controls:FormItem 
+                Grid.Row="1"
+                Grid.Column="1"
+                Name="Case type"
+                Value="{Binding CaseIncident.CaseIncidentType}" />
 
-                <Label Text="{Binding CaseIncident.CreatedDate}" FontSize="17"
-                FontFamily="BCSansRegular"
-                TextColor="#131315"
-                Margin="0,5,0,0"
-                />
-            </VerticalStackLayout>
-
-            <VerticalStackLayout Grid.Row="4" Grid.ColumnSpan="2" Margin="20,20,0,0">
-                <Label Text="Case address" FontSize="15"
-                FontFamily="BCSansRegular"
-                TextColor="#606062"
-                Padding="0,10,10,0"
-                />
-
-                <Label FontSize="17"
-                Text="{Binding CaseIncident.Address}"
-                FontFamily="BCSansRegular"
-                TextColor="#131315"
-                Margin="0,5,0,0" />
-            </VerticalStackLayout>
-
-            <VerticalStackLayout Grid.Row="1" Grid.Column="1" Margin="20,20,0,0">
-                <Label Text="Case type" FontSize="15"
-                FontFamily="BCSansRegular"
-                TextColor="#606062"
-                Padding="0,10,0,0"
-                />
-
-                <Label Text="{Binding CaseIncident.CaseIncidentType}" FontSize="17"
-                FontFamily="BCSansRegular"
-                TextColor="#131315"
-                Margin="0,5,0,0"
-                />
-            </VerticalStackLayout>
-
-            <VerticalStackLayout Grid.Row="2" Grid.Column="1" Margin="20,20,0,0">
-                <Label Text="Service office" FontSize="15"
-                FontFamily="BCSansRegular"
-                TextColor="#606062"
-                Padding="0,10,0,0"
-                />
-
-                <Label Text="{Binding CaseIncident.ServiceOffice}" FontSize="17"
-                FontFamily="BCSansRegular"
-                TextColor="#131315"
-                Margin="0,5,0,0"
-                />
-            </VerticalStackLayout>
-
+            <controls:FormItem 
+                Grid.Row="2" 
+                Grid.Column="1" 
+                Name="Service office"
+                Value="{Binding CaseIncident.ServiceOffice}" />
         </Grid>
 
         <Frame BackgroundColor="White" Grid.Row="3" Margin="0,20,0,0">
