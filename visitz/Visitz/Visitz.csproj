@@ -140,10 +140,6 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>LocalizedStrings.fr.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
-	  <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.en-US.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>LocalizedStrings.en-US.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
 	  <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
@@ -164,9 +160,6 @@
 	  </Compile>
 	  <Compile Update="VisitzApp.xaml.cs">
 	    <DependentUpon>VisitzApp.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.en-US.Designer.cs">
-	    <DependentUpon>LocalizedStrings.en-US.resx</DependentUpon>
 	  </Compile>
 	  <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Resources\Localization\LocalizedStrings.fr.Designer.cs">
 	    <DependentUpon>LocalizedStrings.fr.resx</DependentUpon>
