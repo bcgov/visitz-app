@@ -12,9 +12,6 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
 
-            builder.Services.AddTransient<LoginPage>();
-            builder.Services.AddTransient<LoginViewModel>();
-
             builder.Services.AddSingleton<CaseloadPage>();
             builder.Services.AddSingleton<CaseloadViewModel>();
 
