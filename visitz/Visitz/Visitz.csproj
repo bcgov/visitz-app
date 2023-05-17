@@ -162,9 +162,6 @@
 	  <Compile Update="Views\AppLockPage.xaml.cs">
 	    <DependentUpon>AppLockPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\LoginPage.xaml.cs">
-	    <DependentUpon>LoginPage.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="VisitzApp.xaml.cs">
 	    <DependentUpon>VisitzApp.xaml</DependentUpon>
 	  </Compile>
