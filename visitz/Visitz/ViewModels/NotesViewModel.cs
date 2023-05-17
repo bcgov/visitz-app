@@ -54,12 +54,12 @@ namespace Visitz.ViewModels
 
         public async Task CaseDetailsTapped()
         {
-            await NavigateToCaseIncidentDetailsPage(CaseIncident);
+            await NavigateToCaseloadItemDetailsPage(CaseIncident);
         }
 
-        private async Task NavigateToCaseIncidentDetailsPage(CaseloadItem caseloadItem)
+        private async Task NavigateToCaseloadItemDetailsPage(CaseloadItem caseloadItem)
         {
-            await NavigateTo(typeof(CaseIncidentDetailsPage), new Dictionary<string, object> 
+            await NavigateTo(typeof(CaseloadItemDetailsPage), new Dictionary<string, object> 
             { 
                 { "caseIncident", caseloadItem }
             });
