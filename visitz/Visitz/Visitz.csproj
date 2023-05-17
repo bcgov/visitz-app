@@ -182,4 +182,9 @@
 	    <DependentUpon>VisitzPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
+	<ItemGroup>
+	  <MauiXaml Update="Controls\FormItem.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
 </Project>
