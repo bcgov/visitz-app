@@ -40,9 +40,6 @@ namespace Visitz.ViewModels
                 case DeviceAuthenticator.Result.Successful:
                     await Shell.Current.Navigation.PopModalAsync();
                     break;
-                case DeviceAuthenticator.Result.Failure:
-                    // TODO: using dynamic visibility, show message in Page prompting for auth, show button to open auth prompt
-                    break;
             }
         }
     }
