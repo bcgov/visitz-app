@@ -34,9 +34,7 @@ namespace Visitz.ViewModels
 
         public override async void PageStarted()
         {
-            // TODO: Do a proper Token check here: Is access_token expired, is refresh_token expired?
-            if (TokenHolder.AccessToken != null)
-                await FetchCasesAndIncidents();
+            
         }
 
         private async void CaseloadViewModel_PropertyChanged(object sender, PropertyChangedEventArgs args)
