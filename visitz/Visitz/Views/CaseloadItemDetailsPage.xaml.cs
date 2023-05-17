@@ -1,13 +1,11 @@
 ﻿using Visitz.ViewModels;
 namespace Visitz.Views;
 
-public partial class CaseloadItemDetailsPage : ContentPage
+public partial class CaseloadItemDetailsPage : VisitzPage
 {
-	private CaseloadItemDetailsViewModel viewModel;
-    public CaseloadItemDetailsPage(CaseloadItemDetailsViewModel viewModel)
+    public CaseloadItemDetailsPage(CaseloadItemDetailsViewModel viewModel) : base(viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;
-        this.viewModel = viewModel;
     }
 }
