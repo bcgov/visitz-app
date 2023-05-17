@@ -26,7 +26,18 @@
             SelectionMode="None" Grid.Row="1">
             <CollectionView.EmptyView>
                 <Grid>
-                    <Image Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
+                    <VerticalStackLayout VerticalOptions="Center">
+                        <Image 
+                            Source="file_folder.png" 
+                            WidthRequest="150" 
+                            HeightRequest="150" />
+
+                        <Button 
+                            Text="Get Caseload from ICM" 
+                            Clicked="Button_Clicked" 
+                            Margin="20" 
+                            HorizontalOptions="Center" />
+                    </VerticalStackLayout>
                 </Grid>
             </CollectionView.EmptyView>
             <CollectionView.ItemsLayout>
