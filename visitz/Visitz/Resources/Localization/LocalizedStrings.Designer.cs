@@ -61,47 +61,11 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Access Denied.
-        /// </summary>
-        internal static string AccessDenied {
-            get {
-                return ResourceManager.GetString("AccessDenied", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Welcome to MCFD Mobility app!.
-        /// </summary>
-        internal static string AppWelcome {
-            get {
-                return ResourceManager.GetString("AppWelcome", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Authentication Required.
-        /// </summary>
-        internal static string AuthenticationRequired {
-            get {
-                return ResourceManager.GetString("AuthenticationRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
         internal static string Caseload {
             get {
                 return ResourceManager.GetString("Caseload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This app may contain sensitive information so we require that you use your devices&apos;s local authenticaiton to gain access..
-        /// </summary>
-        internal static string DeviceAuthenticationDescription {
-            get {
-                return ResourceManager.GetString("DeviceAuthenticationDescription", resourceCulture);
             }
         }
         
@@ -124,47 +88,11 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To access please introduce your IDIR credentials..
-        /// </summary>
-        internal static string IntroduceIDIRCreds {
-            get {
-                return ResourceManager.GetString("IntroduceIDIRCreds", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Login Error.
-        /// </summary>
-        internal static string LoginError {
-            get {
-                return ResourceManager.GetString("LoginError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Login using your credentials.
-        /// </summary>
-        internal static string LoginUsingCredentials {
-            get {
-                return ResourceManager.GetString("LoginUsingCredentials", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please try again.
-        /// </summary>
-        internal static string PleaseTryAgain {
-            get {
-                return ResourceManager.GetString("PleaseTryAgain", resourceCulture);
             }
         }
         
