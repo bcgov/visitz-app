@@ -32,7 +32,7 @@ namespace Visitz.ViewModels
             {
                 case DeviceAuthenticator.Result.NotConfigured:
                     await Page.DisplayAlert(
-                        LocalizedStrings.UnprotectedDevice,
+                        LocalizedStrings.EnableDeviceSecurity,
                         LocalizedStrings.SecureDeviceAndTryAgain,
                         LocalizedStrings.Ok
                     );
