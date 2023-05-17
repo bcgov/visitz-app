@@ -7,39 +7,43 @@
              x:Class="Visitz.Views.AppLockPage"
              x:DataType="viewmodels:AppLockViewModel"
              Title=""
-             BackgroundColor="#003366">
+             BackgroundColor="{StaticResource Primary}">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
     </Shell.BackButtonBehavior>
 
-    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-        <Grid>
+    <VerticalStackLayout 
+        VerticalOptions="CenterAndExpand"
+        WidthRequest="500"
+        Spacing="40">
+        
+        <Grid HorizontalOptions="Center">
             <Image Source="tilted_rectangle_bg.png" />
             <Image Source="file_folder.png" />
         </Grid>
-        <Label 
+
+        <Button 
             Text="{local:Localize DeviceAuthTitle}"
-            VerticalOptions="Center" 
             HorizontalOptions="Center"
-            HorizontalTextAlignment="Center"
-            VerticalTextAlignment="Center"
-            TextColor="White"
+            TextColor="{StaticResource Primary}"
+            BackgroundColor="{StaticResource Secondary}"
             FontFamily="BCSansBold"
             FontSize="28"
-            Margin="0,100,0,0" />
+            Clicked="Unlock_Clicked"/>
 
+        <!--There seems to be an issue with WordWrap Label height when in VerticalStackLayouts.
+            So for now we'll just hardcode a height, but this really should be fixed with a better
+            workaround (or MAUI update). -->
         <Label 
             Text="{local:Localize DeviceAuthReason}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"
+            HorizontalOptions="FillAndExpand"
             HorizontalTextAlignment="Center"
-            VerticalTextAlignment="Center"
             TextColor="White"
             FontFamily="BCSansBold"
             FontSize="22"
             LineBreakMode="WordWrap"
-            Margin="140,25,140,0" />
+            HeightRequest="100"/>
 
     </VerticalStackLayout>
 
