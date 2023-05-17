@@ -152,6 +152,9 @@
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Update="Views\CaseloadItemDetailsPage.xaml.cs">
+	    <DependentUpon>CaseloadItemDetailsPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\VisitzShell.xaml.cs">
 	    <DependentUpon>VisitzShell.xaml</DependentUpon>
 	  </Compile>
