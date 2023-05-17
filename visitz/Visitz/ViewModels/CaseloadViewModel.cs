@@ -71,6 +71,10 @@ namespace Visitz.ViewModels
             }
         }
 
+        public async Task RefreshCaseload()
+        {
+        }
+
         [RelayCommand]
         void GoToNotes(CaseloadItem caseloadItem)
         {
