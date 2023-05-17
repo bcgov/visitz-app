@@ -22,6 +22,8 @@ namespace Visitz.ViewModels
 
         private Vpi Vpi { get; }
 
+        public bool IsRefreshing { get; set; }
+
         public CaseloadViewModel(Vpi visitzApi)
         {
             Vpi = visitzApi;
@@ -52,6 +54,12 @@ namespace Visitz.ViewModels
             });
         }
 
+        public async Task TryFetchCasesAndIncidents()
+        {
+            if (await VisitzSession.GetValidSessionAsync())
+                await FetchCasesAndIncidents();
+        }
+
         public async Task FetchCasesAndIncidents()
         {
             try
@@ -73,6 +81,14 @@ namespace Visitz.ViewModels
 
         public async Task RefreshCaseload()
         {
+            if (!IsRefreshing)
+            {
+                IsRefreshing = true;
+
+                await TryFetchCasesAndIncidents();
+                
+                IsRefreshing = false;
+            }
         }
 
         [RelayCommand]
