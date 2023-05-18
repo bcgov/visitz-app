@@ -12,9 +12,11 @@
             StrokeThickness="2"
             Padding="20,20"
             HorizontalOptions="Fill">
+            
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="4,4,4,4"/>
             </Border.StrokeShape>
+            
             <Grid>
                 <VerticalStackLayout HorizontalOptions="Fill">
                     <HorizontalStackLayout>
