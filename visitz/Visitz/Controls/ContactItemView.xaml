@@ -6,11 +6,11 @@
              x:Class="Visitz.Controls.ContactItemView"
              x:DataType="models:FamilyMember">
 
-    <VerticalStackLayout Margin="0,10,0,0">
+    <VerticalStackLayout>
         <Border  
             Stroke="#DFDFE1"
             StrokeThickness="2"
-            Padding="20,20"
+            Padding="20"
             HorizontalOptions="Fill">
             
             <Border.StrokeShape>
