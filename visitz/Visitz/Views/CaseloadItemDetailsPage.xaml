@@ -99,6 +99,7 @@
                 </HorizontalStackLayout>
 
                 <VerticalStackLayout 
+                    Spacing="20"
                     BindableLayout.ItemsSource="{Binding CaseIncident.FamilyMembers}">
                     <BindableLayout.EmptyView>
                         <Grid>
@@ -118,4 +119,3 @@
 
     </ScrollView>
 </views:VisitzPage>
-
