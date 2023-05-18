@@ -152,6 +152,9 @@
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Update="Controls\FormItemViewView.xaml.cs">
+	    <DependentUpon>FormItemViewView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\CaseloadItemDetailsPage.xaml.cs">
 	    <DependentUpon>CaseloadItemDetailsPage.xaml</DependentUpon>
 	  </Compile>
@@ -183,7 +186,7 @@
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiXaml Update="Controls\FormItem.xaml">
+	  <MauiXaml Update="Controls\FormItemViewView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

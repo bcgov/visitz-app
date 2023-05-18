@@ -1,12 +1,12 @@
 namespace Visitz.Controls;
 
-public partial class FormItem : ContentView
+public partial class FormItemView : ContentView
 {
 	public static readonly BindableProperty NameProperty =
-		BindableProperty.Create(nameof(Name), typeof(string), typeof(FormItem));
+		BindableProperty.Create(nameof(Name), typeof(string), typeof(FormItemView));
 
 	public static readonly BindableProperty ValueProperty =
-		BindableProperty.Create(nameof(Value), typeof(string), typeof(FormItem));
+		BindableProperty.Create(nameof(Value), typeof(string), typeof(FormItemView));
 
 	public string Name
 	{
@@ -20,7 +20,7 @@ public partial class FormItem : ContentView
 		set => SetValue(ValueProperty, value);
 	}
 
-	public FormItem()
+	public FormItemView()
 	{
 		InitializeComponent();
 	}
