@@ -42,8 +42,13 @@ namespace Visitz.ViewModels
             }
             catch (VisitzApiException ex)
             {
-                // TODO: Make actual error UI/UX to show this error
+                // TODO: Implement proper error logging/handling (show to user? store errors somewhere?)
                 Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Implement proper error logging/handling (show to user? store errors somewhere?)
+                Console.WriteLine(ex.StackTrace);
             }
         }
 
