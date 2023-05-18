@@ -186,6 +186,9 @@
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="Controls\ContactItemView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\FormItemViewView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
