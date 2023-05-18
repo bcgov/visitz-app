@@ -96,23 +96,19 @@
                     />
             </HorizontalStackLayout>
 
-            <CollectionView
-                ItemsSource="{Binding CaseIncident.FamilyMembers}"
-                SelectionMode="None">
-                <CollectionView.EmptyView>
+            <VerticalStackLayout 
+                BindableLayout.ItemsSource="{Binding CaseIncident.FamilyMembers}">
+                <BindableLayout.EmptyView>
                     <Grid>
                         <Image Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
                     </Grid>
-                </CollectionView.EmptyView>
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="1"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
+                </BindableLayout.EmptyView>
+                <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:FamilyMember">
                         <controls:ContactItemView />
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
 
