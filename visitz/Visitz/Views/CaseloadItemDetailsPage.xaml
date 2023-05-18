@@ -51,34 +51,34 @@
                     Margin="12,0,0,0" />
             </HorizontalStackLayout>
 
-            <controls:FormItem 
+            <controls:FormItemView 
                 Grid.Row="1" 
                 Name="Program service area"
                 Value="{Binding CaseIncident.EntityType}" />
 
-            <controls:FormItem 
+            <controls:FormItemView 
                 Grid.Row="2" 
                 Name="Case Load"
                 Value="{Binding CaseIncident.CaseIncidentNumber}" />
 
-            <controls:FormItem 
+            <controls:FormItemView 
                 Grid.Row="3" 
                 Name="Open date"
                 Value="{Binding CaseIncident.DisplayDate}" />
 
-            <controls:FormItem 
+            <controls:FormItemView 
                 Grid.Row="4" 
                 Grid.ColumnSpan="2"
                 Name="Case address"
                 Value="{Binding CaseIncident.Address}" />
 
-            <controls:FormItem 
+            <controls:FormItemView 
                 Grid.Row="1"
                 Grid.Column="1"
                 Name="Case type"
                 Value="{Binding CaseIncident.CaseIncidentType}" />
 
-            <controls:FormItem 
+            <controls:FormItemView 
                 Grid.Row="2" 
                 Grid.Column="1" 
                 Name="Service office"
