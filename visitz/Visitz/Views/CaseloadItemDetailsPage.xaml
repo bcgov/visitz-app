@@ -109,9 +109,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:FamilyMember">
-
-                        <controls:ContactItemView FamilyMember="{Binding .}" />
-
+                        <controls:ContactItemView />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
