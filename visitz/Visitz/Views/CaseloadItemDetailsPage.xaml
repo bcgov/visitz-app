@@ -85,7 +85,7 @@
                 Value="{Binding CaseIncident.ServiceOffice}" />
         </Grid>
 
-        <Frame BackgroundColor="White" Margin="0,20,0,0">
+        <Frame BackgroundColor="White">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
