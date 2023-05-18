@@ -10,29 +10,23 @@
              Title="CaseloadItemDetailsPage"
              BackgroundColor="#F3F3F5">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <VerticalStackLayout Spacing="15">
+        
         <Frame BackgroundColor="White">
             <VerticalStackLayout>
                 <Label Text="{Binding CaseIncident.DisplayName}" FontSize="28"
-                FontFamily="BCSansBold"
-                TextColor="#131315"
-                Padding="0,10,0,0" />
+                    FontFamily="BCSansBold"
+                    TextColor="#131315"
+                    Padding="0,10,0,0" />
 
                 <Label Text="{Binding CaseIncident.CaseIncidentNumber, StringFormat='Case {0}'}" FontSize="22"
-                FontFamily="BCSansBold"
-                TextColor="#606062"
-                Margin="0,5,0,0"
-                />
+                    FontFamily="BCSansBold"
+                    TextColor="#606062"
+                    Margin="0,5,0,0" />
             </VerticalStackLayout>
         </Frame>
 
-        <Grid Grid.Row="1" BackgroundColor="White" Margin="0,15,0,0" RowSpacing="20" ColumnSpacing="20" Padding="20">
+        <Grid BackgroundColor="White" RowSpacing="20" ColumnSpacing="20" Padding="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -47,16 +41,14 @@
             </Grid.ColumnDefinitions>
 
 
-            <HorizontalStackLayout Margin="20,20,0,0">
-                <Image
-                        Source="folder.png" WidthRequest="36" HeightRequest="36" />
+            <HorizontalStackLayout>
+                <Image Source="folder.png" WidthRequest="36" HeightRequest="36" />
                 <Label 
                     Text="Case details"
                     FontSize="22"
                     FontFamily="BCSansBold"
                     TextColor="#131315"
-                    Margin="12,0,0,0"
-                    />
+                    Margin="12,0,0,0" />
             </HorizontalStackLayout>
 
             <controls:FormItem 
@@ -93,7 +85,7 @@
                 Value="{Binding CaseIncident.ServiceOffice}" />
         </Grid>
 
-        <Frame BackgroundColor="White" Grid.Row="3" Margin="0,20,0,0">
+        <Frame BackgroundColor="White" Margin="0,20,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -293,6 +285,7 @@
 
             </Grid>
         </Frame>
-    </Grid>
+    
+    </VerticalStackLayout>
 </views:VisitzPage>
 
