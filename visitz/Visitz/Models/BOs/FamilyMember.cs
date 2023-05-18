@@ -26,6 +26,9 @@ namespace Visitz.Models.BOs
         public string ContactProvinceState { get; set; }
         public string ContactCountry { get; set; }
 
+        public string FullDisplayName => string.Join(" ",
+            FirstName, MiddleName, LastName);
+
         public FamilyMember(FamilyMemberEntity familyMember)
         {
             ContactId = familyMember.ContactId;
