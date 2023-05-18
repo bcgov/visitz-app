@@ -40,7 +40,6 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-
             <HorizontalStackLayout>
                 <Image Source="folder.png" WidthRequest="36" HeightRequest="36" />
                 <Label 
@@ -85,51 +84,40 @@
                 Value="{Binding CaseIncident.ServiceOffice}" />
         </Grid>
 
-        <Frame BackgroundColor="White">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+        <VerticalStackLayout BackgroundColor="White" Padding="20" Spacing="20">
+            <HorizontalStackLayout >
+                <Image Source="family.png" WidthRequest="36" HeightRequest="36" />
+                <Label 
+                    Text="Family information"
+                    FontSize="22"
+                    FontFamily="BCSansBold"
+                    TextColor="#131315"
+                    Margin="12,0,0,0"
+                    />
+            </HorizontalStackLayout>
 
-                <HorizontalStackLayout>
-                    <Image
-                            Source="family.png" WidthRequest="36" HeightRequest="36" />
-                    <Label 
-                        Text="Family information"
-                        FontSize="22"
-                        FontFamily="BCSansBold"
-                        TextColor="#131315"
-                        Margin="12,0,0,0"
-                        />
-                </HorizontalStackLayout>
+            <CollectionView
+                ItemsSource="{Binding CaseIncident.FamilyMembers}"
+                SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Grid>
+                        <Image Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
+                    </Grid>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FamilyMember">
 
-                <CollectionView
-                    ItemsSource="{Binding CaseIncident.FamilyMembers}"
-                    SelectionMode="None"
-                    Grid.Row="1"
-                    Margin="0,20,0,0">
-                    <CollectionView.EmptyView>
-                        <Grid>
-                            <Image
-                            Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
-                        </Grid>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="1"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:FamilyMember">
+                        <controls:ContactItemView FamilyMember="{Binding .}" />
 
-                            <controls:ContactItemView FamilyMember="{Binding .}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+        </VerticalStackLayout>
 
-            </Grid>
-        </Frame>
-    
     </VerticalStackLayout>
 </views:VisitzPage>
 
