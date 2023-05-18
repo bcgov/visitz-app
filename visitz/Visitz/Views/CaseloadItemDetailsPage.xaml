@@ -10,108 +10,112 @@
              Title="CaseloadItemDetailsPage"
              BackgroundColor="#F3F3F5">
 
-    <VerticalStackLayout Spacing="15">
+    <ScrollView>
         
-        <Frame BackgroundColor="White">
-            <VerticalStackLayout>
-                <Label Text="{Binding CaseIncident.DisplayName}" FontSize="28"
-                    FontFamily="BCSansBold"
-                    TextColor="#131315"
-                    Padding="0,10,0,0" />
+        <VerticalStackLayout Spacing="15">
 
-                <Label Text="{Binding CaseIncident.CaseIncidentNumber, StringFormat='Case {0}'}" FontSize="22"
-                    FontFamily="BCSansBold"
-                    TextColor="#606062"
-                    Margin="0,5,0,0" />
-            </VerticalStackLayout>
-        </Frame>
+            <Frame BackgroundColor="White">
+                <VerticalStackLayout>
+                    <Label Text="{Binding CaseIncident.DisplayName}" FontSize="28"
+                        FontFamily="BCSansBold"
+                        TextColor="#131315"
+                        Padding="0,10,0,0" />
 
-        <Grid BackgroundColor="White" RowSpacing="20" ColumnSpacing="20" Padding="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+                    <Label Text="{Binding CaseIncident.CaseIncidentNumber, StringFormat='Case {0}'}" FontSize="22"
+                        FontFamily="BCSansBold"
+                        TextColor="#606062"
+                        Margin="0,5,0,0" />
+                </VerticalStackLayout>
+            </Frame>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+            <Grid BackgroundColor="White" RowSpacing="20" ColumnSpacing="20" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <HorizontalStackLayout>
-                <Image Source="folder.png" WidthRequest="36" HeightRequest="36" />
-                <Label 
-                    Text="Case details"
-                    FontSize="22"
-                    FontFamily="BCSansBold"
-                    TextColor="#131315"
-                    Margin="12,0,0,0" />
-            </HorizontalStackLayout>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-            <controls:FormItemView 
-                Grid.Row="1" 
-                Name="Program service area"
-                Value="{Binding CaseIncident.EntityType}" />
+                <HorizontalStackLayout>
+                    <Image Source="folder.png" WidthRequest="36" HeightRequest="36" />
+                    <Label 
+                        Text="Case details"
+                        FontSize="22"
+                        FontFamily="BCSansBold"
+                        TextColor="#131315"
+                        Margin="12,0,0,0" />
+                </HorizontalStackLayout>
 
-            <controls:FormItemView 
-                Grid.Row="2" 
-                Name="Case Load"
-                Value="{Binding CaseIncident.CaseIncidentNumber}" />
+                <controls:FormItemView 
+                    Grid.Row="1" 
+                    Name="Program service area"
+                    Value="{Binding CaseIncident.EntityType}" />
 
-            <controls:FormItemView 
-                Grid.Row="3" 
-                Name="Open date"
-                Value="{Binding CaseIncident.DisplayDate}" />
+                <controls:FormItemView 
+                    Grid.Row="2" 
+                    Name="Case Load"
+                    Value="{Binding CaseIncident.CaseIncidentNumber}" />
 
-            <controls:FormItemView 
-                Grid.Row="4" 
-                Grid.ColumnSpan="2"
-                Name="Case address"
-                Value="{Binding CaseIncident.Address}" />
+                <controls:FormItemView 
+                    Grid.Row="3" 
+                    Name="Open date"
+                    Value="{Binding CaseIncident.DisplayDate}" />
 
-            <controls:FormItemView 
-                Grid.Row="1"
-                Grid.Column="1"
-                Name="Case type"
-                Value="{Binding CaseIncident.CaseIncidentType}" />
+                <controls:FormItemView 
+                    Grid.Row="4" 
+                    Grid.ColumnSpan="2"
+                    Name="Case address"
+                    Value="{Binding CaseIncident.Address}" />
 
-            <controls:FormItemView 
-                Grid.Row="2" 
-                Grid.Column="1" 
-                Name="Service office"
-                Value="{Binding CaseIncident.ServiceOffice}" />
-        </Grid>
+                <controls:FormItemView 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Name="Case type"
+                    Value="{Binding CaseIncident.CaseIncidentType}" />
 
-        <VerticalStackLayout BackgroundColor="White" Padding="20" Spacing="20">
-            <HorizontalStackLayout >
-                <Image Source="family.png" WidthRequest="36" HeightRequest="36" />
-                <Label 
-                    Text="Family information"
-                    FontSize="22"
-                    FontFamily="BCSansBold"
-                    TextColor="#131315"
-                    Margin="12,0,0,0"
-                    />
-            </HorizontalStackLayout>
+                <controls:FormItemView 
+                    Grid.Row="2" 
+                    Grid.Column="1" 
+                    Name="Service office"
+                    Value="{Binding CaseIncident.ServiceOffice}" />
+            </Grid>
 
-            <VerticalStackLayout 
-                BindableLayout.ItemsSource="{Binding CaseIncident.FamilyMembers}">
-                <BindableLayout.EmptyView>
-                    <Grid>
-                        <Image Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
-                    </Grid>
-                </BindableLayout.EmptyView>
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="models:FamilyMember">
-                        <controls:ContactItemView />
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
+            <VerticalStackLayout BackgroundColor="White" Padding="20" Spacing="20">
+                <HorizontalStackLayout >
+                    <Image Source="family.png" WidthRequest="36" HeightRequest="36" />
+                    <Label 
+                        Text="Family information"
+                        FontSize="22"
+                        FontFamily="BCSansBold"
+                        TextColor="#131315"
+                        Margin="12,0,0,0"
+                        />
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout 
+                    BindableLayout.ItemsSource="{Binding CaseIncident.FamilyMembers}">
+                    <BindableLayout.EmptyView>
+                        <Grid>
+                            <Image Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
+                        </Grid>
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:FamilyMember">
+                            <controls:ContactItemView />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
             </VerticalStackLayout>
 
         </VerticalStackLayout>
 
-    </VerticalStackLayout>
+    </ScrollView>
 </views:VisitzPage>
 
