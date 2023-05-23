@@ -4,7 +4,17 @@
 
 Hesita is written using .NET MAUI 7 (.NET 7).
 
-## Coding & Repository Conventions
+## Visitz Conventions
+
+1. Don't commit environment-specific setup to the repository:
+
+    - Secrets or other configurable settings for the app (appSettings.json)
+
+    - User-specific Visual Studio configurations
+
+        - Visual Studio will save settings for manual provisioning profiles for iOS in Visitz.csproj. This isn't shareable, so move the settings that Visual Studio creates into Visitz.csproj.user instead. It will continue to function correctly and will be ignored by Git.
+
+## Coding Conventions
 
 Follow the [official C# coding conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
 
