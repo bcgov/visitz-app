@@ -43,7 +43,7 @@
                 <HorizontalStackLayout>
                     <Image Source="folder.png" WidthRequest="36" HeightRequest="36" />
                     <Label 
-                        Text="Case details"
+                        Text="Details"
                         FontSize="22"
                         FontFamily="BCSansBold"
                         TextColor="#131315"
