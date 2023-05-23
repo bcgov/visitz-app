@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Visitz.Controls"
+             xmlns:models="clr-namespace:Visitz.Models.BOs"
+             xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+             x:Class="Visitz.Controls.CaseloadItemView"
+             x:DataType="models:CaseloadItem">
+    
+    <VerticalStackLayout Padding="20,0,20,0" Margin="0,10,0,0">
+        <Border Stroke="#DFDFE1"
+                StrokeThickness="2"
+                Padding="20,20"
+                HorizontalOptions="Fill">
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer 
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=GoToNotesCommand}"
+                    CommandParameter="{Binding .}"/>
+            </Border.GestureRecognizers>
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="4,4,4,4"/>
+            </Border.StrokeShape>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
+                    <HorizontalStackLayout>
+                        <Label 
+                                Text="{Binding DisplayName}"
+                                FontSize="17"
+                                FontFamily="BCSansBold"
+                                TextColor="#131315"
+                                Padding="0,10,0,0"
+                                />
+
+                        <Label 
+                                Text="{Binding CaseIncidentNumber}"
+                                FontSize="17"
+                                FontFamily="BCSansRegular"
+                                Padding="10,10,0,0"
+                                />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout>
+                        <Image Source="temp_case.png" VerticalOptions="Center" Margin="0,10,0,0" />
+                        <Image Source="temp_child_services.png" VerticalOptions="Center" Margin="10,10,0,0" />
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                    <HorizontalStackLayout HorizontalOptions="End">
+                        <Label 
+                                Text="{Binding DisplayDate, StringFormat='Open date: {0}'}"
+                                TextColor="#606060"
+                                FontSize="12"
+                                FontFamily="BCSansRegular"
+                                VerticalOptions="Center"
+                                />
+                        <Image Source="chevron_right" Margin="25,0,0,0" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

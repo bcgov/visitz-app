@@ -155,6 +155,9 @@
 	  <Compile Update="Controls\FormItemViewView.xaml.cs">
 	    <DependentUpon>FormItemViewView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Controls\CaseloadItemView.xaml.cs">
+	    <DependentUpon>CaseloadItemView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\CaseloadItemDetailsPage.xaml.cs">
 	    <DependentUpon>CaseloadItemDetailsPage.xaml</DependentUpon>
 	  </Compile>
@@ -190,6 +193,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\FormItemViewView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\CaseloadItemView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
