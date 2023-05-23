@@ -14,19 +14,17 @@
         
         <VerticalStackLayout Spacing="15">
 
-            <Frame BackgroundColor="White">
-                <VerticalStackLayout>
-                    <Label Text="{Binding CaseIncident.DisplayName}" FontSize="28"
-                        FontFamily="BCSansBold"
-                        TextColor="#131315"
-                        Padding="0,10,0,0" />
+            <VerticalStackLayout BackgroundColor="White" Padding="20">
+                <Label Text="{Binding CaseIncident.DisplayName}" FontSize="28"
+                    FontFamily="BCSansBold"
+                    TextColor="#131315"
+                    Padding="0,10,0,0" />
 
-                    <Label Text="{Binding CaseIncident.CaseIncidentNumber, StringFormat='Case {0}'}" FontSize="22"
-                        FontFamily="BCSansBold"
-                        TextColor="#606062"
-                        Margin="0,5,0,0" />
-                </VerticalStackLayout>
-            </Frame>
+                <Label Text="{Binding CaseIncident.CaseIncidentNumber, StringFormat='Case {0}'}" FontSize="22"
+                    FontFamily="BCSansBold"
+                    TextColor="#606062"
+                    Margin="0,5,0,0" />
+            </VerticalStackLayout>
 
             <Grid BackgroundColor="White" RowSpacing="20" ColumnSpacing="20" Padding="20">
                 <Grid.RowDefinitions>
