@@ -11,9 +11,17 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public CaseloadItem caseIncident;
 
+        [ObservableProperty]
+        public string idSubtitle;
+
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             CaseIncident = query["caseIncident"] as CaseloadItem;
+
+            IdSubtitle = 
+                CaseIncident?.EntityType
+                + " "
+                + CaseIncident?.CaseIncidentNumber;
         }
     }
 }
