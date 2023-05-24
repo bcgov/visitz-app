@@ -51,11 +51,11 @@ jobs:
             -p:Oidc_RedirectUri=${{ vars.REDIRECT_URI }} \
             -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }}
 
-      - name: Upload .ipa
-        uses: actions/upload-artifact@v1
+      - name: Upload IPA archive
+        uses: actions/upload-artifact@v3.1.2
         with:
-          name: SecureImage.ipa
-          path: build/Apps/SecureImage.ipa
+          name: McfdMobility.ipa
+          path: visitz/Visitz/bin/Release/net7.0-ios/ios-arm64/publish/*.ipa
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
