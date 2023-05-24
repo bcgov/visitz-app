@@ -1,0 +1,74 @@
+<Project InitialTargets="CopyAppSettings" DefaultTargets="DoAppSettings">
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release' And '$(DeploymentEnvironment)' != ''">
+		<ApplicationIdTemp>$(ApplicationId)-$(DeploymentEnvironment)</ApplicationIdTemp>
+		<ApplicationId>$(ApplicationIdTemp)</ApplicationId>
+	</PropertyGroup>
+
+	<UsingTask 
+		TaskName="ReplaceFileText" 
+		TaskFactory="RoslynCodeTaskFactory" 
+		AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+
+		<ParameterGroup>
+			<InputFilename ParameterType="System.String" Required="true" />
+			<OutputFilename ParameterType="System.String" Required="true" />
+			<MatchExpression ParameterType="System.String" Required="true" />
+			<ReplacementText ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+
+		<Task>
+			<Using Namespace="System" />
+			<Using Namespace="System.IO" />
+			<Using Namespace="System.Text.RegularExpressions" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+						File.WriteAllText(
+								OutputFilename,
+								Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText)
+						);
+					]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<Target Name="CopyAppSettings" Condition="'$(Configuration)' == 'Release'">
+
+		<Copy 
+			SourceFiles="appSettings.json.template"
+			DestinationFiles="appSettings.json" />
+
+	</Target>
+
+	<Target 
+		Name="DoAppSettings" 
+		AfterTargets="CopyAppSettings" 
+		Condition="'$(Configuration)' == 'Release'">
+		
+		<ReplaceFileText 
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{AuthenticationDomain}}"
+			ReplacementText="$(Oidc_AuthenticationDomain)" />
+
+		<ReplaceFileText 
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{ClientId}}"
+			ReplacementText="$(Oidc_ClientId)" />
+
+		<ReplaceFileText 
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{RedirectUri}}"
+			ReplacementText="$(Oidc_RedirectUri)" />
+
+		<ReplaceFileText 
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{HttpsApiDomain}}"
+			ReplacementText="$(Api_HttpsApiDomain)" />
+
+	</Target>
+
+</Project>

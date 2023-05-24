@@ -32,13 +32,14 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
 	  	<CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
-	  	<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
 	  	<CreatePackage>false</CreatePackage>
 	</PropertyGroup>
+
+	<Import Project="Visitz.props" />
+	<Import Project="Visitz.targets" />
 
 	<ItemGroup>
 		<!-- App Icon -->
