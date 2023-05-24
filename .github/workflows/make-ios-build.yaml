@@ -39,7 +39,7 @@ jobs:
 
       - name: .NET release build for iOS
         run: |
-          dotnet publish \
+          dotnet publish visitz/Visitz \
             --framework net7.0-ios \
             --configuration Release \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
