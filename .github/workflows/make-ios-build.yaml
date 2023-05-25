@@ -28,10 +28,6 @@ jobs:
           p12-file-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
           p12-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
 
-      - name: Dump cert
-        run: |
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode
-
       - name: Install provisioning profile
         env:
           IOS_BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_BUILD_PROVISION_PROFILE_BASE64 }}
@@ -44,40 +40,40 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-      # - name: Setup .NET SDK
-      #   uses: actions/setup-dotnet@v3.1.0
-      #   with:
-      #     dotnet-version: ${{ vars.DOTNET_VERSION }}
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3.1.0
+        with:
+          dotnet-version: ${{ vars.DOTNET_VERSION }}
       
-      # - name: Install .NET MAUI workloads
-      #   run: |
-      #     dotnet workload install maui maui-ios
+      - name: Install .NET MAUI workloads
+        run: |
+          dotnet workload install maui maui-ios
 
-      # - name: .NET release build for iOS
-      #   run: |
-      #     dotnet publish $PROJPATH \
-      #       --framework net7.0-ios \
-      #       --configuration Release \
-      #       -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
-      #       -p:CodesignKey=${{ secrets.IOS_BUILD_CERTIFICATE_NAME }} \
-      #       -p:CodesignProvision=${{ secrets.IOS_CODE_SIGN_PROVISION_PROFILE_NAME }} \
-      #       -p:UseAppSettings=true \
-      #       -p:Oidc_AuthenticationDomain=${{ vars.AUTHENTICATION_DOMAIN }} \
-      #       -p:Oidc_ClientId=${{ vars.KEYCLOAK_CLIENT_ID }} \
-      #       -p:Oidc_RedirectUri=${{ vars.REDIRECT_URI }} \
-      #       -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }}
+      - name: .NET release build for iOS
+        run: |
+          dotnet publish $PROJPATH \
+            --framework net7.0-ios \
+            --configuration Release \
+            -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
+            -p:CodesignKey=${{ secrets.IOS_BUILD_CERTIFICATE_NAME }} \
+            -p:CodesignProvision=${{ secrets.IOS_CODE_SIGN_PROVISION_PROFILE_NAME }} \
+            -p:UseAppSettings=true \
+            -p:Oidc_AuthenticationDomain=${{ vars.AUTHENTICATION_DOMAIN }} \
+            -p:Oidc_ClientId=${{ vars.KEYCLOAK_CLIENT_ID }} \
+            -p:Oidc_RedirectUri=${{ vars.REDIRECT_URI }} \
+            -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }}
 
-      # - name: Upload IPA archive
-      #   uses: actions/upload-artifact@v3.1.2
-      #   with:
-      #     name: McfdMobility.ipa
-      #     path: $PROJPATH/bin/Release/net7.0-ios/ios-arm64/publish/*.ipa
+      - name: Upload IPA archive
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: McfdMobility.ipa
+          path: $PROJPATH/bin/Release/net7.0-ios/ios-arm64/publish/*.ipa
 
-      # - name: Clean up keychain and provisioning profile
-      #   if: ${{ always() }}
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
         
-      #   # This isn't necessary when using GH hosted runners. It's included in case this action is 
-      #   # copied to a self-hosted runner.
-      #   run: |
-      #     security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-      #     rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+        # This isn't necessary when using GH hosted runners. It's included in case this action is 
+        # copied to a self-hosted runner.
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
