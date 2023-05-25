@@ -68,12 +68,3 @@ jobs:
         with:
           name: McfdMobility.ipa
           path: $PROJPATH/bin/Release/net7.0-ios/ios-arm64/publish/*.ipa
-
-      - name: Clean up keychain and provisioning profile
-        if: ${{ always() }}
-        
-        # This isn't necessary when using GH hosted runners. It's included in case this action is 
-        # copied to a self-hosted runner.
-        run: |
-          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
