@@ -66,5 +66,5 @@ jobs:
       - name: Upload IPA archive
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: McfdMobility.ipa
+          name: MCFD-Mobility-${{ env.name }}
           path: ${{ env.PROJPATH }}/bin/Release/net7.0-ios/ios-arm64/publish/*.ipa
