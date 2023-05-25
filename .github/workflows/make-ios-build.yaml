@@ -37,6 +37,9 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
+      - name: Install .NET workloads
+        run: dotnet workload restore
+
       - name: .NET release build for iOS
         run: |
           dotnet publish visitz/Visitz \
