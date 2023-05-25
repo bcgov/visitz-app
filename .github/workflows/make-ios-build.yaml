@@ -41,7 +41,7 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: Install .NET workloads
-        run: dotnet workload restore $PROJPATH
+        run: dotnet workload restore $PROJPATH/Visitz.csproj
 
       - name: .NET release build for iOS
         run: |
