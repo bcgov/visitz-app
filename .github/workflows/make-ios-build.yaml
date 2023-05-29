@@ -12,7 +12,6 @@ on:
 
 env:
   PROJPATH: "visitz/Visitz"
-  AUTO_BUILD_NUMBER: ${{ github.run_attempt }}
 
 jobs:
 
@@ -23,7 +22,7 @@ jobs:
     timeout-minutes: 200
     env:
       # TODO: read "MCFD Mobility" app name from MSBuild instead
-      OUTPUT_NAME: "MCFD Mobility_env-${{ inputs.environment }}_build-${{ env.AUTO_BUILD_NUMBER }}"
+      OUTPUT_NAME: "MCFD Mobility_env-${{ inputs.environment }}_build-${{ github.run_number }}"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -60,7 +59,7 @@ jobs:
           dotnet publish $PROJPATH \
             --framework net7.0-ios \
             --configuration Release \
-            -p:ApplicationVersion=$AUTO_BUILD_NUMBER \
+            -p:ApplicationVersion=${{ github.run_number }} \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
             -p:CodesignKey=${{ secrets.IOS_BUILD_CERTIFICATE_NAME }} \
             -p:CodesignProvision=${{ secrets.IOS_CODE_SIGN_PROVISION_PROFILE_NAME }} \
