@@ -52,7 +52,6 @@ jobs:
           path: /Users/runner/.dotnet/sdk/${{ vars.DOTNET_VERSION }}
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.hash }}
           restore-keys:
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.hash }}
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
