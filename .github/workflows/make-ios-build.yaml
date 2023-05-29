@@ -73,9 +73,10 @@ jobs:
         run: |
           cd ${{ env.PROJPATH }}/bin/Release/net7.0-ios/ios-arm64/publish
           mv "MCFD Mobility.ipa" "$OUTPUT_NAME.ipa"
+          ls -la
 
       - name: Upload IPA archive (${{ inputs.environment }})
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{ env.OUTPUT_NAME }}
-          path: ${{ env.OUTPUT_NAME }}.ipa
+          path: ${{ env.PROJPATH }}/bin/Release/net7.0-ios/ios-arm64/publish/*.ipa
