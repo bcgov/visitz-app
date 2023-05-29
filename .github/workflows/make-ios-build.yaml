@@ -59,7 +59,7 @@ jobs:
         uses: actions/cache@v3
         env:
           cache-name: cache-dotnet-maui-ios-workloads
-          hash: ${{ hashFiles('**/${{ vars.DOTNET_VERSION }}/package.deps.json') }}
+          hash: ${{ hashFiles('**/${{ vars.DOTNET_VERSION }}/IncludedWorkloadManifests.txt') }}
         with:
           path: /Users/runner/.dotnet/sdk/${{ vars.DOTNET_VERSION }}
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.hash }}
