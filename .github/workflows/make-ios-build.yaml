@@ -24,18 +24,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Echo .NET (GH runner)
-        run: |
-          ls -la /Users/runner/.dotnet
-          ls -la /Users/runner/.dotnet/sdk
-          ls -la /Users/runner/.dotnet/sdk/${{ vars.DOTNET_VERSION }}
-
-      - name: Echo .NET (mac)
-        run: |
-          ls -la /usr/local/share/dotnet
-          ls -la /usr/local/share/dotnet/sdk
-          ls -la /usr/local/share/dotnet/sdk/7.0.203
-
       - name: Import code-signing certificates
         uses: Apple-Actions/import-codesign-certs@v1
         with: 
