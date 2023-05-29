@@ -1,5 +1,7 @@
 name: Build iOS release package
 
+run-name: Build iOS release package (${{ github.event.inputs.environment }})
+
 on:
   workflow_dispatch:
     inputs:
