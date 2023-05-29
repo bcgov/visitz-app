@@ -66,7 +66,7 @@ jobs:
         run: |
           dotnet workload install maui maui-ios
 
-      - name: .NET release build for iOS (${{ inputs.environment.name }})
+      - name: .NET release build for iOS (${{ vars.ENV_LABEL }})
         run: |
           dotnet publish $PROJPATH \
             --framework net7.0-ios \
@@ -80,8 +80,8 @@ jobs:
             -p:Oidc_RedirectUri=${{ vars.REDIRECT_URI }} \
             -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }}
 
-      - name: Upload ${{ inputs.environment.name }} IPA archive
+      - name: Upload IPA archive (${{ vars.ENV_LABEL }})
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: MCFD-Mobility-${{ inputs.environment.name }}
+          name: MCFD-Mobility-${{ vars.ENV_LABEL }}
           path: ${{ env.PROJPATH }}/bin/Release/net7.0-ios/ios-arm64/publish/*.ipa
