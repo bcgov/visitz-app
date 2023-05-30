@@ -11,22 +11,15 @@ namespace Visitz.Services
     {
         public async Task<Result> Authenticate()
         {
-            if (await CrossFingerprint.Current.IsAvailableAsync())
+            var request = new AuthenticationRequestConfiguration(LocalizedStrings.DeviceAuthTitle,
+                LocalizedStrings.DeviceAuthReason)
             {
-                var request = new AuthenticationRequestConfiguration(LocalizedStrings.DeviceAuthTitle,
-                    LocalizedStrings.DeviceAuthReason)
-                {
-                    AllowAlternativeAuthentication = true,
-                };
+                AllowAlternativeAuthentication = true,
+            };
 
-                var result = await CrossFingerprint.Current.AuthenticateAsync(request);
+            var result = await CrossFingerprint.Current.AuthenticateAsync(request);
 
-                return result.Authenticated ? Result.Successful : Result.Failure;
-            }
-            else
-            {
-                return Result.NotConfigured;
-            }
+            return result.Authenticated ? Result.Successful : Result.Failure;
         }
 
         public enum Result
