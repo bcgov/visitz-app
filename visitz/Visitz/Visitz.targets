@@ -3,6 +3,9 @@
 	<PropertyGroup Condition="'$(Configuration)' == 'Release' And '$(DeploymentEnvironment)' != ''">
 		<ApplicationIdTemp>$(ApplicationId)-$(DeploymentEnvironment)</ApplicationIdTemp>
 		<ApplicationId>$(ApplicationIdTemp)</ApplicationId>
+
+		<ApplicationTitleTemp>$(ApplicationTitle) ($(DeploymentEnvironment))</ApplicationTitleTemp>
+		<ApplicationTitle>$(ApplicationTitleTemp)</ApplicationTitle>
 	</PropertyGroup>
 
 	<UsingTask 
