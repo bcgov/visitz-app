@@ -32,7 +32,9 @@
 		</Task>
 	</UsingTask>
 
-	<Target Name="CopyAppSettings" Condition="'$(Configuration)' == 'Release'">
+	<Target 
+		Name="CopyAppSettings" 
+		Condition="'$(Configuration)' == 'Release' And '$(UseAppSettings)' == 'true'">
 
 		<Copy 
 			SourceFiles="appSettings.json.template"
@@ -43,7 +45,7 @@
 	<Target 
 		Name="DoAppSettings" 
 		AfterTargets="CopyAppSettings" 
-		Condition="'$(Configuration)' == 'Release'">
+		Condition="'$(Configuration)' == 'Release' And '$(UseAppSettings)' == 'true'">
 		
 		<ReplaceFileText 
 			InputFilename="$(ProjectDir)appSettings.json"
