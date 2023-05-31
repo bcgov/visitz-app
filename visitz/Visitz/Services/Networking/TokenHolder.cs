@@ -1,4 +1,5 @@
 ﻿using IdentityModel.OidcClient;
+using IdentityModel.OidcClient.Results;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Visitz.Services.Networking
@@ -23,18 +24,37 @@ namespace Visitz.Services.Networking
             return await SecureStorage.Default.GetAsync(key);
         }
 
+        private static async Task SaveAccessToken(string accessToken)
+        {
+            await SetAsync(AccessTokenKey, accessToken);
+            AccessToken = new JwtSecurityToken(accessToken);
+        }
+
+        private static async Task SaveRefreshToken(string refreshToken)
+        {
+            await SetAsync(RefreshTokenKey, refreshToken);
+            RefreshToken = new JwtSecurityToken(refreshToken);
+        }
+
         public static async Task SaveAsync(LoginResult loginResult)
         {
-            await SetAsync(AccessTokenKey, loginResult.AccessToken);
-            await SetAsync(RefreshTokenKey, loginResult.RefreshToken);
+            await SaveAccessToken(loginResult.AccessToken);
+            await SaveRefreshToken(loginResult.RefreshToken);
+        }
 
-            AccessToken = new JwtSecurityToken(loginResult.AccessToken);
-            RefreshToken = new JwtSecurityToken(loginResult.RefreshToken);
+        public static async Task SaveAsync(RefreshTokenResult refreshResult)
+        {
+            await SaveAccessToken(refreshResult.AccessToken);
+            await SaveRefreshToken(refreshResult.RefreshToken);
         }
 
         public static async Task<string> GetAccessTokenStringAsync()
         {
             return await GetAsync(AccessTokenKey);
+        }
+        public static async Task<string> GetRefreshTokenStringAsync()
+        {
+            return await GetAsync(RefreshTokenKey);
         }
 
         public static async Task<JwtSecurityToken> GetAccessTokenAsync()
@@ -47,7 +67,7 @@ namespace Visitz.Services.Networking
 
         public static async Task<JwtSecurityToken> GetRefreshTokenAsync()
         {
-            if (await GetAsync(RefreshTokenKey) is string refreshJwt)
+            if (await GetRefreshTokenStringAsync() is string refreshJwt)
                 RefreshToken ??= new JwtSecurityToken(refreshJwt);
 
             return RefreshToken;
@@ -69,9 +89,9 @@ namespace Visitz.Services.Networking
             return IsTokenValid(await GetAccessTokenAsync());
         }
 
-        public static async Task<bool> IsRefreshTokenValid()
+        public static async Task<bool> IsRefreshTokenExpired()
         {
-            return IsTokenValid(await GetRefreshTokenAsync());
+            return !IsTokenValid(await GetRefreshTokenAsync());
         }
     }
 }
