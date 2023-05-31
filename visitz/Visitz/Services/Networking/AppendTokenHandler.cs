@@ -5,7 +5,7 @@ namespace Visitz.Services.Networking
     /// <summary>
     /// Injects the access token into each HTTP request to the API
     /// </summary>
-	public class TokenHandler : DelegatingHandler
+	public class AppendTokenHandler : DelegatingHandler
     {
         private static readonly string Bearer = "Bearer";
 
