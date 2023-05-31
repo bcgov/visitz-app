@@ -1,4 +1,5 @@
 ﻿using IdentityModel.OidcClient;
+using IdentityModel.OidcClient.Results;
 
 namespace Visitz.Services.Authentication
 {
@@ -36,6 +37,11 @@ namespace Visitz.Services.Authentication
         public async Task<LoginResult> LoginAsync()
         {
             return await oidcClient.LoginAsync();
+        }
+
+        public async Task<RefreshTokenResult> RefreshAsync(string refreshToken)
+        {
+            return await oidcClient.RefreshTokenAsync(refreshToken);
         }
 
         public struct Options

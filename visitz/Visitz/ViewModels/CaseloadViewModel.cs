@@ -64,8 +64,8 @@ namespace Visitz.ViewModels
         {
             try
             {
-                // TODO: Worker ID should be collected from current JWT Access Token field "idir_username"
-                var caseloadContent = await Vpi.GetCaseloadAsync("CGWRK68");
+                var info = await VisitzSessionInfo.GetAsync();
+                var caseloadContent = await Vpi.GetCaseloadAsync(info.Idir);
 
                 Caseload.Clear();
 
