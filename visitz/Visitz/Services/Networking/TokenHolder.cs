@@ -61,7 +61,7 @@ namespace Visitz.Services.Networking
 
         private static bool IsTokenValid(JwtSecurityToken token)
         {
-            return token.ValidTo < DateTime.UtcNow;
+            return token?.ValidTo < DateTime.UtcNow;
         }
 
         public static async Task<bool> IsAccessTokenValid()
