@@ -39,6 +39,11 @@ namespace Visitz.Services.Networking
             return new Result(loginResult.IsError, loginResult.Error, loginResult.ErrorDescription);
         }
 
+        public static async Task<VisitzSessionInfo> GetInfoAsync()
+        {
+            return await VisitzSessionInfo.GetAsync();
+        }
+
         public struct Result
         {
             public bool IsError;
