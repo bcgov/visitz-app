@@ -101,6 +101,11 @@ namespace Visitz.ViewModels
         {
             SelectedCaseIncident = caseloadItem;
         }
+
+        public async Task OpenDebugOptionsPage()
+        {
+            await NavigateTo(typeof(DebugOptionsPage));
+        }
     }
 }
 
