@@ -39,13 +39,17 @@ namespace Visitz.Services.Networking
 
         public static async Task<JwtSecurityToken> GetAccessTokenAsync()
         {
-            AccessToken ??= new JwtSecurityToken(await GetAccessTokenStringAsync());
+            if (await GetAccessTokenStringAsync() is string accessJwt)
+                AccessToken ??= new JwtSecurityToken(accessJwt);
+
             return AccessToken;
         }
 
         public static async Task<JwtSecurityToken> GetRefreshTokenAsync()
         {
-            RefreshToken ??= new JwtSecurityToken(await GetAsync(RefreshTokenKey));
+            if (await GetAsync(RefreshTokenKey) is string refreshJwt)
+                RefreshToken ??= new JwtSecurityToken(refreshJwt);
+
             return RefreshToken;
         }
 
