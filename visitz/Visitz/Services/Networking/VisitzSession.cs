@@ -28,15 +28,13 @@ namespace Visitz.Services.Networking
                 .Services
                 .GetRequiredService<AuthenticationClient>();
 
-            return HandleReponse(await authClient.LoginAsync());
+            return await HandleReponse(await authClient.LoginAsync());
         }
 
-        private static Result HandleReponse(LoginResult loginResult)
+        private async static Task<Result> HandleReponse(LoginResult loginResult)
         {
             if (!loginResult.IsError)
-                // TODO: Incoming JWT token should be processed and stored in SecureStorage within this
-                // class instead of using TokenHolder.
-                TokenHolder.AccessToken = loginResult.AccessToken;
+                await TokenHolder.SaveAsync(loginResult);
 
             return new Result(loginResult.IsError, loginResult.Error, loginResult.ErrorDescription);
         }
