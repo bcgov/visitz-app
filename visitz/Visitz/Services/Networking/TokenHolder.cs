@@ -27,6 +27,9 @@ namespace Visitz.Services.Networking
         {
             await SetAsync(AccessTokenKey, loginResult.AccessToken);
             await SetAsync(RefreshTokenKey, loginResult.RefreshToken);
+
+            AccessToken = new JwtSecurityToken(loginResult.AccessToken);
+            RefreshToken = new JwtSecurityToken(loginResult.RefreshToken);
         }
 
         public static async Task<string> GetAccessTokenStringAsync()
