@@ -21,6 +21,9 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<CaseloadItemDetailsPage>();
             builder.Services.AddTransient<CaseloadItemDetailsViewModel>();
 
+            builder.Services.AddTransient<DebugOptionsPage>();
+            builder.Services.AddTransient<DebugOptionsViewModel>();
+
             return builder;
         }
     }
