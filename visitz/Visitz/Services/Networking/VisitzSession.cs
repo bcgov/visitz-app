@@ -5,12 +5,9 @@ namespace Visitz.Services.Networking
 {
     public class VisitzSession
     {
-        // TODO: Temporary naive access token handling until it's properly implemented
-        public static bool IsAccessTokenValid => TokenHolder.AccessToken?.Length > 0;
-
         public static async Task<bool> GetValidSessionAsync()
         {
-            if (IsAccessTokenValid)
+            if (await TokenHolder.IsAccessTokenValid())
                 return true;
             else
             {
