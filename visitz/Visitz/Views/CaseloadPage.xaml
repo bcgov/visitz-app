@@ -43,20 +43,16 @@
                     ItemsSource="{Binding Caseload}"
                     SelectionMode="None" >
                     <CollectionView.EmptyView>
-                        <Grid>
-                            <VerticalStackLayout VerticalOptions="Center">
-                                <Image 
-                                    Source="file_folder.png" 
-                                    WidthRequest="150" 
-                                    HeightRequest="150" />
-
-                                <Button 
-                                    Text="Get Caseload from ICM" 
-                                    Clicked="Button_Clicked" 
-                                    Margin="20" 
-                                    HorizontalOptions="Center" />
+                            <VerticalStackLayout HorizontalOptions="Center" Spacing="20">
+                                <Label 
+                                    HorizontalOptions="Center"
+                                    Text="Pull to get caseload from ICM" />
+                                
+                                <Label 
+                                    HorizontalOptions="Center" 
+                                    FontSize="28"
+                                    Text="↓" />
                             </VerticalStackLayout>
-                        </Grid>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout  Orientation="Vertical" Span="1"/>
