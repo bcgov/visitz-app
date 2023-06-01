@@ -73,9 +73,13 @@ namespace Visitz.Services.Networking
             return RefreshToken;
         }
 
-        public static void Delete()
+        public static void DeleteAccessToken()
         {
             SecureStorage.Default.Remove(AccessTokenKey);
+        }
+
+        public static void DeleteRefreshToken()
+        {
             SecureStorage.Default.Remove(RefreshTokenKey);
         }
 
@@ -86,11 +90,17 @@ namespace Visitz.Services.Networking
 
         public static async Task<bool> IsAccessTokenValid()
         {
+            if (DebugOptions.AlwaysExpireAccessToken)
+                DeleteAccessToken();
+
             return IsTokenValid(await GetAccessTokenAsync());
         }
 
         public static async Task<bool> IsRefreshTokenExpired()
         {
+            if (DebugOptions.AlwaysExpireRefreshToken)
+                DeleteRefreshToken();
+
             return !IsTokenValid(await GetRefreshTokenAsync());
         }
     }

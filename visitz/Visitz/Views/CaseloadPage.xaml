@@ -20,7 +20,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Image Source="bc_logo_text.png" HorizontalOptions="Start" Margin="20,0,0,0" />
+        <Image Source="bc_logo_text.png" HorizontalOptions="Start" Margin="20,0,0,0">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"
+                                      NumberOfTapsRequired="4" />
+            </Image.GestureRecognizers>
+        </Image>
 
         <CollectionView
             ItemsSource="{Binding Caseload}"

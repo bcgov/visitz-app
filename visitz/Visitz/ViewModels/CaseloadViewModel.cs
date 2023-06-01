@@ -7,6 +7,7 @@ using VisitzApi.ErrorHandling;
 using System.ComponentModel;
 using Visitz.Services.Networking;
 using Visitz.Views;
+using Visitz.Services;
 
 namespace Visitz.ViewModels
 {
@@ -46,7 +47,7 @@ namespace Visitz.ViewModels
                     await NavigateToNotesPage(SelectedCaseIncident);
         }
 
-        private async Task NavigateToNotesPage(CaseloadItem caseIncident)
+        private static async Task NavigateToNotesPage(CaseloadItem caseIncident)
         {
             await NavigateTo(typeof(NotesPage), new Dictionary<string, object> 
             { 
@@ -100,6 +101,12 @@ namespace Visitz.ViewModels
         void GoToNotes(CaseloadItem caseloadItem)
         {
             SelectedCaseIncident = caseloadItem;
+        }
+
+        public static async Task OpenDebugOptionsPage()
+        {
+            if (DebugOptions.Enabled)
+                await NavigateTo(typeof(DebugOptionsPage));
         }
     }
 }

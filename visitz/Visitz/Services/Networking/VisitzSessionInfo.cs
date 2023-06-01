@@ -27,7 +27,15 @@ namespace Visitz.Services.Networking
             return didGet;
         }
 
-        public string Idir => TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
+        private string GetIdir()
+        {
+            if (DebugOptions.IdirOverride.Length > 0)
+                return DebugOptions.IdirOverride;
+            else
+                return TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
+        }
+
+        public string Idir => GetIdir();
 
         public string DisplayName => TryGet<string>(DisplayNameKey, out var displayName) ? displayName : "";
     }

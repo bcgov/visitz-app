@@ -74,6 +74,12 @@
 			MatchExpression="{{HttpsApiDomain}}"
 			ReplacementText="$(Api_HttpsApiDomain)" />
 
+		<ReplaceFileText 
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{EnableDebugOptions}}"
+			ReplacementText="$(Debug_EnableDebugOptions)" />
+
 	</Target>
 
 </Project>

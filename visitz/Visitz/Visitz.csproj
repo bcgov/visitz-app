@@ -166,6 +166,9 @@
 	  <Compile Update="Views\CaseloadItemDetailsPage.xaml.cs">
 	    <DependentUpon>CaseloadItemDetailsPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\DebugOptionsPage.xaml.cs">
+	    <DependentUpon>DebugOptionsPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\VisitzShell.xaml.cs">
 	    <DependentUpon>VisitzShell.xaml</DependentUpon>
 	  </Compile>
@@ -201,6 +204,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\CaseloadItemView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\DebugOptionsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
