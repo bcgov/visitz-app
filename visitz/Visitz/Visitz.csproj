@@ -59,6 +59,7 @@
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+		<PackageReference Include="Realm" Version="11.0.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
 	</ItemGroup>
 
