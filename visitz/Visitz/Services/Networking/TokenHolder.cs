@@ -73,9 +73,13 @@ namespace Visitz.Services.Networking
             return RefreshToken;
         }
 
-        public static void Delete()
+        public static void DeleteAccessToken()
         {
             SecureStorage.Default.Remove(AccessTokenKey);
+        }
+
+        public static void DeleteRefreshToken()
+        {
             SecureStorage.Default.Remove(RefreshTokenKey);
         }
 
