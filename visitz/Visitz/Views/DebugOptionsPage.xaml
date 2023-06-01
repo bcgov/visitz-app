@@ -24,7 +24,7 @@
             Grid.Row="0"
             Grid.Column="0"
             VerticalOptions="Center"
-            Text="IDIR override" />
+            Text="Current session IDIR override" />
 
         <Entry 
             Grid.Row="0"
@@ -36,7 +36,7 @@
             Grid.Row="1"
             Grid.Column="0"
             VerticalOptions="Center"
-            Text="Expire access tokens" />
+            Text="Expire access token when checked" />
 
         <Switch 
             Grid.Row="1"
@@ -48,7 +48,7 @@
             Grid.Row="2"
             Grid.Column="0"
             VerticalOptions="Center"
-            Text="Expire refresh tokens" />
+            Text="Expire refresh token when checked" />
 
         <Switch 
             Grid.Row="2"
