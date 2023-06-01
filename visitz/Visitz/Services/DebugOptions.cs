@@ -6,6 +6,10 @@
         private static readonly string AlwaysExpireAccessTokenKey = "AlwaysExpireAccessTokenKey";
         private static readonly string AlwaysExpireRefreshTokenKey = "AlwaysExpireRefreshTokenKey";
 
+        public static readonly string EnableOptionsKey = "EnableDebugOptions";
+
+        public static bool Enabled => Preferences.Default.Get(EnableOptionsKey, false);
+
         public static string IdirOverride
         {
             get => Preferences.Default.Get(IdirOverrideKey, "");
