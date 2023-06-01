@@ -10,22 +10,35 @@
 
         public static bool Enabled => Preferences.Default.Get(EnableOptionsKey, false);
 
+        private static T Get<T>(string key, T defaultValue)
+        {
+            return Enabled 
+                ? Preferences.Default.Get(key, defaultValue)
+                : defaultValue;
+        }
+
+        private static void Set<T>(string key, T value)
+        {
+            if (Enabled)
+                Preferences.Default.Set(key, value);
+        }
+
         public static string IdirOverride
         {
-            get => Preferences.Default.Get(IdirOverrideKey, "");
-            set => Preferences.Default.Set(IdirOverrideKey, value.Trim());
+            get => Get(IdirOverrideKey, "");
+            set => Set(IdirOverrideKey, value.Trim());
         }
 
         public static bool AlwaysExpireAccessToken
         {
-            get => Preferences.Default.Get(AlwaysExpireAccessTokenKey, false);
-            set => Preferences.Default.Set(AlwaysExpireAccessTokenKey, value);
+            get => Get(AlwaysExpireAccessTokenKey, false);
+            set => Set(AlwaysExpireAccessTokenKey, value);
         }
 
         public static bool AlwaysExpireRefreshToken
         {
-            get => Preferences.Default.Get(AlwaysExpireRefreshTokenKey, false);
-            set => Preferences.Default.Set(AlwaysExpireRefreshTokenKey, value);
+            get => Get(AlwaysExpireRefreshTokenKey, false);
+            set => Set(AlwaysExpireRefreshTokenKey, value);
         }
     }
 }
