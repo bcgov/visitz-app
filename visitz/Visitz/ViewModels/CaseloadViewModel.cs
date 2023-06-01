@@ -7,6 +7,7 @@ using VisitzApi.ErrorHandling;
 using System.ComponentModel;
 using Visitz.Services.Networking;
 using Visitz.Views;
+using Visitz.Services;
 
 namespace Visitz.ViewModels
 {
@@ -104,7 +105,8 @@ namespace Visitz.ViewModels
 
         public async Task OpenDebugOptionsPage()
         {
-            await NavigateTo(typeof(DebugOptionsPage));
+            if (DebugOptions.Enabled)
+                await NavigateTo(typeof(DebugOptionsPage));
         }
     }
 }
