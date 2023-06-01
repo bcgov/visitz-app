@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Visitz.Controls"
              xmlns:views="clr-namespace:Visitz.Views"
-             xmlns:models="clr-namespace:Visitz.Models.BOs"
+             xmlns:models="clr-namespace:Visitz.Models"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
              x:Class="Visitz.Views.CaseloadItemDetailsPage"
              x:DataType="viewModels:CaseloadItemDetailsViewModel"

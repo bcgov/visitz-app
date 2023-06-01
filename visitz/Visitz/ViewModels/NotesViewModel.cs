@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
-using Visitz.Models.BOs;
+using Visitz.Models;
 using Visitz.Views;
 using VisitzApi;
 using VisitzApi.ErrorHandling;

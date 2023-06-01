@@ -1,6 +1,6 @@
 ﻿using VisitzApi.Models;
 
-namespace Visitz.Models.BOs
+namespace Visitz.Models
 {
     public class CaseloadItem
     {

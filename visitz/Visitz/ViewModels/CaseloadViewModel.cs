@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using VisitzApi;
-using Visitz.Models.BOs;
+using Visitz.Models;
 using VisitzApi.ErrorHandling;
 using System.ComponentModel;
 using Visitz.Services.Networking;
