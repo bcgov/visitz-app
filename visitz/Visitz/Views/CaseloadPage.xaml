@@ -27,35 +27,50 @@
             </Image.GestureRecognizers>
         </Image>
 
-        <CollectionView
-            ItemsSource="{Binding Caseload}"
-            SelectionMode="None" Grid.Row="1">
-            <CollectionView.EmptyView>
-                <Grid>
-                    <VerticalStackLayout VerticalOptions="Center">
-                        <Image 
-                            Source="file_folder.png" 
-                            WidthRequest="150" 
-                            HeightRequest="150" />
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding RefreshCaseloadCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
 
-                        <Button 
-                            Text="Get Caseload from ICM" 
-                            Clicked="Button_Clicked" 
-                            Margin="20" 
-                            HorizontalOptions="Center" />
-                    </VerticalStackLayout>
-                </Grid>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout  Orientation="Vertical" Span="1"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:CaseloadItem">
-                    <controls:CaseloadItemView />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <!-- 
+                WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+                Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+                This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+            -->
+            <ContentView>
+
+                <CollectionView
+                    ItemsSource="{Binding Caseload}"
+                    SelectionMode="None" >
+                    <CollectionView.EmptyView>
+                        <Grid>
+                            <VerticalStackLayout VerticalOptions="Center">
+                                <Image 
+                                    Source="file_folder.png" 
+                                    WidthRequest="150" 
+                                    HeightRequest="150" />
+
+                                <Button 
+                                    Text="Get Caseload from ICM" 
+                                    Clicked="Button_Clicked" 
+                                    Margin="20" 
+                                    HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout  Orientation="Vertical" Span="1"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CaseloadItem">
+                            <controls:CaseloadItemView />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </ContentView>
+
+        </RefreshView>
 
     </Grid>
 </views:VisitzPage>
-
