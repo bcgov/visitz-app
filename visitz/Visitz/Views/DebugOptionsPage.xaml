@@ -2,7 +2,60 @@
 <views:VisitzPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:views="clr-namespace:Visitz.Views"
+                  xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
                   x:Class="Visitz.Views.DebugOptionsPage"
-                  Title="Testing Options">
+                  x:DataType="viewmodels:DebugOptionsViewModel"
+                  Title="Debug Options">
+
+    <Grid Padding="16" ColumnSpacing="16" RowSpacing="16">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label 
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="IDIR override" />
+
+        <Entry 
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalOptions="Center"
+            Text="{Binding IdirOverride}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="Expire access tokens" />
+
+        <Switch 
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalOptions="Center"
+            IsToggled="{Binding AlwaysExpireAccessToken}" />
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="Expire refresh tokens" />
+
+        <Switch 
+            Grid.Row="2"
+            Grid.Column="1"
+            VerticalOptions="Center"
+            IsToggled="{Binding AlwaysExpireRefreshToken}" />
+
+    </Grid>
 
 </views:VisitzPage>
