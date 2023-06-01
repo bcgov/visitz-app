@@ -4,8 +4,8 @@ namespace Visitz.Models
 {
     public class CaseloadItem
     {
-        public string EntityType { get; set; }
         public string CaseIncidentNumber { get; set; }
+        public string EntityType { get; set; }
         public string CaseIncidentType { get; set; }
         public string WorkerId { get; set; }
         public string WorkerFullName { get; set; }
