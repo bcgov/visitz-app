@@ -47,7 +47,7 @@ namespace Visitz.ViewModels
                     await NavigateToNotesPage(SelectedCaseIncident);
         }
 
-        private async Task NavigateToNotesPage(CaseloadItem caseIncident)
+        private static async Task NavigateToNotesPage(CaseloadItem caseIncident)
         {
             await NavigateTo(typeof(NotesPage), new Dictionary<string, object> 
             { 
@@ -103,7 +103,7 @@ namespace Visitz.ViewModels
             SelectedCaseIncident = caseloadItem;
         }
 
-        public async Task OpenDebugOptionsPage()
+        public static async Task OpenDebugOptionsPage()
         {
             if (DebugOptions.Enabled)
                 await NavigateTo(typeof(DebugOptionsPage));
