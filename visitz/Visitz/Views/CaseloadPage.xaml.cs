@@ -12,11 +12,6 @@ public partial class CaseloadPage : VisitzPage
         BindingContext = viewModel;
     }
 
-    public async void Button_Clicked(object sender, EventArgs e)
-    {
-        await ViewModel.RefreshCaseload();
-    }
-
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         await CaseloadViewModel.OpenDebugOptionsPage();
