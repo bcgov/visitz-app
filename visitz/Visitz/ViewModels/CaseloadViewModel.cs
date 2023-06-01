@@ -23,7 +23,8 @@ namespace Visitz.ViewModels
 
         private Vpi Vpi { get; }
 
-        public bool IsRefreshing { get; set; }
+        [ObservableProperty]
+        public bool isRefreshing;
 
         public CaseloadViewModel(Vpi visitzApi)
         {
@@ -85,14 +86,15 @@ namespace Visitz.ViewModels
             }
         }
 
+        [RelayCommand]
         public async Task RefreshCaseload()
         {
-            if (!IsRefreshing)
+            try
             {
-                IsRefreshing = true;
-
                 await TryFetchCasesAndIncidents();
-                
+            }
+            finally
+            {
                 IsRefreshing = false;
             }
         }

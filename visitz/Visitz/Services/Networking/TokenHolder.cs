@@ -76,11 +76,13 @@ namespace Visitz.Services.Networking
         public static void DeleteAccessToken()
         {
             SecureStorage.Default.Remove(AccessTokenKey);
+            AccessToken = null;
         }
 
         public static void DeleteRefreshToken()
         {
             SecureStorage.Default.Remove(RefreshTokenKey);
+            RefreshToken = null;
         }
 
         private static bool IsTokenValid(JwtSecurityToken token)
