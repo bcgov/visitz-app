@@ -1,10 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using VisitzApi;
 using Visitz.Models;
 using VisitzApi.ErrorHandling;
-using System.ComponentModel;
 using Visitz.Services.Networking;
 using Visitz.Views;
 using Visitz.Services;
@@ -20,9 +18,6 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public IEnumerable<CaseloadItem> caseload;
 
-        [ObservableProperty]
-        public CaseloadItem selectedCaseIncident;
-
         private Vpi Vpi { get; }
 
         [ObservableProperty]
@@ -35,17 +30,8 @@ namespace Visitz.ViewModels
 
         public override async void PageCreated()
         {
-            PropertyChanged += CaseloadViewModel_PropertyChanged;
-
             var realm = await VisitzRealm.GetAsync();
             Caseload = realm.All<CaseloadItem>();
-        }
-
-        private async void CaseloadViewModel_PropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            if (args.PropertyName.Equals(nameof(SelectedCaseIncident)))
-                if (SelectedCaseIncident is not null)
-                    await NavigateToNotesPage(SelectedCaseIncident);
         }
 
         private static async Task NavigateToNotesPage(CaseloadItem caseIncident)
@@ -102,9 +88,9 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        void GoToNotes(CaseloadItem caseloadItem)
+        public async void GoToNotes(CaseloadItem caseloadItem)
         {
-            SelectedCaseIncident = caseloadItem;
+            await NavigateToNotesPage(caseloadItem);
         }
 
         public static async Task OpenDebugOptionsPage()
