@@ -13,7 +13,11 @@ namespace Visitz.ViewModels
     /// </summary>
 	public partial class NotesViewModel : VisitzViewModel, IQueryAttributable
     {
+        public static readonly string CaseIncidentIdKey = "caseIncidentId";
+
         private IQueryable<NoteItem> NotesQuery;
+
+        public string caseIncidentId;
 
         [ObservableProperty]
         public CaseloadItem caseIncident;
@@ -32,9 +36,13 @@ namespace Visitz.ViewModels
         {
             var realm = await VisitzRealm.GetAsync();
 
+            CaseIncident = realm
+                .All<CaseloadItem>()
+                .FirstOrDefault(item => item.CaseIncidentNumber == caseIncidentId);
+
             Notes = NotesQuery = realm
                 .All<NoteItem>()
-                .Where(note => note.IcmId == CaseIncident.CaseIncidentNumber);
+                .Where(note => note.IcmId == caseIncidentId);
 
             await TryFetchNotes();
         }
@@ -77,7 +85,7 @@ namespace Visitz.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            CaseIncident = query["caseIncident"] as CaseloadItem;
+            caseIncidentId = query[CaseIncidentIdKey] as string;
         }
 
         public async Task CaseDetailsTapped()
