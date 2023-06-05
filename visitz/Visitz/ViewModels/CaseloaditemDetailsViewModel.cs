@@ -8,6 +8,10 @@ namespace Visitz.ViewModels
     /// </summary>
 	public partial class CaseloadItemDetailsViewModel : VisitzViewModel, IQueryAttributable
     {
+        public static readonly string CaseIncidentIdKey = "caseIncidentId";
+
+        private string caseIncidentId;
+
         [ObservableProperty]
         public CaseloadItem caseIncident;
 
@@ -18,7 +22,7 @@ namespace Visitz.ViewModels
         {
             CaseIncident = query["caseIncident"] as CaseloadItem;
 
-            IdSubtitle = 
+            IdSubtitle =
                 CaseIncident?.EntityType
                 + " "
                 + CaseIncident?.CaseIncidentNumber;

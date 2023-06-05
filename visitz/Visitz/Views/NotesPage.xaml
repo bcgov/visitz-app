@@ -11,7 +11,8 @@
 
     <Shell.TitleView>
         <StackLayout>
-            <Button Text="Case Details" Clicked="CaseDetailsTapped"
+            <Button Text="Case Details" 
+                    Command="{Binding CaseDetailsTappedCommand}"
                     HeightRequest="50" WidthRequest="150"
                     HorizontalOptions="End"
                     FontFamily="BCSansBold"

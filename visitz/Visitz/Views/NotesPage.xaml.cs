@@ -17,10 +17,4 @@ public partial class NotesPage : VisitzPage
             { NotesViewModel.CaseIncidentIdKey, caseIncidentId }
         });
     }
-
-    async void CaseDetailsTapped(object sender, EventArgs e)
-    {
-        if (ViewModel is NotesViewModel notesVm)
-            await notesVm.CaseDetailsTapped();
-    }
 }
