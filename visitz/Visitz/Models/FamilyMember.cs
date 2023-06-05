@@ -1,10 +1,13 @@
-﻿using VisitzApi.Models;
+﻿using Realms;
+using VisitzApi.Models;
 
 namespace Visitz.Models
 {
-    public class FamilyMember
+    public partial class FamilyMember : IRealmObject
     {
+        [PrimaryKey]
         public string ContactId { get; set; }
+
         public string KeyPlayer { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -29,37 +32,40 @@ namespace Visitz.Models
         public string FullDisplayName => string.Join(" ",
             FirstName, MiddleName, LastName);
 
-        public FamilyMember(FamilyMemberEntity familyMember)
+        public static FamilyMember FromApiEntity(FamilyMemberEntity familyMember)
         {
-            ContactId = familyMember.ContactId;
-            KeyPlayer = familyMember.KeyPlayer;
-            LastName = familyMember.LastName;
-            FirstName = familyMember.FirstName;
-            MiddleName = familyMember.MiddleName;
+            return new FamilyMember()
+            {
+                ContactId = familyMember.ContactId,
+                KeyPlayer = familyMember.KeyPlayer,
+                LastName = familyMember.LastName,
+                FirstName = familyMember.FirstName,
+                MiddleName = familyMember.MiddleName,
 
-            // TODO: Properly handle DateTime in FamilyMember object
-            DateOfBirth = familyMember.DateOfBirth;
+                // TODO: Properly handle DateTime in FamilyMember object
+                DateOfBirth = familyMember.DateOfBirth,
 
-            Sex = familyMember.Sex;
-            Relationship = familyMember.Relationship;
-            PersonIdICM = familyMember.PersonIdICM;
-            AboriginalOrigin = familyMember.AboriginalOrigin;
-            LivingCommunityBand = familyMember.LivingCommunityBand;
-            Email = familyMember.Email;
-            HomePhone = familyMember.HomePhone;
-            CellPhone = familyMember.CellPhone;
-            ContactUnitNo = familyMember.ContactUnitNo;
-            ContactAddressLine1 = familyMember.ContactAddressLine1;
-            ContactAddressLine2 = familyMember.ContactAddressLine2;
-            ContactCity = familyMember.ContactCity;
-            ContactPostalCode = familyMember.ContactPostalCode;
-            ContactProvinceState = familyMember.ContactProvinceState;
-            ContactCountry = familyMember.ContactCountry;
+                Sex = familyMember.Sex,
+                Relationship = familyMember.Relationship,
+                PersonIdICM = familyMember.PersonIdICM,
+                AboriginalOrigin = familyMember.AboriginalOrigin,
+                LivingCommunityBand = familyMember.LivingCommunityBand,
+                Email = familyMember.Email,
+                HomePhone = familyMember.HomePhone,
+                CellPhone = familyMember.CellPhone,
+                ContactUnitNo = familyMember.ContactUnitNo,
+                ContactAddressLine1 = familyMember.ContactAddressLine1,
+                ContactAddressLine2 = familyMember.ContactAddressLine2,
+                ContactCity = familyMember.ContactCity,
+                ContactPostalCode = familyMember.ContactPostalCode,
+                ContactProvinceState = familyMember.ContactProvinceState,
+                ContactCountry = familyMember.ContactCountry,
+            };
         }
 
-        public static List<FamilyMember> ConvertFromEntities(List<FamilyMemberEntity> familyMembers)
+        public static List<FamilyMember> ConvertFromApiEntities(List<FamilyMemberEntity> familyMembers)
         {
-            return familyMembers.ConvertAll(member =>  new FamilyMember(member));
+            return familyMembers.ConvertAll(FromApiEntity);
         }
     }
 }
