@@ -63,9 +63,9 @@ namespace Visitz.Models
             };
         }
 
-        public static List<FamilyMember> ConvertFromApiEntities(List<FamilyMemberEntity> familyMembers)
+        public static IEnumerable<FamilyMember> FromApiEntities(IEnumerable<FamilyMemberEntity> familyMembers)
         {
-            return familyMembers.ConvertAll(FromApiEntity);
+            return familyMembers.Select(FromApiEntity);
         }
     }
 }

@@ -81,7 +81,7 @@ namespace Visitz.Models
                 DateReported = caseloadEntity.DateReported,
             };
 
-            var family = FamilyMember.ConvertFromApiEntities(caseloadEntity.FamilyMembers);
+            var family = FamilyMember.FromApiEntities(caseloadEntity.FamilyMembers);
 
             foreach (var familyMember in family)
                 caseloadItem.FamilyMembers.Add(familyMember);
