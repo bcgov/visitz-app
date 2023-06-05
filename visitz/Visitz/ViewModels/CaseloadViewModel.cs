@@ -8,6 +8,7 @@ using System.ComponentModel;
 using Visitz.Services.Networking;
 using Visitz.Views;
 using Visitz.Services;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -16,7 +17,8 @@ namespace Visitz.ViewModels
     /// </summary>
     public partial class CaseloadViewModel : VisitzViewModel
     {
-        public ObservableCollection<CaseloadItem> Caseload { get; set; } = new();
+        [ObservableProperty]
+        public IEnumerable<CaseloadItem> caseload;
 
         [ObservableProperty]
         public CaseloadItem selectedCaseIncident;
@@ -31,14 +33,12 @@ namespace Visitz.ViewModels
             Vpi = visitzApi;
         }
 
-        public override void PageCreated()
+        public override async void PageCreated()
         {
             PropertyChanged += CaseloadViewModel_PropertyChanged;
-        }
 
-        public override async void PageStarted()
-        {
-            
+            var realm = await VisitzRealm.GetAsync();
+            Caseload = realm.All<CaseloadItem>();
         }
 
         private async void CaseloadViewModel_PropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -67,12 +67,14 @@ namespace Visitz.ViewModels
             try
             {
                 var info = await VisitzSessionInfo.GetAsync();
-                var caseloadContent = await Vpi.GetCaseloadAsync(info.Idir);
+                var caseloadFromApi = await Vpi.GetCaseloadAsync(info.Idir);
+                var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
 
-                Caseload.Clear();
-
-                foreach (var item in caseloadContent)
-                    Caseload.Add(new CaseloadItem(item));
+                using var realm = await VisitzRealm.GetAsync();
+                await realm.WriteAsync(() =>
+                {
+                    realm.Add(caseloadContent, update: true);
+                });
             }
             catch (VisitzApiException ex)
             {
