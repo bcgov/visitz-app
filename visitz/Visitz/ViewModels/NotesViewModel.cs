@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
 using Visitz.Models;
+using Visitz.Services.Networking;
+using Visitz.Storage;
 using Visitz.Views;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
@@ -12,10 +13,13 @@ namespace Visitz.ViewModels
     /// </summary>
 	public partial class NotesViewModel : VisitzViewModel, IQueryAttributable
     {
+        private IQueryable<NoteItem> NotesQuery;
+
         [ObservableProperty]
         public CaseloadItem caseIncident;
 
-        public ObservableCollection<NoteItem> Notes { get; set; } = new();
+        [ObservableProperty]
+        public IEnumerable<NoteItem> notes;
 
         private Vpi Vpi { get; }
 
@@ -24,21 +28,40 @@ namespace Visitz.ViewModels
             Vpi = visitzApi;
         }
 
-        public override void PageCreated()
+        public override async void PageCreated()
         {
-            FetchNotes();
+            var realm = await VisitzRealm.GetAsync();
+
+            Notes = NotesQuery = realm
+                .All<NoteItem>()
+                .Where(note => note.IcmId == CaseIncident.CaseIncidentNumber);
+
+            await TryFetchNotes();
         }
 
-        public async void FetchNotes()
+        private async Task TryFetchNotes()
+        {
+            if (await VisitzSession.GetValidSessionAsync())
+                await FetchNotes();
+        }
+
+        private async Task FetchNotes()
         {
             try
             {
-                var notesList = await Vpi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
+                var notesFromApi = await Vpi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
+                var notes = NoteItem.FromApiEntities(CaseIncident.CaseIncidentNumber, notesFromApi);
 
-                Notes.Clear();
-
-                foreach (var note in notesList)
-                    Notes.Add(new NoteItem(note));
+                using var realm = await VisitzRealm.GetAsync();
+                await realm.WriteAsync(() =>
+                {
+                    // NOTE 2023-06-05: The ICM API currently does not return PK info about notes.
+                    // We can only associate them by the entity ID and the actual content of the
+                    // note. So instead of using upserts, we're removing-then-adding new notes
+                    // that come in.
+                    realm.RemoveRange(NotesQuery);
+                    realm.Add(notes);
+                });
             }
             catch (VisitzApiException ex)
             {
