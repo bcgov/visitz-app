@@ -32,6 +32,10 @@ namespace Visitz.ViewModels
         {
             Vpi = visitzApi;
         }
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            caseIncidentId = query[CaseIncidentIdKey] as string;
+        }
 
         public override async void PageCreated()
         {
@@ -80,11 +84,6 @@ namespace Visitz.ViewModels
                 // TODO: Implement proper error logging/handling (show to user? store errors somewhere?)
                 Console.WriteLine(ex.StackTrace);
             }
-        }
-
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            caseIncidentId = query[CaseIncidentIdKey] as string;
         }
 
         [RelayCommand]
