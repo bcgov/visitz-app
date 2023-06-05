@@ -34,14 +34,6 @@ namespace Visitz.ViewModels
             Caseload = realm.All<CaseloadItem>();
         }
 
-        private static async Task NavigateToNotesPage(CaseloadItem caseIncident)
-        {
-            await NavigateTo(typeof(NotesPage), new Dictionary<string, object> 
-            { 
-                { "caseIncident", caseIncident } 
-            });
-        }
-
         public async Task TryFetchCasesAndIncidents()
         {
             if (await VisitzSession.GetValidSessionAsync())
@@ -90,7 +82,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void GoToNotes(CaseloadItem caseloadItem)
         {
-            await NavigateToNotesPage(caseloadItem);
+            await NotesPage.Open(caseloadItem.CaseIncidentNumber);
         }
 
         public static async Task OpenDebugOptionsPage()
