@@ -37,9 +37,7 @@ namespace Visitz.ViewModels
         {
             var realm = await VisitzRealm.GetAsync();
 
-            CaseIncident = realm
-                .All<CaseloadItem>()
-                .FirstOrDefault(item => item.CaseIncidentNumber == caseIncidentId);
+            CaseIncident = realm.Find<CaseloadItem>(caseIncidentId);
 
             Notes = NotesQuery = realm
                 .All<NoteItem>()
