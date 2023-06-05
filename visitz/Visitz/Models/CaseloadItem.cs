@@ -1,10 +1,13 @@
-﻿using VisitzApi.Models;
+﻿using Realms;
+using VisitzApi.Models;
 
 namespace Visitz.Models
 {
-    public class CaseloadItem
+    public partial class CaseloadItem : IRealmObject
     {
+        [PrimaryKey]
         public string CaseIncidentNumber { get; set; }
+
         public string EntityType { get; set; }
         public string CaseIncidentType { get; set; }
         public string WorkerId { get; set; }
@@ -19,7 +22,7 @@ namespace Visitz.Models
         public string PostalCode { get; set; }
         public string ProvinceState { get; set; }
         public string Country { get; set; }
-        public List<FamilyMember> FamilyMembers { get; set; }
+        public IList<FamilyMember> FamilyMembers { get; }
         public string KeyPlayerCellPhone { get; set; }
         public string KeyPlayerEmail { get; set; }
         public string KeyPlayerHomePhone { get; set; }
@@ -52,29 +55,38 @@ namespace Visitz.Models
             }
         }
 
-        public CaseloadItem(CaseloadEntity caseloadEntity)
+        public static CaseloadItem FromApiEntity(CaseloadEntity caseloadEntity)
         {
-            EntityType = caseloadEntity.EntityType;
-            CaseIncidentNumber = caseloadEntity.CaseIncidentNumber;
-            CaseIncidentType = caseloadEntity.CaseIncidentType;
-            WorkerId = caseloadEntity.WorkerId;
-            WorkerFullName = caseloadEntity.WorkerFullName;
-            ServiceOffice = caseloadEntity.ServiceOffice;
-            OfficeCode = caseloadEntity.OfficeCode;
-            SafetyAssessmentExist = caseloadEntity.SafetyAssessmentExist;
-            UnitNo = caseloadEntity.UnitNo;
-            AddressLine1 = caseloadEntity.AddressLine1;
-            AddressLine2 = caseloadEntity.AddressLine2;
-            City = caseloadEntity.City;
-            PostalCode = caseloadEntity.PostalCode;
-            ProvinceState = caseloadEntity.ProvinceState;
-            Country = caseloadEntity.Country;
-            FamilyMembers = FamilyMember.ConvertFromEntities(caseloadEntity.FamilyMembers);
-            KeyPlayerCellPhone = caseloadEntity.KeyPlayerCellPhone;
-            KeyPlayerEmail = caseloadEntity.KeyPlayerEmail;
-            KeyPlayerHomePhone = caseloadEntity.KeyPlayerHomePhone;
-            CreatedDate = caseloadEntity.CreatedDate;
-            DateReported = caseloadEntity.DateReported;
+            var caseloadItem = new CaseloadItem()
+            {
+                EntityType = caseloadEntity.EntityType,
+                CaseIncidentNumber = caseloadEntity.CaseIncidentNumber,
+                CaseIncidentType = caseloadEntity.CaseIncidentType,
+                WorkerId = caseloadEntity.WorkerId,
+                WorkerFullName = caseloadEntity.WorkerFullName,
+                ServiceOffice = caseloadEntity.ServiceOffice,
+                OfficeCode = caseloadEntity.OfficeCode,
+                SafetyAssessmentExist = caseloadEntity.SafetyAssessmentExist,
+                UnitNo = caseloadEntity.UnitNo,
+                AddressLine1 = caseloadEntity.AddressLine1,
+                AddressLine2 = caseloadEntity.AddressLine2,
+                City = caseloadEntity.City,
+                PostalCode = caseloadEntity.PostalCode,
+                ProvinceState = caseloadEntity.ProvinceState,
+                Country = caseloadEntity.Country,
+                KeyPlayerCellPhone = caseloadEntity.KeyPlayerCellPhone,
+                KeyPlayerEmail = caseloadEntity.KeyPlayerEmail,
+                KeyPlayerHomePhone = caseloadEntity.KeyPlayerHomePhone,
+                CreatedDate = caseloadEntity.CreatedDate,
+                DateReported = caseloadEntity.DateReported,
+            };
+
+            var family = FamilyMember.ConvertFromApiEntities(caseloadEntity.FamilyMembers);
+
+            foreach (var familyMember in family)
+                caseloadItem.FamilyMembers.Add(familyMember);
+
+            return caseloadItem;
         }
     }
 }
