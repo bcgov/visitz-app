@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Visitz.Services;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -34,6 +36,12 @@ namespace Visitz.ViewModels
         partial void OnAlwaysExpireRefreshTokenChanged(bool value)
         {
             DebugOptions.AlwaysExpireRefreshToken = value;
+        }
+
+        [RelayCommand]
+        public async void ClearRealmData()
+        {
+            await DebugOptions.ClearRealmData();
         }
     }
 }
