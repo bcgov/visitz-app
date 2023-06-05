@@ -88,5 +88,10 @@ namespace Visitz.Models
 
             return caseloadItem;
         }
+
+        public static IEnumerable<CaseloadItem> FromApiEntities(IEnumerable<CaseloadEntity> caseloadEntities)
+        {
+            return caseloadEntities.Select(FromApiEntity);
+        }
     }
 }
