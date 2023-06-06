@@ -7,13 +7,20 @@
              x:Name="this">
 
     <VerticalStackLayout BindingContext="{x:Reference this}">
-        
+
         <Label 
             Text="{Binding Name}" 
             FontSize="15"
             FontFamily="BCSansRegular"
-            TextColor="{StaticResource BC_InputControlsTextColor}"
-            Padding="0,10,0,0" />
+            Padding="0,10,0,0">
+            <Label.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="TextColor" Value="{AppThemeBinding 
+                        Light={StaticResource BC_InputControlsTextColor}, 
+                        Dark={StaticResource Gray300}}" />
+                </Style>
+            </Label.Resources>
+        </Label>
 
         <Label 
             Text="{Binding Value}" 
