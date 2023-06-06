@@ -3,11 +3,9 @@ using VisitzApi.Models;
 
 namespace Visitz.Models
 {
-    public partial class FamilyMember : IRealmObject
+    public partial class FamilyMember : IEmbeddedObject
     {
-        [PrimaryKey]
         public string ContactId { get; set; }
-
         public string KeyPlayer { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
