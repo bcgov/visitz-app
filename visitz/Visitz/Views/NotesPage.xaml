@@ -8,18 +8,11 @@
              x:DataType="viewModels:NotesViewModel"
              Title="NotesPage">
 
-    <Shell.TitleView>
-        <StackLayout>
-            <Button Text="Case Details" 
-                    Command="{Binding CaseDetailsTappedCommand}"
-                    HeightRequest="50" WidthRequest="150"
-                    HorizontalOptions="End"
-                    FontFamily="BCSansBold"
-                    FontSize="14"
-                    TextColor="#003366"
-                    BackgroundColor="White" />
-        </StackLayout>
-    </Shell.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Text="Case Details"
+            Command="{Binding CaseDetailsTappedCommand}" />
+    </ContentPage.ToolbarItems>
 
     <Grid Padding="20,20">
         <Grid.RowDefinitions>
