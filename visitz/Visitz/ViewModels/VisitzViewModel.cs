@@ -8,16 +8,7 @@ namespace Visitz.ViewModels
     /// </summary>
 	public partial class VisitzViewModel : ObservableObject
     {
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsNotBusy))]
-        bool isBusy;
-
-        [ObservableProperty]
-        string title;
-
         public VisitzPage VisitzPage { get; set; }
-
-        public bool IsNotBusy => !IsBusy;
 
         protected static async Task NavigateTo(Type page, IDictionary<string, object> parameters)
         {

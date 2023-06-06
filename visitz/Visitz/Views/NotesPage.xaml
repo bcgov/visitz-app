@@ -6,8 +6,7 @@
              xmlns:models="clr-namespace:Visitz.Models"
              x:Class="Visitz.Views.NotesPage"
              x:DataType="viewModels:NotesViewModel"
-             Title="NotesPage"
-             BackgroundColor="White">
+             Title="NotesPage">
 
     <Shell.TitleView>
         <StackLayout>
@@ -18,8 +17,7 @@
                     FontFamily="BCSansBold"
                     FontSize="14"
                     TextColor="#003366"
-                    BackgroundColor="White"
-                    />
+                    BackgroundColor="White" />
         </StackLayout>
     </Shell.TitleView>
 
@@ -36,7 +34,6 @@
                 Text="{Binding CaseIncident.DisplayName}"
                 FontSize="28"
                 FontFamily="BCSansBold"
-                TextColor="#131315"
                 Padding="0,10,0,0"
                 />
 
@@ -59,14 +56,12 @@
                 Text="Case notes"
                 FontSize="22"
                 FontFamily="BCSansBold"
-                TextColor="#131315"
                 Margin="0,20,0,0"
                 Grid.Row="1"
                 />
 
         <Entry Placeholder="Search by key word"
                HeightRequest="48"
-               BackgroundColor="#F3F3F5"
                Margin="0,20,0,0"
                Grid.Row="2"
             />
@@ -113,7 +108,6 @@
                                                 FontSize="17"
                                                 FontFamily="BCSansBold"
                                                 Margin="10,0,0,0"
-                                                TextColor="#131315"
                                                 />
                                     </HorizontalStackLayout>
 
