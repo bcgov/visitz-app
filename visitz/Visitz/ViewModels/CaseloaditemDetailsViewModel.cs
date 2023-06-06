@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Models;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -16,16 +17,30 @@ namespace Visitz.ViewModels
         public CaseloadItem caseIncident;
 
         [ObservableProperty]
+        public IList<FamilyMember> familyMembers;
+
+        [ObservableProperty]
         public string idSubtitle;
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            CaseIncident = query["caseIncident"] as CaseloadItem;
+            caseIncidentId = query[CaseIncidentIdKey] as string;
+        }
+
+        public override async void PageCreated()
+        {
+            using var realm = await VisitzRealm.GetAsync();
+
+            CaseIncident = realm.Find<CaseloadItem>(caseIncidentId);
+            
+            // NOTE: A VerticalStackLayout won't initiate a data load on its own
+            // so we need to run the Realm READ operation manually here.
+            FamilyMembers = CaseIncident.FamilyMembers.ToList();
 
             IdSubtitle =
-                CaseIncident?.EntityType
+                CaseIncident.EntityType
                 + " "
-                + CaseIncident?.CaseIncidentNumber;
+                + CaseIncident.CaseIncidentNumber;
         }
     }
 }

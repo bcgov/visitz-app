@@ -98,7 +98,7 @@
 
                 <VerticalStackLayout 
                     Spacing="20"
-                    BindableLayout.ItemsSource="{Binding CaseIncident.FamilyMembers}">
+                    BindableLayout.ItemsSource="{Binding FamilyMembers}">
                     <BindableLayout.EmptyView>
                         <Grid>
                             <Image Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
