@@ -14,7 +14,7 @@ namespace Visitz.ViewModels
         private string caseIncidentId;
 
         [ObservableProperty]
-        public CaseloadItem caseIncident;
+        public CaseloadItem caseloadItem;
 
         [ObservableProperty]
         public IList<FamilyMember> familyMembers;
@@ -31,16 +31,16 @@ namespace Visitz.ViewModels
         {
             using var realm = await VisitzRealm.GetAsync();
 
-            CaseIncident = realm.Find<CaseloadItem>(caseIncidentId);
+            CaseloadItem = realm.Find<CaseloadItem>(caseIncidentId);
             
             // NOTE: A VerticalStackLayout won't initiate a data load on its own
             // so we need to run the Realm READ operation manually here.
-            FamilyMembers = CaseIncident.FamilyMembers.ToList();
+            FamilyMembers = CaseloadItem.FamilyMembers.ToList();
 
             IdSubtitle =
-                CaseIncident.EntityType
+                CaseloadItem.EntityType
                 + " "
-                + CaseIncident.CaseIncidentNumber;
+                + CaseloadItem.CaseIncidentNumber;
         }
     }
 }

@@ -15,7 +15,7 @@
         <VerticalStackLayout Spacing="15">
 
             <VerticalStackLayout BackgroundColor="White" Padding="20" Spacing="10">
-                <Label Text="{Binding CaseIncident.DisplayName}" 
+                <Label Text="{Binding CaseloadItem.DisplayName}" 
                     FontSize="28"
                     FontFamily="BCSansBold"
                     TextColor="#131315" />
@@ -53,35 +53,35 @@
                 <controls:FormItemView 
                     Grid.Row="1" 
                     Name="Program service area"
-                    Value="{Binding CaseIncident.EntityType}" />
+                    Value="{Binding CaseloadItem.EntityType}" />
 
                 <controls:FormItemView 
                     Grid.Row="2" 
                     Name="Case Load"
-                    Value="{Binding CaseIncident.CaseIncidentNumber}" />
+                    Value="{Binding CaseloadItem.CaseIncidentNumber}" />
 
                 <controls:FormItemView 
                     Grid.Row="3" 
                     Name="Open date"
-                    Value="{Binding CaseIncident.DisplayDate}" />
+                    Value="{Binding CaseloadItem.DisplayDate}" />
 
                 <controls:FormItemView 
                     Grid.Row="4" 
                     Grid.ColumnSpan="2"
                     Name="Case address"
-                    Value="{Binding CaseIncident.Address}" />
+                    Value="{Binding CaseloadItem.Address}" />
 
                 <controls:FormItemView 
                     Grid.Row="1"
                     Grid.Column="1"
                     Name="Case type"
-                    Value="{Binding CaseIncident.CaseIncidentType}" />
+                    Value="{Binding CaseloadItem.CaseIncidentType}" />
 
                 <controls:FormItemView 
                     Grid.Row="2" 
                     Grid.Column="1" 
                     Name="Service office"
-                    Value="{Binding CaseIncident.ServiceOffice}" />
+                    Value="{Binding CaseloadItem.ServiceOffice}" />
             </Grid>
 
             <VerticalStackLayout BackgroundColor="White" Padding="20" Spacing="20">
