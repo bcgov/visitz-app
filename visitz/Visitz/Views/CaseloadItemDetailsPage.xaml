@@ -8,7 +8,7 @@
              x:Class="Visitz.Views.CaseloadItemDetailsPage"
              x:DataType="viewModels:CaseloadItemDetailsViewModel"
              Title="CaseloadItemDetailsPage"
-             BackgroundColor="#F3F3F5">
+             BackgroundColor="{StaticResource BC_Background_Light}">
 
     <ScrollView>
         
