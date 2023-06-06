@@ -2,7 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Visitz.Controls"
-             xmlns:models="clr-namespace:Visitz.Models.BOs"
+             xmlns:models="clr-namespace:Visitz.Models"
              x:Class="Visitz.Controls.ContactItemView"
              x:DataType="models:FamilyMember">
 

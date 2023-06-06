@@ -1,4 +1,7 @@
-﻿namespace Visitz.Services
+﻿using Realms;
+using Visitz.Storage;
+
+namespace Visitz.Services
 {
     public class DebugOptions
     {
@@ -39,6 +42,15 @@
         {
             get => Get(AlwaysExpireRefreshTokenKey, false);
             set => Set(AlwaysExpireRefreshTokenKey, value);
+        }
+
+        public static async Task ClearRealmData()
+        {
+            if (Enabled)
+            {
+                using var realm = await VisitzRealm.GetAsync();
+                await realm.WriteAsync(realm.RemoveAll);
+            }
         }
     }
 }

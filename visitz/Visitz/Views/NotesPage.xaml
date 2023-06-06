@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:Visitz.Views"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
-             xmlns:models="clr-namespace:Visitz.Models.BOs"
+             xmlns:models="clr-namespace:Visitz.Models"
              x:Class="Visitz.Views.NotesPage"
              x:DataType="viewModels:NotesViewModel"
              Title="NotesPage"
@@ -11,7 +11,8 @@
 
     <Shell.TitleView>
         <StackLayout>
-            <Button Text="Case Details" Clicked="CaseDetailsTapped"
+            <Button Text="Case Details" 
+                    Command="{Binding CaseDetailsTappedCommand}"
                     HeightRequest="50" WidthRequest="150"
                     HorizontalOptions="End"
                     FontFamily="BCSansBold"

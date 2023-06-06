@@ -10,9 +10,11 @@ public partial class NotesPage : VisitzPage
 		BindingContext = viewModel;
     }
 
-    async void CaseDetailsTapped(object sender, EventArgs e)
+    public static async Task Open(string caseIncidentId)
     {
-        if (ViewModel is NotesViewModel notesVm)
-            await notesVm.CaseDetailsTapped();
+        await NavigateTo(typeof(NotesPage), new Dictionary<string, object>
+        {
+            { NotesViewModel.CaseIncidentIdKey, caseIncidentId }
+        });
     }
 }
