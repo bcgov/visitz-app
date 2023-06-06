@@ -7,8 +7,7 @@
              xmlns:controls="clr-namespace:Visitz.Controls"
              x:Class="Visitz.Views.CaseloadPage"
              x:DataType="viewmodels:CaseloadViewModel"
-             Title="Caseload"
-             BackgroundColor="White">
+             Title="Caseload">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False"/>

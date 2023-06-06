@@ -17,13 +17,12 @@
             <VerticalStackLayout BackgroundColor="White" Padding="20" Spacing="10">
                 <Label Text="{Binding CaseloadItem.DisplayName}" 
                     FontSize="28"
-                    FontFamily="BCSansBold"
-                    TextColor="#131315" />
+                    FontFamily="BCSansBold" />
 
                 <Label Text="{Binding IdSubtitle}"
                     FontSize="22"
                     FontFamily="BCSansBold"
-                    TextColor="#606062" />
+                    TextColor="{StaticResource BC_InputControlsTextColor}" />
             </VerticalStackLayout>
 
             <Grid BackgroundColor="White" RowSpacing="20" ColumnSpacing="20" Padding="20">
@@ -46,7 +45,6 @@
                         Text="Details"
                         FontSize="22"
                         FontFamily="BCSansBold"
-                        TextColor="#131315"
                         Margin="12,0,0,0" />
                 </HorizontalStackLayout>
 
@@ -91,7 +89,6 @@
                         Text="Family information"
                         FontSize="22"
                         FontFamily="BCSansBold"
-                        TextColor="#131315"
                         Margin="12,0,0,0"
                         />
                 </HorizontalStackLayout>

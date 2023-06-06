@@ -12,14 +12,13 @@
             Text="{Binding Name}" 
             FontSize="15"
             FontFamily="BCSansRegular"
-            TextColor="#606062"
+            TextColor="{StaticResource BC_InputControlsTextColor}"
             Padding="0,10,0,0" />
 
         <Label 
             Text="{Binding Value}" 
             FontSize="17"
             FontFamily="BCSansRegular"
-            TextColor="#131315"
             Margin="0,5,0,0" />
         
     </VerticalStackLayout>
