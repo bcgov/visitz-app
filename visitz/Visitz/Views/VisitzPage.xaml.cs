@@ -10,6 +10,8 @@ public abstract partial class VisitzPage : ContentPage
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
 
+    public IDictionary<string, object> Parameters { get; set; }
+
     public VisitzPage(VisitzViewModel visitzViewModel) : base()
     {
         ViewModel = visitzViewModel;
@@ -38,15 +40,10 @@ public abstract partial class VisitzPage : ContentPage
         ViewModel.UnsubscribeFromWindow(CurrentWindow);
     }
 
-    protected static async Task NavigateTo(Type page, IDictionary<string, object> parameters)
+    public static async Task NavigateTo<T>(Page fromPage, IDictionary<string, object> parameters = null) where T : VisitzPage
     {
-        Routing.RegisterRoute(page.Name, page);
-        await Shell.Current.GoToAsync(page.Name, parameters);
-    }
-
-    protected static async Task NavigateTo(Type page)
-    {
-        Routing.RegisterRoute(page.Name, page);
-        await Shell.Current.GoToAsync(page.Name);
+        var newPage = VisitzApp.VisitzServices.GetRequiredService<T>();
+        newPage.Parameters = parameters;
+        await fromPage.Navigation.PushAsync(newPage);
     }
 }
