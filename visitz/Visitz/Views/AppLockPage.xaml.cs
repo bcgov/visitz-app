@@ -22,12 +22,7 @@ public partial class AppLockPage : VisitzPage
         if (IsOpen)
             return;
 
-        var lockPage = Application.Current
-            .Handler
-            .MauiContext
-            .Services
-            .GetRequiredService<AppLockPage>();
-
+        var lockPage = VisitzApp.VisitzServices.GetRequiredService<AppLockPage>();
         await VisitzApp.Navigation.PushModalAsync(lockPage, false);
     }
 
