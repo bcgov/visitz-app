@@ -23,7 +23,7 @@ public partial class VisitzApp : Application
 
         // TODO: Get this working with the DI system
         // DI setup has been disabled for now in VisitzScreens
-        MainPage = new NavigationPage(new CaseloadPage(new CaseloadViewModel()));
+        MainPage = new NavigationPage(CaseloadPage.GetInstance());
     }
 
     protected async override void OnStart()
