@@ -18,18 +18,15 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public IEnumerable<CaseloadItem> caseload;
 
-        private Vpi Vpi { get; }
+        private Vpi Vpi { get; set; }
 
         [ObservableProperty]
         public bool isRefreshing;
 
-        public CaseloadViewModel(Vpi visitzApi)
-        {
-            Vpi = visitzApi;
-        }
-
         public override async void PageCreated()
         {
+            Vpi = VisitzApp.VisitzServices.GetRequiredService<Vpi>();
+
             var realm = await VisitzRealm.GetAsync();
             Caseload = realm.All<CaseloadItem>();
         }

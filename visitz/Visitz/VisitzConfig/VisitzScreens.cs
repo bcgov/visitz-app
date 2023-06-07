@@ -12,9 +12,6 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
 
-            builder.Services.AddSingleton<CaseloadPage>();
-            builder.Services.AddSingleton<CaseloadViewModel>();
-
             builder.Services.AddTransient<NotesPage>();
             builder.Services.AddTransient<NotesViewModel>();
 
@@ -25,6 +22,13 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<DebugOptionsViewModel>();
 
             return builder;
+        }
+
+        // Function unused on purpose, refer to VisitzApp.cs
+        private static void AddCaseload(MauiAppBuilder builder)
+        {
+            builder.Services.AddSingleton<CaseloadPage>();
+            builder.Services.AddSingleton<CaseloadViewModel>();
         }
     }
 }
