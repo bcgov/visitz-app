@@ -4,6 +4,8 @@ namespace Visitz;
 
 public partial class VisitzApp : Application
 {
+    public static IServiceProvider VisitzServices => Current.Handler.MauiContext.Services;
+
     public VisitzApp()
     {
         InitializeComponent();
