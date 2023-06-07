@@ -14,6 +14,6 @@ public partial class CaseloadPage : VisitzPage
 
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        await CaseloadViewModel.OpenDebugOptionsPage();
+        await ViewModel.OpenDebugOptionsPage();
     }
 }

@@ -89,7 +89,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async Task CaseDetailsTapped()
         {
-            await CaseloadItemDetailsPage.Open(CaseIncident.CaseIncidentNumber);
+            await CaseloadItemDetailsPage.Open(VisitzPage, CaseIncident.CaseIncidentNumber);
         }
     }
 }

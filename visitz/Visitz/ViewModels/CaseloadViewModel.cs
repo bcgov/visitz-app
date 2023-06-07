@@ -79,13 +79,13 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void GoToNotes(CaseloadItem caseloadItem)
         {
-            await NotesPage.Open(caseloadItem.CaseIncidentNumber);
+            await NotesPage.Open(VisitzPage, caseloadItem.CaseIncidentNumber);
         }
 
-        public static async Task OpenDebugOptionsPage()
+        public async Task OpenDebugOptionsPage()
         {
             if (DebugOptions.Enabled)
-                await NavigateTo(typeof(DebugOptionsPage));
+                await NavigateTo<DebugOptionsPage>();
         }
     }
 }
