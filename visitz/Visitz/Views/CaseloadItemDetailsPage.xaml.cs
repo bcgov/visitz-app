@@ -9,9 +9,9 @@ public partial class CaseloadItemDetailsPage : VisitzPage
 		BindingContext = viewModel;
     }
 
-	public static async Task Open(string caseIncidentId)
+	public static async Task Open(Page fromPage, string caseIncidentId)
 	{
-        await NavigateTo(typeof(CaseloadItemDetailsPage), new Dictionary<string, object>
+        await NavigateTo<CaseloadItemDetailsPage>(fromPage, new Dictionary<string, object>
         {
             { CaseloadItemDetailsViewModel.CaseIncidentIdKey, caseIncidentId }
         });

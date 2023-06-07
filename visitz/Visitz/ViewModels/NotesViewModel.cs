@@ -12,7 +12,7 @@ namespace Visitz.ViewModels
     /// <summary>
     /// The business logic for the cases notes rendering goes here.
     /// </summary>
-	public partial class NotesViewModel : VisitzViewModel, IQueryAttributable
+	public partial class NotesViewModel : VisitzViewModel
     {
         public static readonly string CaseIncidentIdKey = "caseIncidentId";
 
@@ -32,13 +32,11 @@ namespace Visitz.ViewModels
         {
             Vpi = visitzApi;
         }
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            caseIncidentId = query[CaseIncidentIdKey] as string;
-        }
 
         public override async void PageCreated()
         {
+            caseIncidentId = Parameters[CaseIncidentIdKey] as string;
+
             var realm = await VisitzRealm.GetAsync();
 
             CaseIncident = realm.Find<CaseloadItem>(caseIncidentId);
@@ -89,7 +87,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async Task CaseDetailsTapped()
         {
-            await CaseloadItemDetailsPage.Open(CaseIncident.CaseIncidentNumber);
+            await CaseloadItemDetailsPage.Open(VisitzPage, CaseIncident.CaseIncidentNumber);
         }
     }
 }

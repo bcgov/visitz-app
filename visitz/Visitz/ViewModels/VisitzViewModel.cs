@@ -10,16 +10,11 @@ namespace Visitz.ViewModels
     {
         public VisitzPage VisitzPage { get; set; }
 
-        protected static async Task NavigateTo(Type page, IDictionary<string, object> parameters)
-        {
-            Routing.RegisterRoute(page.Name, page);
-            await Shell.Current.GoToAsync(page.Name, parameters);
-        }
+        public IDictionary<string, object> Parameters => VisitzPage.Parameters;
 
-        protected static async Task NavigateTo(Type page)
+        protected async Task NavigateTo<T>(IDictionary<string, object> parameters = null) where T : VisitzPage
         {
-            Routing.RegisterRoute(page.Name, page);
-            await Shell.Current.GoToAsync(page.Name);
+            await VisitzPage.NavigateTo<T>(VisitzPage, parameters);
         }
 
         public virtual void PageCreated() { }
