@@ -2,7 +2,7 @@
 
 ## Architecture
 
-Hesita is written using .NET MAUI 7 (.NET 7).
+Visitz is written using .NET MAUI 7 (.NET 7).
 
 ## Visitz Conventions
 
