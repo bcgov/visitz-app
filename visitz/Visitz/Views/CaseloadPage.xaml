@@ -41,7 +41,7 @@
                     ItemsSource="{Binding Caseload}"
                     SelectionMode="None" >
                     <CollectionView.EmptyView>
-                            <VerticalStackLayout HorizontalOptions="Center" Spacing="20">
+                            <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
                                 <Label 
                                     HorizontalOptions="Center"
                                     Text="Pull to get caseload from ICM" />
