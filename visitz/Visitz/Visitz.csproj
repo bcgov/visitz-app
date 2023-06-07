@@ -169,9 +169,6 @@
 	  <Compile Update="Views\DebugOptionsPage.xaml.cs">
 	    <DependentUpon>DebugOptionsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VisitzShell.xaml.cs">
-	    <DependentUpon>VisitzShell.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Views\AppLockPage.xaml.cs">
 	    <DependentUpon>AppLockPage.xaml</DependentUpon>
 	  </Compile>

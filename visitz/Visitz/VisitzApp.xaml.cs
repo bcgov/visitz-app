@@ -10,7 +10,6 @@ public partial class VisitzApp : Application
     {
         InitializeComponent();
 
-        MainPage = new VisitzShell();
     }
 
     protected async override void OnStart()
