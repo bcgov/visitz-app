@@ -14,6 +14,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -71,6 +72,13 @@
             Command="{Binding ClearRealmDataCommand}"
             HorizontalOptions="Start"
             Text="Clear all data" />
+
+        <Button 
+            Grid.Row="4"
+            Grid.Column="1"
+            Command="{Binding DeleteEncryptionKeyCommand}"
+            HorizontalOptions="Start"
+            Text="Delete encryption key" />
 
     </Grid>
 

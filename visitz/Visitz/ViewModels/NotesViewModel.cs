@@ -37,7 +37,7 @@ namespace Visitz.ViewModels
         {
             caseIncidentId = Parameters[CaseIncidentIdKey] as string;
 
-            var realm = await VisitzRealm.GetAsync();
+            var realm = await IcmDataRealm.GetAsync();
 
             CaseIncident = realm.Find<CaseloadItem>(caseIncidentId);
 
@@ -61,7 +61,7 @@ namespace Visitz.ViewModels
                 var notesFromApi = await Vpi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
                 var notes = NoteItem.FromApiEntities(CaseIncident.CaseIncidentNumber, notesFromApi);
 
-                using var realm = await VisitzRealm.GetAsync();
+                using var realm = await IcmDataRealm.GetAsync();
                 await realm.WriteAsync(() =>
                 {
                     // NOTE 2023-06-05: The ICM API currently does not return PK info about notes.

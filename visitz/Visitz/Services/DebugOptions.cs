@@ -48,9 +48,15 @@ namespace Visitz.Services
         {
             if (Enabled)
             {
-                using var realm = await VisitzRealm.GetAsync();
+                using var realm = await IcmDataRealm.GetAsync();
                 await realm.WriteAsync(realm.RemoveAll);
             }
+        }
+
+        public static void DeleteEncryptionKey()
+        {
+            if (Enabled)
+                IcmDataRealm.DeleteRealmKey();
         }
     }
 }

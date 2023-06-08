@@ -27,7 +27,7 @@ namespace Visitz.ViewModels
         {
             Vpi = VisitzApp.VisitzServices.GetRequiredService<Vpi>();
 
-            var realm = await VisitzRealm.GetAsync();
+            var realm = await IcmDataRealm.GetAsync();
             Caseload = realm.All<CaseloadItem>();
         }
 
@@ -45,7 +45,7 @@ namespace Visitz.ViewModels
                 var caseloadFromApi = await Vpi.GetCaseloadAsync(info.Idir);
                 var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
 
-                using var realm = await VisitzRealm.GetAsync();
+                using var realm = await IcmDataRealm.GetAsync();
                 await realm.WriteAsync(() =>
                 {
                     realm.Add(caseloadContent, update: true);
