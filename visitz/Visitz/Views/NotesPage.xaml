@@ -10,7 +10,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
-            Text="Case Details"
+            Text="Details"
             Command="{Binding CaseDetailsTappedCommand}" />
     </ContentPage.ToolbarItems>
 
