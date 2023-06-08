@@ -5,13 +5,13 @@ namespace Visitz.Storage
 {
     public class VisitzRealm
     {
-        private static readonly string DbName = "visitz.realm";
+        private static readonly string Path = "icmDataCopies.realm";
 
         private static async Task<Realm> GetInstanceAsync()
         {
-            return await Realm.GetInstanceAsync(new RealmConfiguration(DbName)
+            return await Realm.GetInstanceAsync(new RealmConfiguration(Path)
             {
-                EncryptionKey = await VisitzKey.GetKey(),
+                EncryptionKey = await VisitzKey.GetKey(Path),
 #if DEBUG
                 ShouldDeleteIfMigrationNeeded = true
 #endif
@@ -29,8 +29,18 @@ namespace Visitz.Storage
                 Resources.Localization.LocalizedStrings.RealmDatabaseErrorMessage,
                 Resources.Localization.LocalizedStrings.Ok);
 
-            Realm.DeleteRealm(new RealmConfiguration(DbName));
+            DeleteRealm();
             return await GetInstanceAsync();
+        }
+
+        private static void DeleteRealm()
+        {
+            Realm.DeleteRealm(new RealmConfiguration(Path));
+        }
+
+        public static void DeleteRealmKey()
+        {
+            VisitzKey.RemoveKey(Path);
         }
 
         public static async Task<Realm> GetAsync()
