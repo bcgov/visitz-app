@@ -3,7 +3,7 @@ using Realms.Exceptions;
 
 namespace Visitz.Storage
 {
-    public class VisitzRealm
+    public class IcmDataRealm
     {
         private static readonly string Path = "icmDataCopies.realm";
 

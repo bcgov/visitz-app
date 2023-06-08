@@ -26,7 +26,7 @@ namespace Visitz.ViewModels
         {
             caseIncidentId = Parameters[CaseIncidentIdKey] as string;
 
-            using var realm = await VisitzRealm.GetAsync();
+            using var realm = await IcmDataRealm.GetAsync();
 
             CaseloadItem = realm.Find<CaseloadItem>(caseIncidentId);
             
