@@ -8,27 +8,13 @@ namespace Visitz.ViewModels
     /// </summary>
 	public partial class VisitzViewModel : ObservableObject
     {
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsNotBusy))]
-        bool isBusy;
-
-        [ObservableProperty]
-        string title;
-
         public VisitzPage VisitzPage { get; set; }
 
-        public bool IsNotBusy => !IsBusy;
+        public IDictionary<string, object> Parameters => VisitzPage.Parameters;
 
-        protected static async Task NavigateTo(Type page, IDictionary<string, object> parameters)
+        protected async Task NavigateTo<T>(IDictionary<string, object> parameters = null) where T : VisitzPage
         {
-            Routing.RegisterRoute(page.Name, page);
-            await Shell.Current.GoToAsync(page.Name, parameters);
-        }
-
-        protected static async Task NavigateTo(Type page)
-        {
-            Routing.RegisterRoute(page.Name, page);
-            await Shell.Current.GoToAsync(page.Name);
+            await VisitzPage.NavigateTo<T>(VisitzPage, parameters);
         }
 
         public virtual void PageCreated() { }

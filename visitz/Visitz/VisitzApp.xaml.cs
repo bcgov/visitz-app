@@ -4,11 +4,26 @@ namespace Visitz;
 
 public partial class VisitzApp : Application
 {
+    public static IServiceProvider VisitzServices => Current.Handler.MauiContext.Services;
+
+    public static INavigation Navigation => Current.MainPage.Navigation;
+
+    public static Page CurrentOpenModal
+    {
+        get
+        {
+            int last = Navigation.ModalStack.Count - 1;
+            return last >= 0 ? Navigation.ModalStack[last] : null;
+        }
+    }
+
     public VisitzApp()
     {
         InitializeComponent();
 
-        MainPage = new VisitzShell();
+        // TODO: Get this working with the DI system
+        // DI setup has been disabled for now in VisitzScreens
+        MainPage = new NavigationPage(CaseloadPage.GetInstance());
     }
 
     protected async override void OnStart()

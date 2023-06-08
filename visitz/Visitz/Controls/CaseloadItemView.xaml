@@ -2,7 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Visitz.Controls"
-             xmlns:models="clr-namespace:Visitz.Models.BOs"
+             xmlns:models="clr-namespace:Visitz.Models"
              xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
              x:Class="Visitz.Controls.CaseloadItemView"
              x:DataType="models:CaseloadItem">
@@ -33,7 +33,6 @@
                                 Text="{Binding DisplayName}"
                                 FontSize="17"
                                 FontFamily="BCSansBold"
-                                TextColor="#131315"
                                 Padding="0,10,0,0"
                                 />
 
@@ -56,7 +55,7 @@
                     <HorizontalStackLayout HorizontalOptions="End">
                         <Label 
                                 Text="{Binding DisplayDate, StringFormat='Open date: {0}'}"
-                                TextColor="#606060"
+                                TextColor="{StaticResource BC_InputControlsTextColor}"
                                 FontSize="12"
                                 FontFamily="BCSansRegular"
                                 VerticalOptions="Center"

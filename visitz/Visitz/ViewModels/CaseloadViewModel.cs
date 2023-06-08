@@ -1,12 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using VisitzApi;
-using Visitz.Models.BOs;
+using Visitz.Models;
 using VisitzApi.ErrorHandling;
-using System.ComponentModel;
 using Visitz.Services.Networking;
 using Visitz.Views;
+using Visitz.Services;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -15,43 +15,20 @@ namespace Visitz.ViewModels
     /// </summary>
     public partial class CaseloadViewModel : VisitzViewModel
     {
-        public ObservableCollection<CaseloadItem> Caseload { get; set; } = new();
+        [ObservableProperty]
+        public IEnumerable<CaseloadItem> caseload;
+
+        private Vpi Vpi { get; set; }
 
         [ObservableProperty]
-        public CaseloadItem selectedCaseIncident;
+        public bool isRefreshing;
 
-        private Vpi Vpi { get; }
-
-        public bool IsRefreshing { get; set; }
-
-        public CaseloadViewModel(Vpi visitzApi)
+        public override async void PageCreated()
         {
-            Vpi = visitzApi;
-        }
+            Vpi = VisitzApp.VisitzServices.GetRequiredService<Vpi>();
 
-        public override void PageCreated()
-        {
-            PropertyChanged += CaseloadViewModel_PropertyChanged;
-        }
-
-        public override async void PageStarted()
-        {
-            
-        }
-
-        private async void CaseloadViewModel_PropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            if (args.PropertyName.Equals(nameof(SelectedCaseIncident)))
-                if (SelectedCaseIncident is not null)
-                    await NavigateToNotesPage(SelectedCaseIncident);
-        }
-
-        private async Task NavigateToNotesPage(CaseloadItem caseIncident)
-        {
-            await NavigateTo(typeof(NotesPage), new Dictionary<string, object> 
-            { 
-                { "caseIncident", caseIncident } 
-            });
+            var realm = await IcmDataRealm.GetAsync();
+            Caseload = realm.All<CaseloadItem>();
         }
 
         public async Task TryFetchCasesAndIncidents()
@@ -64,13 +41,15 @@ namespace Visitz.ViewModels
         {
             try
             {
-                // TODO: Worker ID should be collected from current JWT Access Token field "idir_username"
-                var caseloadContent = await Vpi.GetCaseloadAsync("CGWRK68");
+                var info = await VisitzSessionInfo.GetAsync();
+                var caseloadFromApi = await Vpi.GetCaseloadAsync(info.Idir);
+                var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
 
-                Caseload.Clear();
-
-                foreach (var item in caseloadContent)
-                    Caseload.Add(new CaseloadItem(item));
+                using var realm = await IcmDataRealm.GetAsync();
+                await realm.WriteAsync(() =>
+                {
+                    realm.Add(caseloadContent, update: true);
+                });
             }
             catch (VisitzApiException ex)
             {
@@ -84,22 +63,29 @@ namespace Visitz.ViewModels
             }
         }
 
+        [RelayCommand]
         public async Task RefreshCaseload()
         {
-            if (!IsRefreshing)
+            try
             {
-                IsRefreshing = true;
-
                 await TryFetchCasesAndIncidents();
-                
+            }
+            finally
+            {
                 IsRefreshing = false;
             }
         }
 
         [RelayCommand]
-        void GoToNotes(CaseloadItem caseloadItem)
+        public async void GoToNotes(CaseloadItem caseloadItem)
         {
-            SelectedCaseIncident = caseloadItem;
+            await NotesPage.Open(VisitzPage, caseloadItem.CaseIncidentNumber);
+        }
+
+        public async Task OpenDebugOptionsPage()
+        {
+            if (DebugOptions.Enabled)
+                await NavigateTo<DebugOptionsPage>();
         }
     }
 }

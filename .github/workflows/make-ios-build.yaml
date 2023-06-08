@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 200
     env:
       # TODO: read "MCFD Mobility" app name from MSBuild instead
-      OUTPUT_NAME: "MCFD Mobility-${{ inputs.environment }}-build_${{ github.run_number }}"
+      OUTPUT_NAME: "MCFD Mobility-iOS-${{ inputs.environment }}-build_${{ github.run_number }}"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -67,7 +67,8 @@ jobs:
             -p:Oidc_AuthenticationDomain=${{ vars.AUTHENTICATION_DOMAIN }} \
             -p:Oidc_ClientId=${{ vars.KEYCLOAK_CLIENT_ID }} \
             -p:Oidc_RedirectUri=${{ vars.REDIRECT_URI }} \
-            -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }}
+            -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }} \
+            -p:Debug_EnableDebugOptions=${{ vars.DEBUG_OPTIONS }}
 
       - name: Prepare output package
         run: |

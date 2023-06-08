@@ -10,7 +10,17 @@ public class Program
 	{
 		// if you want to use a different Application Delegate class from "AppDelegate"
 		// you can specify it here.
-		UIApplication.Main(args, null, typeof(AppDelegate));
+		try
+		{
+			UIApplication.Main(args, null, typeof(AppDelegate));
+		}
+		catch (Exception ex)
+		{
+#if DEBUG
+			Console.WriteLine(ex.StackTrace);
+#endif
+			throw;
+		}
 	}
 }
 

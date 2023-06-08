@@ -3,54 +3,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:Visitz.Views"
              xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-             xmlns:models="clr-namespace:Visitz.Models.BOs"
+             xmlns:models="clr-namespace:Visitz.Models"
              xmlns:controls="clr-namespace:Visitz.Controls"
              x:Class="Visitz.Views.CaseloadPage"
              x:DataType="viewmodels:CaseloadViewModel"
-             Title="Caseload"
-             BackgroundColor="White">
+             Title="Caseload">
 
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
-    </Shell.BackButtonBehavior>
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Image Source="bc_logo_text.png" HorizontalOptions="Start">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"
+                                          NumberOfTapsRequired="4" />
+                </Image.GestureRecognizers>
+            </Image>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <RefreshView
+        Grid.Row="1"
+        Command="{Binding RefreshCaseloadCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
 
-        <Image Source="bc_logo_text.png" HorizontalOptions="Start" Margin="20,0,0,0" />
+        <!-- 
+            WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+            Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+            This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+        -->
+        <ContentView>
 
-        <CollectionView
-            ItemsSource="{Binding Caseload}"
-            SelectionMode="None" Grid.Row="1">
-            <CollectionView.EmptyView>
-                <Grid>
-                    <VerticalStackLayout VerticalOptions="Center">
-                        <Image 
-                            Source="file_folder.png" 
-                            WidthRequest="150" 
-                            HeightRequest="150" />
+            <CollectionView
+                ItemsSource="{Binding Caseload}"
+                SelectionMode="None" >
+                <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
+                            <Label 
+                                HorizontalOptions="Center"
+                                Text="Pull to get caseload from ICM" />
+                                
+                            <Label 
+                                HorizontalOptions="Center" 
+                                FontSize="28"
+                                Text="↓" />
+                        </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout  Orientation="Vertical" Span="1"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:CaseloadItem">
+                        <controls:CaseloadItemView />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                        <Button 
-                            Text="Get Caseload from ICM" 
-                            Clicked="Button_Clicked" 
-                            Margin="20" 
-                            HorizontalOptions="Center" />
-                    </VerticalStackLayout>
-                </Grid>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout  Orientation="Vertical" Span="1"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:CaseloadItem">
-                    <controls:CaseloadItemView />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        </ContentView>
 
-    </Grid>
+    </RefreshView>
+
 </views:VisitzPage>
-

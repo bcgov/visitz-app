@@ -8,4 +8,12 @@ public partial class CaseloadItemDetailsPage : VisitzPage
 		InitializeComponent();
 		BindingContext = viewModel;
     }
+
+	public static async Task Open(Page fromPage, string caseIncidentId)
+	{
+        await NavigateTo<CaseloadItemDetailsPage>(fromPage, new Dictionary<string, object>
+        {
+            { CaseloadItemDetailsViewModel.CaseIncidentIdKey, caseIncidentId }
+        });
+    }
 }

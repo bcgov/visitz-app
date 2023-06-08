@@ -2,7 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Visitz.Controls"
-             xmlns:models="clr-namespace:Visitz.Models.BOs"
+             xmlns:models="clr-namespace:Visitz.Models"
              x:Class="Visitz.Controls.ContactItemView"
              x:DataType="models:FamilyMember">
 
@@ -28,8 +28,7 @@
                             Text="{Binding FullDisplayName}"
                             FontSize="17"
                             FontFamily="BCSansBold"
-                            Margin="10,0,0,0"
-                            TextColor="#131315" />
+                            Margin="10,0,0,0" />
 
                         <Border
                             Margin="10,0,0,0"
@@ -50,7 +49,6 @@
                     <HorizontalStackLayout>
                         <Border
                             Margin="0,10,0,0"
-                            BackgroundColor="White"
                             Padding="10,5,10,5"
                             HorizontalOptions="Center">
                             <Border.StrokeShape>
@@ -72,7 +70,6 @@
 
                         <Border
                             Margin="10,10,0,0"
-                            BackgroundColor="White"
                             Padding="10,0,10,0"
                             HorizontalOptions="Center">
                             <Border.StrokeShape>
@@ -110,14 +107,13 @@
                                 FontSize="17"
                                 FontFamily="BCSansRegular"
                                 Margin="10,0,0,0"
-                                TextColor="#606062"
+                                TextColor="{StaticResource BC_InputControlsTextColor}"
                                 Text="Birth:"/>
 
                             <Label 
                                 FontSize="17"
                                 FontFamily="BCSansRegular"
                                 Margin="10,0,0,0"
-                                TextColor="#131315"
                                 Text="{Binding DateOfBirth}"/>
                         </HorizontalStackLayout>
 
@@ -126,14 +122,13 @@
                                 FontSize="17"
                                 FontFamily="BCSansRegular"
                                 Margin="10,0,0,0"
-                                TextColor="#606062"
+                                TextColor="{StaticResource BC_InputControlsTextColor}"
                                 Text="Aboriginal:"/>
 
                             <Label 
                                 FontSize="17"
                                 FontFamily="BCSansRegular"
                                 Margin="10,0,0,0"
-                                TextColor="#131315"
                                 Text="{Binding AboriginalOrigin}"/>
                         </HorizontalStackLayout>
 
@@ -142,14 +137,13 @@
                                 FontSize="17"
                                 FontFamily="BCSansRegular"
                                 Margin="10,0,0,0"
-                                TextColor="#606062"
+                                TextColor="{StaticResource BC_InputControlsTextColor}"
                                 Text="Gender:"/>
 
                             <Label 
                                 FontSize="17"
                                 FontFamily="BCSansRegular"
                                 Margin="10,0,0,0"
-                                TextColor="#131315"
                                 Text="{Binding Sex}"/>
                         </HorizontalStackLayout>
 

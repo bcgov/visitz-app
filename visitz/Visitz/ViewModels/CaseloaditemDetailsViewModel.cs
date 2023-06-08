@@ -1,27 +1,43 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Visitz.Models.BOs;
+using Visitz.Models;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
     /// <summary>
     /// The business logic for the cases and incidents details rendering goes here.
     /// </summary>
-	public partial class CaseloadItemDetailsViewModel : VisitzViewModel, IQueryAttributable
+	public partial class CaseloadItemDetailsViewModel : VisitzViewModel
     {
+        public static readonly string CaseIncidentIdKey = "caseIncidentId";
+
+        private string caseIncidentId;
+
         [ObservableProperty]
-        public CaseloadItem caseIncident;
+        public CaseloadItem caseloadItem;
+
+        [ObservableProperty]
+        public IList<FamilyMember> familyMembers;
 
         [ObservableProperty]
         public string idSubtitle;
 
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        public override async void PageCreated()
         {
-            CaseIncident = query["caseIncident"] as CaseloadItem;
+            caseIncidentId = Parameters[CaseIncidentIdKey] as string;
 
-            IdSubtitle = 
-                CaseIncident?.EntityType
+            using var realm = await IcmDataRealm.GetAsync();
+
+            CaseloadItem = realm.Find<CaseloadItem>(caseIncidentId);
+            
+            // NOTE: A VerticalStackLayout won't initiate a data load on its own
+            // so we need to run the Realm READ operation manually here.
+            FamilyMembers = CaseloadItem.FamilyMembers.ToList();
+
+            IdSubtitle =
+                CaseloadItem.EntityType
                 + " "
-                + CaseIncident?.CaseIncidentNumber;
+                + CaseloadItem.CaseIncidentNumber;
         }
     }
 }

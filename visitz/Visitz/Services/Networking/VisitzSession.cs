@@ -1,58 +1,57 @@
-﻿using IdentityModel.OidcClient;
-using Visitz.Services.Authentication;
+﻿using Visitz.Services.Authentication;
 
 namespace Visitz.Services.Networking
 {
     public class VisitzSession
     {
-        // TODO: Temporary naive access token handling until it's properly implemented
-        public static bool IsAccessTokenValid => TokenHolder.AccessToken?.Length > 0;
+        private static AuthenticationClient AuthClient => Application.Current.Handler.MauiContext
+                .Services.GetRequiredService<AuthenticationClient>();
 
         public static async Task<bool> GetValidSessionAsync()
         {
-            if (IsAccessTokenValid)
-                return true;
-            else
-            {
-                var result = await DoLoginAsync();
-
-                return !result.IsError;
-            }
+            return await TokenHolder.IsAccessTokenValid()
+                || await TryRefreshAsync()
+                || await LoginAsync();
         }
 
-        private static async Task<Result> DoLoginAsync()
+        private static async Task<bool> LoginAsync()
         {
-            var authClient = Application.Current
-                .Handler
-                .MauiContext
-                .Services
-                .GetRequiredService<AuthenticationClient>();
+            var loginResult = await AuthClient.LoginAsync();
+            var loginSuccess = !loginResult.IsError;
 
-            return HandleReponse(await authClient.LoginAsync());
+            if (loginSuccess)
+                await TokenHolder.SaveAsync(loginResult);
+
+            // TODO: Log errors.
+
+            return loginSuccess;
         }
 
-        private static Result HandleReponse(LoginResult loginResult)
+        private static async Task<bool> TryRefreshAsync()
         {
-            if (!loginResult.IsError)
-                // TODO: Incoming JWT token should be processed and stored in SecureStorage within this
-                // class instead of using TokenHolder.
-                TokenHolder.AccessToken = loginResult.AccessToken;
+            if (await TokenHolder.IsRefreshTokenExpired())
+                return false;
 
-            return new Result(loginResult.IsError, loginResult.Error, loginResult.ErrorDescription);
+            return await RefreshAsync();
         }
 
-        public struct Result
+        private static async Task<bool> RefreshAsync()
         {
-            public bool IsError;
-            public string Error;
-            public string ErrorDescription;
+            var refreshToken = await TokenHolder.GetRefreshTokenStringAsync();
+            var refreshResult = await AuthClient.RefreshAsync(refreshToken);
+            var refreshSuccess = !refreshResult.IsError;
 
-            public Result(bool isError, string error, string errorDescription)
-            {
-                IsError = isError;
-                Error = error;
-                ErrorDescription = errorDescription;
-            }
+            if (refreshSuccess)
+                await TokenHolder.SaveAsync(refreshResult);
+
+            // TODO: Log errors.
+
+            return refreshSuccess;
+        }
+
+        public static async Task<VisitzSessionInfo> GetInfoAsync()
+        {
+            return await VisitzSessionInfo.GetAsync();
         }
     }
 }

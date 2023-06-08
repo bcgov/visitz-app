@@ -24,6 +24,8 @@ public static class MauiProgram
             .ConfigureVisitzLogging()
             .ConfigureVisitzScreens();
 
+        VisitzDebugOptions.ConfigureVisitzDebugOptions();
+
         return builder.Build();
     }
 }

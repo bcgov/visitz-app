@@ -6,5 +6,8 @@
   },
   "ApiSettings": {
     "ApiDomain": "{{HttpsApiDomain}}"
+  },
+  "DebugSettings": {
+    "EnableDebugSettings": {{EnableDebugOptions}}
   }
 }
