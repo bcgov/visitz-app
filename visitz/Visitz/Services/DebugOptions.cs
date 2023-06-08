@@ -52,5 +52,11 @@ namespace Visitz.Services
                 await realm.WriteAsync(realm.RemoveAll);
             }
         }
+
+        public static void DeleteEncryptionKey()
+        {
+            if (Enabled)
+                VisitzKey.RemoveKey();
+        }
     }
 }

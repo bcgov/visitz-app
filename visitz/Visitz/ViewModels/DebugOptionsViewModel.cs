@@ -42,5 +42,11 @@ namespace Visitz.ViewModels
         {
             await DebugOptions.ClearRealmData();
         }
+
+        [RelayCommand]
+        public void DeleteEncryptionKey()
+        {
+            DebugOptions.DeleteEncryptionKey();
+        }
     }
 }
