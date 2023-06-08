@@ -10,7 +10,10 @@ namespace Visitz.Storage
         {
             return await Realm.GetInstanceAsync(new RealmConfiguration(DbName)
             {
-                EncryptionKey = await VisitzKey.GetKey()
+                EncryptionKey = await VisitzKey.GetKey(),
+#if DEBUG
+                ShouldDeleteIfMigrationNeeded = true
+#endif
             });
         }
     }
