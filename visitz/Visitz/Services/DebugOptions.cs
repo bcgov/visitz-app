@@ -56,7 +56,7 @@ namespace Visitz.Services
         public static void DeleteEncryptionKey()
         {
             if (Enabled)
-                VisitzKey.RemoveKey();
+                VisitzRealm.DeleteRealmKey();
         }
     }
 }
