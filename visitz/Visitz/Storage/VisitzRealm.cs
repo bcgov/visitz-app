@@ -8,7 +8,10 @@ namespace Visitz.Storage
 
         public static async Task<Realm> GetAsync()
         {
-            return await Realm.GetInstanceAsync(new RealmConfiguration(DbName));
+            return await Realm.GetInstanceAsync(new RealmConfiguration(DbName)
+            {
+                EncryptionKey = await VisitzKey.GetKey()
+            });
         }
     }
 }
