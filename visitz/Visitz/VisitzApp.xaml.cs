@@ -1,4 +1,4 @@
-﻿using Visitz.Views;
+﻿using Visitz.Pages;
 
 namespace Visitz;
 

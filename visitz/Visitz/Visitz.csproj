@@ -100,6 +100,7 @@
 	  <None Remove="Resources\Images\mobile.svg" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="Pages\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
 	  <Folder Include="Authentication\" />
@@ -156,13 +157,13 @@
 	  <Compile Update="Controls\CaseloadItemView.xaml.cs">
 	    <DependentUpon>CaseloadItemView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\CaseloadItemDetailsPage.xaml.cs">
+	  <Compile Update="Pages\CaseloadItemDetailsPage.xaml.cs">
 	    <DependentUpon>CaseloadItemDetailsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\DebugOptionsPage.xaml.cs">
+	  <Compile Update="Pages\DebugOptionsPage.xaml.cs">
 	    <DependentUpon>DebugOptionsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\AppLockPage.xaml.cs">
+	  <Compile Update="Pages\AppLockPage.xaml.cs">
 	    <DependentUpon>AppLockPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="VisitzApp.xaml.cs">
@@ -176,13 +177,13 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	  </Compile>
-	  <Compile Update="Views\CaseloadPage.xaml.cs">
+	  <Compile Update="Pages\CaseloadPage.xaml.cs">
 	    <DependentUpon>CaseloadPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\NotesPage.xaml.cs">
+	  <Compile Update="Pages\NotesPage.xaml.cs">
 	    <DependentUpon>NotesPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VisitzPage.xaml.cs">
+	  <Compile Update="Pages\VisitzPage.xaml.cs">
 	    <DependentUpon>VisitzPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
@@ -196,7 +197,7 @@
 	  <MauiXaml Update="Controls\CaseloadItemView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\DebugOptionsPage.xaml">
+	  <MauiXaml Update="Pages\DebugOptionsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

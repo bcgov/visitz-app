@@ -1,5 +1,5 @@
 ﻿using Visitz.ViewModels;
-namespace Visitz.Views;
+namespace Visitz.Pages;
 
 public partial class CaseloadItemDetailsPage : VisitzPage
 {

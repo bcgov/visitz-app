@@ -1,6 +1,6 @@
 using Visitz.ViewModels;
 
-namespace Visitz.Views;
+namespace Visitz.Pages;
 
 public abstract partial class VisitzPage : ContentPage 
 {
