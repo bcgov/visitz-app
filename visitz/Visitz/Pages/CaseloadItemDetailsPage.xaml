@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pages:VisitzPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:Visitz.Controls"
+             xmlns:views="clr-namespace:Visitz.Views"
              xmlns:pages="clr-namespace:Visitz.Pages"
              xmlns:models="clr-namespace:Visitz.Models"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
@@ -73,34 +73,34 @@
                         Margin="12,0,0,0" />
                 </HorizontalStackLayout>
 
-                <controls:FormItemView 
+                <views:FormItemView 
                     Grid.Row="1" 
                     Name="Program service area"
                     Value="{Binding CaseloadItem.EntityType}" />
 
-                <controls:FormItemView 
+                <views:FormItemView 
                     Grid.Row="2" 
                     Name="Case Load"
                     Value="{Binding CaseloadItem.CaseIncidentNumber}" />
 
-                <controls:FormItemView 
+                <views:FormItemView 
                     Grid.Row="3" 
                     Name="Open date"
                     Value="{Binding CaseloadItem.DisplayDate}" />
 
-                <controls:FormItemView 
+                <views:FormItemView 
                     Grid.Row="4" 
                     Grid.ColumnSpan="2"
                     Name="Case address"
                     Value="{Binding CaseloadItem.Address}" />
 
-                <controls:FormItemView 
+                <views:FormItemView 
                     Grid.Row="1"
                     Grid.Column="1"
                     Name="Case type"
                     Value="{Binding CaseloadItem.CaseIncidentType}" />
 
-                <controls:FormItemView 
+                <views:FormItemView 
                     Grid.Row="2" 
                     Grid.Column="1" 
                     Name="Service office"
@@ -128,7 +128,7 @@
                     </BindableLayout.EmptyView>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:FamilyMember">
-                            <controls:ContactItemView />
+                            <views:ContactItemView />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>

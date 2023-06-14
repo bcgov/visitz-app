@@ -1,4 +1,4 @@
-namespace Visitz.Controls;
+namespace Visitz.Views;
 
 public partial class FormItemView : ContentView
 {

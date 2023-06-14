@@ -4,7 +4,7 @@
              xmlns:pages="clr-namespace:Visitz.Pages"
              xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
              xmlns:models="clr-namespace:Visitz.Models"
-             xmlns:controls="clr-namespace:Visitz.Controls"
+             xmlns:views="clr-namespace:Visitz.Views"
              x:Class="Visitz.Pages.CaseloadPage"
              x:DataType="viewmodels:CaseloadViewModel"
              Title="Caseload">
@@ -53,7 +53,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:CaseloadItem">
-                        <controls:CaseloadItemView />
+                        <views:CaseloadItemView />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
