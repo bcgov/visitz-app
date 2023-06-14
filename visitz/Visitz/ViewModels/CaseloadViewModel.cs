@@ -3,10 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using VisitzApi;
 using Visitz.Models;
 using VisitzApi.ErrorHandling;
-using Visitz.Services.Networking;
 using Visitz.Views;
 using Visitz.Services;
 using Visitz.Storage;
+using Visitz.Services.Authentication.Keycloak;
 
 namespace Visitz.ViewModels
 {

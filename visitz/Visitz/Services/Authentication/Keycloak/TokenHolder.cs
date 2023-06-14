@@ -2,7 +2,7 @@
 using IdentityModel.OidcClient.Results;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Visitz.Services.Networking
+namespace Visitz.Services.Authentication.Keycloak
 {
     public class TokenHolder
     {

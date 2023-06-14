@@ -1,6 +1,4 @@
-﻿using Visitz.Services.Authentication;
-
-namespace Visitz.Services.Networking
+﻿namespace Visitz.Services.Authentication.Keycloak
 {
     public class VisitzSession
     {

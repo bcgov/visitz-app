@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace Visitz.Services.Networking
+namespace Visitz.Services.Authentication.Keycloak
 {
     /// <summary>
     /// Injects the access token into each HTTP request to the API

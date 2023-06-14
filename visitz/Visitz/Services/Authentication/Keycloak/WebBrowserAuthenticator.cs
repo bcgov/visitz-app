@@ -2,7 +2,7 @@
 using IdentityModel.Client;
 using IdentityModel.OidcClient.Browser;
 
-namespace Visitz.Services.Authentication
+namespace Visitz.Services.Authentication.Keycloak
 {
     /// <summary>
     /// The class implements the IBrowser interface to handle the authentication step.

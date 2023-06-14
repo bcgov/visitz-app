@@ -1,6 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 
-namespace Visitz.Services.Networking
+namespace Visitz.Services.Authentication.Keycloak
 {
     public class VisitzSessionInfo
     {
