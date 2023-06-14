@@ -1,10 +1,10 @@
 ﻿using Visitz.Resources.Localization;
-using Visitz.Services;
+using Visitz.Services.Authentication;
 using Visitz.Views;
 
 namespace Visitz.ViewModels
 {
-	public class AppLockViewModel : VisitzViewModel
+    public class AppLockViewModel : VisitzViewModel
     {
         private DeviceAuthenticator Authenticator { get; }
 
