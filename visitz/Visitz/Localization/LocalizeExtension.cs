@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using Visitz.Resources.Localization;
 
-namespace Visitz.Services.Localization
+namespace Visitz.Localization
 {
     [ContentProperty(nameof(Key))]
     // We will use this name in XML like so: Text="{local:Localize hello_world}"
