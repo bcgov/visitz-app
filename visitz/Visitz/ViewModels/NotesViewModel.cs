@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Visitz.Authentication.Keycloak;
 using Visitz.Models;
-using Visitz.Services.Authentication.Keycloak;
 using Visitz.Storage;
 using Visitz.Views;
 using VisitzApi;

@@ -1,4 +1,4 @@
-﻿using Visitz.Services.Authentication.Keycloak;
+﻿using Visitz.Authentication.Keycloak;
 using Visitz.Settings;
 using VisitzApi;
 

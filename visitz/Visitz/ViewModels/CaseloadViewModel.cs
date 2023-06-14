@@ -5,7 +5,7 @@ using Visitz.Models;
 using VisitzApi.ErrorHandling;
 using Visitz.Views;
 using Visitz.Storage;
-using Visitz.Services.Authentication.Keycloak;
+using Visitz.Authentication.Keycloak;
 
 namespace Visitz.ViewModels
 {

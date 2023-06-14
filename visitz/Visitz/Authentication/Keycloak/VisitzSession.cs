@@ -1,4 +1,4 @@
-﻿namespace Visitz.Services.Authentication.Keycloak
+﻿namespace Visitz.Authentication.Keycloak
 {
     public class VisitzSession
     {

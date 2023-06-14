@@ -1,7 +1,7 @@
 ﻿using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
 
-namespace Visitz.Services.Authentication.Keycloak
+namespace Visitz.Authentication.Keycloak
 {
     /// <summary>
     /// The class exposes the Browser property and provides the LoginAsync() method to start the authentication process.

@@ -1,4 +1,4 @@
-﻿using Visitz.Services.Authentication;
+﻿using Visitz.Authentication;
 using Visitz.ViewModels;
 using Visitz.Views;
 

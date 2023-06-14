@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Visitz.Storage;
 
-namespace Visitz.Services.Authentication.Keycloak
+namespace Visitz.Authentication.Keycloak
 {
     public class VisitzSessionInfo
     {

@@ -1,5 +1,5 @@
-﻿using Visitz.Resources.Localization;
-using Visitz.Services.Authentication;
+﻿using Visitz.Authentication;
+using Visitz.Resources.Localization;
 using Visitz.Views;
 
 namespace Visitz.ViewModels
