@@ -68,8 +68,6 @@
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
 	  <None Remove="Routers\" />
-	  <None Remove="Services\Authentication\" />
-	  <None Remove="Services\Networking\" />
 	  <None Remove="Models\" />
 	  <None Remove="Models\Payloads\" />
 	  <None Remove="Models\DTOs\" />
@@ -90,8 +88,6 @@
 	  <None Remove="Resources\Images\temp_case.svg" />
 	  <None Remove="Resources\Images\bc_logo_text.svg" />
 	  <None Remove="Resources\Localization\" />
-	  <None Remove="Services\Localization\" />
-	  <None Remove="Services\MAUI\" />
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="appSettings.json" />
@@ -104,7 +100,6 @@
 	  <None Remove="Resources\Images\mobile.svg" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Services\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
 	  <Folder Include="Authentication\" />
