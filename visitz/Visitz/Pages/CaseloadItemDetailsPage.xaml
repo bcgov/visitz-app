@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:VisitzPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:Visitz.Views"
+             xmlns:pages="clr-namespace:Visitz.Pages"
+             xmlns:models="clr-namespace:Visitz.Models"
+             xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+             x:Class="Visitz.Pages.CaseloadItemDetailsPage"
+             x:DataType="viewModels:CaseloadItemDetailsViewModel"
+             Title="Details">
+    
+    <ContentPage.Resources>
+        <Style TargetType="Page" ApplyToDerivedTypes="True">
+            <Setter 
+                Property="BackgroundColor" 
+                Value="{AppThemeBinding 
+                            Light={StaticResource BC_Background_Light}, 
+                            Dark={StaticResource BC_Background_Dark}}"/>
+        </Style>
+
+        <Style TargetType="VerticalStackLayout">
+            <Setter 
+                Property="BackgroundColor" 
+                Value="{AppThemeBinding 
+                            Light={StaticResource White}, 
+                            Dark={StaticResource BC_Blue}}"/>
+        </Style>
+
+        <Style TargetType="Grid">
+            <Setter 
+                Property="BackgroundColor" 
+                Value="{AppThemeBinding 
+                            Light={StaticResource White}, 
+                            Dark={StaticResource BC_Blue}}"/>
+        </Style>
+    </ContentPage.Resources>
+    
+    <ScrollView>
+        
+        <VerticalStackLayout Spacing="15">
+
+            <VerticalStackLayout Padding="20" Spacing="10">
+                <Label Text="{Binding CaseloadItem.DisplayName}" 
+                    FontSize="28"
+                    FontFamily="BCSansBold" />
+
+                <Label Text="{Binding IdSubtitle}"
+                    FontSize="22"
+                    FontFamily="BCSansBold"
+                    TextColor="{StaticResource BC_InputControlsTextColor}" />
+            </VerticalStackLayout>
+
+            <Grid RowSpacing="20" ColumnSpacing="20" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <HorizontalStackLayout>
+                    <Image Source="folder.png" WidthRequest="36" HeightRequest="36" />
+                    <Label 
+                        Text="Details"
+                        FontSize="22"
+                        FontFamily="BCSansBold"
+                        Margin="12,0,0,0" />
+                </HorizontalStackLayout>
+
+                <views:FormItemView 
+                    Grid.Row="1" 
+                    Name="Program service area"
+                    Value="{Binding CaseloadItem.EntityType}" />
+
+                <views:FormItemView 
+                    Grid.Row="2" 
+                    Name="Case Load"
+                    Value="{Binding CaseloadItem.CaseIncidentNumber}" />
+
+                <views:FormItemView 
+                    Grid.Row="3" 
+                    Name="Open date"
+                    Value="{Binding CaseloadItem.DisplayDate}" />
+
+                <views:FormItemView 
+                    Grid.Row="4" 
+                    Grid.ColumnSpan="2"
+                    Name="Case address"
+                    Value="{Binding CaseloadItem.Address}" />
+
+                <views:FormItemView 
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Name="Case type"
+                    Value="{Binding CaseloadItem.CaseIncidentType}" />
+
+                <views:FormItemView 
+                    Grid.Row="2" 
+                    Grid.Column="1" 
+                    Name="Service office"
+                    Value="{Binding CaseloadItem.ServiceOffice}" />
+            </Grid>
+
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <HorizontalStackLayout >
+                    <Image Source="family.png" WidthRequest="36" HeightRequest="36" />
+                    <Label 
+                        Text="Family information"
+                        FontSize="22"
+                        FontFamily="BCSansBold"
+                        Margin="12,0,0,0"
+                        />
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout 
+                    Spacing="20"
+                    BindableLayout.ItemsSource="{Binding FamilyMembers}">
+                    <BindableLayout.EmptyView>
+                        <Grid>
+                            <Image Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
+                        </Grid>
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:FamilyMember">
+                            <views:ContactItemView />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+</pages:VisitzPage>

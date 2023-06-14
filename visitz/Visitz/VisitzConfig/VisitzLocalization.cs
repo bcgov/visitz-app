@@ -1,4 +1,4 @@
-﻿using Visitz.Services.Localization;
+﻿using Visitz.Localization;
 
 namespace Visitz.VisitzConfig
 {

@@ -68,8 +68,6 @@
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
 	  <None Remove="Routers\" />
-	  <None Remove="Services\Authentication\" />
-	  <None Remove="Services\Networking\" />
 	  <None Remove="Models\" />
 	  <None Remove="Models\Payloads\" />
 	  <None Remove="Models\DTOs\" />
@@ -90,8 +88,6 @@
 	  <None Remove="Resources\Images\temp_case.svg" />
 	  <None Remove="Resources\Images\bc_logo_text.svg" />
 	  <None Remove="Resources\Localization\" />
-	  <None Remove="Services\Localization\" />
-	  <None Remove="Services\MAUI\" />
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="appSettings.json" />
@@ -104,16 +100,14 @@
 	  <None Remove="Resources\Images\mobile.svg" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Services\" />
+	  <Folder Include="Pages\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
-	  <Folder Include="Services\Authentication\" />
-	  <Folder Include="Services\Networking\" />
+	  <Folder Include="Authentication\" />
 	  <Folder Include="Models\" />
 	  <Folder Include="Resources\Splash\" />
 	  <Folder Include="Resources\Localization\" />
-	  <Folder Include="Services\Localization\" />
-	  <Folder Include="Services\MAUI\" />
+	  <Folder Include="Localization\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\BCSans-Bold.ttf" />
@@ -160,16 +154,16 @@
 	  <Compile Update="Controls\FormItemViewView.xaml.cs">
 	    <DependentUpon>FormItemViewView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Controls\CaseloadItemView.xaml.cs">
+	  <Compile Update="Views\CaseloadItemView.xaml.cs">
 	    <DependentUpon>CaseloadItemView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\CaseloadItemDetailsPage.xaml.cs">
+	  <Compile Update="Pages\CaseloadItemDetailsPage.xaml.cs">
 	    <DependentUpon>CaseloadItemDetailsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\DebugOptionsPage.xaml.cs">
+	  <Compile Update="Pages\DebugOptionsPage.xaml.cs">
 	    <DependentUpon>DebugOptionsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\AppLockPage.xaml.cs">
+	  <Compile Update="Pages\AppLockPage.xaml.cs">
 	    <DependentUpon>AppLockPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="VisitzApp.xaml.cs">
@@ -183,27 +177,27 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	  </Compile>
-	  <Compile Update="Views\CaseloadPage.xaml.cs">
+	  <Compile Update="Pages\CaseloadPage.xaml.cs">
 	    <DependentUpon>CaseloadPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\NotesPage.xaml.cs">
+	  <Compile Update="Pages\NotesPage.xaml.cs">
 	    <DependentUpon>NotesPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VisitzPage.xaml.cs">
+	  <Compile Update="Pages\VisitzPage.xaml.cs">
 	    <DependentUpon>VisitzPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiXaml Update="Controls\ContactItemView.xaml">
+	  <MauiXaml Update="Views\ContactItemView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\FormItemViewView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\CaseloadItemView.xaml">
+	  <MauiXaml Update="Views\CaseloadItemView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\DebugOptionsPage.xaml">
+	  <MauiXaml Update="Pages\DebugOptionsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

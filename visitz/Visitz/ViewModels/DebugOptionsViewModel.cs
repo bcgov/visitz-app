@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Services;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
