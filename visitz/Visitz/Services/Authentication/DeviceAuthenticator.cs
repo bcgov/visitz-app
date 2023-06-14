@@ -5,7 +5,7 @@ using Plugin.Fingerprint.Abstractions;
 namespace Visitz.Services.Authentication
 {
     /// <summary>
-    /// Authenticate a user via fingerprint, face id or any other biometic / local authentication method.
+    /// Authenticate a user via fingerprint, face id or any other biometric / local authentication method.
     /// </summary>
 	public class DeviceAuthenticator
     {
