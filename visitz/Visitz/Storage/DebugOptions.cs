@@ -1,7 +1,6 @@
 ﻿using Realms;
-using Visitz.Storage;
 
-namespace Visitz.Services
+namespace Visitz.Storage
 {
     public class DebugOptions
     {
@@ -15,7 +14,7 @@ namespace Visitz.Services
 
         private static T Get<T>(string key, T defaultValue)
         {
-            return Enabled 
+            return Enabled
                 ? Preferences.Default.Get(key, defaultValue)
                 : defaultValue;
         }

@@ -1,5 +1,5 @@
-﻿using Visitz.Services;
-using Visitz.Settings;
+﻿using Visitz.Settings;
+using Visitz.Storage;
 
 namespace Visitz.VisitzConfig
 {

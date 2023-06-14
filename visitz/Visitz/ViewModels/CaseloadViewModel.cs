@@ -4,7 +4,6 @@ using VisitzApi;
 using Visitz.Models;
 using VisitzApi.ErrorHandling;
 using Visitz.Views;
-using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Services.Authentication.Keycloak;
 
