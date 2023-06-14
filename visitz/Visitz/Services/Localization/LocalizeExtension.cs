@@ -16,7 +16,7 @@ namespace Visitz.Services.Localization
         {
             // Have to inject like this because LocalizeExtension constructor 
             // has to be parameterless in order to be used in XAML
-            _localizer = MAUI.ServiceProvider.GetService<IStringLocalizer<LocalizedStrings>>();
+            _localizer = ServiceProvider.GetService<IStringLocalizer<LocalizedStrings>>();
         }
 
         public object ProvideValue(IServiceProvider serviceProvider)

@@ -112,7 +112,6 @@
 	  <Folder Include="Resources\Splash\" />
 	  <Folder Include="Resources\Localization\" />
 	  <Folder Include="Services\Localization\" />
-	  <Folder Include="Services\MAUI\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\BCSans-Bold.ttf" />
