@@ -2,8 +2,8 @@
 {
     public class VisitzSession
     {
-        private static AuthenticationClient AuthClient => Application.Current.Handler.MauiContext
-                .Services.GetRequiredService<AuthenticationClient>();
+        private static AuthenticationClient AuthClient => 
+            ServiceProvider.Current.GetRequiredService<AuthenticationClient>();
 
         private static bool InternetAvailable => 
             Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
