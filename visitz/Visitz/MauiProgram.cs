@@ -22,7 +22,8 @@ public static class MauiProgram
             .ConfigureVisitzAuth()
             .ConfigureVisitzApi()
             .ConfigureVisitzLogging()
-            .ConfigureVisitzScreens();
+            .ConfigureVisitzScreens()
+            .ConfigureVisitzServices();
 
         VisitzDebugOptions.ConfigureVisitzDebugOptions();
 
