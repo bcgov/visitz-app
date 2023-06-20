@@ -57,5 +57,11 @@
         {
             return await VisitzSessionInfo.GetAsync();
         }
+
+        public static void InvalidateSession()
+        {
+            TokenHolder.DeleteAccessToken();
+            TokenHolder.DeleteRefreshToken();
+        }
     }
 }
