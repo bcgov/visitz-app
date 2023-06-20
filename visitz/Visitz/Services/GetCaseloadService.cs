@@ -23,14 +23,9 @@ namespace Visitz.Services
             };
         }
 
-        public Vpi Vpi { get; set; }
-
         public string Idir => (string)Payload;
 
-        public GetCaseloadService(Vpi vpi)
-        {
-            Vpi = vpi;
-        }
+        public GetCaseloadService(Vpi vpi) : base(vpi) { }
 
         protected override async Task RunAsync()
         {
