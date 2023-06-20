@@ -5,8 +5,14 @@
         private static AuthenticationClient AuthClient => Application.Current.Handler.MauiContext
                 .Services.GetRequiredService<AuthenticationClient>();
 
+        private static bool InternetAvailable => 
+            Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+
         public static async Task<bool> GetValidSessionAsync()
         {
+            if (!InternetAvailable)
+                return false;
+
             return await TokenHolder.IsAccessTokenValid()
                 || await TryRefreshAsync()
                 || await LoginAsync();
