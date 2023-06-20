@@ -57,8 +57,14 @@ namespace Visitz.Services
 
         public virtual async Task OnFinishAsync()
         {
-            PublishCurrentState(State.Stopped);
-            await FinishAsync();
+            try
+            {
+                await FinishAsync();
+            }
+            finally
+            {
+                PublishCurrentState(State.Stopped);
+            }
         }
 
         protected virtual Task StartAsync()
