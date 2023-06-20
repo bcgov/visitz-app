@@ -29,13 +29,7 @@ namespace Visitz.Services
 
         protected override async Task RunAsync()
         {
-            await TryGetCaseloadAsync();
-        }
-
-        private async Task TryGetCaseloadAsync()
-        {
-            if (await VisitzSession.GetValidSessionAsync())
-                await GetCaseloadAsync();
+            await GetCaseloadAsync();
         }
 
         private async Task GetCaseloadAsync()
