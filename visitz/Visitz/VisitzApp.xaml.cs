@@ -4,8 +4,6 @@ namespace Visitz;
 
 public partial class VisitzApp : Application
 {
-    public static IServiceProvider VisitzServices => Current.Handler.MauiContext.Services;
-
     public static INavigation Navigation => Current.MainPage.Navigation;
 
     public static Page CurrentOpenModal

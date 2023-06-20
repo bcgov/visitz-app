@@ -22,7 +22,7 @@ public partial class AppLockPage : VisitzPage
         if (IsOpen)
             return;
 
-        var lockPage = VisitzApp.VisitzServices.GetRequiredService<AppLockPage>();
+        var lockPage = ServiceProvider.Current.GetRequiredService<AppLockPage>();
         await VisitzApp.Navigation.PushModalAsync(lockPage, false);
     }
 
