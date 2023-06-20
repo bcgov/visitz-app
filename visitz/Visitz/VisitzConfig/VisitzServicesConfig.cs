@@ -14,6 +14,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddSingleton<ServiceHandler>();
 
             builder.Services.AddTransient<GetCaseloadService>();
+            builder.Services.AddTransient<GetNotesService>();
 
             return builder;
         }
