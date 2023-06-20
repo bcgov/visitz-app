@@ -1,4 +1,5 @@
 ﻿using Visitz.Pages;
+using Visitz.Services;
 
 namespace Visitz;
 
@@ -15,6 +16,8 @@ public partial class VisitzApp : Application
         }
     }
 
+    public ServiceHandler ServiceHandler { get; private set; }
+
     public VisitzApp()
     {
         InitializeComponent();
@@ -27,6 +30,8 @@ public partial class VisitzApp : Application
     protected async override void OnStart()
     {
         base.OnStart();
+
+        ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
         await AppLockPage.TryPrompt();
     }
