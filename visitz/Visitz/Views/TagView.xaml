@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:Visitz.Views"
+             x:DataType="views:TagView"
+             x:Class="Visitz.Views.TagView">
+
+    <Border
+            BackgroundColor="#C2E0FF"
+            StrokeThickness="0">
+
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20" />
+        </Border.StrokeShape>
+
+        <Grid
+            HorizontalOptions="Start"
+            Padding="5"
+            ColumnSpacing="5"
+            Margin="5,0,0,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Image
+                Source="folder.png"
+                VerticalOptions="Center"
+                Grid.Column="0" />
+
+            <Label 
+                Text="Case"
+                FontSize="13"
+                FontFamily="BCSansRegular"
+                TextColor="#00478F"
+                VerticalOptions="CenterAndExpand"
+                Grid.Column="1" />
+        </Grid>
+    </Border>
+
+</ContentView>
