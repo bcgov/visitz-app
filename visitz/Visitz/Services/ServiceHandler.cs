@@ -17,6 +17,11 @@ namespace Visitz.Services
             _ = TryRunServiceAsync(message);
         }
 
+        /// <summary>
+        /// Tries to run a service if it isn't already running (according to the internal tracking dictionary).
+        /// </summary>
+        /// <param name="startMessage"></param>
+        /// <returns></returns>
         public async Task TryRunServiceAsync(StartServiceMessage startMessage)
         {
             // Only allow 1 service per ID at a time. For now, ServiceHandler shouldn't need to worry about
