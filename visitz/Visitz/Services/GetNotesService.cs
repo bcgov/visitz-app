@@ -14,11 +14,16 @@ namespace Visitz.Services
 
         public static StartServiceMessage MakeStartMessage(string caseIncidentId, string entityType)
         {
+            return MakeStartMessage((caseIncidentId, entityType));
+        }
+
+        public static StartServiceMessage MakeStartMessage(ValueTuple<string, string> idEntityItem)
+        {
             return new StartServiceMessage()
             {
-                ServiceId = MakeId(caseIncidentId),
+                ServiceId = MakeId(idEntityItem.Item1),
                 ServiceType = typeof(GetNotesService),
-                Payload = (caseIncidentId, entityType)
+                Payload = idEntityItem
             };
         }
 
