@@ -37,14 +37,7 @@ namespace Visitz.ViewModels
                 .All<NoteItem>()
                 .Where(note => note.IcmId == caseIncidentId);
 
-            // TODO: Replace FetchNotes() with IsRefreshing implementation, like CaseloadViewModel
-            FetchNotes();
-        }
-
-        private void FetchNotes()
-        {
-            var msg = GetNotesService.MakeStartMessage(caseIncidentId, CaseIncident.EntityType);
-            WeakReferenceMessenger.Default.Send(msg);
+            // TODO: Subscribe to ServiceStateMessages from GetNotesService (like CaseloadViewModel)
         }
 
         [RelayCommand]
