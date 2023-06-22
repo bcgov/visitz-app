@@ -39,6 +39,10 @@ namespace Visitz.Services
                 }, 
                 GetId()
             );
+
+#if DEBUG
+            Console.WriteLine($"{GetId()} -> {status}");
+#endif
         }
 
         public abstract string GetId();
