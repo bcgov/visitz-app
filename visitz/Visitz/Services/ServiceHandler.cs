@@ -17,6 +17,16 @@ namespace Visitz.Services
             _ = TryRunServiceAsync(message);
         }
 
+        private VisitzService MakeAndTrackService(StartServiceMessage startMessage)
+        {
+            var service = (VisitzService)ServiceProvider.Current.GetRequiredService(startMessage.ServiceType);
+            
+            Services[startMessage.ServiceId] = service;
+            service.Payload = startMessage.Payload;
+            
+            return service;
+        }
+
         /// <summary>
         /// Tries to run a service if it isn't already running (according to the internal tracking dictionary).
         /// </summary>
@@ -28,9 +38,11 @@ namespace Visitz.Services
             // queueing services or distributing workloads.
             if (!Services.ContainsKey(startMessage.ServiceId))
             {
+                var service = MakeAndTrackService(startMessage);
+
                 try
                 {
-                    await RunServiceAsync(startMessage);
+                    await RunServiceAsync(service);
                 }
                 finally
                 {
@@ -39,12 +51,8 @@ namespace Visitz.Services
             }
         }
 
-        public async Task RunServiceAsync(StartServiceMessage startMessage)
+        private async Task RunServiceAsync(VisitzService service)
         {
-            var service = (VisitzService)ServiceProvider.Current.GetRequiredService(startMessage.ServiceType);
-            service.Payload = startMessage.Payload;
-            Services[startMessage.ServiceId] = service;
-
             try
             {
                 await service.OnStartAsync();
