@@ -14,7 +14,7 @@ namespace Visitz.Services
 
         public void Receive(StartServiceMessage message)
         {
-            _ = RunServiceAsync(message);
+            _ = TryRunServiceAsync(message);
         }
 
         public async Task TryRunServiceAsync(StartServiceMessage startMessage)
