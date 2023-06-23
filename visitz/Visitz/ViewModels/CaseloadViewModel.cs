@@ -21,17 +21,16 @@ namespace Visitz.ViewModels
 
         public override async void PageCreated()
         {
-            WeakReferenceMessenger.Default.Register(this, GetCaseloadService.MakeId());
+            WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
             var realm = await IcmDataRealm.GetAsync();
             Caseload = realm.All<CaseloadItem>();
         }
 
         [RelayCommand]
-        public async Task RefreshCaseload()
+        public void RefreshCaseload()
         {
-            var info = await VisitzSessionInfo.GetAsync();
-            WeakReferenceMessenger.Default.Send(GetCaseloadService.MakeStartMessage(info.Idir));
+            WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
         }
 
         [RelayCommand]
