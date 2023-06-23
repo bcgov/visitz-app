@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Storage;
-using Visitz.Authentication.Keycloak;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Services;
 
