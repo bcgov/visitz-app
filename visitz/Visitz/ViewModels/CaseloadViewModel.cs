@@ -47,8 +47,7 @@ namespace Visitz.ViewModels
 
         public void Receive(ServiceStateMessage message)
         {
-            IsRefreshing = message.Status == VisitzService.State.StartPending 
-                        || message.Status == VisitzService.State.Running;
+            IsRefreshing = message.Status == VisitzService.State.Running;
         }
     }
 }

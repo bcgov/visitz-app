@@ -55,7 +55,6 @@ namespace Visitz.Services
         {
             try
             {
-                await service.OnStartAsync();
                 await service.OnRunAsync();
             }
             finally

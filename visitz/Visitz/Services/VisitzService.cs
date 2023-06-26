@@ -12,11 +12,6 @@ namespace Visitz.Services
             Stopped = 1,
 
             /// <summary>
-            /// Service is starting or waiting to start.
-            /// </summary>
-            StartPending = 2,
-
-            /// <summary>
             /// Service currently doing its task.
             /// </summary>
             Running = 4
@@ -46,12 +41,6 @@ namespace Visitz.Services
         }
 
         public abstract string GetId();
-
-        public async Task OnStartAsync()
-        {
-            PublishCurrentState(State.StartPending);
-            await StartAsync();
-        }
 
         public virtual async Task OnRunAsync()
         {
