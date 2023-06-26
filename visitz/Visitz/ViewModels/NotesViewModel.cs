@@ -36,8 +36,6 @@ namespace Visitz.ViewModels
             Notes = realm
                 .All<NoteItem>()
                 .Where(note => note.IcmId == caseIncidentId);
-
-            // TODO: Subscribe to ServiceStateMessages from GetNotesService (like CaseloadViewModel)
         }
 
         [RelayCommand]
