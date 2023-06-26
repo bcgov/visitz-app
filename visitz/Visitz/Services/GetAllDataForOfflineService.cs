@@ -37,8 +37,11 @@ namespace Visitz.Services
 
         protected override async Task RunAsync()
         {
-            await GetCaseload();
-            await GetAllNotes();
+            await Task.Run(async () =>
+            {
+                await GetCaseload();
+                await GetAllNotes();
+            });
         }
 
         private async Task GetCaseload()
