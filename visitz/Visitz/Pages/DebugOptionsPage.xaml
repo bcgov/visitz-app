@@ -40,25 +40,21 @@
             Grid.Row="1"
             Grid.Column="0"
             VerticalOptions="Center"
-            Text="Expire access token when checked" />
+            Text="Token actions" />
 
-        <Switch 
+        <Button 
             Grid.Row="1"
             Grid.Column="1"
-            VerticalOptions="Center"
-            IsToggled="{Binding AlwaysExpireAccessToken}" />
+            Command="{Binding ExpireAccessTokenCommand}" 
+            HorizontalOptions="Start"
+            Text="Expire access token"/>
 
-        <Label
-            Grid.Row="2"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Expire refresh token when checked" />
-
-        <Switch 
+        <Button 
             Grid.Row="2"
             Grid.Column="1"
-            VerticalOptions="Center"
-            IsToggled="{Binding AlwaysExpireRefreshToken}" />
+            Command="{Binding ExpireRefreshTokenCommand}"
+            HorizontalOptions="Start"
+            Text="Expire refresh token" />
 
         <Label
             Grid.Row="3"

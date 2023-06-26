@@ -93,17 +93,11 @@ namespace Visitz.Authentication.Keycloak
 
         public static async Task<bool> IsAccessTokenValid()
         {
-            if (DebugOptions.AlwaysExpireAccessToken)
-                DeleteAccessToken();
-
             return IsTokenValid(await GetAccessTokenAsync());
         }
 
         public static async Task<bool> IsRefreshTokenExpired()
         {
-            if (DebugOptions.AlwaysExpireRefreshToken)
-                DeleteRefreshToken();
-
             return !IsTokenValid(await GetRefreshTokenAsync());
         }
     }
