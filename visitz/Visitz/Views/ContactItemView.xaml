@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:Visitz.Views"
@@ -12,14 +12,15 @@
             StrokeThickness="2"
             Padding="20"
             HorizontalOptions="Fill">
-            
+
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="4,4,4,4"/>
             </Border.StrokeShape>
-            
+
             <Grid>
                 <VerticalStackLayout HorizontalOptions="Fill">
-                    <HorizontalStackLayout>
+                    <HorizontalStackLayout
+                        Spacing="10">
                         <Image Source="user.png"
                             HeightRequest="20"
                             WidthRequest="20"/>
@@ -27,68 +28,27 @@
                         <Label 
                             Text="{Binding FullDisplayName}"
                             FontSize="17"
-                            FontFamily="BCSansBold"
-                            Margin="10,0,0,0" />
+                            FontFamily="BCSansBold" />
 
-                        <Border
-                            Margin="10,0,0,0"
-                            Background="#E2CCF8"
-                            Padding="10,0,10,0"
-                            HorizontalOptions="Center">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="20" />
-                            </Border.StrokeShape>
-                            <Label 
-                                Text="{Binding Relationship}"
-                                FontSize="17"
-                                FontFamily="BCSansRegular"
-                                TextColor="#5702AF" />
-                        </Border>
+                        <views:TagView
+                            BackgroundColor="{StaticResource FamilyTagBG}"
+                            TextColor="{StaticResource FamilyTagFG}"
+                            Text="{Binding Relationship}"
+                            IconName="tag_icon.png" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout>
-                        <Border
-                            Margin="0,10,0,0"
-                            Padding="10,5,10,5"
-                            HorizontalOptions="Center">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="20" />
-                            </Border.StrokeShape>
+                        <views:TagView
+                            BackgroundColor="{StaticResource FamilyTagBG}"
+                            TextColor="{StaticResource FamilyTagFG}"
+                            Text="{Binding CellPhone}"
+                            IconName="mobile.png" />
 
-                            <HorizontalStackLayout>
-                                <Image Source="mobile.png"
-                                    HeightRequest="16"
-                                    WidthRequest="16"/>
-
-                                <Label 
-                                    Text="{Binding CellPhone}"
-                                    FontSize="15"
-                                    Margin="5,0,0,0"
-                                    FontFamily="BCSansRegular" />
-                            </HorizontalStackLayout>
-                        </Border>
-
-                        <Border
-                            Margin="10,10,0,0"
-                            Padding="10,0,10,0"
-                            HorizontalOptions="Center">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="20" />
-                            </Border.StrokeShape>
-
-                            <HorizontalStackLayout VerticalOptions="Center">
-                                <Image Source="phone.png"
-                                    HeightRequest="16"
-                                    WidthRequest="16"/>
-
-                                <Label 
-                                    Text="{Binding HomePhone}"
-                                    FontSize="15"
-                                    Margin="5,0,0,0"
-                                    FontFamily="BCSansRegular" />
-                            </HorizontalStackLayout>
-                        </Border>
-
+                        <views:TagView
+                            BackgroundColor="{StaticResource FamilyTagBG}"
+                            TextColor="{StaticResource FamilyTagFG}"
+                            Text="{Binding HomePhone}"
+                            IconName="phone.png" />
                     </HorizontalStackLayout>
 
                     <Grid Margin="0, 20, 0, 0">

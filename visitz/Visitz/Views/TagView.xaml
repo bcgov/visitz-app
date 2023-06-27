@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:Visitz.Views"
              x:DataType="views:TagView"
-             x:Class="Visitz.Views.TagView">
+             x:Class="Visitz.Views.TagView"
+             x:Name="this">
 
     <Border
-            BackgroundColor="#C2E0FF"
-            StrokeThickness="0">
+        BindingContext="{x:Reference this}"
+        BackgroundColor="{Binding BackgroundColor}"
+        StrokeThickness="0">
 
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="20" />
@@ -25,15 +27,15 @@
             </Grid.ColumnDefinitions>
 
             <Image
-                Source="folder.png"
+                Source="{Binding IconName}"
                 VerticalOptions="Center"
                 Grid.Column="0" />
 
             <Label 
-                Text="Case"
+                Text="{Binding Text}"
                 FontSize="13"
                 FontFamily="BCSansRegular"
-                TextColor="#00478F"
+                TextColor="{Binding TextColor}"
                 VerticalOptions="CenterAndExpand"
                 Grid.Column="1" />
         </Grid>

@@ -46,6 +46,11 @@
 	  <MauiImage Remove="Resources\Images\folder.svg" />
 	  <MauiImage Remove="Resources\Images\folder.svg" />
 	  <MauiImage Remove="Resources\Images\folder.svg" />
+	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
+	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
+	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
+	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
+	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -104,6 +109,7 @@
 	  <None Remove="Resources\Images\phone.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
 	  <None Remove="Resources\Images\folder.svg" />
+	  <None Remove="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
@@ -139,6 +145,12 @@
 	  <BundleResource Include="Resources\Images\folder.svg" />
 	  <BundleResource Include="Resources\Images\folder.svg" />
 	  <BundleResource Include="Resources\Images\folder.svg" />
+	  <BundleResource Include="Resources\Images\tag_icon.svg" />
+	  <BundleResource Include="Resources\Images\tag_icon.svg" />
+	  <BundleResource Include="Resources\Images\tag_icon.svg" />
+	  <BundleResource Include="Resources\Images\tag_icon.svg" />
+	  <BundleResource Include="Resources\Images\tag_icon.svg" />
+	  <BundleResource Include="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Include="appSettings.json" />
