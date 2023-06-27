@@ -1,6 +1,6 @@
 ﻿using Visitz.Authentication;
-using Visitz.Resources.Localization;
 using Visitz.Pages;
+using Visitz.Resources.Localization;
 
 namespace Visitz.ViewModels
 {

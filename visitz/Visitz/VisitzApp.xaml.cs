@@ -1,11 +1,10 @@
 ﻿using Visitz.Pages;
+using Visitz.Services;
 
 namespace Visitz;
 
 public partial class VisitzApp : Application
 {
-    public static IServiceProvider VisitzServices => Current.Handler.MauiContext.Services;
-
     public static INavigation Navigation => Current.MainPage.Navigation;
 
     public static Page CurrentOpenModal
@@ -16,6 +15,8 @@ public partial class VisitzApp : Application
             return last >= 0 ? Navigation.ModalStack[last] : null;
         }
     }
+
+    public ServiceHandler ServiceHandler { get; private set; }
 
     public VisitzApp()
     {
@@ -29,6 +30,8 @@ public partial class VisitzApp : Application
     protected async override void OnStart()
     {
         base.OnStart();
+
+        ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
         await AppLockPage.TryPrompt();
     }

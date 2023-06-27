@@ -1,12 +1,8 @@
-﻿using Realms;
-
-namespace Visitz.Storage
+﻿namespace Visitz.Storage
 {
     public class DebugOptions
     {
         private static readonly string IdirOverrideKey = "IdirOverride";
-        private static readonly string AlwaysExpireAccessTokenKey = "AlwaysExpireAccessTokenKey";
-        private static readonly string AlwaysExpireRefreshTokenKey = "AlwaysExpireRefreshTokenKey";
 
         public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -29,18 +25,6 @@ namespace Visitz.Storage
         {
             get => Get(IdirOverrideKey, "");
             set => Set(IdirOverrideKey, value.Trim());
-        }
-
-        public static bool AlwaysExpireAccessToken
-        {
-            get => Get(AlwaysExpireAccessTokenKey, false);
-            set => Set(AlwaysExpireAccessTokenKey, value);
-        }
-
-        public static bool AlwaysExpireRefreshToken
-        {
-            get => Get(AlwaysExpireRefreshTokenKey, false);
-            set => Set(AlwaysExpireRefreshTokenKey, value);
         }
 
         public static async Task ClearRealmData()

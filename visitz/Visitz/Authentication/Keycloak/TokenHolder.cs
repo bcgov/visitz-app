@@ -1,7 +1,6 @@
 ﻿using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
 using System.IdentityModel.Tokens.Jwt;
-using Visitz.Storage;
 
 namespace Visitz.Authentication.Keycloak
 {
@@ -93,17 +92,11 @@ namespace Visitz.Authentication.Keycloak
 
         public static async Task<bool> IsAccessTokenValid()
         {
-            if (DebugOptions.AlwaysExpireAccessToken)
-                DeleteAccessToken();
-
             return IsTokenValid(await GetAccessTokenAsync());
         }
 
         public static async Task<bool> IsRefreshTokenExpired()
         {
-            if (DebugOptions.AlwaysExpireRefreshToken)
-                DeleteRefreshToken();
-
             return !IsTokenValid(await GetRefreshTokenAsync());
         }
     }

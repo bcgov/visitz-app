@@ -42,7 +42,7 @@ public abstract partial class VisitzPage : ContentPage
 
     public static async Task NavigateTo<T>(Page fromPage, IDictionary<string, object> parameters = null) where T : VisitzPage
     {
-        var newPage = VisitzApp.VisitzServices.GetRequiredService<T>();
+        var newPage = ServiceProvider.Current.GetRequiredService<T>();
         newPage.Parameters = parameters;
         await fromPage.Navigation.PushAsync(newPage);
     }

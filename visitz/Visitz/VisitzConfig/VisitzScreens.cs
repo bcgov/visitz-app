@@ -1,6 +1,6 @@
 ﻿using Visitz.Authentication;
-using Visitz.ViewModels;
 using Visitz.Pages;
+using Visitz.ViewModels;
 
 namespace Visitz.VisitzConfig
 {

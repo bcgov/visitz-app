@@ -1,0 +1,73 @@
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Services.Messages;
+
+namespace Visitz.Services
+{
+    public class ServiceHandler : IRecipient<StartServiceMessage>
+    {
+        readonly IDictionary<string, VisitzService> Services = new Dictionary<string, VisitzService>();
+
+        public ServiceHandler()
+        {
+            WeakReferenceMessenger.Default.Register(this);
+        }
+
+        public void Receive(StartServiceMessage message)
+        {
+            _ = TryRunServiceAsync(message);
+        }
+
+        private VisitzService MakeAndTrackService(StartServiceMessage startMessage)
+        {
+            var service = (VisitzService)ServiceProvider.Current.GetRequiredService(startMessage.ServiceType);
+            
+            Services[startMessage.ServiceId] = service;
+            service.Payload = startMessage.Payload;
+            
+            return service;
+        }
+
+        /// <summary>
+        /// Tries to run a service if it isn't already running (according to the internal tracking dictionary).
+        /// </summary>
+        /// <param name="startMessage"></param>
+        /// <returns></returns>
+        public async Task TryRunServiceAsync(StartServiceMessage startMessage)
+        {
+            // Only allow 1 service per ID at a time. For now, ServiceHandler shouldn't need to worry about
+            // queueing services or distributing workloads.
+            if (!Services.ContainsKey(startMessage.ServiceId))
+            {
+                var service = MakeAndTrackService(startMessage);
+
+                try
+                {
+                    await RunServiceAsync(service);
+                }
+                finally
+                {
+                    Services.Remove(startMessage.ServiceId);
+                }
+            }
+        }
+
+        private async Task RunServiceAsync(VisitzService service)
+        {
+            try
+            {
+                await service.OnRunAsync();
+            }
+            finally
+            {
+                await service.OnFinishAsync();
+            }
+        }
+
+        public VisitzService.State GetServiceState(string serviceId)
+        {
+            return Services.TryGetValue(serviceId, out VisitzService service) 
+                ? service.Status 
+                : VisitzService.State.Stopped;
+        }
+    }
+}

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Visitz.Authentication.Keycloak;
 using Visitz.Storage;
 
 namespace Visitz.ViewModels
@@ -9,17 +10,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string idirOverride;
 
-        [ObservableProperty]
-        public bool alwaysExpireAccessToken;
-
-        [ObservableProperty]
-        public bool alwaysExpireRefreshToken;
-
         public override void PageStarted()
         {
             IdirOverride = DebugOptions.IdirOverride;
-            AlwaysExpireAccessToken = DebugOptions.AlwaysExpireAccessToken;
-            AlwaysExpireRefreshToken = DebugOptions.AlwaysExpireRefreshToken;
         }
 
         partial void OnIdirOverrideChanged(string value)
@@ -27,14 +20,18 @@ namespace Visitz.ViewModels
             DebugOptions.IdirOverride = value;
         }
 
-        partial void OnAlwaysExpireAccessTokenChanged(bool value)
+        [RelayCommand]
+        public void ExpireAccessToken()
         {
-            DebugOptions.AlwaysExpireAccessToken = value;
+            if (DebugOptions.Enabled)
+                TokenHolder.DeleteAccessToken();
         }
 
-        partial void OnAlwaysExpireRefreshTokenChanged(bool value)
+        [RelayCommand]
+        public void ExpireRefreshToken()
         {
-            DebugOptions.AlwaysExpireRefreshToken = value;
+            if (DebugOptions.Enabled)
+                TokenHolder.DeleteRefreshToken();
         }
 
         [RelayCommand]
