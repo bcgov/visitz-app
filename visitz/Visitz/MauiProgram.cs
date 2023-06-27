@@ -1,4 +1,5 @@
 ﻿using Visitz.VisitzConfig;
+using CommunityToolkit.Maui;
 
 namespace Visitz;
 
@@ -17,6 +18,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<VisitzApp>()
+            .UseMauiCommunityToolkit()
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
             .ConfigureVisitzAuth()
