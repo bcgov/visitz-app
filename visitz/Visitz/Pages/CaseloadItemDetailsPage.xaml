@@ -9,32 +9,6 @@
              x:DataType="viewModels:CaseloadItemDetailsViewModel"
              Title="Details">
     
-    <ContentPage.Resources>
-        <Style TargetType="Page" ApplyToDerivedTypes="True">
-            <Setter 
-                Property="BackgroundColor" 
-                Value="{AppThemeBinding 
-                            Light={StaticResource BC_Background_Light}, 
-                            Dark={StaticResource BC_Background_Dark}}"/>
-        </Style>
-
-        <Style TargetType="VerticalStackLayout">
-            <Setter 
-                Property="BackgroundColor" 
-                Value="{AppThemeBinding 
-                            Light={StaticResource White}, 
-                            Dark={StaticResource BC_Blue}}"/>
-        </Style>
-
-        <Style TargetType="Grid">
-            <Setter 
-                Property="BackgroundColor" 
-                Value="{AppThemeBinding 
-                            Light={StaticResource White}, 
-                            Dark={StaticResource BC_Blue}}"/>
-        </Style>
-    </ContentPage.Resources>
-    
     <ScrollView>
         
         <VerticalStackLayout Spacing="15">
