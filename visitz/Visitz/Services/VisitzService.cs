@@ -60,11 +60,6 @@ namespace Visitz.Services
             }
         }
 
-        protected virtual Task StartAsync()
-        {
-            return Task.CompletedTask;
-        }
-
         protected virtual Task RunAsync()
         {
             return Task.CompletedTask;
