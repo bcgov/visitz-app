@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Models;
 using Visitz.Pages;
-using Visitz.Storage;
-using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Services;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {

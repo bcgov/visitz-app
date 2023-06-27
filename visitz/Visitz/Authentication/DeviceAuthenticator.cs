@@ -1,6 +1,6 @@
-﻿using Visitz.Resources.Localization;
-using Plugin.Fingerprint;
+﻿using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using Visitz.Resources.Localization;
 
 namespace Visitz.Authentication
 {

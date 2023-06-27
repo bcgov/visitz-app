@@ -1,6 +1,4 @@
-﻿using Realms;
-
-namespace Visitz.Storage
+﻿namespace Visitz.Storage
 {
     public class DebugOptions
     {

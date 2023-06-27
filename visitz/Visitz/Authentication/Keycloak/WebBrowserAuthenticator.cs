@@ -1,6 +1,6 @@
-﻿using Visitz.Resources.Localization;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
 using IdentityModel.OidcClient.Browser;
+using Visitz.Resources.Localization;
 
 namespace Visitz.Authentication.Keycloak
 {
