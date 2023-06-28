@@ -42,17 +42,6 @@
 	<Import Project="Visitz.targets" />
 
 	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\folder.svg" />
-	  <MauiImage Remove="Resources\Images\folder.svg" />
-	  <MauiImage Remove="Resources\Images\folder.svg" />
-	  <MauiImage Remove="Resources\Images\folder.svg" />
-	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
-	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
-	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
-	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
-	  <MauiImage Remove="Resources\Images\tag_icon.svg" />
-	</ItemGroup>
-	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
@@ -143,14 +132,6 @@
 	  <BundleResource Include="Resources\Images\phone.svg" />
 	  <BundleResource Include="Resources\Images\mobile.svg" />
 	  <BundleResource Include="Resources\Images\folder.svg" />
-	  <BundleResource Include="Resources\Images\folder.svg" />
-	  <BundleResource Include="Resources\Images\folder.svg" />
-	  <BundleResource Include="Resources\Images\folder.svg" />
-	  <BundleResource Include="Resources\Images\tag_icon.svg" />
-	  <BundleResource Include="Resources\Images\tag_icon.svg" />
-	  <BundleResource Include="Resources\Images\tag_icon.svg" />
-	  <BundleResource Include="Resources\Images\tag_icon.svg" />
-	  <BundleResource Include="Resources\Images\tag_icon.svg" />
 	  <BundleResource Include="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
 	<ItemGroup>
