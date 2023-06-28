@@ -15,36 +15,25 @@
             <RoundRectangle CornerRadius="20" />
         </Border.StrokeShape>
 
-        <Grid
+        <HorizontalStackLayout
             BackgroundColor="{Binding BackgroundColor}"
             HorizontalOptions="Start"
+            Spacing="5"
             Padding="10,2,10,2" >
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
 
             <Image
                 x:Name="Icon"
                 Source="{Binding IconName}"
-                VerticalOptions="Center"
-                Grid.Column="0" />
-
-            <ContentView
-               x:Name="SpacingView"
-               WidthRequest="5"
-               Grid.Column="1" />
+                VerticalOptions="Center" />
 
             <Label 
+                x:Name="TagLabel"
                 Text="{Binding Text}"
                 FontSize="13"
                 FontFamily="BCSansRegular"
                 TextColor="{Binding TextColor}"
-                VerticalOptions="CenterAndExpand"
-                Grid.Column="2" />
-        </Grid>
+                VerticalOptions="CenterAndExpand" />
+        </HorizontalStackLayout>
     </Border>
 
 </ContentView>
