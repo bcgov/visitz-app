@@ -11,7 +11,11 @@
 
     <NavigationPage.TitleView>
         <StackLayout>
-            <Image Source="bc_logo_text.png" HorizontalOptions="Start">
+            <Image Source="bc_logo_horizontal_reverse.png" 
+                   WidthRequest="154" 
+                   HeightRequest="50" 
+                   HorizontalOptions="Start" 
+                   VerticalOptions="CenterAndExpand">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"
                                           NumberOfTapsRequired="4" />

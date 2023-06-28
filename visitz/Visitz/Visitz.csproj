@@ -65,6 +65,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\bc_logo_horizontal_reverse.svg" />
 	  <None Remove="Services\" />
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
