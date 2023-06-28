@@ -1,23 +1,30 @@
-using Microsoft.Maui.Controls;
-
 namespace Visitz.Views;
 
 public partial class TagView : ContentView
 {
+    static readonly BindableProperty.BindingPropertyChangedDelegate TagPropertyChanged = 
+        (boundObj, oldValue, newValue) =>
+        {
+            (boundObj as TagView).UpdateUI();
+        };
+
     public static readonly new BindableProperty BackgroundColorProperty =
         BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(TagView));
+
     public static readonly BindableProperty TextColorProperty =
         BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TagView));
+    
     public static readonly BindableProperty IconNameProperty =
-        BindableProperty.Create(nameof(IconName), typeof(string), typeof(TagView));
+        BindableProperty.Create(nameof(IconName), typeof(string), typeof(TagView), 
+            propertyChanged: TagPropertyChanged);
+    
     public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(TagView),
-            propertyChanged: (b, o, n) =>
-            {
-                ((TagView)b).updateLayout();
-            });
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(TagView), 
+            propertyChanged: TagPropertyChanged);
+    
     public static readonly BindableProperty BorderColorProperty =
-        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView));
+        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView), 
+            propertyChanged: TagPropertyChanged);
 
     public new Color BackgroundColor
     {
@@ -52,12 +59,6 @@ public partial class TagView : ContentView
     public TagView()
     {
         InitializeComponent();
-    }
-
-    protected override void OnBindingContextChanged()
-    {
-        base.OnBindingContextChanged();
-        UpdateUI();
     }
 
     private void UpdateUI()
