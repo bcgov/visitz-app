@@ -45,15 +45,13 @@
                     BackgroundColor="{StaticResource EntityTagBlueBackground}"
                     TextColor="{StaticResource EntityTagBlueText}"
                     Text="{Binding CaseIncident.EntityType}"
-                    IconName="folder.png"
-                    BorderColor="Transparent" />
+                    IconName="folder.png" />
 
                 <views:TagView
                     BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
                     TextColor="{StaticResource EntitySubtypeTagPurpleText}"
                     Text="{Binding CaseIncident.CaseIncidentType}"
-                    IconName="tag_icon.png"
-                    BorderColor="Transparent" />
+                    IconName="tag_icon.png" />
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

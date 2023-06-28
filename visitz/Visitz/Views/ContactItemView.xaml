@@ -39,9 +39,7 @@
                             x:Name="RelationshipTagView"
                             BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
                             TextColor="{StaticResource EntitySubtypeTagPurpleText}"
-                            Text="{Binding Relationship}"
-                            IconName=""
-                            BorderColor="Transparent" />
+                            Text="{Binding Relationship}" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout
