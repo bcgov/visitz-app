@@ -62,7 +62,8 @@ public partial class TagView : ContentView
 
     private void UpdateUI()
     {
-        Icon.IsVisible = (IconName?.Length == 0) ? false : true;
-        Border.StrokeThickness = (BorderColor == Colors.Transparent) ? 0 : 1;
+        Icon.IsVisible = IconName?.Length > 0;
+        TagLabel.IsVisible = TagLabel.Text?.Length > 0;
+        Border.StrokeThickness = BorderColor is null || BorderColor == Colors.Transparent ? 0 : 1;
     }
 }
