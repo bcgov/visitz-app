@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:Visitz.Views"
+             x:DataType="views:TagView"
+             x:Class="Visitz.Views.TagView"
+             x:Name="this">
+
+    <Border
+        x:Name="Border"
+        BindingContext="{x:Reference this}"
+        Stroke="{Binding BorderColor}">
+
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20" />
+        </Border.StrokeShape>
+
+        <HorizontalStackLayout
+            BackgroundColor="{Binding BackgroundColor}"
+            HorizontalOptions="Start"
+            Spacing="5"
+            Padding="10,2,10,2" >
+
+            <Image
+                x:Name="Icon"
+                Source="{Binding IconName}"
+                VerticalOptions="Center" />
+
+            <Label 
+                x:Name="TagLabel"
+                Text="{Binding Text}"
+                FontSize="13"
+                FontFamily="BCSansRegular"
+                TextColor="{Binding TextColor}"
+                VerticalOptions="CenterAndExpand" />
+        </HorizontalStackLayout>
+    </Border>
+
+</ContentView>

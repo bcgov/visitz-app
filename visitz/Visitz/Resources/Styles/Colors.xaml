@@ -24,6 +24,17 @@
     <!-- BC_Background_Dark -->
     <Color x:Key="Tertiary">#38598A</Color>
 
+    <!-- Tags Colors -->
+    <Color x:Key="EntityTagBlueBackground">#C2E0FF</Color>
+    <Color x:Key="EntityTagBlueText">#00478F</Color>
+    <Color x:Key="EntitySubtypeTagPurpleBackground">#E2CCF8</Color>
+    <Color x:Key="EntitySubtypeTagPurpleText">#5702AF</Color>
+    <Color x:Key="PurpleTagBorder">#C59AF1</Color>
+
+    <!-- Family Information Colors -->
+    <Color x:Key="KeyPlayerInfoPurpleBackground">#FBF8FF</Color>
+    <Color x:Key="FamilyMemberInfoGrayBorder">#DFDFE1</Color>
+    
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>

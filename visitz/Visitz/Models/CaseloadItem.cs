@@ -29,7 +29,10 @@ namespace Visitz.Models
         public string CreatedDate { get; set; }
         public string DateReported { get; set; }
 
-        public string DisplayDate => EntityType == IcmEntity.Incident.ToString() ? DateReported : CreatedDate;
+        // Copied from previous implementation. TODO: review if this is required, and clean up if so
+        public string DisplayDate => EntityType == IcmEntity.Incident.ToString()
+            ? DateReported
+            : CreatedDate;
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string DisplayName => FamilyMembers.Where(mem => mem.KeyPlayer.Equals("Y")).FirstOrDefault().LastName;

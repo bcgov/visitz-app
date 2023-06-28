@@ -59,8 +59,8 @@
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-		<PackageReference Include="Realm" Version="11.0.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
+		<PackageReference Include="Realm" Version="11.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -93,11 +93,12 @@
 	  <None Remove="appSettings.json" />
 	  <None Remove="Resources\AppIcon\appicon_round.svg" />
 	  <None Remove="Resources\Images\calendar.svg" />
-	  <None Remove="Resources\Images\folder.svg" />
 	  <None Remove="Resources\Images\family.svg" />
 	  <None Remove="Resources\Images\user.svg" />
 	  <None Remove="Resources\Images\phone.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
+	  <None Remove="Resources\Images\folder.svg" />
+	  <None Remove="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
@@ -108,6 +109,7 @@
 	  <Folder Include="Resources\Splash\" />
 	  <Folder Include="Resources\Localization\" />
 	  <Folder Include="Localization\" />
+	  <Folder Include="Extensions\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\BCSans-Bold.ttf" />
@@ -125,11 +127,12 @@
 	  <BundleResource Include="Resources\Images\bc_logo_text.svg" />
 	  <BundleResource Include="Resources\AppIcon\appicon_round.svg" />
 	  <BundleResource Include="Resources\Images\calendar.svg" />
-	  <BundleResource Include="Resources\Images\folder.svg" />
 	  <BundleResource Include="Resources\Images\family.svg" />
 	  <BundleResource Include="Resources\Images\user.svg" />
 	  <BundleResource Include="Resources\Images\phone.svg" />
 	  <BundleResource Include="Resources\Images\mobile.svg" />
+	  <BundleResource Include="Resources\Images\folder.svg" />
+	  <BundleResource Include="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Include="appSettings.json" />
