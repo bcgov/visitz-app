@@ -22,6 +22,7 @@
                 BackgroundColor="Transparent">
                 <VerticalStackLayout
                     HorizontalOptions="Fill"
+                    Spacing="5"
                     BackgroundColor="Transparent">
                     <HorizontalStackLayout
                         Spacing="10">
