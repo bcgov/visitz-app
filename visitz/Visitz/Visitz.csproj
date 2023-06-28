@@ -120,6 +120,7 @@
 	  <Folder Include="Resources\Splash\" />
 	  <Folder Include="Resources\Localization\" />
 	  <Folder Include="Localization\" />
+	  <Folder Include="Extensions\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\BCSans-Bold.ttf" />

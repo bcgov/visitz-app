@@ -11,7 +11,13 @@ public partial class TagView : ContentView
     public static readonly BindableProperty IconNameProperty =
         BindableProperty.Create(nameof(IconName), typeof(string), typeof(TagView));
     public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(TagView));
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(TagView),
+            propertyChanged: (b, o, n) =>
+            {
+                ((TagView)b).updateLayout();
+            });
+    public static readonly BindableProperty BorderColorProperty =
+        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView));
 
     public new Color BackgroundColor
     {
@@ -37,8 +43,27 @@ public partial class TagView : ContentView
         set => SetValue(TextProperty, value);
     }
 
+    public Color BorderColor
+    {
+        get => (Color)GetValue(BorderColorProperty);
+        set => SetValue(BorderColorProperty, value);
+    }
+
     public TagView()
     {
         InitializeComponent();
+    }
+
+    protected override void OnBindingContextChanged()
+    {
+        base.OnBindingContextChanged();
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        Icon.IsVisible = (IconName?.Length == 0) ? false : true;
+        SpacingView.IsVisible = ((Icon?.IsVisible ?? false) && Text?.Length > 0);
+        Border.StrokeThickness = (BorderColor == Colors.Transparent) ? 0 : 1;
     }
 }

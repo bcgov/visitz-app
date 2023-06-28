@@ -7,29 +7,35 @@
              x:Name="this">
 
     <Border
+        x:Name="Border"
         BindingContext="{x:Reference this}"
-        BackgroundColor="{Binding BackgroundColor}"
-        StrokeThickness="0">
+        Stroke="{Binding BorderColor}">
 
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="20" />
         </Border.StrokeShape>
 
         <Grid
+            BackgroundColor="{Binding BackgroundColor}"
             HorizontalOptions="Start"
-            Padding="5"
-            ColumnSpacing="5"
-            Margin="5,0,0,0">
+            Padding="10,2,10,2" >
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Image
+                x:Name="Icon"
                 Source="{Binding IconName}"
                 VerticalOptions="Center"
                 Grid.Column="0" />
+
+            <ContentView
+               x:Name="SpacingView"
+               WidthRequest="5"
+               Grid.Column="1" />
 
             <Label 
                 Text="{Binding Text}"
@@ -37,7 +43,7 @@
                 FontFamily="BCSansRegular"
                 TextColor="{Binding TextColor}"
                 VerticalOptions="CenterAndExpand"
-                Grid.Column="1" />
+                Grid.Column="2" />
         </Grid>
     </Border>
 

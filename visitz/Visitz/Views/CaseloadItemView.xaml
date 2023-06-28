@@ -45,16 +45,18 @@
                     <HorizontalStackLayout
                         Spacing="5">
                         <views:TagView
-                            BackgroundColor="{StaticResource CaseTagBG}"
-                            TextColor="{StaticResource CaseTagFG}"
+                            BackgroundColor="{StaticResource EntityTagBlueBackground}"
+                            TextColor="{StaticResource EntityTagBlueText}"
                             Text="{Binding EntityType}"
-                            IconName="folder.png" />
+                            IconName="folder.png"
+                            BorderColor="Transparent" />
 
                         <views:TagView
-                            BackgroundColor="{StaticResource FamilyTagBG}"
-                            TextColor="{StaticResource FamilyTagFG}"
-                            Text="{Binding DisplayName}"
-                            IconName="tag_icon.png" />
+                            BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
+                            TextColor="{StaticResource EntitySubtypeTagPurpleText}"
+                            Text="{Binding CaseIncidentType}"
+                            IconName="tag_icon.png"
+                            BorderColor="Transparent" />
 
                         <!--<Image Source="temp_case.png" VerticalOptions="Center" Margin="0,10,0,0" />
                         <Image Source="temp_child_services.png" VerticalOptions="Center" Margin="10,10,0,0" />-->

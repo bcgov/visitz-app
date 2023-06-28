@@ -7,18 +7,22 @@
              x:DataType="models:FamilyMember">
 
     <VerticalStackLayout>
-        <Border  
+        <Border
+            x:Name="ContainerBorder"
             Stroke="#DFDFE1"
             StrokeThickness="2"
             Padding="20"
-            HorizontalOptions="Fill">
+            HorizontalOptions="Fill" >
 
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="4,4,4,4"/>
             </Border.StrokeShape>
 
-            <Grid>
-                <VerticalStackLayout HorizontalOptions="Fill">
+            <Grid
+                BackgroundColor="Transparent">
+                <VerticalStackLayout
+                    HorizontalOptions="Fill"
+                    BackgroundColor="Transparent">
                     <HorizontalStackLayout
                         Spacing="10">
                         <Image Source="user.png"
@@ -31,27 +35,34 @@
                             FontFamily="BCSansBold" />
 
                         <views:TagView
-                            BackgroundColor="{StaticResource FamilyTagBG}"
-                            TextColor="{StaticResource FamilyTagFG}"
+                            x:Name="RelationshipTagView"
+                            BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
+                            TextColor="{StaticResource EntitySubtypeTagPurpleText}"
                             Text="{Binding Relationship}"
-                            IconName="tag_icon.png" />
+                            IconName=""
+                            BorderColor="Transparent" />
                     </HorizontalStackLayout>
 
-                    <HorizontalStackLayout>
+                    <HorizontalStackLayout
+                        Spacing="5">
                         <views:TagView
-                            BackgroundColor="{StaticResource FamilyTagBG}"
-                            TextColor="{StaticResource FamilyTagFG}"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource EntitySubtypeTagPurpleText}"
                             Text="{Binding CellPhone}"
-                            IconName="mobile.png" />
+                            IconName="mobile.png"
+                            BorderColor="{StaticResource PurpleTagBorder}" />
 
                         <views:TagView
-                            BackgroundColor="{StaticResource FamilyTagBG}"
-                            TextColor="{StaticResource FamilyTagFG}"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource EntitySubtypeTagPurpleText}"
                             Text="{Binding HomePhone}"
-                            IconName="phone.png" />
+                            IconName="phone.png"
+                            BorderColor="{StaticResource PurpleTagBorder}" />
                     </HorizontalStackLayout>
 
-                    <Grid Margin="0, 20, 0, 0">
+                    <Grid
+                        Margin="0, 20, 0, 0"
+                        BackgroundColor="Transparent">
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
