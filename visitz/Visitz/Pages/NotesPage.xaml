@@ -7,7 +7,8 @@
              xmlns:views="clr-namespace:Visitz.Views"
              x:Class="Visitz.Pages.NotesPage"
              x:DataType="viewModels:NotesViewModel"
-             Title="Notes">
+             Title="Notes"
+             ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
