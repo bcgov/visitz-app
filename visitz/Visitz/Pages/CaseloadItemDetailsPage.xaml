@@ -7,7 +7,8 @@
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
              x:Class="Visitz.Pages.CaseloadItemDetailsPage"
              x:DataType="viewModels:CaseloadItemDetailsViewModel"
-             Title="Details">
+             Title="Details"
+             ControlTemplate="{StaticResource VisitzPageWrapper}">
     
     <ScrollView>
         

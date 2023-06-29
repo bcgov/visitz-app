@@ -5,7 +5,8 @@
                   xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
                   x:Class="Visitz.Pages.DebugOptionsPage"
                   x:DataType="viewmodels:DebugOptionsViewModel"
-                  Title="Debug Options">
+                  Title="Debug Options"
+                  ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <Grid Padding="16" ColumnSpacing="16" RowSpacing="16">
         

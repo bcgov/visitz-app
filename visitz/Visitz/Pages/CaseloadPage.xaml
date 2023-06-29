@@ -7,7 +7,8 @@
              xmlns:views="clr-namespace:Visitz.Views"
              x:Class="Visitz.Pages.CaseloadPage"
              x:DataType="viewmodels:CaseloadViewModel"
-             Title="Caseload">
+             Title="Caseload"
+             ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <NavigationPage.TitleView>
         <StackLayout>
@@ -23,7 +24,6 @@
             </Image>
         </StackLayout>
     </NavigationPage.TitleView>
-    
 
     <RefreshView
         Grid.Row="1"
