@@ -61,7 +61,7 @@
                 <views:FormItemView 
                     Grid.Row="4" 
                     Grid.ColumnSpan="2"
-                    Name="Case address"
+                    Name="Address"
                     Value="{Binding CaseloadItem.Address}" />
 
                 <views:FormItemView 
