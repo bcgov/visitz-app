@@ -49,17 +49,17 @@
                 </HorizontalStackLayout>
 
                 <views:FormItemView 
-                    Grid.Row="2" 
+                    Grid.Row="1" 
                     Name="ID"
                     Value="{Binding CaseloadItem.CaseIncidentNumber}" />
 
                 <views:FormItemView 
-                    Grid.Row="3" 
+                    Grid.Row="2" 
                     Name="Open date"
                     Value="{Binding CaseloadItem.DisplayDate}" />
 
                 <views:FormItemView 
-                    Grid.Row="4" 
+                    Grid.Row="3" 
                     Grid.ColumnSpan="2"
                     Name="Address"
                     Value="{Binding CaseloadItem.Address}" />
