@@ -86,50 +86,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:NoteItem">
-                    <VerticalStackLayout Margin="0,10,0,0">
-                        <Border  
-                        Stroke="#DFDFE1"
-                        StrokeThickness="2"
-                        Padding="20,20"
-                        HorizontalOptions="Fill">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="4,4,4,4"/>
-                            </Border.StrokeShape>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
-                                    <HorizontalStackLayout>
-                                        <Image Source="calendar.png"
-                                                   HeightRequest="20"
-                                                   WidthRequest="20"/>
-
-                                        <Label 
-                                                Text="{Binding NotePeriod}"
-                                                FontSize="17"
-                                                FontFamily="BCSansBold"
-                                                Margin="10,0,0,0"
-                                                />
-                                    </HorizontalStackLayout>
-
-                                    <Label 
-                                            Text="{Binding Content}"
-                                            FontSize="17"
-                                            FontFamily="BCSansRegular"
-                                            Padding="0,10,0,0"
-                                            LineBreakMode="WordWrap" />
-
-                                </VerticalStackLayout>
-
-                                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
-                                    <Image Source="chevron_right" Margin="25,0,0,0" />
-                                </VerticalStackLayout>
-                            </Grid>
-                        </Border>
-                    </VerticalStackLayout>
+                    <views:NoteItemView />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
