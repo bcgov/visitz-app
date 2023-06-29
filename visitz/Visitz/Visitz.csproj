@@ -97,8 +97,6 @@
 	  <None Remove="Resources\AppIcon\appicon_round.svg" />
 	  <None Remove="Resources\Images\calendar.svg" />
 	  <None Remove="Resources\Images\user.svg" />
-	  <None Remove="Resources\Images\phone.svg" />
-	  <None Remove="Resources\Images\mobile.svg" />
 	  <None Remove="Resources\Images\folder.svg" />
 	  <None Remove="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
