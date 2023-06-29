@@ -49,11 +49,6 @@
                 </HorizontalStackLayout>
 
                 <views:FormItemView 
-                    Grid.Row="1" 
-                    Name="Program service area"
-                    Value="{Binding CaseloadItem.EntityType}" />
-
-                <views:FormItemView 
                     Grid.Row="2" 
                     Name="Case Load"
                     Value="{Binding CaseloadItem.CaseIncidentNumber}" />
