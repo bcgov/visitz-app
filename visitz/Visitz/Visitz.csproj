@@ -66,6 +66,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\bc_logo_horizontal_reverse.svg" />
+	  <None Remove="Resources\Images\family.svg" />
 	  <None Remove="Services\" />
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
@@ -95,7 +96,6 @@
 	  <None Remove="appSettings.json" />
 	  <None Remove="Resources\AppIcon\appicon_round.svg" />
 	  <None Remove="Resources\Images\calendar.svg" />
-	  <None Remove="Resources\Images\family.svg" />
 	  <None Remove="Resources\Images\user.svg" />
 	  <None Remove="Resources\Images\phone.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
@@ -129,7 +129,6 @@
 	  <BundleResource Include="Resources\Images\bc_logo_text.svg" />
 	  <BundleResource Include="Resources\AppIcon\appicon_round.svg" />
 	  <BundleResource Include="Resources\Images\calendar.svg" />
-	  <BundleResource Include="Resources\Images\family.svg" />
 	  <BundleResource Include="Resources\Images\user.svg" />
 	  <BundleResource Include="Resources\Images\phone.svg" />
 	  <BundleResource Include="Resources\Images\mobile.svg" />
