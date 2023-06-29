@@ -40,11 +40,28 @@
                 </Grid.ColumnDefinitions>
 
                 <HorizontalStackLayout>
-                    <Image Source="folder.png" WidthRequest="36" HeightRequest="36" />
+
+                    <Border
+                        BackgroundColor="{StaticResource EntityTagBlueBackground}"
+                        Padding="15"
+                        StrokeThickness="0"
+                        VerticalOptions="Center">
+                        
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="30" />
+                        </Border.StrokeShape>
+                        
+                        <Image 
+                            Source="folder.png" 
+                            WidthRequest="20" 
+                            HeightRequest="20" />
+                    </Border>
+                    
                     <Label 
                         Text="Details"
                         FontSize="22"
                         FontFamily="BCSansBold"
+                        VerticalOptions="Center"
                         Margin="12,0,0,0" />
                 </HorizontalStackLayout>
 
