@@ -95,12 +95,28 @@
             </Grid>
 
             <VerticalStackLayout Padding="20" Spacing="20">
-                <HorizontalStackLayout >
-                    <Image Source="family.png" WidthRequest="36" HeightRequest="36" />
+                <HorizontalStackLayout>
+                    <Border
+                        BackgroundColor="{StaticResource FamilyTagColor}"
+                        Padding="15"
+                        StrokeThickness="0"
+                        VerticalOptions="Center">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="30" />
+                        </Border.StrokeShape>
+
+                        <Image 
+                            Source="family.png" 
+                            WidthRequest="20" 
+                            HeightRequest="20" />
+                    </Border>
+                    
                     <Label 
                         Text="Family information"
                         FontSize="22"
                         FontFamily="BCSansBold"
+                        VerticalOptions="Center"
                         Margin="12,0,0,0"
                         />
                 </HorizontalStackLayout>
