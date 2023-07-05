@@ -70,6 +70,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Case type.
+        /// </summary>
+        internal static string CaseType {
+            get {
+                return ResourceManager.GetString("CaseType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
         /// </summary>
         internal static string DeviceAuthReason {
@@ -133,6 +142,15 @@ namespace Visitz.Resources.Localization {
         internal static string SecureDeviceAndTryAgain {
             get {
                 return ResourceManager.GetString("SecureDeviceAndTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
             }
         }
         

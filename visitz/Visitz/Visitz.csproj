@@ -66,6 +66,10 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\bc_logo_horizontal_reverse.svg" />
+	  <None Remove="Resources\Images\family.svg" />
+	  <None Remove="Resources\Images\mobile.svg" />
+	  <None Remove="Resources\Images\phone.svg" />
+	  <None Remove="Resources\Images\user.svg" />
 	  <None Remove="Services\" />
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
@@ -83,22 +87,14 @@
 	  <None Remove="Resources\Splash\splashicon.svg" />
 	  <None Remove="Resources\Images\Authentication\fileFolder.svg" />
 	  <None Remove="Resources\Images\file_folder.svg" />
-	  <None Remove="Resources\Images\device.svg" />
 	  <None Remove="Resources\Images\tilted_rectangle_bg.svg" />
 	  <None Remove="Resources\Images\chevron_right.svg" />
-	  <None Remove="Resources\Images\temp_child_services.svg" />
-	  <None Remove="Resources\Images\temp_case.svg" />
-	  <None Remove="Resources\Images\bc_logo_text.svg" />
 	  <None Remove="Resources\Localization\" />
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="appSettings.json" />
 	  <None Remove="Resources\AppIcon\appicon_round.svg" />
 	  <None Remove="Resources\Images\calendar.svg" />
-	  <None Remove="Resources\Images\family.svg" />
-	  <None Remove="Resources\Images\user.svg" />
-	  <None Remove="Resources\Images\phone.svg" />
-	  <None Remove="Resources\Images\mobile.svg" />
 	  <None Remove="Resources\Images\folder.svg" />
 	  <None Remove="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
@@ -121,18 +117,10 @@
 	  <BundleResource Include="Resources\AppIcon\appiconfg.svg" />
 	  <BundleResource Include="Resources\Splash\splashicon.svg" />
 	  <BundleResource Include="Resources\Images\file_folder.svg" />
-	  <BundleResource Include="Resources\Images\device.svg" />
 	  <BundleResource Include="Resources\Images\tilted_rectangle_bg.svg" />
 	  <BundleResource Include="Resources\Images\chevron_right.svg" />
-	  <BundleResource Include="Resources\Images\temp_child_services.svg" />
-	  <BundleResource Include="Resources\Images\temp_case.svg" />
-	  <BundleResource Include="Resources\Images\bc_logo_text.svg" />
 	  <BundleResource Include="Resources\AppIcon\appicon_round.svg" />
 	  <BundleResource Include="Resources\Images\calendar.svg" />
-	  <BundleResource Include="Resources\Images\family.svg" />
-	  <BundleResource Include="Resources\Images\user.svg" />
-	  <BundleResource Include="Resources\Images\phone.svg" />
-	  <BundleResource Include="Resources\Images\mobile.svg" />
 	  <BundleResource Include="Resources\Images\folder.svg" />
 	  <BundleResource Include="Resources\Images\tag_icon.svg" />
 	</ItemGroup>
