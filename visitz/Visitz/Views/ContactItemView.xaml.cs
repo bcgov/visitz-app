@@ -19,6 +19,8 @@ public partial class ContactItemView : ContentView
     private void UpdateUI()
     {
         var isKeyPlayer = (BindingContext as FamilyMember)?.IsKeyPlayer ?? false;
+        PhoneRow.IsVisible = isKeyPlayer;
+
         if (isKeyPlayer)
         {
             ContainerBorder.BackgroundColor = Application.Current.Resources.TryGetColor("KeyPlayerInfoPurpleBackground", Colors.Purple);
