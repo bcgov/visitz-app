@@ -87,12 +87,8 @@
 	  <None Remove="Resources\Splash\splashicon.svg" />
 	  <None Remove="Resources\Images\Authentication\fileFolder.svg" />
 	  <None Remove="Resources\Images\file_folder.svg" />
-	  <None Remove="Resources\Images\device.svg" />
 	  <None Remove="Resources\Images\tilted_rectangle_bg.svg" />
 	  <None Remove="Resources\Images\chevron_right.svg" />
-	  <None Remove="Resources\Images\temp_child_services.svg" />
-	  <None Remove="Resources\Images\temp_case.svg" />
-	  <None Remove="Resources\Images\bc_logo_text.svg" />
 	  <None Remove="Resources\Localization\" />
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
@@ -121,12 +117,8 @@
 	  <BundleResource Include="Resources\AppIcon\appiconfg.svg" />
 	  <BundleResource Include="Resources\Splash\splashicon.svg" />
 	  <BundleResource Include="Resources\Images\file_folder.svg" />
-	  <BundleResource Include="Resources\Images\device.svg" />
 	  <BundleResource Include="Resources\Images\tilted_rectangle_bg.svg" />
 	  <BundleResource Include="Resources\Images\chevron_right.svg" />
-	  <BundleResource Include="Resources\Images\temp_child_services.svg" />
-	  <BundleResource Include="Resources\Images\temp_case.svg" />
-	  <BundleResource Include="Resources\Images\bc_logo_text.svg" />
 	  <BundleResource Include="Resources\AppIcon\appicon_round.svg" />
 	  <BundleResource Include="Resources\Images\calendar.svg" />
 	  <BundleResource Include="Resources\Images\folder.svg" />
