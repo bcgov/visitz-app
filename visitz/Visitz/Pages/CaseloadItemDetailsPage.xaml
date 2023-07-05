@@ -87,7 +87,7 @@
             <views:FormItemView 
                 Grid.Row="3"
                 Grid.Column="1"
-                Name="Case type"
+                Name="{Binding EntityTypeDescriptor}"
                 Value="{Binding CaseloadItem.CaseIncidentType}" />
 
             <views:FormItemView 
