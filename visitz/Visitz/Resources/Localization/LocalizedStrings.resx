@@ -148,4 +148,10 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
   <data name="RealmDatabaseErrorTitle" xml:space="preserve">
     <value>Restart app to fix data issue</value>
   </data>
+  <data name="CaseType" xml:space="preserve">
+    <value>Case type</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
 </root>
