@@ -1,14 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:VisitzPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:Visitz.Pages"
-             xmlns:viewModels="clr-namespace:Visitz.ViewModels"
-             xmlns:models="clr-namespace:Visitz.Models"
-             xmlns:views="clr-namespace:Visitz.Views"
-             x:Class="Visitz.Pages.NotesPage"
-             x:DataType="viewModels:NotesViewModel"
-             Title="Notes"
-             ControlTemplate="{StaticResource VisitzPageWrapper}">
+﻿<pages:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Pages.NotesPage"
+    x:DataType="viewModels:NotesViewModel"
+    Title="Notes"
+    ControlTemplate="{StaticResource VisitzPageWrapper}"
+    Padding="20">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
@@ -16,105 +17,107 @@
             Command="{Binding CaseDetailsTappedCommand}" />
     </ContentPage.ToolbarItems>
 
-    <Grid Padding="20,20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <VerticalStackLayout HorizontalOptions="Fill">
-            <HorizontalStackLayout>
-                <Label 
-                Text="{Binding CaseIncident.DisplayName}"
-                FontSize="28"
-                FontFamily="BCSansBold"
-                Padding="0,10,0,0"
-                />
-
-                <Label 
-                Text="{Binding CaseIncident.CaseIncidentNumber}"
-                FontSize="22"
-                FontFamily="BCSansRegular"
-                Padding="10,10,0,0"
-                />
-            </HorizontalStackLayout>
-
-            <HorizontalStackLayout
+    <AbsoluteLayout>
+        <Grid
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <VerticalStackLayout
+                Grid.Row="0"
+                HorizontalOptions="Fill"
                 Spacing="5">
-                <views:TagView
-                    BackgroundColor="{StaticResource EntityTagBlueBackground}"
-                    TextColor="{StaticResource EntityTagBlueText}"
-                    Text="{Binding CaseIncident.EntityType}"
-                    IconName="folder.png" />
+                <HorizontalStackLayout
+                    Spacing="10">
+                    <Label 
+                        Text="{Binding CaseIncident.DisplayName}"
+                        FontSize="28"
+                        FontFamily="BCSansBold"
+                        VerticalOptions="Center" />
 
-                <views:TagView
-                    BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
-                    TextColor="{StaticResource EntitySubtypeTagPurpleText}"
-                    Text="{Binding CaseIncident.CaseIncidentType}"
-                    IconName="tag_icon.png" />
-            </HorizontalStackLayout>
+                    <Label 
+                        Text="{Binding CaseIncident.CaseIncidentNumber}"
+                        FontSize="22"
+                        FontFamily="BCSansRegular"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
 
-        </VerticalStackLayout>
+                <HorizontalStackLayout
+                    Spacing="5">
+                    <views:TagView
+                        BackgroundColor="{StaticResource EntityTagBlueBackground}"
+                        TextColor="{StaticResource EntityTagBlueText}"
+                        Text="{Binding CaseIncident.EntityType}"
+                        IconName="folder.png" />
 
-        <Label 
+                    <views:TagView
+                        BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
+                        TextColor="{StaticResource EntitySubtypeTagPurpleText}"
+                        Text="{Binding CaseIncident.CaseIncidentType}"
+                        IconName="tag_icon.png" />
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+
+            <Label 
                 Text="Case notes"
                 FontSize="22"
                 FontFamily="BCSansBold"
-                Margin="0,20,0,0"
-                Grid.Row="1"
-                />
+                Grid.Row="1" />
 
-        <Entry Placeholder="Search by key word"
-               HeightRequest="48"
-               Margin="0,20,0,0"
-               Grid.Row="2"
-            />
+            <Entry Placeholder="Search by key word"
+                HeightRequest="48"
+                Grid.Row="2" />
 
-        <RefreshView
-            Grid.Row="3"
-            Command="{Binding RefreshNotesCommand}"
-            IsRefreshing="{Binding IsRefreshing}">
-
-            <!-- 
-                WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
-                Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
-                This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
-            -->
-            <ContentView>
-
-                <CollectionView
-                    ItemsSource="{Binding Notes}"
-                    SelectionMode="None"
-                    Margin="0,20,0,0">
-                    <CollectionView.EmptyView>
-                        <Grid>
-                            <Image
-                                Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
-                        </Grid>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout  Orientation="Vertical" Span="1"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:NoteItem">
-                            <views:NoteItemView />
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </ContentView>
-        </RefreshView>
-        
-        <Button Text="Add note"
+            <RefreshView
                 Grid.Row="3"
-                WidthRequest="100"
-                HeightRequest="60"
-                CornerRadius="30"
-                VerticalOptions="End"
-                HorizontalOptions="End"
-                BackgroundColor="#0073E6"
-                FontFamily="BCSansRegular"
-                FontSize="17">
+                Command="{Binding RefreshNotesCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+
+                <!-- 
+                    WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+                    Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+                    This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+                -->
+                <ContentView
+                    VerticalOptions="FillAndExpand">
+
+                    <CollectionView
+                        ItemsSource="{Binding Notes}"
+                        SelectionMode="None"
+                        VerticalOptions="FillAndExpand">
+                        <CollectionView.EmptyView>
+                            <Grid>
+                                <Image
+                                    Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
+                            </Grid>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout  Orientation="Vertical" Span="1"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:NoteItem">
+                                <views:NoteItemView />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ContentView>
+            </RefreshView>
+        </Grid>
+
+        <Button
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="1,1,100,60"
+            Text="Add note"
+            CornerRadius="30"
+            BackgroundColor="#0073E6"
+            FontFamily="BCSansRegular"
+            FontSize="17">
 
             <Button.Shadow>
                 <Shadow Brush="Black"
@@ -124,6 +127,7 @@
             </Button.Shadow>
 
         </Button>
-    </Grid>
+
+    </AbsoluteLayout>
 </pages:VisitzPage>
 
