@@ -71,27 +71,40 @@
                Grid.Row="2"
             />
 
-        <CollectionView
-            ItemsSource="{Binding Notes}"
-            SelectionMode="None"
+        <RefreshView
             Grid.Row="3"
-            Margin="0,20,0,0">
-            <CollectionView.EmptyView>
-                <Grid>
-                    <Image
-                        Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
-                </Grid>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout  Orientation="Vertical" Span="1"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:NoteItem">
-                    <views:NoteItemView />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            Command="{Binding RefreshNotesCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
 
+            <!-- 
+                WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+                Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+                This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+            -->
+            <ContentView>
+
+                <CollectionView
+                    ItemsSource="{Binding Notes}"
+                    SelectionMode="None"
+                    Margin="0,20,0,0">
+                    <CollectionView.EmptyView>
+                        <Grid>
+                            <Image
+                                Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
+                        </Grid>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout  Orientation="Vertical" Span="1"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:NoteItem">
+                            <views:NoteItemView />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ContentView>
+        </RefreshView>
+        
         <Button Text="Add note"
                 Grid.Row="3"
                 WidthRequest="100"
