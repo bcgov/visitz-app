@@ -42,6 +42,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
+                Margin="0,-15,0,0"
                 Text="{Binding IdSubtitle}"
                 FontSize="22"
                 FontFamily="BCSansBold"
