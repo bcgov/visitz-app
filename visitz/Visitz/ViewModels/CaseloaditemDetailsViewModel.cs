@@ -32,7 +32,9 @@ namespace Visitz.ViewModels
             
             // NOTE: A VerticalStackLayout won't initiate a data load on its own
             // so we need to run the Realm READ operation manually here.
-            FamilyMembers = CaseloadItem.FamilyMembers.ToList();
+            FamilyMembers = CaseloadItem.FamilyMembers
+                .OrderByDescending(fm => fm.IsKeyPlayer)
+                .ToList();
 
             IdSubtitle =
                 CaseloadItem.EntityType
