@@ -18,8 +18,8 @@ public partial class ContactItemView : ContentView
 
     private void UpdateUI()
     {
-        var member = (FamilyMember)BindingContext;
-        if (member?.KeyPlayer == "Y")
+        var isKeyPlayer = (BindingContext as FamilyMember)?.IsKeyPlayer ?? false;
+        if (isKeyPlayer)
         {
             ContainerBorder.BackgroundColor = Application.Current.Resources.TryGetColor("KeyPlayerInfoPurpleBackground", Colors.Purple);
             ContainerBorder.Stroke = Application.Current.Resources.TryGetColor("EntitySubtypeTagPurpleText", Colors.Purple);

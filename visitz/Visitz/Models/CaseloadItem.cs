@@ -35,7 +35,7 @@ namespace Visitz.Models
             : CreatedDate;
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string DisplayName => FamilyMembers.Where(mem => mem.KeyPlayer.Equals("Y")).FirstOrDefault().LastName;
+        public string DisplayName => FamilyMembers.Where(mem => mem.IsKeyPlayer).FirstOrDefault().LastName;
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string Address
