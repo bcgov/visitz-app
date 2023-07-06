@@ -50,13 +50,13 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public void RefreshNotes()
         {
-            if (CaseIncident.CaseIncidentNumber == null
-                || CaseIncident.EntityType == null)
+            if (CaseIncident == null)
             {
                 IsRefreshing = false;
                 return;
             }
-            WeakReferenceMessenger.Default.Send(GetNotesService.MakeStartMessage(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType));
+            var entityTuple = (CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
+            WeakReferenceMessenger.Default.Send(GetNotesService.MakeStartMessage(entityTuple));
         }
 
         public void Receive(ServiceStateMessage message)

@@ -8,8 +8,7 @@
     x:Class="Visitz.Pages.NotesPage"
     x:DataType="viewModels:NotesViewModel"
     Title="Notes"
-    ControlTemplate="{StaticResource VisitzPageWrapper}"
-    Padding="20">
+    ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
@@ -17,7 +16,8 @@
             Command="{Binding CaseDetailsTappedCommand}" />
     </ContentPage.ToolbarItems>
 
-    <AbsoluteLayout>
+    <AbsoluteLayout
+        Padding="20">
         <Grid
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
