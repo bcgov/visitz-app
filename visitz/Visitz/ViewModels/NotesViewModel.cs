@@ -23,6 +23,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public IEnumerable<NoteItem> notes;
 
+        [ObservableProperty]
+        public bool isRefreshing;
+
         public override async void PageCreated()
         {
             caseIncidentId = Parameters[CaseIncidentIdKey] as string;
@@ -44,9 +47,21 @@ namespace Visitz.ViewModels
             await CaseloadItemDetailsPage.Open(VisitzPage, CaseIncident.CaseIncidentNumber);
         }
 
+        [RelayCommand]
+        public void RefreshNotes()
+        {
+            if (CaseIncident == null)
+            {
+                IsRefreshing = false;
+                return;
+            }
+            var entityTuple = (CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
+            WeakReferenceMessenger.Default.Send(GetNotesService.MakeStartMessage(entityTuple));
+        }
+
         public void Receive(ServiceStateMessage message)
         {
-            // TODO: IsRefreshing implementation, like CaseloadViewModel
+            IsRefreshing = message.Status == VisitzService.State.Running;
         }
     }
 }
