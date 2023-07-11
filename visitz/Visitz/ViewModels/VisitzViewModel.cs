@@ -23,6 +23,8 @@ namespace Visitz.ViewModels
 
         public virtual void PageStopped() { }
 
+        public virtual void PageDestroyed() { }
+
         public void SubscribeToWindow(Window window)
         {
             if (window == null)
