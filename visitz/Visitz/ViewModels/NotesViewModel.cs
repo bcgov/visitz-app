@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Services;
@@ -17,6 +18,8 @@ namespace Visitz.ViewModels
 
         public string caseIncidentId;
 
+        private Realm Realm { get; set; }
+
         [ObservableProperty]
         public CaseloadItem caseIncident;
 
@@ -32,13 +35,25 @@ namespace Visitz.ViewModels
 
             WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncidentId));
 
-            var realm = await IcmDataRealm.GetAsync();
+            Realm = await IcmDataRealm.GetAsync();
 
-            CaseIncident = realm.Find<CaseloadItem>(caseIncidentId);
+            CaseIncident = Realm.Find<CaseloadItem>(caseIncidentId);
 
-            Notes = realm
+            Notes = Realm
                 .All<NoteItem>()
                 .Where(note => note.IcmId == caseIncidentId);
+        }
+
+        public override void PageDestroyed()
+        {
+            Notes = null;
+            CaseIncident = null;
+
+            Realm.Dispose();
+            Realm = null;
+
+            WeakReferenceMessenger.Default.Unregister<ServiceStateMessage, string>(this, 
+                GetNotesService.MakeId(caseIncidentId));
         }
 
         [RelayCommand]
