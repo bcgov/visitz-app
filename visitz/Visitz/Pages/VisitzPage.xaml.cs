@@ -4,8 +4,6 @@ namespace Visitz.Pages;
 
 public abstract partial class VisitzPage : ContentPage 
 {
-    protected bool HasAppeared;
-
     protected VisitzViewModel ViewModel { get; set; }
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
@@ -22,22 +20,33 @@ public abstract partial class VisitzPage : ContentPage
     {
         base.OnAppearing();
 
-        if (!HasAppeared)
-        {
-            ViewModel.SubscribeToWindow(CurrentWindow);
-
-            ViewModel.PageCreated();
-            ViewModel.PageStarted();
-
-            HasAppeared = true;
-        }
+        ViewModel.PageStarted();
     }
 
     protected override void OnDisappearing()
     {
-        base.OnDisappearing();
+        ViewModel.PageStopped();
 
-        ViewModel.UnsubscribeFromWindow(CurrentWindow);
+        base.OnDisappearing();
+    }
+
+    protected override void OnParentChanging(ParentChangingEventArgs args)
+    {
+        base.OnParentChanging(args);
+
+        var isCreating = args.OldParent == null && args.NewParent != null;
+        var isDestroying = args.OldParent != null && args.NewParent == null;
+
+        if (isCreating)
+        {
+            ViewModel.PageCreated();
+            ViewModel.SubscribeToWindow(CurrentWindow);
+        }
+        else if (isDestroying)
+        {
+            ViewModel.UnsubscribeFromWindow(CurrentWindow);
+            ViewModel.PageDestroyed();
+        }
     }
 
     public static async Task NavigateTo<T>(Page fromPage, IDictionary<string, object> parameters = null) where T : VisitzPage
