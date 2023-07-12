@@ -18,10 +18,13 @@ public partial class ContactItemView : ContentView
 
     private void UpdateUI()
     {
-        var isKeyPlayer = (BindingContext as FamilyMember)?.IsKeyPlayer ?? false;
-        PhoneRow.IsVisible = isKeyPlayer;
+        var familyMember = (BindingContext as FamilyMember);
 
-        if (isKeyPlayer)
+        CellPhoneTagView.IsVisible = familyMember.CellPhone?.Length > 0;
+        HomePhoneTagView.IsVisible = familyMember.HomePhone?.Length > 0;
+        PhoneRow.IsVisible = CellPhoneTagView.IsVisible || HomePhoneTagView.IsVisible;
+
+        if (familyMember.IsKeyPlayer)
         {
             ContainerBorder.BackgroundColor = Application.Current.Resources.TryGetColor("KeyPlayerInfoPurpleBackground", Colors.Purple);
             ContainerBorder.Stroke = Application.Current.Resources.TryGetColor("EntitySubtypeTagPurpleText", Colors.Purple);
