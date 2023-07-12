@@ -35,7 +35,9 @@ namespace Visitz.Models
             : CreatedDate;
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string DisplayName => FamilyMembers.Where(mem => mem.IsKeyPlayer).FirstOrDefault().LastName;
+        public string DisplayName => EntityType == IcmEntity.Memo
+            ? WorkerFullName
+            : FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault().LastName ?? ServiceOffice;
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string Address
@@ -84,10 +86,13 @@ namespace Visitz.Models
                 DateReported = caseloadEntity.DateReported,
             };
 
-            var family = FamilyMember.FromApiEntities(caseloadEntity.FamilyMembers);
+            if (caseloadEntity.FamilyMembers != null)
+            {
+                var family = FamilyMember.FromApiEntities(caseloadEntity.FamilyMembers);
 
-            foreach (var familyMember in family)
-                caseloadItem.FamilyMembers.Add(familyMember);
+                foreach (var familyMember in family)
+                    caseloadItem.FamilyMembers.Add(familyMember);
+            }
 
             return caseloadItem;
         }

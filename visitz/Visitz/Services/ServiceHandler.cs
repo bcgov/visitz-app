@@ -57,6 +57,13 @@ namespace Visitz.Services
             {
                 await service.OnRunAsync();
             }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine(ex.ToString());
+#endif
+                throw;
+            }
             finally
             {
                 await service.OnFinishAsync();
