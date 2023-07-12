@@ -35,7 +35,9 @@ namespace Visitz.Models
             : CreatedDate;
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string DisplayName => FamilyMembers.Where(mem => mem.IsKeyPlayer).FirstOrDefault().LastName;
+        public string DisplayName => EntityType == IcmEntity.Memo
+            ? WorkerFullName
+            : FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault().LastName ?? ServiceOffice;
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string Address
