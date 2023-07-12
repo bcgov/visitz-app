@@ -9,6 +9,11 @@ namespace VisitzApi.Requests
     {
         private static readonly string SubmitNotesPath = "/v1/679C";
 
+        private static readonly string RequestSubmitNotesKey = "requestSubmitNotes";
+        private static readonly string ResponseSubmitNotesKey = "responseSubmitNotes";
+
+        private static readonly string NoteIdKey = "noteId";
+
         public SubmitNoteEntity NoteToSubmit { get; }
 
         private string RequestPayload
@@ -17,7 +22,7 @@ namespace VisitzApi.Requests
             {
                 return new JsonObject
                 {
-                    ["requestSubmitNotes"] = new JsonObject
+                    [RequestSubmitNotesKey] = new JsonObject
                     {
                         [JsonKey.Payload] = JsonSerializer.Serialize(NoteToSubmit)
                     }
