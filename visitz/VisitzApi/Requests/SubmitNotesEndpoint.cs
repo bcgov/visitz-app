@@ -7,7 +7,7 @@ namespace VisitzApi.Requests
 {
     internal class SubmitNotesEndpoint : VisitzBaseEndpoint<HttpStatusCode>
     {
-        private static readonly string SubmitNotesPath = "/v1/679";
+        private static readonly string SubmitNotesPath = "/v1/679C";
 
         public SubmitNoteEntity NoteToSubmit { get; }
 
