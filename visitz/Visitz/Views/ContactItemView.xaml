@@ -41,6 +41,7 @@
 
             <HorizontalStackLayout x:Name="PhoneRow" Spacing="5">
                 <views:TagView
+                    x:Name="CellPhoneTagView"
                     BackgroundColor="Transparent"
                     TextColor="{StaticResource EntitySubtypeTagPurpleText}"
                     Text="{Binding CellPhone}"
@@ -49,6 +50,7 @@
                     VerticalOptions="Center" />
 
                 <views:TagView
+                    x:Name="HomePhoneTagView"
                     BackgroundColor="Transparent"
                     TextColor="{StaticResource EntitySubtypeTagPurpleText}"
                     Text="{Binding HomePhone}"
