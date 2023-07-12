@@ -1,11 +1,10 @@
 ﻿using VisitzApi.Models;
-using System.Net;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace VisitzApi.Requests
 {
-    internal class SubmitNotesEndpoint : VisitzBaseEndpoint<HttpStatusCode>
+    internal class SubmitNotesEndpoint : VisitzBaseEndpoint<(bool success, string noteId)>
     {
         private static readonly string SubmitNotesPath = "/v1/679C";
 
@@ -45,10 +44,19 @@ namespace VisitzApi.Requests
             };
         }
 
-        public override HttpStatusCode HandleResponse(HttpResponseMessage response)
+        public override (bool success, string noteId) HandleResponse(HttpResponseMessage response)
         {
-            // TODO: Implement!
-            throw new NotImplementedException();
+            var content = response.Content.ReadAsStringAsync().Result;
+
+            var rJson = JsonDocument.Parse(content)
+                .RootElement
+                .GetProperty(ResponseSubmitNotesKey)
+                .GetProperty(JsonKey.Payload);
+
+            if (rJson.TryGetProperty(JsonKey.Status, out var status) && rJson.TryGetProperty(NoteIdKey, out var id))
+                return (status.GetString() == JsonKey.Success, id.GetString());
+            else
+                return (false, null);
         }
     }
 }

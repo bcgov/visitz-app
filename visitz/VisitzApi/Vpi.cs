@@ -38,7 +38,7 @@ namespace VisitzApi
             return await CallApi(new NotesEndpoint(BaseVisitzApiUrl, entityNumber, entityType));
         }
 
-        public async Task<HttpStatusCode> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)
+        public async Task<(bool success, string noteId)> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)
         {
             return await CallApi(new SubmitNotesEndpoint(BaseVisitzApiUrl, noteToSubmit));
         }
