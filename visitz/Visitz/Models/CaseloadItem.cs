@@ -84,10 +84,13 @@ namespace Visitz.Models
                 DateReported = caseloadEntity.DateReported,
             };
 
-            var family = FamilyMember.FromApiEntities(caseloadEntity.FamilyMembers);
+            if (caseloadEntity.FamilyMembers != null)
+            {
+                var family = FamilyMember.FromApiEntities(caseloadEntity.FamilyMembers);
 
-            foreach (var familyMember in family)
-                caseloadItem.FamilyMembers.Add(familyMember);
+                foreach (var familyMember in family)
+                    caseloadItem.FamilyMembers.Add(familyMember);
+            }
 
             return caseloadItem;
         }
