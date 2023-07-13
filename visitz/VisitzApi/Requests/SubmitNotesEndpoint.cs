@@ -23,7 +23,7 @@ namespace VisitzApi.Requests
                 {
                     [RequestSubmitNotesKey] = new JsonObject
                     {
-                        [JsonKey.Payload] = JsonSerializer.Serialize(NoteToSubmit)
+                        [JsonKey.Payload] = JsonNode.Parse(JsonSerializer.Serialize(NoteToSubmit))
                     }
                 }.ToString();
             }
