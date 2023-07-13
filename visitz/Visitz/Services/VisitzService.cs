@@ -17,6 +17,19 @@ namespace Visitz.Services
             Running = 4
         }
 
+        public enum Result
+        {
+            /// <summary>
+            /// A service completed its task correctly.
+            /// </summary>
+            Successful = 0,
+
+            /// <summary>
+            /// A service was unable to complete its tasks.
+            /// </summary>
+            Error = 1,
+        }
+
         public State Status { get; protected set; }
 
         public object Payload { get; set; }
