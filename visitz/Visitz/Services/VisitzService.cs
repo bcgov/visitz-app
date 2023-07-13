@@ -17,7 +17,25 @@ namespace Visitz.Services
             Running = 4
         }
 
+        public enum Result
+        {
+            /// <summary>
+            /// A service completed its task correctly.
+            /// </summary>
+            Successful = 0,
+
+            /// <summary>
+            /// A service was unable to complete its tasks.
+            /// </summary>
+            Error = 1,
+        }
+
         public State Status { get; protected set; }
+
+        // Services must explicitly set ResultCode when they complete their tasks.
+        protected Result ResultCode { get; set; } = Result.Error;
+
+        protected string ResultMessage { get; set; }
 
         public object Payload { get; set; }
 
@@ -25,18 +43,26 @@ namespace Visitz.Services
         {
             Status = status;
 
-            WeakReferenceMessenger.Default.Send(
-                new ServiceStateMessage()
-                {
-                    ServiceId = GetId(),
-                    ServiceType = GetType(),
-                    Status = status,
-                }, 
-                GetId()
-            );
+            var stateMsg = new ServiceStateMessage()
+            {
+                ServiceId = GetId(),
+                ServiceType = GetType(),
+                Status = status,
+            };
 
+            if (status == State.Stopped)
+            {
+                stateMsg.Result = ResultCode;
+                stateMsg.Message = ResultMessage;
+            }
+
+            WeakReferenceMessenger.Default.Send(stateMsg, GetId());
 #if DEBUG
-            Console.WriteLine($"{GetId()} -> {status}");
+            string result = Status == State.Stopped 
+                ? $" | Result: {ResultCode} | Message: {ResultMessage}"
+                : "";
+
+            Console.WriteLine($"{GetId()} -> {status}" + result);
 #endif
         }
 

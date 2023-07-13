@@ -13,9 +13,6 @@ namespace VisitzApi.Models
         [JsonPropertyName("notePeriod")]
         public string NotePeriod { get; set; }
 
-        [JsonPropertyName("noteType")]
-        public string NoteType { get; set; }
-
         [JsonPropertyName("notes")]
         public string Content { get; set; }
 

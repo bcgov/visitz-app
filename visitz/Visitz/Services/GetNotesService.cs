@@ -62,6 +62,8 @@ namespace Visitz.Services
 
                 realm.Add(notes);
             });
+
+            ResultCode = Result.Successful;
         }
     }
 }
