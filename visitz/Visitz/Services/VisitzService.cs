@@ -32,22 +32,31 @@ namespace Visitz.Services
 
         public State Status { get; protected set; }
 
+        // Services must explicitly set ResultCode when they complete their tasks.
+        protected Result ResultCode { get; set; } = Result.Error;
+
+        protected string ResultMessage { get; set; }
+
         public object Payload { get; set; }
 
         private void PublishCurrentState(State status)
         {
             Status = status;
 
-            WeakReferenceMessenger.Default.Send(
-                new ServiceStateMessage()
-                {
-                    ServiceId = GetId(),
-                    ServiceType = GetType(),
-                    Status = status,
-                }, 
-                GetId()
-            );
+            var stateMsg = new ServiceStateMessage()
+            {
+                ServiceId = GetId(),
+                ServiceType = GetType(),
+                Status = status,
+            };
 
+            if (status == State.Stopped)
+            {
+                stateMsg.Result = ResultCode;
+                stateMsg.Message = ResultMessage;
+            }
+
+            WeakReferenceMessenger.Default.Send(stateMsg, GetId());
 #if DEBUG
             Console.WriteLine($"{GetId()} -> {status}");
 #endif
