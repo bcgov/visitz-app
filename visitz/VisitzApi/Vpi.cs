@@ -22,10 +22,11 @@ namespace VisitzApi
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {
             var response = await HttpClient.SendAsync(endpoint.MakeRequest());
+            string content = await response.Content.ReadAsStringAsync();
 
-            VisitzApiException.ThrowIfInvalid(response);
+            VisitzApiException.ThrowIfInvalid(response, content);
 
-            return endpoint.HandleResponse(response);
+            return endpoint.HandleResponse(content);
         }
 
         public async Task<IEnumerable<CaseloadEntity>> GetCaseloadAsync(params string[] workerIds)

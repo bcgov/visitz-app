@@ -20,17 +20,17 @@ namespace VisitzApi.ErrorHandling
             return (int)statusCode >= 400;
         }
 
-        internal static void ThrowIfInvalid(HttpResponseMessage response)
+        internal static void ThrowIfInvalid(HttpResponseMessage response, string content)
         {
             if (IsErroneousStatus(response.StatusCode))
             {
-                if (!KongJsonMessage.TryFindMessage(response, out string message))
-                    message = response.Content.ReadAsStringAsync().Result;
+                if (!KongJsonMessage.TryFindMessage(content, out string message))
+                    message = content;
 
                 throw new VisitzApiException(response.StatusCode, message);
             }
 
-            else if (WebMethodsJsonError.TryFindFirstError(response, out string errorMessage))
+            else if (WebMethodsJsonError.TryFindFirstError(content, out string errorMessage))
                 throw new VisitzApiException(response.StatusCode, errorMessage);
         }
     }

@@ -8,9 +8,9 @@ namespace VisitzApi.ErrorHandling
         private static readonly string ErrorKey = "error";
         private static readonly string ErrorDetailKey = "errorDetail";
 
-        internal static bool TryFindFirstError(HttpResponseMessage response, out string errorMessage)
+        internal static bool TryFindFirstError(string content, out string errorMessage)
         {
-            var json = JsonDocument.Parse(response.Content.ReadAsStringAsync().Result);
+            var json = JsonDocument.Parse(content);
             return TryFindError(json.RootElement.FirstProperty(), out errorMessage);
         }
 
