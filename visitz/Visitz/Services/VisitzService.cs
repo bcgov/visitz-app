@@ -58,7 +58,11 @@ namespace Visitz.Services
 
             WeakReferenceMessenger.Default.Send(stateMsg, GetId());
 #if DEBUG
-            Console.WriteLine($"{GetId()} -> {status}");
+            string result = Status == State.Stopped 
+                ? $" | Result: {ResultCode} | Message: {ResultMessage}"
+                : "";
+
+            Console.WriteLine($"{GetId()} -> {status}" + result);
 #endif
         }
 
