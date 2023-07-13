@@ -1,4 +1,5 @@
 ﻿using Realms;
+using System.Globalization;
 using VisitzApi.Models;
 
 namespace Visitz.Models
@@ -33,6 +34,16 @@ namespace Visitz.Models
         public static IEnumerable<NoteItem> FromApiEntities(string icmId, IEnumerable<NoteEntity> noteEntities)
         {
             return noteEntities.Select(note => FromApiEntity(icmId, note));
+        }
+
+        public static string NotePeriodFrom(DateTime dateTime)
+        {
+            return dateTime.ToString("MMM yyyy", CultureInfo.InvariantCulture);
+        }
+
+        public static string WrapContent(string idir, DateTime dateTime, string content)
+        {
+            return $"{idir} ({dateTime}):\n\n{content}";
         }
     }
 }
