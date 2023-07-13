@@ -42,6 +42,8 @@ namespace Visitz.Services
                 await GetCaseload();
                 await GetAllNotes();
             });
+
+            ResultCode = Result.Successful;
         }
 
         private async Task GetCaseload()

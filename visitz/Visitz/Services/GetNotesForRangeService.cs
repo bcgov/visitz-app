@@ -46,6 +46,8 @@ namespace Visitz.Services
                 ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(item)));
 
             await Task.WhenAll(allNotesServiceTasks);
+
+            ResultCode = Result.Successful;
         }
     }
 }

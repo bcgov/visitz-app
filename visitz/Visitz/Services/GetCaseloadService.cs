@@ -46,6 +46,8 @@ namespace Visitz.Services
 
                 realm.Add(caseloadContent);
             });
+
+            ResultCode = Result.Successful;
         }
 
         public override string GetId()
