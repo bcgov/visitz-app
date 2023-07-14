@@ -74,6 +74,12 @@ namespace Visitz.ViewModels
             WeakReferenceMessenger.Default.Send(GetNotesService.MakeStartMessage(entityTuple));
         }
 
+        [RelayCommand]
+        public async void GoToNoteDetails(NoteItem noteItem)
+        {
+            await NoteDetailsPage.Open(VisitzPage, noteItem); 
+        }
+
         public void Receive(ServiceStateMessage message)
         {
             IsRefreshing = message.Status == VisitzService.State.Running;

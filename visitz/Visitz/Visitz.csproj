@@ -97,6 +97,9 @@
 	  <None Remove="Resources\Images\calendar.svg" />
 	  <None Remove="Resources\Images\folder.svg" />
 	  <None Remove="Resources\Images\tag_icon.svg" />
+	  <None Remove="Resources\Images\note_empty.svg" />
+	  <None Remove="Subclasses\" />
+	  <None Remove="Resources\Images\file.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
@@ -123,6 +126,8 @@
 	  <BundleResource Include="Resources\Images\calendar.svg" />
 	  <BundleResource Include="Resources\Images\folder.svg" />
 	  <BundleResource Include="Resources\Images\tag_icon.svg" />
+	  <BundleResource Include="Resources\Images\note_empty.svg" />
+	  <BundleResource Include="Resources\Images\file.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Include="appSettings.json" />
@@ -196,5 +201,8 @@
 	  <MauiXaml Update="Pages\DebugOptionsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\note_empty.svg" />
 	</ItemGroup>
 </Project>

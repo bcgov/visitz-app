@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Pages.NoteDetailsPage"
+    x:DataType="viewModels:NoteDetailsViewModel"
+    Title="Note Details"
+    ControlTemplate="{StaticResource VisitzPageWrapper}">
+
+    <Grid
+        x:Name="RootGrid"
+        Padding="20"
+        RowSpacing="20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="ResizableRow" />
+        </Grid.RowDefinitions>
+
+        <ScrollView
+            Grid.Row="0">
+            <Border
+                BackgroundColor="{StaticResource LightGrayBackground}">
+                <VerticalStackLayout
+                    Spacing="10"
+                    Padding="25,20">
+                    <HorizontalStackLayout
+                        Spacing="7">
+                        <Image
+                            Source="file.png" />
+
+                        <Label
+                            Text="{Binding NoteItem.CreatedDate}"
+                            FontSize="16"
+                            FontFamily="BCSansRegular"
+                            TextColor="{StaticResource LightGrayText}" />
+
+                        <Label
+                            Text="•"
+                            TextColor="{StaticResource DarkSkyBlueBackground}"/>
+
+                        <Label
+                            Text="{Binding NoteItem.NotePeriod}"
+                            FontSize="16"
+                            FontFamily="BCSansRegular"
+                            TextColor="{StaticResource LightGrayText}" />
+                    </HorizontalStackLayout>
+
+                    <Label
+                        Text="{Binding NoteItem.Content}"
+                        TextColor="{StaticResource BlackishTextColor}"
+                        FontFamily="BCSansRegular"
+                        FontSize="17" />
+                </VerticalStackLayout>
+            </Border>
+        </ScrollView>
+
+        <Button
+            Grid.Row="0"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            Text="Add notes"
+            WidthRequest="120"
+            HeightRequest="60"
+            CornerRadius="30"
+            BackgroundColor="{StaticResource DarkSkyBlueBackground}"
+            FontFamily="BCSansRegular"
+            FontSize="17">
+
+            <Button.Shadow>
+                <Shadow Brush="Black"
+                Offset="10,10"
+                Radius="30"
+                Opacity="0.5" />
+            </Button.Shadow>
+
+        </Button>
+    </Grid>
+</pages:VisitzPage>
+

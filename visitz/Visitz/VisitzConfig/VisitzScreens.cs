@@ -15,6 +15,9 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<NotesPage>();
             builder.Services.AddTransient<NotesViewModel>();
 
+            builder.Services.AddTransient<NoteDetailsPage>();
+            builder.Services.AddTransient<NoteDetailsViewModel>();
+
             builder.Services.AddTransient<CaseloadItemDetailsPage>();
             builder.Services.AddTransient<CaseloadItemDetailsViewModel>();
 

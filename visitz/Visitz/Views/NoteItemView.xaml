@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Visitz.Models"
+             xmlns:viewModels="clr-namespace:Visitz.ViewModels"
              x:Class="Visitz.Views.NoteItemView"
              x:DataType="models:NoteItem">
     
@@ -11,6 +12,13 @@
             StrokeThickness="2"
             Padding="20,20"
             HorizontalOptions="Fill">
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer 
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotesViewModel}}, Path=GoToNoteDetailsCommand}"
+                    CommandParameter="{Binding .}"/>
+            </Border.GestureRecognizers>
+
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="4,4,4,4" />
             </Border.StrokeShape>

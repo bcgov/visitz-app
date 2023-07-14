@@ -5,15 +5,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <ControlTemplate x:Key="VisitzPageWrapper">
-        
-        <FlexLayout Direction="Column">
-            
-            <Line BackgroundColor="{StaticResource BC_Gold}" FlexLayout.Basis="4" />
+        <Grid
+            RowDefinitions="4,*">
+            <Line
+                Grid.Row="0"
+                HeightRequest="4"
+                BackgroundColor="{StaticResource BC_Gold}" />
 
-            <ContentPresenter FlexLayout.Basis="100%" />
-            
-        </FlexLayout>
-        
+            <ContentPresenter
+                Grid.Row="1" />
+        </Grid>
     </ControlTemplate>
-
 </ResourceDictionary>
