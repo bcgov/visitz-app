@@ -34,7 +34,7 @@ namespace Visitz.Services
         private async Task GetCaseloadAsync()
         {
             var caseloadFromApi = await Vpi.GetCaseloadAsync(Idir);
-            var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
+            var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi).Where(IsApprovedItem);
 
             using var realm = await IcmDataRealm.GetAsync();
             await realm.WriteAsync(() =>
@@ -48,6 +48,13 @@ namespace Visitz.Services
             });
 
             ResultCode = Result.Successful;
+        }
+
+        private bool IsApprovedItem(CaseloadItem caseloadItem)
+        {
+            // This restriction is a business requirement. It may change in the future.
+            return caseloadItem.EntityType == IcmEntity.Case
+                || caseloadItem.EntityType == IcmEntity.Incident;
         }
 
         public override string GetId()
