@@ -35,7 +35,7 @@ namespace Visitz.ViewModels
 
             WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncidentId));
 
-            Realm = await IcmDataRealm.GetAsync();
+            Realm = await VisitzRealm.GetIcmDataAsync();
 
             CaseIncident = Realm.Find<CaseloadItem>(caseIncidentId);
 

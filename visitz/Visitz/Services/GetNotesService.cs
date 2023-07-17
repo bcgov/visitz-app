@@ -49,7 +49,7 @@ namespace Visitz.Services
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
             var notes = NoteItem.FromApiEntities(id, notesFromApi);
 
-            using var realm = await IcmDataRealm.GetAsync();
+            using var realm = await VisitzRealm.GetIcmDataAsync();
             await realm.WriteAsync(() =>
             {
                 var allNotesByEntityId = realm

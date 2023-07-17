@@ -36,7 +36,7 @@ namespace Visitz.Services
             var caseloadFromApi = await Vpi.GetCaseloadAsync(Idir);
             var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi).Where(IsApprovedItem);
 
-            using var realm = await IcmDataRealm.GetAsync();
+            using var realm = await VisitzRealm.GetIcmDataAsync();
             await realm.WriteAsync(() =>
             {
                 // Remove everything from the local caseload so we can remove

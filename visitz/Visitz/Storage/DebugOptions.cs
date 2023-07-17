@@ -31,7 +31,7 @@
         {
             if (Enabled)
             {
-                using var realm = await IcmDataRealm.GetAsync();
+                using var realm = await VisitzRealm.GetIcmDataAsync();
                 await realm.WriteAsync(realm.RemoveAll);
             }
         }
@@ -39,7 +39,7 @@
         public static void DeleteEncryptionKey()
         {
             if (Enabled)
-                IcmDataRealm.DeleteRealmKey();
+                VisitzRealm.DeleteRealmKey(VisitzRealm.IcmDataCopiesPath);
         }
     }
 }

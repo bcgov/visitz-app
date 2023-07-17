@@ -42,7 +42,7 @@ namespace Visitz.ViewModels
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-            Realm = await IcmDataRealm.GetAsync();
+            Realm = await VisitzRealm.GetIcmDataAsync();
 
             CaseloadQuery = Realm.All<CaseloadItem>();
             CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
