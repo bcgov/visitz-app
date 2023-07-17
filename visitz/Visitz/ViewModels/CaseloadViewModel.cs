@@ -103,16 +103,9 @@ namespace Visitz.ViewModels
 
             if (SelectedSortOrder.Id == CaseloadSort.DisplayDate)
             {
-                var sort = new Func<CaseloadItem, DateTime>(item => {
-
-                    return item.DisplayDate?.Length > 0 
-                        ? DateTime.Parse(item.DisplayDate)
-                        : DateTime.MinValue;
-                });
-
                 query = SelectedSortOrder.Ascending
-                    ? query.OrderBy(sort)
-                    : query.OrderByDescending(sort);
+                    ? query.OrderBy(CaseloadItemSortDateTime)
+                    : query.OrderByDescending(CaseloadItemSortDateTime);
             }
             else if (SelectedSortOrder.Id == CaseloadSort.DisplayName)
             {
@@ -122,6 +115,13 @@ namespace Visitz.ViewModels
                     ? query.OrderBy(sort)
                     : query.OrderByDescending(sort);
             }
+        }
+
+        private DateTime CaseloadItemSortDateTime(CaseloadItem item)
+        {
+            return item.DisplayDate?.Length > 0
+                ? DateTime.Parse(item.DisplayDate)
+                : DateTime.MinValue;
         }
 
         public async Task OpenDebugOptionsPage()
