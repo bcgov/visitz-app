@@ -28,12 +28,15 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
-    <StackLayout Orientation="Vertical">
+    <StackLayout 
+        Orientation="Vertical"
+        HorizontalOptions="Fill">
 
         <FlexLayout
             Direction="Row"
             HorizontalOptions="FillAndExpand"
-            JustifyContent="SpaceBetween">
+            JustifyContent="SpaceBetween"
+            Margin="20,20,20,10">
 
             <Picker
                 Title="Select sort order"
@@ -86,7 +89,7 @@
 
                 <CollectionView
                     ItemsSource="{Binding Caseload}"
-                    SelectionMode="None" >
+                    SelectionMode="None">
                     <CollectionView.EmptyView>
                         <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
                             <Label 
@@ -100,7 +103,14 @@
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout  Orientation="Vertical" Span="1"/>
+                        <!-- 
+                            FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
+                            When dynamically changing the ItemsSource binding, the bottom of the CollectionView
+                            has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
+                            VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
+                            expected. 
+                        -->
+                        <GridItemsLayout Orientation="Vertical" Span="1" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:CaseloadItem">
