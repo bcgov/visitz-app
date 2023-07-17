@@ -25,45 +25,92 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
-    <RefreshView
+    <StackLayout Orientation="Vertical">
+
+        <FlexLayout
+            Direction="Row"
+            HorizontalOptions="FillAndExpand"
+            JustifyContent="SpaceBetween">
+
+            <Picker
+                Title="Select sort order"
+                SelectedIndexChanged="Picker_SelectedIndexChanged"
+                ItemDisplayBinding="{Binding Title}"
+                SelectedItem="{Binding SelectedSortOrder}">
+
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type models:CaseloadSort}">
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayDate}" 
+                            Ascending="False" 
+                            Title="Most recent open date" />
+
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayDate}" 
+                            Ascending="True" 
+                            Title="Least recent open date" />
+
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayName}" 
+                            Ascending="True" 
+                            Title="Key player last name A-Z" />
+
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayName}" 
+                            Ascending="False" 
+                            Title="Key player last name Z-A" />
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Picker 
+                Title="Filter by subtype"
+                SelectedIndexChanged="Picker_SelectedIndexChanged"
+                ItemsSource="{Binding Subtypes}"
+                SelectedItem="{Binding SelectedSubtype}"/>
+        </FlexLayout>
+        
+        <RefreshView
         Grid.Row="1"
         Command="{Binding RefreshCaseloadCommand}"
         IsRefreshing="{Binding IsRefreshing}">
 
-        <!-- 
+            <!-- 
             WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
             Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
             This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
         -->
-        <ContentView>
+            <ContentView>
 
-            <CollectionView
+                <CollectionView
                 ItemsSource="{Binding Caseload}"
                 SelectionMode="None" >
-                <CollectionView.EmptyView>
+                    <CollectionView.EmptyView>
                         <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
                             <Label 
                                 HorizontalOptions="Center"
                                 Text="Pull to get caseload from ICM" />
-                                
+
                             <Label 
                                 HorizontalOptions="Center" 
                                 FontSize="28"
                                 Text="↓" />
                         </VerticalStackLayout>
-                </CollectionView.EmptyView>
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout  Orientation="Vertical" Span="1"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:CaseloadItem">
-                        <views:CaseloadItemView />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout  Orientation="Vertical" Span="1"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CaseloadItem">
+                            <views:CaseloadItemView />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-        </ContentView>
+            </ContentView>
 
-    </RefreshView>
+        </RefreshView>
+        
+    </StackLayout>
 
 </pages:VisitzPage>

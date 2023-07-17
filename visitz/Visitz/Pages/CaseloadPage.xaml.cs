@@ -24,4 +24,9 @@ public partial class CaseloadPage : VisitzPage
     {
         await ViewModel.OpenDebugOptionsPage();
     }
+
+    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ViewModel.ApplyQuery();
+    }
 }

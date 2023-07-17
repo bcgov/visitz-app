@@ -39,6 +39,11 @@ namespace Visitz.ViewModels
             await NotesPage.Open(VisitzPage, caseloadItem.CaseIncidentNumber);
         }
 
+        public void ApplyQuery()
+        {
+
+        }
+
         public async Task OpenDebugOptionsPage()
         {
             if (DebugOptions.Enabled)
