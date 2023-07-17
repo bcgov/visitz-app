@@ -1,25 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:VisitzPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:Visitz.Pages"
-             xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-             xmlns:models="clr-namespace:Visitz.Models"
-             xmlns:views="clr-namespace:Visitz.Views"
-             x:Class="Visitz.Pages.CaseloadPage"
-             x:DataType="viewmodels:CaseloadViewModel"
-             Title="Caseload"
-             ControlTemplate="{StaticResource VisitzPageWrapper}">
+<pages:VisitzPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Pages.CaseloadPage"
+    x:DataType="viewmodels:CaseloadViewModel"
+    Title="Caseload"
+    ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <NavigationPage.TitleView>
         <StackLayout>
-            <Image Source="bc_logo_horizontal_reverse.png" 
-                   WidthRequest="154" 
-                   HeightRequest="50" 
-                   HorizontalOptions="Start" 
-                   VerticalOptions="CenterAndExpand">
+            <Image 
+                Source="bc_logo_horizontal_reverse.png" 
+                WidthRequest="154" 
+                HeightRequest="50" 
+                HorizontalOptions="Start" 
+                VerticalOptions="CenterAndExpand">
                 <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"
-                                          NumberOfTapsRequired="4" />
+                    <TapGestureRecognizer 
+                        Tapped="TapGestureRecognizer_Tapped"
+                        NumberOfTapsRequired="4" />
                 </Image.GestureRecognizers>
             </Image>
         </StackLayout>
@@ -71,20 +74,20 @@
         </FlexLayout>
         
         <RefreshView
-        Grid.Row="1"
-        Command="{Binding RefreshCaseloadCommand}"
-        IsRefreshing="{Binding IsRefreshing}">
+            Grid.Row="1"
+            Command="{Binding RefreshCaseloadCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
 
             <!-- 
-            WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
-            Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
-            This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
-        -->
+                WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+                Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+                This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+            -->
             <ContentView>
 
                 <CollectionView
-                ItemsSource="{Binding Caseload}"
-                SelectionMode="None" >
+                    ItemsSource="{Binding Caseload}"
+                    SelectionMode="None" >
                     <CollectionView.EmptyView>
                         <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
                             <Label 
