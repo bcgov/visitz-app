@@ -154,4 +154,7 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
 </root>

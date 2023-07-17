@@ -2,9 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using System.Collections.Generic;
 using Visitz.Models;
 using Visitz.Pages;
+using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 
@@ -15,6 +15,8 @@ namespace Visitz.ViewModels
     /// </summary>
     public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
+        private static readonly string FilterNoneOption = LocalizedStrings.All;
+
         [ObservableProperty]
         public IEnumerable<CaseloadItem> caseload;
 
@@ -50,12 +52,16 @@ namespace Visitz.ViewModels
 
         private IList<string> GetCaseloadSubtypes()
         {
-            return Realm.All<CaseloadItem>()
+            var subtypes = Realm.All<CaseloadItem>()
                 .AsEnumerable()
                 .Select(item => item.CaseIncidentType)
                 .Distinct()
                 .Order()
                 .ToList();
+
+            subtypes.Insert(0, FilterNoneOption);
+
+            return subtypes;
         }
 
         [RelayCommand]
@@ -84,7 +90,7 @@ namespace Visitz.ViewModels
 
         private void ApplySubtypeFiltering(ref IEnumerable<CaseloadItem> query)
         {
-            if (SelectedSubtype == null)
+            if (SelectedSubtype == null || SelectedSubtype == FilterNoneOption)
                 return;
             
             query = query.Where(item => item.CaseIncidentType == SelectedSubtype);
