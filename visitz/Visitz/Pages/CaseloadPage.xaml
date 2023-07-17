@@ -74,7 +74,6 @@
         </FlexLayout>
         
         <RefreshView
-            Grid.Row="1"
             Command="{Binding RefreshCaseloadCommand}"
             IsRefreshing="{Binding IsRefreshing}">
 
