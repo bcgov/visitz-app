@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
+using System.Collections.Generic;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Services;
@@ -17,14 +19,43 @@ namespace Visitz.ViewModels
         public IEnumerable<CaseloadItem> caseload;
 
         [ObservableProperty]
+        public IEnumerable<string> subtypes;
+
+        [ObservableProperty]
+        public CaseloadSort selectedSortOrder;
+
+        [ObservableProperty]
+        public string selectedSubtype;
+
+        [ObservableProperty]
         public bool isRefreshing;
+
+        private Realm Realm { get; set; }
 
         public override async void PageCreated()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-            var realm = await IcmDataRealm.GetAsync();
-            Caseload = realm.All<CaseloadItem>();
+            Realm = await IcmDataRealm.GetAsync();
+
+            ApplyQuery();
+
+            RefreshSubtypes();
+        }
+
+        private void RefreshSubtypes()
+        {
+            Subtypes = GetCaseloadSubtypes();
+        }
+
+        private IList<string> GetCaseloadSubtypes()
+        {
+            return Realm.All<CaseloadItem>()
+                .AsEnumerable()
+                .Select(item => item.CaseIncidentType)
+                .Distinct()
+                .Order()
+                .ToList();
         }
 
         [RelayCommand]
@@ -41,7 +72,50 @@ namespace Visitz.ViewModels
 
         public void ApplyQuery()
         {
+            var query = Realm
+                .All<CaseloadItem>()
+                .AsEnumerable();
 
+            ApplySubtypeFiltering(ref query);
+            ApplySorting(ref query);
+
+            Caseload = query;
+        }
+
+        private void ApplySubtypeFiltering(ref IEnumerable<CaseloadItem> query)
+        {
+            if (SelectedSubtype == null)
+                return;
+            
+            query = query.Where(item => item.CaseIncidentType == SelectedSubtype);
+        }
+
+        private void ApplySorting(ref IEnumerable<CaseloadItem> query)
+        {
+            if (SelectedSortOrder == null)
+                return;
+
+            if (SelectedSortOrder.Id == CaseloadSort.DisplayDate)
+            {
+                var sort = new Func<CaseloadItem, DateTime>(item => {
+
+                    return item.DisplayDate?.Length > 0 
+                        ? DateTime.Parse(item.DisplayDate)
+                        : DateTime.MinValue;
+                });
+
+                query = SelectedSortOrder.Ascending
+                    ? query.OrderBy(sort)
+                    : query.OrderByDescending(sort);
+            }
+            else if (SelectedSortOrder.Id == CaseloadSort.DisplayName)
+            {
+                var sort = new Func<CaseloadItem, string>(item => item.DisplayName);
+
+                query = SelectedSortOrder.Ascending
+                    ? query.OrderBy(sort)
+                    : query.OrderByDescending(sort);
+            }
         }
 
         public async Task OpenDebugOptionsPage()
@@ -53,6 +127,12 @@ namespace Visitz.ViewModels
         public void Receive(ServiceStateMessage message)
         {
             IsRefreshing = message.Status == VisitzService.State.Running;
+
+            if (message.FinishedSuccess)
+            {
+                RefreshSubtypes();
+                ApplyQuery();
+            }
         }
     }
 }
