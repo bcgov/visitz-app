@@ -155,6 +155,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to select.
+        /// </summary>
+        internal static string TapToSelect {
+            get {
+                return ResourceManager.GetString("TapToSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         internal static string Type {

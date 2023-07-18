@@ -2,6 +2,7 @@
 <pages:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:models="clr-namespace:Visitz.Models"
@@ -39,7 +40,7 @@
             Margin="20,20,20,10">
 
             <Picker
-                Title="Select sort order"
+                Title="{local:Localize TapToSelect}"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
                 ItemDisplayBinding="{Binding Title}"
                 SelectedItem="{Binding SelectedSortOrder}">
@@ -70,7 +71,7 @@
             </Picker>
 
             <Picker 
-                Title="Filter by subtype"
+                Title="{local:Localize TapToSelect}"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
                 ItemsSource="{Binding Subtypes}"
                 SelectedItem="{Binding SelectedSubtype}"/>

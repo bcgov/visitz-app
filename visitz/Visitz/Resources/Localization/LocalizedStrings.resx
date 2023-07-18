@@ -157,4 +157,7 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="TapToSelect" xml:space="preserve">
+    <value>Tap to select</value>
+  </data>
 </root>
