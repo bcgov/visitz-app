@@ -125,8 +125,8 @@ namespace Visitz.ViewModels
             if (SelectedSortOrder.Id == CaseloadSort.DisplayDate)
             {
                 query = SelectedSortOrder.Ascending
-                    ? query.OrderBy(CaseloadItemSortDateTime)
-                    : query.OrderByDescending(CaseloadItemSortDateTime);
+                    ? query.OrderBy(CaseloadItem.DisplayDateTransform)
+                    : query.OrderByDescending(CaseloadItem.DisplayDateTransform);
             }
             else if (SelectedSortOrder.Id == CaseloadSort.DisplayName)
             {
@@ -136,13 +136,6 @@ namespace Visitz.ViewModels
                     ? query.OrderBy(sort)
                     : query.OrderByDescending(sort);
             }
-        }
-
-        private DateTime CaseloadItemSortDateTime(CaseloadItem item)
-        {
-            return item.DisplayDate?.Length > 0
-                ? DateTime.Parse(item.DisplayDate)
-                : DateTime.MinValue;
         }
 
         public async Task OpenDebugOptionsPage()

@@ -39,6 +39,13 @@ namespace Visitz.Models
             ? WorkerFullName
             : FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault().LastName ?? ServiceOffice;
 
+        public static DateTime DisplayDateTransform(CaseloadItem caseloadItem)
+        {
+            return caseloadItem.DisplayDate?.Length > 0
+                ? DateTime.Parse(caseloadItem.DisplayDate)
+                : DateTime.MinValue;
+        }
+
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string Address
         {
