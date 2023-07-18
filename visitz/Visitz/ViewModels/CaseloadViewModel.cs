@@ -37,6 +37,7 @@ namespace Visitz.ViewModels
         public override async void PageCreated()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
+            WeakReferenceMessenger.Default.Register(this, GetCaseloadService.MakeId());
 
             Realm = await IcmDataRealm.GetAsync();
 
@@ -132,9 +133,10 @@ namespace Visitz.ViewModels
 
         public void Receive(ServiceStateMessage message)
         {
-            IsRefreshing = message.Status == VisitzService.State.Running;
+            if (message.ServiceId == GetAllDataForOfflineService.MakeId())
+                IsRefreshing = message.Status == VisitzService.State.Running;
 
-            if (message.FinishedSuccess)
+            else if (message.ServiceId == GetCaseloadService.MakeId() && message.FinishedSuccess)
             {
                 RefreshSubtypes();
                 ApplyQuery();
