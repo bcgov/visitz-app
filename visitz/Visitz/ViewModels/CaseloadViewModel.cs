@@ -68,6 +68,16 @@ namespace Visitz.ViewModels
             RefreshSubtypes();
         }
 
+        public void ApplyQuery()
+        {
+            var query = CaseloadQuery.AsEnumerable();
+
+            ApplySubtypeFiltering(ref query);
+            ApplySorting(ref query);
+
+            Caseload = query;
+        }
+
         private void RefreshSubtypes()
         {
             Subtypes = GetCaseloadSubtypes();
@@ -85,28 +95,6 @@ namespace Visitz.ViewModels
             subtypes.Insert(0, FilterNoneOption);
 
             return subtypes;
-        }
-
-        [RelayCommand]
-        public void RefreshCaseload()
-        {
-            WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
-        }
-
-        [RelayCommand]
-        public async void GoToNotes(CaseloadItem caseloadItem)
-        {
-            await NotesPage.Open(VisitzPage, caseloadItem.CaseIncidentNumber);
-        }
-
-        public void ApplyQuery()
-        {
-            var query = CaseloadQuery.AsEnumerable();
-
-            ApplySubtypeFiltering(ref query);
-            ApplySorting(ref query);
-
-            Caseload = query;
         }
 
         private void ApplySubtypeFiltering(ref IEnumerable<CaseloadItem> query)
@@ -136,6 +124,18 @@ namespace Visitz.ViewModels
                     ? query.OrderBy(sort)
                     : query.OrderByDescending(sort);
             }
+        }
+
+        [RelayCommand]
+        public void RefreshCaseload()
+        {
+            WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+        }
+
+        [RelayCommand]
+        public async void GoToNotes(CaseloadItem caseloadItem)
+        {
+            await NotesPage.Open(VisitzPage, caseloadItem.CaseIncidentNumber);
         }
 
         public async Task OpenDebugOptionsPage()
