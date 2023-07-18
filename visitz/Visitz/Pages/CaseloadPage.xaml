@@ -53,22 +53,22 @@
                         <models:CaseloadSort 
                             Id="{Static models:CaseloadSort.DisplayName}" 
                             Ascending="True" 
-                            Title="Key player last name A-Z" />
+                            Title="{local:Localize Sort_KeyPlayerLastNameAsc}" /> 
 
                         <models:CaseloadSort 
                             Id="{Static models:CaseloadSort.DisplayName}" 
                             Ascending="False" 
-                            Title="Key player last name Z-A" />
+                            Title="{local:Localize Sort_KeyPlayerLastNameDesc}" />
                     
                         <models:CaseloadSort 
                             Id="{Static models:CaseloadSort.DisplayDate}" 
                             Ascending="False" 
-                            Title="Most recent open date" />
+                            Title="{local:Localize Sort_OpenDateDesc}" />
 
                         <models:CaseloadSort 
                             Id="{Static models:CaseloadSort.DisplayDate}" 
                             Ascending="True" 
-                            Title="Least recent open date" />
+                            Title="{local:Localize Sort_OpenDateAsc}" />
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
