@@ -61,6 +61,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        internal static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
         internal static string Caseload {
@@ -142,6 +151,51 @@ namespace Visitz.Resources.Localization {
         internal static string SecureDeviceAndTryAgain {
             get {
                 return ResourceManager.GetString("SecureDeviceAndTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key player last name A-Z.
+        /// </summary>
+        internal static string Sort_KeyPlayerLastNameAsc {
+            get {
+                return ResourceManager.GetString("Sort_KeyPlayerLastNameAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key player last name Z-A.
+        /// </summary>
+        internal static string Sort_KeyPlayerLastNameDesc {
+            get {
+                return ResourceManager.GetString("Sort_KeyPlayerLastNameDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Least recent open date.
+        /// </summary>
+        internal static string Sort_OpenDateAsc {
+            get {
+                return ResourceManager.GetString("Sort_OpenDateAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Most recent open date.
+        /// </summary>
+        internal static string Sort_OpenDateDesc {
+            get {
+                return ResourceManager.GetString("Sort_OpenDateDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to select.
+        /// </summary>
+        internal static string TapToSelect {
+            get {
+                return ResourceManager.GetString("TapToSelect", resourceCulture);
             }
         }
         
