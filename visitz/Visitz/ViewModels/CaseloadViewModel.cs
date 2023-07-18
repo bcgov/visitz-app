@@ -43,11 +43,12 @@ namespace Visitz.ViewModels
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
             Realm = await IcmDataRealm.GetAsync();
+
             CaseloadQuery = Realm.All<CaseloadItem>();
             CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
 
-            ApplyQuery();
-            RefreshSubtypes();
+            ApplyCaseloadQuery();
+            ApplySubtypesQuery();
         }
 
         public override void PageDestroyed()
@@ -64,11 +65,11 @@ namespace Visitz.ViewModels
             if (changes == null)
                 return;
 
-            ApplyQuery();
-            RefreshSubtypes();
+            ApplyCaseloadQuery();
+            ApplySubtypesQuery();
         }
 
-        public void ApplyQuery()
+        public void ApplyCaseloadQuery()
         {
             var query = CaseloadQuery.AsEnumerable();
 
@@ -78,23 +79,17 @@ namespace Visitz.ViewModels
             Caseload = query;
         }
 
-        private void RefreshSubtypes()
+        private void ApplySubtypesQuery()
         {
-            Subtypes = GetCaseloadSubtypes();
-        }
-
-        private IList<string> GetCaseloadSubtypes()
-        {
-            var subtypes = Realm.All<CaseloadItem>()
-                .AsEnumerable()
+            var query = CaseloadQuery.AsEnumerable()
                 .Select(item => item.CaseIncidentType)
                 .Distinct()
                 .Order()
                 .ToList();
 
-            subtypes.Insert(0, FilterNoneOption);
+            query.Insert(0, FilterNoneOption);
 
-            return subtypes;
+            Subtypes = query;
         }
 
         private void ApplySubtypeFiltering(ref IEnumerable<CaseloadItem> query)
