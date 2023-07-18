@@ -36,12 +36,15 @@
         <FlexLayout
             Direction="Row"
             HorizontalOptions="FillAndExpand"
-            JustifyContent="SpaceBetween"
-            Margin="20,20,20,10">
+            AlignItems="Center"
+            Margin="20,20,20,20">
+
+            <Label Text="Sort by" Margin="0,0,5,0" />
 
             <Picker
                 Title="{local:Localize TapToSelect}"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
+                FlexLayout.Basis="200"
                 ItemDisplayBinding="{Binding Title}"
                 SelectedItem="{Binding SelectedSortOrder}">
 
@@ -70,9 +73,14 @@
                 </Picker.ItemsSource>
             </Picker>
 
+            <Line FlexLayout.Grow="1" BackgroundColor="Transparent" />
+
+            <Label Text="Show" Margin="0,0,5,0" />
+            
             <Picker 
                 Title="{local:Localize TapToSelect}"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
+                FlexLayout.Basis="150"
                 ItemsSource="{Binding Subtypes}"
                 SelectedItem="{Binding SelectedSubtype}"/>
         </FlexLayout>
