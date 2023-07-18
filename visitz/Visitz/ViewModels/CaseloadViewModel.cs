@@ -34,15 +34,38 @@ namespace Visitz.ViewModels
 
         private Realm Realm { get; set; }
 
+        private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
+
+        private IDisposable CaseloadQueryToken { get; set; }
+
         public override async void PageCreated()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
             WeakReferenceMessenger.Default.Register(this, GetCaseloadService.MakeId());
 
             Realm = await IcmDataRealm.GetAsync();
+            CaseloadQuery = Realm.All<CaseloadItem>();
+            CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
 
             ApplyQuery();
+            RefreshSubtypes();
+        }
 
+        public override void PageDestroyed()
+        {
+            CaseloadQueryToken.Dispose();
+            CaseloadQueryToken = null;
+
+            Realm.Dispose();
+            Realm = null;
+        }
+
+        private void Caseload_Changed(IRealmCollection<CaseloadItem> sender, ChangeSet changes)
+        {
+            if (changes == null)
+                return;
+
+            ApplyQuery();
             RefreshSubtypes();
         }
 
@@ -79,9 +102,7 @@ namespace Visitz.ViewModels
 
         public void ApplyQuery()
         {
-            var query = Realm
-                .All<CaseloadItem>()
-                .AsEnumerable();
+            var query = CaseloadQuery.AsEnumerable();
 
             ApplySubtypeFiltering(ref query);
             ApplySorting(ref query);
