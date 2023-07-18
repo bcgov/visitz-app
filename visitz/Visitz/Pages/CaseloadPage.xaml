@@ -47,16 +47,6 @@
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type models:CaseloadSort}">
                         <models:CaseloadSort 
-                            Id="{Static models:CaseloadSort.DisplayDate}" 
-                            Ascending="False" 
-                            Title="Most recent open date" />
-
-                        <models:CaseloadSort 
-                            Id="{Static models:CaseloadSort.DisplayDate}" 
-                            Ascending="True" 
-                            Title="Least recent open date" />
-
-                        <models:CaseloadSort 
                             Id="{Static models:CaseloadSort.DisplayName}" 
                             Ascending="True" 
                             Title="Key player last name A-Z" />
@@ -65,6 +55,16 @@
                             Id="{Static models:CaseloadSort.DisplayName}" 
                             Ascending="False" 
                             Title="Key player last name Z-A" />
+                    
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayDate}" 
+                            Ascending="False" 
+                            Title="Most recent open date" />
+
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayDate}" 
+                            Ascending="True" 
+                            Title="Least recent open date" />
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
