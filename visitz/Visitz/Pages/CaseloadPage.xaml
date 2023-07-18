@@ -13,20 +13,28 @@
     ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <NavigationPage.TitleView>
-        <StackLayout>
+        <FlexLayout Direction="Row" JustifyContent="SpaceBetween" AlignItems="Center" HeightRequest="70">
             <Image 
                 Source="bc_logo_horizontal_reverse.png" 
-                WidthRequest="154" 
-                HeightRequest="50" 
-                HorizontalOptions="Start" 
-                VerticalOptions="CenterAndExpand">
+                FlexLayout.Basis="154"
+                Aspect="AspectFit">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer 
                         Tapped="TapGestureRecognizer_Tapped"
                         NumberOfTapsRequired="4" />
                 </Image.GestureRecognizers>
             </Image>
-        </StackLayout>
+
+            <Label TextColor="White">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Caseload" FontAttributes="Bold" FontSize="16"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <BoxView FlexLayout.Basis="154" HeightRequest="0" BackgroundColor="Black"/>
+        </FlexLayout>
     </NavigationPage.TitleView>
 
     <StackLayout 
