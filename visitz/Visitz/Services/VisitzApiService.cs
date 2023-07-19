@@ -23,6 +23,11 @@ namespace Visitz.Services
             }
             catch (VisitzApiException ex)
             {
+#if DEBUG
+                Console.WriteLine(nameof(VisitzApiException) 
+                    + $" {ex.HttpStatusCode} -> {ex.Message}:\n{ex.StackTrace}");
+#endif
+
                 if (ex.HttpStatusCode == HttpStatusCode.Unauthorized
                     || ex.HttpStatusCode == HttpStatusCode.Forbidden)
                 {
@@ -30,10 +35,6 @@ namespace Visitz.Services
 
                     // TODO: Properly notify user their session is invalid and
                     // prompt them to login again
-#if DEBUG
-                    Console.WriteLine(nameof(VisitzApiException) + $" {ex.HttpStatusCode} error");
-                    Console.WriteLine(ex.StackTrace);
-#endif
                 }
             }
         }

@@ -1,4 +1,6 @@
-﻿namespace Visitz.Authentication.Keycloak
+﻿using IdentityModel.OidcClient.Browser;
+
+namespace Visitz.Authentication.Keycloak
 {
     public class VisitzSession
     {
@@ -51,6 +53,16 @@
             // TODO: Log errors.
 
             return refreshSuccess;
+        }
+
+        public static async Task<bool> LogoutAsync()
+        {
+            var logoutResult = await AuthClient.LogoutAsync();
+            var logoutSuccess = !logoutResult.IsError;
+
+            InvalidateSession();
+
+            return logoutSuccess;
         }
 
         public static async Task<VisitzSessionInfo> GetInfoAsync()

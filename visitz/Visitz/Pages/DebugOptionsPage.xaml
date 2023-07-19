@@ -57,21 +57,28 @@
             HorizontalOptions="Start"
             Text="Expire refresh token" />
 
-        <Label
+        <Button 
             Grid.Row="3"
+            Grid.Column="1"
+            Command="{Binding LogoutCommand}"
+            HorizontalOptions="Start"
+            Text="Logout" />
+
+        <Label
+            Grid.Row="4"
             Grid.Column="0"
             VerticalOptions="Center"
             Text="Local database actions" />
 
         <Button 
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="1"
             Command="{Binding ClearRealmDataCommand}"
             HorizontalOptions="Start"
             Text="Clear all data" />
 
         <Button 
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="1"
             Command="{Binding DeleteEncryptionKeyCommand}"
             HorizontalOptions="Start"

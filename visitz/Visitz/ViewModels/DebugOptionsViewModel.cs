@@ -45,5 +45,12 @@ namespace Visitz.ViewModels
         {
             DebugOptions.DeleteEncryptionKey();
         }
+
+        [RelayCommand]
+        public async void Logout()
+        {
+            if (DebugOptions.Enabled)
+                await VisitzSession.LogoutAsync();
+        }
     }
 }
