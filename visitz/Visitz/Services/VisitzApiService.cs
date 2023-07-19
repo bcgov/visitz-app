@@ -24,8 +24,8 @@ namespace Visitz.Services
             catch (VisitzApiException ex)
             {
 #if DEBUG
-                Console.WriteLine(nameof(VisitzApiException) + $" {ex.HttpStatusCode} error");
-                Console.WriteLine(ex.StackTrace);
+                Console.WriteLine(nameof(VisitzApiException) 
+                    + $" {ex.HttpStatusCode} -> {ex.Message}:\n{ex.StackTrace}");
 #endif
 
                 if (ex.HttpStatusCode == HttpStatusCode.Unauthorized
