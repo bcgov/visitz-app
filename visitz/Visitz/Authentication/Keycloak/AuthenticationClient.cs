@@ -1,4 +1,5 @@
 ﻿using IdentityModel.OidcClient;
+using IdentityModel.OidcClient.Browser;
 using IdentityModel.OidcClient.Results;
 
 namespace Visitz.Authentication.Keycloak
@@ -37,6 +38,14 @@ namespace Visitz.Authentication.Keycloak
         public async Task<LoginResult> LoginAsync()
         {
             return await oidcClient.LoginAsync();
+        }
+
+        public async Task<LogoutResult> LogoutAsync()
+        {
+            return await oidcClient.LogoutAsync(new LogoutRequest()
+            {
+                BrowserDisplayMode = DisplayMode.Hidden,
+            });
         }
 
         public async Task<RefreshTokenResult> RefreshAsync(string refreshToken)
