@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:subclasses="clr-namespace:Visitz.Subclasses"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Pages.NoteEntryPage"
+    x:DataType="viewModels:NoteEntryViewModel"
+    Title="{Binding Title}"
+    ControlTemplate="{StaticResource VisitzPageWrapper}">
+
+    <subclasses:VisitzGrid
+        ColumnDefinitions="*,Auto,Auto"
+        ColumnSpacing="10"
+        Padding="20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="44" />
+            <RowDefinition Height="44" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Add Content"
+            TextColor="{StaticResource BlackishText}"
+            FontFamily="BCSansBold"
+            FontSize="17" />
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Text="Discard"
+            Style="{StaticResource transparent}"
+            IsVisible="false" />
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Text="Publish"
+            Command="{Binding PublishNotesCommand}" />
+
+        <Label
+            Grid.Row="1"
+            Text="The content will be added at the end of the note"
+            TextColor="{StaticResource BlackishText}"
+            FontFamily="BCSansRegular"
+            FontSize="16" />
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="2"
+            TextColor="{StaticResource LightGrayText}"
+            Text="{Binding CharacterLimitText}"
+            FontFamily="BCSansRegular"
+            FontSize="12"
+            HorizontalOptions="End" />
+
+        <ScrollView
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="3">
+            <Editor
+                x:Name="NotesEditor"
+                Text="{Binding Draft}"
+                TextColor="{StaticResource BlackishText}"
+                FontFamily="BCSansRegular"
+                FontSize="17"
+                Placeholder="Type your notes here..."
+                MaxLength="16000"
+                TextChanged="NotesEditor_TextChanged">
+
+                <Editor.Behaviors>
+                    <toolkit:UserStoppedTypingBehavior 
+                        Command="{Binding SaveDraftCommand}"
+                        StoppedTypingTimeThreshold="1000"
+                        MinimumLengthThreshold="3" />
+                </Editor.Behaviors>
+            </Editor>
+        </ScrollView>
+    </subclasses:VisitzGrid>
+</pages:VisitzPage>

@@ -28,9 +28,9 @@ public partial class VisitzApp : Application
     }
 
     protected async override void OnStart()
-    {
+    {   
         base.OnStart();
-
+        
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
         await AppLockPage.TryPrompt();
@@ -39,7 +39,7 @@ public partial class VisitzApp : Application
     protected async override void OnResume()
     {
         base.OnResume();
-
+        
         await AppLockPage.TryPrompt();
     }
 }

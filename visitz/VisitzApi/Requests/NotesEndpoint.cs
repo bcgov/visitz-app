@@ -60,7 +60,8 @@ namespace VisitzApi.Requests
                 .GetProperty(JsonKey.Payload)
                 .GetProperty(NotesKey);
 
-            var notesContent = notesJson.Deserialize(typeof(List<NoteEntity>));
+            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+            var notesContent = notesJson.Deserialize(typeof(List<NoteEntity>), options);
 
             return (List<NoteEntity>)notesContent;
         }

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Pages.NotePublishPage"
+    x:DataType="viewModels:NotePublishViewModel"
+    BackgroundColor="{StaticResource BC_Blue}">
+
+    <Grid>
+        <VerticalStackLayout
+            Grid.Row="0"
+            VerticalOptions="Center"
+            Spacing="10">
+            <Image Source="note_publish.png" />
+
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Spacing="15">
+                <ActivityIndicator
+                    IsVisible="{Binding ShowPublishingIndicator}"
+                    IsRunning="true"
+                    Color="White" />
+
+                <Label 
+                    Text="{Binding PublishingStatus}"
+                    TextColor="White"
+                    FontFamily="BCSansBold"
+                    FontSize="28" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout
+                IsVisible="{Binding ShowRefreshStatusSection}"
+                HorizontalOptions="Center"
+                Spacing="15">
+                <ActivityIndicator
+                    IsVisible="{Binding ShowRefreshIndicator}"
+                    IsRunning="true"
+                    Color="White" />
+
+                <Label 
+                    Text="{Binding RefreshingStatus}"
+                    TextColor="White"
+                    FontFamily="BCSansBold"
+                    FontSize="28" />
+            </HorizontalStackLayout>
+
+            <Label
+                HorizontalOptions="Center"
+                TextColor="White"
+                Text="{Binding Title}"
+                FontFamily="BCSansBold"
+                FontSize="22" />
+
+            <HorizontalStackLayout
+                Spacing="15"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ShowRetrySection}">
+                <Button
+                    Text="Dismiss"
+                    Style="{StaticResource transparentInSolidBG}"
+                    BorderColor="Red"
+                    TextColor="Red"
+                    Command="{Binding DismissCommand}" />
+                <Button Text="Retry"
+                    Style="{StaticResource transparentInSolidBG}"
+                    FontFamily="BCSansBold"
+                    Command="{Binding RetryCommand}" />
+            </HorizontalStackLayout>
+            
+        </VerticalStackLayout>
+    </Grid>
+</pages:VisitzPage>

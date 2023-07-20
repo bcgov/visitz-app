@@ -20,6 +20,18 @@ namespace Visitz.Models
         public string CreatedDate { get; set; }
         public string Content { get; set; }
 
+        public static DateTime NotePeriodDateTimeTransform(NoteItem note)
+        {
+            return note.NotePeriod?.Length > 0 ? DateTime.Parse(note.NotePeriod) : DateTime.MinValue;
+        }
+
+        public static DateTime CreatedDateTimeTransform(NoteItem note)
+        {
+            return note.CreatedDate?.Length > 0 ? DateTime.Parse(note.CreatedDate) : DateTime.MinValue;
+        }
+
+        public string PeriodOrCreatedDate => NotePeriod?.Length > 0 ? NotePeriod : CreatedDate;
+
         public static NoteItem FromApiEntity(string icmId, NoteEntity note)
         {
             return new NoteItem()
@@ -43,7 +55,7 @@ namespace Visitz.Models
 
         public static string WrapContent(string idir, DateTime dateTime, string content)
         {
-            return $"{idir} ({dateTime}):\n\n{content}";
+            return $"──── {idir} {dateTime} ────\n{content}";
         }
     }
 }

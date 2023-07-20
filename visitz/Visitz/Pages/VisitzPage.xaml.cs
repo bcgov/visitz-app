@@ -49,10 +49,19 @@ public abstract partial class VisitzPage : ContentPage
         }
     }
 
-    public static async Task NavigateTo<T>(Page fromPage, IDictionary<string, object> parameters = null) where T : VisitzPage
+    public static async Task NavigateTo<T>(Page fromPage,
+        IDictionary<string, object> parameters = null, bool modal = false,
+        bool animated = true) where T : VisitzPage
     {
         var newPage = ServiceProvider.Current.GetRequiredService<T>();
         newPage.Parameters = parameters;
-        await fromPage.Navigation.PushAsync(newPage);
+        if (modal)
+        {
+            await fromPage.Navigation.PushModalAsync(newPage, animated);
+        }
+        else
+        {
+            await fromPage.Navigation.PushAsync(newPage, animated);
+        }
     }
 }

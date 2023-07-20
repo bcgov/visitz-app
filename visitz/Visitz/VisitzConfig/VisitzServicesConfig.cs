@@ -13,6 +13,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetNotesForRangeService>();
             builder.Services.AddTransient<GetAllDataForOfflineService>();
             builder.Services.AddTransient<SubmitNoteService>();
+            builder.Services.AddTransient<SubmitAndGetNotesService>();
 
             return builder;
         }

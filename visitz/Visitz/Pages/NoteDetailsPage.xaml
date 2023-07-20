@@ -6,7 +6,7 @@
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
     x:Class="Visitz.Pages.NoteDetailsPage"
     x:DataType="viewModels:NoteDetailsViewModel"
-    Title="Note Details"
+    Title="{Binding Title}"
     ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <Grid
@@ -25,27 +25,6 @@
                 <VerticalStackLayout
                     Spacing="10"
                     Padding="25,20">
-                    <HorizontalStackLayout
-                        Spacing="7">
-                        <Image
-                            Source="file.png" />
-
-                        <Label
-                            Text="{Binding NoteItem.CreatedDate}"
-                            FontSize="16"
-                            FontFamily="BCSansRegular"
-                            TextColor="{StaticResource LightGrayText}" />
-
-                        <Label
-                            Text="•"
-                            TextColor="{StaticResource DarkSkyBlueBackground}"/>
-
-                        <Label
-                            Text="{Binding NoteItem.NotePeriod}"
-                            FontSize="16"
-                            FontFamily="BCSansRegular"
-                            TextColor="{StaticResource LightGrayText}" />
-                    </HorizontalStackLayout>
 
                     <Label
                         Text="{Binding NoteItem.Content}"
@@ -66,7 +45,9 @@
             CornerRadius="30"
             BackgroundColor="{StaticResource DarkSkyBlueBackground}"
             FontFamily="BCSansRegular"
-            FontSize="17">
+            FontSize="17"
+            Command="{Binding GoToNoteEntryCommand}"
+            CommandParameter="{Binding NoteItem}">
 
             <Button.Shadow>
                 <Shadow Brush="Black"

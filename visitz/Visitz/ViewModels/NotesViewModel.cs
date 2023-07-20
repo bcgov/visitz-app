@@ -18,8 +18,6 @@ namespace Visitz.ViewModels
 
         public string caseIncidentId;
 
-        private Realm Realm { get; set; }
-
         [ObservableProperty]
         public CaseloadItem caseIncident;
 
@@ -28,6 +26,12 @@ namespace Visitz.ViewModels
 
         [ObservableProperty]
         public bool isRefreshing;
+
+        private Realm Realm { get; set; }
+
+        private IQueryable<NoteItem> NotesQuery { get; set; }
+
+        private IDisposable NotesQueryToken { get; set; }
 
         public override async void PageCreated()
         {
@@ -39,15 +43,20 @@ namespace Visitz.ViewModels
 
             CaseIncident = Realm.Find<CaseloadItem>(caseIncidentId);
 
-            Notes = Realm
-                .All<NoteItem>()
+            NotesQuery = Realm.All<NoteItem>()
                 .Where(note => note.IcmId == caseIncidentId);
+            NotesQueryToken = NotesQuery.SubscribeForNotifications(Notes_Changed);
+
+            ApplyNotesQuery();
         }
 
         public override void PageDestroyed()
         {
             Notes = null;
             CaseIncident = null;
+
+            NotesQueryToken.Dispose();
+            NotesQueryToken = null;
 
             Realm.Dispose();
             Realm = null;
@@ -77,12 +86,35 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void GoToNoteDetails(NoteItem noteItem)
         {
-            await NoteDetailsPage.Open(VisitzPage, noteItem); 
+            await NoteDetailsPage.Open(VisitzPage, CaseIncident, noteItem);
         }
 
         public void Receive(ServiceStateMessage message)
         {
             IsRefreshing = message.Status == VisitzService.State.Running;
+        }
+
+        private void ApplyNotesQuery()
+        {
+            var notes = NotesQuery.AsEnumerable();
+
+            ApplySorting(ref notes);
+
+            Notes = notes;
+        }
+
+        private void ApplySorting(ref IEnumerable<NoteItem> notes)
+        {
+            notes = notes.OrderByDescending(NoteItem.NotePeriodDateTimeTransform)
+                .ThenByDescending(NoteItem.CreatedDateTimeTransform);
+        }
+
+        private void Notes_Changed(IRealmCollection<NoteItem> sender, ChangeSet changes)
+        {
+            if (changes == null) // Initial load
+                return;
+
+            ApplyNotesQuery();
         }
     }
 }

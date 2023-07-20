@@ -35,7 +35,7 @@
                             WidthRequest="20" />
 
                         <Label 
-                            Text="{Binding NotePeriod}"
+                            Text="{Binding PeriodOrCreatedDate}"
                             FontSize="17"
                             FontFamily="BCSansBold"
                             Margin="10,0,0,0" />
@@ -43,6 +43,7 @@
 
                     <Label 
                         Text="{Binding Content}"
+                        MaxLines="3"
                         FontSize="17"
                         FontFamily="BCSansRegular"
                         Padding="0,10,0,0"

@@ -47,6 +47,18 @@
         </Setter>
     </Style>
 
+    <Style x:Key="transparent" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="BorderColor" Value="{StaticResource BC_Blue}" />
+        <Setter Property="TextColor" Value="{StaticResource BC_Blue}" />
+    </Style>
+
+    <Style x:Key="transparentInSolidBG" TargetType="Button" BasedOn="{StaticResource transparent}">
+        <Setter Property="BorderColor" Value="White" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+
     <Style TargetType="CheckBox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>

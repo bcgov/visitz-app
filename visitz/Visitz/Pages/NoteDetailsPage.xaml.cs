@@ -14,11 +14,11 @@ public partial class NoteDetailsPage : VisitzPage
 		BindingContext = viewModel;
     }
 
-    public static async Task Open(Page fromPage, NoteItem noteItem)
+    public static async Task Open(Page fromPage, CaseloadItem caseIncident, NoteItem noteItem)
     {
-        await NavigateTo<NoteDetailsPage>(fromPage, new Dictionary<string, object>
-        {
-            { NoteDetailsViewModel.NoteItemKey, noteItem }
+        await NavigateTo<NoteDetailsPage>(fromPage, new Dictionary<string, object> {
+            { NoteDetailsViewModel.NoteItemKey, noteItem },
+            { NoteDetailsViewModel.CaseIncidentKey, caseIncident }
         });
     }
 
@@ -40,6 +40,6 @@ public partial class NoteDetailsPage : VisitzPage
             // Fix: Setting the row height manually seems to prevent the scroll from going beyond the limits.
             ResizableRow.Height = resizableRowHeight;
         }
-    } 
+    }
 }
 

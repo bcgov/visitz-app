@@ -32,6 +32,7 @@ namespace Visitz.Services
                     || ex.HttpStatusCode == HttpStatusCode.Forbidden)
                 {
                     VisitzSession.InvalidateSession();
+                    ResultMessage = ex.Message;
 
                     // TODO: Properly notify user their session is invalid and
                     // prompt them to login again
