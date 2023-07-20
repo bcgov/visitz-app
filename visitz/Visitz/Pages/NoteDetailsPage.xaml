@@ -28,7 +28,7 @@
 
                     <Label
                         Text="{Binding NoteItem.Content}"
-                        TextColor="{StaticResource BlackishTextColor}"
+                        TextColor="{StaticResource BlackishText}"
                         FontFamily="BCSansRegular"
                         FontSize="17" />
                 </VerticalStackLayout>
