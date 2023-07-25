@@ -12,5 +12,15 @@ namespace VisitzApi.Models
 
         [JsonPropertyName(NotesKey)]
         public string Content { get; set; }
+
+        public static DateTime NotePeriodDateTimeTransform(NoteEntity note)
+        {
+            return note.NotePeriod?.Length > 0 ? DateTime.Parse(note.NotePeriod) : DateTime.MinValue;
+        }
+
+        public static DateTime CreatedDateTimeTransform(NoteEntity note)
+        {
+            return note.CreatedDate?.Length > 0 ? DateTime.Parse(note.CreatedDate) : DateTime.MinValue;
+        }
     }
 }

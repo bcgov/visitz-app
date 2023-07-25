@@ -55,7 +55,7 @@ namespace Visitz.ViewModels
             draft = Parameters[DraftItemKey] as string;
 
             createdDate = noteItem.CreatedDate;
-            Title = $"“{caseIncident.DisplayName} • {noteItem.PeriodOrCreatedDate}”";
+            Title = $"“{caseIncident.DisplayName} • {noteItem.PeriodOrPageNumber}”";
 
             submitNoteEntity = new SubmitNoteEntity
             {
@@ -69,6 +69,11 @@ namespace Visitz.ViewModels
             WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(noteItem.IcmId));
 
             await PublishDraft(submitNoteEntity, draft);
+        }
+
+        public override void PageDestroyed()
+        {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
         }
 
         private async Task PublishDraft(SubmitNoteEntity noteEntity, string draft)
@@ -106,7 +111,7 @@ namespace Visitz.ViewModels
                     ShowRefreshIndicator = true;
                     ShowRefreshStatusSection = true;
 
-                    var realm = await VisitzRealm.GetNoteDraftAsync();
+                    using var realm = await VisitzRealm.GetNoteDraftAsync();
                     var noteDraft = realm.Find<NoteDraft>(NoteDraft.MakeId(submitNoteEntity.EntityNumber, createdDate));
 
                     await realm.WriteAsync(() =>
@@ -114,6 +119,7 @@ namespace Visitz.ViewModels
                         if (noteDraft != null)
                         {
                             realm.Remove(noteDraft);
+                            noteDraft = null;
                         }
                     });
                 }

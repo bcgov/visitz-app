@@ -29,16 +29,18 @@
                 </Grid.ColumnDefinitions>
 
                 <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
-                    <HorizontalStackLayout>
-                        <Image Source="calendar.png"
+                    <HorizontalStackLayout
+                        Spacing="10">
+                        <Image
+                            IsVisible="{Binding ShowTitleIcon}"
+                            Source="calendar.png"
                             HeightRequest="20"
                             WidthRequest="20" />
 
                         <Label 
-                            Text="{Binding PeriodOrCreatedDate}"
+                            Text="{Binding PeriodOrPageNumber}"
                             FontSize="17"
-                            FontFamily="BCSansBold"
-                            Margin="10,0,0,0" />
+                            FontFamily="BCSansBold" />
                     </HorizontalStackLayout>
 
                     <Label 

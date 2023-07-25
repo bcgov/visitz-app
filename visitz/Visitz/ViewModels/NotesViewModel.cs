@@ -61,8 +61,7 @@ namespace Visitz.ViewModels
             Realm.Dispose();
             Realm = null;
 
-            WeakReferenceMessenger.Default.Unregister<ServiceStateMessage, string>(this, 
-                GetNotesService.MakeId(caseIncidentId));
+            WeakReferenceMessenger.Default.UnregisterAll(this);
         }
 
         [RelayCommand]

@@ -19,6 +19,7 @@ namespace Visitz.Models
         public string NotePeriod { get; set; }
         public string CreatedDate { get; set; }
         public string Content { get; set; }
+        public int PageNumber { get; set; }
 
         public static DateTime NotePeriodDateTimeTransform(NoteItem note)
         {
@@ -30,9 +31,10 @@ namespace Visitz.Models
             return note.CreatedDate?.Length > 0 ? DateTime.Parse(note.CreatedDate) : DateTime.MinValue;
         }
 
-        public string PeriodOrCreatedDate => NotePeriod?.Length > 0 ? NotePeriod : CreatedDate;
+        public string PeriodOrPageNumber => NotePeriod?.Length > 0 ? NotePeriod : $"Page {PageNumber}";
+        public bool ShowTitleIcon => NotePeriod?.Length > 0;
 
-        public static NoteItem FromApiEntity(string icmId, NoteEntity note)
+        public static NoteItem FromApiEntity(string icmId, NoteEntity note, int pageNumber)
         {
             return new NoteItem()
             {
@@ -40,12 +42,16 @@ namespace Visitz.Models
                 NotePeriod = note.NotePeriod,
                 CreatedDate = note.CreatedDate, // TODO use actual DateTime type
                 Content = note.Content,
+                PageNumber = pageNumber
             };
         }
 
         public static IEnumerable<NoteItem> FromApiEntities(string icmId, IEnumerable<NoteEntity> noteEntities)
         {
-            return noteEntities.Select(note => FromApiEntity(icmId, note));
+            return noteEntities
+                .OrderBy(NoteEntity.NotePeriodDateTimeTransform)
+                .ThenBy(NoteEntity.CreatedDateTimeTransform)
+                .Select((note, index) => FromApiEntity(icmId, note, index + 1));
         }
 
         public static string NotePeriodFrom(DateTime dateTime)

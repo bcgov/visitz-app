@@ -53,6 +53,8 @@ namespace Visitz.ViewModels
 
         public override void PageDestroyed()
         {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
             CaseloadQueryToken.Dispose();
             CaseloadQueryToken = null;
 

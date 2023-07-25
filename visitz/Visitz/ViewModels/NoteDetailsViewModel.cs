@@ -33,7 +33,7 @@ namespace Visitz.ViewModels
             caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
             NoteItem = Parameters[NoteItemKey] as NoteItem;
 
-            Title = $"{caseIncident.DisplayName} • {NoteItem.PeriodOrCreatedDate}";
+            Title = $"{caseIncident.DisplayName} • {NoteItem.PeriodOrPageNumber}";
 
             var IcmId = NoteItem.IcmId;
             var CreatedDate = NoteItem.CreatedDate;

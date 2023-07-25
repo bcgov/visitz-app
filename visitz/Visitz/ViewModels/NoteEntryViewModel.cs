@@ -44,7 +44,7 @@ namespace Visitz.ViewModels
 
             noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber, NoteItem.CreatedDate);
 
-            Title = $"{caseIncident.DisplayName} • {NoteItem.PeriodOrCreatedDate}";
+            Title = $"{caseIncident.DisplayName} • {NoteItem.PeriodOrPageNumber}";
 
             var realm = await VisitzRealm.GetNoteDraftAsync();
             NoteDraftQuery = realm.All<NoteDraft>()
@@ -100,12 +100,11 @@ namespace Visitz.ViewModels
         [RelayCommand]
 		public async void PublishNotes()
 		{
-            if (Draft.Length > 0) {
+            if (Draft?.Length > 0) {
                 await NotePublishPage.OpenModal(VisitzPage, caseIncident, NoteItem, Draft);
             }
         }
 
-        [RelayCommand]
         public void EditorTextChanged()
         {
             UpdateCharLimit();
