@@ -13,6 +13,7 @@ namespace Visitz.ViewModels
     {
         public static readonly string NoteItemKey = "noteItem";
         public static readonly string CaseIncidentKey = "caseIncident";
+        public static readonly string CanAppendNotesKey = "canAppendNotes";
 
         public CaseloadItem caseIncident;
 
@@ -21,6 +22,9 @@ namespace Visitz.ViewModels
 
         [ObservableProperty]
         public string title;
+
+        [ObservableProperty]
+        public bool canAppendNotes;
 
         private Realm Realm { get; set; }
 
@@ -32,6 +36,7 @@ namespace Visitz.ViewModels
         {
             caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
             NoteItem = Parameters[NoteItemKey] as NoteItem;
+            CanAppendNotes = (bool)Parameters[CanAppendNotesKey];
 
             Title = $"{caseIncident.DisplayName} • {NoteItem.PeriodOrPageNumber}";
 

@@ -54,19 +54,28 @@ namespace Visitz.ViewModels
             var noteItem = Parameters[NoteItemKey] as NoteItem;
             draft = Parameters[DraftItemKey] as string;
 
-            createdDate = noteItem.CreatedDate;
-            Title = $"“{caseIncident.DisplayName} • {noteItem.PeriodOrPageNumber}”";
+            createdDate = noteItem?.CreatedDate;
+            if (noteItem?.PeriodOrPageNumber != null)
+            {
+                Title = $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}";
+            }
+            else
+            {
+                Title = caseIncident.DisplayName;
+            }
 
+            var notePeriod = noteItem?.NotePeriod != null
+                ? noteItem?.NotePeriod
+                : NoteItem.NotePeriodFrom(DateTime.Now);
             submitNoteEntity = new SubmitNoteEntity
             {
-                EntityNumber = noteItem.IcmId,
+                EntityNumber = caseIncident.CaseIncidentNumber,
                 EntityType = caseIncident.EntityType,
-                NotePeriod = noteItem.NotePeriod,
+                NotePeriod = notePeriod,
             };
-
-            WeakReferenceMessenger.Default.Register(this, SubmitAndGetNotesService.MakeId(noteItem.IcmId, noteItem.NotePeriod));
-            WeakReferenceMessenger.Default.Register(this, SubmitNoteService.MakeId(noteItem.IcmId, noteItem.NotePeriod));
-            WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(noteItem.IcmId));
+            WeakReferenceMessenger.Default.Register(this, SubmitAndGetNotesService.MakeId(caseIncident.CaseIncidentNumber, submitNoteEntity.NotePeriod));
+            WeakReferenceMessenger.Default.Register(this, SubmitNoteService.MakeId(caseIncident.CaseIncidentNumber, submitNoteEntity.NotePeriod));
+            WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncident.CaseIncidentNumber));
 
             await PublishDraft(submitNoteEntity, draft);
         }

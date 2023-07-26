@@ -47,7 +47,8 @@
             FontFamily="BCSansRegular"
             FontSize="17"
             Command="{Binding GoToNoteEntryCommand}"
-            CommandParameter="{Binding NoteItem}">
+            CommandParameter="{Binding NoteItem}"
+            IsVisible="{Binding CanAppendNotes}">
 
             <Button.Shadow>
                 <Shadow Brush="Black"

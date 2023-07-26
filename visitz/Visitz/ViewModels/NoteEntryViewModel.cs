@@ -18,8 +18,6 @@ namespace Visitz.ViewModels
         public static readonly string CaseIncidentKey = "caseIncident";
 
         public CaseloadItem caseIncident;
-
-        [ObservableProperty]
         public NoteItem noteItem;
 
         [ObservableProperty]
@@ -40,11 +38,18 @@ namespace Visitz.ViewModels
         public override async void PageCreated()
         {
             caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
-            NoteItem = Parameters[NoteItemKey] as NoteItem;
+            noteItem = Parameters[NoteItemKey] as NoteItem;
 
-            noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber, NoteItem.CreatedDate);
+            noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber, noteItem?.CreatedDate);
 
-            Title = $"{caseIncident.DisplayName} • {NoteItem.PeriodOrPageNumber}";
+            if (noteItem?.PeriodOrPageNumber != null)
+            {
+                Title = $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}";
+            }
+            else
+            {
+                Title = caseIncident.DisplayName;
+            }
 
             var realm = await VisitzRealm.GetNoteDraftAsync();
             NoteDraftQuery = realm.All<NoteDraft>()
@@ -101,7 +106,7 @@ namespace Visitz.ViewModels
 		public async void PublishNotes()
 		{
             if (Draft?.Length > 0) {
-                await NotePublishPage.OpenModal(VisitzPage, caseIncident, NoteItem, Draft);
+                await NotePublishPage.OpenModal(VisitzPage, caseIncident, noteItem, Draft);
             }
         }
 

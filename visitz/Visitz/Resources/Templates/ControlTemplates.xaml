@@ -6,10 +6,10 @@
 
     <ControlTemplate x:Key="VisitzPageWrapper">
         <Grid
-            RowDefinitions="4,*">
+            RowDefinitions="3,*">
             <Line
                 Grid.Row="0"
-                HeightRequest="4"
+                HeightRequest="3"
                 BackgroundColor="{StaticResource BC_Gold}" />
 
             <ContentPresenter

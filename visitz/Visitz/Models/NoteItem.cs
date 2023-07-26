@@ -21,14 +21,16 @@ namespace Visitz.Models
         public string Content { get; set; }
         public int PageNumber { get; set; }
 
-        public static DateTime NotePeriodDateTimeTransform(NoteItem note)
+        public static DateTime NotePeriodDateTimeTransform(NoteItem note, bool ascending)
         {
-            return note.NotePeriod?.Length > 0 ? DateTime.Parse(note.NotePeriod) : DateTime.MinValue;
+            var defaultValue = ascending ? DateTime.MinValue : DateTime.MaxValue;
+            return note.NotePeriod?.Length > 0 ? DateTime.Parse(note.NotePeriod) : defaultValue;
         }
 
-        public static DateTime CreatedDateTimeTransform(NoteItem note)
+        public static DateTime CreatedDateTimeTransform(NoteItem note, bool ascending)
         {
-            return note.CreatedDate?.Length > 0 ? DateTime.Parse(note.CreatedDate) : DateTime.MinValue;
+            var defaultValue = ascending ? DateTime.MinValue : DateTime.MaxValue;
+            return note.CreatedDate?.Length > 0 ? DateTime.Parse(note.CreatedDate) : defaultValue;
         }
 
         public string PeriodOrPageNumber => NotePeriod?.Length > 0 ? NotePeriod : $"Page {PageNumber}";
@@ -49,8 +51,8 @@ namespace Visitz.Models
         public static IEnumerable<NoteItem> FromApiEntities(string icmId, IEnumerable<NoteEntity> noteEntities)
         {
             return noteEntities
-                .OrderBy(NoteEntity.NotePeriodDateTimeTransform)
-                .ThenBy(NoteEntity.CreatedDateTimeTransform)
+                .OrderBy(item => NoteEntity.NotePeriodDateTimeTransform(item, true))
+                .ThenBy(item => NoteEntity.CreatedDateTimeTransform(item, true))
                 .Select((note, index) => FromApiEntity(icmId, note, index + 1));
         }
 

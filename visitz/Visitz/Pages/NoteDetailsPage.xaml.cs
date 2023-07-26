@@ -14,11 +14,12 @@ public partial class NoteDetailsPage : VisitzPage
 		BindingContext = viewModel;
     }
 
-    public static async Task Open(Page fromPage, CaseloadItem caseIncident, NoteItem noteItem)
+    public static async Task Open(Page fromPage, CaseloadItem caseIncident, NoteItem noteItem, bool canAppendNotes)
     {
         await NavigateTo<NoteDetailsPage>(fromPage, new Dictionary<string, object> {
             { NoteDetailsViewModel.NoteItemKey, noteItem },
-            { NoteDetailsViewModel.CaseIncidentKey, caseIncident }
+            { NoteDetailsViewModel.CaseIncidentKey, caseIncident },
+            { NoteDetailsViewModel.CanAppendNotesKey, canAppendNotes }
         });
     }
 

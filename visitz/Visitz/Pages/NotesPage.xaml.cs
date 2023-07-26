@@ -1,4 +1,5 @@
 ﻿using Visitz.ViewModels;
+using Visitz.Models;
 
 namespace Visitz.Pages;
 
@@ -24,6 +25,15 @@ public partial class NotesPage : VisitzPage
         UpdateLayout(width, height);
     }
 
+    public void ShowAddNotesPlaceholder(bool show)
+    {
+        AddNotePlaceholder.IsVisible = show;
+        var actualHeight = (ViewModel as NotesViewModel).CaseIncident.EntityType == IcmEntity.Case
+            ? 100 : 70;
+        AddNoteRow.Height = show ? actualHeight : 0;
+        UpdateLayout(Width, Height);
+    }
+
     private void UpdateLayout(double width, double height)
     {
         var resizableRowHeight = height;
@@ -31,6 +41,7 @@ public partial class NotesPage : VisitzPage
             AbsoluteLayout.Padding.Top
             + AbsoluteLayout.Padding.Bottom
             + FixedRow.Height.Value
+            + AddNoteRow.Height.Value
             + RootGrid.RowSpacing
             + RootGrid.Padding.Top
             + RootGrid.Padding.Bottom

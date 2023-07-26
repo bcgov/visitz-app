@@ -27,6 +27,21 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool isRefreshing;
 
+        [ObservableProperty]
+        public string addNotesPlaceholder_NotePeriod = NoteItem.NotePeriodFrom(DateTime.Now);
+
+        [ObservableProperty]
+        public bool addNotesPlaceholder_ShowNotePeriod;
+
+        [ObservableProperty]
+        public string addNotesPlaceholder_ContentText;
+
+        [ObservableProperty]
+        public bool isAddNotesPlaceholderVisible;
+
+        [ObservableProperty]
+        public NoteItem latestNote;
+
         private Realm Realm { get; set; }
 
         private IQueryable<NoteItem> NotesQuery { get; set; }
@@ -48,6 +63,13 @@ namespace Visitz.ViewModels
             NotesQueryToken = NotesQuery.SubscribeForNotifications(Notes_Changed);
 
             ApplyNotesQuery();
+
+            AddNotesPlaceholder_ShowNotePeriod = CaseIncident.EntityType == IcmEntity.Case;
+            AddNotesPlaceholder_ContentText = CaseIncident.EntityType == IcmEntity.Case
+                ? "There are no notes for this period"
+                : $"There are no notes for this {CaseIncident.EntityType.ToLower()}";
+
+            UpdateAddNotesPlaceholderVisibility();
         }
 
         public override void PageDestroyed()
@@ -85,7 +107,16 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void GoToNoteDetails(NoteItem noteItem)
         {
-            await NoteDetailsPage.Open(VisitzPage, CaseIncident, noteItem);
+            var canAppendNotes = !IsAddNotesPlaceholderVisible
+                && Notes.First()?.NotePeriod == noteItem.NotePeriod
+                && Notes.First()?.CreatedDate == noteItem.CreatedDate;
+            await NoteDetailsPage.Open(VisitzPage, CaseIncident, noteItem, canAppendNotes);
+        }
+
+        [RelayCommand]
+        public async void GoToNoteEntry()
+        {
+            await NoteEntryPage.Open(VisitzPage, CaseIncident, null);
         }
 
         public void Receive(ServiceStateMessage message)
@@ -98,14 +129,26 @@ namespace Visitz.ViewModels
             var notes = NotesQuery.AsEnumerable();
 
             ApplySorting(ref notes);
-
+            LatestNote = notes.First();
             Notes = notes;
         }
 
         private void ApplySorting(ref IEnumerable<NoteItem> notes)
         {
-            notes = notes.OrderByDescending(NoteItem.NotePeriodDateTimeTransform)
-                .ThenByDescending(NoteItem.CreatedDateTimeTransform);
+            notes = notes.OrderByDescending(item => NoteItem.NotePeriodDateTimeTransform(item, false))
+                .ThenByDescending(item => NoteItem.CreatedDateTimeTransform(item, false));
+        }
+
+        private void UpdateAddNotesPlaceholderVisibility()
+        {
+            bool shouldVisible = Notes.Count() == 0;
+            if (CaseIncident.EntityType == IcmEntity.Case)
+            {
+                shouldVisible = NoteItem.NotePeriodFrom(DateTime.Now).ToLower()
+                    != Notes.First()?.NotePeriod?.ToLower();
+            }
+            (VisitzPage as NotesPage).ShowAddNotesPlaceholder(shouldVisible);
+            IsAddNotesPlaceholderVisible = shouldVisible;
         }
 
         private void Notes_Changed(IRealmCollection<NoteItem> sender, ChangeSet changes)
@@ -114,6 +157,7 @@ namespace Visitz.ViewModels
                 return;
 
             ApplyNotesQuery();
+            UpdateAddNotesPlaceholderVisibility();
         }
     }
 }

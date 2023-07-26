@@ -1,23 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:Visitz.Models"
+             x:Class="Visitz.Views.AddNotePlaceholderView"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
-             x:Class="Visitz.Views.NoteItemView"
-             x:DataType="models:NoteItem"
              x:Name="this">
-    
-    <VerticalStackLayout Margin="0,10,0,0">
+    <VerticalStackLayout>
         <Border  
             Stroke="#DFDFE1"
             StrokeThickness="2"
             Padding="20,20"
-            HorizontalOptions="Fill">
+            HorizontalOptions="Fill"
+            BindingContext="{x:Reference this}">
 
             <Border.GestureRecognizers>
                 <TapGestureRecognizer 
-                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotesViewModel}}, Path=GoToNoteDetailsCommand}"
-                    CommandParameter="{Binding .}"/>
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotesViewModel}}, Path=GoToNoteEntryCommand}" />
             </Border.GestureRecognizers>
 
             <Border.StrokeShape>
@@ -33,42 +30,46 @@
                     <HorizontalStackLayout
                         Spacing="10">
                         <Image
-                            IsVisible="{Binding ShowTitleIcon}"
                             Source="calendar.png"
                             HeightRequest="20"
-                            WidthRequest="20" />
+                            WidthRequest="20"
+                            IsVisible="{Binding ShowNotePeriod}"/>
 
                         <Label 
-                            Text="{Binding PeriodOrPageNumber}"
+                            Text="{Binding NotePeriod}"
                             FontSize="17"
-                            FontFamily="BCSansBold" />
+                            FontFamily="BCSansBold"
+                            IsVisible="{Binding ShowNotePeriod}" />
+                    </HorizontalStackLayout>
 
-                        <Label
-                            x:Name="AddNotesLabel"
-                            IsVisible="False"
-                            Text="Add notes"
+                    <HorizontalStackLayout
+                        Spacing="10"
+                        HorizontalOptions="Center">
+
+                        <Label 
+                            Text="{Binding ContentText}"
+                            MaxLines="3"
+                            FontSize="17"
+                            FontFamily="BCSansRegular"
+                            Padding="0,10,0,0"
+                            LineBreakMode="WordWrap" />
+
+                        <Label 
+                            Text="Add note"
                             TextColor="{StaticResource SkyBlueText}"
                             MaxLines="3"
                             FontSize="17"
                             FontFamily="BCSansRegular"
+                            Padding="0,10,0,0"
                             LineBreakMode="WordWrap" />
 
                         <Image
-                            IsVisible="False"
-                            x:Name="AddNotesImage"
                             Source="add_note.png"
                             WidthRequest="16"
-                            HeightRequest="16" />
+                            HeightRequest="16"
+                            Margin="0,10,0,0" />
 
                     </HorizontalStackLayout>
-
-                    <Label 
-                        Text="{Binding Content}"
-                        MaxLines="3"
-                        FontSize="17"
-                        FontFamily="BCSansRegular"
-                        Padding="0,10,0,0"
-                        LineBreakMode="WordWrap" />
 
                 </VerticalStackLayout>
 
@@ -77,5 +78,7 @@
                 </VerticalStackLayout>
             </Grid>
         </Border>
+
     </VerticalStackLayout>
 </ContentView>
+

@@ -40,6 +40,7 @@
     <Color x:Key="DarkSkyBlueBackground">#0073E6</Color>
     <Color x:Key="BlackishText">#131315</Color>
     <Color x:Key="LightGrayBackground">#F9F9F9</Color>
+    <Color x:Key="SkyBlueText">#005CB8</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>

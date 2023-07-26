@@ -8,7 +8,8 @@
     x:Class="Visitz.Pages.NotesPage"
     x:DataType="viewModels:NotesViewModel"
     Title="Notes"
-    ControlTemplate="{StaticResource VisitzPageWrapper}">
+    ControlTemplate="{StaticResource VisitzPageWrapper}"
+    x:Name="this">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
@@ -28,6 +29,11 @@
                 <RowDefinition
                     x:Name="FixedRow"
                     Height="66" />
+
+                <RowDefinition
+                    x:Name="AddNoteRow"
+                    Height="0" />
+
                 <RowDefinition
                     x:Name="ResizableRow"
                     Height="*" />
@@ -68,8 +74,16 @@
 
             </VerticalStackLayout>
 
-            <RefreshView
+            <views:AddNotePlaceholderView
+                x:Name="AddNotePlaceholder"
+                IsVisible="False"
                 Grid.Row="1"
+                ShowNotePeriod="{Binding AddNotesPlaceholder_ShowNotePeriod}"
+                NotePeriod="{Binding AddNotesPlaceholder_NotePeriod}"
+                ContentText="{Binding AddNotesPlaceholder_ContentText}" />
+
+            <RefreshView
+                Grid.Row="2"
                 Command="{Binding RefreshNotesCommand}"
                 IsRefreshing="{Binding IsRefreshing}">
 
@@ -96,7 +110,10 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:NoteItem">
-                                <views:NoteItemView />
+                                <views:NoteItemView
+                                    LatestNote="{Binding Source={x:Reference this}, Path=BindingContext.LatestNote}"
+                                    IsAddNotesPlaceholderVisible="{Binding Source={x:Reference this}, Path=BindingContext.IsAddNotesPlaceholderVisible}"
+                                    />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
