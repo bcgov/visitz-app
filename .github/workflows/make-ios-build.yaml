@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 200
     env:
       # TODO: read "MCFD Mobility" app name from MSBuild instead
-      OUTPUT_NAME: "MCFD Mobility-iOS-${{ inputs.environment }}-build_${{ github.run_number }}"
+      OUTPUT_NAME: "MCFD Mobility-iOS-${{ vars.ENV_NAME }}-build_${{ github.run_number }}"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
