@@ -64,6 +64,7 @@
 
                     <Label 
                         x:Name="ContentLabel"
+                        Text="{Binding Content}"
                         MaxLines="3"
                         FontSize="17"
                         FontFamily="BCSansRegular"

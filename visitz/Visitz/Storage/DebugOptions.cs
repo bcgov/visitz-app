@@ -3,6 +3,7 @@
     public class DebugOptions
     {
         private static readonly string IdirOverrideKey = "IdirOverride";
+        private static readonly string ShowNoteItemViewDebugInfoKey = "ShowNoteItemViewDebugInfo";
 
         public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -25,6 +26,12 @@
         {
             get => Get(IdirOverrideKey, "");
             set => Set(IdirOverrideKey, value.Trim());
+        }
+
+        public static bool ShowNoteItemViewDebugInfo
+        {
+            get => Get(ShowNoteItemViewDebugInfoKey, false);
+            set => Set(ShowNoteItemViewDebugInfoKey, value);
         }
 
         public static async Task ClearRealmData()

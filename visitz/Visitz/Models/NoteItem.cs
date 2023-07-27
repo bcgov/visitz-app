@@ -75,6 +75,14 @@ namespace Visitz.Models
             var timestamp = dateTime.ToString(NoteWrapperTimestampFormat, CultureInfo.InvariantCulture);
             return $"{Separator} {idir} {timestamp} {Separator}\n{content}";
         }
+
+        public static string ToStringLite(NoteItem note)
+        {
+            return $"null: {note == null}, " +
+                $"NotePeriod: {note?.NotePeriod}, " +
+                $"CreatedDate: {note?.CreatedDate}, " +
+                $"IsValid: {note?.IsValid}";
+        }
     }
 }
 

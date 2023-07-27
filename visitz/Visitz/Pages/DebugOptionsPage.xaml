@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -83,6 +84,18 @@
             Command="{Binding DeleteEncryptionKeyCommand}"
             HorizontalOptions="Start"
             Text="Delete encryption key" />
+
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="Show NoteItemView debug info"/>
+
+        <Switch
+            Grid.Row="5"
+            Grid.Column="1"
+            VerticalOptions="Center"
+            IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
 
     </Grid>
 
