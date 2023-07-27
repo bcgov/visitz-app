@@ -45,6 +45,11 @@ public partial class NoteItemView : ContentView
     private void UpdateUI()
     {
         var note = BindingContext as NoteItem;
+
+        ContentLabel.Text = $"note is null: {note is null}, note?.IsValid: {note?.IsValid}, LatestNote is null: {LatestNote is null}, LatestNote?.IsValid: {LatestNote?.IsValid}\n" +
+            $"note?.CreatedDate: {note?.CreatedDate}, LatestNote?.CreatedDate: {LatestNote?.CreatedDate}, " +
+            $"note?.NotePeriod: {note?.NotePeriod}, LatestNote?.NotePeriod: {LatestNote?.NotePeriod}, IsAddNotesPlaceholderVisible: {IsAddNotesPlaceholderVisible}";
+
         if (note is null || note?.IsValid == false || LatestNote?.IsValid == false)
             return;
         

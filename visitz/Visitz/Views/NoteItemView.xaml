@@ -63,7 +63,7 @@
                     </HorizontalStackLayout>
 
                     <Label 
-                        Text="{Binding Content}"
+                        x:Name="ContentLabel"
                         MaxLines="3"
                         FontSize="17"
                         FontFamily="BCSansRegular"
