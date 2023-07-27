@@ -1,9 +1,8 @@
-﻿using System;
-using Realms;
+﻿using Realms;
 
 namespace Visitz.Models
 {
-	public partial class NoteDraft : IRealmObject
+    public partial class NoteDraft : IRealmObject
     {
         [PrimaryKey]
         public string CaseIncidentAndCreatedDateID { get; set; }

@@ -1,6 +1,5 @@
-﻿using Visitz.Extensions;
+﻿using Visitz.Models;
 using Visitz.ViewModels;
-using Visitz.Models;
 
 namespace Visitz.Pages;
 /// <summary>

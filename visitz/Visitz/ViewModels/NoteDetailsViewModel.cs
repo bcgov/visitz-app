@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Models;
@@ -9,7 +7,7 @@ using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
-	public partial class NoteDetailsViewModel : VisitzViewModel
+    public partial class NoteDetailsViewModel : VisitzViewModel
     {
         public static readonly string NoteItemKey = "noteItem";
         public static readonly string CaseIncidentKey = "caseIncident";

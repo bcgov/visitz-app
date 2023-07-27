@@ -1,5 +1,5 @@
-﻿using Visitz.VisitzConfig;
-using CommunityToolkit.Maui;
+﻿using CommunityToolkit.Maui;
+using Visitz.VisitzConfig;
 
 namespace Visitz;
 

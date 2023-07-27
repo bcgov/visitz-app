@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.Maui.Platform;
-using System.Runtime.InteropServices;
-
-#if IOS
+﻿#if IOS
 using Foundation;
 using UIKit;
 using CoreGraphics;
@@ -10,7 +6,7 @@ using CoreGraphics;
 
 namespace Visitz.Subclasses
 {
-	public class VisitzGrid : Grid
+    public class VisitzGrid : Grid
 	{
 		public VisitzGrid()
 		{

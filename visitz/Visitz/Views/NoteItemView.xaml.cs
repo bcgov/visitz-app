@@ -1,5 +1,4 @@
-﻿using Microsoft.Maui.Graphics.Text;
-using Visitz.Models;
+﻿using Visitz.Models;
 
 namespace Visitz.Views;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
@@ -10,7 +9,7 @@ using VisitzApi.Models;
 
 namespace Visitz.ViewModels
 {
-	public partial class NotePublishViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
+    public partial class NotePublishViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
         public static readonly string DraftItemKey = "draft";
         public static readonly string NoteItemKey = "noteItem";

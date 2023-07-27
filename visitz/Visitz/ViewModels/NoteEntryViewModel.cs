@@ -1,18 +1,13 @@
-﻿using System;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using Visitz.Authentication.Keycloak;
 using Visitz.Models;
 using Visitz.Pages;
-using Visitz.Services;
 using Visitz.Storage;
-using VisitzApi.Models;
 
 namespace Visitz.ViewModels
 {
-	public partial class NoteEntryViewModel : VisitzViewModel
+    public partial class NoteEntryViewModel : VisitzViewModel
     {
         public static readonly string NoteItemKey = "noteItem";
         public static readonly string CaseIncidentKey = "caseIncident";

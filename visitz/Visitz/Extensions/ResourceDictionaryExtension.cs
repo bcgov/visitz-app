@@ -1,7 +1,6 @@
-﻿using System;
-namespace Visitz.Extensions
+﻿namespace Visitz.Extensions
 {
-	public static class ResourceDictionaryExtension
+    public static class ResourceDictionaryExtension
     {
         /// <summary>
         /// Access the custom colors defined in the ResourceDictionary.

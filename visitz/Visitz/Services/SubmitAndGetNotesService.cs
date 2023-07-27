@@ -1,8 +1,5 @@
-﻿using System;
-using Visitz.Authentication.Keycloak;
-using Visitz.Models;
+﻿using Visitz.Authentication.Keycloak;
 using Visitz.Services.Messages;
-using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models;
 
