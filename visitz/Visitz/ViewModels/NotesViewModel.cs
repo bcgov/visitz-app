@@ -2,8 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Pages;
+using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 
@@ -65,9 +67,10 @@ namespace Visitz.ViewModels
             ApplyNotesQuery();
 
             AddNotesPlaceholder_ShowNotePeriod = CaseIncident.EntityType == IcmEntity.Case;
+
             AddNotesPlaceholder_ContentText = CaseIncident.EntityType == IcmEntity.Case
-                ? "There are no notes for this period"
-                : $"There are no notes for this {CaseIncident.EntityType.ToLower()}";
+                ? LocalizedStrings.NoNotesForPeriod.Format(NoteItem.NotePeriodFrom(DateTime.Now))
+                : LocalizedStrings.NoNotesForEntity.Format(CaseIncident.EntityType.ToLower());
 
             UpdateAddNotesPlaceholderVisibility();
         }
