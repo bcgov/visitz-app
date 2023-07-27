@@ -18,7 +18,7 @@ public partial class ContactItemView : ContentView
 
     private void UpdateUI()
     {
-        var familyMember = (BindingContext as FamilyMember);
+        var familyMember = BindingContext as FamilyMember;
 
         CellPhoneTagView.IsVisible = familyMember.CellPhone?.Length > 0;
         HomePhoneTagView.IsVisible = familyMember.HomePhone?.Length > 0;

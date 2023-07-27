@@ -53,17 +53,13 @@ namespace Visitz.Models
             {
                 var address = UnitNo + AddressLine1 + AddressLine2
                 + City + PostalCode + ProvinceState + Country;
-                if (address.Length == 0)
-                {
-                    return "NA";
-                }
-                else
-                {
-                    return (UnitNo.Length > 0 ? UnitNo : "N/A") + ", " + (AddressLine1.Length > 0 ? AddressLine1 : "N/A") +
+
+                return address.Length == 0
+                    ? "NA"
+                    : (UnitNo.Length > 0 ? UnitNo : "N/A") + ", " + (AddressLine1.Length > 0 ? AddressLine1 : "N/A") +
                         ", " + (AddressLine2.Length > 0 ? AddressLine2 : "N/A") + ", " + (City.Length > 0 ? City : "N/A") +
                         ", " + (PostalCode.Length > 0 ? PostalCode : "N/A") + ", " + (ProvinceState.Length > 0 ? ProvinceState : "N/A") +
                         ", " + (Country.Length > 0 ? Country : "N/A");
-                }
             }
         }
 

@@ -54,18 +54,11 @@ namespace Visitz.ViewModels
             draft = Parameters[DraftItemKey] as string;
 
             createdDate = noteItem?.CreatedDate;
-            if (noteItem?.PeriodOrPageNumber != null)
-            {
-                Title = $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}";
-            }
-            else
-            {
-                Title = caseIncident.DisplayName;
-            }
+            Title = noteItem?.PeriodOrPageNumber != null
+                ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
+                : caseIncident.DisplayName;
 
-            var notePeriod = noteItem?.NotePeriod != null
-                ? noteItem?.NotePeriod
-                : NoteItem.NotePeriodFrom(DateTime.Now);
+            var notePeriod = (noteItem?.NotePeriod) ?? NoteItem.NotePeriodFrom(DateTime.Now);
             submitNoteEntity = new SubmitNoteEntity
             {
                 EntityNumber = caseIncident.CaseIncidentNumber,

@@ -37,15 +37,15 @@ public partial class NotesPage : VisitzPage
     private void UpdateLayout(double width, double height)
     {
         var resizableRowHeight = height;
-        resizableRowHeight -= (
+        resizableRowHeight -= 
             AbsoluteLayout.Padding.Top
             + AbsoluteLayout.Padding.Bottom
             + FixedRow.Height.Value
             + AddNoteRow.Height.Value
             + RootGrid.RowSpacing
             + RootGrid.Padding.Top
-            + RootGrid.Padding.Bottom
-        );
+            + RootGrid.Padding.Bottom;
+
         if (resizableRowHeight > 0)
         {
             // This was done because of a Grid layout issue. (18 June 2023)

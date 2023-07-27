@@ -37,14 +37,9 @@ namespace Visitz.ViewModels
 
             noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber, noteItem?.CreatedDate);
 
-            if (noteItem?.PeriodOrPageNumber != null)
-            {
-                Title = $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}";
-            }
-            else
-            {
-                Title = caseIncident.DisplayName;
-            }
+            Title = noteItem?.PeriodOrPageNumber != null
+                ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
+                : caseIncident.DisplayName;
 
             var realm = await VisitzRealm.GetNoteDraftAsync();
             NoteDraftQuery = realm.All<NoteDraft>()

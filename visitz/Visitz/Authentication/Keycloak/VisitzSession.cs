@@ -4,10 +4,10 @@ namespace Visitz.Authentication.Keycloak
 {
     public class VisitzSession
     {
-        private static AuthenticationClient AuthClient => 
+        private static AuthenticationClient AuthClient =>
             ServiceProvider.Current.GetRequiredService<AuthenticationClient>();
 
-        private static bool InternetAvailable => 
+        private static bool InternetAvailable =>
             Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
 
         public static async Task<bool> GetValidSessionAsync()
