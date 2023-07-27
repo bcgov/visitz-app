@@ -129,7 +129,10 @@ namespace Visitz.ViewModels
             var notes = NotesQuery.AsEnumerable();
 
             ApplySorting(ref notes);
-            LatestNote = notes.First();
+
+            if (notes.Any())
+                LatestNote = notes.First();
+            
             Notes = notes;
         }
 
@@ -141,14 +144,20 @@ namespace Visitz.ViewModels
 
         private void UpdateAddNotesPlaceholderVisibility()
         {
-            bool shouldVisible = Notes.Count() == 0;
-            if (CaseIncident.EntityType == IcmEntity.Case)
-            {
-                shouldVisible = NoteItem.NotePeriodFrom(DateTime.Now).ToLower()
-                    != Notes.First()?.NotePeriod?.ToLower();
-            }
-            (VisitzPage as NotesPage).ShowAddNotesPlaceholder(shouldVisible);
-            IsAddNotesPlaceholderVisible = shouldVisible;
+            bool showPlaceholder = ShouldShowAddNotesPlaceholder();
+
+            (VisitzPage as NotesPage).ShowAddNotesPlaceholder(showPlaceholder);
+            IsAddNotesPlaceholderVisible = showPlaceholder;
+        }
+
+        private bool ShouldShowAddNotesPlaceholder()
+        {
+            if (!Notes.Any())
+                return true;
+            else if (CaseIncident.EntityType == IcmEntity.Case)
+                return !NoteItem.IsCurrentNotePeriod(Notes.First());
+            else
+                return false;
         }
 
         private void Notes_Changed(IRealmCollection<NoteItem> sender, ChangeSet changes)
