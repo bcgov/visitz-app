@@ -61,9 +61,14 @@ namespace VisitzApi.Requests
                 .GetProperty(NotesKey);
 
             var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-            var notesContent = notesJson.Deserialize(typeof(List<NoteEntity>), options);
+            var notesContent = (List<NoteEntity>)notesJson.Deserialize(typeof(List<NoteEntity>), options);
 
-            return (List<NoteEntity>)notesContent;
+            return notesContent.SkipWhile(IsInvalidNote);
+        }
+
+        private bool IsInvalidNote(NoteEntity entity)
+        {
+            return entity.CreatedDate?.Trim().Length <= 0;
         }
     }
 }
