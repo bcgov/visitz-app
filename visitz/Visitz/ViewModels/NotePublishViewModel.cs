@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
 using Visitz.Models;
+using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using VisitzApi.Models;
@@ -25,10 +26,10 @@ namespace Visitz.ViewModels
         public bool showRefreshIndicator = false;
 
         [ObservableProperty]
-        public string publishingStatus = "Publishing changes to ICM...";
+        public string publishingStatus = LocalizedStrings.PublishingNotesToIcm;
 
         [ObservableProperty]
-        public string refreshingStatus = "Refreshing notes...";
+        public string refreshingStatus = LocalizedStrings.RefreshingNotes;
 
         [ObservableProperty]
         public bool showRefreshStatusSection = false;
@@ -87,7 +88,7 @@ namespace Visitz.ViewModels
 
             ShowPublishingIndicator = true;
             ShowRefreshIndicator = false;
-            PublishingStatus = "Publishing changes to ICM...";
+            PublishingStatus = LocalizedStrings.PublishingNotesToIcm;
             ShowRefreshSection = false;
             ShowRetrySection = false;
         }
@@ -107,8 +108,8 @@ namespace Visitz.ViewModels
                 ShowPublishingIndicator = false;
                 if (wasDraftSubmitted)
                 {
-                    PublishingStatus = "✅ Published your changes to ICM successfully";
-                    RefreshingStatus = "Refreshing notes...";
+                    PublishingStatus = LocalizedStrings.NotesPublishedToIcm;
+                    RefreshingStatus = LocalizedStrings.RefreshingNotes;
                     ShowRefreshIndicator = true;
                     ShowRefreshStatusSection = true;
 
@@ -126,7 +127,7 @@ namespace Visitz.ViewModels
                 }
                 else
                 {
-                    PublishingStatus = "Failed to publish your changes to ICM!!!";
+                    PublishingStatus = LocalizedStrings.FailedToPublishToIcm;
                 }
             }
             else if (message.ServiceId ==
@@ -136,8 +137,8 @@ namespace Visitz.ViewModels
                 ShowRefreshIndicator = false;
 
                 RefreshingStatus = wasNotesFetched
-                    ? "✅ Refreshed the notes successfully"
-                    : "Failed to refresh notes!!!";
+                    ? LocalizedStrings.RefreshedNotesOnDevice
+                    : LocalizedStrings.FailedToRefreshNotes;
 
                 if (isFetchOnly)
                 {
@@ -165,7 +166,7 @@ namespace Visitz.ViewModels
                 ShowRetrySection = true;
                 if (!wasDraftSubmitted)
                 {
-                    PublishingStatus = "Failed to publish your changes to ICM!!!";
+                    PublishingStatus = LocalizedStrings.FailedToPublishToIcm;
                     ShowPublishingIndicator = false;
                 }
             }
@@ -187,7 +188,7 @@ namespace Visitz.ViewModels
             }
             else
             {
-                RefreshingStatus = "Refreshing notes...";
+                RefreshingStatus = LocalizedStrings.RefreshingNotes;
                 ShowRefreshIndicator = true;
                 ShowRefreshStatusSection = true;
                 isFetchOnly = true;

@@ -115,6 +115,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ❌ Publishing to ICM failed.
+        /// </summary>
+        internal static string FailedToPublishToIcm {
+            get {
+                return ResourceManager.GetString("FailedToPublishToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ❌ Refreshing notes on device failed.
+        /// </summary>
+        internal static string FailedToRefreshNotes {
+            get {
+                return ResourceManager.GetString("FailedToRefreshNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no notes for this {0}.
         /// </summary>
         internal static string NoNotesForEntity {
@@ -133,11 +151,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ✅ Notes published to ICM.
+        /// </summary>
+        internal static string NotesPublishedToIcm {
+            get {
+                return ResourceManager.GetString("NotesPublishedToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publishing notes to ICM.
+        /// </summary>
+        internal static string PublishingNotesToIcm {
+            get {
+                return ResourceManager.GetString("PublishingNotesToIcm", resourceCulture);
             }
         }
         
@@ -160,6 +196,24 @@ namespace Visitz.Resources.Localization {
         internal static string RealmDatabaseErrorTitle {
             get {
                 return ResourceManager.GetString("RealmDatabaseErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ✅ Refreshed notes on device.
+        /// </summary>
+        internal static string RefreshedNotesOnDevice {
+            get {
+                return ResourceManager.GetString("RefreshedNotesOnDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing notes.
+        /// </summary>
+        internal static string RefreshingNotes {
+            get {
+                return ResourceManager.GetString("RefreshingNotes", resourceCulture);
             }
         }
         
