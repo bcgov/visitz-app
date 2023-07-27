@@ -133,9 +133,7 @@ namespace Visitz.ViewModels
 
             ApplySorting(ref notes);
 
-            if (notes.Any())
-                LatestNote = notes.First();
-            
+            LatestNote = notes.FirstOrDefault();
             Notes = notes;
         }
 
