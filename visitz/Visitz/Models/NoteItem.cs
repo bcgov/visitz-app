@@ -9,6 +9,7 @@ namespace Visitz.Models
     /// </summary>
     public partial class NoteItem : IRealmObject
     {
+        private static readonly string IcmNotePeriodDateFormat = "MMM yyyy";
         /// <summary>
         /// Used app-only to associate Notes with CaseloadItems. As of 2023-06-05 the ICM API does
         /// not return PK/FK information about notes.
@@ -58,7 +59,7 @@ namespace Visitz.Models
 
         public static string NotePeriodFrom(DateTime dateTime)
         {
-            return dateTime.ToString("MMM yyyy", CultureInfo.InvariantCulture);
+            return dateTime.ToString(IcmNotePeriodDateFormat, CultureInfo.InvariantCulture);
         }
 
         public static bool IsCurrentNotePeriod(NoteItem note)
