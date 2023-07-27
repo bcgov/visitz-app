@@ -25,6 +25,13 @@ namespace Visitz.Models
         public string Content { get; set; }
         public int PageNumber { get; set; }
 
+        public static bool EqualByDates(NoteItem lhs, NoteItem rhs)
+        {
+            return lhs != null && rhs != null
+                && lhs.NotePeriod?.Trim().ToLower() == rhs.NotePeriod?.Trim().ToLower()
+                && lhs.CreatedDate?.Trim().ToLower() == rhs.CreatedDate?.Trim().ToLower();
+        }
+
         public static DateTime NotePeriodDateTimeTransform(NoteItem note, bool ascending)
         {
             var defaultValue = ascending ? DateTime.MinValue : DateTime.MaxValue;

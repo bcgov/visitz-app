@@ -110,9 +110,9 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void GoToNoteDetails(NoteItem noteItem)
         {
-            var canAppendNotes = !IsAddNotesPlaceholderVisible
-                && Notes.First()?.NotePeriod == noteItem.NotePeriod
-                && Notes.First()?.CreatedDate == noteItem.CreatedDate;
+            var canAppendNotes = !IsAddNotesPlaceholderVisible 
+                && NoteItem.EqualByDates(Notes.First(), noteItem);
+
             await NoteDetailsPage.Open(VisitzPage, CaseIncident, noteItem, canAppendNotes);
         }
 

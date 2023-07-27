@@ -54,12 +54,13 @@ public partial class NoteItemView : ContentView
                 + $"IsAddNotesPlaceholderVisible: {IsAddNotesPlaceholderVisible}";
         }
 
-        if (note is null || note?.IsValid == false || LatestNote?.IsValid == false)
+        if (note is null 
+            || LatestNote is null
+            || !note.IsValid
+            || !LatestNote.IsValid)
             return;
-        
-        var isVisible = note.CreatedDate == LatestNote?.CreatedDate
-            && note.NotePeriod == LatestNote?.NotePeriod
-            && !IsAddNotesPlaceholderVisible;
+
+        var isVisible = !IsAddNotesPlaceholderVisible && NoteItem.EqualByDates(note, LatestNote);
 
         AddNotesLabel.IsVisible = isVisible;
         AddNotesImage.IsVisible = isVisible;
