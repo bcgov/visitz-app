@@ -60,11 +60,10 @@
                 <Button
                     Text="Dismiss"
                     Style="{StaticResource transparentInSolidBG}"
-                    BorderColor="Red"
-                    TextColor="Red"
                     Command="{Binding DismissCommand}" />
                 <Button Text="Retry"
-                    Style="{StaticResource transparentInSolidBG}"
+                    TextColor="{StaticResource Primary}"
+                    BackgroundColor="{StaticResource White}"
                     FontFamily="BCSansBold"
                     Command="{Binding RetryCommand}" />
             </HorizontalStackLayout>
