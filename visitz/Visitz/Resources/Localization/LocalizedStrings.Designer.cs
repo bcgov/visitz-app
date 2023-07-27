@@ -115,6 +115,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no notes for this {0}.
+        /// </summary>
+        internal static string NoNotesForEntity {
+            get {
+                return ResourceManager.GetString("NoNotesForEntity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no notes for {0}.
+        /// </summary>
+        internal static string NoNotesForPeriod {
+            get {
+                return ResourceManager.GetString("NoNotesForPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {
