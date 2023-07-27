@@ -105,9 +105,10 @@ namespace Visitz.ViewModels
         [RelayCommand]
 		public async void PublishNotes()
 		{
-            if (Draft?.Length > 0) {
-                await NotePublishPage.OpenModal(VisitzPage, caseIncident, noteItem, Draft);
-            }
+            var trimmedDraft = Draft?.Trim();
+
+            if (trimmedDraft?.Length > 0)
+                await NotePublishPage.OpenModal(VisitzPage, caseIncident, noteItem, trimmedDraft);
         }
 
         public void EditorTextChanged()
