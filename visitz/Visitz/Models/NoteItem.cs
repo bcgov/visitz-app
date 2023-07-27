@@ -10,6 +10,9 @@ namespace Visitz.Models
     public partial class NoteItem : IRealmObject
     {
         private static readonly string IcmNotePeriodDateFormat = "MMM yyyy";
+        private static readonly string NoteWrapperTimestampFormat = "yyyy-MMM-dd hh:mm:ss tt";
+        private static readonly string Separator = "────";
+
         /// <summary>
         /// Used app-only to associate Notes with CaseloadItems. As of 2023-06-05 the ICM API does
         /// not return PK/FK information about notes.
@@ -69,7 +72,8 @@ namespace Visitz.Models
 
         public static string WrapContent(string idir, DateTime dateTime, string content)
         {
-            return $"──── {idir} {dateTime} ────\n{content}";
+            var timestamp = dateTime.ToString(NoteWrapperTimestampFormat, CultureInfo.InvariantCulture);
+            return $"{Separator} {idir} {timestamp} {Separator}\n{content}";
         }
     }
 }
