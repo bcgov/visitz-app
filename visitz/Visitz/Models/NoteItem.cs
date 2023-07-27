@@ -61,6 +61,11 @@ namespace Visitz.Models
             return dateTime.ToString("MMM yyyy", CultureInfo.InvariantCulture);
         }
 
+        public static bool IsCurrentNotePeriod(NoteItem note)
+        {
+            return NotePeriodFrom(DateTime.Now).ToLower() == note?.NotePeriod?.ToLower();
+        }
+
         public static string WrapContent(string idir, DateTime dateTime, string content)
         {
             return $"──── {idir} {dateTime} ────\n{content}";
