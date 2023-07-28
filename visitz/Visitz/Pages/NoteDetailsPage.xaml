@@ -19,6 +19,7 @@
         </Grid.RowDefinitions>
 
         <ScrollView
+            x:Name="ContentScroll"
             Grid.Row="0">
             <Border
                 BackgroundColor="{StaticResource LightGrayBackground}">
@@ -27,6 +28,7 @@
                     Padding="25,20">
 
                     <Label
+                        x:Name="ContentLabel"
                         Text="{Binding NoteItem.Content}"
                         TextColor="{StaticResource BlackishText}"
                         FontFamily="BCSansRegular"

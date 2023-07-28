@@ -22,6 +22,13 @@ public partial class NoteDetailsPage : VisitzPage
         });
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await Task.Delay(500);
+        await ContentScroll.ScrollToAsync(ContentLabel, ScrollToPosition.End, true);
+    }
+
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
