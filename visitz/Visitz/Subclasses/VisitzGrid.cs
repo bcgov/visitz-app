@@ -2,37 +2,41 @@
 using Foundation;
 using UIKit;
 using CoreGraphics;
+using System.Runtime.InteropServices;
 #endif
 
 namespace Visitz.Subclasses
 {
     public class VisitzGrid : Grid
 	{
+        public event EventHandler KeyboardAppearanceEvent;
+        public NFloat KeyboardHeight = 0;
+
 		public VisitzGrid()
 		{
             #if IOS
-
             UIKeyboard.Notifications.ObserveWillShow(OnKeyboardShowing);
             UIKeyboard.Notifications.ObserveWillHide(OnKeyboardHiding);
-
             #endif
         }
 
         #if IOS
-
         private void OnKeyboardShowing(object sender, UIKeyboardEventArgs args)
         {
             CGRect kbFrame = UIKeyboard.FrameEndFromNotification(args.Notification);
+            KeyboardHeight = kbFrame.Height;
             var rowDef = new RowDefinition();
-            rowDef.Height = new GridLength(kbFrame.Height);
+            rowDef.Height = new GridLength(KeyboardHeight);
             this.AddRowDefinition(rowDef);
+            KeyboardAppearanceEvent?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnKeyboardHiding(object sender, UIKeyboardEventArgs args)
         {
+            KeyboardHeight = 0;
             this.RowDefinitions.RemoveAt(this.RowDefinitions.Count - 1);
+            KeyboardAppearanceEvent?.Invoke(this, EventArgs.Empty);
         }
-
         #endif
     }
 }
