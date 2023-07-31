@@ -96,5 +96,28 @@
                 </Editor.Behaviors>
             </Editor>
         </ScrollView>
+
+        <ImageButton
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Source="chevron_down.png"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            WidthRequest="40"
+            HeightRequest="40"
+            CornerRadius="20"
+            Padding="15"
+            BackgroundColor="{StaticResource DarkSkyBlueBackground}"
+            Clicked="Scroll_To_Bottom_Clicked">
+
+            <ImageButton.Shadow>
+                <Shadow Brush="Black"
+                Offset="10,10"
+                Radius="20"
+                Opacity="0.5" />
+            </ImageButton.Shadow>
+
+        </ImageButton>
     </subclasses:VisitzGrid>
 </pages:VisitzPage>

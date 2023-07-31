@@ -32,7 +32,8 @@
                         Text="{Binding NoteItem.Content}"
                         TextColor="{StaticResource BlackishText}"
                         FontFamily="BCSansRegular"
-                        FontSize="17" />
+                        FontSize="17"
+                        SizeChanged="ContentLabel_SizeChanged" />
                 </VerticalStackLayout>
             </Border>
         </ScrollView>

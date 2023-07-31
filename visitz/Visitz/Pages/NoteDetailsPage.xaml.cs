@@ -22,10 +22,8 @@ public partial class NoteDetailsPage : VisitzPage
         });
     }
 
-    protected override async void OnAppearing()
+    public async void ScrollToBottom()
     {
-        base.OnAppearing();
-        await Task.Delay(500);
         await ContentScroll.ScrollToAsync(ContentLabel, ScrollToPosition.End, true);
     }
 
@@ -47,6 +45,11 @@ public partial class NoteDetailsPage : VisitzPage
             // Fix: Setting the row height manually seems to prevent the scroll from going beyond the limits.
             ResizableRow.Height = resizableRowHeight;
         }
+    }
+
+    void ContentLabel_SizeChanged(System.Object sender, System.EventArgs e)
+    {
+        ScrollToBottom();
     }
 }
 

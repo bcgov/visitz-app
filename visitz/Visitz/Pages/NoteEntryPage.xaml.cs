@@ -26,13 +26,6 @@ public partial class NoteEntryPage : VisitzPage
         });
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await Task.Delay(1000);
-        await EditorScroll.ScrollToAsync(NotesEditor, ScrollToPosition.End, true);
-    }
-
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
@@ -65,5 +58,10 @@ public partial class NoteEntryPage : VisitzPage
             EditorRow.Height = resizableRowHeight;
             EditorScroll.HeightRequest = resizableRowHeight;
         }
+    }
+
+    async void Scroll_To_Bottom_Clicked(System.Object sender, System.EventArgs e)
+    {
+        await EditorScroll.ScrollToAsync(NotesEditor, ScrollToPosition.End, true);
     }
 }
