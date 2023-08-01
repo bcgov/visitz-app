@@ -30,10 +30,9 @@ namespace Visitz.Authentication.Keycloak
 
         private string GetIdir()
         {
-            if (DebugOptions.IdirOverride.Length > 0)
-                return DebugOptions.IdirOverride;
-            else
-                return TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
+            return DebugOptions.IdirOverride.Length > 0 
+                ? DebugOptions.IdirOverride 
+                : TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
         }
 
         public string Idir => GetIdir();

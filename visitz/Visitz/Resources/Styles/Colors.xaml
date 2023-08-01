@@ -35,7 +35,13 @@
     <!-- Family Information Colors -->
     <Color x:Key="KeyPlayerInfoPurpleBackground">#FBF8FF</Color>
     <Color x:Key="FamilyMemberInfoGrayBorder">#DFDFE1</Color>
-    
+
+    <Color x:Key="LightGrayText">#606062</Color>
+    <Color x:Key="DarkSkyBlueBackground">#0073E6</Color>
+    <Color x:Key="BlackishText">#131315</Color>
+    <Color x:Key="LightGrayBackground">#F9F9F9</Color>
+    <Color x:Key="SkyBlueText">#005CB8</Color>
+
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>

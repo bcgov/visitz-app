@@ -8,7 +8,8 @@
     x:Class="Visitz.Pages.NotesPage"
     x:DataType="viewModels:NotesViewModel"
     Title="Notes"
-    ControlTemplate="{StaticResource VisitzPageWrapper}">
+    ControlTemplate="{StaticResource VisitzPageWrapper}"
+    x:Name="this">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
@@ -17,16 +18,25 @@
     </ContentPage.ToolbarItems>
 
     <AbsoluteLayout
+        x:Name="AbsoluteLayout"
         Padding="20">
         <Grid
+            x:Name="RootGrid"
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             RowSpacing="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition
+                    x:Name="FixedRow"
+                    Height="66" />
+
+                <RowDefinition
+                    x:Name="AddNoteRow"
+                    Height="0" />
+
+                <RowDefinition
+                    x:Name="ResizableRow"
+                    Height="*" />
             </Grid.RowDefinitions>
             <VerticalStackLayout
                 Grid.Row="0"
@@ -64,18 +74,16 @@
 
             </VerticalStackLayout>
 
-            <Label 
-                Text="Case notes"
-                FontSize="22"
-                FontFamily="BCSansBold"
-                Grid.Row="1" />
-
-            <Entry Placeholder="Search by key word"
-                HeightRequest="48"
-                Grid.Row="2" />
+            <views:AddNotePlaceholderView
+                x:Name="AddNotePlaceholder"
+                IsVisible="False"
+                Grid.Row="1"
+                ShowNotePeriod="{Binding AddNotesPlaceholder_ShowNotePeriod}"
+                NotePeriod="{Binding AddNotesPlaceholder_NotePeriod}"
+                ContentText="{Binding AddNotesPlaceholder_ContentText}" />
 
             <RefreshView
-                Grid.Row="3"
+                Grid.Row="2"
                 Command="{Binding RefreshNotesCommand}"
                 IsRefreshing="{Binding IsRefreshing}">
 
@@ -102,32 +110,16 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:NoteItem">
-                                <views:NoteItemView />
+                                <views:NoteItemView
+                                    LatestNote="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotesViewModel}}, Path=LatestNote}"
+                                    IsAddNotesPlaceholderVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotesViewModel}}, Path=IsAddNotesPlaceholderVisible}"
+                                    />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </ContentView>
             </RefreshView>
         </Grid>
-
-        <Button
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="1,1,100,60"
-            Text="Add note"
-            CornerRadius="30"
-            BackgroundColor="#0073E6"
-            FontFamily="BCSansRegular"
-            FontSize="17">
-
-            <Button.Shadow>
-                <Shadow Brush="Black"
-                Offset="10,10"
-                Radius="30"
-                Opacity="0.5" />
-            </Button.Shadow>
-
-        </Button>
-
     </AbsoluteLayout>
 </pages:VisitzPage>
 

@@ -6,9 +6,9 @@ namespace Visitz.Services
 {
     public class SubmitNoteService : VisitzApiService
     {
-        public static string MakeId(SubmitNoteEntity submitEntity)
+        public static string MakeId(string entityNumber, string notePeriod)
         {
-            return $"{nameof(SubmitNoteService)}-{submitEntity.EntityNumber}-{submitEntity.NotePeriod}";
+            return $"{nameof(SubmitNoteService)}-{entityNumber}-{notePeriod}";
         }
 
         public static StartServiceMessage MakeStartMessage(SubmitNoteEntity submitEntity)
@@ -16,7 +16,7 @@ namespace Visitz.Services
             return new StartServiceMessage()
             {
                 Payload = submitEntity,
-                ServiceId = MakeId(submitEntity),
+                ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.NotePeriod),
                 ServiceType = typeof(SubmitNoteService)
             };
         }
@@ -27,7 +27,7 @@ namespace Visitz.Services
 
         public override string GetId()
         {
-            return MakeId(Payload);
+            return MakeId(Payload.EntityNumber, Payload.NotePeriod);
         }
 
         protected override async Task RunAsync()

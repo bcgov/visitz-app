@@ -10,14 +10,23 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string idirOverride;
 
+        [ObservableProperty]
+        public bool showNoteItemViewDebugInfo;
+
         public override void PageStarted()
         {
             IdirOverride = DebugOptions.IdirOverride;
+            ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;
         }
 
         partial void OnIdirOverrideChanged(string value)
         {
             DebugOptions.IdirOverride = value;
+        }
+
+        partial void OnShowNoteItemViewDebugInfoChanged(bool value)
+        {
+            DebugOptions.ShowNoteItemViewDebugInfo = value;
         }
 
         [RelayCommand]

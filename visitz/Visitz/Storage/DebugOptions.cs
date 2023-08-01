@@ -3,6 +3,7 @@
     public class DebugOptions
     {
         private static readonly string IdirOverrideKey = "IdirOverride";
+        private static readonly string ShowNoteItemViewDebugInfoKey = "ShowNoteItemViewDebugInfo";
 
         public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -27,11 +28,17 @@
             set => Set(IdirOverrideKey, value.Trim());
         }
 
+        public static bool ShowNoteItemViewDebugInfo
+        {
+            get => Get(ShowNoteItemViewDebugInfoKey, false);
+            set => Set(ShowNoteItemViewDebugInfoKey, value);
+        }
+
         public static async Task ClearRealmData()
         {
             if (Enabled)
             {
-                using var realm = await IcmDataRealm.GetAsync();
+                using var realm = await VisitzRealm.GetIcmDataAsync();
                 await realm.WriteAsync(realm.RemoveAll);
             }
         }
@@ -39,7 +46,7 @@
         public static void DeleteEncryptionKey()
         {
             if (Enabled)
-                IcmDataRealm.DeleteRealmKey();
+                VisitzRealm.DeleteRealmKey(VisitzRealm.IcmDataCopiesPath);
         }
     }
 }

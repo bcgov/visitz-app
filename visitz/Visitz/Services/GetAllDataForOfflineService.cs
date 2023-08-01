@@ -54,7 +54,7 @@ namespace Visitz.Services
 
         private async Task GetAllNotes()
         {
-            using var realm = await IcmDataRealm.GetAsync();
+            using var realm = await VisitzRealm.GetIcmDataAsync();
 
             var allIdEntities = realm
                 .All<CaseloadItem>()
