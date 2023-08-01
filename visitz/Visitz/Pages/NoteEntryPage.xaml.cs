@@ -58,10 +58,19 @@ public partial class NoteEntryPage : VisitzPage
             EditorRow.Height = resizableRowHeight;
             EditorScroll.HeightRequest = resizableRowHeight;
         }
+        FocusBottom();
     }
 
-    async void Scroll_To_Bottom_Clicked(System.Object sender, System.EventArgs e)
+    private async void FocusBottom()
     {
+        NotesEditor.Focus();
+        NotesEditor.CursorPosition = NotesEditor.Text?.Length ?? 0;
+        await Task.Delay(200);
         await EditorScroll.ScrollToAsync(NotesEditor, ScrollToPosition.End, true);
+    }
+
+    void Scroll_To_Bottom_Clicked(System.Object sender, System.EventArgs e)
+    {
+        FocusBottom();
     }
 }

@@ -24,7 +24,10 @@ public partial class NoteDetailsPage : VisitzPage
 
     public async void ScrollToBottom()
     {
-        await ContentScroll.ScrollToAsync(ContentLabel, ScrollToPosition.End, true);
+        if (ContentLabel.Height > ResizableRow.Height.Value)
+        {
+            await ContentScroll.ScrollToAsync(ContentLabel, ScrollToPosition.End, true);
+        }
     }
 
     protected override void OnSizeAllocated(double width, double height)

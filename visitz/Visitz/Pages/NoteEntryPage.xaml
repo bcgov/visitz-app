@@ -104,10 +104,11 @@
             Source="chevron_down.png"
             HorizontalOptions="End"
             VerticalOptions="End"
-            WidthRequest="40"
-            HeightRequest="40"
-            CornerRadius="20"
+            WidthRequest="44"
+            HeightRequest="44"
+            CornerRadius="22"
             Padding="15"
+            Margin="10"
             BackgroundColor="{StaticResource DarkSkyBlueBackground}"
             Clicked="Scroll_To_Bottom_Clicked">
 
