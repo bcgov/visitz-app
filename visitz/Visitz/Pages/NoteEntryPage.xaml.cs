@@ -43,7 +43,6 @@ public partial class NoteEntryPage : VisitzPage
         resizableRowHeight -= (
             TitleRow.Height.Value
             + DescriptionRow.Height.Value
-            + ValidationRow.Height.Value
             + RootGrid.RowSpacing
             + RootGrid.Padding.Top
             + RootGrid.Padding.Bottom
