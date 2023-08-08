@@ -1,19 +1,9 @@
-﻿using Visitz.Extensions;
-using Visitz.Resources.Styles;
-using Visitz.Views;
+﻿using Visitz.Views;
 
 namespace Visitz.Behaviors;
 
 public abstract class TagStyleBehavior : Behavior<TagView>
 {
-    public Color BackgroundColor { get; set; } = Colors.Transparent;
-
-    public Color BorderColor { get; set; } = Colors.Black;
-
-    public string IconName { get; set; }
-
-    public Color TextColor { get; set; } = VisitzColors.BC_TextColor;
-
     protected TagStyleBehavior() { }
 
     protected override void OnAttachedTo(TagView tag)
