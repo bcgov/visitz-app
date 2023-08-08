@@ -48,11 +48,11 @@
                         </views:TagView.Behaviors>
                     </views:TagView>
 
-                    <views:TagView
-                        BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
-                        TextColor="{StaticResource EntitySubtypeTagPurpleText}"
-                        Text="{Binding CaseIncidentType}"
-                        IconName="tag_icon.png" />
+                    <views:TagView BindingContext="{Binding .}">
+                        <views:TagView.Behaviors>
+                            <behaviors:EntitySubTypeTagBehavior />
+                        </views:TagView.Behaviors>
+                    </views:TagView>
                 </HorizontalStackLayout>
 
                 <Label 
