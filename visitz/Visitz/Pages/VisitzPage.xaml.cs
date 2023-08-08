@@ -16,18 +16,28 @@ public abstract partial class VisitzPage : ContentPage
         visitzViewModel.VisitzPage = this;
     }
 
+    protected virtual void OnCreated() 
+    {
+        ViewModel.PageCreated();
+        ViewModel.SubscribeToWindow(CurrentWindow);
+    }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
         ViewModel.PageStarted();
     }
 
     protected override void OnDisappearing()
     {
         ViewModel.PageStopped();
-
         base.OnDisappearing();
+    }
+
+    protected virtual void OnDestroyed()
+    {
+        ViewModel.UnsubscribeFromWindow(CurrentWindow);
+        ViewModel.PageDestroyed();
     }
 
     protected override void OnParentChanging(ParentChangingEventArgs args)
@@ -38,15 +48,9 @@ public abstract partial class VisitzPage : ContentPage
         var isDestroying = args.OldParent != null && args.NewParent == null;
 
         if (isCreating)
-        {
-            ViewModel.PageCreated();
-            ViewModel.SubscribeToWindow(CurrentWindow);
-        }
+            OnCreated();
         else if (isDestroying)
-        {
-            ViewModel.UnsubscribeFromWindow(CurrentWindow);
-            ViewModel.PageDestroyed();
-        }
+            OnDestroyed();
     }
 
     public static async Task NavigateTo<T>(Page fromPage,
