@@ -23,13 +23,17 @@
 
             <Image
                 x:Name="Icon"
+                HeightRequest="16"
+                WidthRequest="17"
                 Source="{Binding IconName}"
-                VerticalOptions="Center" />
+                Aspect="AspectFit"
+                VerticalOptions="Center">
+            </Image>
 
             <Label 
                 x:Name="TagLabel"
                 Text="{Binding Text}"
-                FontSize="13"
+                FontSize="14"
                 FontFamily="BCSansRegular"
                 TextColor="{Binding TextColor}"
                 VerticalOptions="CenterAndExpand" />
