@@ -32,12 +32,12 @@
                 <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
                     <Label 
                         Text="{Binding DisplayName}"
-                        FontSize="17"
+                        FontSize="18"
                         FontFamily="BCSansBold" />
 
                     <Label 
                         Text="{Binding CaseIncidentNumber}"
-                        FontSize="17"
+                        FontSize="18"
                         FontFamily="BCSansRegular" />
                 </HorizontalStackLayout>
 
