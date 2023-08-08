@@ -12,6 +12,7 @@ class EntityTypeTagBehavior : TagStyleBehavior
             return;
 
         tag.Text = item.EntityType;
+        tag.BorderColor = Colors.Transparent;
 
         if (item.EntityType == IcmEntity.Case)
         {
@@ -30,6 +31,7 @@ class EntityTypeTagBehavior : TagStyleBehavior
             tag.BackgroundColor = Colors.Transparent;
             tag.BorderColor = VisitzColors.BC_Blue;
             tag.TextColor = VisitzColors.BC_TextColor;
+            tag.IconName = null;
         }
     }
 }
