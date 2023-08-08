@@ -54,7 +54,7 @@
                 Grid.ColumnSpan="2"
                 Spacing="10">
                 <Border
-                    BackgroundColor="{StaticResource EntityTagBlueBackground}"
+                    BackgroundColor="{StaticResource EntityCaseTagBackground}"
                     Padding="15"
                     StrokeThickness="0"
                     VerticalOptions="Center"

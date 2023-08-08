@@ -25,8 +25,8 @@
     <Color x:Key="Tertiary">#38598A</Color>
 
     <!-- Tags Colors -->
-    <Color x:Key="EntityTagBlueBackground">#C2E0FF</Color>
-    <Color x:Key="EntityTagBlueText">#00478F</Color>
+    <Color x:Key="EntityCaseTagBackground">#C2E0FF</Color>
+    <Color x:Key="EntityCaseTagText">#00478F</Color>
     <Color x:Key="EntitySubtypeTagPurpleBackground">#E2CCF8</Color>
     <Color x:Key="EntitySubtypeTagPurpleText">#5702AF</Color>
     <Color x:Key="PurpleTagBorder">#C59AF1</Color>
