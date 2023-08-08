@@ -43,7 +43,6 @@
                 <views:TagView
                     x:Name="CellPhoneTagView"
                     BackgroundColor="Transparent"
-                    TextColor="{StaticResource ContactRelationshipTagText}"
                     Text="{Binding CellPhone}"
                     IconName="mobile.png"
                     BorderColor="{StaticResource PurpleTagBorder}"
@@ -52,7 +51,6 @@
                 <views:TagView
                     x:Name="HomePhoneTagView"
                     BackgroundColor="Transparent"
-                    TextColor="{StaticResource ContactRelationshipTagText}"
                     Text="{Binding HomePhone}"
                     IconName="phone.png"
                     BorderColor="{StaticResource PurpleTagBorder}"
