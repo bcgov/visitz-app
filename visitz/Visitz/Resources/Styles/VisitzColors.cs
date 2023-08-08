@@ -46,6 +46,13 @@ public static class VisitzColors
     
     public static readonly Color EntitySubtypeTagPurpleBackground = TryGetColor(nameof(EntitySubtypeTagPurpleBackground));
     public static readonly Color EntitySubtypeTagPurpleText = TryGetColor(nameof(EntitySubtypeTagPurpleText));
+
+    public static readonly Color EntityMemoTagBackground = TryGetColor(nameof(EntityMemoTagBackground));
+    public static readonly Color EntityMemoTagText = TryGetColor(nameof(EntityMemoTagText));
+
+    public static readonly Color EntityServiceRequestTagBackground = TryGetColor(nameof(EntityServiceRequestTagBackground));
+    public static readonly Color EntityServiceRequestTagText = TryGetColor(nameof(EntityServiceRequestTagText));
+
     public static readonly Color PurpleTagBorder = TryGetColor(nameof(PurpleTagBorder));
     public static readonly Color FamilyTagColor = TryGetColor(nameof(FamilyTagColor));
 

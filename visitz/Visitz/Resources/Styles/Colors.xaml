@@ -32,6 +32,13 @@
     
     <Color x:Key="EntitySubtypeTagPurpleBackground">#E2CCF8</Color>
     <Color x:Key="EntitySubtypeTagPurpleText">#5702AF</Color>
+
+    <Color x:Key="EntityMemoTagBackground">#f5cda3</Color>
+    <Color x:Key="EntityMemoTagText">#64390b</Color>
+
+    <Color x:Key="EntityServiceRequestTagBackground">#ffb3b3</Color>
+    <Color x:Key="EntityServiceRequestTagText">#6b0000</Color>
+
     <Color x:Key="PurpleTagBorder">#C59AF1</Color>
     <Color x:Key="FamilyTagColor">#FFE5F2</Color>
 

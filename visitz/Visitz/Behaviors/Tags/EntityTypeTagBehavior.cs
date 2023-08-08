@@ -26,6 +26,18 @@ class EntityTypeTagBehavior : TagStyleBehavior
             tag.TextColor = VisitzColors.EntityIncidentTagText;
             tag.IconName = "incident_tag_icon.png";
         }
+        else if (item.EntityType == IcmEntity.Memo)
+        {
+            tag.BackgroundColor = VisitzColors.EntityMemoTagBackground;
+            tag.TextColor = VisitzColors.EntityMemoTagText;
+            tag.IconName = "memo_tag_icon.png";
+        }
+        else if (item.EntityType == IcmEntity.ServiceRequest)
+        {
+            tag.BackgroundColor = VisitzColors.EntityServiceRequestTagBackground;
+            tag.TextColor = VisitzColors.EntityServiceRequestTagText;
+            tag.IconName = "service_request_tag_icon.png";
+        }
         else
         {
             tag.BackgroundColor = Colors.Transparent;
