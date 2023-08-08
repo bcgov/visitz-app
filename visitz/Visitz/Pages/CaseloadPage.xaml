@@ -50,6 +50,7 @@
             <Label Text="Sort by" Margin="0,0,5,0" />
 
             <Picker
+                x:Name="SortPicker"
                 Title="{local:Localize TapToSelect}"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
                 FlexLayout.Basis="200"
@@ -86,6 +87,7 @@
             <Label Text="Show" Margin="0,0,5,0" />
             
             <Picker 
+                x:Name="FilterPicker"
                 Title="{local:Localize TapToSelect}"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
                 FlexLayout.Basis="150"
