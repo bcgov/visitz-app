@@ -25,10 +25,20 @@
     <Color x:Key="Tertiary">#38598A</Color>
 
     <!-- Tags Colors -->
-    <Color x:Key="EntityTagBlueBackground">#C2E0FF</Color>
-    <Color x:Key="EntityTagBlueText">#00478F</Color>
-    <Color x:Key="EntitySubtypeTagPurpleBackground">#E2CCF8</Color>
-    <Color x:Key="EntitySubtypeTagPurpleText">#5702AF</Color>
+    <Color x:Key="EntityCaseTagBackground">#C2E0FF</Color>
+    <Color x:Key="EntityCaseTagText">#00478F</Color>
+    <Color x:Key="EntityIncidentTagBackground">#B3FEF1</Color>
+    <Color x:Key="EntityIncidentTagText">#004C3F</Color>
+    
+    <Color x:Key="ContactRelationshipTagBackground">#E2CCF8</Color>
+    <Color x:Key="ContactRelationshipTagText">#5702AF</Color>
+
+    <Color x:Key="EntityMemoTagBackground">#f5cda3</Color>
+    <Color x:Key="EntityMemoTagText">#64390b</Color>
+
+    <Color x:Key="EntityServiceRequestTagBackground">#ffb3b3</Color>
+    <Color x:Key="EntityServiceRequestTagText">#6b0000</Color>
+
     <Color x:Key="PurpleTagBorder">#C59AF1</Color>
     <Color x:Key="FamilyTagColor">#FFE5F2</Color>
 

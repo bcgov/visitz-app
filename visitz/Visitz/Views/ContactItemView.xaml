@@ -2,6 +2,7 @@
 <ContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:tag_behaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:models="clr-namespace:Visitz.Models"
     x:Class="Visitz.Views.ContactItemView"
@@ -31,19 +32,17 @@
                     FontFamily="BCSansBold"
                     VerticalOptions="Center" />
 
-                <views:TagView
-                    x:Name="RelationshipTagView"
-                    BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
-                    TextColor="{StaticResource EntitySubtypeTagPurpleText}"
-                    Text="{Binding Relationship}"
-                    VerticalOptions="Center" />
+                <views:TagView VerticalOptions="Center">
+                    <views:TagView.Behaviors>
+                        <tag_behaviors:ContactRelationshipTagBehavior />
+                    </views:TagView.Behaviors>
+                </views:TagView>
             </HorizontalStackLayout>
 
             <HorizontalStackLayout x:Name="PhoneRow" Spacing="5">
                 <views:TagView
                     x:Name="CellPhoneTagView"
                     BackgroundColor="Transparent"
-                    TextColor="{StaticResource EntitySubtypeTagPurpleText}"
                     Text="{Binding CellPhone}"
                     IconName="mobile.png"
                     BorderColor="{StaticResource PurpleTagBorder}"
@@ -52,7 +51,6 @@
                 <views:TagView
                     x:Name="HomePhoneTagView"
                     BackgroundColor="Transparent"
-                    TextColor="{StaticResource EntitySubtypeTagPurpleText}"
                     Text="{Binding HomePhone}"
                     IconName="phone.png"
                     BorderColor="{StaticResource PurpleTagBorder}"

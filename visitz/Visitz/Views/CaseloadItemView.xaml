@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Visitz.Behaviors"
              xmlns:views="clr-namespace:Visitz.Views"
              xmlns:models="clr-namespace:Visitz.Models"
              xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
@@ -10,7 +11,7 @@
     <VerticalStackLayout Padding="20,0,20,0" Margin="0,0,0,10">
         <Border Stroke="#DFDFE1"
                 StrokeThickness="2"
-                Padding="20,20"
+                Padding="10"
                 HorizontalOptions="Fill">
             <Border.GestureRecognizers>
                 <TapGestureRecognizer 
@@ -21,56 +22,56 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="4,4,4,4"/>
             </Border.StrokeShape>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            
+            <Grid 
+                RowDefinitions="Auto,Auto" 
+                RowSpacing="5"
+                ColumnDefinitions="Auto,*,Auto,Auto"
+                ColumnSpacing="20">
 
-                <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0" Spacing="5">
-                    <HorizontalStackLayout>
-                        <Label 
-                            Text="{Binding DisplayName}"
-                            FontSize="17"
-                            FontFamily="BCSansBold"
-                            Padding="0,10,0,0" />
+                <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
+                    <Label 
+                        Text="{Binding DisplayName}"
+                        FontSize="18"
+                        FontFamily="BCSansBold" />
 
-                        <Label 
-                            Text="{Binding CaseIncidentNumber}"
-                            FontSize="17"
-                            FontFamily="BCSansRegular"
-                            Padding="10,10,0,0" />
-                    </HorizontalStackLayout>
+                    <Label 
+                        Text="{Binding CaseIncidentNumber}"
+                        FontSize="18"
+                        FontFamily="BCSansRegular" />
+                </HorizontalStackLayout>
 
-                    <HorizontalStackLayout
-                        Spacing="5">
-                        <views:TagView
-                            BackgroundColor="{StaticResource EntityTagBlueBackground}"
-                            TextColor="{StaticResource EntityTagBlueText}"
-                            Text="{Binding EntityType}"
-                            IconName="folder.png" />
+                <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="5">
+                    <views:TagView BindingContext="{Binding .}">
+                        <views:TagView.Behaviors>
+                            <behaviors:EntityTypeTagBehavior />
+                        </views:TagView.Behaviors>
+                    </views:TagView>
 
-                        <views:TagView
-                            BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
-                            TextColor="{StaticResource EntitySubtypeTagPurpleText}"
-                            Text="{Binding CaseIncidentType}"
-                            IconName="tag_icon.png" />
-                    </HorizontalStackLayout>
+                    <views:TagView BindingContext="{Binding .}">
+                        <views:TagView.Behaviors>
+                            <behaviors:EntitySubTypeTagBehavior />
+                        </views:TagView.Behaviors>
+                    </views:TagView>
+                </HorizontalStackLayout>
 
-                </VerticalStackLayout>
+                <Label 
+                    x:Name="OpenDateLabel"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="2"
+                    Text="{Binding DisplayDate, StringFormat='Open date: {0}'}"
+                    TextColor="{StaticResource BC_InputControlsTextColor}"
+                    FontSize="12"
+                    FontFamily="BCSansRegular"
+                    VerticalOptions="Center" />
 
-                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
-                    <HorizontalStackLayout HorizontalOptions="End">
-                        <Label 
-                                Text="{Binding DisplayDate, StringFormat='Open date: {0}'}"
-                                TextColor="{StaticResource BC_InputControlsTextColor}"
-                                FontSize="12"
-                                FontFamily="BCSansRegular"
-                                VerticalOptions="Center"
-                                />
-                        <Image Source="chevron_right" Margin="25,0,0,0" />
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
+                <Image 
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="3"
+                    Source="chevron_right"
+                    VerticalOptions="Center" />
             </Grid>
         </Border>
     </VerticalStackLayout>

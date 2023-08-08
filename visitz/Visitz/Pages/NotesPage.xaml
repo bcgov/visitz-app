@@ -1,6 +1,7 @@
 ﻿<pages:VisitzPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
     xmlns:models="clr-namespace:Visitz.Models"
@@ -57,19 +58,18 @@
                         VerticalOptions="Center" />
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout
-                    Spacing="5">
-                    <views:TagView
-                        BackgroundColor="{StaticResource EntityTagBlueBackground}"
-                        TextColor="{StaticResource EntityTagBlueText}"
-                        Text="{Binding CaseIncident.EntityType}"
-                        IconName="folder.png" />
+                <HorizontalStackLayout Spacing="5">
+                    <views:TagView BindingContext="{Binding CaseIncident}">
+                        <views:TagView.Behaviors>
+                            <behaviors:EntityTypeTagBehavior />
+                        </views:TagView.Behaviors>
+                    </views:TagView>
 
-                    <views:TagView
-                        BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
-                        TextColor="{StaticResource EntitySubtypeTagPurpleText}"
-                        Text="{Binding CaseIncident.CaseIncidentType}"
-                        IconName="tag_icon.png" />
+                    <views:TagView BindingContext="{Binding CaseIncident}">
+                        <views:TagView.Behaviors>
+                            <behaviors:EntitySubTypeTagBehavior />
+                        </views:TagView.Behaviors>
+                    </views:TagView>
                 </HorizontalStackLayout>
 
             </VerticalStackLayout>

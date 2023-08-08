@@ -1,0 +1,87 @@
+﻿/*
+    THIS FILE IS NOT AUTO-GENERATED.
+
+    But it should be.
+
+    TODO: Implement a Source Generator to generate this file from Colors.xaml.
+ */
+
+using Visitz.Extensions;
+
+namespace Visitz.Resources.Styles;
+
+public static class VisitzColors
+{
+    public static Color TryGetColor(string name)
+    {
+        return Application.Current.Resources.TryGetColor(name, null) 
+            ?? 
+            throw new InvalidOperationException($"Color '{name}' not found in resources");
+    }
+
+    public static readonly Color BC_Blue = TryGetColor(nameof(BC_Blue));
+    public static readonly Color BC_Gold = TryGetColor(nameof(BC_Gold));
+    public static readonly Color BC_TextColor = TryGetColor(nameof(BC_TextColor));
+    public static readonly Color BC_Hyperlink = TryGetColor(nameof(BC_Hyperlink));
+    public static readonly Color BC_Background_Dark = TryGetColor(nameof(BC_Background_Dark));
+    public static readonly Color BC_Background_Light = TryGetColor(nameof(BC_Background_Light));
+    public static readonly Color BC_InputControlsTextColor = TryGetColor(nameof(BC_InputControlsTextColor));
+    public static readonly Color BC_Semantic_Error = TryGetColor(nameof(BC_Semantic_Error));
+    public static readonly Color BC_Semantic_Success = TryGetColor(nameof(BC_Semantic_Success));
+
+    // BC_Blue
+    public static readonly Color Primary = TryGetColor(nameof(Primary));
+    
+    // BC_Background_Light
+    public static readonly Color Secondary = TryGetColor(nameof(Secondary));
+
+    // BC_Background_Dark
+    public static readonly Color Tertiary = TryGetColor(nameof(Tertiary));
+
+    // Tags Colors
+    public static readonly Color EntityCaseTagBackground = TryGetColor(nameof(EntityCaseTagBackground));
+    public static readonly Color EntityCaseTagText = TryGetColor(nameof(EntityCaseTagText));
+    public static readonly Color EntityIncidentTagBackground = TryGetColor(nameof(EntityIncidentTagBackground));
+    public static readonly Color EntityIncidentTagText = TryGetColor(nameof(EntityIncidentTagText));
+    
+    public static readonly Color ContactRelationshipTagBackground = TryGetColor(nameof(ContactRelationshipTagBackground));
+    public static readonly Color ContactRelationshipTagText = TryGetColor(nameof(ContactRelationshipTagText));
+
+    public static readonly Color EntityMemoTagBackground = TryGetColor(nameof(EntityMemoTagBackground));
+    public static readonly Color EntityMemoTagText = TryGetColor(nameof(EntityMemoTagText));
+
+    public static readonly Color EntityServiceRequestTagBackground = TryGetColor(nameof(EntityServiceRequestTagBackground));
+    public static readonly Color EntityServiceRequestTagText = TryGetColor(nameof(EntityServiceRequestTagText));
+
+    public static readonly Color PurpleTagBorder = TryGetColor(nameof(PurpleTagBorder));
+    public static readonly Color FamilyTagColor = TryGetColor(nameof(FamilyTagColor));
+
+    // Family Information Colors
+    public static readonly Color KeyPlayerInfoPurpleBackground = TryGetColor(nameof(KeyPlayerInfoPurpleBackground));
+    public static readonly Color FamilyMemberInfoGrayBorder = TryGetColor(nameof(FamilyMemberInfoGrayBorder));
+
+    public static readonly Color LightGrayText = TryGetColor(nameof(LightGrayText));
+    public static readonly Color DarkSkyBlueBackground = TryGetColor(nameof(DarkSkyBlueBackground));
+    public static readonly Color BlackishText = TryGetColor(nameof(BlackishText));
+    public static readonly Color LightGrayBackground = TryGetColor(nameof(LightGrayBackground));
+    public static readonly Color SkyBlueText = TryGetColor(nameof(SkyBlueText));
+
+    public static readonly Color Gray100 = TryGetColor(nameof(Gray100));
+    public static readonly Color Gray200 = TryGetColor(nameof(Gray200));
+    public static readonly Color Gray300 = TryGetColor(nameof(Gray300));
+    public static readonly Color Gray400 = TryGetColor(nameof(Gray400));
+    public static readonly Color Gray500 = TryGetColor(nameof(Gray500));
+    public static readonly Color Gray600 = TryGetColor(nameof(Gray600));
+    public static readonly Color Gray900 = TryGetColor(nameof(Gray900));
+    public static readonly Color Gray950 = TryGetColor(nameof(Gray950));
+
+    public static readonly Color Yellow100Accent = TryGetColor(nameof(Yellow100Accent));
+    public static readonly Color Yellow200Accent = TryGetColor(nameof(Yellow200Accent));
+    public static readonly Color Yellow300Accent = TryGetColor(nameof(Yellow300Accent));
+    public static readonly Color Cyan100Accent = TryGetColor(nameof(Cyan100Accent));
+    public static readonly Color Cyan200Accent = TryGetColor(nameof(Cyan200Accent));
+    public static readonly Color Cyan300Accent = TryGetColor(nameof(Cyan300Accent));
+    public static readonly Color Blue100Accent = TryGetColor(nameof(Blue100Accent));
+    public static readonly Color Blue200Accent = TryGetColor(nameof(Blue200Accent));
+    public static readonly Color Blue300Accent = TryGetColor(nameof(Blue300Accent));
+}

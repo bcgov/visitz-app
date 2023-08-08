@@ -1,5 +1,6 @@
 using Visitz.Extensions;
 using Visitz.Models;
+using Visitz.Resources.Styles;
 
 namespace Visitz.Views;
 
@@ -26,17 +27,13 @@ public partial class ContactItemView : ContentView
 
         if (familyMember.IsKeyPlayer)
         {
-            ContainerBorder.BackgroundColor = Application.Current.Resources.TryGetColor("KeyPlayerInfoPurpleBackground", Colors.Purple);
-            ContainerBorder.Stroke = Application.Current.Resources.TryGetColor("EntitySubtypeTagPurpleText", Colors.Purple);
-            RelationshipTagView.BackgroundColor = Application.Current.Resources.TryGetColor("EntitySubtypeTagPurpleText", Colors.Purple);
-            RelationshipTagView.TextColor = Colors.White;
+            ContainerBorder.BackgroundColor = VisitzColors.KeyPlayerInfoPurpleBackground;
+            ContainerBorder.Stroke = VisitzColors.ContactRelationshipTagText;
         }
         else
         {
             ContainerBorder.BackgroundColor = Colors.White;
-            ContainerBorder.Stroke = Application.Current.Resources.TryGetColor("FamilyMemberInfoGrayBorder", Colors.Purple);
-            RelationshipTagView.BackgroundColor = Application.Current.Resources.TryGetColor("EntitySubtypeTagPurpleBackground", Colors.Red);
-            RelationshipTagView.TextColor = Application.Current.Resources.TryGetColor("EntitySubtypeTagPurpleText", Colors.Red);
+            ContainerBorder.Stroke = VisitzColors.FamilyMemberInfoGrayBorder;
         }
     }
 }
