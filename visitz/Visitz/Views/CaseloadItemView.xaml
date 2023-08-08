@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Visitz.Behaviors"
              xmlns:views="clr-namespace:Visitz.Views"
              xmlns:models="clr-namespace:Visitz.Models"
              xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
@@ -41,11 +42,11 @@
                 </HorizontalStackLayout>
 
                 <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="5">
-                    <views:TagView
-                        BackgroundColor="{StaticResource EntityTagBlueBackground}"
-                        TextColor="{StaticResource EntityTagBlueText}"
-                        Text="{Binding EntityType}"
-                        IconName="folder.png" />
+                    <views:TagView BindingContext="{Binding .}">
+                        <views:TagView.Behaviors>
+                            <behaviors:EntityTypeTagBehavior />
+                        </views:TagView.Behaviors>
+                    </views:TagView>
 
                     <views:TagView
                         BackgroundColor="{StaticResource EntitySubtypeTagPurpleBackground}"
