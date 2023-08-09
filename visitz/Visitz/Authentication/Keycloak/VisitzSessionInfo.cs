@@ -7,6 +7,11 @@ namespace Visitz.Authentication.Keycloak
     {
         private static readonly string IdirUsernameKey = "idir_username";
         private static readonly string DisplayNameKey = "display_name";
+        private static readonly string RolesKey = "client_roles";
+        private static readonly string PreferredUsernameKey = "preferred_username";
+        private static readonly string GivenNameKey = "given_name";
+        private static readonly string FamilyNameKey = "family_name";
+        private static readonly string EmailKey = "email";
 
         private static VisitzSessionInfo SessionInfo { get; set; }
 
@@ -40,5 +45,15 @@ namespace Visitz.Authentication.Keycloak
         public string Idir => GetIdir();
 
         public string DisplayName => TryGet<string>(DisplayNameKey, out var displayName) ? displayName : "";
+
+        public string[] Roles => TryGet<string[]>(RolesKey, out var roles) ? roles : null;
+
+        public string PreferredUsername => TryGet<string>(PreferredUsernameKey, out var name) ? name : "";
+
+        public string GivenName => TryGet<string>(GivenNameKey, out var givenName) ? givenName : "";
+
+        public string FamilyName => TryGet<string>(FamilyNameKey, out var familyName) ? familyName : "";
+
+        public string Email => TryGet<string>(EmailKey, out var email) ? email : "";
     }
 }
