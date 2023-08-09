@@ -13,28 +13,46 @@
     ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <NavigationPage.TitleView>
-        <FlexLayout Direction="Row" JustifyContent="SpaceBetween" AlignItems="Center" HeightRequest="70">
+        <AbsoluteLayout
+            HeightRequest="70"
+            HorizontalOptions="FillAndExpand">
+
             <Image 
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0,.5"
+                VerticalOptions="CenterAndExpand"
                 Source="bc_logo_horizontal_reverse.png" 
-                FlexLayout.Basis="154"
-                Aspect="AspectFit">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer 
-                        Tapped="TapGestureRecognizer_Tapped"
-                        NumberOfTapsRequired="4" />
-                </Image.GestureRecognizers>
-            </Image>
+                Aspect="AspectFit" />
 
-            <Label TextColor="White">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Caseload" FontAttributes="Bold" FontSize="16"/>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
+            <StackLayout 
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds=".5,.5">
+                <Label         
+                    TextColor="White">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Caseload" FontAttributes="Bold" FontSize="17"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
 
-            <BoxView FlexLayout.Basis="154" HeightRequest="0" BackgroundColor="Black"/>
-        </FlexLayout>
+            <HorizontalStackLayout 
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="1,.5">
+                <Button 
+                    BackgroundColor="{StaticResource BC_Background_Dark}"
+                    Text="🐞"
+                    IsVisible="{Binding ShowDebugButton}"
+                    Command="{Binding OpenDebugOptionsPageCommand}"/>
+
+                <Button 
+                    BackgroundColor="Transparent"
+                    Text="{Binding SessionDisplayName}"
+                    Command="{Binding OpenSessionPageCommand}"/>
+            </HorizontalStackLayout>
+
+        </AbsoluteLayout>
     </NavigationPage.TitleView>
 
     <StackLayout 

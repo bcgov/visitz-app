@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using Visitz.Authentication.Keycloak;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
@@ -32,6 +33,12 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool isRefreshing;
 
+        [ObservableProperty]
+        public string sessionDisplayName;
+
+        [ObservableProperty]
+        public bool showDebugButton;
+
         private Realm Realm { get; set; }
 
         private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
@@ -47,12 +54,23 @@ namespace Visitz.ViewModels
             CaseloadQuery = Realm.All<CaseloadItem>();
             CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
 
+            VisitzSession.SessionChanged += VisitzSession_SessionChanged;
+
+            ShowDebugButton = DebugOptions.Enabled;
+
             ApplyCaseloadQuery();
             ApplySubtypesQuery();
         }
 
+        public override async void PageStarted()
+        {
+            SessionDisplayName = await UserSessionViewModel.GetDisplayNamePrompt();
+        }
+
         public override void PageDestroyed()
         {
+            VisitzSession.SessionChanged += VisitzSession_SessionChanged;
+
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
             CaseloadQueryToken.Dispose();
@@ -96,7 +114,7 @@ namespace Visitz.ViewModels
 
         private void ApplySubtypeFiltering(ref IEnumerable<CaseloadItem> query)
         {
-            if (SelectedSubtype == null || SelectedSubtype == FilterNoneOption)
+            if (query == null || SelectedSubtype == null || SelectedSubtype == FilterNoneOption)
                 return;
             
             query = query.Where(item => item.CaseIncidentType == SelectedSubtype);
@@ -104,7 +122,7 @@ namespace Visitz.ViewModels
 
         private void ApplySorting(ref IEnumerable<CaseloadItem> query)
         {
-            if (SelectedSortOrder == null)
+            if (query == null || SelectedSortOrder == null)
                 return;
 
             if (SelectedSortOrder.Id == CaseloadSort.DisplayDate)
@@ -135,15 +153,27 @@ namespace Visitz.ViewModels
             await NotesPage.Open(VisitzPage, caseloadItem.CaseIncidentNumber);
         }
 
+        [RelayCommand]
         public async Task OpenDebugOptionsPage()
         {
             if (DebugOptions.Enabled)
                 await NavigateTo<DebugOptionsPage>();
         }
 
+        [RelayCommand]
+        public async void OpenSessionPage()
+        {
+            await NavigateTo<UserSessionPage>();
+        }
+
         public void Receive(ServiceStateMessage message)
         {
             IsRefreshing = message.Status == VisitzService.State.Running;
+        }
+
+        private async void VisitzSession_SessionChanged(object sender, EventArgs e)
+        {
+            SessionDisplayName = await UserSessionViewModel.GetDisplayNamePrompt(sender as VisitzSessionInfo);
         }
     }
 }
