@@ -22,7 +22,7 @@ namespace Visitz.Authentication.Keycloak
                 || await LoginAsync();
         }
 
-        private static async Task<bool> LoginAsync()
+        public static async Task<bool> LoginAsync()
         {
             var loginResult = await AuthClient.LoginAsync();
             var loginSuccess = !loginResult.IsError;
