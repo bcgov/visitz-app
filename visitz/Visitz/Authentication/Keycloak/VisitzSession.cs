@@ -1,4 +1,4 @@
-﻿using IdentityModel.OidcClient.Browser;
+﻿using Visitz.Authentication.Keycloak.Events;
 
 namespace Visitz.Authentication.Keycloak
 {
@@ -9,6 +9,8 @@ namespace Visitz.Authentication.Keycloak
 
         private static bool InternetAvailable =>
             Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+
+        public static event EventHandler SessionChanged;
 
         public static async Task<bool> GetValidSessionAsync()
         {
@@ -29,6 +31,9 @@ namespace Visitz.Authentication.Keycloak
                 await TokenHolder.SaveAsync(loginResult);
 
             // TODO: Log errors.
+
+            var info = await VisitzSessionInfo.GetAsync();
+            SessionChanged?.Invoke(info, new LoginChangedEventArgs() { Success = loginSuccess });
 
             return loginSuccess;
         }
@@ -52,6 +57,9 @@ namespace Visitz.Authentication.Keycloak
 
             // TODO: Log errors.
 
+            var info = await VisitzSessionInfo.GetAsync();
+            SessionChanged?.Invoke(info, new RefreshChangedEventArgs() { Success = refreshSuccess });
+
             return refreshSuccess;
         }
 
@@ -60,7 +68,10 @@ namespace Visitz.Authentication.Keycloak
             var logoutResult = await AuthClient.LogoutAsync();
             var logoutSuccess = !logoutResult.IsError;
 
-            InvalidateSession();
+            await InvalidateSessionAsync();
+
+            var info = await VisitzSessionInfo.GetAsync();
+            SessionChanged?.Invoke(info, new LogoutChangedEventArgs() { Success = logoutSuccess });
 
             return logoutSuccess;
         }
@@ -70,10 +81,19 @@ namespace Visitz.Authentication.Keycloak
             return await VisitzSessionInfo.GetAsync();
         }
 
-        public static void InvalidateSession()
+        public static async Task InvalidateSessionAsync()
         {
             TokenHolder.DeleteAccessToken();
             TokenHolder.DeleteRefreshToken();
+
+            var info = await VisitzSessionInfo.GetAsync();
+            SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs());
+        }
+
+        public static async Task<bool> SessionExistsAsync()
+        {
+            return await TokenHolder.GetAccessTokenStringAsync() is not null
+                && await TokenHolder.GetRefreshTokenStringAsync() is not null;
         }
     }
 }
