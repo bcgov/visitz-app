@@ -23,7 +23,9 @@ namespace Visitz.Authentication.Keycloak
 
         private bool TryGet<T>(string key, out T output)
         {
-            var didGet = AccessToken.Payload.TryGetValue(key, out var tryOutput);
+            object tryOutput = null;
+            var didGet = AccessToken?.Payload?.TryGetValue(key, out tryOutput) ?? false;
+
             output = (T)tryOutput;
             return didGet;
         }
