@@ -187,6 +187,9 @@
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
+	  <MauiXaml Update="Pages\UserSessionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Resources\Templates\ControlTemplates.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

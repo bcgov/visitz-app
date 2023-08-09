@@ -196,4 +196,13 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
   <data name="RefreshingNotes" xml:space="preserve">
     <value>Refreshing notes</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="TerminateSession" xml:space="preserve">
+    <value>Terminate session</value>
+  </data>
 </root>

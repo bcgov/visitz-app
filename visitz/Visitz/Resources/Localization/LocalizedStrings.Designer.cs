@@ -130,6 +130,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        internal static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        internal static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no notes for this {0}.
         /// </summary>
         internal static string NoNotesForEntity {
@@ -265,6 +283,15 @@ namespace Visitz.Resources.Localization {
         internal static string TapToSelect {
             get {
                 return ResourceManager.GetString("TapToSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminate session.
+        /// </summary>
+        internal static string TerminateSession {
+            get {
+                return ResourceManager.GetString("TerminateSession", resourceCulture);
             }
         }
         
