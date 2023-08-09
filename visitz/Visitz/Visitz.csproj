@@ -78,10 +78,7 @@
 	  <None Remove="Models\Payloads\" />
 	  <None Remove="Models\DTOs\" />
 	  <None Remove="Models\BOs\" />
-	  <None Remove="Resources\Fonts\BCSans-Bold.ttf" />
-	  <None Remove="Resources\Fonts\BCSans-BoldItalic.ttf" />
-	  <None Remove="Resources\Fonts\BCSans-Italic.ttf" />
-	  <None Remove="Resources\Fonts\BCSans-Regular.ttf" />
+	  <None Remove="Resources\Fonts\" />
 	  <None Remove="Resources\AppIcon\appiconfg.svg" />
 	  <None Remove="Resources\Splash\" />
 	  <None Remove="Resources\Splash\splashicon.svg" />
@@ -117,10 +114,7 @@
 	  <Folder Include="Subclasses\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <BundleResource Include="Resources\Fonts\BCSans-Bold.ttf" />
-	  <BundleResource Include="Resources\Fonts\BCSans-BoldItalic.ttf" />
-	  <BundleResource Include="Resources\Fonts\BCSans-Italic.ttf" />
-	  <BundleResource Include="Resources\Fonts\BCSans-Regular.ttf" />
+	  <BundleResource Include="Resources\Fonts\*" />
 	  <BundleResource Include="Resources\AppIcon\appiconfg.svg" />
 	  <BundleResource Include="Resources\Splash\splashicon.svg" />
 	  <BundleResource Include="Resources\Images\file_folder.svg" />
