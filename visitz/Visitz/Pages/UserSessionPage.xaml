@@ -38,24 +38,20 @@
             Text="{Binding SessionActionText}"
             Command="{Binding PerformSessionActionCommand}"/>
 
-        <Label 
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds=".45,1"
-            Margin="10"
-            Text="{Binding BuildNumber, StringFormat='Build #{0}'}" 
-            TextColor="White" />
         
-        <Label 
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds=".55,1"
-            Margin="10"
-            Text="{Binding AppVersion, StringFormat='Version {0}'}" 
-            TextColor="White" />
         
         <HorizontalStackLayout
-            
-            Spacing="30">
-            
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,1"
+            Spacing="30"
+            Margin="10">
+            <Label 
+                Text="{Binding BuildNumber, StringFormat='Build #{0}'}" 
+                TextColor="White" />
+
+            <Label 
+                Text="{Binding AppVersion, StringFormat='Version {0}'}" 
+                TextColor="White" />
         </HorizontalStackLayout>
     
     </AbsoluteLayout>
