@@ -17,7 +17,7 @@ public partial class UserSessionViewModel : VisitzViewModel
     public string sessionActionText;
 
     [ObservableProperty]
-    public int buildNumber;
+    public string buildNumber;
 
     [ObservableProperty]
     public string appVersion;
@@ -30,8 +30,8 @@ public partial class UserSessionViewModel : VisitzViewModel
 
     public override async void PageCreated()
     {
-        BuildNumber = 3;
-        AppVersion = "1.0";
+        BuildNumber = AppInfo.Current.BuildString;
+        AppVersion = AppInfo.Current.VersionString;
 
         await ApplyUserSessionInfo();
 

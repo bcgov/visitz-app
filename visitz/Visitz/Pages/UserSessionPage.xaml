@@ -10,6 +10,7 @@
     ControlTemplate="{StaticResource VisitzPageWrapper}">
     
     <AbsoluteLayout>
+        
         <Image 
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -38,8 +39,6 @@
             Text="{Binding SessionActionText}"
             Command="{Binding PerformSessionActionCommand}"/>
 
-        
-        
         <HorizontalStackLayout
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,1"
@@ -53,7 +52,7 @@
                 Text="{Binding AppVersion, StringFormat='Version {0}'}" 
                 TextColor="White" />
         </HorizontalStackLayout>
-    
+        
     </AbsoluteLayout>
     
 </pages:VisitzPage>
