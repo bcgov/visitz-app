@@ -64,6 +64,12 @@ public class VisitzRealm
         }
     }
 
+    public static async Task ClearIcmDataRealm()
+    {
+        using var realm = await GetIcmDataAsync();
+        await realm.WriteAsync(realm.RemoveAll);
+    }
+
     public static async Task<Realm> GetIcmDataAsync()
     {
         return await GetAsync(IcmDataCopiesPath);

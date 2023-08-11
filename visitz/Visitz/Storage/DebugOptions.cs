@@ -37,10 +37,7 @@
         public static async Task ClearRealmData()
         {
             if (Enabled)
-            {
-                using var realm = await VisitzRealm.GetIcmDataAsync();
-                await realm.WriteAsync(realm.RemoveAll);
-            }
+                await VisitzRealm.ClearIcmDataRealm();
         }
 
         public static void DeleteEncryptionKey()
