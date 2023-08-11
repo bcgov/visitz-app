@@ -145,6 +145,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Remove="Resources\Localization\LocalizedStrings.fr-FR.Designer.cs" />
+	  <Compile Remove="Resources\Raw\BcGovFlickr.cs" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
@@ -208,5 +209,8 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\note_empty.svg" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiAsset Include="Storage\BcGovAlbum.cs" />
 	</ItemGroup>
 </Project>
