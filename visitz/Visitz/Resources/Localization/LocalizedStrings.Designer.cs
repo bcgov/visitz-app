@@ -178,15 +178,9 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logging out will:
+        ///   Looks up a localized string similar to Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
         ///
-        ///• Require you to log in again before using ICM features
-        ///
-        ///• Delete the device&apos;s local copies of ICM data (does not affect ICM)
-        ///
-        ///Logging out won&apos;t:
-        ///
-        ///• Delete drafts of notes you&apos;ve written.
+        ///Logging out won&apos;t affect your unpublished notes..
         /// </summary>
         internal static string LogoutAndClearDataDesc {
             get {
