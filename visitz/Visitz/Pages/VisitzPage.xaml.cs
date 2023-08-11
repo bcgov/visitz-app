@@ -18,26 +18,40 @@ public abstract partial class VisitzPage : ContentPage
 
     protected virtual void OnCreated() 
     {
+        ConsoleTrace.TraceMethod(this);
+
         ViewModel.PageCreated();
-        ViewModel.SubscribeToWindow(CurrentWindow);
+        ViewModel.AttachToLifecycle(CurrentWindow);
     }
 
     protected override void OnAppearing()
     {
+        ConsoleTrace.TraceMethod(this);
+
         base.OnAppearing();
         ViewModel.PageStarted();
     }
 
     protected override void OnDisappearing()
     {
+        ConsoleTrace.TraceMethod(this);
+
         ViewModel.PageStopped();
         base.OnDisappearing();
     }
 
     protected virtual void OnDestroyed()
     {
-        ViewModel.UnsubscribeFromWindow(CurrentWindow);
+        ConsoleTrace.TraceMethod(this);
+
+        ViewModel.DetachFromLifecycle(CurrentWindow);
         ViewModel.PageDestroyed();
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        ConsoleTrace.TraceMethod(this);
+        return base.OnBackButtonPressed();
     }
 
     protected override void OnParentChanging(ParentChangingEventArgs args)
@@ -57,6 +71,8 @@ public abstract partial class VisitzPage : ContentPage
         IDictionary<string, object> parameters = null, bool modal = false,
         bool animated = true) where T : VisitzPage
     {
+        ConsoleTrace.TraceMethod(typeof(VisitzPage), $"Navigating to {typeof(T)}");
+
         var newPage = ServiceProvider.Current.GetRequiredService<T>();
         newPage.Parameters = parameters;
         if (modal)

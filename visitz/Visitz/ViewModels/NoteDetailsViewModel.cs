@@ -32,6 +32,8 @@ namespace Visitz.ViewModels
 
         public override async void PageCreated()
         {
+            base.PageCreated();
+
             caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
             NoteItem = Parameters[NoteItemKey] as NoteItem;
             CanAppendNotes = (bool)Parameters[CanAppendNotesKey];
@@ -60,6 +62,8 @@ namespace Visitz.ViewModels
 
             Realm.Dispose();
             Realm = null;
+
+            base.PageDestroyed();
         }
 
         private void ApplyNotesQuery()

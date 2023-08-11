@@ -50,6 +50,8 @@ namespace Visitz.ViewModels
 
         public override async void PageCreated()
         {
+            base.PageCreated();
+
             var caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
             var noteItem = Parameters[NoteItemKey] as NoteItem;
             draft = Parameters[DraftItemKey] as string;
@@ -76,6 +78,8 @@ namespace Visitz.ViewModels
         public override void PageDestroyed()
         {
             WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            base.PageDestroyed();
         }
 
         private async Task PublishDraft(SubmitNoteEntity noteEntity, string draft)

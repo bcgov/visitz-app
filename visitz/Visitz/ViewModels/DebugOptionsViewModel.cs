@@ -15,6 +15,8 @@ namespace Visitz.ViewModels
 
         public override void PageStarted()
         {
+            base.PageStarted();
+
             IdirOverride = DebugOptions.IdirOverride;
             ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;
         }

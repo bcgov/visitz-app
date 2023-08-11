@@ -47,6 +47,8 @@ namespace Visitz.ViewModels
 
         public override async void PageCreated()
         {
+            base.PageCreated();
+
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
             Realm = await VisitzRealm.GetIcmDataAsync();
@@ -64,6 +66,8 @@ namespace Visitz.ViewModels
 
         public override async void PageStarted()
         {
+            base.PageStarted();
+
             SessionDisplayName = await UserSessionViewModel.GetDisplayNamePrompt();
         }
 
@@ -78,6 +82,8 @@ namespace Visitz.ViewModels
 
             Realm.Dispose();
             Realm = null;
+
+            base.PageDestroyed();
         }
 
         private void Caseload_Changed(IRealmCollection<CaseloadItem> sender, ChangeSet changes)

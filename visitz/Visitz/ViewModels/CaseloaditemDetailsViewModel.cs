@@ -28,6 +28,8 @@ namespace Visitz.ViewModels
 
         public override async void PageCreated()
         {
+            base.PageCreated();
+
             caseIncidentId = Parameters[CaseIncidentIdKey] as string;
 
             using var realm = await VisitzRealm.GetIcmDataAsync();

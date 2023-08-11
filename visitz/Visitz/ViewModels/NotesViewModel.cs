@@ -52,6 +52,8 @@ namespace Visitz.ViewModels
 
         public override async void PageCreated()
         {
+            base.PageCreated();
+
             caseIncidentId = Parameters[CaseIncidentIdKey] as string;
 
             WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncidentId));
@@ -87,6 +89,8 @@ namespace Visitz.ViewModels
             Realm = null;
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            base.PageDestroyed();
         }
 
         [RelayCommand]

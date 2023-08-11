@@ -18,6 +18,8 @@ public partial class VisitzApp : Application
 
     public ServiceHandler ServiceHandler { get; private set; }
 
+    public event EventHandler<EventArgs> AppResumed;
+
     public VisitzApp()
     {
         InitializeComponent();
@@ -28,7 +30,9 @@ public partial class VisitzApp : Application
     }
 
     protected async override void OnStart()
-    {   
+    {
+        ConsoleTrace.TraceMethod(this);
+
         base.OnStart();
         
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
@@ -38,9 +42,11 @@ public partial class VisitzApp : Application
 
     protected async override void OnResume()
     {
+        ConsoleTrace.TraceMethod(this);
+
         base.OnResume();
+        AppResumed?.Invoke(this, null);
         
         await AppLockPage.TryPrompt();
     }
 }
-

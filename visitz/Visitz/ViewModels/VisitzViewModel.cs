@@ -17,41 +17,77 @@ namespace Visitz.ViewModels
             await VisitzPage.NavigateTo<T>(VisitzPage, parameters);
         }
 
-        public virtual void PageCreated() { }
-
-        public virtual void PageStarted() { }
-
-        public virtual void PageStopped() { }
-
-        public virtual void PageDestroyed() { }
-
-        public void SubscribeToWindow(Window window)
+        public virtual void PageCreated() 
         {
-            if (window == null)
-                return;
-
-            window.Resumed += Window_Resumed;
-            window.Stopped += Window_Stopped;
-            // TODO: window.Destroying & this.IDisposable?
+            ConsoleTrace.TraceMethod(this);
         }
 
-        public void UnsubscribeFromWindow(Window window)
+        public virtual void PageStarted()
         {
+            ConsoleTrace.TraceMethod(this);
+        }
+
+        public virtual void PageStopped()
+        {
+            ConsoleTrace.TraceMethod(this);
+        }
+
+        public virtual void PageDestroyed()
+        {
+            ConsoleTrace.TraceMethod(this);
+        }
+
+        public void AttachToLifecycle(Window window)
+        {
+            ConsoleTrace.TraceMethod(this, $"window = '{window}'");
+
+            (Application.Current as VisitzApp).AppResumed += Window_Resumed;
+
             if (window == null)
                 return;
 
+            window.Activated += Window_Activated;
+            window.Resumed += Window_Resumed;
+            window.Stopped += Window_Stopped;
+            window.Deactivated += Window_Deactivated;
+        }
+
+        public void DetachFromLifecycle(Window window)
+        {
+            ConsoleTrace.TraceMethod(this, $"window = '{window}'");
+
+            (Application.Current as VisitzApp).AppResumed -= Window_Resumed;
+
+            if (window == null)
+                return;
+
+            window.Activated -= Window_Activated;
             window.Resumed -= Window_Resumed;
             window.Stopped -= Window_Stopped;
-            // TODO: window.Destroying & this.IDisposable?
+            window.Deactivated -= Window_Deactivated;
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            ConsoleTrace.TraceMethod(this);
+            PageStarted();
         }
 
         public void Window_Resumed(object sender, EventArgs e)
         {
+            ConsoleTrace.TraceMethod(this);
             PageStarted();
         }
 
         public void Window_Stopped(object sender, EventArgs e)
         {
+            ConsoleTrace.TraceMethod(this);
+            PageStopped();
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            ConsoleTrace.TraceMethod(this);
             PageStopped();
         }
     }
