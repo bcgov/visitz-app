@@ -353,5 +353,23 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ✅ You are authorized to use ICM features.
+        /// </summary>
+        internal static string YouAreAuthorized {
+            get {
+                return ResourceManager.GetString("YouAreAuthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ⛔ You haven&apos;t been authorized to use ICM features.
+        /// </summary>
+        internal static string YouArentAuthorized {
+            get {
+                return ResourceManager.GetString("YouArentAuthorized", resourceCulture);
+            }
+        }
     }
 }
