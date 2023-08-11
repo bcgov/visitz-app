@@ -85,6 +85,9 @@ public partial class UserSessionViewModel : VisitzViewModel
 
     private string GetAuthStatus(VisitzSessionInfo info)
     {
+        return info.Roles.Contains(VisitzRoles.BasicAccess)
+            ? LocalizedStrings.YouAreAuthorized
+            : LocalizedStrings.YouArentAuthorized;
     }
 
     [RelayCommand]
