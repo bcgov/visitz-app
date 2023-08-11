@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Visitz.Authentication.Keycloak;
 using Visitz.Resources.Localization;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels;
 
@@ -22,6 +23,9 @@ public partial class UserSessionViewModel : VisitzViewModel
     [ObservableProperty]
     public string appVersion;
 
+    [ObservableProperty]
+    public string backgroundImageUri;
+
     public static async Task<string> GetDisplayNamePrompt(VisitzSessionInfo info = null)
     {
         info ??= await VisitzSessionInfo.GetAsync();
@@ -34,6 +38,7 @@ public partial class UserSessionViewModel : VisitzViewModel
         AppVersion = AppInfo.Current.VersionString;
 
         await ApplyUserSessionInfo();
+        BackgroundImageUri = (await BcGovAlbum.GetPictureUris())[17];
 
         VisitzSession.SessionChanged += VisitzSession_SessionChanged;
     }
