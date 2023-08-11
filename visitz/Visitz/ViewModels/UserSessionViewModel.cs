@@ -60,7 +60,7 @@ public partial class UserSessionViewModel : VisitzViewModel
             var info = await VisitzSessionInfo.GetAsync();
 
             DisplayName = info.GivenName;
-            SessionActionText = LocalizedStrings.TerminateSession;
+            SessionActionText = LocalizedStrings.Logout;
         }
         else
         {
@@ -75,11 +75,29 @@ public partial class UserSessionViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    public static async void PerformSessionAction()
+    public async void PerformSessionAction()
     {
         if (await VisitzSession.SessionExistsAsync())
-            await VisitzSession.LogoutAsync();
+            await TryLogout();
         else
             await VisitzSession.LoginAsync();
+    }
+
+    private async Task TryLogout()
+    {
+        if (!await PromptLogout())
+            return;
+
+        await VisitzSession.LogoutAsync();
+        await VisitzRealm.ClearIcmDataRealm();
+    }
+
+    private async Task<bool> PromptLogout()
+    {
+        return await VisitzPage.DisplayAlert(
+            LocalizedStrings.LogoutAndClearData,
+            LocalizedStrings.LogoutAndClearDataDesc, 
+            LocalizedStrings.Logout,
+            LocalizedStrings.Cancel);
     }
 }
