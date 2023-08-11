@@ -6,14 +6,16 @@ namespace Visitz.Behaviors;
 
 public class EntitySubTypeTagBehavior : TagStyleBehavior
 {
+    private static readonly string TagIcon = "tag_icon.png";
+
     protected override void ApplyTagStyle(TagView tag)
     {
         if (tag.BindingContext is not CaseloadItem item)
             return;
 
         tag.Text = item.CaseIncidentType;
-
-        tag.BackgroundColor = Colors.Transparent;
-        tag.BorderColor = VisitzColors.BC_Blue;
+        tag.TextColor = VisitzColors.EntitySubTypeTagTextBackground;
+        tag.BackgroundColor = VisitzColors.EntitySubTypeBackground;
+        tag.IconName = TagIcon;
     }
 }
