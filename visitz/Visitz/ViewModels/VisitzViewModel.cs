@@ -37,7 +37,7 @@ namespace Visitz.ViewModels
             ConsoleTrace.TraceMethod(this);
         }
 
-        public void SubscribeToWindow(Window window)
+        public void AttachToLifecycle(Window window)
         {
             ConsoleTrace.TraceMethod(this, $"window = '{window}'");
 
@@ -52,7 +52,7 @@ namespace Visitz.ViewModels
             window.Deactivated += Window_Deactivated;
         }
 
-        public void UnsubscribeFromWindow(Window window)
+        public void DetachFromLifecycle(Window window)
         {
             ConsoleTrace.TraceMethod(this, $"window = '{window}'");
 

@@ -21,7 +21,7 @@ public abstract partial class VisitzPage : ContentPage
         ConsoleTrace.TraceMethod(this);
 
         ViewModel.PageCreated();
-        ViewModel.SubscribeToWindow(CurrentWindow);
+        ViewModel.AttachToLifecycle(CurrentWindow);
     }
 
     protected override void OnAppearing()
@@ -44,7 +44,7 @@ public abstract partial class VisitzPage : ContentPage
     {
         ConsoleTrace.TraceMethod(this);
 
-        ViewModel.UnsubscribeFromWindow(CurrentWindow);
+        ViewModel.DetachFromLifecycle(CurrentWindow);
         ViewModel.PageDestroyed();
     }
 
