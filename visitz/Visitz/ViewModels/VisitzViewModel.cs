@@ -30,8 +30,10 @@ namespace Visitz.ViewModels
             if (window == null)
                 return;
 
+            window.Activated += Window_Activated;
             window.Resumed += Window_Resumed;
             window.Stopped += Window_Stopped;
+            window.Deactivated += Window_Deactivated;
         }
 
         public void UnsubscribeFromWindow(Window window)
@@ -39,8 +41,15 @@ namespace Visitz.ViewModels
             if (window == null)
                 return;
 
+            window.Activated -= Window_Activated;
             window.Resumed -= Window_Resumed;
             window.Stopped -= Window_Stopped;
+            window.Deactivated -= Window_Deactivated;
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            PageStarted();
         }
 
         public void Window_Resumed(object sender, EventArgs e)
@@ -49,6 +58,11 @@ namespace Visitz.ViewModels
         }
 
         public void Window_Stopped(object sender, EventArgs e)
+        {
+            PageStopped();
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
         {
             PageStopped();
         }
