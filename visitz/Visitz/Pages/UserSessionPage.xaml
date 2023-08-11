@@ -28,10 +28,8 @@
             AbsoluteLayout.LayoutBounds=".5,0"
             Text="{Binding DisplayName, StringFormat='Hello, {0}.'}"
             IsVisible="{Binding ShowGreeting}"
-            VerticalOptions="Center" 
             FontSize="30"
             Margin="20"
-            HorizontalOptions="Center"
             TextColor="White"/>
         
         <Button 
