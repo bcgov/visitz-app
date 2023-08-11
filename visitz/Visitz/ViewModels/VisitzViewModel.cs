@@ -39,10 +39,12 @@ namespace Visitz.ViewModels
 
         public void SubscribeToWindow(Window window)
         {
+            ConsoleTrace.TraceMethod(this, $"window = '{window}'");
+
+            (Application.Current as VisitzApp).AppResumed += Window_Resumed;
+
             if (window == null)
                 return;
-
-            ConsoleTrace.TraceMethod(this);
 
             window.Activated += Window_Activated;
             window.Resumed += Window_Resumed;
@@ -52,10 +54,12 @@ namespace Visitz.ViewModels
 
         public void UnsubscribeFromWindow(Window window)
         {
+            ConsoleTrace.TraceMethod(this, $"window = '{window}'");
+
+            (Application.Current as VisitzApp).AppResumed -= Window_Resumed;
+
             if (window == null)
                 return;
-
-            ConsoleTrace.TraceMethod(this);
 
             window.Activated -= Window_Activated;
             window.Resumed -= Window_Resumed;

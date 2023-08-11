@@ -18,6 +18,8 @@ public partial class VisitzApp : Application
 
     public ServiceHandler ServiceHandler { get; private set; }
 
+    public event EventHandler<EventArgs> AppResumed;
+
     public VisitzApp()
     {
         InitializeComponent();
@@ -43,6 +45,7 @@ public partial class VisitzApp : Application
         ConsoleTrace.TraceMethod(this);
 
         base.OnResume();
+        AppResumed?.Invoke(this, null);
         
         await AppLockPage.TryPrompt();
     }
