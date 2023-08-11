@@ -56,6 +56,9 @@ public static class VisitzColors
     public static readonly Color PurpleTagBorder = TryGetColor(nameof(PurpleTagBorder));
     public static readonly Color FamilyTagColor = TryGetColor(nameof(FamilyTagColor));
 
+    public static readonly Color EntitySubTypeBackground = TryGetColor(nameof(EntitySubTypeBackground));
+    public static readonly Color EntitySubTypeTagTextBackground = TryGetColor(nameof(EntitySubTypeTagTextBackground));
+
     // Family Information Colors
     public static readonly Color KeyPlayerInfoPurpleBackground = TryGetColor(nameof(KeyPlayerInfoPurpleBackground));
     public static readonly Color FamilyMemberInfoGrayBorder = TryGetColor(nameof(FamilyMemberInfoGrayBorder));
