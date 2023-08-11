@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Collections;
+using System.IdentityModel.Tokens.Jwt;
 using Visitz.Storage;
 
 namespace Visitz.Authentication.Keycloak
@@ -42,11 +43,22 @@ namespace Visitz.Authentication.Keycloak
                 : TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
         }
 
+        private List<string> GetRoles()
+        {
+            List<string> outRoles = new();
+
+            if (TryGet<IEnumerable>(RolesKey, out var roles))
+                foreach (var role in roles)
+                    outRoles.Add(role.ToString());
+
+            return outRoles;
+        }
+
         public string Idir => GetIdir();
 
         public string DisplayName => TryGet<string>(DisplayNameKey, out var displayName) ? displayName : "";
 
-        public string[] Roles => TryGet<string[]>(RolesKey, out var roles) ? roles : null;
+        public List<string> Roles => GetRoles();
 
         public string PreferredUsername => TryGet<string>(PreferredUsernameKey, out var name) ? name : "";
 
