@@ -32,7 +32,6 @@ namespace Visitz.ViewModels
 
             window.Resumed += Window_Resumed;
             window.Stopped += Window_Stopped;
-            // TODO: window.Destroying & this.IDisposable?
         }
 
         public void UnsubscribeFromWindow(Window window)
@@ -42,7 +41,6 @@ namespace Visitz.ViewModels
 
             window.Resumed -= Window_Resumed;
             window.Stopped -= Window_Stopped;
-            // TODO: window.Destroying & this.IDisposable?
         }
 
         public void Window_Resumed(object sender, EventArgs e)
