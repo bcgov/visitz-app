@@ -15,6 +15,9 @@ public partial class UserSessionViewModel : VisitzViewModel
     public bool showGreeting;
 
     [ObservableProperty]
+    public string authStatus;
+
+    [ObservableProperty]
     public string sessionActionText;
 
     [ObservableProperty]
@@ -64,11 +67,13 @@ public partial class UserSessionViewModel : VisitzViewModel
             var info = await VisitzSessionInfo.GetAsync();
 
             DisplayName = info.GivenName;
+            AuthStatus = GetAuthStatus(info);
             SessionActionText = LocalizedStrings.Logout;
         }
         else
         {
             DisplayName = "";
+            AuthStatus = "";
             SessionActionText = LocalizedStrings.Login;
         }
     }
@@ -76,6 +81,10 @@ public partial class UserSessionViewModel : VisitzViewModel
     partial void OnDisplayNameChanged(string value)
     {
         ShowGreeting = value?.Length > 0;
+    }
+
+    private string GetAuthStatus(VisitzSessionInfo info)
+    {
     }
 
     [RelayCommand]

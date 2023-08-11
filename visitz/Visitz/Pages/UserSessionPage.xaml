@@ -30,8 +30,16 @@
             IsVisible="{Binding ShowGreeting}"
             FontSize="30"
             Margin="20"
-            TextColor="White"/>
-        
+            TextColor="White" />
+
+        <Label 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,.25"
+            Text="{Binding AuthStatus}"
+            FontSize="20"
+            Margin="20"
+            TextColor="White" />
+
         <Button 
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,.5"
