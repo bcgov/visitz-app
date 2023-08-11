@@ -17,18 +17,32 @@ namespace Visitz.ViewModels
             await VisitzPage.NavigateTo<T>(VisitzPage, parameters);
         }
 
-        public virtual void PageCreated() { }
+        public virtual void PageCreated() 
+        {
+            ConsoleTrace.TraceMethod(this);
+        }
 
-        public virtual void PageStarted() { }
+        public virtual void PageStarted()
+        {
+            ConsoleTrace.TraceMethod(this);
+        }
 
-        public virtual void PageStopped() { }
+        public virtual void PageStopped()
+        {
+            ConsoleTrace.TraceMethod(this);
+        }
 
-        public virtual void PageDestroyed() { }
+        public virtual void PageDestroyed()
+        {
+            ConsoleTrace.TraceMethod(this);
+        }
 
         public void SubscribeToWindow(Window window)
         {
             if (window == null)
                 return;
+
+            ConsoleTrace.TraceMethod(this);
 
             window.Activated += Window_Activated;
             window.Resumed += Window_Resumed;
@@ -41,6 +55,8 @@ namespace Visitz.ViewModels
             if (window == null)
                 return;
 
+            ConsoleTrace.TraceMethod(this);
+
             window.Activated -= Window_Activated;
             window.Resumed -= Window_Resumed;
             window.Stopped -= Window_Stopped;
@@ -49,21 +65,25 @@ namespace Visitz.ViewModels
 
         private void Window_Activated(object sender, EventArgs e)
         {
+            ConsoleTrace.TraceMethod(this);
             PageStarted();
         }
 
         public void Window_Resumed(object sender, EventArgs e)
         {
+            ConsoleTrace.TraceMethod(this);
             PageStarted();
         }
 
         public void Window_Stopped(object sender, EventArgs e)
         {
+            ConsoleTrace.TraceMethod(this);
             PageStopped();
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
+            ConsoleTrace.TraceMethod(this);
             PageStopped();
         }
     }

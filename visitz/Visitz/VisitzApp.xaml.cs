@@ -28,7 +28,9 @@ public partial class VisitzApp : Application
     }
 
     protected async override void OnStart()
-    {   
+    {
+        ConsoleTrace.TraceMethod(this);
+
         base.OnStart();
         
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
@@ -38,9 +40,10 @@ public partial class VisitzApp : Application
 
     protected async override void OnResume()
     {
+        ConsoleTrace.TraceMethod(this);
+
         base.OnResume();
         
         await AppLockPage.TryPrompt();
     }
 }
-
