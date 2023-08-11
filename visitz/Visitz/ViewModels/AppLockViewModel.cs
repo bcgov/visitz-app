@@ -17,6 +17,8 @@ namespace Visitz.ViewModels
 
         public override async void PageStarted()
         {
+            base.PageStarted();
+
             await PromptAuthentication();
         }
 

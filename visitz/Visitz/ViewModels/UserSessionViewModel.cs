@@ -34,6 +34,8 @@ public partial class UserSessionViewModel : VisitzViewModel
 
     public override async void PageCreated()
     {
+        base.PageCreated();
+
         BuildNumber = AppInfo.Current.BuildString;
         AppVersion = AppInfo.Current.VersionString;
 
@@ -46,6 +48,8 @@ public partial class UserSessionViewModel : VisitzViewModel
     public override void PageDestroyed()
     {
         VisitzSession.SessionChanged -= VisitzSession_SessionChanged;
+
+        base.PageDestroyed();
     }
 
     private async void VisitzSession_SessionChanged(object sender, EventArgs e)

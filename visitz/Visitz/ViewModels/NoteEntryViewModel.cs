@@ -32,6 +32,8 @@ namespace Visitz.ViewModels
 
         public override async void PageCreated()
         {
+            base.PageCreated();
+
             caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
             noteItem = Parameters[NoteItemKey] as NoteItem;
 
@@ -53,6 +55,8 @@ namespace Visitz.ViewModels
         public override void PageStopped()
         {
             SaveDraft();
+
+            base.PageStopped();
         }
 
         public override void PageDestroyed()
@@ -61,6 +65,8 @@ namespace Visitz.ViewModels
             NoteDraftQueryToken = null;
 
             NoteDraftQuery = null;
+
+            base.PageDestroyed();
         }
 
         private void ApplyDraft()
