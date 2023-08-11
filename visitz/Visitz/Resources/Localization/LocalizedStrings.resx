@@ -203,9 +203,26 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
     <value>🐞</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>Log out</value>
   </data>
   <data name="TerminateSession" xml:space="preserve">
     <value>Terminate session</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LogoutAndClearData" xml:space="preserve">
+    <value>Log out and clear data</value>
+  </data>
+  <data name="LogoutAndClearDataDesc" xml:space="preserve">
+    <value>Logging out will:
+
+• Require you to log in again before using ICM features
+
+• Delete the device's local copies of ICM data (does not affect ICM)
+
+Logging out won't:
+
+• Delete drafts of notes you've written</value>
   </data>
 </root>

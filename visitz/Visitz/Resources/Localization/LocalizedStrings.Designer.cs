@@ -70,6 +70,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
         internal static string Caseload {
@@ -151,11 +160,37 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logout.
+        ///   Looks up a localized string similar to Log out.
         /// </summary>
         internal static string Logout {
             get {
                 return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out and clear data.
+        /// </summary>
+        internal static string LogoutAndClearData {
+            get {
+                return ResourceManager.GetString("LogoutAndClearData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logging out will:
+        ///
+        ///• Require you to log in again before using ICM features
+        ///
+        ///• Delete the device&apos;s local copies of ICM data (does not affect ICM)
+        ///
+        ///Logging out won&apos;t:
+        ///
+        ///• Delete drafts of notes you&apos;ve written.
+        /// </summary>
+        internal static string LogoutAndClearDataDesc {
+            get {
+                return ResourceManager.GetString("LogoutAndClearDataDesc", resourceCulture);
             }
         }
         
