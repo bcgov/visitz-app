@@ -1,0 +1,63 @@
+<pages:VisitzPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Pages.UserSessionPage"
+    x:DataType="viewModels:UserSessionViewModel"
+    Title="Session"
+    BackgroundColor="Black"
+    ControlTemplate="{StaticResource VisitzPageWrapper}">
+    
+    <AbsoluteLayout>
+
+        <Image 
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            Aspect="AspectFill"
+            Opacity=".5">
+            <Image.Source>
+                <UriImageSource 
+                    Uri="{Binding BackgroundImageUri}" 
+                    CacheValidity="30:0:0:0" />
+            </Image.Source>
+        </Image>
+
+        <Label 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,0"
+            Text="{Binding DisplayName, StringFormat='Hello, {0}.'}"
+            IsVisible="{Binding ShowGreeting}"
+            VerticalOptions="Center" 
+            FontSize="30"
+            Margin="20"
+            HorizontalOptions="Center"
+            TextColor="White"/>
+        
+        <Button 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,.5"
+            FontSize="20"
+            BorderColor="{StaticResource BC_Gold}"
+            BorderWidth="1"
+            Padding="70,30,70,30"
+            Text="{Binding SessionActionText}"
+            Command="{Binding PerformSessionActionCommand}"/>
+
+        <HorizontalStackLayout
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,1"
+            Spacing="30"
+            Margin="10">
+            <Label 
+                Text="{Binding BuildNumber, StringFormat='Build #{0}'}" 
+                TextColor="White" />
+
+            <Label 
+                Text="{Binding AppVersion, StringFormat='Version {0}'}" 
+                TextColor="White" />
+        </HorizontalStackLayout>
+        
+    </AbsoluteLayout>
+    
+</pages:VisitzPage>

@@ -30,6 +30,9 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<DebugOptionsPage>();
             builder.Services.AddTransient<DebugOptionsViewModel>();
 
+            builder.Services.AddTransient<UserSessionPage>();
+            builder.Services.AddTransient<UserSessionViewModel>();
+
             return builder;
         }
 

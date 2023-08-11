@@ -31,7 +31,7 @@ namespace Visitz.Services
                 if (ex.HttpStatusCode == HttpStatusCode.Unauthorized
                     || ex.HttpStatusCode == HttpStatusCode.Forbidden)
                 {
-                    VisitzSession.InvalidateSession();
+                    await VisitzSession.InvalidateSessionAsync();
                     ResultMessage = ex.Message;
 
                     // TODO: Properly notify user their session is invalid and

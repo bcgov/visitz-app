@@ -32,11 +32,6 @@ public partial class CaseloadPage : VisitzPage
         FilterPicker.SelectedIndex = 0;
     }
 
-    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-        await ViewModel.OpenDebugOptionsPage();
-    }
-
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
         ViewModel.ApplyCaseloadQuery();

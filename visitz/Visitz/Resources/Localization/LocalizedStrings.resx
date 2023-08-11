@@ -196,4 +196,27 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
   <data name="RefreshingNotes" xml:space="preserve">
     <value>Refreshing notes</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Debug" xml:space="preserve">
+    <value>🐞</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="TerminateSession" xml:space="preserve">
+    <value>Terminate session</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LogoutAndClearData" xml:space="preserve">
+    <value>Log out and clear data</value>
+  </data>
+  <data name="LogoutAndClearDataDesc" xml:space="preserve">
+    <value>Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
+
+Logging out won't affect your unpublished notes.</value>
+  </data>
 </root>

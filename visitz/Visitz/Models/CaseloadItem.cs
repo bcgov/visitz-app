@@ -28,11 +28,23 @@ namespace Visitz.Models
         public string KeyPlayerHomePhone { get; set; }
         public string CreatedDate { get; set; }
         public string DateReported { get; set; }
+        public string MemoUrgent { get; set; }
+        public string MemoCallDate { get; set; }
+        public string MemoCallTime { get; set; }
+        public string MemoRecordedBy { get; set; }
 
-        // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string DisplayDate => EntityType == IcmEntity.Incident.ToString()
-            ? DateReported
-            : CreatedDate;
+        public string DisplayDate
+        {
+            get
+            {
+                if (EntityType == IcmEntity.Incident)
+                    return DateReported;
+                else if (EntityType == IcmEntity.Memo)
+                    return MemoCallDate;
+                else // IcmEntity.Case, etc...
+                    return CreatedDate;
+            }
+        }
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string DisplayName => EntityType == IcmEntity.Memo
@@ -87,6 +99,10 @@ namespace Visitz.Models
                 KeyPlayerHomePhone = caseloadEntity.KeyPlayerHomePhone,
                 CreatedDate = caseloadEntity.CreatedDate,
                 DateReported = caseloadEntity.DateReported,
+                MemoUrgent = caseloadEntity.MemoUrgent,
+                MemoCallDate = caseloadEntity.MemoCallDate,
+                MemoCallTime = caseloadEntity.MemoCallTime,
+                MemoRecordedBy = caseloadEntity.MemoRecordedBy,
             };
 
             if (caseloadEntity.FamilyMembers != null)
