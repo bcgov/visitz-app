@@ -14,38 +14,60 @@
         <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
     </Shell.BackButtonBehavior>
 
-    <VerticalStackLayout 
-        VerticalOptions="CenterAndExpand"
-        WidthRequest="500"
-        Spacing="40">
-        
-        <Grid HorizontalOptions="Center">
-            <Image Source="tilted_rectangle_bg.png" />
-            <Image Source="file_folder.png" />
-        </Grid>
+    <AbsoluteLayout>
+        <AbsoluteLayout 
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1.05"
+            BackgroundColor="Black">
+            <Image
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                Aspect="AspectFill"
+                Opacity=".5">
+                <Image.Source>
+                    <UriImageSource 
+                        Uri="{Binding BackgroundImageUri}" 
+                        CacheValidity="30:0:0:0" />
+                </Image.Source>
+            </Image>
+        </AbsoluteLayout>
 
-        <Button 
-            Text="{local:Localize DeviceAuthTitle}"
-            HorizontalOptions="Center"
-            TextColor="{StaticResource Primary}"
-            BackgroundColor="{StaticResource Secondary}"
-            FontFamily="BCSansBold"
-            FontSize="28"
-            Clicked="Unlock_Clicked"/>
+        <StackLayout 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,.5"
+            Orientation="Vertical"
+            WidthRequest="500"
+            Spacing="40">
 
-        <!--There seems to be an issue with WordWrap Label height when in VerticalStackLayouts.
+            <Grid HorizontalOptions="Center">
+                <Image Source="tilted_rectangle_bg.png" />
+                <Image Source="file_folder.png" />
+            </Grid>
+
+            <Button 
+                Text="{local:Localize DeviceAuthTitle}"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource Primary}"
+                BackgroundColor="{StaticResource Secondary}"
+                FontFamily="BCSansBold"
+                FontSize="28"
+                Clicked="Unlock_Clicked"/>
+
+            <!--There seems to be an issue with WordWrap Label height when in VerticalStackLayouts.
             So for now we'll just hardcode a height, but this really should be fixed with a better
             workaround (or MAUI update). -->
-        <Label 
-            Text="{local:Localize DeviceAuthReason}"
-            HorizontalOptions="FillAndExpand"
-            HorizontalTextAlignment="Center"
-            TextColor="White"
-            FontFamily="BCSansBold"
-            FontSize="22"
-            LineBreakMode="WordWrap"
-            HeightRequest="100"/>
+            <Label 
+                Text="{local:Localize DeviceAuthReason}"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                TextColor="White"
+                FontFamily="BCSansBold"
+                FontSize="22"
+                LineBreakMode="WordWrap"
+                HeightRequest="100"/>
 
-    </VerticalStackLayout>
+        </StackLayout>
+        
+    </AbsoluteLayout>
 
 </pages:VisitzPage>
