@@ -7,6 +7,8 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Pages.AppLockPage"
     x:DataType="viewmodels:AppLockViewModel"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="False"
     Title=""
     BackgroundColor="{StaticResource Primary}">
 
@@ -14,23 +16,21 @@
         <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
     </Shell.BackButtonBehavior>
 
-    <AbsoluteLayout>
-        <AbsoluteLayout 
+    <AbsoluteLayout BackgroundColor="Black" IgnoreSafeArea="True">
+
+        <Image
             AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1.05"
-            BackgroundColor="Black">
-            <Image
-                AbsoluteLayout.LayoutFlags="All"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                Aspect="AspectFill"
-                Opacity=".5">
-                <Image.Source>
-                    <UriImageSource 
-                        Uri="{Binding BackgroundImageUri}" 
-                        CacheValidity="30:0:0:0" />
-                </Image.Source>
-            </Image>
-        </AbsoluteLayout>
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            Aspect="AspectFill"
+            Opacity=".5">
+            
+            <Image.Source>
+                <UriImageSource 
+                    Uri="{Binding BackgroundImageUri}" 
+                    CacheValidity="30:0:0:0" />
+            </Image.Source>
+        </Image>
+
 
         <StackLayout 
             AbsoluteLayout.LayoutFlags="PositionProportional"
