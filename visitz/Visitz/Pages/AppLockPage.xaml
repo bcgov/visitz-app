@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:VisitzPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:Visitz.Pages"
-             xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-             xmlns:local="clr-namespace:Visitz.Localization"
-             x:Class="Visitz.Pages.AppLockPage"
-             x:DataType="viewmodels:AppLockViewModel"
-             Title=""
-             BackgroundColor="{StaticResource Primary}">
+<pages:VisitzPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    x:Class="Visitz.Pages.AppLockPage"
+    x:DataType="viewmodels:AppLockViewModel"
+    Title=""
+    BackgroundColor="{StaticResource Primary}">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
