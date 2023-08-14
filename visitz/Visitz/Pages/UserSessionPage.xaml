@@ -13,7 +13,7 @@
 
         <Image 
             AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutBounds="0,0,1,1.05"
             Aspect="AspectFill"
             Opacity=".5">
             <Image.Source>
