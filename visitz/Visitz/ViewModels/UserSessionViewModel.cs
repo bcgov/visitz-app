@@ -43,7 +43,7 @@ public partial class UserSessionViewModel : VisitzViewModel
         AppVersion = AppInfo.Current.VersionString;
 
         await ApplyUserSessionInfo();
-        BackgroundImageUri = (await BcGovAlbum.GetPictureUris())[17];
+        BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
 
         VisitzSession.SessionChanged += VisitzSession_SessionChanged;
     }
