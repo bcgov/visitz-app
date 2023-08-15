@@ -6,7 +6,7 @@ using Visitz.Storage;
 
 namespace Visitz.ViewModels;
 
-public partial class UserSessionViewModel : VisitzViewModel
+public partial class SessionViewModel : VisitzViewModel
 {
     [ObservableProperty]
     public string displayName;

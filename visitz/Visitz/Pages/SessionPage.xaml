@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
-    x:Class="Visitz.Pages.UserSessionPage"
-    x:DataType="viewModels:UserSessionViewModel"
+    x:Class="Visitz.Pages.SessionPage"
+    x:DataType="viewModels:SessionViewModel"
     Title="Session"
     BackgroundColor="Black"
     ControlTemplate="{StaticResource VisitzPageWrapper}">

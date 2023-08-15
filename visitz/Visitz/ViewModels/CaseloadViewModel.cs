@@ -68,7 +68,7 @@ namespace Visitz.ViewModels
         {
             base.PageStarted();
 
-            SessionDisplayName = await UserSessionViewModel.GetDisplayNamePrompt();
+            SessionDisplayName = await SessionViewModel.GetDisplayNamePrompt();
         }
 
         public override void PageDestroyed()
@@ -169,7 +169,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void OpenSessionPage()
         {
-            await NavigateTo<UserSessionPage>();
+            await NavigateTo<SessionPage>();
         }
 
         public void Receive(ServiceStateMessage message)
@@ -179,7 +179,7 @@ namespace Visitz.ViewModels
 
         private async void VisitzSession_SessionChanged(object sender, EventArgs e)
         {
-            SessionDisplayName = await UserSessionViewModel.GetDisplayNamePrompt(sender as VisitzSessionInfo);
+            SessionDisplayName = await SessionViewModel.GetDisplayNamePrompt(sender as VisitzSessionInfo);
         }
     }
 }
