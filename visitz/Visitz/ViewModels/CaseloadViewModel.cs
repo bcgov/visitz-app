@@ -169,7 +169,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void OpenSessionPage()
         {
-            await NavigateTo<SessionPage>();
+            await SessionPage.OpenAsync(VisitzPage, true);
         }
 
         public void Receive(ServiceStateMessage message)
@@ -183,4 +183,3 @@ namespace Visitz.ViewModels
         }
     }
 }
-
