@@ -220,10 +220,7 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
 Logging out won't affect your unpublished notes.</value>
   </data>
   <data name="YouAreAuthorized" xml:space="preserve">
-    <value>✅ You are authorized to use ICM features</value>
-  </data>
-  <data name="YouArentAuthorized" xml:space="preserve">
-    <value>⛔ You haven't been authorized to use ICM features</value>
+    <value>You are authorized to use ICM features.</value>
   </data>
   <data name="LoginSuccessButUnauth" xml:space="preserve">
     <value>You've successfully logged in.
