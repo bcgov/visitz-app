@@ -87,7 +87,7 @@ namespace Visitz.Authentication.Keycloak
             TokenHolder.DeleteRefreshToken();
 
             var info = await VisitzSessionInfo.GetAsync();
-            SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs());
+            SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs() { Success = true });
         }
 
         public static async Task<bool> SessionExistsAsync()
