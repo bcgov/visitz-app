@@ -225,4 +225,9 @@ Logging out won't affect your unpublished notes.</value>
   <data name="YouArentAuthorized" xml:space="preserve">
     <value>⛔ You haven't been authorized to use ICM features</value>
   </data>
+  <data name="LoginSuccessButUnauth" xml:space="preserve">
+    <value>You've successfully logged in.
+
+However, you currently aren't authorized to use ICM features in MCFD Mobility. Please request access and try again.</value>
+  </data>
 </root>

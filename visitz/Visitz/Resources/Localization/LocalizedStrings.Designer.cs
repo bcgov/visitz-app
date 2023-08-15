@@ -160,6 +160,17 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve successfully logged in.
+        ///
+        ///However, you currently aren&apos;t authorized to use ICM features in MCFD Mobility. Please request access and try again..
+        /// </summary>
+        internal static string LoginSuccessButUnauth {
+            get {
+                return ResourceManager.GetString("LoginSuccessButUnauth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log out.
         /// </summary>
         internal static string Logout {
