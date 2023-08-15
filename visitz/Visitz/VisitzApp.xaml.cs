@@ -1,4 +1,5 @@
-﻿using Visitz.Pages;
+﻿using Visitz.Authentication.Keycloak;
+using Visitz.Pages;
 using Visitz.Services;
 
 namespace Visitz;
@@ -46,7 +47,7 @@ public partial class VisitzApp : Application
         
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
-        await AppLockPage.TryPrompt();
+        await TryModalSecurityChecksAsync();
     }
 
     protected async override void OnResume()
@@ -55,7 +56,15 @@ public partial class VisitzApp : Application
 
         base.OnResume();
         AppResumed?.Invoke(this, null);
-        
-        await AppLockPage.TryPrompt();
+
+        await TryModalSecurityChecksAsync();
+    }
+
+    private static async Task TryModalSecurityChecksAsync()
+    {
+        await SessionPage.TryOpenAsync(modal: true, animated: false);
+
+        if (await VisitzSession.SessionExistsAsync())
+            await AppLockPage.TryPrompt();
     }
 }
