@@ -47,10 +47,13 @@
             <Button 
                 Text="{local:Localize DeviceAuthTitle}"
                 HorizontalOptions="Center"
-                TextColor="{StaticResource Primary}"
-                BackgroundColor="{StaticResource Secondary}"
+                TextColor="White"
+                BorderColor="{StaticResource BC_Gold}"
+                BorderWidth="1"
+                Padding="50,20,50,20"
+                BackgroundColor="{StaticResource Primary}"
                 FontFamily="BCSansBold"
-                FontSize="28"
+                FontSize="20"
                 Clicked="Unlock_Clicked"/>
 
             <!--There seems to be an issue with WordWrap Label height when in VerticalStackLayouts.
@@ -62,7 +65,7 @@
                 HorizontalTextAlignment="Center"
                 TextColor="White"
                 FontFamily="BCSansBold"
-                FontSize="22"
+                FontSize="20"
                 LineBreakMode="WordWrap"
                 HeightRequest="100"/>
 
