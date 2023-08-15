@@ -95,5 +95,11 @@ namespace Visitz.Authentication.Keycloak
             return await TokenHolder.GetAccessTokenStringAsync() is not null
                 && await TokenHolder.GetRefreshTokenStringAsync() is not null;
         }
+
+        public static async Task<bool> HasBasicAccess()
+        {
+            var info = await VisitzSessionInfo.GetAsync();
+            return await SessionExistsAsync() && info.HasBasicAccessRole;
+        }
     }
 }
