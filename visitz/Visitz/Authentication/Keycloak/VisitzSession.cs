@@ -10,7 +10,7 @@ namespace Visitz.Authentication.Keycloak
         private static bool InternetAvailable =>
             Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
 
-        public static event EventHandler SessionChanged;
+        public static event EventHandler<SessionChangedEventArgs> SessionChanged;
 
         public static async Task<bool> GetValidSessionAsync()
         {
