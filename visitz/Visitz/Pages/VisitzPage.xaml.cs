@@ -67,14 +67,19 @@ public abstract partial class VisitzPage : ContentPage
             OnDestroyed();
     }
 
-    public static async Task NavigateTo<T>(Page fromPage,
-        IDictionary<string, object> parameters = null, bool modal = false,
+    public static async Task NavigateTo<T>(
+        Page fromPage = null,
+        IDictionary<string, object> parameters = null, 
+        bool modal = false,
         bool animated = true) where T : VisitzPage
     {
         ConsoleTrace.TraceMethod(typeof(VisitzPage), $"Navigating to {typeof(T)}");
 
+        fromPage ??= VisitzApp.CurrentOpenPage ?? VisitzApp.CurrentOpenModal;
+
         var newPage = ServiceProvider.Current.GetRequiredService<T>();
         newPage.Parameters = parameters;
+
         if (modal)
         {
             await fromPage.Navigation.PushModalAsync(newPage, animated);

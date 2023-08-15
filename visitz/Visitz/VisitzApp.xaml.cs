@@ -7,6 +7,15 @@ public partial class VisitzApp : Application
 {
     public static INavigation Navigation => Current.MainPage.Navigation;
 
+    public static Page CurrentOpenPage
+    {
+        get
+        {
+            int last = Navigation.NavigationStack.Count - 1;
+            return last >= 0 ? Navigation.NavigationStack[last] : null;
+        }
+    }
+
     public static Page CurrentOpenModal
     {
         get
