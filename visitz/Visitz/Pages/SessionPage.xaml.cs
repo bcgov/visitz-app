@@ -26,4 +26,9 @@ public partial class SessionPage : VisitzPage
 
         await OpenAsync(fromPage, modal: modal, animated: animated);
 	}
+
+    protected override bool OnBackButtonPressed()
+    {
+		return AppLockPage.BackButtonEnabled;
+    }
 }

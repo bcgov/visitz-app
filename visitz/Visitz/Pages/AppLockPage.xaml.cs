@@ -7,7 +7,7 @@ public partial class AppLockPage : VisitzPage
     /// <summary>
     /// Back button behavior disabled on purpose. We don't want to let users avoid this authentication check.
     /// </summary>
-    private static readonly bool BackButtonEnabled = false;
+    public static readonly bool BackButtonEnabled = false;
 
     public static bool IsOpen => VisitzApp.CurrentOpenModal?.GetType() == typeof(AppLockPage);
 
