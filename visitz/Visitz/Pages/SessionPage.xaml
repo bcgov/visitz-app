@@ -1,21 +1,37 @@
 <pages:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
     x:Class="Visitz.Pages.SessionPage"
     x:DataType="viewModels:SessionViewModel"
     Title="Session"
     BackgroundColor="Black"
-    ControlTemplate="{StaticResource VisitzPageWrapper}">
-    
-    <AbsoluteLayout>
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="False"
+    ios:Page.ModalPresentationStyle="{Binding PresentationStyle}">
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="BorderColor" Value="{StaticResource BC_Gold}" />
+            <Setter Property="BorderWidth" Value="1" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Padding" Value="50,20,50,20" />
+            <Setter Property="FontFamily" Value="BCSansBold" />
+        </Style>
+    </ContentPage.Resources>
+
+    <AbsoluteLayout 
+        Padding="30"
+        IgnoreSafeArea="True">
 
         <Image 
             AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1.05"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
             Aspect="AspectFill"
-            Opacity=".5">
+            Opacity=".5"
+            Margin="-30">
             <Image.Source>
                 <UriImageSource 
                     Uri="{Binding BackgroundImageUri}" 
@@ -25,36 +41,96 @@
 
         <Label 
             AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds=".5,0"
+            AbsoluteLayout.LayoutBounds=".5,.05"
             Text="{Binding DisplayName, StringFormat='Hello, {0}.'}"
-            IsVisible="{Binding ShowGreeting}"
+            IsVisible="{Binding ShowAuthStatusLayout}"
             FontSize="30"
-            Margin="20"
-            TextColor="White" />
-
-        <Label 
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds=".5,.25"
-            Text="{Binding AuthStatus}"
-            FontSize="20"
-            Margin="20"
             TextColor="White" />
 
         <Button 
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,.5"
+            Text="{local:Localize Login}"
+            Command="{Binding LoginAsyncCommand}"
+            IsVisible="{Binding ShowLoginLayout}" />
+
+        <Image
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,.25"
+            IsVisible="{Binding ShowAuthStatusLayout}">
+            <Image.Source>
+                <FontImageSource 
+                    Glyph="{Binding AuthIcon}"
+                    FontFamily="FontAwesome6Solid"
+                    Size="150"
+                    Color="{Binding AuthColor}" />
+            </Image.Source>
+        </Image>
+
+        <Label 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,.7"
+            Text="{Binding AuthStatus}"
             FontSize="20"
-            BorderColor="{StaticResource BC_Gold}"
-            BorderWidth="1"
-            Padding="70,30,70,30"
-            Text="{Binding SessionActionText}"
-            Command="{Binding PerformSessionActionCommand}"/>
+            Margin="20"
+            FontFamily="BCSansBold"
+            TextColor="White"
+            WidthRequest="600"
+            HeightRequest="200"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            IsVisible="{Binding ShowAuthStatusLayout}" />
+
+        <HorizontalStackLayout 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,.9"
+            IsVisible="{Binding ShowAuthStatusLayout}"
+            Spacing="20">
+
+            <Button 
+                Text="{local:Localize Logout}"
+                BackgroundColor="Transparent"
+                BorderColor="White"
+                Command="{Binding TryLogoutAsyncCommand}"
+                IsVisible="{Binding ShowAuthStatusLayout}" />
+
+            <Border
+                Stroke="White"
+                StrokeThickness="2"
+                IsVisible="{Binding IsUnauthorized}">
+                
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+
+                <ImageButton
+                    Padding="20"
+                    MaximumHeightRequest="70"
+                    MaximumWidthRequest="70"
+                    BackgroundColor="Transparent"
+                    Command="{Binding LoginAsyncCommand}"
+                    Aspect="AspectFill">
+                    <ImageButton.Source>
+                        <FontImageSource 
+                            Glyph="&#xf021;" 
+                            FontFamily="FontAwesome6Solid"
+                            Color="White"
+                            Size="70"/>
+                    </ImageButton.Source>
+                </ImageButton>
+            </Border>
+
+            <Button 
+                Text="{local:Localize Request Access}"
+                Command="{Binding RequestAccessAsyncCommand}"
+                IsVisible="{Binding IsUnauthorized}" />
+
+        </HorizontalStackLayout>
 
         <HorizontalStackLayout
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,1"
-            Spacing="30"
-            Margin="10">
+            Spacing="30">
             <Label 
                 Text="{Binding BuildNumber, StringFormat='Build #{0}'}" 
                 TextColor="White" />
