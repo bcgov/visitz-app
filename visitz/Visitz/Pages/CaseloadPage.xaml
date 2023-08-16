@@ -10,7 +10,8 @@
     x:Class="Visitz.Pages.CaseloadPage"
     x:DataType="viewmodels:CaseloadViewModel"
     Title="Caseload"
-    ControlTemplate="{StaticResource VisitzPageWrapper}">
+    ControlTemplate="{StaticResource VisitzPageWrapper}"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls">
 
     <NavigationPage.TitleView>
         <AbsoluteLayout
@@ -55,7 +56,7 @@
         </AbsoluteLayout>
     </NavigationPage.TitleView>
 
-    <StackLayout 
+    <StackLayout
         Orientation="Vertical"
         HorizontalOptions="Fill">
 
@@ -63,7 +64,7 @@
             Direction="Row"
             HorizontalOptions="FillAndExpand"
             AlignItems="Center"
-            Margin="20,20,20,20">
+            Margin="20,20,20,10">
 
             <Label Text="Sort by" Margin="0,0,5,0" />
 
@@ -112,7 +113,16 @@
                 ItemsSource="{Binding Subtypes}"
                 SelectedItem="{Binding SelectedSubtype}"/>
         </FlexLayout>
-        
+
+        <SearchBar 
+            x:Name="CaseloadSearchBar"
+            Placeholder="Search by key player's last name or ID"
+            Margin="12,0,12,0"
+            Text="{Binding SearchQuery}"
+            SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+            TextChanged="CaseloadSearchBar_TextChanged"
+            ios:SearchBar.SearchBarStyle="Minimal" />
+
         <RefreshView
             Command="{Binding RefreshCaseloadCommand}"
             IsRefreshing="{Binding IsRefreshing}">

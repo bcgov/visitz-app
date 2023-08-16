@@ -39,6 +39,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool showDebugButton;
 
+        [ObservableProperty]
+        public string searchQuery;
+
         private Realm Realm { get; set; }
 
         private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
@@ -101,6 +104,7 @@ namespace Visitz.ViewModels
 
             ApplySubtypeFiltering(ref query);
             ApplySorting(ref query);
+            ApplySearchQuery(ref query);
 
             Caseload = query;
         }
@@ -147,6 +151,18 @@ namespace Visitz.ViewModels
             }
         }
 
+        private void ApplySearchQuery(ref IEnumerable<CaseloadItem> query)
+        {
+            if (query == null || string.IsNullOrWhiteSpace(SearchQuery))
+                return;
+
+            query = query.Where(item =>
+            {
+                return item.CaseIncidentNumber.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || item.DisplayName.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase);
+            });
+        }
+
         [RelayCommand]
         public void RefreshCaseload()
         {
@@ -170,6 +186,11 @@ namespace Visitz.ViewModels
         public async void OpenSessionPage()
         {
             await SessionPage.OpenAsync(VisitzPage, true);
+        }
+
+        public void SearchCaseload()
+        {
+            ApplyCaseloadQuery();
         }
 
         public void Receive(ServiceStateMessage message)

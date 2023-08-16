@@ -1,4 +1,5 @@
-﻿using Visitz.ViewModels;
+﻿using CommunityToolkit.Maui.Core.Platform;
+using Visitz.ViewModels;
 
 namespace Visitz.Pages;
 
@@ -35,5 +36,17 @@ public partial class CaseloadPage : VisitzPage
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
         ViewModel.ApplyCaseloadQuery();
+    }
+
+    private async void CaseloadSearchBar_SearchButtonPressed(object sender, EventArgs e)
+    {
+        ViewModel.SearchCaseload();
+        await CaseloadSearchBar.HideKeyboardAsync(CancellationToken.None);
+    }
+
+    private void CaseloadSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (CaseloadSearchBar.Text?.Length == 0)
+            ViewModel.SearchCaseload();
     }
 }
