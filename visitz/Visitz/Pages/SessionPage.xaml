@@ -105,8 +105,8 @@
 
                 <ImageButton
                     Padding="20"
-                    MaximumHeightRequest="70"
-                    MaximumWidthRequest="70"
+                    MaximumHeightRequest="60"
+                    MaximumWidthRequest="60"
                     BackgroundColor="Transparent"
                     Command="{Binding LoginAsyncCommand}"
                     Aspect="AspectFill">
@@ -115,7 +115,7 @@
                             Glyph="&#xf021;" 
                             FontFamily="FontAwesome6Solid"
                             Color="White"
-                            Size="70"/>
+                            Size="60"/>
                     </ImageButton.Source>
                 </ImageButton>
             </Border>
