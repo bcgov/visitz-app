@@ -14,7 +14,6 @@ namespace Visitz.VisitzConfig
             {
                 Domain = settings.AuthenticationDomain,
                 ClientId = settings.ClientId,
-                Scope = "",
                 RedirectUri = settings.RedirectUri
             };
 

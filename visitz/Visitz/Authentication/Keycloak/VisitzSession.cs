@@ -85,6 +85,7 @@ namespace Visitz.Authentication.Keycloak
         {
             TokenHolder.DeleteAccessToken();
             TokenHolder.DeleteRefreshToken();
+            TokenHolder.DeleteIdentityToken();
 
             var info = await VisitzSessionInfo.GetAsync();
             SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs() { Success = true });
@@ -93,7 +94,8 @@ namespace Visitz.Authentication.Keycloak
         public static async Task<bool> SessionExistsAsync()
         {
             return await TokenHolder.GetAccessTokenStringAsync() is not null
-                && await TokenHolder.GetRefreshTokenStringAsync() is not null;
+                && await TokenHolder.GetRefreshTokenStringAsync() is not null
+                && await TokenHolder.GetIdentityTokenStringAsync() is not null;
         }
 
         public static async Task<bool> HasBasicAccess()
