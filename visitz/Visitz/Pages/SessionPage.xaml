@@ -78,7 +78,7 @@
         <Image
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,.25"
-            IsVisible="{Binding ShowAuthStatusLayout}">
+            IsVisible="{Binding IsUnauthorized}">
             <Image.Source>
                 <FontImageSource 
                     Glyph="{Binding AuthIcon}"
@@ -100,7 +100,7 @@
             HeightRequest="200"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center"
-            IsVisible="{Binding ShowAuthStatusLayout}" />
+            IsVisible="{Binding IsUnauthorized}" />
 
         <HorizontalStackLayout 
             AbsoluteLayout.LayoutFlags="PositionProportional"
