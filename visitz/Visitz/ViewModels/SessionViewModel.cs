@@ -189,6 +189,12 @@ public partial class SessionViewModel
             "Feature not implemented yet.", 
             LocalizedStrings.Ok);
     }
+
+    [RelayCommand]
+    private async void ClosePage()
+    {
+        await VisitzApp.Navigation.PopModalAsync();
+    }
 }
 
 public partial class SessionViewModel

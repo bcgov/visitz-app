@@ -39,6 +39,27 @@
             </Image.Source>
         </Image>
 
+        <ImageButton
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0,0"
+            Margin="-20"
+            Padding="20"
+            MaximumWidthRequest="65"
+            MaximumHeightRequest="65"
+            BackgroundColor="Transparent"
+            Command="{Binding ClosePageCommand}"
+            IsVisible="{Binding IsAuthorized}"
+            IsEnabled="{Binding IsAuthorized}"
+            Aspect="AspectFill">
+            <ImageButton.Source>
+                <FontImageSource 
+                    Glyph="&#xf00d;" 
+                    FontFamily="FontAwesome6Solid"
+                    Color="White"
+                    Size="65"/>
+            </ImageButton.Source>
+        </ImageButton>
+
         <Label 
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,.05"
