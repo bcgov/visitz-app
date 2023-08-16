@@ -84,7 +84,7 @@
         <HorizontalStackLayout 
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,.9"
-            IsVisible="{Binding ShowAuthStatusLayout}"
+            IsVisible="{Binding IsUnauthorized}"
             Spacing="20">
 
             <Button 
@@ -92,7 +92,7 @@
                 BackgroundColor="Transparent"
                 BorderColor="White"
                 Command="{Binding TryLogoutAsyncCommand}"
-                IsVisible="{Binding ShowAuthStatusLayout}" />
+                IsVisible="{Binding IsUnauthorized}" />
 
             <Border
                 Stroke="White"
@@ -126,6 +126,13 @@
                 IsVisible="{Binding IsUnauthorized}" />
 
         </HorizontalStackLayout>
+
+        <Button 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,.9"
+            Text="{local:Localize Logout}"
+            Command="{Binding TryLogoutAsyncCommand}"
+            IsVisible="{Binding IsAuthorized}" />
 
         <HorizontalStackLayout
             AbsoluteLayout.LayoutFlags="PositionProportional"

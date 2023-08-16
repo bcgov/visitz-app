@@ -80,6 +80,8 @@ public partial class SessionViewModel
     {
         ShowLoginLayout = true;
         ShowAuthStatusLayout = !ShowLoginLayout;
+        IsAuthorized = false;
+        IsUnauthorized = false;
 
         ApplyModalStyles(false);
     }
@@ -113,12 +115,16 @@ public partial class SessionViewModel
     public Color authColor;
 
     [ObservableProperty]
+    public bool isAuthorized;
+
+    [ObservableProperty]
     public bool isUnauthorized;
 
     private void ApplyAuthStatusLayout()
     {
         DisplayName = SessionInfo.GivenName;
-        IsUnauthorized = !SessionInfo.HasBasicAccessRole;
+        IsAuthorized = SessionInfo.HasBasicAccessRole;
+        IsUnauthorized = !IsAuthorized;
 
         if (IsUnauthorized)
         {
