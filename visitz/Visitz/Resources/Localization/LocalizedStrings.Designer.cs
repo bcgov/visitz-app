@@ -162,7 +162,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to You&apos;ve successfully logged in.
         ///
-        ///However, you currently aren&apos;t authorized to use ICM features in MCFD Mobility. Please request access and try again..
+        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Please request access and try again later..
         /// </summary>
         internal static string LoginSuccessButUnauth {
             get {
@@ -366,7 +366,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are authorized to use ICM features..
+        ///   Looks up a localized string similar to You are authorized to use MCFD Mobility..
         /// </summary>
         internal static string YouAreAuthorized {
             get {
