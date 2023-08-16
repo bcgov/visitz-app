@@ -150,7 +150,7 @@
 
         <Button 
             AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds=".5,.9"
+            AbsoluteLayout.LayoutBounds=".5,.5"
             Text="{local:Localize Logout}"
             Command="{Binding TryLogoutAsyncCommand}"
             IsVisible="{Binding IsAuthorized}" />
