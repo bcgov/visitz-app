@@ -9,10 +9,13 @@ namespace Visitz.Authentication.Keycloak
         private static readonly string NamespaceKey = "visitz_oauth_";
         private static readonly string AccessTokenKey = NamespaceKey + "access_token";
         private static readonly string RefreshTokenKey = NamespaceKey + "refresh_token";
+        private static readonly string IdentityTokenKey = NamespaceKey + "identity_token";
 
         public static JwtSecurityToken AccessToken { get; private set; }
 
         public static JwtSecurityToken RefreshToken { get; private set; }
+
+        public static JwtSecurityToken IdentityToken { get; private set; }
 
         private async static Task SetAsync(string key, string value)
         {
@@ -36,16 +39,24 @@ namespace Visitz.Authentication.Keycloak
             RefreshToken = new JwtSecurityToken(refreshToken);
         }
 
+        private static async Task SaveIdentityToken(string identityToken)
+        {
+            await SetAsync(IdentityTokenKey, identityToken);
+            IdentityToken = new JwtSecurityToken(identityToken);
+        }
+
         public static async Task SaveAsync(LoginResult loginResult)
         {
             await SaveAccessToken(loginResult.AccessToken);
             await SaveRefreshToken(loginResult.RefreshToken);
+            await SaveIdentityToken(loginResult.IdentityToken);
         }
 
         public static async Task SaveAsync(RefreshTokenResult refreshResult)
         {
             await SaveAccessToken(refreshResult.AccessToken);
             await SaveRefreshToken(refreshResult.RefreshToken);
+            await SaveIdentityToken(refreshResult.IdentityToken);
         }
 
         public static async Task<string> GetAccessTokenStringAsync()
@@ -55,6 +66,11 @@ namespace Visitz.Authentication.Keycloak
         public static async Task<string> GetRefreshTokenStringAsync()
         {
             return await GetAsync(RefreshTokenKey);
+        }
+
+        public static async Task<string> GetIdentityTokenStringAsync()
+        {
+            return await GetAsync(IdentityTokenKey);
         }
 
         public static async Task<JwtSecurityToken> GetAccessTokenAsync()
@@ -82,6 +98,12 @@ namespace Visitz.Authentication.Keycloak
         public static void DeleteRefreshToken()
         {
             SecureStorage.Default.Remove(RefreshTokenKey);
+            RefreshToken = null;
+        }
+
+        public static void DeleteIdentityToken()
+        {
+            SecureStorage.Default.Remove(IdentityTokenKey);
             RefreshToken = null;
         }
 

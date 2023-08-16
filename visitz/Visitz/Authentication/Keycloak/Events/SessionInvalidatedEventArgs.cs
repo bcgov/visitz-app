@@ -1,3 +1,3 @@
 ﻿namespace Visitz.Authentication.Keycloak.Events;
 
-public class SessionInvalidatedEventArgs : EventArgs { }
+public class SessionInvalidatedEventArgs : SessionChangedEventArgs { }

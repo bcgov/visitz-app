@@ -10,7 +10,7 @@ namespace Visitz.Authentication.Keycloak
         private static bool InternetAvailable =>
             Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
 
-        public static event EventHandler SessionChanged;
+        public static event EventHandler<SessionChangedEventArgs> SessionChanged;
 
         public static async Task<bool> GetValidSessionAsync()
         {
@@ -30,7 +30,10 @@ namespace Visitz.Authentication.Keycloak
             if (loginSuccess)
                 await TokenHolder.SaveAsync(loginResult);
 
-            // TODO: Log errors.
+#if DEBUG
+            ConsoleTrace.TraceMethod(typeof(VisitzSession),
+                $"loginResult.IsError: '{loginResult.IsError}', error: '{loginResult.Error}'");
+#endif
 
             var info = await VisitzSessionInfo.GetAsync();
             SessionChanged?.Invoke(info, new LoginChangedEventArgs() { Success = loginSuccess });
@@ -55,7 +58,10 @@ namespace Visitz.Authentication.Keycloak
             if (refreshSuccess)
                 await TokenHolder.SaveAsync(refreshResult);
 
-            // TODO: Log errors.
+#if DEBUG
+            ConsoleTrace.TraceMethod(typeof(VisitzSession), 
+                $"refreshResult.IsError: '{refreshResult.IsError}', error: '{refreshResult.Error}'");
+#endif
 
             var info = await VisitzSessionInfo.GetAsync();
             SessionChanged?.Invoke(info, new RefreshChangedEventArgs() { Success = refreshSuccess });
@@ -67,6 +73,11 @@ namespace Visitz.Authentication.Keycloak
         {
             var logoutResult = await AuthClient.LogoutAsync();
             var logoutSuccess = !logoutResult.IsError;
+
+#if DEBUG
+            ConsoleTrace.TraceMethod(typeof(VisitzSession),
+                $"logoutResult.IsError: '{logoutResult.IsError}', error: '{logoutResult.Error}'");
+#endif
 
             await InvalidateSessionAsync();
 
@@ -85,15 +96,23 @@ namespace Visitz.Authentication.Keycloak
         {
             TokenHolder.DeleteAccessToken();
             TokenHolder.DeleteRefreshToken();
+            TokenHolder.DeleteIdentityToken();
 
             var info = await VisitzSessionInfo.GetAsync();
-            SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs());
+            SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs() { Success = true });
         }
 
         public static async Task<bool> SessionExistsAsync()
         {
             return await TokenHolder.GetAccessTokenStringAsync() is not null
-                && await TokenHolder.GetRefreshTokenStringAsync() is not null;
+                && await TokenHolder.GetRefreshTokenStringAsync() is not null
+                && await TokenHolder.GetIdentityTokenStringAsync() is not null;
+        }
+
+        public static async Task<bool> HasBasicAccess()
+        {
+            var info = await VisitzSessionInfo.GetAsync();
+            return await SessionExistsAsync() && info.HasBasicAccessRole;
         }
     }
 }

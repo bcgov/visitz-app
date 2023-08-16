@@ -154,6 +154,9 @@
 	  <Compile Update="Controls\FormItemViewView.xaml.cs">
 	    <DependentUpon>FormItemViewView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\SessionPage.xaml.cs">
+	    <DependentUpon>SessionPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\CaseloadItemView.xaml.cs">
 	    <DependentUpon>CaseloadItemView.xaml</DependentUpon>
 	  </Compile>
@@ -188,7 +191,7 @@
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiXaml Update="Pages\UserSessionPage.xaml">
+	  <MauiXaml Update="Pages\SessionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Templates\ControlTemplates.xaml">

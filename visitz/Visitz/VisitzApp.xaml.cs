@@ -1,4 +1,5 @@
-﻿using Visitz.Pages;
+﻿using Visitz.Authentication.Keycloak;
+using Visitz.Pages;
 using Visitz.Services;
 
 namespace Visitz;
@@ -6,6 +7,15 @@ namespace Visitz;
 public partial class VisitzApp : Application
 {
     public static INavigation Navigation => Current.MainPage.Navigation;
+
+    public static Page CurrentOpenPage
+    {
+        get
+        {
+            int last = Navigation.NavigationStack.Count - 1;
+            return last >= 0 ? Navigation.NavigationStack[last] : null;
+        }
+    }
 
     public static Page CurrentOpenModal
     {
@@ -37,7 +47,7 @@ public partial class VisitzApp : Application
         
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
-        await AppLockPage.TryPrompt();
+        await TryModalSecurityChecksAsync();
     }
 
     protected async override void OnResume()
@@ -46,7 +56,15 @@ public partial class VisitzApp : Application
 
         base.OnResume();
         AppResumed?.Invoke(this, null);
-        
-        await AppLockPage.TryPrompt();
+
+        await TryModalSecurityChecksAsync();
+    }
+
+    private static async Task TryModalSecurityChecksAsync()
+    {
+        await SessionPage.TryOpenAsync(modal: true, animated: false);
+
+        if (await VisitzSession.SessionExistsAsync())
+            await AppLockPage.TryPrompt();
     }
 }

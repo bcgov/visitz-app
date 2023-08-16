@@ -34,4 +34,12 @@ public class BcGovAlbum
 
         return pictures[r.Next(pictures.Length)];
     }
+
+    public static async Task<string> GetFeaturedPictureUri()
+    {
+        // Currently just hardcoding for a specific picture. 
+        // TODO: When time allows, implement some kind of schedule to change the featured picture,
+        // with a proper fallback mechanism if the new picture can't be downloaded.
+        return (await GetPictureUris())[17];
+    }
 }

@@ -160,6 +160,17 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve successfully logged in.
+        ///
+        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Please request access and try again later..
+        /// </summary>
+        internal static string LoginSuccessButUnauth {
+            get {
+                return ResourceManager.GetString("LoginSuccessButUnauth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log out.
         /// </summary>
         internal static string Logout {
@@ -351,6 +362,15 @@ namespace Visitz.Resources.Localization {
         internal static string UserCancelledAuth {
             get {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are authorized to use MCFD Mobility..
+        /// </summary>
+        internal static string YouAreAuthorized {
+            get {
+                return ResourceManager.GetString("YouAreAuthorized", resourceCulture);
             }
         }
     }

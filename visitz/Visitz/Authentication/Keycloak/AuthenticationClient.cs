@@ -20,6 +20,7 @@ namespace Visitz.Authentication.Keycloak
                 Scope = options.Scope,
                 RedirectUri = options.RedirectUri,
                 Browser = options.Browser,
+                PostLogoutRedirectUri = options.RedirectUri,
             });
         }
 
@@ -45,6 +46,7 @@ namespace Visitz.Authentication.Keycloak
             return await oidcClient.LogoutAsync(new LogoutRequest()
             {
                 BrowserDisplayMode = DisplayMode.Hidden,
+                IdTokenHint = await TokenHolder.GetIdentityTokenStringAsync(),
             });
         }
 
@@ -55,6 +57,8 @@ namespace Visitz.Authentication.Keycloak
 
         public struct Options
         {
+            private static readonly string DefaultScope = "openid email profile azureidir";
+
             public string Domain { get; set; }
 
             public string ClientId { get; set; }
@@ -67,7 +71,7 @@ namespace Visitz.Authentication.Keycloak
 
             public Options()
             {
-                Scope = "";
+                Scope = DefaultScope;
                 RedirectUri = "";
                 Browser = new WebBrowserAuthenticator();
             }
