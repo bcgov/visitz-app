@@ -200,6 +200,8 @@ public partial class SessionViewModel
 public partial class SessionViewModel
 {
 #if IOS
+    private static readonly UIModalPresentationStyle DialogStyle = UIModalPresentationStyle.PageSheet;
+
     [ObservableProperty]
     public UIModalPresentationStyle presentationStyle;
 #endif
@@ -208,7 +210,7 @@ public partial class SessionViewModel
     {
 #if IOS
         PresentationStyle = sessionExists && SessionInfo.HasBasicAccessRole
-            ? UIModalPresentationStyle.PageSheet
+            ? DialogStyle
             : UIModalPresentationStyle.FullScreen;
 #endif
     }
@@ -216,7 +218,7 @@ public partial class SessionViewModel
     private bool ShouldReopen()
     {
 #if IOS
-        return PresentationStyle == UIModalPresentationStyle.PageSheet;
+        return PresentationStyle == DialogStyle;
 #else
         return false;
 #endif
