@@ -116,7 +116,7 @@
                 x:Name="FilterPicker"
                 Title="{local:Localize TapToSelect}"
                 VerticalOptions="Center"
-                MinimumWidthRequest="100"
+                MinimumWidthRequest="120"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
                 ItemsSource="{Binding Subtypes}"
                 SelectedItem="{Binding SelectedSubtype}"/>
