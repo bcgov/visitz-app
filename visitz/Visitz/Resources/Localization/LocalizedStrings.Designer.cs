@@ -88,6 +88,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search by key player&apos;s last name or ID.
+        /// </summary>
+        internal static string CaseloadSearchHint {
+            get {
+                return ResourceManager.GetString("CaseloadSearchHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Case type.
         /// </summary>
         internal static string CaseType {

@@ -116,7 +116,7 @@
 
         <SearchBar 
             x:Name="CaseloadSearchBar"
-            Placeholder="Search by key player's last name or ID"
+            Placeholder="{local:Localize CaseloadSearchHint}"
             Margin="12,0,12,0"
             Text="{Binding SearchQuery}"
             SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
