@@ -132,54 +132,80 @@
                 ios:SearchBar.SearchBarStyle="Minimal" />
         </StackLayout>
 
-        
-        <RefreshView
-            Command="{Binding RefreshCaseloadCommand}"
-            IsRefreshing="{Binding IsRefreshing}">
+        <AbsoluteLayout VerticalOptions="FillAndExpand">
 
-            <!-- 
-                WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
-                Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
-                This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
-            -->
-            <ContentView>
+            <VerticalStackLayout
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds=".5,.5"
+                Spacing="40"
+                IsVisible="{Binding ShowEmptyCaseloadMessage}">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="&#xf46c;"
+                            FontFamily="FontAwesome6Solid"
+                            Color="{StaticResource Primary}"
+                            Size="160"/>
+                    </Image.Source>
+                </Image>
 
-                <CollectionView
-                    ItemsSource="{Binding Caseload}"
-                    SelectionMode="None">
-                    <CollectionView.EmptyView>
-                        <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
-                            <Label 
-                                HorizontalOptions="Center"
-                                Text="Pull to get caseload from ICM" />
+                <Label 
+                    FontSize="20"
+                    Text="{local:Localize CaseloadIsEmpty}" />
+            </VerticalStackLayout>
 
-                            <Label 
-                                HorizontalOptions="Center" 
-                                FontSize="28"
-                                Text="↓" />
-                        </VerticalStackLayout>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemsLayout>
-                        <!-- 
-                            FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
-                            When dynamically changing the ItemsSource binding, the bottom of the CollectionView
-                            has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
-                            VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
-                            expected. 
-                        -->
-                        <GridItemsLayout Orientation="Vertical" Span="1" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:CaseloadItem">
-                            <views:CaseloadItemView />
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+            <RefreshView
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                Command="{Binding RefreshCaseloadCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
 
-            </ContentView>
+                <!-- 
+                    WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+                    Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+                    This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+                -->
+                <ContentView>
 
-        </RefreshView>
-        
+                    <CollectionView
+                        ItemsSource="{Binding Caseload}"
+                        SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
+                                <Label 
+                                    HorizontalOptions="Center"
+                                    FontSize="16"
+                                    Text="{local:Localize PullToRefreshCaseload}" />
+
+                                <Label 
+                                    HorizontalOptions="Center" 
+                                    FontSize="24"
+                                    Text="↓" />
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <!-- 
+                                FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
+                                When dynamically changing the ItemsSource binding, the bottom of the CollectionView
+                                has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
+                                VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
+                                expected. 
+                            -->
+                            <GridItemsLayout Orientation="Vertical" Span="1" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:CaseloadItem">
+                                <views:CaseloadItemView />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </ContentView>
+
+            </RefreshView>
+
+        </AbsoluteLayout>
+
     </StackLayout>
 
 </pages:VisitzPage>

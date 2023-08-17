@@ -88,6 +88,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All clear! Nothing is assigned to you..
+        /// </summary>
+        internal static string CaseloadIsEmpty {
+            get {
+                return ResourceManager.GetString("CaseloadIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search by key player&apos;s last name or ID.
         /// </summary>
         internal static string CaseloadSearchHint {
@@ -250,6 +259,15 @@ namespace Visitz.Resources.Localization {
         internal static string PublishingNotesToIcm {
             get {
                 return ResourceManager.GetString("PublishingNotesToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pull to refresh caseload from ICM.
+        /// </summary>
+        internal static string PullToRefreshCaseload {
+            get {
+                return ResourceManager.GetString("PullToRefreshCaseload", resourceCulture);
             }
         }
         

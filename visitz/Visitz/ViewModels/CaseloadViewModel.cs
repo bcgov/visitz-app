@@ -42,6 +42,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string searchQuery;
 
+        [ObservableProperty]
+        public bool showEmptyCaseloadMessage;
+
         private Realm Realm { get; set; }
 
         private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
@@ -62,6 +65,7 @@ namespace Visitz.ViewModels
             VisitzSession.SessionChanged += VisitzSession_SessionChanged;
 
             ShowDebugButton = DebugOptions.Enabled;
+            ShowEmptyCaseloadMessage = false;
 
             ApplyCaseloadQuery();
             ApplySubtypesQuery();
@@ -167,6 +171,7 @@ namespace Visitz.ViewModels
         public void RefreshCaseload()
         {
             WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+            ShowEmptyCaseloadMessage = false;
         }
 
         [RelayCommand]
@@ -196,6 +201,9 @@ namespace Visitz.ViewModels
         public void Receive(ServiceStateMessage message)
         {
             IsRefreshing = message.Status == VisitzService.State.Running;
+
+            if (message.FinishedSuccess)
+                ShowEmptyCaseloadMessage = !CaseloadQuery.Any();
         }
 
         private async void VisitzSession_SessionChanged(object sender, EventArgs e)
