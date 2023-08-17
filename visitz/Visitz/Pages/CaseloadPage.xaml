@@ -60,11 +60,20 @@
         Orientation="Vertical"
         HorizontalOptions="Fill">
 
+        <SearchBar 
+            x:Name="CaseloadSearchBar"
+            Placeholder="{local:Localize CaseloadSearchHint}"
+            Margin="12,0,12,0"
+            Text="{Binding SearchQuery}"
+            SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+            TextChanged="CaseloadSearchBar_TextChanged"
+            ios:SearchBar.SearchBarStyle="Minimal" />
+
         <FlexLayout
             Direction="Row"
             HorizontalOptions="FillAndExpand"
             AlignItems="Center"
-            Margin="20,20,20,10">
+            Margin="20,10,20,20">
 
             <Label Text="Sort by" Margin="0,0,5,0" />
 
@@ -114,15 +123,7 @@
                 SelectedItem="{Binding SelectedSubtype}"/>
         </FlexLayout>
 
-        <SearchBar 
-            x:Name="CaseloadSearchBar"
-            Placeholder="{local:Localize CaseloadSearchHint}"
-            Margin="12,0,12,0"
-            Text="{Binding SearchQuery}"
-            SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
-            TextChanged="CaseloadSearchBar_TextChanged"
-            ios:SearchBar.SearchBarStyle="Minimal" />
-
+        
         <RefreshView
             Command="{Binding RefreshCaseloadCommand}"
             IsRefreshing="{Binding IsRefreshing}">
