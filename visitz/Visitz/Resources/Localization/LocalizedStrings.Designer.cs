@@ -97,7 +97,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search by key player&apos;s last name or ID.
+        ///   Looks up a localized string similar to Search by key player&apos;s name or ID.
         /// </summary>
         internal static string CaseloadSearchHint {
             get {

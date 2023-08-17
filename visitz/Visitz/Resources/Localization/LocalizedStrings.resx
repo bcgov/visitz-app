@@ -228,7 +228,7 @@ Logging out won't affect your unpublished notes.</value>
 However, you currently aren't authorized to use MCFD Mobility. Please request access and try again later.</value>
   </data>
   <data name="CaseloadSearchHint" xml:space="preserve">
-    <value>Search by key player's last name or ID</value>
+    <value>Search by key player's name or ID</value>
   </data>
   <data name="CaseloadIsEmpty" xml:space="preserve">
     <value>All clear! Nothing is assigned to you.</value>
