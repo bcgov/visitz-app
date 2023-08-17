@@ -60,76 +60,78 @@
         Orientation="Vertical"
         HorizontalOptions="Fill">
 
+        <SearchBar 
+            x:Name="CaseloadSearchBar"
+            HorizontalOptions="FillAndExpand"
+            Placeholder="{local:Localize CaseloadSearchHint}"
+            Margin="10,0,10,0"
+            Text="{Binding SearchQuery}"
+            SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+            TextChanged="CaseloadSearchBar_TextChanged"
+            ios:SearchBar.SearchBarStyle="Minimal" />
+
         <StackLayout
             Orientation="Horizontal"
             HorizontalOptions="Fill"
             VerticalOptions="Center"
-            Padding="20,10,20,10"
+            Padding="20,0,20,0"
+            Margin="0,0,0,10"
             Spacing="10">
 
-            <!-- 
-                Hiding the sorting option due to a business decision. We'll keep it hidden and functional until
-                we get a proper reason to remove or modify it.
-            -->
-            <StackLayout IsVisible="False">
-                <Label Text="Sort by" Margin="0,0,5,0" />
+            <Label 
+                Text="Sort by" 
+                VerticalOptions="Center" />
 
-                <Picker
-                    x:Name="SortPicker"
-                    Title="{local:Localize TapToSelect}"
-                    SelectedIndexChanged="Picker_SelectedIndexChanged"
-                    FlexLayout.Basis="200"
-                    ItemDisplayBinding="{Binding Title}"
-                    SelectedItem="{Binding SelectedSortOrder}">
+            <Picker
+                x:Name="SortPicker"
+                Title="{local:Localize TapToSelect}"
+                SelectedIndexChanged="Picker_SelectedIndexChanged"
+                WidthRequest="180"
+                ItemDisplayBinding="{Binding Title}"
+                SelectedItem="{Binding SelectedSortOrder}">
 
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type models:CaseloadSort}">
-                            <models:CaseloadSort 
-                                Id="{Static models:CaseloadSort.DisplayName}" 
-                                Ascending="True" 
-                                Title="{local:Localize Sort_KeyPlayerLastNameAsc}" />
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type models:CaseloadSort}">
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayName}" 
+                            Ascending="True" 
+                            Title="{local:Localize Sort_KeyPlayerLastNameAsc}" />
 
-                            <models:CaseloadSort 
-                                Id="{Static models:CaseloadSort.DisplayName}" 
-                                Ascending="False" 
-                                Title="{local:Localize Sort_KeyPlayerLastNameDesc}" />
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayName}" 
+                            Ascending="False" 
+                            Title="{local:Localize Sort_KeyPlayerLastNameDesc}" />
 
-                            <models:CaseloadSort 
-                                Id="{Static models:CaseloadSort.DisplayDate}" 
-                                Ascending="False" 
-                                Title="{local:Localize Sort_OpenDateDesc}" />
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayDate}" 
+                            Ascending="False" 
+                            Title="{local:Localize Sort_OpenDateDesc}" />
 
-                            <models:CaseloadSort 
-                                Id="{Static models:CaseloadSort.DisplayDate}" 
-                                Ascending="True" 
-                                Title="{local:Localize Sort_OpenDateAsc}" />
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
-            </StackLayout>
+                        <models:CaseloadSort 
+                            Id="{Static models:CaseloadSort.DisplayDate}" 
+                            Ascending="True" 
+                            Title="{local:Localize Sort_OpenDateAsc}" />
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Line HeightRequest="0" HorizontalOptions="FillAndExpand" />
 
             <Label 
                 Text="Show" 
-                VerticalOptions="Center" />
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
             
             <Picker 
                 x:Name="FilterPicker"
                 Title="{local:Localize TapToSelect}"
                 VerticalOptions="Center"
-                MinimumWidthRequest="120"
+                HorizontalOptions="End"
+                WidthRequest="120"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
                 ItemsSource="{Binding Subtypes}"
                 SelectedItem="{Binding SelectedSubtype}"/>
 
-            <SearchBar 
-                x:Name="CaseloadSearchBar"
-                HorizontalOptions="FillAndExpand"
-                Placeholder="{local:Localize CaseloadSearchHint}"
-                Margin="-5,0,-5,0"
-                Text="{Binding SearchQuery}"
-                SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
-                TextChanged="CaseloadSearchBar_TextChanged"
-                ios:SearchBar.SearchBarStyle="Minimal" />
         </StackLayout>
 
         <AbsoluteLayout VerticalOptions="FillAndExpand">
