@@ -236,6 +236,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No results for &apos;{0}&apos;.
+        /// </summary>
+        internal static string NoResultsForSearch {
+            get {
+                return ResourceManager.GetString("NoResultsForSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results for &apos;{0}&apos; and &apos;{1}&apos;.
+        /// </summary>
+        internal static string NoResultsForSearchAndFilter {
+            get {
+                return ResourceManager.GetString("NoResultsForSearchAndFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ✅ Notes published to ICM.
         /// </summary>
         internal static string NotesPublishedToIcm {

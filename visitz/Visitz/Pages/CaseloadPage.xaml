@@ -175,7 +175,7 @@
                                 <Label 
                                     HorizontalOptions="Center"
                                     FontSize="16"
-                                    Text="{local:Localize PullToRefreshCaseload}" />
+                                    Text="{Binding CollectionViewPrompt}" />
 
                                 <Label 
                                     HorizontalOptions="Center" 

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.Authentication.Keycloak;
+using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
@@ -45,6 +46,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool showEmptyCaseloadMessage;
 
+        [ObservableProperty]
+        public string collectionViewPrompt;
+
         private Realm Realm { get; set; }
 
         private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
@@ -66,6 +70,7 @@ namespace Visitz.ViewModels
 
             ShowDebugButton = DebugOptions.Enabled;
             ShowEmptyCaseloadMessage = false;
+            CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
 
             ApplyCaseloadQuery();
             ApplySubtypesQuery();
@@ -165,6 +170,37 @@ namespace Visitz.ViewModels
                 return item.CaseIncidentNumber.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase)
                     || item.DisplayName.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase);
             });
+        }
+
+        partial void OnCaseloadChanged(IEnumerable<CaseloadItem> value)
+        {
+            ApplyCollectionViewPrompt();
+        }
+
+        private void ApplyCollectionViewPrompt()
+        {
+            if (IsSubtypeSelected() && !string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                CollectionViewPrompt = LocalizedStrings.NoResultsForSearchAndFilter
+                    .Format(SelectedSubtype, SearchQuery);
+            }
+            else if (IsSubtypeSelected())
+            {
+                CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SelectedSubtype);
+            }
+            else if (!string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SearchQuery);
+            }
+            else
+            {
+                CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
+            }
+        }
+
+        private bool IsSubtypeSelected()
+        {
+            return SelectedSubtype != null && SelectedSubtype != FilterNoneOption;
         }
 
         [RelayCommand]

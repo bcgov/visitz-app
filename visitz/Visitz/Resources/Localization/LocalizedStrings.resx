@@ -233,6 +233,12 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="CaseloadIsEmpty" xml:space="preserve">
     <value>All clear! Nothing is assigned to you.</value>
   </data>
+  <data name="NoResultsForSearch" xml:space="preserve">
+    <value>No results for '{0}'</value>
+  </data>
+  <data name="NoResultsForSearchAndFilter" xml:space="preserve">
+    <value>No results for '{0}' and '{1}'</value>
+  </data>
   <data name="PullToRefreshCaseload" xml:space="preserve">
     <value>Pull to refresh caseload from ICM</value>
   </data>
