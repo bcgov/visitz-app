@@ -38,9 +38,6 @@ namespace Visitz.ViewModels
         public string sessionDisplayName;
 
         [ObservableProperty]
-        public bool showDebugButton;
-
-        [ObservableProperty]
         public string searchQuery;
 
         [ObservableProperty]
@@ -68,7 +65,6 @@ namespace Visitz.ViewModels
 
             VisitzSession.SessionChanged += VisitzSession_SessionChanged;
 
-            ShowDebugButton = DebugOptions.Enabled;
             ShowEmptyCaseloadMessage = false;
             CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
 
@@ -217,7 +213,7 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async Task OpenDebugOptionsPage()
+        public async void OpenDebugOptionsPage()
         {
             if (DebugOptions.Enabled)
                 await NavigateTo<DebugOptionsPage>();

@@ -23,7 +23,13 @@
                 AbsoluteLayout.LayoutBounds="0,.5"
                 VerticalOptions="CenterAndExpand"
                 Source="bc_logo_horizontal_reverse.png" 
-                Aspect="AspectFit" />
+                Aspect="AspectFit">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding OpenDebugOptionsPageCommand}" 
+                        NumberOfTapsRequired="2"/>
+                </Image.GestureRecognizers>
+            </Image>
 
             <StackLayout 
                 AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -41,12 +47,6 @@
             <HorizontalStackLayout 
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 AbsoluteLayout.LayoutBounds="1,.5">
-                <Button 
-                    BackgroundColor="{StaticResource BC_Background_Dark}"
-                    Text="🐞"
-                    IsVisible="{Binding ShowDebugButton}"
-                    Command="{Binding OpenDebugOptionsPageCommand}"/>
-
                 <Button 
                     BackgroundColor="Transparent"
                     Text="{Binding SessionDisplayName}"

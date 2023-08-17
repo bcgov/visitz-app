@@ -115,15 +115,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🐞.
-        /// </summary>
-        internal static string Debug {
-            get {
-                return ResourceManager.GetString("Debug", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
         /// </summary>
         internal static string DeviceAuthReason {
