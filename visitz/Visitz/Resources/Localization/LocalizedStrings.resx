@@ -161,10 +161,10 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
     <value>Tap to select</value>
   </data>
   <data name="Sort_KeyPlayerLastNameAsc" xml:space="preserve">
-    <value>Key player last name A-Z</value>
+    <value>Key player name A-Z</value>
   </data>
   <data name="Sort_KeyPlayerLastNameDesc" xml:space="preserve">
-    <value>Key player last name Z-A</value>
+    <value>Key player name Z-A</value>
   </data>
   <data name="Sort_OpenDateAsc" xml:space="preserve">
     <value>Least recent open date</value>

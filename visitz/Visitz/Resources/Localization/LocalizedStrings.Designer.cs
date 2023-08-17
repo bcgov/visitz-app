@@ -330,7 +330,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player last name A-Z.
+        ///   Looks up a localized string similar to Key player name A-Z.
         /// </summary>
         internal static string Sort_KeyPlayerLastNameAsc {
             get {
@@ -339,7 +339,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player last name Z-A.
+        ///   Looks up a localized string similar to Key player name Z-A.
         /// </summary>
         internal static string Sort_KeyPlayerLastNameDesc {
             get {
