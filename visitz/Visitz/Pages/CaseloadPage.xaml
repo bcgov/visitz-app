@@ -10,7 +10,8 @@
     x:Class="Visitz.Pages.CaseloadPage"
     x:DataType="viewmodels:CaseloadViewModel"
     Title="Caseload"
-    ControlTemplate="{StaticResource VisitzPageWrapper}">
+    ControlTemplate="{StaticResource VisitzPageWrapper}"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls">
 
     <NavigationPage.TitleView>
         <AbsoluteLayout
@@ -22,7 +23,13 @@
                 AbsoluteLayout.LayoutBounds="0,.5"
                 VerticalOptions="CenterAndExpand"
                 Source="bc_logo_horizontal_reverse.png" 
-                Aspect="AspectFit" />
+                Aspect="AspectFit">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding OpenDebugOptionsPageCommand}" 
+                        NumberOfTapsRequired="2"/>
+                </Image.GestureRecognizers>
+            </Image>
 
             <StackLayout 
                 AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -41,12 +48,6 @@
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 AbsoluteLayout.LayoutBounds="1,.5">
                 <Button 
-                    BackgroundColor="{StaticResource BC_Background_Dark}"
-                    Text="🐞"
-                    IsVisible="{Binding ShowDebugButton}"
-                    Command="{Binding OpenDebugOptionsPageCommand}"/>
-
-                <Button 
                     BackgroundColor="Transparent"
                     Text="{Binding SessionDisplayName}"
                     Command="{Binding OpenSessionPageCommand}"/>
@@ -55,23 +56,37 @@
         </AbsoluteLayout>
     </NavigationPage.TitleView>
 
-    <StackLayout 
+    <StackLayout
         Orientation="Vertical"
         HorizontalOptions="Fill">
 
-        <FlexLayout
-            Direction="Row"
+        <SearchBar 
+            x:Name="CaseloadSearchBar"
             HorizontalOptions="FillAndExpand"
-            AlignItems="Center"
-            Margin="20,20,20,20">
+            Placeholder="{local:Localize CaseloadSearchHint}"
+            Margin="10,0,10,0"
+            Text="{Binding SearchQuery}"
+            SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+            TextChanged="CaseloadSearchBar_TextChanged"
+            ios:SearchBar.SearchBarStyle="Minimal" />
 
-            <Label Text="Sort by" Margin="0,0,5,0" />
+        <StackLayout
+            Orientation="Horizontal"
+            HorizontalOptions="Fill"
+            VerticalOptions="Center"
+            Padding="20,0,20,0"
+            Margin="0,0,0,10"
+            Spacing="10">
+
+            <Label 
+                Text="Sort by" 
+                VerticalOptions="Center" />
 
             <Picker
                 x:Name="SortPicker"
                 Title="{local:Localize TapToSelect}"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
-                FlexLayout.Basis="200"
+                WidthRequest="180"
                 ItemDisplayBinding="{Binding Title}"
                 SelectedItem="{Binding SelectedSortOrder}">
 
@@ -80,13 +95,13 @@
                         <models:CaseloadSort 
                             Id="{Static models:CaseloadSort.DisplayName}" 
                             Ascending="True" 
-                            Title="{local:Localize Sort_KeyPlayerLastNameAsc}" /> 
+                            Title="{local:Localize Sort_KeyPlayerLastNameAsc}" />
 
                         <models:CaseloadSort 
                             Id="{Static models:CaseloadSort.DisplayName}" 
                             Ascending="False" 
                             Title="{local:Localize Sort_KeyPlayerLastNameDesc}" />
-                    
+
                         <models:CaseloadSort 
                             Id="{Static models:CaseloadSort.DisplayDate}" 
                             Ascending="False" 
@@ -100,66 +115,99 @@
                 </Picker.ItemsSource>
             </Picker>
 
-            <Line FlexLayout.Grow="1" BackgroundColor="Transparent" />
+            <Line HeightRequest="0" HorizontalOptions="FillAndExpand" />
 
-            <Label Text="Show" Margin="0,0,5,0" />
+            <Label 
+                Text="Show" 
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
             
             <Picker 
                 x:Name="FilterPicker"
                 Title="{local:Localize TapToSelect}"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                WidthRequest="120"
                 SelectedIndexChanged="Picker_SelectedIndexChanged"
-                FlexLayout.Basis="150"
                 ItemsSource="{Binding Subtypes}"
                 SelectedItem="{Binding SelectedSubtype}"/>
-        </FlexLayout>
-        
-        <RefreshView
-            Command="{Binding RefreshCaseloadCommand}"
-            IsRefreshing="{Binding IsRefreshing}">
 
-            <!-- 
-                WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
-                Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
-                This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
-            -->
-            <ContentView>
+        </StackLayout>
 
-                <CollectionView
-                    ItemsSource="{Binding Caseload}"
-                    SelectionMode="None">
-                    <CollectionView.EmptyView>
-                        <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
-                            <Label 
-                                HorizontalOptions="Center"
-                                Text="Pull to get caseload from ICM" />
+        <AbsoluteLayout VerticalOptions="FillAndExpand">
 
-                            <Label 
-                                HorizontalOptions="Center" 
-                                FontSize="28"
-                                Text="↓" />
-                        </VerticalStackLayout>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemsLayout>
-                        <!-- 
-                            FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
-                            When dynamically changing the ItemsSource binding, the bottom of the CollectionView
-                            has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
-                            VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
-                            expected. 
-                        -->
-                        <GridItemsLayout Orientation="Vertical" Span="1" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:CaseloadItem">
-                            <views:CaseloadItemView />
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+            <VerticalStackLayout
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds=".5,.5"
+                Spacing="40"
+                IsVisible="{Binding ShowEmptyCaseloadMessage}">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="&#xf46c;"
+                            FontFamily="FontAwesome6Solid"
+                            Color="{StaticResource Primary}"
+                            Size="160"/>
+                    </Image.Source>
+                </Image>
 
-            </ContentView>
+                <Label 
+                    FontSize="20"
+                    Text="{local:Localize CaseloadIsEmpty}" />
+            </VerticalStackLayout>
 
-        </RefreshView>
-        
+            <RefreshView
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                Command="{Binding RefreshCaseloadCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+
+                <!-- 
+                    WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+                    Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+                    This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+                -->
+                <ContentView>
+
+                    <CollectionView
+                        ItemsSource="{Binding Caseload}"
+                        SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
+                                <Label 
+                                    HorizontalOptions="Center"
+                                    FontSize="16"
+                                    Text="{Binding CollectionViewPrompt}" />
+
+                                <Label 
+                                    HorizontalOptions="Center" 
+                                    FontSize="24"
+                                    Text="↓" />
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <!-- 
+                                FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
+                                When dynamically changing the ItemsSource binding, the bottom of the CollectionView
+                                has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
+                                VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
+                                expected. 
+                            -->
+                            <GridItemsLayout Orientation="Vertical" Span="1" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:CaseloadItem">
+                                <views:CaseloadItemView />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </ContentView>
+
+            </RefreshView>
+
+        </AbsoluteLayout>
+
     </StackLayout>
 
 </pages:VisitzPage>

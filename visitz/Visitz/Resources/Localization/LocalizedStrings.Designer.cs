@@ -88,20 +88,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All clear! Nothing is assigned to you..
+        /// </summary>
+        internal static string CaseloadIsEmpty {
+            get {
+                return ResourceManager.GetString("CaseloadIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search by key player&apos;s name or ID.
+        /// </summary>
+        internal static string CaseloadSearchHint {
+            get {
+                return ResourceManager.GetString("CaseloadSearchHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Case type.
         /// </summary>
         internal static string CaseType {
             get {
                 return ResourceManager.GetString("CaseType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 🐞.
-        /// </summary>
-        internal static string Debug {
-            get {
-                return ResourceManager.GetString("Debug", resourceCulture);
             }
         }
         
@@ -218,6 +227,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No results for &apos;{0}&apos;.
+        /// </summary>
+        internal static string NoResultsForSearch {
+            get {
+                return ResourceManager.GetString("NoResultsForSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results for &apos;{0}&apos; and &apos;{1}&apos;.
+        /// </summary>
+        internal static string NoResultsForSearchAndFilter {
+            get {
+                return ResourceManager.GetString("NoResultsForSearchAndFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ✅ Notes published to ICM.
         /// </summary>
         internal static string NotesPublishedToIcm {
@@ -241,6 +268,15 @@ namespace Visitz.Resources.Localization {
         internal static string PublishingNotesToIcm {
             get {
                 return ResourceManager.GetString("PublishingNotesToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pull to refresh caseload from ICM.
+        /// </summary>
+        internal static string PullToRefreshCaseload {
+            get {
+                return ResourceManager.GetString("PullToRefreshCaseload", resourceCulture);
             }
         }
         
@@ -294,7 +330,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player last name A-Z.
+        ///   Looks up a localized string similar to Key player name A-Z.
         /// </summary>
         internal static string Sort_KeyPlayerLastNameAsc {
             get {
@@ -303,7 +339,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player last name Z-A.
+        ///   Looks up a localized string similar to Key player name Z-A.
         /// </summary>
         internal static string Sort_KeyPlayerLastNameDesc {
             get {

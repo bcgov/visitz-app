@@ -41,8 +41,7 @@ namespace Visitz.Services
             {
                 // Remove everything from the local caseload so we can remove
                 // items if they've been unassigned from the user.
-                var allCaseloadQuery = realm.All<CaseloadItem>();
-                realm.RemoveRange(allCaseloadQuery);
+                realm.RemoveAll<CaseloadItem>();
 
                 realm.Add(caseloadContent);
             });

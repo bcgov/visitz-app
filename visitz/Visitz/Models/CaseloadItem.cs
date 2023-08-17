@@ -46,10 +46,24 @@ namespace Visitz.Models
             }
         }
 
-        // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string DisplayName => EntityType == IcmEntity.Memo
-            ? WorkerFullName
-            : FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault().LastName ?? ServiceOffice;
+        public string DisplayName
+        {
+            get
+            {
+                if (EntityType == IcmEntity.Memo)
+                    return WorkerFullName;
+                else if (TryGetKeyPlayer(out FamilyMember keyPlayer))
+                    return $"{keyPlayer.LastName}, {keyPlayer.FirstName}";
+                else
+                    return ServiceOffice;
+            }
+        }
+
+        public bool TryGetKeyPlayer(out FamilyMember keyPlayer)
+        {
+            keyPlayer = FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault();
+            return keyPlayer != null;
+        }
 
         public static DateTime DisplayDateTransform(CaseloadItem caseloadItem)
         {

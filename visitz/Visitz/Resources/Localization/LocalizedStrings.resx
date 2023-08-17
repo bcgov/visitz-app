@@ -161,10 +161,10 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
     <value>Tap to select</value>
   </data>
   <data name="Sort_KeyPlayerLastNameAsc" xml:space="preserve">
-    <value>Key player last name A-Z</value>
+    <value>Key player name A-Z</value>
   </data>
   <data name="Sort_KeyPlayerLastNameDesc" xml:space="preserve">
-    <value>Key player last name Z-A</value>
+    <value>Key player name Z-A</value>
   </data>
   <data name="Sort_OpenDateAsc" xml:space="preserve">
     <value>Least recent open date</value>
@@ -199,9 +199,6 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
-  <data name="Debug" xml:space="preserve">
-    <value>🐞</value>
-  </data>
   <data name="Logout" xml:space="preserve">
     <value>Log out</value>
   </data>
@@ -226,5 +223,20 @@ Logging out won't affect your unpublished notes.</value>
     <value>You've successfully logged in.
 
 However, you currently aren't authorized to use MCFD Mobility. Please request access and try again later.</value>
+  </data>
+  <data name="CaseloadSearchHint" xml:space="preserve">
+    <value>Search by key player's name or ID</value>
+  </data>
+  <data name="CaseloadIsEmpty" xml:space="preserve">
+    <value>All clear! Nothing is assigned to you.</value>
+  </data>
+  <data name="NoResultsForSearch" xml:space="preserve">
+    <value>No results for '{0}'</value>
+  </data>
+  <data name="NoResultsForSearchAndFilter" xml:space="preserve">
+    <value>No results for '{0}' and '{1}'</value>
+  </data>
+  <data name="PullToRefreshCaseload" xml:space="preserve">
+    <value>Pull to refresh caseload from ICM</value>
   </data>
 </root>
