@@ -4,6 +4,8 @@ This is the main repository for the MCFD Mobility mobile app solution.
 
 Internally, the app is referred to as **Visitz**. You can find the app code and its README in the */visitz* directory.
 
+[Go to Visitz README](visitz/README.md)
+
 ## Licence
 
 Copyright 2019 Province of British Columbia
