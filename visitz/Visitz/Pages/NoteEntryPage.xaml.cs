@@ -1,4 +1,5 @@
-﻿using Visitz.Models;
+﻿using Visitz.Animations.Haptic;
+using Visitz.Models;
 using Visitz.ViewModels;
 
 namespace Visitz.Pages;
@@ -35,6 +36,12 @@ public partial class NoteEntryPage : VisitzPage
     void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
         ((NoteEntryViewModel)BindingContext).EditorTextChanged(e);
+    }
+
+    public async Task AnimateEditorError()
+    {
+        var vibrateErrorAnim = new ErrorVibrateAnimation();
+        await vibrateErrorAnim.Animate(NotesEditor);
     }
 
     private void UpdateLayout(double width, double height)

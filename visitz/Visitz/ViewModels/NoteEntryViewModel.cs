@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Storage;
@@ -119,6 +120,7 @@ namespace Visitz.ViewModels
             if (TextIsInvalid(e))
             {
                 CancelTextChangedEvent(e);
+                _ = (VisitzPage as NoteEntryPage).AnimateEditorError();
             }
 
             UpdateCharLimit();
