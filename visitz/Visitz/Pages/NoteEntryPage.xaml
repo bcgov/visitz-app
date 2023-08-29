@@ -85,6 +85,7 @@
                 Placeholder="Type your notes here..."
                 MaxLength="16000"
                 TextChanged="NotesEditor_TextChanged"
+                Keyboard="Text"
                 AutoSize="TextChanges">
 
                 <Editor.Behaviors>

@@ -109,9 +109,29 @@ namespace Visitz.ViewModels
                 await NotePublishPage.OpenModal(VisitzPage, caseIncident, noteItem, trimmedDraft);
         }
 
-        public void EditorTextChanged()
+        public void EditorTextChanged(TextChangedEventArgs e)
         {
+            if (string.Equals(e.OldTextValue, e.NewTextValue))
+                // Early return required to prevent infinite loops due to "cancelling" events
+                // by reassigning its previous value
+                return;
+
+            if (TextIsInvalid(e))
+            {
+                CancelTextChangedEvent(e);
+            }
+
             UpdateCharLimit();
+        }
+
+        private bool TextIsInvalid(TextChangedEventArgs e)
+        {
+            return e.NewTextValue.ContainsEmoji();
+        }
+
+        private void CancelTextChangedEvent(TextChangedEventArgs e)
+        {
+            Draft = e.OldTextValue;
         }
 
         private void UpdateCharLimit()
