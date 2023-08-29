@@ -9,6 +9,8 @@ namespace Visitz.ViewModels
 {
     public partial class NoteEntryViewModel : VisitzViewModel
     {
+        private static readonly int CharacterLimit = 16000;
+
         public static readonly string NoteItemKey = "noteItem";
         public static readonly string CaseIncidentKey = "caseIncident";
 
@@ -22,7 +24,7 @@ namespace Visitz.ViewModels
         public string title;
 
         [ObservableProperty]
-        public string characterLimitText = "16000/16000";
+        public string characterLimitText = $"{CharacterLimit}/{CharacterLimit}";
 
         private string noteDraftId;
 
@@ -114,7 +116,7 @@ namespace Visitz.ViewModels
 
         private void UpdateCharLimit()
         {
-            CharacterLimitText = $"{16000 - (Draft?.Length ?? 0)}/16000";
+            CharacterLimitText = $"{CharacterLimit - (Draft?.Length ?? 0)}/{CharacterLimit}";
         }
 
         private void NoteDraft_Changed(IRealmCollection<NoteDraft> sender, ChangeSet changes)
