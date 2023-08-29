@@ -32,9 +32,9 @@ public partial class NoteEntryPage : VisitzPage
         UpdateLayout(width, height);
     }
 
-    void NotesEditor_TextChanged(System.Object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
+    void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ((NoteEntryViewModel)BindingContext).EditorTextChanged();
+        ((NoteEntryViewModel)BindingContext).EditorTextChanged(e);
     }
 
     private void UpdateLayout(double width, double height)
@@ -68,7 +68,7 @@ public partial class NoteEntryPage : VisitzPage
         await EditorScroll.ScrollToAsync(NotesEditor, ScrollToPosition.End, true);
     }
 
-    void Scroll_To_Bottom_Clicked(System.Object sender, System.EventArgs e)
+    void Scroll_To_Bottom_Clicked(object sender, EventArgs e)
     {
         FocusBottom();
     }
