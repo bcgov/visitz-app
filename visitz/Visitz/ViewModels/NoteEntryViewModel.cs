@@ -4,6 +4,7 @@ using Realms;
 using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Pages;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 
 namespace Visitz.ViewModels
@@ -120,6 +121,7 @@ namespace Visitz.ViewModels
             if (TextIsInvalid(e))
             {
                 CancelTextChangedEvent(e);
+                _ = (VisitzPage as NoteEntryPage).ShowErrorText(LocalizedStrings.InvalidEntry);
                 _ = (VisitzPage as NoteEntryPage).AnimateEditorError();
             }
 

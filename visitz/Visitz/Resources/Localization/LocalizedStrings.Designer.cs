@@ -160,6 +160,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid entry.
+        /// </summary>
+        internal static string InvalidEntry {
+            get {
+                return ResourceManager.GetString("InvalidEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         internal static string Login {
