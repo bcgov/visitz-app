@@ -123,8 +123,18 @@ namespace Visitz.ViewModels
                 CancelTextChangedEvent(e);
                 _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.InvalidEntry);
             }
+            else if (ExceedsCharacterLimit(e))
+            {
+                CancelTextChangedEvent(e);
+                _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.CharacterLimitReached);
+            }
 
             UpdateCharLimit();
+        }
+
+        private bool ExceedsCharacterLimit(TextChangedEventArgs e)
+        {
+            return e.NewTextValue?.Length > CharacterLimit;
         }
 
         private bool TextIsInvalid(TextChangedEventArgs e)

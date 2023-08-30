@@ -115,6 +115,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Character limit reached.
+        /// </summary>
+        internal static string CharacterLimitReached {
+            get {
+                return ResourceManager.GetString("CharacterLimitReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
         /// </summary>
         internal static string DeviceAuthReason {

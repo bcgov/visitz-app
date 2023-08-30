@@ -95,7 +95,6 @@
                 FontFamily="BCSansRegular"
                 FontSize="17"
                 Placeholder="Type your notes here..."
-                MaxLength="16000"
                 TextChanged="NotesEditor_TextChanged"
                 Keyboard="Text"
                 AutoSize="TextChanges">
