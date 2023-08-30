@@ -1,4 +1,6 @@
-﻿using Visitz.Models;
+﻿using Visitz.Animations;
+using Visitz.Animations.Haptic;
+using Visitz.Models;
 using Visitz.ViewModels;
 
 namespace Visitz.Pages;
@@ -32,9 +34,37 @@ public partial class NoteEntryPage : VisitzPage
         UpdateLayout(width, height);
     }
 
-    void NotesEditor_TextChanged(System.Object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
+    void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ((NoteEntryViewModel)BindingContext).EditorTextChanged();
+        ((NoteEntryViewModel)BindingContext).EditorTextChanged(e);
+    }
+
+    public async Task ShowEditorError(string text)
+    {
+        await Task.WhenAll(ShowErrorText(text), AnimateEditorError());
+    }
+
+    private async Task ShowErrorText(string text)
+    {
+        if (!PromptLabel.IsVisible || ErrorLabel.IsVisible)
+            return;
+
+        ErrorLabel.Text = "❌ " + text;
+
+        var fadeIn = new VisibilityAnimation(true, 100, Easing.CubicIn);
+        var fadeOut = new VisibilityAnimation(false, 100, Easing.CubicOut);
+
+        await Task.WhenAll(fadeOut.Animate(PromptLabel), fadeIn.Animate(ErrorLabel));
+
+        await Task.Delay(2000);
+
+        await Task.WhenAll(fadeOut.Animate(ErrorLabel), fadeIn.Animate(PromptLabel));
+    }
+
+    private async Task AnimateEditorError()
+    {
+        var vibrateErrorAnim = new ErrorVibrateAnimation();
+        await vibrateErrorAnim.Animate(NotesEditor);
     }
 
     private void UpdateLayout(double width, double height)
@@ -68,7 +98,7 @@ public partial class NoteEntryPage : VisitzPage
         await EditorScroll.ScrollToAsync(NotesEditor, ScrollToPosition.End, true);
     }
 
-    void Scroll_To_Bottom_Clicked(System.Object sender, System.EventArgs e)
+    void Scroll_To_Bottom_Clicked(object sender, EventArgs e)
     {
         FocusBottom();
     }

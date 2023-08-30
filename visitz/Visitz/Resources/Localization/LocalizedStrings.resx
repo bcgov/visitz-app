@@ -239,4 +239,10 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="PullToRefreshCaseload" xml:space="preserve">
     <value>Pull to refresh caseload from ICM</value>
   </data>
+  <data name="InvalidEntry" xml:space="preserve">
+    <value>Invalid entry</value>
+  </data>
+  <data name="CharacterLimitReached" xml:space="preserve">
+    <value>Character limit reached</value>
+  </data>
 </root>

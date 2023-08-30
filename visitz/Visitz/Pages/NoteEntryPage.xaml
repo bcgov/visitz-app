@@ -51,12 +51,24 @@
             Command="{Binding PublishNotesCommand}" />
 
         <Label
+            x:Name="PromptLabel"
             Grid.Row="1"
             Text="The content will be added at the end of the note"
             TextColor="{StaticResource BlackishText}"
             FontFamily="BCSansRegular"
             FontSize="16"
             VerticalOptions="Center" />
+
+        <Label 
+            x:Name="ErrorLabel"
+            Grid.Row="1"
+            TextColor="{StaticResource BC_Semantic_Error}"
+            FontSize="16"
+            FontFamily="BCSansBold"
+            VerticalOptions="Center"
+            MaxLines="1"
+            LineBreakMode="TailTruncation"
+            IsVisible="False"/>
 
         <Label
             Grid.Row="1"
@@ -83,8 +95,8 @@
                 FontFamily="BCSansRegular"
                 FontSize="17"
                 Placeholder="Type your notes here..."
-                MaxLength="16000"
                 TextChanged="NotesEditor_TextChanged"
+                Keyboard="Text"
                 AutoSize="TextChanges">
 
                 <Editor.Behaviors>
