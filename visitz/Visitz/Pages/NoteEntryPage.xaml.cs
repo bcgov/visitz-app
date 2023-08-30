@@ -39,7 +39,12 @@ public partial class NoteEntryPage : VisitzPage
         ((NoteEntryViewModel)BindingContext).EditorTextChanged(e);
     }
 
-    public async Task ShowErrorText(string text)
+    public async Task ShowEditorError(string text)
+    {
+        await Task.WhenAll(ShowErrorText(text), AnimateEditorError());
+    }
+
+    private async Task ShowErrorText(string text)
     {
         if (!PromptLabel.IsVisible || ErrorLabel.IsVisible)
             return;
@@ -56,7 +61,7 @@ public partial class NoteEntryPage : VisitzPage
         await Task.WhenAll(fadeOut.Animate(ErrorLabel), fadeIn.Animate(PromptLabel));
     }
 
-    public async Task AnimateEditorError()
+    private async Task AnimateEditorError()
     {
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(NotesEditor);

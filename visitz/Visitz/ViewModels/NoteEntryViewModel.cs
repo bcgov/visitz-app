@@ -121,8 +121,7 @@ namespace Visitz.ViewModels
             if (TextIsInvalid(e))
             {
                 CancelTextChangedEvent(e);
-                _ = (VisitzPage as NoteEntryPage).ShowErrorText(LocalizedStrings.InvalidEntry);
-                _ = (VisitzPage as NoteEntryPage).AnimateEditorError();
+                _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.InvalidEntry);
             }
 
             UpdateCharLimit();
