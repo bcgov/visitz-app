@@ -5,10 +5,10 @@ namespace Visitz.Extensions;
 public static partial class StringEmojiExtensions
 {
     [GeneratedRegex("\\p{Cs}")]
-    private static partial Regex EmojiRegex();
+    private static partial Regex EmojiSurrogatesRegex();
 
-    public static bool ContainsEmoji(this string text)
+    public static bool ContainsEmojiSurrogates(this string text)
     {
-        return EmojiRegex().IsMatch(text);
+        return EmojiSurrogatesRegex().IsMatch(text);
     }
 }
