@@ -130,7 +130,7 @@ namespace Visitz.ViewModels
 
         private bool TextIsInvalid(TextChangedEventArgs e)
         {
-            return e.NewTextValue.ContainsUnicodeSurrogates();
+            return e.NewTextValue.ContainsUnicodeSurrogatesAndOtherSymbols();
         }
 
         private void CancelTextChangedEvent(TextChangedEventArgs e)
