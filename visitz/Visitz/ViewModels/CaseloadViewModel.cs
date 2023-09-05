@@ -161,10 +161,12 @@ namespace Visitz.ViewModels
             if (query == null || string.IsNullOrWhiteSpace(SearchQuery))
                 return;
 
+            string trimmedSearch = SearchQuery.Trim();
+
             query = query.Where(item =>
             {
-                return item.CaseIncidentNumber.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || item.DisplayName.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase);
+                return item.CaseIncidentNumber.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase)
+                    || item.DisplayName.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase);
             });
         }
 
