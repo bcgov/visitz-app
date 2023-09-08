@@ -11,6 +11,8 @@ namespace Visitz.Authentication.Keycloak
     /// </summary>
 	public class WebBrowserAuthenticator : IdentityModel.OidcClient.Browser.IBrowser
     {
+        private const string EncodedHashtag = "%23";
+
         public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default)
         {
             try
@@ -42,7 +44,7 @@ namespace Visitz.Authentication.Keycloak
 
                 return new BrowserResult
                 {
-                    Response = url,
+                    Response = FixEncodedResponseUrl(url),
                     ResultType = BrowserResultType.Success
                 };
             }
@@ -55,6 +57,26 @@ namespace Visitz.Authentication.Keycloak
                 };
             }
         }
+
+        /*
+         * BUG: There seems to be an issue when using Azure OIDC and .NET MAUI's WebAuthenticator. The 
+         * WebAuthenticationResult returned from AuthenticateAsync() appends a hashtag ('#') to the
+         * callback URL for [some reason]. In my testing the authorization code was always the last
+         * parameter in the string, so when going to exchange the auth code for an access token it would
+         * be rejected with an "invalid_grant" error (because of course it would. Why would an authorization 
+         * code have a hashtag arbitrarily appended to it?).
+         * 
+         * If we switch to use a different IDP that doesn't append characters for [reasons] or .NET MAUI 
+         * fixes the issue in the platform we could then remove this function.
+         * 
+         * - Todd S.
+         */
+        private static string FixEncodedResponseUrl(string url)
+        {
+            if (url.EndsWith(EncodedHashtag))
+                url = url[..url.LastIndexOf(EncodedHashtag)];
+                
+            return url;
+        }
     }
 }
-
