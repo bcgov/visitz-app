@@ -32,14 +32,14 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public void ExpireAccessToken()
+        public void DeleteAccessToken()
         {
             if (DebugOptions.Enabled)
                 TokenHolder.DeleteAccessToken();
         }
 
         [RelayCommand]
-        public void ExpireRefreshToken()
+        public void DeleteRefreshToken()
         {
             if (DebugOptions.Enabled)
                 TokenHolder.DeleteRefreshToken();

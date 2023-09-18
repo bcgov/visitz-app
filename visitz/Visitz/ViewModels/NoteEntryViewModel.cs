@@ -108,7 +108,7 @@ namespace Visitz.ViewModels
             var trimmedDraft = Draft?.Trim();
 
             if (trimmedDraft?.Length > 0)
-                await NotePublishPage.OpenModal(VisitzPage, caseIncident, noteItem, trimmedDraft);
+                await NotePublishPage.Open(VisitzPage, caseIncident, noteItem, trimmedDraft);
         }
 
         public void EditorTextChanged(TextChangedEventArgs e)

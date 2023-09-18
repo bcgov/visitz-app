@@ -48,16 +48,16 @@
         <Button 
             Grid.Row="1"
             Grid.Column="1"
-            Command="{Binding ExpireAccessTokenCommand}" 
+            Command="{Binding DeleteAccessTokenCommand}" 
             HorizontalOptions="Start"
-            Text="Expire access token"/>
+            Text="Delete access token"/>
 
         <Button 
             Grid.Row="2"
             Grid.Column="1"
-            Command="{Binding ExpireRefreshTokenCommand}"
+            Command="{Binding DeleteRefreshTokenCommand}"
             HorizontalOptions="Start"
-            Text="Expire refresh token" />
+            Text="Delete refresh token" />
 
         <Button 
             Grid.Row="3"

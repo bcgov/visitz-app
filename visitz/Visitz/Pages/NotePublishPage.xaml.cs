@@ -11,13 +11,19 @@ public partial class NotePublishPage : VisitzPage
         BindingContext = viewModel;
     }
 
-    public static async Task OpenModal(Page fromPage, CaseloadItem caseIncident, NoteItem noteItem, string draft)
+    public static async Task Open(Page fromPage, CaseloadItem caseIncident, NoteItem noteItem, string draft)
     {
         await NavigateTo<NotePublishPage>(fromPage, new Dictionary<string, object>
         {
             { NotePublishViewModel.NoteItemKey, noteItem },
             { NotePublishViewModel.CaseIncidentKey, caseIncident },
             { NotePublishViewModel.DraftItemKey, draft }
-        }, true);
+        }, modal: false);
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        // Prevent the user from backing out of this screen in favour of using the dismiss button.
+        return false;
     }
 }
