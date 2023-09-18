@@ -1,0 +1,125 @@
+﻿<pages:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Pages.NotesPage"
+    x:DataType="viewModels:NotesViewModel"
+    Title="Notes"
+    ControlTemplate="{StaticResource VisitzPageWrapper}"
+    x:Name="this">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Text="Details"
+            Command="{Binding CaseDetailsTappedCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <AbsoluteLayout
+        x:Name="AbsoluteLayout"
+        Padding="20">
+        <Grid
+            x:Name="RootGrid"
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    x:Name="FixedRow"
+                    Height="66" />
+
+                <RowDefinition
+                    x:Name="AddNoteRow"
+                    Height="0" />
+
+                <RowDefinition
+                    x:Name="ResizableRow"
+                    Height="*" />
+            </Grid.RowDefinitions>
+            <VerticalStackLayout
+                Grid.Row="0"
+                HorizontalOptions="Fill"
+                Spacing="5">
+                <HorizontalStackLayout
+                    Spacing="10">
+                    <Label 
+                        Text="{Binding CaseIncident.DisplayName}"
+                        FontSize="28"
+                        FontFamily="BCSansBold"
+                        VerticalOptions="Center" />
+
+                    <Label 
+                        Text="{Binding CaseIncident.CaseIncidentNumber}"
+                        FontSize="22"
+                        FontFamily="BCSansRegular"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="5">
+                    <views:TagView BindingContext="{Binding CaseIncident}">
+                        <views:TagView.Behaviors>
+                            <behaviors:EntityTypeTagBehavior />
+                        </views:TagView.Behaviors>
+                    </views:TagView>
+
+                    <views:TagView BindingContext="{Binding CaseIncident}">
+                        <views:TagView.Behaviors>
+                            <behaviors:EntitySubTypeTagBehavior />
+                        </views:TagView.Behaviors>
+                    </views:TagView>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+
+            <views:AddNotePlaceholderView
+                x:Name="AddNotePlaceholder"
+                IsVisible="False"
+                Grid.Row="1"
+                ShowNotePeriod="{Binding AddNotesPlaceholder_ShowNotePeriod}"
+                NotePeriod="{Binding AddNotesPlaceholder_NotePeriod}"
+                ContentText="{Binding AddNotesPlaceholder_ContentText}" />
+
+            <RefreshView
+                Grid.Row="2"
+                Command="{Binding RefreshNotesCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+
+                <!-- 
+                    WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+                    Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+                    This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+                -->
+                <ContentView
+                    VerticalOptions="FillAndExpand">
+
+                    <CollectionView
+                        ItemsSource="{Binding Notes}"
+                        SelectionMode="None"
+                        VerticalOptions="FillAndExpand">
+                        <CollectionView.EmptyView>
+                            <Grid>
+                                <Image
+                                    Source="file_folder.png" WidthRequest="150" HeightRequest="150" />
+                            </Grid>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout  Orientation="Vertical" Span="1"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:NoteItem">
+                                <views:NoteItemView
+                                    LatestNote="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotesViewModel}}, Path=LatestNote}"
+                                    IsAddNotesPlaceholderVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotesViewModel}}, Path=IsAddNotesPlaceholderVisible}"
+                                    />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ContentView>
+            </RefreshView>
+        </Grid>
+    </AbsoluteLayout>
+</pages:VisitzPage>
+

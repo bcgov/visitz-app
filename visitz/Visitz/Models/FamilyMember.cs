@@ -30,6 +30,8 @@ namespace Visitz.Models
         public string FullDisplayName => string.Join(" ",
             FirstName, MiddleName, LastName);
 
+        public bool IsKeyPlayer => KeyPlayer == "Y";
+
         public static FamilyMember FromApiEntity(FamilyMemberEntity familyMember)
         {
             return new FamilyMember()

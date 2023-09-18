@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Services;
+using Visitz.Authentication.Keycloak;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -10,16 +11,14 @@ namespace Visitz.ViewModels
         public string idirOverride;
 
         [ObservableProperty]
-        public bool alwaysExpireAccessToken;
-
-        [ObservableProperty]
-        public bool alwaysExpireRefreshToken;
+        public bool showNoteItemViewDebugInfo;
 
         public override void PageStarted()
         {
+            base.PageStarted();
+
             IdirOverride = DebugOptions.IdirOverride;
-            AlwaysExpireAccessToken = DebugOptions.AlwaysExpireAccessToken;
-            AlwaysExpireRefreshToken = DebugOptions.AlwaysExpireRefreshToken;
+            ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;
         }
 
         partial void OnIdirOverrideChanged(string value)
@@ -27,14 +26,23 @@ namespace Visitz.ViewModels
             DebugOptions.IdirOverride = value;
         }
 
-        partial void OnAlwaysExpireAccessTokenChanged(bool value)
+        partial void OnShowNoteItemViewDebugInfoChanged(bool value)
         {
-            DebugOptions.AlwaysExpireAccessToken = value;
+            DebugOptions.ShowNoteItemViewDebugInfo = value;
         }
 
-        partial void OnAlwaysExpireRefreshTokenChanged(bool value)
+        [RelayCommand]
+        public void DeleteAccessToken()
         {
-            DebugOptions.AlwaysExpireRefreshToken = value;
+            if (DebugOptions.Enabled)
+                TokenHolder.DeleteAccessToken();
+        }
+
+        [RelayCommand]
+        public void DeleteRefreshToken()
+        {
+            if (DebugOptions.Enabled)
+                TokenHolder.DeleteRefreshToken();
         }
 
         [RelayCommand]
@@ -47,6 +55,13 @@ namespace Visitz.ViewModels
         public void DeleteEncryptionKey()
         {
             DebugOptions.DeleteEncryptionKey();
+        }
+
+        [RelayCommand]
+        public async void Logout()
+        {
+            if (DebugOptions.Enabled)
+                await VisitzSession.LogoutAsync();
         }
     }
 }

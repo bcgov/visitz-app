@@ -6,9 +6,9 @@ namespace VisitzApi.ErrorHandling
     {
         private static readonly string MessageKey = "message";
 
-        internal static bool TryFindMessage(HttpResponseMessage response, out string message)
+        internal static bool TryFindMessage(string content, out string message)
         {
-            var json = JsonDocument.Parse(response.Content.ReadAsStringAsync().Result).RootElement;
+            var json = JsonDocument.Parse(content).RootElement;
 
             if (json.TryGetProperty(MessageKey, out var element))
             {

@@ -1,6 +1,6 @@
-﻿using Visitz.Services;
+﻿using Visitz.Authentication;
+using Visitz.Pages;
 using Visitz.ViewModels;
-using Visitz.Views;
 
 namespace Visitz.VisitzConfig
 {
@@ -15,11 +15,23 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<NotesPage>();
             builder.Services.AddTransient<NotesViewModel>();
 
+            builder.Services.AddTransient<NoteDetailsPage>();
+            builder.Services.AddTransient<NoteDetailsViewModel>();
+
+            builder.Services.AddTransient<NoteEntryPage>();
+            builder.Services.AddTransient<NoteEntryViewModel>();
+
+            builder.Services.AddTransient<NotePublishPage>();
+            builder.Services.AddTransient<NotePublishViewModel>();
+
             builder.Services.AddTransient<CaseloadItemDetailsPage>();
             builder.Services.AddTransient<CaseloadItemDetailsViewModel>();
 
             builder.Services.AddTransient<DebugOptionsPage>();
             builder.Services.AddTransient<DebugOptionsViewModel>();
+
+            builder.Services.AddTransient<SessionPage>();
+            builder.Services.AddTransient<SessionViewModel>();
 
             return builder;
         }

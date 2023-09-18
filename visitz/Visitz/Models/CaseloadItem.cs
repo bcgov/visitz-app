@@ -28,11 +28,49 @@ namespace Visitz.Models
         public string KeyPlayerHomePhone { get; set; }
         public string CreatedDate { get; set; }
         public string DateReported { get; set; }
+        public string MemoUrgent { get; set; }
+        public string MemoCallDate { get; set; }
+        public string MemoCallTime { get; set; }
+        public string MemoRecordedBy { get; set; }
 
-        public string DisplayDate => EntityType == IcmEntity.Incident.ToString() ? DateReported : CreatedDate;
+        public string DisplayDate
+        {
+            get
+            {
+                if (EntityType == IcmEntity.Incident)
+                    return DateReported;
+                else if (EntityType == IcmEntity.Memo)
+                    return MemoCallDate;
+                else // IcmEntity.Case, etc...
+                    return CreatedDate;
+            }
+        }
 
-        // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string DisplayName => FamilyMembers.Where(mem => mem.KeyPlayer.Equals("Y")).FirstOrDefault().LastName;
+        public string DisplayName
+        {
+            get
+            {
+                if (EntityType == IcmEntity.Memo)
+                    return WorkerFullName;
+                else if (TryGetKeyPlayer(out FamilyMember keyPlayer))
+                    return $"{keyPlayer.LastName}, {keyPlayer.FirstName}";
+                else
+                    return ServiceOffice;
+            }
+        }
+
+        public bool TryGetKeyPlayer(out FamilyMember keyPlayer)
+        {
+            keyPlayer = FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault();
+            return keyPlayer != null;
+        }
+
+        public static DateTime DisplayDateTransform(CaseloadItem caseloadItem)
+        {
+            return caseloadItem.DisplayDate?.Length > 0
+                ? DateTime.Parse(caseloadItem.DisplayDate)
+                : DateTime.MinValue;
+        }
 
         // Copied from previous implementation. TODO: review if this is required, and clean up if so
         public string Address
@@ -41,17 +79,13 @@ namespace Visitz.Models
             {
                 var address = UnitNo + AddressLine1 + AddressLine2
                 + City + PostalCode + ProvinceState + Country;
-                if (address.Length == 0)
-                {
-                    return "NA";
-                }
-                else
-                {
-                    return (UnitNo.Length > 0 ? UnitNo : "N/A") + ", " + (AddressLine1.Length > 0 ? AddressLine1 : "N/A") +
+
+                return address.Length == 0
+                    ? "NA"
+                    : (UnitNo.Length > 0 ? UnitNo : "N/A") + ", " + (AddressLine1.Length > 0 ? AddressLine1 : "N/A") +
                         ", " + (AddressLine2.Length > 0 ? AddressLine2 : "N/A") + ", " + (City.Length > 0 ? City : "N/A") +
                         ", " + (PostalCode.Length > 0 ? PostalCode : "N/A") + ", " + (ProvinceState.Length > 0 ? ProvinceState : "N/A") +
                         ", " + (Country.Length > 0 ? Country : "N/A");
-                }
             }
         }
 
@@ -79,12 +113,19 @@ namespace Visitz.Models
                 KeyPlayerHomePhone = caseloadEntity.KeyPlayerHomePhone,
                 CreatedDate = caseloadEntity.CreatedDate,
                 DateReported = caseloadEntity.DateReported,
+                MemoUrgent = caseloadEntity.MemoUrgent,
+                MemoCallDate = caseloadEntity.MemoCallDate,
+                MemoCallTime = caseloadEntity.MemoCallTime,
+                MemoRecordedBy = caseloadEntity.MemoRecordedBy,
             };
 
-            var family = FamilyMember.FromApiEntities(caseloadEntity.FamilyMembers);
+            if (caseloadEntity.FamilyMembers != null)
+            {
+                var family = FamilyMember.FromApiEntities(caseloadEntity.FamilyMembers);
 
-            foreach (var familyMember in family)
-                caseloadItem.FamilyMembers.Add(familyMember);
+                foreach (var familyMember in family)
+                    caseloadItem.FamilyMembers.Add(familyMember);
+            }
 
             return caseloadItem;
         }

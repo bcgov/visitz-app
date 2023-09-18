@@ -148,4 +148,101 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
   <data name="RealmDatabaseErrorTitle" xml:space="preserve">
     <value>Restart app to fix data issue</value>
   </data>
+  <data name="CaseType" xml:space="preserve">
+    <value>Case type</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="TapToSelect" xml:space="preserve">
+    <value>Tap to select</value>
+  </data>
+  <data name="Sort_KeyPlayerLastNameAsc" xml:space="preserve">
+    <value>Key player name A-Z</value>
+  </data>
+  <data name="Sort_KeyPlayerLastNameDesc" xml:space="preserve">
+    <value>Key player name Z-A</value>
+  </data>
+  <data name="Sort_OpenDateAsc" xml:space="preserve">
+    <value>Least recent open date</value>
+  </data>
+  <data name="Sort_OpenDateDesc" xml:space="preserve">
+    <value>Most recent open date</value>
+  </data>
+  <data name="FailedToPublishToIcm" xml:space="preserve">
+    <value>❌ Publishing to ICM failed</value>
+  </data>
+  <data name="FailedToRefreshNotes" xml:space="preserve">
+    <value>❌ Refreshing notes on device failed</value>
+  </data>
+  <data name="NoNotesForEntity" xml:space="preserve">
+    <value>There are no notes for this {0}</value>
+  </data>
+  <data name="NoNotesForPeriod" xml:space="preserve">
+    <value>There are no notes for {0}</value>
+  </data>
+  <data name="NotesPublishedToIcm" xml:space="preserve">
+    <value>✅ Notes published to ICM</value>
+  </data>
+  <data name="PublishingNotesToIcm" xml:space="preserve">
+    <value>Publishing notes to ICM</value>
+  </data>
+  <data name="RefreshedNotesOnDevice" xml:space="preserve">
+    <value>✅ Refreshed notes on device</value>
+  </data>
+  <data name="RefreshingNotes" xml:space="preserve">
+    <value>Refreshing notes</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="TerminateSession" xml:space="preserve">
+    <value>Terminate session</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LogoutAndClearData" xml:space="preserve">
+    <value>Log out and clear data</value>
+  </data>
+  <data name="LogoutAndClearDataDesc" xml:space="preserve">
+    <value>Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
+
+Logging out won't affect your unpublished notes.</value>
+  </data>
+  <data name="YouAreAuthorized" xml:space="preserve">
+    <value>You are authorized to use MCFD Mobility.</value>
+  </data>
+  <data name="LoginSuccessButUnauth" xml:space="preserve">
+    <value>You've successfully logged in.
+
+However, you currently aren't authorized to use MCFD Mobility. Please request access and try again later.</value>
+  </data>
+  <data name="CaseloadSearchHint" xml:space="preserve">
+    <value>Search by key player's name or ID</value>
+  </data>
+  <data name="CaseloadIsEmpty" xml:space="preserve">
+    <value>All clear! Nothing is assigned to you.</value>
+  </data>
+  <data name="NoResultsForSearch" xml:space="preserve">
+    <value>No results for '{0}'</value>
+  </data>
+  <data name="NoResultsForSearchAndFilter" xml:space="preserve">
+    <value>No results for '{0}' and '{1}'</value>
+  </data>
+  <data name="PullToRefreshCaseload" xml:space="preserve">
+    <value>Pull to refresh caseload from ICM</value>
+  </data>
+  <data name="InvalidEntry" xml:space="preserve">
+    <value>Invalid entry</value>
+  </data>
+  <data name="CharacterLimitReached" xml:space="preserve">
+    <value>Character limit reached</value>
+  </data>
 </root>

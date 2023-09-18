@@ -59,11 +59,9 @@ namespace VisitzApi.Requests
             };
         }
 
-        public override IEnumerable<CaseloadEntity> HandleResponse(HttpResponseMessage response)
+        public override IEnumerable<CaseloadEntity> HandleResponse(string responseContent)
         {
-            var content = response.Content.ReadAsStringAsync().Result;
-
-            var caseloadJson = JsonDocument.Parse(content)
+            var caseloadJson = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty(ListCaseIncidentKey)
                 .GetProperty(JsonKey.Payload)

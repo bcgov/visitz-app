@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using VisitzApi;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Realms;
+using Visitz.Authentication.Keycloak;
+using Visitz.Extensions;
 using Visitz.Models;
-using VisitzApi.ErrorHandling;
-using Visitz.Services.Networking;
-using Visitz.Views;
+using Visitz.Pages;
+using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 
@@ -13,67 +15,197 @@ namespace Visitz.ViewModels
     /// <summary>
     /// The business logic for the cases and incidents list rendering goes here.
     /// </summary>
-    public partial class CaseloadViewModel : VisitzViewModel
+    public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
+        private static readonly string FilterNoneOption = LocalizedStrings.All;
+
         [ObservableProperty]
         public IEnumerable<CaseloadItem> caseload;
 
-        private Vpi Vpi { get; set; }
+        [ObservableProperty]
+        public IEnumerable<string> subtypes;
+
+        [ObservableProperty]
+        public CaseloadSort selectedSortOrder;
+
+        [ObservableProperty]
+        public string selectedSubtype;
 
         [ObservableProperty]
         public bool isRefreshing;
 
+        [ObservableProperty]
+        public string sessionDisplayName;
+
+        [ObservableProperty]
+        public string searchQuery;
+
+        [ObservableProperty]
+        public bool showEmptyCaseloadMessage;
+
+        [ObservableProperty]
+        public string collectionViewPrompt;
+
+        private Realm Realm { get; set; }
+
+        private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
+
+        private IDisposable CaseloadQueryToken { get; set; }
+
         public override async void PageCreated()
         {
-            Vpi = VisitzApp.VisitzServices.GetRequiredService<Vpi>();
+            base.PageCreated();
 
-            var realm = await IcmDataRealm.GetAsync();
-            Caseload = realm.All<CaseloadItem>();
+            WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
+
+            Realm = await VisitzRealm.GetIcmDataAsync();
+
+            CaseloadQuery = Realm.All<CaseloadItem>();
+            CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
+
+            VisitzSession.SessionChanged += VisitzSession_SessionChanged;
+
+            ShowEmptyCaseloadMessage = false;
+            CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
+
+            ApplyCaseloadQuery();
+            ApplySubtypesQuery();
         }
 
-        public async Task TryFetchCasesAndIncidents()
+        public override async void PageStarted()
         {
-            if (await VisitzSession.GetValidSessionAsync())
-                await FetchCasesAndIncidents();
+            base.PageStarted();
+
+            SessionDisplayName = await SessionViewModel.GetDisplayNamePrompt();
         }
 
-        public async Task FetchCasesAndIncidents()
+        public override void PageDestroyed()
         {
-            try
-            {
-                var info = await VisitzSessionInfo.GetAsync();
-                var caseloadFromApi = await Vpi.GetCaseloadAsync(info.Idir);
-                var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
+            VisitzSession.SessionChanged += VisitzSession_SessionChanged;
 
-                using var realm = await IcmDataRealm.GetAsync();
-                await realm.WriteAsync(() =>
-                {
-                    realm.Add(caseloadContent, update: true);
-                });
-            }
-            catch (VisitzApiException ex)
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            CaseloadQueryToken.Dispose();
+            CaseloadQueryToken = null;
+
+            Realm.Dispose();
+            Realm = null;
+
+            base.PageDestroyed();
+        }
+
+        private void Caseload_Changed(IRealmCollection<CaseloadItem> sender, ChangeSet changes)
+        {
+            if (changes == null)
+                return;
+
+            ApplyCaseloadQuery();
+            ApplySubtypesQuery();
+        }
+
+        public void ApplyCaseloadQuery()
+        {
+            var query = CaseloadQuery.AsEnumerable();
+
+            ApplySubtypeFiltering(ref query);
+            ApplySorting(ref query);
+            ApplySearchQuery(ref query);
+
+            Caseload = query;
+        }
+
+        private void ApplySubtypesQuery()
+        {
+            var query = CaseloadQuery.AsEnumerable()
+                .Select(item => item.CaseIncidentType)
+                .Distinct()
+                .Order()
+                .ToList();
+
+            query.Insert(0, FilterNoneOption);
+
+            Subtypes = query;
+        }
+
+        private void ApplySubtypeFiltering(ref IEnumerable<CaseloadItem> query)
+        {
+            if (query == null || SelectedSubtype == null || SelectedSubtype == FilterNoneOption)
+                return;
+            
+            query = query.Where(item => item.CaseIncidentType == SelectedSubtype);
+        }
+
+        private void ApplySorting(ref IEnumerable<CaseloadItem> query)
+        {
+            if (query == null || SelectedSortOrder == null)
+                return;
+
+            if (SelectedSortOrder.Id == CaseloadSort.DisplayDate)
             {
-                // TODO: Implement proper error logging/handling (show to user? store errors somewhere?)
-                Console.WriteLine(ex.Message);
+                query = SelectedSortOrder.Ascending
+                    ? query.OrderBy(CaseloadItem.DisplayDateTransform)
+                    : query.OrderByDescending(CaseloadItem.DisplayDateTransform);
             }
-            catch (Exception ex)
+            else if (SelectedSortOrder.Id == CaseloadSort.DisplayName)
             {
-                // TODO: Implement proper error logging/handling (show to user? store errors somewhere?)
-                Console.WriteLine(ex.StackTrace);
+                var sort = new Func<CaseloadItem, string>(item => item.DisplayName);
+
+                query = SelectedSortOrder.Ascending
+                    ? query.OrderBy(sort)
+                    : query.OrderByDescending(sort);
             }
+        }
+
+        private void ApplySearchQuery(ref IEnumerable<CaseloadItem> query)
+        {
+            if (query == null || string.IsNullOrWhiteSpace(SearchQuery))
+                return;
+
+            string trimmedSearch = SearchQuery.Trim();
+
+            query = query.Where(item =>
+            {
+                return item.CaseIncidentNumber.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase)
+                    || item.DisplayName.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase);
+            });
+        }
+
+        partial void OnCaseloadChanged(IEnumerable<CaseloadItem> value)
+        {
+            ApplyCollectionViewPrompt();
+        }
+
+        private void ApplyCollectionViewPrompt()
+        {
+            if (IsSubtypeSelected() && !string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                CollectionViewPrompt = LocalizedStrings.NoResultsForSearchAndFilter
+                    .Format(SelectedSubtype, SearchQuery);
+            }
+            else if (IsSubtypeSelected())
+            {
+                CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SelectedSubtype);
+            }
+            else if (!string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SearchQuery);
+            }
+            else
+            {
+                CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
+            }
+        }
+
+        private bool IsSubtypeSelected()
+        {
+            return SelectedSubtype != null && SelectedSubtype != FilterNoneOption;
         }
 
         [RelayCommand]
-        public async Task RefreshCaseload()
+        public void RefreshCaseload()
         {
-            try
-            {
-                await TryFetchCasesAndIncidents();
-            }
-            finally
-            {
-                IsRefreshing = false;
-            }
+            WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+            ShowEmptyCaseloadMessage = false;
         }
 
         [RelayCommand]
@@ -82,11 +214,35 @@ namespace Visitz.ViewModels
             await NotesPage.Open(VisitzPage, caseloadItem.CaseIncidentNumber);
         }
 
-        public async Task OpenDebugOptionsPage()
+        [RelayCommand]
+        public async void OpenDebugOptionsPage()
         {
             if (DebugOptions.Enabled)
                 await NavigateTo<DebugOptionsPage>();
         }
+
+        [RelayCommand]
+        public async void OpenSessionPage()
+        {
+            await SessionPage.OpenAsync(VisitzPage, true);
+        }
+
+        public void SearchCaseload()
+        {
+            ApplyCaseloadQuery();
+        }
+
+        public void Receive(ServiceStateMessage message)
+        {
+            IsRefreshing = message.Status == VisitzService.State.Running;
+
+            if (message.FinishedSuccess)
+                ShowEmptyCaseloadMessage = !CaseloadQuery.Any();
+        }
+
+        private async void VisitzSession_SessionChanged(object sender, EventArgs e)
+        {
+            SessionDisplayName = await SessionViewModel.GetDisplayNamePrompt(sender as VisitzSessionInfo);
+        }
     }
 }
-

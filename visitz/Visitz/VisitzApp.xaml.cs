@@ -1,12 +1,21 @@
-﻿using Visitz.Views;
+﻿using Visitz.Authentication.Keycloak;
+using Visitz.Pages;
+using Visitz.Services;
 
 namespace Visitz;
 
 public partial class VisitzApp : Application
 {
-    public static IServiceProvider VisitzServices => Current.Handler.MauiContext.Services;
-
     public static INavigation Navigation => Current.MainPage.Navigation;
+
+    public static Page CurrentOpenPage
+    {
+        get
+        {
+            int last = Navigation.NavigationStack.Count - 1;
+            return last >= 0 ? Navigation.NavigationStack[last] : null;
+        }
+    }
 
     public static Page CurrentOpenModal
     {
@@ -16,6 +25,10 @@ public partial class VisitzApp : Application
             return last >= 0 ? Navigation.ModalStack[last] : null;
         }
     }
+
+    public ServiceHandler ServiceHandler { get; private set; }
+
+    public event EventHandler<EventArgs> AppResumed;
 
     public VisitzApp()
     {
@@ -28,16 +41,30 @@ public partial class VisitzApp : Application
 
     protected async override void OnStart()
     {
-        base.OnStart();
+        ConsoleTrace.TraceMethod(this);
 
-        await AppLockPage.TryPrompt();
+        base.OnStart();
+        
+        ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
+
+        await TryModalSecurityChecksAsync();
     }
 
     protected async override void OnResume()
     {
-        base.OnResume();
+        ConsoleTrace.TraceMethod(this);
 
-        await AppLockPage.TryPrompt();
+        base.OnResume();
+        AppResumed?.Invoke(this, null);
+
+        await TryModalSecurityChecksAsync();
+    }
+
+    private static async Task TryModalSecurityChecksAsync()
+    {
+        await SessionPage.TryOpenAsync(modal: true, animated: false);
+
+        if (await VisitzSession.SessionExistsAsync())
+            await AppLockPage.TryPrompt();
     }
 }
-

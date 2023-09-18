@@ -25,5 +25,9 @@ namespace VisitzApi.Models
         public string KeyPlayerHomePhone { get; set; }
         public string CreatedDate { get; set; }
         public string DateReported { get; set; }
+        public string MemoUrgent { get; set; }
+        public string MemoCallDate { get; set; }
+        public string MemoCallTime { get; set; }
+        public string MemoRecordedBy { get; set; }
     }
 }

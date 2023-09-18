@@ -1,4 +1,4 @@
-﻿using Visitz.Services.Authentication;
+﻿using Visitz.Authentication.Keycloak;
 using Visitz.Settings;
 
 namespace Visitz.VisitzConfig
@@ -14,7 +14,6 @@ namespace Visitz.VisitzConfig
             {
                 Domain = settings.AuthenticationDomain,
                 ClientId = settings.ClientId,
-                Scope = "",
                 RedirectUri = settings.RedirectUri
             };
 

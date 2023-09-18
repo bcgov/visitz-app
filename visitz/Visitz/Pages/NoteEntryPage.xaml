@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:subclasses="clr-namespace:Visitz.Subclasses"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Pages.NoteEntryPage"
+    x:DataType="viewModels:NoteEntryViewModel"
+    Title="{Binding Title}"
+    ControlTemplate="{StaticResource VisitzPageWrapper}">
+
+    <subclasses:VisitzGrid
+        x:Name="RootGrid"
+        ColumnDefinitions="*,Auto,Auto"
+        ColumnSpacing="10"
+        Padding="20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition
+                x:Name="TitleRow"
+                Height="44" />
+            <RowDefinition
+                x:Name="DescriptionRow"
+                Height="44" />
+            <RowDefinition
+                x:Name="EditorRow"
+                Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Add Content"
+            TextColor="{StaticResource BlackishText}"
+            FontFamily="BCSansBold"
+            FontSize="17" />
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Text="Discard"
+            Style="{StaticResource transparent}"
+            IsVisible="false" />
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Text="Publish"
+            Command="{Binding PublishNotesCommand}" />
+
+        <Label
+            x:Name="PromptLabel"
+            Grid.Row="1"
+            Text="The content will be added at the end of the note"
+            TextColor="{StaticResource BlackishText}"
+            FontFamily="BCSansRegular"
+            FontSize="16"
+            VerticalOptions="Center" />
+
+        <Label 
+            x:Name="ErrorLabel"
+            Grid.Row="1"
+            TextColor="{StaticResource BC_Semantic_Error}"
+            FontSize="16"
+            FontFamily="BCSansBold"
+            VerticalOptions="Center"
+            MaxLines="1"
+            LineBreakMode="TailTruncation"
+            IsVisible="False"/>
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            TextColor="{StaticResource LightGrayText}"
+            Text="{Binding CharacterLimitText}"
+            FontFamily="BCSansRegular"
+            FontSize="12"
+            VerticalOptions="Center"
+            HorizontalOptions="End" />
+
+        <ScrollView
+            x:Name="EditorScroll"
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            VerticalOptions="FillAndExpand"
+            VerticalScrollBarVisibility="Always">
+            <!--Made the Editor AutoSize because of a .NET MAUI bug that prevented it from scrolling Jul 27, 2023-->
+            <Editor
+                x:Name="NotesEditor"
+                Text="{Binding Draft}"
+                TextColor="{StaticResource BlackishText}"
+                FontFamily="BCSansRegular"
+                FontSize="17"
+                Placeholder="Type your notes here..."
+                TextChanged="NotesEditor_TextChanged"
+                Keyboard="Text"
+                AutoSize="TextChanges">
+
+                <Editor.Behaviors>
+                    <toolkit:UserStoppedTypingBehavior 
+                        Command="{Binding SaveDraftCommand}"
+                        StoppedTypingTimeThreshold="1000"
+                        MinimumLengthThreshold="3" />
+                </Editor.Behaviors>
+            </Editor>
+        </ScrollView>
+
+        <ImageButton
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Source="chevron_down.png"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            WidthRequest="44"
+            HeightRequest="44"
+            CornerRadius="22"
+            Padding="15"
+            Margin="10"
+            BackgroundColor="{StaticResource DarkSkyBlueBackground}"
+            Clicked="Scroll_To_Bottom_Clicked">
+
+            <ImageButton.Shadow>
+                <Shadow Brush="Black"
+                Offset="10,10"
+                Radius="20"
+                Opacity="0.5" />
+            </ImageButton.Shadow>
+
+        </ImageButton>
+    </subclasses:VisitzGrid>
+</pages:VisitzPage>

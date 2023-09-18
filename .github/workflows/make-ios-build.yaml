@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 200
     env:
       # TODO: read "MCFD Mobility" app name from MSBuild instead
-      OUTPUT_NAME: "MCFD Mobility-iOS-${{ inputs.environment }}-build_${{ github.run_number }}"
+      OUTPUT_NAME: "MCFD Mobility-iOS-${{ vars.ENV_NAME }}-build_${{ github.run_number }}"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -50,9 +50,11 @@ jobs:
         with:
           dotnet-version: ${{ vars.DOTNET_VERSION }}
 
-      - name: Install .NET MAUI workloads
+      - name: Install .NET MAUI ${{ vars.MAUI_VERSION }} workloads
         run: |
-          dotnet workload install maui maui-ios
+          dotnet workload install maui maui-ios \
+            --sdk-version=${{ vars.DOTNET_VERSION }} \
+            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ vars.MAUI_VERSION }}.json
 
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |
