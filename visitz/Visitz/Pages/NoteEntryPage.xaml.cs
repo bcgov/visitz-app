@@ -11,10 +11,23 @@ public partial class NoteEntryPage : VisitzPage
     {
         InitializeComponent();
         BindingContext = viewModel;
-        RootGrid.KeyboardAppearanceEvent += grid_KeyboardAppearanceEvent;
     }
 
-    void grid_KeyboardAppearanceEvent(object sender, EventArgs e)
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        RootGrid.KeyboardAppearanceEvent += Grid_KeyboardAppearanceEvent;
+    }
+
+    protected override void OnDisappearing()
+    {
+        RootGrid.KeyboardAppearanceEvent -= Grid_KeyboardAppearanceEvent;
+
+        base.OnDisappearing();
+    }
+
+    void Grid_KeyboardAppearanceEvent(object sender, EventArgs e)
     {
         UpdateLayout(Width, Height);
     }
