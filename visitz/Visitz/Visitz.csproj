@@ -51,6 +51,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Plugin.Fingerprint" Version="3.0.0-beta.1" />
@@ -59,82 +60,75 @@
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
+		<PackageReference Include="Realm" Version="11.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\bc_logo_horizontal_reverse.svg" />
+	  <None Remove="Resources\Images\family.svg" />
+	  <None Remove="Resources\Images\mobile.svg" />
+	  <None Remove="Resources\Images\phone.svg" />
+	  <None Remove="Resources\Images\user.svg" />
 	  <None Remove="Services\" />
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
 	  <None Remove="Routers\" />
-	  <None Remove="Services\Authentication\" />
-	  <None Remove="Services\Networking\" />
 	  <None Remove="Models\" />
 	  <None Remove="Models\Payloads\" />
 	  <None Remove="Models\DTOs\" />
 	  <None Remove="Models\BOs\" />
-	  <None Remove="Resources\Fonts\BCSans-Bold.ttf" />
-	  <None Remove="Resources\Fonts\BCSans-BoldItalic.ttf" />
-	  <None Remove="Resources\Fonts\BCSans-Italic.ttf" />
-	  <None Remove="Resources\Fonts\BCSans-Regular.ttf" />
+	  <None Remove="Resources\Fonts\" />
 	  <None Remove="Resources\AppIcon\appiconfg.svg" />
 	  <None Remove="Resources\Splash\" />
 	  <None Remove="Resources\Splash\splashicon.svg" />
 	  <None Remove="Resources\Images\Authentication\fileFolder.svg" />
 	  <None Remove="Resources\Images\file_folder.svg" />
-	  <None Remove="Resources\Images\device.svg" />
 	  <None Remove="Resources\Images\tilted_rectangle_bg.svg" />
 	  <None Remove="Resources\Images\chevron_right.svg" />
-	  <None Remove="Resources\Images\temp_child_services.svg" />
-	  <None Remove="Resources\Images\temp_case.svg" />
-	  <None Remove="Resources\Images\bc_logo_text.svg" />
 	  <None Remove="Resources\Localization\" />
-	  <None Remove="Services\Localization\" />
-	  <None Remove="Services\MAUI\" />
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="appSettings.json" />
 	  <None Remove="Resources\AppIcon\appicon_round.svg" />
 	  <None Remove="Resources\Images\calendar.svg" />
 	  <None Remove="Resources\Images\folder.svg" />
-	  <None Remove="Resources\Images\family.svg" />
-	  <None Remove="Resources\Images\user.svg" />
-	  <None Remove="Resources\Images\phone.svg" />
-	  <None Remove="Resources\Images\mobile.svg" />
+	  <None Remove="Resources\Images\tag_icon.svg" />
+	  <None Remove="Resources\Images\note_empty.svg" />
+	  <None Remove="Subclasses\" />
+	  <None Remove="Resources\Images\file.svg" />
+	  <None Remove="Resources\Images\note_publish.svg" />
+	  <None Remove="Resources\Images\add_note.svg" />
+	  <None Remove="Resources\Images\chevron_down.svg" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Services\" />
+	  <Folder Include="Pages\" />
 	  <Folder Include="Views\" />
 	  <Folder Include="ViewModels\" />
-	  <Folder Include="Services\Authentication\" />
-	  <Folder Include="Services\Networking\" />
+	  <Folder Include="Authentication\" />
 	  <Folder Include="Models\" />
-	  <Folder Include="Models\BOs\" />
 	  <Folder Include="Resources\Splash\" />
 	  <Folder Include="Resources\Localization\" />
-	  <Folder Include="Services\Localization\" />
-	  <Folder Include="Services\MAUI\" />
+	  <Folder Include="Localization\" />
+	  <Folder Include="Extensions\" />
+	  <Folder Include="Subclasses\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <BundleResource Include="Resources\Fonts\BCSans-Bold.ttf" />
-	  <BundleResource Include="Resources\Fonts\BCSans-BoldItalic.ttf" />
-	  <BundleResource Include="Resources\Fonts\BCSans-Italic.ttf" />
-	  <BundleResource Include="Resources\Fonts\BCSans-Regular.ttf" />
+	  <BundleResource Include="Resources\Fonts\*" />
 	  <BundleResource Include="Resources\AppIcon\appiconfg.svg" />
 	  <BundleResource Include="Resources\Splash\splashicon.svg" />
 	  <BundleResource Include="Resources\Images\file_folder.svg" />
-	  <BundleResource Include="Resources\Images\device.svg" />
 	  <BundleResource Include="Resources\Images\tilted_rectangle_bg.svg" />
 	  <BundleResource Include="Resources\Images\chevron_right.svg" />
-	  <BundleResource Include="Resources\Images\temp_child_services.svg" />
-	  <BundleResource Include="Resources\Images\temp_case.svg" />
-	  <BundleResource Include="Resources\Images\bc_logo_text.svg" />
 	  <BundleResource Include="Resources\AppIcon\appicon_round.svg" />
 	  <BundleResource Include="Resources\Images\calendar.svg" />
 	  <BundleResource Include="Resources\Images\folder.svg" />
-	  <BundleResource Include="Resources\Images\family.svg" />
-	  <BundleResource Include="Resources\Images\user.svg" />
-	  <BundleResource Include="Resources\Images\phone.svg" />
-	  <BundleResource Include="Resources\Images\mobile.svg" />
+	  <BundleResource Include="Resources\Images\tag_icon.svg" />
+	  <BundleResource Include="Resources\Images\note_empty.svg" />
+	  <BundleResource Include="Resources\Images\file.svg" />
+	  <BundleResource Include="Resources\Images\note_publish.svg" />
+	  <BundleResource Include="Resources\Images\add_note.svg" />
+	  <BundleResource Include="Resources\Images\chevron_down.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Include="appSettings.json" />
@@ -151,6 +145,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Remove="Resources\Localization\LocalizedStrings.fr-FR.Designer.cs" />
+	  <Compile Remove="Resources\Raw\BcGovFlickr.cs" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
@@ -159,16 +154,19 @@
 	  <Compile Update="Controls\FormItemViewView.xaml.cs">
 	    <DependentUpon>FormItemViewView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Controls\CaseloadItemView.xaml.cs">
+	  <Compile Update="Pages\SessionPage.xaml.cs">
+	    <DependentUpon>SessionPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CaseloadItemView.xaml.cs">
 	    <DependentUpon>CaseloadItemView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\CaseloadItemDetailsPage.xaml.cs">
+	  <Compile Update="Pages\CaseloadItemDetailsPage.xaml.cs">
 	    <DependentUpon>CaseloadItemDetailsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VisitzShell.xaml.cs">
-	    <DependentUpon>VisitzShell.xaml</DependentUpon>
+	  <Compile Update="Pages\DebugOptionsPage.xaml.cs">
+	    <DependentUpon>DebugOptionsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\AppLockPage.xaml.cs">
+	  <Compile Update="Pages\AppLockPage.xaml.cs">
 	    <DependentUpon>AppLockPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="VisitzApp.xaml.cs">
@@ -182,25 +180,40 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	  </Compile>
-	  <Compile Update="Views\CaseloadPage.xaml.cs">
+	  <Compile Update="Pages\CaseloadPage.xaml.cs">
 	    <DependentUpon>CaseloadPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\NotesPage.xaml.cs">
+	  <Compile Update="Pages\NotesPage.xaml.cs">
 	    <DependentUpon>NotesPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\VisitzPage.xaml.cs">
+	  <Compile Update="Pages\VisitzPage.xaml.cs">
 	    <DependentUpon>VisitzPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiXaml Update="Controls\ContactItemView.xaml">
+	  <MauiXaml Update="Pages\SessionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Templates\ControlTemplates.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ContactItemView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\FormItemViewView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\CaseloadItemView.xaml">
+	  <MauiXaml Update="Views\CaseloadItemView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\DebugOptionsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\note_empty.svg" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiAsset Include="Storage\BcGovAlbum.cs" />
 	</ItemGroup>
 </Project>

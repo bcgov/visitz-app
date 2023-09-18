@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Visitz.Models"
+             xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+             x:Class="Visitz.Views.NoteItemView"
+             x:DataType="models:NoteItem"
+             x:Name="this">
+    
+    <VerticalStackLayout Margin="0,10,0,0">
+        <Border  
+            Stroke="#DFDFE1"
+            StrokeThickness="2"
+            Padding="20,20"
+            HorizontalOptions="Fill">
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer 
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotesViewModel}}, Path=GoToNoteDetailsCommand}"
+                    CommandParameter="{Binding .}"/>
+            </Border.GestureRecognizers>
+
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="4,4,4,4" />
+            </Border.StrokeShape>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
+                    <HorizontalStackLayout
+                        Spacing="10">
+                        <Image
+                            IsVisible="{Binding ShowTitleIcon}"
+                            Source="calendar.png"
+                            HeightRequest="20"
+                            WidthRequest="20" />
+
+                        <Label 
+                            Text="{Binding PeriodOrPageNumber}"
+                            FontSize="17"
+                            FontFamily="BCSansBold" />
+
+                        <Label
+                            x:Name="AddNotesLabel"
+                            IsVisible="False"
+                            Text="Add notes"
+                            TextColor="{StaticResource SkyBlueText}"
+                            MaxLines="3"
+                            FontSize="17"
+                            FontFamily="BCSansRegular"
+                            LineBreakMode="WordWrap" />
+
+                        <Image
+                            IsVisible="False"
+                            x:Name="AddNotesImage"
+                            Source="add_note.png"
+                            WidthRequest="16"
+                            HeightRequest="16" />
+
+                    </HorizontalStackLayout>
+
+                    <Label 
+                        x:Name="ContentLabel"
+                        Text="{Binding Content}"
+                        MaxLines="3"
+                        FontSize="17"
+                        FontFamily="BCSansRegular"
+                        Padding="0,10,0,0"
+                        LineBreakMode="WordWrap" />
+
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                    <Image Source="chevron_right" Margin="25,0,0,0" />
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

@@ -1,73 +1,177 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
-using Visitz.Models.BOs;
-using Visitz.Views;
-using VisitzApi;
-using VisitzApi.ErrorHandling;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Realms;
+using Visitz.Extensions;
+using Visitz.Models;
+using Visitz.Pages;
+using Visitz.Resources.Localization;
+using Visitz.Services;
+using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
     /// <summary>
     /// The business logic for the cases notes rendering goes here.
     /// </summary>
-	public partial class NotesViewModel : VisitzViewModel, IQueryAttributable
+	public partial class NotesViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
+        public static readonly string CaseIncidentIdKey = "caseIncidentId";
+
+        public string caseIncidentId;
+
         [ObservableProperty]
         public CaseloadItem caseIncident;
 
-        public ObservableCollection<NoteItem> Notes { get; set; } = new();
+        [ObservableProperty]
+        public IEnumerable<NoteItem> notes;
 
-        private Vpi Vpi { get; }
+        [ObservableProperty]
+        public bool isRefreshing;
 
-        public NotesViewModel(Vpi visitzApi)
+        [ObservableProperty]
+        public string addNotesPlaceholder_NotePeriod = NoteItem.NotePeriodFrom(DateTime.Now);
+
+        [ObservableProperty]
+        public bool addNotesPlaceholder_ShowNotePeriod;
+
+        [ObservableProperty]
+        public string addNotesPlaceholder_ContentText;
+
+        [ObservableProperty]
+        public bool isAddNotesPlaceholderVisible;
+
+        [ObservableProperty]
+        public NoteItem latestNote;
+
+        private Realm Realm { get; set; }
+
+        private IQueryable<NoteItem> NotesQuery { get; set; }
+
+        private IDisposable NotesQueryToken { get; set; }
+
+        public override async void PageCreated()
         {
-            Vpi = visitzApi;
+            base.PageCreated();
+
+            caseIncidentId = Parameters[CaseIncidentIdKey] as string;
+
+            WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncidentId));
+
+            Realm = await VisitzRealm.GetIcmDataAsync();
+
+            CaseIncident = Realm.Find<CaseloadItem>(caseIncidentId);
+
+            NotesQuery = Realm.All<NoteItem>()
+                .Where(note => note.IcmId == caseIncidentId);
+            NotesQueryToken = NotesQuery.SubscribeForNotifications(Notes_Changed);
+
+            ApplyNotesQuery();
+
+            AddNotesPlaceholder_ShowNotePeriod = CaseIncident.EntityType == IcmEntity.Case;
+
+            AddNotesPlaceholder_ContentText = CaseIncident.EntityType == IcmEntity.Case
+                ? LocalizedStrings.NoNotesForPeriod.Format(NoteItem.NotePeriodFrom(DateTime.Now))
+                : LocalizedStrings.NoNotesForEntity.Format(CaseIncident.EntityType.ToLower());
+
+            UpdateAddNotesPlaceholderVisibility();
         }
 
-        public override void PageCreated()
+        public override void PageDestroyed()
         {
-            FetchNotes();
+            Notes = null;
+            CaseIncident = null;
+
+            NotesQueryToken.Dispose();
+            NotesQueryToken = null;
+
+            Realm.Dispose();
+            Realm = null;
+
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            base.PageDestroyed();
         }
 
-        public async void FetchNotes()
-        {
-            try
-            {
-                var notesList = await Vpi.GetNotesAsync(CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
-
-                Notes.Clear();
-
-                foreach (var note in notesList)
-                    Notes.Add(new NoteItem(note));
-            }
-            catch (VisitzApiException ex)
-            {
-                // TODO: Implement proper error logging/handling (show to user? store errors somewhere?)
-                Console.WriteLine(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                // TODO: Implement proper error logging/handling (show to user? store errors somewhere?)
-                Console.WriteLine(ex.StackTrace);
-            }
-        }
-
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            CaseIncident = query["caseIncident"] as CaseloadItem;
-        }
-
+        [RelayCommand]
         public async Task CaseDetailsTapped()
         {
-            await NavigateToCaseloadItemDetailsPage(CaseIncident);
+            await CaseloadItemDetailsPage.Open(VisitzPage, CaseIncident.CaseIncidentNumber);
         }
 
-        private async Task NavigateToCaseloadItemDetailsPage(CaseloadItem caseloadItem)
+        [RelayCommand]
+        public void RefreshNotes()
         {
-            await NavigateTo(typeof(CaseloadItemDetailsPage), new Dictionary<string, object> 
-            { 
-                { "caseIncident", caseloadItem }
-            });
+            if (CaseIncident == null)
+            {
+                IsRefreshing = false;
+                return;
+            }
+            var entityTuple = (CaseIncident.CaseIncidentNumber, CaseIncident.EntityType);
+            WeakReferenceMessenger.Default.Send(GetNotesService.MakeStartMessage(entityTuple));
+        }
+
+        [RelayCommand]
+        public async void GoToNoteDetails(NoteItem noteItem)
+        {
+            var canAppendNotes = !IsAddNotesPlaceholderVisible 
+                && NoteItem.EqualByDates(Notes.First(), noteItem);
+
+            await NoteDetailsPage.Open(VisitzPage, CaseIncident, noteItem, canAppendNotes);
+        }
+
+        [RelayCommand]
+        public async void GoToNoteEntry()
+        {
+            await NoteEntryPage.Open(VisitzPage, CaseIncident, null);
+        }
+
+        public void Receive(ServiceStateMessage message)
+        {
+            IsRefreshing = message.Status == VisitzService.State.Running;
+        }
+
+        private void ApplyNotesQuery()
+        {
+            var notes = NotesQuery.AsEnumerable();
+
+            ApplySorting(ref notes);
+
+            LatestNote = notes.FirstOrDefault();
+            Notes = notes;
+        }
+
+        private void ApplySorting(ref IEnumerable<NoteItem> notes)
+        {
+            notes = notes.OrderByDescending(item => NoteItem.NotePeriodDateTimeTransform(item, false))
+                .ThenByDescending(item => NoteItem.CreatedDateTimeTransform(item, false));
+        }
+
+        private void UpdateAddNotesPlaceholderVisibility()
+        {
+            bool showPlaceholder = ShouldShowAddNotesPlaceholder();
+
+            (VisitzPage as NotesPage).ShowAddNotesPlaceholder(showPlaceholder);
+            IsAddNotesPlaceholderVisible = showPlaceholder;
+        }
+
+        private bool ShouldShowAddNotesPlaceholder()
+        {
+            if (!Notes.Any())
+                return true;
+            else if (CaseIncident.EntityType == IcmEntity.Case)
+                return !NoteItem.IsCurrentNotePeriod(Notes.First());
+            else
+                return false;
+        }
+
+        private void Notes_Changed(IRealmCollection<NoteItem> sender, ChangeSet changes)
+        {
+            if (changes == null) // Initial load
+                return;
+
+            ApplyNotesQuery();
+            UpdateAddNotesPlaceholderVisibility();
         }
     }
 }

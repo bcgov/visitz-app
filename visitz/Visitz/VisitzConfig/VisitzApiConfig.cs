@@ -1,4 +1,4 @@
-﻿using Visitz.Services.Networking;
+﻿using Visitz.Authentication.Keycloak;
 using Visitz.Settings;
 using VisitzApi;
 
@@ -10,9 +10,9 @@ namespace Visitz.VisitzConfig
 
         public static MauiAppBuilder ConfigureVisitzApi(this MauiAppBuilder builder)
         {
-            builder.Services.AddSingleton<TokenHandler>();
+            builder.Services.AddSingleton<AppendTokenHandler>();
 
-            builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<TokenHandler>();
+            builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<AppendTokenHandler>();
 
             builder.Services.AddSingleton(sp => 
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));

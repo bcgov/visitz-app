@@ -1,28 +1,70 @@
-﻿using Visitz.Views;
+﻿using Visitz.Authentication.Keycloak;
+using Visitz.Pages;
+using Visitz.Services;
 
 namespace Visitz;
 
 public partial class VisitzApp : Application
 {
+    public static INavigation Navigation => Current.MainPage.Navigation;
+
+    public static Page CurrentOpenPage
+    {
+        get
+        {
+            int last = Navigation.NavigationStack.Count - 1;
+            return last >= 0 ? Navigation.NavigationStack[last] : null;
+        }
+    }
+
+    public static Page CurrentOpenModal
+    {
+        get
+        {
+            int last = Navigation.ModalStack.Count - 1;
+            return last >= 0 ? Navigation.ModalStack[last] : null;
+        }
+    }
+
+    public ServiceHandler ServiceHandler { get; private set; }
+
+    public event EventHandler<EventArgs> AppResumed;
+
     public VisitzApp()
     {
         InitializeComponent();
 
-        MainPage = new VisitzShell();
+        // TODO: Get this working with the DI system
+        // DI setup has been disabled for now in VisitzScreens
+        MainPage = new NavigationPage(CaseloadPage.GetInstance());
     }
 
     protected async override void OnStart()
     {
-        base.OnStart();
+        ConsoleTrace.TraceMethod(this);
 
-        await AppLockPage.TryPrompt();
+        base.OnStart();
+        
+        ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
+
+        await TryModalSecurityChecksAsync();
     }
 
     protected async override void OnResume()
     {
-        base.OnResume();
+        ConsoleTrace.TraceMethod(this);
 
-        await AppLockPage.TryPrompt();
+        base.OnResume();
+        AppResumed?.Invoke(this, null);
+
+        await TryModalSecurityChecksAsync();
+    }
+
+    private static async Task TryModalSecurityChecksAsync()
+    {
+        await SessionPage.TryOpenAsync(modal: true, animated: false);
+
+        if (await VisitzSession.SessionExistsAsync())
+            await AppLockPage.TryPrompt();
     }
 }
-

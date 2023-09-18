@@ -31,6 +31,6 @@ namespace VisitzApi.Requests
 
         public abstract HttpRequestMessage MakeRequest();
 
-        public abstract ResponseType HandleResponse(HttpResponseMessage response);
+        public abstract ResponseType HandleResponse(string responseContent);
     }
 }

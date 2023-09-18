@@ -61,11 +61,65 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        internal static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
         internal static string Caseload {
             get {
                 return ResourceManager.GetString("Caseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All clear! Nothing is assigned to you..
+        /// </summary>
+        internal static string CaseloadIsEmpty {
+            get {
+                return ResourceManager.GetString("CaseloadIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search by key player&apos;s name or ID.
+        /// </summary>
+        internal static string CaseloadSearchHint {
+            get {
+                return ResourceManager.GetString("CaseloadSearchHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Case type.
+        /// </summary>
+        internal static string CaseType {
+            get {
+                return ResourceManager.GetString("CaseType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Character limit reached.
+        /// </summary>
+        internal static string CharacterLimitReached {
+            get {
+                return ResourceManager.GetString("CharacterLimitReached", resourceCulture);
             }
         }
         
@@ -97,11 +151,190 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ❌ Publishing to ICM failed.
+        /// </summary>
+        internal static string FailedToPublishToIcm {
+            get {
+                return ResourceManager.GetString("FailedToPublishToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ❌ Refreshing notes on device failed.
+        /// </summary>
+        internal static string FailedToRefreshNotes {
+            get {
+                return ResourceManager.GetString("FailedToRefreshNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid entry.
+        /// </summary>
+        internal static string InvalidEntry {
+            get {
+                return ResourceManager.GetString("InvalidEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        internal static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve successfully logged in.
+        ///
+        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Please request access and try again later..
+        /// </summary>
+        internal static string LoginSuccessButUnauth {
+            get {
+                return ResourceManager.GetString("LoginSuccessButUnauth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out.
+        /// </summary>
+        internal static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out and clear data.
+        /// </summary>
+        internal static string LogoutAndClearData {
+            get {
+                return ResourceManager.GetString("LogoutAndClearData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
+        ///
+        ///Logging out won&apos;t affect your unpublished notes..
+        /// </summary>
+        internal static string LogoutAndClearDataDesc {
+            get {
+                return ResourceManager.GetString("LogoutAndClearDataDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no notes for this {0}.
+        /// </summary>
+        internal static string NoNotesForEntity {
+            get {
+                return ResourceManager.GetString("NoNotesForEntity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no notes for {0}.
+        /// </summary>
+        internal static string NoNotesForPeriod {
+            get {
+                return ResourceManager.GetString("NoNotesForPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results for &apos;{0}&apos;.
+        /// </summary>
+        internal static string NoResultsForSearch {
+            get {
+                return ResourceManager.GetString("NoResultsForSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No results for &apos;{0}&apos; and &apos;{1}&apos;.
+        /// </summary>
+        internal static string NoResultsForSearchAndFilter {
+            get {
+                return ResourceManager.GetString("NoResultsForSearchAndFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ✅ Notes published to ICM.
+        /// </summary>
+        internal static string NotesPublishedToIcm {
+            get {
+                return ResourceManager.GetString("NotesPublishedToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publishing notes to ICM.
+        /// </summary>
+        internal static string PublishingNotesToIcm {
+            get {
+                return ResourceManager.GetString("PublishingNotesToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pull to refresh caseload from ICM.
+        /// </summary>
+        internal static string PullToRefreshCaseload {
+            get {
+                return ResourceManager.GetString("PullToRefreshCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility is unable to access downloaded copies of ICM data due to an unexpected event. This error can&apos;t be recovered from.
+        ///
+        ///Downloaded copies of ICM data will be deleted.
+        ///
+        ///To continue using the app: open the app switcher, force close MCFD Mobility, then launch it again..
+        /// </summary>
+        internal static string RealmDatabaseErrorMessage {
+            get {
+                return ResourceManager.GetString("RealmDatabaseErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart app to fix data issue.
+        /// </summary>
+        internal static string RealmDatabaseErrorTitle {
+            get {
+                return ResourceManager.GetString("RealmDatabaseErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ✅ Refreshed notes on device.
+        /// </summary>
+        internal static string RefreshedNotesOnDevice {
+            get {
+                return ResourceManager.GetString("RefreshedNotesOnDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing notes.
+        /// </summary>
+        internal static string RefreshingNotes {
+            get {
+                return ResourceManager.GetString("RefreshingNotes", resourceCulture);
             }
         }
         
@@ -115,11 +348,83 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key player name A-Z.
+        /// </summary>
+        internal static string Sort_KeyPlayerLastNameAsc {
+            get {
+                return ResourceManager.GetString("Sort_KeyPlayerLastNameAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key player name Z-A.
+        /// </summary>
+        internal static string Sort_KeyPlayerLastNameDesc {
+            get {
+                return ResourceManager.GetString("Sort_KeyPlayerLastNameDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Least recent open date.
+        /// </summary>
+        internal static string Sort_OpenDateAsc {
+            get {
+                return ResourceManager.GetString("Sort_OpenDateAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Most recent open date.
+        /// </summary>
+        internal static string Sort_OpenDateDesc {
+            get {
+                return ResourceManager.GetString("Sort_OpenDateDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to select.
+        /// </summary>
+        internal static string TapToSelect {
+            get {
+                return ResourceManager.GetString("TapToSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminate session.
+        /// </summary>
+        internal static string TerminateSession {
+            get {
+                return ResourceManager.GetString("TerminateSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User cancelled IDIR login..
         /// </summary>
         internal static string UserCancelledAuth {
             get {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are authorized to use MCFD Mobility..
+        /// </summary>
+        internal static string YouAreAuthorized {
+            get {
+                return ResourceManager.GetString("YouAreAuthorized", resourceCulture);
             }
         }
     }

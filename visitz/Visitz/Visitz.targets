@@ -3,6 +3,9 @@
 	<PropertyGroup Condition="'$(Configuration)' == 'Release' And '$(DeploymentEnvironment)' != ''">
 		<ApplicationIdTemp>$(ApplicationId)-$(DeploymentEnvironment)</ApplicationIdTemp>
 		<ApplicationId>$(ApplicationIdTemp)</ApplicationId>
+
+		<ApplicationTitleTemp>$(ApplicationTitle) $(DeploymentEnvironment)</ApplicationTitleTemp>
+		<ApplicationTitle>$(ApplicationTitleTemp)</ApplicationTitle>
 	</PropertyGroup>
 
 	<UsingTask 
@@ -32,7 +35,9 @@
 		</Task>
 	</UsingTask>
 
-	<Target Name="CopyAppSettings" Condition="'$(Configuration)' == 'Release'">
+	<Target 
+		Name="CopyAppSettings" 
+		Condition="'$(Configuration)' == 'Release' And '$(UseAppSettings)' == 'true'">
 
 		<Copy 
 			SourceFiles="appSettings.json.template"
@@ -43,7 +48,7 @@
 	<Target 
 		Name="DoAppSettings" 
 		AfterTargets="CopyAppSettings" 
-		Condition="'$(Configuration)' == 'Release'">
+		Condition="'$(Configuration)' == 'Release' And '$(UseAppSettings)' == 'true'">
 		
 		<ReplaceFileText 
 			InputFilename="$(ProjectDir)appSettings.json"
@@ -68,6 +73,12 @@
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{HttpsApiDomain}}"
 			ReplacementText="$(Api_HttpsApiDomain)" />
+
+		<ReplaceFileText 
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{EnableDebugOptions}}"
+			ReplacementText="$(Debug_EnableDebugOptions)" />
 
 	</Target>
 

@@ -1,13 +1,17 @@
 ﻿using VisitzApi.Models;
-using System.Net;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace VisitzApi.Requests
 {
-    internal class SubmitNotesEndpoint : VisitzBaseEndpoint<HttpStatusCode>
+    internal class SubmitNotesEndpoint : VisitzBaseEndpoint<(bool success, string noteId)>
     {
-        private static readonly string SubmitNotesPath = "/v1/679";
+        private static readonly string SubmitNotesPath = "/v1/679C";
+
+        private static readonly string RequestSubmitNotesKey = "requestSubmitNotes";
+        private static readonly string ResponseSubmitNotesKey = "responseSubmitNotes";
+
+        private static readonly string NoteIdKey = "noteId";
 
         public SubmitNoteEntity NoteToSubmit { get; }
 
@@ -17,9 +21,9 @@ namespace VisitzApi.Requests
             {
                 return new JsonObject
                 {
-                    ["requestSubmitNotes"] = new JsonObject
+                    [RequestSubmitNotesKey] = new JsonObject
                     {
-                        [JsonKey.Payload] = JsonSerializer.Serialize(NoteToSubmit)
+                        [JsonKey.Payload] = JsonNode.Parse(JsonSerializer.Serialize(NoteToSubmit))
                     }
                 }.ToString();
             }
@@ -40,10 +44,17 @@ namespace VisitzApi.Requests
             };
         }
 
-        public override HttpStatusCode HandleResponse(HttpResponseMessage response)
+        public override (bool success, string noteId) HandleResponse(string responseContent)
         {
-            // TODO: Implement!
-            throw new NotImplementedException();
+            var rJson = JsonDocument.Parse(responseContent)
+                .RootElement
+                .GetProperty(ResponseSubmitNotesKey)
+                .GetProperty(JsonKey.Payload);
+
+            if (rJson.TryGetProperty(JsonKey.Status, out var status) && rJson.TryGetProperty(NoteIdKey, out var id))
+                return (status.GetString() == JsonKey.Success, id.GetString());
+            else
+                return (false, null);
         }
     }
 }

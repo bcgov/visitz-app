@@ -22,10 +22,11 @@ namespace VisitzApi
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {
             var response = await HttpClient.SendAsync(endpoint.MakeRequest());
+            string content = await response.Content.ReadAsStringAsync();
 
-            VisitzApiException.ThrowIfInvalid(response);
+            VisitzApiException.ThrowIfInvalid(response, content);
 
-            return endpoint.HandleResponse(response);
+            return endpoint.HandleResponse(content);
         }
 
         public async Task<IEnumerable<CaseloadEntity>> GetCaseloadAsync(params string[] workerIds)
@@ -38,7 +39,7 @@ namespace VisitzApi
             return await CallApi(new NotesEndpoint(BaseVisitzApiUrl, entityNumber, entityType));
         }
 
-        public async Task<HttpStatusCode> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)
+        public async Task<(bool success, string noteId)> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)
         {
             return await CallApi(new SubmitNotesEndpoint(BaseVisitzApiUrl, noteToSubmit));
         }

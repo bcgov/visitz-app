@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:VisitzPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:pages="clr-namespace:Visitz.Pages"
+                  xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+                  x:Class="Visitz.Pages.DebugOptionsPage"
+                  x:DataType="viewmodels:DebugOptionsViewModel"
+                  Title="Debug Options"
+                  ControlTemplate="{StaticResource VisitzPageWrapper}">
+
+    <Grid Padding="16" ColumnSpacing="16" RowSpacing="16">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label 
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="Current session IDIR override" />
+
+        <Entry 
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalOptions="Center"
+            HorizontalOptions="Start"
+            WidthRequest="200"
+            Text="{Binding IdirOverride}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="Token actions" />
+
+        <Button 
+            Grid.Row="1"
+            Grid.Column="1"
+            Command="{Binding DeleteAccessTokenCommand}" 
+            HorizontalOptions="Start"
+            Text="Delete access token"/>
+
+        <Button 
+            Grid.Row="2"
+            Grid.Column="1"
+            Command="{Binding DeleteRefreshTokenCommand}"
+            HorizontalOptions="Start"
+            Text="Delete refresh token" />
+
+        <Button 
+            Grid.Row="3"
+            Grid.Column="1"
+            Command="{Binding LogoutCommand}"
+            HorizontalOptions="Start"
+            Text="Logout" />
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="Local database actions" />
+
+        <Button 
+            Grid.Row="4"
+            Grid.Column="1"
+            Command="{Binding ClearRealmDataCommand}"
+            HorizontalOptions="Start"
+            Text="Clear all data" />
+
+        <Button 
+            Grid.Row="5"
+            Grid.Column="1"
+            Command="{Binding DeleteEncryptionKeyCommand}"
+            HorizontalOptions="Start"
+            Text="Delete encryption key" />
+
+        <Label
+            Grid.Row="6"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="Show NoteItemView debug info"/>
+
+        <Switch
+            Grid.Row="6"
+            Grid.Column="1"
+            VerticalOptions="Center"
+            IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
+
+    </Grid>
+
+</pages:VisitzPage>

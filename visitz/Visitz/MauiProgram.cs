@@ -1,4 +1,5 @@
-﻿using Visitz.VisitzConfig;
+﻿using CommunityToolkit.Maui;
+using Visitz.VisitzConfig;
 
 namespace Visitz;
 
@@ -17,12 +18,16 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<VisitzApp>()
+            .UseMauiCommunityToolkit()
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
             .ConfigureVisitzAuth()
             .ConfigureVisitzApi()
             .ConfigureVisitzLogging()
-            .ConfigureVisitzScreens();
+            .ConfigureVisitzScreens()
+            .ConfigureVisitzServices();
+
+        VisitzDebugOptions.ConfigureVisitzDebugOptions();
 
         return builder.Build();
     }

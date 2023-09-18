@@ -52,19 +52,23 @@ namespace VisitzApi.Requests
             };
         }
 
-        public override IEnumerable<NoteEntity> HandleResponse(HttpResponseMessage response)
+        public override IEnumerable<NoteEntity> HandleResponse(string responseContent)
         {
-            var content = response.Content.ReadAsStringAsync().Result;
-
-            var notesJson = JsonDocument.Parse(content)
+            var notesJson = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty(ResponseGetNotesKey)
                 .GetProperty(JsonKey.Payload)
                 .GetProperty(NotesKey);
 
-            var notesContent = notesJson.Deserialize(typeof(List<NoteEntity>));
+            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+            var notesContent = (List<NoteEntity>)notesJson.Deserialize(typeof(List<NoteEntity>), options);
 
-            return (List<NoteEntity>)notesContent;
+            return notesContent.SkipWhile(IsInvalidNote);
+        }
+
+        private bool IsInvalidNote(NoteEntity entity)
+        {
+            return entity.CreatedDate?.Trim().Length <= 0;
         }
     }
 }
