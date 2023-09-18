@@ -162,7 +162,7 @@ namespace Visitz.ViewModels
             if (message.FinishedSuccess)
             {
                 await Task.Delay(3000);
-                await VisitzApp.Navigation.PopModalAsync();
+                await Dismiss();
                 await VisitzApp.Navigation.PopAsync();
             }
             else
@@ -177,9 +177,9 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async void Dismiss()
+        public async Task Dismiss()
         {
-            await VisitzApp.Navigation.PopModalAsync();
+            await VisitzApp.Navigation.PopAsync();
         }
 
         [RelayCommand]
