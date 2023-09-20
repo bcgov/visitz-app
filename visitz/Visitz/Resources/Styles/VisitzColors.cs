@@ -29,14 +29,25 @@ public static class VisitzColors
     public static readonly Color BC_Semantic_Error = TryGetColor(nameof(BC_Semantic_Error));
     public static readonly Color BC_Semantic_Success = TryGetColor(nameof(BC_Semantic_Success));
 
-    // BC_Blue
+    // Primary uses color 'BC_Blue'
     public static readonly Color Primary = TryGetColor(nameof(Primary));
     
-    // BC_Background_Light
+    // Secondary uses color 'BC_Background_Light'
     public static readonly Color Secondary = TryGetColor(nameof(Secondary));
 
-    // BC_Background_Dark
+    // Tertiary uses color 'BC_Background_Dark'
     public static readonly Color Tertiary = TryGetColor(nameof(Tertiary));
+
+    // Production uses color 'Primary'
+    public static readonly Color ProductionBuildColor = TryGetColor(nameof(ProductionBuildColor));
+
+    // Other build colors arbitrarily chosen
+    public static readonly Color BetaBuildColor = TryGetColor(nameof(BetaBuildColor));
+    public static readonly Color TeamBuildColor = TryGetColor(nameof(TeamBuildColor));
+    public static readonly Color DeveloperBuildColor = TryGetColor(nameof(DeveloperBuildColor));
+    
+    // BuildBarBackgroundColor uses one of the <build> colors
+    public static readonly Color BuildBarBackgroundColor = TryGetColor(nameof(BuildBarBackgroundColor));
 
     // Tags Colors
     public static readonly Color EntityCaseTagBackground = TryGetColor(nameof(EntityCaseTagBackground));
