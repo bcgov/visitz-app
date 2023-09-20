@@ -6,6 +6,10 @@ Internally, the app is referred to as **Visitz**. You can find the app code and 
 
 [Go to Visitz README](visitz/README.md)
 
+## Making release builds
+
+GitHub Actions are used to make release builds for desired platform targets. Refer to [this repository's workflows README](.github/workflows/README.md) for detailed information and instructions on how to run them.
+
 ## Licence
 
 Copyright 2019 Province of British Columbia
