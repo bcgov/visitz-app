@@ -36,6 +36,8 @@ namespace Visitz.Services
             var caseloadFromApi = await Vpi.GetCaseloadAsync(Idir);
             var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
 
+            caseloadContent = FilterNonCasesAndIncidents(caseloadContent);
+
             using var realm = await VisitzRealm.GetIcmDataAsync();
             await realm.WriteAsync(() =>
             {
@@ -52,6 +54,20 @@ namespace Visitz.Services
         public override string GetId()
         {
             return MakeId();
+        }
+
+        /// <summary>
+        /// As of v1.0, it is currently a business decision to only allow users to interact with Cases and Incidents 
+        /// from their caseload.
+        /// </summary>
+        /// <param name="caseloadItems"></param>
+        /// <returns></returns>
+        private IEnumerable<CaseloadItem> FilterNonCasesAndIncidents(IEnumerable<CaseloadItem> caseloadItems)
+        {
+            return caseloadItems.Where(item => 
+                item.EntityType == IcmEntity.Case 
+                || item.EntityType == IcmEntity.Incident
+            );
         }
     }
 }
