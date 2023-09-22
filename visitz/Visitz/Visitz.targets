@@ -1,6 +1,6 @@
 <Project 
-	InitialTargets="CopyAppSettings" 
-	DefaultTargets="DoAppSettings;SetAppBuildTypeColor" 
+	InitialTargets="CopyAppSettings;SetAppBuildTypeColor" 
+	DefaultTargets="DoAppSettings" 
 	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release' And '$(DeploymentEnvironment)' != ''">
