@@ -43,7 +43,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="$(BuildTypeColor)" />
 
 		<!-- Splash Screen -->
 		<MauiImage Include="Resources\Images\*" />
@@ -79,7 +79,6 @@
 	  <None Remove="Models\DTOs\" />
 	  <None Remove="Models\BOs\" />
 	  <None Remove="Resources\Fonts\" />
-	  <None Remove="Resources\AppIcon\appiconfg.svg" />
 	  <None Remove="Resources\Splash\" />
 	  <None Remove="Resources\Splash\splashicon.svg" />
 	  <None Remove="Resources\Images\Authentication\fileFolder.svg" />
@@ -90,7 +89,6 @@
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="appSettings.json" />
-	  <None Remove="Resources\AppIcon\appicon_round.svg" />
 	  <None Remove="Resources\Images\calendar.svg" />
 	  <None Remove="Resources\Images\folder.svg" />
 	  <None Remove="Resources\Images\tag_icon.svg" />
@@ -115,12 +113,10 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\*" />
-	  <BundleResource Include="Resources\AppIcon\appiconfg.svg" />
 	  <BundleResource Include="Resources\Splash\splashicon.svg" />
 	  <BundleResource Include="Resources\Images\file_folder.svg" />
 	  <BundleResource Include="Resources\Images\tilted_rectangle_bg.svg" />
 	  <BundleResource Include="Resources\Images\chevron_right.svg" />
-	  <BundleResource Include="Resources\AppIcon\appicon_round.svg" />
 	  <BundleResource Include="Resources\Images\calendar.svg" />
 	  <BundleResource Include="Resources\Images\folder.svg" />
 	  <BundleResource Include="Resources\Images\tag_icon.svg" />

@@ -1,4 +1,7 @@
-<Project InitialTargets="CopyAppSettings" DefaultTargets="DoAppSettings">
+<Project 
+	InitialTargets="CopyAppSettings;SetAppBuildTypeColor" 
+	DefaultTargets="DoAppSettings" 
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release' And '$(DeploymentEnvironment)' != ''">
 		<ApplicationIdTemp>$(ApplicationId)-$(DeploymentEnvironment)</ApplicationIdTemp>
@@ -80,6 +83,28 @@
 			MatchExpression="{{EnableDebugOptions}}"
 			ReplacementText="$(Debug_EnableDebugOptions)" />
 
+	</Target>
+
+	<PropertyGroup>
+		<Namespace>
+			<Namespace Prefix="dn" Uri="http://schemas.microsoft.com/dotnet/2021/maui" />
+			<Namespace Prefix="x" Uri="http://schemas.microsoft.com/winfx/2009/xaml" />
+		</Namespace>
+		
+		<VisitzColorsXamlPath>$(MSBuildProjectDirectory)\Resources\Styles\Colors.xaml</VisitzColorsXamlPath>
+	</PropertyGroup>
+
+	<Target 
+		Name="SetAppBuildTypeColor"
+		Condition="'$(Configuration)' == 'Release'">
+
+		<Message Importance="high" Text="Setting BuildTypeColor '$(BuildTypeColor)' in Colors.xaml" />
+
+		<XmlPoke
+			XmlInputPath="$(VisitzColorsXamlPath)"
+			Value="$(BuildTypeColor)"
+			Query="/dn:ResourceDictionary/dn:Color[@x:Key='BuildBarBackgroundColor']"
+			Namespaces="$(Namespace)" />
 	</Target>
 
 </Project>

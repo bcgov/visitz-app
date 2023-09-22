@@ -15,14 +15,25 @@
     <Color x:Key="BC_Semantic_Error">#D8292F</Color>
     <Color x:Key="BC_Semantic_Success">#2E8540</Color>
 
-    <!-- BC_Blue -->
+    <!-- Primary uses color 'BC_Blue' -->
     <Color x:Key="Primary">#003366</Color>
-    
-    <!-- BC_Background_Light -->
+
+    <!-- Secondary uses color 'BC_Background_Light' -->
     <Color x:Key="Secondary">#F2F2F2</Color>
 
-    <!-- BC_Background_Dark -->
+    <!-- Tertiary uses color 'BC_Background_Dark' -->
     <Color x:Key="Tertiary">#38598A</Color>
+
+    <!-- ProductionBuildColor uses color 'Primary' -->
+    <Color x:Key="ProductionBuildColor">#003366</Color>
+    
+    <!-- Other build colors arbitrarily chosen -->
+    <Color x:Key="BetaBuildColor">#005724</Color>
+    <Color x:Key="TeamBuildColor">#66004b</Color>
+    <Color x:Key="DeveloperBuildColor">#406</Color>
+
+    <!-- BuildBarBackgroundColor uses one of the <build> colors -->
+    <Color x:Key="BuildBarBackgroundColor">#406</Color>
 
     <!-- Tags Colors -->
     <Color x:Key="EntityCaseTagBackground">#C2E0FF</Color>

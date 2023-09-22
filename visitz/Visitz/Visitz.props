@@ -5,4 +5,9 @@
 		<ArchiveOnBuild>true</ArchiveOnBuild>
 	</PropertyGroup>
 
+	<!-- If no BuildTypeColor was provided, use our default "developer build" color -->
+	<PropertyGroup Condition=" '$(BuildTypeColor)' == '' ">
+		<BuildTypeColor>#440066</BuildTypeColor>
+	</PropertyGroup>
+
 </Project>
