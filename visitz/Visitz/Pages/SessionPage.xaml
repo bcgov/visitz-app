@@ -1,4 +1,4 @@
-<pages:VisitzPage 
+﻿<pages:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -141,10 +141,16 @@
                 </ImageButton>
             </Border>
 
-            <Button 
-                Text="{local:Localize Request Access}"
-                Command="{Binding RequestAccessAsyncCommand}"
-                IsVisible="{Binding IsUnauthorized}" />
+            <ContentView IsVisible="False">
+                <!-- Temporarily hiding this "Request Access" button until the
+                business-side process for authorizing users has been ironed
+                out.-->
+                <Button 
+                    Text="{local:Localize Request Access}"
+                    Command="{Binding RequestAccessAsyncCommand}"
+                    IsVisible="{Binding IsUnauthorized}" />
+
+            </ContentView>
 
         </HorizontalStackLayout>
 
