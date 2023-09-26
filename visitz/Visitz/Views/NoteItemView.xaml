@@ -50,24 +50,31 @@
                             Text="{Binding PeriodOrPageNumber}"
                             FontSize="17"
                             FontFamily="BCSansBold"
-                            VerticalOptions="Center" />
+                            VerticalOptions="Center"
+                            Margin="0,0,10,0" />
 
                         <Label
                             x:Name="AddNotesLabel"
                             IsVisible="False"
                             Text="Add notes"
                             TextColor="{StaticResource SkyBlueText}"
-                            MaxLines="3"
                             FontSize="17"
-                            FontFamily="BCSansRegular"
-                            LineBreakMode="WordWrap" />
+                            VerticalOptions="Center" />
 
                         <Image
                             IsVisible="False"
                             x:Name="AddNotesImage"
-                            Source="add_note.png"
-                            WidthRequest="16"
-                            HeightRequest="16" />
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            VerticalOptions="Center"
+                            Margin="-2,0,0,0">
+                            <Image.Source>
+                                <FontImageSource 
+                                    Glyph="{Static fonticons:MaterialIcons.Add_notes}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="#0073E6" />
+                            </Image.Source>
+                        </Image>
 
                     </HorizontalStackLayout>
 
@@ -76,7 +83,6 @@
                         Text="{Binding Content}"
                         MaxLines="3"
                         FontSize="17"
-                        FontFamily="BCSansRegular"
                         Padding="0,10,0,0"
                         LineBreakMode="WordWrap" />
 
