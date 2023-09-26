@@ -44,7 +44,7 @@
                     x:Name="CellPhoneTagView"
                     BackgroundColor="Transparent"
                     Text="{Binding CellPhone}"
-                    IconName="mobile.png"
+                    ImageSource="mobile.png"
                     BorderColor="{StaticResource PurpleTagBorder}"
                     VerticalOptions="Center" />
 
@@ -52,7 +52,7 @@
                     x:Name="HomePhoneTagView"
                     BackgroundColor="Transparent"
                     Text="{Binding HomePhone}"
-                    IconName="phone.png"
+                    ImageSource="phone.png"
                     BorderColor="{StaticResource PurpleTagBorder}"
                     VerticalOptions="Center" />
             </HorizontalStackLayout>
