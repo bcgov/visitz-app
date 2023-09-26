@@ -93,7 +93,6 @@
 	  <None Remove="appsettings.json" />
 	  <None Remove="appSettings.json" />
 	  <None Remove="Resources\Images\calendar.svg" />
-	  <None Remove="Resources\Images\folder.svg" />
 	  <None Remove="Resources\Images\tag_icon.svg" />
 	  <None Remove="Resources\Images\note_empty.svg" />
 	  <None Remove="Subclasses\" />
@@ -121,7 +120,6 @@
 	  <BundleResource Include="Resources\Images\tilted_rectangle_bg.svg" />
 	  <BundleResource Include="Resources\Images\chevron_right.svg" />
 	  <BundleResource Include="Resources\Images\calendar.svg" />
-	  <BundleResource Include="Resources\Images\folder.svg" />
 	  <BundleResource Include="Resources\Images\tag_icon.svg" />
 	  <BundleResource Include="Resources\Images\note_empty.svg" />
 	  <BundleResource Include="Resources\Images\file.svg" />

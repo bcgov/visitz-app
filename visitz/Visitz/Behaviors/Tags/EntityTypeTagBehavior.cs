@@ -1,4 +1,5 @@
-﻿using Visitz.Models;
+﻿using Visitz.FontIcons;
+using Visitz.Models;
 using Visitz.Resources.Styles;
 using Visitz.Views;
 
@@ -18,7 +19,7 @@ class EntityTypeTagBehavior : TagStyleBehavior
         {
             tag.BackgroundColor = VisitzColors.EntityCaseTagBackground;
             tag.TextColor = VisitzColors.EntityCaseTagText;
-            tag.IconName = "folder.png";
+            tag.ImageSource = MaterialIcons.Folder.GetUnfilledMaterialIcon(VisitzColors.EntityCaseTagText);
         }
         else if (item.EntityType == IcmEntity.Incident)
         {
@@ -37,13 +38,14 @@ class EntityTypeTagBehavior : TagStyleBehavior
             tag.BackgroundColor = VisitzColors.EntityServiceRequestTagBackground;
             tag.TextColor = VisitzColors.EntityServiceRequestTagText;
             tag.IconName = "service_request_tag_icon.png";
+                .GetUnfilledMaterialIcon(VisitzColors.EntityServiceRequestTagText);
         }
         else
         {
             tag.BackgroundColor = Colors.Transparent;
             tag.BorderColor = VisitzColors.BC_Blue;
             tag.TextColor = VisitzColors.BC_TextColor;
-            tag.IconName = null;
+            tag.ImageSource = null;
         }
     }
 }
