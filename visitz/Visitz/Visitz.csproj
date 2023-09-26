@@ -65,6 +65,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\fluentsystemicons_resizable.woff2" />
+	  <None Remove="Resources\Fonts\material_icons_rounded_filled.woff2" />
+	  <None Remove="Resources\Fonts\material_icons_rounded_unfilled.woff2" />
 	  <None Remove="Resources\Images\bc_logo_horizontal_reverse.svg" />
 	  <None Remove="Resources\Images\family.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
@@ -211,5 +214,10 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiAsset Include="Storage\BcGovAlbum.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiFont Include="Resources\Fonts\fluentsystemicons_resizable.woff2" />
+	  <MauiFont Include="Resources\Fonts\material_icons_rounded_filled.woff2" />
+	  <MauiFont Include="Resources\Fonts\material_icons_rounded_unfilled.woff2" />
 	</ItemGroup>
 </Project>

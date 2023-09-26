@@ -1,4 +1,6 @@
-﻿namespace Visitz.VisitzConfig
+﻿using Visitz.FontIcons;
+
+namespace Visitz.VisitzConfig
 {
     public static class VisitzFonts
     {
@@ -30,6 +32,9 @@
                 fonts.AddFont(BcSansRegularFile, BcSansRegularAlias);
                 fonts.AddFont(FontAwesome6Regular400File, FontAwesome6Regular400Alias);
                 fonts.AddFont(FontAwesome6Solid900File, FontAwesome6Solid900Alias);
+                fonts.AddFont(MaterialIcons.RoundedFilled.Filepath, MaterialIcons.RoundedFilled.FontFamily);
+                fonts.AddFont(MaterialIcons.RoundedUnfilled.Filepath, MaterialIcons.RoundedUnfilled.FontFamily);
+                fonts.AddFont(FluentIcons.FontConfig.Filepath, FluentIcons.FontConfig.FontFamily);
             });
         }
     }
