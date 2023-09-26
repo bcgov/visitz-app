@@ -31,7 +31,7 @@ class EntityTypeTagBehavior : TagStyleBehavior
         {
             tag.BackgroundColor = VisitzColors.EntityMemoTagBackground;
             tag.TextColor = VisitzColors.EntityMemoTagText;
-            tag.IconName = "memo_tag_icon.png";
+            tag.ImageSource = MaterialIcons.Note_alt.GetUnfilledMaterialIcon(VisitzColors.EntityMemoTagText);
         }
         else if (item.EntityType == IcmEntity.ServiceRequest)
         {
