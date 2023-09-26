@@ -124,7 +124,7 @@
                 
                 <Border
                     BackgroundColor="{StaticResource FamilyTagColor}"
-                    Padding="15"
+                    Padding="10"
                     StrokeThickness="0"
                     VerticalOptions="Center"
                     HorizontalOptions="Start">
@@ -134,9 +134,15 @@
                     </Border.StrokeShape>
 
                     <Image 
-                        Source="family.png" 
-                        WidthRequest="20" 
-                        HeightRequest="20" />
+                        WidthRequest="30" 
+                        HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource 
+                                Glyph="{Static fonticons:MaterialIcons.Group}"
+                                FontFamily="MaterialIconsRoundedUnfilled"
+                                Color="#800241" />
+                        </Image.Source>
+                    </Image>
                 </Border>
 
                 <Label 
