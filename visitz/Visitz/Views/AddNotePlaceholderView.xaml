@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Visitz.Views.AddNotePlaceholderView"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+             xmlns:fonticons="clr-namespace:Visitz.FontIcons"
              x:Name="this">
     <VerticalStackLayout>
         <Border  
@@ -28,18 +29,26 @@
 
                 <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
                     <HorizontalStackLayout
-                        Spacing="10">
+                        Spacing="5">
                         <Image
-                            Source="calendar.png"
-                            HeightRequest="20"
-                            WidthRequest="20"
-                            IsVisible="{Binding ShowNotePeriod}"/>
+                            HeightRequest="25"
+                            WidthRequest="25"
+                            IsVisible="{Binding ShowNotePeriod}"
+                            VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource 
+                                Glyph="{Static fonticons:MaterialIcons.Calendar_month}"
+                                FontFamily="MaterialIconsRoundedUnfilled"
+                                Color="#0073E6" />
+                            </Image.Source>
+                        </Image>
 
                         <Label 
                             Text="{Binding NotePeriod}"
                             FontSize="17"
                             FontFamily="BCSansBold"
-                            IsVisible="{Binding ShowNotePeriod}" />
+                            IsVisible="{Binding ShowNotePeriod}"
+                            VerticalOptions="Center" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout

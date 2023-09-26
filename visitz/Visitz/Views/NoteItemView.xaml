@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Visitz.Models"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+             xmlns:fonticons="clr-namespace:Visitz.FontIcons"
              x:Class="Visitz.Views.NoteItemView"
              x:DataType="models:NoteItem"
              x:Name="this">
@@ -31,17 +32,25 @@
 
                 <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
                     <HorizontalStackLayout
-                        Spacing="10">
+                        Spacing="5">
                         <Image
                             IsVisible="{Binding ShowTitleIcon}"
-                            Source="calendar.png"
-                            HeightRequest="20"
-                            WidthRequest="20" />
+                            HeightRequest="25"
+                            WidthRequest="25"
+                            VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource 
+                                    Glyph="{Static fonticons:MaterialIcons.Calendar_month}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="#0073E6" />
+                            </Image.Source>
+                        </Image>
 
                         <Label 
                             Text="{Binding PeriodOrPageNumber}"
                             FontSize="17"
-                            FontFamily="BCSansBold" />
+                            FontFamily="BCSansBold"
+                            VerticalOptions="Center" />
 
                         <Label
                             x:Name="AddNotesLabel"
