@@ -37,7 +37,7 @@ class EntityTypeTagBehavior : TagStyleBehavior
         {
             tag.BackgroundColor = VisitzColors.EntityServiceRequestTagBackground;
             tag.TextColor = VisitzColors.EntityServiceRequestTagText;
-            tag.IconName = "service_request_tag_icon.png";
+            tag.ImageSource = MaterialIcons.Headset_mic
                 .GetUnfilledMaterialIcon(VisitzColors.EntityServiceRequestTagText);
         }
         else
