@@ -1,4 +1,5 @@
 ﻿using Visitz.Services.Messages;
+using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models;
 
@@ -32,7 +33,12 @@ namespace Visitz.Services
 
         protected override async Task RunAsync()
         {
-            await SubmitNoteAsync();
+            if (DebugOptions.DryFireSubmitNotes)
+            {
+                await Task.Delay(2500); // Simulate network activity
+            }
+            else
+                await SubmitNoteAsync();
         }
 
         private async Task SubmitNoteAsync()

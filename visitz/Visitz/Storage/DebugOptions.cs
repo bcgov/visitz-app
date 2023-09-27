@@ -4,6 +4,7 @@
     {
         private static readonly string IdirOverrideKey = "IdirOverride";
         private static readonly string ShowNoteItemViewDebugInfoKey = "ShowNoteItemViewDebugInfo";
+        private static readonly string DryFireSubmitNotesKey = "DryFireSubmitNotes";
 
         public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -32,6 +33,12 @@
         {
             get => Get(ShowNoteItemViewDebugInfoKey, false);
             set => Set(ShowNoteItemViewDebugInfoKey, value);
+        }
+
+        public static bool DryFireSubmitNotes
+        {
+            get => Get(DryFireSubmitNotesKey, false);
+            set => Set(DryFireSubmitNotesKey, value);
         }
 
         public static async Task ClearRealmData()

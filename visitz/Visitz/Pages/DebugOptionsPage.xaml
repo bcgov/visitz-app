@@ -18,6 +18,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -97,6 +98,18 @@
             Grid.Column="1"
             VerticalOptions="Center"
             IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
+
+        <Label
+            Grid.Row="7"
+            Grid.Column="0"
+            VerticalOptions="Center"
+            Text="Dry-fire SubmitNotes"/>
+
+        <Switch
+            Grid.Row="7"
+            Grid.Column="1"
+            VerticalOptions="Center"
+            IsToggled="{Binding DryFireSubmitNotes}"/>
 
     </Grid>
 
