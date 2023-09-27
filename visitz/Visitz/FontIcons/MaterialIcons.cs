@@ -16,11 +16,11 @@ public static partial class MaterialIcons
 
     public static ImageSource GetFilledMaterialIcon(this string glyph, Color color = null)
     {
-        return IconStringToImageSource.Make(glyph, RoundedFilled.FontFamily, color);
+        return IconStringToFontImageSource.Make(glyph, RoundedFilled.FontFamily, color);
     }
 
     public static ImageSource GetUnfilledMaterialIcon(this string glyph, Color color = null)
     {
-        return IconStringToImageSource.Make(glyph, RoundedUnfilled.FontFamily, color);
+        return IconStringToFontImageSource.Make(glyph, RoundedUnfilled.FontFamily, color);
     }
 }

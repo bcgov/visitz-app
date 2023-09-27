@@ -1,8 +1,8 @@
 ﻿namespace Visitz.FontIcons;
 
-public static class IconStringToImageSource
+public static class IconStringToFontImageSource
 {
-    public static ImageSource Make(string glyph, string fontFamily, Color color = null)
+    public static FontImageSource Make(string glyph, string fontFamily, Color color = null)
     {
         return new FontImageSource()
         {

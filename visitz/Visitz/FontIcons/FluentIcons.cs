@@ -10,6 +10,6 @@ public static partial class FluentIcons
 
     public static ImageSource GetFluentIcon(this string glyph, Color color = null)
     {
-        return IconStringToImageSource.Make(glyph, FontConfig.FontFamily, color);
+        return IconStringToFontImageSource.Make(glyph, FontConfig.FontFamily, color);
     }
 }
