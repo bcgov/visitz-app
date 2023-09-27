@@ -1,4 +1,5 @@
 ﻿using Visitz.Authentication.Keycloak.Events;
+using Visitz.Network;
 
 namespace Visitz.Authentication.Keycloak
 {
@@ -7,14 +8,11 @@ namespace Visitz.Authentication.Keycloak
         private static AuthenticationClient AuthClient =>
             ServiceProvider.Current.GetRequiredService<AuthenticationClient>();
 
-        private static bool InternetAvailable =>
-            Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
-
         public static event EventHandler<SessionChangedEventArgs> SessionChanged;
 
         public static async Task<bool> GetValidSessionAsync()
         {
-            if (!InternetAvailable)
+            if (!NetworkHelper.InternetAvailable)
                 return false;
 
             return await TokenHolder.IsAccessTokenValid()
