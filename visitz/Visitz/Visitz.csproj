@@ -65,11 +65,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\fluentsystemicons_resizable.woff2" />
+	  <None Remove="Resources\Fonts\material_icons_rounded_filled.woff2" />
+	  <None Remove="Resources\Fonts\material_icons_rounded_unfilled.woff2" />
 	  <None Remove="Resources\Images\bc_logo_horizontal_reverse.svg" />
-	  <None Remove="Resources\Images\family.svg" />
-	  <None Remove="Resources\Images\mobile.svg" />
-	  <None Remove="Resources\Images\phone.svg" />
-	  <None Remove="Resources\Images\user.svg" />
 	  <None Remove="Services\" />
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
@@ -84,20 +83,13 @@
 	  <None Remove="Resources\Images\Authentication\fileFolder.svg" />
 	  <None Remove="Resources\Images\file_folder.svg" />
 	  <None Remove="Resources\Images\tilted_rectangle_bg.svg" />
-	  <None Remove="Resources\Images\chevron_right.svg" />
 	  <None Remove="Resources\Localization\" />
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
 	  <None Remove="appSettings.json" />
-	  <None Remove="Resources\Images\calendar.svg" />
-	  <None Remove="Resources\Images\folder.svg" />
-	  <None Remove="Resources\Images\tag_icon.svg" />
 	  <None Remove="Resources\Images\note_empty.svg" />
 	  <None Remove="Subclasses\" />
-	  <None Remove="Resources\Images\file.svg" />
 	  <None Remove="Resources\Images\note_publish.svg" />
-	  <None Remove="Resources\Images\add_note.svg" />
-	  <None Remove="Resources\Images\chevron_down.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
@@ -116,15 +108,8 @@
 	  <BundleResource Include="Resources\Splash\splashicon.svg" />
 	  <BundleResource Include="Resources\Images\file_folder.svg" />
 	  <BundleResource Include="Resources\Images\tilted_rectangle_bg.svg" />
-	  <BundleResource Include="Resources\Images\chevron_right.svg" />
-	  <BundleResource Include="Resources\Images\calendar.svg" />
-	  <BundleResource Include="Resources\Images\folder.svg" />
-	  <BundleResource Include="Resources\Images\tag_icon.svg" />
 	  <BundleResource Include="Resources\Images\note_empty.svg" />
-	  <BundleResource Include="Resources\Images\file.svg" />
 	  <BundleResource Include="Resources\Images\note_publish.svg" />
-	  <BundleResource Include="Resources\Images\add_note.svg" />
-	  <BundleResource Include="Resources\Images\chevron_down.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Include="appSettings.json" />
@@ -164,6 +149,9 @@
 	  </Compile>
 	  <Compile Update="Pages\AppLockPage.xaml.cs">
 	    <DependentUpon>AppLockPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\RightChevronIconView.xaml.cs">
+	    <DependentUpon>RightChevronIconView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="VisitzApp.xaml.cs">
 	    <DependentUpon>VisitzApp.xaml</DependentUpon>
@@ -205,11 +193,19 @@
 	  <MauiXaml Update="Pages\DebugOptionsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\RightChevronIconView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\note_empty.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiAsset Include="Storage\BcGovAlbum.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiFont Include="Resources\Fonts\fluentsystemicons_resizable.woff2" />
+	  <MauiFont Include="Resources\Fonts\material_icons_rounded_filled.woff2" />
+	  <MauiFont Include="Resources\Fonts\material_icons_rounded_unfilled.woff2" />
 	</ItemGroup>
 </Project>

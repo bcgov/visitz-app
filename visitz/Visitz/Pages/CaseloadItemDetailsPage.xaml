@@ -6,6 +6,7 @@
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:models="clr-namespace:Visitz.Models"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Pages.CaseloadItemDetailsPage"
     x:DataType="viewModels:CaseloadItemDetailsViewModel"
     Title="Details"
@@ -55,7 +56,7 @@
                 Spacing="10">
                 <Border
                     BackgroundColor="{StaticResource EntityCaseTagBackground}"
-                    Padding="15"
+                    Padding="10"
                     StrokeThickness="0"
                     VerticalOptions="Center"
                     HorizontalOptions="Start">
@@ -65,9 +66,15 @@
                     </Border.StrokeShape>
 
                     <Image 
-                        Source="folder.png" 
-                        WidthRequest="20" 
-                        HeightRequest="20" />
+                        WidthRequest="30" 
+                        HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource 
+                                Glyph="{Static fonticons:MaterialIcons.Folder}"
+                                FontFamily="MaterialIconsRoundedUnfilled"
+                                Color="#00478F" />
+                        </Image.Source>
+                    </Image>
                 </Border>
 
                 <Label 
@@ -117,7 +124,7 @@
                 
                 <Border
                     BackgroundColor="{StaticResource FamilyTagColor}"
-                    Padding="15"
+                    Padding="10"
                     StrokeThickness="0"
                     VerticalOptions="Center"
                     HorizontalOptions="Start">
@@ -127,9 +134,15 @@
                     </Border.StrokeShape>
 
                     <Image 
-                        Source="family.png" 
-                        WidthRequest="20" 
-                        HeightRequest="20" />
+                        WidthRequest="30" 
+                        HeightRequest="30">
+                        <Image.Source>
+                            <FontImageSource 
+                                Glyph="{Static fonticons:MaterialIcons.Group}"
+                                FontFamily="MaterialIconsRoundedUnfilled"
+                                Color="#800241" />
+                        </Image.Source>
+                    </Image>
                 </Border>
 
                 <Label 

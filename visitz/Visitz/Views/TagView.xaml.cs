@@ -13,11 +13,11 @@ public partial class TagView : ContentView
 
     public static readonly BindableProperty TextColorProperty =
         BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TagView));
-    
-    public static readonly BindableProperty IconNameProperty =
-        BindableProperty.Create(nameof(IconName), typeof(string), typeof(TagView), 
+
+    public static readonly BindableProperty ImageSourceProperty =
+        BindableProperty.Create(nameof(ImageSource), typeof(ImageSource), typeof(TagView),
             propertyChanged: TagPropertyChanged);
-    
+
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(nameof(Text), typeof(string), typeof(TagView), 
             propertyChanged: TagPropertyChanged);
@@ -38,10 +38,10 @@ public partial class TagView : ContentView
         set => SetValue(TextColorProperty, value);
     }
 
-    public string IconName
+    public ImageSource ImageSource
     {
-        get => (string)GetValue(IconNameProperty);
-        set => SetValue(IconNameProperty, value);
+        get => (ImageSource)GetValue(ImageSourceProperty);
+        set => SetValue(ImageSourceProperty, value);
     }
 
     public string Text
@@ -63,7 +63,7 @@ public partial class TagView : ContentView
 
     private void UpdateUI()
     {
-        Icon.IsVisible = IconName?.Length > 0;
+        Icon.IsVisible = ImageSource != null;
         TagLabel.IsVisible = TagLabel.Text?.Length > 0;
         Border.StrokeThickness = BorderColor is null || BorderColor == Colors.Transparent ? 0 : 1;
     }

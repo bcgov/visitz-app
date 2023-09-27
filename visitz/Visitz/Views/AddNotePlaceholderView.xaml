@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Visitz.Views.AddNotePlaceholderView"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+             xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+             xmlns:views="clr-namespace:Visitz.Views"
              x:Name="this">
     <VerticalStackLayout>
         <Border  
@@ -28,18 +30,26 @@
 
                 <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
                     <HorizontalStackLayout
-                        Spacing="10">
+                        Spacing="5">
                         <Image
-                            Source="calendar.png"
-                            HeightRequest="20"
-                            WidthRequest="20"
-                            IsVisible="{Binding ShowNotePeriod}"/>
+                            HeightRequest="25"
+                            WidthRequest="25"
+                            IsVisible="{Binding ShowNotePeriod}"
+                            VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource 
+                                Glyph="{Static fonticons:MaterialIcons.Calendar_month}"
+                                FontFamily="MaterialIconsRoundedUnfilled"
+                                Color="#0073E6" />
+                            </Image.Source>
+                        </Image>
 
                         <Label 
                             Text="{Binding NotePeriod}"
                             FontSize="17"
                             FontFamily="BCSansBold"
-                            IsVisible="{Binding ShowNotePeriod}" />
+                            IsVisible="{Binding ShowNotePeriod}"
+                            VerticalOptions="Center" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout
@@ -51,8 +61,8 @@
                             MaxLines="3"
                             FontSize="17"
                             FontFamily="BCSansRegular"
-                            Padding="0,10,0,0"
-                            LineBreakMode="WordWrap" />
+                            LineBreakMode="WordWrap"
+                            VerticalOptions="Center" />
 
                         <Label 
                             Text="Add note"
@@ -60,25 +70,33 @@
                             MaxLines="3"
                             FontSize="17"
                             FontFamily="BCSansRegular"
-                            Padding="0,10,0,0"
-                            LineBreakMode="WordWrap" />
+                            LineBreakMode="WordWrap"
+                            VerticalOptions="Center" />
 
                         <Image
-                            Source="add_note.png"
-                            WidthRequest="16"
-                            HeightRequest="16"
-                            Margin="0,10,0,0" />
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            VerticalOptions="Center"
+                            Margin="-7,0,0,0">
+                            <Image.Source>
+                                <FontImageSource 
+                                    Glyph="{Static fonticons:MaterialIcons.Add_notes}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="#0073E6" />
+                            </Image.Source>
+                        </Image>
 
                     </HorizontalStackLayout>
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
-                    <Image Source="chevron_right" Margin="25,0,0,0" />
-                </VerticalStackLayout>
+                <views:RightChevronIconView 
+                    Grid.Column="1" 
+                    VerticalOptions="CenterAndExpand" 
+                    Margin="25,0,0,0" />
+
             </Grid>
         </Border>
 
     </VerticalStackLayout>
 </ContentView>
-

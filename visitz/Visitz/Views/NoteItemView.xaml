@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:Visitz.Models"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+             xmlns:views="clr-namespace:Visitz.Views"
+             xmlns:fonticons="clr-namespace:Visitz.FontIcons"
              x:Class="Visitz.Views.NoteItemView"
              x:DataType="models:NoteItem"
              x:Name="this">
@@ -31,34 +33,49 @@
 
                 <VerticalStackLayout HorizontalOptions="Fill" Grid.Column="0">
                     <HorizontalStackLayout
-                        Spacing="10">
+                        Spacing="5">
                         <Image
                             IsVisible="{Binding ShowTitleIcon}"
-                            Source="calendar.png"
-                            HeightRequest="20"
-                            WidthRequest="20" />
+                            HeightRequest="25"
+                            WidthRequest="25"
+                            VerticalOptions="Center">
+                            <Image.Source>
+                                <FontImageSource 
+                                    Glyph="{Static fonticons:MaterialIcons.Calendar_month}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="#0073E6" />
+                            </Image.Source>
+                        </Image>
 
                         <Label 
                             Text="{Binding PeriodOrPageNumber}"
                             FontSize="17"
-                            FontFamily="BCSansBold" />
+                            FontFamily="BCSansBold"
+                            VerticalOptions="Center"
+                            Margin="0,0,10,0" />
 
                         <Label
                             x:Name="AddNotesLabel"
                             IsVisible="False"
                             Text="Add notes"
                             TextColor="{StaticResource SkyBlueText}"
-                            MaxLines="3"
                             FontSize="17"
-                            FontFamily="BCSansRegular"
-                            LineBreakMode="WordWrap" />
+                            VerticalOptions="Center" />
 
                         <Image
                             IsVisible="False"
                             x:Name="AddNotesImage"
-                            Source="add_note.png"
-                            WidthRequest="16"
-                            HeightRequest="16" />
+                            WidthRequest="25"
+                            HeightRequest="25"
+                            VerticalOptions="Center"
+                            Margin="-2,0,0,0">
+                            <Image.Source>
+                                <FontImageSource 
+                                    Glyph="{Static fonticons:MaterialIcons.Add_notes}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="#0073E6" />
+                            </Image.Source>
+                        </Image>
 
                     </HorizontalStackLayout>
 
@@ -67,15 +84,16 @@
                         Text="{Binding Content}"
                         MaxLines="3"
                         FontSize="17"
-                        FontFamily="BCSansRegular"
                         Padding="0,10,0,0"
                         LineBreakMode="WordWrap" />
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
-                    <Image Source="chevron_right" Margin="25,0,0,0" />
-                </VerticalStackLayout>
+                <views:RightChevronIconView 
+                    Grid.Column="1" 
+                    VerticalOptions="CenterAndExpand" 
+                    Margin="25,0,0,0" />
+
             </Grid>
         </Border>
     </VerticalStackLayout>

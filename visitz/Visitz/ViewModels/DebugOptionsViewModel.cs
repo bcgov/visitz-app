@@ -13,12 +13,20 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool showNoteItemViewDebugInfo;
 
+        [ObservableProperty]
+        public bool dryFireSubmitNotes;
+
+        [ObservableProperty]
+        public bool dryFireSubmitNotesSimulateSuccess;
+
         public override void PageStarted()
         {
             base.PageStarted();
 
             IdirOverride = DebugOptions.IdirOverride;
             ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;
+            DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
+            DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
         }
 
         partial void OnIdirOverrideChanged(string value)
@@ -29,6 +37,16 @@ namespace Visitz.ViewModels
         partial void OnShowNoteItemViewDebugInfoChanged(bool value)
         {
             DebugOptions.ShowNoteItemViewDebugInfo = value;
+        }
+
+        partial void OnDryFireSubmitNotesChanged(bool value)
+        {
+            DebugOptions.DryFireSubmitNotes = value;
+        }
+
+        partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
+        {
+            DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
         }
 
         [RelayCommand]

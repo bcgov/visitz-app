@@ -217,8 +217,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void OpenDebugOptionsPage()
         {
-            if (DebugOptions.Enabled)
-                await NavigateTo<DebugOptionsPage>();
+            await DebugOptionsPage.TryOpen();
         }
 
         [RelayCommand]

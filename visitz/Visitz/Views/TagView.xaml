@@ -23,9 +23,9 @@
 
             <Image
                 x:Name="Icon"
-                HeightRequest="16"
-                WidthRequest="17"
-                Source="{Binding IconName}"
+                HeightRequest="20"
+                WidthRequest="15"
+                Source="{Binding ImageSource}"
                 Aspect="AspectFit"
                 VerticalOptions="Center">
             </Image>
@@ -34,7 +34,6 @@
                 x:Name="TagLabel"
                 Text="{Binding Text}"
                 FontSize="14"
-                FontFamily="BCSansRegular"
                 TextColor="{Binding TextColor}"
                 VerticalOptions="CenterAndExpand" />
         </HorizontalStackLayout>

@@ -1,6 +1,7 @@
 ﻿using Visitz.Authentication.Keycloak;
 using Visitz.Pages;
 using Visitz.Services;
+using Visitz.Storage;
 
 namespace Visitz;
 
@@ -37,6 +38,8 @@ public partial class VisitzApp : Application
         // TODO: Get this working with the DI system
         // DI setup has been disabled for now in VisitzScreens
         MainPage = new NavigationPage(CaseloadPage.GetInstance());
+
+        TryStartDebugSensor();
     }
 
     protected async override void OnStart()
@@ -66,5 +69,27 @@ public partial class VisitzApp : Application
 
         if (await VisitzSession.SessionExistsAsync())
             await AppLockPage.TryPrompt();
+    }
+
+    private static void TryStartDebugSensor()
+    {
+        if (DebugOptions.Enabled)
+            TryStartShakeDetector();
+    }
+
+    private static void TryStartShakeDetector()
+    {
+        if (Accelerometer.Default.IsSupported)
+        {
+            Accelerometer.Default.ShakeDetected += Accelerometer_ShakeDetected;
+            Accelerometer.Default.Start(SensorSpeed.Game);
+        }
+        else
+            Console.WriteLine("Accelerometer not supported");
+    }
+
+    private static async void Accelerometer_ShakeDetected(object sender, EventArgs e)
+    {
+        await DebugOptionsPage.TryOpen();
     }
 }

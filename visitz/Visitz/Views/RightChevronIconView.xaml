@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.RightChevronIconView"
+    x:DataType="views:RightChevronIconView">
+
+    <Image 
+        WidthRequest="18"
+        HeightRequest="18">
+
+        <Image.Source>
+
+            <FontImageSource 
+                Glyph="{Static fonticons:FluentIcons.Chevron_right_20_filled}"
+                FontFamily="FluentIconsRegular"
+                Color="{StaticResource BC_TextColor}"/>
+
+        </Image.Source>
+    </Image>
+</ContentView>
