@@ -71,7 +71,6 @@
 	  <None Remove="Resources\Images\bc_logo_horizontal_reverse.svg" />
 	  <None Remove="Resources\Images\mobile.svg" />
 	  <None Remove="Resources\Images\phone.svg" />
-	  <None Remove="Resources\Images\user.svg" />
 	  <None Remove="Services\" />
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
