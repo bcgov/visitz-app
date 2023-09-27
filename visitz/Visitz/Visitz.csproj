@@ -85,7 +85,6 @@
 	  <None Remove="Resources\Images\Authentication\fileFolder.svg" />
 	  <None Remove="Resources\Images\file_folder.svg" />
 	  <None Remove="Resources\Images\tilted_rectangle_bg.svg" />
-	  <None Remove="Resources\Images\chevron_right.svg" />
 	  <None Remove="Resources\Localization\" />
 	  <None Remove="Extensions\" />
 	  <None Remove="appsettings.json" />
@@ -111,7 +110,6 @@
 	  <BundleResource Include="Resources\Splash\splashicon.svg" />
 	  <BundleResource Include="Resources\Images\file_folder.svg" />
 	  <BundleResource Include="Resources\Images\tilted_rectangle_bg.svg" />
-	  <BundleResource Include="Resources\Images\chevron_right.svg" />
 	  <BundleResource Include="Resources\Images\note_empty.svg" />
 	  <BundleResource Include="Resources\Images\note_publish.svg" />
 	</ItemGroup>
@@ -154,6 +152,9 @@
 	  <Compile Update="Pages\AppLockPage.xaml.cs">
 	    <DependentUpon>AppLockPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\RightChevronIconView.xaml.cs">
+	    <DependentUpon>RightChevronIconView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="VisitzApp.xaml.cs">
 	    <DependentUpon>VisitzApp.xaml</DependentUpon>
 	  </Compile>
@@ -192,6 +193,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\DebugOptionsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RightChevronIconView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

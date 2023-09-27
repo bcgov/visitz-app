@@ -66,12 +66,12 @@
                     FontFamily="BCSansRegular"
                     VerticalOptions="Center" />
 
-                <Image 
+                <views:RightChevronIconView 
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     Grid.Column="3"
-                    Source="chevron_right"
                     VerticalOptions="Center" />
+                
             </Grid>
         </Border>
     </VerticalStackLayout>

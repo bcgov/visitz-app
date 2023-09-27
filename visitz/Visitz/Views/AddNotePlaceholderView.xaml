@@ -4,6 +4,7 @@
              x:Class="Visitz.Views.AddNotePlaceholderView"
              xmlns:viewModels="clr-namespace:Visitz.ViewModels"
              xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+             xmlns:views="clr-namespace:Visitz.Views"
              x:Name="this">
     <VerticalStackLayout>
         <Border  
@@ -89,12 +90,13 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
-                    <Image Source="chevron_right" Margin="25,0,0,0" />
-                </VerticalStackLayout>
+                <views:RightChevronIconView 
+                    Grid.Column="1" 
+                    VerticalOptions="CenterAndExpand" 
+                    Margin="25,0,0,0" />
+
             </Grid>
         </Border>
 
     </VerticalStackLayout>
 </ContentView>
-
