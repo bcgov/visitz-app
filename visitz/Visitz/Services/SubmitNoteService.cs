@@ -36,6 +36,7 @@ namespace Visitz.Services
             if (DebugOptions.DryFireSubmitNotes)
             {
                 await Task.Delay(2500); // Simulate network activity
+                ResultCode = DebugOptions.DryFireSubmitNotesSimulateSuccess ? Result.Successful : Result.Error;
             }
             else
                 await SubmitNoteAsync();
