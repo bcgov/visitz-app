@@ -1,6 +1,7 @@
 ﻿<pages:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
@@ -43,7 +44,7 @@
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="0,0"
             Margin="-20"
-            Padding="20"
+            Padding="13"
             MaximumWidthRequest="65"
             MaximumHeightRequest="65"
             BackgroundColor="Transparent"
@@ -53,8 +54,8 @@
             Aspect="AspectFill">
             <ImageButton.Source>
                 <FontImageSource 
-                    Glyph="&#xf00d;" 
-                    FontFamily="FontAwesome6Solid"
+                    Glyph="{Static fonticons:MaterialIcons.Close}" 
+                    FontFamily="MaterialIconsRoundedFilled"
                     Color="White"
                     Size="65"/>
             </ImageButton.Source>
@@ -82,8 +83,8 @@
             <Image.Source>
                 <FontImageSource 
                     Glyph="{Binding AuthIcon}"
-                    FontFamily="FontAwesome6Solid"
-                    Size="150"
+                    FontFamily="MaterialIconsRoundedFilled"
+                    Size="200"
                     Color="{Binding AuthColor}" />
             </Image.Source>
         </Image>
@@ -125,7 +126,7 @@
                 </Border.StrokeShape>
 
                 <ImageButton
-                    Padding="20"
+                    Padding="15"
                     MaximumHeightRequest="60"
                     MaximumWidthRequest="60"
                     BackgroundColor="Transparent"
@@ -133,8 +134,8 @@
                     Aspect="AspectFill">
                     <ImageButton.Source>
                         <FontImageSource 
-                            Glyph="&#xf021;" 
-                            FontFamily="FontAwesome6Solid"
+                            Glyph="{Static fonticons:MaterialIcons.Refresh}" 
+                            FontFamily="MaterialIconsRoundedFilled"
                             Color="White"
                             Size="60"/>
                     </ImageButton.Source>

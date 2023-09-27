@@ -8,6 +8,7 @@ using Visitz.Resources;
 using Visitz.Resources.Styles;
 using Visitz.Services;
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.FontIcons;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -129,13 +130,13 @@ public partial class SessionViewModel
         if (IsUnauthorized)
         {
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
-            AuthIcon = FaIconGlyphs.UserLockSolid;
+            AuthIcon = MaterialIcons.Shield_lock;
             AuthColor = VisitzColors.BC_Semantic_Error;
         }
         else
         {
             AuthStatus = LocalizedStrings.YouAreAuthorized;
-            AuthIcon = FaIconGlyphs.UserCheckSolid;
+            AuthIcon = MaterialIcons.Verified_user;
             AuthColor = VisitzColors.BC_Semantic_Success;
         }
 
