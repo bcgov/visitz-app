@@ -45,7 +45,6 @@ namespace Visitz.Services
 
         private async Task SubmitNote(SubmitNoteEntity noteEntity)
         {
-            var info = await VisitzSessionInfo.GetAsync();
             await ServiceHandler.TryRunServiceAsync(SubmitNoteService.MakeStartMessage(noteEntity));
         }
 
