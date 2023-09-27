@@ -52,17 +52,33 @@
                     x:Name="CellPhoneTagView"
                     BackgroundColor="Transparent"
                     Text="{Binding CellPhone}"
-                    ImageSource="mobile.png"
                     BorderColor="{StaticResource PurpleTagBorder}"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center">
+                    
+                    <views:TagView.ImageSource>
+                        <FontImageSource 
+                            Glyph="{Static fonticons:MaterialIcons.Phone_iphone}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Color="{StaticResource BC_TextColor}" />
+                    </views:TagView.ImageSource>
+                    
+                </views:TagView>
 
                 <views:TagView
                     x:Name="HomePhoneTagView"
                     BackgroundColor="Transparent"
                     Text="{Binding HomePhone}"
-                    ImageSource="phone.png"
                     BorderColor="{StaticResource PurpleTagBorder}"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center">
+
+                    <views:TagView.ImageSource>
+                        <FontImageSource 
+                            Glyph="{Static fonticons:MaterialIcons.Home}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Color="{StaticResource BC_TextColor}" />
+                    </views:TagView.ImageSource>
+
+                </views:TagView>
             </HorizontalStackLayout>
 
             <Grid BackgroundColor="Transparent" RowSpacing="10">
