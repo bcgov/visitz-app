@@ -93,7 +93,6 @@
 	  <None Remove="Resources\Images\note_empty.svg" />
 	  <None Remove="Subclasses\" />
 	  <None Remove="Resources\Images\note_publish.svg" />
-	  <None Remove="Resources\Images\chevron_down.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
@@ -115,7 +114,6 @@
 	  <BundleResource Include="Resources\Images\chevron_right.svg" />
 	  <BundleResource Include="Resources\Images\note_empty.svg" />
 	  <BundleResource Include="Resources\Images\note_publish.svg" />
-	  <BundleResource Include="Resources\Images\chevron_down.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EmbeddedResource Include="appSettings.json" />

@@ -6,6 +6,7 @@
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:subclasses="clr-namespace:Visitz.Subclasses"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Pages.NoteEntryPage"
     x:DataType="viewModels:NoteEntryViewModel"
     Title="{Binding Title}"
@@ -112,23 +113,30 @@
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="3"
-            Source="chevron_down.png"
             HorizontalOptions="End"
             VerticalOptions="End"
             WidthRequest="44"
             HeightRequest="44"
             CornerRadius="22"
-            Padding="15"
             Margin="10"
+            Padding="5"
             BackgroundColor="{StaticResource DarkSkyBlueBackground}"
             Clicked="Scroll_To_Bottom_Clicked">
 
             <ImageButton.Shadow>
                 <Shadow Brush="Black"
-                Offset="10,10"
-                Radius="20"
-                Opacity="0.5" />
+                    Offset="10,10"
+                    Radius="20"
+                    Opacity="0.5" />
             </ImageButton.Shadow>
+
+            <ImageButton.Source>
+                <FontImageSource 
+                    Glyph="{Static fonticons:FluentIcons.Chevron_down_20_filled}"
+                    FontFamily="FluentIconsRegular"
+                    Color="White"
+                    Size="44"/>
+            </ImageButton.Source>
 
         </ImageButton>
     </subclasses:VisitzGrid>
