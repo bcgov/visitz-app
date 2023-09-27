@@ -18,8 +18,8 @@ namespace Visitz.Services
         {
             try
             {
-                if (await VisitzSession.GetValidSessionAsync())
                     await base.OnRunAsync();
+                if (await VisitzSession.TryGetValidSessionAsync())
             }
             catch (VisitzApiException ex)
             {

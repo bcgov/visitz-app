@@ -10,7 +10,7 @@ namespace Visitz.Authentication.Keycloak
 
         public static event EventHandler<SessionChangedEventArgs> SessionChanged;
 
-        public static async Task<bool> GetValidSessionAsync()
+        public static async Task<bool> TryGetValidSessionAsync()
         {
             if (!NetworkHelper.InternetAvailable)
                 return false;
