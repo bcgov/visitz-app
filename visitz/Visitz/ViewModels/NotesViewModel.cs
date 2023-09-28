@@ -44,7 +44,7 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public NoteItem latestNote;
 
-        private Realm Realm { get; set; }
+        private Realm IcmDataRealm { get; set; }
 
         private IQueryable<NoteItem> NotesQuery { get; set; }
 
@@ -58,11 +58,11 @@ namespace Visitz.ViewModels
 
             WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncidentId));
 
-            Realm = await VisitzRealm.GetIcmDataAsync();
+            IcmDataRealm = await VisitzRealm.GetIcmDataAsync();
 
-            CaseIncident = Realm.Find<CaseloadItem>(caseIncidentId);
+            CaseIncident = IcmDataRealm.Find<CaseloadItem>(caseIncidentId);
 
-            NotesQuery = Realm.All<NoteItem>()
+            NotesQuery = IcmDataRealm.All<NoteItem>()
                 .Where(note => note.IcmId == caseIncidentId);
             NotesQueryToken = NotesQuery.SubscribeForNotifications(Notes_Changed);
 
@@ -85,8 +85,8 @@ namespace Visitz.ViewModels
             NotesQueryToken.Dispose();
             NotesQueryToken = null;
 
-            Realm.Dispose();
-            Realm = null;
+            IcmDataRealm.Dispose();
+            IcmDataRealm = null;
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
