@@ -16,10 +16,11 @@ namespace Visitz.Services
 
         public override async Task OnRunAsync()
         {
+            await VisitzSession.AssertValidSessionAsync();
+
             try
             {
                     await base.OnRunAsync();
-                if (await VisitzSession.TryGetValidSessionAsync())
             }
             catch (VisitzApiException ex)
             {

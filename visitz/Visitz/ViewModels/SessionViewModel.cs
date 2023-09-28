@@ -90,10 +90,19 @@ public partial class SessionViewModel
     [RelayCommand]
     public async void LoginAsync()
     {
-        if (await VisitzSession.LoginAsync() && SessionInfo.HasBasicAccessRole)
+        try
         {
-            await VisitzApp.Navigation.PopModalAsync();
-            WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+            await VisitzSession.LoginAsync();
+
+            if (SessionInfo.HasBasicAccessRole)
+            {
+                await VisitzApp.Navigation.PopModalAsync();
+                WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+            }
+        }
+        catch
+        {
+            // TODO: log or show error
         }
     }
 }
