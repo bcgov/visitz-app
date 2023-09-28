@@ -28,6 +28,11 @@ namespace Visitz.Services
             /// A service was unable to complete its tasks.
             /// </summary>
             Error = 1,
+
+            /// <summary>
+            /// A service was requested to run but it was already running.
+            /// </summary>
+            NoOperation = 2,
         }
 
         public State Status { get; protected set; }

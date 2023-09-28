@@ -32,7 +32,7 @@ namespace Visitz.Services
         /// </summary>
         /// <param name="startMessage"></param>
         /// <returns></returns>
-        public async Task TryRunServiceAsync(StartServiceMessage startMessage)
+        public async Task<VisitzService.Result> TryRunServiceAsync(StartServiceMessage startMessage)
         {
             // Only allow 1 service per ID at a time. For now, ServiceHandler shouldn't need to worry about
             // queueing services or distributing workloads.
@@ -43,12 +43,15 @@ namespace Visitz.Services
                 try
                 {
                     await RunServiceAsync(service);
+                    return service.ResultCode;
                 }
                 finally
                 {
                     Services.Remove(startMessage.ServiceId);
                 }
             }
+            else
+                return VisitzService.Result.NoOperation;
         }
 
         private async Task RunServiceAsync(VisitzService service)
