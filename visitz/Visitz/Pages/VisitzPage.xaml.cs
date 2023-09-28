@@ -57,7 +57,7 @@ public abstract partial class VisitzPage : ContentPage
     protected override void OnParentChanging(ParentChangingEventArgs args)
     {
         base.OnParentChanging(args);
-
+        // TODO: Implement ParentChangingEventArgsExtension here
         var isCreating = args.OldParent == null && args.NewParent != null;
         var isDestroying = args.OldParent != null && args.NewParent == null;
 
