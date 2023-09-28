@@ -124,6 +124,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connected—no internet available.
+        /// </summary>
+        internal static string ConnectedNoInternet {
+            get {
+                return ResourceManager.GetString("ConnectedNoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
         /// </summary>
         internal static string DeviceAuthReason {
