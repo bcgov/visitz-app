@@ -246,7 +246,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Character limit reached</value>
   </data>
   <data name="NoInternet" xml:space="preserve">
-    <value>Internet connection unavailable</value>
+    <value>No internet available</value>
   </data>
   <data name="UnauthorizedForApi" xml:space="preserve">
     <value>You aren't authorized to use this feature.</value>

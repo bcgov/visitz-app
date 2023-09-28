@@ -236,7 +236,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internet connection unavailable.
+        ///   Looks up a localized string similar to No internet available.
         /// </summary>
         internal static string NoInternet {
             get {
