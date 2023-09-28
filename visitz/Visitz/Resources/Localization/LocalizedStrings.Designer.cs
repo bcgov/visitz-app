@@ -420,6 +420,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You aren&apos;t authorized to use this feature..
+        /// </summary>
+        internal static string UnauthorizedForApi {
+            get {
+                return ResourceManager.GetString("UnauthorizedForApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User cancelled IDIR login..
         /// </summary>
         internal static string UserCancelledAuth {

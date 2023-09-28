@@ -248,4 +248,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="NoInternet" xml:space="preserve">
     <value>Internet connection unavailable</value>
   </data>
+  <data name="UnauthorizedForApi" xml:space="preserve">
+    <value>You aren't authorized to use this feature.</value>
+  </data>
 </root>
