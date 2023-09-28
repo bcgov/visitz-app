@@ -1,4 +1,7 @@
-﻿using Visitz.Authentication.Keycloak.Events;
+﻿using IdentityModel.OidcClient;
+using IdentityModel.OidcClient.Results;
+using Visitz.Authentication.Keycloak.Events;
+using Visitz.Network;
 
 namespace Visitz.Authentication.Keycloak
 {
@@ -7,66 +10,78 @@ namespace Visitz.Authentication.Keycloak
         private static AuthenticationClient AuthClient =>
             ServiceProvider.Current.GetRequiredService<AuthenticationClient>();
 
-        private static bool InternetAvailable =>
-            Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
-
         public static event EventHandler<SessionChangedEventArgs> SessionChanged;
 
-        public static async Task<bool> GetValidSessionAsync()
+        public static async Task AssertValidSessionAsync()
         {
-            if (!InternetAvailable)
-                return false;
+            NetworkHelper.AssertInternetAvailable();
 
-            return await TokenHolder.IsAccessTokenValid()
-                || await TryRefreshAsync()
-                || await LoginAsync();
+            if (!await TokenHolder.IsAccessTokenValid())
+            {
+                if (await TokenHolder.IsRefreshTokenExpired())
+                    await LoginAsync();
+                else
+                    await RefreshAsync();
+            }
         }
 
-        public static async Task<bool> LoginAsync()
+        public static async Task LoginAsync()
         {
-            var loginResult = await AuthClient.LoginAsync();
-            var loginSuccess = !loginResult.IsError;
+            LoginResult loginResult = null;
 
-            if (loginSuccess)
+            try
+            {
+                NetworkHelper.AssertInternetAvailable();
+
+                loginResult = await AuthClient.LoginAsync();
+
+                if (loginResult.IsError)
+                    throw new LoginException(loginResult.Error);
+
                 await TokenHolder.SaveAsync(loginResult);
-
+            }
+            finally
+            {
 #if DEBUG
-            ConsoleTrace.TraceMethod(typeof(VisitzSession),
-                $"loginResult.IsError: '{loginResult.IsError}', error: '{loginResult.Error}'");
+                ConsoleTrace.TraceMethod(typeof(VisitzSession),
+                    $"loginResult.IsError: '{loginResult?.IsError}', error: '{loginResult?.Error}'");
 #endif
-
-            var info = await VisitzSessionInfo.GetAsync();
-            SessionChanged?.Invoke(info, new LoginChangedEventArgs() { Success = loginSuccess });
-
-            return loginSuccess;
+                var info = await VisitzSessionInfo.GetAsync();
+                SessionChanged?.Invoke(info, new LoginChangedEventArgs()
+                { 
+                    Success = !loginResult?.IsError ?? false 
+                });
+            }
         }
 
-        private static async Task<bool> TryRefreshAsync()
+        private static async Task RefreshAsync()
         {
-            if (await TokenHolder.IsRefreshTokenExpired())
-                return false;
+            RefreshTokenResult refreshResult = null;
 
-            return await RefreshAsync();
-        }
+            try
+            {
+                NetworkHelper.AssertInternetAvailable();
 
-        private static async Task<bool> RefreshAsync()
-        {
-            var refreshToken = await TokenHolder.GetRefreshTokenStringAsync();
-            var refreshResult = await AuthClient.RefreshAsync(refreshToken);
-            var refreshSuccess = !refreshResult.IsError;
+                var refreshToken = await TokenHolder.GetRefreshTokenStringAsync();
+                refreshResult = await AuthClient.RefreshAsync(refreshToken);
 
-            if (refreshSuccess)
+                if (refreshResult.IsError)
+                    throw new SessionRefreshException(refreshResult.Error);
+
                 await TokenHolder.SaveAsync(refreshResult);
-
+            }
+            finally
+            {
 #if DEBUG
-            ConsoleTrace.TraceMethod(typeof(VisitzSession), 
-                $"refreshResult.IsError: '{refreshResult.IsError}', error: '{refreshResult.Error}'");
+                ConsoleTrace.TraceMethod(typeof(VisitzSession), 
+                    $"refreshResult.IsError: '{refreshResult?.IsError}', error: '{refreshResult?.Error}'");
 #endif
-
-            var info = await VisitzSessionInfo.GetAsync();
-            SessionChanged?.Invoke(info, new RefreshChangedEventArgs() { Success = refreshSuccess });
-
-            return refreshSuccess;
+                var info = await VisitzSessionInfo.GetAsync();
+                SessionChanged?.Invoke(info, new RefreshChangedEventArgs() 
+                { 
+                    Success = !refreshResult?.IsError ?? false 
+                });
+            }
         }
 
         public static async Task<bool> LogoutAsync()
@@ -78,7 +93,6 @@ namespace Visitz.Authentication.Keycloak
             ConsoleTrace.TraceMethod(typeof(VisitzSession),
                 $"logoutResult.IsError: '{logoutResult.IsError}', error: '{logoutResult.Error}'");
 #endif
-
             await InvalidateSessionAsync();
 
             var info = await VisitzSessionInfo.GetAsync();

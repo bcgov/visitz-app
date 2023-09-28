@@ -124,6 +124,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connected—no internet available.
+        /// </summary>
+        internal static string ConnectedNoInternet {
+            get {
+                return ResourceManager.GetString("ConnectedNoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
         /// </summary>
         internal static string DeviceAuthReason {
@@ -223,6 +232,15 @@ namespace Visitz.Resources.Localization {
         internal static string LogoutAndClearDataDesc {
             get {
                 return ResourceManager.GetString("LogoutAndClearDataDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No internet available.
+        /// </summary>
+        internal static string NoInternet {
+            get {
+                return ResourceManager.GetString("NoInternet", resourceCulture);
             }
         }
         
@@ -407,6 +425,15 @@ namespace Visitz.Resources.Localization {
         internal static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You aren&apos;t authorized to use this feature..
+        /// </summary>
+        internal static string UnauthorizedForApi {
+            get {
+                return ResourceManager.GetString("UnauthorizedForApi", resourceCulture);
             }
         }
         

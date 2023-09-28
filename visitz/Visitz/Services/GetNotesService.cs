@@ -37,7 +37,7 @@ namespace Visitz.Services
             return MakeId(caseIncidentId);
         }
 
-        protected override async Task RunAsync()
+        protected override async Task RunApiServiceAsync()
         {
             await GetNotesAsync();
         }

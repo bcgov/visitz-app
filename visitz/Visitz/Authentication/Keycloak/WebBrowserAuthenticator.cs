@@ -56,6 +56,14 @@ namespace Visitz.Authentication.Keycloak
                     ErrorDescription = LocalizedStrings.UserCancelledAuth
                 };
             }
+            catch (Exception ex)
+            {
+                return new BrowserResult
+                {
+                    ResultType = BrowserResultType.UnknownError,
+                    ErrorDescription = ex.Message
+                };
+            }
         }
 
         /*

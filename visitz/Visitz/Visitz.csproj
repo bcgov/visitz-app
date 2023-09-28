@@ -193,6 +193,9 @@
 	  <MauiXaml Update="Pages\DebugOptionsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\InternetInfoView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\RightChevronIconView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

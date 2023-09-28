@@ -26,7 +26,7 @@ namespace Visitz.Services
 
         public GetCaseloadService(Vpi vpi) : base(vpi) { }
 
-        protected override async Task RunAsync()
+        protected override async Task RunApiServiceAsync()
         {
             await GetCaseloadAsync();
         }

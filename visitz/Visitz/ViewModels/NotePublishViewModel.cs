@@ -88,13 +88,13 @@ namespace Visitz.ViewModels
             noteEntity.Content = NoteItem.WrapContent(info.Idir, DateTime.Now, draft);
             noteEntity.CreatedBy = info.Idir;
 
-            WeakReferenceMessenger.Default.Send(SubmitAndGetNotesService.MakeStartMessage(noteEntity));
-
             ShowPublishingIndicator = true;
             ShowRefreshIndicator = false;
             PublishingStatus = LocalizedStrings.PublishingNotesToIcm;
             ShowRefreshSection = false;
             ShowRetrySection = false;
+
+            WeakReferenceMessenger.Default.Send(SubmitAndGetNotesService.MakeStartMessage(noteEntity));
         }
 
         public async void Receive(ServiceStateMessage message)

@@ -36,23 +36,23 @@ namespace Visitz.Services
             return MakeId(Payload.EntityNumber, Payload.NotePeriod);
         }
 
-        protected override async Task RunAsync()
+        protected override async Task RunApiServiceAsync()
         {
-            await SubmitNote(Payload);
-            await GetNotes(Payload.EntityNumber, Payload.EntityType);
-            ResultCode = Result.Successful;
+            if (await SubmitNote(Payload) && await GetNotes(Payload.EntityNumber, Payload.EntityType))
+                ResultCode = Result.Successful;
         }
 
-        private async Task SubmitNote(SubmitNoteEntity noteEntity)
+        private async Task<bool> SubmitNote(SubmitNoteEntity noteEntity)
         {
-            var info = await VisitzSessionInfo.GetAsync();
-            await ServiceHandler.TryRunServiceAsync(SubmitNoteService.MakeStartMessage(noteEntity));
+            var result = await ServiceHandler.TryRunServiceAsync(SubmitNoteService.MakeStartMessage(noteEntity));
+            return result == Result.Successful;
         }
 
-        private async Task GetNotes(string caseIncidentId, string entityType)
+        private async Task<bool> GetNotes(string caseIncidentId, string entityType)
         {
             var startMessage = GetNotesService.MakeStartMessage(caseIncidentId, entityType);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
+            var result = await ServiceHandler.TryRunServiceAsync(startMessage);
+            return result == Result.Successful;
         }
     }
 }

@@ -28,14 +28,19 @@ namespace Visitz.Services
             /// A service was unable to complete its tasks.
             /// </summary>
             Error = 1,
+
+            /// <summary>
+            /// A service was requested to run but it was already running.
+            /// </summary>
+            NoOperation = 2,
         }
 
         public State Status { get; protected set; }
 
         // Services must explicitly set ResultCode when they complete their tasks.
-        protected Result ResultCode { get; set; } = Result.Error;
+        public Result ResultCode { get; protected set; } = Result.Error;
 
-        protected string ResultMessage { get; set; }
+        public string ResultMessage { get; protected set; }
 
         public object Payload { get; set; }
 
@@ -68,17 +73,30 @@ namespace Visitz.Services
 
         public abstract string GetId();
 
-        public virtual async Task OnRunAsync()
+        public async Task RunAsync()
         {
             PublishCurrentState(State.Running);
-            await RunAsync();
+
+            try
+            {
+                await RunServiceAsync();
+            }
+            catch (Exception ex)
+            {
+                ResultCode = Result.Error;
+                ResultMessage = ex.Message;
+
+                throw;
+            }
         }
 
-        public virtual async Task OnFinishAsync()
+        protected abstract Task RunServiceAsync();
+
+        public async Task FinishAsync()
         {
             try
             {
-                await FinishAsync();
+                await FinishServiceAsync();
             }
             finally
             {
@@ -86,12 +104,7 @@ namespace Visitz.Services
             }
         }
 
-        protected virtual Task RunAsync()
-        {
-            return Task.CompletedTask;
-        }
-
-        protected virtual Task FinishAsync()
+        protected virtual Task FinishServiceAsync()
         {
             return Task.CompletedTask;
         }

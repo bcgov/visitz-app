@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Visitz.Authentication.Keycloak;
+using Visitz.Resources.Localization;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
 
@@ -14,12 +15,13 @@ namespace Visitz.Services
             Vpi = vpi;
         }
 
-        public override async Task OnRunAsync()
+        protected override sealed async Task RunServiceAsync()
         {
+            await VisitzSession.AssertValidSessionAsync();
+
             try
             {
-                if (await VisitzSession.GetValidSessionAsync())
-                    await base.OnRunAsync();
+                await RunApiServiceAsync();
             }
             catch (VisitzApiException ex)
             {
@@ -27,17 +29,24 @@ namespace Visitz.Services
                 Console.WriteLine(nameof(VisitzApiException) 
                     + $" {ex.HttpStatusCode} -> {ex.Message}:\n{ex.StackTrace}");
 #endif
-
-                if (ex.HttpStatusCode == HttpStatusCode.Unauthorized
-                    || ex.HttpStatusCode == HttpStatusCode.Forbidden)
+                if (IsSessionException(ex.HttpStatusCode))
                 {
                     await VisitzSession.InvalidateSessionAsync();
-                    ResultMessage = ex.Message;
+                    throw new UnauthorizedAccessException(LocalizedStrings.UnauthorizedForApi, ex);
 
-                    // TODO: Properly notify user their session is invalid and
-                    // prompt them to login again
+                    // No need for different messages for 401 vs. 403, since 401 would've been handled by the
+                    // OAuth login.
                 }
+
+                throw;
             }
+        }
+
+        protected abstract Task RunApiServiceAsync();
+
+        private static bool IsSessionException(HttpStatusCode code)
+        {
+            return code == HttpStatusCode.Unauthorized || code == HttpStatusCode.Forbidden;
         }
     }
 }
