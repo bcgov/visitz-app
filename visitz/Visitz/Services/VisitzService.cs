@@ -33,9 +33,9 @@ namespace Visitz.Services
         public State Status { get; protected set; }
 
         // Services must explicitly set ResultCode when they complete their tasks.
-        protected Result ResultCode { get; set; } = Result.Error;
+        public Result ResultCode { get; protected set; } = Result.Error;
 
-        protected string ResultMessage { get; set; }
+        public string ResultMessage { get; protected set; }
 
         public object Payload { get; set; }
 
