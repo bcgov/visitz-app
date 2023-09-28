@@ -35,7 +35,7 @@ namespace Visitz.Services
             return MakeId();
         }
 
-        protected override async Task RunAsync()
+        protected override async Task RunApiServiceAsync()
         {
             await Task.Run(async () =>
             {

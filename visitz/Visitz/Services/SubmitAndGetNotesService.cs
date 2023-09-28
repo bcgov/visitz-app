@@ -36,7 +36,7 @@ namespace Visitz.Services
             return MakeId(Payload.EntityNumber, Payload.NotePeriod);
         }
 
-        protected override async Task RunAsync()
+        protected override async Task RunApiServiceAsync()
         {
             await SubmitNote(Payload);
             await GetNotes(Payload.EntityNumber, Payload.EntityType);

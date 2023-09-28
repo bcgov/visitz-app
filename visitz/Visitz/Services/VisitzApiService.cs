@@ -15,13 +15,13 @@ namespace Visitz.Services
             Vpi = vpi;
         }
 
-        public override async Task OnRunAsync()
+        protected override sealed async Task RunServiceAsync()
         {
             await VisitzSession.AssertValidSessionAsync();
 
             try
             {
-                    await base.OnRunAsync();
+                await RunApiServiceAsync();
             }
             catch (VisitzApiException ex)
             {

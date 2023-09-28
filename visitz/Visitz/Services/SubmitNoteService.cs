@@ -31,7 +31,7 @@ namespace Visitz.Services
             return MakeId(Payload.EntityNumber, Payload.NotePeriod);
         }
 
-        protected override async Task RunAsync()
+        protected override async Task RunApiServiceAsync()
         {
             if (DebugOptions.DryFireSubmitNotes)
             {

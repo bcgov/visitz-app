@@ -55,7 +55,7 @@ namespace Visitz.Services
         {
             try
             {
-                await service.OnRunAsync();
+                await service.RunAsync();
             }
             catch (Exception ex)
             {
@@ -66,7 +66,7 @@ namespace Visitz.Services
             }
             finally
             {
-                await service.OnFinishAsync();
+                await service.FinishAsync();
             }
         }
 
