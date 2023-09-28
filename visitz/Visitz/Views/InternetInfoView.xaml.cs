@@ -83,7 +83,7 @@ public partial class InternetInfoView : ContentView
     }
 
     // REVIEW: We *could* show a more meaningful message when connected without internet, but it turns out
-    // that trying to use yellow on a whitebackground is an awful undertaking.
+    // that trying to use yellow on a white background is an awful undertaking.
     private void LocalNetworkStyles(NetworkAccess networkAccess)
     {
         switch (networkAccess)
