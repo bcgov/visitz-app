@@ -254,4 +254,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="ConnectedNoInternet" xml:space="preserve">
     <value>Connected—no internet available</value>
   </data>
+  <data name="HaveUnpublishedDraft" xml:space="preserve">
+    <value>You have an unpublished draft</value>
+  </data>
 </root>

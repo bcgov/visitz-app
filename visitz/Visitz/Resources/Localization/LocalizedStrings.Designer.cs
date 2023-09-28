@@ -178,6 +178,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have an unpublished draft.
+        /// </summary>
+        internal static string HaveUnpublishedDraft {
+            get {
+                return ResourceManager.GetString("HaveUnpublishedDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid entry.
         /// </summary>
         internal static string InvalidEntry {
