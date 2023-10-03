@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:subclasses="clr-namespace:Visitz.Subclasses"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
@@ -16,7 +17,7 @@
 
     <subclasses:VisitzGrid
         x:Name="RootGrid"
-        ColumnDefinitions="*,Auto,Auto"
+        ColumnDefinitions="Auto,*,Auto"
         ColumnSpacing="10"
         Padding="20">
 
@@ -38,7 +39,47 @@
             Text="Add Content"
             TextColor="{StaticResource BlackishText}"
             FontFamily="BCSansBold"
-            FontSize="17" />
+            FontSize="17"
+            VerticalOptions="Start"/>
+
+        <views:TagView 
+            x:Name="DraftSavedTagView"
+            Text="{local:Localize DraftSaved}"
+            IconHeightRequest="25"
+            IconWidthRequest="25"
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalOptions="Start"
+            HorizontalOptions="Start"
+            Margin="0,-3,0,0"
+            TextColor="{StaticResource BC_Semantic_Success}"
+            IsVisible="False">
+            <views:TagView.ImageSource>
+                <FontImageSource 
+                    Glyph="{Static fonticons:FluentIcons.Document_checkmark_20_regular}" 
+                    FontFamily="FluentIconsRegular"
+                    Color="{StaticResource BC_Semantic_Success}" />
+            </views:TagView.ImageSource>
+        </views:TagView>
+
+        <views:TagView 
+            x:Name="SavingDraftTagView"
+            Text="{local:Localize Ellipsis}"
+            IconHeightRequest="25"
+            IconWidthRequest="25"
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalOptions="Start"
+            HorizontalOptions="Start"
+            Margin="0,-3,0,0"
+            IsVisible="False">
+            <views:TagView.ImageSource>
+                <FontImageSource 
+                    Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}" 
+                    FontFamily="FluentIconsRegular"
+                    Color="Black" />
+            </views:TagView.ImageSource>
+        </views:TagView>
 
         <HorizontalStackLayout 
             Grid.Row="0"
@@ -83,6 +124,7 @@
         <Label 
             x:Name="ErrorLabel"
             Grid.Row="1"
+            Grid.ColumnSpan="2"
             TextColor="{StaticResource BC_Semantic_Error}"
             FontSize="16"
             FontFamily="BCSansBold"

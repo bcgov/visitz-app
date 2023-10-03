@@ -74,6 +74,30 @@ public partial class NoteEntryPage : VisitzPage
         await fadeOut.Animate(ErrorLabel);
     }
 
+    public async Task SetDraftSavedPromptVisible(bool visible)
+    {
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            if (DraftSavedTagView.IsVisible == visible)
+                return;
+
+            var visiblityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
+            await visiblityAnimation.Animate(DraftSavedTagView);
+        });
+    }
+
+    public async Task SetSavingDraftPromptVisible(bool visible)
+    {
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            if (SavingDraftTagView.IsVisible == visible)
+                return;
+
+            var visiblityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
+            await visiblityAnimation.Animate(SavingDraftTagView);
+        });
+    }
+
     private async Task AnimateEditorError()
     {
         var vibrateErrorAnim = new ErrorVibrateAnimation();
