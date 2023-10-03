@@ -41,7 +41,7 @@ namespace Visitz.ViewModels
             caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
             noteItem = Parameters[NoteItemKey] as NoteItem;
 
-            noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber, noteItem?.CreatedDate);
+            noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber);
 
             Title = noteItem?.PeriodOrPageNumber != null
                 ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
