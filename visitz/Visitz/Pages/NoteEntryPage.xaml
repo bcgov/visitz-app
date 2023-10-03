@@ -123,8 +123,8 @@
                 <Editor.Behaviors>
                     <toolkit:UserStoppedTypingBehavior 
                         Command="{Binding SaveDraftCommand}"
-                        StoppedTypingTimeThreshold="1000"
                         MinimumLengthThreshold="3" />
+                        StoppedTypingTimeThreshold="700" />
                 </Editor.Behaviors>
             </Editor>
         </ScrollView>
