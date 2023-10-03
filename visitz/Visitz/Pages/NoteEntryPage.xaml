@@ -40,13 +40,6 @@
             FontFamily="BCSansBold"
             FontSize="17" />
 
-        <Button
-            Grid.Row="0"
-            Grid.Column="1"
-            Text="Discard"
-            Style="{StaticResource transparent}"
-            IsVisible="false" />
-
         <HorizontalStackLayout 
             Grid.Row="0"
             Grid.Column="2"
