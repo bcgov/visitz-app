@@ -26,6 +26,12 @@ public partial class TagView : ContentView
         BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView), 
             propertyChanged: TagPropertyChanged);
 
+    public static readonly BindableProperty IconHeightRequestProperty =
+        BindableProperty.Create(nameof(IconHeightRequest), typeof(double), typeof(TagView));
+
+    public static readonly BindableProperty IconWidthRequestProperty =
+        BindableProperty.Create(nameof(IconWidthRequest), typeof(double), typeof(TagView));
+
     public new Color BackgroundColor
     {
         get => (Color)GetValue(BackgroundColorProperty);
@@ -54,6 +60,18 @@ public partial class TagView : ContentView
     {
         get => (Color)GetValue(BorderColorProperty);
         set => SetValue(BorderColorProperty, value);
+    }
+
+    public double IconHeightRequest
+    {
+        get => (double)GetValue(IconHeightRequestProperty);
+        set => SetValue(IconHeightRequestProperty, value);
+    }
+
+    public double IconWidthRequest
+    {
+        get => (double)GetValue(IconWidthRequestProperty);
+        set => SetValue(IconWidthRequestProperty, value);
     }
 
     public TagView()

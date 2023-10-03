@@ -23,8 +23,10 @@
 
             <Image
                 x:Name="Icon"
-                HeightRequest="20"
-                WidthRequest="15"
+                MinimumHeightRequest="20"
+                MinimumWidthRequest="15"
+                HeightRequest="{Binding IconHeightRequest}"
+                WidthRequest="{Binding IconWidthRequest}"
                 Source="{Binding ImageSource}"
                 Aspect="AspectFit"
                 VerticalOptions="Center">
