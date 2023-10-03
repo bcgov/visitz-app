@@ -57,7 +57,7 @@
             <Button
                 Text="Publish"
                 Command="{Binding PublishNotesCommand}">
-                
+
                 <Button.Style>
                     <!-- 
                         BUG: Using Background instead of BackgroundColor because of an issue:
@@ -79,22 +79,13 @@
                         </Setter>
                     </Style>
                 </Button.Style>
-                
+
                 <Button.Behaviors>
                     <behaviors:DisableWhenInternetUnavailableBehavior />
                 </Button.Behaviors>
-                
+
             </Button>
         </HorizontalStackLayout>
-
-        <Label
-            x:Name="PromptLabel"
-            Grid.Row="1"
-            Text="The content will be added at the end of the note"
-            TextColor="{StaticResource BlackishText}"
-            FontFamily="BCSansRegular"
-            FontSize="16"
-            VerticalOptions="Center" />
 
         <Label 
             x:Name="ErrorLabel"
