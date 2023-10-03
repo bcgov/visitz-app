@@ -48,10 +48,8 @@ namespace Visitz.ViewModels
                 : caseIncident.DisplayName;
 
             var realm = await VisitzRealm.GetNoteDraftAsync();
-            NoteDraftQuery = realm.All<NoteDraft>()
-                .Where(draft => draft.CaseIncidentAndCreatedDateID == noteDraftId);
 
-            NoteDraftQueryToken = NoteDraftQuery.SubscribeForNotifications(NoteDraft_Changed);
+            (NoteDraftQuery, NoteDraftQueryToken) = NoteDraft.Subscribe(realm, noteDraftId, NoteDraft_Changed);
 
             ApplyDraft();
         }
