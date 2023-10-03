@@ -81,7 +81,8 @@
                 HeightRequest="50"
                 BackgroundColor="{StaticResource UnpublishedDraftBackground}"
                 HorizontalOptions="End"
-                Padding="10">
+                Padding="10"
+                IsVisible="{Binding UserHasDraft}">
                 
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="4" />
