@@ -118,7 +118,7 @@ namespace Visitz.ViewModels
                     ShowRefreshStatusSection = true;
 
                     using var realm = await VisitzRealm.GetNoteDraftAsync();
-                    var noteDraft = realm.Find<NoteDraft>(NoteDraft.MakeId(submitNoteEntity.EntityNumber, createdDate));
+                    var noteDraft = realm.Find<NoteDraft>(NoteDraft.MakeId(submitNoteEntity.EntityNumber));
 
                     await realm.WriteAsync(() =>
                     {

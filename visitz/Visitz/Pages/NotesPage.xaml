@@ -2,6 +2,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
     xmlns:models="clr-namespace:Visitz.Models"
@@ -74,6 +76,47 @@
 
             </VerticalStackLayout>
 
+            <Border 
+                StrokeThickness="0"
+                HeightRequest="50"
+                BackgroundColor="{StaticResource UnpublishedDraftBackground}"
+                HorizontalOptions="End"
+                Padding="10"
+                IsVisible="{Binding UserHasDraft}">
+                
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="4" />
+                </Border.StrokeShape>
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToNoteEntryCommand}" />
+                </Border.GestureRecognizers>
+
+                <HorizontalStackLayout Spacing="5">
+                    <Image
+                        HeightRequest="25"
+                        WidthRequest="25"
+                        VerticalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource 
+                                Glyph="{Static fonticons:MaterialIcons.Edit_document}"
+                                FontFamily="MaterialIconsRoundedUnfilled"
+                                Color="{StaticResource UnpublishedDraftTextColor}" />
+                        </Image.Source>
+                    </Image>
+
+                    <Label 
+                        Text="{local:Localize Key=HaveUnpublishedDraft}"
+                        TextColor="{StaticResource UnpublishedDraftTextColor}"
+                        VerticalOptions="Center" />
+
+                    <views:RightChevronIconView 
+                        Grid.Column="1" 
+                        VerticalOptions="Center" 
+                        Margin="10,0,0,0" />
+                </HorizontalStackLayout>
+            </Border>
+            
             <views:AddNotePlaceholderView
                 x:Name="AddNotePlaceholder"
                 IsVisible="False"

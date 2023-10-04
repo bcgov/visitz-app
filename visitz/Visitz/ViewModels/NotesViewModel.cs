@@ -44,11 +44,20 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public NoteItem latestNote;
 
-        private Realm Realm { get; set; }
+        [ObservableProperty]
+        public bool userHasDraft;
+
+        private Realm IcmDataRealm { get; set; }
+
+        private Realm DraftRealm { get; set; }
 
         private IQueryable<NoteItem> NotesQuery { get; set; }
 
+        private IQueryable<NoteDraft> DraftQuery { get; set; }
+
         private IDisposable NotesQueryToken { get; set; }
+
+        private IDisposable DraftQueryToken { get; set; }
 
         public override async void PageCreated()
         {
@@ -58,11 +67,12 @@ namespace Visitz.ViewModels
 
             WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncidentId));
 
-            Realm = await VisitzRealm.GetIcmDataAsync();
+            IcmDataRealm = await VisitzRealm.GetIcmDataAsync();
+            DraftRealm = await VisitzRealm.GetNoteDraftAsync();
 
-            CaseIncident = Realm.Find<CaseloadItem>(caseIncidentId);
+            CaseIncident = IcmDataRealm.Find<CaseloadItem>(caseIncidentId);
 
-            NotesQuery = Realm.All<NoteItem>()
+            NotesQuery = IcmDataRealm.All<NoteItem>()
                 .Where(note => note.IcmId == caseIncidentId);
             NotesQueryToken = NotesQuery.SubscribeForNotifications(Notes_Changed);
 
@@ -75,6 +85,11 @@ namespace Visitz.ViewModels
                 : LocalizedStrings.NoNotesForEntity.Format(CaseIncident.EntityType.ToLower());
 
             UpdateAddNotesPlaceholderVisibility();
+
+            (DraftQuery, DraftQueryToken) = NoteDraft.Subscribe(DraftRealm, CaseIncident.CaseIncidentNumber, 
+                Draft_Changed);
+
+            ApplyDraftQuery();
         }
 
         public override void PageDestroyed()
@@ -82,11 +97,17 @@ namespace Visitz.ViewModels
             Notes = null;
             CaseIncident = null;
 
+            DraftQueryToken.Dispose();
+            DraftQueryToken = null;
+
             NotesQueryToken.Dispose();
             NotesQueryToken = null;
 
-            Realm.Dispose();
-            Realm = null;
+            DraftRealm.Dispose();
+            DraftRealm = null;
+
+            IcmDataRealm.Dispose();
+            IcmDataRealm = null;
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
@@ -141,6 +162,11 @@ namespace Visitz.ViewModels
             Notes = notes;
         }
 
+        private void ApplyDraftQuery()
+        {
+            UserHasDraft = DraftQuery.FirstOrDefault()?.Draft?.Length > 0;
+        }
+
         private void ApplySorting(ref IEnumerable<NoteItem> notes)
         {
             notes = notes.OrderByDescending(item => NoteItem.NotePeriodDateTimeTransform(item, false))
@@ -163,6 +189,14 @@ namespace Visitz.ViewModels
                 return !NoteItem.IsCurrentNotePeriod(Notes.First());
             else
                 return false;
+        }
+
+        private void Draft_Changed(IRealmCollection<NoteDraft> sender, ChangeSet changes)
+        {
+            if (changes == null)
+                return;
+
+            ApplyDraftQuery();
         }
 
         private void Notes_Changed(IRealmCollection<NoteItem> sender, ChangeSet changes)

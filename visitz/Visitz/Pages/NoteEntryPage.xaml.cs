@@ -59,7 +59,7 @@ public partial class NoteEntryPage : VisitzPage
 
     private async Task ShowErrorText(string text)
     {
-        if (!PromptLabel.IsVisible || ErrorLabel.IsVisible)
+        if (ErrorLabel.IsVisible)
             return;
 
         ErrorLabel.Text = "❌ " + text;
@@ -67,11 +67,35 @@ public partial class NoteEntryPage : VisitzPage
         var fadeIn = new VisibilityAnimation(true, 100, Easing.CubicIn);
         var fadeOut = new VisibilityAnimation(false, 100, Easing.CubicOut);
 
-        await Task.WhenAll(fadeOut.Animate(PromptLabel), fadeIn.Animate(ErrorLabel));
+        await fadeIn.Animate(ErrorLabel);
 
         await Task.Delay(2000);
 
-        await Task.WhenAll(fadeOut.Animate(ErrorLabel), fadeIn.Animate(PromptLabel));
+        await fadeOut.Animate(ErrorLabel);
+    }
+
+    public async Task SetDraftSavedPromptVisible(bool visible)
+    {
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            if (DraftSavedTagView.IsVisible == visible)
+                return;
+
+            var visiblityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
+            await visiblityAnimation.Animate(DraftSavedTagView);
+        });
+    }
+
+    public async Task SetSavingDraftPromptVisible(bool visible)
+    {
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            if (SavingDraftTagView.IsVisible == visible)
+                return;
+
+            var visiblityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
+            await visiblityAnimation.Animate(SavingDraftTagView);
+        });
     }
 
     private async Task AnimateEditorError()

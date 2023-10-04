@@ -151,6 +151,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draft saved.
+        /// </summary>
+        internal static string DraftSaved {
+            get {
+                return ResourceManager.GetString("DraftSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ....
+        /// </summary>
+        internal static string Ellipsis {
+            get {
+                return ResourceManager.GetString("Ellipsis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable device security.
         /// </summary>
         internal static string EnableDeviceSecurity {
@@ -174,6 +192,15 @@ namespace Visitz.Resources.Localization {
         internal static string FailedToRefreshNotes {
             get {
                 return ResourceManager.GetString("FailedToRefreshNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have an unpublished draft.
+        /// </summary>
+        internal static string HaveUnpublishedDraft {
+            get {
+                return ResourceManager.GetString("HaveUnpublishedDraft", resourceCulture);
             }
         }
         

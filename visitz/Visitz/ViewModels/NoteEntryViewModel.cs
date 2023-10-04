@@ -41,19 +41,19 @@ namespace Visitz.ViewModels
             caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
             noteItem = Parameters[NoteItemKey] as NoteItem;
 
-            noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber, noteItem?.CreatedDate);
+            noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber);
 
             Title = noteItem?.PeriodOrPageNumber != null
                 ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
                 : caseIncident.DisplayName;
 
             var realm = await VisitzRealm.GetNoteDraftAsync();
-            NoteDraftQuery = realm.All<NoteDraft>()
-                .Where(draft => draft.CaseIncidentAndCreatedDateID == noteDraftId);
 
-            NoteDraftQueryToken = NoteDraftQuery.SubscribeForNotifications(NoteDraft_Changed);
+            (NoteDraftQuery, NoteDraftQueryToken) = NoteDraft.Subscribe(realm, noteDraftId, NoteDraft_Changed);
 
             ApplyDraft();
+
+            ClearDraftMessages();
         }
 
         public override void PageStopped()
@@ -100,6 +100,8 @@ namespace Visitz.ViewModels
                     noteDraft.Draft = Draft;
                 }
             });
+
+            ShowDraftSavedMessage();
         }
 
         [RelayCommand]
@@ -122,14 +124,17 @@ namespace Visitz.ViewModels
             {
                 CancelTextChangedEvent(e);
                 _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.InvalidEntry);
+                return;
             }
             else if (ExceedsCharacterLimit(e))
             {
                 CancelTextChangedEvent(e);
                 _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.CharacterLimitReached);
+                return;
             }
 
             UpdateCharLimit();
+            ShowSavingDraftMessage();
         }
 
         private bool ExceedsCharacterLimit(TextChangedEventArgs e)
@@ -159,6 +164,32 @@ namespace Visitz.ViewModels
 
             ApplyDraft();
         }
+
+        private async void ShowSavingDraftMessage()
+        {
+            await SetDraftMessageVisible(false, true);
+        }
+
+        private async void ShowDraftSavedMessage()
+        {
+            await SetDraftMessageVisible(true, false);
+        }
+
+        private async void ClearDraftMessages()
+        {
+            await SetDraftMessageVisible(false, false);
+        }
+
+        private async Task SetDraftMessageVisible(bool draftSaved, bool savingDraft)
+        {
+            if (VisitzPage is NoteEntryPage page)
+            {
+                await Task.WhenAll
+                (
+                    page.SetDraftSavedPromptVisible(draftSaved),
+                    page.SetSavingDraftPromptVisible(savingDraft)
+                );
+            }
+        }
     }
 }
-
