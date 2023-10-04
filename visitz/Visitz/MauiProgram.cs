@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Visitz.Platforms.iOS;
 using Visitz.VisitzConfig;
 
 namespace Visitz;
@@ -28,6 +29,10 @@ public static class MauiProgram
             .ConfigureVisitzServices();
 
         VisitzDebugOptions.ConfigureVisitzDebugOptions();
+
+#if IOS
+        IOSHandlers.RegisterHandlers();
+#endif
 
         return builder.Build();
     }
