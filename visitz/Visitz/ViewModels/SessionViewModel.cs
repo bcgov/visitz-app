@@ -214,6 +214,9 @@ public partial class SessionViewModel
 
     [ObservableProperty]
     public UIModalPresentationStyle presentationStyle;
+#else
+    [ObservableProperty]
+    public object presentationStyle;
 #endif
 
     private void ApplyModalStyles(bool sessionExists)

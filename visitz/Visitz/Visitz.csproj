@@ -29,6 +29,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<AssemblyName>$(ApplicationTitle)</AssemblyName>
+		<DefaultLanguage>en</DefaultLanguage>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
@@ -46,6 +47,8 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="$(BuildTypeColor)" />
 
 		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splashicon.svg" />
+		
 		<MauiImage Include="Resources\Images\*" />
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
@@ -69,6 +72,7 @@
 	  <None Remove="Resources\Fonts\material_icons_rounded_filled.woff2" />
 	  <None Remove="Resources\Fonts\material_icons_rounded_unfilled.woff2" />
 	  <None Remove="Resources\Images\bc_logo_horizontal_reverse.svg" />
+	  <None Remove="Resources\Splash\splashicon.svg" />
 	  <None Remove="Services\" />
 	  <None Remove="Views\" />
 	  <None Remove="ViewModels\" />
@@ -79,7 +83,6 @@
 	  <None Remove="Models\BOs\" />
 	  <None Remove="Resources\Fonts\" />
 	  <None Remove="Resources\Splash\" />
-	  <None Remove="Resources\Splash\splashicon.svg" />
 	  <None Remove="Resources\Images\Authentication\fileFolder.svg" />
 	  <None Remove="Resources\Images\file_folder.svg" />
 	  <None Remove="Resources\Images\tilted_rectangle_bg.svg" />
@@ -97,7 +100,6 @@
 	  <Folder Include="ViewModels\" />
 	  <Folder Include="Authentication\" />
 	  <Folder Include="Models\" />
-	  <Folder Include="Resources\Splash\" />
 	  <Folder Include="Resources\Localization\" />
 	  <Folder Include="Localization\" />
 	  <Folder Include="Extensions\" />
@@ -105,7 +107,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <BundleResource Include="Resources\Fonts\*" />
-	  <BundleResource Include="Resources\Splash\splashicon.svg" />
 	  <BundleResource Include="Resources\Images\file_folder.svg" />
 	  <BundleResource Include="Resources\Images\tilted_rectangle_bg.svg" />
 	  <BundleResource Include="Resources\Images\note_empty.svg" />

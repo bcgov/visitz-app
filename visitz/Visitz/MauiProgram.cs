@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Maui;
-using Visitz.Platforms.iOS;
 using Visitz.VisitzConfig;
+
+#if IOS
+using Visitz.Platforms.iOS;
+#endif
 
 namespace Visitz;
 
