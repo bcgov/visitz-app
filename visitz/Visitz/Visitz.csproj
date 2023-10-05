@@ -50,6 +50,10 @@
 		<MauiSplashScreen Include="Resources\Splash\splashicon.svg" Color="$(BuildTypeColor)" BaseSize="128,128" />
 		
 		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
