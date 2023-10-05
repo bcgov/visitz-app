@@ -49,11 +49,13 @@
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splashicon.svg" Color="$(BuildTypeColor)" BaseSize="128,128" />
 		
+		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
