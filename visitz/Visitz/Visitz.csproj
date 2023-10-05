@@ -47,7 +47,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="$(BuildTypeColor)" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splashicon.svg" />
+		<MauiSplashScreen Include="Resources\Splash\splashicon.svg" Color="$(BuildTypeColor)" BaseSize="128,128" />
 		
 		<MauiImage Include="Resources\Images\*" />
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
