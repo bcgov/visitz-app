@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using VisitzApi.ErrorHandling;
 
 namespace VisitzApi.Requests
 {
@@ -30,6 +31,23 @@ namespace VisitzApi.Requests
         }
 
         public abstract HttpRequestMessage MakeRequest();
+
+        public virtual void ThrowOnHttpErrors(HttpResponseMessage response, string content)
+        {
+            if (VisitzApiException.IsErroneousStatus(response.StatusCode))
+            {
+                if (!KongJsonMessage.TryFindMessage(content, out string message))
+                    message = content;
+
+                throw new VisitzApiException(response.StatusCode, message);
+            }
+        }
+
+        public virtual void ThrowOnWebMethodsErrors(HttpResponseMessage response, string content)
+        {
+            if (WebMethodsJsonError.TryFindFirstError(content, out string errorMessage))
+                throw new VisitzApiException(response.StatusCode, errorMessage);
+        }
 
         public abstract ResponseType HandleResponse(string responseContent);
     }
