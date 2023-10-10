@@ -23,7 +23,7 @@
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray950}}" />
     </Style>
 
-    <Style TargetType="Button">
+    <Style x:Key="ButtonGlobalStyle" TargetType="Button">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
@@ -120,7 +120,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Entry">
+    <Style x:Key="EntryGlobalStyle" TargetType="Entry">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_InputControlsTextColor}, Dark={StaticResource BC_InputControlsTextColor}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BC_Background_Light}, Dark={StaticResource BC_Background_Light}}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
@@ -169,7 +169,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Label">
+    <Style x:Key="LabelGlobalStyle" TargetType="Label">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor}, Dark={StaticResource BC_TextColor}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="BCSansRegular" />
@@ -333,7 +333,7 @@
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
     </Style>
 
-    <Style TargetType="Switch">
+    <Style x:Key="SwitchGlobalStyle" TargetType="Switch">
         <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
         <Setter Property="ThumbColor" Value="{StaticResource White}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
