@@ -24,7 +24,8 @@ namespace VisitzApi
             var response = await HttpClient.SendAsync(endpoint.MakeRequest());
             string content = await response.Content.ReadAsStringAsync();
 
-            VisitzApiException.ThrowIfInvalid(response, content);
+            endpoint.ThrowOnHttpErrors(response, content);
+            endpoint.ThrowOnWebMethodsErrors(response, content);
 
             return endpoint.HandleResponse(content);
         }
