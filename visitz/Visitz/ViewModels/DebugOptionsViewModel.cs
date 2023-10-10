@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Visitz.Authentication.Keycloak;
+using Visitz.Settings;
 using Visitz.Storage;
 
 namespace Visitz.ViewModels
@@ -19,6 +20,18 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool dryFireSubmitNotesSimulateSuccess;
 
+        [ObservableProperty]
+        public string appId;
+
+        [ObservableProperty]
+        public string dotnetVersion;
+
+        [ObservableProperty]
+        public string apiDomain;
+
+        [ObservableProperty]
+        public string authenticationDomain;
+
         public override void PageStarted()
         {
             base.PageStarted();
@@ -27,6 +40,14 @@ namespace Visitz.ViewModels
             ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;
             DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
             DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
+
+            AppId = AppInfo.Current.PackageName;
+            DotnetVersion = Environment.Version.ToString();
+
+            var settings = new AppSettings();
+
+            ApiDomain = settings.Api.ApiDomain;
+            AuthenticationDomain = settings.Oidc.AuthenticationDomain;
         }
 
         partial void OnIdirOverrideChanged(string value)
