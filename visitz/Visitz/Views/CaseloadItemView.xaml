@@ -10,7 +10,7 @@
     
     <VerticalStackLayout Padding="20,0,20,0" Margin="0,0,0,10">
         <Border Stroke="#DFDFE1"
-                StrokeThickness="2"
+                StrokeThickness="1"
                 Padding="10"
                 HorizontalOptions="Fill">
             <Border.GestureRecognizers>
