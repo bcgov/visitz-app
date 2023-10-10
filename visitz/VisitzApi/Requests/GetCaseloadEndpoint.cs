@@ -1,6 +1,7 @@
 ﻿using VisitzApi.Models;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using VisitzApi.ErrorHandling;
 
 namespace VisitzApi.Requests
 {
@@ -15,6 +16,8 @@ namespace VisitzApi.Requests
 
         private static readonly string ListCaseIncidentKey = "listCaseIncident";
         private static readonly string ListCaseIncidentsListKey = "listCaseIncidents";
+
+        private static readonly string NoRecordsFoundError = "No records found";
 
         private readonly string[] _workerIds;
 
@@ -59,8 +62,23 @@ namespace VisitzApi.Requests
             };
         }
 
+        public override void ThrowOnWebMethodsErrors(HttpResponseMessage response, string content)
+        {
+            if (WebMethodsJsonError.TryFindFirstError(content, out string errorMessage))
+            {
+                // Because of questionable API design, we're treating this "No records found" message as the equivalent
+                // of an HTTP 200 empty reponse. Any other error message should trigger an exception.
+                if (errorMessage != NoRecordsFoundError)
+                    throw new VisitzApiException(response.StatusCode, errorMessage);
+            }
+        }
+
         public override IEnumerable<CaseloadEntity> HandleResponse(string responseContent)
         {
+            if (WebMethodsJsonError.TryFindFirstError(responseContent, out string errorMessage))
+                if (errorMessage == NoRecordsFoundError)
+                    return new List<CaseloadEntity>();
+
             var caseloadJson = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty(ListCaseIncidentKey)
