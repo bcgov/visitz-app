@@ -8,122 +8,127 @@
                   Title="Debug Options"
                   ControlTemplate="{StaticResource VisitzPageWrapper}">
 
-    <Grid Padding="16" ColumnSpacing="16" RowSpacing="16">
+
+    <ScrollView>
+    
+        <Grid Padding="16" ColumnSpacing="16" RowSpacing="16">
         
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
         
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Label 
-            Grid.Row="0"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Current session IDIR override" />
+            <Label 
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                Text="Current session IDIR override" />
 
-        <Entry 
-            Grid.Row="0"
-            Grid.Column="1"
-            VerticalOptions="Center"
-            HorizontalOptions="Start"
-            WidthRequest="200"
-            Text="{Binding IdirOverride}" />
+            <Entry 
+                Grid.Row="0"
+                Grid.Column="1"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                WidthRequest="200"
+                Text="{Binding IdirOverride}" />
 
-        <Label
-            Grid.Row="1"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Token actions" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                Text="Token actions" />
 
-        <Button 
-            Grid.Row="1"
-            Grid.Column="1"
-            Command="{Binding DeleteAccessTokenCommand}" 
-            HorizontalOptions="Start"
-            Text="Delete access token"/>
+            <Button 
+                Grid.Row="1"
+                Grid.Column="1"
+                Command="{Binding DeleteAccessTokenCommand}" 
+                HorizontalOptions="Start"
+                Text="Delete access token"/>
 
-        <Button 
-            Grid.Row="2"
-            Grid.Column="1"
-            Command="{Binding DeleteRefreshTokenCommand}"
-            HorizontalOptions="Start"
-            Text="Delete refresh token" />
+            <Button 
+                Grid.Row="2"
+                Grid.Column="1"
+                Command="{Binding DeleteRefreshTokenCommand}"
+                HorizontalOptions="Start"
+                Text="Delete refresh token" />
 
-        <Button 
-            Grid.Row="3"
-            Grid.Column="1"
-            Command="{Binding LogoutCommand}"
-            HorizontalOptions="Start"
-            Text="Logout" />
+            <Button 
+                Grid.Row="3"
+                Grid.Column="1"
+                Command="{Binding LogoutCommand}"
+                HorizontalOptions="Start"
+                Text="Logout" />
 
-        <Label
-            Grid.Row="4"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Local database actions" />
+            <Label
+                Grid.Row="4"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                Text="Local database actions" />
 
-        <Button 
-            Grid.Row="4"
-            Grid.Column="1"
-            Command="{Binding ClearRealmDataCommand}"
-            HorizontalOptions="Start"
-            Text="Clear all data" />
+            <Button 
+                Grid.Row="4"
+                Grid.Column="1"
+                Command="{Binding ClearRealmDataCommand}"
+                HorizontalOptions="Start"
+                Text="Clear all data" />
 
-        <Button 
-            Grid.Row="5"
-            Grid.Column="1"
-            Command="{Binding DeleteEncryptionKeyCommand}"
-            HorizontalOptions="Start"
-            Text="Delete encryption key" />
+            <Button 
+                Grid.Row="5"
+                Grid.Column="1"
+                Command="{Binding DeleteEncryptionKeyCommand}"
+                HorizontalOptions="Start"
+                Text="Delete encryption key" />
 
-        <Label
-            Grid.Row="6"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Show NoteItemView debug info"/>
+            <Label
+                Grid.Row="6"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                Text="Show NoteItemView debug info"/>
 
-        <Switch
-            Grid.Row="6"
-            Grid.Column="1"
-            VerticalOptions="Center"
-            IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
+            <Switch
+                Grid.Row="6"
+                Grid.Column="1"
+                VerticalOptions="Center"
+                IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
 
-        <Label
-            Grid.Row="7"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Dry-fire SubmitNotes"/>
+            <Label
+                Grid.Row="7"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                Text="Dry-fire SubmitNotes"/>
 
-        <Switch
-            Grid.Row="7"
-            Grid.Column="1"
-            VerticalOptions="Center"
-            IsToggled="{Binding DryFireSubmitNotes}"/>
+            <Switch
+                Grid.Row="7"
+                Grid.Column="1"
+                VerticalOptions="Center"
+                IsToggled="{Binding DryFireSubmitNotes}"/>
 
-        <Label
-            Grid.Row="8"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Dry-fire SubmitNotes: simulate success"/>
+            <Label
+                Grid.Row="8"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                Text="Dry-fire SubmitNotes: simulate success"/>
 
-        <Switch
-            Grid.Row="8"
-            Grid.Column="1"
-            VerticalOptions="Center"
-            IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
+            <Switch
+                Grid.Row="8"
+                Grid.Column="1"
+                VerticalOptions="Center"
+                IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
 
-    </Grid>
+        </Grid>
+        
+    </ScrollView>
 
 </pages:VisitzPage>
