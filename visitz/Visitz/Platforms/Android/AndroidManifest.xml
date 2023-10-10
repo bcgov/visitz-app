@@ -11,5 +11,5 @@
 			<action android:name="android.support.customtabs.action.CustomTabsService" />
 		</intent>
 	</queries>
-	<uses-sdk android:minSdkVersion="33" android:targetSdkVersion="33" />
+	<uses-sdk android:minSdkVersion="34" android:targetSdkVersion="34" />
 </manifest>
