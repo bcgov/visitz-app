@@ -9,26 +9,16 @@
                   ControlTemplate="{StaticResource VisitzPageWrapper}">
 
     <pages:VisitzPage.Resources>
-        <Style TargetType="Label" BasedOn="{StaticResource LabelGlobalStyle}">
-            <Setter Property="FontSize" Value="16" />
+        <Style TargetType="View" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugLayout">
             <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style TargetType="Label" CanCascade="True" Class="DebugLabel">
+            <Setter Property="FontSize" Value="16" />
             <Setter Property="Padding" Value="10" />
-            <Setter Property="VerticalOptions" Value="Center" />
         </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource ButtonGlobalStyle}">
+        <Style TargetType="InputView" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugInputView">
             <Setter Property="FontSize" Value="16" />
-            <Setter Property="HorizontalOptions" Value="Start" />
-            <Setter Property="Padding" Value="12" />
-            <Setter Property="VerticalOptions" Value="Center" />
-        </Style>
-        <Style TargetType="Entry" BasedOn="{StaticResource EntryGlobalStyle}">
-            <Setter Property="HorizontalOptions" Value="Start" />
-            <Setter Property="FontSize" Value="15" />
-            <Setter Property="VerticalOptions" Value="Center" />
-        </Style>
-        <Style TargetType="Switch" BasedOn="{StaticResource SwitchGlobalStyle}">
-            <Setter Property="HorizontalOptions" Value="Start" />
-            <Setter Property="VerticalOptions" Value="Center" />
         </Style>
     </pages:VisitzPage.Resources>
 
@@ -61,88 +51,104 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label 
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="0"
                 Grid.Column="0"
                 Text="Current session IDIR override" />
 
             <Entry 
+                StyleClass="DebugLayout,DebugInputView"
                 Grid.Row="0"
                 Grid.Column="1"
                 WidthRequest="200"
                 Text="{Binding IdirOverride}" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="1"
                 Grid.Column="0"
                 Text="Token actions" />
 
-            <Button 
+            <Button
+                StyleClass="DebugLayout"
                 Grid.Row="1"
                 Grid.Column="1"
                 Command="{Binding DeleteAccessTokenCommand}"
                 Text="Delete access token"/>
 
-            <Button 
+            <Button
+                StyleClass="DebugLayout"
                 Grid.Row="2"
                 Grid.Column="1"
                 Command="{Binding DeleteRefreshTokenCommand}"
                 Text="Delete refresh token" />
 
-            <Button 
+            <Button
+                StyleClass="DebugLayout"
                 Grid.Row="3"
                 Grid.Column="1"
                 Command="{Binding LogoutCommand}"
                 Text="Logout" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="4"
                 Grid.Column="0"
                 Text="Local database actions" />
 
-            <Button 
+            <Button
+                StyleClass="DebugLayout"
                 Grid.Row="4"
                 Grid.Column="1"
                 Command="{Binding ClearRealmDataCommand}"
                 Text="Clear all data" />
 
-            <Button 
+            <Button
+                StyleClass="DebugLayout"
                 Grid.Row="5"
                 Grid.Column="1"
                 Command="{Binding DeleteEncryptionKeyCommand}"
                 Text="Delete encryption key" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="6"
                 Grid.Column="0"
                 Text="Show NoteItemView debug info"/>
 
             <Switch
+                StyleClass="DebugLayout"
                 Grid.Row="6"
                 Grid.Column="1"
                 IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="7"
                 Grid.Column="0"
                 Text="Dry-fire SubmitNotes"/>
 
             <Switch
+                StyleClass="DebugLayout"
                 Grid.Row="7"
                 Grid.Column="1"
                 IsToggled="{Binding DryFireSubmitNotes}"/>
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="8"
                 Grid.Column="0"
                 Text="Dry-fire SubmitNotes: simulate success"/>
 
             <Switch
+                StyleClass="DebugLayout"
                 Grid.Row="8"
                 Grid.Column="1"
                 IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="9"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
@@ -152,26 +158,31 @@
                 Text="App information" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="10"
                 Grid.Column="0"
                 Text="App ID" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="10"
                 Grid.Column="1"
                 Text="{Binding AppId}" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="11"
                 Grid.Column="0"
                 Text=".NET version" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="11"
                 Grid.Column="1"
                 Text="{Binding DotnetVersion}" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="12"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
@@ -181,21 +192,25 @@
                 Text="Compile-time settings" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="13"
                 Grid.Column="0"
                 Text="ApiDomain" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="13"
                 Grid.Column="1"
                 Text="{Binding ApiDomain}" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="14"
                 Grid.Column="0"
                 Text="AuthenticationDomain" />
 
             <Label
+                StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="14"
                 Grid.Column="1"
                 Text="{Binding AuthenticationDomain}" />
