@@ -6,9 +6,7 @@
              xmlns:views="clr-namespace:Visitz.Views"
              xmlns:fonticons="clr-namespace:Visitz.FontIcons"
              x:Class="Visitz.Views.NoteItemView"
-             x:DataType="models:NoteItem"
-             x:Name="this"
-             >
+             x:DataType="models:NoteItem">
     
     <VerticalStackLayout Margin="20,10,20,0">
         <Border  
