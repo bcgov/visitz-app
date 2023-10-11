@@ -5,15 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <ControlTemplate x:Key="VisitzPageWrapper">
-        <Grid
-            RowDefinitions="3,*">
-            <Line
-                Grid.Row="0"
-                HeightRequest="3"
-                BackgroundColor="{StaticResource BC_Gold}" />
+        <StackLayout>
+            <BoxView HeightRequest="3" Color="{StaticResource BC_Gold}" />
 
-            <ContentPresenter
-                Grid.Row="1" />
-        </Grid>
+            <ContentPresenter VerticalOptions="FillAndExpand" />
+        </StackLayout>
     </ControlTemplate>
 </ResourceDictionary>
