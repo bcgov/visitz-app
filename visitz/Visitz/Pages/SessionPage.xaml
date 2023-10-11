@@ -14,9 +14,11 @@
     ios:Page.ModalPresentationStyle="{Binding PresentationStyle}">
 
     <ContentPage.Resources>
-        <Style TargetType="Button">
+        <Style TargetType="Button" Class="GoldBorderButton">
             <Setter Property="BorderColor" Value="{StaticResource BC_Gold}" />
             <Setter Property="BorderWidth" Value="1" />
+        </Style>
+        <Style TargetType="Button" Class="SessionButtonLayout">
             <Setter Property="FontSize" Value="20" />
             <Setter Property="Padding" Value="50,20,50,20" />
             <Setter Property="FontFamily" Value="BCSansBold" />
@@ -72,6 +74,7 @@
         <Button 
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,.5"
+            StyleClass="SessionButtonLayout,GoldBorderButton"
             Text="{local:Localize Login}"
             Command="{Binding LoginAsyncCommand}"
             IsVisible="{Binding ShowLoginLayout}" />
@@ -111,14 +114,15 @@
 
             <Button 
                 Text="{local:Localize Logout}"
-                BackgroundColor="Transparent"
-                BorderColor="White"
+                Style="{StaticResource transparentInSolidBG}"
+                StyleClass="SessionButtonLayout"
                 Command="{Binding TryLogoutAsyncCommand}"
                 IsVisible="{Binding IsUnauthorized}" />
 
             <Border
                 Stroke="White"
-                StrokeThickness="2"
+                StrokeThickness="1"
+                Padding="5,0,5,0"
                 IsVisible="{Binding IsUnauthorized}">
                 
                 <Border.StrokeShape>
@@ -147,6 +151,7 @@
                 business-side process for authorizing users has been ironed
                 out.-->
                 <Button 
+                    StyleClass="SessionButtonLayout,GoldBorderButton"
                     Text="{local:Localize Request Access}"
                     Command="{Binding RequestAccessAsyncCommand}"
                     IsVisible="{Binding IsUnauthorized}" />
@@ -158,6 +163,7 @@
         <Button 
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds=".5,.5"
+            StyleClass="SessionButtonLayout,GoldBorderButton"
             Text="{local:Localize Logout}"
             Command="{Binding TryLogoutAsyncCommand}"
             IsVisible="{Binding IsAuthorized}" />
