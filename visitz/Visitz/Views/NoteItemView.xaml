@@ -7,9 +7,10 @@
              xmlns:fonticons="clr-namespace:Visitz.FontIcons"
              x:Class="Visitz.Views.NoteItemView"
              x:DataType="models:NoteItem"
-             x:Name="this">
+             x:Name="this"
+             >
     
-    <VerticalStackLayout Margin="0,10,0,0">
+    <VerticalStackLayout Margin="20,10,20,0">
         <Border  
             Stroke="#DFDFE1"
             StrokeThickness="1"
