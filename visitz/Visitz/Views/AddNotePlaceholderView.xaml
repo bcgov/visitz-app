@@ -9,7 +9,7 @@
     <VerticalStackLayout>
         <Border  
             Stroke="#DFDFE1"
-            StrokeThickness="2"
+            StrokeThickness="1"
             Padding="20,20"
             HorizontalOptions="Fill"
             BindingContext="{x:Reference this}">
