@@ -44,6 +44,7 @@ public abstract partial class VisitzPage : ContentPage
     {
         ConsoleTrace.TraceMethod(this);
 
+        Behaviors.Clear();
         ViewModel.DetachFromLifecycle(CurrentWindow);
         ViewModel.PageDestroyed();
     }
