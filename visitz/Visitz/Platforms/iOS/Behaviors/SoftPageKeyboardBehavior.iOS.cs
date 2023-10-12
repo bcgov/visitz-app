@@ -1,6 +1,5 @@
 ﻿using CoreGraphics;
 using Foundation;
-using System.Runtime.InteropServices;
 using UIKit;
 
 namespace Visitz.Behaviors;
@@ -26,19 +25,20 @@ partial class SoftPageKeyboardBehavior
         ObserveHideToken = null;
     }
 
-    NFloat KeyboardHeight = 0;
-
     void OnKeyboardShowing(object sender, UIKeyboardEventArgs args)
     {
-        CGRect kbFrame = UIKeyboard.FrameEndFromNotification(args.Notification);
-        KeyboardHeight = kbFrame.Height;
+        CGRect beginFrame = UIKeyboard.FrameBeginFromNotification(args.Notification);
+        CGRect endFrame = UIKeyboard.FrameEndFromNotification(args.Notification);
 
-        SetBottomPadding(Page.Padding.Bottom + KeyboardHeight);
+        if (beginFrame.Y != endFrame.Y)
+            SetBottomPadding(Page.Padding.Bottom + endFrame.Height);
     }
 
     void OnKeyboardHiding(object sender, UIKeyboardEventArgs args)
     {
-        SetBottomPadding(Page.Padding.Bottom - KeyboardHeight);
+        CGRect beginFrame = UIKeyboard.FrameBeginFromNotification(args.Notification);
+
+        SetBottomPadding(Page.Padding.Bottom - beginFrame.Height);
     }
 
     void SetBottomPadding(double bottomSize)
