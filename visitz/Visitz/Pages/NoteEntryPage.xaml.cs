@@ -13,25 +13,6 @@ public partial class NoteEntryPage : VisitzPage
         BindingContext = viewModel;
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        RootGrid.KeyboardAppearanceEvent += Grid_KeyboardAppearanceEvent;
-    }
-
-    protected override void OnDisappearing()
-    {
-        RootGrid.KeyboardAppearanceEvent -= Grid_KeyboardAppearanceEvent;
-
-        base.OnDisappearing();
-    }
-
-    void Grid_KeyboardAppearanceEvent(object sender, EventArgs e)
-    {
-        UpdateLayout(Width, Height);
-    }
-
     public static async Task Open(Page fromPage, CaseloadItem caseIncident, NoteItem noteItem)
     {
         await NavigateTo<NoteEntryPage>(fromPage, new Dictionary<string, object>
@@ -39,12 +20,6 @@ public partial class NoteEntryPage : VisitzPage
             { NoteEntryViewModel.NoteItemKey, noteItem },
             { NoteEntryViewModel.CaseIncidentKey, caseIncident }
         });
-    }
-
-    protected override void OnSizeAllocated(double width, double height)
-    {
-        base.OnSizeAllocated(width, height);
-        UpdateLayout(width, height);
     }
 
     void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
@@ -104,35 +79,10 @@ public partial class NoteEntryPage : VisitzPage
         await vibrateErrorAnim.Animate(NotesEditor);
     }
 
-    private void UpdateLayout(double width, double height)
+    private void FocusBottom()
     {
-        var resizableRowHeight = height;
-        resizableRowHeight -= (
-            TitleRow.Height.Value
-            + DescriptionRow.Height.Value
-            + RootGrid.RowSpacing
-            + RootGrid.Padding.Top
-            + RootGrid.Padding.Bottom
-            + RootGrid.KeyboardHeight
-        );
-        if (resizableRowHeight > 0)
-        {
-            // This was done because of a Grid layout issue. (18 June 2023)
-            // Issue: ScrollView inside a Grid's row breaks the Grid's layout and
-            // goes past the device screen's visible area to a certain extent.
-            // Fix: Setting the row height manually seems to prevent the scroll from going beyond the limits.
-            EditorRow.Height = resizableRowHeight;
-            EditorScroll.HeightRequest = resizableRowHeight;
-        }
-        FocusBottom();
-    }
-
-    private async void FocusBottom()
-    {
-        NotesEditor.Focus();
         NotesEditor.CursorPosition = NotesEditor.Text?.Length ?? 0;
-        await Task.Delay(200);
-        await EditorScroll.ScrollToAsync(NotesEditor, ScrollToPosition.End, true);
+        NotesEditor.Focus();
     }
 
     void Scroll_To_Bottom_Clicked(object sender, EventArgs e)
