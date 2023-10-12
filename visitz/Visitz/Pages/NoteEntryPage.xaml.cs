@@ -81,8 +81,8 @@ public partial class NoteEntryPage : VisitzPage
             if (DraftSavedTagView.IsVisible == visible)
                 return;
 
-            var visiblityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
-            await visiblityAnimation.Animate(DraftSavedTagView);
+            var visibilityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
+            await visibilityAnimation.Animate(DraftSavedTagView);
         });
     }
 
@@ -93,8 +93,8 @@ public partial class NoteEntryPage : VisitzPage
             if (SavingDraftTagView.IsVisible == visible)
                 return;
 
-            var visiblityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
-            await visiblityAnimation.Animate(SavingDraftTagView);
+            var visibilityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
+            await visibilityAnimation.Animate(SavingDraftTagView);
         });
     }
 
