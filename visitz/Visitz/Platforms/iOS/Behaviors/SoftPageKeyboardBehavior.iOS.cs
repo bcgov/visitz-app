@@ -31,18 +31,22 @@ partial class SoftPageKeyboardBehavior
         CGRect endFrame = UIKeyboard.FrameEndFromNotification(args.Notification);
 
         if (beginFrame.Y != endFrame.Y)
+        {
             SetBottomPadding(Page.Padding.Bottom + endFrame.Height);
+
+            ConsoleTrace.TraceMethod(this, $"keyboard.beginFrame: {beginFrame} / keyboard.endFrame: {endFrame}");
+        }
     }
 
     void OnKeyboardHiding(object sender, UIKeyboardEventArgs args)
     {
         SetBottomPadding(InitialBottomPadding);
 
+        ConsoleTrace.TraceMethod(this, $"restoring initial bottom padding ('{InitialBottomPadding}')");
     }
 
     void SetBottomPadding(double bottomSize)
     {
         Page.Padding = new Thickness(Page.Padding.Left, Page.Padding.Top, Page.Padding.Right, bottomSize);
     }
-
 }
