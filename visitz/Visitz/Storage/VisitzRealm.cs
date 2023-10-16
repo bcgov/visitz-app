@@ -8,11 +8,11 @@ public class VisitzRealm
     public static readonly string IcmDataCopiesPath = "icmDataCopies.realm";
     public static readonly string NoteDraftRealmPath = "noteDraftRealm.realm";
 
-    private static async Task<Realm> GetInstanceAsync(string path)
+    private static async Task<Realm> GetInstanceAsync(string realmFilename)
     {
-        return await Realm.GetInstanceAsync(new RealmConfiguration(path)
+        return await Realm.GetInstanceAsync(new RealmConfiguration(realmFilename)
         {
-            EncryptionKey = await VisitzKey.GetKey(path),
+            EncryptionKey = await VisitzKey.GetKey(realmFilename),
 #if DEBUG
             ShouldDeleteIfMigrationNeeded = true
 #endif
