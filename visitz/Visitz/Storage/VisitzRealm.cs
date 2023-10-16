@@ -1,6 +1,10 @@
 ﻿using Realms;
 using Realms.Exceptions;
 
+#if WINDOWS
+using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
+#endif
+
 namespace Visitz.Storage;
 
 public class VisitzRealm
@@ -8,15 +12,30 @@ public class VisitzRealm
     public static readonly string IcmDataCopiesPath = "icmDataCopies.realm";
     public static readonly string NoteDraftRealmPath = "noteDraftRealm.realm";
 
-    private static async Task<Realm> GetInstanceAsync(string path)
+    private static async Task<RealmConfiguration> MakeConfigAsync(string realmPath)
     {
-        return await Realm.GetInstanceAsync(new RealmConfiguration(path)
+        return new RealmConfiguration(realmPath)
         {
-            EncryptionKey = await VisitzKey.GetKey(path),
+            EncryptionKey = await VisitzKey.GetKey(realmPath),
 #if DEBUG
             ShouldDeleteIfMigrationNeeded = true
 #endif
-        });
+        };
+    }
+
+    private static async Task<Realm> GetInstanceAsync(string realmFilename)
+    {
+#if WINDOWS
+        var realmPath = Path.Combine(MauiFileSystem.Current.AppDataDirectory, realmFilename);
+        var realmConfig = await MakeConfigAsync(realmPath);
+#else
+        // For non-Windows builds, we'll continue to get the Realm file using the default path that
+        // Realm provides (for backwards capability).
+        var realmConfig = await MakeConfigAsync(realmFilename);
+#endif
+        ConsoleTrace.TraceMethod(typeof(VisitzRealm), $"GetInstanceAsync('{realmConfig.DatabasePath}')");
+
+        return await Realm.GetInstanceAsync(realmConfig);
     }
 
     private static async Task<Realm> ErrorNewInstanceAsync(string path, Exception ex)
