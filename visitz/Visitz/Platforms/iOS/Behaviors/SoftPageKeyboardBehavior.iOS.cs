@@ -36,9 +36,8 @@ partial class SoftPageKeyboardBehavior
 
     void OnKeyboardHiding(object sender, UIKeyboardEventArgs args)
     {
-        CGRect beginFrame = UIKeyboard.FrameBeginFromNotification(args.Notification);
+        SetBottomPadding(InitialBottomPadding);
 
-        SetBottomPadding(Page.Padding.Bottom - beginFrame.Height);
     }
 
     void SetBottomPadding(double bottomSize)

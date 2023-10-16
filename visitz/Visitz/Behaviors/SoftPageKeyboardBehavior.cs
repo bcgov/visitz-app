@@ -4,10 +4,13 @@ partial class SoftPageKeyboardBehavior : Behavior<Page>
 {
     Page Page { get; set; }
 
+    double InitialBottomPadding { get; set; }
+
     protected override void OnAttachedTo(Page bindable)
     {
         base.OnAttachedTo(bindable);
         Page = bindable;
+        InitialBottomPadding = Page.Padding.Bottom;
 
         Attach();
     }
