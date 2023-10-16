@@ -1,6 +1,10 @@
 ﻿using Realms;
 using Realms.Exceptions;
 
+#if WINDOWS
+using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
+#endif
+
 namespace Visitz.Storage;
 
 public class VisitzRealm
@@ -21,8 +25,14 @@ public class VisitzRealm
 
     private static async Task<Realm> GetInstanceAsync(string realmFilename)
     {
+#if WINDOWS
+        var realmPath = Path.Combine(MauiFileSystem.Current.AppDataDirectory, realmFilename);
+        var realmConfig = await MakeConfigAsync(realmPath);
+#else
+        // For non-Windows builds, we'll continue to get the Realm file using the default path that
+        // Realm provides (for backwards capability).
         var realmConfig = await MakeConfigAsync(realmFilename);
-
+#endif
         ConsoleTrace.TraceMethod(typeof(VisitzRealm), $"GetInstanceAsync('{realmConfig.DatabasePath}')");
 
         return await Realm.GetInstanceAsync(realmConfig);
