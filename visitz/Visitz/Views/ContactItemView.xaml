@@ -12,7 +12,7 @@
     <Border
         x:Name="ContainerBorder"
         Stroke="#DFDFE1"
-        StrokeThickness="2"
+        StrokeThickness="1"
         Padding="20">
 
         <Border.StrokeShape>

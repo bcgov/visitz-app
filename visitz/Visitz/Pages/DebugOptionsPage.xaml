@@ -8,122 +8,215 @@
                   Title="Debug Options"
                   ControlTemplate="{StaticResource VisitzPageWrapper}">
 
-    <Grid Padding="16" ColumnSpacing="16" RowSpacing="16">
+    <pages:VisitzPage.Resources>
+        <Style TargetType="View" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugLayout">
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style TargetType="Label" CanCascade="True" Class="DebugLabel">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+        <Style TargetType="InputView" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugInputView">
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+    </pages:VisitzPage.Resources>
+
+    <ScrollView>
+    
+        <Grid Padding="8" ColumnSpacing="16" RowSpacing="16">
         
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
         
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Label 
-            Grid.Row="0"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Current session IDIR override" />
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Current session IDIR override" />
 
-        <Entry 
-            Grid.Row="0"
-            Grid.Column="1"
-            VerticalOptions="Center"
-            HorizontalOptions="Start"
-            WidthRequest="200"
-            Text="{Binding IdirOverride}" />
+            <Entry 
+                StyleClass="DebugLayout,DebugInputView"
+                Grid.Row="0"
+                Grid.Column="1"
+                WidthRequest="200"
+                Text="{Binding IdirOverride}" />
 
-        <Label
-            Grid.Row="1"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Token actions" />
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Token actions" />
 
-        <Button 
-            Grid.Row="1"
-            Grid.Column="1"
-            Command="{Binding DeleteAccessTokenCommand}" 
-            HorizontalOptions="Start"
-            Text="Delete access token"/>
+            <Button
+                StyleClass="DebugLayout"
+                Grid.Row="1"
+                Grid.Column="1"
+                Command="{Binding DeleteAccessTokenCommand}"
+                Text="Delete access token"/>
 
-        <Button 
-            Grid.Row="2"
-            Grid.Column="1"
-            Command="{Binding DeleteRefreshTokenCommand}"
-            HorizontalOptions="Start"
-            Text="Delete refresh token" />
+            <Button
+                StyleClass="DebugLayout"
+                Grid.Row="2"
+                Grid.Column="1"
+                Command="{Binding DeleteRefreshTokenCommand}"
+                Text="Delete refresh token" />
 
-        <Button 
-            Grid.Row="3"
-            Grid.Column="1"
-            Command="{Binding LogoutCommand}"
-            HorizontalOptions="Start"
-            Text="Logout" />
+            <Button
+                StyleClass="DebugLayout"
+                Grid.Row="3"
+                Grid.Column="1"
+                Command="{Binding LogoutCommand}"
+                Text="Logout" />
 
-        <Label
-            Grid.Row="4"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Local database actions" />
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="4"
+                Grid.Column="0"
+                Text="Local database actions" />
 
-        <Button 
-            Grid.Row="4"
-            Grid.Column="1"
-            Command="{Binding ClearRealmDataCommand}"
-            HorizontalOptions="Start"
-            Text="Clear all data" />
+            <Button
+                StyleClass="DebugLayout"
+                Grid.Row="4"
+                Grid.Column="1"
+                Command="{Binding ClearRealmDataCommand}"
+                Text="Clear all data" />
 
-        <Button 
-            Grid.Row="5"
-            Grid.Column="1"
-            Command="{Binding DeleteEncryptionKeyCommand}"
-            HorizontalOptions="Start"
-            Text="Delete encryption key" />
+            <Button
+                StyleClass="DebugLayout"
+                Grid.Row="5"
+                Grid.Column="1"
+                Command="{Binding DeleteEncryptionKeyCommand}"
+                Text="Delete encryption key" />
 
-        <Label
-            Grid.Row="6"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Show NoteItemView debug info"/>
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="6"
+                Grid.Column="0"
+                Text="Show NoteItemView debug info"/>
 
-        <Switch
-            Grid.Row="6"
-            Grid.Column="1"
-            VerticalOptions="Center"
-            IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
+            <Switch
+                StyleClass="DebugLayout"
+                Grid.Row="6"
+                Grid.Column="1"
+                IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
 
-        <Label
-            Grid.Row="7"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Dry-fire SubmitNotes"/>
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="7"
+                Grid.Column="0"
+                Text="Dry-fire SubmitNotes"/>
 
-        <Switch
-            Grid.Row="7"
-            Grid.Column="1"
-            VerticalOptions="Center"
-            IsToggled="{Binding DryFireSubmitNotes}"/>
+            <Switch
+                StyleClass="DebugLayout"
+                Grid.Row="7"
+                Grid.Column="1"
+                IsToggled="{Binding DryFireSubmitNotes}"/>
 
-        <Label
-            Grid.Row="8"
-            Grid.Column="0"
-            VerticalOptions="Center"
-            Text="Dry-fire SubmitNotes: simulate success"/>
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="8"
+                Grid.Column="0"
+                Text="Dry-fire SubmitNotes: simulate success"/>
 
-        <Switch
-            Grid.Row="8"
-            Grid.Column="1"
-            VerticalOptions="Center"
-            IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
+            <Switch
+                StyleClass="DebugLayout"
+                Grid.Row="8"
+                Grid.Column="1"
+                IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
 
-    </Grid>
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="9"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="FillAndExpand"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="App information" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="10"
+                Grid.Column="0"
+                Text="App ID" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="10"
+                Grid.Column="1"
+                Text="{Binding AppId}" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="11"
+                Grid.Column="0"
+                Text=".NET version" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="11"
+                Grid.Column="1"
+                Text="{Binding DotnetVersion}" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="12"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="FillAndExpand"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Compile-time settings" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="13"
+                Grid.Column="0"
+                Text="ApiDomain" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="13"
+                Grid.Column="1"
+                Text="{Binding ApiDomain}" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="14"
+                Grid.Column="0"
+                Text="AuthenticationDomain" />
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                Grid.Row="14"
+                Grid.Column="1"
+                Text="{Binding AuthenticationDomain}" />
+
+        </Grid>
+        
+    </ScrollView>
 
 </pages:VisitzPage>

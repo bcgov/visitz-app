@@ -41,7 +41,10 @@ public partial class CaseloadPage : VisitzPage
     private async void CaseloadSearchBar_SearchButtonPressed(object sender, EventArgs e)
     {
         ViewModel.SearchCaseload();
+
+#if !MACCATALYST
         await CaseloadSearchBar.HideKeyboardAsync(CancellationToken.None);
+#endif
     }
 
     private void CaseloadSearchBar_TextChanged(object sender, TextChangedEventArgs e)
