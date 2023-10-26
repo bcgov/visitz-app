@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Navigation.NavRailView"
+    x:DataType="nav:NavRailView"
+    BackgroundColor="{StaticResource BC_Blue}">
+
+    <AbsoluteLayout>
+
+        <toolkit:AvatarView 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,0"
+            Text="TS" 
+            BackgroundColor="{StaticResource Blue300Accent}"
+            FontFamily="BCSansBold"
+            Margin="0,10,0,150">
+            
+            <toolkit:AvatarView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </toolkit:AvatarView.GestureRecognizers>
+            
+        </toolkit:AvatarView>
+
+        
+        <!--
+            There is some weird layout behaviour with collection view. It seems to add horizontal padding on its own,
+            so we'll explicitly set its width to get rid of it. This also had a weird side-effect of vertically 
+            shrinking its DataTemplate, so we'll set a specific height for the items as well.
+        -->
+        <CollectionView
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds=".5,.5"
+            SelectionMode="Single"
+            SelectionChanged="CollectionView_SelectionChanged"
+            WidthRequest="90">
+
+            <CollectionView.ItemsSource>
+
+                <x:Array Type="{x:Type models:NavItem}">
+
+                    <models:NavItem
+                        Text="Caseload"
+                        Color="White"
+                        IconSize="30"
+                        SelectedImageSource="{FontImage 
+                            Glyph={x:Static icons:MaterialIcons.Folder_open}, 
+                            FontFamily=MaterialIconsRoundedFilled}"
+                        UnselectedImageSource="{FontImage 
+                            Glyph={x:Static icons:MaterialIcons.Folder_open}, 
+                            FontFamily=MaterialIconsRoundedUnfilled}"/>
+
+                    <models:NavItem
+                        Text="Actions"
+                        Color="White"
+                        IconSize="30"
+                        SelectedImageSource="{FontImage 
+                            Glyph={x:Static icons:FluentIcons.Target_20_filled}, 
+                            FontFamily=FluentIconsRegular}"
+                        UnselectedImageSource="{FontImage 
+                            Glyph={x:Static icons:FluentIcons.Target_20_regular}, 
+                            FontFamily=FluentIconsRegular}"/>
+
+                    <models:NavItem
+                        Text="Debug"
+                        Color="White"
+                        IconSize="30"
+                        SelectedImageSource="{FontImage 
+                            Glyph={x:Static icons:FluentIcons.Bug_20_filled}, 
+                            FontFamily=FluentIconsRegular}"
+                        UnselectedImageSource="{FontImage 
+                            Glyph={x:Static icons:FluentIcons.Bug_20_regular}, 
+                            FontFamily=FluentIconsRegular}"/>
+
+                </x:Array>
+            </CollectionView.ItemsSource>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <nav:NavItemView HeightRequest="70" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+    </AbsoluteLayout>
+
+</ContentView>
