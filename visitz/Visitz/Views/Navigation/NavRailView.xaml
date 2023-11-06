@@ -11,7 +11,7 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Navigation.NavRailView"
     x:DataType="nav:NavRailView"
-    BackgroundColor="{StaticResource BC_Blue}">
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
 
     <AbsoluteLayout>
 
