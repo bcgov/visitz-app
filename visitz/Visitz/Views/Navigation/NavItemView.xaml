@@ -18,7 +18,7 @@
             <VisualState x:Name="Selected">
                 <VisualState.Setters>
                     <Setter TargetName="IconImage" Property="Image.Source" Value="{Binding SelectedImageSource}" />
-                    <Setter Property="BackgroundColor" Value="{StaticResource BC_Background_Dark}" />
+                    <Setter Property="BackgroundColor" Value="#33ffffff" />
                 </VisualState.Setters>
             </VisualState>
         </VisualStateGroup>
