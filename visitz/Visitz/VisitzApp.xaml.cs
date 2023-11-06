@@ -35,9 +35,7 @@ public partial class VisitzApp : Application
     {
         InitializeComponent();
 
-        // TODO: Get this working with the DI system
-        // DI setup has been disabled for now in VisitzScreens
-        MainPage = new NavigationPage(CaseloadPage.GetInstance());
+        MainPage = new NavigationPage(new RootPage());
 
         TryStartDebugSensor();
     }
