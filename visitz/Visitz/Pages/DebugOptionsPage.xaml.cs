@@ -5,7 +5,7 @@ namespace Visitz.Pages;
 
 public partial class DebugOptionsPage : VisitzPage
 {
-    public static bool IsOpen => VisitzApp.CurrentOpenPage?.GetType() == typeof(DebugOptionsPage);
+    public static bool IsOpen => Navigator.CurrentOpenPage?.GetType() == typeof(DebugOptionsPage);
 
     public DebugOptionsPage(DebugOptionsViewModel viewModel) : base(viewModel)
 	{
