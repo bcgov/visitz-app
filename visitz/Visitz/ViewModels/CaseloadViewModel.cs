@@ -85,7 +85,7 @@ namespace Visitz.ViewModels
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
-            CaseloadQueryToken.Dispose();
+            CaseloadQueryToken?.Dispose();
             CaseloadQueryToken = null;
 
             Realm.Dispose();
