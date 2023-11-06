@@ -13,6 +13,7 @@
             <VisualState x:Name="Normal">
                 <VisualState.Setters>
                     <Setter TargetName="IconImage" Property="Image.Source" Value="{Binding UnselectedImageSource}" />
+                    <Setter Property="BackgroundColor" Value="Transparent" />
                 </VisualState.Setters>
             </VisualState>
             <VisualState x:Name="Selected">
