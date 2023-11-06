@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Navigation.NavRailView"
+    x:DataType="nav:NavRailView"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+
+    <StackLayout Spacing="10" Padding="0,10,0,10">
+
+        <toolkit:AvatarView
+            Text="TS" 
+            BackgroundColor="{StaticResource Blue300Accent}"
+            FontFamily="BCSansBold">
+            
+            <toolkit:AvatarView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="AvatarView_Tapped" />
+            </toolkit:AvatarView.GestureRecognizers>
+            
+        </toolkit:AvatarView>
+
+        
+        <!--
+            There is some weird layout behaviour with collection view. It seems to add horizontal padding on its own,
+            so we'll explicitly set its width to get rid of it. This also had a weird side-effect of vertically 
+            shrinking its DataTemplate, so we'll set a specific height for the items as well.
+        -->
+        <CollectionView
+            SelectionMode="Single"
+            SelectionChanged="CollectionView_SelectionChanged"
+            WidthRequest="90">
+
+            <CollectionView.ItemsSource>
+
+                <x:Array Type="{x:Type models:NavItem}">
+
+                    <models:NavItem
+                        Text="{local:Localize Caseload}"
+                        Color="White"
+                        IconSize="30"
+                        SelectedImageSource="{FontImage 
+                            Glyph={x:Static icons:MaterialIcons.Folder_open}, 
+                            FontFamily=MaterialIconsRoundedFilled}"
+                        UnselectedImageSource="{FontImage 
+                            Glyph={x:Static icons:MaterialIcons.Folder_open}, 
+                            FontFamily=MaterialIconsRoundedUnfilled}"/>
+                </x:Array>
+            </CollectionView.ItemsSource>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <nav:NavItemView HeightRequest="70" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+    </StackLayout>
+
+</ContentView>
