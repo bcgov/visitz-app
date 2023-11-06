@@ -1,4 +1,5 @@
 using Visitz.Models;
+using Visitz.Pages;
 
 namespace Visitz.Views.Navigation;
 
@@ -19,8 +20,8 @@ public partial class NavRailView : ContentView
 		});
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private async void AvatarView_Tapped(object sender, TappedEventArgs e)
     {
-
+		await Navigator.GoToPage<SessionPage>(modal: true);
     }
 }

@@ -24,7 +24,7 @@
             Margin="0,10,0,150">
             
             <toolkit:AvatarView.GestureRecognizers>
-                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                <TapGestureRecognizer Tapped="AvatarView_Tapped" />
             </toolkit:AvatarView.GestureRecognizers>
             
         </toolkit:AvatarView>
