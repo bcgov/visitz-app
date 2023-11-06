@@ -56,29 +56,6 @@
                         UnselectedImageSource="{FontImage 
                             Glyph={x:Static icons:MaterialIcons.Folder_open}, 
                             FontFamily=MaterialIconsRoundedUnfilled}"/>
-
-                    <models:NavItem
-                        Text="Actions"
-                        Color="White"
-                        IconSize="30"
-                        SelectedImageSource="{FontImage 
-                            Glyph={x:Static icons:FluentIcons.Target_20_filled}, 
-                            FontFamily=FluentIconsRegular}"
-                        UnselectedImageSource="{FontImage 
-                            Glyph={x:Static icons:FluentIcons.Target_20_regular}, 
-                            FontFamily=FluentIconsRegular}"/>
-
-                    <models:NavItem
-                        Text="Debug"
-                        Color="White"
-                        IconSize="30"
-                        SelectedImageSource="{FontImage 
-                            Glyph={x:Static icons:FluentIcons.Bug_20_filled}, 
-                            FontFamily=FluentIconsRegular}"
-                        UnselectedImageSource="{FontImage 
-                            Glyph={x:Static icons:FluentIcons.Bug_20_regular}, 
-                            FontFamily=FluentIconsRegular}"/>
-
                 </x:Array>
             </CollectionView.ItemsSource>
 
