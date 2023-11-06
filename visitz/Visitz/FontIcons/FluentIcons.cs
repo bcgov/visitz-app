@@ -4,7 +4,7 @@ public static partial class FluentIcons
 {
     public readonly struct FontConfig
     {
-        public static readonly string Filepath = "fluentsystemicons_resizable.otf";
+        public static readonly string Filepath = "fluentsystemicons_resizable.ttf";
         public static readonly string FontFamily = "FluentIconsRegular";
     }
 
