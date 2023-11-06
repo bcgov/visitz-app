@@ -25,10 +25,10 @@ public class Navigator
     }
 
     public static async Task GoToPage<T>(
-    Page fromPage = null,
-    IDictionary<string, object> parameters = null,
-    bool modal = false,
-    bool animated = true) where T : VisitzPage
+        Page fromPage = null,
+        IDictionary<string, object> parameters = null,
+        bool modal = false,
+        bool animated = true) where T : VisitzPage
     {
         fromPage ??= CurrentOpenPage ?? CurrentOpenModal;
 
