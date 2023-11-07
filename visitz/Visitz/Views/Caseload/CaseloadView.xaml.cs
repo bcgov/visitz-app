@@ -1,29 +1,24 @@
-﻿using CommunityToolkit.Maui.Core.Platform;
+#if !MACCATALYST
+using CommunityToolkit.Maui.Core.Platform;
+#endif
+
 using Visitz.ViewModels;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.Caseload;
 
-public partial class CaseloadPage : VisitzPage
+public partial class CaseloadView : ViewModelContentView
 {
-    private static CaseloadPage Instance { get; set; }
+    protected new CaseloadViewModel ViewModel => (CaseloadViewModel)base.ViewModel;
 
-    private new CaseloadViewModel ViewModel => base.ViewModel as CaseloadViewModel;
-
-    public static CaseloadPage GetInstance()
-    {
-        Instance ??= new CaseloadPage(new CaseloadViewModel());
-        return Instance;
-    }
-
-    public CaseloadPage(CaseloadViewModel viewModel) : base(viewModel)
+    public CaseloadView() : base(ServiceProvider.GetService<CaseloadViewModel>())
     {
         InitializeComponent();
-        BindingContext = viewModel;
+        BindingContext = ViewModel;
     }
 
-    protected override async void OnCreated()
+    protected override async void Creating()
     {
-        base.OnCreated();
+        base.Creating();
 
         // TODO: Clean this up so starting-indices are set correctly instead of using delays.
         // Only using a delay because NOT using one brings nothing but issues. I've tried

@@ -1,62 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:VisitzPage 
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:pages="clr-namespace:Visitz.Pages"
-    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:views="clr-namespace:Visitz.Views"
-    x:Class="Visitz.Pages.CaseloadPage"
+    x:Class="Visitz.Views.Caseload.CaseloadView"
     x:DataType="viewmodels:CaseloadViewModel"
-    Title="Caseload"
-    ControlTemplate="{StaticResource VisitzPageWrapper}"
-    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls">
-
-    <NavigationPage.TitleView>
-        <AbsoluteLayout
-            HeightRequest="70"
-            HorizontalOptions="FillAndExpand">
-
-            <Image 
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="0,.5"
-                VerticalOptions="CenterAndExpand"
-                Source="bc_logo_horizontal_reverse.png" 
-                Aspect="AspectFit">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer 
-                        Command="{Binding OpenDebugOptionsPageCommand}" 
-                        NumberOfTapsRequired="2"/>
-                </Image.GestureRecognizers>
-            </Image>
-
-            <StackLayout 
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.5">
-                <Label         
-                    TextColor="White">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Caseload" FontAttributes="Bold" FontSize="17"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </StackLayout>
-
-            <HorizontalStackLayout 
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="1,.5">
-                <Button 
-                    BackgroundColor="Transparent"
-                    Text="{Binding SessionDisplayName}"
-                    Command="{Binding OpenSessionPageCommand}"/>
-            </HorizontalStackLayout>
-
-        </AbsoluteLayout>
-    </NavigationPage.TitleView>
-
+    HorizontalOptions="FillAndExpand"
+    VerticalOptions="FillAndExpand">
+    
     <StackLayout
         Orientation="Vertical"
         HorizontalOptions="Fill">
@@ -122,7 +78,7 @@
                 Text="Show" 
                 VerticalOptions="Center"
                 HorizontalOptions="End"/>
-            
+
             <Picker 
                 x:Name="FilterPicker"
                 Title="{local:Localize TapToSelect}"
@@ -145,16 +101,16 @@
                 <Image>
                     <Image.Source>
                         <FontImageSource 
-                            Glyph="{Static fonticons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
-                            FontFamily="FluentIconsRegular"
-                            Color="{StaticResource Primary}"
-                            Size="160"/>
+                        Glyph="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
+                        FontFamily="FluentIconsRegular"
+                        Color="{StaticResource Primary}"
+                        Size="160"/>
                     </Image.Source>
                 </Image>
 
                 <Label 
-                    FontSize="20"
-                    Text="{local:Localize CaseloadIsEmpty}" />
+                FontSize="20"
+                Text="{local:Localize CaseloadIsEmpty}" />
             </VerticalStackLayout>
 
             <RefreshView
@@ -210,5 +166,4 @@
         </AbsoluteLayout>
 
     </StackLayout>
-
-</pages:VisitzPage>
+</views:ViewModelContentView>
