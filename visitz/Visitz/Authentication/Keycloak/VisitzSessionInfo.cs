@@ -54,6 +54,11 @@ namespace Visitz.Authentication.Keycloak
             return outRoles;
         }
 
+        private static string GetInitialOrNull(string name)
+        {
+            return name?.Length > 0 ? name[0].ToString() : null;
+        }
+
         public string Idir => GetIdir();
 
         public string DisplayName => TryGet<string>(DisplayNameKey, out var displayName) ? displayName : "";
@@ -69,5 +74,14 @@ namespace Visitz.Authentication.Keycloak
         public string Email => TryGet<string>(EmailKey, out var email) ? email : "";
 
         public bool HasBasicAccessRole => GetRoles().Contains(VisitzRoles.BasicAccess);
+
+        public string UserInitials
+        {
+            get
+            {
+                var initials = GetInitialOrNull(GivenName) + GetInitialOrNull(FamilyName);
+                return initials?.Length > 0 ? initials : "--";
+            }
+        }
     }
 }
