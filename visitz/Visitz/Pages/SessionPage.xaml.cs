@@ -5,7 +5,7 @@ namespace Visitz.Pages;
 
 public partial class SessionPage : VisitzPage
 {
-    public static bool IsOpen => VisitzApp.Navigation.ModalStack
+    public static bool IsOpen => Navigator.Navigation.ModalStack
         .Any(page => page.GetType() == typeof(SessionPage));
 
     public SessionPage(SessionViewModel viewModel) : base(viewModel)

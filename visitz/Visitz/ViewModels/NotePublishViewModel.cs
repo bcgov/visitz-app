@@ -163,7 +163,7 @@ namespace Visitz.ViewModels
             {
                 await Task.Delay(3000);
                 await Dismiss();
-                await VisitzApp.Navigation.PopAsync();
+                await Navigator.Navigation.PopAsync();
             }
             else
             {
@@ -179,7 +179,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async Task Dismiss()
         {
-            await VisitzApp.Navigation.PopAsync();
+            await Navigator.Navigation.PopAsync();
         }
 
         [RelayCommand]

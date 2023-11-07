@@ -96,7 +96,7 @@ public partial class SessionViewModel
 
             if (SessionInfo.HasBasicAccessRole)
             {
-                await VisitzApp.Navigation.PopModalAsync();
+                await Navigator.Navigation.PopModalAsync();
                 WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
             }
         }
@@ -186,7 +186,7 @@ public partial class SessionViewModel
 
         if (reopen)
         {
-            await VisitzApp.Navigation.PopModalAsync();
+            await Navigator.Navigation.PopModalAsync();
             await SessionPage.OpenAsync(modal: true);
         }
     }
@@ -203,7 +203,7 @@ public partial class SessionViewModel
     [RelayCommand]
     private async void ClosePage()
     {
-        await VisitzApp.Navigation.PopModalAsync();
+        await Navigator.Navigation.PopModalAsync();
     }
 }
 

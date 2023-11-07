@@ -1,5 +1,4 @@
-﻿using Visitz.Authentication.Keycloak;
-using Visitz.Pages;
+﻿using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
 
@@ -7,26 +6,6 @@ namespace Visitz;
 
 public partial class VisitzApp : Application
 {
-    public static INavigation Navigation => Current.MainPage.Navigation;
-
-    public static Page CurrentOpenPage
-    {
-        get
-        {
-            int last = Navigation.NavigationStack.Count - 1;
-            return last >= 0 ? Navigation.NavigationStack[last] : null;
-        }
-    }
-
-    public static Page CurrentOpenModal
-    {
-        get
-        {
-            int last = Navigation.ModalStack.Count - 1;
-            return last >= 0 ? Navigation.ModalStack[last] : null;
-        }
-    }
-
     public ServiceHandler ServiceHandler { get; private set; }
 
     public event EventHandler<EventArgs> AppResumed;
@@ -35,9 +14,7 @@ public partial class VisitzApp : Application
     {
         InitializeComponent();
 
-        // TODO: Get this working with the DI system
-        // DI setup has been disabled for now in VisitzScreens
-        MainPage = new NavigationPage(CaseloadPage.GetInstance());
+        MainPage = new NavigationPage(new RootPage());
 
         TryStartDebugSensor();
     }
