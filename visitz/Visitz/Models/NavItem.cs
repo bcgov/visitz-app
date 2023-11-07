@@ -54,4 +54,6 @@ public class NavItem
                 unselectedIcon.Size = iconSize * 2;
         }
     }
+
+    public Type ContentViewType { get; set; }
 }

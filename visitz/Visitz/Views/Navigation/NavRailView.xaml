@@ -2,6 +2,7 @@
 <views:BaseContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:caseloadview="clr-namespace:Visitz.Views.Caseload"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:Visitz.Models"
@@ -44,6 +45,7 @@
 
                     <models:NavItem
                         Text="{local:Localize Caseload}"
+                        ContentViewType="{Type caseloadview:CaseloadView}"
                         Color="White"
                         IconSize="30"
                         SelectedImageSource="{FontImage 
