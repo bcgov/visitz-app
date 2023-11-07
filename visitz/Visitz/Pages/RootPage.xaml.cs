@@ -1,4 +1,3 @@
-using Visitz.Views.Caseload;
 using Visitz.Views.Navigation;
 
 namespace Visitz.Pages;
@@ -12,13 +11,7 @@ public partial class RootPage : ContentPage
 
     private void NavRailView_NavItemSelected(object sender, NavItemSelectedEventArgs e)
     {
-        SetContent(new Label()
-        {
-            Text = e.NavItem.Text,
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.FillAndExpand,
-            HorizontalTextAlignment = TextAlignment.Center,
-        });
+        SetContent((ContentView)ServiceProvider.GetService(e.NavItem.ContentViewType));
     }
 
     private void SetContent(IView view)
