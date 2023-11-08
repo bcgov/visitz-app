@@ -9,6 +9,8 @@ namespace Visitz.VisitzConfig
     {
         public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
         {
+            builder.Services.AddSingleton<CaseloadContainerView>();
+
             builder.Services.AddSingleton<CaseloadView>();
             builder.Services.AddSingleton<CaseloadViewModel>();
 

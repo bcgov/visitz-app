@@ -45,7 +45,7 @@
 
                     <models:NavItem
                         Text="{local:Localize Caseload}"
-                        ContentViewType="{Type caseloadview:CaseloadView}"
+                        ContentViewType="{Type caseloadview:CaseloadContainerView}"
                         Color="White"
                         IconSize="30"
                         SelectedImageSource="{FontImage 
