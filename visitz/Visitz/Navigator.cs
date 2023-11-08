@@ -28,7 +28,7 @@ public class Navigator
         Page fromPage = null,
         IDictionary<string, object> parameters = null,
         bool modal = false,
-        bool animated = true) where T : VisitzPage
+        bool animated = true) where T : ContentPage
     {
         fromPage ??= CurrentOpenPage ?? CurrentOpenModal;
 
@@ -36,7 +36,8 @@ public class Navigator
 
         var newPage = ServiceProvider.Current.GetRequiredService<T>();
 
-        newPage.Parameters = parameters;
+        if (newPage is VisitzPage vPage)
+            vPage.Parameters = parameters;
 
         if (modal)
             await fromPage.Navigation.PushModalAsync(newPage, animated);
