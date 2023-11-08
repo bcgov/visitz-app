@@ -1,21 +1,19 @@
 using Visitz.Storage;
-using Visitz.ViewModels;
 
 namespace Visitz.Pages;
 
-public partial class DebugOptionsPage : VisitzPage
+public partial class DebugOptionsPage : ContentPage
 {
     public static bool IsOpen => Navigator.CurrentOpenPage?.GetType() == typeof(DebugOptionsPage);
 
-    public DebugOptionsPage(DebugOptionsViewModel viewModel) : base(viewModel)
+    public DebugOptionsPage()
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
 	}
 
 	public static async Task TryOpen(Page fromPage = null)
 	{
 		if (DebugOptions.Enabled && !IsOpen)
-			await NavigateTo<DebugOptionsPage>(fromPage);
+			await Navigator.GoToPage<DebugOptionsPage>(fromPage);
     }
 }
