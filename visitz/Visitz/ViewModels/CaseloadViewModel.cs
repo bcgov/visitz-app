@@ -48,10 +48,8 @@ namespace Visitz.ViewModels
 
         private IDisposable CaseloadQueryToken { get; set; }
 
-        public override async void PageCreated()
+        private async Task Setup()
         {
-            base.PageCreated();
-
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
             Realm = await VisitzRealm.GetIcmDataAsync();
@@ -61,6 +59,24 @@ namespace Visitz.ViewModels
 
             ShowEmptyCaseloadMessage = false;
             CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
+        }
+
+        private void Teardown()
+        {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            CaseloadQueryToken?.Dispose();
+            CaseloadQueryToken = null;
+
+            Realm?.Dispose();
+            Realm = null;
+        }
+
+        public override async void PageCreated()
+        {
+            base.PageCreated();
+
+            await Setup();
 
             ApplyCaseloadQuery();
             ApplySubtypesQuery();
@@ -68,13 +84,7 @@ namespace Visitz.ViewModels
 
         public override void PageDestroyed()
         {
-            WeakReferenceMessenger.Default.UnregisterAll(this);
-
-            CaseloadQueryToken?.Dispose();
-            CaseloadQueryToken = null;
-
-            Realm.Dispose();
-            Realm = null;
+            Teardown();
 
             base.PageDestroyed();
         }
