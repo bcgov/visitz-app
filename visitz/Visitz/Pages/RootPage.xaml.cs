@@ -11,7 +11,12 @@ public partial class RootPage : ContentPage
 
     private void NavRailView_NavItemSelected(object sender, NavItemSelectedEventArgs e)
     {
-        SetContent((ContentView)ServiceProvider.GetService(e.NavItem.ContentViewType));
+        var content = (ContentView)ServiceProvider.GetService(e.NavItem.ContentViewType);
+
+        if (content == null)
+            throw new InvalidOperationException("Requested navigation item was null");
+
+        SetContent(content);
     }
 
     private void SetContent(IView view)
