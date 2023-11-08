@@ -18,7 +18,7 @@
 
         <toolkit:AvatarView
             x:Name="Avatar"
-            Text="TS" 
+            Text="--" 
             BackgroundColor="{StaticResource Blue300Accent}"
             FontFamily="BCSansBold">
             
