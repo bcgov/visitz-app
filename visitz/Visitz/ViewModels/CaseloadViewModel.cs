@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using Visitz.Authentication.Keycloak;
 using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Pages;
@@ -35,9 +34,6 @@ namespace Visitz.ViewModels
         public bool isRefreshing;
 
         [ObservableProperty]
-        public string sessionDisplayName;
-
-        [ObservableProperty]
         public string searchQuery;
 
         [ObservableProperty]
@@ -63,8 +59,6 @@ namespace Visitz.ViewModels
             CaseloadQuery = Realm.All<CaseloadItem>();
             CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
 
-            VisitzSession.SessionChanged += VisitzSession_SessionChanged;
-
             ShowEmptyCaseloadMessage = false;
             CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
 
@@ -72,17 +66,8 @@ namespace Visitz.ViewModels
             ApplySubtypesQuery();
         }
 
-        public override async void PageStarted()
-        {
-            base.PageStarted();
-
-            SessionDisplayName = await SessionViewModel.GetDisplayNamePrompt();
-        }
-
         public override void PageDestroyed()
         {
-            VisitzSession.SessionChanged += VisitzSession_SessionChanged;
-
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
             CaseloadQueryToken?.Dispose();
@@ -237,11 +222,6 @@ namespace Visitz.ViewModels
 
             if (message.FinishedSuccess)
                 ShowEmptyCaseloadMessage = !CaseloadQuery.Any();
-        }
-
-        private async void VisitzSession_SessionChanged(object sender, EventArgs e)
-        {
-            SessionDisplayName = await SessionViewModel.GetDisplayNamePrompt(sender as VisitzSessionInfo);
         }
     }
 }
