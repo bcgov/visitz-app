@@ -4,13 +4,13 @@ namespace Visitz.Views;
 
 public abstract class BaseContentView : ContentView
 {
-    protected override void OnParentChanging(ParentChangingEventArgs args)
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnParentChanging(args);
+        base.OnHandlerChanging(args);
 
-        if (args.AttachingToParent())
+        if (args.AttachingToHandler())
             Creating();
-        else if (args.DetachingFromParent())
+        else if (args.DetachingFromHandler())
             Destroying();
     }
 
