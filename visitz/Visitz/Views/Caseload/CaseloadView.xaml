@@ -2,6 +2,7 @@
 <views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -15,30 +16,21 @@
         Orientation="Vertical"
         HorizontalOptions="Fill">
 
-        <SearchBar 
-            x:Name="CaseloadSearchBar"
-            HorizontalOptions="FillAndExpand"
-            Placeholder="{local:Localize CaseloadSearchHint}"
-            Margin="10,0,10,0"
-            Text="{Binding SearchQuery}"
-            SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
-            TextChanged="CaseloadSearchBar_TextChanged"
-            ios:SearchBar.SearchBarStyle="Minimal" />
+        <VerticalStackLayout Spacing="10" Margin="0,0,0,0">
+            
+            <SearchBar 
+                BackgroundColor="#efeff0"
+                x:Name="CaseloadSearchBar"
+                HorizontalOptions="FillAndExpand"
+                Placeholder="{local:Localize CaseloadSearchHint}"
+                Text="{Binding SearchQuery}"
+                SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+                TextChanged="CaseloadSearchBar_TextChanged"
+                ios:SearchBar.SearchBarStyle="Minimal" />
 
-        <StackLayout
-            Orientation="Horizontal"
-            HorizontalOptions="Fill"
-            VerticalOptions="Center"
-            Padding="20,0,20,0"
-            Margin="0,0,0,10"
-            Spacing="10">
+            <caseload:CaseloadFilterView Padding="10,0,10,0" />
 
-            <Label 
-                Text="Sort by" 
-                VerticalOptions="Center" />
-
-
-        </StackLayout>
+        </VerticalStackLayout>
 
         <AbsoluteLayout VerticalOptions="FillAndExpand">
 
