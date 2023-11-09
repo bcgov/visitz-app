@@ -1,4 +1,5 @@
 using Microsoft.Maui.Layouts;
+using Visitz.Resources.Styles;
 
 namespace Visitz.Views.SplitView;
 
@@ -38,6 +39,8 @@ public abstract class SplitLayoutView : BaseContentView
 
     private ColumnDefinition StartColumn { get; set; } = new ColumnDefinition();
 
+    private ColumnDefinition SeparatorColumn { get; set; } = new ColumnDefinition(0.5);
+
     private ColumnDefinition EndColumn { get; set; } = new ColumnDefinition();
 
     protected AbsoluteLayout StartPane { get; set; } = [];
@@ -49,11 +52,17 @@ public abstract class SplitLayoutView : BaseContentView
         Content = SplitLayout = new Grid
         {
             RowDefinitions = [new RowDefinition()],
-            ColumnDefinitions = [StartColumn, EndColumn,],
+            ColumnDefinitions = [StartColumn, SeparatorColumn, EndColumn,],
+        };
+
+        var separator = new BoxView()
+        {
+            Color = VisitzColors.Gray200,
         };
 
         SplitLayout.Add(StartPane, 0, 0);
-        SplitLayout.Add(EndPane, 1, 0);
+        SplitLayout.Add(separator, 1, 0);
+        SplitLayout.Add(EndPane, 2, 0);
     }
 
     public void SetStartPane(IView view)
