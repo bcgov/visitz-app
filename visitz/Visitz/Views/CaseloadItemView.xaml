@@ -14,18 +14,10 @@
             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=GoToNotesCommand}"
             CommandParameter="{Binding .}"/>
     </ContentView.GestureRecognizers>
-    
-    <Border 
-        Stroke="Black"
-        StrokeThickness="0.5"
-        Padding="15,20,10,20"
-        HorizontalOptions="Fill">
 
-        <!--<Border.StrokeShape>
-            <RoundRectangle CornerRadius="4,4,4,4"/>
-        </Border.StrokeShape>-->
-            
+    <VerticalStackLayout>
         <Grid
+            Padding="20,10,20,10"
             RowDefinitions="*" 
             RowSpacing="5"
             ColumnDefinitions="60*,Auto,Auto"
@@ -68,5 +60,9 @@
             </Border>
 
         </Grid>
-    </Border>
+
+        <BoxView
+            Color="Black"
+            HeightRequest="0.5" />
+    </VerticalStackLayout>
 </ContentView>
