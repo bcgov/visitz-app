@@ -22,13 +22,7 @@ namespace Visitz.ViewModels
         public IEnumerable<CaseloadItem> caseload;
 
         [ObservableProperty]
-        public IEnumerable<string> subtypes;
-
-        [ObservableProperty]
         public CaseloadSort selectedSortOrder;
-
-        [ObservableProperty]
-        public string selectedSubtype;
 
         [ObservableProperty]
         public bool isRefreshing;
@@ -79,7 +73,6 @@ namespace Visitz.ViewModels
             await Setup();
 
             ApplyCaseloadQuery();
-            ApplySubtypesQuery();
         }
 
         public override void PageDestroyed()
@@ -95,39 +88,16 @@ namespace Visitz.ViewModels
                 return;
 
             ApplyCaseloadQuery();
-            ApplySubtypesQuery();
         }
 
         public void ApplyCaseloadQuery()
         {
             var query = CaseloadQuery.AsEnumerable();
 
-            ApplySubtypeFiltering(ref query);
             ApplySorting(ref query);
             ApplySearchQuery(ref query);
 
             Caseload = query;
-        }
-
-        private void ApplySubtypesQuery()
-        {
-            var query = CaseloadQuery.AsEnumerable()
-                .Select(item => item.CaseIncidentType)
-                .Distinct()
-                .Order()
-                .ToList();
-
-            query.Insert(0, FilterNoneOption);
-
-            Subtypes = query;
-        }
-
-        private void ApplySubtypeFiltering(ref IEnumerable<CaseloadItem> query)
-        {
-            if (query == null || SelectedSubtype == null || SelectedSubtype == FilterNoneOption)
-                return;
-            
-            query = query.Where(item => item.CaseIncidentType == SelectedSubtype);
         }
 
         private void ApplySorting(ref IEnumerable<CaseloadItem> query)
@@ -172,16 +142,7 @@ namespace Visitz.ViewModels
 
         private void ApplyCollectionViewPrompt()
         {
-            if (IsSubtypeSelected() && !string.IsNullOrWhiteSpace(SearchQuery))
-            {
-                CollectionViewPrompt = LocalizedStrings.NoResultsForSearchAndFilter
-                    .Format(SelectedSubtype, SearchQuery);
-            }
-            else if (IsSubtypeSelected())
-            {
-                CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SelectedSubtype);
-            }
-            else if (!string.IsNullOrWhiteSpace(SearchQuery))
+            if (!string.IsNullOrWhiteSpace(SearchQuery))
             {
                 CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SearchQuery);
             }
@@ -189,11 +150,6 @@ namespace Visitz.ViewModels
             {
                 CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
             }
-        }
-
-        private bool IsSubtypeSelected()
-        {
-            return SelectedSubtype != null && SelectedSubtype != FilterNoneOption;
         }
 
         [RelayCommand]

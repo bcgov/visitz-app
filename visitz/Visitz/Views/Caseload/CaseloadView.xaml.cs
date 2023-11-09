@@ -16,18 +16,6 @@ public partial class CaseloadView : ViewModelContentView
         BindingContext = ViewModel;
     }
 
-    protected override async void Creating()
-    {
-        base.Creating();
-
-        // TODO: Clean this up so starting-indices are set correctly instead of using delays.
-        // Only using a delay because NOT using one brings nothing but issues. I've tried
-        // different lifecycle functions to place this code but none work as well as this.
-        await Task.Delay(100);
-        SortPicker.SelectedIndex = 0;
-        FilterPicker.SelectedIndex = 0;
-    }
-
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
         ViewModel.ApplyCaseloadQuery();
