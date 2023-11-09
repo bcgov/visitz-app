@@ -69,7 +69,8 @@
 
                     <CollectionView
                         ItemsSource="{Binding Caseload}"
-                        SelectionMode="None">
+                        SelectionMode="None"
+                        ItemSizingStrategy="MeasureFirstItem">
                         <CollectionView.EmptyView>
                             <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
                                 <Label 
