@@ -57,7 +57,14 @@
                 Stroke="{StaticResource EntitySubTypeBackground}"
                 BackgroundColor="{StaticResource EntitySubTypeBackground}">
 
-                <Label Padding="10" Text="{Binding CaseIncidentType}" />
+                <Label
+                    x:Name="SubtypeLabel"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Padding="10" 
+                    Text="{Binding CaseIncidentType}" />
             </Border>
 
         </Grid>
