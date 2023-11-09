@@ -50,8 +50,8 @@
                 </Image>
 
                 <Label 
-                FontSize="20"
-                Text="{local:Localize CaseloadIsEmpty}" />
+                    FontSize="20"
+                    Text="{local:Localize CaseloadIsEmpty}" />
             </VerticalStackLayout>
 
             <RefreshView
