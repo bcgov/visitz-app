@@ -62,7 +62,7 @@
         </Grid>
 
         <BoxView
-            Color="Black"
+            Color="{StaticResource Gray200}"
             HeightRequest="0.5" />
     </VerticalStackLayout>
 </ContentView>
