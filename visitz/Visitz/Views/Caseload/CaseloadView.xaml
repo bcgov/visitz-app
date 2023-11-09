@@ -9,9 +9,7 @@
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Caseload.CaseloadView"
-    x:DataType="viewmodels:CaseloadViewModel"
-    HorizontalOptions="FillAndExpand"
-    VerticalOptions="FillAndExpand">
+    x:DataType="viewmodels:CaseloadViewModel">
     
     <StackLayout
         Orientation="Vertical"
