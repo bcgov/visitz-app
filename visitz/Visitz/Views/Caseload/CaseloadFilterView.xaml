@@ -11,8 +11,8 @@
     
     <StackLayout Spacing="10" Orientation="Horizontal">
         <Image
-            WidthRequest="20"
-            HeightRequest="20"
+            WidthRequest="{OnPlatform WinUI=13, Default=20}"
+            HeightRequest="30"
             VerticalOptions="Start">
             <Image.Source>
                 <FontImageSource 
