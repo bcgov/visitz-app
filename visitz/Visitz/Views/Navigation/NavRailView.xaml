@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentView 
+<views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:caseloadview="clr-namespace:Visitz.Views.Caseload"
-    xmlns:icons="clr-namespace:Visitz.FontIcons"
-    xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:models="clr-namespace:Visitz.Models"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
-    xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Navigation.NavRailView"
-    x:DataType="nav:NavRailView"
+    x:DataType="nav:NavRailViewModel"
     BackgroundColor="{StaticResource BuildBarBackgroundColor}">
 
     <StackLayout Spacing="10" Padding="0,10,0,10">
@@ -37,25 +33,8 @@
         <CollectionView
             SelectionMode="Single"
             SelectionChanged="CollectionView_SelectionChanged"
-            WidthRequest="90">
-
-            <CollectionView.ItemsSource>
-
-                <x:Array Type="{x:Type models:NavItem}">
-
-                    <models:NavItem
-                        Text="{local:Localize Caseload}"
-                        ContentViewType="{Type caseloadview:CaseloadContainerView}"
-                        Color="White"
-                        IconSize="30"
-                        SelectedImageSource="{FontImage 
-                            Glyph={x:Static icons:MaterialIcons.Folder_open}, 
-                            FontFamily=MaterialIconsRoundedFilled}"
-                        UnselectedImageSource="{FontImage 
-                            Glyph={x:Static icons:MaterialIcons.Folder_open}, 
-                            FontFamily=MaterialIconsRoundedUnfilled}"/>
-                </x:Array>
-            </CollectionView.ItemsSource>
+            WidthRequest="90"
+            ItemsSource="{Binding NavigationItems}">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -66,4 +45,4 @@
         
     </StackLayout>
 
-</views:BaseContentView>
+</views:ViewModelContentView>

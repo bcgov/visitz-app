@@ -3,6 +3,7 @@ using Visitz.Pages;
 using Visitz.ViewModels;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
+using Visitz.Views.Navigation;
 
 namespace Visitz.VisitzConfig
 {
@@ -10,6 +11,8 @@ namespace Visitz.VisitzConfig
     {
         public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
         {
+            builder.Services.AddSingleton<NavRailViewModel>();
+
             builder.Services.AddSingleton<CaseloadContainerView>();
 
             builder.Services.AddSingleton<CaseloadView>();

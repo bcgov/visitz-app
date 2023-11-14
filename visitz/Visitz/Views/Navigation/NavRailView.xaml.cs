@@ -1,16 +1,16 @@
 using Visitz.Authentication.Keycloak;
 using Visitz.Models;
 using Visitz.Pages;
-
 namespace Visitz.Views.Navigation;
 
-public partial class NavRailView : BaseContentView
+public partial class NavRailView : ViewModelContentView
 {
-	public event EventHandler<NavItemSelectedEventArgs> NavItemSelected;
+    public event EventHandler<NavItemSelectedEventArgs> NavItemSelected;
 
-	public NavRailView()
+	public NavRailView() : base(ServiceProvider.GetService<NavRailViewModel>())
 	{
 		InitializeComponent();
+        BindingContext = ViewModel;
 	}
 
     protected override async void Creating()
