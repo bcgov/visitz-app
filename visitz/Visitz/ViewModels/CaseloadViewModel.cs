@@ -16,8 +16,6 @@ namespace Visitz.ViewModels
     /// </summary>
     public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
-        private static readonly string FilterNoneOption = LocalizedStrings.All;
-
         [ObservableProperty]
         public IEnumerable<CaseloadItem> caseload;
 
