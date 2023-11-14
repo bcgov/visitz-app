@@ -28,7 +28,8 @@
                 TextChanged="CaseloadSearchBar_TextChanged"
                 ios:SearchBar.SearchBarStyle="Minimal" />
 
-            <caseload:CaseloadFilterView Padding="10,0,10,0" />
+            <!-- Temporarily hide CaseloadFilterView  -->
+            <caseload:CaseloadFilterView Padding="10,0,10,0" IsVisible="False" />
 
         </VerticalStackLayout>
 
@@ -49,7 +50,7 @@
                     </Image.Source>
                 </Image>
 
-                <Label 
+                <Label
                     FontSize="20"
                     Text="{local:Localize CaseloadIsEmpty}" />
             </VerticalStackLayout>
