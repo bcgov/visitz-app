@@ -1,78 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-             xmlns:views="clr-namespace:Visitz.Views"
-             xmlns:models="clr-namespace:Visitz.Models"
-             xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-             x:Class="Visitz.Views.CaseloadItemView"
-             x:DataType="models:CaseloadItem">
-    
-    <VerticalStackLayout Padding="20,0,20,0" Margin="0,0,0,10">
-        <Border Stroke="#DFDFE1"
-                StrokeThickness="1"
-                Padding="10"
-                HorizontalOptions="Fill">
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer 
-                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=GoToNotesCommand}"
-                    CommandParameter="{Binding .}"/>
-            </Border.GestureRecognizers>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Views.CaseloadItemView"
+    x:DataType="models:CaseloadItem">
 
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="4,4,4,4"/>
-            </Border.StrokeShape>
-            
-            <Grid 
-                RowDefinitions="Auto,Auto" 
-                RowSpacing="5"
-                ColumnDefinitions="Auto,*,Auto,Auto"
-                ColumnSpacing="20">
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer 
+            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=GoToNotesCommand}"
+            CommandParameter="{Binding .}"/>
+    </ContentView.GestureRecognizers>
 
-                <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
-                    <Label 
-                        Text="{Binding DisplayName}"
-                        FontSize="18"
-                        FontFamily="BCSansBold" />
+    <VerticalStackLayout>
+        <Grid
+            Padding="20,10,20,10"
+            RowDefinitions="*" 
+            RowSpacing="5"
+            ColumnDefinitions="60*,Auto,Auto"
+            ColumnSpacing="20">
 
-                    <Label 
-                        Text="{Binding CaseIncidentNumber}"
-                        FontSize="18"
-                        FontFamily="BCSansRegular" />
-                </HorizontalStackLayout>
+            <Label 
+                Grid.Column="0"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="Center"
+                Text="{Binding DisplayName}"
+                FontSize="16"
+                LineBreakMode="TailTruncation"/>
 
-                <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="5">
-                    <views:TagView BindingContext="{Binding .}">
-                        <views:TagView.Behaviors>
-                            <behaviors:EntityTypeTagBehavior />
-                        </views:TagView.Behaviors>
-                    </views:TagView>
+            <Label 
+                x:Name="OpenDateLabel"
+                Grid.Column="1"
+                Text="{Binding DisplayDate}"
+                TextColor="{StaticResource BC_InputControlsTextColor}"
+                FontSize="12"
+                FontFamily="BCSansRegular"
+                VerticalOptions="Center" />
 
-                    <views:TagView BindingContext="{Binding .}">
-                        <views:TagView.Behaviors>
-                            <behaviors:EntitySubTypeTagBehavior />
-                        </views:TagView.Behaviors>
-                    </views:TagView>
-                </HorizontalStackLayout>
+            <Border
+                Grid.Column="2"
+                HeightRequest="40"
+                WidthRequest="40"
+                VerticalOptions="Center"
+                StrokeShape="RoundRectangle 30"
+                Stroke="{StaticResource EntitySubTypeBackground}"
+                BackgroundColor="{StaticResource EntitySubTypeBackground}">
 
-                <Label 
-                    x:Name="OpenDateLabel"
-                    Grid.Row="0"
-                    Grid.RowSpan="2"
-                    Grid.Column="2"
-                    Text="{Binding DisplayDate, StringFormat='Open date: {0}'}"
-                    TextColor="{StaticResource BC_InputControlsTextColor}"
-                    FontSize="12"
-                    FontFamily="BCSansRegular"
-                    VerticalOptions="Center" />
+                <Label
+                    x:Name="SubtypeLabel"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Padding="10" 
+                    Text="{Binding CaseIncidentType}" />
+            </Border>
 
-                <views:RightChevronIconView 
-                    Grid.Row="0"
-                    Grid.RowSpan="2"
-                    Grid.Column="3"
-                    VerticalOptions="Center" />
-                
-            </Grid>
-        </Border>
+        </Grid>
+
+        <BoxView
+            Color="{StaticResource Gray200}"
+            HeightRequest="0.5" />
     </VerticalStackLayout>
 </ContentView>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Visitz.Models"
+    x:Class="Visitz.Views.Caseload.FilterItemView"
+    x:DataType="models:FilterItem"
+    InputTransparent="True">
+
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="CommonStates">
+            <VisualState x:Name="Normal">
+                <VisualState.Setters>
+                    <Setter Property="Border.BackgroundColor" TargetName="FilterBorder" Value="Transparent" />
+                </VisualState.Setters>
+            </VisualState>
+            <VisualState x:Name="Selected">
+                <VisualState.Setters>
+                    <Setter Property="Border.BackgroundColor" TargetName="FilterBorder" Value="AliceBlue" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <Border
+        x:Name="FilterBorder"
+        StrokeThickness="0.5" 
+        Padding="5,0,5,0"
+        Stroke="{StaticResource Black}">
+
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20" />
+        </Border.StrokeShape>
+
+        <VerticalStackLayout>
+            <Label
+                Margin="5"
+                VerticalOptions="Center"
+                Text="{Binding Text}" />
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

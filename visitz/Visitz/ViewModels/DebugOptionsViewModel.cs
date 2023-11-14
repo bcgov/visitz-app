@@ -32,9 +32,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string authenticationDomain;
 
-        public override void PageStarted()
+        public override void PageCreated()
         {
-            base.PageStarted();
+            base.PageCreated();
 
             IdirOverride = DebugOptions.IdirOverride;
             ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;

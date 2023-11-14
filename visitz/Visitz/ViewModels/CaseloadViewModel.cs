@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using Visitz.Authentication.Keycloak;
 using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Pages;
@@ -17,25 +16,14 @@ namespace Visitz.ViewModels
     /// </summary>
     public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
-        private static readonly string FilterNoneOption = LocalizedStrings.All;
-
         [ObservableProperty]
         public IEnumerable<CaseloadItem> caseload;
-
-        [ObservableProperty]
-        public IEnumerable<string> subtypes;
 
         [ObservableProperty]
         public CaseloadSort selectedSortOrder;
 
         [ObservableProperty]
-        public string selectedSubtype;
-
-        [ObservableProperty]
         public bool isRefreshing;
-
-        [ObservableProperty]
-        public string sessionDisplayName;
 
         [ObservableProperty]
         public string searchQuery;
@@ -52,10 +40,8 @@ namespace Visitz.ViewModels
 
         private IDisposable CaseloadQueryToken { get; set; }
 
-        public override async void PageCreated()
+        private async Task Setup()
         {
-            base.PageCreated();
-
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
             Realm = await VisitzRealm.GetIcmDataAsync();
@@ -63,33 +49,33 @@ namespace Visitz.ViewModels
             CaseloadQuery = Realm.All<CaseloadItem>();
             CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
 
-            VisitzSession.SessionChanged += VisitzSession_SessionChanged;
-
             ShowEmptyCaseloadMessage = false;
             CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
-
-            ApplyCaseloadQuery();
-            ApplySubtypesQuery();
         }
 
-        public override async void PageStarted()
+        private void Teardown()
         {
-            base.PageStarted();
-
-            SessionDisplayName = await SessionViewModel.GetDisplayNamePrompt();
-        }
-
-        public override void PageDestroyed()
-        {
-            VisitzSession.SessionChanged += VisitzSession_SessionChanged;
-
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
             CaseloadQueryToken?.Dispose();
             CaseloadQueryToken = null;
 
-            Realm.Dispose();
+            Realm?.Dispose();
             Realm = null;
+        }
+
+        public override async void PageCreated()
+        {
+            base.PageCreated();
+
+            await Setup();
+
+            ApplyCaseloadQuery();
+        }
+
+        public override void PageDestroyed()
+        {
+            Teardown();
 
             base.PageDestroyed();
         }
@@ -100,39 +86,16 @@ namespace Visitz.ViewModels
                 return;
 
             ApplyCaseloadQuery();
-            ApplySubtypesQuery();
         }
 
         public void ApplyCaseloadQuery()
         {
             var query = CaseloadQuery.AsEnumerable();
 
-            ApplySubtypeFiltering(ref query);
             ApplySorting(ref query);
             ApplySearchQuery(ref query);
 
             Caseload = query;
-        }
-
-        private void ApplySubtypesQuery()
-        {
-            var query = CaseloadQuery.AsEnumerable()
-                .Select(item => item.CaseIncidentType)
-                .Distinct()
-                .Order()
-                .ToList();
-
-            query.Insert(0, FilterNoneOption);
-
-            Subtypes = query;
-        }
-
-        private void ApplySubtypeFiltering(ref IEnumerable<CaseloadItem> query)
-        {
-            if (query == null || SelectedSubtype == null || SelectedSubtype == FilterNoneOption)
-                return;
-            
-            query = query.Where(item => item.CaseIncidentType == SelectedSubtype);
         }
 
         private void ApplySorting(ref IEnumerable<CaseloadItem> query)
@@ -177,16 +140,7 @@ namespace Visitz.ViewModels
 
         private void ApplyCollectionViewPrompt()
         {
-            if (IsSubtypeSelected() && !string.IsNullOrWhiteSpace(SearchQuery))
-            {
-                CollectionViewPrompt = LocalizedStrings.NoResultsForSearchAndFilter
-                    .Format(SelectedSubtype, SearchQuery);
-            }
-            else if (IsSubtypeSelected())
-            {
-                CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SelectedSubtype);
-            }
-            else if (!string.IsNullOrWhiteSpace(SearchQuery))
+            if (!string.IsNullOrWhiteSpace(SearchQuery))
             {
                 CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SearchQuery);
             }
@@ -194,11 +148,6 @@ namespace Visitz.ViewModels
             {
                 CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
             }
-        }
-
-        private bool IsSubtypeSelected()
-        {
-            return SelectedSubtype != null && SelectedSubtype != FilterNoneOption;
         }
 
         [RelayCommand]
@@ -237,11 +186,6 @@ namespace Visitz.ViewModels
 
             if (message.FinishedSuccess)
                 ShowEmptyCaseloadMessage = !CaseloadQuery.Any();
-        }
-
-        private async void VisitzSession_SessionChanged(object sender, EventArgs e)
-        {
-            SessionDisplayName = await SessionViewModel.GetDisplayNamePrompt(sender as VisitzSessionInfo);
         }
     }
 }

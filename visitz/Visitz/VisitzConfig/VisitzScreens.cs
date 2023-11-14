@@ -1,6 +1,8 @@
 ﻿using Visitz.Authentication;
 using Visitz.Pages;
 using Visitz.ViewModels;
+using Visitz.Views.Caseload;
+using Visitz.Views.Debugging;
 
 namespace Visitz.VisitzConfig
 {
@@ -8,6 +10,14 @@ namespace Visitz.VisitzConfig
     {
         public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
         {
+            builder.Services.AddSingleton<CaseloadContainerView>();
+
+            builder.Services.AddSingleton<CaseloadView>();
+            builder.Services.AddSingleton<CaseloadViewModel>();
+
+            builder.Services.AddTransient<CaseloadFilterView>();
+            builder.Services.AddTransient<CaseloadFilterViewModel>();
+
             builder.Services.AddTransient<DeviceAuthenticator>();
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
@@ -28,19 +38,13 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<CaseloadItemDetailsViewModel>();
 
             builder.Services.AddTransient<DebugOptionsPage>();
+            builder.Services.AddTransient<DebugOptionsView>();
             builder.Services.AddTransient<DebugOptionsViewModel>();
 
             builder.Services.AddTransient<SessionPage>();
             builder.Services.AddTransient<SessionViewModel>();
 
             return builder;
-        }
-
-        // Function unused on purpose, refer to VisitzApp.cs
-        private static void AddCaseload(MauiAppBuilder builder)
-        {
-            builder.Services.AddSingleton<CaseloadPage>();
-            builder.Services.AddSingleton<CaseloadViewModel>();
         }
     }
 }
