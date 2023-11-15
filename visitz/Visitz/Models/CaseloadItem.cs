@@ -60,6 +60,8 @@ namespace Visitz.Models
             }
         }
 
+        public string FullType => CaseIncidentType + " " + EntityType;
+
         public string TypeInitials => (EntityType == IcmEntity.Incident 
             ? EntityType[..2]
             : CaseIncidentType.GetInitials()).ToUpper();
