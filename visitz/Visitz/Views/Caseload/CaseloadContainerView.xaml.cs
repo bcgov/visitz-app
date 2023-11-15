@@ -1,4 +1,7 @@
-using Visitz.Resources.Styles;
+using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Messaging;
+using Visitz.Models;
+using Visitz.Views.Entity;
 using Visitz.Views.SplitView;
 
 namespace Visitz.Views.Caseload;
@@ -16,11 +19,57 @@ public partial class CaseloadContainerView : SplitLayoutView
 
         StartPaneColumnWidth = new GridLength(0.5, GridUnitType.Star);
 
-        SetStartPane(ServiceProvider.GetService<CaseloadView>());
+        RegisterReceivers();
 
-        SetEndPane(new BoxView()
+        SetStartPane(ServiceProvider.GetService<CaseloadView>());
+    }
+
+    protected override void Destroying()
+    {
+        StrongReferenceMessenger.Default.UnregisterAll(this);
+
+        base.Destroying();
+    }
+
+    private void RegisterReceivers()
+    {
+        StrongReferenceMessenger.Default.Register<CaseloadItemSelectedMessage>(this, (recipient, message) =>
         {
-            Color = VisitzColors.DarkSkyBlueBackground,
+            (recipient as CaseloadContainerView).OpenCaseloadItem(message.Value);
         });
+
+        StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
+        {
+            (recipient as CaseloadContainerView).NavigateBack();
+        });
+
+        StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, message) =>
+        {
+            var (navItem, caseloadItem) = message.Value;
+            (recipient as CaseloadContainerView).OpenEntitySection(navItem, caseloadItem);
+        });
+    }
+
+    private void OpenCaseloadItem(CaseloadItem item)
+    {
+        var entityNav = ServiceProvider.GetService<EntityNavView>();
+        entityNav.CaseloadItem = item;
+        SetStartPane(entityNav);
+    }
+
+    private void NavigateBack()
+    {
+        SetStartPane(ServiceProvider.GetService<CaseloadView>());
+        SetEndPane(null);
+    }
+
+    private void OpenEntitySection(NavItem navItem, CaseloadItem caseloadItem)
+    {
+        if (navItem == null)
+            return;
+
+        var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
+        (view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
+        SetEndPane(view);
     }
 }

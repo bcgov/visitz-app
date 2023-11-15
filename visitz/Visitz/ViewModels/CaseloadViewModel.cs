@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.Extensions;
+using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
@@ -158,9 +159,9 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async void GoToNotes(CaseloadItem caseloadItem)
+        public static void CaseloadItemSelected(CaseloadItem caseloadItem)
         {
-            await NotesPage.Open(VisitzPage, caseloadItem.CaseIncidentNumber);
+            StrongReferenceMessenger.Default.Send(new CaseloadItemSelectedMessage(caseloadItem));
         }
 
         [RelayCommand]

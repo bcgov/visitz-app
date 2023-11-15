@@ -11,7 +11,7 @@
 
     <ContentView.GestureRecognizers>
         <TapGestureRecognizer 
-            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=GoToNotesCommand}"
+            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=CaseloadItemSelectedCommand}"
             CommandParameter="{Binding .}"/>
     </ContentView.GestureRecognizers>
 
@@ -50,13 +50,12 @@
                 BackgroundColor="{StaticResource EntitySubTypeBackground}">
 
                 <Label
-                    x:Name="SubtypeLabel"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Padding="10" 
-                    Text="{Binding CaseIncidentType}" />
+                    Text="{Binding TypeInitials}" />
             </Border>
 
         </Grid>
