@@ -57,7 +57,7 @@ public abstract class SplitLayoutView : BaseContentView
 
         var separator = new BoxView()
         {
-            Color = VisitzColors.Gray200,
+            Color = VisitzColors.SeparatorColor,
         };
 
         SplitLayout.Add(StartPane, 0, 0);

@@ -83,6 +83,8 @@ public static class VisitzColors
     public static readonly Color LightGrayBackground = TryGetColor(nameof(LightGrayBackground));
     public static readonly Color SkyBlueText = TryGetColor(nameof(SkyBlueText));
 
+    public static readonly Color SeparatorColor = TryGetColor(nameof(SeparatorColor));
+
     public static readonly Color Gray100 = TryGetColor(nameof(Gray100));
     public static readonly Color Gray200 = TryGetColor(nameof(Gray200));
     public static readonly Color Gray300 = TryGetColor(nameof(Gray300));
