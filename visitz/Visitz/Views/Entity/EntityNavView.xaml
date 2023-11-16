@@ -7,8 +7,9 @@
     xmlns:models="clr-namespace:Visitz.Models"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.EntityNavView"
-    x:DataType="entity:EntityNavViewModel">
-    
+    x:DataType="entity:EntityNavViewModel"
+    BackgroundColor="{StaticResource EntityNavBackgroundColor}">
+
     <StackLayout Orientation="Vertical">
 
         <HorizontalStackLayout>

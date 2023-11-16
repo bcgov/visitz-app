@@ -49,6 +49,7 @@ public static class VisitzColors
     // BuildBarBackgroundColor uses one of the <build> colors
     public static readonly Color BuildBarBackgroundColor = TryGetColor(nameof(BuildBarBackgroundColor));
 
+    public static readonly Color EntityNavBackgroundColor = TryGetColor(nameof(EntityNavBackgroundColor));
     public static readonly Color EntityNavSelectedColor = TryGetColor(nameof(EntityNavSelectedColor));
 
     // Tags Colors
