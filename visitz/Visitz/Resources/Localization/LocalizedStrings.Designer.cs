@@ -133,6 +133,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
         /// </summary>
         public static string DeviceAuthReason {
@@ -192,6 +201,15 @@ namespace Visitz.Resources.Localization {
         public static string FailedToRefreshNotes {
             get {
                 return ResourceManager.GetString("FailedToRefreshNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Family members.
+        /// </summary>
+        public static string FamilyMembers {
+            get {
+                return ResourceManager.GetString("FamilyMembers", resourceCulture);
             }
         }
         
@@ -304,6 +322,15 @@ namespace Visitz.Resources.Localization {
         public static string NoResultsForSearchAndFilter {
             get {
                 return ResourceManager.GetString("NoResultsForSearchAndFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        public static string Notes {
+            get {
+                return ResourceManager.GetString("Notes", resourceCulture);
             }
         }
         

@@ -263,4 +263,13 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="Ellipsis" xml:space="preserve">
     <value>...</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="FamilyMembers" xml:space="preserve">
+    <value>Family members</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
 </root>

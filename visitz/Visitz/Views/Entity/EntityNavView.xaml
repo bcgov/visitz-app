@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Entity.EntityNavView"
+    x:DataType="entity:EntityNavViewModel">
+    
+    <StackLayout Orientation="Vertical">
+
+        <HorizontalStackLayout>
+            <HorizontalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+            </HorizontalStackLayout.GestureRecognizers>
+
+            <Label 
+                VerticalOptions="Center"
+                FontSize="28"
+                Text="{Static icons:MaterialIcons.Chevron_left}"
+                FontFamily="MaterialIconsRoundedFilled" />
+
+            <Label 
+                VerticalOptions="Center"
+                Padding="0,20,10,20"
+                Text="Caseload" />
+        </HorizontalStackLayout>
+
+        <CollectionView
+            ItemsSource="{Binding EntityNavItems}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedEntityNavItem}"
+            ItemSizingStrategy="MeasureFirstItem"
+            SelectionChangedCommand="{Binding EntityNavSelectedCommand}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:NavItem">
+                    <ContentView>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{StaticResource EntityNavSelectedColor}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <HorizontalStackLayout>
+                            <Label 
+                                VerticalOptions="Center"
+                                FontSize="28"
+                                Text="{Static icons:MaterialIcons.Chevron_left}"
+                                TextColor="Transparent"
+                                FontFamily="MaterialIconsRoundedFilled" />
+
+                            <Label 
+                                VerticalOptions="Center"
+                                Padding="0,20,10,20"
+                                Text="{Binding Text}" />
+                        </HorizontalStackLayout>
+                    </ContentView>
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+    
+</views:ViewModelContentView>
