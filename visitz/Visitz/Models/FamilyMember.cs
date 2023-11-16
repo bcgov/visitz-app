@@ -44,6 +44,8 @@ namespace Visitz.Models
             .TrimEnd([',', ' ', '-'])
             .TrimEnd([',', ' ', '-']);
 
+        public int Age => (DateTime.Now - DateTime.Parse(DateOfBirth)).Days / 365;
+
         public static FamilyMember FromApiEntity(FamilyMemberEntity familyMember)
         {
             return new FamilyMember()
