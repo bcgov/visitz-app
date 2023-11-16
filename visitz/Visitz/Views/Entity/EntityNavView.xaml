@@ -2,6 +2,7 @@
 <views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:models="clr-namespace:Visitz.Models"
@@ -28,6 +29,29 @@
                 Text="Caseload" />
         </HorizontalStackLayout>
 
+        <VerticalStackLayout Spacing="5">
+            <BoxView 
+                HeightRequest="0.5"
+                Color="{StaticResource SeparatorColor}" />
+            
+            <Label
+                Margin="10,10,10,0"
+                FontSize="20"
+                FontFamily="BCSansBold"
+                Text="{Binding CaseloadItem.DisplayName}" />
+
+            <views:TagView
+                BindingContext="{Binding CaseloadItem}"
+                Margin="-5,0,10,15"
+                VerticalOptions="Center"
+                FontFamily="BCSansBold"
+                FontSize="13">
+                <views:TagView.Behaviors>
+                    <behaviors:EntityTypeTagBehavior />
+                </views:TagView.Behaviors>
+            </views:TagView>
+        </VerticalStackLayout>
+        
         <CollectionView
             ItemsSource="{Binding EntityNavItems}"
             SelectionMode="Single"
