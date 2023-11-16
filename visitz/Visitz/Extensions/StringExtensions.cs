@@ -17,4 +17,9 @@ public static class StringExtensions
             .Where(split => split.Length >= 1 && char.IsLetter(split[0]))
             .Select(split => char.ToUpper(split[0])));
     }
+
+    public static string FormatAddressPart(this string addressPart, string separator)
+    {
+        return addressPart?.Length > 0 ? addressPart + separator : string.Empty;
+    }
 }

@@ -9,7 +9,8 @@
     <Border
         x:Name="Border"
         BindingContext="{x:Reference this}"
-        Stroke="{Binding BorderColor}">
+        Stroke="{Binding BorderColor}"
+        Margin="0">
 
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="20" />
@@ -17,7 +18,6 @@
 
         <HorizontalStackLayout
             BackgroundColor="{Binding BackgroundColor}"
-            HorizontalOptions="Start"
             Spacing="5"
             Padding="10,2,10,2" >
 

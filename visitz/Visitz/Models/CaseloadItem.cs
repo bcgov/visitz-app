@@ -79,22 +79,16 @@ namespace Visitz.Models
                 : DateTime.MinValue;
         }
 
-        // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string Address
-        {
-            get
-            {
-                var address = UnitNo + AddressLine1 + AddressLine2
-                + City + PostalCode + ProvinceState + Country;
-
-                return address.Length == 0
-                    ? "NA"
-                    : (UnitNo.Length > 0 ? UnitNo : "N/A") + ", " + (AddressLine1.Length > 0 ? AddressLine1 : "N/A") +
-                        ", " + (AddressLine2.Length > 0 ? AddressLine2 : "N/A") + ", " + (City.Length > 0 ? City : "N/A") +
-                        ", " + (PostalCode.Length > 0 ? PostalCode : "N/A") + ", " + (ProvinceState.Length > 0 ? ProvinceState : "N/A") +
-                        ", " + (Country.Length > 0 ? Country : "N/A");
-            }
-        }
+        public string Address =>
+            (UnitNo.FormatAddressPart("-")
+            + AddressLine1.FormatAddressPart(" ")
+            + AddressLine2.FormatAddressPart(" ")
+            + City.FormatAddressPart(", ")
+            + ProvinceState.FormatAddressPart(", ")
+            + Country.FormatAddressPart(", ")
+            + PostalCode.FormatAddressPart(""))
+            .TrimEnd([',', ' ', '-'])
+            .TrimEnd([',', ' ', '-']);
 
         public static CaseloadItem FromApiEntity(CaseloadEntity caseloadEntity)
         {
