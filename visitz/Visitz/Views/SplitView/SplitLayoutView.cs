@@ -5,22 +5,35 @@ namespace Visitz.Views.SplitView;
 
 public abstract class SplitLayoutView : BaseContentView
 {
+    private static readonly double Unset = -1.0d;
+
     public static readonly BindableProperty StartPaneColumnWidthProperty = BindableProperty.Create(nameof(StartPaneColumnWidth),
         typeof(GridLength), typeof(SplitLayoutView), propertyChanged: StartPaneColumnWidthChanged);
 
     public static readonly BindableProperty EndPaneColumnWidthProperty = BindableProperty.Create(nameof(EndPaneColumnWidth),
         typeof(GridLength), typeof(SplitLayoutView), propertyChanged: EndPaneColumnWidthChanged);
 
+    private static void MatchWidths(VisualElement ve, ColumnDefinition column, GridLength gridLength)
+    {
+        ve.WidthRequest = gridLength.IsStar ? Unset : column.Width.Value;
+    }
+
     private static void StartPaneColumnWidthChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is SplitLayoutView splitView)
-            splitView.StartColumn.Width = (GridLength)newValue;
+        if (bindable is SplitLayoutView splitView && newValue is GridLength newLength)
+        {
+            splitView.StartColumn.Width = newLength;
+            MatchWidths(splitView.StartPane, splitView.StartColumn, newLength);
+        }
     }
 
     private static void EndPaneColumnWidthChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is SplitLayoutView splitView)
-            splitView.EndColumn.Width = (GridLength)newValue;
+        if (bindable is SplitLayoutView splitView && newValue is GridLength newLength)
+        {
+            splitView.EndColumn.Width = newLength;
+            MatchWidths(splitView.EndPane, splitView.EndColumn, newLength);
+        }
     }
 
     public GridLength StartPaneColumnWidth
@@ -57,7 +70,7 @@ public abstract class SplitLayoutView : BaseContentView
 
         var separator = new BoxView()
         {
-            Color = VisitzColors.Gray200,
+            Color = VisitzColors.SeparatorColor,
         };
 
         SplitLayout.Add(StartPane, 0, 0);
@@ -68,13 +81,17 @@ public abstract class SplitLayoutView : BaseContentView
     public void SetStartPane(IView view)
     {
         StartPane.Clear();
-        AddToPane(StartPane, view);
+
+        if (view != null)
+            AddToPane(StartPane, view);
     }
 
     public void SetEndPane(IView view)
     {
         EndPane.Clear();
-        AddToPane(EndPane, view);
+
+        if (view != null)
+            AddToPane(EndPane, view);
     }
 
     private static void AddToPane(AbsoluteLayout layout, IView view)

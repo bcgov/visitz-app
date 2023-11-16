@@ -35,9 +35,12 @@
             <Label 
                 x:Name="TagLabel"
                 Text="{Binding Text}"
-                FontSize="14"
+                FontSize="{Binding FontSize}"
+                FontFamily="{Binding FontFamily}"
                 TextColor="{Binding TextColor}"
-                VerticalOptions="CenterAndExpand" />
+                VerticalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center"
+                TextTransform="{Binding TextTransform}" />
         </HorizontalStackLayout>
     </Border>
 

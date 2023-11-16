@@ -49,6 +49,9 @@ public static class VisitzColors
     // BuildBarBackgroundColor uses one of the <build> colors
     public static readonly Color BuildBarBackgroundColor = TryGetColor(nameof(BuildBarBackgroundColor));
 
+    public static readonly Color EntityNavBackgroundColor = TryGetColor(nameof(EntityNavBackgroundColor));
+    public static readonly Color EntityNavSelectedColor = TryGetColor(nameof(EntityNavSelectedColor));
+
     // Tags Colors
     public static readonly Color EntityCaseTagBackground = TryGetColor(nameof(EntityCaseTagBackground));
     public static readonly Color EntityCaseTagText = TryGetColor(nameof(EntityCaseTagText));
@@ -79,6 +82,8 @@ public static class VisitzColors
     public static readonly Color BlackishText = TryGetColor(nameof(BlackishText));
     public static readonly Color LightGrayBackground = TryGetColor(nameof(LightGrayBackground));
     public static readonly Color SkyBlueText = TryGetColor(nameof(SkyBlueText));
+
+    public static readonly Color SeparatorColor = TryGetColor(nameof(SeparatorColor));
 
     public static readonly Color Gray100 = TryGetColor(nameof(Gray100));
     public static readonly Color Gray200 = TryGetColor(nameof(Gray200));

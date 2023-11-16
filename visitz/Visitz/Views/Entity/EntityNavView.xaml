@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Entity.EntityNavView"
+    x:DataType="entity:EntityNavViewModel"
+    BackgroundColor="{StaticResource EntityNavBackgroundColor}">
+
+    <StackLayout Orientation="Vertical">
+
+        <HorizontalStackLayout Padding="0,10,0,10">
+            <HorizontalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+            </HorizontalStackLayout.GestureRecognizers>
+
+            <Label
+                VerticalOptions="Center"
+                FontSize="28"
+                Text="{Static icons:MaterialIcons.Chevron_left}"
+                FontFamily="MaterialIconsRoundedFilled" />
+
+            <Label 
+                VerticalOptions="Center"
+                Text="Caseload" />
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout Spacing="5">
+            <BoxView 
+                HeightRequest="0.5"
+                Color="{StaticResource SeparatorColor}" />
+            
+            <Label
+                Margin="10,10,10,0"
+                FontSize="20"
+                FontFamily="BCSansBold"
+                Text="{Binding CaseloadItem.DisplayName}" />
+
+            <views:TagView
+                BindingContext="{Binding CaseloadItem}"
+                Margin="-5,0,10,15"
+                VerticalOptions="Center"
+                FontFamily="BCSansBold"
+                FontSize="13">
+                <views:TagView.Behaviors>
+                    <behaviors:EntityTypeTagBehavior />
+                </views:TagView.Behaviors>
+            </views:TagView>
+        </VerticalStackLayout>
+        
+        <CollectionView
+            ItemsSource="{Binding EntityNavItems}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedEntityNavItem}"
+            ItemSizingStrategy="MeasureFirstItem"
+            SelectionChangedCommand="{Binding EntityNavSelectedCommand}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:NavItem">
+                    <ContentView>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{StaticResource EntityNavSelectedColor}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <HorizontalStackLayout>
+                            <Label 
+                                VerticalOptions="Center"
+                                Margin="10,0,0,0"
+                                Padding="0,15,10,15"
+                                Text="{Binding Text}" />
+                        </HorizontalStackLayout>
+                    </ContentView>
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+    
+</views:ViewModelContentView>

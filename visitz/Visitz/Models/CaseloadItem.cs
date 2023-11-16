@@ -1,4 +1,5 @@
 ﻿using Realms;
+using Visitz.Extensions;
 using VisitzApi.Models;
 
 namespace Visitz.Models
@@ -58,6 +59,12 @@ namespace Visitz.Models
                     return ServiceOffice;
             }
         }
+
+        public string FullType => CaseIncidentType + " " + EntityType;
+
+        public string TypeInitials => (EntityType == IcmEntity.Incident 
+            ? EntityType[..2]
+            : CaseIncidentType.GetInitials()).ToUpper();
 
         public bool TryGetKeyPlayer(out FamilyMember keyPlayer)
         {
