@@ -1,3 +1,5 @@
+using Visitz.VisitzConfig;
+
 namespace Visitz.Views;
 
 public partial class TagView : ContentView
@@ -31,6 +33,16 @@ public partial class TagView : ContentView
 
     public static readonly BindableProperty IconWidthRequestProperty =
         BindableProperty.Create(nameof(IconWidthRequest), typeof(double), typeof(TagView));
+
+    public static readonly BindableProperty TextTransformProperty =
+        BindableProperty.Create(nameof(TextTransform), typeof(TextTransform), typeof(TagView));
+
+    public static readonly BindableProperty FontSizeProperty =
+        BindableProperty.Create(nameof(FontSize), typeof(double), typeof(TagView), defaultValue: 14.0d);
+
+    public static readonly BindableProperty FontFamilyProperty = 
+        BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(TagView), 
+            defaultValue: VisitzFonts.BcSansRegularAlias);
 
     public new Color BackgroundColor
     {
@@ -72,6 +84,24 @@ public partial class TagView : ContentView
     {
         get => (double)GetValue(IconWidthRequestProperty);
         set => SetValue(IconWidthRequestProperty, value);
+    }
+
+    public TextTransform TextTransform
+    {
+        get => (TextTransform)GetValue(TextTransformProperty);
+        set => SetValue(TextTransformProperty, value);
+    }
+
+    public double FontSize
+    {
+        get => (double)GetValue(FontSizeProperty);
+        set => SetValue(FontSizeProperty, value);
+    }
+
+    public string FontFamily
+    {
+        get => (string)GetValue(FontFamilyProperty);
+        set => SetValue(FontFamilyProperty, value);
     }
 
     public TagView()
