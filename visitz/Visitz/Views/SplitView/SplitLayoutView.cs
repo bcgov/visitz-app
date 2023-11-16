@@ -68,13 +68,17 @@ public abstract class SplitLayoutView : BaseContentView
     public void SetStartPane(IView view)
     {
         StartPane.Clear();
-        AddToPane(StartPane, view);
+
+        if (view != null)
+            AddToPane(StartPane, view);
     }
 
     public void SetEndPane(IView view)
     {
         EndPane.Clear();
-        AddToPane(EndPane, view);
+
+        if (view != null)
+            AddToPane(EndPane, view);
     }
 
     private static void AddToPane(AbsoluteLayout layout, IView view)
