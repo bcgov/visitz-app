@@ -28,6 +28,10 @@ namespace Visitz.VisitzConfig
 
             builder.Services.AddTransient<EntityNavView>();
             builder.Services.AddTransient<EntityNavViewModel>();
+
+            builder.Services.AddTransient<EntityDetailsView>();
+            builder.Services.AddTransient<EntityDetailsViewModel>();
+
             builder.Services.AddTransient<NotesPage>();
             builder.Services.AddTransient<NotesViewModel>();
 
@@ -39,9 +43,6 @@ namespace Visitz.VisitzConfig
 
             builder.Services.AddTransient<NotePublishPage>();
             builder.Services.AddTransient<NotePublishViewModel>();
-
-            builder.Services.AddTransient<CaseloadItemDetailsPage>();
-            builder.Services.AddTransient<CaseloadItemDetailsViewModel>();
 
             builder.Services.AddTransient<DebugOptionsPage>();
             builder.Services.AddTransient<DebugOptionsView>();
