@@ -115,12 +115,6 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async Task CaseDetailsTapped()
-        {
-            await CaseloadItemDetailsPage.Open(VisitzPage, CaseIncident.CaseIncidentNumber);
-        }
-
-        [RelayCommand]
         public void RefreshNotes()
         {
             if (CaseIncident == null)

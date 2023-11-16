@@ -44,9 +44,6 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<NotePublishPage>();
             builder.Services.AddTransient<NotePublishViewModel>();
 
-            builder.Services.AddTransient<CaseloadItemDetailsPage>();
-            builder.Services.AddTransient<CaseloadItemDetailsViewModel>();
-
             builder.Services.AddTransient<DebugOptionsPage>();
             builder.Services.AddTransient<DebugOptionsView>();
             builder.Services.AddTransient<DebugOptionsViewModel>();
