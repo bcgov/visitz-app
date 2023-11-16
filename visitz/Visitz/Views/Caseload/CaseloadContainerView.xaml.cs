@@ -9,6 +9,7 @@ namespace Visitz.Views.Caseload;
 public partial class CaseloadContainerView : SplitLayoutView
 {
     private static readonly double MinimumStartPaneWidth = 250.0f;
+    private static readonly GridLength StartPaneCaseloadViewLength = new(0.5, GridUnitType.Star);
 
     public CaseloadContainerView()
     {
@@ -19,7 +20,7 @@ public partial class CaseloadContainerView : SplitLayoutView
     {
         base.Creating();
 
-        StartPaneColumnWidth = new GridLength(0.5, GridUnitType.Star);
+        StartPaneColumnWidth = StartPaneCaseloadViewLength;
         StartPane.MinimumWidthRequest = MinimumStartPaneWidth;
 
         RegisterReceivers();
@@ -58,12 +59,16 @@ public partial class CaseloadContainerView : SplitLayoutView
         var entityNav = ServiceProvider.GetService<EntityNavView>();
         entityNav.CaseloadItem = item;
         SetStartPane(entityNav);
+
+        StartPaneColumnWidth = GridLength.Auto;
     }
 
     private void NavigateBack()
     {
         SetStartPane(ServiceProvider.GetService<CaseloadView>());
         SetEndPane(null);
+
+        StartPaneColumnWidth = StartPaneCaseloadViewLength;
     }
 
     private void OpenEntitySection(NavItem navItem, CaseloadItem caseloadItem)
