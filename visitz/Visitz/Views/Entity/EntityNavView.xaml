@@ -12,12 +12,12 @@
 
     <StackLayout Orientation="Vertical">
 
-        <HorizontalStackLayout>
+        <HorizontalStackLayout Padding="0,10,0,10">
             <HorizontalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding GoBackCommand}" />
             </HorizontalStackLayout.GestureRecognizers>
 
-            <Label 
+            <Label
                 VerticalOptions="Center"
                 FontSize="28"
                 Text="{Static icons:MaterialIcons.Chevron_left}"
@@ -25,7 +25,6 @@
 
             <Label 
                 VerticalOptions="Center"
-                Padding="0,20,10,20"
                 Text="Caseload" />
         </HorizontalStackLayout>
 
@@ -57,14 +56,8 @@
                         <HorizontalStackLayout>
                             <Label 
                                 VerticalOptions="Center"
-                                FontSize="28"
-                                Text="{Static icons:MaterialIcons.Chevron_left}"
-                                TextColor="Transparent"
-                                FontFamily="MaterialIconsRoundedFilled" />
-
-                            <Label 
-                                VerticalOptions="Center"
-                                Padding="0,20,10,20"
+                                Margin="10,0,0,0"
+                                Padding="0,15,10,15"
                                 Text="{Binding Text}" />
                         </HorizontalStackLayout>
                     </ContentView>
