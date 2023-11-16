@@ -8,4 +8,14 @@ public partial class EntityContactsViewModel : VisitzViewModel, ICaseloadItemHol
 {
     [ObservableProperty]
     public CaseloadItem caseloadItem;
+
+    [ObservableProperty]
+    public IEnumerable<FamilyMember> contacts;
+
+    public override void PageCreated()
+    {
+        base.PageCreated();
+
+        Contacts = CaseloadItem.FamilyMembers;
+    }
 }
