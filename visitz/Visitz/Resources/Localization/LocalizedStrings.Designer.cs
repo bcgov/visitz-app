@@ -326,6 +326,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page {0}.
+        /// </summary>
+        public static string NotePageNumberHeader {
+            get {
+                return ResourceManager.GetString("NotePageNumberHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         public static string Notes {

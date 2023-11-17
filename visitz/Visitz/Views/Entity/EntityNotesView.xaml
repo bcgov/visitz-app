@@ -3,8 +3,36 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:models="clr-namespace:Visitz.Models"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.EntityNotesView"
     x:DataType="entity:EntityNotesViewModel">
+
+    <CollectionView
+        x:Name="NotesCollectionView"
+        Loaded="NotesCollectionView_Loaded"
+        IsGrouped="True"
+        ItemsSource="{Binding Notes}"
+        ItemSizingStrategy="MeasureAllItems">
+
+        <CollectionView.GroupHeaderTemplate>
+            <DataTemplate x:DataType="models:NoteItemGroup">
+                <Label 
+                    Padding="0,0,0,10"
+                    Text="{Binding Name}" 
+                    FontFamily="BCSansBold" 
+                    FontSize="20" />
+            </DataTemplate>
+        </CollectionView.GroupHeaderTemplate>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:NoteItem">
+                <Label
+                    Margin="10,0,10,0"
+                    Text="{Binding Content}" />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        
+    </CollectionView>
 
 </views:ViewModelContentView>
