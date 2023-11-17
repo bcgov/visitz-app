@@ -51,7 +51,7 @@ Visitz is built using two C# projects: "Visitz" and "VisitzApi":
 
 5. Select build configuration and launch
 
-    - Visitz is currently only being built for iOS. Other platforms may or may not work when launching.
+    - Visitz is currently only being built for iOS and Windows. Other platforms may or may not work when launching.
 
 ## Visitz Conventions
 
