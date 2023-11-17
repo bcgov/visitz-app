@@ -35,6 +35,9 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<EntityContactsView>();
             builder.Services.AddTransient<EntityContactsViewModel>();
 
+            builder.Services.AddTransient<EntityNotesView>();
+            builder.Services.AddTransient<EntityNotesViewModel>();
+
             builder.Services.AddTransient<NotesPage>();
             builder.Services.AddTransient<NotesViewModel>();
 
