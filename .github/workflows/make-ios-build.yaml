@@ -12,6 +12,8 @@ on:
 
 env:
   PROJPATH: "visitz/Visitz"
+  DOTNET_VERSION: "8.0.100" # see workflows README
+  MAUI_VERSION: "8.0.3" # see workflows README
 
 jobs:
 
@@ -48,13 +50,13 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3.1.0
         with:
-          dotnet-version: ${{ vars.DOTNET_VERSION }}
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Install .NET MAUI ${{ vars.MAUI_VERSION }} workloads
+      - name: Install .NET MAUI ${{ env.MAUI_VERSION }} workloads
         run: |
           dotnet workload install maui maui-ios \
-            --sdk-version=${{ vars.DOTNET_VERSION }} \
-            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ vars.MAUI_VERSION }}.json
+            --sdk-version=${{ env.DOTNET_VERSION }} \
+            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
 
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |

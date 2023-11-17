@@ -8,6 +8,13 @@ Nothing yet.
 
 ### iOS
 
+> **Warning**: as of 2023-11-16 (early Version 2 development) the GH Action for iOS builds hardcodes its .NET and MAUI versions in the action itself instead of relying on variables. This is meant to decrease confusion in the future if anyone makes a build for an older commit.
+> 
+> Framework versions before this change:
+>
+> 	- .NET 7.0.302
+> 	- .NET MAUI 7.0.86
+
 1. Run "Build iOS release package" workflow manually
 
 2. Choose branch to build from
