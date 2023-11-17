@@ -48,6 +48,13 @@ public partial class VisitzApp : Application
             await AppLockPage.TryPrompt();
     }
 
+    protected override Window CreateWindow(IActivationState activationState)
+    {
+        return SetWindowLayout(base.CreateWindow(activationState));
+    }
+
+    private static partial Window SetWindowLayout(Window window);
+
     private static void TryStartDebugSensor()
     {
         if (DebugOptions.Enabled)
