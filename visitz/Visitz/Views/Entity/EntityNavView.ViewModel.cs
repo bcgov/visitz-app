@@ -22,6 +22,8 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
     [ObservableProperty]
     public NavItem selectedEntityNavItem;
 
+    public NavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
+
     public override void PageCreated()
     {
         base.PageCreated();
@@ -34,7 +36,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
             new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},
         };
 
-        SelectedEntityNavItem = EntityNavItems.First();
+        SelectedEntityNavItem = DefaultNavItem;
     }
 
     [RelayCommand]
