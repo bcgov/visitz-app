@@ -55,7 +55,6 @@ jobs:
       - name: Install .NET MAUI ${{ env.MAUI_VERSION }} workloads
         run: |
           dotnet workload install maui maui-ios \
-            --sdk-version=${{ env.DOTNET_VERSION }} \
             --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
 
       - name: .NET release build for iOS (${{ inputs.environment }})
