@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Models;
 using Visitz.Storage;
 using Visitz.ViewModels;
@@ -13,7 +12,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
-    public ObservableCollection<NoteItemGroup> notes = new();
+    public List<NoteItemGroup> notes;
 
     private Realm Realm { get; set; }
 
@@ -53,12 +52,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
     private void ApplyNoteItemsQuery()
     {
-        Notes.Clear();
-        
-        var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery);
-
-        foreach (var group in groups)
-            Notes.Add(group);
+        Notes = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery);
     }
 
     private void NoteItems_Changed(IRealmCollection<NoteItem> noteItems, ChangeSet changes)
