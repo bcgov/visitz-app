@@ -3,36 +3,80 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:models="clr-namespace:Visitz.Models"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.EntityNotesView"
     x:DataType="entity:EntityNotesViewModel">
 
-    <CollectionView
-        x:Name="NotesCollectionView"
-        Loaded="NotesCollectionView_Loaded"
-        IsGrouped="True"
-        ItemsSource="{Binding Notes}"
-        ItemSizingStrategy="MeasureAllItems">
+    <AbsoluteLayout>
+        <VerticalStackLayout 
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            IsVisible="{Binding IsNotesEmtpy}">
 
-        <CollectionView.GroupHeaderTemplate>
-            <DataTemplate x:DataType="models:NoteItemGroup">
-                <Label 
-                    Padding="0,0,0,10"
-                    Text="{Binding Name}" 
-                    FontFamily="BCSansBold" 
-                    FontSize="20" />
-            </DataTemplate>
-        </CollectionView.GroupHeaderTemplate>
+            <VerticalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer 
+                    Command="{Binding AddNoteCommand}" 
+                    CommandParameter="{Binding .}"/>
+            </VerticalStackLayout.GestureRecognizers>
 
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:NoteItem">
+            <Label 
+                HorizontalOptions="Center"
+                FontSize="200"
+                TextColor="#919197"
+                Text="{Static icons:MaterialIcons.Note_stack}"
+                FontFamily="MaterialIconsRoundedUnfilled" />
+
+            <!-- TapGestureRecognizer isn't working in this instance, so hide the prompt for now.
+                TODO: Get taps working here so we can show this prompt. -->
+            <HorizontalStackLayout 
+                IsVisible="False"
+                HorizontalOptions="Center"
+                Spacing="5">
                 <Label
-                    Margin="10,0,10,0"
-                    Text="{Binding Content}" />
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-        
-    </CollectionView>
+                    VerticalOptions="Center"
+                    FontSize="16"
+                    TextColor="{StaticResource SkyBlueText}"
+                    Text="Add notes" />
+
+                <Label 
+                    VerticalOptions="Center"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    FontSize="28"
+                    TextColor="{StaticResource SkyBlueText}"
+                    Text="{Static icons:MaterialIcons.Add_notes}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <CollectionView
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            x:Name="NotesCollectionView"
+            Loaded="NotesCollectionView_Loaded"
+            IsGrouped="True"
+            ItemsSource="{Binding Notes}"
+            ItemSizingStrategy="MeasureAllItems">
+
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="models:NoteItemGroup">
+                    <Label 
+                        Padding="0,0,0,10"
+                        Text="{Binding Name}" 
+                        FontFamily="BCSansBold" 
+                        FontSize="20" />
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:NoteItem">
+                    <Label
+                        Margin="10,0,10,0"
+                        Text="{Binding Content}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </AbsoluteLayout>
 
 </views:ViewModelContentView>

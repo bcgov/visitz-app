@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Models;
 using Visitz.Storage;
@@ -13,6 +14,9 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
     [ObservableProperty]
     public List<NoteItemGroup> notes;
+
+    [ObservableProperty]
+    public bool isNotesEmtpy;
 
     private Realm Realm { get; set; }
 
@@ -67,5 +71,10 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     public void AddNote()
     {
         // TODO: Open NoteEntryView
+    }
+
+    partial void OnNotesChanged(List<NoteItemGroup> value)
+    {
+        IsNotesEmtpy = !value?.Any() ?? true;
     }
 }
