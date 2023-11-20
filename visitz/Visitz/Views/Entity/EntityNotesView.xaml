@@ -63,19 +63,29 @@
 
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="models:NoteItemGroup">
-                        <Label 
-                            Padding="0,0,0,10"
-                            Text="{Binding Name}" 
-                            FontFamily="BCSansBold" 
-                            FontSize="20" />
+                        
+                        <!-- Fonts in Windows seem to have extra padding -->
+                        <ContentView 
+                            Padding="{OnPlatform WinUI='0', Default='10'}">
+                            
+                            <Label
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center"
+                                Text="{Binding Name}" 
+                                FontFamily="BCSansBold" 
+                                Padding="0"
+                                FontSize="20" />
+                        </ContentView>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:NoteItem">
-                        <Label
-                            Margin="10,0,10,0"
-                            Text="{Binding Content}" />
+                        <ContentView>
+                            <Label
+                                Margin="10,0,10,0"
+                                Text="{Binding Content}" />
+                        </ContentView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
