@@ -62,4 +62,10 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
         ApplyNoteItemsQuery();
     }
+
+    [RelayCommand]
+    public void AddNote()
+    {
+        // TODO: Open NoteEntryView
+    }
 }
