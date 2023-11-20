@@ -24,7 +24,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
     private IDisposable NoteItemsQueryToken { get; set; }
 
-    public NoteItemGroup LastNoteItemGroup => Notes.LastOrDefault();
+    public NoteItemGroup LastNoteItemGroup => Notes?.LastOrDefault();
 
     public NoteItem LastNoteItem => LastNoteItemGroup?.LastOrDefault();
 

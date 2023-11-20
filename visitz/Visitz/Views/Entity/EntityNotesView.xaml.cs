@@ -23,6 +23,7 @@ public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder
         var last = entityNotesVM.LastNoteItem;
 		var lastGroup = entityNotesVM.LastNoteItemGroup;
 
-        NotesCollectionView.ScrollTo(last, lastGroup, position: ScrollToPosition.End, animate: false);
+		if (last != null && lastGroup != null)
+        	NotesCollectionView.ScrollTo(last, lastGroup, position: ScrollToPosition.End, animate: false);
     }
 }
