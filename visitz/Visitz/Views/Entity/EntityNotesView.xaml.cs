@@ -18,7 +18,7 @@ public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder
 
     private void NotesCollectionView_Loaded(object sender, EventArgs e)
     {
-		var entityNotesVM = (ViewModel as EntityNotesViewModel);
+		var entityNotesVM = ViewModel as EntityNotesViewModel;
 
         var last = entityNotesVM.LastNoteItem;
 		var lastGroup = entityNotesVM.LastNoteItemGroup;
