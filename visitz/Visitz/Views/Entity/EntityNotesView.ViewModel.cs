@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Storage;
 using Visitz.ViewModels;
+using Visitz.Views.Notes;
 
 namespace Visitz.Views.Entity;
 
@@ -70,9 +72,18 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     }
 
     [RelayCommand]
-    public void AddNote()
+    public async void AddNote()
     {
-        // TODO: Open NoteEntryView
+        await OpenNoteEntry();
+    }
+
+    private async Task OpenNoteEntry()
+    {
+        var noteEntryView = ServiceProvider.GetService<NoteEntryView>();
+        noteEntryView.CaseloadItem = CaseloadItem;
+
+        var noteEntryPage = noteEntryView.WrapPageForModal();
+        await Navigator.Navigation.PushModalAsync(noteEntryPage);
     }
 
     partial void OnNotesChanged(List<NoteItemGroup> value)
