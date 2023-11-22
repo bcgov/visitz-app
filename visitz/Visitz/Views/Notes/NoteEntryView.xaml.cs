@@ -117,4 +117,9 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
     {
         FocusBottom();
     }
+
+    private async void CloseButton_Clicked(object sender, EventArgs e)
+    {
+        await Navigator.Navigation.PopModalAsync();
+    }
 }

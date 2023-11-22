@@ -22,14 +22,20 @@
             RowDefinitions="Auto,Auto"
             RowSpacing="10">
 
-            <Label
+            <ImageButton
                 Grid.Row="0"
                 Grid.Column="0"
-                Text="Add Content"
-                TextColor="{StaticResource BlackishText}"
-                FontFamily="BCSansBold"
-                FontSize="17"
-                VerticalOptions="Start"/>
+                HeightRequest="40"
+                WidthRequest="40"
+                VerticalOptions="Center"
+                Clicked="CloseButton_Clicked">
+                <ImageButton.Source>
+                    <FontImageSource 
+                        Glyph="{Static fonticons:MaterialIcons.Close}" 
+                        FontFamily="MaterialIconsRoundedFilled"
+                        Color="{StaticResource Gray600}" />
+                </ImageButton.Source>
+            </ImageButton>
 
             <views:TagView 
                 x:Name="DraftSavedTagView"
