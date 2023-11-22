@@ -143,12 +143,12 @@ namespace Visitz.ViewModels
             ShowSavingDraftMessage();
         }
 
-        private bool ExceedsCharacterLimit(TextChangedEventArgs e)
+        private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
         {
             return e.NewTextValue?.Length > CharacterLimit;
         }
 
-        private bool TextIsInvalid(TextChangedEventArgs e)
+        private static bool TextIsInvalid(TextChangedEventArgs e)
         {
             return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
         }
