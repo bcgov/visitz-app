@@ -16,14 +16,22 @@ public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder
 		BindingContext = ViewModel;
 	}
 
+	// Because lifecycle events are processed in a different order between iOS & Windows, this Loaded event has
+	// specific logic for either platform.
+	// TODO: Clean this up and use proper async loading with progress indicators in the UI—and/or improve general
+	// performance.
+#if IOS
+    private async void NotesCollectionView_Loaded(object sender, EventArgs e)
+#else
     private void NotesCollectionView_Loaded(object sender, EventArgs e)
+#endif
     {
-		var entityNotesVM = ViewModel as EntityNotesViewModel;
-
-        var last = entityNotesVM.LastNoteItem;
-		var lastGroup = entityNotesVM.LastNoteItemGroup;
-
-		ScrollToItem(last, lastGroup);
+        var entityNotesVM = ViewModel as EntityNotesViewModel;
+#if IOS
+		await Task.Run(() => SpinWait.SpinUntil(() => 
+			entityNotesVM.LastNoteItem != null && entityNotesVM.LastNoteItemGroup != null));
+#endif
+        ScrollToItem(entityNotesVM.LastNoteItem, entityNotesVM.LastNoteItemGroup);
     }
 
 	private void ScrollToItem(NoteItem item, NoteItemGroup noteItemGroup)
