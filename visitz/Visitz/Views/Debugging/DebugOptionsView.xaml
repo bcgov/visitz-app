@@ -115,13 +115,7 @@
                 StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="6"
                 Grid.Column="0"
-                Text="Show NoteItemView debug info"/>
-
-            <Switch
-                StyleClass="DebugLayout"
-                Grid.Row="6"
-                Grid.Column="1"
-                IsToggled="{Binding ShowNoteItemViewDebugInfo}"/>
+                Text="--"/>
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"

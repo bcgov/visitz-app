@@ -3,7 +3,6 @@
     public class DebugOptions
     {
         private static readonly string IdirOverrideKey = "IdirOverride";
-        private static readonly string ShowNoteItemViewDebugInfoKey = "ShowNoteItemViewDebugInfo";
         private static readonly string DryFireSubmitNotesKey = "DryFireSubmitNotes";
         private static readonly string DryFireSubmitNotesSimulateSuccessKey = "DryFireSubmitNotesSimulateSuccess";
 
@@ -28,12 +27,6 @@
         {
             get => Get(IdirOverrideKey, "");
             set => Set(IdirOverrideKey, value.Trim());
-        }
-
-        public static bool ShowNoteItemViewDebugInfo
-        {
-            get => Get(ShowNoteItemViewDebugInfoKey, false);
-            set => Set(ShowNoteItemViewDebugInfoKey, value);
         }
 
         public static bool DryFireSubmitNotes
