@@ -1,28 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:VisitzPage
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-    xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:pages="clr-namespace:Visitz.Pages"
-    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
-    xmlns:views="clr-namespace:Visitz.Views"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
-    x:Class="Visitz.Pages.NoteEntryPage"
-    x:DataType="viewModels:NoteEntryViewModel"
-    Title="{Binding Title}"
-    ControlTemplate="{StaticResource VisitzPageWrapper}">
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:notes="clr-namespace:Visitz.Views.Notes"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Views.Notes.NoteEntryView"
+    x:DataType="viewmodels:NoteEntryViewModel">
 
-    <pages:VisitzPage.Behaviors>
+    <views:ViewModelContentView.Behaviors>
         <behaviors:SoftPageKeyboardBehavior />
-    </pages:VisitzPage.Behaviors>
+    </views:ViewModelContentView.Behaviors>
 
     <StackLayout 
         Orientation="Vertical"
         Spacing="10"
         Padding="20">
-        
+
         <Grid 
             ColumnDefinitions="Auto,*,Auto"
             RowDefinitions="Auto,Auto"
@@ -70,9 +68,9 @@
                 IsVisible="False">
                 <views:TagView.ImageSource>
                     <FontImageSource 
-                        Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}" 
-                        FontFamily="FluentIconsRegular"
-                        Color="Black" />
+                    Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}" 
+                    FontFamily="FluentIconsRegular"
+                    Color="Black" />
                 </views:TagView.ImageSource>
             </views:TagView>
 
@@ -190,4 +188,5 @@
         </AbsoluteLayout>
 
     </StackLayout>
-</pages:VisitzPage>
+
+</views:ViewModelContentView>

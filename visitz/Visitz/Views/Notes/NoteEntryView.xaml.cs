@@ -1,26 +1,17 @@
 ﻿using Visitz.Animations;
 using Visitz.Animations.Haptic;
-using Visitz.Models;
 using Visitz.ViewModels;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.Notes;
 
-public partial class NoteEntryPage : VisitzPage
+public partial class NoteEntryView : ViewModelContentView
 {
-    public NoteEntryPage(NoteEntryViewModel viewModel) : base(viewModel)
-    {
-        InitializeComponent();
-        BindingContext = viewModel;
-    }
 
-    public static async Task Open(Page fromPage, CaseloadItem caseIncident, NoteItem noteItem)
-    {
-        await NavigateTo<NoteEntryPage>(fromPage, new Dictionary<string, object>
-        {
-            { NoteEntryViewModel.NoteItemKey, noteItem },
-            { NoteEntryViewModel.CaseIncidentKey, caseIncident }
-        });
-    }
+    public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())
+	{
+		InitializeComponent();
+		BindingContext = ViewModel;
+	}
 
     void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
