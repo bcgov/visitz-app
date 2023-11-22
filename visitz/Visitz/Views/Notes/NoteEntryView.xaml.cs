@@ -1,11 +1,17 @@
 ﻿using Visitz.Animations;
 using Visitz.Animations.Haptic;
+using Visitz.Models;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Notes;
 
-public partial class NoteEntryView : ViewModelContentView
+public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 {
+    public CaseloadItem CaseloadItem
+    {
+        get => (ViewModel as ICaseloadItemHolder).CaseloadItem;
+        set => (ViewModel as ICaseloadItemHolder).CaseloadItem = value;
+    }
 
     public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())
 	{

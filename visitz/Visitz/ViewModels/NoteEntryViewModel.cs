@@ -9,14 +9,15 @@ using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
-    public partial class NoteEntryViewModel : VisitzViewModel
+    public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         private static readonly int CharacterLimit = 16000;
 
         public static readonly string NoteItemKey = "noteItem";
         public static readonly string CaseIncidentKey = "caseIncident";
 
-        public CaseloadItem caseIncident;
+        public CaseloadItem CaseloadItem { get; set; }
+
         public NoteItem noteItem;
 
         [ObservableProperty]
@@ -38,14 +39,14 @@ namespace Visitz.ViewModels
         {
             base.PageCreated();
 
-            caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
+            CaseloadItem = Parameters[CaseIncidentKey] as CaseloadItem;
             noteItem = Parameters[NoteItemKey] as NoteItem;
 
-            noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber);
+            noteDraftId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber);
 
             Title = noteItem?.PeriodOrPageNumber != null
-                ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
-                : caseIncident.DisplayName;
+                ? $"{CaseloadItem.DisplayName} • {noteItem?.PeriodOrPageNumber}"
+                : CaseloadItem.DisplayName;
 
             var realm = await VisitzRealm.GetNoteDraftAsync();
 
@@ -110,7 +111,7 @@ namespace Visitz.ViewModels
             var trimmedDraft = Draft?.Trim();
 
             if (trimmedDraft?.Length > 0)
-                await NotePublishPage.Open(VisitzPage, caseIncident, noteItem, trimmedDraft);
+                await NotePublishPage.Open(VisitzPage, CaseloadItem, noteItem, trimmedDraft);
         }
 
         public void EditorTextChanged(TextChangedEventArgs e)
