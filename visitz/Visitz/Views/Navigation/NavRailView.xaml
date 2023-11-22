@@ -34,7 +34,8 @@
             SelectionMode="Single"
             SelectionChanged="CollectionView_SelectionChanged"
             WidthRequest="90"
-            ItemsSource="{Binding NavigationItems}">
+            ItemsSource="{Binding NavigationItems}"
+            SelectedItem="{Binding SelectedNavItem}">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
