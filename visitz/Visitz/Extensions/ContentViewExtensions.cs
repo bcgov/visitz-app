@@ -15,6 +15,7 @@ public static class ContentViewExtensions
     {
         var page = new ContentPage()
         {
+            Background = Colors.Transparent,
             Content = contentView,
             HeightRequest = Height,
             WidthRequest = Width,
