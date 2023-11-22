@@ -45,6 +45,8 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
     public override void PageDestroyed()
     {
+        Notes = null;
+
         NoteItemsQueryToken?.Dispose();
         NoteItemsQueryToken = null;
 
