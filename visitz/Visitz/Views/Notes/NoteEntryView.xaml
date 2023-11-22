@@ -12,10 +12,6 @@
     x:Class="Visitz.Views.Notes.NoteEntryView"
     x:DataType="viewmodels:NoteEntryViewModel">
 
-    <!--<views:ViewModelContentView.Behaviors>
-        <behaviors:SoftPageKeyboardBehavior />
-    </views:ViewModelContentView.Behaviors>-->
-
     <StackLayout 
         Orientation="Vertical"
         Spacing="10"
