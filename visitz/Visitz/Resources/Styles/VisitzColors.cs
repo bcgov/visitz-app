@@ -79,6 +79,8 @@ public static class VisitzColors
 
     public static readonly Color LightGrayText = TryGetColor(nameof(LightGrayText));
     public static readonly Color DarkSkyBlueBackground = TryGetColor(nameof(DarkSkyBlueBackground));
+    public static readonly Color DarkSkyBlueBackgroundPointerOver = TryGetColor(nameof(DarkSkyBlueBackgroundPointerOver));
+    public static readonly Color DarkSkyBlueBackgroundPressed = TryGetColor(nameof(DarkSkyBlueBackgroundPressed));
     public static readonly Color BlackishText = TryGetColor(nameof(BlackishText));
     public static readonly Color LightGrayBackground = TryGetColor(nameof(LightGrayBackground));
     public static readonly Color SkyBlueText = TryGetColor(nameof(SkyBlueText));
