@@ -17,7 +17,32 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 	{
 		InitializeComponent();
 		BindingContext = ViewModel;
+
+        (ViewModel as NoteEntryViewModel).DraftError += NoteEntryView_DraftError;
+        (ViewModel as NoteEntryViewModel).DraftSaveStateChanged += NoteEntryView_DraftSaveStateChanged;
 	}
+
+    protected override void Destroying()
+    {
+        (ViewModel as NoteEntryViewModel).DraftSaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
+        (ViewModel as NoteEntryViewModel).DraftError -= NoteEntryView_DraftError;
+
+        base.Destroying();
+    }
+
+    private async void NoteEntryView_DraftError(object sender, Events.DraftErrorEventArgs e)
+    {
+        await ShowEditorError(e.ErrorMessage);
+    }
+
+    private async void NoteEntryView_DraftSaveStateChanged(object sender, Events.DraftSaveStatusEventArgs e)
+    {
+        await Task.WhenAll
+        (
+            SetDraftSavedPromptVisible(e.DraftSaved), 
+            SetSavingDraftPromptVisible(e.SavingDraft)
+        );
+    }
 
     void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
     {

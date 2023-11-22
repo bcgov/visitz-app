@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using Visitz.Events;
 using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Pages;
@@ -34,6 +35,10 @@ namespace Visitz.ViewModels
         private IQueryable<NoteDraft> NoteDraftQuery { get; set; }
 
         private IDisposable NoteDraftQueryToken { get; set; }
+
+        public event EventHandler<DraftErrorEventArgs> DraftError;
+
+        public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
 
         public override async void PageCreated()
         {
@@ -124,13 +129,13 @@ namespace Visitz.ViewModels
             if (TextIsInvalid(e))
             {
                 CancelTextChangedEvent(e);
-                _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.InvalidEntry);
+                DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.InvalidEntry));
                 return;
             }
             else if (ExceedsCharacterLimit(e))
             {
                 CancelTextChangedEvent(e);
-                _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.CharacterLimitReached);
+                DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.CharacterLimitReached));
                 return;
             }
 
@@ -166,31 +171,24 @@ namespace Visitz.ViewModels
             ApplyDraft();
         }
 
-        private async void ShowSavingDraftMessage()
+        private void ShowSavingDraftMessage()
         {
-            await SetDraftMessageVisible(false, true);
+            SetDraftMessageVisible(false, true);
         }
 
-        private async void ShowDraftSavedMessage()
+        private void ShowDraftSavedMessage()
         {
-            await SetDraftMessageVisible(true, false);
+            SetDraftMessageVisible(true, false);
         }
 
-        private async void ClearDraftMessages()
+        private void ClearDraftMessages()
         {
-            await SetDraftMessageVisible(false, false);
+            SetDraftMessageVisible(false, false);
         }
 
-        private async Task SetDraftMessageVisible(bool draftSaved, bool savingDraft)
+        private void SetDraftMessageVisible(bool draftSaved, bool savingDraft)
         {
-            if (VisitzPage is NoteEntryPage page)
-            {
-                await Task.WhenAll
-                (
-                    page.SetDraftSavedPromptVisible(draftSaved),
-                    page.SetSavingDraftPromptVisible(savingDraft)
-                );
-            }
+            DraftSaveStateChanged?.Invoke(this, new DraftSaveStatusEventArgs(draftSaved, savingDraft));
         }
     }
 }
