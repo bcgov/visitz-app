@@ -1,4 +1,5 @@
-﻿using Visitz.Pages;
+﻿using Visitz.Authentication.Keycloak;
+using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
 
@@ -47,6 +48,15 @@ public partial class VisitzApp : Application
         if (await VisitzSession.SessionExistsAsync())
             await AppLockPage.TryPrompt();
     }
+
+#if WINDOWS
+    protected override Window CreateWindow(IActivationState activationState)
+    {
+        return SetWindowLayout(base.CreateWindow(activationState));
+    }
+
+    private static partial Window SetWindowLayout(Window window);
+#endif
 
     private static void TryStartDebugSensor()
     {

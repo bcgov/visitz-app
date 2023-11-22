@@ -12,9 +12,6 @@ namespace Visitz.ViewModels
         public string idirOverride;
 
         [ObservableProperty]
-        public bool showNoteItemViewDebugInfo;
-
-        [ObservableProperty]
         public bool dryFireSubmitNotes;
 
         [ObservableProperty]
@@ -37,7 +34,6 @@ namespace Visitz.ViewModels
             base.PageCreated();
 
             IdirOverride = DebugOptions.IdirOverride;
-            ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;
             DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
             DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
 
@@ -53,11 +49,6 @@ namespace Visitz.ViewModels
         partial void OnIdirOverrideChanged(string value)
         {
             DebugOptions.IdirOverride = value;
-        }
-
-        partial void OnShowNoteItemViewDebugInfoChanged(bool value)
-        {
-            DebugOptions.ShowNoteItemViewDebugInfo = value;
         }
 
         partial void OnDryFireSubmitNotesChanged(bool value)

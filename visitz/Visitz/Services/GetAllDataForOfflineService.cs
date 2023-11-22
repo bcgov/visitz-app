@@ -1,4 +1,5 @@
-﻿using Visitz.Authentication.Keycloak;
+﻿using Realms;
+using Visitz.Authentication.Keycloak;
 using Visitz.Models;
 using Visitz.Services.Messages;
 using Visitz.Storage;
@@ -58,6 +59,7 @@ namespace Visitz.Services
 
             var allIdEntities = realm
                 .All<CaseloadItem>()
+                .Freeze()
                 .ToList()
                 .Select(item => (item.CaseIncidentNumber, item.EntityType));
 

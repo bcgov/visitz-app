@@ -61,6 +61,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add notes.
+        /// </summary>
+        public static string AddNotes {
+            get {
+                return ResourceManager.GetString("AddNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -322,6 +331,15 @@ namespace Visitz.Resources.Localization {
         public static string NoResultsForSearchAndFilter {
             get {
                 return ResourceManager.GetString("NoResultsForSearchAndFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page {0}.
+        /// </summary>
+        public static string NotePageNumberHeader {
+            get {
+                return ResourceManager.GetString("NotePageNumberHeader", resourceCulture);
             }
         }
         
