@@ -56,19 +56,15 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     private async Task ShowErrorText(string text)
     {
-        if (ErrorLabel.IsVisible)
+        if (EditorError.IsVisible)
             return;
 
-        ErrorLabel.Text = "❌ " + text;
-
-        var fadeIn = new VisibilityAnimation(true, 100, Easing.CubicIn);
-        var fadeOut = new VisibilityAnimation(false, 100, Easing.CubicOut);
-
-        await fadeIn.Animate(ErrorLabel);
+        EditorError.Text = text;
+        EditorError.Show = true;
 
         await Task.Delay(2000);
-
-        await fadeOut.Animate(ErrorLabel);
+        
+        EditorError.Show = false;
     }
 
     public async Task SetDraftSavedPromptVisible(bool visible)

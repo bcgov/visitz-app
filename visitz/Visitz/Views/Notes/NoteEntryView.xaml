@@ -25,8 +25,7 @@
 
             <Grid 
                 ColumnDefinitions="Auto,*,Auto"
-                RowDefinitions="Auto,Auto"
-                RowSpacing="10">
+                RowDefinitions="Auto">
 
                 <ImageButton
                     Grid.Row="0"
@@ -96,28 +95,6 @@
                         IsEnabled="{Binding AllowPublish}" />
                 </HorizontalStackLayout>
 
-                <Label 
-                    x:Name="ErrorLabel"
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    TextColor="{StaticResource BC_Semantic_Error}"
-                    FontSize="16"
-                    FontFamily="BCSansBold"
-                    VerticalOptions="Center"
-                    MaxLines="1"
-                    LineBreakMode="TailTruncation"
-                    IsVisible="False"/>
-
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    TextColor="{StaticResource LightGrayText}"
-                    Text="{Binding CharacterLimitText}"
-                    FontFamily="BCSansRegular"
-                    FontSize="12"
-                    VerticalOptions="Center"
-                    HorizontalOptions="End" />
-
             </Grid>
 
             <AbsoluteLayout VerticalOptions="FillAndExpand">
@@ -139,6 +116,12 @@
                             StoppedTypingTimeThreshold="700" />
                     </Editor.Behaviors>
                 </Editor>
+
+                <views:ErrorTooltip 
+                    x:Name="EditorError"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,-.08"
+                    IsVisible="False" />
 
                 <ImageButton
                     AbsoluteLayout.LayoutFlags="PositionProportional"
