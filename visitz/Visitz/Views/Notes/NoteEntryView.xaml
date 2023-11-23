@@ -91,12 +91,8 @@
 
                     <Button
                         Text="Publish"
-                        Command="{Binding PublishNotesCommand}">
-
-                        <Button.Behaviors>
-                            <behaviors:DisableWhenInternetUnavailableBehavior />
-                        </Button.Behaviors>
-                    </Button>
+                        Command="{Binding PublishNotesCommand}"
+                        IsEnabled="{Binding AllowPublish}" />
                 </HorizontalStackLayout>
 
                 <Label 

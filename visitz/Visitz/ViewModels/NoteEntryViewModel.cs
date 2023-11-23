@@ -26,9 +26,16 @@ namespace Visitz.ViewModels
 
         [ObservableProperty]
         public string title;
+        private string DraftOutput => Draft?.Trim();
 
         [ObservableProperty]
         public string characterLimitText = $"{CharacterLimit}/{CharacterLimit}";
+
+        [ObservableProperty]
+        public bool allowPublish;
+
+        [ObservableProperty]
+        private NetworkAccess networkAccess = Connectivity.Current.NetworkAccess;
 
         private string noteDraftId;
 
@@ -46,6 +53,7 @@ namespace Visitz.ViewModels
 
             CaseloadItem = Parameters[CaseIncidentKey] as CaseloadItem;
             noteItem = Parameters[NoteItemKey] as NoteItem;
+            Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
             noteDraftId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber);
 
@@ -75,6 +83,8 @@ namespace Visitz.ViewModels
             NoteDraftQueryToken = null;
 
             NoteDraftQuery = null;
+
+            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
 
             base.PageDestroyed();
         }
@@ -113,10 +123,10 @@ namespace Visitz.ViewModels
         [RelayCommand]
 		public async void PublishNotes()
 		{
-            var trimmedDraft = Draft?.Trim();
-
-            if (trimmedDraft?.Length > 0)
                 await NotePublishPage.Open(VisitzPage, CaseloadItem, noteItem, trimmedDraft);
+            if (UpdateAllowPublish())
+            {
+            }
         }
 
         public void EditorTextChanged(TextChangedEventArgs e)
@@ -139,6 +149,7 @@ namespace Visitz.ViewModels
                 return;
             }
 
+            UpdateAllowPublish(e.NewTextValue);
             UpdateCharLimit();
             ShowSavingDraftMessage();
         }
@@ -160,7 +171,7 @@ namespace Visitz.ViewModels
 
         private void UpdateCharLimit()
         {
-            CharacterLimitText = $"{CharacterLimit - (Draft?.Length ?? 0)}/{CharacterLimit}";
+            CharacterLimitText = $"{CharacterLimit - (DraftOutput?.Length ?? 0)}/{CharacterLimit}";
         }
 
         private void NoteDraft_Changed(IRealmCollection<NoteDraft> sender, ChangeSet changes)
@@ -189,6 +200,23 @@ namespace Visitz.ViewModels
         private void SetDraftMessageVisible(bool draftSaved, bool savingDraft)
         {
             DraftSaveStateChanged?.Invoke(this, new DraftSaveStatusEventArgs(draftSaved, savingDraft));
+        }
+
+        partial void OnNetworkAccessChanged(NetworkAccess value)
+        {
+            UpdateAllowPublish();
+        }
+
+        private bool UpdateAllowPublish(string draftText = null)
+        {
+            draftText ??= DraftOutput;
+            AllowPublish = NetworkAccess == NetworkAccess.Internet && draftText?.Length > 0;
+            return AllowPublish;
+        }
+
+        private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            NetworkAccess = e.NetworkAccess;
         }
     }
 }
