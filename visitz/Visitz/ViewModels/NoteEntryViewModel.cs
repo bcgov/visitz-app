@@ -76,7 +76,7 @@ namespace Visitz.ViewModels
 
         public override void PageDestroyed()
         {
-            NoteDraftQueryToken.Dispose();
+            NoteDraftQueryToken?.Dispose();
             NoteDraftQueryToken = null;
 
             NoteDraftQuery = null;
