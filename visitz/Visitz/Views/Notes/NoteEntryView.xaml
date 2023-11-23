@@ -91,6 +91,7 @@
 
                     <Button
                         Text="{local:Localize PublishToIcm}"
+                        Style="{StaticResource Pill}"
                         Command="{Binding PublishNotesCommand}"
                         IsEnabled="{Binding AllowPublish}" />
                 </HorizontalStackLayout>

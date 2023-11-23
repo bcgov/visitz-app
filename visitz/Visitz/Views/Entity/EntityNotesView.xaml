@@ -113,9 +113,9 @@
             <!-- TODO: Hardcoding width on iOS because of a rendering issue. -->
             <Button 
                 Grid.Column="2"
-                CornerRadius="22"
                 WidthRequest="{OnPlatform iOS=150}"
                 Text="{local:Localize AddNotes}"
+                Style="{StaticResource Pill}"
                 Command="{Binding AddNoteCommand}">
                 <Button.ImageSource>
                     <FontImageSource 
