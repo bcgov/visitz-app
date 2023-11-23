@@ -29,9 +29,6 @@ namespace Visitz.ViewModels
         private string DraftOutput => Draft?.Trim();
 
         [ObservableProperty]
-        public string characterLimitText = $"{CharacterLimit}/{CharacterLimit}";
-
-        [ObservableProperty]
         public bool allowPublish;
 
         [ObservableProperty]
@@ -92,7 +89,6 @@ namespace Visitz.ViewModels
         private void ApplyDraft()
         {
             Draft = NoteDraftQuery.FirstOrDefault()?.Draft;
-            UpdateCharLimit();
         }
 
         [RelayCommand]
@@ -150,7 +146,6 @@ namespace Visitz.ViewModels
             }
 
             UpdateAllowPublish(e.NewTextValue);
-            UpdateCharLimit();
             ShowSavingDraftMessage();
         }
 
@@ -167,11 +162,6 @@ namespace Visitz.ViewModels
         private void CancelTextChangedEvent(TextChangedEventArgs e)
         {
             Draft = e.OldTextValue;
-        }
-
-        private void UpdateCharLimit()
-        {
-            CharacterLimitText = $"{CharacterLimit - (DraftOutput?.Length ?? 0)}/{CharacterLimit}";
         }
 
         private void NoteDraft_Changed(IRealmCollection<NoteDraft> sender, ChangeSet changes)
