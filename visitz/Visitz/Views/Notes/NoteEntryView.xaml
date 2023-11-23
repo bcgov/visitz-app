@@ -90,7 +90,7 @@
                     <views:InternetInfoView />
 
                     <Button
-                        Text="Publish"
+                        Text="{local:Localize PublishToIcm}"
                         Command="{Binding PublishNotesCommand}"
                         IsEnabled="{Binding AllowPublish}" />
                 </HorizontalStackLayout>
