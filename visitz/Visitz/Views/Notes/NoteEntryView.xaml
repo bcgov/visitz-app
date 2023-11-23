@@ -133,7 +133,8 @@
                     Margin="10"
                     Padding="5"
                     BackgroundColor="{StaticResource DarkSkyBlueBackground}"
-                    Clicked="Scroll_To_Bottom_Clicked">
+                    Clicked="Scroll_To_Bottom_Clicked"
+                    IsVisible="{OnIdiom Desktop=False, Default=True}">
 
                     <ImageButton.Shadow>
                         <Shadow
