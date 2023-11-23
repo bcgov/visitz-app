@@ -102,6 +102,7 @@
                     x:Name="NotesEditor"
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    Background="Transparent"
                     Text="{Binding Draft}"
                     TextColor="{StaticResource BlackishText}"
                     FontFamily="BCSansRegular"
