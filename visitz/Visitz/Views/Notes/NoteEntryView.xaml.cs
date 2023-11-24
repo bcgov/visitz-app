@@ -116,6 +116,7 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     private async void CloseButton_Clicked(object sender, EventArgs e)
     {
+        await (ViewModel as NoteEntryViewModel).SaveDraftToRealm();
         await Navigator.Navigation.PopModalAsync();
     }
 }

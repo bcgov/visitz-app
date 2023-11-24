@@ -91,9 +91,10 @@ namespace Visitz.ViewModels
             Draft = NoteDraftQuery.FirstOrDefault()?.Draft;
         }
 
-        [RelayCommand]
-        public async void SaveDraft()
+        public async Task SaveDraftToRealm()
         {
+            ConsoleTrace.TraceMethod(this);
+
             var realm = await VisitzRealm.GetNoteDraftAsync();
             var noteDraft = realm.Find<NoteDraft>(noteDraftId);
 
@@ -114,6 +115,12 @@ namespace Visitz.ViewModels
             });
 
             ShowDraftSavedMessage();
+        }
+
+        [RelayCommand]
+        public async void SaveDraft()
+        {
+            await SaveDraftToRealm();
         }
 
         [RelayCommand]
