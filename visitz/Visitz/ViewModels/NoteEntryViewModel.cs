@@ -114,7 +114,10 @@ namespace Visitz.ViewModels
 		public async void PublishNotes()
 		{
             if (UpdateAllowPublish())
+            {
+                await Navigator.Navigation.PopModalAsync();
                 await NotePublishPage.Open(CaseloadItem, DraftOutput);
+            }
         }
 
         public void EditorTextChanged(TextChangedEventArgs e)
