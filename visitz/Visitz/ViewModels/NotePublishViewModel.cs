@@ -43,7 +43,6 @@ namespace Visitz.ViewModels
         private bool isFetchOnly = false;
         private string draft;
         private SubmitNoteEntity submitNoteEntity;
-        private string createdDate;
 
         private bool wasDraftSubmitted = false;
         private bool wasNotesFetched = false;
@@ -56,7 +55,6 @@ namespace Visitz.ViewModels
             var noteItem = Parameters[NoteItemKey] as NoteItem;
             draft = Parameters[DraftItemKey] as string;
 
-            createdDate = noteItem?.CreatedDate;
             Title = noteItem?.PeriodOrPageNumber != null
                 ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
                 : caseIncident.DisplayName;
