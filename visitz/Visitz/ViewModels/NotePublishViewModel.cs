@@ -19,6 +19,8 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string title;
 
+        public string Draft { get; set; }
+
         [ObservableProperty]
         public bool showPublishingIndicator = true;
 
@@ -41,7 +43,6 @@ namespace Visitz.ViewModels
         public bool showRefreshSection = false;
 
         private bool isFetchOnly = false;
-        private string draft;
         private SubmitNoteEntity submitNoteEntity;
 
         private bool wasDraftSubmitted = false;
@@ -53,7 +54,7 @@ namespace Visitz.ViewModels
 
             var caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
             var noteItem = Parameters[NoteItemKey] as NoteItem;
-            draft = Parameters[DraftItemKey] as string;
+            Draft = Parameters[DraftItemKey] as string;
 
             Title = noteItem?.PeriodOrPageNumber != null
                 ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
@@ -70,7 +71,7 @@ namespace Visitz.ViewModels
             WeakReferenceMessenger.Default.Register(this, SubmitNoteService.MakeId(caseIncident.CaseIncidentNumber, submitNoteEntity.NotePeriod));
             WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncident.CaseIncidentNumber));
 
-            await PublishDraft(submitNoteEntity, draft);
+            await PublishDraft(submitNoteEntity, Draft);
         }
 
         public override void PageDestroyed()
@@ -186,7 +187,7 @@ namespace Visitz.ViewModels
             ShowRetrySection = false;
             if (!wasDraftSubmitted)
             {
-                await PublishDraft(submitNoteEntity, draft);
+                await PublishDraft(submitNoteEntity, Draft);
             }
             else
             {
