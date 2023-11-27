@@ -90,6 +90,17 @@ namespace Visitz.Models
                 $"CreatedDate: {note?.CreatedDate}, " +
                 $"IsValid: {note?.IsValid}";
         }
+
+        public static NoteItem GetLatestByEntityId(Realm realm, string entityId)
+        {
+            return realm
+                .All<NoteItem>()
+                .Where(item => item.IcmId == entityId)
+                .AsEnumerable()
+                .OrderBy(item => NotePeriodDateTimeTransform(item, true))
+                .OrderBy(item => CreatedDateTimeTransform(item, true))
+                .LastOrDefault();
+        }
     }
 }
 
