@@ -37,6 +37,7 @@
 
         <Label 
             Grid.Row="1"
+            FontFamily="BCSansBold"
             HorizontalOptions="End"
             Text="Age" />
 
@@ -44,11 +45,12 @@
             Grid.Row="1"
             Grid.Column="1"
             HorizontalOptions="Start"
-            FontFamily="BCSansBold"            
+            FontFamily="BCSansRegular"            
             Text="{Binding Age}" />
 
         <Label 
             Grid.Row="2"
+            FontFamily="BCSansBold"
             HorizontalOptions="End"
             Text="Birthdate" />
 
@@ -56,11 +58,12 @@
             Grid.Row="2"
             Grid.Column="1"
             HorizontalOptions="Start"
-            FontFamily="BCSansBold"
+            FontFamily="BCSansRegular"
             Text="{Binding DateOfBirth}" />
 
         <Label 
             Grid.Row="3"
+            FontFamily="BCSansBold"
             HorizontalOptions="End"
             Text="Gender" />
 
@@ -68,11 +71,12 @@
             Grid.Row="3"
             Grid.Column="1"
             HorizontalOptions="Start"
-            FontFamily="BCSansBold"
+            FontFamily="BCSansRegular"
             Text="{Binding Sex}" />
 
         <Label 
             Grid.Row="4"
+            FontFamily="BCSansBold"
             HorizontalOptions="End"
             Text="Indigenous" />
 
@@ -80,11 +84,12 @@
             Grid.Row="4"
             Grid.Column="1"
             HorizontalOptions="Start"
-            FontFamily="BCSansBold"
+            FontFamily="BCSansRegular"
             Text="{Binding AboriginalOrigin}" />
 
         <Label 
             Grid.Row="5"
+            FontFamily="BCSansBold"
             HorizontalOptions="End"
             Text="Address" />
 
@@ -92,7 +97,7 @@
             Grid.Row="5"
             Grid.Column="1"
             HorizontalOptions="Start"
-            FontFamily="BCSansBold"
+            FontFamily="BCSansRegular"
             Text="{Binding Address}" />
 
     </Grid>
