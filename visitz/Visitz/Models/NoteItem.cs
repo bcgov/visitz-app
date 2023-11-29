@@ -24,6 +24,9 @@ namespace Visitz.Models
         public string CreatedDate { get; set; }
         public string Content { get; set; }
         public int PageNumber { get; set; }
+        
+        public DateTimeOffset NotePeriodDateTime { get; set; }
+        public DateTimeOffset CreatedDateTime { get; set; }
 
         public static bool EqualByDates(NoteItem lhs, NoteItem rhs)
         {
@@ -53,9 +56,15 @@ namespace Visitz.Models
             {
                 IcmId = icmId,
                 NotePeriod = note.NotePeriod,
-                CreatedDate = note.CreatedDate, // TODO use actual DateTime type
+                CreatedDate = note.CreatedDate,
                 Content = note.Content,
-                PageNumber = pageNumber
+                PageNumber = pageNumber,
+                NotePeriodDateTime = note.NotePeriod?.Length > 0 
+                    ? DateTimeOffset.Parse(note.NotePeriod) 
+                    : DateTimeOffset.MinValue,
+                CreatedDateTime = note.CreatedDate?.Length > 0 
+                    ? DateTimeOffset.Parse(note.CreatedDate)
+                    : DateTimeOffset.MinValue,
             };
         }
 
@@ -93,13 +102,16 @@ namespace Visitz.Models
 
         public static NoteItem GetLatestByEntityId(Realm realm, string entityId)
         {
+            return GetNotesByEntityId(realm, entityId)
+                .LastOrDefault();
+        }
+
+        public static IQueryable<NoteItem> GetNotesByEntityId(Realm realm, string entityId)
+        {
             return realm
                 .All<NoteItem>()
                 .Where(item => item.IcmId == entityId)
-                .AsEnumerable()
-                .OrderBy(item => NotePeriodDateTimeTransform(item, true))
-                .OrderBy(item => CreatedDateTimeTransform(item, true))
-                .LastOrDefault();
+                .Filter($"TRUEPREDICATE SORT({nameof(NotePeriodDateTime)} ASC, {nameof(CreatedDateTime)} ASC)");
         }
     }
 }
