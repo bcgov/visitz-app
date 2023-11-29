@@ -1,14 +1,47 @@
 ﻿using Realms;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using Visitz.Extensions;
+using Visitz.Models.Comparers;
 using Visitz.Resources.Localization;
 
 namespace Visitz.Models;
 
-public class NoteItemGroup(string name, List<NoteItem> items) : List<NoteItem>(items)
+public class NoteItemGroup : ObservableCollection<NoteItem>
 {
     private static readonly string DistinctQuery = "TRUEPREDICATE DISTINCT({0})";
 
-    public string Name { get; set; } = name;
+    public string Name => EntityType == IcmEntity.Case
+        ? NotePeriodDateTime.ToString(NoteItem.IcmNotePeriodDateFormat, CultureInfo.InvariantCulture)
+        : MakePageNumberHeader(PageNumber);
+
+    public DateTimeOffset NotePeriodDateTime { get; private set; }
+
+    public int PageNumber { get; private set; }
+
+    public string EntityType { get; private set; }
+
+    public NoteItemGroup(NoteItem note, string entityType) : base()
+    {
+        NotePeriodDateTime = note.NotePeriodDateTime;
+        PageNumber = note.PageNumber;
+        EntityType = entityType;
+        Add(note);
+    }
+
+    public NoteItemGroup(List<NoteItem> notes, string entityType) : base(notes)
+    {
+        var note = notes.First();
+
+        NotePeriodDateTime = note.NotePeriodDateTime;
+        PageNumber = note.PageNumber;
+        EntityType = entityType;
+    }
+
+    private static string MakePageNumberHeader(int pageNumber)
+    {
+        return LocalizedStrings.NotePageNumberHeader.Format(pageNumber);
+    }
 
     private static IOrderedEnumerable<string> GetPeriodHeaders(IQueryable<NoteItem> entityNotesQuery)
     {
@@ -36,7 +69,7 @@ public class NoteItemGroup(string name, List<NoteItem> items) : List<NoteItem>(i
                 .OrderBy(item => DateTime.Parse(item.CreatedDate))
                 .ToList();
 
-        return new NoteItemGroup(notePeriod, notesForPeriod);
+        return new NoteItemGroup(notesForPeriod, IcmEntity.Case);
     }
 
     private static NoteItemGroup GetNotesGroupByPage(int pageNumber, IQueryable<NoteItem> entityNotesQuery)
@@ -47,8 +80,8 @@ public class NoteItemGroup(string name, List<NoteItem> items) : List<NoteItem>(i
             .OrderBy(item => DateTime.Parse(item.CreatedDate))
             .ToList();
 
-        string groupName = LocalizedStrings.NotePageNumberHeader.Format(pageNumber);
-        return new NoteItemGroup(groupName, notesForPage);
+        string groupName = MakePageNumberHeader(pageNumber);
+        return new NoteItemGroup(notesForPage, IcmEntity.Incident);
     }
 
     public static List<NoteItemGroup> GetGroupsFromNotesQuery(string icmEntityType, IQueryable<NoteItem> entityNotesQuery)
