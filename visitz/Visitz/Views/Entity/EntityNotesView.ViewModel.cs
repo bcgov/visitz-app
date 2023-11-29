@@ -79,19 +79,9 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
                 NoteItem addNote = (NoteItem)e.NewItems[0];
                 NoteItemGroup.InsertInSortedGroups(Notes, addNote, CaseloadItem.EntityType);
                 break;
-
-            case NotifyCollectionChangedAction.Move:
-
-                break;
-
             case NotifyCollectionChangedAction.Remove:
                 NoteItemGroup.RemoveFromSortedGroups(Notes, e.OldStartingIndex);
                 break;
-
-            case NotifyCollectionChangedAction.Replace:
-
-                break;
-
             case NotifyCollectionChangedAction.Reset:
                 Notes.Clear();
                 break;
