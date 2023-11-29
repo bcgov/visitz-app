@@ -138,4 +138,39 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
             notes.Insert(noteIndex, note);
         }
     }
+
+    private static (int,int) GetJaggedIndex(ObservableCollection<NoteItemGroup> groups, int flattenedIndex)
+    {
+        int matchIndex = 0;
+
+        for (int groupIndex = 0; groupIndex < groups.Count; groupIndex++)
+        {
+            var group = groups[groupIndex];
+
+            if (matchIndex + group.Count <= flattenedIndex)
+                matchIndex += group.Count;
+            else
+                return (groupIndex, flattenedIndex - matchIndex);
+        }
+
+        return (-1, -1);
+    }
+
+    public static void RemoveFromSortedGroups(ObservableCollection<NoteItemGroup> groups, int flattenedIndex)
+    {
+        if (groups == null || !groups.Any())
+            return;
+
+        var (groupIndex, noteIndex) = GetJaggedIndex(groups, flattenedIndex);
+
+        if (groupIndex == -1 || noteIndex == -1)
+            return;
+
+        var targetGroup = groups[groupIndex];
+
+        targetGroup.RemoveAt(noteIndex);
+
+        if (!targetGroup.Any())
+            groups.Remove(targetGroup);
+    }
 }

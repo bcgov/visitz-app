@@ -85,6 +85,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
                 break;
 
             case NotifyCollectionChangedAction.Remove:
+                NoteItemGroup.RemoveFromSortedGroups(Notes, e.OldStartingIndex);
                 break;
 
             case NotifyCollectionChangedAction.Replace:
