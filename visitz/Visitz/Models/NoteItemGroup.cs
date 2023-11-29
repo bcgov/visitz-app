@@ -101,4 +101,41 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
 
         return groups;
     }
+
+    private static NoteItemGroup GetLastTargetGroup(IList<NoteItemGroup> groups, NoteItem note, string entityType)
+    {
+        return entityType == IcmEntity.Case
+            ? groups.LastOrDefault(group => group.Name == note.NotePeriod)
+            : groups.LastOrDefault(group => group.Name == MakePageNumberHeader(note.PageNumber));
+    }
+
+    public static void InsertInSortedGroups(ObservableCollection<NoteItemGroup> groups, NoteItem note, string entityType)
+    {
+        var targetGroup = GetLastTargetGroup(groups, note, entityType);
+
+        if (targetGroup == null)
+        {
+            targetGroup = new NoteItemGroup(note, entityType);
+
+            var comparer = entityType == IcmEntity.Case 
+                ? NoteItemGroupComparer.NotePeriodInstance 
+                : NoteItemGroupComparer.PageNumberInstance;
+
+            int groupIndex = groups.BinarySearch(targetGroup, comparer);
+            if (groupIndex < 0)
+                groupIndex = ~groupIndex;
+
+            groups.Insert(groupIndex, targetGroup);
+        }
+        else
+        {
+            var notes = (ObservableCollection<NoteItem>)targetGroup;
+
+            int noteIndex = notes.BinarySearch(note, NoteItemComparer.Instance);
+            if (noteIndex < 0)
+                noteIndex = ~noteIndex;
+
+            notes.Insert(noteIndex, note);
+        }
+    }
 }
