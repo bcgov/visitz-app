@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Storage;
@@ -15,7 +17,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
-    public List<NoteItemGroup> notes;
+    public ObservableCollection<NoteItemGroup> notes = new();
 
     [ObservableProperty]
     public bool isNotesEmtpy;
@@ -36,13 +38,16 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
         Realm = await VisitzRealm.GetIcmDataAsync();
 
-        NoteItemsQuery = Realm
-            .All<NoteItem>()
-            .Where(item => item.IcmId == CaseloadItem.CaseIncidentNumber);
+        Notes.CollectionChanged += Notes_CollectionChanged;
 
-        NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItems_Changed);
+        NoteItemsQuery = NoteItem.GetNotesByEntityId(Realm, CaseloadItem.CaseIncidentNumber);
+        NoteItemsQuery.AsRealmCollection().CollectionChanged += NoteItemsQuery_CollectionChanged;
 
-        ApplyNoteItemsQuery();
+        var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery);
+        IsNotesEmtpy = groups.Count == 0;
+
+        foreach (var note in groups)
+            Notes.Add(note);
     }
 
     public override void PageDestroyed()
@@ -52,23 +57,47 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         NoteItemsQueryToken?.Dispose();
         NoteItemsQueryToken = null;
 
+        NoteItemsQuery.AsRealmCollection().CollectionChanged -= NoteItemsQuery_CollectionChanged;
+        Notes.CollectionChanged -= Notes_CollectionChanged;
+
         Realm?.Dispose();
         Realm = null;
 
         base.PageDestroyed();
     }
 
-    private void ApplyNoteItemsQuery()
+    private void Notes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        Notes = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery);
+        IsNotesEmtpy = !Notes?.Any() ?? true;
     }
 
-    private void NoteItems_Changed(IRealmCollection<NoteItem> noteItems, ChangeSet changes)
+    private void NoteItemsQuery_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        if (changes == null)
-            return;
+        switch (e.Action)
+        {
+            case NotifyCollectionChangedAction.Add:
+                NoteItem addNote = (NoteItem)e.NewItems[0];
+                NoteItemGroup.InsertInSortedGroups(Notes, addNote, CaseloadItem.EntityType);
+                break;
 
-        ApplyNoteItemsQuery();
+            case NotifyCollectionChangedAction.Move:
+
+                break;
+
+            case NotifyCollectionChangedAction.Remove:
+                break;
+
+            case NotifyCollectionChangedAction.Replace:
+
+                break;
+
+            case NotifyCollectionChangedAction.Reset:
+                Notes.Clear();
+                break;
+
+            default:
+                throw new NotImplementedException();
+        }
     }
 
     [RelayCommand]
@@ -84,10 +113,5 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
         var noteEntryPage = noteEntryView.WrapPageForModal();
         await Navigator.Navigation.PushModalAsync(noteEntryPage);
-    }
-
-    partial void OnNotesChanged(List<NoteItemGroup> value)
-    {
-        IsNotesEmtpy = !value?.Any() ?? true;
     }
 }
