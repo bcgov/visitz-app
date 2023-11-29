@@ -9,7 +9,7 @@ namespace Visitz.Models
     /// </summary>
     public partial class NoteItem : IRealmObject
     {
-        private static readonly string IcmNotePeriodDateFormat = "MMM yyyy";
+        public static readonly string IcmNotePeriodDateFormat = "MMM yyyy";
         private static readonly string NoteWrapperTimestampFormat = "yyyy-MMM-dd hh:mm:ss tt";
         private static readonly string Separator = "────";
 
