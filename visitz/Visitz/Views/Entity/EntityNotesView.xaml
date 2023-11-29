@@ -58,6 +58,7 @@
                 x:Name="NotesCollectionView"
                 Loaded="NotesCollectionView_Loaded"
                 IsGrouped="True"
+                ItemsUpdatingScrollMode="KeepScrollOffset"
                 ItemsSource="{Binding Notes}"
                 ItemSizingStrategy="MeasureAllItems">
 
