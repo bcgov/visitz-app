@@ -38,7 +38,7 @@
     <Color x:Key="BuildBarBackgroundColor">#406</Color>
 
     <Color x:Key="EntityNavBackgroundColor">White</Color>
-    <Color x:Key="EntityNavSelectedColor">#adc0e7</Color>
+    <Color x:Key="EntityNavSelectedColor">#d4def2</Color>
 
     <!-- Tags Colors -->
     <Color x:Key="EntityCaseTagBackground">#C2E0FF</Color>
