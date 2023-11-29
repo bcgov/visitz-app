@@ -41,7 +41,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         Notes.CollectionChanged += Notes_CollectionChanged;
 
         NoteItemsQuery = NoteItem.GetNotesByEntityId(Realm, CaseloadItem.CaseIncidentNumber);
-        NoteItemsQuery.AsRealmCollection().CollectionChanged += NoteItemsQuery_CollectionChanged;
+        NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItemsQuery_Changed);
 
         var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery);
         IsNotesEmtpy = groups.Count == 0;
@@ -57,7 +57,6 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         NoteItemsQueryToken?.Dispose();
         NoteItemsQueryToken = null;
 
-        NoteItemsQuery.AsRealmCollection().CollectionChanged -= NoteItemsQuery_CollectionChanged;
         Notes.CollectionChanged -= Notes_CollectionChanged;
 
         Realm?.Dispose();
@@ -71,24 +70,22 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         IsNotesEmtpy = !Notes?.Any() ?? true;
     }
 
-    private void NoteItemsQuery_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void NoteItemsQuery_Changed(IRealmCollection<NoteItem> realmNotes, ChangeSet changes)
     {
-        switch (e.Action)
-        {
-            case NotifyCollectionChangedAction.Add:
-                NoteItem addNote = (NoteItem)e.NewItems[0];
-                NoteItemGroup.InsertInSortedGroups(Notes, addNote, CaseloadItem.EntityType);
-                break;
-            case NotifyCollectionChangedAction.Remove:
-                NoteItemGroup.RemoveFromSortedGroups(Notes, e.OldStartingIndex);
-                break;
-            case NotifyCollectionChangedAction.Reset:
-                Notes.Clear();
-                break;
+        if (changes == null)
+            return;
 
-            default:
-                throw new NotImplementedException();
+        if (changes.IsCleared)
+        {
+            Notes.Clear();
+            return;
         }
+
+        foreach (var deletedIndex in changes.DeletedIndices.Reverse())
+            NoteItemGroup.RemoveFromSortedGroups(Notes, deletedIndex);
+
+        foreach (var insertedIndex in changes.InsertedIndices)
+            NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex], CaseloadItem.EntityType);
     }
 
     [RelayCommand]
