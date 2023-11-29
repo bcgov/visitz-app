@@ -47,7 +47,7 @@ namespace Visitz.Services
             var (id, entityType) = PayloadTuple;
 
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
-            var notes = NoteItem.FromApiEntities(id, notesFromApi);
+            var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
 
             using var realm = await VisitzRealm.GetIcmDataAsync();
             await realm.WriteAsync(() =>
@@ -60,7 +60,7 @@ namespace Visitz.Services
                 // automatically handle if notes were deleted in ICM.
                 realm.RemoveRange(allNotesByEntityId);
 
-                realm.Add(notes);
+                realm.Add(newNotes);
             });
 
             ResultCode = Result.Successful;
