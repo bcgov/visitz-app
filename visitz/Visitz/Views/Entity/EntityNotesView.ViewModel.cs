@@ -17,7 +17,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
-    public ObservableCollection<NoteItemGroup> notes = new();
+    public ObservableCollection<NoteItemGroup> notes;
 
     [ObservableProperty]
     public bool isNotesEmtpy;
@@ -38,16 +38,8 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
         Realm = await VisitzRealm.GetIcmDataAsync();
 
-        Notes.CollectionChanged += Notes_CollectionChanged;
-
         NoteItemsQuery = NoteItem.GetNotesByEntityId(Realm, CaseloadItem.CaseIncidentNumber);
         NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItemsQuery_Changed);
-
-        var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery);
-        IsNotesEmtpy = groups.Count == 0;
-
-        foreach (var note in groups)
-            Notes.Add(note);
     }
 
     public override void PageDestroyed()
@@ -65,6 +57,17 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         base.PageDestroyed();
     }
 
+    private void InitNotesCollection(List<NoteItemGroup> items)
+    {
+        if (Notes != null)
+            Notes.CollectionChanged -= Notes_CollectionChanged;
+
+        Notes = new ObservableCollection<NoteItemGroup>(items);
+        Notes.CollectionChanged += Notes_CollectionChanged;
+        
+        IsNotesEmtpy = items.Count == 0;
+    }
+
     private void Notes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         IsNotesEmtpy = !Notes?.Any() ?? true;
@@ -73,7 +76,11 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     private void NoteItemsQuery_Changed(IRealmCollection<NoteItem> realmNotes, ChangeSet changes)
     {
         if (changes == null)
+        {
+            var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery);
+            InitNotesCollection(groups);
             return;
+        }
 
         if (changes.IsCleared)
         {
