@@ -50,20 +50,20 @@ namespace Visitz.Services
             var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
 
             using var realm = await VisitzRealm.GetIcmDataAsync();
+            var currentNotes = NoteItem.GetNotesByEntityId(realm, id);
+            var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
+
             await realm.WriteAsync(() =>
             {
-                var allNotesByEntityId = realm
-                    .All<NoteItem>()
-                    .Where(note => note.IcmId == id);
+                foreach (var deletedNote in deletedNotes)
+                    realm.Remove(deletedNote);
 
-                // For this ICM entity, remove all local notes from storage to
-                // automatically handle if notes were deleted in ICM.
-                realm.RemoveRange(allNotesByEntityId);
-
-                realm.Add(newNotes);
+                realm.Add(newNotes, update: true);
             });
 
             ResultCode = Result.Successful;
         }
+
+        static string NoteSelector(NoteItem note) => note.FullID;
     }
 }
