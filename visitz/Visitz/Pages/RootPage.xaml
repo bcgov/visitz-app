@@ -7,7 +7,8 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     x:Class="Visitz.Pages.RootPage"
-    NavigationPage.HasNavigationBar="False">
+    NavigationPage.HasNavigationBar="False"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
 
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior StatusBarStyle="LightContent" StatusBarColor="{StaticResource BuildBarBackgroundColor}" />
