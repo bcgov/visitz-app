@@ -87,18 +87,13 @@ namespace Visitz.ViewModels
 
             await realm.WriteAsync(() =>
             {
-                if (noteDraft == null)
+                var draft = new NoteDraft
                 {
-                    realm.Add(new NoteDraft
-                    {
-                        CaseIncidentAndCreatedDateID = noteDraftId,
-                        Draft = Draft
-                    });
-                }
-                else
-                {
-                    noteDraft.Draft = Draft;
-                }
+                    CaseIncidentAndCreatedDateID = noteDraftId,
+                    Draft = Draft
+                };
+
+                realm.Add(draft, update: true);
             });
 
             ShowDraftSavedMessage();
