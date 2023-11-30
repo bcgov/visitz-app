@@ -26,7 +26,6 @@
 
                 <SearchBar 
                     BackgroundColor="{StaticResource BC_Background_Light}"
-                    PlaceholderColor="{StaticResource BC_TextColor}"
                     CancelButtonColor="{StaticResource BC_TextColor}"
                     TextColor="{StaticResource BC_TextColor}"
                     x:Name="CaseloadSearchBar"
