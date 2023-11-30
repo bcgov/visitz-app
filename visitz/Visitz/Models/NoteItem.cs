@@ -14,8 +14,19 @@ namespace Visitz.Models
         private static readonly string Separator = "────";
 
         /// <summary>
-        /// Used app-only to unique ID NoteItems.
+        /// Used app-only to uniquely ID NoteItems.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The ICM API doesn't provide a NoteItem's actual primary key ID, so this value is made using <c>IcmId</c>,
+        /// <c>NotePeriod</c>, and <c>CreatedDate</c>.
+        /// </para>
+        /// <para>
+        /// <i>This may become an issue</i>—if two note objects are created in the same second for a given ICM entity, this PK
+        /// unique assertion will fail. While possible, this is also unlikely: new note objects are typically only 
+        /// created either monthly or when a ~16000 character limit is reached.
+        /// </para>
+        /// </remarks>
         [PrimaryKey]
         public string FullID { get; set; }
 
