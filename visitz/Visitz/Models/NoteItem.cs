@@ -14,6 +14,12 @@ namespace Visitz.Models
         private static readonly string Separator = "────";
 
         /// <summary>
+        /// Used app-only to unique ID NoteItems.
+        /// </summary>
+        [PrimaryKey]
+        public string FullID { get; set; }
+
+        /// <summary>
         /// Used app-only to associate Notes with CaseloadItems. As of 2023-06-05 the ICM API does
         /// not return PK/FK information about notes.
         /// </summary>
@@ -50,10 +56,21 @@ namespace Visitz.Models
         public string PeriodOrPageNumber => NotePeriod?.Length > 0 ? NotePeriod : $"Page {PageNumber}";
         public bool ShowTitleIcon => NotePeriod?.Length > 0;
 
+        public static string MakeFullID(string icmId, NoteEntity note)
+        {
+            return MakeFullID(icmId, note.NotePeriod, note.CreatedDate);
+        }
+
+        public static string MakeFullID(string icmId, string notePeriod, string createdDate)
+        {
+            return $"{icmId}-{notePeriod}-{createdDate}";
+        }
+
         public static NoteItem FromApiEntity(string icmId, NoteEntity note, int pageNumber)
         {
             return new NoteItem()
             {
+                FullID = MakeFullID(icmId, note),
                 IcmId = icmId,
                 NotePeriod = note.NotePeriod,
                 CreatedDate = note.CreatedDate,
