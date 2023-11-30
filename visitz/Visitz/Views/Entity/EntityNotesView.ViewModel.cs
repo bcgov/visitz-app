@@ -52,12 +52,12 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
     public override void PageDestroyed()
     {
+        if (Notes != null)
+            Notes.CollectionChanged -= Notes_CollectionChanged;
         Notes = null;
 
         NoteItemsQueryToken?.Dispose();
         NoteItemsQueryToken = null;
-
-        Notes.CollectionChanged -= Notes_CollectionChanged;
 
         Realm?.Dispose();
         Realm = null;
