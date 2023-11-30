@@ -16,21 +16,34 @@
         Orientation="Vertical"
         HorizontalOptions="Fill">
 
-        <VerticalStackLayout Spacing="10" Margin="0,0,0,0">
-            
-            <SearchBar 
-                BackgroundColor="#efeff0"
-                x:Name="CaseloadSearchBar"
-                HorizontalOptions="FillAndExpand"
-                Placeholder="{local:Localize CaseloadSearchHint}"
-                Text="{Binding SearchQuery}"
-                SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
-                TextChanged="CaseloadSearchBar_TextChanged"
-                ios:SearchBar.SearchBarStyle="Minimal" />
+        <VerticalStackLayout>
+            <VerticalStackLayout Spacing="10" Padding="10">
+                <Grid>
+                    <Label 
+                        Text="{local:Localize Caseload}"
+                        Style="{StaticResource H1}"
+                        VerticalOptions="Center" />
 
-            <!-- Temporarily hide CaseloadFilterView  -->
-            <caseload:CaseloadFilterView Padding="10,0,10,0" IsVisible="False" />
+                <SearchBar 
+                    BackgroundColor="{StaticResource BC_Background_Light}"
+                    PlaceholderColor="{StaticResource BC_TextColor}"
+                    CancelButtonColor="{StaticResource BC_TextColor}"
+                    TextColor="{StaticResource BC_TextColor}"
+                    x:Name="CaseloadSearchBar"
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="{local:Localize CaseloadSearchHint}"
+                    Text="{Binding SearchQuery}"
+                    SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+                    TextChanged="CaseloadSearchBar_TextChanged"
+                    ios:SearchBar.SearchBarStyle="Minimal" />
 
+                <!-- Temporarily hide CaseloadFilterView  -->
+                <caseload:CaseloadFilterView Padding="10,0,10,0" IsVisible="False" />
+            </VerticalStackLayout>
+
+            <BoxView
+                HeightRequest="0.5"
+                Color="{StaticResource SeparatorColor}" />
         </VerticalStackLayout>
 
         <AbsoluteLayout VerticalOptions="FillAndExpand">
