@@ -45,27 +45,7 @@ namespace Visitz.Models
         public DateTimeOffset NotePeriodDateTime { get; set; }
         public DateTimeOffset CreatedDateTime { get; set; }
 
-        public static bool EqualByDates(NoteItem lhs, NoteItem rhs)
-        {
-            return lhs != null && rhs != null
-                && lhs.NotePeriod?.Trim().ToLower() == rhs.NotePeriod?.Trim().ToLower()
-                && lhs.CreatedDate?.Trim().ToLower() == rhs.CreatedDate?.Trim().ToLower();
-        }
-
-        public static DateTime NotePeriodDateTimeTransform(NoteItem note, bool ascending)
-        {
-            var defaultValue = ascending ? DateTime.MinValue : DateTime.MaxValue;
-            return note.NotePeriod?.Length > 0 ? DateTime.Parse(note.NotePeriod) : defaultValue;
-        }
-
-        public static DateTime CreatedDateTimeTransform(NoteItem note, bool ascending)
-        {
-            var defaultValue = ascending ? DateTime.MinValue : DateTime.MaxValue;
-            return note.CreatedDate?.Length > 0 ? DateTime.Parse(note.CreatedDate) : defaultValue;
-        }
-
         public string PeriodOrPageNumber => NotePeriod?.Length > 0 ? NotePeriod : $"Page {PageNumber}";
-        public bool ShowTitleIcon => NotePeriod?.Length > 0;
 
         public static string MakeFullID(string icmId, NoteEntity note)
         {
@@ -109,23 +89,10 @@ namespace Visitz.Models
             return dateTime.ToString(IcmNotePeriodDateFormat, CultureInfo.InvariantCulture);
         }
 
-        public static bool IsCurrentNotePeriod(NoteItem note)
-        {
-            return NotePeriodFrom(DateTime.Now).ToLower() == note?.NotePeriod?.ToLower();
-        }
-
         public static string WrapContent(string idir, DateTime dateTime, string content)
         {
             var timestamp = dateTime.ToString(NoteWrapperTimestampFormat, CultureInfo.InvariantCulture);
             return $"{Separator} {idir} {timestamp} {Separator}\n{content}";
-        }
-
-        public static string ToStringLite(NoteItem note)
-        {
-            return $"null: {note == null}, " +
-                $"NotePeriod: {note?.NotePeriod}, " +
-                $"CreatedDate: {note?.CreatedDate}, " +
-                $"IsValid: {note?.IsValid}";
         }
 
         public static NoteItem GetLatestByEntityId(Realm realm, string entityId)
