@@ -14,6 +14,9 @@ public partial class NavRailViewModel : VisitzViewModel
     [ObservableProperty]
     public IEnumerable<NavItem> navigationItems;
 
+    [ObservableProperty]
+    public NavItem selectedNavItem;
+
     public override void PageCreated()
     {
         base.PageCreated();
@@ -39,5 +42,7 @@ public partial class NavRailViewModel : VisitzViewModel
             });
 
         NavigationItems = items;
+
+        SelectedNavItem = items.First();
     }
 }

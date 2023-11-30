@@ -3,23 +3,45 @@ using Visitz.Animations.Haptic;
 using Visitz.Models;
 using Visitz.ViewModels;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.Notes;
 
-public partial class NoteEntryPage : VisitzPage
+public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 {
-    public NoteEntryPage(NoteEntryViewModel viewModel) : base(viewModel)
+    public CaseloadItem CaseloadItem
     {
-        InitializeComponent();
-        BindingContext = viewModel;
+        get => (ViewModel as ICaseloadItemHolder).CaseloadItem;
+        set => (ViewModel as ICaseloadItemHolder).CaseloadItem = value;
     }
 
-    public static async Task Open(Page fromPage, CaseloadItem caseIncident, NoteItem noteItem)
+    public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())
+	{
+		InitializeComponent();
+		BindingContext = ViewModel;
+
+        (ViewModel as NoteEntryViewModel).DraftError += NoteEntryView_DraftError;
+        (ViewModel as NoteEntryViewModel).DraftSaveStateChanged += NoteEntryView_DraftSaveStateChanged;
+	}
+
+    protected override void Destroying()
     {
-        await NavigateTo<NoteEntryPage>(fromPage, new Dictionary<string, object>
-        {
-            { NoteEntryViewModel.NoteItemKey, noteItem },
-            { NoteEntryViewModel.CaseIncidentKey, caseIncident }
-        });
+        (ViewModel as NoteEntryViewModel).DraftSaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
+        (ViewModel as NoteEntryViewModel).DraftError -= NoteEntryView_DraftError;
+
+        base.Destroying();
+    }
+
+    private async void NoteEntryView_DraftError(object sender, Events.DraftErrorEventArgs e)
+    {
+        await ShowEditorError(e.ErrorMessage);
+    }
+
+    private async void NoteEntryView_DraftSaveStateChanged(object sender, Events.DraftSaveStatusEventArgs e)
+    {
+        await Task.WhenAll
+        (
+            SetDraftSavedPromptVisible(e.DraftSaved), 
+            SetSavingDraftPromptVisible(e.SavingDraft)
+        );
     }
 
     void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
@@ -34,19 +56,15 @@ public partial class NoteEntryPage : VisitzPage
 
     private async Task ShowErrorText(string text)
     {
-        if (ErrorLabel.IsVisible)
+        if (EditorError.IsVisible)
             return;
 
-        ErrorLabel.Text = "❌ " + text;
-
-        var fadeIn = new VisibilityAnimation(true, 100, Easing.CubicIn);
-        var fadeOut = new VisibilityAnimation(false, 100, Easing.CubicOut);
-
-        await fadeIn.Animate(ErrorLabel);
+        EditorError.Text = text;
+        EditorError.Show = true;
 
         await Task.Delay(2000);
-
-        await fadeOut.Animate(ErrorLabel);
+        
+        EditorError.Show = false;
     }
 
     public async Task SetDraftSavedPromptVisible(bool visible)
@@ -94,5 +112,11 @@ public partial class NoteEntryPage : VisitzPage
     void Scroll_To_Bottom_Clicked(object sender, EventArgs e)
     {
         FocusBottom();
+    }
+
+    private async void CloseButton_Clicked(object sender, EventArgs e)
+    {
+        await (ViewModel as NoteEntryViewModel).SaveDraftToRealm();
+        await Navigator.Navigation.PopModalAsync();
     }
 }

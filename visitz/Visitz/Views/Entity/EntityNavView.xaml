@@ -30,10 +30,6 @@
         </HorizontalStackLayout>
 
         <VerticalStackLayout Spacing="5">
-            <BoxView 
-                HeightRequest="0.5"
-                Color="{StaticResource SeparatorColor}" />
-            
             <Label
                 Margin="10,10,10,0"
                 FontSize="20"
@@ -50,6 +46,10 @@
                     <behaviors:EntityTypeTagBehavior />
                 </views:TagView.Behaviors>
             </views:TagView>
+            
+            <BoxView 
+                HeightRequest="0.5"
+                Color="{StaticResource SeparatorColor}" />
         </VerticalStackLayout>
         
         <CollectionView

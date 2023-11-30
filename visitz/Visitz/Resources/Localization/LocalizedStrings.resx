@@ -278,4 +278,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="AddNotes" xml:space="preserve">
     <value>Add notes</value>
   </data>
+  <data name="PublishToIcm" xml:space="preserve">
+    <value>Publish to ICM</value>
+  </data>
 </root>

@@ -37,10 +37,11 @@ public partial class NavRailView : ViewModelContentView
 
     private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-		NavItemSelected?.Invoke(this, new NavItemSelectedEventArgs()
-		{
-			NavItem = e.CurrentSelection[0] as NavItem,
-		});
+        if (e.CurrentSelection.Any())
+		    NavItemSelected?.Invoke(this, new NavItemSelectedEventArgs()
+		    {
+			    NavItem = e.CurrentSelection[0] as NavItem,
+		    });
     }
 
     private async void AvatarView_Tapped(object sender, TappedEventArgs e)

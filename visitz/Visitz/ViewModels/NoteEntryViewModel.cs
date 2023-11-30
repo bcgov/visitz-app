@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using Visitz.Events;
 using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Pages;
@@ -9,24 +10,22 @@ using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
-    public partial class NoteEntryViewModel : VisitzViewModel
+    public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         private static readonly int CharacterLimit = 16000;
 
-        public static readonly string NoteItemKey = "noteItem";
-        public static readonly string CaseIncidentKey = "caseIncident";
-
-        public CaseloadItem caseIncident;
-        public NoteItem noteItem;
+        public CaseloadItem CaseloadItem { get; set; }
 
         [ObservableProperty]
         public string draft;
 
-        [ObservableProperty]
-        public string title;
+        private string DraftOutput => Draft?.Trim();
 
         [ObservableProperty]
-        public string characterLimitText = $"{CharacterLimit}/{CharacterLimit}";
+        public bool allowPublish;
+
+        [ObservableProperty]
+        private NetworkAccess networkAccess = Connectivity.Current.NetworkAccess;
 
         private string noteDraftId;
 
@@ -34,18 +33,17 @@ namespace Visitz.ViewModels
 
         private IDisposable NoteDraftQueryToken { get; set; }
 
+        public event EventHandler<DraftErrorEventArgs> DraftError;
+
+        public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
+
         public override async void PageCreated()
         {
             base.PageCreated();
 
-            caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
-            noteItem = Parameters[NoteItemKey] as NoteItem;
+            Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
-            noteDraftId = NoteDraft.MakeId(caseIncident.CaseIncidentNumber);
-
-            Title = noteItem?.PeriodOrPageNumber != null
-                ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
-                : caseIncident.DisplayName;
+            noteDraftId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber);
 
             var realm = await VisitzRealm.GetNoteDraftAsync();
 
@@ -65,10 +63,12 @@ namespace Visitz.ViewModels
 
         public override void PageDestroyed()
         {
-            NoteDraftQueryToken.Dispose();
+            NoteDraftQueryToken?.Dispose();
             NoteDraftQueryToken = null;
 
             NoteDraftQuery = null;
+
+            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
 
             base.PageDestroyed();
         }
@@ -76,41 +76,43 @@ namespace Visitz.ViewModels
         private void ApplyDraft()
         {
             Draft = NoteDraftQuery.FirstOrDefault()?.Draft;
-            UpdateCharLimit();
         }
 
-        [RelayCommand]
-        public async void SaveDraft()
+        public async Task SaveDraftToRealm()
         {
+            ConsoleTrace.TraceMethod(this);
+
             var realm = await VisitzRealm.GetNoteDraftAsync();
             var noteDraft = realm.Find<NoteDraft>(noteDraftId);
 
             await realm.WriteAsync(() =>
             {
-                if (noteDraft == null)
+                var draft = new NoteDraft
                 {
-                    realm.Add(new NoteDraft
-                    {
-                        CaseIncidentAndCreatedDateID = noteDraftId,
-                        Draft = Draft
-                    });
-                }
-                else
-                {
-                    noteDraft.Draft = Draft;
-                }
+                    CaseIncidentAndCreatedDateID = noteDraftId,
+                    Draft = Draft
+                };
+
+                realm.Add(draft, update: true);
             });
 
             ShowDraftSavedMessage();
         }
 
         [RelayCommand]
+        public async void SaveDraft()
+        {
+            await SaveDraftToRealm();
+        }
+
+        [RelayCommand]
 		public async void PublishNotes()
 		{
-            var trimmedDraft = Draft?.Trim();
-
-            if (trimmedDraft?.Length > 0)
-                await NotePublishPage.Open(VisitzPage, caseIncident, noteItem, trimmedDraft);
+            if (UpdateAllowPublish())
+            {
+                await Navigator.Navigation.PopModalAsync();
+                await NotePublishPage.Open(CaseloadItem, DraftOutput);
+            }
         }
 
         public void EditorTextChanged(TextChangedEventArgs e)
@@ -123,26 +125,26 @@ namespace Visitz.ViewModels
             if (TextIsInvalid(e))
             {
                 CancelTextChangedEvent(e);
-                _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.InvalidEntry);
+                DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.InvalidEntry));
                 return;
             }
             else if (ExceedsCharacterLimit(e))
             {
                 CancelTextChangedEvent(e);
-                _ = (VisitzPage as NoteEntryPage).ShowEditorError(LocalizedStrings.CharacterLimitReached);
+                DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.CharacterLimitReached));
                 return;
             }
 
-            UpdateCharLimit();
+            UpdateAllowPublish(e.NewTextValue);
             ShowSavingDraftMessage();
         }
 
-        private bool ExceedsCharacterLimit(TextChangedEventArgs e)
+        private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
         {
             return e.NewTextValue?.Length > CharacterLimit;
         }
 
-        private bool TextIsInvalid(TextChangedEventArgs e)
+        private static bool TextIsInvalid(TextChangedEventArgs e)
         {
             return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
         }
@@ -150,11 +152,6 @@ namespace Visitz.ViewModels
         private void CancelTextChangedEvent(TextChangedEventArgs e)
         {
             Draft = e.OldTextValue;
-        }
-
-        private void UpdateCharLimit()
-        {
-            CharacterLimitText = $"{CharacterLimit - (Draft?.Length ?? 0)}/{CharacterLimit}";
         }
 
         private void NoteDraft_Changed(IRealmCollection<NoteDraft> sender, ChangeSet changes)
@@ -165,31 +162,41 @@ namespace Visitz.ViewModels
             ApplyDraft();
         }
 
-        private async void ShowSavingDraftMessage()
+        private void ShowSavingDraftMessage()
         {
-            await SetDraftMessageVisible(false, true);
+            SetDraftMessageVisible(false, true);
         }
 
-        private async void ShowDraftSavedMessage()
+        private void ShowDraftSavedMessage()
         {
-            await SetDraftMessageVisible(true, false);
+            SetDraftMessageVisible(true, false);
         }
 
-        private async void ClearDraftMessages()
+        private void ClearDraftMessages()
         {
-            await SetDraftMessageVisible(false, false);
+            SetDraftMessageVisible(false, false);
         }
 
-        private async Task SetDraftMessageVisible(bool draftSaved, bool savingDraft)
+        private void SetDraftMessageVisible(bool draftSaved, bool savingDraft)
         {
-            if (VisitzPage is NoteEntryPage page)
-            {
-                await Task.WhenAll
-                (
-                    page.SetDraftSavedPromptVisible(draftSaved),
-                    page.SetSavingDraftPromptVisible(savingDraft)
-                );
-            }
+            DraftSaveStateChanged?.Invoke(this, new DraftSaveStatusEventArgs(draftSaved, savingDraft));
+        }
+
+        partial void OnNetworkAccessChanged(NetworkAccess value)
+        {
+            UpdateAllowPublish();
+        }
+
+        private bool UpdateAllowPublish(string draftText = null)
+        {
+            draftText ??= DraftOutput;
+            AllowPublish = NetworkAccess == NetworkAccess.Internet && draftText?.Length > 0;
+            return AllowPublish;
+        }
+
+        private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
+            NetworkAccess = e.NetworkAccess;
         }
     }
 }

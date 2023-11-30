@@ -5,6 +5,7 @@
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:split="clr-namespace:Visitz.Views.SplitView"
     x:Class="Visitz.Views.Caseload.CaseloadContainerView"
-    x:DataType="caseload:CaseloadContainerView">
+    x:DataType="caseload:CaseloadContainerView"
+    BackgroundColor="White">
 
 </split:SplitLayoutView>

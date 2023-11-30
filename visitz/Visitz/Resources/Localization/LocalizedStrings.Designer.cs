@@ -380,6 +380,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publish to ICM.
+        /// </summary>
+        public static string PublishToIcm {
+            get {
+                return ResourceManager.GetString("PublishToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pull to refresh caseload from ICM.
         /// </summary>
         public static string PullToRefreshCaseload {

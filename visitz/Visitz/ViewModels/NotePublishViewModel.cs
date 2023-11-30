@@ -10,14 +10,16 @@ using VisitzApi.Models;
 
 namespace Visitz.ViewModels
 {
-    public partial class NotePublishViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
+    public partial class NotePublishViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>, ICaseloadItemHolder
     {
-        public static readonly string DraftItemKey = "draft";
-        public static readonly string NoteItemKey = "noteItem";
-        public static readonly string CaseIncidentKey = "caseIncident";
-
         [ObservableProperty]
         public string title;
+
+        public string Draft { get; set; }
+
+        public string NotePeriod { get; set; }
+
+        public CaseloadItem CaseloadItem { get; set; }
 
         [ObservableProperty]
         public bool showPublishingIndicator = true;
@@ -41,38 +43,42 @@ namespace Visitz.ViewModels
         public bool showRefreshSection = false;
 
         private bool isFetchOnly = false;
-        private string draft;
         private SubmitNoteEntity submitNoteEntity;
-        private string createdDate;
 
         private bool wasDraftSubmitted = false;
         private bool wasNotesFetched = false;
+
+        public static string MakeTitle(CaseloadItem caseloadItem, NoteItem noteItem)
+        {
+            return noteItem?.PeriodOrPageNumber != null
+                ? $"{caseloadItem.DisplayName} • {noteItem?.PeriodOrPageNumber}"
+                : caseloadItem.DisplayName;
+        }
+
+        public void InitWith(CaseloadItem caseloadItem, NoteItem noteItem, string draft)
+        {
+            Title = MakeTitle(caseloadItem, noteItem);
+            Draft = draft;
+            CaseloadItem = caseloadItem;
+            NotePeriod = (noteItem?.NotePeriod) ?? NoteItem.NotePeriodFrom(DateTime.Now);
+
+            submitNoteEntity = new SubmitNoteEntity
+            {
+                EntityNumber = CaseloadItem.CaseIncidentNumber,
+                EntityType = CaseloadItem.EntityType,
+                NotePeriod = NotePeriod,
+            };
+        }
 
         public override async void PageCreated()
         {
             base.PageCreated();
 
-            var caseIncident = Parameters[CaseIncidentKey] as CaseloadItem;
-            var noteItem = Parameters[NoteItemKey] as NoteItem;
-            draft = Parameters[DraftItemKey] as string;
+            WeakReferenceMessenger.Default.Register(this, SubmitAndGetNotesService.MakeId(CaseloadItem.CaseIncidentNumber, submitNoteEntity.NotePeriod));
+            WeakReferenceMessenger.Default.Register(this, SubmitNoteService.MakeId(CaseloadItem.CaseIncidentNumber, submitNoteEntity.NotePeriod));
+            WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(CaseloadItem.CaseIncidentNumber));
 
-            createdDate = noteItem?.CreatedDate;
-            Title = noteItem?.PeriodOrPageNumber != null
-                ? $"{caseIncident.DisplayName} • {noteItem?.PeriodOrPageNumber}"
-                : caseIncident.DisplayName;
-
-            var notePeriod = (noteItem?.NotePeriod) ?? NoteItem.NotePeriodFrom(DateTime.Now);
-            submitNoteEntity = new SubmitNoteEntity
-            {
-                EntityNumber = caseIncident.CaseIncidentNumber,
-                EntityType = caseIncident.EntityType,
-                NotePeriod = notePeriod,
-            };
-            WeakReferenceMessenger.Default.Register(this, SubmitAndGetNotesService.MakeId(caseIncident.CaseIncidentNumber, submitNoteEntity.NotePeriod));
-            WeakReferenceMessenger.Default.Register(this, SubmitNoteService.MakeId(caseIncident.CaseIncidentNumber, submitNoteEntity.NotePeriod));
-            WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(caseIncident.CaseIncidentNumber));
-
-            await PublishDraft(submitNoteEntity, draft);
+            await PublishDraft(submitNoteEntity, Draft);
         }
 
         public override void PageDestroyed()
@@ -188,7 +194,7 @@ namespace Visitz.ViewModels
             ShowRetrySection = false;
             if (!wasDraftSubmitted)
             {
-                await PublishDraft(submitNoteEntity, draft);
+                await PublishDraft(submitNoteEntity, Draft);
             }
             else
             {
