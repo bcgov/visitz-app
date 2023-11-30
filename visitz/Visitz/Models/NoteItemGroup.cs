@@ -12,7 +12,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
     private static readonly string DistinctQuery = "TRUEPREDICATE DISTINCT({0})";
 
     public string Name => EntityType == IcmEntity.Case
-        ? NotePeriodDateTime.ToString(NoteItem.IcmNotePeriodDateFormat, CultureInfo.InvariantCulture)
+        ? NoteItem.NotePeriodFrom(NotePeriodDateTime)
         : MakePageNumberHeader(PageNumber);
 
     public DateTimeOffset NotePeriodDateTime { get; private set; }
