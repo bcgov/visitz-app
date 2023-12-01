@@ -51,9 +51,6 @@
                     SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
                     TextChanged="CaseloadSearchBar_TextChanged"
                     ios:SearchBar.SearchBarStyle="Minimal" />
-
-                <!-- Temporarily hide CaseloadFilterView  -->
-                <caseload:CaseloadFilterView Padding="10,0,10,0" IsVisible="False" />
             </VerticalStackLayout>
 
             <BoxView
