@@ -1,4 +1,6 @@
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
+using static Visitz.Views.Caseload.FilterPopupView;
 
 namespace Visitz.Views.Caseload;
 
@@ -12,5 +14,13 @@ public partial class FilterPopup : Popup
 		InitializeComponent();
 		Anchor = anchor;
         Size = new Size(Width, Height);
+        ResultWhenUserTapsOutsideOfPopup = null;
+
+        FilterPopupView.SubtypeSelected += FilterPopupView_SubtypeSelected;
+    }
+
+    private void FilterPopupView_SubtypeSelected(object sender, SubtypeSelectedEventArgs e)
+    {
+        Close(e.Subtype);
     }
 }
