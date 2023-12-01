@@ -3,7 +3,7 @@ using Visitz.Models;
 using Visitz.Resources.Styles;
 using Visitz.Views;
 
-namespace Visitz.Behaviors;
+namespace Visitz.Behaviors.Tags;
 
 public class EntityTypeTagBehavior : TagStyleBehavior
 {
