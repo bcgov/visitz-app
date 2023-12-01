@@ -38,7 +38,7 @@
                 FontSize="{Binding FontSize}"
                 FontFamily="{Binding FontFamily}"
                 TextColor="{Binding TextColor}"
-                VerticalOptions="CenterAndExpand"
+                VerticalOptions="Center"
                 VerticalTextAlignment="Center"
                 TextTransform="{Binding TextTransform}" />
         </HorizontalStackLayout>
