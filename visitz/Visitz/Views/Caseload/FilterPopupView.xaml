@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Caseload.FilterPopupView"
+    x:DataType="caseload:FilterPopupView"
+    WidthRequest="{Static caseload:FilterPopup.Width}"
+    HeightRequest="{Static caseload:FilterPopup.Height}">
+
+    <ContentView.Resources>
+        <Style TargetType="views:ActivatableTagView">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor}, Dark={StaticResource BC_TextColor}}" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="ActivatedStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#22000000" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Activated">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#44000000" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentView.Resources>
+
+    <Border 
+        Background="White"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 20"
+        HorizontalOptions="Center">
+
+        <VerticalStackLayout
+            Padding="10,10,10,7"
+            Spacing="0">
+
+            <Label 
+                Margin="0,0,0,5"
+                Text="Caseload filtering"
+                FontFamily="BCSansBold"
+                HorizontalOptions="Center"/>
+
+            <views:ActivatableTagView
+                Text="Child Protection Incident">
+                <views:ActivatableTagView.ImageSource>
+                    <FontImageSource 
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Glyph="{Static icons:MaterialIcons.Warning}"
+                        Color="{StaticResource BC_TextColor}" />
+                </views:ActivatableTagView.ImageSource>
+            </views:ActivatableTagView>
+
+            <views:ActivatableTagView
+                Text="Family Services Case">
+                <views:ActivatableTagView.ImageSource>
+                    <FontImageSource 
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Glyph="{Static icons:MaterialIcons.Folder}"
+                        Color="{StaticResource BC_TextColor}" />
+                </views:ActivatableTagView.ImageSource>
+            </views:ActivatableTagView>
+
+            <views:ActivatableTagView
+                Text="Child Services Case">
+                <views:ActivatableTagView.ImageSource>
+                    <FontImageSource 
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Glyph="{Static icons:MaterialIcons.Folder}"
+                        Color="{StaticResource BC_TextColor}" />
+                </views:ActivatableTagView.ImageSource>
+            </views:ActivatableTagView>
+
+        </VerticalStackLayout>
+    </Border>
+</ContentView>
