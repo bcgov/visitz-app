@@ -48,6 +48,10 @@ public partial class TagView : ContentView
         BindableProperty.Create(nameof(CornerRadius), typeof(CornerRadius), typeof(TagView),
             defaultValue: new CornerRadius(20.0));
 
+    public static readonly new BindableProperty PaddingProperty =
+        BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(TagView),
+            defaultValue: new Thickness(5.0));
+
     public new Color BackgroundColor
     {
         get => (Color)GetValue(BackgroundColorProperty);
@@ -112,6 +116,12 @@ public partial class TagView : ContentView
     {
         get => (CornerRadius)GetValue(CornerRadiusProperty);
         set => SetValue(CornerRadiusProperty, value);
+    }
+
+    public new Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
     }
 
     public TagView()

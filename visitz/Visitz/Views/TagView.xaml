@@ -18,8 +18,8 @@
 
         <HorizontalStackLayout
             BackgroundColor="{Binding BackgroundColor}"
-            Spacing="5"
-            Padding="10,2,10,2" >
+            Spacing="5" 
+            Padding="{Binding Padding}">
 
             <Image
                 x:Name="Icon"
