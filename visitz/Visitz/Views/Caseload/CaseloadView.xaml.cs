@@ -1,5 +1,7 @@
 #if !MACCATALYST
 using CommunityToolkit.Maui.Core.Platform;
+using CommunityToolkit.Maui.Views;
+
 #endif
 
 using Visitz.ViewModels;
@@ -34,5 +36,10 @@ public partial class CaseloadView : ViewModelContentView
     {
         if (CaseloadSearchBar.Text?.Length == 0)
             ViewModel.SearchCaseload();
+    }
+
+    private async void FilterButton_Clicked(object sender, EventArgs e)
+    {
+        await Navigator.CurrentOpenPage.ShowPopupAsync(new FilterPopup((View)sender));
     }
 }

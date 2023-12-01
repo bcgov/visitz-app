@@ -24,6 +24,22 @@
                         Style="{StaticResource H1}"
                         VerticalOptions="Center" />
 
+                    <ImageButton
+                        HorizontalOptions="End"
+                        HeightRequest="36"
+                        WidthRequest="36"
+                        VerticalOptions="Center"
+                        Clicked="FilterButton_Clicked">
+                        <ImageButton.Source>
+                            <FontImageSource 
+                                FontFamily="MaterialIconsRoundedUnfilled"
+                                Glyph="{Static icons:MaterialIcons.Filter_list}"
+                                Color="{StaticResource BC_TextColor}" />
+                        </ImageButton.Source>
+
+                    </ImageButton>
+                </Grid>
+
                 <SearchBar 
                     BackgroundColor="{StaticResource BC_Background_Light}"
                     CancelButtonColor="{StaticResource BC_TextColor}"
