@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:tagbehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:models="clr-namespace:Visitz.Models"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Caseload.FilterPopupView"
-    x:DataType="caseload:FilterPopupView"
+    x:DataType="caseload:FilterPopupViewModel"
     WidthRequest="{Static caseload:FilterPopup.Width}"
     HeightRequest="{Static caseload:FilterPopup.Height}">
 
@@ -51,36 +53,32 @@
                 FontFamily="BCSansBold"
                 HorizontalOptions="Center"/>
 
-            <views:ActivatableTagView
-                Text="Child Protection Incident">
-                <views:ActivatableTagView.ImageSource>
-                    <FontImageSource 
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        Glyph="{Static icons:MaterialIcons.Warning}"
-                        Color="{StaticResource BC_TextColor}" />
-                </views:ActivatableTagView.ImageSource>
-            </views:ActivatableTagView>
+            <VerticalStackLayout
+                HorizontalOptions="Fill"
+                BindableLayout.ItemsSource="{Binding ItemsBySubtype}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:CaseloadItem">
+                        <ContentView>
+                            <views:ActivatableTagView
+                                BindingContext="{Binding .}"
+                                Text="{Binding FullType}"
+                                ActiveStateChanged="ActivatableTagView_ActiveStateChanged">
+                                <views:ActivatableTagView.ImageSource>
+                                    <FontImageSource 
+                                        FontFamily="MaterialIconsRoundedUnfilled"
+                                        Glyph="{Static icons:MaterialIcons.Warning}"
+                                        Color="{StaticResource BC_TextColor}" />
+                                </views:ActivatableTagView.ImageSource>
 
-            <views:ActivatableTagView
-                Text="Family Services Case">
-                <views:ActivatableTagView.ImageSource>
-                    <FontImageSource 
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        Glyph="{Static icons:MaterialIcons.Folder}"
-                        Color="{StaticResource BC_TextColor}" />
-                </views:ActivatableTagView.ImageSource>
-            </views:ActivatableTagView>
-
-            <views:ActivatableTagView
-                Text="Child Services Case">
-                <views:ActivatableTagView.ImageSource>
-                    <FontImageSource 
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        Glyph="{Static icons:MaterialIcons.Folder}"
-                        Color="{StaticResource BC_TextColor}" />
-                </views:ActivatableTagView.ImageSource>
-            </views:ActivatableTagView>
+                                <views:ActivatableTagView.Behaviors>
+                                    <tagbehaviors:EntityTypeTagBehavior />
+                                </views:ActivatableTagView.Behaviors>
+                            </views:ActivatableTagView>
+                        </ContentView>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>    
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
     </Border>
-</ContentView>
+</views:ViewModelContentView>
