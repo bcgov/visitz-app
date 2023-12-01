@@ -14,7 +14,6 @@ public class EntityTypeTagBehavior : TagStyleBehavior
 
         tag.BorderColor = Colors.Transparent;
         tag.BackgroundColor = Colors.Transparent;
-        tag.TextTransform = TextTransform.Uppercase;
         tag.Text = item.FullType;
 
         if (item.EntityType == IcmEntity.Case)
