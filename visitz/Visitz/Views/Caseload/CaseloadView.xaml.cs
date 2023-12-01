@@ -1,9 +1,8 @@
 #if !MACCATALYST
 using CommunityToolkit.Maui.Core.Platform;
-using CommunityToolkit.Maui.Views;
-
 #endif
 
+using CommunityToolkit.Maui.Views;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Caseload;
@@ -40,6 +39,7 @@ public partial class CaseloadView : ViewModelContentView
 
     private async void FilterButton_Clicked(object sender, EventArgs e)
     {
-        await Navigator.CurrentOpenPage.ShowPopupAsync(new FilterPopup((View)sender));
+        var popup = new FilterPopup((View)sender);
+        ViewModel.SubtypeFilter = (string)await Navigator.CurrentOpenPage.ShowPopupAsync(popup);
     }
 }
