@@ -35,6 +35,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string collectionViewPrompt;
 
+        [ObservableProperty]
+        public string subtypeFilter;
+
         private Realm Realm { get; set; }
 
         private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
@@ -95,6 +98,7 @@ namespace Visitz.ViewModels
 
             ApplySorting(ref query);
             ApplySearchQuery(ref query);
+            ApplySubtypeFilter(ref query);
 
             Caseload = query;
         }
@@ -132,6 +136,14 @@ namespace Visitz.ViewModels
                 return item.CaseIncidentNumber.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase)
                     || item.DisplayName.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase);
             });
+        }
+
+        private void ApplySubtypeFilter(ref IEnumerable<CaseloadItem> query)
+        {
+            if (query == null || string.IsNullOrWhiteSpace(SubtypeFilter))
+                return;
+
+            query = query.Where(item => item.CaseIncidentType.Equals(SubtypeFilter));
         }
 
         partial void OnCaseloadChanged(IEnumerable<CaseloadItem> value)
@@ -187,6 +199,11 @@ namespace Visitz.ViewModels
 
             if (message.FinishedSuccess)
                 ShowEmptyCaseloadMessage = !CaseloadQuery.Any();
+        }
+
+        partial void OnSubtypeFilterChanged(string value)
+        {
+            ApplyCaseloadQuery();
         }
     }
 }
