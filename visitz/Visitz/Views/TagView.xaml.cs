@@ -44,6 +44,10 @@ public partial class TagView : ContentView
         BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(TagView), 
             defaultValue: VisitzFonts.BcSansRegularAlias);
 
+    public static readonly BindableProperty CornerRadiusProperty =
+        BindableProperty.Create(nameof(CornerRadius), typeof(CornerRadius), typeof(TagView),
+            defaultValue: new CornerRadius(20.0));
+
     public new Color BackgroundColor
     {
         get => (Color)GetValue(BackgroundColorProperty);
@@ -102,6 +106,12 @@ public partial class TagView : ContentView
     {
         get => (string)GetValue(FontFamilyProperty);
         set => SetValue(FontFamilyProperty, value);
+    }
+
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
 
     public TagView()
