@@ -29,7 +29,8 @@
                 MinimumWidthRequest="25"
                 Source="{Binding ImageSource}"
                 Aspect="AspectFit"
-                VerticalOptions="Center">
+                VerticalOptions="Center"
+                IsVisible="False">
             </Image>
 
             <Label 
