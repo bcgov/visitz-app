@@ -465,6 +465,33 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IN.
+        /// </summary>
+        public static string Subtype_ChildProtectionIncidentInitials {
+            get {
+                return ResourceManager.GetString("Subtype_ChildProtectionIncidentInitials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CS.
+        /// </summary>
+        public static string Subtype_ChildServicesInitials {
+            get {
+                return ResourceManager.GetString("Subtype_ChildServicesInitials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FS.
+        /// </summary>
+        public static string Subtype_FamilyServicesInitials {
+            get {
+                return ResourceManager.GetString("Subtype_FamilyServicesInitials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to select.
         /// </summary>
         public static string TapToSelect {

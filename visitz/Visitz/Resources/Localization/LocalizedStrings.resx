@@ -275,4 +275,13 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="OpenDate" xml:space="preserve">
     <value>Open date</value>
   </data>
+  <data name="Subtype_ChildProtectionIncidentInitials" xml:space="preserve">
+    <value>IN</value>
+  </data>
+  <data name="Subtype_ChildServicesInitials" xml:space="preserve">
+    <value>CS</value>
+  </data>
+  <data name="Subtype_FamilyServicesInitials" xml:space="preserve">
+    <value>FS</value>
+  </data>
 </root>
