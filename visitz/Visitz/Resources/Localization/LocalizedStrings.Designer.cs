@@ -465,42 +465,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player name A-Z.
-        /// </summary>
-        public static string Sort_KeyPlayerLastNameAsc {
-            get {
-                return ResourceManager.GetString("Sort_KeyPlayerLastNameAsc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Key player name Z-A.
-        /// </summary>
-        public static string Sort_KeyPlayerLastNameDesc {
-            get {
-                return ResourceManager.GetString("Sort_KeyPlayerLastNameDesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Least recent open date.
-        /// </summary>
-        public static string Sort_OpenDateAsc {
-            get {
-                return ResourceManager.GetString("Sort_OpenDateAsc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Most recent open date.
-        /// </summary>
-        public static string Sort_OpenDateDesc {
-            get {
-                return ResourceManager.GetString("Sort_OpenDateDesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Tap to select.
         /// </summary>
         public static string TapToSelect {
