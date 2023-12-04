@@ -241,6 +241,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key player.
+        /// </summary>
+        public static string KeyPlayer {
+            get {
+                return ResourceManager.GetString("KeyPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
@@ -367,6 +376,15 @@ namespace Visitz.Resources.Localization {
         public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open date.
+        /// </summary>
+        public static string OpenDate {
+            get {
+                return ResourceManager.GetString("OpenDate", resourceCulture);
             }
         }
         

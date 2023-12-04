@@ -281,4 +281,10 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="PublishToIcm" xml:space="preserve">
     <value>Publish to ICM</value>
   </data>
+  <data name="KeyPlayer" xml:space="preserve">
+    <value>Key player</value>
+  </data>
+  <data name="OpenDate" xml:space="preserve">
+    <value>Open date</value>
+  </data>
 </root>
