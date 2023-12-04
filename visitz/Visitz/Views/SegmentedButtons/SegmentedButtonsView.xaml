@@ -55,7 +55,8 @@
                         CornerRadius="0"
                         IconHeightRequest="{OnPlatform WinUI=16, Default=24}"
                         IconWidthRequest="{OnPlatform WinUI=16, Default=24}"
-                        Padding="10"
+                        Padding="{Binding ItemPadding, Source={RelativeSource AncestorType=
+                            {x:Type segmentedButtons:SegmentedButtonsView}}}"
                         StrokeThickness="0.5"
                         Text="{Binding Text}"
                         ImageSource="{Binding ImageSource}" />

@@ -16,6 +16,10 @@ public partial class SegmentedButtonsView : BaseContentView
     public static readonly BindableProperty ActivatedTextColorProperty =
         BindableProperty.Create(nameof(ActivatedTextColor), typeof(Color), typeof(SegmentedButtonsView));
 
+    public static readonly BindableProperty ItemPaddingProperty =
+        BindableProperty.Create(nameof(ItemPadding), typeof(Thickness), typeof(TagView),
+            defaultValue: new Thickness(10.0));
+
     public IEnumerable<SegmentedOptions> Options
 	{
 		get => (IEnumerable<SegmentedOptions>)GetValue(OptionsProperty);
@@ -38,6 +42,12 @@ public partial class SegmentedButtonsView : BaseContentView
     {
         get => (Color)GetValue(ActivatedTextColorProperty);
         set => SetValue(ActivatedTextColorProperty, value);
+    }
+
+    public Thickness ItemPadding
+    {
+        get => (Thickness)GetValue(ItemPaddingProperty);
+        set => SetValue(ItemPaddingProperty, value);
     }
 
     public SegmentedButtonsView()
