@@ -14,7 +14,14 @@ public partial class TagView : ContentView
         BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(TagView));
 
     public static readonly BindableProperty TextColorProperty =
-        BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TagView));
+        BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TagView), 
+            propertyChanged: (boundObj, oldVal, newVal) =>
+        {
+            var tag = (TagView)boundObj;
+
+            if (tag.ImageSource is FontImageSource fontIcon)
+                fontIcon.Color = (Color)newVal;
+        });
 
     public static readonly BindableProperty ImageSourceProperty =
         BindableProperty.Create(nameof(ImageSource), typeof(ImageSource), typeof(TagView),
@@ -24,6 +31,9 @@ public partial class TagView : ContentView
                 var tag = (TagView)boundObj;
 
                 tag.Icon.IsVisible = newVal != null;
+
+                if (tag.ImageSource is FontImageSource fontIcon)
+                    fontIcon.Color = tag.TextColor;
             });
 
     public static readonly BindableProperty TextProperty =
