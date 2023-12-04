@@ -19,23 +19,22 @@ public class EntityTypeTagBehavior : TagStyleBehavior
         if (item.EntityType == IcmEntity.Case)
         {
             tag.TextColor = VisitzColors.EntityCaseTagText;
-            tag.ImageSource = MaterialIcons.Folder.GetFilledMaterialIcon(VisitzColors.EntityCaseTagText);
+            tag.ImageSource = MaterialIcons.Folder.GetFilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.Incident)
         {
             tag.TextColor = VisitzColors.EntityIncidentTagText;
-            tag.ImageSource = MaterialIcons.Warning.GetFilledMaterialIcon(VisitzColors.EntityIncidentTagText);
+            tag.ImageSource = MaterialIcons.Warning.GetFilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.Memo)
         {
             tag.TextColor = VisitzColors.EntityMemoTagText;
-            tag.ImageSource = MaterialIcons.Note_alt.GetFilledMaterialIcon(VisitzColors.EntityMemoTagText);
+            tag.ImageSource = MaterialIcons.Note_alt.GetFilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.ServiceRequest)
         {
             tag.TextColor = VisitzColors.EntityServiceRequestTagText;
-            tag.ImageSource = MaterialIcons.Headset_mic
-                .GetFilledMaterialIcon(VisitzColors.EntityServiceRequestTagText);
+            tag.ImageSource = MaterialIcons.Headset_mic.GetFilledMaterialIcon();
         }
         else
         {
