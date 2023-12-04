@@ -20,6 +20,16 @@ public partial class TagView : ContentView
                 : tag.StrokeThickness;
         };
 
+    static readonly BindableProperty.BindingPropertyChangedDelegate SetIconImageSourceSize =
+        (boundObj, oldValue, newValue) =>
+        {
+            var tag = (TagView)boundObj;
+
+            if (tag.ImageSource is FontImageSource fontIcon)
+                // Helps with scaling issues and makes the ImageSource look less fuzzy.
+                fontIcon.Size = ((double)newValue) * 2;
+        };
+
     public static readonly new BindableProperty BackgroundColorProperty =
         BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(TagView));
 
@@ -55,10 +65,12 @@ public partial class TagView : ContentView
             propertyChanged: SetBorderThickness);
 
     public static readonly BindableProperty IconHeightRequestProperty =
-        BindableProperty.Create(nameof(IconHeightRequest), typeof(double), typeof(TagView));
+        BindableProperty.Create(nameof(IconHeightRequest), typeof(double), typeof(TagView),
+            propertyChanged: SetIconImageSourceSize);
 
     public static readonly BindableProperty IconWidthRequestProperty =
-        BindableProperty.Create(nameof(IconWidthRequest), typeof(double), typeof(TagView));
+        BindableProperty.Create(nameof(IconWidthRequest), typeof(double), typeof(TagView),
+            propertyChanged: SetIconImageSourceSize);
 
     public static readonly BindableProperty TextTransformProperty =
         BindableProperty.Create(nameof(TextTransform), typeof(TextTransform), typeof(TagView));
