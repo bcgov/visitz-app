@@ -23,9 +23,6 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<CaseloadFilterView>();
             builder.Services.AddTransient<CaseloadFilterViewModel>();
 
-            builder.Services.AddTransient<FilterPopupView>();
-            builder.Services.AddTransient<FilterPopupViewModel>();
-
             builder.Services.AddTransient<DeviceAuthenticator>();
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();

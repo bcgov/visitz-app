@@ -29,11 +29,11 @@
                         HeightRequest="36"
                         WidthRequest="36"
                         VerticalOptions="Center"
-                        Clicked="FilterButton_Clicked">
+                        Clicked="ListOptionsButton_Clicked">
                         <ImageButton.Source>
                             <FontImageSource 
                                 FontFamily="MaterialIconsRoundedUnfilled"
-                                Glyph="{Static icons:MaterialIcons.Filter_list}"
+                                Glyph="{Static icons:MaterialIcons.Tune}"
                                 Color="{StaticResource BC_TextColor}" />
                         </ImageButton.Source>
 

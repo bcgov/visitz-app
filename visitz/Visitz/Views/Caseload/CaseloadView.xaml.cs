@@ -37,9 +37,8 @@ public partial class CaseloadView : ViewModelContentView
             ViewModel.SearchCaseload();
     }
 
-    private async void FilterButton_Clicked(object sender, EventArgs e)
+    private async void ListOptionsButton_Clicked(object sender, EventArgs e)
     {
-        var popup = new FilterPopup((View)sender);
-        ViewModel.SubtypeFilter = (string)await Navigator.CurrentOpenPage.ShowPopupAsync(popup);
+        // TODO: implement expandable section for list options (filter & sort)
     }
 }
