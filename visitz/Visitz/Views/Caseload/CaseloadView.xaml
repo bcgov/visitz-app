@@ -26,15 +26,16 @@
 
                     <ImageButton
                         HorizontalOptions="End"
-                        HeightRequest="36"
-                        WidthRequest="36"
+                        HeightRequest="32"
+                        WidthRequest="32"
                         VerticalOptions="Center"
                         Clicked="ListOptionsButton_Clicked">
                         <ImageButton.Source>
                             <FontImageSource 
                                 FontFamily="MaterialIconsRoundedUnfilled"
                                 Glyph="{Static icons:MaterialIcons.Tune}"
-                                Color="{StaticResource BC_TextColor}" />
+                                Color="{StaticResource BC_TextColor}"
+                                Size="{OnPlatform iOS=64}"/>
                         </ImageButton.Source>
 
                     </ImageButton>
