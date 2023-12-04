@@ -10,6 +10,16 @@ public partial class TagView : ContentView
             (boundObj as TagView).UpdateUI();
         };
 
+    static readonly BindableProperty.BindingPropertyChangedDelegate SetBorderThickness =
+        (boundObj, oldValue, newValue) =>
+        {
+            var tag = (TagView)boundObj;
+
+            tag.Border.StrokeThickness = tag.BorderColor == Colors.Transparent
+                ? 0.0
+                : tag.StrokeThickness;
+        };
+
     public static readonly new BindableProperty BackgroundColorProperty =
         BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(TagView));
 
@@ -41,8 +51,8 @@ public partial class TagView : ContentView
             propertyChanged: TagPropertyChanged);
     
     public static readonly BindableProperty BorderColorProperty =
-        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView), 
-            propertyChanged: TagPropertyChanged);
+        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView),
+            propertyChanged: SetBorderThickness);
 
     public static readonly BindableProperty IconHeightRequestProperty =
         BindableProperty.Create(nameof(IconHeightRequest), typeof(double), typeof(TagView));
@@ -67,6 +77,10 @@ public partial class TagView : ContentView
     public static readonly new BindableProperty PaddingProperty =
         BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(TagView),
             defaultValue: new Thickness(5.0));
+
+    public static readonly BindableProperty StrokeThicknessProperty =
+        BindableProperty.Create(nameof(StrokeThickness), typeof(double), typeof(TagView),
+            propertyChanged: SetBorderThickness, defaultValue: 0.5);
 
     public new Color BackgroundColor
     {
@@ -140,6 +154,12 @@ public partial class TagView : ContentView
         set => SetValue(PaddingProperty, value);
     }
 
+    public double StrokeThickness
+    {
+        get => (double)GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
+
     public TagView()
     {
         InitializeComponent();
@@ -148,6 +168,5 @@ public partial class TagView : ContentView
     private void UpdateUI()
     {
         TagLabel.IsVisible = TagLabel.Text?.Length > 0;
-        Border.StrokeThickness = BorderColor is null || BorderColor == Colors.Transparent ? 0 : 1;
     }
 }
