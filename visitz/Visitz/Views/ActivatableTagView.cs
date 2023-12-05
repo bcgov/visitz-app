@@ -37,6 +37,12 @@ public partial class ActivatableTagView : TagView, IActiveState
         IsActive = !IsActive;
     }
 
+    public void SetIsActiveSilently(bool isActive)
+    {
+        this.isActive = isActive;
+        UpdateVisualState();
+    }
+
     private void UpdateVisualState()
     {
         VisualStateManager.GoToState(this, (this as IActiveState).GetActiveState());
