@@ -23,6 +23,16 @@ public partial class SegmentedButtonsView : BaseContentView
     public static readonly BindableProperty TapGestureCannotDeactivateItemProperty =
         BindableProperty.Create(nameof(TapGestureCannotDeactivateItem), typeof(bool), typeof(SegmentedButtonsView));
 
+    public static readonly BindableProperty ActivatedOptionProperty =
+        BindableProperty.Create(nameof(ActivatedOption), typeof(SegmentedOptions), typeof(SegmentedButtonsView), 
+            defaultBindingMode: BindingMode.TwoWay, propertyChanged: (bound, oldVal, newVal) =>
+            {
+                var segmentedView = (SegmentedButtonsView)bound;
+
+                if (segmentedView.GetPairedTagView(segmentedView.ActivatedOption) is ActivatableTagView tagView)
+                    tagView.IsActive = true;
+            });
+
     public IEnumerable<SegmentedOptions> Options
 	{
 		get => (IEnumerable<SegmentedOptions>)GetValue(OptionsProperty);
@@ -59,6 +69,12 @@ public partial class SegmentedButtonsView : BaseContentView
         set => SetValue(TapGestureCannotDeactivateItemProperty, value);
     }
 
+    public SegmentedOptions ActivatedOption
+    {
+        get => (SegmentedOptions)GetValue(ActivatedOptionProperty);
+        set => SetValue(ActivatedOptionProperty, value);
+    }
+
     public event EventHandler<ItemActivatedEventArgs> ItemActivated;
 
     public event EventHandler<ItemDeactivatedEventArgs> ItemDeactivated;
@@ -76,6 +92,27 @@ public partial class SegmentedButtonsView : BaseContentView
         return Options.ElementAt(tagIndex);
     }
 
+    private ActivatableTagView GetPairedTagView(SegmentedOptions? option)
+    {
+        if (option == null)
+            return null;
+
+        int optionIndex = -1;
+
+        for (int i = 0; i < Options.Count();  i++)
+        {
+            if (Options.ElementAt(i).Equals(option))
+            {
+                optionIndex = i;
+                break;
+            }
+        }
+
+        return optionIndex == -1 
+            ? null 
+            : (ActivatableTagView)Items.Children[optionIndex];
+    }
+
     private void ActivatableTagView_ActiveStateChanged(object sender, IActiveState.ActiveChangedEventArgs e)
     {
         if (e.IsActive)
@@ -90,8 +127,9 @@ public partial class SegmentedButtonsView : BaseContentView
 
         if (lastTagActivated?.IsActive ?? false)
             if (!GetPairedOptions(lastTagActivated).Equals(activatedOptions))
-                lastTagActivated.IsActive = false;
+                lastTagActivated.SetIsActiveSilently(false);
 
+        ActivatedOption = activatedOptions;
         ItemActivated?.Invoke(this, new ItemActivatedEventArgs(activatedOptions));
         lastTagActivated = tagView;
     }
@@ -102,6 +140,10 @@ public partial class SegmentedButtonsView : BaseContentView
         var pairedOptions = Options.ElementAt(tagIndex);
 
         var args = new ItemDeactivatedEventArgs(Options.ElementAt(tagIndex));
+
+        if (ActivatedOption.Equals(pairedOptions))
+            ActivatedOption = default;
+
         ItemDeactivated?.Invoke(this, args);
     }
 

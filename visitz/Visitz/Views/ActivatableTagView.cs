@@ -17,7 +17,7 @@ public partial class ActivatableTagView : TagView, IActiveState
         set
         {
             isActive = value;
-            VisualStateManager.GoToState(this, (this as IActiveState).GetActiveState());
+            UpdateVisualState();
             ActiveStateChanged?.Invoke(this, new IActiveState.ActiveChangedEventArgs(IsActive));
         }
     }
@@ -35,5 +35,10 @@ public partial class ActivatableTagView : TagView, IActiveState
             return;
 
         IsActive = !IsActive;
+    }
+
+    private void UpdateVisualState()
+    {
+        VisualStateManager.GoToState(this, (this as IActiveState).GetActiveState());
     }
 }
