@@ -5,9 +5,12 @@ namespace Visitz.Views;
 public partial class ActivatableTagView : TagView, IActiveState
 {
     public event EventHandler<IActiveState.ActiveChangedEventArgs> ActiveStateChanged;
+    
+    public event CancelTapEventDelegate ShouldCancelTapEvent;
+
+    public delegate bool CancelTapEventDelegate(ActivatableTagView sender, TappedEventArgs e);
 
     private bool isActive;
-    
     public bool IsActive
     {
         get => isActive;
@@ -28,6 +31,9 @@ public partial class ActivatableTagView : TagView, IActiveState
 
     private void Tapped(object sender, TappedEventArgs e)
     {
+        if (ShouldCancelTapEvent?.Invoke(this, e) ?? false)
+            return;
+
         IsActive = !IsActive;
     }
 }
