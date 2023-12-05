@@ -3,12 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.Extensions;
+using Visitz.FontIcons;
 using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
+using Visitz.Views.SegmentedButtons;
 
 namespace Visitz.ViewModels
 {
@@ -43,6 +45,52 @@ namespace Visitz.ViewModels
         private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
 
         private IDisposable CaseloadQueryToken { get; set; }
+
+        [ObservableProperty]
+        public SegmentedOptions activatedSortOption;
+
+        [ObservableProperty]
+        public SegmentedOptions activatedFilterOption;
+
+        [ObservableProperty]
+        public IList<SegmentedOptions> sortOptions = new List<SegmentedOptions>()
+        {
+            new()
+            {
+                Id = nameof(CaseloadItem.TryGetKeyPlayer),
+                Text = LocalizedStrings.KeyPlayer,
+                ImageSource = MaterialIcons.Person.GetUnfilledMaterialIcon(),
+            },
+            new()
+            {
+                Id = nameof(CaseloadItem.DisplayDate),
+                Text = LocalizedStrings.OpenDate,
+                ImageSource = MaterialIcons.Calendar_month.GetUnfilledMaterialIcon(),
+            },
+        };
+
+        [ObservableProperty]
+        public IList<SegmentedOptions> filterOptions = new List<SegmentedOptions>()
+        {
+            new()
+            {
+                Id = nameof(IcmEntitySubtype.ChildProtection),
+                Text = LocalizedStrings.Subtype_ChildProtectionIncidentInitials,
+                ImageSource = MaterialIcons.Warning.GetUnfilledMaterialIcon(),
+            },
+            new()
+            {
+                Id = nameof(IcmEntitySubtype.ChildServices),
+                Text = LocalizedStrings.Subtype_ChildServicesInitials,
+                ImageSource = MaterialIcons.Folder.GetUnfilledMaterialIcon(),
+            },
+            new()
+            {
+                Id = nameof(IcmEntitySubtype.FamilyServices),
+                Text = LocalizedStrings.Subtype_FamilyServicesInitials,
+                ImageSource = MaterialIcons.Folder.GetUnfilledMaterialIcon(),
+            },
+        };
 
         private async Task Setup()
         {
@@ -204,6 +252,15 @@ namespace Visitz.ViewModels
         partial void OnSubtypeFilterChanged(string value)
         {
             ApplyCaseloadQuery();
+        }
+
+        partial void OnActivatedSortOptionChanged(SegmentedOptions value)
+        {
+        }
+
+        partial void OnActivatedFilterOptionChanged(SegmentedOptions value)
+        {
+
         }
     }
 }

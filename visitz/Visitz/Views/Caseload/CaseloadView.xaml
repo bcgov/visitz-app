@@ -7,6 +7,7 @@
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:segmentedButtons="clr-namespace:Visitz.Views.SegmentedButtons"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Caseload.CaseloadView"
@@ -52,6 +53,43 @@
                     SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
                     TextChanged="CaseloadSearchBar_TextChanged"
                     ios:SearchBar.SearchBarStyle="Minimal" />
+
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout Spacing="10">
+                        <Label 
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            FontSize="24"
+                            Text="{Static icons:MaterialIcons.Sort}"
+                            VerticalOptions="Center"
+                            Rotation="180"
+                            ScaleX="-1" />
+
+                        <segmentedButtons:SegmentedButtonsView
+                            Options="{Binding SortOptions}"
+                            Color="{StaticResource BC_TextColor}"
+                            ItemPadding="20,10"
+                            ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
+                            ActivatedTextColor="{StaticResource BC_TextColor}"
+                            ActivatedOption="{Binding ActivatedSortOption}"
+                            TapGestureCannotDeactivateItem="True" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Label 
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            FontSize="24"
+                            Text="{Static icons:MaterialIcons.Filter_alt}"
+                            VerticalOptions="Center"/>
+
+                        <segmentedButtons:SegmentedButtonsView
+                            Options="{Binding FilterOptions}"
+                            Color="{StaticResource BC_TextColor}"
+                            ItemPadding="20,10"
+                            ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
+                            ActivatedTextColor="{StaticResource BC_TextColor}"
+                            ActivatedOption="{Binding ActivatedFilterOption}"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
             </VerticalStackLayout>
 
             <BoxView
