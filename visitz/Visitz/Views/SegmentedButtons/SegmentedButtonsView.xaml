@@ -46,6 +46,7 @@
 
         <HorizontalStackLayout 
             x:Name="Items"
+            Spacing="{OnPlatform iOS=-1}"
             BindableLayout.ItemsSource="{Binding Options}">
             
             <BindableLayout.ItemTemplate>
