@@ -62,6 +62,7 @@
                         Padding="{Binding ItemPadding, Source={RelativeSource AncestorType=
                             {x:Type segmentedButtons:SegmentedButtonsView}}}"
                         StrokeThickness="0.5"
+                        ShouldCancelTapEvent="ActivatableTagView_ShouldCancelTapEvent"
                         Text="{Binding Text}"
                         ImageSource="{Binding ImageSource}" />
                 </DataTemplate>

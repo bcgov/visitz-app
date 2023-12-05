@@ -20,6 +20,9 @@ public partial class SegmentedButtonsView : BaseContentView
         BindableProperty.Create(nameof(ItemPadding), typeof(Thickness), typeof(TagView),
             defaultValue: new Thickness(10.0));
 
+    public static readonly BindableProperty TapGestureCannotDeactivateItemProperty =
+        BindableProperty.Create(nameof(TapGestureCannotDeactivateItem), typeof(bool), typeof(SegmentedButtonsView));
+
     public IEnumerable<SegmentedOptions> Options
 	{
 		get => (IEnumerable<SegmentedOptions>)GetValue(OptionsProperty);
@@ -48,6 +51,12 @@ public partial class SegmentedButtonsView : BaseContentView
     {
         get => (Thickness)GetValue(ItemPaddingProperty);
         set => SetValue(ItemPaddingProperty, value);
+    }
+
+    public bool TapGestureCannotDeactivateItem
+    {
+        get => (bool)GetValue(TapGestureCannotDeactivateItemProperty);
+        set => SetValue(TapGestureCannotDeactivateItemProperty, value);
     }
 
     public event EventHandler<ItemActivatedEventArgs> ItemActivated;
@@ -94,5 +103,12 @@ public partial class SegmentedButtonsView : BaseContentView
 
         var args = new ItemDeactivatedEventArgs(Options.ElementAt(tagIndex));
         ItemDeactivated?.Invoke(this, args);
+    }
+
+    public bool ActivatableTagView_ShouldCancelTapEvent(ActivatableTagView sender, TappedEventArgs _)
+    {
+        // Assuming we only support single-activation: make sure the user cannot deactivate the activated item.
+        // This way we can force that one item must be active.
+        return TapGestureCannotDeactivateItem && sender.IsActive;
     }
 }
