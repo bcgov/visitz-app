@@ -44,7 +44,9 @@
         StrokeThickness="0.5"
         Padding="{OnPlatform WinUI='0,0,1,0'}">
 
-        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Options}">
+        <HorizontalStackLayout 
+            x:Name="Items"
+            BindableLayout.ItemsSource="{Binding Options}">
             
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="segmentedButtons:SegmentedOptions">
