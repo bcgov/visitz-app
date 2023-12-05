@@ -19,6 +19,8 @@ namespace Visitz.ViewModels
     /// </summary>
     public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
+        private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
+
         [ObservableProperty]
         public IEnumerable<CaseloadItem> caseload;
 
@@ -97,6 +99,9 @@ namespace Visitz.ViewModels
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
             Realm = await VisitzRealm.GetIcmDataAsync();
+
+            int sortPrefIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
+            ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
 
             CaseloadQuery = Realm.All<CaseloadItem>();
             CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
@@ -256,6 +261,7 @@ namespace Visitz.ViewModels
 
         partial void OnActivatedSortOptionChanged(SegmentedOptions value)
         {
+            Preferences.Default.Set(SortOptionIndexPref, SortOptions.IndexOf(value));
         }
 
         partial void OnActivatedFilterOptionChanged(SegmentedOptions value)
