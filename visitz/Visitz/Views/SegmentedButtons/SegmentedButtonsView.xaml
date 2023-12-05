@@ -52,6 +52,7 @@
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="segmentedButtons:SegmentedOptions">
                     <views:ActivatableTagView
+                        ActiveStateChanged="ActivatableTagView_ActiveStateChanged"
                         Margin="{OnPlatform WinUI='0,0,0,1'}"
                         BorderColor="{Binding Color, Source={RelativeSource AncestorType=
                             {x:Type segmentedButtons:SegmentedButtonsView}}}"

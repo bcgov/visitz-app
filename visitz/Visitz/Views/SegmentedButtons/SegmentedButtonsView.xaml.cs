@@ -50,8 +50,49 @@ public partial class SegmentedButtonsView : BaseContentView
         set => SetValue(ItemPaddingProperty, value);
     }
 
+    public event EventHandler<ItemActivatedEventArgs> ItemActivated;
+
+    public event EventHandler<ItemDeactivatedEventArgs> ItemDeactivated;
+
+    private ActivatableTagView lastTagActivated;
+
     public SegmentedButtonsView()
 	{
 		InitializeComponent();
 	}
+
+    private SegmentedOptions GetPairedOptions(ActivatableTagView tagView)
+    {
+        int tagIndex = Items.Children.IndexOf(tagView);
+        return Options.ElementAt(tagIndex);
+    }
+
+    private void ActivatableTagView_ActiveStateChanged(object sender, IActiveState.ActiveChangedEventArgs e)
+    {
+        if (e.IsActive)
+            HandleSingleActivation((ActivatableTagView)sender);
+        else
+            HandleSingleDeactivation((ActivatableTagView)sender);
+    }
+
+    private void HandleSingleActivation(ActivatableTagView tagView)
+    {
+        var activatedOptions = GetPairedOptions(tagView);
+
+        if (lastTagActivated?.IsActive ?? false)
+            if (!GetPairedOptions(lastTagActivated).Equals(activatedOptions))
+                lastTagActivated.IsActive = false;
+
+        ItemActivated?.Invoke(this, new ItemActivatedEventArgs(activatedOptions));
+        lastTagActivated = tagView;
+    }
+
+    private void HandleSingleDeactivation(ActivatableTagView tagView)
+    {
+        int tagIndex = Items.Children.IndexOf(tagView);
+        var pairedOptions = Options.ElementAt(tagIndex);
+
+        var args = new ItemDeactivatedEventArgs(Options.ElementAt(tagIndex));
+        ItemDeactivated?.Invoke(this, args);
+    }
 }
