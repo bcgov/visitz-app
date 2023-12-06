@@ -54,7 +54,10 @@
                     TextChanged="CaseloadSearchBar_TextChanged"
                     ios:SearchBar.SearchBarStyle="Minimal" />
 
-                <VerticalStackLayout Spacing="10">
+                <VerticalStackLayout 
+                    x:Name="OptionsLayout"
+                    IsVisible="False"
+                    Spacing="10">
                     <HorizontalStackLayout Spacing="10">
                         <Label 
                             FontFamily="MaterialIconsRoundedUnfilled"

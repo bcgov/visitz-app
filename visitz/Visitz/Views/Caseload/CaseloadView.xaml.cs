@@ -2,7 +2,6 @@
 using CommunityToolkit.Maui.Core.Platform;
 #endif
 
-using CommunityToolkit.Maui.Views;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Caseload;
@@ -37,8 +36,8 @@ public partial class CaseloadView : ViewModelContentView
             ViewModel.SearchCaseload();
     }
 
-    private async void ListOptionsButton_Clicked(object sender, EventArgs e)
+    private void ListOptionsButton_Clicked(object sender, EventArgs e)
     {
-        // TODO: implement expandable section for list options (filter & sort)
+        OptionsLayout.IsVisible = !OptionsLayout.IsVisible;
     }
 }
