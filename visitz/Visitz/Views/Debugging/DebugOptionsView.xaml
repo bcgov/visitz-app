@@ -105,10 +105,12 @@
                 Command="{Binding ClearRealmDataCommand}"
                 Text="Clear all data" />
 
+            <!-- Disabled while not working on features involving encryption keys. -->
             <Button
                 StyleClass="DebugLayout"
                 Grid.Row="5"
                 Grid.Column="1"
+                IsEnabled="False"
                 Command="{Binding DeleteEncryptionKeyCommand}"
                 Text="Delete encryption key" />
 
