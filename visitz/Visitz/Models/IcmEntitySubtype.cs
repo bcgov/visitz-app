@@ -2,9 +2,9 @@
 
 public readonly struct IcmEntitySubtype
 {
-    public static readonly string ChildServices = "Child services";
+    public static readonly string ChildServices = "Child Services";
 
-    public static readonly string FamilyServices = "Family services";
+    public static readonly string FamilyServices = "Family Services";
 
-    public static readonly string ChildProtection = "Child protection";
+    public static readonly string ChildProtection = "Child Protection";
 }
