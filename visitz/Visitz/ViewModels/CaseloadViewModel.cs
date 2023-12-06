@@ -21,11 +21,33 @@ namespace Visitz.ViewModels
     {
         private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 
-        [ObservableProperty]
-        public IEnumerable<CaseloadItem> caseload;
+        private static readonly SegmentedOptions SortKeyPlayer = new(
+            nameof(CaseloadItem.TryGetKeyPlayer),
+            LocalizedStrings.KeyPlayer,
+            MaterialIcons.Person.GetUnfilledMaterialIcon());
+
+        private static readonly SegmentedOptions SortOpenDate = new(
+            nameof(CaseloadItem.DisplayDate),
+            LocalizedStrings.OpenDate,
+            MaterialIcons.Calendar_month.GetUnfilledMaterialIcon());
+
+        private static readonly SegmentedOptions FilterChildProtection = new(
+            nameof(IcmEntitySubtype.ChildProtection), 
+            LocalizedStrings.Subtype_ChildProtectionIncidentInitials, 
+            MaterialIcons.Warning.GetUnfilledMaterialIcon());
+        
+        private static readonly SegmentedOptions FilterChildServices = new(
+            nameof(IcmEntitySubtype.ChildServices), 
+            LocalizedStrings.Subtype_ChildServicesInitials, 
+            MaterialIcons.Folder.GetUnfilledMaterialIcon());
+        
+        private static readonly SegmentedOptions FilterFamilyServices = new(
+            nameof(IcmEntitySubtype.FamilyServices), 
+            LocalizedStrings.Subtype_FamilyServicesInitials, 
+            MaterialIcons.Folder.GetUnfilledMaterialIcon());
 
         [ObservableProperty]
-        public CaseloadSort selectedSortOrder;
+        public IEnumerable<CaseloadItem> caseload;
 
         [ObservableProperty]
         public bool isRefreshing;
@@ -38,9 +60,6 @@ namespace Visitz.ViewModels
 
         [ObservableProperty]
         public string collectionViewPrompt;
-
-        [ObservableProperty]
-        public string subtypeFilter;
 
         private Realm Realm { get; set; }
 
@@ -55,43 +74,12 @@ namespace Visitz.ViewModels
         public SegmentedOptions activatedFilterOption;
 
         [ObservableProperty]
-        public IList<SegmentedOptions> sortOptions = new List<SegmentedOptions>()
-        {
-            new()
-            {
-                Id = nameof(CaseloadItem.TryGetKeyPlayer),
-                Text = LocalizedStrings.KeyPlayer,
-                ImageSource = MaterialIcons.Person.GetUnfilledMaterialIcon(),
-            },
-            new()
-            {
-                Id = nameof(CaseloadItem.DisplayDate),
-                Text = LocalizedStrings.OpenDate,
-                ImageSource = MaterialIcons.Calendar_month.GetUnfilledMaterialIcon(),
-            },
-        };
+        public IList<SegmentedOptions> sortOptions = new List<SegmentedOptions>() { SortKeyPlayer, SortOpenDate, };
 
         [ObservableProperty]
         public IList<SegmentedOptions> filterOptions = new List<SegmentedOptions>()
         {
-            new()
-            {
-                Id = nameof(IcmEntitySubtype.ChildProtection),
-                Text = LocalizedStrings.Subtype_ChildProtectionIncidentInitials,
-                ImageSource = MaterialIcons.Warning.GetUnfilledMaterialIcon(),
-            },
-            new()
-            {
-                Id = nameof(IcmEntitySubtype.ChildServices),
-                Text = LocalizedStrings.Subtype_ChildServicesInitials,
-                ImageSource = MaterialIcons.Folder.GetUnfilledMaterialIcon(),
-            },
-            new()
-            {
-                Id = nameof(IcmEntitySubtype.FamilyServices),
-                Text = LocalizedStrings.Subtype_FamilyServicesInitials,
-                ImageSource = MaterialIcons.Folder.GetUnfilledMaterialIcon(),
-            },
+            FilterChildProtection, FilterChildServices, FilterFamilyServices,
         };
 
         private async Task Setup()
@@ -158,22 +146,17 @@ namespace Visitz.ViewModels
 
         private void ApplySorting(ref IEnumerable<CaseloadItem> query)
         {
-            if (query == null || SelectedSortOrder == null)
+            if (query == null || ActivatedSortOption == SegmentedOptions.Empty)
                 return;
 
-            if (SelectedSortOrder.Id == CaseloadSort.DisplayDate)
+            if (ActivatedSortOption == SortOpenDate)
             {
-                query = SelectedSortOrder.Ascending
-                    ? query.OrderBy(CaseloadItem.DisplayDateTransform)
-                    : query.OrderByDescending(CaseloadItem.DisplayDateTransform);
+                query = query.OrderBy(CaseloadItem.DisplayDateTransform);
             }
-            else if (SelectedSortOrder.Id == CaseloadSort.DisplayName)
+            else if (ActivatedSortOption == SortKeyPlayer)
             {
                 var sort = new Func<CaseloadItem, string>(item => item.DisplayName);
-
-                query = SelectedSortOrder.Ascending
-                    ? query.OrderBy(sort)
-                    : query.OrderByDescending(sort);
+                query = query.OrderBy(sort);
             }
         }
 
@@ -193,10 +176,21 @@ namespace Visitz.ViewModels
 
         private void ApplySubtypeFilter(ref IEnumerable<CaseloadItem> query)
         {
-            if (query == null || string.IsNullOrWhiteSpace(SubtypeFilter))
+            if (query == null || ActivatedFilterOption == SegmentedOptions.Empty)
                 return;
 
-            query = query.Where(item => item.CaseIncidentType.Equals(SubtypeFilter));
+            string subtype;
+
+            if (ActivatedFilterOption.Id == nameof(IcmEntitySubtype.ChildProtection))
+                subtype = IcmEntitySubtype.ChildProtection;
+            else if (ActivatedFilterOption.Id == nameof(IcmEntitySubtype.ChildServices))
+                subtype = IcmEntitySubtype.ChildServices;
+            else if (ActivatedFilterOption.Id == nameof(IcmEntitySubtype.FamilyServices))
+                subtype = IcmEntitySubtype.FamilyServices;
+            else
+                return;
+
+            query = query.Where(item => item.CaseIncidentType.Equals(subtype));
         }
 
         partial void OnCaseloadChanged(IEnumerable<CaseloadItem> value)
@@ -254,19 +248,15 @@ namespace Visitz.ViewModels
                 ShowEmptyCaseloadMessage = !CaseloadQuery.Any();
         }
 
-        partial void OnSubtypeFilterChanged(string value)
-        {
-            ApplyCaseloadQuery();
-        }
-
         partial void OnActivatedSortOptionChanged(SegmentedOptions value)
         {
             Preferences.Default.Set(SortOptionIndexPref, SortOptions.IndexOf(value));
+            ApplyCaseloadQuery();
         }
 
         partial void OnActivatedFilterOptionChanged(SegmentedOptions value)
         {
-
+            ApplyCaseloadQuery();
         }
     }
 }
