@@ -142,7 +142,7 @@ public partial class SegmentedButtonsView : BaseContentView
         var args = new ItemDeactivatedEventArgs(Options.ElementAt(tagIndex));
 
         if (ActivatedOption.Equals(pairedOptions))
-            ActivatedOption = default;
+            ActivatedOption = SegmentedOptions.Empty;
 
         ItemDeactivated?.Invoke(this, args);
     }
