@@ -45,6 +45,10 @@ public partial class VisitzApp : Application
     {
         await SessionPage.TryOpenAsync(modal: true, animated: false);
 
+#if DEBUG
+        if (DebugOptions.SkipLocalAuth)
+            return;
+#endif
         if (await VisitzSession.SessionExistsAsync())
             await AppLockPage.TryPrompt();
     }
