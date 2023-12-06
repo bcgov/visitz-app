@@ -1,5 +1,3 @@
-using Microsoft.Maui.Graphics.Text;
-using Microsoft.Maui.Networking;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;

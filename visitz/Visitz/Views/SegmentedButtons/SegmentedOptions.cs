@@ -1,5 +1,4 @@
-﻿
-namespace Visitz.Views.SegmentedButtons;
+﻿namespace Visitz.Views.SegmentedButtons;
 
 public readonly struct SegmentedOptions(string id, string text, ImageSource imageSource)
 {

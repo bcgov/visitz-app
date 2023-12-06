@@ -45,7 +45,7 @@ namespace Visitz.Authentication.Keycloak
 
         private List<string> GetRoles()
         {
-            List<string> outRoles = new();
+            List<string> outRoles = [];
 
             if (TryGet<IEnumerable>(RolesKey, out var roles))
                 foreach (var role in roles)

@@ -1,6 +1,5 @@
 ﻿using Realms;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using Visitz.Extensions;
 using Visitz.Models.Comparers;
 using Visitz.Resources.Localization;
