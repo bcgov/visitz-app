@@ -6,6 +6,7 @@
 
     <x:Double x:Key="DefaultFontSize">14</x:Double>
 
+    <!-- Values collected from https://m3.material.io/styles/typography/type-scale-tokens -->
     <x:Double x:Key="DisplayLargeFontSize">57</x:Double>
     <x:Double x:Key="DisplayMediumFontSize">45</x:Double>
     <x:Double x:Key="DisplaySmallFontSize">36</x:Double>
