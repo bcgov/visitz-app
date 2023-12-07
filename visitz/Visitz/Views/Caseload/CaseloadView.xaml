@@ -50,6 +50,7 @@
                     HorizontalOptions="FillAndExpand"
                     Placeholder="{local:Localize CaseloadSearchHint}"
                     Text="{Binding SearchQuery}"
+                    Margin="{OnPlatform iOS=-8, Default=0}"
                     SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
                     TextChanged="CaseloadSearchBar_TextChanged"
                     ios:SearchBar.SearchBarStyle="Minimal" />
