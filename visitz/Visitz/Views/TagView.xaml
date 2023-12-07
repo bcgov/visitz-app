@@ -20,7 +20,8 @@
         </Border.StrokeShape>
 
         <HorizontalStackLayout
-            Spacing="5" 
+            HorizontalOptions="Center"
+            Spacing="5"
             Padding="{Binding Padding}">
 
             <Image
