@@ -2,6 +2,7 @@
 <views:BaseContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:segmentedButtons="clr-namespace:Visitz.Views.SegmentedButtons"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.SegmentedButtons.SegmentedButtonsView"
@@ -44,9 +45,9 @@
         StrokeThickness="0.5"
         Padding="{OnPlatform WinUI='0,0,1,0'}">
 
-        <HorizontalStackLayout 
+        <Grid 
             x:Name="Items"
-            Spacing="{OnPlatform iOS=-1}"
+            ColumnSpacing="{OnPlatform iOS=-1}"
             BindableLayout.ItemsSource="{Binding Options}">
             
             <BindableLayout.ItemTemplate>
@@ -67,7 +68,11 @@
                         ImageSource="{Binding ImageSource}" />
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
-        </HorizontalStackLayout>
+
+            <Grid.Behaviors>
+                <behaviors:AutoAddColumnBehavior />
+            </Grid.Behaviors>
+        </Grid>
     </Border>
     
 </views:BaseContentView>
