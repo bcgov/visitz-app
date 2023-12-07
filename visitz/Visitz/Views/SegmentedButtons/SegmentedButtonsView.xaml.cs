@@ -28,8 +28,14 @@ public partial class SegmentedButtonsView : BaseContentView
             defaultBindingMode: BindingMode.TwoWay, propertyChanged: (bound, oldVal, newVal) =>
             {
                 var segmentedView = (SegmentedButtonsView)bound;
+                var oldOption = (SegmentedOptions)oldVal;
+                var newOption = (SegmentedOptions)newVal;
 
-                if (segmentedView.GetPairedTagView(segmentedView.ActivatedOption) is ActivatableTagView tagView)
+                if (oldOption != SegmentedOptions.Empty)
+                    if (segmentedView.GetPairedTagView(oldOption) is ActivatableTagView oldTagView)
+                        oldTagView.IsActive = false;
+
+                if (segmentedView.GetPairedTagView(newOption) is ActivatableTagView tagView)
                     tagView.IsActive = true;
             });
 
