@@ -81,8 +81,8 @@
                             TapGestureCannotDeactivateItem="True" />
                     </Grid>
 
-                    <Grid 
-                        ColumnDefinitions="Auto, *"
+                    <Grid
+                        ColumnDefinitions="Auto,*,Auto"
                         ColumnSpacing="10">
                         
                         <Label 
@@ -99,6 +99,55 @@
                             ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
                             ActivatedTextColor="{StaticResource BC_TextColor}"
                             ActivatedOption="{Binding ActivatedFilterOption}"/>
+
+                        <ImageButton
+                            Grid.Column="2"
+                            HeightRequest="32"
+                            WidthRequest="32"
+                            VerticalOptions="Center"
+                            BorderColor="Red"
+                            BorderWidth="1"
+                            IsEnabled="{Binding IsFilterActivated}"
+                            Clicked="ClearFilterButton_Clicked">
+                            
+                            <ImageButton.Source>
+                                <FontImageSource
+                                    x:Name="ClearButtonImageSource"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Glyph="{Static icons:MaterialIcons.Close}"
+                                    Color="Red"
+                                    Size="{OnPlatform iOS=64}"/>
+                            </ImageButton.Source>
+                            
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="MoreStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderWidth" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderWidth" Value="0" />
+                                                <Setter Property="Opacity" Value="0.3" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{AppThemeBinding Light=#22000000, Dark=#22000000}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{AppThemeBinding Light=#44000000, Dark=#44000000}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </ImageButton>
+                        
                     </Grid>
                 </VerticalStackLayout>
             </VerticalStackLayout>
