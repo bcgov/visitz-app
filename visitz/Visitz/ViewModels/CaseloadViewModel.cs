@@ -61,6 +61,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string collectionViewPrompt;
 
+        [ObservableProperty]
+        public bool isFilterActivated;
+
         private Realm Realm { get; set; }
 
         private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
@@ -257,6 +260,7 @@ namespace Visitz.ViewModels
         partial void OnActivatedFilterOptionChanged(SegmentedOptions value)
         {
             ApplyCaseloadQuery();
+            IsFilterActivated = value != SegmentedOptions.Empty;
         }
     }
 }
