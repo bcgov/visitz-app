@@ -116,7 +116,6 @@
                 Grid.Column="2"
                 WidthRequest="{OnPlatform iOS=150}"
                 Text="{local:Localize AddNotes}"
-                Style="{StaticResource Pill}"
                 Command="{Binding AddNoteCommand}">
                 <Button.ImageSource>
                     <FontImageSource 
