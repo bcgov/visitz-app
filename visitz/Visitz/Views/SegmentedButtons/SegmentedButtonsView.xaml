@@ -41,7 +41,7 @@
     <Border
         BindingContext="{x:Reference this}"
         Stroke="{Binding Color}"
-        StrokeShape="RoundRectangle 4"
+        StrokeShape="RoundRectangle 8"
         StrokeThickness="0.5"
         Padding="{OnPlatform WinUI='0,0,1,0'}">
 
