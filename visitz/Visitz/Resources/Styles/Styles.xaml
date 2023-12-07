@@ -287,8 +287,64 @@
     </Style>
     <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}"/>
 
-    <Style TargetType="Label" x:Key="TitleLarge" BasedOn="{StaticResource BaseLabelStyle}">
-        <Setter Property="FontSize" Value="Large" />
+    <Style TargetType="Label" x:Key="DisplayLarge">
+        <Setter Property="FontSize" Value="{DynamicResource DisplayLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="DisplayMedium">
+        <Setter Property="FontSize" Value="{DynamicResource DisplayMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="DisplaySmall">
+        <Setter Property="FontSize" Value="{DynamicResource DisplaySmallFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="HeadlineLarge">
+        <Setter Property="FontSize" Value="{DynamicResource HeadlineLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="HeadlineMedium">
+        <Setter Property="FontSize" Value="{DynamicResource HeadlineMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="HeadlineSmall">
+        <Setter Property="FontSize" Value="{DynamicResource HeadlineSmallFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="TitleLarge">
+        <Setter Property="FontSize" Value="{DynamicResource TitleLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="TitleMedium">
+        <Setter Property="FontSize" Value="{DynamicResource TitleMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="TitleSmall">
+        <Setter Property="FontSize" Value="{DynamicResource TitleSmallFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="BodyLarge">
+        <Setter Property="FontSize" Value="{DynamicResource BodyLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="BodyMedium">
+        <Setter Property="FontSize" Value="{DynamicResource BodyMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="BodySmall">
+        <Setter Property="FontSize" Value="{DynamicResource BodySmallFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="LabelLarge">
+        <Setter Property="FontSize" Value="{DynamicResource LabelLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="LabelMedium">
+        <Setter Property="FontSize" Value="{DynamicResource LabelMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="LabelSmall">
+        <Setter Property="FontSize" Value="{DynamicResource LabelSmallFontSize}" />
     </Style>
 
     <Style TargetType="ListView">
