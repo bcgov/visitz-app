@@ -58,7 +58,10 @@
                     x:Name="OptionsLayout"
                     IsVisible="False"
                     Spacing="10">
-                    <HorizontalStackLayout Spacing="10">
+                    
+                    <Grid 
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="10">
                         <Label 
                             FontFamily="MaterialIconsRoundedUnfilled"
                             FontSize="24"
@@ -68,16 +71,20 @@
                             ScaleX="-1" />
 
                         <segmentedButtons:SegmentedButtonsView
+                            Grid.Column="2"
                             Options="{Binding SortOptions}"
                             Color="{StaticResource BC_TextColor}"
-                            ItemPadding="20,10"
+                            ItemPadding="0,10"
                             ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
                             ActivatedTextColor="{StaticResource BC_TextColor}"
                             ActivatedOption="{Binding ActivatedSortOption}"
                             TapGestureCannotDeactivateItem="True" />
-                    </HorizontalStackLayout>
+                    </Grid>
 
-                    <HorizontalStackLayout Spacing="10">
+                    <Grid 
+                        ColumnDefinitions="Auto, *"
+                        ColumnSpacing="10">
+                        
                         <Label 
                             FontFamily="MaterialIconsRoundedUnfilled"
                             FontSize="24"
@@ -85,13 +92,14 @@
                             VerticalOptions="Center"/>
 
                         <segmentedButtons:SegmentedButtonsView
+                            Grid.Column="2"
                             Options="{Binding FilterOptions}"
                             Color="{StaticResource BC_TextColor}"
-                            ItemPadding="20,10"
+                            ItemPadding="0,10"
                             ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
                             ActivatedTextColor="{StaticResource BC_TextColor}"
                             ActivatedOption="{Binding ActivatedFilterOption}"/>
-                    </HorizontalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
             </VerticalStackLayout>
 
