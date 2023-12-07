@@ -267,7 +267,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Label">
+    <Style TargetType="Label" x:Key="BaseLabelStyle">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor}, Dark={StaticResource BC_TextColor}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="BCSansRegular" />
@@ -285,11 +285,7 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-
-    <Style TargetType="Label" x:Key="H1">
-        <Setter Property="FontSize" Value="32" />
-        <Setter Property="FontFamily" Value="BCSansBold" />
-    </Style>
+    <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}"/>
 
     <Style TargetType="ListView">
         <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
