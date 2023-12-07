@@ -19,33 +19,34 @@
             <RoundRectangle CornerRadius="{Binding CornerRadius}" />
         </Border.StrokeShape>
 
-        <HorizontalStackLayout
-            HorizontalOptions="Center"
-            Spacing="5"
-            Padding="{Binding Padding}">
+        <Grid Padding="{Binding Padding}">
+            <HorizontalStackLayout 
+                HorizontalOptions="Center"
+                Spacing="5">
 
-            <Image
-                x:Name="Icon"
-                HeightRequest="{Binding IconHeightRequest}"
-                WidthRequest="{Binding IconWidthRequest}"
-                MinimumHeightRequest="{OnPlatform WinUI=16, Default=24}"
-                MinimumWidthRequest="{OnPlatform WinUI=16, Default=24}"
-                Source="{Binding ImageSource}"
-                Aspect="AspectFit"
-                VerticalOptions="Center"
-                IsVisible="False">
-            </Image>
+                <Image
+                    x:Name="Icon"
+                    HeightRequest="{Binding IconHeightRequest}"
+                    WidthRequest="{Binding IconWidthRequest}"
+                    MinimumHeightRequest="{OnPlatform WinUI=16, Default=24}"
+                    MinimumWidthRequest="{OnPlatform WinUI=16, Default=24}"
+                    Source="{Binding ImageSource}"
+                    Aspect="AspectFit"
+                    VerticalOptions="Center"
+                    IsVisible="False">
+                </Image>
 
-            <Label 
-                x:Name="TagLabel"
-                Text="{Binding Text}"
-                FontSize="{Binding FontSize}"
-                FontFamily="{Binding FontFamily}"
-                TextColor="{Binding TextColor}"
-                VerticalOptions="Center"
-                VerticalTextAlignment="Center"
-                TextTransform="{Binding TextTransform}" />
-        </HorizontalStackLayout>
+                <Label 
+                    x:Name="TagLabel"
+                    Text="{Binding Text}"
+                    FontSize="{Binding FontSize}"
+                    FontFamily="{Binding FontFamily}"
+                    TextColor="{Binding TextColor}"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center"
+                    TextTransform="{Binding TextTransform}" />
+            </HorizontalStackLayout>
+        </Grid>
     </Border>
 
 </ContentView>
