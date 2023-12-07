@@ -42,8 +42,7 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor_Disabled}, Dark={StaticResource BC_TextColor_Disabled}}" />
-                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource BC_Blue_Disabled}, Dark={StaticResource BC_Blue_Disabled}}" />
+                            <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver">
@@ -80,8 +79,7 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor_Disabled}, Dark={StaticResource BC_TextColor_Disabled}}" />
-                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource BC_Blue_Disabled}, Dark={StaticResource BC_Blue_Disabled}}" />
+                            <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver">
@@ -251,7 +249,7 @@
                     </VisualState>
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="Opacity" Value="0.5" />
+                            <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver">
