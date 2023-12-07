@@ -71,7 +71,7 @@
                             ScaleX="-1" />
 
                         <segmentedButtons:SegmentedButtonsView
-                            Grid.Column="2"
+                            Grid.Column="1"
                             Options="{Binding SortOptions}"
                             Color="{StaticResource BC_TextColor}"
                             ItemPadding="0,10"
@@ -92,7 +92,7 @@
                             VerticalOptions="Center"/>
 
                         <segmentedButtons:SegmentedButtonsView
-                            Grid.Column="2"
+                            Grid.Column="1"
                             Options="{Binding FilterOptions}"
                             Color="{StaticResource BC_TextColor}"
                             ItemPadding="0,10"
