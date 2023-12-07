@@ -9,6 +9,7 @@
 
     <Border
         x:Name="Border"
+        BackgroundColor="{Binding BackgroundColor}"
         BindingContext="{x:Reference this}"
         Stroke="{Binding BorderColor}"
         StrokeThickness="{Binding StrokeThickness}"
@@ -19,7 +20,6 @@
         </Border.StrokeShape>
 
         <HorizontalStackLayout
-            BackgroundColor="{Binding BackgroundColor}"
             Spacing="5" 
             Padding="{Binding Padding}">
 
