@@ -22,7 +22,7 @@
                 <Grid>
                     <Label 
                         Text="{local:Localize Caseload}"
-                        Style="{StaticResource H1}"
+                        Style="{StaticResource TitleLarge}"
                         VerticalOptions="Center" />
 
                     <ImageButton

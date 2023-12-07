@@ -287,6 +287,10 @@
     </Style>
     <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}"/>
 
+    <Style TargetType="Label" x:Key="TitleLarge" BasedOn="{StaticResource BaseLabelStyle}">
+        <Setter Property="FontSize" Value="Large" />
+    </Style>
+
     <Style TargetType="ListView">
         <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
         <Setter Property="RefreshControlColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray900}}" />
