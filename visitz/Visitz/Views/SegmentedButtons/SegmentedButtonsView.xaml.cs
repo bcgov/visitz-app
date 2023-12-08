@@ -39,6 +39,9 @@ public partial class SegmentedButtonsView : BaseContentView
                     tagView.IsActive = true;
             });
 
+    public static readonly BindableProperty BorderColorProperty =
+        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(SegmentedButtonsView));
+
     public IEnumerable<SegmentedOptions> Options
 	{
 		get => (IEnumerable<SegmentedOptions>)GetValue(OptionsProperty);
@@ -79,6 +82,12 @@ public partial class SegmentedButtonsView : BaseContentView
     {
         get => (SegmentedOptions)GetValue(ActivatedOptionProperty);
         set => SetValue(ActivatedOptionProperty, value);
+    }
+
+    public Color BorderColor
+    {
+        get => (Color)GetValue(BorderColorProperty);
+        set => SetValue(BorderColorProperty, value);
     }
 
     public event EventHandler<ItemActivatedEventArgs> ItemActivated;

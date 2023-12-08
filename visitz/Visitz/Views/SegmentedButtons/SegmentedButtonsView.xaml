@@ -40,7 +40,7 @@
     -->
     <Border
         BindingContext="{x:Reference this}"
-        Stroke="{Binding Color}"
+        Stroke="{Binding BorderColor}"
         StrokeShape="RoundRectangle 8"
         StrokeThickness="0.5"
         Padding="{OnPlatform WinUI='0,0,1,0'}">
@@ -55,7 +55,7 @@
                     <views:ActivatableTagView
                         ActiveStateChanged="ActivatableTagView_ActiveStateChanged"
                         Margin="{OnPlatform WinUI='0,0,0,1'}"
-                        BorderColor="{Binding Color, Source={RelativeSource AncestorType=
+                        BorderColor="{Binding BorderColor, Source={RelativeSource AncestorType=
                             {x:Type segmentedButtons:SegmentedButtonsView}}}"
                         CornerRadius="0"
                         IconHeightRequest="{OnPlatform WinUI=16, Default=24}"

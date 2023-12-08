@@ -74,6 +74,7 @@
                         <segmentedButtons:SegmentedButtonsView
                             Grid.Column="1"
                             Options="{Binding SortOptions}"
+                            BorderColor="{StaticResource SeparatorColor}"
                             Color="{StaticResource BC_TextColor}"
                             ItemPadding="0,10"
                             ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
@@ -95,6 +96,7 @@
                         <segmentedButtons:SegmentedButtonsView
                             Grid.Column="1"
                             Options="{Binding FilterOptions}"
+                            BorderColor="{StaticResource SeparatorColor}"
                             Color="{StaticResource BC_TextColor}"
                             ItemPadding="0,10"
                             ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
