@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-namespace Visitz.Models;
+﻿namespace Visitz.Models;
 
 public interface ICaseloadItemHolder
 {

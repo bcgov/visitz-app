@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
-using Visitz.Resources.Localization;
-using Visitz.Storage;
+using Visitz.FontIcons;
 using Visitz.Pages;
-using Visitz.Resources;
+using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Services;
-using CommunityToolkit.Mvvm.Messaging;
-using Visitz.FontIcons;
+using Visitz.Storage;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;

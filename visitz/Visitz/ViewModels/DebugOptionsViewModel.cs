@@ -29,6 +29,12 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string authenticationDomain;
 
+        [ObservableProperty]
+        public bool buildingInDebug;
+
+        [ObservableProperty]
+        public bool skipLocalAuth;
+
         public override void PageCreated()
         {
             base.PageCreated();
@@ -39,6 +45,13 @@ namespace Visitz.ViewModels
 
             AppId = AppInfo.Current.PackageName;
             DotnetVersion = Environment.Version.ToString();
+
+#if DEBUG
+            BuildingInDebug = true;
+#else
+            BuildingInDebug = false;
+#endif
+            SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
 
             var settings = new AppSettings();
 
@@ -59,6 +72,11 @@ namespace Visitz.ViewModels
         partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
         {
             DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
+        }
+
+        partial void OnSkipLocalAuthChanged(bool value)
+        {
+            DebugOptions.SkipLocalAuth = value;
         }
 
         [RelayCommand]

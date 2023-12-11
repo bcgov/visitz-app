@@ -1,4 +1,3 @@
-using Visitz.Extensions;
 using Visitz.ViewModels;
 
 namespace Visitz.Views;

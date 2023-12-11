@@ -28,7 +28,7 @@
                 FontFamily="BCSansBold"
                 FontSize="17"/>
 
-            <views:TagView>
+            <views:TagView Padding="8,3">
                 <views:TagView.Behaviors>
                     <tag_behaviors:ContactRelationshipTagBehavior />
                 </views:TagView.Behaviors>

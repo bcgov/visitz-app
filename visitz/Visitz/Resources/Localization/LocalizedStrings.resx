@@ -160,18 +160,6 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
   <data name="TapToSelect" xml:space="preserve">
     <value>Tap to select</value>
   </data>
-  <data name="Sort_KeyPlayerLastNameAsc" xml:space="preserve">
-    <value>Key player name A-Z</value>
-  </data>
-  <data name="Sort_KeyPlayerLastNameDesc" xml:space="preserve">
-    <value>Key player name Z-A</value>
-  </data>
-  <data name="Sort_OpenDateAsc" xml:space="preserve">
-    <value>Least recent open date</value>
-  </data>
-  <data name="Sort_OpenDateDesc" xml:space="preserve">
-    <value>Most recent open date</value>
-  </data>
   <data name="FailedToPublishToIcm" xml:space="preserve">
     <value>❌ Publishing to ICM failed</value>
   </data>
@@ -225,7 +213,7 @@ Logging out won't affect your unpublished notes.</value>
 However, you currently aren't authorized to use MCFD Mobility. Please request access and try again later.</value>
   </data>
   <data name="CaseloadSearchHint" xml:space="preserve">
-    <value>Search by key player's name or ID</value>
+    <value>Search by key player's name</value>
   </data>
   <data name="CaseloadIsEmpty" xml:space="preserve">
     <value>All clear! Nothing is assigned to you.</value>
@@ -280,5 +268,20 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   </data>
   <data name="PublishToIcm" xml:space="preserve">
     <value>Publish to ICM</value>
+  </data>
+  <data name="KeyPlayer" xml:space="preserve">
+    <value>Key player</value>
+  </data>
+  <data name="OpenDate" xml:space="preserve">
+    <value>Open date</value>
+  </data>
+  <data name="Subtype_ChildProtectionIncidentInitials" xml:space="preserve">
+    <value>IN</value>
+  </data>
+  <data name="Subtype_ChildServicesInitials" xml:space="preserve">
+    <value>CS</value>
+  </data>
+  <data name="Subtype_FamilyServicesInitials" xml:space="preserve">
+    <value>FS</value>
   </data>
 </root>

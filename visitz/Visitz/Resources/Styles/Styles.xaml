@@ -27,7 +27,7 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="14,10"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -42,46 +42,7 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor_Disabled}, Dark={StaticResource BC_TextColor_Disabled}}" />
-                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource BC_Blue_Disabled}, Dark={StaticResource BC_Blue_Disabled}}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="PointerOver">
-                        <VisualState.Setters>
-                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource BC_Background_Dark}, Dark={StaticResource BC_Background_Dark}}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-
-    <Style x:Key="Pill" TargetType="Button">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
-        <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="CornerRadius" Value="22"/>
-        <Setter Property="Padding" Value="14,10"/>
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <!-- 
-                        BUG: Using Background instead of BackgroundColor because of an issue:
-                        https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
-                    -->
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor_Disabled}, Dark={StaticResource BC_TextColor_Disabled}}" />
-                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource BC_Blue_Disabled}, Dark={StaticResource BC_Blue_Disabled}}" />
+                            <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver">
@@ -105,7 +66,7 @@
         <Setter Property="BorderColor" Value="Transparent" />
         <Setter Property="BorderWidth" Value="0" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
         <Setter Property="Padding" Value="14,10"/>
         <Setter Property="MinimumHeightRequest" Value="32"/>
         <Setter Property="MinimumWidthRequest" Value="32"/>
@@ -167,7 +128,7 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_InputControlsTextColor}, Dark={StaticResource BC_InputControlsTextColor}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -188,7 +149,7 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_InputControlsTextColor}, Dark={StaticResource BC_InputControlsTextColor}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BC_Background_Light}, Dark={StaticResource BC_Background_Light}}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
@@ -210,7 +171,7 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_InputControlsTextColor}, Dark={StaticResource BC_InputControlsTextColor}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BC_Background_Light}, Dark={StaticResource BC_Background_Light}}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
@@ -244,10 +205,14 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Background" Value="Transparent" />
+                        </VisualState.Setters>
+                    </VisualState>
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="Opacity" Value="0.5" />
+                            <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver">
@@ -265,11 +230,11 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Label">
+    <Style TargetType="Label" x:Key="BaseLabelStyle">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor}, Dark={StaticResource BC_TextColor}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="BCSansRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -283,6 +248,67 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
+    <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}"/>
+
+    <Style TargetType="Label" x:Key="DisplayLarge">
+        <Setter Property="FontSize" Value="{DynamicResource DisplayLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="DisplayMedium">
+        <Setter Property="FontSize" Value="{DynamicResource DisplayMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="DisplaySmall">
+        <Setter Property="FontSize" Value="{DynamicResource DisplaySmallFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="HeadlineLarge">
+        <Setter Property="FontSize" Value="{DynamicResource HeadlineLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="HeadlineMedium">
+        <Setter Property="FontSize" Value="{DynamicResource HeadlineMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="HeadlineSmall">
+        <Setter Property="FontSize" Value="{DynamicResource HeadlineSmallFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="TitleLarge">
+        <Setter Property="FontSize" Value="{DynamicResource TitleLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="TitleMedium">
+        <Setter Property="FontSize" Value="{DynamicResource TitleMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="TitleSmall">
+        <Setter Property="FontSize" Value="{DynamicResource TitleSmallFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="BodyLarge">
+        <Setter Property="FontSize" Value="{DynamicResource BodyLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="BodyMedium">
+        <Setter Property="FontSize" Value="{DynamicResource BodyMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="BodySmall">
+        <Setter Property="FontSize" Value="{DynamicResource BodySmallFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="LabelLarge">
+        <Setter Property="FontSize" Value="{DynamicResource LabelLargeFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="LabelMedium">
+        <Setter Property="FontSize" Value="{DynamicResource LabelMediumFontSize}" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="LabelSmall">
+        <Setter Property="FontSize" Value="{DynamicResource LabelSmallFontSize}" />
+    </Style>
 
     <Style TargetType="ListView">
         <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
@@ -294,7 +320,7 @@
         <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray900}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BC_Background_Light}, Dark={StaticResource BC_Background_Light}}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -332,7 +358,7 @@
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_InputControlsTextColor}, Dark={StaticResource BC_InputControlsTextColor}}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -359,7 +385,7 @@
         <Setter Property="CancelButtonColor" Value="{StaticResource Gray500}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="BCSansRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -382,7 +408,7 @@
         <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="BCSansRegular" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -462,7 +488,7 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor}, Dark={StaticResource BC_TextColor}}" />
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">

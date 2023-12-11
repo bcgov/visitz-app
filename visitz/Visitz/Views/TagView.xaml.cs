@@ -10,29 +10,67 @@ public partial class TagView : ContentView
             (boundObj as TagView).UpdateUI();
         };
 
+    static readonly BindableProperty.BindingPropertyChangedDelegate SetBorderThickness =
+        (boundObj, oldValue, newValue) =>
+        {
+            var tag = (TagView)boundObj;
+
+            tag.Border.StrokeThickness = tag.BorderColor == Colors.Transparent
+                ? 0.0
+                : tag.StrokeThickness;
+        };
+
+    static readonly BindableProperty.BindingPropertyChangedDelegate SetIconImageSourceSize =
+        (boundObj, oldValue, newValue) =>
+        {
+            var tag = (TagView)boundObj;
+
+            if (tag.ImageSource is FontImageSource fontIcon)
+                // Helps with scaling issues and makes the ImageSource look less fuzzy.
+                fontIcon.Size = ((double)newValue) * 2;
+        };
+
     public static readonly new BindableProperty BackgroundColorProperty =
         BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(TagView));
 
     public static readonly BindableProperty TextColorProperty =
-        BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TagView));
+        BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TagView), 
+            propertyChanged: (boundObj, oldVal, newVal) =>
+        {
+            var tag = (TagView)boundObj;
+
+            if (tag.ImageSource is FontImageSource fontIcon)
+                fontIcon.Color = (Color)newVal;
+        });
 
     public static readonly BindableProperty ImageSourceProperty =
         BindableProperty.Create(nameof(ImageSource), typeof(ImageSource), typeof(TagView),
-            propertyChanged: TagPropertyChanged);
+            defaultValue: null,
+            propertyChanged: (boundObj, oldVal, newVal) =>
+            {
+                var tag = (TagView)boundObj;
+
+                tag.Icon.IsVisible = newVal != null;
+
+                if (tag.ImageSource is FontImageSource fontIcon)
+                    fontIcon.Color = tag.TextColor;
+            });
 
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(nameof(Text), typeof(string), typeof(TagView), 
             propertyChanged: TagPropertyChanged);
     
     public static readonly BindableProperty BorderColorProperty =
-        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView), 
-            propertyChanged: TagPropertyChanged);
+        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView),
+            propertyChanged: SetBorderThickness);
 
     public static readonly BindableProperty IconHeightRequestProperty =
-        BindableProperty.Create(nameof(IconHeightRequest), typeof(double), typeof(TagView));
+        BindableProperty.Create(nameof(IconHeightRequest), typeof(double), typeof(TagView),
+            propertyChanged: SetIconImageSourceSize);
 
     public static readonly BindableProperty IconWidthRequestProperty =
-        BindableProperty.Create(nameof(IconWidthRequest), typeof(double), typeof(TagView));
+        BindableProperty.Create(nameof(IconWidthRequest), typeof(double), typeof(TagView),
+            propertyChanged: SetIconImageSourceSize);
 
     public static readonly BindableProperty TextTransformProperty =
         BindableProperty.Create(nameof(TextTransform), typeof(TextTransform), typeof(TagView));
@@ -43,6 +81,18 @@ public partial class TagView : ContentView
     public static readonly BindableProperty FontFamilyProperty = 
         BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(TagView), 
             defaultValue: VisitzFonts.BcSansRegularAlias);
+
+    public static readonly BindableProperty CornerRadiusProperty =
+        BindableProperty.Create(nameof(CornerRadius), typeof(CornerRadius), typeof(TagView),
+            defaultValue: new CornerRadius(20.0));
+
+    public static readonly new BindableProperty PaddingProperty =
+        BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(TagView),
+            defaultValue: new Thickness(5.0));
+
+    public static readonly BindableProperty StrokeThicknessProperty =
+        BindableProperty.Create(nameof(StrokeThickness), typeof(double), typeof(TagView),
+            propertyChanged: SetBorderThickness, defaultValue: 0.5);
 
     public new Color BackgroundColor
     {
@@ -104,6 +154,24 @@ public partial class TagView : ContentView
         set => SetValue(FontFamilyProperty, value);
     }
 
+    public CornerRadius CornerRadius
+    {
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
+
+    public new Thickness Padding
+    {
+        get => (Thickness)GetValue(PaddingProperty);
+        set => SetValue(PaddingProperty, value);
+    }
+
+    public double StrokeThickness
+    {
+        get => (double)GetValue(StrokeThicknessProperty);
+        set => SetValue(StrokeThicknessProperty, value);
+    }
+
     public TagView()
     {
         InitializeComponent();
@@ -111,8 +179,6 @@ public partial class TagView : ContentView
 
     private void UpdateUI()
     {
-        Icon.IsVisible = ImageSource != null;
         TagLabel.IsVisible = TagLabel.Text?.Length > 0;
-        Border.StrokeThickness = BorderColor is null || BorderColor == Colors.Transparent ? 0 : 1;
     }
 }

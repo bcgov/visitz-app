@@ -105,10 +105,12 @@
                 Command="{Binding ClearRealmDataCommand}"
                 Text="Clear all data" />
 
+            <!-- Disabled while not working on features involving encryption keys. -->
             <Button
                 StyleClass="DebugLayout"
                 Grid.Row="5"
                 Grid.Column="1"
+                IsEnabled="False"
                 Command="{Binding DeleteEncryptionKeyCommand}"
                 Text="Delete encryption key" />
 
@@ -116,7 +118,14 @@
                 StyleClass="DebugLayout,DebugLabel"
                 Grid.Row="6"
                 Grid.Column="0"
-                Text="--"/>
+                IsEnabled="{Binding BuildingInDebug}"
+                Text="Skip local auth (#DEBUG only)"/>
+
+            <Switch
+                Grid.Row="6"
+                Grid.Column="1"
+                IsEnabled="{Binding BuildingInDebug}"
+                IsToggled="{Binding SkipLocalAuth}" />
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"

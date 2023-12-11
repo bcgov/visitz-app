@@ -1,6 +1,4 @@
-﻿using Realms;
-
-namespace Visitz.Models;
+﻿namespace Visitz.Models;
 
 public class FilterItem
 {

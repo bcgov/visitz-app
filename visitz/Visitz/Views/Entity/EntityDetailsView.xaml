@@ -23,52 +23,52 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 HorizontalOptions="End"
+                FontFamily="BCSansBold"
                 Text="Open date" />
 
             <Label
                 Grid.Row="0"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                FontFamily="BCSansBold"
                 Text="{Binding CaseloadItem.DisplayDate}" />
 
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
                 HorizontalOptions="End"
+                FontFamily="BCSansBold"
                 Text="ID" />
 
             <Label
                 Grid.Row="1"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                FontFamily="BCSansBold"
                 Text="{Binding CaseloadItem.CaseIncidentNumber}" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
                 HorizontalOptions="End"
+                FontFamily="BCSansBold"
                 Text="Service office" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                FontFamily="BCSansBold"
                 Text="{Binding CaseloadItem.ServiceOffice}" />
 
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
                 HorizontalOptions="End"
+                FontFamily="BCSansBold"
                 Text="Address" />
 
             <Label
                 Grid.Row="3"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                FontFamily="BCSansBold"
                 Text="{Binding CaseloadItem.Address}" />
 
         </Grid>

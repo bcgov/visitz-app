@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core.Platform;
 #endif
 
 using Visitz.ViewModels;
+using Visitz.Views.SegmentedButtons;
 
 namespace Visitz.Views.Caseload;
 
@@ -32,7 +33,16 @@ public partial class CaseloadView : ViewModelContentView
 
     private void CaseloadSearchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (CaseloadSearchBar.Text?.Length == 0)
-            ViewModel.SearchCaseload();
+        ViewModel.SearchCaseload();
+    }
+
+    private void ListOptionsButton_Clicked(object sender, EventArgs e)
+    {
+        OptionsLayout.IsVisible = !OptionsLayout.IsVisible;
+    }
+
+    private void ClearFilterButton_Clicked(object sender, EventArgs e)
+    {
+        ViewModel.ActivatedFilterOption = SegmentedOptions.Empty;
     }
 }

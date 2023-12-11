@@ -49,6 +49,8 @@ public static class VisitzColors
     // BuildBarBackgroundColor uses one of the <build> colors
     public static readonly Color BuildBarBackgroundColor = TryGetColor(nameof(BuildBarBackgroundColor));
 
+    public static readonly Color ItemSelectedColor = TryGetColor(nameof(ItemSelectedColor));
+
     public static readonly Color EntityNavBackgroundColor = TryGetColor(nameof(EntityNavBackgroundColor));
     public static readonly Color EntityNavSelectedColor = TryGetColor(nameof(EntityNavSelectedColor));
 
@@ -105,4 +107,9 @@ public static class VisitzColors
     public static readonly Color Blue100Accent = TryGetColor(nameof(Blue100Accent));
     public static readonly Color Blue200Accent = TryGetColor(nameof(Blue200Accent));
     public static readonly Color Blue300Accent = TryGetColor(nameof(Blue300Accent));
+
+    public static readonly Color UnpublishedDraftBackground = TryGetColor(nameof(UnpublishedDraftBackground));
+    public static readonly Color UnpublishedDraftTextColor = TryGetColor(nameof(UnpublishedDraftTextColor));
+
+    public static readonly Color ClearButtonColor = TryGetColor(nameof(ClearButtonColor));
 }

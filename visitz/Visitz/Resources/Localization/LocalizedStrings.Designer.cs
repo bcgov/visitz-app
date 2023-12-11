@@ -106,7 +106,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search by key player&apos;s name or ID.
+        ///   Looks up a localized string similar to Search by key player&apos;s name.
         /// </summary>
         public static string CaseloadSearchHint {
             get {
@@ -241,6 +241,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key player.
+        /// </summary>
+        public static string KeyPlayer {
+            get {
+                return ResourceManager.GetString("KeyPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
@@ -371,6 +380,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open date.
+        /// </summary>
+        public static string OpenDate {
+            get {
+                return ResourceManager.GetString("OpenDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publishing notes to ICM.
         /// </summary>
         public static string PublishingNotesToIcm {
@@ -447,38 +465,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player name A-Z.
+        ///   Looks up a localized string similar to IN.
         /// </summary>
-        public static string Sort_KeyPlayerLastNameAsc {
+        public static string Subtype_ChildProtectionIncidentInitials {
             get {
-                return ResourceManager.GetString("Sort_KeyPlayerLastNameAsc", resourceCulture);
+                return ResourceManager.GetString("Subtype_ChildProtectionIncidentInitials", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player name Z-A.
+        ///   Looks up a localized string similar to CS.
         /// </summary>
-        public static string Sort_KeyPlayerLastNameDesc {
+        public static string Subtype_ChildServicesInitials {
             get {
-                return ResourceManager.GetString("Sort_KeyPlayerLastNameDesc", resourceCulture);
+                return ResourceManager.GetString("Subtype_ChildServicesInitials", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Least recent open date.
+        ///   Looks up a localized string similar to FS.
         /// </summary>
-        public static string Sort_OpenDateAsc {
+        public static string Subtype_FamilyServicesInitials {
             get {
-                return ResourceManager.GetString("Sort_OpenDateAsc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Most recent open date.
-        /// </summary>
-        public static string Sort_OpenDateDesc {
-            get {
-                return ResourceManager.GetString("Sort_OpenDateDesc", resourceCulture);
+                return ResourceManager.GetString("Subtype_FamilyServicesInitials", resourceCulture);
             }
         }
         

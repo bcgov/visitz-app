@@ -135,5 +135,15 @@ namespace Visitz.Models
         {
             return caseloadEntities.Select(FromApiEntity);
         }
+
+        public static IQueryable<CaseloadItem> GetAllByDistinctSubtypes(Realm realm, bool sortAsc)
+        {
+            string subtype = nameof(CaseIncidentType);
+            string sortDirection = sortAsc ? "ASC" : "DESC";
+
+            return realm
+                .All<CaseloadItem>()
+                .Filter($"TRUEPREDICATE DISTINCT({subtype}) SORT({subtype} {sortDirection})");
+        }
     }
 }
