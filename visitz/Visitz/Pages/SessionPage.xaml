@@ -114,7 +114,7 @@
 
             <Button 
                 Text="{local:Localize Logout}"
-                Style="{StaticResource transparentInSolidBG}"
+                Style="{StaticResource SecondaryButtonDark}"
                 StyleClass="SessionButtonLayout"
                 Command="{Binding TryLogoutAsyncCommand}"
                 IsVisible="{Binding IsUnauthorized}" />

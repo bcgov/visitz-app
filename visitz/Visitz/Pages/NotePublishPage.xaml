@@ -96,7 +96,7 @@
                 Grid.Column="0"
                 Text="Dismiss"
                 HorizontalOptions="End"
-                Style="{StaticResource transparentInSolidBG}"
+                Style="{StaticResource SecondaryButtonDark}"
                 Command="{Binding DismissCommand}" 
                 IsVisible="{Binding ShowRetrySection}" />
                     
@@ -104,10 +104,8 @@
                 Grid.Row="3"
                 Grid.Column="1"
                 Text="Retry"
-                TextColor="{StaticResource Primary}"
                 HorizontalOptions="Start"
-                BackgroundColor="{StaticResource White}"
-                FontFamily="BCSansBold"
+                Style="{StaticResource PrimaryButtonDark}"
                 Command="{Binding RetryCommand}" 
                 IsVisible="{Binding ShowRetrySection}" />
             

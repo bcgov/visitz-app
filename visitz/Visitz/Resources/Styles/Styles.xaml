@@ -23,15 +23,36 @@
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray950}}" />
     </Style>
 
-    <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
+    <Style TargetType="Button" x:Key="BaseButtonStyle">
+        <Setter Property="TextColor" Value="{StaticResource BC_TextColor}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
         <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="14,10"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="MainStates">
+                    <!-- 
+                        BUG: Using Background instead of BackgroundColor because of an issue:
+                        https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
+                    -->
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.3" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- https://developer.gov.bc.ca/Primary-Button -->
+    <Style TargetType="Button" x:Key="PrimaryButtonLight" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -47,12 +68,43 @@
                     </VisualState>
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource BC_Background_Dark}, Dark={StaticResource BC_Background_Dark}}" />
+                            <Setter Property="Background" Value="{StaticResource BC_Background_Dark}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Pressed">
                         <VisualState.Setters>
-                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
+                            <Setter Property="Background" Value="{StaticResource Primary}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="Button" x:Key="PrimaryButtonDark" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="TextColor" Value="{StaticResource BC_TextColor}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <!-- 
+                        BUG: Using Background instead of BackgroundColor because of an issue:
+                        https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
+                    -->
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.3" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Background" Value="#ccc" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Background" Value="White" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -60,23 +112,92 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Minimal" TargetType="Button">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor}, Dark={StaticResource BC_TextColor}}" />
+    <!-- TODO: Implement PrimaryButtonDark as per DevHub.
+        Deferring this since Dark mode as a whole has not been implemented. -->
+    <Style TargetType="Button" x:Key="PrimaryButton" BasedOn="{StaticResource PrimaryButtonLight}" />
+
+    <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}" />
+
+    <!-- https://developer.gov.bc.ca/Secondary-Button -->
+    <Style TargetType="Button" x:Key="SecondaryButtonLight" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="BorderColor" Value="Transparent" />
-        <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="FontFamily" Value="BCSansRegular"/>
-        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
-        <Setter Property="Padding" Value="14,10"/>
-        <Setter Property="MinimumHeightRequest" Value="32"/>
-        <Setter Property="MinimumWidthRequest" Value="32"/>
+        <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <!-- 
+                        BUG: Using Background instead of BackgroundColor because of an issue:
+                        https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
+                    -->
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.3" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Background" Value="{StaticResource BC_Background_Dark}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Background" Value="{StaticResource Primary}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="Button" x:Key="SecondaryButtonDark" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderColor" Value="White" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <!-- 
+                        BUG: Using Background instead of BackgroundColor because of an issue:
+                        https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
+                    -->
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.3" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Background" Value="#22ffffff" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Background" Value="Transparent" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- TODO: Implement SecondaryButtonDark as per DevHub.
+    Deferring this since Dark mode as a whole has not been implemented. -->
+    <Style TargetType="Button" x:Key="SecondaryButton" BasedOn="{StaticResource SecondaryButtonLight}" />
+
+    <Style x:Key="MinimalButton" TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor_Disabled}, Dark={StaticResource BC_TextColor_Disabled}}" />
+                            <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="PointerOver">
@@ -92,18 +213,6 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
-    </Style>
-
-    <Style x:Key="transparent" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="BorderWidth" Value="1" />
-        <Setter Property="BorderColor" Value="{StaticResource BC_Blue}" />
-        <Setter Property="TextColor" Value="{StaticResource BC_Blue}" />
-    </Style>
-
-    <Style x:Key="transparentInSolidBG" TargetType="Button" BasedOn="{StaticResource transparent}">
-        <Setter Property="BorderColor" Value="White" />
-        <Setter Property="TextColor" Value="White" />
     </Style>
 
     <Style TargetType="CheckBox">
