@@ -115,4 +115,6 @@
     <Color x:Key="UnpublishedDraftBackground">#FCED69</Color>
     <Color x:Key="UnpublishedDraftTextColor">#4F4C03</Color>
 
+    <Color x:Key="ClearButtonColor">#6b6669</Color>
+
 </ResourceDictionary>

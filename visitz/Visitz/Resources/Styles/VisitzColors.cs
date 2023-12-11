@@ -107,4 +107,6 @@ public static class VisitzColors
     public static readonly Color Blue100Accent = TryGetColor(nameof(Blue100Accent));
     public static readonly Color Blue200Accent = TryGetColor(nameof(Blue200Accent));
     public static readonly Color Blue300Accent = TryGetColor(nameof(Blue300Accent));
+
+    public static readonly Color ClearButtonColor = TryGetColor(nameof(ClearButtonColor));
 }

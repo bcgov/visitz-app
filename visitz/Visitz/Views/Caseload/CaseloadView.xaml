@@ -108,7 +108,7 @@
                             HeightRequest="32"
                             WidthRequest="32"
                             VerticalOptions="Center"
-                            BorderColor="Red"
+                            BorderColor="{StaticResource ClearButtonColor}"
                             BorderWidth="1"
                             IsEnabled="{Binding IsFilterActivated}"
                             Clicked="ClearFilterButton_Clicked">
@@ -118,7 +118,7 @@
                                     x:Name="ClearButtonImageSource"
                                     FontFamily="MaterialIconsRoundedUnfilled"
                                     Glyph="{Static icons:MaterialIcons.Close}"
-                                    Color="Red"
+                                    Color="{StaticResource ClearButtonColor}"
                                     Size="{OnPlatform iOS=64}"/>
                             </ImageButton.Source>
                             
