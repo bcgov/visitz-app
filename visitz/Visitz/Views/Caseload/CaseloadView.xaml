@@ -59,42 +59,23 @@
                     x:Name="OptionsLayout"
                     IsVisible="False"
                     Spacing="10">
-                    
-                    <Grid 
-                        ColumnDefinitions="Auto,*"
-                        ColumnSpacing="10">
-                        <Label 
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                            FontSize="24"
-                            Text="{Static icons:MaterialIcons.Sort}"
-                            VerticalOptions="Center"
-                            Rotation="180"
-                            ScaleX="-1" />
 
-                        <segmentedButtons:SegmentedButtonsView
-                            Grid.Column="1"
-                            Options="{Binding SortOptions}"
-                            BorderColor="{StaticResource SeparatorColor}"
-                            Color="{StaticResource BC_TextColor}"
-                            ItemPadding="0,10"
-                            ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
-                            ActivatedTextColor="{StaticResource BC_TextColor}"
-                            ActivatedOption="{Binding ActivatedSortOption}"
-                            TapGestureCannotDeactivateItem="True" />
-                    </Grid>
+                    <segmentedButtons:SegmentedButtonsView
+                        Options="{Binding SortOptions}"
+                        BorderColor="{StaticResource SeparatorColor}"
+                        Color="{StaticResource BC_TextColor}"
+                        ItemPadding="0,10"
+                        ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
+                        ActivatedTextColor="{StaticResource BC_TextColor}"
+                        ActivatedOption="{Binding ActivatedSortOption}"
+                        TapGestureCannotDeactivateItem="True" />
 
                     <Grid
-                        ColumnDefinitions="Auto,*,Auto"
+                        ColumnDefinitions="*,Auto"
                         ColumnSpacing="10">
-                        
-                        <Label 
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                            FontSize="24"
-                            Text="{Static icons:MaterialIcons.Filter_alt}"
-                            VerticalOptions="Center"/>
 
                         <segmentedButtons:SegmentedButtonsView
-                            Grid.Column="1"
+                            Grid.Column="0"
                             Options="{Binding FilterOptions}"
                             BorderColor="{StaticResource SeparatorColor}"
                             Color="{StaticResource BC_TextColor}"
@@ -104,7 +85,7 @@
                             ActivatedOption="{Binding ActivatedFilterOption}"/>
 
                         <ImageButton
-                            Grid.Column="2"
+                            Grid.Column="1"
                             HeightRequest="32"
                             WidthRequest="32"
                             VerticalOptions="Center"
