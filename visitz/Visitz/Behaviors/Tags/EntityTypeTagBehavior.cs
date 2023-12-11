@@ -21,22 +21,22 @@ public class EntityTypeTagBehavior : TagStyleBehavior
         if (item.EntityType == IcmEntity.Case)
         {
             tag.TextColor = VisitzColors.EntityCaseTagText;
-            tag.ImageSource = MaterialIcons.Folder.GetFilledMaterialIcon();
+            tag.ImageSource = MaterialIcons.Folder.GetUnfilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.Incident)
         {
             tag.TextColor = VisitzColors.EntityIncidentTagText;
-            tag.ImageSource = MaterialIcons.Warning.GetFilledMaterialIcon();
+            tag.ImageSource = MaterialIcons.Warning.GetUnfilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.Memo)
         {
             tag.TextColor = VisitzColors.EntityMemoTagText;
-            tag.ImageSource = MaterialIcons.Note_alt.GetFilledMaterialIcon();
+            tag.ImageSource = MaterialIcons.Note_alt.GetUnfilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.ServiceRequest)
         {
             tag.TextColor = VisitzColors.EntityServiceRequestTagText;
-            tag.ImageSource = MaterialIcons.Headset_mic.GetFilledMaterialIcon();
+            tag.ImageSource = MaterialIcons.Headset_mic.GetUnfilledMaterialIcon();
         }
         else
         {
