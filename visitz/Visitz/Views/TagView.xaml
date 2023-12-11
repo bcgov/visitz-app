@@ -22,7 +22,7 @@
         <Grid Padding="{Binding Padding}">
             <HorizontalStackLayout 
                 HorizontalOptions="Center"
-                Spacing="5">
+                Spacing="{OnPlatform iOS=2, Default=4}">
 
                 <Image
                     x:Name="Icon"
