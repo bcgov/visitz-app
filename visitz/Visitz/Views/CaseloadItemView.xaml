@@ -3,9 +3,11 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.CaseloadItemView"
     x:DataType="models:CaseloadItem">
 
@@ -15,52 +17,43 @@
             CommandParameter="{Binding .}"/>
     </ContentView.GestureRecognizers>
 
-    <Grid
-        Padding="10,5,10,0"
-        RowDefinitions="*,0.5"
-        RowSpacing="5"
-        ColumnDefinitions="60*,Auto,Auto"
-        ColumnSpacing="20">
+    <VerticalStackLayout>
+        <Grid
+            Padding="10"
+            RowDefinitions="*"
+            RowSpacing="5"
+            ColumnDefinitions="70*,Auto,Auto"
+            ColumnSpacing="10">
 
-        <Label 
-            Grid.Column="0"
-            HorizontalOptions="StartAndExpand"
-            VerticalOptions="Center"
-            Text="{Binding DisplayName}"
-            FontSize="16"
-            LineBreakMode="TailTruncation"/>
-
-        <Label 
-            x:Name="OpenDateLabel"
-            Grid.Column="1"
-            Text="{Binding DisplayDate}"
-            TextColor="{StaticResource BC_InputControlsTextColor}"
-            FontSize="12"
-            FontFamily="BCSansRegular"
-            VerticalOptions="Center" />
-
-        <Border
-            Grid.Column="2"
-            HeightRequest="40"
-            WidthRequest="40"
-            VerticalOptions="Center"
-            StrokeShape="RoundRectangle 30"
-            Stroke="{StaticResource EntitySubTypeBackground}"
-            BackgroundColor="{StaticResource EntitySubTypeBackground}">
-
-            <Label
-                HorizontalTextAlignment="Center"
-                VerticalTextAlignment="Center"
+            <Label 
+                Grid.Column="0"
+                HorizontalOptions="StartAndExpand"
                 VerticalOptions="Center"
-                HorizontalOptions="Center"
-                Padding="10" 
-                Text="{Binding TypeInitials}" />
-        </Border>
+                Text="{Binding DisplayName}"
+                FontSize="16"
+                LineBreakMode="TailTruncation"/>
 
+            <Label 
+                x:Name="OpenDateLabel"
+                Grid.Column="1"
+                Text="{Binding DisplayDate}"
+                TextColor="{StaticResource BC_InputControlsTextColor}"
+                FontSize="12"
+                FontFamily="BCSansRegular"
+                VerticalOptions="Center" />
+
+            <views:TagView 
+                Grid.Column="2"
+                Padding="0"
+                Text="{Binding TypeInitials}">
+                <views:TagView.Behaviors>
+                    <tagBehaviors:EntityTypeTagBehavior />
+                </views:TagView.Behaviors>
+            </views:TagView>
+        </Grid>
+        
         <BoxView
-            Grid.Row="2"
-            Grid.ColumnSpan="3"
             Color="{StaticResource Gray200}"
             HeightRequest="0.5" />
-    </Grid>
+    </VerticalStackLayout>
 </ContentView>
