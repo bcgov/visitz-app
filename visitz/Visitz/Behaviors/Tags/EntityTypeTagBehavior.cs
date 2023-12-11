@@ -14,7 +14,9 @@ public class EntityTypeTagBehavior : TagStyleBehavior
 
         tag.BorderColor = Colors.Transparent;
         tag.BackgroundColor = Colors.Transparent;
-        tag.Text = item.FullType;
+
+        if (string.IsNullOrWhiteSpace(tag.Text))
+            tag.Text = item.FullType;
 
         if (item.EntityType == IcmEntity.Case)
         {
