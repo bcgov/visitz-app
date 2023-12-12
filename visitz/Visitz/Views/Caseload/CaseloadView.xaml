@@ -15,9 +15,13 @@
     
     <StackLayout
         Orientation="Vertical"
-        HorizontalOptions="Fill">
+        HorizontalOptions="Fill"
+        IsClippedToBounds="True">
 
-        <VerticalStackLayout>
+        <VerticalStackLayout 
+            BackgroundColor="White"
+            Shadow="{StaticResource RestingLevel2}">
+
             <VerticalStackLayout Spacing="10" Padding="10">
                 <Grid>
                     <Label 
@@ -93,7 +97,7 @@
                             BorderWidth="1"
                             IsEnabled="{Binding IsFilterActivated}"
                             Clicked="ClearFilterButton_Clicked">
-                            
+
                             <ImageButton.Source>
                                 <FontImageSource
                                     x:Name="ClearButtonImageSource"
@@ -102,7 +106,7 @@
                                     Color="{StaticResource ClearButtonColor}"
                                     Size="{OnPlatform iOS=64}"/>
                             </ImageButton.Source>
-                            
+
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
                                     <VisualStateGroup x:Name="MoreStates">
@@ -131,14 +135,10 @@
                                 </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
                         </ImageButton>
-                        
+
                     </Grid>
                 </VerticalStackLayout>
             </VerticalStackLayout>
-
-            <BoxView
-                HeightRequest="0.5"
-                Color="{StaticResource SeparatorColor}" />
         </VerticalStackLayout>
 
         <AbsoluteLayout VerticalOptions="FillAndExpand">
