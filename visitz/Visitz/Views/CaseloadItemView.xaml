@@ -42,14 +42,12 @@
                 FontFamily="BCSansRegular"
                 VerticalOptions="Center" />
 
-            <views:TagView 
+            <views:TagView
+                x:Name="TagView"
                 Grid.Column="2"
-                Padding="0"
-                Text="{Binding TypeInitials}">
-                <views:TagView.Behaviors>
-                    <tagBehaviors:EntityTypeTagBehavior />
-                </views:TagView.Behaviors>
-            </views:TagView>
+                Padding="5,0"
+                CornerRadius="4"
+                Text="{Binding TypeInitials}" />
         </Grid>
         
         <BoxView
