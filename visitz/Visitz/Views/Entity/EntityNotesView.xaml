@@ -106,7 +106,7 @@
             <Button 
                 IsVisible="False"
                 Grid.Column="0"
-                Style="{StaticResource Minimal}"
+                Style="{StaticResource MinimalButton}"
                 FontSize="20"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Text="{Static icons:MaterialIcons.Search}" />

@@ -1,6 +1,6 @@
 ﻿using Visitz.Views;
 
-namespace Visitz.Behaviors;
+namespace Visitz.Behaviors.Tags;
 
 public abstract class TagStyleBehavior : Behavior<TagView>
 {

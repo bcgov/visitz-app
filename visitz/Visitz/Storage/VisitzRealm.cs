@@ -1,5 +1,6 @@
 ﻿using Realms;
 using Realms.Exceptions;
+using Visitz.Storage.Migrations;
 
 #if WINDOWS
 using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
@@ -9,18 +10,33 @@ namespace Visitz.Storage;
 
 public class VisitzRealm
 {
+    public static readonly ulong Version2_0 = 1;
+    public static readonly ulong CurrentVersion = Version2_0;
+
     public static readonly string IcmDataCopiesPath = "icmDataCopies.realm";
     public static readonly string NoteDraftRealmPath = "noteDraftRealm.realm";
 
     private static async Task<RealmConfiguration> MakeConfigAsync(string realmPath)
     {
-        return new RealmConfiguration(realmPath)
+        try
         {
-            EncryptionKey = await VisitzKey.GetKey(realmPath),
-#if DEBUG
-            ShouldDeleteIfMigrationNeeded = true
-#endif
-        };
+            return new RealmConfiguration(realmPath)
+            {
+                EncryptionKey = await VisitzKey.GetKey(realmPath),
+                SchemaVersion = CurrentVersion,
+                MigrationCallback = MigrateRealm,
+            };
+        } 
+        catch (RealmMigrationNeededException e)
+        {
+            ConsoleTrace.TraceMethod(typeof(VisitzRealm), $"Realm exception: {e.Message}, {e.StackTrace}");
+            throw;
+        }
+    }
+
+    private static void MigrateRealm(Migration migration, ulong oldSchemaVersion)
+    {
+        IcmDataMigrations.MigrateRealm(migration, oldSchemaVersion);
     }
 
     private static async Task<Realm> GetInstanceAsync(string realmFilename)
