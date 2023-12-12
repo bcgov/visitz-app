@@ -20,124 +20,124 @@
 
         <VerticalStackLayout 
             BackgroundColor="White"
-            Shadow="{StaticResource RestingLevel2}">
+            Shadow="{StaticResource RestingLevel2}"
+            Spacing="10" 
+            Padding="10">
 
-            <VerticalStackLayout Spacing="10" Padding="10">
-                <Grid>
-                    <Label 
-                        Text="{local:Localize Caseload}"
-                        Style="{StaticResource HeadlineMedium}"
-                        VerticalOptions="Center" />
+            <Grid>
+                <Label 
+                    Text="{local:Localize Caseload}"
+                    Style="{StaticResource HeadlineMedium}"
+                    VerticalOptions="Center" />
 
-                    <ImageButton
-                        HorizontalOptions="End"
-                        HeightRequest="32"
-                        WidthRequest="32"
-                        VerticalOptions="Center"
-                        Clicked="ListOptionsButton_Clicked">
-                        <ImageButton.Source>
-                            <FontImageSource 
-                                FontFamily="MaterialIconsRoundedUnfilled"
-                                Glyph="{Static icons:MaterialIcons.Tune}"
-                                Color="{StaticResource BC_TextColor}"
-                                Size="{OnPlatform iOS=64}"/>
-                        </ImageButton.Source>
+                <ImageButton
+                    HorizontalOptions="End"
+                    HeightRequest="32"
+                    WidthRequest="32"
+                    VerticalOptions="Center"
+                    Clicked="ListOptionsButton_Clicked">
+                    <ImageButton.Source>
+                        <FontImageSource 
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Glyph="{Static icons:MaterialIcons.Tune}"
+                            Color="{StaticResource BC_TextColor}"
+                            Size="{OnPlatform iOS=64}"/>
+                    </ImageButton.Source>
 
-                    </ImageButton>
-                </Grid>
+                </ImageButton>
+            </Grid>
 
-                <SearchBar 
-                    BackgroundColor="{StaticResource BC_Background_Light}"
-                    CancelButtonColor="{StaticResource BC_TextColor}"
-                    TextColor="{StaticResource BC_TextColor}"
-                    x:Name="CaseloadSearchBar"
-                    HorizontalOptions="FillAndExpand"
-                    Placeholder="{local:Localize CaseloadSearchHint}"
-                    Text="{Binding SearchQuery}"
-                    Margin="{OnPlatform iOS='-9', Default=0}"
-                    SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
-                    TextChanged="CaseloadSearchBar_TextChanged"
-                    ios:SearchBar.SearchBarStyle="Minimal" />
+            <SearchBar 
+                BackgroundColor="{StaticResource BC_Background_Light}"
+                CancelButtonColor="{StaticResource BC_TextColor}"
+                TextColor="{StaticResource BC_TextColor}"
+                x:Name="CaseloadSearchBar"
+                HorizontalOptions="FillAndExpand"
+                Placeholder="{local:Localize CaseloadSearchHint}"
+                Text="{Binding SearchQuery}"
+                Margin="{OnPlatform iOS='-9', Default=0}"
+                SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+                TextChanged="CaseloadSearchBar_TextChanged"
+                ios:SearchBar.SearchBarStyle="Minimal" />
 
-                <VerticalStackLayout 
-                    x:Name="OptionsLayout"
-                    IsVisible="False"
-                    Spacing="10">
+            <VerticalStackLayout 
+                x:Name="OptionsLayout"
+                IsVisible="False"
+                Spacing="10">
+
+                <segmentedButtons:SegmentedButtonsView
+                    Options="{Binding SortOptions}"
+                    BorderColor="{StaticResource SeparatorColor}"
+                    Color="{StaticResource BC_TextColor}"
+                    ItemPadding="0,10"
+                    ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
+                    ActivatedTextColor="{StaticResource BC_TextColor}"
+                    ActivatedOption="{Binding ActivatedSortOption}"
+                    TapGestureCannotDeactivateItem="True" />
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="10">
 
                     <segmentedButtons:SegmentedButtonsView
-                        Options="{Binding SortOptions}"
+                        Grid.Column="0"
+                        Options="{Binding FilterOptions}"
                         BorderColor="{StaticResource SeparatorColor}"
                         Color="{StaticResource BC_TextColor}"
                         ItemPadding="0,10"
                         ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
                         ActivatedTextColor="{StaticResource BC_TextColor}"
-                        ActivatedOption="{Binding ActivatedSortOption}"
-                        TapGestureCannotDeactivateItem="True" />
+                        ActivatedOption="{Binding ActivatedFilterOption}"/>
 
-                    <Grid
-                        ColumnDefinitions="*,Auto"
-                        ColumnSpacing="10">
+                    <ImageButton
+                        Grid.Column="1"
+                        HeightRequest="32"
+                        WidthRequest="32"
+                        VerticalOptions="Center"
+                        BorderColor="{StaticResource ClearButtonColor}"
+                        BorderWidth="1"
+                        IsEnabled="{Binding IsFilterActivated}"
+                        Clicked="ClearFilterButton_Clicked">
 
-                        <segmentedButtons:SegmentedButtonsView
-                            Grid.Column="0"
-                            Options="{Binding FilterOptions}"
-                            BorderColor="{StaticResource SeparatorColor}"
-                            Color="{StaticResource BC_TextColor}"
-                            ItemPadding="0,10"
-                            ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
-                            ActivatedTextColor="{StaticResource BC_TextColor}"
-                            ActivatedOption="{Binding ActivatedFilterOption}"/>
-
-                        <ImageButton
-                            Grid.Column="1"
-                            HeightRequest="32"
-                            WidthRequest="32"
-                            VerticalOptions="Center"
-                            BorderColor="{StaticResource ClearButtonColor}"
-                            BorderWidth="1"
-                            IsEnabled="{Binding IsFilterActivated}"
-                            Clicked="ClearFilterButton_Clicked">
-
-                            <ImageButton.Source>
-                                <FontImageSource
+                        <ImageButton.Source>
+                            <FontImageSource
                                     x:Name="ClearButtonImageSource"
                                     FontFamily="MaterialIconsRoundedUnfilled"
                                     Glyph="{Static icons:MaterialIcons.Close}"
                                     Color="{StaticResource ClearButtonColor}"
                                     Size="{OnPlatform iOS=64}"/>
-                            </ImageButton.Source>
+                        </ImageButton.Source>
 
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroupList>
-                                    <VisualStateGroup x:Name="MoreStates">
-                                        <VisualState x:Name="Normal">
-                                            <VisualState.Setters>
-                                                <Setter Property="BorderWidth" Value="1" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="Disabled">
-                                            <VisualState.Setters>
-                                                <Setter Property="BorderWidth" Value="0" />
-                                                <Setter Property="Opacity" Value="0.3" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="PointerOver">
-                                            <VisualState.Setters>
-                                                <Setter Property="Background" Value="{AppThemeBinding Light=#11000000, Dark=#11000000}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                        <VisualState x:Name="Pressed">
-                                            <VisualState.Setters>
-                                                <Setter Property="Background" Value="{AppThemeBinding Light=#22000000, Dark=#22000000}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateGroupList>
-                            </VisualStateManager.VisualStateGroups>
-                        </ImageButton>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="MoreStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="0" />
+                                            <Setter Property="Opacity" Value="0.3" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="Background" Value="{AppThemeBinding Light=#11000000, Dark=#11000000}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Background" Value="{AppThemeBinding Light=#22000000, Dark=#22000000}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </ImageButton>
 
-                    </Grid>
-                </VerticalStackLayout>
+                </Grid>
             </VerticalStackLayout>
         </VerticalStackLayout>
 
