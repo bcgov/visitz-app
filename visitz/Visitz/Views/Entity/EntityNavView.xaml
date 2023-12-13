@@ -19,7 +19,8 @@
             Padding="0,10,0,10"
             BackgroundColor="White"
             HeightRequest="{StaticResource TopAppBarHeight}"
-            Shadow="{StaticResource RestingLevel2}">
+            Shadow="{StaticResource RestingLevel2}"
+            ZIndex="2">
             
             <HorizontalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding GoBackCommand}" />

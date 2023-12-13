@@ -17,7 +17,8 @@
             BackgroundColor="White"
             HeightRequest="{StaticResource TopAppBarHeight}"
             ColumnDefinitions="*,Auto"
-            Shadow="{StaticResource RestingLevel2}">
+            Shadow="{StaticResource RestingLevel2}"
+            ZIndex="2">
             
             <Label 
                 Grid.Column="0"

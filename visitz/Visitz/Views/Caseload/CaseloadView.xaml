@@ -21,6 +21,7 @@
         <VerticalStackLayout 
             BackgroundColor="White"
             Shadow="{StaticResource RestingLevel2}"
+            ZIndex="2"
             Spacing="10" 
             Padding="10">
 
