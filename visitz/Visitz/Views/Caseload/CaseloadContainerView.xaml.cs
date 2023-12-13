@@ -46,16 +46,14 @@ public partial class CaseloadContainerView : SplitLayoutView
         {
             (recipient as CaseloadContainerView).NavigateBack();
         });
-
-        StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, message) =>
-        {
-            var (navItem, caseloadItem) = message.Value;
-            (recipient as CaseloadContainerView).OpenEntitySection(navItem, caseloadItem);
-        });
     }
 
     private void OpenCaseloadItem(CaseloadItem item)
     {
+        var containerView = ServiceProvider.GetService<EntityContainerView>();
+        containerView.CaseloadItem = item;
+        SetEndPane(containerView);
+
         var entityNav = ServiceProvider.GetService<EntityNavView>();
         entityNav.CaseloadItem = item;
         SetStartPane(entityNav);
@@ -69,15 +67,5 @@ public partial class CaseloadContainerView : SplitLayoutView
         SetEndPane(null);
 
         StartPaneColumnWidth = StartPaneCaseloadViewLength;
-    }
-
-    private void OpenEntitySection(NavItem navItem, CaseloadItem caseloadItem)
-    {
-        if (navItem == null)
-            return;
-
-        var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
-        (view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
-        SetEndPane(view);
     }
 }

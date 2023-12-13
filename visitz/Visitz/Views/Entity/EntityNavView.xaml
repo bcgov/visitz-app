@@ -2,6 +2,7 @@
 <views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagbehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
@@ -11,49 +12,23 @@
     x:DataType="entity:EntityNavViewModel"
     BackgroundColor="{StaticResource EntityNavBackgroundColor}">
 
-    <StackLayout Orientation="Vertical">
+    <StackLayout 
+        Orientation="Vertical" 
+        IsClippedToBounds="True">
 
-        <HorizontalStackLayout Padding="0,10,0,10">
-            <HorizontalStackLayout.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding GoBackCommand}" />
-            </HorizontalStackLayout.GestureRecognizers>
+        <HorizontalStackLayout 
+            Padding="5,10,5,10"
+            BackgroundColor="White"
+            HeightRequest="{StaticResource TopAppBarHeight}"
+            Shadow="{StaticResource RestingLevel2}"
+            ZIndex="2">
 
-            <Label
-                VerticalOptions="Center"
-                FontSize="28"
-                Text="{Static icons:MaterialIcons.Chevron_left}"
-                FontFamily="MaterialIconsRoundedFilled" />
+            <views:BackButtonView
+                Text="{local:Localize Caseload}"
+                Command="{Binding GoBackCommand}" />
 
-            <Label 
-                VerticalOptions="Center"
-                Text="Caseload" />
         </HorizontalStackLayout>
 
-        <VerticalStackLayout Spacing="5">
-            <Label
-                Margin="10,10,10,0"
-                FontSize="20"
-                FontFamily="BCSansBold"
-                Text="{Binding CaseloadItem.DisplayName}" />
-
-            <views:TagView
-                BindingContext="{Binding CaseloadItem}"
-                Margin="0,0,10,15"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                FontFamily="BCSansBold"
-                FontSize="13"
-                TextTransform="Uppercase">
-                <views:TagView.Behaviors>
-                    <tagbehaviors:EntityTypeTagBehavior />
-                </views:TagView.Behaviors>
-            </views:TagView>
-            
-            <BoxView 
-                HeightRequest="0.5"
-                Color="{StaticResource SeparatorColor}" />
-        </VerticalStackLayout>
-        
         <CollectionView
             ItemsSource="{Binding EntityNavItems}"
             SelectionMode="Single"
