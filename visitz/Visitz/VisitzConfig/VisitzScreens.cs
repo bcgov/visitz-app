@@ -27,6 +27,9 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<EntityNavView>();
             builder.Services.AddTransient<EntityNavViewModel>();
 
+            builder.Services.AddTransient<EntityContainerView>();
+            builder.Services.AddTransient<EntityContainerViewModel>();
+
             builder.Services.AddTransient<EntityDetailsView>();
             builder.Services.AddTransient<EntityDetailsViewModel>();
 

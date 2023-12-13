@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
+    x:Class="Visitz.Views.Entity.EntityContainerView"
+    x:DataType="entity:EntityContainerViewModel">
+    
+    <StackLayout
+        Orientation="Vertical">
+
+        <Grid 
+            Padding="10"
+            BackgroundColor="White"
+            HeightRequest="{StaticResource TopAppBarHeight}"
+            ColumnDefinitions="*,Auto"
+            Shadow="{StaticResource RestingLevel2}">
+            
+            <Label 
+                Grid.Column="0"
+                Text="{Binding CaseloadItem.DisplayName}"
+                FontSize="{StaticResource TitleLargeFontSize}"
+                LineBreakMode="TailTruncation"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="Center" />
+
+            <views:TagView
+                BindingContext="{Binding CaseloadItem}"
+                Grid.Column="1"
+                VerticalOptions="Center"
+                FontSize="{StaticResource TitleMediumFontSize}"
+                TextColor="{StaticResource BC_TextColor}">
+                <views:TagView.Behaviors>
+                    <tagBehaviors:EntityTypeTagBehavior />
+                </views:TagView.Behaviors>
+            </views:TagView>
+        </Grid>
+
+        <ContentView 
+            x:Name="ContainerDetails"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand" />
+    </StackLayout>
+    
+</views:ViewModelContentView>
