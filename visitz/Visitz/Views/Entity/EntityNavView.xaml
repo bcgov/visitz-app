@@ -11,7 +11,9 @@
     x:DataType="entity:EntityNavViewModel"
     BackgroundColor="{StaticResource EntityNavBackgroundColor}">
 
-    <StackLayout Orientation="Vertical">
+    <StackLayout 
+        Orientation="Vertical" 
+        IsClippedToBounds="True">
 
         <HorizontalStackLayout 
             Padding="0,10,0,10"
