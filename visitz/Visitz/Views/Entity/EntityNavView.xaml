@@ -13,7 +13,12 @@
 
     <StackLayout Orientation="Vertical">
 
-        <HorizontalStackLayout Padding="0,10,0,10">
+        <HorizontalStackLayout 
+            Padding="0,10,0,10"
+            BackgroundColor="White"
+            HeightRequest="{StaticResource TopAppBarHeight}"
+            Shadow="{StaticResource RestingLevel2}">
+            
             <HorizontalStackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding GoBackCommand}" />
             </HorizontalStackLayout.GestureRecognizers>
@@ -26,34 +31,10 @@
 
             <Label 
                 VerticalOptions="Center"
+                FontSize="{StaticResource TitleMediumFontSize}"
                 Text="Caseload" />
         </HorizontalStackLayout>
 
-        <VerticalStackLayout Spacing="5">
-            <Label
-                Margin="10,10,10,0"
-                FontSize="20"
-                FontFamily="BCSansBold"
-                Text="{Binding CaseloadItem.DisplayName}" />
-
-            <views:TagView
-                BindingContext="{Binding CaseloadItem}"
-                Margin="0,0,10,15"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                FontFamily="BCSansBold"
-                FontSize="13"
-                TextTransform="Uppercase">
-                <views:TagView.Behaviors>
-                    <tagbehaviors:EntityTypeTagBehavior />
-                </views:TagView.Behaviors>
-            </views:TagView>
-            
-            <BoxView 
-                HeightRequest="0.5"
-                Color="{StaticResource SeparatorColor}" />
-        </VerticalStackLayout>
-        
         <CollectionView
             ItemsSource="{Binding EntityNavItems}"
             SelectionMode="Single"
