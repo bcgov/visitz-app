@@ -2,6 +2,7 @@
 <views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
@@ -172,6 +173,36 @@
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize SafetyInterventions}" />
+
+                <Grid 
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10">
+                    <Label 
+                        VerticalOptions="Center"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontSize="{StaticResource HeadlineLargeFontSize}"
+                        TextColor="{StaticResource Semantic_Warning_LargeText}"
+                        Text="{Static icons:MaterialIcons.Warning}" />
+                    
+                    <Label
+                        Grid.Column="2"
+                        VerticalOptions="Center"
+                        Text="{local:Localize SafetyInterventionPrompt}" />
+                </Grid>
+
+                <Label Text="{local:Localize SafetyInterventionDescription}" />
+
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention1}" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention2}" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention3}" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention4}" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention5}" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention6}" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention7}" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention8}" />
+                <formctls:FormEntry FieldNameIsVisible="False" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention9}" />
+                <formctls:FormCheckBox Text="{local:Localize SafetyIntervention10}" />
 
             </VerticalStackLayout>
 

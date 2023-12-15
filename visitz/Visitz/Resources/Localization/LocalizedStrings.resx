@@ -440,6 +440,42 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="SafetyFactors" xml:space="preserve">
     <value>Safety factors</value>
   </data>
+  <data name="SafetyIntervention1" xml:space="preserve">
+    <value>1. Direct service intervention by the child protection worker</value>
+  </data>
+  <data name="SafetyIntervention10" xml:space="preserve">
+    <value>10. Child/youth removed because interventions 1-9 do not adequately assure child's safety</value>
+  </data>
+  <data name="SafetyIntervention2" xml:space="preserve">
+    <value>2. Use of extended family, neighbours, community Elders, or other individuals in the community as safety resources</value>
+  </data>
+  <data name="SafetyIntervention3" xml:space="preserve">
+    <value>3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources</value>
+  </data>
+  <data name="SafetyIntervention4" xml:space="preserve">
+    <value>4. Parent/care-provider to appropriately protect victim from alleged perpetrator</value>
+  </data>
+  <data name="SafetyIntervention5" xml:space="preserve">
+    <value>5. Alleged perpetrator to leave the home, either voluntarily or in response to consideration of legal intervention</value>
+  </data>
+  <data name="SafetyIntervention6" xml:space="preserve">
+    <value>6. Non-offending parent/care-provider to move to a safe environment with the child</value>
+  </data>
+  <data name="SafetyIntervention7" xml:space="preserve">
+    <value>7. Legal intervention planned or initiated - child/youth remains in the home</value>
+  </data>
+  <data name="SafetyIntervention8" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="SafetyIntervention9" xml:space="preserve">
+    <value>9. Parent/care-provider to voluntarily place the child outside the home</value>
+  </data>
+  <data name="SafetyInterventionDescription" xml:space="preserve">
+    <value>After weighing the Safety Factors and the Protective Capacities consider whether safety interventions 1-8 will allow the child to remain in the home for the present time. Check the item number for all safety interventions that will be implemented. If there are no available safety interventions that would allow the child/youth to remain in the home, indicate by checking item nine or ten, and follow procedures for initiating a voluntary agreement for placement in an out-of-care or in-care living arrangement or removal.</value>
+  </data>
+  <data name="SafetyInterventionPrompt" xml:space="preserve">
+    <value>Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes</value>
+  </data>
   <data name="SafetyInterventions" xml:space="preserve">
     <value>Safety interventions</value>
   </data>

@@ -924,6 +924,114 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1. Direct service intervention by the child protection worker.
+        /// </summary>
+        public static string SafetyIntervention1 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10. Child/youth removed because interventions 1-9 do not adequately assure child&apos;s safety.
+        /// </summary>
+        public static string SafetyIntervention10 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Use of extended family, neighbours, community Elders, or other individuals in the community as safety resources.
+        /// </summary>
+        public static string SafetyIntervention2 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources.
+        /// </summary>
+        public static string SafetyIntervention3 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4. Parent/care-provider to appropriately protect victim from alleged perpetrator.
+        /// </summary>
+        public static string SafetyIntervention4 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5. Alleged perpetrator to leave the home, either voluntarily or in response to consideration of legal intervention.
+        /// </summary>
+        public static string SafetyIntervention5 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6. Non-offending parent/care-provider to move to a safe environment with the child.
+        /// </summary>
+        public static string SafetyIntervention6 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 7. Legal intervention planned or initiated - child/youth remains in the home.
+        /// </summary>
+        public static string SafetyIntervention7 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string SafetyIntervention8 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 9. Parent/care-provider to voluntarily place the child outside the home.
+        /// </summary>
+        public static string SafetyIntervention9 {
+            get {
+                return ResourceManager.GetString("SafetyIntervention9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After weighing the Safety Factors and the Protective Capacities consider whether safety interventions 1-8 will allow the child to remain in the home for the present time. Check the item number for all safety interventions that will be implemented. If there are no available safety interventions that would allow the child/youth to remain in the home, indicate by checking item nine or ten, and follow procedures for initiating a voluntary agreement for placement in an out-of-care or in-care living arrangement o [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string SafetyInterventionDescription {
+            get {
+                return ResourceManager.GetString("SafetyInterventionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes.
+        /// </summary>
+        public static string SafetyInterventionPrompt {
+            get {
+                return ResourceManager.GetString("SafetyInterventionPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Safety interventions.
         /// </summary>
         public static string SafetyInterventions {
