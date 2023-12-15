@@ -25,6 +25,9 @@ public partial class FormEntry : ContentView
             formEntry.FieldNameRow.Height = isVisible ? GridLength.Star : 0.0;
         });
 
+    public static readonly BindableProperty PlaceholderProperty =
+        BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(FormEntry));
+
     public string FieldName
     {
         get => (string)GetValue(FieldNameProperty);
@@ -53,6 +56,12 @@ public partial class FormEntry : ContentView
     {
         get => (bool)GetValue(FieldNameIsVisibleProperty);
         set => SetValue(FieldNameIsVisibleProperty, value);
+    }
+
+    public string Placeholder
+    {
+        get => (string)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
     }
 
     public FormEntry()
