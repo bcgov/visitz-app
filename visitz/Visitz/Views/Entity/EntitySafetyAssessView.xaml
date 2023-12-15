@@ -38,6 +38,15 @@
             <Setter Property="Padding" Value="10" />
             <Setter Property="Spacing" Value="10" />
         </Style>
+
+        <Style TargetType="Border">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Stroke" Value="{StaticResource BC_TextColor}" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+            <Setter Property="StrokeThickness" Value="0.5" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+        </Style>
     </views:ViewModelContentView.Resources>
 
     <ScrollView>
@@ -77,13 +86,7 @@
                 <formctls:FormPromptAnswerField 
                     QuestionPrompt="{local:Localize SafetyFactor1}">
 
-                    <Border 
-                        Stroke="{StaticResource BC_TextColor}"
-                        StrokeShape="RoundRectangle 8"
-                        StrokeThickness="0.5"
-                        HorizontalOptions="Start"
-                        Margin="10"
-                        Padding="10">
+                    <Border>
                         <VerticalStackLayout>
                             <formctls:FormCheckBox Text="{local:Localize SafetyFactor1SeriousInjury}" />
                             <formctls:FormCheckBox Text="{local:Localize SafetyFactor1ProviderFears}" />
