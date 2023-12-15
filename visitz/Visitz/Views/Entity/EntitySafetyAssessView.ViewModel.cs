@@ -6,6 +6,9 @@ namespace Visitz.Views.Entity;
 
 public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadItemHolder
 {
+    public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";
+    public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
+
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 }

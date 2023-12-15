@@ -219,6 +219,52 @@
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize SafetyDecision}" />
 
+                <Label Text="{local:Localize SafetyDecisionPrompt}" />
+
+                <Border>
+                    <VerticalStackLayout Spacing="10">
+                        <formctls:FormRadioButton 
+                            GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
+                            Value="1" 
+                            Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
+                        <formctls:FormRadioButton 
+                            GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                            Value="2" 
+                            Text="{local:Localize SafetyDecision2_SafeInterventions}" />
+                        <formctls:FormRadioButton 
+                            GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                            Value="3" 
+                            Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
+                        
+                        <VerticalStackLayout Spacing="10" Margin="30,0,0,0">
+                            <formctls:FormRadioButton 
+                                GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                Value="1" 
+                                Text="{local:Localize SafetyDecision_AllYouth}" />
+                            <formctls:FormRadioButton 
+                                GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                Value="2" 
+                                Text="{local:Localize SafetyDecision_SelectedYouth}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label 
+                    Style="{StaticResource MidsectionHeader}"
+                    Text="{local:Localize SafetyPlan}" />
+
+                <formctls:FormEntry 
+                    FieldName="{local:Localize SafetyPlanDescription}"
+                    Placeholder="{local:Localize SafetyPlan}"/>
+
+                <Label 
+                    Style="{StaticResource MidsectionHeader}"
+                    Text="{local:Localize Narrative}" />
+
+                <formctls:FormEntry 
+                    FieldName="{local:Localize NarrativeDescription}"
+                    Placeholder="{local:Localize Narrative}"/>
+
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="5" Grid.Column="0" StyleClass="FormVsl">

@@ -419,6 +419,12 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="MedicalMentalDisorder" xml:space="preserve">
     <value>Medical mental disorder</value>
   </data>
+  <data name="Narrative" xml:space="preserve">
+    <value>Narrative</value>
+  </data>
+  <data name="NarrativeDescription" xml:space="preserve">
+    <value>Provide rationale for the Safety Decision including how the intervention plan, if needed, is expected to mitigate safety concerns or is insufficient to address concerns:</value>
+  </data>
   <data name="NotReadilyAccessible" xml:space="preserve">
     <value>Not readily accessible</value>
   </data>
@@ -436,6 +442,24 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   </data>
   <data name="SafetyDecision" xml:space="preserve">
     <value>Safety decision</value>
+  </data>
+  <data name="SafetyDecision1_NoSafetyFactors" xml:space="preserve">
+    <value>1. Safe—no safety factors are identified at this time. Based on currently available information, there are no children/youth likely to be in immediate danger of serious harm</value>
+  </data>
+  <data name="SafetyDecision2_SafeInterventions" xml:space="preserve">
+    <value>2. Safe with intervention—one or more safety factors are present and protecting safety interventions have been planned or taken that immediately mitigate the identifies safety factors. Based on protecting interventions, child/youth will remain in the home at this time</value>
+  </data>
+  <data name="SafetyDecision3_UnsafeSafetyFactors" xml:space="preserve">
+    <value>3. Unsafe—one or more safety factors are present and placement is the only protecting intervention possible for one or more children/youth. Without placement, one or more children/youths will likely be in danger of immediate or serious harm</value>
+  </data>
+  <data name="SafetyDecisionPrompt" xml:space="preserve">
+    <value>Identify the safety decision by checking the appropriate line below. The decision should be based on the assessment of all safety factors, safety interventions, and any other information known about the case.</value>
+  </data>
+  <data name="SafetyDecision_AllYouth" xml:space="preserve">
+    <value>All Children/Youth placed in out-of-care living arrangements or in care</value>
+  </data>
+  <data name="SafetyDecision_SelectedYouth" xml:space="preserve">
+    <value>The following children were placed in an out-of-care living arrangement or in care</value>
   </data>
   <data name="SafetyFactors" xml:space="preserve">
     <value>Safety factors</value>
@@ -478,6 +502,12 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   </data>
   <data name="SafetyInterventions" xml:space="preserve">
     <value>Safety interventions</value>
+  </data>
+  <data name="SafetyPlan" xml:space="preserve">
+    <value>Safety plan</value>
+  </data>
+  <data name="SafetyPlanDescription" xml:space="preserve">
+    <value>Provide a brief description of intervention, detailing relationship of support persons to child/youth including names, contact information, frequency and duration of supports and how the safety intervention plan will be monitored:</value>
   </data>
   <data name="WorkerId" xml:space="preserve">
     <value>Worker ID</value>

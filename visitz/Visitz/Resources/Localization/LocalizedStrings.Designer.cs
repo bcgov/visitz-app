@@ -515,6 +515,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Narrative.
+        /// </summary>
+        public static string Narrative {
+            get {
+                return ResourceManager.GetString("Narrative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide rationale for the Safety Decision including how the intervention plan, if needed, is expected to mitigate safety concerns or is insufficient to address concerns:.
+        /// </summary>
+        public static string NarrativeDescription {
+            get {
+                return ResourceManager.GetString("NarrativeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No internet available.
         /// </summary>
         public static string NoInternet {
@@ -731,6 +749,60 @@ namespace Visitz.Resources.Localization {
         public static string SafetyDecision {
             get {
                 return ResourceManager.GetString("SafetyDecision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Children/Youth placed in out-of-care living arrangements or in care.
+        /// </summary>
+        public static string SafetyDecision_AllYouth {
+            get {
+                return ResourceManager.GetString("SafetyDecision_AllYouth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following children were placed in an out-of-care living arrangement or in care.
+        /// </summary>
+        public static string SafetyDecision_SelectedYouth {
+            get {
+                return ResourceManager.GetString("SafetyDecision_SelectedYouth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Safe—no safety factors are identified at this time. Based on currently available information, there are no children/youth likely to be in immediate danger of serious harm.
+        /// </summary>
+        public static string SafetyDecision1_NoSafetyFactors {
+            get {
+                return ResourceManager.GetString("SafetyDecision1_NoSafetyFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Safe with intervention—one or more safety factors are present and protecting safety interventions have been planned or taken that immediately mitigate the identifies safety factors. Based on protecting interventions, child/youth will remain in the home at this time.
+        /// </summary>
+        public static string SafetyDecision2_SafeInterventions {
+            get {
+                return ResourceManager.GetString("SafetyDecision2_SafeInterventions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Unsafe—one or more safety factors are present and placement is the only protecting intervention possible for one or more children/youth. Without placement, one or more children/youths will likely be in danger of immediate or serious harm.
+        /// </summary>
+        public static string SafetyDecision3_UnsafeSafetyFactors {
+            get {
+                return ResourceManager.GetString("SafetyDecision3_UnsafeSafetyFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identify the safety decision by checking the appropriate line below. The decision should be based on the assessment of all safety factors, safety interventions, and any other information known about the case..
+        /// </summary>
+        public static string SafetyDecisionPrompt {
+            get {
+                return ResourceManager.GetString("SafetyDecisionPrompt", resourceCulture);
             }
         }
         
@@ -1037,6 +1109,24 @@ namespace Visitz.Resources.Localization {
         public static string SafetyInterventions {
             get {
                 return ResourceManager.GetString("SafetyInterventions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety plan.
+        /// </summary>
+        public static string SafetyPlan {
+            get {
+                return ResourceManager.GetString("SafetyPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide a brief description of intervention, detailing relationship of support persons to child/youth including names, contact information, frequency and duration of supports and how the safety intervention plan will be monitored:.
+        /// </summary>
+        public static string SafetyPlanDescription {
+            get {
+                return ResourceManager.GetString("SafetyPlanDescription", resourceCulture);
             }
         }
         
