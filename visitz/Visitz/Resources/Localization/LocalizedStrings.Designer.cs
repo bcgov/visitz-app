@@ -474,6 +474,51 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Excessive discipline or physical force.
+        /// </summary>
+        public static string SafetyFactor1Discipline {
+            get {
+                return ResourceManager.GetString("SafetyFactor1Discipline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider fears he/she will maltreat child/youth.
+        /// </summary>
+        public static string SafetyFactor1ProviderFears {
+            get {
+                return ResourceManager.GetString("SafetyFactor1ProviderFears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Serious injury or abuse to child other than accidental.
+        /// </summary>
+        public static string SafetyFactor1SeriousInjury {
+            get {
+                return ResourceManager.GetString("SafetyFactor1SeriousInjury", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Substance-exposed infant.
+        /// </summary>
+        public static string SafetyFactor1Substance {
+            get {
+                return ResourceManager.GetString("SafetyFactor1Substance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Threat to cause harm or retaliate against child/youth.
+        /// </summary>
+        public static string SafetyFactor1ThreatOfHarm {
+            get {
+                return ResourceManager.GetString("SafetyFactor1ThreatOfHarm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 2. Current circumstances, combined with information that the parent/care-provider has or may have previously maltreated (abuse or neglect) a child/youth in his/her care, suggest that the child/youth&apos;s safety may be of immediate concern based on the severity of the previous maltreatment or the parent/care-provider&apos;s response to the previous incident.
         /// </summary>
         public static string SafetyFactor2 {

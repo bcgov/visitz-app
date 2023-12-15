@@ -77,11 +77,11 @@
                         Margin="10"
                         Padding="10">
                         <VerticalStackLayout>
-                            <formctls:FormCheckBox Text="Serious injury or abuse to child other than accidental" />
-                            <formctls:FormCheckBox Text="Parent/care-provider fears he/she will maltreat child/youth" />
-                            <formctls:FormCheckBox Text="Threat to cause harm or retaliate against child/youth" />
-                            <formctls:FormCheckBox Text="Excessive discipline or physical force" />
-                            <formctls:FormCheckBox Text="Substance-exposed infant" />
+                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1SeriousInjury}" />
+                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1ProviderFears}" />
+                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1ThreatOfHarm}" />
+                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1Discipline}" />
+                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1Substance}" />
                         </VerticalStackLayout>
                     </Border>
                 </formctls:FormPromptAnswerField>
