@@ -20,6 +20,7 @@
             <Setter Property="Padding" Value="10,10" />
             <Setter Property="Margin" Value="-10,0" />
             <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="FontFamily" Value="BCSansBold" />
         </Style>
 
         <Style TargetType="formctls:FormEntry">
