@@ -18,9 +18,10 @@
             Text="{Binding FieldName}"
             HorizontalOptions="Start" />
 
-        <Entry
+        <Editor
             Grid.Row="1"
             Grid.ColumnSpan="2"
+            AutoSize="TextChanges"
             Text="{Binding Text}"/>
 
         <Label 
