@@ -11,7 +11,7 @@
 
     <views:ViewModelContentView.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
-            <Setter Property="HorizontalOptions" Value="End" />
+            <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="VerticalOptions" Value="Center" />
             <Setter Property="LineHeight" Value="1.7" />
         </Style>
@@ -135,13 +135,10 @@
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize ProtectiveCapacities}" />
 
-                <Label 
-                    HorizontalOptions="Start"
-                    Text="{local:Localize MarkAllThatApply}" />
+                <Label Text="{local:Localize MarkAllThatApply}" />
 
                 
                 <Label
-                    HorizontalOptions="Start"
                     Style="{StaticResource BodyLarge}"
                     Text="{local:Localize Child}" />
 
@@ -150,7 +147,6 @@
 
                 
                 <Label
-                    HorizontalOptions="Start"
                     Style="{StaticResource BodyLarge}"
                     Text="{local:Localize ParentCareProvider}" />
 
