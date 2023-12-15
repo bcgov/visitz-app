@@ -17,6 +17,11 @@
             <Setter Property="LineHeight" Value="1.7" />
         </Style>
 
+        <Style x:Key="MidsectionHeader" TargetType="Label" BasedOn="{StaticResource BodyLarge}">
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="LineHeight" Value="1.7" />
+        </Style>
+
         <Style x:Key="AssessmentHeader" TargetType="Label" BasedOn="{StaticResource TitleMedium}">
             <Setter Property="BackgroundColor" Value="AliceBlue"/>
             <Setter Property="Padding" Value="10,10" />
@@ -140,7 +145,7 @@
 
                 
                 <Label
-                    Style="{StaticResource BodyLarge}"
+                    Style="{StaticResource MidsectionHeader}"
                     Text="{local:Localize Child}" />
 
                 <formctls:FormCheckBox 
@@ -148,7 +153,7 @@
 
                 
                 <Label
-                    Style="{StaticResource BodyLarge}"
+                    Style="{StaticResource MidsectionHeader}"
                     Text="{local:Localize ParentCareProvider}" />
 
                 <formctls:FormCheckBox Text="{local:Localize CapacityParentCognitive }" />
