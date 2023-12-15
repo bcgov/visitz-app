@@ -44,28 +44,28 @@
             <VerticalStackLayout Grid.Row="0" Grid.Column="0" StyleClass="FormVsl">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
-                    Text="Factors influencing Child Vulnerability" />
+                    Text="{local:Localize FactorsInfluencingChildVuln}" />
 
                 <formctls:FormCheckBox
-                    Text="Age up to five"/>
+                    Text="{local:Localize AgeUpToFive}"/>
                     
                 <formctls:FormCheckBox
-                    Text="Medical mental disorder" />
+                    Text="{local:Localize MedicalMentalDisorder}" />
                     
                 <formctls:FormCheckBox
-                    Text="Not readily accessible" />
+                    Text="{local:Localize NotReadilyAccessible}" />
                     
                 <formctls:FormCheckBox
-                    Text="Diminished mental" />
+                    Text="{local:Localize DiminishedMental}" />
                     
                 <formctls:FormCheckBox
-                    Text="Diminished physical" />
+                    Text="{local:Localize DiminishedPhysical}" />
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="1" Grid.Column="0" StyleClass="FormVsl">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
-                    Text="Safety factors" />
+                    Text="{local:Localize SafetyFactors}" />
 
                 <formctls:FormPromptAnswerField 
                     QuestionPrompt="{local:Localize SafetyFactor1}">
@@ -132,7 +132,7 @@
             <VerticalStackLayout Grid.Row="2" Grid.Column="0" StyleClass="FormVsl">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
-                    Text="Protective capacities" />
+                    Text="{local:Localize ProtectiveCapacities}" />
 
                 <Label 
                     HorizontalOptions="Start"
@@ -174,21 +174,21 @@
             <VerticalStackLayout Grid.Row="3" Grid.Column="0" StyleClass="FormVsl">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
-                    Text="Safety interventions" />
+                    Text="{local:Localize SafetyInterventions}" />
 
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="4" Grid.Column="0" StyleClass="FormVsl">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
-                    Text="Safety decision" />
+                    Text="{local:Localize SafetyDecision}" />
 
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="5" Grid.Column="0" StyleClass="FormVsl">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
-                    Text="Children in-care/out-of-care" />
+                    Text="{local:Localize ChildrenInOutCare}" />
 
             </VerticalStackLayout>
             
@@ -198,27 +198,27 @@
                 StyleClass="FormVsl">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
-                    Text="Safety assessment metadata" />
+                    Text="{local:Localize SafetyAssessmentMetadata}" />
 
                 <formctls:FormEntry
                     x:Name="IncidentNumberEntry"
-                    FieldName="Incident number" />
+                    FieldName="{local:Localize IncidentNumber}" />
                 
                 <formctls:FormEntry
                     x:Name="WorkerIdEntry"
-                    FieldName="Worker ID" />
+                    FieldName="{local:Localize WorkerId}" />
                 
                 <formctls:FormEntry
                     x:Name="FamilyNameEntry"
-                    FieldName="Family name" />
+                    FieldName="{local:Localize FamilyName}" />
                 
                 <formctls:FormEntry
                     x:Name="DateOfAssessmentEntry"
-                    FieldName="Date of assessment"/>
+                    FieldName="{local:Localize DateOfAssessment}"/>
                 
                 <formctls:FormEntry
                     x:Name="OperationEntry"
-                    FieldName="Operation" />
+                    FieldName="{local:Localize SafetyAssessmentOperation}" />
             </VerticalStackLayout>
         </Grid>
     </ScrollView>

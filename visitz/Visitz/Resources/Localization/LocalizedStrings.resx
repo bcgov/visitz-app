@@ -347,6 +347,9 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="SafetyFactor14Context" xml:space="preserve">
     <value>Comments</value>
   </data>
+  <data name="AgeUpToFive" xml:space="preserve">
+    <value>Age up to five</value>
+  </data>
   <data name="CapacityChildCognitive" xml:space="preserve">
     <value>Child/Youth has the cognitive, physical and emotional capacity to participate in safety interventions</value>
   </data>
@@ -389,10 +392,58 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="Child" xml:space="preserve">
     <value>Child</value>
   </data>
+  <data name="ChildrenInOutCare" xml:space="preserve">
+    <value>Children in-care/out-of-care</value>
+  </data>
+  <data name="DateOfAssessment" xml:space="preserve">
+    <value>Date of assessment</value>
+  </data>
+  <data name="DiminishedMental" xml:space="preserve">
+    <value>Diminished mental</value>
+  </data>
+  <data name="DiminishedPhysical" xml:space="preserve">
+    <value>Diminished physical</value>
+  </data>
+  <data name="FactorsInfluencingChildVuln" xml:space="preserve">
+    <value>Factors influencing child vulnerability</value>
+  </data>
+  <data name="FamilyName" xml:space="preserve">
+    <value>Family name</value>
+  </data>
+  <data name="IncidentNumber" xml:space="preserve">
+    <value>Incident number</value>
+  </data>
   <data name="MarkAllThatApply" xml:space="preserve">
     <value>Mark all that apply:</value>
   </data>
+  <data name="MedicalMentalDisorder" xml:space="preserve">
+    <value>Medical mental disorder</value>
+  </data>
+  <data name="NotReadilyAccessible" xml:space="preserve">
+    <value>Not readily accessible</value>
+  </data>
   <data name="ParentCareProvider" xml:space="preserve">
     <value>Parent/Care-provider</value>
+  </data>
+  <data name="ProtectiveCapacities" xml:space="preserve">
+    <value>Protective capacities</value>
+  </data>
+  <data name="SafetyAssessmentMetadata" xml:space="preserve">
+    <value>Safety assessment metadata</value>
+  </data>
+  <data name="SafetyAssessmentOperation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="SafetyDecision" xml:space="preserve">
+    <value>Safety decision</value>
+  </data>
+  <data name="SafetyFactors" xml:space="preserve">
+    <value>Safety factors</value>
+  </data>
+  <data name="SafetyInterventions" xml:space="preserve">
+    <value>Safety interventions</value>
+  </data>
+  <data name="WorkerId" xml:space="preserve">
+    <value>Worker ID</value>
   </data>
 </root>

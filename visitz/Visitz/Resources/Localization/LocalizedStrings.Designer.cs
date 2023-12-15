@@ -70,6 +70,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Age up to five.
+        /// </summary>
+        public static string AgeUpToFive {
+            get {
+                return ResourceManager.GetString("AgeUpToFive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -259,11 +268,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Children in-care/out-of-care.
+        /// </summary>
+        public static string ChildrenInOutCare {
+            get {
+                return ResourceManager.GetString("ChildrenInOutCare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected—no internet available.
         /// </summary>
         public static string ConnectedNoInternet {
             get {
                 return ResourceManager.GetString("ConnectedNoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of assessment.
+        /// </summary>
+        public static string DateOfAssessment {
+            get {
+                return ResourceManager.GetString("DateOfAssessment", resourceCulture);
             }
         }
         
@@ -295,6 +322,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Diminished mental.
+        /// </summary>
+        public static string DiminishedMental {
+            get {
+                return ResourceManager.GetString("DiminishedMental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diminished physical.
+        /// </summary>
+        public static string DiminishedPhysical {
+            get {
+                return ResourceManager.GetString("DiminishedPhysical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft saved.
         /// </summary>
         public static string DraftSaved {
@@ -318,6 +363,15 @@ namespace Visitz.Resources.Localization {
         public static string EnableDeviceSecurity {
             get {
                 return ResourceManager.GetString("EnableDeviceSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Factors influencing child vulnerability.
+        /// </summary>
+        public static string FactorsInfluencingChildVuln {
+            get {
+                return ResourceManager.GetString("FactorsInfluencingChildVuln", resourceCulture);
             }
         }
         
@@ -349,11 +403,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Family name.
+        /// </summary>
+        public static string FamilyName {
+            get {
+                return ResourceManager.GetString("FamilyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have an unpublished draft.
         /// </summary>
         public static string HaveUnpublishedDraft {
             get {
                 return ResourceManager.GetString("HaveUnpublishedDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incident number.
+        /// </summary>
+        public static string IncidentNumber {
+            get {
+                return ResourceManager.GetString("IncidentNumber", resourceCulture);
             }
         }
         
@@ -434,6 +506,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Medical mental disorder.
+        /// </summary>
+        public static string MedicalMentalDisorder {
+            get {
+                return ResourceManager.GetString("MedicalMentalDisorder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No internet available.
         /// </summary>
         public static string NoInternet {
@@ -506,6 +587,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not readily accessible.
+        /// </summary>
+        public static string NotReadilyAccessible {
+            get {
+                return ResourceManager.GetString("NotReadilyAccessible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         public static string Ok {
@@ -529,6 +619,15 @@ namespace Visitz.Resources.Localization {
         public static string ParentCareProvider {
             get {
                 return ResourceManager.GetString("ParentCareProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protective capacities.
+        /// </summary>
+        public static string ProtectiveCapacities {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacities", resourceCulture);
             }
         }
         
@@ -605,6 +704,33 @@ namespace Visitz.Resources.Localization {
         public static string SafetyAssessment {
             get {
                 return ResourceManager.GetString("SafetyAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety assessment metadata.
+        /// </summary>
+        public static string SafetyAssessmentMetadata {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentMetadata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation.
+        /// </summary>
+        public static string SafetyAssessmentOperation {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety decision.
+        /// </summary>
+        public static string SafetyDecision {
+            get {
+                return ResourceManager.GetString("SafetyDecision", resourceCulture);
             }
         }
         
@@ -789,6 +915,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Safety factors.
+        /// </summary>
+        public static string SafetyFactors {
+            get {
+                return ResourceManager.GetString("SafetyFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety interventions.
+        /// </summary>
+        public static string SafetyInterventions {
+            get {
+                return ResourceManager.GetString("SafetyInterventions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
         public static string SecureDeviceAndTryAgain {
@@ -866,6 +1010,15 @@ namespace Visitz.Resources.Localization {
         public static string UserCancelledAuth {
             get {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Worker ID.
+        /// </summary>
+        public static string WorkerId {
+            get {
+                return ResourceManager.GetString("WorkerId", resourceCulture);
             }
         }
         
