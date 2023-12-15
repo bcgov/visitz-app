@@ -14,6 +14,17 @@ public partial class FormEntry : ContentView
     public static readonly BindableProperty TrailingSupportingTextProperty =
         BindableProperty.Create(nameof(TrailingSupportingText), typeof(string), typeof(FormEntry));
 
+    public static readonly BindableProperty FieldNameIsVisibleProperty =
+        BindableProperty.Create(nameof(FieldNameIsVisible), typeof(bool), typeof(FormEntry), 
+            defaultValue: true,
+            propertyChanged: (boundObj, oldVal, newVal) =>
+        {
+            var formEntry = (FormEntry)boundObj;
+            var isVisible = (bool)newVal;
+
+            formEntry.FieldNameRow.Height = isVisible ? GridLength.Star : 0.0;
+        });
+
     public string FieldName
     {
         get => (string)GetValue(FieldNameProperty);
@@ -36,6 +47,12 @@ public partial class FormEntry : ContentView
     {
         get => (string)GetValue(TrailingSupportingTextProperty);
         set => SetValue(TrailingSupportingTextProperty, value);
+    }
+
+    public bool FieldNameIsVisible
+    {
+        get => (bool)GetValue(FieldNameIsVisibleProperty);
+        set => SetValue(FieldNameIsVisibleProperty, value);
     }
 
     public FormEntry()

@@ -9,12 +9,18 @@
     
     <Grid
         BindingContext="{Reference this}"
-        RowDefinitions="*,*,*"
         ColumnDefinitions="*,*">
+
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="FieldNameRow" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         
         <Label 
             Grid.Row="0"
             Grid.ColumnSpan="2"
+            IsVisible="{Binding FieldNameIsVisible}"
             Text="{Binding FieldName}"
             HorizontalOptions="Start" />
 
