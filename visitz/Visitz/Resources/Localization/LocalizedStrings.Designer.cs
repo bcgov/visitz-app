@@ -88,6 +88,123 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Child/Youth has the cognitive, physical and emotional capacity to participate in safety interventions.
+        /// </summary>
+        public static string CapacityChildCognitive {
+            get {
+                return ResourceManager.GetString("CapacityChildCognitive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string CapacityComments1 {
+            get {
+                return ResourceManager.GetString("CapacityComments1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide a brief description of supporting observations and evidence of any protective capacities marked.
+        /// </summary>
+        public static string CapacityComments2 {
+            get {
+                return ResourceManager.GetString("CapacityComments2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No protective capacities present.
+        /// </summary>
+        public static string CapacityNoProCapPresent {
+            get {
+                return ResourceManager.GetString("CapacityNoProCapPresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider is willing to accept temporary interventions offered by child protection worker and/or other community agencies, including co-operation with continuing Family Development Response/investigation.
+        /// </summary>
+        public static string CapacityParentAccept {
+            get {
+                return ResourceManager.GetString("CapacityParentAccept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider is aware of and committed to meeting the needs of the child/youth.
+        /// </summary>
+        public static string CapacityParentAware {
+            get {
+                return ResourceManager.GetString("CapacityParentAware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has the cognitive, physical and emotional capacity to participate in safety interventions.
+        /// </summary>
+        public static string CapacityParentCognitive {
+            get {
+                return ResourceManager.GetString("CapacityParentCognitive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has history of effective problem solving.
+        /// </summary>
+        public static string CapacityParentProbSolving {
+            get {
+                return ResourceManager.GetString("CapacityParentProbSolving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to At least one parent/care-provider in the home is willing and able to take action to protect the child/youth, including asking offending parent/care-provider to leave.
+        /// </summary>
+        public static string CapacityParentProtect {
+            get {
+                return ResourceManager.GetString("CapacityParentProtect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is evidence of a healthy relationship between parent/care-provider and child/youth.
+        /// </summary>
+        public static string CapacityParentRelationship {
+            get {
+                return ResourceManager.GetString("CapacityParentRelationship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has the ability to access resources to provide necessary safety interventions.
+        /// </summary>
+        public static string CapacityParentResources {
+            get {
+                return ResourceManager.GetString("CapacityParentResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has supportive relationships with one or more persons (extended family, neighbours, community members, Elders or community agencies), who may be willing to participate in safety planning, AND parent/care-provider is willing and able to accept their assistance.
+        /// </summary>
+        public static string CapacityParentSupportive {
+            get {
+                return ResourceManager.GetString("CapacityParentSupportive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has a willingness to recognize problems and concerns placing the child/youth in imminent danger.
+        /// </summary>
+        public static string CapacityParentWillingness {
+            get {
+                return ResourceManager.GetString("CapacityParentWillingness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
         public static string Caseload {
@@ -129,6 +246,15 @@ namespace Visitz.Resources.Localization {
         public static string CharacterLimitReached {
             get {
                 return ResourceManager.GetString("CharacterLimitReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Child.
+        /// </summary>
+        public static string Child {
+            get {
+                return ResourceManager.GetString("Child", resourceCulture);
             }
         }
         
@@ -299,6 +425,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mark all that apply:.
+        /// </summary>
+        public static string MarkAllThatApply {
+            get {
+                return ResourceManager.GetString("MarkAllThatApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No internet available.
         /// </summary>
         public static string NoInternet {
@@ -385,6 +520,15 @@ namespace Visitz.Resources.Localization {
         public static string OpenDate {
             get {
                 return ResourceManager.GetString("OpenDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/Care-provider.
+        /// </summary>
+        public static string ParentCareProvider {
+            get {
+                return ResourceManager.GetString("ParentCareProvider", resourceCulture);
             }
         }
         

@@ -134,6 +134,41 @@
                     Style="{StaticResource AssessmentHeader}"
                     Text="Protective capacities" />
 
+                <Label 
+                    HorizontalOptions="Start"
+                    Text="{local:Localize MarkAllThatApply}" />
+
+                
+                <Label
+                    HorizontalOptions="Start"
+                    Style="{StaticResource BodyLarge}"
+                    Text="{local:Localize Child}" />
+
+                <formctls:FormCheckBox 
+                    Text="{local:Localize CapacityChildCognitive}" />
+
+                
+                <Label
+                    HorizontalOptions="Start"
+                    Style="{StaticResource BodyLarge}"
+                    Text="{local:Localize ParentCareProvider}" />
+
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentCognitive }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentWillingness }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentResources }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentSupportive }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentProtect }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentAccept }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentRelationship }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentAware }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityParentProbSolving }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityNoProCapPresent }" />
+                <formctls:FormCheckBox Text="{local:Localize CapacityComments1 }" />
+
+                <formctls:FormEntry FieldNameIsVisible="False" />
+
+                <formctls:FormEntry FieldName="{local:Localize CapacityComments2 }"/>
+
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="3" Grid.Column="0" StyleClass="FormVsl">
