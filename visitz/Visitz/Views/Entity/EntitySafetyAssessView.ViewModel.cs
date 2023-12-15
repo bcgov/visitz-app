@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Models;
+using Visitz.Models.SafetyAssess;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Entity;
@@ -11,4 +12,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     [ObservableProperty]
     public CaseloadItem caseloadItem;
+
+    [ObservableProperty]
+    public SafetyAssessment safetyAssessment;
 }

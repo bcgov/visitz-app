@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:safetyModels="clr-namespace:Visitz.Models.SafetyAssess"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
@@ -57,28 +58,45 @@
             ColumnSpacing="10"
             Padding="10">
 
-            <VerticalStackLayout Grid.Row="0" Grid.Column="0" StyleClass="FormVsl">
+            <VerticalStackLayout 
+                Grid.Row="0" 
+                Grid.Column="0" 
+                StyleClass="FormVsl" 
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.FactorInfluence}"
+                x:DataType="safetyModels:FactorInfluence">
+                
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize FactorsInfluencingChildVuln}" />
 
                 <formctls:FormCheckBox
-                    Text="{local:Localize AgeUpToFive}"/>
+                    Text="{local:Localize AgeUpToFive}"
+                    IsChecked="{Binding AgeUptoFive}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize MedicalMentalDisorder}" />
+                    Text="{local:Localize MedicalMentalDisorder}"
+                    IsChecked="{Binding MedicalMentalDisorder}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize NotReadilyAccessible}" />
+                    Text="{local:Localize NotReadilyAccessible}"
+                    IsChecked="{Binding NotReadilyAccessible}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize DiminishedMental}" />
+                    Text="{local:Localize DiminishedMental}"
+                    IsChecked="{Binding DiminishedMental}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize DiminishedPhysical}" />
+                    Text="{local:Localize DiminishedPhysical}"
+                    IsChecked="{Binding DiminishedPhysical}" />
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Row="1" Grid.Column="0" StyleClass="FormVsl">
+            <VerticalStackLayout 
+                Grid.Row="1" 
+                Grid.Column="0" 
+                StyleClass="FormVsl"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyFactors}"
+                x:DataType="safetyModels:SafetyFactors">
+                
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize SafetyFactors}" />
@@ -139,7 +157,13 @@
 
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Row="2" Grid.Column="0" StyleClass="FormVsl">
+            <VerticalStackLayout 
+                Grid.Row="2" 
+                Grid.Column="0" 
+                StyleClass="FormVsl"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.ProtectiveCapacity}"
+                x:DataType="safetyModels:ProtectiveCapacity">
+                
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize ProtectiveCapacities}" />
@@ -177,7 +201,13 @@
 
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Row="3" Grid.Column="0" StyleClass="FormVsl">
+            <VerticalStackLayout 
+                Grid.Row="3" 
+                Grid.Column="0" 
+                StyleClass="FormVsl"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyInterventions}"
+                x:DataType="safetyModels:SafetyInterventions">
+                
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize SafetyInterventions}" />
@@ -214,7 +244,13 @@
 
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Row="4" Grid.Column="0" StyleClass="FormVsl">
+            <VerticalStackLayout 
+                Grid.Row="4" 
+                Grid.Column="0" 
+                StyleClass="FormVsl"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyDecisions}"
+                x:DataType="safetyModels:SafetyDecisions">
+                
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize SafetyDecision}" />
@@ -284,19 +320,23 @@
 
                 <formctls:FormEntry
                     x:Name="IncidentNumberEntry"
-                    FieldName="{local:Localize IncidentNumber}" />
+                    FieldName="{local:Localize IncidentNumber}"
+                    Text="{Binding CaseloadItem.CaseIncidentNumber}" />
                 
                 <formctls:FormEntry
                     x:Name="WorkerIdEntry"
-                    FieldName="{local:Localize WorkerId}" />
+                    FieldName="{local:Localize WorkerId}"
+                    Text="" />
                 
                 <formctls:FormEntry
                     x:Name="FamilyNameEntry"
-                    FieldName="{local:Localize FamilyName}" />
+                    FieldName="{local:Localize FamilyName}" 
+                    Text="{Binding CaseloadItem.DisplayName}" />
                 
                 <formctls:FormEntry
                     x:Name="DateOfAssessmentEntry"
-                    FieldName="{local:Localize DateOfAssessment}"/>
+                    FieldName="{local:Localize DateOfAssessment}" 
+                    Text="" />
                 
                 <formctls:FormEntry
                     x:Name="OperationEntry"
