@@ -23,11 +23,6 @@
             <Setter Property="FontFamily" Value="BCSansBold" />
         </Style>
 
-        <Style TargetType="formctls:FormEntry">
-            <Setter Property="MaximumWidthRequest" Value="600" />
-            <Setter Property="HorizontalOptions" Value="Fill" />
-        </Style>
-
         <Style TargetType="formctls:FormPromptAnswerField">
             <Setter Property="AnswerContextExplanation" Value="Comments (if clarification or rationale for the rating is needed)" />
         </Style>
