@@ -7,13 +7,20 @@
     x:DataType="formctls:FormCheckBox"
     x:Name="this">
     
-    <HorizontalStackLayout BindingContext="{Reference this}">
-        <CheckBox 
+    <Grid 
+        ColumnDefinitions="Auto,*"
+        BindingContext="{Reference this}"
+        HorizontalOptions="Start">
+        
+        <CheckBox
+            Grid.Column="0"
             x:Name="CheckBox"
             VerticalOptions="Center"
             IsChecked="{Binding IsChecked}" />
 
         <Label
+            Grid.Column="1"
+            HorizontalOptions="Start"
             VerticalOptions="Fill"
             VerticalTextAlignment="Center"
             Text="{Binding Text}">
@@ -22,5 +29,6 @@
                 <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
             </Label.GestureRecognizers>
         </Label>
-    </HorizontalStackLayout>
+        
+    </Grid>
 </ContentView>
