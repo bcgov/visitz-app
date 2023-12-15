@@ -512,4 +512,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="WorkerId" xml:space="preserve">
     <value>Worker ID</value>
   </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Insert</value>
+  </data>
 </root>
