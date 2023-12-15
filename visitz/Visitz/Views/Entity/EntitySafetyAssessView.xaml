@@ -89,6 +89,43 @@
                 <formctls:FormPromptAnswerField 
                     QuestionPrompt="{local:Localize SafetyFactor2}" />
 
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor3}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor4}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor5}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor6}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor7}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor8}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor9}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor10}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor11}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor12}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor13}" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor14}"
+                    AnswerContextExplanation="{local:Localize SafetyFactor14Context}"/>
+
             </VerticalStackLayout>
 
             <VerticalStackLayout Grid.Row="2" Grid.Column="0" StyleClass="FormVsl">
