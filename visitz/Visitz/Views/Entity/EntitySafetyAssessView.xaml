@@ -24,8 +24,8 @@
         </Style>
 
         <Style TargetType="formctls:FormEntry">
-            <Setter Property="WidthRequest" Value="600" />
-            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="MaximumWidthRequest" Value="600" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
         </Style>
 
         <Style TargetType="formctls:FormPromptAnswerField">
