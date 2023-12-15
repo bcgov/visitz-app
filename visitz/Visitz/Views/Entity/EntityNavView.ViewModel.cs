@@ -17,7 +17,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
     public NavItem headerNavItem;
 
     [ObservableProperty]
-    public IEnumerable<NavItem> entityNavItems;
+    public IList<NavItem> entityNavItems;
 
     [ObservableProperty]
     public NavItem selectedEntityNavItem;
@@ -30,12 +30,17 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 
         EntityNavItems = new List<NavItem>()
         {
-            
             new() { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView)},
             new() { Text = LocalizedStrings.FamilyMembers, ContentViewType = typeof(EntityContactsView)},
-            new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},
-            new() { Text = LocalizedStrings.SafetyAssessment, ContentViewType = typeof(EntitySafetyAssessView) },
+            new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},   
         };
+
+        if (CaseloadItem.EntityType.Equals(IcmEntity.Incident))
+            EntityNavItems.Add(new() 
+            {
+                Text = LocalizedStrings.SafetyAssessment,
+                ContentViewType = typeof(EntitySafetyAssessView)
+            });
 
         SelectedEntityNavItem = DefaultNavItem;
     }
