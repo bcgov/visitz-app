@@ -284,4 +284,13 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="Subtype_FamilyServicesInitials" xml:space="preserve">
     <value>FS</value>
   </data>
+  <data name="SafetyAssessment" xml:space="preserve">
+    <value>Safety assessment</value>
+  </data>
+  <data name="SafetyFactor1" xml:space="preserve">
+    <value>1. Parent/care-provider caused serious physical harm to the child/youth, or made a plausible threat to cause serious physical harm in the current report indicated by</value>
+  </data>
+  <data name="SafetyFactor2" xml:space="preserve">
+    <value>2. Current circumstances, combined with information that the parent/care-provider has or may have previously maltreated (abuse or neglect) a child/youth in his/her care, suggest that the child/youth's safety may be of immediate concern based on the severity of the previous maltreatment or the parent/care-provider's response to the previous incident</value>
+  </data>
 </root>

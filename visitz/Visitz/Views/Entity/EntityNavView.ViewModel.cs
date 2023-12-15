@@ -34,6 +34,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
             new() { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView)},
             new() { Text = LocalizedStrings.FamilyMembers, ContentViewType = typeof(EntityContactsView)},
             new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},
+            new() { Text = LocalizedStrings.SafetyAssessment, ContentViewType = typeof(EntitySafetyAssessView) },
         };
 
         SelectedEntityNavItem = DefaultNavItem;

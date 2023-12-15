@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    x:Class="Visitz.Views.Entity.EntitySafetyAssessView"
+    x:DataType="entity:EntitySafetyAssessViewModel">
+
+    <views:ViewModelContentView.Resources>
+        <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
+            <Setter Property="HorizontalOptions" Value="End" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+
+        <Style x:Key="AssessmentHeader" TargetType="Label" BasedOn="{StaticResource TitleMedium}">
+            <Setter Property="BackgroundColor" Value="AliceBlue"/>
+            <Setter Property="Padding" Value="10,10" />
+            <Setter Property="Margin" Value="-10,0" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
+        </Style>
+
+        <Style TargetType="formctls:FormPromptAnswerField">
+            <Setter Property="AnswerContextExplanation" Value="Comments (if clarification or rationale for the rating is needed)" />
+        </Style>
+
+        <Style TargetType="VerticalStackLayout" Class="FormVsl">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Spacing" Value="10" />
+        </Style>
+    </views:ViewModelContentView.Resources>
+
+    <ScrollView>
+        <Grid
+            RowDefinitions="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"
+            RowSpacing="10"
+            ColumnDefinitions="2*,*"
+            ColumnSpacing="10"
+            Padding="10">
+
+            <VerticalStackLayout Grid.Row="0" Grid.Column="0" StyleClass="FormVsl">
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="Factors influencing Child Vulnerability" />
+
+                <formctls:FormCheckBox
+                    Text="Age up to five"/>
+                    
+                <formctls:FormCheckBox
+                    Text="Medical mental disorder" />
+                    
+                <formctls:FormCheckBox
+                    Text="Not readily accessible" />
+                    
+                <formctls:FormCheckBox
+                    Text="Diminished mental" />
+                    
+                <formctls:FormCheckBox
+                    Text="Diminished physical" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="1" Grid.Column="0" StyleClass="FormVsl">
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="Safety factors" />
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor1}">
+
+                    <Border 
+                        Stroke="{StaticResource BC_TextColor}"
+                        StrokeShape="RoundRectangle 8"
+                        StrokeThickness="0.5"
+                        HorizontalOptions="Start"
+                        Margin="10"
+                        Padding="10">
+                        <VerticalStackLayout>
+                            <formctls:FormCheckBox Text="Serious injury or abuse to child other than accidental" />
+                            <formctls:FormCheckBox Text="Parent/care-provider fears he/she will maltreat child/youth" />
+                            <formctls:FormCheckBox Text="Threat to cause harm or retaliate against child/youth" />
+                            <formctls:FormCheckBox Text="Excessive discipline or physical force" />
+                            <formctls:FormCheckBox Text="Substance-exposed infant" />
+                        </VerticalStackLayout>
+                    </Border>
+                </formctls:FormPromptAnswerField>
+
+                <formctls:FormPromptAnswerField 
+                    QuestionPrompt="{local:Localize SafetyFactor2}" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="2" Grid.Column="0" StyleClass="FormVsl">
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="Protective capacities" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="3" Grid.Column="0" StyleClass="FormVsl">
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="Safety interventions" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="4" Grid.Column="0" StyleClass="FormVsl">
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="Safety decision" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="5" Grid.Column="0" StyleClass="FormVsl">
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="Children in-care/out-of-care" />
+
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout 
+                Grid.Row="6" 
+                Grid.Column="0"
+                StyleClass="FormVsl">
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="Safety assessment metadata" />
+
+                <formctls:FormEntry
+                    x:Name="IncidentNumberEntry"
+                    FieldName="Incident number" />
+                
+                <formctls:FormEntry
+                    x:Name="WorkerIdEntry"
+                    FieldName="Worker ID" />
+                
+                <formctls:FormEntry
+                    x:Name="FamilyNameEntry"
+                    FieldName="Family name" />
+                
+                <formctls:FormEntry
+                    x:Name="DateOfAssessmentEntry"
+                    FieldName="Date of assessment"/>
+                
+                <formctls:FormEntry
+                    x:Name="OperationEntry"
+                    FieldName="Operation" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+    
+</views:ViewModelContentView>

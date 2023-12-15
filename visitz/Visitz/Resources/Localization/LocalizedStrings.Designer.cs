@@ -456,6 +456,33 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Safety assessment.
+        /// </summary>
+        public static string SafetyAssessment {
+            get {
+                return ResourceManager.GetString("SafetyAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Parent/care-provider caused serious physical harm to the child/youth, or made a plausible threat to cause serious physical harm in the current report indicated by.
+        /// </summary>
+        public static string SafetyFactor1 {
+            get {
+                return ResourceManager.GetString("SafetyFactor1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Current circumstances, combined with information that the parent/care-provider has or may have previously maltreated (abuse or neglect) a child/youth in his/her care, suggest that the child/youth&apos;s safety may be of immediate concern based on the severity of the previous maltreatment or the parent/care-provider&apos;s response to the previous incident.
+        /// </summary>
+        public static string SafetyFactor2 {
+            get {
+                return ResourceManager.GetString("SafetyFactor2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
         public static string SecureDeviceAndTryAgain {
