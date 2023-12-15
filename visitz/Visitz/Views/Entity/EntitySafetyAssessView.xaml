@@ -326,7 +326,7 @@
                 <formctls:FormEntry
                     x:Name="WorkerIdEntry"
                     FieldName="{local:Localize WorkerId}"
-                    Text="" />
+                    Text="{Binding WorkerId}" />
                 
                 <formctls:FormEntry
                     x:Name="FamilyNameEntry"

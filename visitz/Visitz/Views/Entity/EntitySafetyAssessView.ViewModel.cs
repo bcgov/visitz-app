@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Visitz.Authentication.Keycloak;
 using Visitz.Models;
 using Visitz.Models.SafetyAssess;
 using Visitz.ViewModels;
@@ -15,4 +16,15 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     [ObservableProperty]
     public SafetyAssessment safetyAssessment;
+
+    [ObservableProperty]
+    public string workerId;
+
+    public override async void PageCreated()
+    {
+        base.PageCreated();
+
+        var info = await VisitzSessionInfo.GetAsync();
+        WorkerId = info.Idir;
+    }
 }
