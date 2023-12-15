@@ -22,6 +22,11 @@
             <Setter Property="HorizontalOptions" Value="Fill" />
         </Style>
 
+        <Style TargetType="formctls:FormEntry">
+            <Setter Property="WidthRequest" Value="600" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+        </Style>
+
         <Style TargetType="formctls:FormPromptAnswerField">
             <Setter Property="AnswerContextExplanation" Value="Comments (if clarification or rationale for the rating is needed)" />
         </Style>
