@@ -5,15 +5,15 @@ namespace Visitz.Models.SafetyAssess;
 public partial class SafetyAssessment : IRealmObject
 {
 	public string IncidentNumber { get; set; }
-	
+
     public string WorkerId { get; set; }
-    
+
     public string FamilyName { get; set; }
-    
-    public string DateOfAssessment { get; set; }
-    
+
+    public DateTimeOffset DateOfAssessment { get; set; }
+
     public string Operation { get; set; }
-    
+
     public FactorInfluence FactorInfluence { get; set; }
 
     public SafetyFactors SafetyFactors { get; set; }
