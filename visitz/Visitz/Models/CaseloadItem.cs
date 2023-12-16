@@ -34,6 +34,12 @@ namespace Visitz.Models
         public string MemoCallTime { get; set; }
         public string MemoRecordedBy { get; set; }
 
+#pragma warning disable RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
+        public FamilyMember KeyPlayer => FamilyMembers?
+            .Where(mem => mem.IsKeyPlayer)
+            .FirstOrDefault();
+#pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
+
         public string DisplayDate
         {
             get
@@ -60,6 +66,8 @@ namespace Visitz.Models
             }
         }
 
+        public string KeyPlayerLastName => KeyPlayer?.LastName ?? string.Empty;
+
         public string FullType => CaseIncidentType + " " + EntityType;
 
         public string TypeInitials => (EntityType == IcmEntity.Incident 
@@ -68,7 +76,7 @@ namespace Visitz.Models
 
         public bool TryGetKeyPlayer(out FamilyMember keyPlayer)
         {
-            keyPlayer = FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault();
+            keyPlayer = KeyPlayer;
             return keyPlayer != null;
         }
 
