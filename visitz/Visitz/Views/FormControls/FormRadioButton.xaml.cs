@@ -33,9 +33,9 @@ public partial class FormRadioButton : ContentView
         set => SetValue(ValueProperty, value);
     }
 
-    public object IsChecked
+    public bool IsChecked
     {
-        get => GetValue(IsCheckedProperty);
+        get => (bool)GetValue(IsCheckedProperty);
         set => SetValue(IsCheckedProperty, value);
     }
 
