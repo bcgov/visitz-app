@@ -825,7 +825,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Intimate partner violence exists in the family..
+        ///   Looks up a localized string similar to 10. Intimate partner violence exists in the family..
         /// </summary>
         public static string SafetyFactor10 {
             get {
@@ -834,7 +834,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parent/care-provider describes child/youth in predominantly negative terms or acts toward child/youth in negative ways that result in the child being self destructive, acting out aggressively or demonstrating severe anxiety, depression or withdrawal..
+        ///   Looks up a localized string similar to 11. Parent/care-provider describes child/youth in predominantly negative terms or acts toward child/youth in negative ways that result in the child being self destructive, acting out aggressively or demonstrating severe anxiety, depression or withdrawal..
         /// </summary>
         public static string SafetyFactor11 {
             get {
@@ -843,7 +843,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parent/care-provider&apos;s emotional stability, developmental status, or cognitive limitation seriously impairs his/her current ability to supervise, protect, or care for the child/youth..
+        ///   Looks up a localized string similar to 12. Parent/care-provider&apos;s emotional stability, developmental status, or cognitive limitation seriously impairs his/her current ability to supervise, protect, or care for the child/youth..
         /// </summary>
         public static string SafetyFactor12 {
             get {
@@ -852,7 +852,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Child/youth is fearful of parent/care-provider, other family members, or other people living in or having access to the home..
+        ///   Looks up a localized string similar to 13. Child/youth is fearful of parent/care-provider, other family members, or other people living in or having access to the home..
         /// </summary>
         public static string SafetyFactor13 {
             get {
@@ -861,7 +861,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Other (please specify):.
+        ///   Looks up a localized string similar to 14. Other (please specify):.
         /// </summary>
         public static string SafetyFactor14 {
             get {
@@ -933,7 +933,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Child/youth sexual abuse is suspected and circumstances suggest that child/youth&apos;s safety may be of immediate concern..
+        ///   Looks up a localized string similar to 3. Child/youth sexual abuse is suspected and circumstances suggest that child/youth&apos;s safety may be of immediate concern..
         /// </summary>
         public static string SafetyFactor3 {
             get {
@@ -942,7 +942,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parent/care-provider is unable or unwilling to protect child/youth from serious harm or threatened harm by other adults or children in the home. This may include physical, emotional, sexual abuse or neglect..
+        ///   Looks up a localized string similar to 4. Parent/care-provider is unable or unwilling to protect child/youth from serious harm or threatened harm by other adults or children in the home. This may include physical, emotional, sexual abuse or neglect..
         /// </summary>
         public static string SafetyFactor4 {
             get {
@@ -951,7 +951,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parent/care-provider&apos;s explanation for the injury to the child/youth is questionable or inconsistent with type of injury, and the nature of the injury suggests that the child/youth&apos;s safety may be of imminent concern..
+        ///   Looks up a localized string similar to 5. Parent/care-provider&apos;s explanation for the injury to the child/youth is questionable or inconsistent with type of injury, and the nature of the injury suggests that the child/youth&apos;s safety may be of imminent concern..
         /// </summary>
         public static string SafetyFactor5 {
             get {
@@ -960,7 +960,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The family refuses access to the child/youth or there is reason to believe that the family is about to flee..
+        ///   Looks up a localized string similar to 6. The family refuses access to the child/youth or there is reason to believe that the family is about to flee..
         /// </summary>
         public static string SafetyFactor6 {
             get {
@@ -969,7 +969,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parent/care-provider does not meet the child&apos;s immediate needs for supervision, food, clothing, medical, dental, or mental health care..
+        ///   Looks up a localized string similar to 7. Parent/care-provider does not meet the child&apos;s immediate needs for supervision, food, clothing, medical, dental, or mental health care..
         /// </summary>
         public static string SafetyFactor7 {
             get {
@@ -978,7 +978,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The physical living conditions are hazardous and immediately threatening to the health and/or safety of the child/youth..
+        ///   Looks up a localized string similar to 8. The physical living conditions are hazardous and immediately threatening to the health and/or safety of the child/youth..
         /// </summary>
         public static string SafetyFactor8 {
             get {
@@ -987,7 +987,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parent/care-provider&apos;s current alcohol, drug, or substance abuse seriously impairs his/her ability to supervise, protect, or care for the child/youth..
+        ///   Looks up a localized string similar to 9. Parent/care-provider&apos;s current alcohol, drug, or substance abuse seriously impairs his/her ability to supervise, protect, or care for the child/youth..
         /// </summary>
         public static string SafetyFactor9 {
             get {
