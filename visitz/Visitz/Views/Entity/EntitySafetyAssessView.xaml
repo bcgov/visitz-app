@@ -298,44 +298,44 @@
                     <Label
                         Grid.Column="2"
                         VerticalOptions="Center"
-                        Text="{local:Localize SafetyInterventionPrompt}" />
+                        Text="{local:Localize SafetyIntervention_Prompt}" />
                 </Grid>
 
-                <Label Text="{local:Localize SafetyInterventionDescription}" />
+                <Label Text="{local:Localize SafetyIntervention_Description}" />
 
                 <formctls:FormCheckBox 
                     IsChecked="{Binding DirectIntervention}"
-                    Text="{local:Localize SafetyIntervention1}" />
+                    Text="{local:Localize SafetyIntervention1_DirectIntervention}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding UseOfIndividuals}"
-                    Text="{local:Localize SafetyIntervention2}" />
+                    Text="{local:Localize SafetyIntervention2_UseOfIndividuals}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding UseCommAgencies}"
-                    Text="{local:Localize SafetyIntervention3}" />
+                    Text="{local:Localize SafetyIntervention3_UseCommAgencies}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ProtectVictim}"
-                    Text="{local:Localize SafetyIntervention4}" />
+                    Text="{local:Localize SafetyIntervention4_ProtectVictim}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding LeaveHome}"
-                    Text="{local:Localize SafetyIntervention5}" />
+                    Text="{local:Localize SafetyIntervention5_LeaveHome}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding NonOffendingParent}"
-                    Text="{local:Localize SafetyIntervention6}" />
+                    Text="{local:Localize SafetyIntervention6_NonOffendingParent}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding LegalIntPlanned}"
-                    Text="{local:Localize SafetyIntervention7}" />
+                    Text="{local:Localize SafetyIntervention7_LegalIntPlanned}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding OtherSafetyInterventions}"
-                    Text="{local:Localize SafetyIntervention8}" />
+                    Text="{local:Localize SafetyIntervention8_OtherSafetyInterventions}" />
                 <formctls:FormEntry 
                     FieldNameIsVisible="False"
                     Text="{Binding CmtSafetyInterventions}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ChildOutsideHome}"
-                    Text="{local:Localize SafetyIntervention9}" />
+                    Text="{local:Localize SafetyIntervention9_ChildOutsideHome}" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ChildRemoved}"
-                    Text="{local:Localize SafetyIntervention10}" />
+                    Text="{local:Localize SafetyIntervention10_ChildRemoved}" />
 
             </VerticalStackLayout>
 
