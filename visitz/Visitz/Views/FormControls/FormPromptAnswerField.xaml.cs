@@ -9,10 +9,12 @@ public partial class FormPromptAnswerField : ContentView
         BindableProperty.Create(nameof(QuestionPrompt), typeof(string), typeof(FormPromptAnswerField));
 
     public static readonly BindableProperty AnswerProperty =
-        BindableProperty.Create(nameof(Answer), typeof(YesNoAnswer?), typeof(FormPromptAnswerField));
+        BindableProperty.Create(nameof(Answer), typeof(YesNoAnswer?), typeof(FormPromptAnswerField),
+            defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty AnswerContextExplanationProperty =
-        BindableProperty.Create(nameof(AnswerContextExplanation), typeof(string), typeof(FormPromptAnswerField));
+        BindableProperty.Create(nameof(AnswerContextExplanation), typeof(string), typeof(FormPromptAnswerField),
+            defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty AnswerContextProperty =
         BindableProperty.Create(nameof(AnswerContext), typeof(string), typeof(FormPromptAnswerField));
