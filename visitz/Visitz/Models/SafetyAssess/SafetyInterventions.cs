@@ -20,7 +20,7 @@ public partial class SafetyInterventions : IRealmObject
     
     public bool OtherSafetyInterventions { get; set; }
     
-    public bool CmtSafetyInterventions { get; set; }
+    public string CmtSafetyInterventions { get; set; }
     
     public bool ChildOutsideHome { get; set; }
     
