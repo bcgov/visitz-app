@@ -3,7 +3,8 @@ namespace Visitz.Views.FormControls;
 public partial class FormCheckBox : ContentView
 {
 	public static readonly BindableProperty IsCheckedProperty =
-		BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(FormCheckBox));
+		BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(FormCheckBox),
+            defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(nameof(Text), typeof(string), typeof(FormCheckBox));
