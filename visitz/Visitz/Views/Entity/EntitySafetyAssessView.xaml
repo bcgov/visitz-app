@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:safetyModels="clr-namespace:Visitz.Models.SafetyAssess"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -52,6 +53,7 @@
 
         <ResourceDictionary>
             <toolkit:DateTimeOffsetConverter x:Key="DateTimeOffsetConverter" />
+            <converters:YesNoAnswerToBoolConverter x:Key="YesNoToBool" />
         </ResourceDictionary>
     </views:ViewModelContentView.Resources>
 
@@ -107,7 +109,9 @@
                     Text="{local:Localize SafetyFactors}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor1}">
+                    QuestionPrompt="{local:Localize SafetyFactor1}"
+                    Answer="{Binding PhysicalHarm, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtClarification}">
 
                     <Border>
                         <VerticalStackLayout>
@@ -131,45 +135,71 @@
                     </Border>
                 </formctls:FormPromptAnswerField>
 
-                <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor2}" />
+                <formctls:FormPromptAnswerField
+                    QuestionPrompt="{local:Localize SafetyFactor2}" 
+                    Answer="{Binding CurrentCircumstances, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtCircumstances}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor3}" />
+                    QuestionPrompt="{local:Localize SafetyFactor3}" 
+                    Answer="{Binding SexAbuse, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtAbuse}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor4}" />
+                    QuestionPrompt="{local:Localize SafetyFactor4}" 
+                    Answer="{Binding UnableToProtect, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtProtect}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor5}" />
+                    QuestionPrompt="{local:Localize SafetyFactor5}" 
+                    Answer="{Binding InjuryExplanation, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtExplanation}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor6}" />
+                    QuestionPrompt="{local:Localize SafetyFactor6}" 
+                    Answer="{Binding RefuseAccess, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtAccess}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor7}" />
+                    QuestionPrompt="{local:Localize SafetyFactor7}" 
+                    Answer="{Binding ImmediateNeeds, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtNeeds}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor8}" />
+                    QuestionPrompt="{local:Localize SafetyFactor8}" 
+                    Answer="{Binding PhysicalCondition, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtCondition}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor9}" />
+                    QuestionPrompt="{local:Localize SafetyFactor9}" 
+                    Answer="{Binding CurrentAbuse, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtCurrent}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor10}" />
+                    QuestionPrompt="{local:Localize SafetyFactor10}" 
+                    Answer="{Binding PartnerViolence, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtViolence}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor11}" />
+                    QuestionPrompt="{local:Localize SafetyFactor11}" 
+                    Answer="{Binding PredominantlyNegative, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtNegative}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor12}" />
+                    QuestionPrompt="{local:Localize SafetyFactor12}" 
+                    Answer="{Binding EmotionalStability, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtEmotional}" />
 
                 <formctls:FormPromptAnswerField 
-                    QuestionPrompt="{local:Localize SafetyFactor13}" />
+                    QuestionPrompt="{local:Localize SafetyFactor13}" 
+                    Answer="{Binding ChildFearful, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtFearful}" />
 
                 <formctls:FormPromptAnswerField 
                     QuestionPrompt="{local:Localize SafetyFactor14}"
-                    AnswerContextExplanation="{local:Localize SafetyFactor14Context}"/>
+                    AnswerContextExplanation="{local:Localize SafetyFactor14Context}"
+                    Answer="{Binding OtherFactors, Converter={StaticResource YesNoToBool}}"
+                    AnswerContext="{Binding CmtOtherFactors}" />
 
             </VerticalStackLayout>
 
