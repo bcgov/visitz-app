@@ -452,7 +452,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="SafetyDecision3_UnsafeSafetyFactors" xml:space="preserve">
     <value>3. Unsafe—one or more safety factors are present and placement is the only protecting intervention possible for one or more children/youth. Without placement, one or more children/youths will likely be in danger of immediate or serious harm</value>
   </data>
-  <data name="SafetyDecisionPrompt" xml:space="preserve">
+  <data name="SafetyDecision_Prompt" xml:space="preserve">
     <value>Identify the safety decision by checking the appropriate line below. The decision should be based on the assessment of all safety factors, safety interventions, and any other information known about the case.</value>
   </data>
   <data name="SafetyDecision_AllYouth" xml:space="preserve">
@@ -514,5 +514,17 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   </data>
   <data name="Insert" xml:space="preserve">
     <value>Insert</value>
+  </data>
+  <data name="ReadyToFinalize" xml:space="preserve">
+    <value>Ready to finalize</value>
+  </data>
+  <data name="ReadyToFinalizeDate" xml:space="preserve">
+    <value>Ready to finalize date</value>
+  </data>
+  <data name="SendToTeamLeader" xml:space="preserve">
+    <value>Send to team leader</value>
+  </data>
+  <data name="SocialWorkerName" xml:space="preserve">
+    <value>Social worker name</value>
   </data>
 </root>

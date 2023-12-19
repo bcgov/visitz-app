@@ -686,6 +686,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ready to finalize.
+        /// </summary>
+        public static string ReadyToFinalize {
+            get {
+                return ResourceManager.GetString("ReadyToFinalize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready to finalize date.
+        /// </summary>
+        public static string ReadyToFinalizeDate {
+            get {
+                return ResourceManager.GetString("ReadyToFinalizeDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility is unable to access downloaded copies of ICM data due to an unexpected event. This error can&apos;t be recovered from.
         ///
         ///Downloaded copies of ICM data will be deleted.
@@ -771,6 +789,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Identify the safety decision by checking the appropriate line below. The decision should be based on the assessment of all safety factors, safety interventions, and any other information known about the case..
+        /// </summary>
+        public static string SafetyDecision_Prompt {
+            get {
+                return ResourceManager.GetString("SafetyDecision_Prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The following children were placed in an out-of-care living arrangement or in care.
         /// </summary>
         public static string SafetyDecision_SelectedYouth {
@@ -803,15 +830,6 @@ namespace Visitz.Resources.Localization {
         public static string SafetyDecision3_UnsafeSafetyFactors {
             get {
                 return ResourceManager.GetString("SafetyDecision3_UnsafeSafetyFactors", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Identify the safety decision by checking the appropriate line below. The decision should be based on the assessment of all safety factors, safety interventions, and any other information known about the case..
-        /// </summary>
-        public static string SafetyDecisionPrompt {
-            get {
-                return ResourceManager.GetString("SafetyDecisionPrompt", resourceCulture);
             }
         }
         
@@ -1145,6 +1163,24 @@ namespace Visitz.Resources.Localization {
         public static string SecureDeviceAndTryAgain {
             get {
                 return ResourceManager.GetString("SecureDeviceAndTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send to team leader.
+        /// </summary>
+        public static string SendToTeamLeader {
+            get {
+                return ResourceManager.GetString("SendToTeamLeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Social worker name.
+        /// </summary>
+        public static string SocialWorkerName {
+            get {
+                return ResourceManager.GetString("SocialWorkerName", resourceCulture);
             }
         }
         

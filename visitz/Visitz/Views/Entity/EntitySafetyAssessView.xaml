@@ -350,31 +350,35 @@
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize SafetyDecision}" />
 
-                <Label Text="{local:Localize SafetyDecisionPrompt}" />
+                <Label Text="{local:Localize SafetyDecision_Prompt}" />
 
                 <Border>
                     <VerticalStackLayout Spacing="10">
                         <formctls:FormRadioButton 
+                            IsChecked="{Binding NoSafetyFactors}"
                             GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
-                            Value="1" 
                             Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
                         <formctls:FormRadioButton 
+                            IsChecked="{Binding SafeInterventions}"
                             GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
-                            Value="2" 
                             Text="{local:Localize SafetyDecision2_SafeInterventions}" />
                         <formctls:FormRadioButton 
+                            IsChecked="{Binding UnsafeSafetyFactors}"
                             GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
-                            Value="3" 
                             Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
-                        
-                        <VerticalStackLayout Spacing="10" Margin="30,0,0,0">
+
+                        <VerticalStackLayout 
+                            Spacing="10"
+                            Margin="30,0,0,0"
+                            RadioButtonGroup.GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                            RadioButtonGroup.SelectedValue="{Binding DecisionUnsafe}">
                             <formctls:FormRadioButton 
                                 GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
-                                Value="1" 
+                                Value="{Static safetyModels:SafetyDecisions.AllChildrenPlaced}"
                                 Text="{local:Localize SafetyDecision_AllYouth}" />
                             <formctls:FormRadioButton 
                                 GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
-                                Value="2" 
+                                Value="{Static safetyModels:SafetyDecisions.SomeChildrenPlaced}"
                                 Text="{local:Localize SafetyDecision_SelectedYouth}" />
                         </VerticalStackLayout>
                     </VerticalStackLayout>
@@ -386,7 +390,8 @@
 
                 <formctls:FormEntry 
                     FieldName="{local:Localize SafetyPlanDescription}"
-                    Placeholder="{local:Localize SafetyPlan}"/>
+                    Placeholder="{local:Localize SafetyPlan}"
+                    Text="{Binding Comments}"/>
 
                 <Label 
                     Style="{StaticResource MidsectionHeader}"
@@ -394,11 +399,36 @@
 
                 <formctls:FormEntry 
                     FieldName="{local:Localize NarrativeDescription}"
-                    Placeholder="{local:Localize Narrative}"/>
+                    Placeholder="{local:Localize Narrative}"
+                    Text="{Binding Narrative}"/>
 
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Row="5" Grid.Column="0" StyleClass="FormVsl">
+            <VerticalStackLayout 
+                Grid.Row="5" 
+                Grid.Column="0" 
+                StyleClass="FormVsl"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyDecisions}"
+                x:DataType="safetyModels:SafetyDecisions">
+
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="{local:Localize SendToTeamLeader}" />
+
+                <formctls:FormCheckBox
+                    IsChecked="{Binding ReadyFinalize}"
+                    Text="{local:Localize ReadyToFinalize}" />
+
+                <formctls:FormEntry
+                    FieldName="{local:Localize SocialWorkerName}" />
+
+                <Label Text="{local:Localize ReadyToFinalizeDate}" />
+
+                <DatePicker Date="{Binding ReadyFinalizeDate, Converter={StaticResource DateTimeOffsetConverter}}" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="6" Grid.Column="0" StyleClass="FormVsl">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize ChildrenInOutCare}" />
@@ -406,7 +436,7 @@
             </VerticalStackLayout>
             
             <VerticalStackLayout 
-                Grid.Row="6" 
+                Grid.Row="7" 
                 Grid.Column="0"
                 StyleClass="FormVsl">
                 <Label
