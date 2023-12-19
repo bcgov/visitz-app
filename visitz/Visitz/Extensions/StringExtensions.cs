@@ -22,4 +22,9 @@ public static class StringExtensions
     {
         return addressPart?.Length > 0 ? addressPart + separator : string.Empty;
     }
+
+    public static string TruncateEnd(this string text, int length)
+    {
+        return text[..Math.Min(text.Length, length)];
+    }
 }
