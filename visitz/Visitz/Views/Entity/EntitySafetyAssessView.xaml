@@ -223,7 +223,7 @@
 
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ChildCognitive}"
-                    Text="{local:Localize CapacityChildCognitive}" />
+                    Text="{local:Localize ProtectiveCapacity_ChildCognitive}" />
 
                 
                 <Label
@@ -232,44 +232,44 @@
 
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentCognitive}"
-                    Text="{local:Localize CapacityParentCognitive }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentCognitive }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentWillingness}"
-                    Text="{local:Localize CapacityParentWillingness }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentWillingness }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentResources}"
-                    Text="{local:Localize CapacityParentResources }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentResources }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentSupportive}"
-                    Text="{local:Localize CapacityParentSupportive }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentSupportive }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentProtect}"
-                    Text="{local:Localize CapacityParentProtect }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentProtect }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentAccept}"
-                    Text="{local:Localize CapacityParentAccept }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentAccept }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentRelationship}"
-                    Text="{local:Localize CapacityParentRelationship }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentRelationship }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentAware}"
-                    Text="{local:Localize CapacityParentAware }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentAware }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding ParentProbSolving}"
-                    Text="{local:Localize CapacityParentProbSolving }" />
+                    Text="{local:Localize ProtectiveCapacity_ParentProbSolving }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding NoProCapPresent}"
-                    Text="{local:Localize CapacityNoProCapPresent }" />
+                    Text="{local:Localize ProtectiveCapacity_NoProCapPresent }" />
                 <formctls:FormCheckBox 
                     IsChecked="{Binding CapacitiesOther}"
-                    Text="{local:Localize CapacityComments1 }" />
+                    Text="{local:Localize ProtectiveCapacity_Comments1 }" />
 
                 <formctls:FormEntry
                     FieldNameIsVisible="False"
                     Text="{Binding CmtProtectiveCapacity01}" />
 
                 <formctls:FormEntry 
-                    FieldName="{local:Localize CapacityComments2 }"
+                    FieldName="{local:Localize ProtectiveCapacity_Comments2 }"
                     Text="{Binding CmtProtectiveCapacity02}"/>
 
             </VerticalStackLayout>

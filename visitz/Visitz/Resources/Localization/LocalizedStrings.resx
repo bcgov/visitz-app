@@ -350,43 +350,43 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="AgeUpToFive" xml:space="preserve">
     <value>Age up to five</value>
   </data>
-  <data name="CapacityChildCognitive" xml:space="preserve">
+  <data name="ProtectiveCapacity_ChildCognitive" xml:space="preserve">
     <value>Child/Youth has the cognitive, physical and emotional capacity to participate in safety interventions</value>
   </data>
-  <data name="CapacityComments1" xml:space="preserve">
+  <data name="ProtectiveCapacity_Comments1" xml:space="preserve">
     <value>Other</value>
   </data>
-  <data name="CapacityComments2" xml:space="preserve">
+  <data name="ProtectiveCapacity_Comments2" xml:space="preserve">
     <value>Provide a brief description of supporting observations and evidence of any protective capacities marked</value>
   </data>
-  <data name="CapacityNoProCapPresent" xml:space="preserve">
+  <data name="ProtectiveCapacity_NoProCapPresent" xml:space="preserve">
     <value>No protective capacities present</value>
   </data>
-  <data name="CapacityParentAccept" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentAccept" xml:space="preserve">
     <value>Parent/care-provider is willing to accept temporary interventions offered by child protection worker and/or other community agencies, including co-operation with continuing Family Development Response/investigation</value>
   </data>
-  <data name="CapacityParentAware" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentAware" xml:space="preserve">
     <value>Parent/care-provider is aware of and committed to meeting the needs of the child/youth</value>
   </data>
-  <data name="CapacityParentCognitive" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentCognitive" xml:space="preserve">
     <value>Parent/care-provider has the cognitive, physical and emotional capacity to participate in safety interventions</value>
   </data>
-  <data name="CapacityParentProbSolving" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentProbSolving" xml:space="preserve">
     <value>Parent/care-provider has history of effective problem solving</value>
   </data>
-  <data name="CapacityParentProtect" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentProtect" xml:space="preserve">
     <value>At least one parent/care-provider in the home is willing and able to take action to protect the child/youth, including asking offending parent/care-provider to leave</value>
   </data>
-  <data name="CapacityParentRelationship" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentRelationship" xml:space="preserve">
     <value>There is evidence of a healthy relationship between parent/care-provider and child/youth</value>
   </data>
-  <data name="CapacityParentResources" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentResources" xml:space="preserve">
     <value>Parent/care-provider has the ability to access resources to provide necessary safety interventions</value>
   </data>
-  <data name="CapacityParentSupportive" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentSupportive" xml:space="preserve">
     <value>Parent/care-provider has supportive relationships with one or more persons (extended family, neighbours, community members, Elders or community agencies), who may be willing to participate in safety planning, AND parent/care-provider is willing and able to accept their assistance</value>
   </data>
-  <data name="CapacityParentWillingness" xml:space="preserve">
+  <data name="ProtectiveCapacity_ParentWillingness" xml:space="preserve">
     <value>Parent/care-provider has a willingness to recognize problems and concerns placing the child/youth in imminent danger</value>
   </data>
   <data name="Child" xml:space="preserve">
