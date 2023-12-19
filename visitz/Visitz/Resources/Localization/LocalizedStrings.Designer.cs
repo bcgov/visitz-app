@@ -816,182 +816,182 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1. Parent/care-provider caused serious physical harm to the child/youth, or made a plausible threat to cause serious physical harm in the current report indicated by:.
-        /// </summary>
-        public static string SafetyFactor1 {
-            get {
-                return ResourceManager.GetString("SafetyFactor1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 10. Intimate partner violence exists in the family..
-        /// </summary>
-        public static string SafetyFactor10 {
-            get {
-                return ResourceManager.GetString("SafetyFactor10", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 11. Parent/care-provider describes child/youth in predominantly negative terms or acts toward child/youth in negative ways that result in the child being self destructive, acting out aggressively or demonstrating severe anxiety, depression or withdrawal..
-        /// </summary>
-        public static string SafetyFactor11 {
-            get {
-                return ResourceManager.GetString("SafetyFactor11", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 12. Parent/care-provider&apos;s emotional stability, developmental status, or cognitive limitation seriously impairs his/her current ability to supervise, protect, or care for the child/youth..
-        /// </summary>
-        public static string SafetyFactor12 {
-            get {
-                return ResourceManager.GetString("SafetyFactor12", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 13. Child/youth is fearful of parent/care-provider, other family members, or other people living in or having access to the home..
-        /// </summary>
-        public static string SafetyFactor13 {
-            get {
-                return ResourceManager.GetString("SafetyFactor13", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 14. Other (please specify):.
-        /// </summary>
-        public static string SafetyFactor14 {
-            get {
-                return ResourceManager.GetString("SafetyFactor14", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Comments.
-        /// </summary>
-        public static string SafetyFactor14Context {
-            get {
-                return ResourceManager.GetString("SafetyFactor14Context", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Excessive discipline or physical force.
         /// </summary>
-        public static string SafetyFactor1Discipline {
+        public static string SafetyFactor1_Discipline {
             get {
-                return ResourceManager.GetString("SafetyFactor1Discipline", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor1_Discipline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Parent/care-provider caused serious physical harm to the child/youth, or made a plausible threat to cause serious physical harm in the current report indicated by:.
+        /// </summary>
+        public static string SafetyFactor1_PhysicalHarm {
+            get {
+                return ResourceManager.GetString("SafetyFactor1_PhysicalHarm", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider fears he/she will maltreat child/youth.
         /// </summary>
-        public static string SafetyFactor1ProviderFears {
+        public static string SafetyFactor1_ProviderFears {
             get {
-                return ResourceManager.GetString("SafetyFactor1ProviderFears", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor1_ProviderFears", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Serious injury or abuse to child other than accidental.
         /// </summary>
-        public static string SafetyFactor1SeriousInjury {
+        public static string SafetyFactor1_SeriousInjury {
             get {
-                return ResourceManager.GetString("SafetyFactor1SeriousInjury", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor1_SeriousInjury", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Substance-exposed infant.
         /// </summary>
-        public static string SafetyFactor1Substance {
+        public static string SafetyFactor1_Substance {
             get {
-                return ResourceManager.GetString("SafetyFactor1Substance", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor1_Substance", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Threat to cause harm or retaliate against child/youth.
         /// </summary>
-        public static string SafetyFactor1ThreatOfHarm {
+        public static string SafetyFactor1_ThreatOfHarm {
             get {
-                return ResourceManager.GetString("SafetyFactor1ThreatOfHarm", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor1_ThreatOfHarm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10. Intimate partner violence exists in the family..
+        /// </summary>
+        public static string SafetyFactor10_PartnerViolence {
+            get {
+                return ResourceManager.GetString("SafetyFactor10_PartnerViolence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 11. Parent/care-provider describes child/youth in predominantly negative terms or acts toward child/youth in negative ways that result in the child being self destructive, acting out aggressively or demonstrating severe anxiety, depression or withdrawal..
+        /// </summary>
+        public static string SafetyFactor11_PredominantlyNegative {
+            get {
+                return ResourceManager.GetString("SafetyFactor11_PredominantlyNegative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 12. Parent/care-provider&apos;s emotional stability, developmental status, or cognitive limitation seriously impairs his/her current ability to supervise, protect, or care for the child/youth..
+        /// </summary>
+        public static string SafetyFactor12_EmotionalStability {
+            get {
+                return ResourceManager.GetString("SafetyFactor12_EmotionalStability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 13. Child/youth is fearful of parent/care-provider, other family members, or other people living in or having access to the home..
+        /// </summary>
+        public static string SafetyFactor13_ChildFearful {
+            get {
+                return ResourceManager.GetString("SafetyFactor13_ChildFearful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments.
+        /// </summary>
+        public static string SafetyFactor14_Context {
+            get {
+                return ResourceManager.GetString("SafetyFactor14_Context", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 14. Other (please specify):.
+        /// </summary>
+        public static string SafetyFactor14_OtherFactors {
+            get {
+                return ResourceManager.GetString("SafetyFactor14_OtherFactors", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 2. Current circumstances, combined with information that the parent/care-provider has or may have previously maltreated (abuse or neglect) a child/youth in his/her care, suggest that the child/youth&apos;s safety may be of immediate concern based on the severity of the previous maltreatment or the parent/care-provider&apos;s response to the previous incident..
         /// </summary>
-        public static string SafetyFactor2 {
+        public static string SafetyFactor2_CurrentCircumstances {
             get {
-                return ResourceManager.GetString("SafetyFactor2", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor2_CurrentCircumstances", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 3. Child/youth sexual abuse is suspected and circumstances suggest that child/youth&apos;s safety may be of immediate concern..
         /// </summary>
-        public static string SafetyFactor3 {
+        public static string SafetyFactor3_SexAbuse {
             get {
-                return ResourceManager.GetString("SafetyFactor3", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor3_SexAbuse", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 4. Parent/care-provider is unable or unwilling to protect child/youth from serious harm or threatened harm by other adults or children in the home. This may include physical, emotional, sexual abuse or neglect..
         /// </summary>
-        public static string SafetyFactor4 {
+        public static string SafetyFactor4_UnableToProtect {
             get {
-                return ResourceManager.GetString("SafetyFactor4", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor4_UnableToProtect", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 5. Parent/care-provider&apos;s explanation for the injury to the child/youth is questionable or inconsistent with type of injury, and the nature of the injury suggests that the child/youth&apos;s safety may be of imminent concern..
         /// </summary>
-        public static string SafetyFactor5 {
+        public static string SafetyFactor5_InjuryExplanation {
             get {
-                return ResourceManager.GetString("SafetyFactor5", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor5_InjuryExplanation", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 6. The family refuses access to the child/youth or there is reason to believe that the family is about to flee..
         /// </summary>
-        public static string SafetyFactor6 {
+        public static string SafetyFactor6_RefuseAccess {
             get {
-                return ResourceManager.GetString("SafetyFactor6", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor6_RefuseAccess", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 7. Parent/care-provider does not meet the child&apos;s immediate needs for supervision, food, clothing, medical, dental, or mental health care..
         /// </summary>
-        public static string SafetyFactor7 {
+        public static string SafetyFactor7_ImmediateNeeds {
             get {
-                return ResourceManager.GetString("SafetyFactor7", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor7_ImmediateNeeds", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 8. The physical living conditions are hazardous and immediately threatening to the health and/or safety of the child/youth..
         /// </summary>
-        public static string SafetyFactor8 {
+        public static string SafetyFactor8_PhysicalCondition {
             get {
-                return ResourceManager.GetString("SafetyFactor8", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor8_PhysicalCondition", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to 9. Parent/care-provider&apos;s current alcohol, drug, or substance abuse seriously impairs his/her ability to supervise, protect, or care for the child/youth..
         /// </summary>
-        public static string SafetyFactor9 {
+        public static string SafetyFactor9_CurrentAbuse {
             get {
-                return ResourceManager.GetString("SafetyFactor9", resourceCulture);
+                return ResourceManager.GetString("SafetyFactor9_CurrentAbuse", resourceCulture);
             }
         }
         

@@ -287,64 +287,64 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="SafetyAssessment" xml:space="preserve">
     <value>Safety assessment</value>
   </data>
-  <data name="SafetyFactor1" xml:space="preserve">
+  <data name="SafetyFactor1_PhysicalHarm" xml:space="preserve">
     <value>1. Parent/care-provider caused serious physical harm to the child/youth, or made a plausible threat to cause serious physical harm in the current report indicated by:</value>
   </data>
-  <data name="SafetyFactor10" xml:space="preserve">
+  <data name="SafetyFactor10_PartnerViolence" xml:space="preserve">
     <value>10. Intimate partner violence exists in the family.</value>
   </data>
-  <data name="SafetyFactor11" xml:space="preserve">
+  <data name="SafetyFactor11_PredominantlyNegative" xml:space="preserve">
     <value>11. Parent/care-provider describes child/youth in predominantly negative terms or acts toward child/youth in negative ways that result in the child being self destructive, acting out aggressively or demonstrating severe anxiety, depression or withdrawal.</value>
   </data>
-  <data name="SafetyFactor12" xml:space="preserve">
+  <data name="SafetyFactor12_EmotionalStability" xml:space="preserve">
     <value>12. Parent/care-provider's emotional stability, developmental status, or cognitive limitation seriously impairs his/her current ability to supervise, protect, or care for the child/youth.</value>
   </data>
-  <data name="SafetyFactor13" xml:space="preserve">
+  <data name="SafetyFactor13_ChildFearful" xml:space="preserve">
     <value>13. Child/youth is fearful of parent/care-provider, other family members, or other people living in or having access to the home.</value>
   </data>
-  <data name="SafetyFactor14" xml:space="preserve">
+  <data name="SafetyFactor14_OtherFactors" xml:space="preserve">
     <value>14. Other (please specify):</value>
   </data>
-  <data name="SafetyFactor1Discipline" xml:space="preserve">
+  <data name="SafetyFactor1_Discipline" xml:space="preserve">
     <value>Excessive discipline or physical force</value>
   </data>
-  <data name="SafetyFactor1ProviderFears" xml:space="preserve">
+  <data name="SafetyFactor1_ProviderFears" xml:space="preserve">
     <value>Parent/care-provider fears he/she will maltreat child/youth</value>
   </data>
-  <data name="SafetyFactor1SeriousInjury" xml:space="preserve">
+  <data name="SafetyFactor1_SeriousInjury" xml:space="preserve">
     <value>Serious injury or abuse to child other than accidental</value>
   </data>
-  <data name="SafetyFactor1Substance" xml:space="preserve">
+  <data name="SafetyFactor1_Substance" xml:space="preserve">
     <value>Substance-exposed infant</value>
   </data>
-  <data name="SafetyFactor1ThreatOfHarm" xml:space="preserve">
+  <data name="SafetyFactor1_ThreatOfHarm" xml:space="preserve">
     <value>Threat to cause harm or retaliate against child/youth</value>
   </data>
-  <data name="SafetyFactor2" xml:space="preserve">
+  <data name="SafetyFactor2_CurrentCircumstances" xml:space="preserve">
     <value>2. Current circumstances, combined with information that the parent/care-provider has or may have previously maltreated (abuse or neglect) a child/youth in his/her care, suggest that the child/youth's safety may be of immediate concern based on the severity of the previous maltreatment or the parent/care-provider's response to the previous incident.</value>
   </data>
-  <data name="SafetyFactor3" xml:space="preserve">
+  <data name="SafetyFactor3_SexAbuse" xml:space="preserve">
     <value>3. Child/youth sexual abuse is suspected and circumstances suggest that child/youth's safety may be of immediate concern.</value>
   </data>
-  <data name="SafetyFactor4" xml:space="preserve">
+  <data name="SafetyFactor4_UnableToProtect" xml:space="preserve">
     <value>4. Parent/care-provider is unable or unwilling to protect child/youth from serious harm or threatened harm by other adults or children in the home. This may include physical, emotional, sexual abuse or neglect.</value>
   </data>
-  <data name="SafetyFactor5" xml:space="preserve">
+  <data name="SafetyFactor5_InjuryExplanation" xml:space="preserve">
     <value>5. Parent/care-provider's explanation for the injury to the child/youth is questionable or inconsistent with type of injury, and the nature of the injury suggests that the child/youth's safety may be of imminent concern.</value>
   </data>
-  <data name="SafetyFactor6" xml:space="preserve">
+  <data name="SafetyFactor6_RefuseAccess" xml:space="preserve">
     <value>6. The family refuses access to the child/youth or there is reason to believe that the family is about to flee.</value>
   </data>
-  <data name="SafetyFactor7" xml:space="preserve">
+  <data name="SafetyFactor7_ImmediateNeeds" xml:space="preserve">
     <value>7. Parent/care-provider does not meet the child's immediate needs for supervision, food, clothing, medical, dental, or mental health care.</value>
   </data>
-  <data name="SafetyFactor8" xml:space="preserve">
+  <data name="SafetyFactor8_PhysicalCondition" xml:space="preserve">
     <value>8. The physical living conditions are hazardous and immediately threatening to the health and/or safety of the child/youth.</value>
   </data>
-  <data name="SafetyFactor9" xml:space="preserve">
+  <data name="SafetyFactor9_CurrentAbuse" xml:space="preserve">
     <value>9. Parent/care-provider's current alcohol, drug, or substance abuse seriously impairs his/her ability to supervise, protect, or care for the child/youth.</value>
   </data>
-  <data name="SafetyFactor14Context" xml:space="preserve">
+  <data name="SafetyFactor14_Context" xml:space="preserve">
     <value>Comments</value>
   </data>
   <data name="AgeUpToFive" xml:space="preserve">
