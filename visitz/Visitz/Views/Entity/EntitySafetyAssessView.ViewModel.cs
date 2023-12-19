@@ -24,6 +24,15 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         base.PageCreated();
 
+        SafetyAssessment ??= new SafetyAssessment()
+        {
+            FactorInfluence = new FactorInfluence(),
+            SafetyFactors = new SafetyFactors(),
+            ProtectiveCapacity = new ProtectiveCapacity(),
+            SafetyInterventions = new SafetyInterventions(),
+            SafetyDecisions = new SafetyDecisions(),
+        };
+
         var info = await VisitzSessionInfo.GetAsync();
         WorkerId = info.Idir;
     }
