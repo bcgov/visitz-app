@@ -111,11 +111,22 @@
 
                     <Border>
                         <VerticalStackLayout>
-                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1SeriousInjury}" />
-                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1ProviderFears}" />
-                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1ThreatOfHarm}" />
-                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1Discipline}" />
-                            <formctls:FormCheckBox Text="{local:Localize SafetyFactor1Substance}" />
+                            
+                            <formctls:FormCheckBox
+                                Text="{local:Localize SafetyFactor1SeriousInjury}"
+                                IsChecked="{Binding SeriousInjuryAbuse}" />
+                            <formctls:FormCheckBox
+                                Text="{local:Localize SafetyFactor1ProviderFears}"
+                                IsChecked="{Binding FearsMaltreatChild}" />
+                            <formctls:FormCheckBox
+                                Text="{local:Localize SafetyFactor1ThreatOfHarm}"
+                                IsChecked="{Binding ThreatAgainstChild}" />
+                            <formctls:FormCheckBox
+                                Text="{local:Localize SafetyFactor1Discipline}"
+                                IsChecked="{Binding ExcessiveForce}" />
+                            <formctls:FormCheckBox
+                                Text="{local:Localize SafetyFactor1Substance}"
+                                IsChecked="{Binding SubsExposedInfant}" />
                         </VerticalStackLayout>
                     </Border>
                 </formctls:FormPromptAnswerField>
