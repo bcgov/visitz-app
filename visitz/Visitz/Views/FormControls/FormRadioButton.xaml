@@ -12,6 +12,7 @@
             x:Name="RadioButton"
             Grid.Column="0"
             VerticalOptions="Center"
+            IsChecked="{Binding IsChecked}"
             GroupName="{Binding GroupName}"
             Value="{Binding Value}" />
 
