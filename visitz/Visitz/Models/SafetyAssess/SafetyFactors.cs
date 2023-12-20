@@ -209,11 +209,11 @@ public partial class SafetyFactors : IRealmObject
         return new SafetyFactorsEntity()
         {
             PhysicalHarm = PhysicalHarm.AsTruthyWord(),
-            SeriousInjuryAbuse = SeriousInjuryAbuse.AsTruthyWord(),
-            FearsMaltreatChild = FearsMaltreatChild.AsTruthyWord(),
-            ThreatAgainstChild = ThreatAgainstChild.AsTruthyWord(),
-            ExcessiveForce = ExcessiveForce.AsTruthyWord(),
-            SubsExposedInfant = SubsExposedInfant.AsTruthyWord(),
+            SeriousInjuryAbuse = SeriousInjuryAbuse.AsTruthyChar(),
+            FearsMaltreatChild = FearsMaltreatChild.AsTruthyChar(),
+            ThreatAgainstChild = ThreatAgainstChild.AsTruthyChar(),
+            ExcessiveForce = ExcessiveForce.AsTruthyChar(),
+            SubsExposedInfant = SubsExposedInfant.AsTruthyChar(),
             CmtClarification = CmtClarification,
             CurrentCircumstances = CurrentCircumstances.AsTruthyWord(),
             CmtCircumstances = CmtCircumstances,
