@@ -21,12 +21,10 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public SafetyAssessment safetyAssessment;
 
-    public override async void PageCreated()
+    private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
-        base.PageCreated();
-
         var info = await VisitzSessionInfo.GetAsync();
-        SafetyAssessment ??= new SafetyAssessment()
+        return new SafetyAssessment()
         {
             IncidentNumber = CaseloadItem.CaseIncidentNumber,
             WorkerId = info.Idir,
@@ -38,6 +36,13 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             SafetyInterventions = new SafetyInterventions(),
             SafetyDecisions = new SafetyDecisions(),
         };
+    }
+
+    public override async void PageCreated()
+    {
+        base.PageCreated();
+
+        SafetyAssessment ??= await MakeNewSafetyAssessment();
     }
 
     [RelayCommand]
