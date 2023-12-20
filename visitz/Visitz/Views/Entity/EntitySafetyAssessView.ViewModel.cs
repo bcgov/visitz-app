@@ -43,7 +43,26 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [RelayCommand]
     public void Publish()
     {
+#if DEBUG
+        WriteSafetyAssessmentJson();
+#endif
         var msg = SubmitSafetyAssessmentService.MakeStartMessage(SafetyAssessment);
         WeakReferenceMessenger.Default.Send(msg);
     }
+
+#if DEBUG
+    private void WriteSafetyAssessmentJson()
+    {
+        var entity = SafetyAssessment.ToApiEntity();
+
+        var json = System.Text.Json.JsonSerializer.Serialize(entity, new System.Text.Json.JsonSerializerOptions
+        {
+            AllowTrailingCommas = true,
+            PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
+            WriteIndented = true,
+        });
+
+        ConsoleTrace.TraceMethod(this, json);
+    }
+#endif
 }
