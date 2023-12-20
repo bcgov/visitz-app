@@ -13,11 +13,11 @@ public partial class FormPromptAnswerField : ContentView
             defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty AnswerContextExplanationProperty =
-        BindableProperty.Create(nameof(AnswerContextExplanation), typeof(string), typeof(FormPromptAnswerField),
-            defaultBindingMode: BindingMode.TwoWay);
+        BindableProperty.Create(nameof(AnswerContextExplanation), typeof(string), typeof(FormPromptAnswerField));
 
     public static readonly BindableProperty AnswerContextProperty =
-        BindableProperty.Create(nameof(AnswerContext), typeof(string), typeof(FormPromptAnswerField));
+        BindableProperty.Create(nameof(AnswerContext), typeof(string), typeof(FormPromptAnswerField),
+            defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty InlineContentProperty =
         BindableProperty.Create(nameof(InlineContent), typeof(View), typeof(FormPromptAnswerField));

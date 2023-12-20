@@ -6,7 +6,8 @@ public partial class FormEntry : ContentView
         BindableProperty.Create(nameof(FieldName), typeof(string), typeof(FormEntry));
 
     public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(FormEntry));
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(FormEntry),
+            defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly BindableProperty LeadingSupportingTextProperty =
         BindableProperty.Create(nameof(LeadingSupportingText), typeof(string), typeof(FormEntry));
