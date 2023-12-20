@@ -1,5 +1,6 @@
 ﻿using Realms;
 using Visitz.Extensions;
+using VisitzApi.Models.SafetyAssess;
 
 namespace Visitz.Models.SafetyAssess;
 
@@ -161,5 +162,45 @@ public partial class SafetyFactors : IRealmObject
     }
 
     public bool CurretAbuse { get; set; }
-        
+
+    public static SafetyFactors FromApiEntity(SafetyFactorsEntity entity)
+    {
+        return new SafetyFactors()
+        {
+            PhysicalHarm = entity.PhysicalHarm.ParseWordTruthiness(),
+            SeriousInjuryAbuse = entity.SeriousInjuryAbuse.ParseWordTruthiness(),
+            FearsMaltreatChild = entity.FearsMaltreatChild.ParseWordTruthiness(),
+            ThreatAgainstChild = entity.ThreatAgainstChild.ParseWordTruthiness(),
+            ExcessiveForce = entity.ExcessiveForce.ParseWordTruthiness(),
+            SubsExposedInfant = entity.SubsExposedInfant.ParseWordTruthiness(),
+            CmtClarification = entity.CmtClarification,
+            CurrentCircumstances = entity.CurrentCircumstances.ParseWordTruthiness(),
+            CmtCircumstances = entity.CmtCircumstances,
+            SexAbuse = entity.SexAbuse.ParseWordTruthiness(),
+            CmtAbuse = entity.CmtAbuse,
+            UnableToProtect = entity.UnableToProtect.ParseWordTruthiness(),
+            CmtProtect = entity.CmtProtect,
+            InjuryExplanation = entity.InjuryExplanation.ParseWordTruthiness(),
+            CmtExplanation = entity.CmtExplanation,
+            RefuseAccess = entity.RefuseAccess.ParseWordTruthiness(),
+            CmtAccess = entity.CmtAccess,
+            ImmediateNeeds = entity.ImmediateNeeds.ParseWordTruthiness(),
+            CmtNeeds = entity.CmtNeeds,
+            PhysicalCondition = entity.PhysicalCondition.ParseWordTruthiness(),
+            CmtCondition = entity.CmtCondition,
+            CurrentAbuse = entity.CurrentAbuse.ParseWordTruthiness(),
+            CmtCurrent = entity.CmtCurrent,
+            PartnerViolence = entity.PartnerViolence.ParseWordTruthiness(),
+            CmtViolence = entity.CmtViolence,
+            PredominantlyNegative = entity.PredominantlyNegative.ParseWordTruthiness(),
+            CmtNegative = entity.CmtNegative,
+            EmotionalStability = entity.EmotionalStability.ParseWordTruthiness(),
+            CmtEmotional = entity.CmtEmotional,
+            ChildFearful = entity.ChildFearful.ParseWordTruthiness(),
+            CmtFearful = entity.CmtFearful,
+            OtherFactors = entity.OtherFactors.ParseWordTruthiness(),
+            CmtOtherFactors = entity.CmtOtherFactors,
+            CurretAbuse = entity.CurretAbuse.ParseWordTruthiness(),
+        };
+    }
 }

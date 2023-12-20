@@ -1,4 +1,6 @@
 ﻿using Realms;
+using Visitz.Extensions;
+using VisitzApi.Models.SafetyAssess;
 
 namespace Visitz.Models.SafetyAssess;
 
@@ -23,4 +25,18 @@ public partial class SafetyDecisions : IRealmObject
 
     public DateTimeOffset ReadyFinalizeDate { get; set; } // Only date, no time
 
+    public static SafetyDecisions FromApiEntity(SafetyDecisionsEntity entity)
+    {
+        return new SafetyDecisions()
+        {
+            NoSafetyFactors = entity.NoSafetyFactors.ParseWordTruthiness(),
+            SafeInterventions = entity.SafeInterventions.ParseWordTruthiness(),
+            UnsafeSafetyFactors = entity.UnsafeSafetyFactors.ParseWordTruthiness(),
+            DecisionUnsafe = entity.DecisionUnsafe,
+            Comments = entity.Comments,
+            Narrative = entity.Narrative,
+            ReadyFinalize = entity.ReadyFinalize.ParseWordTruthiness(),
+            ReadyFinalizeDate = DateTimeOffset.Parse(entity.ReadyFinalizeDate),
+        };
+    }
 }

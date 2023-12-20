@@ -1,4 +1,5 @@
 ﻿using Realms;
+using VisitzApi.Models.SafetyAssess;
 
 namespace Visitz.Models.SafetyAssess;
 
@@ -25,4 +26,22 @@ public partial class SafetyAssessment : IRealmObject
     public SafetyDecisions SafetyDecisions { get; set; }
 
     public IList<string> ChildsInOutCare { get; }
+
+    public static SafetyAssessment FromApiEntity(SafetyAssessmentEntity entity)
+    {
+        return new SafetyAssessment()
+        {
+            IncidentNumber = entity.IncidentNumber,
+            WorkerId = entity.WorkerId,
+            FamilyName = entity.FamilyName,
+            DateOfAssessment = DateTimeOffset.Parse(entity.DateOfAssessment),
+            Operation = entity.Operation,
+            FactorInfluence = FactorInfluence.FromApiEntity(entity.FactorInfluence),
+            SafetyFactors = SafetyFactors.FromApiEntity(entity.SafetyFactors),
+            ProtectiveCapacity = ProtectiveCapacity.FromApiEntity(entity.ProtectiveCapacity),
+            SafetyInterventions = SafetyInterventions.FromApiEntity(entity.SafetyInterventions),
+            SafetyDecisions = SafetyDecisions.FromApiEntity(entity.SafetyDecisions),
+            //ChildsInOutCare = entity.ChildsInOutCare, TODO: implement
+        };
+    }
 }

@@ -1,4 +1,6 @@
 ﻿using Realms;
+using Visitz.Extensions;
+using VisitzApi.Models.SafetyAssess;
 
 namespace Visitz.Models.SafetyAssess;
 
@@ -31,5 +33,25 @@ public partial class ProtectiveCapacity : IRealmObject
     public string CmtProtectiveCapacity01 { get; set; }
     
     public string CmtProtectiveCapacity02 { get; set; }
-    
+
+    public static ProtectiveCapacity FromApiEntity(ProtectiveCapacityEntity entity)
+    {
+        return new ProtectiveCapacity()
+        {
+            ChildCognitive = entity.ChildCognitive.ParseWordTruthiness(),
+            ParentCognitive = entity.ParentCognitive.ParseWordTruthiness(),
+            ParentWillingness = entity.ParentWillingness.ParseWordTruthiness(),
+            ParentResources = entity.ParentResources.ParseWordTruthiness(),
+            ParentSupportive = entity.ParentSupportive.ParseWordTruthiness(),
+            ParentProtect = entity.ParentProtect.ParseWordTruthiness(),
+            ParentAccept = entity.ParentAccept.ParseWordTruthiness(),
+            ParentRelationship = entity.ParentRelationship.ParseWordTruthiness(),
+            ParentAware = entity.ParentAware.ParseWordTruthiness(),
+            ParentProbSolving = entity.ParentProbSolving.ParseWordTruthiness(),
+            NoProCapPresent = entity.NoProCapPresent.ParseWordTruthiness(),
+            CapacitiesOther = entity.CapacitiesOther.ParseWordTruthiness(),
+            CmtProtectiveCapacity01 = entity.CmtProtectiveCapacity01,
+            CmtProtectiveCapacity02 = entity.CmtProtectiveCapacity02,
+        };
+    }
 }
