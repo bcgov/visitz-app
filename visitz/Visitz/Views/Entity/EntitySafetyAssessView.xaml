@@ -61,9 +61,10 @@
         <Grid
             RowDefinitions="*,*,*,*,*,*,*,*,*"
             RowSpacing="10"
-            ColumnDefinitions="2*,*"
+            ColumnDefinitions="*"
             ColumnSpacing="10"
-            Padding="10">
+            Padding="10"
+            MaximumWidthRequest="800">
 
             <VerticalStackLayout 
                 Grid.Row="0" 
