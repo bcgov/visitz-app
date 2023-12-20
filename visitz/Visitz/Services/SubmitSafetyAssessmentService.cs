@@ -1,5 +1,4 @@
-﻿
-using Visitz.Models.SafetyAssess;
+﻿using Visitz.Models.SafetyAssess;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models.SafetyAssess;
