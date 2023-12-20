@@ -5,7 +5,8 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyAssessment : IRealmObject
 {
-	public string IncidentNumber { get; set; }
+    [Required]
+    public string IncidentNumber { get; set; }
 
     public string WorkerId { get; set; }
 
