@@ -1,4 +1,5 @@
-﻿using Visitz.Models.SafetyAssess;
+﻿using Visitz.Models;
+using Visitz.Models.SafetyAssess;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models.SafetyAssess;
@@ -10,6 +11,11 @@ public class SubmitSafetyAssessmentService(Vpi vpi) : VisitzApiService(vpi)
     public static string MakeId(string entityId)
     {
         return $"{nameof(SubmitSafetyAssessmentService)}-{entityId}";
+    }
+
+    public static string MakeId(CaseloadItem caseloadItem)
+    {
+        return MakeId(caseloadItem.CaseIncidentNumber);
     }
 
     public static StartServiceMessage MakeStartMessage(SafetyAssessment safetyAssessment)
