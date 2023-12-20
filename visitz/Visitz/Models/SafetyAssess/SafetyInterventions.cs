@@ -45,4 +45,22 @@ public partial class SafetyInterventions : IRealmObject
             ChildRemoved = entity.ChildRemoved.ParseWordTruthiness(),
         };
     }
+
+    public SafetyInterventionsEntity ToApiEntity()
+    {
+        return new SafetyInterventionsEntity()
+        {
+            DirectIntervention = DirectIntervention.AsTruthyChar(),
+            UseOfIndividuals = UseOfIndividuals.AsTruthyChar(),
+            UseCommAgencies = UseCommAgencies.AsTruthyChar(),
+            ProtectVictim = ProtectVictim.AsTruthyChar(),
+            LeaveHome = LeaveHome.AsTruthyChar(),
+            NonOffendingParent = NonOffendingParent.AsTruthyChar(),
+            LegalIntPlanned = LegalIntPlanned.AsTruthyChar(),
+            OtherSafetyInterventions = OtherSafetyInterventions.AsTruthyChar(),
+            CmtSafetyInterventions = CmtSafetyInterventions,
+            ChildOutsideHome = ChildOutsideHome.AsTruthyChar(),
+            ChildRemoved = ChildRemoved.AsTruthyChar(),
+        };
+    }
 }

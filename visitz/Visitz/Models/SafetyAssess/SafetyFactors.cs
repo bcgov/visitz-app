@@ -203,4 +203,45 @@ public partial class SafetyFactors : IRealmObject
             CurretAbuse = entity.CurretAbuse.ParseWordTruthiness(),
         };
     }
+
+    public SafetyFactorsEntity ToApiEntity()
+    {
+        return new SafetyFactorsEntity()
+        {
+            PhysicalHarm = PhysicalHarm.AsTruthyWord(),
+            SeriousInjuryAbuse = SeriousInjuryAbuse.AsTruthyWord(),
+            FearsMaltreatChild = FearsMaltreatChild.AsTruthyWord(),
+            ThreatAgainstChild = ThreatAgainstChild.AsTruthyWord(),
+            ExcessiveForce = ExcessiveForce.AsTruthyWord(),
+            SubsExposedInfant = SubsExposedInfant.AsTruthyWord(),
+            CmtClarification = CmtClarification,
+            CurrentCircumstances = CurrentCircumstances.AsTruthyWord(),
+            CmtCircumstances = CmtCircumstances,
+            SexAbuse = SexAbuse.AsTruthyWord(),
+            CmtAbuse = CmtAbuse,
+            UnableToProtect = UnableToProtect.AsTruthyWord(),
+            CmtProtect = CmtProtect,
+            InjuryExplanation = InjuryExplanation.AsTruthyWord(),
+            CmtExplanation = CmtExplanation,
+            RefuseAccess = RefuseAccess.AsTruthyWord(),
+            CmtAccess = CmtAccess,
+            ImmediateNeeds = ImmediateNeeds.AsTruthyWord(),
+            CmtNeeds = CmtNeeds,
+            PhysicalCondition = PhysicalCondition.AsTruthyWord(),
+            CmtCondition = CmtCondition,
+            CurrentAbuse = CurrentAbuse.AsTruthyWord(),
+            CmtCurrent = CmtCurrent,
+            PartnerViolence = PartnerViolence.AsTruthyWord(),
+            CmtViolence = CmtViolence,
+            PredominantlyNegative = PredominantlyNegative.AsTruthyWord(),
+            CmtNegative = CmtNegative,
+            EmotionalStability = EmotionalStability.AsTruthyWord(),
+            CmtEmotional = CmtEmotional,
+            ChildFearful = ChildFearful.AsTruthyWord(),
+            CmtFearful = CmtFearful,
+            OtherFactors = OtherFactors.AsTruthyWord(),
+            CmtOtherFactors = CmtOtherFactors,
+            CurretAbuse = CurretAbuse.AsTruthyWord(),
+        };
+    }
 }

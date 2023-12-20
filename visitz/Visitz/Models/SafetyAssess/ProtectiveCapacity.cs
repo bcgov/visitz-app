@@ -54,4 +54,25 @@ public partial class ProtectiveCapacity : IRealmObject
             CmtProtectiveCapacity02 = entity.CmtProtectiveCapacity02,
         };
     }
+
+    public ProtectiveCapacityEntity ToApiEntity()
+    {
+        return new ProtectiveCapacityEntity()
+        {
+            ChildCognitive = ChildCognitive.AsTruthyChar(),
+            ParentCognitive = ParentCognitive.AsTruthyChar(),
+            ParentWillingness = ParentWillingness.AsTruthyChar(),
+            ParentResources = ParentResources.AsTruthyChar(),
+            ParentSupportive = ParentSupportive.AsTruthyChar(),
+            ParentProtect = ParentProtect.AsTruthyChar(),
+            ParentAccept = ParentAccept.AsTruthyChar(),
+            ParentRelationship = ParentRelationship.AsTruthyChar(),
+            ParentAware = ParentAware.AsTruthyChar(),
+            ParentProbSolving = ParentProbSolving.AsTruthyChar(),
+            NoProCapPresent = NoProCapPresent.AsTruthyChar(),
+            CapacitiesOther = CapacitiesOther.AsTruthyChar(),
+            CmtProtectiveCapacity01 = CmtProtectiveCapacity01,
+            CmtProtectiveCapacity02 = CmtProtectiveCapacity02,
+        };
+    }
 }

@@ -44,4 +44,22 @@ public partial class SafetyAssessment : IRealmObject
             //ChildsInOutCare = entity.ChildsInOutCare, TODO: implement
         };
     }
+
+    public SafetyAssessmentEntity ToApiEntity()
+    {
+        return new SafetyAssessmentEntity()
+        {
+            IncidentNumber = IncidentNumber,
+            WorkerId = WorkerId,
+            FamilyName = FamilyName,
+            DateOfAssessment = DateOfAssessment.ToString(IcmDateFormat.Format),
+            Operation = Operation,
+            FactorInfluence = FactorInfluence.ToApiEntity(),
+            SafetyFactors = SafetyFactors.ToApiEntity(),
+            ProtectiveCapacity = ProtectiveCapacity.ToApiEntity(),
+            SafetyInterventions = SafetyInterventions.ToApiEntity(),
+            SafetyDecisions = SafetyDecisions.ToApiEntity(),
+            //ChildsInOutCare = ChildsInOutCare, TODO: implement
+        };
+    }
 }

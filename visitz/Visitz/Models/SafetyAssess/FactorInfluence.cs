@@ -27,4 +27,16 @@ public partial class FactorInfluence : IRealmObject
 			DiminishedPhysical = entity.DiminishedPhysical.ParseWordTruthiness(),
 		};
 	}
+
+	public FactorInfluenceEntity ToApiEntity()
+	{
+		return new FactorInfluenceEntity()
+		{
+            AgeUptoFive = AgeUptoFive.AsTruthyChar(),
+            MedicalMentalDisorder = MedicalMentalDisorder.AsTruthyChar(),
+            NotReadilyAccessible = NotReadilyAccessible.AsTruthyChar(),
+            DiminishedMental = DiminishedMental.AsTruthyChar(),
+            DiminishedPhysical = DiminishedPhysical.AsTruthyChar(),
+        };
+	}
 }

@@ -39,4 +39,19 @@ public partial class SafetyDecisions : IRealmObject
             ReadyFinalizeDate = DateTimeOffset.Parse(entity.ReadyFinalizeDate),
         };
     }
+
+    public SafetyDecisionsEntity ToApiEntity()
+    {
+        return new SafetyDecisionsEntity()
+        {
+            NoSafetyFactors = NoSafetyFactors.AsTruthyChar(),
+            SafeInterventions = SafeInterventions.AsTruthyChar(),
+            UnsafeSafetyFactors = UnsafeSafetyFactors.AsTruthyChar(),
+            DecisionUnsafe = DecisionUnsafe,
+            Comments = Comments,
+            Narrative = Narrative,
+            ReadyFinalize = ReadyFinalize.AsTruthyChar(),
+            ReadyFinalizeDate = ReadyFinalizeDate.ToString(IcmDateFormat.Format),
+        };
+    }
 }
