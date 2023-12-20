@@ -420,7 +420,10 @@
                     Text="{local:Localize ReadyToFinalize}" />
 
                 <formctls:FormEntry
-                    FieldName="{local:Localize SocialWorkerName}" />
+                    BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment}"
+                    x:DataType="safetyModels:SafetyAssessment"
+                    FieldName="{local:Localize SocialWorkerName}"
+                    Text="{Binding WorkerId}" />
 
                 <Label Text="{local:Localize ReadyToFinalizeDate}" />
 
@@ -449,11 +452,6 @@
                     x:Name="IncidentNumberEntry"
                     FieldName="{local:Localize IncidentNumber}"
                     Text="{Binding IncidentNumber}" />
-                
-                <formctls:FormEntry
-                    x:Name="WorkerIdEntry"
-                    FieldName="{local:Localize WorkerId}"
-                    Text="{Binding WorkerId}" />
                 
                 <formctls:FormEntry
                     x:Name="FamilyNameEntry"
