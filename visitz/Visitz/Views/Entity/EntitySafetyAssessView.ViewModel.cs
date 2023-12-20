@@ -11,7 +11,7 @@ using Visitz.ViewModels;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadItemHolder, IRecipient<ServiceStateMessage>
 {
     public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
@@ -46,6 +46,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         base.PageCreated();
 
+        var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
+        WeakReferenceMessenger.Default.Register(this, id);
+
         SafetyAssessment ??= await MakeNewSafetyAssessment();
 
         var names = new SortedSet<string>();
@@ -55,6 +58,13 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         FamilyNames = names.AsList();
 
         TrySetSingularFamilyName();
+    }
+
+    public override void PageDestroyed()
+    {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+
+        base.PageDestroyed();
     }
 
     [RelayCommand]
@@ -93,5 +103,10 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         if (FamilyNames.Count == 1)
             SafetyAssessment.FamilyName = FamilyNames[0];
+    }
+
+    public void Receive(ServiceStateMessage message)
+    {
+        // TODO: Tasks upon API completion
     }
 }

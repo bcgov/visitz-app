@@ -1,8 +1,11 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Models;
+using Visitz.Resources.Localization;
+using Visitz.Services;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadItemHolder
+public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadItemHolder, IRecipient<ServiceStateMessage>
 {
 	protected new EntitySafetyAssessViewModel ViewModel => (EntitySafetyAssessViewModel)base.ViewModel;
 
@@ -17,4 +20,28 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 		InitializeComponent();
 		BindingContext = ViewModel;
 	}
+
+    protected override void Creating()
+    {
+        base.Creating();
+
+		var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
+		WeakReferenceMessenger.Default.Register(this, id);
+    }
+
+    protected override void Destroying()
+    {
+		WeakReferenceMessenger.Default.UnregisterAll(this);
+
+        base.Destroying();
+    }
+
+    public async void Receive(ServiceStateMessage message)
+    {
+		if (message.FinishedError)
+			await Navigator.CurrentOpenPage.DisplayAlert(
+				LocalizedStrings.Error,
+				message.Message, 
+				LocalizedStrings.Ok);
+    }
 }
