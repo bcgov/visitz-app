@@ -29,10 +29,10 @@ public partial class ProtectiveCapacity : IRealmObject
     public bool NoProCapPresent { get; set; }
     
     public bool CapacitiesOther { get; set; }
+
+    public string CmtProtectiveCapacity01 { get; set; } = string.Empty;
     
-    public string CmtProtectiveCapacity01 { get; set; }
-    
-    public string CmtProtectiveCapacity02 { get; set; }
+    public string CmtProtectiveCapacity02 { get; set; } = string.Empty;
 
     public static ProtectiveCapacity FromApiEntity(ProtectiveCapacityEntity entity)
     {

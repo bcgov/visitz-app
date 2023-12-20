@@ -21,8 +21,8 @@ public partial class SafetyInterventions : IRealmObject
     public bool LegalIntPlanned { get; set; }
     
     public bool OtherSafetyInterventions { get; set; }
-    
-    public string CmtSafetyInterventions { get; set; }
+
+    public string CmtSafetyInterventions { get; set; } = string.Empty;
     
     public bool ChildOutsideHome { get; set; }
     

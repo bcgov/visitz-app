@@ -23,7 +23,7 @@ public partial class SafetyFactors : IRealmObject
     public bool SubsExposedInfant { get; set; }
 
     [MapTo(nameof(CmtClarification))]
-    private string cmtClarification {  get; set; }
+    private string cmtClarification {  get; set; } = string.Empty;
 
     public string CmtClarification 
     {
@@ -34,7 +34,7 @@ public partial class SafetyFactors : IRealmObject
     public bool CurrentCircumstances { get; set; }
 
     [MapTo(nameof(CmtCircumstances))]
-    private string cmtCircumstances{ get; set; }
+    private string cmtCircumstances{ get; set; } = string.Empty;
     public string CmtCircumstances
     {
         get => cmtCircumstances;
@@ -44,7 +44,7 @@ public partial class SafetyFactors : IRealmObject
     public bool SexAbuse { get; set; }
 
     [MapTo(nameof(CmtAbuse))]
-    private string cmtAbuse{ get; set; }
+    private string cmtAbuse{ get; set; } = string.Empty;
     public string CmtAbuse
     {
         get => cmtAbuse;
@@ -54,7 +54,7 @@ public partial class SafetyFactors : IRealmObject
     public bool UnableToProtect { get; set; }
 
     [MapTo(nameof(CmtProtect))]
-    private string cmtProtect{ get; set; }
+    private string cmtProtect{ get; set; } = string.Empty;
     public string CmtProtect
     {
         get => cmtProtect;
@@ -64,7 +64,7 @@ public partial class SafetyFactors : IRealmObject
     public bool InjuryExplanation { get; set; }
 
     [MapTo(nameof(CmtExplanation))]
-    private string cmtExplanation{ get; set; }
+    private string cmtExplanation{ get; set; } = string.Empty;
     public string CmtExplanation
     {
         get => cmtExplanation;
@@ -74,7 +74,7 @@ public partial class SafetyFactors : IRealmObject
     public bool RefuseAccess { get; set; }
 
     [MapTo(nameof(CmtAccess))]
-    private string cmtAccess{ get; set; }
+    private string cmtAccess{ get; set; } = string.Empty;
     public string CmtAccess
     {
         get => cmtAccess;
@@ -84,7 +84,7 @@ public partial class SafetyFactors : IRealmObject
     public bool ImmediateNeeds { get; set; }
 
     [MapTo(nameof(CmtNeeds))]
-    private string cmtNeeds{ get; set; }
+    private string cmtNeeds{ get; set; } = string.Empty;
     public string CmtNeeds
     {
         get => cmtNeeds;
@@ -94,7 +94,7 @@ public partial class SafetyFactors : IRealmObject
     public bool PhysicalCondition { get; set; }
 
     [MapTo(nameof(CmtCondition))]
-    private string cmtCondition{ get; set; }
+    private string cmtCondition{ get; set; } = string.Empty;
     public string CmtCondition
     {
         get => cmtCondition;
@@ -104,7 +104,7 @@ public partial class SafetyFactors : IRealmObject
     public bool CurrentAbuse { get; set; }
 
     [MapTo(nameof(CmtCurrent))]
-    private string cmtCurrent{ get; set; }
+    private string cmtCurrent{ get; set; } = string.Empty;
     public string CmtCurrent
     {
         get => cmtCurrent;
@@ -114,7 +114,7 @@ public partial class SafetyFactors : IRealmObject
     public bool PartnerViolence { get; set; }
 
     [MapTo(nameof(CmtViolence))]
-    private string cmtViolence{ get; set; }
+    private string cmtViolence{ get; set; } = string.Empty;
     public string CmtViolence
     {
         get => cmtViolence;
@@ -124,7 +124,7 @@ public partial class SafetyFactors : IRealmObject
     public bool PredominantlyNegative { get; set; }
 
     [MapTo(nameof(CmtNegative))]
-    private string cmtNegative{ get; set; }
+    private string cmtNegative{ get; set; } = string.Empty;
     public string CmtNegative
     {
         get => cmtNegative;
@@ -134,7 +134,7 @@ public partial class SafetyFactors : IRealmObject
     public bool EmotionalStability { get; set; }
 
     [MapTo(nameof(CmtEmotional))]
-    private string cmtEmotional{ get; set; }
+    private string cmtEmotional{ get; set; } = string.Empty;
     public string CmtEmotional
     {
         get => cmtEmotional;
@@ -144,7 +144,7 @@ public partial class SafetyFactors : IRealmObject
     public bool ChildFearful { get; set; }
 
     [MapTo(nameof(CmtFearful))]
-    private string cmtFearful{ get; set; }
+    private string cmtFearful{ get; set; } = string.Empty;
     public string CmtFearful
     {
         get => cmtFearful;
@@ -154,7 +154,7 @@ public partial class SafetyFactors : IRealmObject
     public bool OtherFactors { get; set; }
 
     [MapTo(nameof(CmtOtherFactors))]
-    private string cmtOtherFactors{ get; set; }
+    private string cmtOtherFactors{ get; set; } = string.Empty;
     public string CmtOtherFactors
     {
         get => cmtOtherFactors;

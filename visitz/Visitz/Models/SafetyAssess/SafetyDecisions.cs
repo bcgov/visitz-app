@@ -15,11 +15,11 @@ public partial class SafetyDecisions : IRealmObject
 
     public bool UnsafeSafetyFactors { get; set; }
 
-    public string DecisionUnsafe { get; set; } // Max length 255
+    public string DecisionUnsafe { get; set; } = string.Empty; // Max length 255
 
-    public string Comments { get; set; } // Max length 8000
+    public string Comments { get; set; } = string.Empty; // Max length 8000
 
-    public string Narrative { get; set; } // Max length 2000
+    public string Narrative { get; set; }  = string.Empty; // Max length 2000
 
     public bool ReadyFinalize { get; set; }
 
