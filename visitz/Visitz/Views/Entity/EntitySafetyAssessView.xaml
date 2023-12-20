@@ -483,6 +483,11 @@
                 <Button 
                     Text="{local:Localize PublishToIcm}"
                     Command="{Binding PublishCommand}" />
+
+                <Button 
+                    Text="Reset"
+                    Style="{StaticResource SecondaryButtonLight}"
+                    Command="{Binding ResetCommand}" />
             </VerticalStackLayout>
         </Grid>
     </ScrollView>

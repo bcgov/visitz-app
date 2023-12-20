@@ -55,6 +55,12 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         WeakReferenceMessenger.Default.Send(msg);
     }
 
+    [RelayCommand]
+    public async void Reset()
+    {
+        SafetyAssessment = await MakeNewSafetyAssessment();
+    }
+
 #if DEBUG
     private void WriteSafetyAssessmentJson()
     {
