@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
+using Visitz.Extensions;
 using Visitz.Models;
 using Visitz.Models.SafetyAssess;
 using Visitz.Resources.Localization;
@@ -20,6 +21,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     [ObservableProperty]
     public SafetyAssessment safetyAssessment;
+
+    [ObservableProperty]
+    public IList<string> familyNames;
 
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
@@ -43,6 +47,14 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         base.PageCreated();
 
         SafetyAssessment ??= await MakeNewSafetyAssessment();
+
+        var names = new SortedSet<string>();
+        foreach (var member in CaseloadItem.FamilyMembers)
+            names.Add(member.LastName);
+
+        FamilyNames = names.AsList();
+
+        TrySetSingularFamilyName();
     }
 
     [RelayCommand]
@@ -76,4 +88,10 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         ConsoleTrace.TraceMethod(this, json);
     }
 #endif
+
+    private void TrySetSingularFamilyName()
+    {
+        if (FamilyNames.Count == 1)
+            SafetyAssessment.FamilyName = FamilyNames[0];
+    }
 }
