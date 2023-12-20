@@ -59,7 +59,7 @@
 
     <ScrollView>
         <Grid
-            RowDefinitions="*,*,*,*,*,*,*,*,*,*"
+            RowDefinitions="*,*,*,*,*,*,*,*,*"
             RowSpacing="10"
             ColumnDefinitions="*"
             ColumnSpacing="10"
@@ -77,6 +77,14 @@
                 <Picker 
                     SelectedItem="{Binding SafetyAssessment.FamilyName}"
                     ItemsSource="{Binding FamilyNames}" />
+
+                <Label 
+                    Margin="0,0,0,-10"
+                    Text="{local:Localize DateOfAssessment}" />
+
+                <DatePicker 
+                    Margin="0,0"
+                    Date="{Binding SafetyAssessment.DateOfAssessment, Converter={StaticResource DateTimeOffsetConverter}}"/>
 
             </VerticalStackLayout>
 
@@ -440,7 +448,9 @@
                     FieldName="{local:Localize SocialWorkerName}"
                     Text="{Binding WorkerId}" />
 
-                <Label Text="{local:Localize ReadyToFinalizeDate}" />
+                <Label 
+                    Margin="0,0,0,-10"
+                    Text="{local:Localize ReadyToFinalizeDate}" />
 
                 <DatePicker Date="{Binding ReadyFinalizeDate, Converter={StaticResource DateTimeOffsetConverter}}" />
 
@@ -452,39 +462,9 @@
                     Text="{local:Localize ChildrenInOutCare}" />
 
             </VerticalStackLayout>
-            
-            <VerticalStackLayout 
-                Grid.Row="8" 
-                Grid.Column="0"
-                StyleClass="FormVsl"
-                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment}"
-                x:DataType="safetyModels:SafetyAssessment">
-                <Label
-                    Style="{StaticResource AssessmentHeader}"
-                    Text="{local:Localize SafetyAssessmentMetadata}" />
-
-                <formctls:FormEntry
-                    x:Name="IncidentNumberEntry"
-                    FieldName="{local:Localize IncidentNumber}"
-                    Text="{Binding IncidentNumber}" />
-
-                <Label 
-                    Margin="0,0,0,0"
-                    Text="{local:Localize DateOfAssessment}" />
-
-                <DatePicker 
-                    Margin="0,10"
-                    Date="{Binding DateOfAssessment, Converter={StaticResource DateTimeOffsetConverter}}"/>
-
-                <formctls:FormEntry
-                    x:Name="OperationEntry"
-                    FieldName="{local:Localize SafetyAssessmentOperation}" 
-                    Text="{local:Localize Insert}"
-                    IsEnabled="False" />
-            </VerticalStackLayout>
 
             <VerticalStackLayout 
-                Grid.Row="9" 
+                Grid.Row="8"
                 Grid.Column="0"
                 StyleClass="FormVsl">
 
@@ -499,5 +479,4 @@
             </VerticalStackLayout>
         </Grid>
     </ScrollView>
-    
 </views:ViewModelContentView>
