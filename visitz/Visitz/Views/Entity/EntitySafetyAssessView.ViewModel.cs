@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
 using Visitz.Models;
 using Visitz.Models.SafetyAssess;
+using Visitz.Services;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Entity;
@@ -35,5 +38,12 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
         var info = await VisitzSessionInfo.GetAsync();
         WorkerId = info.Idir;
+    }
+
+    [RelayCommand]
+    public void Publish()
+    {
+        var msg = SubmitSafetyAssessmentService.MakeStartMessage(SafetyAssessment);
+        WeakReferenceMessenger.Default.Send(msg);
     }
 }
