@@ -527,4 +527,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="SocialWorkerName" xml:space="preserve">
     <value>Social worker name</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>
