@@ -2,6 +2,8 @@
 using VisitzApi.Requests;
 using System.Net;
 using VisitzApi.ErrorHandling;
+using VisitzApi.Models.SafetyAssess;
+using System.Text.Json;
 
 namespace VisitzApi
 {
@@ -43,6 +45,11 @@ namespace VisitzApi
         public async Task<(bool success, string noteId)> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)
         {
             return await CallApi(new SubmitNotesEndpoint(BaseVisitzApiUrl, noteToSubmit));
+        }
+
+        public async Task<bool> SubmitSafetyAssessmentAsync(SafetyAssessmentEntity safetyAssessment)
+        {
+            return await CallApi(new SubmitSafetyAssessmentEndpoint(BaseVisitzApiUrl, safetyAssessment));
         }
     }
 }
