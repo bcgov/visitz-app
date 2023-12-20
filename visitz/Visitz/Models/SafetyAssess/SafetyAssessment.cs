@@ -12,7 +12,7 @@ public partial class SafetyAssessment : IRealmObject
 
     public string FamilyName { get; set; }
 
-    public DateTimeOffset DateOfAssessment { get; set; }
+    public DateTimeOffset DateOfAssessment { get; set; } = DateTimeOffset.Now;
 
     public string Operation { get; set; }
 

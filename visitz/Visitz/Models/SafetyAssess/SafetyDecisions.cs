@@ -23,7 +23,7 @@ public partial class SafetyDecisions : IRealmObject
 
     public bool ReadyFinalize { get; set; }
 
-    public DateTimeOffset ReadyFinalizeDate { get; set; } // Only date, no time
+    public DateTimeOffset ReadyFinalizeDate { get; set; } = DateTimeOffset.Now; // Only date, no time
 
     public static SafetyDecisions FromApiEntity(SafetyDecisionsEntity entity)
     {
