@@ -1,4 +1,5 @@
 ﻿using Realms;
+using System.Globalization;
 using Visitz.Extensions;
 using VisitzApi.Models.SafetyAssess;
 
@@ -51,7 +52,7 @@ public partial class SafetyDecisions : IRealmObject
             Comments = Comments,
             Narrative = Narrative,
             ReadyFinalize = ReadyFinalize.AsTruthyChar(),
-            ReadyFinalizeDate = ReadyFinalizeDate.ToString(IcmDateFormat.Format),
+            ReadyFinalizeDate = ReadyFinalizeDate.ToString(IcmDateFormat.Format, CultureInfo.InvariantCulture),
         };
     }
 }

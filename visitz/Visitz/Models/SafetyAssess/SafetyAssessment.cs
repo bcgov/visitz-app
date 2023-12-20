@@ -1,4 +1,5 @@
 ﻿using Realms;
+using System.Globalization;
 using VisitzApi.Models.SafetyAssess;
 
 namespace Visitz.Models.SafetyAssess;
@@ -53,7 +54,7 @@ public partial class SafetyAssessment : IRealmObject
             IncidentNumber = IncidentNumber,
             WorkerId = WorkerId,
             FamilyName = FamilyName,
-            DateOfAssessment = DateOfAssessment.ToString(IcmDateFormat.Format),
+            DateOfAssessment = DateOfAssessment.ToString(IcmDateFormat.Format, CultureInfo.InvariantCulture),
             Operation = Operation,
             FactorInfluence = FactorInfluence.ToApiEntity(),
             SafetyFactors = SafetyFactors.ToApiEntity(),
