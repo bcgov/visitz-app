@@ -27,7 +27,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         return new SafetyAssessment()
         {
             IncidentNumber = CaseloadItem.CaseIncidentNumber,
-            WorkerId = info.Idir,
+            WorkerId = info.FirstLastName,
             FamilyName = CaseloadItem.KeyPlayerLastName,
             Operation = LocalizedStrings.Insert,
             FactorInfluence = new FactorInfluence(),
