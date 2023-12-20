@@ -438,7 +438,9 @@
             <VerticalStackLayout 
                 Grid.Row="7" 
                 Grid.Column="0"
-                StyleClass="FormVsl">
+                StyleClass="FormVsl"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment}"
+                x:DataType="safetyModels:SafetyAssessment">
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize SafetyAssessmentMetadata}" />
@@ -446,7 +448,7 @@
                 <formctls:FormEntry
                     x:Name="IncidentNumberEntry"
                     FieldName="{local:Localize IncidentNumber}"
-                    Text="{Binding CaseloadItem.CaseIncidentNumber}" />
+                    Text="{Binding IncidentNumber}" />
                 
                 <formctls:FormEntry
                     x:Name="WorkerIdEntry"
@@ -456,7 +458,7 @@
                 <formctls:FormEntry
                     x:Name="FamilyNameEntry"
                     FieldName="{local:Localize FamilyName}" 
-                    Text="{Binding CaseloadItem.KeyPlayerLastName}" />
+                    Text="{Binding FamilyName}" />
 
                 <Label 
                     Margin="0,0,0,0"
@@ -464,7 +466,7 @@
 
                 <DatePicker 
                     Margin="0,10"
-                    Date="{Binding SafetyAssessment.DateOfAssessment, Converter={StaticResource DateTimeOffsetConverter}}"/>
+                    Date="{Binding DateOfAssessment, Converter={StaticResource DateTimeOffsetConverter}}"/>
 
                 <formctls:FormEntry
                     x:Name="OperationEntry"

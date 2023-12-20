@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
 using Visitz.Models;
 using Visitz.Models.SafetyAssess;
+using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.ViewModels;
 
@@ -20,24 +21,23 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public SafetyAssessment safetyAssessment;
 
-    [ObservableProperty]
-    public string workerId;
-
     public override async void PageCreated()
     {
         base.PageCreated();
 
+        var info = await VisitzSessionInfo.GetAsync();
         SafetyAssessment ??= new SafetyAssessment()
         {
+            IncidentNumber = CaseloadItem.CaseIncidentNumber,
+            WorkerId = info.Idir,
+            FamilyName = CaseloadItem.KeyPlayerLastName,
+            Operation = LocalizedStrings.Insert,
             FactorInfluence = new FactorInfluence(),
             SafetyFactors = new SafetyFactors(),
             ProtectiveCapacity = new ProtectiveCapacity(),
             SafetyInterventions = new SafetyInterventions(),
             SafetyDecisions = new SafetyDecisions(),
         };
-
-        var info = await VisitzSessionInfo.GetAsync();
-        WorkerId = info.Idir;
     }
 
     [RelayCommand]
