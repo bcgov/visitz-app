@@ -59,7 +59,7 @@
 
     <ScrollView>
         <Grid
-            RowDefinitions="*,*,*,*,*,*,*"
+            RowDefinitions="*,*,*,*,*,*,*,*"
             RowSpacing="10"
             ColumnDefinitions="2*,*"
             ColumnSpacing="10"
