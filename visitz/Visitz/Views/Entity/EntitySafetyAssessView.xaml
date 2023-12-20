@@ -430,6 +430,16 @@
             <VerticalStackLayout 
                 Grid.Row="6" 
                 Grid.Column="0" 
+                StyleClass="FormVsl">
+                <Label
+                    Style="{StaticResource AssessmentHeader}"
+                    Text="{local:Localize ChildrenInOutCare}" />
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout 
+                Grid.Row="7" 
+                Grid.Column="0" 
                 StyleClass="FormVsl"
                 BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyDecisions}"
                 x:DataType="safetyModels:SafetyDecisions">
@@ -453,13 +463,6 @@
                     Text="{local:Localize ReadyToFinalizeDate}" />
 
                 <DatePicker Date="{Binding ReadyFinalizeDate, Converter={StaticResource DateTimeOffsetConverter}}" />
-
-            </VerticalStackLayout>
-
-            <VerticalStackLayout Grid.Row="7" Grid.Column="0" StyleClass="FormVsl">
-                <Label
-                    Style="{StaticResource AssessmentHeader}"
-                    Text="{local:Localize ChildrenInOutCare}" />
 
             </VerticalStackLayout>
 
