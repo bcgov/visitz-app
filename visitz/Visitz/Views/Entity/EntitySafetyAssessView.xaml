@@ -438,7 +438,8 @@
 
                 <CollectionView
                     ItemsSource="{Binding ChildrenInOutCare}"
-                    SelectionMode="Multiple">
+                    SelectionMode="Multiple"
+                    SelectedItems="{Binding SelectedChildren}">
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FamilyMember">

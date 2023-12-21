@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Visitz.Authentication.Keycloak;
 using Visitz.Extensions;
 using Visitz.Models;
@@ -28,6 +30,11 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public IEnumerable<FamilyMember> childrenInOutCare;
 
+    // Using object instead of FamilyMember for generic as a workaround
+    // see https://github.com/dotnet/maui/issues/8435#issuecomment-1365586648
+    [ObservableProperty]
+    public ObservableCollection<object> selectedChildren = [];
+
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
         var info = await VisitzSessionInfo.GetAsync();
@@ -48,6 +55,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public override async void PageCreated()
     {
         base.PageCreated();
+
+        SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
 
         var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
         WeakReferenceMessenger.Default.Register(this, id);
@@ -78,6 +87,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
+        SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
+
         base.PageDestroyed();
     }
 
@@ -95,6 +106,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public async void Reset()
     {
         SafetyAssessment = await MakeNewSafetyAssessment();
+        SelectedChildren?.Clear();
     }
 
 #if DEBUG
@@ -122,5 +134,21 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public void Receive(ServiceStateMessage message)
     {
         // TODO: Tasks upon API completion
+    }
+
+    private void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+            foreach (FamilyMember child in e.NewItems.Cast<FamilyMember>())
+                SafetyAssessment.ChildsInOutCare.Add(child.ContactId);
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove)
+        {
+            foreach (FamilyMember child in e.NewItems.Cast<FamilyMember>())
+                SafetyAssessment.ChildsInOutCare.Remove(child.ContactId);
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Reset)
+            SafetyAssessment.ChildsInOutCare.Clear();
     }
 }
