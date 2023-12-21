@@ -14,6 +14,11 @@ public abstract class BaseContentView : ContentView
             Destroying();
     }
 
+    public void Destroy()
+    {
+        Handler = null;
+    }
+
     protected virtual void Creating() { }
 
     protected virtual void Destroying() { }
