@@ -43,6 +43,12 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
     private void OpenEntitySection(NavItem navItem, CaseloadItem caseloadItem)
     {
+        if (ContainerDetails.Content is BaseContentView baseView)
+        {
+            baseView.Destroy();
+            ContainerDetails.Content = null;
+        }
+
         var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
         (view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
         ContainerDetails.Content = (View)view;
