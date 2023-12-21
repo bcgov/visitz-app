@@ -22,5 +22,17 @@ public class SafetyAssessmentEntity
 
     public SafetyDecisionsEntity SafetyDecisions { get; set; }
 
-    public IList<string> ChildsInOutCare { get; set; } = new List<string>();
+    public IList<ChildId> ChildsInOutCare { get; set; } = new List<ChildId>();
+
+    public class ChildId
+    {
+        public string ChildContactId { get; set; }
+
+        public override string ToString() => ChildContactId;
+    }
+
+    public void AddChildContactId(string childContactid)
+    {
+        ChildsInOutCare.Add(new ChildId {  ChildContactId = childContactid });
+    }
 }

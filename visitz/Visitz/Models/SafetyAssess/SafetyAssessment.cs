@@ -33,7 +33,7 @@ public partial class SafetyAssessment : IRealmObject
 
     public static SafetyAssessment FromApiEntity(SafetyAssessmentEntity entity)
     {
-        return new SafetyAssessment()
+        var safetyAssessment = new SafetyAssessment()
         {
             IncidentNumber = entity.IncidentNumber,
             WorkerId = entity.WorkerId,
@@ -45,13 +45,17 @@ public partial class SafetyAssessment : IRealmObject
             ProtectiveCapacity = ProtectiveCapacity.FromApiEntity(entity.ProtectiveCapacity),
             SafetyInterventions = SafetyInterventions.FromApiEntity(entity.SafetyInterventions),
             SafetyDecisions = SafetyDecisions.FromApiEntity(entity.SafetyDecisions),
-            //ChildsInOutCare = entity.ChildsInOutCare, TODO: implement
         };
+
+        foreach (var childId in entity.ChildsInOutCare)
+            safetyAssessment.ChildsInOutCare.Add(childId.ChildContactId);
+
+        return safetyAssessment;
     }
 
     public SafetyAssessmentEntity ToApiEntity()
     {
-        return new SafetyAssessmentEntity()
+        var safetyAssessmentEntity = new SafetyAssessmentEntity()
         {
             IncidentNumber = IncidentNumber,
             WorkerId = WorkerId,
@@ -63,7 +67,11 @@ public partial class SafetyAssessment : IRealmObject
             ProtectiveCapacity = ProtectiveCapacity.ToApiEntity(),
             SafetyInterventions = SafetyInterventions.ToApiEntity(),
             SafetyDecisions = SafetyDecisions.ToApiEntity(),
-            //ChildsInOutCare = ChildsInOutCare, TODO: implement
         };
+
+        foreach (var childId in ChildsInOutCare)
+            safetyAssessmentEntity.AddChildContactId(childId);
+
+        return safetyAssessmentEntity;
     }
 }
