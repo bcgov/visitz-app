@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:models="clr-namespace:Visitz.Models"
     xmlns:safetyModels="clr-namespace:Visitz.Models.SafetyAssess"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -434,6 +435,23 @@
                 <Label
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize ChildrenInOutCare}" />
+
+                <CollectionView
+                    ItemsSource="{Binding ChildrenInOutCare}"
+                    SelectionMode="Multiple">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:FamilyMember">
+                            <HorizontalStackLayout>
+                                <Label
+                                    BackgroundColor="White"
+                                    HorizontalOptions="Start"
+                                    Padding="10"
+                                    Text="{Binding FullDisplayName}" />
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
             </VerticalStackLayout>
 

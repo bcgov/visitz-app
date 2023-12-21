@@ -25,6 +25,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public IList<string> familyNames;
 
+    [ObservableProperty]
+    public IEnumerable<FamilyMember> childrenInOutCare;
+
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
         var info = await VisitzSessionInfo.GetAsync();
@@ -52,6 +55,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         SafetyAssessment ??= await MakeNewSafetyAssessment();
 
         SetupFamilyNamePicker();
+        SetupChildrenInOutCare();
     }
 
     private void SetupFamilyNamePicker()
@@ -63,6 +67,11 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         FamilyNames = names.AsList();
 
         TrySetSingularFamilyName();
+    }
+
+    private void SetupChildrenInOutCare()
+    {
+        ChildrenInOutCare = CaseloadItem.FamilyMembers;
     }
 
     public override void PageDestroyed()
