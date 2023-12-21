@@ -22,5 +22,5 @@ public class SafetyAssessmentEntity
 
     public SafetyDecisionsEntity SafetyDecisions { get; set; }
 
-    public IList<string> ChildsInOutCare { get; }
+    public IList<string> ChildsInOutCare { get; set; } = new List<string>();
 }
