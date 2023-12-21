@@ -29,9 +29,7 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
 
     protected override void Destroying()
     {
-        WeakReferenceMessenger.Default.UnregisterAll(this);
-
-        base.Destroying();
+        /* No-op because class is a DI singleton */
     }
 
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
