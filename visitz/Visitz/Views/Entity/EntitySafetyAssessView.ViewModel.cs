@@ -51,6 +51,11 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
         SafetyAssessment ??= await MakeNewSafetyAssessment();
 
+        SetupFamilyNamePicker();
+    }
+
+    private void SetupFamilyNamePicker()
+    {
         var names = new SortedSet<string>();
         foreach (var member in CaseloadItem.FamilyMembers)
             names.Add(member.LastName);
