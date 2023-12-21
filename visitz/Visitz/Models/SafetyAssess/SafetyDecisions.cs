@@ -52,7 +52,7 @@ public partial class SafetyDecisions : IRealmObject
             Comments = Comments,
             Narrative = Narrative,
             ReadyFinalize = ReadyFinalize.AsTruthyChar(),
-            ReadyFinalizeDate = ReadyFinalizeDate.ToString(IcmDateFormat.Format, CultureInfo.InvariantCulture),
+            ReadyFinalizeDate = ReadyFinalizeDate.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture),
         };
     }
 }

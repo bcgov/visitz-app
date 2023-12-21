@@ -6,6 +6,8 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyAssessment : IRealmObject
 {
+    public static readonly string DateFormat = "dd/MM/yyyy";
+
     [Required]
     public string IncidentNumber { get; set; }
 
@@ -54,7 +56,7 @@ public partial class SafetyAssessment : IRealmObject
             IncidentNumber = IncidentNumber,
             WorkerId = WorkerId,
             FamilyName = FamilyName,
-            DateOfAssessment = DateOfAssessment.ToString(IcmDateFormat.Format, CultureInfo.InvariantCulture),
+            DateOfAssessment = DateOfAssessment.ToString(DateFormat, CultureInfo.InvariantCulture),
             Operation = Operation,
             FactorInfluence = FactorInfluence.ToApiEntity(),
             SafetyFactors = SafetyFactors.ToApiEntity(),
