@@ -311,16 +311,19 @@
 
                 <Grid 
                     ColumnDefinitions="Auto,*"
-                    ColumnSpacing="10">
+                    ColumnSpacing="10"
+                    Margin="0,10">
                     <Label 
+                        LineHeight="1.0"
                         VerticalOptions="Center"
                         FontFamily="MaterialIconsRoundedUnfilled"
                         FontSize="{StaticResource HeadlineLargeFontSize}"
                         TextColor="{StaticResource Semantic_Warning_LargeText}"
                         Text="{Static icons:MaterialIcons.Warning}" />
-                    
+
                     <Label
                         Grid.Column="2"
+                        LineHeight="1.0"
                         VerticalOptions="Center"
                         Text="{local:Localize SafetyIntervention_Prompt}" />
                 </Grid>
