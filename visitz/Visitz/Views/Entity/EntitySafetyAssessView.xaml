@@ -464,8 +464,11 @@
                                 
                                 <Label
                                     x:Name="NameLabel"
+                                    LineHeight="1.0"
                                     BackgroundColor="White"
                                     HorizontalOptions="Start"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center"
                                     Padding="10"
                                     Text="{Binding FullDisplayName}" />
                             </HorizontalStackLayout>
