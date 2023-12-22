@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Models;
 using Visitz.Resources.Localization;
@@ -38,6 +39,9 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 
     public async void Receive(ServiceStateMessage message)
     {
+		if (message.Status == VisitzService.State.Running)
+			// Temporary, to be replaced with better UI/UX
+			_ = Toast.Make("Submitting safety assessment").Show();
 		if (message.FinishedError)
 			await Navigator.CurrentOpenPage.DisplayAlert(
 				LocalizedStrings.Error,
