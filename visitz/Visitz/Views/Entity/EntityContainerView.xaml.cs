@@ -38,6 +38,12 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
     {
         StrongReferenceMessenger.Default.UnregisterAll(this);
 
+        if (ContainerDetails.Content is BaseContentView baseView)
+        {
+            baseView.Destroy();
+            ContainerDetails.Content = null;
+        }
+
         base.Destroying();
     }
 
