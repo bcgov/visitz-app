@@ -20,6 +20,7 @@
                 <ContentPresenter />
 
                 <RadioButton
+                    IsChecked="{Binding YesChecked}"
                     Content="Yes"
                     CheckedChanged="RadioButton_CheckedChanged"
                     HorizontalOptions="Start"
@@ -27,6 +28,7 @@
                     Value="{x:Static formctls:YesNoAnswer.Yes}" />
 
                 <RadioButton
+                    IsChecked="{Binding NoChecked}"
                     Content="No"
                     CheckedChanged="RadioButton_CheckedChanged"
                     HorizontalOptions="Start"

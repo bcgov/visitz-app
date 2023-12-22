@@ -10,7 +10,24 @@ public partial class FormPromptAnswerField : ContentView
 
     public static readonly BindableProperty AnswerProperty =
         BindableProperty.Create(nameof(Answer), typeof(YesNoAnswer?), typeof(FormPromptAnswerField),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.TwoWay, propertyChanged: (boundObj, oldVal, newVal) =>
+            {
+                var promptField = (FormPromptAnswerField)boundObj;
+                var answer = (YesNoAnswer?)newVal;
+
+                if (answer == null)
+                    promptField.YesChecked = promptField.NoChecked = false;
+                else if (answer == YesNoAnswer.Yes)
+                {
+                    promptField.YesChecked = true;
+                    promptField.NoChecked = false;
+                }
+                else
+                {
+                    promptField.YesChecked = false;
+                    promptField.NoChecked = true;
+                }
+            });
 
     public static readonly BindableProperty AnswerContextExplanationProperty =
         BindableProperty.Create(nameof(AnswerContextExplanation), typeof(string), typeof(FormPromptAnswerField));
@@ -21,6 +38,14 @@ public partial class FormPromptAnswerField : ContentView
 
     public static readonly BindableProperty InlineContentProperty =
         BindableProperty.Create(nameof(InlineContent), typeof(View), typeof(FormPromptAnswerField));
+
+    public static readonly BindableProperty YesCheckedProperty =
+        BindableProperty.Create(nameof(YesChecked), typeof(bool), typeof(FormPromptAnswerField),
+            defaultBindingMode: BindingMode.TwoWay);
+
+    public static readonly BindableProperty NoCheckedProperty =
+        BindableProperty.Create(nameof(NoChecked), typeof(bool), typeof(FormPromptAnswerField),
+            defaultBindingMode: BindingMode.TwoWay);
 
     public string RadioButtonGroupName
     {
@@ -56,6 +81,18 @@ public partial class FormPromptAnswerField : ContentView
     {
         get => (View)GetValue(InlineContentProperty);
         set => SetValue(InlineContentProperty, value);
+    }
+
+    public bool YesChecked
+    {
+        get => (bool)GetValue(YesCheckedProperty);
+        set => SetValue(YesCheckedProperty, value);
+    }
+
+    public bool NoChecked
+    {
+        get => (bool)GetValue(NoCheckedProperty);
+        set => SetValue(NoCheckedProperty, value);
     }
 
     public FormPromptAnswerField()
