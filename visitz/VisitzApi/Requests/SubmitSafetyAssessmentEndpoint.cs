@@ -5,7 +5,7 @@ using VisitzApi.Models.SafetyAssess;
 namespace VisitzApi.Requests;
 
 internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SafetyAssessmentEntity safetyAssessment)
-    : VisitzBaseEndpoint<bool>(baseUrl, SubmitSafetyAssessmentPath)
+    : VisitzBaseEndpoint<(bool success, string status)>(baseUrl, SubmitSafetyAssessmentPath)
 {
     public static readonly string SubmitSafetyAssessmentPath = "/v1/622";
 
@@ -39,8 +39,15 @@ internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SafetyAssessmentEn
         };
     }
 
-    public override bool HandleResponse(string responseContent)
+    public override (bool success, string status) HandleResponse(string responseContent)
     {
-        throw new NotImplementedException();
+        var payload = JsonDocument.Parse(responseContent)
+                .RootElement
+                .GetProperty(JsonKey.StatusResponse)
+                .GetProperty(JsonKey.PayLoad);
+
+        var status = payload.GetProperty(JsonKey.Status).GetString();
+
+        return (status.Equals(JsonKey.Success), status);
     }
 }

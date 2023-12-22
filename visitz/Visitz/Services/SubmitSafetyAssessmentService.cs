@@ -42,8 +42,8 @@ public class SubmitSafetyAssessmentService(Vpi vpi) : VisitzApiService(vpi)
 
     private async Task SubmitSafetyAssessment()
     {
-        var status = await Vpi.SubmitSafetyAssessmentAsync(Payload);
+        var (success, _) = await Vpi.SubmitSafetyAssessmentAsync(Payload);
 
-        ResultCode = status ? Result.Successful : Result.Error;
+        ResultCode = success ? Result.Successful : Result.Error;
     }
 }
