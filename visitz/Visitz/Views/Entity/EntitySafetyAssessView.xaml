@@ -447,7 +447,23 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:FamilyMember">
                             <HorizontalStackLayout>
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState Name="Normal" />
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter TargetName="NameLabel" Property="BackgroundColor" Value="{StaticResource ItemSelectedColor}" />
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource ItemSelectedColor}" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                                
                                 <Label
+                                    x:Name="NameLabel"
                                     BackgroundColor="White"
                                     HorizontalOptions="Start"
                                     Padding="10"
