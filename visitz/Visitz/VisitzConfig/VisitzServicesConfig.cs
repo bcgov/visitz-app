@@ -14,6 +14,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetAllDataForOfflineService>();
             builder.Services.AddTransient<SubmitNoteService>();
             builder.Services.AddTransient<SubmitAndGetNotesService>();
+            builder.Services.AddTransient<SubmitSafetyAssessmentService>();
 
             return builder;
         }

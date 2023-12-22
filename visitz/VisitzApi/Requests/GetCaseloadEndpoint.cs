@@ -38,7 +38,7 @@ namespace VisitzApi.Requests
                 {
                     [GetListCaseIncidentKey] = new JsonObject
                     {
-                        [JsonKey.Payload] = new JsonObject
+                        [JsonKey.PayLoad] = new JsonObject
                         {
                             [WorkerIdsListKey] = WorkerIds
                         }
@@ -82,7 +82,7 @@ namespace VisitzApi.Requests
             var caseloadJson = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty(ListCaseIncidentKey)
-                .GetProperty(JsonKey.Payload)
+                .GetProperty(JsonKey.PayLoad)
                 .GetProperty(ListCaseIncidentsListKey);
 
             var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };

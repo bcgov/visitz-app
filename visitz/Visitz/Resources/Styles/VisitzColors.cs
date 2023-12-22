@@ -29,6 +29,8 @@ public static class VisitzColors
     public static readonly Color BC_Semantic_Error = TryGetColor(nameof(BC_Semantic_Error));
     public static readonly Color BC_Semantic_Success = TryGetColor(nameof(BC_Semantic_Success));
 
+    public static readonly Color Semantic_Warning_LargeText = TryGetColor(nameof(Semantic_Warning_LargeText));
+
     // Primary uses color 'BC_Blue'
     public static readonly Color Primary = TryGetColor(nameof(Primary));
     

@@ -80,6 +80,10 @@ public abstract class SplitLayoutView : BaseContentView
 
     public void SetStartPane(IView view)
     {
+        foreach (var startView in StartPane.Children)
+            if (startView is BaseContentView baseView)
+                baseView.Destroy();
+
         StartPane.Clear();
 
         if (view != null)
@@ -88,6 +92,10 @@ public abstract class SplitLayoutView : BaseContentView
 
     public void SetEndPane(IView view)
     {
+        foreach (var endView in EndPane.Children)
+            if (endView is BaseContentView baseView)
+                baseView.Destroy();
+
         EndPane.Clear();
 
         if (view != null)

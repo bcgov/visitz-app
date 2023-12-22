@@ -1,0 +1,247 @@
+﻿using Realms;
+using Visitz.Extensions;
+using VisitzApi.Models.SafetyAssess;
+
+namespace Visitz.Models.SafetyAssess;
+
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", 
+    Justification = "Property naming style recommended by Realm.NET.")]
+public partial class SafetyFactors : IRealmObject
+{
+    private const int CommentsMaxLength = 1000;
+
+    public bool? PhysicalHarm { get; set; }
+        
+    public bool SeriousInjuryAbuse { get; set; }
+        
+    public bool FearsMaltreatChild { get; set; }
+        
+    public bool ThreatAgainstChild { get; set; }
+        
+    public bool ExcessiveForce { get; set; }
+        
+    public bool SubsExposedInfant { get; set; }
+
+    [MapTo(nameof(CmtClarification))]
+    private string cmtClarification {  get; set; } = string.Empty;
+
+    public string CmtClarification 
+    {
+        get => cmtClarification;
+        set => cmtClarification = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? CurrentCircumstances { get; set; }
+
+    [MapTo(nameof(CmtCircumstances))]
+    private string cmtCircumstances{ get; set; } = string.Empty;
+    public string CmtCircumstances
+    {
+        get => cmtCircumstances;
+        set => cmtCircumstances = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? SexAbuse { get; set; }
+
+    [MapTo(nameof(CmtAbuse))]
+    private string cmtAbuse{ get; set; } = string.Empty;
+    public string CmtAbuse
+    {
+        get => cmtAbuse;
+        set => cmtAbuse = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? UnableToProtect { get; set; }
+
+    [MapTo(nameof(CmtProtect))]
+    private string cmtProtect{ get; set; } = string.Empty;
+    public string CmtProtect
+    {
+        get => cmtProtect;
+        set => cmtProtect = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? InjuryExplanation { get; set; }
+
+    [MapTo(nameof(CmtExplanation))]
+    private string cmtExplanation{ get; set; } = string.Empty;
+    public string CmtExplanation
+    {
+        get => cmtExplanation;
+        set => cmtExplanation = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? RefuseAccess { get; set; }
+
+    [MapTo(nameof(CmtAccess))]
+    private string cmtAccess{ get; set; } = string.Empty;
+    public string CmtAccess
+    {
+        get => cmtAccess;
+        set => cmtAccess = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? ImmediateNeeds { get; set; }
+
+    [MapTo(nameof(CmtNeeds))]
+    private string cmtNeeds{ get; set; } = string.Empty;
+    public string CmtNeeds
+    {
+        get => cmtNeeds;
+        set => cmtNeeds = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? PhysicalCondition { get; set; }
+
+    [MapTo(nameof(CmtCondition))]
+    private string cmtCondition{ get; set; } = string.Empty;
+    public string CmtCondition
+    {
+        get => cmtCondition;
+        set => cmtCondition = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? CurrentAbuse { get; set; }
+
+    [MapTo(nameof(CmtCurrent))]
+    private string cmtCurrent{ get; set; } = string.Empty;
+    public string CmtCurrent
+    {
+        get => cmtCurrent;
+        set => cmtCurrent = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? PartnerViolence { get; set; }
+
+    [MapTo(nameof(CmtViolence))]
+    private string cmtViolence{ get; set; } = string.Empty;
+    public string CmtViolence
+    {
+        get => cmtViolence;
+        set => cmtViolence = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? PredominantlyNegative { get; set; }
+
+    [MapTo(nameof(CmtNegative))]
+    private string cmtNegative{ get; set; } = string.Empty;
+    public string CmtNegative
+    {
+        get => cmtNegative;
+        set => cmtNegative = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? EmotionalStability { get; set; }
+
+    [MapTo(nameof(CmtEmotional))]
+    private string cmtEmotional{ get; set; } = string.Empty;
+    public string CmtEmotional
+    {
+        get => cmtEmotional;
+        set => cmtEmotional = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? ChildFearful { get; set; }
+
+    [MapTo(nameof(CmtFearful))]
+    private string cmtFearful{ get; set; } = string.Empty;
+    public string CmtFearful
+    {
+        get => cmtFearful;
+        set => cmtFearful = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? OtherFactors { get; set; }
+
+    [MapTo(nameof(CmtOtherFactors))]
+    private string cmtOtherFactors{ get; set; } = string.Empty;
+    public string CmtOtherFactors
+    {
+        get => cmtOtherFactors;
+        set => cmtOtherFactors = value?.TruncateEnd(CommentsMaxLength);
+    }
+
+    public bool? CurretAbuse { get; set; }
+
+    public static SafetyFactors FromApiEntity(SafetyFactorsEntity entity)
+    {
+        return new SafetyFactors()
+        {
+            PhysicalHarm = entity.PhysicalHarm.ParseWordTruthiness(),
+            SeriousInjuryAbuse = entity.SeriousInjuryAbuse.ParseWordTruthiness(),
+            FearsMaltreatChild = entity.FearsMaltreatChild.ParseWordTruthiness(),
+            ThreatAgainstChild = entity.ThreatAgainstChild.ParseWordTruthiness(),
+            ExcessiveForce = entity.ExcessiveForce.ParseWordTruthiness(),
+            SubsExposedInfant = entity.SubsExposedInfant.ParseWordTruthiness(),
+            CmtClarification = entity.CmtClarification,
+            CurrentCircumstances = entity.CurrentCircumstances.ParseWordTruthiness(),
+            CmtCircumstances = entity.CmtCircumstances,
+            SexAbuse = entity.SexAbuse.ParseWordTruthiness(),
+            CmtAbuse = entity.CmtAbuse,
+            UnableToProtect = entity.UnableToProtect.ParseWordTruthiness(),
+            CmtProtect = entity.CmtProtect,
+            InjuryExplanation = entity.InjuryExplanation.ParseWordTruthiness(),
+            CmtExplanation = entity.CmtExplanation,
+            RefuseAccess = entity.RefuseAccess.ParseWordTruthiness(),
+            CmtAccess = entity.CmtAccess,
+            ImmediateNeeds = entity.ImmediateNeeds.ParseWordTruthiness(),
+            CmtNeeds = entity.CmtNeeds,
+            PhysicalCondition = entity.PhysicalCondition.ParseWordTruthiness(),
+            CmtCondition = entity.CmtCondition,
+            CurrentAbuse = entity.CurrentAbuse.ParseWordTruthiness(),
+            CmtCurrent = entity.CmtCurrent,
+            PartnerViolence = entity.PartnerViolence.ParseWordTruthiness(),
+            CmtViolence = entity.CmtViolence,
+            PredominantlyNegative = entity.PredominantlyNegative.ParseWordTruthiness(),
+            CmtNegative = entity.CmtNegative,
+            EmotionalStability = entity.EmotionalStability.ParseWordTruthiness(),
+            CmtEmotional = entity.CmtEmotional,
+            ChildFearful = entity.ChildFearful.ParseWordTruthiness(),
+            CmtFearful = entity.CmtFearful,
+            OtherFactors = entity.OtherFactors.ParseWordTruthiness(),
+            CmtOtherFactors = entity.CmtOtherFactors,
+            CurretAbuse = entity.CurretAbuse.ParseWordTruthiness(),
+        };
+    }
+
+    public SafetyFactorsEntity ToApiEntity()
+    {
+        return new SafetyFactorsEntity()
+        {
+            PhysicalHarm = PhysicalHarm?.AsTruthyWord(),
+            SeriousInjuryAbuse = SeriousInjuryAbuse.AsTruthyChar(),
+            FearsMaltreatChild = FearsMaltreatChild.AsTruthyChar(),
+            ThreatAgainstChild = ThreatAgainstChild.AsTruthyChar(),
+            ExcessiveForce = ExcessiveForce.AsTruthyChar(),
+            SubsExposedInfant = SubsExposedInfant.AsTruthyChar(),
+            CmtClarification = CmtClarification,
+            CurrentCircumstances = CurrentCircumstances?.AsTruthyWord(),
+            CmtCircumstances = CmtCircumstances,
+            SexAbuse = SexAbuse?.AsTruthyWord(),
+            CmtAbuse = CmtAbuse,
+            UnableToProtect = UnableToProtect?.AsTruthyWord(),
+            CmtProtect = CmtProtect,
+            InjuryExplanation = InjuryExplanation?.AsTruthyWord(),
+            CmtExplanation = CmtExplanation,
+            RefuseAccess = RefuseAccess?.AsTruthyWord(),
+            CmtAccess = CmtAccess,
+            ImmediateNeeds = ImmediateNeeds?.AsTruthyWord(),
+            CmtNeeds = CmtNeeds,
+            PhysicalCondition = PhysicalCondition?.AsTruthyWord(),
+            CmtCondition = CmtCondition,
+            CurrentAbuse = CurrentAbuse?.AsTruthyWord(),
+            CmtCurrent = CmtCurrent,
+            PartnerViolence = PartnerViolence?.AsTruthyWord(),
+            CmtViolence = CmtViolence,
+            PredominantlyNegative = PredominantlyNegative?.AsTruthyWord(),
+            CmtNegative = CmtNegative,
+            EmotionalStability = EmotionalStability?.AsTruthyWord(),
+            CmtEmotional = CmtEmotional,
+            ChildFearful = ChildFearful?.AsTruthyWord(),
+            CmtFearful = CmtFearful,
+            OtherFactors = OtherFactors?.AsTruthyWord(),
+            CmtOtherFactors = CmtOtherFactors,
+            CurretAbuse = CurretAbuse?.AsTruthyWord(),
+        };
+    }
+}

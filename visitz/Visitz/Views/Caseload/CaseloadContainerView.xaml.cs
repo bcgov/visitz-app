@@ -26,6 +26,7 @@ public partial class CaseloadContainerView : SplitLayoutView
         RegisterReceivers();
 
         SetStartPane(ServiceProvider.GetService<CaseloadView>());
+        SetEndPane(ServiceProvider.GetService<WatermarkView>());
     }
 
     protected override void Destroying()
@@ -64,7 +65,7 @@ public partial class CaseloadContainerView : SplitLayoutView
     private void NavigateBack()
     {
         SetStartPane(ServiceProvider.GetService<CaseloadView>());
-        SetEndPane(null);
+        SetEndPane(ServiceProvider.GetService<WatermarkView>());
 
         StartPaneColumnWidth = StartPaneCaseloadViewLength;
     }

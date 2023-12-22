@@ -284,4 +284,250 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="Subtype_FamilyServicesInitials" xml:space="preserve">
     <value>FS</value>
   </data>
+  <data name="SafetyAssessment" xml:space="preserve">
+    <value>Safety assessment</value>
+  </data>
+  <data name="SafetyFactor1_PhysicalHarm" xml:space="preserve">
+    <value>1. Parent/care-provider caused serious physical harm to the child/youth, or made a plausible threat to cause serious physical harm in the current report indicated by:</value>
+  </data>
+  <data name="SafetyFactor10_PartnerViolence" xml:space="preserve">
+    <value>10. Intimate partner violence exists in the family.</value>
+  </data>
+  <data name="SafetyFactor11_PredominantlyNegative" xml:space="preserve">
+    <value>11. Parent/care-provider describes child/youth in predominantly negative terms or acts toward child/youth in negative ways that result in the child being self destructive, acting out aggressively or demonstrating severe anxiety, depression or withdrawal.</value>
+  </data>
+  <data name="SafetyFactor12_EmotionalStability" xml:space="preserve">
+    <value>12. Parent/care-provider's emotional stability, developmental status, or cognitive limitation seriously impairs his/her current ability to supervise, protect, or care for the child/youth.</value>
+  </data>
+  <data name="SafetyFactor13_ChildFearful" xml:space="preserve">
+    <value>13. Child/youth is fearful of parent/care-provider, other family members, or other people living in or having access to the home.</value>
+  </data>
+  <data name="SafetyFactor14_OtherFactors" xml:space="preserve">
+    <value>14. Other (please specify):</value>
+  </data>
+  <data name="SafetyFactor1_Discipline" xml:space="preserve">
+    <value>Excessive discipline or physical force</value>
+  </data>
+  <data name="SafetyFactor1_ProviderFears" xml:space="preserve">
+    <value>Parent/care-provider fears he/she will maltreat child/youth</value>
+  </data>
+  <data name="SafetyFactor1_SeriousInjury" xml:space="preserve">
+    <value>Serious injury or abuse to child other than accidental</value>
+  </data>
+  <data name="SafetyFactor1_Substance" xml:space="preserve">
+    <value>Substance-exposed infant</value>
+  </data>
+  <data name="SafetyFactor1_ThreatOfHarm" xml:space="preserve">
+    <value>Threat to cause harm or retaliate against child/youth</value>
+  </data>
+  <data name="SafetyFactor2_CurrentCircumstances" xml:space="preserve">
+    <value>2. Current circumstances, combined with information that the parent/care-provider has or may have previously maltreated (abuse or neglect) a child/youth in his/her care, suggest that the child/youth's safety may be of immediate concern based on the severity of the previous maltreatment or the parent/care-provider's response to the previous incident.</value>
+  </data>
+  <data name="SafetyFactor3_SexAbuse" xml:space="preserve">
+    <value>3. Child/youth sexual abuse is suspected and circumstances suggest that child/youth's safety may be of immediate concern.</value>
+  </data>
+  <data name="SafetyFactor4_UnableToProtect" xml:space="preserve">
+    <value>4. Parent/care-provider is unable or unwilling to protect child/youth from serious harm or threatened harm by other adults or children in the home. This may include physical, emotional, sexual abuse or neglect.</value>
+  </data>
+  <data name="SafetyFactor5_InjuryExplanation" xml:space="preserve">
+    <value>5. Parent/care-provider's explanation for the injury to the child/youth is questionable or inconsistent with type of injury, and the nature of the injury suggests that the child/youth's safety may be of imminent concern.</value>
+  </data>
+  <data name="SafetyFactor6_RefuseAccess" xml:space="preserve">
+    <value>6. The family refuses access to the child/youth or there is reason to believe that the family is about to flee.</value>
+  </data>
+  <data name="SafetyFactor7_ImmediateNeeds" xml:space="preserve">
+    <value>7. Parent/care-provider does not meet the child's immediate needs for supervision, food, clothing, medical, dental, or mental health care.</value>
+  </data>
+  <data name="SafetyFactor8_PhysicalCondition" xml:space="preserve">
+    <value>8. The physical living conditions are hazardous and immediately threatening to the health and/or safety of the child/youth.</value>
+  </data>
+  <data name="SafetyFactor9_CurrentAbuse" xml:space="preserve">
+    <value>9. Parent/care-provider's current alcohol, drug, or substance abuse seriously impairs his/her ability to supervise, protect, or care for the child/youth.</value>
+  </data>
+  <data name="SafetyFactor14_Context" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="AgeUpToFive" xml:space="preserve">
+    <value>Age up to five</value>
+  </data>
+  <data name="ProtectiveCapacity_ChildCognitive" xml:space="preserve">
+    <value>Child/Youth has the cognitive, physical and emotional capacity to participate in safety interventions</value>
+  </data>
+  <data name="ProtectiveCapacity_Comments1" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="ProtectiveCapacity_Comments2" xml:space="preserve">
+    <value>Provide a brief description of supporting observations and evidence of any protective capacities marked</value>
+  </data>
+  <data name="ProtectiveCapacity_NoProCapPresent" xml:space="preserve">
+    <value>No protective capacities present</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentAccept" xml:space="preserve">
+    <value>Parent/care-provider is willing to accept temporary interventions offered by child protection worker and/or other community agencies, including co-operation with continuing Family Development Response/investigation</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentAware" xml:space="preserve">
+    <value>Parent/care-provider is aware of and committed to meeting the needs of the child/youth</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentCognitive" xml:space="preserve">
+    <value>Parent/care-provider has the cognitive, physical and emotional capacity to participate in safety interventions</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentProbSolving" xml:space="preserve">
+    <value>Parent/care-provider has history of effective problem solving</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentProtect" xml:space="preserve">
+    <value>At least one parent/care-provider in the home is willing and able to take action to protect the child/youth, including asking offending parent/care-provider to leave</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentRelationship" xml:space="preserve">
+    <value>There is evidence of a healthy relationship between parent/care-provider and child/youth</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentResources" xml:space="preserve">
+    <value>Parent/care-provider has the ability to access resources to provide necessary safety interventions</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentSupportive" xml:space="preserve">
+    <value>Parent/care-provider has supportive relationships with one or more persons (extended family, neighbours, community members, Elders or community agencies), who may be willing to participate in safety planning, AND parent/care-provider is willing and able to accept their assistance</value>
+  </data>
+  <data name="ProtectiveCapacity_ParentWillingness" xml:space="preserve">
+    <value>Parent/care-provider has a willingness to recognize problems and concerns placing the child/youth in imminent danger</value>
+  </data>
+  <data name="Child" xml:space="preserve">
+    <value>Child</value>
+  </data>
+  <data name="ChildrenInOutCare" xml:space="preserve">
+    <value>Children in-care/out-of-care</value>
+  </data>
+  <data name="DateOfAssessment" xml:space="preserve">
+    <value>Date of assessment</value>
+  </data>
+  <data name="DiminishedMental" xml:space="preserve">
+    <value>Diminished mental</value>
+  </data>
+  <data name="DiminishedPhysical" xml:space="preserve">
+    <value>Diminished physical</value>
+  </data>
+  <data name="FactorsInfluencingChildVuln" xml:space="preserve">
+    <value>Factors influencing child vulnerability</value>
+  </data>
+  <data name="FamilyName" xml:space="preserve">
+    <value>Family name</value>
+  </data>
+  <data name="IncidentNumber" xml:space="preserve">
+    <value>Incident number</value>
+  </data>
+  <data name="MarkAllThatApply" xml:space="preserve">
+    <value>Mark all that apply:</value>
+  </data>
+  <data name="MedicalMentalDisorder" xml:space="preserve">
+    <value>Medical mental disorder</value>
+  </data>
+  <data name="Narrative" xml:space="preserve">
+    <value>Narrative</value>
+  </data>
+  <data name="NarrativeDescription" xml:space="preserve">
+    <value>Provide rationale for the Safety Decision including how the intervention plan, if needed, is expected to mitigate safety concerns or is insufficient to address concerns:</value>
+  </data>
+  <data name="NotReadilyAccessible" xml:space="preserve">
+    <value>Not readily accessible</value>
+  </data>
+  <data name="ParentCareProvider" xml:space="preserve">
+    <value>Parent/Care-provider</value>
+  </data>
+  <data name="ProtectiveCapacities" xml:space="preserve">
+    <value>Protective capacities</value>
+  </data>
+  <data name="SafetyAssessmentMetadata" xml:space="preserve">
+    <value>Safety assessment metadata</value>
+  </data>
+  <data name="SafetyAssessmentOperation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="SafetyDecision" xml:space="preserve">
+    <value>Safety decision</value>
+  </data>
+  <data name="SafetyDecision1_NoSafetyFactors" xml:space="preserve">
+    <value>1. Safe—no safety factors are identified at this time. Based on currently available information, there are no children/youth likely to be in immediate danger of serious harm</value>
+  </data>
+  <data name="SafetyDecision2_SafeInterventions" xml:space="preserve">
+    <value>2. Safe with intervention—one or more safety factors are present and protecting safety interventions have been planned or taken that immediately mitigate the identifies safety factors. Based on protecting interventions, child/youth will remain in the home at this time</value>
+  </data>
+  <data name="SafetyDecision3_UnsafeSafetyFactors" xml:space="preserve">
+    <value>3. Unsafe—one or more safety factors are present and placement is the only protecting intervention possible for one or more children/youth. Without placement, one or more children/youths will likely be in danger of immediate or serious harm</value>
+  </data>
+  <data name="SafetyDecision_Prompt" xml:space="preserve">
+    <value>Identify the safety decision by checking the appropriate line below. The decision should be based on the assessment of all safety factors, safety interventions, and any other information known about the case.</value>
+  </data>
+  <data name="SafetyDecision_AllYouth" xml:space="preserve">
+    <value>All Children/Youth placed in out-of-care living arrangements or in care</value>
+  </data>
+  <data name="SafetyDecision_SelectedYouth" xml:space="preserve">
+    <value>The following children were placed in an out-of-care living arrangement or in care</value>
+  </data>
+  <data name="SafetyFactors" xml:space="preserve">
+    <value>Safety factors</value>
+  </data>
+  <data name="SafetyIntervention1_DirectIntervention" xml:space="preserve">
+    <value>1. Direct service intervention by the child protection worker</value>
+  </data>
+  <data name="SafetyIntervention10_ChildRemoved" xml:space="preserve">
+    <value>10. Child/youth removed because interventions 1-9 do not adequately assure child's safety</value>
+  </data>
+  <data name="SafetyIntervention2_UseOfIndividuals" xml:space="preserve">
+    <value>2. Use of extended family, neighbours, community Elders, or other individuals in the community as safety resources</value>
+  </data>
+  <data name="SafetyIntervention3_UseCommAgencies" xml:space="preserve">
+    <value>3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources</value>
+  </data>
+  <data name="SafetyIntervention4_ProtectVictim" xml:space="preserve">
+    <value>4. Parent/care-provider to appropriately protect victim from alleged perpetrator</value>
+  </data>
+  <data name="SafetyIntervention5_LeaveHome" xml:space="preserve">
+    <value>5. Alleged perpetrator to leave the home, either voluntarily or in response to consideration of legal intervention</value>
+  </data>
+  <data name="SafetyIntervention6_NonOffendingParent" xml:space="preserve">
+    <value>6. Non-offending parent/care-provider to move to a safe environment with the child</value>
+  </data>
+  <data name="SafetyIntervention7_LegalIntPlanned" xml:space="preserve">
+    <value>7. Legal intervention planned or initiated - child/youth remains in the home</value>
+  </data>
+  <data name="SafetyIntervention8_OtherSafetyInterventions" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="SafetyIntervention9_ChildOutsideHome" xml:space="preserve">
+    <value>9. Parent/care-provider to voluntarily place the child outside the home</value>
+  </data>
+  <data name="SafetyIntervention_Description" xml:space="preserve">
+    <value>After weighing the Safety Factors and the Protective Capacities consider whether safety interventions 1-8 will allow the child to remain in the home for the present time. Check the item number for all safety interventions that will be implemented. If there are no available safety interventions that would allow the child/youth to remain in the home, indicate by checking item nine or ten, and follow procedures for initiating a voluntary agreement for placement in an out-of-care or in-care living arrangement or removal.</value>
+  </data>
+  <data name="SafetyIntervention_Prompt" xml:space="preserve">
+    <value>Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes</value>
+  </data>
+  <data name="SafetyInterventions" xml:space="preserve">
+    <value>Safety interventions</value>
+  </data>
+  <data name="SafetyPlan" xml:space="preserve">
+    <value>Safety plan</value>
+  </data>
+  <data name="SafetyPlanDescription" xml:space="preserve">
+    <value>Provide a brief description of intervention, detailing relationship of support persons to child/youth including names, contact information, frequency and duration of supports and how the safety intervention plan will be monitored:</value>
+  </data>
+  <data name="WorkerId" xml:space="preserve">
+    <value>Worker ID</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Insert</value>
+  </data>
+  <data name="ReadyToFinalize" xml:space="preserve">
+    <value>Ready to finalize</value>
+  </data>
+  <data name="ReadyToFinalizeDate" xml:space="preserve">
+    <value>Ready to finalize date</value>
+  </data>
+  <data name="SendToTeamLeader" xml:space="preserve">
+    <value>Send to team leader</value>
+  </data>
+  <data name="SocialWorkerName" xml:space="preserve">
+    <value>Social worker name</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

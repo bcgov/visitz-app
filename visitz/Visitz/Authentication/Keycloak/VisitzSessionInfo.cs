@@ -71,6 +71,8 @@ namespace Visitz.Authentication.Keycloak
 
         public string FamilyName => TryGet<string>(FamilyNameKey, out var familyName) ? familyName : "";
 
+        public string FirstLastName => $"{GivenName} {FamilyName}";
+
         public string Email => TryGet<string>(EmailKey, out var email) ? email : "";
 
         public bool HasBasicAccessRole => GetRoles().Contains(VisitzRoles.BasicAccess);

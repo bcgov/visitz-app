@@ -1,6 +1,8 @@
-﻿using Visitz.Authentication;
+﻿using CommunityToolkit.Maui;
+using Visitz.Authentication;
 using Visitz.Pages;
 using Visitz.ViewModels;
+using Visitz.Views;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Entity;
@@ -16,6 +18,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddSingleton<NavRailViewModel>();
 
             builder.Services.AddSingleton<CaseloadContainerView>();
+            builder.Services.AddSingleton<WatermarkView>();
 
             builder.Services.AddSingleton<CaseloadView>();
             builder.Services.AddSingleton<CaseloadViewModel>();
@@ -38,6 +41,9 @@ namespace Visitz.VisitzConfig
 
             builder.Services.AddTransient<EntityNotesView>();
             builder.Services.AddTransient<EntityNotesViewModel>();
+
+            builder.Services.AddTransient<EntitySafetyAssessView>();
+            builder.Services.AddTransient<EntitySafetyAssessViewModel>();
 
             builder.Services.AddTransient<NoteEntryView>();
             builder.Services.AddTransient<NoteEntryViewModel>();

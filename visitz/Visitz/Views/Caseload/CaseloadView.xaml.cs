@@ -1,5 +1,8 @@
 #if !MACCATALYST
 using CommunityToolkit.Maui.Core.Platform;
+using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Resources.Localization;
+using Visitz.Services;
 #endif
 
 using Visitz.ViewModels;
@@ -7,7 +10,7 @@ using Visitz.Views.SegmentedButtons;
 
 namespace Visitz.Views.Caseload;
 
-public partial class CaseloadView : ViewModelContentView
+public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStateMessage>
 {
     protected new CaseloadViewModel ViewModel => (CaseloadViewModel)base.ViewModel;
 
@@ -15,6 +18,18 @@ public partial class CaseloadView : ViewModelContentView
     {
         InitializeComponent();
         BindingContext = ViewModel;
+    }
+
+    protected override void Creating()
+    {
+        base.Creating();
+
+        WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
+    }
+
+    protected override void Destroying()
+    {
+        /* No-op because class is a DI singleton */
     }
 
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -44,5 +59,14 @@ public partial class CaseloadView : ViewModelContentView
     private void ClearFilterButton_Clicked(object sender, EventArgs e)
     {
         ViewModel.ActivatedFilterOption = SegmentedOptions.Empty;
+    }
+
+    public async void Receive(ServiceStateMessage message)
+    {
+        if (message.FinishedError)
+            await Navigator.CurrentOpenPage.DisplayAlert(
+                LocalizedStrings.Error,
+                message.Message,
+                LocalizedStrings.Ok);
     }
 }
