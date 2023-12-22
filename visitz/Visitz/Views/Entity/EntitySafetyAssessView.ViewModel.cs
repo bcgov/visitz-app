@@ -145,7 +145,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove)
         {
-            foreach (FamilyMember child in e.NewItems.Cast<FamilyMember>())
+            foreach (FamilyMember child in e.OldItems.Cast<FamilyMember>())
                 SafetyAssessment.ChildsInOutCare.Remove(child.ContactId);
         }
         else if (e.Action == NotifyCollectionChangedAction.Reset)
