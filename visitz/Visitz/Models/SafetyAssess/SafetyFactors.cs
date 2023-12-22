@@ -10,7 +10,7 @@ public partial class SafetyFactors : IRealmObject
 {
     private const int CommentsMaxLength = 1000;
 
-    public bool PhysicalHarm { get; set; }
+    public bool? PhysicalHarm { get; set; }
         
     public bool SeriousInjuryAbuse { get; set; }
         
@@ -31,7 +31,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtClarification = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool CurrentCircumstances { get; set; }
+    public bool? CurrentCircumstances { get; set; }
 
     [MapTo(nameof(CmtCircumstances))]
     private string cmtCircumstances{ get; set; } = string.Empty;
@@ -41,7 +41,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtCircumstances = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool SexAbuse { get; set; }
+    public bool? SexAbuse { get; set; }
 
     [MapTo(nameof(CmtAbuse))]
     private string cmtAbuse{ get; set; } = string.Empty;
@@ -51,7 +51,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtAbuse = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool UnableToProtect { get; set; }
+    public bool? UnableToProtect { get; set; }
 
     [MapTo(nameof(CmtProtect))]
     private string cmtProtect{ get; set; } = string.Empty;
@@ -61,7 +61,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtProtect = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool InjuryExplanation { get; set; }
+    public bool? InjuryExplanation { get; set; }
 
     [MapTo(nameof(CmtExplanation))]
     private string cmtExplanation{ get; set; } = string.Empty;
@@ -71,7 +71,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtExplanation = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool RefuseAccess { get; set; }
+    public bool? RefuseAccess { get; set; }
 
     [MapTo(nameof(CmtAccess))]
     private string cmtAccess{ get; set; } = string.Empty;
@@ -81,7 +81,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtAccess = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool ImmediateNeeds { get; set; }
+    public bool? ImmediateNeeds { get; set; }
 
     [MapTo(nameof(CmtNeeds))]
     private string cmtNeeds{ get; set; } = string.Empty;
@@ -91,7 +91,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtNeeds = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool PhysicalCondition { get; set; }
+    public bool? PhysicalCondition { get; set; }
 
     [MapTo(nameof(CmtCondition))]
     private string cmtCondition{ get; set; } = string.Empty;
@@ -101,7 +101,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtCondition = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool CurrentAbuse { get; set; }
+    public bool? CurrentAbuse { get; set; }
 
     [MapTo(nameof(CmtCurrent))]
     private string cmtCurrent{ get; set; } = string.Empty;
@@ -111,7 +111,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtCurrent = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool PartnerViolence { get; set; }
+    public bool? PartnerViolence { get; set; }
 
     [MapTo(nameof(CmtViolence))]
     private string cmtViolence{ get; set; } = string.Empty;
@@ -121,7 +121,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtViolence = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool PredominantlyNegative { get; set; }
+    public bool? PredominantlyNegative { get; set; }
 
     [MapTo(nameof(CmtNegative))]
     private string cmtNegative{ get; set; } = string.Empty;
@@ -131,7 +131,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtNegative = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool EmotionalStability { get; set; }
+    public bool? EmotionalStability { get; set; }
 
     [MapTo(nameof(CmtEmotional))]
     private string cmtEmotional{ get; set; } = string.Empty;
@@ -141,7 +141,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtEmotional = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool ChildFearful { get; set; }
+    public bool? ChildFearful { get; set; }
 
     [MapTo(nameof(CmtFearful))]
     private string cmtFearful{ get; set; } = string.Empty;
@@ -151,7 +151,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtFearful = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool OtherFactors { get; set; }
+    public bool? OtherFactors { get; set; }
 
     [MapTo(nameof(CmtOtherFactors))]
     private string cmtOtherFactors{ get; set; } = string.Empty;
@@ -161,7 +161,7 @@ public partial class SafetyFactors : IRealmObject
         set => cmtOtherFactors = value?.TruncateEnd(CommentsMaxLength);
     }
 
-    public bool CurretAbuse { get; set; }
+    public bool? CurretAbuse { get; set; }
 
     public static SafetyFactors FromApiEntity(SafetyFactorsEntity entity)
     {
@@ -208,40 +208,40 @@ public partial class SafetyFactors : IRealmObject
     {
         return new SafetyFactorsEntity()
         {
-            PhysicalHarm = PhysicalHarm.AsTruthyWord(),
+            PhysicalHarm = PhysicalHarm?.AsTruthyWord(),
             SeriousInjuryAbuse = SeriousInjuryAbuse.AsTruthyChar(),
             FearsMaltreatChild = FearsMaltreatChild.AsTruthyChar(),
             ThreatAgainstChild = ThreatAgainstChild.AsTruthyChar(),
             ExcessiveForce = ExcessiveForce.AsTruthyChar(),
             SubsExposedInfant = SubsExposedInfant.AsTruthyChar(),
             CmtClarification = CmtClarification,
-            CurrentCircumstances = CurrentCircumstances.AsTruthyWord(),
+            CurrentCircumstances = CurrentCircumstances?.AsTruthyWord(),
             CmtCircumstances = CmtCircumstances,
-            SexAbuse = SexAbuse.AsTruthyWord(),
+            SexAbuse = SexAbuse?.AsTruthyWord(),
             CmtAbuse = CmtAbuse,
-            UnableToProtect = UnableToProtect.AsTruthyWord(),
+            UnableToProtect = UnableToProtect?.AsTruthyWord(),
             CmtProtect = CmtProtect,
-            InjuryExplanation = InjuryExplanation.AsTruthyWord(),
+            InjuryExplanation = InjuryExplanation?.AsTruthyWord(),
             CmtExplanation = CmtExplanation,
-            RefuseAccess = RefuseAccess.AsTruthyWord(),
+            RefuseAccess = RefuseAccess?.AsTruthyWord(),
             CmtAccess = CmtAccess,
-            ImmediateNeeds = ImmediateNeeds.AsTruthyWord(),
+            ImmediateNeeds = ImmediateNeeds?.AsTruthyWord(),
             CmtNeeds = CmtNeeds,
-            PhysicalCondition = PhysicalCondition.AsTruthyWord(),
+            PhysicalCondition = PhysicalCondition?.AsTruthyWord(),
             CmtCondition = CmtCondition,
-            CurrentAbuse = CurrentAbuse.AsTruthyWord(),
+            CurrentAbuse = CurrentAbuse?.AsTruthyWord(),
             CmtCurrent = CmtCurrent,
-            PartnerViolence = PartnerViolence.AsTruthyWord(),
+            PartnerViolence = PartnerViolence?.AsTruthyWord(),
             CmtViolence = CmtViolence,
-            PredominantlyNegative = PredominantlyNegative.AsTruthyWord(),
+            PredominantlyNegative = PredominantlyNegative?.AsTruthyWord(),
             CmtNegative = CmtNegative,
-            EmotionalStability = EmotionalStability.AsTruthyWord(),
+            EmotionalStability = EmotionalStability?.AsTruthyWord(),
             CmtEmotional = CmtEmotional,
-            ChildFearful = ChildFearful.AsTruthyWord(),
+            ChildFearful = ChildFearful?.AsTruthyWord(),
             CmtFearful = CmtFearful,
-            OtherFactors = OtherFactors.AsTruthyWord(),
+            OtherFactors = OtherFactors?.AsTruthyWord(),
             CmtOtherFactors = CmtOtherFactors,
-            CurretAbuse = CurretAbuse.AsTruthyWord(),
+            CurretAbuse = CurretAbuse?.AsTruthyWord(),
         };
     }
 }
