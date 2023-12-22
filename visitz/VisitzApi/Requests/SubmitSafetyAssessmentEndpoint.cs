@@ -23,7 +23,7 @@ internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SafetyAssessmentEn
             {
                 [SafetyAssessmentKey] = new JsonObject
                 {
-                    [JsonKey.PayLoad] = JsonNode.Parse(assessmentJson)
+                    [JsonKey.Payload] = JsonNode.Parse(assessmentJson)
                 }
             }.ToString();
         }
