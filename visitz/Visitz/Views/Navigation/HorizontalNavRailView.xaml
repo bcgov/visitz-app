@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="Visitz.Views.Navigation.HorizontalNavRailView"
+    x:DataType="nav:NavRailViewModel"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+
+    <StackLayout Orientation="Horizontal">
+        <toolkit:AvatarView
+            Text="{Binding Initials, TargetNullValue='--'}"
+            BackgroundColor="{StaticResource Blue300Accent}"
+            FontFamily="BCSansBold">
+
+            <toolkit:AvatarView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenSessionPageCommand}" />
+            </toolkit:AvatarView.GestureRecognizers>
+
+        </toolkit:AvatarView>
+
+
+        <!--
+            There is some weird layout behaviour with collection view. It seems to add horizontal padding on its own,
+            so we'll explicitly set its width to get rid of it. This also had a weird side-effect of vertically 
+            shrinking its DataTemplate, so we'll set a specific width for the items as well.
+        -->
+        <CollectionView
+            SelectionMode="Single"
+            ItemsSource="{Binding NavigationItems}"
+            SelectedItem="{Binding SelectedNavItem}">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <nav:NavItemView Orientation="Horizontal" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+    </StackLayout>
+    
+</views:ViewModelContentView>
