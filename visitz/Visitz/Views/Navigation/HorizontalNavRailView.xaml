@@ -10,16 +10,6 @@
     BackgroundColor="{StaticResource BuildBarBackgroundColor}">
 
     <StackLayout Orientation="Horizontal">
-        <toolkit:AvatarView
-            Text="{Binding Initials, TargetNullValue='--'}"
-            BackgroundColor="{StaticResource Blue300Accent}"
-            FontFamily="BCSansBold">
-
-            <toolkit:AvatarView.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OpenSessionPageCommand}" />
-            </toolkit:AvatarView.GestureRecognizers>
-
-        </toolkit:AvatarView>
 
 
         <!--
