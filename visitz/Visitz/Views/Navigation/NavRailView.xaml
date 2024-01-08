@@ -13,8 +13,7 @@
     <StackLayout Spacing="10" Padding="0,10,0,10">
 
         <toolkit:AvatarView
-            x:Name="Avatar"
-            Text="--" 
+            Text="{Binding Initials, TargetNullValue='--'}"
             BackgroundColor="{StaticResource Blue300Accent}"
             FontFamily="BCSansBold">
             
