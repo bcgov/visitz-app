@@ -20,7 +20,7 @@
             HorizontalOptions="FillAndExpand" 
             VerticalOptions="FillAndExpand">
 
-            <nav:NavRailView />
+            <nav:VerticalNavRailView />
 
             <BoxView 
                 WidthRequest="2"
