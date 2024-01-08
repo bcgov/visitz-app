@@ -14,19 +14,31 @@
         <toolkit:StatusBarBehavior StatusBarStyle="LightContent" StatusBarColor="{StaticResource BuildBarBackgroundColor}" />
     </ContentPage.Behaviors>
 
-    <StackLayout Orientation="Horizontal">
+    <StackLayout Orientation="Vertical">
+        <StackLayout 
+            Orientation="Horizontal" 
+            HorizontalOptions="FillAndExpand" 
+            VerticalOptions="FillAndExpand">
 
-        <nav:NavRailView />
+            <nav:NavRailView />
+
+            <BoxView 
+                WidthRequest="2"
+                Color="{StaticResource BC_Gold}" />
+
+            <StackLayout 
+                x:Name="ContentPane" 
+                Orientation="Horizontal"
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="FillAndExpand" />
+
+        </StackLayout>
 
         <BoxView 
-            WidthRequest="2"
+            HeightRequest="2"
             Color="{StaticResource BC_Gold}" />
 
-        <StackLayout 
-            x:Name="ContentPane" 
-            Orientation="Horizontal"
-            HorizontalOptions="FillAndExpand" 
-            VerticalOptions="FillAndExpand" />
+        <nav:HorizontalNavRailView />
 
     </StackLayout>
     
