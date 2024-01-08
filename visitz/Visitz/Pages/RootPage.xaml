@@ -16,7 +16,7 @@
 
     <StackLayout Orientation="Horizontal">
 
-        <nav:NavRailView NavItemSelected="NavRailView_NavItemSelected" />
+        <nav:NavRailView />
 
         <BoxView 
             WidthRequest="2"

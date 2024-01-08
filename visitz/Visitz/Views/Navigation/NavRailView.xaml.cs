@@ -5,8 +5,6 @@ namespace Visitz.Views.Navigation;
 
 public partial class NavRailView : ViewModelContentView
 {
-    public event EventHandler<NavItemSelectedEventArgs> NavItemSelected;
-
 	public NavRailView() : base(ServiceProvider.GetService<NavRailViewModel>())
 	{
 		InitializeComponent();
@@ -33,15 +31,6 @@ public partial class NavRailView : ViewModelContentView
         var info = await VisitzSessionInfo.GetAsync();
 
         Avatar.Text = info.UserInitials;
-    }
-
-    private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.Any())
-		    NavItemSelected?.Invoke(this, new NavItemSelectedEventArgs()
-		    {
-			    NavItem = e.CurrentSelection[0] as NavItem,
-		    });
     }
 
     private async void AvatarView_Tapped(object sender, TappedEventArgs e)

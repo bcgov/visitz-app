@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.FontIcons;
+using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -44,5 +46,10 @@ public partial class NavRailViewModel : VisitzViewModel
         NavigationItems = items;
 
         SelectedNavItem = items.First();
+    }
+
+    partial void OnSelectedNavItemChanged(NavItem value)
+    {
+        StrongReferenceMessenger.Default.Send(new AppNavMessage(value));
     }
 }
