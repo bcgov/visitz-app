@@ -25,17 +25,23 @@
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
     
-    <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+    <StackLayout 
+        HorizontalOptions="Center" 
+        Orientation="Vertical"
+        Spacing="4">
         <Image 
             x:Name="IconImage"
             Source="{Binding UnselectedImageSource}" 
             HeightRequest="{Binding IconSize}" 
-            WidthRequest="{Binding IconSize}" />
+            WidthRequest="{Binding IconSize}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
 
         <Label 
             Text="{Binding Text}"
             TextColor="{Binding Color}"
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+    </StackLayout>
     
 </ContentView>
