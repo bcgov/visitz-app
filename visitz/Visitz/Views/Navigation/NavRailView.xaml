@@ -3,15 +3,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Navigation.NavRailView"
     x:DataType="nav:NavRailViewModel"
-    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+    MaximumWidthRequest="90">
 
-    <StackLayout Spacing="10" Padding="0,10,0,10">
-
+    <Grid 
+        RowDefinitions="Auto,Auto,*,Auto,Auto">
+        
         <toolkit:AvatarView
+            Grid.Row="0"
+            Margin="0,10"
             Text="{Binding Initials, TargetNullValue='--'}"
             BackgroundColor="{StaticResource Blue300Accent}"
             FontFamily="BCSansBold">
@@ -22,13 +27,13 @@
             
         </toolkit:AvatarView>
 
-        
         <!--
             There is some weird layout behaviour with collection view. It seems to add horizontal padding on its own,
             so we'll explicitly set its width to get rid of it. This also had a weird side-effect of vertically 
             shrinking its DataTemplate, so we'll set a specific height for the items as well.
         -->
         <CollectionView
+            Grid.Row="1"
             SelectionMode="Single"
             WidthRequest="90"
             ItemsSource="{Binding NavigationItems}"
@@ -40,7 +45,20 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
-    </StackLayout>
+
+        <Button
+            Grid.Row="3"
+            Style="{StaticResource SecondaryButtonDark}"
+            HorizontalOptions="Center"
+            BorderColor="Transparent"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            FontSize="35"
+            Text="{Static icons:MaterialIcons.Download_for_offline}" />
+
+        <Image 
+            Grid.Row="4"
+            HorizontalOptions="Center"
+            Source="bc_logo_vertical_reverse.png"/>
+    </Grid>
 
 </views:ViewModelContentView>
