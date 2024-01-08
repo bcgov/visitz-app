@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
 using Visitz.Authentication.Keycloak.Events;
 using Visitz.FontIcons;
 using Visitz.Messaging;
 using Visitz.Models;
+using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.ViewModels;
@@ -82,5 +84,11 @@ public partial class NavRailViewModel : VisitzViewModel
     private async void VisitzSession_SessionChanged(object sender, SessionChangedEventArgs e)
     {
         await SetInitials();
+    }
+
+    [RelayCommand]
+    private static async void OpenSessionPage()
+    {
+        await Navigator.GoToPage<SessionPage>(modal: true);
     }
 }

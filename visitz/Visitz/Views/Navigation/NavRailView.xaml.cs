@@ -9,9 +9,4 @@ public partial class NavRailView : ViewModelContentView
 		InitializeComponent();
         BindingContext = ViewModel;
 	}
-
-    private async void AvatarView_Tapped(object sender, TappedEventArgs e)
-    {
-		await Navigator.GoToPage<SessionPage>(modal: true);
-    }
 }
