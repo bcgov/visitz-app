@@ -23,6 +23,12 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         base.PageCreated();
 
+        NavigationItems = BuildNavItems();
+        SelectedNavItem = NavigationItems.First();
+    }
+
+    private static List<NavItem> BuildNavItems()
+    {
         var items = new List<NavItem>()
         {
             new()
@@ -43,9 +49,7 @@ public partial class NavRailViewModel : VisitzViewModel
                 ContentViewType = typeof(DebugOptionsView),
             });
 
-        NavigationItems = items;
-
-        SelectedNavItem = items.First();
+        return items;
     }
 
     partial void OnSelectedNavItemChanged(NavItem value)
