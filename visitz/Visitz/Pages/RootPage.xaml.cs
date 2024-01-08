@@ -1,14 +1,16 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Messaging;
 using Visitz.Models;
+using Visitz.ViewModels;
 
 namespace Visitz.Pages;
 
-public partial class RootPage : ContentPage
+public partial class RootPage : VisitzPage
 {
-	public RootPage()
+	public RootPage() : base(ServiceProvider.GetService<RootViewModel>())
 	{
 		InitializeComponent();
+        BindingContext = ViewModel;
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
 	}
