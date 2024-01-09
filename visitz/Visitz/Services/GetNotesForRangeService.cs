@@ -1,4 +1,5 @@
-﻿using Visitz.Services.Messages;
+﻿using System.Text;
+using Visitz.Services.Messages;
 using VisitzApi;
 
 namespace Visitz.Services
@@ -73,10 +74,21 @@ namespace Visitz.Services
         }
     }
 
-    public class PartialErrorException(List<string> successIds, List<string> errorIds) : Exception
+    public class PartialErrorException(List<string> successIds, List<string> errorIds) 
+        : Exception(MakeMessage(errorIds))
     {
         public List<string> SuccessIds { get; set; } = successIds;
 
         public List<string> ErrorIds { get; set; } = errorIds;
+
+        public static string MakeMessage(List<string> errorIds)
+        {
+            StringBuilder sb = new($"{nameof(GetNotesForRangeService)} error for IDs:\n\n");
+
+            foreach (var id in errorIds.Order())
+                sb.AppendLine($"\t{id}");
+
+            return sb.ToString();
+        }
     }
 }
