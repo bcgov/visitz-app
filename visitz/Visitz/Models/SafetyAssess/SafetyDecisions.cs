@@ -43,6 +43,10 @@ public partial class SafetyDecisions : IRealmObject
 
     public SafetyDecisionsEntity ToApiEntity()
     {
+        var finalizeDate = ReadyFinalize
+            ? ReadyFinalizeDate.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture)
+            : "";
+
         return new SafetyDecisionsEntity()
         {
             NoSafetyFactors = NoSafetyFactors.AsTruthyChar(),
@@ -52,7 +56,7 @@ public partial class SafetyDecisions : IRealmObject
             Comments = Comments,
             Narrative = Narrative,
             ReadyFinalize = ReadyFinalize.AsTruthyChar(),
-            ReadyFinalizeDate = ReadyFinalizeDate.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture),
+            ReadyFinalizeDate = finalizeDate,
         };
     }
 }
