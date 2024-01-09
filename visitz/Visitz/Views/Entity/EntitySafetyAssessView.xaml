@@ -74,18 +74,18 @@
 
                 <Label 
                     Margin="0,0,0,-10"
-                    Text="{local:Localize FamilyName}" />
-                <Picker 
-                    SelectedItem="{Binding SafetyAssessment.FamilyName}"
-                    ItemsSource="{Binding FamilyNames}" />
-
-                <Label 
-                    Margin="0,0,0,-10"
                     Text="{local:Localize DateOfAssessment}" />
 
                 <DatePicker 
                     Margin="0,0"
                     Date="{Binding SafetyAssessment.DateOfAssessment, Converter={StaticResource DateTimeOffsetConverter}}"/>
+
+                <Label 
+                    Margin="0,0,0,-10"
+                    Text="{local:Localize FamilyName}" />
+                <Picker 
+                    SelectedItem="{Binding SafetyAssessment.FamilyName}"
+                    ItemsSource="{Binding FamilyNames}" />
 
             </VerticalStackLayout>
 
