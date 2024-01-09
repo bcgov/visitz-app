@@ -8,6 +8,7 @@ using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
+using Visitz.Services;
 using Visitz.Storage;
 using Visitz.ViewModels;
 using Visitz.Views.Caseload;
@@ -90,5 +91,11 @@ public partial class NavRailViewModel : VisitzViewModel
     private static async void OpenSessionPage()
     {
         await Navigator.GoToPage<SessionPage>(modal: true);
+    }
+
+    [RelayCommand]
+    public static void RefreshCaseload()
+    {
+        WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
     }
 }
