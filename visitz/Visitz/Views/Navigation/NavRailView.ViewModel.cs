@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Authentication.Keycloak;
-using Visitz.Authentication.Keycloak.Events;
 using Visitz.FontIcons;
 using Visitz.Messaging;
 using Visitz.Models;
@@ -24,25 +22,12 @@ public partial class NavRailViewModel : VisitzViewModel
     [ObservableProperty]
     public NavItem selectedNavItem;
 
-    [ObservableProperty]
-    public string initials;
-
-    public override async void PageCreated()
+    public override void PageCreated()
     {
         base.PageCreated();
 
         NavigationItems = BuildNavItems();
         SelectedNavItem = NavigationItems.First();
-
-        VisitzSession.SessionChanged += VisitzSession_SessionChanged;
-        await SetInitials();
-    }
-
-    public override void PageDestroyed()
-    {
-        VisitzSession.SessionChanged -= VisitzSession_SessionChanged;
-
-        base.PageDestroyed();
     }
 
     private static List<NavItem> BuildNavItems()
@@ -73,18 +58,6 @@ public partial class NavRailViewModel : VisitzViewModel
     partial void OnSelectedNavItemChanged(NavItem value)
     {
         StrongReferenceMessenger.Default.Send(new AppNavMessage(value));
-    }
-
-    private async Task SetInitials()
-    {
-        var info = await VisitzSessionInfo.GetAsync();
-
-        Initials = info.UserInitials;
-    }
-
-    private async void VisitzSession_SessionChanged(object sender, SessionChangedEventArgs e)
-    {
-        await SetInitials();
     }
 
     [RelayCommand]
