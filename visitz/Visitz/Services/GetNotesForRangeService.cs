@@ -42,6 +42,9 @@ namespace Visitz.Services
 
         private async Task GetAllNotesAsync()
         {
+            List<string> successIds = [];
+            List<string> erroredIds = [];
+
             /*
              * TODO: Improve efficiency of this operation.
              * 
@@ -51,7 +54,29 @@ namespace Visitz.Services
              * Maybe run network requests concurrently, then Realm I/O sequentially as Tasks complete?
              */
             foreach (var (id, entityType) in IdEntityItems)
-                await ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(id, entityType));
+            {
+                try
+                {
+                    await ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(id, entityType));
+                    successIds.Add(id);
+                }
+                catch
+                {
+                    erroredIds.Add(id);
+                }
+            }
+
+            if (erroredIds.Count <= 0)
+                ResultCode = Result.Successful;
+            else
+                throw new PartialErrorException(successIds, erroredIds);
         }
+    }
+
+    public class PartialErrorException(List<string> successIds, List<string> errorIds) : Exception
+    {
+        public List<string> SuccessIds { get; set; } = successIds;
+
+        public List<string> ErrorIds { get; set; } = errorIds;
     }
 }
