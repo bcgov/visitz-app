@@ -2,6 +2,7 @@
 <views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
@@ -10,6 +11,7 @@
     xmlns:segmentedButtons="clr-namespace:Visitz.Views.SegmentedButtons"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Caseload.CaseloadView"
     x:DataType="viewmodels:CaseloadViewModel">
     
@@ -26,10 +28,26 @@
             Padding="10">
 
             <Grid>
-                <Label 
-                    Text="{local:Localize Caseload}"
-                    Style="{StaticResource HeadlineMedium}"
-                    VerticalOptions="Center" />
+                <HorizontalStackLayout>
+                    <toolkit:AvatarView
+                        Margin="0,0,10,0"
+                        BackgroundColor="{StaticResource Blue300Accent}"
+                        FontFamily="BCSansBold">
+
+                        <toolkit:AvatarView.Behaviors>
+                            <behaviors:AvatarSessionBehavior />
+                        </toolkit:AvatarView.Behaviors>
+
+                        <toolkit:AvatarView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenSessionPageCommand}" />
+                        </toolkit:AvatarView.GestureRecognizers>
+                    </toolkit:AvatarView>
+
+                    <Label 
+                        Text="{local:Localize Caseload}"
+                        Style="{StaticResource HeadlineMedium}"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
 
                 <ImageButton
                     HorizontalOptions="End"
