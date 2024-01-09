@@ -17,13 +17,19 @@
 
     <StackLayout Orientation="Vertical">
         <StackLayout 
-            Orientation="Horizontal" 
+            Orientation="Horizontal"
             HorizontalOptions="FillAndExpand" 
             VerticalOptions="FillAndExpand">
 
-            <nav:VerticalNavRailView />
+            <!-- 
+                For some reason it seems that the ContentView's implicit binding context changes, so we need to
+                specifically reference RootViewModel.
+            -->
+            <nav:VerticalNavRailView IsVisible="{Binding IsLandscape, 
+                Source={RelativeSource AncestorType={x:Type viewmodels:RootViewModel}}}" />
 
             <BoxView 
+                IsVisible="{Binding IsLandscape}"
                 WidthRequest="2"
                 Color="{StaticResource BC_Gold}" />
 
@@ -36,10 +42,16 @@
         </StackLayout>
 
         <BoxView 
+            IsVisible="{Binding IsPortrait}"
             HeightRequest="2"
             Color="{StaticResource BC_Gold}" />
 
-        <nav:HorizontalNavRailView />
+        <!-- 
+            For some reason it seems that the ContentView's implicit binding context changes, so we need to
+            specifically reference RootViewModel.
+        -->
+        <nav:HorizontalNavRailView IsVisible="{Binding IsPortrait, 
+            Source={RelativeSource AncestorType={x:Type viewmodels:RootViewModel}}}" />
 
     </StackLayout>
     
