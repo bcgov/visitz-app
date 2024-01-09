@@ -241,7 +241,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Age up to five.
+        ///   Looks up a localized string similar to Age 0-5 years.
         /// </summary>
         public static string FactorVuln_AgeUpToFive {
             get {
@@ -250,7 +250,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Diminished mental.
+        ///   Looks up a localized string similar to Diminished mental capacity.
         /// </summary>
         public static string FactorVuln_DiminishedMental {
             get {
@@ -259,7 +259,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Diminished physical.
+        ///   Looks up a localized string similar to Diminished physical capacity.
         /// </summary>
         public static string FactorVuln_DiminishedPhysical {
             get {
@@ -268,7 +268,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Medical mental disorder.
+        ///   Looks up a localized string similar to Significant diagnosed medical or mental disorder.
         /// </summary>
         public static string FactorVuln_MedicalMentalDisorder {
             get {
@@ -277,7 +277,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not readily accessible.
+        ///   Looks up a localized string similar to Not readily accessible to community oversight.
         /// </summary>
         public static string FactorVuln_NotReadilyAccessible {
             get {

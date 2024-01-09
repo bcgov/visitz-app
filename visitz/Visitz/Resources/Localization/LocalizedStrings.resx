@@ -348,7 +348,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Comments</value>
   </data>
   <data name="FactorVuln_AgeUpToFive" xml:space="preserve">
-    <value>Age up to five</value>
+    <value>Age 0-5 years</value>
   </data>
   <data name="ProtectiveCapacity_ChildCognitive" xml:space="preserve">
     <value>Child/Youth has the cognitive, physical and emotional capacity to participate in safety interventions</value>
@@ -399,10 +399,10 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Date of assessment</value>
   </data>
   <data name="FactorVuln_DiminishedMental" xml:space="preserve">
-    <value>Diminished mental</value>
+    <value>Diminished mental capacity</value>
   </data>
   <data name="FactorVuln_DiminishedPhysical" xml:space="preserve">
-    <value>Diminished physical</value>
+    <value>Diminished physical capacity</value>
   </data>
   <data name="FactorsInfluencingChildVuln" xml:space="preserve">
     <value>Factors influencing child vulnerability</value>
@@ -417,7 +417,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Mark all that apply:</value>
   </data>
   <data name="FactorVuln_MedicalMentalDisorder" xml:space="preserve">
-    <value>Medical mental disorder</value>
+    <value>Significant diagnosed medical or mental disorder</value>
   </data>
   <data name="Narrative" xml:space="preserve">
     <value>Narrative</value>
@@ -426,7 +426,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Provide rationale for the Safety Decision including how the intervention plan, if needed, is expected to mitigate safety concerns or is insufficient to address concerns:</value>
   </data>
   <data name="FactorVuln_NotReadilyAccessible" xml:space="preserve">
-    <value>Not readily accessible</value>
+    <value>Not readily accessible to community oversight</value>
   </data>
   <data name="ParentCareProvider" xml:space="preserve">
     <value>Parent/Care-provider</value>
