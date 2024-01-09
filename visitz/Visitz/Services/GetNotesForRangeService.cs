@@ -1,4 +1,5 @@
-﻿using Visitz.Services.Messages;
+﻿using System.Text;
+using Visitz.Services.Messages;
 using VisitzApi;
 
 namespace Visitz.Services
@@ -42,12 +43,52 @@ namespace Visitz.Services
 
         private async Task GetAllNotesAsync()
         {
-            var allNotesServiceTasks = IdEntityItems.Select(item => 
-                ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(item)));
+            List<string> successIds = [];
+            List<string> erroredIds = [];
 
-            await Task.WhenAll(allNotesServiceTasks);
+            /*
+             * TODO: Improve efficiency of this operation.
+             * 
+             * Previously, GetNotesService was run concurrently but after crashing issues it has been converted to run
+             * sequentially instead.
+             * 
+             * Maybe run network requests concurrently, then Realm I/O sequentially as Tasks complete?
+             */
+            foreach (var (id, entityType) in IdEntityItems)
+            {
+                try
+                {
+                    await ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(id, entityType));
+                    successIds.Add(id);
+                }
+                catch
+                {
+                    erroredIds.Add(id);
+                }
+            }
 
-            ResultCode = Result.Successful;
+            if (erroredIds.Count <= 0)
+                ResultCode = Result.Successful;
+            else
+                throw new PartialErrorException(successIds, erroredIds);
+        }
+    }
+
+    public class PartialErrorException(List<string> successIds, List<string> errorIds) 
+        : Exception(MakeMessage(errorIds))
+    {
+        public List<string> SuccessIds { get; set; } = successIds;
+
+        public List<string> ErrorIds { get; set; } = errorIds;
+
+        public static string MakeMessage(List<string> errorIds)
+        {
+            StringBuilder sb = new($"{nameof(GetNotesForRangeService)} error for IDs:\n\n");
+
+            foreach (var id in errorIds.Order())
+                sb.AppendLine($"\t{id}");
+
+            return sb.ToString();
         }
     }
 }
