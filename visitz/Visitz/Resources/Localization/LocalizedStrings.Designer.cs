@@ -70,15 +70,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Age up to five.
-        /// </summary>
-        public static string AgeUpToFive {
-            get {
-                return ResourceManager.GetString("AgeUpToFive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -205,24 +196,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Diminished mental.
-        /// </summary>
-        public static string DiminishedMental {
-            get {
-                return ResourceManager.GetString("DiminishedMental", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Diminished physical.
-        /// </summary>
-        public static string DiminishedPhysical {
-            get {
-                return ResourceManager.GetString("DiminishedPhysical", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Draft saved.
         /// </summary>
         public static string DraftSaved {
@@ -264,6 +237,51 @@ namespace Visitz.Resources.Localization {
         public static string FactorsInfluencingChildVuln {
             get {
                 return ResourceManager.GetString("FactorsInfluencingChildVuln", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Age up to five.
+        /// </summary>
+        public static string FactorVuln_AgeUpToFive {
+            get {
+                return ResourceManager.GetString("FactorVuln_AgeUpToFive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diminished mental.
+        /// </summary>
+        public static string FactorVuln_DiminishedMental {
+            get {
+                return ResourceManager.GetString("FactorVuln_DiminishedMental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diminished physical.
+        /// </summary>
+        public static string FactorVuln_DiminishedPhysical {
+            get {
+                return ResourceManager.GetString("FactorVuln_DiminishedPhysical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medical mental disorder.
+        /// </summary>
+        public static string FactorVuln_MedicalMentalDisorder {
+            get {
+                return ResourceManager.GetString("FactorVuln_MedicalMentalDisorder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not readily accessible.
+        /// </summary>
+        public static string FactorVuln_NotReadilyAccessible {
+            get {
+                return ResourceManager.GetString("FactorVuln_NotReadilyAccessible", resourceCulture);
             }
         }
         
@@ -407,15 +425,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Medical mental disorder.
-        /// </summary>
-        public static string MedicalMentalDisorder {
-            get {
-                return ResourceManager.GetString("MedicalMentalDisorder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Narrative.
         /// </summary>
         public static string Narrative {
@@ -502,15 +511,6 @@ namespace Visitz.Resources.Localization {
         public static string NotesPublishedToIcm {
             get {
                 return ResourceManager.GetString("NotesPublishedToIcm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not readily accessible.
-        /// </summary>
-        public static string NotReadilyAccessible {
-            get {
-                return ResourceManager.GetString("NotReadilyAccessible", resourceCulture);
             }
         }
         

@@ -347,7 +347,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="SafetyFactor14_Context" xml:space="preserve">
     <value>Comments</value>
   </data>
-  <data name="AgeUpToFive" xml:space="preserve">
+  <data name="FactorVuln_AgeUpToFive" xml:space="preserve">
     <value>Age up to five</value>
   </data>
   <data name="ProtectiveCapacity_ChildCognitive" xml:space="preserve">
@@ -398,10 +398,10 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="DateOfAssessment" xml:space="preserve">
     <value>Date of assessment</value>
   </data>
-  <data name="DiminishedMental" xml:space="preserve">
+  <data name="FactorVuln_DiminishedMental" xml:space="preserve">
     <value>Diminished mental</value>
   </data>
-  <data name="DiminishedPhysical" xml:space="preserve">
+  <data name="FactorVuln_DiminishedPhysical" xml:space="preserve">
     <value>Diminished physical</value>
   </data>
   <data name="FactorsInfluencingChildVuln" xml:space="preserve">
@@ -416,7 +416,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="MarkAllThatApply" xml:space="preserve">
     <value>Mark all that apply:</value>
   </data>
-  <data name="MedicalMentalDisorder" xml:space="preserve">
+  <data name="FactorVuln_MedicalMentalDisorder" xml:space="preserve">
     <value>Medical mental disorder</value>
   </data>
   <data name="Narrative" xml:space="preserve">
@@ -425,7 +425,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="NarrativeDescription" xml:space="preserve">
     <value>Provide rationale for the Safety Decision including how the intervention plan, if needed, is expected to mitigate safety concerns or is insufficient to address concerns:</value>
   </data>
-  <data name="NotReadilyAccessible" xml:space="preserve">
+  <data name="FactorVuln_NotReadilyAccessible" xml:space="preserve">
     <value>Not readily accessible</value>
   </data>
   <data name="ParentCareProvider" xml:space="preserve">

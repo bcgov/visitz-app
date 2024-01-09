@@ -101,23 +101,23 @@
                     Text="{local:Localize FactorsInfluencingChildVuln}" />
 
                 <formctls:FormCheckBox
-                    Text="{local:Localize AgeUpToFive}"
+                    Text="{local:Localize FactorVuln_AgeUpToFive}"
                     IsChecked="{Binding AgeUptoFive}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize MedicalMentalDisorder}"
+                    Text="{local:Localize FactorVuln_MedicalMentalDisorder}"
                     IsChecked="{Binding MedicalMentalDisorder}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize NotReadilyAccessible}"
+                    Text="{local:Localize FactorVuln_NotReadilyAccessible}"
                     IsChecked="{Binding NotReadilyAccessible}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize DiminishedMental}"
+                    Text="{local:Localize FactorVuln_DiminishedMental}"
                     IsChecked="{Binding DiminishedMental}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize DiminishedPhysical}"
+                    Text="{local:Localize FactorVuln_DiminishedPhysical}"
                     IsChecked="{Binding DiminishedPhysical}" />
             </VerticalStackLayout>
 
