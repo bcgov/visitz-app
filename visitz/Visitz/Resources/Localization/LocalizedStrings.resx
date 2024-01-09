@@ -530,4 +530,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="InabilityProtectSelfMarkAll" xml:space="preserve">
+    <value>Conditions resulting in a child's inability to protect self.  Mark all that apply to ANY child:</value>
+  </data>
 </root>

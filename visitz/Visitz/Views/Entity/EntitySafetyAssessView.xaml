@@ -100,6 +100,8 @@
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize FactorsInfluencingChildVuln}" />
 
+                <Label Text="{local:Localize InabilityProtectSelfMarkAll}" />
+
                 <formctls:FormCheckBox
                     Text="{local:Localize FactorVuln_AgeUpToFive}"
                     IsChecked="{Binding AgeUptoFive}" />
