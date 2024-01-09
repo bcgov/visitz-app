@@ -42,6 +42,14 @@ namespace Visitz.Services
 
         private async Task GetAllNotesAsync()
         {
+            /*
+             * TODO: Improve efficiency of this operation.
+             * 
+             * Previously, GetNotesService was run concurrently but after crashing issues it has been converted to run
+             * sequentially instead.
+             * 
+             * Maybe run network requests concurrently, then Realm I/O sequentially as Tasks complete?
+             */
             foreach (var (id, entityType) in IdEntityItems)
                 await ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(id, entityType));
         }
