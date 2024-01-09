@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:segmentedButtons="clr-namespace:Visitz.Views.SegmentedButtons"
+    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="Visitz.Views.Caseload.CaseloadView"
+    x:DataType="viewmodels:CaseloadViewModel">
+    
+    <StackLayout
+        Orientation="Vertical"
+        HorizontalOptions="Fill"
+        IsClippedToBounds="True">
+
+        <VerticalStackLayout 
+            BackgroundColor="White"
+            Shadow="{StaticResource RestingLevel2}"
+            ZIndex="2"
+            Spacing="10" 
+            Padding="10">
+
+            <Grid>
+                <HorizontalStackLayout>
+                    <toolkit:AvatarView
+                        Margin="0,0,10,0"
+                        BackgroundColor="{StaticResource Blue300Accent}"
+                        FontFamily="BCSansBold"
+                        VerticalOptions="Center"
+                        IsVisible="{Binding ShowAvatarView}">
+
+                        <toolkit:AvatarView.Behaviors>
+                            <behaviors:AvatarSessionBehavior />
+                        </toolkit:AvatarView.Behaviors>
+
+                        <toolkit:AvatarView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenSessionPageCommand}" />
+                        </toolkit:AvatarView.GestureRecognizers>
+                    </toolkit:AvatarView>
+
+                    <Label 
+                        Text="{local:Localize Caseload}"
+                        Style="{StaticResource HeadlineMedium}"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <ImageButton
+                    HorizontalOptions="End"
+                    HeightRequest="32"
+                    WidthRequest="32"
+                    VerticalOptions="Center"
+                    Clicked="ListOptionsButton_Clicked">
+                    <ImageButton.Source>
+                        <FontImageSource 
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Glyph="{Static icons:MaterialIcons.Tune}"
+                            Color="{StaticResource BC_TextColor}"
+                            Size="{OnPlatform iOS=64}"/>
+                    </ImageButton.Source>
+
+                </ImageButton>
+            </Grid>
+
+            <SearchBar 
+                BackgroundColor="{StaticResource BC_Background_Light}"
+                CancelButtonColor="{StaticResource BC_TextColor}"
+                TextColor="{StaticResource BC_TextColor}"
+                x:Name="CaseloadSearchBar"
+                HorizontalOptions="FillAndExpand"
+                Placeholder="{local:Localize CaseloadSearchHint}"
+                Text="{Binding SearchQuery}"
+                Margin="{OnPlatform iOS='-9', Default=0}"
+                SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+                TextChanged="CaseloadSearchBar_TextChanged"
+                ios:SearchBar.SearchBarStyle="Minimal" />
+
+            <VerticalStackLayout 
+                x:Name="OptionsLayout"
+                IsVisible="False"
+                Spacing="10">
+
+                <segmentedButtons:SegmentedButtonsView
+                    Options="{Binding SortOptions}"
+                    BorderColor="{StaticResource SeparatorColor}"
+                    Color="{StaticResource BC_TextColor}"
+                    ItemPadding="0,10"
+                    ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
+                    ActivatedTextColor="{StaticResource BC_TextColor}"
+                    ActivatedOption="{Binding ActivatedSortOption}"
+                    TapGestureCannotDeactivateItem="True" />
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="10">
+
+                    <segmentedButtons:SegmentedButtonsView
+                        Grid.Column="0"
+                        Options="{Binding FilterOptions}"
+                        BorderColor="{StaticResource SeparatorColor}"
+                        Color="{StaticResource BC_TextColor}"
+                        ItemPadding="0,10"
+                        ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
+                        ActivatedTextColor="{StaticResource BC_TextColor}"
+                        ActivatedOption="{Binding ActivatedFilterOption}"/>
+
+                    <ImageButton
+                        Grid.Column="1"
+                        HeightRequest="32"
+                        WidthRequest="32"
+                        VerticalOptions="Center"
+                        BorderColor="{StaticResource ClearButtonColor}"
+                        BorderWidth="1"
+                        IsEnabled="{Binding IsFilterActivated}"
+                        Clicked="ClearFilterButton_Clicked">
+
+                        <ImageButton.Source>
+                            <FontImageSource
+                                    x:Name="ClearButtonImageSource"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Glyph="{Static icons:MaterialIcons.Close}"
+                                    Color="{StaticResource ClearButtonColor}"
+                                    Size="{OnPlatform iOS=64}"/>
+                        </ImageButton.Source>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="MoreStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderWidth" Value="0" />
+                                            <Setter Property="Opacity" Value="0.3" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="Background" Value="{AppThemeBinding Light=#11000000, Dark=#11000000}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Background" Value="{AppThemeBinding Light=#22000000, Dark=#22000000}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </ImageButton>
+
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <AbsoluteLayout VerticalOptions="FillAndExpand">
+
+            <VerticalStackLayout
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds=".5,.5"
+                Spacing="40"
+                IsVisible="{Binding ShowEmptyCaseloadMessage}">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource 
+                        Glyph="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
+                        FontFamily="FluentIconsRegular"
+                        Color="{StaticResource Primary}"
+                        Size="160"/>
+                    </Image.Source>
+                </Image>
+
+                <Label
+                    FontSize="20"
+                    Text="{local:Localize CaseloadIsEmpty}" />
+            </VerticalStackLayout>
+
+            <RefreshView
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                Command="{Binding RefreshCaseloadCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+
+                <!-- 
+                    WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
+                    Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
+                    This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
+                -->
+                <ContentView>
+
+                    <CollectionView
+                        ItemsSource="{Binding Caseload}"
+                        SelectionMode="None"
+                        ItemSizingStrategy="MeasureFirstItem">
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
+                                <Label 
+                                    HorizontalOptions="Center"
+                                    FontSize="16"
+                                    Text="{Binding CollectionViewPrompt}" />
+
+                                <Label 
+                                    HorizontalOptions="Center" 
+                                    FontSize="24"
+                                    Text="↓" />
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <!-- 
+                                FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
+                                When dynamically changing the ItemsSource binding, the bottom of the CollectionView
+                                has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
+                                VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
+                                expected. 
+                            -->
+                            <GridItemsLayout Orientation="Vertical" Span="1" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:CaseloadItem">
+                                <views:CaseloadItemView />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </ContentView>
+
+            </RefreshView>
+
+        </AbsoluteLayout>
+
+    </StackLayout>
+</views:ViewModelContentView>

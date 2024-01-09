@@ -12,9 +12,6 @@ namespace Visitz.ViewModels
         public string idirOverride;
 
         [ObservableProperty]
-        public bool showNoteItemViewDebugInfo;
-
-        [ObservableProperty]
         public bool dryFireSubmitNotes;
 
         [ObservableProperty]
@@ -32,17 +29,29 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public string authenticationDomain;
 
-        public override void PageStarted()
+        [ObservableProperty]
+        public bool buildingInDebug;
+
+        [ObservableProperty]
+        public bool skipLocalAuth;
+
+        public override void PageCreated()
         {
-            base.PageStarted();
+            base.PageCreated();
 
             IdirOverride = DebugOptions.IdirOverride;
-            ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;
             DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
             DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
 
             AppId = AppInfo.Current.PackageName;
             DotnetVersion = Environment.Version.ToString();
+
+#if DEBUG
+            BuildingInDebug = true;
+#else
+            BuildingInDebug = false;
+#endif
+            SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
 
             var settings = new AppSettings();
 
@@ -55,11 +64,6 @@ namespace Visitz.ViewModels
             DebugOptions.IdirOverride = value;
         }
 
-        partial void OnShowNoteItemViewDebugInfoChanged(bool value)
-        {
-            DebugOptions.ShowNoteItemViewDebugInfo = value;
-        }
-
         partial void OnDryFireSubmitNotesChanged(bool value)
         {
             DebugOptions.DryFireSubmitNotes = value;
@@ -68,6 +72,11 @@ namespace Visitz.ViewModels
         partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
         {
             DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
+        }
+
+        partial void OnSkipLocalAuthChanged(bool value)
+        {
+            DebugOptions.SkipLocalAuth = value;
         }
 
         [RelayCommand]

@@ -14,6 +14,23 @@ namespace Visitz.Models
         private static readonly string Separator = "────";
 
         /// <summary>
+        /// Used app-only to uniquely ID NoteItems.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The ICM API doesn't provide a NoteItem's actual primary key ID, so this value is made using <c>IcmId</c>,
+        /// <c>NotePeriod</c>, and <c>CreatedDate</c>.
+        /// </para>
+        /// <para>
+        /// <i>This may become an issue</i>—if two note objects are created in the same second for a given ICM entity, this PK
+        /// unique assertion will fail. While possible, this is also unlikely: new note objects are typically only 
+        /// created either monthly or when a ~16000 character limit is reached.
+        /// </para>
+        /// </remarks>
+        [PrimaryKey]
+        public string FullID { get; set; }
+
+        /// <summary>
         /// Used app-only to associate Notes with CaseloadItems. As of 2023-06-05 the ICM API does
         /// not return PK/FK information about notes.
         /// </summary>
@@ -24,38 +41,38 @@ namespace Visitz.Models
         public string CreatedDate { get; set; }
         public string Content { get; set; }
         public int PageNumber { get; set; }
-
-        public static bool EqualByDates(NoteItem lhs, NoteItem rhs)
-        {
-            return lhs != null && rhs != null
-                && lhs.NotePeriod?.Trim().ToLower() == rhs.NotePeriod?.Trim().ToLower()
-                && lhs.CreatedDate?.Trim().ToLower() == rhs.CreatedDate?.Trim().ToLower();
-        }
-
-        public static DateTime NotePeriodDateTimeTransform(NoteItem note, bool ascending)
-        {
-            var defaultValue = ascending ? DateTime.MinValue : DateTime.MaxValue;
-            return note.NotePeriod?.Length > 0 ? DateTime.Parse(note.NotePeriod) : defaultValue;
-        }
-
-        public static DateTime CreatedDateTimeTransform(NoteItem note, bool ascending)
-        {
-            var defaultValue = ascending ? DateTime.MinValue : DateTime.MaxValue;
-            return note.CreatedDate?.Length > 0 ? DateTime.Parse(note.CreatedDate) : defaultValue;
-        }
+        
+        public DateTimeOffset NotePeriodDateTime { get; set; }
+        public DateTimeOffset CreatedDateTime { get; set; }
 
         public string PeriodOrPageNumber => NotePeriod?.Length > 0 ? NotePeriod : $"Page {PageNumber}";
-        public bool ShowTitleIcon => NotePeriod?.Length > 0;
+
+        public static string MakeFullID(string icmId, NoteEntity note)
+        {
+            return MakeFullID(icmId, note.NotePeriod, note.CreatedDate);
+        }
+
+        public static string MakeFullID(string icmId, string notePeriod, string createdDate)
+        {
+            return $"{icmId}-{notePeriod}-{createdDate}";
+        }
 
         public static NoteItem FromApiEntity(string icmId, NoteEntity note, int pageNumber)
         {
             return new NoteItem()
             {
+                FullID = MakeFullID(icmId, note),
                 IcmId = icmId,
                 NotePeriod = note.NotePeriod,
-                CreatedDate = note.CreatedDate, // TODO use actual DateTime type
+                CreatedDate = note.CreatedDate,
                 Content = note.Content,
-                PageNumber = pageNumber
+                PageNumber = pageNumber,
+                NotePeriodDateTime = note.NotePeriod?.Length > 0 
+                    ? DateTimeOffset.Parse(note.NotePeriod) 
+                    : DateTimeOffset.MinValue,
+                CreatedDateTime = note.CreatedDate?.Length > 0 
+                    ? DateTimeOffset.Parse(note.CreatedDate)
+                    : DateTimeOffset.MinValue,
             };
         }
 
@@ -69,12 +86,12 @@ namespace Visitz.Models
 
         public static string NotePeriodFrom(DateTime dateTime)
         {
-            return dateTime.ToString(IcmNotePeriodDateFormat, CultureInfo.InvariantCulture);
+            return NotePeriodFrom(new DateTimeOffset(dateTime));
         }
 
-        public static bool IsCurrentNotePeriod(NoteItem note)
+        public static string NotePeriodFrom(DateTimeOffset dateTime)
         {
-            return NotePeriodFrom(DateTime.Now).ToLower() == note?.NotePeriod?.ToLower();
+            return dateTime.ToString(IcmNotePeriodDateFormat, CultureInfo.InvariantCulture);
         }
 
         public static string WrapContent(string idir, DateTime dateTime, string content)
@@ -83,12 +100,18 @@ namespace Visitz.Models
             return $"{Separator} {idir} {timestamp} {Separator}\n{content}";
         }
 
-        public static string ToStringLite(NoteItem note)
+        public static NoteItem GetLatestByEntityId(Realm realm, string entityId)
         {
-            return $"null: {note == null}, " +
-                $"NotePeriod: {note?.NotePeriod}, " +
-                $"CreatedDate: {note?.CreatedDate}, " +
-                $"IsValid: {note?.IsValid}";
+            return GetNotesByEntityId(realm, entityId)
+                .LastOrDefault();
+        }
+
+        public static IQueryable<NoteItem> GetNotesByEntityId(Realm realm, string entityId)
+        {
+            return realm
+                .All<NoteItem>()
+                .Where(item => item.IcmId == entityId)
+                .Filter($"TRUEPREDICATE SORT({nameof(NotePeriodDateTime)} ASC, {nameof(CreatedDateTime)} ASC)");
         }
     }
 }

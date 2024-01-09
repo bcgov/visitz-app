@@ -4,21 +4,18 @@ namespace Visitz.Animations
 {
     public class VisibilityAnimation : BaseAnimation
     {
+        private const uint DefaultDuration = 250;
+
         public bool ShowView { get; }
 
-        public uint Duration { get; } = 250;
+        public uint Duration { get; } = DefaultDuration;
 
-        public VisibilityAnimation(bool isVisible)
-        {
-            ShowView = isVisible;
-            Easing = Easing.Linear;
-        }
-
-        public VisibilityAnimation(bool showView, uint duration, Easing easing) : base(duration)
+        public VisibilityAnimation(bool showView, uint duration = DefaultDuration, Easing easing = null) 
+            : base(DefaultDuration)
         {
             ShowView = showView;
             Duration = duration;
-            Easing = easing;
+            Easing = easing ?? (showView ? Easing.CubicIn : Easing.CubicOut);
         }
 
         public override async Task Animate(VisualElement view)

@@ -77,7 +77,7 @@ public abstract partial class VisitzPage : ContentPage
     {
         ConsoleTrace.TraceMethod(typeof(VisitzPage), $"Navigating to {typeof(T)}");
 
-        fromPage ??= VisitzApp.CurrentOpenPage ?? VisitzApp.CurrentOpenModal;
+        fromPage ??= Navigator.CurrentOpenPage ?? Navigator.CurrentOpenModal;
 
         var newPage = ServiceProvider.Current.GetRequiredService<T>();
         newPage.Parameters = parameters;

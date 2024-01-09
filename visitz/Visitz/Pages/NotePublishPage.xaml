@@ -25,66 +25,90 @@
         page using NavigationPage.HasBackButton="False" and NavigationPage.HasNavigationBar="False".
     -->
 
-    <Grid>
-        <VerticalStackLayout
-            Grid.Row="0"
-            VerticalOptions="Center"
-            Spacing="10">
-            <Image Source="note_publish.png" />
-
-            <HorizontalStackLayout
+    <AbsoluteLayout>
+        <Grid
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            RowDefinitions="Auto,Auto,Auto,Auto"
+            RowSpacing="15"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="10">
+            
+            <Image 
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
                 HorizontalOptions="Center"
-                Spacing="15">
-                <ActivityIndicator
-                    IsVisible="{Binding ShowPublishingIndicator}"
-                    IsRunning="true"
-                    Color="White" />
+                Source="note_publish.png"
+                Margin="0,0,0,-40"
+                HeightRequest="400"
+                WidthRequest="400"/>
 
-                <Label 
-                    Text="{Binding PublishingStatus}"
-                    TextColor="White"
-                    FontFamily="BCSansBold"
-                    FontSize="28" />
-            </HorizontalStackLayout>
+            <VerticalStackLayout
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2">
+                
+                <HorizontalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="15">
+                    <ActivityIndicator
+                        IsVisible="{Binding ShowPublishingIndicator}"
+                        IsRunning="true"
+                        Color="White" />
 
-            <HorizontalStackLayout
-                IsVisible="{Binding ShowRefreshStatusSection}"
-                HorizontalOptions="Center"
-                Spacing="15">
-                <ActivityIndicator
-                    IsVisible="{Binding ShowRefreshIndicator}"
-                    IsRunning="true"
-                    Color="White" />
+                    <Label 
+                        Text="{Binding PublishingStatus}"
+                        TextColor="White"
+                        FontFamily="BCSansBold"
+                        FontSize="28" />
+                </HorizontalStackLayout>
 
-                <Label 
-                    Text="{Binding RefreshingStatus}"
-                    TextColor="White"
-                    FontFamily="BCSansBold"
-                    FontSize="28" />
-            </HorizontalStackLayout>
+                <HorizontalStackLayout
+                    IsVisible="{Binding ShowRefreshStatusSection}"
+                    HorizontalOptions="Center"
+                    Spacing="15">
+                    <ActivityIndicator
+                        IsVisible="{Binding ShowRefreshIndicator}"
+                        IsRunning="true"
+                        Color="White" />
+
+                    <Label 
+                        Text="{Binding RefreshingStatus}"
+                        TextColor="White"
+                        FontFamily="BCSansBold"
+                        FontSize="28" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
 
             <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
                 HorizontalOptions="Center"
                 TextColor="White"
                 Text="{Binding Title}"
                 FontFamily="BCSansBold"
                 FontSize="22" />
 
-            <HorizontalStackLayout
-                Spacing="15"
-                HorizontalOptions="Center"
-                IsVisible="{Binding ShowRetrySection}">
-                <Button
-                    Text="Dismiss"
-                    Style="{StaticResource transparentInSolidBG}"
-                    Command="{Binding DismissCommand}" />
-                <Button Text="Retry"
-                    TextColor="{StaticResource Primary}"
-                    BackgroundColor="{StaticResource White}"
-                    FontFamily="BCSansBold"
-                    Command="{Binding RetryCommand}" />
-            </HorizontalStackLayout>
+            <Button
+                Grid.Row="3"
+                Grid.Column="0"
+                Text="Dismiss"
+                HorizontalOptions="End"
+                Style="{StaticResource SecondaryButtonDark}"
+                Command="{Binding DismissCommand}" 
+                IsVisible="{Binding ShowRetrySection}" />
+                    
+            <Button 
+                Grid.Row="3"
+                Grid.Column="1"
+                Text="Retry"
+                HorizontalOptions="Start"
+                Style="{StaticResource PrimaryButtonDark}"
+                Command="{Binding RetryCommand}" 
+                IsVisible="{Binding ShowRetrySection}" />
             
-        </VerticalStackLayout>
-    </Grid>
+        </Grid>
+    </AbsoluteLayout>
 </pages:VisitzPage>

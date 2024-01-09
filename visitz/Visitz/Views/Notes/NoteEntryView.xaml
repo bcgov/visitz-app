@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:notes="clr-namespace:Visitz.Views.Notes"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Views.Notes.NoteEntryView"
+    x:DataType="viewmodels:NoteEntryViewModel">
+
+    <Border
+        Background="White"
+        Padding="-5"
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="0">
+        
+        <StackLayout 
+            Orientation="Vertical"
+            Spacing="10"
+            Padding="20">
+
+            <Grid 
+                ColumnDefinitions="Auto,*,Auto"
+                RowDefinitions="Auto">
+
+                <ImageButton
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    VerticalOptions="Center"
+                    Clicked="CloseButton_Clicked">
+                    <ImageButton.Source>
+                        <FontImageSource 
+                            Glyph="{Static fonticons:MaterialIcons.Close}" 
+                            FontFamily="MaterialIconsRoundedFilled"
+                            Color="{StaticResource Gray600}" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <Grid
+                    RowDefinitions="Auto"
+                    ColumnDefinitions="Auto"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalOptions="Center">
+                    
+                    <views:TagView 
+                        x:Name="DraftSavedTagView"
+                        Text="{local:Localize DraftSaved}"
+                        IconHeightRequest="25"
+                        IconWidthRequest="25"
+                        TextColor="{StaticResource BC_Semantic_Success}"
+                        IsVisible="False">
+                        <views:TagView.ImageSource>
+                            <FontImageSource 
+                                Glyph="{Static fonticons:FluentIcons.Document_checkmark_20_regular}" 
+                                FontFamily="FluentIconsRegular"
+                                Color="{StaticResource BC_Semantic_Success}" />
+                        </views:TagView.ImageSource>
+                    </views:TagView>
+
+                    <views:TagView 
+                        x:Name="SavingDraftTagView"
+                        Text="{local:Localize Ellipsis}"
+                        IconHeightRequest="25"
+                        IconWidthRequest="25"
+                        IsVisible="False">
+                        <views:TagView.ImageSource>
+                            <FontImageSource 
+                            Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}" 
+                            FontFamily="FluentIconsRegular"
+                            Color="Black" />
+                        </views:TagView.ImageSource>
+                    </views:TagView>
+                </Grid>
+
+                <HorizontalStackLayout 
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Spacing="10">
+
+                    <views:InternetInfoView />
+
+                    <Button
+                        Text="{local:Localize PublishToIcm}"
+                        Command="{Binding PublishNotesCommand}"
+                        IsEnabled="{Binding AllowPublish}" />
+                </HorizontalStackLayout>
+
+            </Grid>
+
+            <AbsoluteLayout VerticalOptions="FillAndExpand">
+                <Editor
+                    x:Name="NotesEditor"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    Background="Transparent"
+                    Text="{Binding Draft}"
+                    TextColor="{StaticResource BlackishText}"
+                    FontFamily="BCSansRegular"
+                    FontSize="17"
+                    Placeholder="Type your notes here..."
+                    TextChanged="NotesEditor_TextChanged"
+                    Keyboard="Text">
+
+                    <Editor.Behaviors>
+                        <toolkit:UserStoppedTypingBehavior 
+                            Command="{Binding SaveDraftCommand}"
+                            StoppedTypingTimeThreshold="700" />
+                    </Editor.Behaviors>
+                </Editor>
+
+                <views:ErrorTooltip 
+                    x:Name="EditorError"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,-.08"
+                    IsVisible="False" />
+
+                <ImageButton
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="1,1"
+                    WidthRequest="44"
+                    HeightRequest="44"
+                    CornerRadius="22"
+                    Margin="10"
+                    Padding="5"
+                    BackgroundColor="{StaticResource DarkSkyBlueBackground}"
+                    Clicked="Scroll_To_Bottom_Clicked"
+                    IsVisible="{OnIdiom Desktop=False, Default=True}">
+
+                    <ImageButton.Shadow>
+                        <Shadow
+                            Brush="Black"
+                            Offset="10,10"
+                            Radius="20"
+                            Opacity="0.5" />
+                    </ImageButton.Shadow>
+
+                    <ImageButton.Source>
+                        <FontImageSource 
+                            Glyph="{Static fonticons:FluentIcons.Chevron_down_20_filled}"
+                            FontFamily="FluentIconsRegular"
+                            Color="White"
+                            Size="{OnPlatform iOS=44, Default=35}"/>
+                    </ImageButton.Source>
+
+                    <ImageButton.Style>
+                        <Style TargetType="ImageButton">
+                            <Setter Property="VisualStateManager.VisualStateGroups">
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Disabled">
+                                            <VisualState.Setters>
+                                                <Setter Property="Opacity" Value="0.5" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{StaticResource DarkSkyBlueBackgroundPointerOver}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{StaticResource DarkSkyBlueBackgroundPressed}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </Setter>
+                        </Style>
+                    </ImageButton.Style>
+
+                </ImageButton>
+            </AbsoluteLayout>
+
+        </StackLayout>
+    </Border>
+
+</views:ViewModelContentView>

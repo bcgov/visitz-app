@@ -3,9 +3,9 @@
     public class DebugOptions
     {
         private static readonly string IdirOverrideKey = "IdirOverride";
-        private static readonly string ShowNoteItemViewDebugInfoKey = "ShowNoteItemViewDebugInfo";
         private static readonly string DryFireSubmitNotesKey = "DryFireSubmitNotes";
         private static readonly string DryFireSubmitNotesSimulateSuccessKey = "DryFireSubmitNotesSimulateSuccess";
+        private static readonly string SkipLocalAuthKey = "SkipLocalAuth";
 
         public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -30,12 +30,6 @@
             set => Set(IdirOverrideKey, value.Trim());
         }
 
-        public static bool ShowNoteItemViewDebugInfo
-        {
-            get => Get(ShowNoteItemViewDebugInfoKey, false);
-            set => Set(ShowNoteItemViewDebugInfoKey, value);
-        }
-
         public static bool DryFireSubmitNotes
         {
             get => Get(DryFireSubmitNotesKey, false);
@@ -46,6 +40,19 @@
         {
             get => DryFireSubmitNotes && Get(DryFireSubmitNotesSimulateSuccessKey, false);
             set => Set(DryFireSubmitNotesSimulateSuccessKey, value);
+        }
+
+        public static bool SkipLocalAuth
+        {
+            get
+            {
+#if DEBUG
+                return Get(SkipLocalAuthKey, false);
+#else
+                return false;
+#endif
+            }
+            set => Set(SkipLocalAuthKey, value);
         }
 
         public static async Task ClearRealmData()

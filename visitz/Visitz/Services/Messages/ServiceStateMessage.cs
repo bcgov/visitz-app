@@ -11,5 +11,9 @@
         public bool FinishedSuccess => 
             Status == VisitzService.State.Stopped 
             && Result == VisitzService.Result.Successful;
+
+        public bool FinishedError =>
+            Status == VisitzService.State.Stopped
+            && Result == VisitzService.Result.Error;
     }
 }

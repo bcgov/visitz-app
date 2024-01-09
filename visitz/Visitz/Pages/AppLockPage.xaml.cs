@@ -9,7 +9,7 @@ public partial class AppLockPage : VisitzPage
     /// </summary>
     public static readonly bool BackButtonEnabled = false;
 
-    public static bool IsOpen => VisitzApp.CurrentOpenModal?.GetType() == typeof(AppLockPage);
+    public static bool IsOpen => Navigator.CurrentOpenModal?.GetType() == typeof(AppLockPage);
 
     public AppLockPage(AppLockViewModel viewModel) : base(viewModel)
     {
@@ -23,7 +23,7 @@ public partial class AppLockPage : VisitzPage
             return;
 
         var lockPage = ServiceProvider.Current.GetRequiredService<AppLockPage>();
-        await VisitzApp.Navigation.PushModalAsync(lockPage, false);
+        await Navigator.Navigation.PushModalAsync(lockPage, false);
     }
 
     protected override bool OnBackButtonPressed()

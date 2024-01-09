@@ -23,7 +23,7 @@ namespace VisitzApi.Requests
                 {
                     [RequestSubmitNotesKey] = new JsonObject
                     {
-                        [JsonKey.Payload] = JsonNode.Parse(JsonSerializer.Serialize(NoteToSubmit))
+                        [JsonKey.PayLoad] = JsonNode.Parse(JsonSerializer.Serialize(NoteToSubmit))
                     }
                 }.ToString();
             }
@@ -49,7 +49,7 @@ namespace VisitzApi.Requests
             var rJson = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty(ResponseSubmitNotesKey)
-                .GetProperty(JsonKey.Payload);
+                .GetProperty(JsonKey.PayLoad);
 
             if (rJson.TryGetProperty(JsonKey.Status, out var status) && rJson.TryGetProperty(NoteIdKey, out var id))
                 return (status.GetString() == JsonKey.Success, id.GetString());

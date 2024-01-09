@@ -4,8 +4,8 @@
 
 Visitz is built using .NET MAUI.
 
-- .NET 7.0.302
-- .NET MAUI 7.0.86
+- .NET 8.0.100
+- .NET MAUI 8.0.3
 
 ### Notable Libraries (NuGet)
 
@@ -33,7 +33,7 @@ Visitz is built using two C# projects: "Visitz" and "VisitzApi":
 
     - Visual Studio
 
-    - .NET Multi-platform App UI development Workload (.NET 7)
+    - .NET Multi-platform App UI development Workload (.NET 8)
 
 2. Clone this repository
 
@@ -51,7 +51,7 @@ Visitz is built using two C# projects: "Visitz" and "VisitzApi":
 
 5. Select build configuration and launch
 
-    - Visitz is currently only being built for iOS. Other platforms may or may not work when launching.
+    - Visitz is currently only being built for iOS and Windows. Other platforms may or may not work when launching.
 
 ## Visitz Conventions
 

@@ -23,6 +23,10 @@ public static class MauiProgram
         builder
             .UseMauiApp<VisitzApp>()
             .UseMauiCommunityToolkit()
+            .ConfigureEssentials(essentials =>
+            {
+                essentials.UseVersionTracking();
+            })
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
             .ConfigureVisitzAuth()

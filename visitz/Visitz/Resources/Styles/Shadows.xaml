@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    
+    <!-- 
+        Custom shadow levels based on guidance from Material and Fluent design systems
+    
+        - https://m3.material.io/styles/elevation/tokens
+        - https://fluent2.microsoft.design/elevation
+    
+        Tried to interpret Fluent's values with minor adjustments and slotted them into whichever elevation "Level"
+        from Material matched the best.
+    -->
+
+    <!--
+        Shadow level 0 (flat, no shadow)
+
+        Applicable to:
+
+        Assist Chip (Flat)
+        Carousel Item
+        Filled Button
+        Filled Tonal Button 
+        Filled Card
+        Filter Chip (Flat)
+        Full Screen Dialog
+        List Item
+        Input Chip
+        Navigation Rail
+        Primary Navigation Tabs
+        Secondary Navigation Tabs
+        Outlined Card
+        Side Sheet (Docked)
+        Slider (Track)
+        Suggestion Chip (Flat)
+        Top App Bar
+    -->
+
+    
+    <!-- 
+        Shadow level 1. 
+    
+        Applicable to:
+    
+        Assist Chip (Elevated)
+        Banner
+        Bottom Sheet (Modal)
+        Elevated Button
+        Elevated Card
+        Extended FAB (Lowered)
+        FAB (Lowered)
+        Filter Chip (Elevated)
+        Navigation Drawer (Modal)
+        Side Sheet (Modal)
+        Slider (Handle)
+        Suggestion Chip (Elevated)
+    -->
+    <Shadow 
+        x:Key="RestingLevel1"
+        Brush="Black"
+        Offset="0,0.5"
+        Radius="1.5"
+        Opacity="0.20"/>
+
+
+    <!-- 
+        Shadow level 2. 
+
+        Applicable to:
+
+        Autocomplete Menu
+        Bottom App Bar
+        Dropdown Menu
+        Menu
+        Navigation Bar
+        Select Menu
+        Rich Tooltip
+        Top App Bar (Scrolled)
+    -->
+    <Shadow
+        x:Key="RestingLevel2"
+        Brush="Black"
+        Offset="0,1"
+        Radius="3"
+        Opacity="0.18" />
+
+    <!-- 
+        Shadow level 3. 
+
+        Applicable to:
+
+        FAB
+        Extended FAB
+        Modal Date Picker
+        Docked Date Picker
+        Modal Date Input
+        Dialog
+        Search Bar
+        Search View
+        Time Picker
+        Time Input
+    -->
+    <Shadow
+        x:Key="RestingLevel3"
+        Brush="Black"
+        Offset="0,3"
+        Radius="6"
+        Opacity="0.16" />
+
+    <!-- 
+        Shadow level 4. 
+
+        Applicable to: (not assigned as resting level)
+    -->
+    <Shadow
+        x:Key="Level4"
+        Brush="Black"
+        Offset="0,4"
+        Radius="8"
+        Opacity="0.14" />
+
+    <!-- 
+        Shadow level 5. 
+
+        Applicable to: (not assigned as resting level)
+    -->
+    <Shadow
+        x:Key="Level5"
+        Brush="Black"
+        Offset="0,6"
+        Radius="12"
+        Opacity="0.12" />
+
+</ResourceDictionary>
