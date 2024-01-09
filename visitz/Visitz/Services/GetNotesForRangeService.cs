@@ -42,12 +42,8 @@ namespace Visitz.Services
 
         private async Task GetAllNotesAsync()
         {
-            var allNotesServiceTasks = IdEntityItems.Select(item => 
-                ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(item)));
-
-            await Task.WhenAll(allNotesServiceTasks);
-
-            ResultCode = Result.Successful;
+            foreach (var (id, entityType) in IdEntityItems)
+                await ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(id, entityType));
         }
     }
 }
