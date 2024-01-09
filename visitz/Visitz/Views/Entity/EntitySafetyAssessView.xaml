@@ -74,18 +74,18 @@
 
                 <Label 
                     Margin="0,0,0,-10"
-                    Text="{local:Localize FamilyName}" />
-                <Picker 
-                    SelectedItem="{Binding SafetyAssessment.FamilyName}"
-                    ItemsSource="{Binding FamilyNames}" />
-
-                <Label 
-                    Margin="0,0,0,-10"
                     Text="{local:Localize DateOfAssessment}" />
 
                 <DatePicker 
                     Margin="0,0"
                     Date="{Binding SafetyAssessment.DateOfAssessment, Converter={StaticResource DateTimeOffsetConverter}}"/>
+
+                <Label 
+                    Margin="0,0,0,-10"
+                    Text="{local:Localize FamilyName}" />
+                <Picker 
+                    SelectedItem="{Binding SafetyAssessment.FamilyName}"
+                    ItemsSource="{Binding FamilyNames}" />
 
             </VerticalStackLayout>
 
@@ -100,24 +100,26 @@
                     Style="{StaticResource AssessmentHeader}"
                     Text="{local:Localize FactorsInfluencingChildVuln}" />
 
+                <Label Text="{local:Localize InabilityProtectSelfMarkAll}" />
+
                 <formctls:FormCheckBox
-                    Text="{local:Localize AgeUpToFive}"
+                    Text="{local:Localize FactorVuln_AgeUpToFive}"
                     IsChecked="{Binding AgeUptoFive}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize MedicalMentalDisorder}"
+                    Text="{local:Localize FactorVuln_MedicalMentalDisorder}"
                     IsChecked="{Binding MedicalMentalDisorder}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize NotReadilyAccessible}"
+                    Text="{local:Localize FactorVuln_NotReadilyAccessible}"
                     IsChecked="{Binding NotReadilyAccessible}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize DiminishedMental}"
+                    Text="{local:Localize FactorVuln_DiminishedMental}"
                     IsChecked="{Binding DiminishedMental}" />
                     
                 <formctls:FormCheckBox
-                    Text="{local:Localize DiminishedPhysical}"
+                    Text="{local:Localize FactorVuln_DiminishedPhysical}"
                     IsChecked="{Binding DiminishedPhysical}" />
             </VerticalStackLayout>
 

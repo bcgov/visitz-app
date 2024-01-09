@@ -17,8 +17,6 @@
                     Text="{Binding QuestionPrompt}"
                     HorizontalOptions="Start"/>
 
-                <ContentPresenter />
-
                 <RadioButton
                     IsChecked="{Binding YesChecked}"
                     Content="Yes"
@@ -33,6 +31,8 @@
                     CheckedChanged="RadioButton_CheckedChanged"
                     HorizontalOptions="Start"
                     Value="{x:Static formctls:YesNoAnswer.No}" />
+
+                <ContentPresenter />
 
                 <formctls:FormEntry
                     FieldName="{Binding AnswerContextExplanation}"
