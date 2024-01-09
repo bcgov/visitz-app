@@ -85,6 +85,9 @@ namespace Visitz.ViewModels
             FilterChildProtection, FilterChildServices, FilterFamilyServices,
         };
 
+        [ObservableProperty]
+        public bool showAvatarView;
+
         private async Task Setup()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
@@ -99,10 +102,15 @@ namespace Visitz.ViewModels
 
             ShowEmptyCaseloadMessage = false;
             CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
+
+            DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
+            ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
         private void Teardown()
         {
+            DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
+
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
             CaseloadQueryToken?.Dispose();
@@ -261,6 +269,11 @@ namespace Visitz.ViewModels
         {
             ApplyCaseloadQuery();
             IsFilterActivated = value != SegmentedOptions.Empty;
+        }
+
+        private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+        {
+            ShowAvatarView = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
     }
 }

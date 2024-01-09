@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Navigation.NavItemView"
     x:DataType="models:NavItem"
     HorizontalOptions="Center"
@@ -25,17 +26,23 @@
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
     
-    <VerticalStackLayout HorizontalOptions="Center" Spacing="4">
+    <StackLayout 
+        HorizontalOptions="Center" 
+        Orientation="{Binding Orientation, Source={RelativeSource AncestorType={x:Type nav:NavItemView}}}"
+        Spacing="4">
         <Image 
             x:Name="IconImage"
             Source="{Binding UnselectedImageSource}" 
             HeightRequest="{Binding IconSize}" 
-            WidthRequest="{Binding IconSize}" />
+            WidthRequest="{Binding IconSize}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
 
         <Label 
             Text="{Binding Text}"
             TextColor="{Binding Color}"
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+    </StackLayout>
     
 </ContentView>

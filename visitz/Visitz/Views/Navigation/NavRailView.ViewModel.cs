@@ -1,7 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.FontIcons;
+using Visitz.Messaging;
 using Visitz.Models;
+using Visitz.Pages;
 using Visitz.Resources.Localization;
+using Visitz.Services;
 using Visitz.Storage;
 using Visitz.ViewModels;
 using Visitz.Views.Caseload;
@@ -21,6 +26,12 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         base.PageCreated();
 
+        NavigationItems = BuildNavItems();
+        SelectedNavItem = NavigationItems.First();
+    }
+
+    private static List<NavItem> BuildNavItems()
+    {
         var items = new List<NavItem>()
         {
             new()
@@ -41,8 +52,23 @@ public partial class NavRailViewModel : VisitzViewModel
                 ContentViewType = typeof(DebugOptionsView),
             });
 
-        NavigationItems = items;
+        return items;
+    }
 
-        SelectedNavItem = items.First();
+    partial void OnSelectedNavItemChanged(NavItem value)
+    {
+        StrongReferenceMessenger.Default.Send(new AppNavMessage(value));
+    }
+
+    [RelayCommand]
+    private static async void OpenSessionPage()
+    {
+        await Navigator.GoToPage<SessionPage>(modal: true);
+    }
+
+    [RelayCommand]
+    public static void RefreshCaseload()
+    {
+        WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
     }
 }

@@ -1,22 +1,31 @@
-using Visitz.Views.Navigation;
+using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Messaging;
+using Visitz.Models;
+using Visitz.ViewModels;
 
 namespace Visitz.Pages;
 
-public partial class RootPage : ContentPage
+public partial class RootPage : VisitzPage
 {
-	public RootPage()
+	public RootPage() : base(ServiceProvider.GetService<RootViewModel>())
 	{
 		InitializeComponent();
+        BindingContext = ViewModel;
+
+        StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
 	}
 
-    private void NavRailView_NavItemSelected(object sender, NavItemSelectedEventArgs e)
+    private void ReceiveAppNavMessage(object recipient, AppNavMessage message)
     {
-        var content = (ContentView)ServiceProvider.GetService(e.NavItem.ContentViewType);
+        if (message.Value is NavItem nav)
+        {
+            var content = (ContentView)ServiceProvider.GetService(nav.ContentViewType);
 
-        if (content == null)
-            throw new InvalidOperationException("Requested navigation item was null");
+            if (content == null)
+                throw new InvalidOperationException("Requested navigation item was null");
 
-        SetContent(content);
+            SetContent(content);
+        }
     }
 
     private void SetContent(IView view)

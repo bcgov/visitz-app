@@ -9,7 +9,7 @@ namespace Visitz.Views.Caseload;
 public partial class CaseloadContainerView : SplitLayoutView
 {
     private static readonly double MinimumStartPaneWidth = 300.0f;
-    private static readonly GridLength StartPaneCaseloadViewLength = new(0.5, GridUnitType.Star);
+    private static readonly GridLength StartPaneCaseloadViewLength = new(0.6, GridUnitType.Star);
 
     public CaseloadContainerView()
     {
