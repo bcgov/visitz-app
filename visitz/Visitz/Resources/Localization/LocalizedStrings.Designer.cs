@@ -331,7 +331,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Conditions resulting in a child&apos;s inability to protect self.  Mark all that apply to ANY child:.
+        ///   Looks up a localized string similar to Conditions resulting in a child&apos;s inability to protect self. Mark all that apply to ANY child:.
         /// </summary>
         public static string InabilityProtectSelfMarkAll {
             get {
