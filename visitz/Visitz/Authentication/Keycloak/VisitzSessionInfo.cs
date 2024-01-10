@@ -32,7 +32,7 @@ namespace Visitz.Authentication.Keycloak
             object tryOutput = null;
             var didGet = AccessToken?.Payload?.TryGetValue(key, out tryOutput) ?? false;
 
-            output = (T)tryOutput;
+            output = tryOutput != null ? (T)tryOutput : default;
             return didGet;
         }
 
