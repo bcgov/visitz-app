@@ -33,6 +33,11 @@ namespace Visitz.Services
             /// A service was requested to run but it was already running.
             /// </summary>
             NoOperation = 2,
+
+            /// <summary>
+            /// A service was started but was intentionally stopped before it could complete.
+            /// </summary>
+            Cancelled = 3,
         }
 
         public State Status { get; protected set; }
