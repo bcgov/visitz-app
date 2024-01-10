@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Resources.Localization;
+using Visitz.Storage;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Entity;
@@ -35,7 +36,8 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
             new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},   
         };
 
-        if (CaseloadItem.EntityType.Equals(IcmEntity.Incident))
+        // TODO: Remove this ShowSafetyAssessment check when it's fully implemented
+        if (CaseloadItem.EntityType.Equals(IcmEntity.Incident) && DebugOptions.ShowSafetyAssessment)
             EntityNavItems.Add(new() 
             {
                 Text = LocalizedStrings.SafetyAssessment,
