@@ -88,7 +88,9 @@ namespace Visitz.Services
             }
             catch (Exception ex)
             {
-                ResultCode = Result.Error;
+                ResultCode = ex is OperationCanceledException
+                    ? Result.Cancelled
+                    : Result.Error;
                 ResultMessage = ex.Message;
 
                 throw;

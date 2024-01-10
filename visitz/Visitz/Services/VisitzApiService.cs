@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using IdentityModel.OidcClient.Browser;
+using System.Net;
+using Visitz.Authentication;
 using Visitz.Authentication.Keycloak;
 using Visitz.Resources.Localization;
 using VisitzApi;
@@ -17,11 +19,20 @@ namespace Visitz.Services
 
         protected override sealed async Task RunServiceAsync()
         {
-            await VisitzSession.AssertValidSessionAsync();
-
             try
             {
+                await VisitzSession.AssertValidSessionAsync();
                 await RunApiServiceAsync();
+            }
+            catch (LoginException ex)
+            {
+                if (ex.Message.Equals(BrowserResultType.UserCancel.ToString()))
+                {
+                    ResultCode = Result.Cancelled;
+                    throw new OperationCanceledException(BrowserResultType.UserCancel.ToString(), ex);
+                }
+
+                throw;
             }
             catch (VisitzApiException ex)
             {
