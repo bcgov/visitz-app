@@ -26,7 +26,7 @@ public class EntityTypeTagBehavior : TagStyleBehavior
         else if (item.EntityType == IcmEntity.Incident)
         {
             tag.TextColor = VisitzColors.EntityIncidentTagText;
-            tag.ImageSource = MaterialIcons.Warning.GetUnfilledMaterialIcon();
+            tag.ImageSource = MaterialIcons.Description.GetUnfilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.Memo)
         {

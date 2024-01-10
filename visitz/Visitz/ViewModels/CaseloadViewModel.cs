@@ -34,7 +34,7 @@ namespace Visitz.ViewModels
         private static readonly SegmentedOptions FilterChildProtection = new(
             nameof(IcmEntitySubtype.ChildProtection), 
             LocalizedStrings.Subtype_ChildProtectionIncidentInitials, 
-            MaterialIcons.Warning.GetUnfilledMaterialIcon());
+            MaterialIcons.Description.GetUnfilledMaterialIcon());
         
         private static readonly SegmentedOptions FilterChildServices = new(
             nameof(IcmEntitySubtype.ChildServices), 
