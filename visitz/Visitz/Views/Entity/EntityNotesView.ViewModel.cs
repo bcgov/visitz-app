@@ -22,8 +22,6 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     [ObservableProperty]
     public bool isNotesEmtpy;
 
-    private Realm Realm { get; set; }
-
     private IQueryable<NoteItem> NoteItemsQuery { get; set; }
 
     private IDisposable NoteItemsQueryToken { get; set; }
@@ -36,9 +34,9 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         base.PageCreated();
 
-        Realm = await VisitzRealm.GetIcmDataAsync();
+        var realm = await VisitzRealm.GetIcmDataAsync();
 
-        NoteItemsQuery = NoteItem.GetNotesByEntityId(Realm, CaseloadItem.CaseIncidentNumber);
+        NoteItemsQuery = NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber);
         NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItemsQuery_Changed);
     }
 
@@ -50,9 +48,6 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
         NoteItemsQueryToken?.Dispose();
         NoteItemsQueryToken = null;
-
-        Realm?.Dispose();
-        Realm = null;
 
         base.PageDestroyed();
     }
