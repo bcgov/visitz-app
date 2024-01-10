@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text.Json;
 using Visitz.Storage;
 
 namespace Visitz.Authentication.Keycloak
@@ -47,8 +47,8 @@ namespace Visitz.Authentication.Keycloak
         {
             List<string> outRoles = [];
 
-            if (TryGet<IEnumerable>(RolesKey, out var roles))
-                foreach (var role in roles)
+            if (TryGet<JsonElement>(RolesKey, out var roles))
+                foreach (var role in roles.EnumerateArray())
                     outRoles.Add(role.ToString());
 
             return outRoles;
