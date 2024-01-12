@@ -44,7 +44,7 @@ internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SafetyAssessmentEn
         var payload = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty(JsonKey.StatusResponse)
-                .GetProperty(JsonKey.PayLoad);
+                .GetProperty(JsonKey.Payload);
 
         var status = payload.GetProperty(JsonKey.Status).GetString();
 
