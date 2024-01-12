@@ -78,13 +78,13 @@
 
                 <DatePicker 
                     Margin="0,0"
-                    Date="{Binding SafetyAssessment.DateOfAssessment, Converter={StaticResource DateTimeOffsetConverter}}"/>
+                    Date="{Binding Assessment.DateOfAssessment, Converter={StaticResource DateTimeOffsetConverter}}"/>
 
                 <Label 
                     Margin="0,0,0,-10"
                     Text="{local:Localize FamilyName}" />
                 <Picker 
-                    SelectedItem="{Binding SafetyAssessment.FamilyName}"
+                    SelectedItem="{Binding Assessment.FamilyName}"
                     ItemsSource="{Binding FamilyNames}" />
 
             </VerticalStackLayout>
@@ -93,7 +93,7 @@
                 Grid.Row="1" 
                 Grid.Column="0" 
                 StyleClass="FormVsl" 
-                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.FactorInfluence}"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=Assessment.FactorInfluence}"
                 x:DataType="safetyModels:FactorInfluence">
                 
                 <Label
@@ -127,7 +127,7 @@
                 Grid.Row="2" 
                 Grid.Column="0" 
                 StyleClass="FormVsl"
-                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyFactors}"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=Assessment.SafetyFactors}"
                 x:DataType="safetyModels:SafetyFactors">
                 
                 <Label
@@ -233,7 +233,7 @@
                 Grid.Row="3" 
                 Grid.Column="0" 
                 StyleClass="FormVsl"
-                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.ProtectiveCapacity}"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=Assessment.ProtectiveCapacity}"
                 x:DataType="safetyModels:ProtectiveCapacity">
                 
                 <Label
@@ -304,7 +304,7 @@
                 Grid.Row="4" 
                 Grid.Column="0" 
                 StyleClass="FormVsl"
-                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyInterventions}"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=Assessment.SafetyInterventions}"
                 x:DataType="safetyModels:SafetyInterventions">
                 
                 <Label
@@ -372,7 +372,7 @@
                 Grid.Row="5" 
                 Grid.Column="0" 
                 StyleClass="FormVsl"
-                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyDecisions}"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=Assessment.SafetyDecisions}"
                 x:DataType="safetyModels:SafetyDecisions">
                 
                 <Label
@@ -484,7 +484,7 @@
                 Grid.Row="7" 
                 Grid.Column="0" 
                 StyleClass="FormVsl"
-                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment.SafetyDecisions}"
+                BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=Assessment.SafetyDecisions}"
                 x:DataType="safetyModels:SafetyDecisions">
 
                 <Label
@@ -496,7 +496,7 @@
                     Text="{local:Localize ReadyToFinalize}" />
 
                 <formctls:FormEntry
-                    BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=SafetyAssessment}"
+                    BindingContext="{Binding Source={RelativeSource AncestorType={x:Type entity:EntitySafetyAssessViewModel}}, Path=Assessment}"
                     x:DataType="safetyModels:SafetyAssessment"
                     FieldName="{local:Localize SocialWorkerName}"
                     Text="{Binding WorkerId}" />

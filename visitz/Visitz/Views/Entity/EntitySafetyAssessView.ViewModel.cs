@@ -22,7 +22,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
-    public SafetyAssessment safetyAssessment;
+    public SafetyAssessment assessment;
 
     [ObservableProperty]
     public IList<string> familyNames;
@@ -61,7 +61,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
         WeakReferenceMessenger.Default.Register(this, id);
 
-        SafetyAssessment ??= await MakeNewSafetyAssessment();
+        Assessment ??= await MakeNewSafetyAssessment();
 
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
@@ -98,21 +98,21 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 #if DEBUG
         WriteSafetyAssessmentJson();
 #endif
-        var msg = SubmitSafetyAssessmentService.MakeStartMessage(SafetyAssessment);
+        var msg = SubmitSafetyAssessmentService.MakeStartMessage(Assessment);
         WeakReferenceMessenger.Default.Send(msg);
     }
 
     [RelayCommand]
     public async void Reset()
     {
-        SafetyAssessment = await MakeNewSafetyAssessment();
+        Assessment = await MakeNewSafetyAssessment();
         SelectedChildren?.Clear();
     }
 
 #if DEBUG
     private void WriteSafetyAssessmentJson()
     {
-        var entity = SafetyAssessment.ToApiEntity();
+        var entity = Assessment.ToApiEntity();
 
         var json = System.Text.Json.JsonSerializer.Serialize(entity, new System.Text.Json.JsonSerializerOptions
         {
@@ -128,7 +128,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     private void TrySetSingularFamilyName()
     {
         if (FamilyNames.Count == 1)
-            SafetyAssessment.FamilyName = FamilyNames[0];
+            Assessment.FamilyName = FamilyNames[0];
     }
 
     public void Receive(ServiceStateMessage message)
@@ -141,14 +141,14 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         if (e.Action == NotifyCollectionChangedAction.Add)
         {
             foreach (FamilyMember child in e.NewItems.Cast<FamilyMember>())
-                SafetyAssessment.ChildsInOutCare.Add(child.ContactId);
+                Assessment.ChildsInOutCare.Add(child.ContactId);
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove)
         {
             foreach (FamilyMember child in e.OldItems.Cast<FamilyMember>())
-                SafetyAssessment.ChildsInOutCare.Remove(child.ContactId);
+                Assessment.ChildsInOutCare.Remove(child.ContactId);
         }
         else if (e.Action == NotifyCollectionChangedAction.Reset)
-            SafetyAssessment.ChildsInOutCare.Clear();
+            Assessment.ChildsInOutCare.Clear();
     }
 }
