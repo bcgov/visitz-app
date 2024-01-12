@@ -42,7 +42,14 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 		if (message.Status == VisitzService.State.Running)
 			// Temporary, to be replaced with better UI/UX
 			_ = Toast.Make("Submitting safety assessment").Show();
-		if (message.FinishedError)
+
+		if (message.FinishedSuccess)
+            await Navigator.CurrentOpenPage.DisplayAlert(
+                "Success",
+                "Safety assessment was submitted successfully.",
+                LocalizedStrings.Ok);
+
+        if (message.FinishedError)
 			await Navigator.CurrentOpenPage.DisplayAlert(
 				LocalizedStrings.Error,
 				message.Message, 
