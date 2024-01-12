@@ -2,6 +2,7 @@
 using Realms.Exceptions;
 using Realms.Schema;
 using Visitz.Models;
+using Visitz.Models.SafetyAssess;
 using Visitz.Storage.Migrations;
 
 #if WINDOWS
@@ -17,6 +18,7 @@ public class VisitzRealm
 
     public static readonly string IcmDataCopiesPath = "icmDataCopies.realm";
     public static readonly string NoteDraftRealmPath = "noteDraftRealm.realm";
+    public static readonly string SafetyAssessmentRealmPath = "safetyAssessmentRealmPath.realm";
 
     private static async Task<RealmConfiguration> MakeConfigAsync(string realmPath, RealmSchema schema)
     {
@@ -121,5 +123,10 @@ public class VisitzRealm
     public static async Task<Realm> GetNoteDraftAsync()
     {
         return await GetAsync(NoteDraftRealmPath, new[] { typeof(NoteDraft), });
+    }
+
+    public static async Task<Realm> GetSafetyAssessmentDraftAsync()
+    {
+        return await GetAsync(SafetyAssessmentRealmPath, schema: new[] { typeof(SafetyAssessment), });
     }
 }
