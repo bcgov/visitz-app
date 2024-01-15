@@ -1,4 +1,7 @@
-﻿namespace Visitz.Storage
+﻿using System.Text.Json;
+using Visitz.Models;
+
+namespace Visitz.Storage
 {
     public class DebugOptions
     {
@@ -65,6 +68,22 @@
         {
             if (Enabled)
                 VisitzRealm.DeleteRealmKey(VisitzRealm.IcmDataCopiesPath);
+        }
+
+        public static async Task Load620bTestingRecords()
+        {
+            using var json = await FileSystem.OpenAppPackageFileAsync(Path.Join("MockIcmData", "620b.json"));
+
+            var opts = new JsonSerializerOptions() 
+            {
+                PropertyNameCaseInsensitive = true,
+                PreferredObjectCreationHandling = System.Text.Json.Serialization.JsonObjectCreationHandling.Populate
+            };
+
+            var caseload = await JsonSerializer.DeserializeAsync<IEnumerable<CaseloadItem>>(json, options: opts);
+            using var realm = await VisitzRealm.GetIcmDataAsync();
+
+            await realm.WriteAsync(() => realm.Add(caseload, update: true));
         }
     }
 }

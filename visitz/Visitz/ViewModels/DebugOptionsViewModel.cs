@@ -106,6 +106,19 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
+        public async void Load620bData()
+        {
+            try
+            {
+                await DebugOptions.Load620bTestingRecords();
+            }
+            catch (Exception ex)
+            {
+                await Navigator.CurrentOpenPage.DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
+
+        [RelayCommand]
         public async void Logout()
         {
             if (DebugOptions.Enabled)
