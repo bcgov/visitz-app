@@ -2,7 +2,6 @@
 {
     public class DebugOptions
     {
-        private static readonly string IdirOverrideKey = "IdirOverride";
         private static readonly string DryFireSubmitNotesKey = "DryFireSubmitNotes";
         private static readonly string DryFireSubmitNotesSimulateSuccessKey = "DryFireSubmitNotesSimulateSuccess";
         private static readonly string SkipLocalAuthKey = "SkipLocalAuth";
@@ -23,12 +22,6 @@
         {
             if (Enabled)
                 Preferences.Default.Set(key, value);
-        }
-
-        public static string IdirOverride
-        {
-            get => Get(IdirOverrideKey, "");
-            set => Set(IdirOverrideKey, value.Trim());
         }
 
         public static bool DryFireSubmitNotes

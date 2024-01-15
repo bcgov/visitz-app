@@ -49,19 +49,6 @@
 
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Text="Current session IDIR override" />
-
-                <Entry 
-                    StyleClass="DebugLayout,DebugInputView"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    WidthRequest="200"
-                    Text="{Binding IdirOverride}" />
-
-                <Label
-                    StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="1"
                     Grid.Column="0"
                     Text="Token actions" />
