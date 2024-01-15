@@ -1,4 +1,5 @@
 ﻿using Realms;
+using Visitz.Extensions;
 using VisitzApi.Models;
 
 namespace Visitz.Models
@@ -31,6 +32,19 @@ namespace Visitz.Models
             FirstName, MiddleName, LastName);
 
         public bool IsKeyPlayer => KeyPlayer == "Y";
+
+        public string Address =>
+            (ContactUnitNo.FormatAddressPart("-")
+            + ContactAddressLine1.FormatAddressPart(" ")
+            + ContactAddressLine2.FormatAddressPart(" ")
+            + ContactCity.FormatAddressPart(", ")
+            + ContactProvinceState.FormatAddressPart(", ")
+            + ContactCountry.FormatAddressPart(", "))
+            + ContactPostalCode.FormatAddressPart("")
+            .TrimEnd([',', ' ', '-'])
+            .TrimEnd([',', ' ', '-']);
+
+        public int Age => (DateTime.Now - DateTime.Parse(DateOfBirth)).Days / 365;
 
         public static FamilyMember FromApiEntity(FamilyMemberEntity familyMember)
         {

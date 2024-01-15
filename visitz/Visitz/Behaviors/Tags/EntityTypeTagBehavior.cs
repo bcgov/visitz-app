@@ -3,47 +3,43 @@ using Visitz.Models;
 using Visitz.Resources.Styles;
 using Visitz.Views;
 
-namespace Visitz.Behaviors;
+namespace Visitz.Behaviors.Tags;
 
-class EntityTypeTagBehavior : TagStyleBehavior
+public class EntityTypeTagBehavior : TagStyleBehavior
 {
     protected override void ApplyTagStyle(TagView tag)
     {
         if (tag.BindingContext is not CaseloadItem item)
             return;
 
-        tag.Text = item.EntityType;
         tag.BorderColor = Colors.Transparent;
+        tag.BackgroundColor = Colors.Transparent;
+
+        if (string.IsNullOrWhiteSpace(tag.Text))
+            tag.Text = item.FullType;
 
         if (item.EntityType == IcmEntity.Case)
         {
-            tag.BackgroundColor = VisitzColors.EntityCaseTagBackground;
             tag.TextColor = VisitzColors.EntityCaseTagText;
-            tag.ImageSource = MaterialIcons.Folder.GetUnfilledMaterialIcon(VisitzColors.EntityCaseTagText);
+            tag.ImageSource = MaterialIcons.Folder.GetUnfilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.Incident)
         {
-            tag.BackgroundColor = VisitzColors.EntityIncidentTagBackground;
             tag.TextColor = VisitzColors.EntityIncidentTagText;
-            tag.ImageSource = MaterialIcons.Warning.GetUnfilledMaterialIcon(VisitzColors.EntityIncidentTagText);
+            tag.ImageSource = MaterialIcons.Description.GetUnfilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.Memo)
         {
-            tag.BackgroundColor = VisitzColors.EntityMemoTagBackground;
             tag.TextColor = VisitzColors.EntityMemoTagText;
-            tag.ImageSource = MaterialIcons.Note_alt.GetUnfilledMaterialIcon(VisitzColors.EntityMemoTagText);
+            tag.ImageSource = MaterialIcons.Note_alt.GetUnfilledMaterialIcon();
         }
         else if (item.EntityType == IcmEntity.ServiceRequest)
         {
-            tag.BackgroundColor = VisitzColors.EntityServiceRequestTagBackground;
             tag.TextColor = VisitzColors.EntityServiceRequestTagText;
-            tag.ImageSource = MaterialIcons.Headset_mic
-                .GetUnfilledMaterialIcon(VisitzColors.EntityServiceRequestTagText);
+            tag.ImageSource = MaterialIcons.Headset_mic.GetUnfilledMaterialIcon();
         }
         else
         {
-            tag.BackgroundColor = Colors.Transparent;
-            tag.BorderColor = VisitzColors.BC_Blue;
             tag.TextColor = VisitzColors.BC_TextColor;
             tag.ImageSource = null;
         }

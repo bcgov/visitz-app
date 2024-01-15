@@ -1,0 +1,72 @@
+namespace Visitz.Views.FormControls;
+
+public partial class FormEntry : ContentView
+{
+    public static readonly BindableProperty FieldNameProperty =
+        BindableProperty.Create(nameof(FieldName), typeof(string), typeof(FormEntry));
+
+    public static readonly BindableProperty TextProperty =
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(FormEntry),
+            defaultBindingMode: BindingMode.TwoWay);
+
+    public static readonly BindableProperty LeadingSupportingTextProperty =
+        BindableProperty.Create(nameof(LeadingSupportingText), typeof(string), typeof(FormEntry));
+
+    public static readonly BindableProperty TrailingSupportingTextProperty =
+        BindableProperty.Create(nameof(TrailingSupportingText), typeof(string), typeof(FormEntry));
+
+    public static readonly BindableProperty FieldNameIsVisibleProperty =
+        BindableProperty.Create(nameof(FieldNameIsVisible), typeof(bool), typeof(FormEntry), 
+            defaultValue: true,
+            propertyChanged: (boundObj, oldVal, newVal) =>
+        {
+            var formEntry = (FormEntry)boundObj;
+            var isVisible = (bool)newVal;
+
+            formEntry.FieldNameRow.Height = isVisible ? GridLength.Star : 0.0;
+        });
+
+    public static readonly BindableProperty PlaceholderProperty =
+        BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(FormEntry));
+
+    public string FieldName
+    {
+        get => (string)GetValue(FieldNameProperty);
+        set => SetValue(FieldNameProperty, value);
+    }
+
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
+
+    public string LeadingSupportingText
+    {
+        get => (string)GetValue(LeadingSupportingTextProperty);
+        set => SetValue(LeadingSupportingTextProperty, value);
+    }
+
+    public string TrailingSupportingText
+    {
+        get => (string)GetValue(TrailingSupportingTextProperty);
+        set => SetValue(TrailingSupportingTextProperty, value);
+    }
+
+    public bool FieldNameIsVisible
+    {
+        get => (bool)GetValue(FieldNameIsVisibleProperty);
+        set => SetValue(FieldNameIsVisibleProperty, value);
+    }
+
+    public string Placeholder
+    {
+        get => (string)GetValue(PlaceholderProperty);
+        set => SetValue(PlaceholderProperty, value);
+    }
+
+    public FormEntry()
+	{
+		InitializeComponent();
+	}
+}

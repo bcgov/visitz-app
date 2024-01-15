@@ -29,6 +29,8 @@ public static class VisitzColors
     public static readonly Color BC_Semantic_Error = TryGetColor(nameof(BC_Semantic_Error));
     public static readonly Color BC_Semantic_Success = TryGetColor(nameof(BC_Semantic_Success));
 
+    public static readonly Color Semantic_Warning_LargeText = TryGetColor(nameof(Semantic_Warning_LargeText));
+
     // Primary uses color 'BC_Blue'
     public static readonly Color Primary = TryGetColor(nameof(Primary));
     
@@ -48,6 +50,11 @@ public static class VisitzColors
     
     // BuildBarBackgroundColor uses one of the <build> colors
     public static readonly Color BuildBarBackgroundColor = TryGetColor(nameof(BuildBarBackgroundColor));
+
+    public static readonly Color ItemSelectedColor = TryGetColor(nameof(ItemSelectedColor));
+
+    public static readonly Color EntityNavBackgroundColor = TryGetColor(nameof(EntityNavBackgroundColor));
+    public static readonly Color EntityNavSelectedColor = TryGetColor(nameof(EntityNavSelectedColor));
 
     // Tags Colors
     public static readonly Color EntityCaseTagBackground = TryGetColor(nameof(EntityCaseTagBackground));
@@ -76,9 +83,13 @@ public static class VisitzColors
 
     public static readonly Color LightGrayText = TryGetColor(nameof(LightGrayText));
     public static readonly Color DarkSkyBlueBackground = TryGetColor(nameof(DarkSkyBlueBackground));
+    public static readonly Color DarkSkyBlueBackgroundPointerOver = TryGetColor(nameof(DarkSkyBlueBackgroundPointerOver));
+    public static readonly Color DarkSkyBlueBackgroundPressed = TryGetColor(nameof(DarkSkyBlueBackgroundPressed));
     public static readonly Color BlackishText = TryGetColor(nameof(BlackishText));
     public static readonly Color LightGrayBackground = TryGetColor(nameof(LightGrayBackground));
     public static readonly Color SkyBlueText = TryGetColor(nameof(SkyBlueText));
+
+    public static readonly Color SeparatorColor = TryGetColor(nameof(SeparatorColor));
 
     public static readonly Color Gray100 = TryGetColor(nameof(Gray100));
     public static readonly Color Gray200 = TryGetColor(nameof(Gray200));
@@ -98,4 +109,9 @@ public static class VisitzColors
     public static readonly Color Blue100Accent = TryGetColor(nameof(Blue100Accent));
     public static readonly Color Blue200Accent = TryGetColor(nameof(Blue200Accent));
     public static readonly Color Blue300Accent = TryGetColor(nameof(Blue300Accent));
+
+    public static readonly Color UnpublishedDraftBackground = TryGetColor(nameof(UnpublishedDraftBackground));
+    public static readonly Color UnpublishedDraftTextColor = TryGetColor(nameof(UnpublishedDraftTextColor));
+
+    public static readonly Color ClearButtonColor = TryGetColor(nameof(ClearButtonColor));
 }

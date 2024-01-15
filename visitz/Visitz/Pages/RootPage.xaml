@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Pages.RootPage"
+    x:DataType="viewmodels:RootViewModel"
+    NavigationPage.HasNavigationBar="False"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+
+    <pages:VisitzPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarStyle="LightContent" StatusBarColor="{StaticResource BuildBarBackgroundColor}" />
+    </pages:VisitzPage.Behaviors>
+
+    <StackLayout Orientation="Vertical">
+        <StackLayout 
+            Orientation="Horizontal"
+            HorizontalOptions="FillAndExpand" 
+            VerticalOptions="FillAndExpand">
+
+            <!-- 
+                For some reason it seems that the ContentView's implicit binding context changes, so we need to
+                specifically reference RootViewModel.
+            -->
+            <nav:VerticalNavRailView IsVisible="{Binding IsLandscape, 
+                Source={RelativeSource AncestorType={x:Type viewmodels:RootViewModel}}}" />
+
+            <BoxView 
+                IsVisible="{Binding IsLandscape}"
+                WidthRequest="2"
+                Color="{StaticResource BC_Gold}" />
+
+            <StackLayout 
+                x:Name="ContentPane" 
+                Orientation="Horizontal"
+                HorizontalOptions="FillAndExpand" 
+                VerticalOptions="FillAndExpand" />
+
+        </StackLayout>
+
+        <BoxView 
+            IsVisible="{Binding IsPortrait}"
+            HeightRequest="2"
+            Color="{StaticResource BC_Gold}" />
+
+        <!-- 
+            For some reason it seems that the ContentView's implicit binding context changes, so we need to
+            specifically reference RootViewModel.
+        -->
+        <nav:HorizontalNavRailView IsVisible="{Binding IsPortrait, 
+            Source={RelativeSource AncestorType={x:Type viewmodels:RootViewModel}}}" />
+
+    </StackLayout>
+    
+</pages:VisitzPage>

@@ -17,6 +17,8 @@
     <Color x:Key="BC_Semantic_Error">#D8292F</Color>
     <Color x:Key="BC_Semantic_Success">#2E8540</Color>
 
+    <Color x:Key="Semantic_Warning_LargeText">#B38600</Color>
+
     <!-- Primary uses color 'BC_Blue' -->
     <Color x:Key="Primary">#003366</Color>
 
@@ -36,6 +38,11 @@
 
     <!-- BuildBarBackgroundColor uses one of the <build> colors -->
     <Color x:Key="BuildBarBackgroundColor">#406</Color>
+
+    <Color x:Key="ItemSelectedColor">#D4DEFF</Color>
+
+    <Color x:Key="EntityNavBackgroundColor">White</Color>
+    <Color x:Key="EntityNavSelectedColor">#d4def2</Color>
 
     <!-- Tags Colors -->
     <Color x:Key="EntityCaseTagBackground">#C2E0FF</Color>
@@ -64,9 +71,14 @@
 
     <Color x:Key="LightGrayText">#606062</Color>
     <Color x:Key="DarkSkyBlueBackground">#0073E6</Color>
+    <Color x:Key="DarkSkyBlueBackgroundPointerOver">#0582ff</Color>
+    <Color x:Key="DarkSkyBlueBackgroundPressed">#0069d1</Color>
     <Color x:Key="BlackishText">#131315</Color>
     <Color x:Key="LightGrayBackground">#F9F9F9</Color>
     <Color x:Key="SkyBlueText">#005CB8</Color>
+
+    <!-- References Gray200 -->
+    <Color x:Key="SeparatorColor">#C8C8C8</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
@@ -104,5 +116,7 @@
 
     <Color x:Key="UnpublishedDraftBackground">#FCED69</Color>
     <Color x:Key="UnpublishedDraftTextColor">#4F4C03</Color>
+
+    <Color x:Key="ClearButtonColor">#6b6669</Color>
 
 </ResourceDictionary>

@@ -52,7 +52,7 @@ namespace Visitz.ViewModels
                     );
                     break;
                 case DeviceAuthenticator.Result.Successful:
-                    await VisitzApp.Navigation.PopModalAsync();
+                    await Navigator.Navigation.PopModalAsync();
                     break;
             }
         }

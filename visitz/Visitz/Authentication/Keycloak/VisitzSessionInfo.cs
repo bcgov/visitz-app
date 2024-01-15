@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text.Json;
 using Visitz.Storage;
 
 namespace Visitz.Authentication.Keycloak
@@ -32,7 +32,7 @@ namespace Visitz.Authentication.Keycloak
             object tryOutput = null;
             var didGet = AccessToken?.Payload?.TryGetValue(key, out tryOutput) ?? false;
 
-            output = (T)tryOutput;
+            output = tryOutput != null ? (T)tryOutput : default;
             return didGet;
         }
 
@@ -45,13 +45,18 @@ namespace Visitz.Authentication.Keycloak
 
         private List<string> GetRoles()
         {
-            List<string> outRoles = new();
+            List<string> outRoles = [];
 
-            if (TryGet<IEnumerable>(RolesKey, out var roles))
-                foreach (var role in roles)
+            if (TryGet<JsonElement>(RolesKey, out var roles))
+                foreach (var role in roles.EnumerateArray())
                     outRoles.Add(role.ToString());
 
             return outRoles;
+        }
+
+        private static string GetInitialOrNull(string name)
+        {
+            return name?.Length > 0 ? name[0].ToString() : null;
         }
 
         public string Idir => GetIdir();
@@ -66,8 +71,19 @@ namespace Visitz.Authentication.Keycloak
 
         public string FamilyName => TryGet<string>(FamilyNameKey, out var familyName) ? familyName : "";
 
+        public string FirstLastName => $"{GivenName} {FamilyName}";
+
         public string Email => TryGet<string>(EmailKey, out var email) ? email : "";
 
         public bool HasBasicAccessRole => GetRoles().Contains(VisitzRoles.BasicAccess);
+
+        public string UserInitials
+        {
+            get
+            {
+                var initials = GetInitialOrNull(GivenName) + GetInitialOrNull(FamilyName);
+                return initials?.Length > 0 ? initials : "--";
+            }
+        }
     }
 }

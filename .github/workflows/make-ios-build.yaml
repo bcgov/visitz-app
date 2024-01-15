@@ -12,12 +12,14 @@ on:
 
 env:
   PROJPATH: "visitz/Visitz"
+  DOTNET_VERSION: "8.0.100" # see workflows README
+  MAUI_VERSION: "8.0.3" # see workflows README
 
 jobs:
 
   build-ios-package:
     name: Building, archiving and uploading IPA to GitHub
-    runs-on: macOS-latest
+    runs-on: macOS-13
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
     env:
@@ -26,6 +28,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Setup Xcode version
+        uses: maxim-lobanov/setup-xcode@v1.6.0
+        with:
+          xcode-version: '15.0.1'
 
       - name: Import code-signing certificates
         uses: Apple-Actions/import-codesign-certs@v1
@@ -48,18 +55,17 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3.1.0
         with:
-          dotnet-version: ${{ vars.DOTNET_VERSION }}
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Install .NET MAUI ${{ vars.MAUI_VERSION }} workloads
+      - name: Install .NET MAUI ${{ env.MAUI_VERSION }} workloads
         run: |
           dotnet workload install maui maui-ios \
-            --sdk-version=${{ vars.DOTNET_VERSION }} \
-            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ vars.MAUI_VERSION }}.json
+            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
 
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |
           dotnet publish $PROJPATH \
-            --framework net7.0-ios \
+            --framework net8.0-ios \
             --configuration Release \
             -p:ApplicationVersion=${{ github.run_number }} \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
@@ -75,11 +81,11 @@ jobs:
 
       - name: Prepare output package
         run: |
-          cd ${{ env.PROJPATH }}/bin/Release/net7.0-ios/ios-arm64/publish
+          cd ${{ env.PROJPATH }}/bin/Release/net8.0-ios/ios-arm64/publish
           mv "MCFD Mobility.ipa" "$OUTPUT_NAME.ipa"
 
       - name: Upload IPA archive (${{ inputs.environment }})
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{ env.OUTPUT_NAME }}
-          path: ${{ env.PROJPATH }}/bin/Release/net7.0-ios/ios-arm64/publish/*.ipa
+          path: ${{ env.PROJPATH }}/bin/Release/net8.0-ios/ios-arm64/publish/*.ipa

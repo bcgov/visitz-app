@@ -1,4 +1,5 @@
 ﻿using Realms;
+using Visitz.Extensions;
 using VisitzApi.Models;
 
 namespace Visitz.Models
@@ -33,6 +34,12 @@ namespace Visitz.Models
         public string MemoCallTime { get; set; }
         public string MemoRecordedBy { get; set; }
 
+#pragma warning disable RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
+        public FamilyMember KeyPlayer => FamilyMembers?
+            .Where(mem => mem.IsKeyPlayer)
+            .FirstOrDefault();
+#pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
+
         public string DisplayDate
         {
             get
@@ -59,9 +66,17 @@ namespace Visitz.Models
             }
         }
 
+        public string KeyPlayerLastName => KeyPlayer?.LastName ?? string.Empty;
+
+        public string FullType => CaseIncidentType + " " + EntityType;
+
+        public string TypeInitials => (EntityType == IcmEntity.Incident 
+            ? EntityType[..2]
+            : CaseIncidentType.GetInitials()).ToUpper();
+
         public bool TryGetKeyPlayer(out FamilyMember keyPlayer)
         {
-            keyPlayer = FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault();
+            keyPlayer = KeyPlayer;
             return keyPlayer != null;
         }
 
@@ -72,22 +87,16 @@ namespace Visitz.Models
                 : DateTime.MinValue;
         }
 
-        // Copied from previous implementation. TODO: review if this is required, and clean up if so
-        public string Address
-        {
-            get
-            {
-                var address = UnitNo + AddressLine1 + AddressLine2
-                + City + PostalCode + ProvinceState + Country;
-
-                return address.Length == 0
-                    ? "NA"
-                    : (UnitNo.Length > 0 ? UnitNo : "N/A") + ", " + (AddressLine1.Length > 0 ? AddressLine1 : "N/A") +
-                        ", " + (AddressLine2.Length > 0 ? AddressLine2 : "N/A") + ", " + (City.Length > 0 ? City : "N/A") +
-                        ", " + (PostalCode.Length > 0 ? PostalCode : "N/A") + ", " + (ProvinceState.Length > 0 ? ProvinceState : "N/A") +
-                        ", " + (Country.Length > 0 ? Country : "N/A");
-            }
-        }
+        public string Address =>
+            (UnitNo.FormatAddressPart("-")
+            + AddressLine1.FormatAddressPart(" ")
+            + AddressLine2.FormatAddressPart(" ")
+            + City.FormatAddressPart(", ")
+            + ProvinceState.FormatAddressPart(", ")
+            + Country.FormatAddressPart(", ")
+            + PostalCode.FormatAddressPart(""))
+            .TrimEnd([',', ' ', '-'])
+            .TrimEnd([',', ' ', '-']);
 
         public static CaseloadItem FromApiEntity(CaseloadEntity caseloadEntity)
         {
@@ -133,6 +142,16 @@ namespace Visitz.Models
         public static IEnumerable<CaseloadItem> FromApiEntities(IEnumerable<CaseloadEntity> caseloadEntities)
         {
             return caseloadEntities.Select(FromApiEntity);
+        }
+
+        public static IQueryable<CaseloadItem> GetAllByDistinctSubtypes(Realm realm, bool sortAsc)
+        {
+            string subtype = nameof(CaseIncidentType);
+            string sortDirection = sortAsc ? "ASC" : "DESC";
+
+            return realm
+                .All<CaseloadItem>()
+                .Filter($"TRUEPREDICATE DISTINCT({subtype}) SORT({subtype} {sortDirection})");
         }
     }
 }

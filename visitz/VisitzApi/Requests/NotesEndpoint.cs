@@ -26,7 +26,7 @@ namespace VisitzApi.Requests
                 {
                     [RequestGetNotesKey] = new JsonObject()
                     {
-                        [JsonKey.Payload] = new JsonObject()
+                        [JsonKey.PayLoad] = new JsonObject()
                         {
                             [EntityNumberKey] = EntityNumber,
                             [EntityTypeKey] = EntityType
@@ -57,7 +57,7 @@ namespace VisitzApi.Requests
             var notesJson = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty(ResponseGetNotesKey)
-                .GetProperty(JsonKey.Payload)
+                .GetProperty(JsonKey.PayLoad)
                 .GetProperty(NotesKey);
 
             var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };

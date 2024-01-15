@@ -7,132 +7,98 @@
     xmlns:models="clr-namespace:Visitz.Models"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.ContactItemView"
-    x:DataType="models:FamilyMember">
+    x:DataType="models:FamilyMember"
+    HorizontalOptions="Start">
 
-    <Border
-        x:Name="ContainerBorder"
-        Stroke="#DFDFE1"
-        StrokeThickness="2"
-        Padding="20">
+    <Grid
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+        RowSpacing="10"
+        ColumnDefinitions="Auto,*"
+        ColumnSpacing="10"
+        Margin="10,20,10,20">
 
-        <Border.StrokeShape>
-            <RoundRectangle CornerRadius="4,4,4,4"/>
-        </Border.StrokeShape>
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Spacing="5"
+            Padding="10,0,10,0">
+            
+            <Label
+                Text="{Binding FullDisplayName}"
+                FontFamily="BCSansBold"
+                FontSize="17"/>
 
-        <VerticalStackLayout Spacing="10">
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
-                <Image
-                    HeightRequest="28"
-                    WidthRequest="28"
-                    VerticalOptions="Center"
-                    Margin="0,0,-5,0">
-                    <Image.Source>
-                        <FontImageSource 
-                            Glyph="{Static fonticons:MaterialIcons.Person}"
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                            Color="#5702AF" />
-                    </Image.Source>
-                </Image>
+            <views:TagView Padding="8,3">
+                <views:TagView.Behaviors>
+                    <tag_behaviors:ContactRelationshipTagBehavior />
+                </views:TagView.Behaviors>
+            </views:TagView>
+        </HorizontalStackLayout>
 
-                <Label 
-                    Text="{Binding FullDisplayName}"
-                    FontSize="17"
-                    FontFamily="BCSansBold"
-                    VerticalOptions="Center" />
+        <Label 
+            Grid.Row="1"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="Age" />
 
-                <views:TagView VerticalOptions="Center">
-                    <views:TagView.Behaviors>
-                        <tag_behaviors:ContactRelationshipTagBehavior />
-                    </views:TagView.Behaviors>
-                </views:TagView>
-            </HorizontalStackLayout>
+        <Label 
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalOptions="Start"
+            FontFamily="BCSansRegular"            
+            Text="{Binding Age}" />
 
-            <HorizontalStackLayout x:Name="PhoneRow" Spacing="5">
-                <views:TagView
-                    x:Name="CellPhoneTagView"
-                    BackgroundColor="Transparent"
-                    Text="{Binding CellPhone}"
-                    BorderColor="{StaticResource PurpleTagBorder}"
-                    VerticalOptions="Center">
-                    
-                    <views:TagView.ImageSource>
-                        <FontImageSource 
-                            Glyph="{Static fonticons:MaterialIcons.Phone_iphone}"
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                            Color="{StaticResource BC_TextColor}" />
-                    </views:TagView.ImageSource>
-                    
-                </views:TagView>
+        <Label 
+            Grid.Row="2"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="Birthdate" />
 
-                <views:TagView
-                    x:Name="HomePhoneTagView"
-                    BackgroundColor="Transparent"
-                    Text="{Binding HomePhone}"
-                    BorderColor="{StaticResource PurpleTagBorder}"
-                    VerticalOptions="Center">
+        <Label 
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalOptions="Start"
+            FontFamily="BCSansRegular"
+            Text="{Binding DateOfBirth}" />
 
-                    <views:TagView.ImageSource>
-                        <FontImageSource 
-                            Glyph="{Static fonticons:MaterialIcons.Home}"
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                            Color="{StaticResource BC_TextColor}" />
-                    </views:TagView.ImageSource>
+        <Label 
+            Grid.Row="3"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="Gender" />
 
-                </views:TagView>
-            </HorizontalStackLayout>
+        <Label 
+            Grid.Row="3"
+            Grid.Column="1"
+            HorizontalOptions="Start"
+            FontFamily="BCSansRegular"
+            Text="{Binding Sex}" />
 
-            <Grid BackgroundColor="Transparent" RowSpacing="10">
-                
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+        <Label 
+            Grid.Row="4"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="Indigenous" />
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+        <Label 
+            Grid.Row="4"
+            Grid.Column="1"
+            HorizontalOptions="Start"
+            FontFamily="BCSansRegular"
+            Text="{Binding AboriginalOrigin}" />
 
-                <!-- TODO: Make a Control template for FormItemView to render side-by-side and replace these stacklayouts with it -->
-                <HorizontalStackLayout Spacing="5">
-                    <Label 
-                        FontSize="17"
-                        FontFamily="BCSansRegular"
-                        TextColor="{StaticResource BC_InputControlsTextColor}"
-                        Text="Date of birth:"/>
+        <Label 
+            Grid.Row="5"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="Address" />
 
-                    <Label 
-                        FontSize="17"
-                        FontFamily="BCSansRegular"
-                        Text="{Binding DateOfBirth}"/>
-                </HorizontalStackLayout>
+        <Label 
+            Grid.Row="5"
+            Grid.Column="1"
+            HorizontalOptions="Start"
+            FontFamily="BCSansRegular"
+            Text="{Binding Address}" />
 
-                <HorizontalStackLayout Grid.Row="1" Spacing="5">
-                    <Label 
-                        FontSize="17"
-                        FontFamily="BCSansRegular"
-                        TextColor="{StaticResource BC_InputControlsTextColor}"
-                        Text="Indigenous:"/>
-
-                    <Label 
-                        FontSize="17"
-                        FontFamily="BCSansRegular"
-                        Text="{Binding AboriginalOrigin}"/>
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout Grid.Column="1" Spacing="5">
-                    <Label 
-                        FontSize="17"
-                        FontFamily="BCSansRegular"
-                        TextColor="{StaticResource BC_InputControlsTextColor}"
-                        Text="Gender:"/>
-
-                    <Label 
-                        FontSize="17"
-                        FontFamily="BCSansRegular"
-                        Text="{Binding Sex}"/>
-                </HorizontalStackLayout>
-            </Grid>
-        </VerticalStackLayout>
-    </Border>
+    </Grid>
 </ContentView>

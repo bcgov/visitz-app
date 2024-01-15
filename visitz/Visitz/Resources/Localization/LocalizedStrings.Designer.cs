@@ -22,7 +22,7 @@ namespace Visitz.Resources.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class LocalizedStrings {
+    public class LocalizedStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Visitz.Resources.Localization {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Visitz.Resources.Localization.LocalizedStrings", typeof(LocalizedStrings).Assembly);
@@ -51,7 +51,7 @@ namespace Visitz.Resources.Localization {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add notes.
+        /// </summary>
+        public static string AddNotes {
+            get {
+                return ResourceManager.GetString("AddNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
-        internal static string All {
+        public static string All {
             get {
                 return ResourceManager.GetString("All", resourceCulture);
             }
@@ -72,7 +81,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        internal static string Cancel {
+        public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
@@ -81,7 +90,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
-        internal static string Caseload {
+        public static string Caseload {
             get {
                 return ResourceManager.GetString("Caseload", resourceCulture);
             }
@@ -90,16 +99,16 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to All clear! Nothing is assigned to you..
         /// </summary>
-        internal static string CaseloadIsEmpty {
+        public static string CaseloadIsEmpty {
             get {
                 return ResourceManager.GetString("CaseloadIsEmpty", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search by key player&apos;s name or ID.
+        ///   Looks up a localized string similar to Search by key player&apos;s name.
         /// </summary>
-        internal static string CaseloadSearchHint {
+        public static string CaseloadSearchHint {
             get {
                 return ResourceManager.GetString("CaseloadSearchHint", resourceCulture);
             }
@@ -108,7 +117,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Case type.
         /// </summary>
-        internal static string CaseType {
+        public static string CaseType {
             get {
                 return ResourceManager.GetString("CaseType", resourceCulture);
             }
@@ -117,25 +126,61 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Character limit reached.
         /// </summary>
-        internal static string CharacterLimitReached {
+        public static string CharacterLimitReached {
             get {
                 return ResourceManager.GetString("CharacterLimitReached", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Child.
+        /// </summary>
+        public static string Child {
+            get {
+                return ResourceManager.GetString("Child", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Children in-care/out-of-care.
+        /// </summary>
+        public static string ChildrenInOutCare {
+            get {
+                return ResourceManager.GetString("ChildrenInOutCare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected—no internet available.
         /// </summary>
-        internal static string ConnectedNoInternet {
+        public static string ConnectedNoInternet {
             get {
                 return ResourceManager.GetString("ConnectedNoInternet", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date of assessment.
+        /// </summary>
+        public static string DateOfAssessment {
+            get {
+                return ResourceManager.GetString("DateOfAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
         /// </summary>
-        internal static string DeviceAuthReason {
+        public static string DeviceAuthReason {
             get {
                 return ResourceManager.GetString("DeviceAuthReason", resourceCulture);
             }
@@ -144,7 +189,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Unlock MCFD Mobility.
         /// </summary>
-        internal static string DeviceAuthTitle {
+        public static string DeviceAuthTitle {
             get {
                 return ResourceManager.GetString("DeviceAuthTitle", resourceCulture);
             }
@@ -153,7 +198,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Draft saved.
         /// </summary>
-        internal static string DraftSaved {
+        public static string DraftSaved {
             get {
                 return ResourceManager.GetString("DraftSaved", resourceCulture);
             }
@@ -162,7 +207,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
-        internal static string Ellipsis {
+        public static string Ellipsis {
             get {
                 return ResourceManager.GetString("Ellipsis", resourceCulture);
             }
@@ -171,16 +216,79 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Enable device security.
         /// </summary>
-        internal static string EnableDeviceSecurity {
+        public static string EnableDeviceSecurity {
             get {
                 return ResourceManager.GetString("EnableDeviceSecurity", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Factors influencing child vulnerability.
+        /// </summary>
+        public static string FactorsInfluencingChildVuln {
+            get {
+                return ResourceManager.GetString("FactorsInfluencingChildVuln", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Age 0-5 years.
+        /// </summary>
+        public static string FactorVuln_AgeUpToFive {
+            get {
+                return ResourceManager.GetString("FactorVuln_AgeUpToFive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diminished mental capacity.
+        /// </summary>
+        public static string FactorVuln_DiminishedMental {
+            get {
+                return ResourceManager.GetString("FactorVuln_DiminishedMental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diminished physical capacity.
+        /// </summary>
+        public static string FactorVuln_DiminishedPhysical {
+            get {
+                return ResourceManager.GetString("FactorVuln_DiminishedPhysical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Significant diagnosed medical or mental disorder.
+        /// </summary>
+        public static string FactorVuln_MedicalMentalDisorder {
+            get {
+                return ResourceManager.GetString("FactorVuln_MedicalMentalDisorder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not readily accessible to community oversight.
+        /// </summary>
+        public static string FactorVuln_NotReadilyAccessible {
+            get {
+                return ResourceManager.GetString("FactorVuln_NotReadilyAccessible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ❌ Publishing to ICM failed.
         /// </summary>
-        internal static string FailedToPublishToIcm {
+        public static string FailedToPublishToIcm {
             get {
                 return ResourceManager.GetString("FailedToPublishToIcm", resourceCulture);
             }
@@ -189,34 +297,88 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to ❌ Refreshing notes on device failed.
         /// </summary>
-        internal static string FailedToRefreshNotes {
+        public static string FailedToRefreshNotes {
             get {
                 return ResourceManager.GetString("FailedToRefreshNotes", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Family members.
+        /// </summary>
+        public static string FamilyMembers {
+            get {
+                return ResourceManager.GetString("FamilyMembers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Family name.
+        /// </summary>
+        public static string FamilyName {
+            get {
+                return ResourceManager.GetString("FamilyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have an unpublished draft.
         /// </summary>
-        internal static string HaveUnpublishedDraft {
+        public static string HaveUnpublishedDraft {
             get {
                 return ResourceManager.GetString("HaveUnpublishedDraft", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conditions resulting in a child&apos;s inability to protect self. Mark all that apply to ANY child:.
+        /// </summary>
+        public static string InabilityProtectSelfMarkAll {
+            get {
+                return ResourceManager.GetString("InabilityProtectSelfMarkAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incident number.
+        /// </summary>
+        public static string IncidentNumber {
+            get {
+                return ResourceManager.GetString("IncidentNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert.
+        /// </summary>
+        public static string Insert {
+            get {
+                return ResourceManager.GetString("Insert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid entry.
         /// </summary>
-        internal static string InvalidEntry {
+        public static string InvalidEntry {
             get {
                 return ResourceManager.GetString("InvalidEntry", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key player.
+        /// </summary>
+        public static string KeyPlayer {
+            get {
+                return ResourceManager.GetString("KeyPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
-        internal static string Login {
+        public static string Login {
             get {
                 return ResourceManager.GetString("Login", resourceCulture);
             }
@@ -227,7 +389,7 @@ namespace Visitz.Resources.Localization {
         ///
         ///However, you currently aren&apos;t authorized to use MCFD Mobility. Please request access and try again later..
         /// </summary>
-        internal static string LoginSuccessButUnauth {
+        public static string LoginSuccessButUnauth {
             get {
                 return ResourceManager.GetString("LoginSuccessButUnauth", resourceCulture);
             }
@@ -236,7 +398,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Log out.
         /// </summary>
-        internal static string Logout {
+        public static string Logout {
             get {
                 return ResourceManager.GetString("Logout", resourceCulture);
             }
@@ -245,7 +407,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Log out and clear data.
         /// </summary>
-        internal static string LogoutAndClearData {
+        public static string LogoutAndClearData {
             get {
                 return ResourceManager.GetString("LogoutAndClearData", resourceCulture);
             }
@@ -256,16 +418,43 @@ namespace Visitz.Resources.Localization {
         ///
         ///Logging out won&apos;t affect your unpublished notes..
         /// </summary>
-        internal static string LogoutAndClearDataDesc {
+        public static string LogoutAndClearDataDesc {
             get {
                 return ResourceManager.GetString("LogoutAndClearDataDesc", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mark all that apply:.
+        /// </summary>
+        public static string MarkAllThatApply {
+            get {
+                return ResourceManager.GetString("MarkAllThatApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Narrative.
+        /// </summary>
+        public static string Narrative {
+            get {
+                return ResourceManager.GetString("Narrative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide rationale for the Safety Decision including how the intervention plan, if needed, is expected to mitigate safety concerns or is insufficient to address concerns:.
+        /// </summary>
+        public static string NarrativeDescription {
+            get {
+                return ResourceManager.GetString("NarrativeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No internet available.
         /// </summary>
-        internal static string NoInternet {
+        public static string NoInternet {
             get {
                 return ResourceManager.GetString("NoInternet", resourceCulture);
             }
@@ -274,7 +463,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to There are no notes for this {0}.
         /// </summary>
-        internal static string NoNotesForEntity {
+        public static string NoNotesForEntity {
             get {
                 return ResourceManager.GetString("NoNotesForEntity", resourceCulture);
             }
@@ -283,7 +472,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to There are no notes for {0}.
         /// </summary>
-        internal static string NoNotesForPeriod {
+        public static string NoNotesForPeriod {
             get {
                 return ResourceManager.GetString("NoNotesForPeriod", resourceCulture);
             }
@@ -292,7 +481,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to No results for &apos;{0}&apos;.
         /// </summary>
-        internal static string NoResultsForSearch {
+        public static string NoResultsForSearch {
             get {
                 return ResourceManager.GetString("NoResultsForSearch", resourceCulture);
             }
@@ -301,16 +490,34 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to No results for &apos;{0}&apos; and &apos;{1}&apos;.
         /// </summary>
-        internal static string NoResultsForSearchAndFilter {
+        public static string NoResultsForSearchAndFilter {
             get {
                 return ResourceManager.GetString("NoResultsForSearchAndFilter", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page {0}.
+        /// </summary>
+        public static string NotePageNumberHeader {
+            get {
+                return ResourceManager.GetString("NotePageNumberHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        public static string Notes {
+            get {
+                return ResourceManager.GetString("Notes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ✅ Notes published to ICM.
         /// </summary>
-        internal static string NotesPublishedToIcm {
+        public static string NotesPublishedToIcm {
             get {
                 return ResourceManager.GetString("NotesPublishedToIcm", resourceCulture);
             }
@@ -319,27 +526,198 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
-        internal static string Ok {
+        public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open date.
+        /// </summary>
+        public static string OpenDate {
+            get {
+                return ResourceManager.GetString("OpenDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/Care-provider.
+        /// </summary>
+        public static string ParentCareProvider {
+            get {
+                return ResourceManager.GetString("ParentCareProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protective capacities.
+        /// </summary>
+        public static string ProtectiveCapacities {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Child/Youth has the cognitive, physical and emotional capacity to participate in safety interventions.
+        /// </summary>
+        public static string ProtectiveCapacity_ChildCognitive {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ChildCognitive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string ProtectiveCapacity_Comments1 {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_Comments1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide a brief description of supporting observations and evidence of any protective capacities marked.
+        /// </summary>
+        public static string ProtectiveCapacity_Comments2 {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_Comments2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No protective capacities present.
+        /// </summary>
+        public static string ProtectiveCapacity_NoProCapPresent {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_NoProCapPresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider is willing to accept temporary interventions offered by child protection worker and/or other community agencies, including co-operation with continuing Family Development Response/investigation.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentAccept {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentAccept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider is aware of and committed to meeting the needs of the child/youth.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentAware {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentAware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has the cognitive, physical and emotional capacity to participate in safety interventions.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentCognitive {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentCognitive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has history of effective problem solving.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentProbSolving {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentProbSolving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to At least one parent/care-provider in the home is willing and able to take action to protect the child/youth, including asking offending parent/care-provider to leave.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentProtect {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentProtect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is evidence of a healthy relationship between parent/care-provider and child/youth.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentRelationship {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentRelationship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has the ability to access resources to provide necessary safety interventions.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentResources {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has supportive relationships with one or more persons (extended family, neighbours, community members, Elders or community agencies), who may be willing to participate in safety planning, AND parent/care-provider is willing and able to accept their assistance.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentSupportive {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentSupportive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider has a willingness to recognize problems and concerns placing the child/youth in imminent danger.
+        /// </summary>
+        public static string ProtectiveCapacity_ParentWillingness {
+            get {
+                return ResourceManager.GetString("ProtectiveCapacity_ParentWillingness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publishing notes to ICM.
         /// </summary>
-        internal static string PublishingNotesToIcm {
+        public static string PublishingNotesToIcm {
             get {
                 return ResourceManager.GetString("PublishingNotesToIcm", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publish to ICM.
+        /// </summary>
+        public static string PublishToIcm {
+            get {
+                return ResourceManager.GetString("PublishToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pull to refresh caseload from ICM.
         /// </summary>
-        internal static string PullToRefreshCaseload {
+        public static string PullToRefreshCaseload {
             get {
                 return ResourceManager.GetString("PullToRefreshCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready to finalize.
+        /// </summary>
+        public static string ReadyToFinalize {
+            get {
+                return ResourceManager.GetString("ReadyToFinalize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ready to finalize date.
+        /// </summary>
+        public static string ReadyToFinalizeDate {
+            get {
+                return ResourceManager.GetString("ReadyToFinalizeDate", resourceCulture);
             }
         }
         
@@ -350,7 +728,7 @@ namespace Visitz.Resources.Localization {
         ///
         ///To continue using the app: open the app switcher, force close MCFD Mobility, then launch it again..
         /// </summary>
-        internal static string RealmDatabaseErrorMessage {
+        public static string RealmDatabaseErrorMessage {
             get {
                 return ResourceManager.GetString("RealmDatabaseErrorMessage", resourceCulture);
             }
@@ -359,7 +737,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Restart app to fix data issue.
         /// </summary>
-        internal static string RealmDatabaseErrorTitle {
+        public static string RealmDatabaseErrorTitle {
             get {
                 return ResourceManager.GetString("RealmDatabaseErrorTitle", resourceCulture);
             }
@@ -368,7 +746,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to ✅ Refreshed notes on device.
         /// </summary>
-        internal static string RefreshedNotesOnDevice {
+        public static string RefreshedNotesOnDevice {
             get {
                 return ResourceManager.GetString("RefreshedNotesOnDevice", resourceCulture);
             }
@@ -377,61 +755,484 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Refreshing notes.
         /// </summary>
-        internal static string RefreshingNotes {
+        public static string RefreshingNotes {
             get {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Safety assessment.
+        /// </summary>
+        public static string SafetyAssessment {
+            get {
+                return ResourceManager.GetString("SafetyAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety assessment metadata.
+        /// </summary>
+        public static string SafetyAssessmentMetadata {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentMetadata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation.
+        /// </summary>
+        public static string SafetyAssessmentOperation {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety decision.
+        /// </summary>
+        public static string SafetyDecision {
+            get {
+                return ResourceManager.GetString("SafetyDecision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Children/Youth placed in out-of-care living arrangements or in care.
+        /// </summary>
+        public static string SafetyDecision_AllYouth {
+            get {
+                return ResourceManager.GetString("SafetyDecision_AllYouth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identify the safety decision by checking the appropriate line below. The decision should be based on the assessment of all safety factors, safety interventions, and any other information known about the case..
+        /// </summary>
+        public static string SafetyDecision_Prompt {
+            get {
+                return ResourceManager.GetString("SafetyDecision_Prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following children were placed in an out-of-care living arrangement or in care.
+        /// </summary>
+        public static string SafetyDecision_SelectedYouth {
+            get {
+                return ResourceManager.GetString("SafetyDecision_SelectedYouth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Safe—no safety factors are identified at this time. Based on currently available information, there are no children/youth likely to be in immediate danger of serious harm.
+        /// </summary>
+        public static string SafetyDecision1_NoSafetyFactors {
+            get {
+                return ResourceManager.GetString("SafetyDecision1_NoSafetyFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Safe with intervention—one or more safety factors are present and protecting safety interventions have been planned or taken that immediately mitigate the identifies safety factors. Based on protecting interventions, child/youth will remain in the home at this time.
+        /// </summary>
+        public static string SafetyDecision2_SafeInterventions {
+            get {
+                return ResourceManager.GetString("SafetyDecision2_SafeInterventions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Unsafe—one or more safety factors are present and placement is the only protecting intervention possible for one or more children/youth. Without placement, one or more children/youths will likely be in danger of immediate or serious harm.
+        /// </summary>
+        public static string SafetyDecision3_UnsafeSafetyFactors {
+            get {
+                return ResourceManager.GetString("SafetyDecision3_UnsafeSafetyFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excessive discipline or physical force.
+        /// </summary>
+        public static string SafetyFactor1_Discipline {
+            get {
+                return ResourceManager.GetString("SafetyFactor1_Discipline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Parent/care-provider caused serious physical harm to the child/youth, or made a plausible threat to cause serious physical harm in the current report indicated by:.
+        /// </summary>
+        public static string SafetyFactor1_PhysicalHarm {
+            get {
+                return ResourceManager.GetString("SafetyFactor1_PhysicalHarm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent/care-provider fears he/she will maltreat child/youth.
+        /// </summary>
+        public static string SafetyFactor1_ProviderFears {
+            get {
+                return ResourceManager.GetString("SafetyFactor1_ProviderFears", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Serious injury or abuse to child other than accidental.
+        /// </summary>
+        public static string SafetyFactor1_SeriousInjury {
+            get {
+                return ResourceManager.GetString("SafetyFactor1_SeriousInjury", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Substance-exposed infant.
+        /// </summary>
+        public static string SafetyFactor1_Substance {
+            get {
+                return ResourceManager.GetString("SafetyFactor1_Substance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Threat to cause harm or retaliate against child/youth.
+        /// </summary>
+        public static string SafetyFactor1_ThreatOfHarm {
+            get {
+                return ResourceManager.GetString("SafetyFactor1_ThreatOfHarm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10. Intimate partner violence exists in the family..
+        /// </summary>
+        public static string SafetyFactor10_PartnerViolence {
+            get {
+                return ResourceManager.GetString("SafetyFactor10_PartnerViolence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 11. Parent/care-provider describes child/youth in predominantly negative terms or acts toward child/youth in negative ways that result in the child being self destructive, acting out aggressively or demonstrating severe anxiety, depression or withdrawal..
+        /// </summary>
+        public static string SafetyFactor11_PredominantlyNegative {
+            get {
+                return ResourceManager.GetString("SafetyFactor11_PredominantlyNegative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 12. Parent/care-provider&apos;s emotional stability, developmental status, or cognitive limitation seriously impairs his/her current ability to supervise, protect, or care for the child/youth..
+        /// </summary>
+        public static string SafetyFactor12_EmotionalStability {
+            get {
+                return ResourceManager.GetString("SafetyFactor12_EmotionalStability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 13. Child/youth is fearful of parent/care-provider, other family members, or other people living in or having access to the home..
+        /// </summary>
+        public static string SafetyFactor13_ChildFearful {
+            get {
+                return ResourceManager.GetString("SafetyFactor13_ChildFearful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments.
+        /// </summary>
+        public static string SafetyFactor14_Context {
+            get {
+                return ResourceManager.GetString("SafetyFactor14_Context", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 14. Other (please specify):.
+        /// </summary>
+        public static string SafetyFactor14_OtherFactors {
+            get {
+                return ResourceManager.GetString("SafetyFactor14_OtherFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Current circumstances, combined with information that the parent/care-provider has or may have previously maltreated (abuse or neglect) a child/youth in his/her care, suggest that the child/youth&apos;s safety may be of immediate concern based on the severity of the previous maltreatment or the parent/care-provider&apos;s response to the previous incident..
+        /// </summary>
+        public static string SafetyFactor2_CurrentCircumstances {
+            get {
+                return ResourceManager.GetString("SafetyFactor2_CurrentCircumstances", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Child/youth sexual abuse is suspected and circumstances suggest that child/youth&apos;s safety may be of immediate concern..
+        /// </summary>
+        public static string SafetyFactor3_SexAbuse {
+            get {
+                return ResourceManager.GetString("SafetyFactor3_SexAbuse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4. Parent/care-provider is unable or unwilling to protect child/youth from serious harm or threatened harm by other adults or children in the home. This may include physical, emotional, sexual abuse or neglect..
+        /// </summary>
+        public static string SafetyFactor4_UnableToProtect {
+            get {
+                return ResourceManager.GetString("SafetyFactor4_UnableToProtect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5. Parent/care-provider&apos;s explanation for the injury to the child/youth is questionable or inconsistent with type of injury, and the nature of the injury suggests that the child/youth&apos;s safety may be of imminent concern..
+        /// </summary>
+        public static string SafetyFactor5_InjuryExplanation {
+            get {
+                return ResourceManager.GetString("SafetyFactor5_InjuryExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6. The family refuses access to the child/youth or there is reason to believe that the family is about to flee..
+        /// </summary>
+        public static string SafetyFactor6_RefuseAccess {
+            get {
+                return ResourceManager.GetString("SafetyFactor6_RefuseAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 7. Parent/care-provider does not meet the child&apos;s immediate needs for supervision, food, clothing, medical, dental, or mental health care..
+        /// </summary>
+        public static string SafetyFactor7_ImmediateNeeds {
+            get {
+                return ResourceManager.GetString("SafetyFactor7_ImmediateNeeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 8. The physical living conditions are hazardous and immediately threatening to the health and/or safety of the child/youth..
+        /// </summary>
+        public static string SafetyFactor8_PhysicalCondition {
+            get {
+                return ResourceManager.GetString("SafetyFactor8_PhysicalCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 9. Parent/care-provider&apos;s current alcohol, drug, or substance abuse seriously impairs his/her ability to supervise, protect, or care for the child/youth..
+        /// </summary>
+        public static string SafetyFactor9_CurrentAbuse {
+            get {
+                return ResourceManager.GetString("SafetyFactor9_CurrentAbuse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety factors.
+        /// </summary>
+        public static string SafetyFactors {
+            get {
+                return ResourceManager.GetString("SafetyFactors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After weighing the Safety Factors and the Protective Capacities consider whether safety interventions 1-8 will allow the child to remain in the home for the present time. Check the item number for all safety interventions that will be implemented. If there are no available safety interventions that would allow the child/youth to remain in the home, indicate by checking item nine or ten, and follow procedures for initiating a voluntary agreement for placement in an out-of-care or in-care living arrangement o [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string SafetyIntervention_Description {
+            get {
+                return ResourceManager.GetString("SafetyIntervention_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes.
+        /// </summary>
+        public static string SafetyIntervention_Prompt {
+            get {
+                return ResourceManager.GetString("SafetyIntervention_Prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Direct service intervention by the child protection worker.
+        /// </summary>
+        public static string SafetyIntervention1_DirectIntervention {
+            get {
+                return ResourceManager.GetString("SafetyIntervention1_DirectIntervention", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10. Child/youth removed because interventions 1-9 do not adequately assure child&apos;s safety.
+        /// </summary>
+        public static string SafetyIntervention10_ChildRemoved {
+            get {
+                return ResourceManager.GetString("SafetyIntervention10_ChildRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Use of extended family, neighbours, community Elders, or other individuals in the community as safety resources.
+        /// </summary>
+        public static string SafetyIntervention2_UseOfIndividuals {
+            get {
+                return ResourceManager.GetString("SafetyIntervention2_UseOfIndividuals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources.
+        /// </summary>
+        public static string SafetyIntervention3_UseCommAgencies {
+            get {
+                return ResourceManager.GetString("SafetyIntervention3_UseCommAgencies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4. Parent/care-provider to appropriately protect victim from alleged perpetrator.
+        /// </summary>
+        public static string SafetyIntervention4_ProtectVictim {
+            get {
+                return ResourceManager.GetString("SafetyIntervention4_ProtectVictim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5. Alleged perpetrator to leave the home, either voluntarily or in response to consideration of legal intervention.
+        /// </summary>
+        public static string SafetyIntervention5_LeaveHome {
+            get {
+                return ResourceManager.GetString("SafetyIntervention5_LeaveHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6. Non-offending parent/care-provider to move to a safe environment with the child.
+        /// </summary>
+        public static string SafetyIntervention6_NonOffendingParent {
+            get {
+                return ResourceManager.GetString("SafetyIntervention6_NonOffendingParent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 7. Legal intervention planned or initiated - child/youth remains in the home.
+        /// </summary>
+        public static string SafetyIntervention7_LegalIntPlanned {
+            get {
+                return ResourceManager.GetString("SafetyIntervention7_LegalIntPlanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string SafetyIntervention8_OtherSafetyInterventions {
+            get {
+                return ResourceManager.GetString("SafetyIntervention8_OtherSafetyInterventions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 9. Parent/care-provider to voluntarily place the child outside the home.
+        /// </summary>
+        public static string SafetyIntervention9_ChildOutsideHome {
+            get {
+                return ResourceManager.GetString("SafetyIntervention9_ChildOutsideHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety interventions.
+        /// </summary>
+        public static string SafetyInterventions {
+            get {
+                return ResourceManager.GetString("SafetyInterventions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety plan.
+        /// </summary>
+        public static string SafetyPlan {
+            get {
+                return ResourceManager.GetString("SafetyPlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide a brief description of intervention, detailing relationship of support persons to child/youth including names, contact information, frequency and duration of supports and how the safety intervention plan will be monitored:.
+        /// </summary>
+        public static string SafetyPlanDescription {
+            get {
+                return ResourceManager.GetString("SafetyPlanDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
-        internal static string SecureDeviceAndTryAgain {
+        public static string SecureDeviceAndTryAgain {
             get {
                 return ResourceManager.GetString("SecureDeviceAndTryAgain", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player name A-Z.
+        ///   Looks up a localized string similar to Send to team leader.
         /// </summary>
-        internal static string Sort_KeyPlayerLastNameAsc {
+        public static string SendToTeamLeader {
             get {
-                return ResourceManager.GetString("Sort_KeyPlayerLastNameAsc", resourceCulture);
+                return ResourceManager.GetString("SendToTeamLeader", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Key player name Z-A.
+        ///   Looks up a localized string similar to Social worker name.
         /// </summary>
-        internal static string Sort_KeyPlayerLastNameDesc {
+        public static string SocialWorkerName {
             get {
-                return ResourceManager.GetString("Sort_KeyPlayerLastNameDesc", resourceCulture);
+                return ResourceManager.GetString("SocialWorkerName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Least recent open date.
+        ///   Looks up a localized string similar to IN.
         /// </summary>
-        internal static string Sort_OpenDateAsc {
+        public static string Subtype_ChildProtectionIncidentInitials {
             get {
-                return ResourceManager.GetString("Sort_OpenDateAsc", resourceCulture);
+                return ResourceManager.GetString("Subtype_ChildProtectionIncidentInitials", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Most recent open date.
+        ///   Looks up a localized string similar to CS.
         /// </summary>
-        internal static string Sort_OpenDateDesc {
+        public static string Subtype_ChildServicesInitials {
             get {
-                return ResourceManager.GetString("Sort_OpenDateDesc", resourceCulture);
+                return ResourceManager.GetString("Subtype_ChildServicesInitials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FS.
+        /// </summary>
+        public static string Subtype_FamilyServicesInitials {
+            get {
+                return ResourceManager.GetString("Subtype_FamilyServicesInitials", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Tap to select.
         /// </summary>
-        internal static string TapToSelect {
+        public static string TapToSelect {
             get {
                 return ResourceManager.GetString("TapToSelect", resourceCulture);
             }
@@ -440,7 +1241,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Terminate session.
         /// </summary>
-        internal static string TerminateSession {
+        public static string TerminateSession {
             get {
                 return ResourceManager.GetString("TerminateSession", resourceCulture);
             }
@@ -449,7 +1250,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
-        internal static string Type {
+        public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
             }
@@ -458,7 +1259,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to You aren&apos;t authorized to use this feature..
         /// </summary>
-        internal static string UnauthorizedForApi {
+        public static string UnauthorizedForApi {
             get {
                 return ResourceManager.GetString("UnauthorizedForApi", resourceCulture);
             }
@@ -467,16 +1268,25 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to User cancelled IDIR login..
         /// </summary>
-        internal static string UserCancelledAuth {
+        public static string UserCancelledAuth {
             get {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Worker ID.
+        /// </summary>
+        public static string WorkerId {
+            get {
+                return ResourceManager.GetString("WorkerId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You are authorized to use MCFD Mobility..
         /// </summary>
-        internal static string YouAreAuthorized {
+        public static string YouAreAuthorized {
             get {
                 return ResourceManager.GetString("YouAreAuthorized", resourceCulture);
             }

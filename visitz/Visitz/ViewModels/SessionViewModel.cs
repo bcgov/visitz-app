@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
-using Visitz.Resources.Localization;
-using Visitz.Storage;
+using Visitz.FontIcons;
 using Visitz.Pages;
-using Visitz.Resources;
+using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Services;
-using CommunityToolkit.Mvvm.Messaging;
-using Visitz.FontIcons;
+using Visitz.Storage;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -96,7 +95,7 @@ public partial class SessionViewModel
 
             if (SessionInfo.HasBasicAccessRole)
             {
-                await VisitzApp.Navigation.PopModalAsync();
+                await Navigator.Navigation.PopModalAsync();
                 WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
             }
         }
@@ -186,7 +185,7 @@ public partial class SessionViewModel
 
         if (reopen)
         {
-            await VisitzApp.Navigation.PopModalAsync();
+            await Navigator.Navigation.PopModalAsync();
             await SessionPage.OpenAsync(modal: true);
         }
     }
@@ -203,7 +202,7 @@ public partial class SessionViewModel
     [RelayCommand]
     private async void ClosePage()
     {
-        await VisitzApp.Navigation.PopModalAsync();
+        await Navigator.Navigation.PopModalAsync();
     }
 }
 

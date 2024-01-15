@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Visitz.Authentication.Keycloak;
+using Visitz.Settings;
 using Visitz.Storage;
 
 namespace Visitz.ViewModels
@@ -11,32 +12,60 @@ namespace Visitz.ViewModels
         public string idirOverride;
 
         [ObservableProperty]
-        public bool showNoteItemViewDebugInfo;
-
-        [ObservableProperty]
         public bool dryFireSubmitNotes;
 
         [ObservableProperty]
         public bool dryFireSubmitNotesSimulateSuccess;
 
-        public override void PageStarted()
+        [ObservableProperty]
+        public string appId;
+
+        [ObservableProperty]
+        public string dotnetVersion;
+
+        [ObservableProperty]
+        public string apiDomain;
+
+        [ObservableProperty]
+        public string authenticationDomain;
+
+        [ObservableProperty]
+        public bool buildingInDebug;
+
+        [ObservableProperty]
+        public bool skipLocalAuth;
+
+        [ObservableProperty]
+        public bool showSafetyAssessment;
+
+        public override void PageCreated()
         {
-            base.PageStarted();
+            base.PageCreated();
 
             IdirOverride = DebugOptions.IdirOverride;
-            ShowNoteItemViewDebugInfo = DebugOptions.ShowNoteItemViewDebugInfo;
             DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
             DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
+
+            AppId = AppInfo.Current.PackageName;
+            DotnetVersion = Environment.Version.ToString();
+
+#if DEBUG
+            BuildingInDebug = true;
+#else
+            BuildingInDebug = false;
+#endif
+            SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
+            ShowSafetyAssessment = DebugOptions.ShowSafetyAssessment;
+
+            var settings = new AppSettings();
+
+            ApiDomain = settings.Api.ApiDomain;
+            AuthenticationDomain = settings.Oidc.AuthenticationDomain;
         }
 
         partial void OnIdirOverrideChanged(string value)
         {
             DebugOptions.IdirOverride = value;
-        }
-
-        partial void OnShowNoteItemViewDebugInfoChanged(bool value)
-        {
-            DebugOptions.ShowNoteItemViewDebugInfo = value;
         }
 
         partial void OnDryFireSubmitNotesChanged(bool value)
@@ -47,6 +76,16 @@ namespace Visitz.ViewModels
         partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
         {
             DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
+        }
+
+        partial void OnSkipLocalAuthChanged(bool value)
+        {
+            DebugOptions.SkipLocalAuth = value;
+        }
+
+        partial void OnShowSafetyAssessmentChanged(bool value)
+        {
+            DebugOptions.ShowSafetyAssessment = value;
         }
 
         [RelayCommand]

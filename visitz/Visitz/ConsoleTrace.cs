@@ -28,7 +28,16 @@ public static class ConsoleTrace
         if (message != null)
             message = " -> " + message;
 
-        Console.WriteLine($"({traceCount++}) {prepend}{callerType.Name}.{memberName}(){message}");
+        WriteLine($"({traceCount++}) {prepend}{callerType.Name}.{memberName}(){message}");
+#endif
+    }
+
+    private static void WriteLine(string line)
+    {
+#if WINDOWS
+        System.Diagnostics.Debug.WriteLine(line);
+#else
+        Console.WriteLine(line);
 #endif
     }
 }

@@ -1,3 +1,4 @@
+using Visitz.Extensions;
 using Visitz.ViewModels;
 
 namespace Visitz.Pages;
@@ -44,6 +45,7 @@ public abstract partial class VisitzPage : ContentPage
     {
         ConsoleTrace.TraceMethod(this);
 
+        Behaviors.Clear();
         ViewModel.DetachFromLifecycle(CurrentWindow);
         ViewModel.PageDestroyed();
     }
@@ -57,9 +59,9 @@ public abstract partial class VisitzPage : ContentPage
     protected override void OnParentChanging(ParentChangingEventArgs args)
     {
         base.OnParentChanging(args);
-        // TODO: Implement ParentChangingEventArgsExtension here
-        var isCreating = args.OldParent == null && args.NewParent != null;
-        var isDestroying = args.OldParent != null && args.NewParent == null;
+
+        var isCreating = args.AttachingToParent();
+        var isDestroying = args.DetachingFromParent();
 
         if (isCreating)
             OnCreated();
@@ -75,7 +77,7 @@ public abstract partial class VisitzPage : ContentPage
     {
         ConsoleTrace.TraceMethod(typeof(VisitzPage), $"Navigating to {typeof(T)}");
 
-        fromPage ??= VisitzApp.CurrentOpenPage ?? VisitzApp.CurrentOpenModal;
+        fromPage ??= Navigator.CurrentOpenPage ?? Navigator.CurrentOpenModal;
 
         var newPage = ServiceProvider.Current.GetRequiredService<T>();
         newPage.Parameters = parameters;
