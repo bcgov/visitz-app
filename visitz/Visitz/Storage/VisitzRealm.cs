@@ -1,5 +1,7 @@
 ﻿using Realms;
 using Realms.Exceptions;
+using Realms.Schema;
+using Visitz.Models;
 using Visitz.Storage.Migrations;
 
 #if WINDOWS
@@ -16,7 +18,7 @@ public class VisitzRealm
     public static readonly string IcmDataCopiesPath = "icmDataCopies.realm";
     public static readonly string NoteDraftRealmPath = "noteDraftRealm.realm";
 
-    private static async Task<RealmConfiguration> MakeConfigAsync(string realmPath)
+    private static async Task<RealmConfiguration> MakeConfigAsync(string realmPath, RealmSchema schema)
     {
         try
         {
@@ -25,6 +27,7 @@ public class VisitzRealm
                 EncryptionKey = await VisitzKey.GetKey(realmPath),
                 SchemaVersion = CurrentVersion,
                 MigrationCallback = MigrateRealm,
+                Schema = schema,
             };
         } 
         catch (RealmMigrationNeededException e)
@@ -39,22 +42,22 @@ public class VisitzRealm
         IcmDataMigrations.MigrateRealm(migration, oldSchemaVersion);
     }
 
-    private static async Task<Realm> GetInstanceAsync(string realmFilename)
+    private static async Task<Realm> GetInstanceAsync(string realmFilename, RealmSchema schema)
     {
 #if WINDOWS
         var realmPath = Path.Combine(MauiFileSystem.Current.AppDataDirectory, realmFilename);
-        var realmConfig = await MakeConfigAsync(realmPath);
+        var realmConfig = await MakeConfigAsync(realmPath, schema);
 #else
         // For non-Windows builds, we'll continue to get the Realm file using the default path that
         // Realm provides (for backwards capability).
-        var realmConfig = await MakeConfigAsync(realmFilename);
+        var realmConfig = await MakeConfigAsync(realmFilename, schema);
 #endif
         ConsoleTrace.TraceMethod(typeof(VisitzRealm), $"GetInstanceAsync('{realmConfig.DatabasePath}')");
 
         return await Realm.GetInstanceAsync(realmConfig);
     }
 
-    private static async Task<Realm> ErrorNewInstanceAsync(string path, Exception ex)
+    private static async Task<Realm> ErrorNewInstanceAsync(string path, RealmSchema schema, Exception ex)
     {
 #if DEBUG
         Console.WriteLine(ex.StackTrace);
@@ -66,7 +69,7 @@ public class VisitzRealm
             Resources.Localization.LocalizedStrings.Ok);
 
         DeleteRealm(path);
-        return await GetInstanceAsync(path);
+        return await GetInstanceAsync(path, schema);
     }
 
     private static void DeleteRealm(string path)
@@ -79,23 +82,23 @@ public class VisitzRealm
         VisitzKey.RemoveKey(path);
     }
 
-    private static async Task<Realm> GetAsync(string path)
+    private static async Task<Realm> GetAsync(string path, RealmSchema schema)
     {
         try
         {
-            return await GetInstanceAsync(path);
+            return await GetInstanceAsync(path, schema);
         }
         catch (RealmMismatchedConfigException ex)
         {
-            return await ErrorNewInstanceAsync(path, ex);
+            return await ErrorNewInstanceAsync(path, schema, ex);
         }
         catch (RealmDecryptionFailedException ex)
         {
-            return await ErrorNewInstanceAsync(path, ex);
+            return await ErrorNewInstanceAsync(path, schema, ex);
         }
         catch (RealmInvalidDatabaseException ex)
         {
-            return await ErrorNewInstanceAsync(path, ex);
+            return await ErrorNewInstanceAsync(path, schema, ex);
         }
     }
 
@@ -107,11 +110,16 @@ public class VisitzRealm
 
     public static async Task<Realm> GetIcmDataAsync()
     {
-        return await GetAsync(IcmDataCopiesPath);
+        return await GetAsync(IcmDataCopiesPath, new[]
+        {
+            typeof(CaseloadItem),
+            typeof(FamilyMember),
+            typeof(NoteItem),
+        });
     }
 
     public static async Task<Realm> GetNoteDraftAsync()
     {
-        return await GetAsync(NoteDraftRealmPath);
+        return await GetAsync(NoteDraftRealmPath, new[] { typeof(NoteDraft), });
     }
 }
