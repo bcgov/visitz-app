@@ -9,6 +9,7 @@ using Visitz.Models;
 using Visitz.Models.SafetyAssess;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Storage;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Entity;
@@ -23,6 +24,21 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     [ObservableProperty]
     public SafetyAssessment assessment;
+
+    [ObservableProperty]
+    public FactorInfluence influence;
+
+    [ObservableProperty]
+    public ProtectiveCapacity capacity;
+
+    [ObservableProperty]
+    public SafetyDecisions decisions;
+
+    [ObservableProperty]
+    public SafetyFactors factors;
+
+    [ObservableProperty]
+    public SafetyInterventions interventions;
 
     [ObservableProperty]
     public IList<string> familyNames;
@@ -61,7 +77,11 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
         WeakReferenceMessenger.Default.Register(this, id);
 
-        Assessment ??= await MakeNewSafetyAssessment();
+        var realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
+        if (SafetyAssessment.FindByIncidentNumber(realm, CaseloadItem.CaseIncidentNumber) is SafetyAssessment sa)
+            Assessment = sa;
+        else
+            Assessment = await MakeNewSafetyAssessment();
 
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
@@ -83,13 +103,25 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         ChildrenInOutCare = CaseloadItem.FamilyMembers;
     }
 
-    public override void PageDestroyed()
+    public override async void PageDestroyed()
     {
+        using var realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
+        await Assessment.Save(realm);
+
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
         SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
 
         base.PageDestroyed();
+    }
+
+    partial void OnAssessmentChanged(SafetyAssessment value)
+    {
+        Influence = value.FactorInfluence;
+        Capacity = value.ProtectiveCapacity;
+        Decisions = value.SafetyDecisions;
+        Factors = value.SafetyFactors;
+        Interventions = value.SafetyInterventions;
     }
 
     [RelayCommand]
