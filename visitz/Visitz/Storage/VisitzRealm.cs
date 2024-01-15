@@ -133,6 +133,14 @@ public class VisitzRealm
 
     public static async Task<Realm> GetSafetyAssessmentDraftAsync()
     {
-        return await GetAsync(SafetyAssessmentRealmPath, schema: new[] { typeof(SafetyAssessment), });
+        return await GetAsync(SafetyAssessmentRealmPath, schema: new[] 
+        { 
+            typeof(SafetyAssessment),
+            typeof(FactorInfluence),
+            typeof(ProtectiveCapacity),
+            typeof(SafetyDecisions),
+            typeof(SafetyFactors),
+            typeof(SafetyInterventions),
+        });
     }
 }
