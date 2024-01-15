@@ -46,14 +46,8 @@ public class VisitzRealm
 
     private static async Task<Realm> GetInstanceAsync(string realmFilename, RealmSchema schema)
     {
-#if WINDOWS
-        var realmPath = Path.Combine(MauiFileSystem.Current.AppDataDirectory, realmFilename);
-        var realmConfig = await MakeConfigAsync(realmPath, schema);
-#else
-        // For non-Windows builds, we'll continue to get the Realm file using the default path that
-        // Realm provides (for backwards capability).
-        var realmConfig = await MakeConfigAsync(realmFilename, schema);
-#endif
+        var realmConfig = await MakeConfigAsync(GetRealmPath(realmFilename), schema);
+
         ConsoleTrace.TraceMethod(typeof(VisitzRealm), $"GetInstanceAsync('{realmConfig.DatabasePath}')");
 
         return await Realm.GetInstanceAsync(realmConfig);
@@ -102,6 +96,18 @@ public class VisitzRealm
         {
             return await ErrorNewInstanceAsync(path, schema, ex);
         }
+    }
+
+    private static string GetRealmPath(string realmName)
+    {
+#if WINDOWS
+        // Explicitly declare a path, otherwise it's put into system32.
+        return Path.Combine(MauiFileSystem.Current.AppDataDirectory, realmName);
+#else
+        // For non-Windows envs, we'll continue to rely on Realm's default path it constructs when
+        // no path is provided in the RealmConfiguration (for backwards compatibility).
+        return realmName;
+#endif
     }
 
     public static async Task ClearIcmDataRealm()
