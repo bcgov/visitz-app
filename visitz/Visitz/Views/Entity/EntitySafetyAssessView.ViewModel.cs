@@ -78,14 +78,17 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         WeakReferenceMessenger.Default.Register(this, id);
 
         SetupFamilyNamePicker();
+        await SetupAssessment();
+        SetupChildrenInOutCare();
+    }
 
+    private async Task SetupAssessment()
+    {
         var realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
         if (SafetyAssessment.FindByIncidentNumber(realm, CaseloadItem.CaseIncidentNumber) is SafetyAssessment sa)
             Assessment = sa;
         else
             Assessment = await MakeNewSafetyAssessment();
-
-        SetupChildrenInOutCare();
     }
 
     private void SetupFamilyNamePicker()
