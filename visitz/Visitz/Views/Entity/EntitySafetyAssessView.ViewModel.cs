@@ -174,17 +174,20 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        if (e.Action == NotifyCollectionChangedAction.Add)
+        Assessment.Commit(() =>
         {
-            foreach (FamilyMember child in e.NewItems.Cast<FamilyMember>())
-                Assessment.ChildsInOutCare.Add(child.ContactId);
-        }
-        else if (e.Action == NotifyCollectionChangedAction.Remove)
-        {
-            foreach (FamilyMember child in e.OldItems.Cast<FamilyMember>())
-                Assessment.ChildsInOutCare.Remove(child.ContactId);
-        }
-        else if (e.Action == NotifyCollectionChangedAction.Reset)
-            Assessment.ChildsInOutCare.Clear();
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (FamilyMember child in e.NewItems.Cast<FamilyMember>())
+                    Assessment.ChildsInOutCare.Add(child.ContactId);
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (FamilyMember child in e.OldItems.Cast<FamilyMember>())
+                    Assessment.ChildsInOutCare.Remove(child.ContactId);
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Reset)
+                Assessment.ChildsInOutCare.Clear();
+        });
     }
 }
