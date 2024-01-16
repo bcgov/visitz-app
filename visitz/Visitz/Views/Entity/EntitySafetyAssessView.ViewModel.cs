@@ -94,8 +94,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             names.Add(member.LastName);
 
         FamilyNames = names.AsList();
-
-        TrySetSingularFamilyName();
     }
 
     private void SetupChildrenInOutCare()
@@ -117,6 +115,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     partial void OnAssessmentChanged(SafetyAssessment value)
     {
+        if (FamilyNames.Count > 0 && !value.IsManaged)
+            value.FamilyName = FamilyNames[0];
+
         Influence = value.FactorInfluence;
         Capacity = value.ProtectiveCapacity;
         Decisions = value.SafetyDecisions;
@@ -156,12 +157,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         ConsoleTrace.TraceMethod(this, json);
     }
 #endif
-
-    private void TrySetSingularFamilyName()
-    {
-        if (FamilyNames.Count == 1)
-            Assessment.FamilyName = FamilyNames[0];
-    }
 
     public void Receive(ServiceStateMessage message)
     {
