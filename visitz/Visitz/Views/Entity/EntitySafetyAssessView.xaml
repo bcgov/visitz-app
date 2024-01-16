@@ -38,7 +38,7 @@
             <Setter Property="AnswerContextExplanation" Value="Comments (if clarification or rationale for the rating is needed)" />
         </Style>
 
-        <Style TargetType="VerticalStackLayout" Class="FormVsl">
+        <Style x:Key="FormVsl" TargetType="VerticalStackLayout">
             <Setter Property="Padding" Value="10" />
             <Setter Property="Spacing" Value="10" />
         </Style>
@@ -60,10 +60,10 @@
 
     <Grid RowDefinitions="*,0.5,Auto">
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout StyleClass="FormVsl"
+            <VerticalStackLayout Style="{StaticResource FormVsl}"
                 MaximumWidthRequest="800">
 
-                <VerticalStackLayout StyleClass="FormVsl">
+                <VerticalStackLayout Style="{StaticResource FormVsl}">
 
                     <Label 
                         Margin="0,0,0,-10"
@@ -82,7 +82,7 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout StyleClass="FormVsl">
+                <VerticalStackLayout Style="{StaticResource FormVsl}">
                 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
@@ -111,7 +111,7 @@
                         IsChecked="{Binding Influence.DiminishedPhysical}" />
                 </VerticalStackLayout>
 
-                <VerticalStackLayout StyleClass="FormVsl">
+                <VerticalStackLayout Style="{StaticResource FormVsl}">
                 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
@@ -212,7 +212,7 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout StyleClass="FormVsl">
+                <VerticalStackLayout Style="{StaticResource FormVsl}">
                 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
@@ -278,7 +278,7 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout StyleClass="FormVsl">
+                <VerticalStackLayout Style="{StaticResource FormVsl}">
                 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
@@ -342,7 +342,7 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout StyleClass="FormVsl">
+                <VerticalStackLayout Style="{StaticResource FormVsl}">
                 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
@@ -407,7 +407,7 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout StyleClass="FormVsl">
+                <VerticalStackLayout Style="{StaticResource FormVsl}">
                     <Label
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
@@ -451,7 +451,7 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout StyleClass="FormVsl">
+                <VerticalStackLayout Style="{StaticResource FormVsl}">
 
                     <Label
                         Style="{StaticResource Decisions.AssessmentHeader}"
