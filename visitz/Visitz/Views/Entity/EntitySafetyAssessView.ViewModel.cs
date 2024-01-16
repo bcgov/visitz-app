@@ -107,14 +107,19 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     public override async void PageDestroyed()
     {
-        using var realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
-        await Assessment.Save(realm);
+        await SaveDraft();
 
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
         SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
 
         base.PageDestroyed();
+    }
+
+    private async Task SaveDraft()
+    {
+        using var realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
+        await Assessment.Save(realm);
     }
 
     partial void OnAssessmentChanged(SafetyAssessment value)
