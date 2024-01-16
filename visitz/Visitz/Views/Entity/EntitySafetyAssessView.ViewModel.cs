@@ -78,8 +78,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         WeakReferenceMessenger.Default.Register(this, id);
 
         SetupFamilyNamePicker();
-        await SetupAssessment();
         SetupChildrenInOutCare();
+        await SetupAssessment();
     }
 
     private async Task SetupAssessment()
