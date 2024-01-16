@@ -454,7 +454,7 @@
                 <VerticalStackLayout Style="{StaticResource FormVsl}">
 
                     <Label
-                        Style="{StaticResource Decisions.AssessmentHeader}"
+                        Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize SendToTeamLeader}" />
 
                     <formctls:FormCheckBox
