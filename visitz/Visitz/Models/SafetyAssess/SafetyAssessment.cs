@@ -1,5 +1,6 @@
 ﻿using Realms;
 using System.Globalization;
+using Visitz.Storage;
 using VisitzApi.Models.SafetyAssess;
 
 namespace Visitz.Models.SafetyAssess;
@@ -90,6 +91,7 @@ public partial class SafetyAssessment : IRealmObject
 
     public async Task Save(Realm realm)
     {
-        await realm.WriteAsync(() => realm.Add(this, update: true));
+        if (!IsManaged)
+            await realm.WriteAsync(() => realm.Add(this));
     }
 }
