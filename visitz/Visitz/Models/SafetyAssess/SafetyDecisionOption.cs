@@ -2,7 +2,7 @@
 
 public enum SafetyDecisionOption
 {
-    Safe = 1,
-    SafeWithInterventions = 2,
-    Unsafe = 3,
+    Safe,
+    SafeWithInterventions,
+    Unsafe,
 }
