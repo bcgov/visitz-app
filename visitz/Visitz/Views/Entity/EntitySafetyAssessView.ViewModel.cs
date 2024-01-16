@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using Visitz.Authentication.Keycloak;
 using Visitz.Extensions;
 using Visitz.Models;
@@ -51,6 +53,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public ObservableCollection<object> selectedChildren = [];
 
+    private Realm Realm;
+
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
         var info = await VisitzSessionInfo.GetAsync();
@@ -77,6 +81,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
         WeakReferenceMessenger.Default.Register(this, id);
 
+        Realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
         await SetupAssessment();
@@ -84,14 +89,20 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async Task SetupAssessment()
     {
-        var realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
-        if (SafetyAssessment.FindByIncidentNumber(realm, CaseloadItem.CaseIncidentNumber) is SafetyAssessment sa)
+        UnsubscribeFromAssessment();
+
+        if (SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) is SafetyAssessment sa)
             Assessment = sa;
         else
-        {
             Assessment = await MakeNewSafetyAssessment();
-            await Assessment.Save(realm);
-        }
+    }
+
+    private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (!Assessment.IsManaged)
+            await Assessment.Save(Realm);
+
+        // TODO: Send a message to notify that a property was changed
     }
 
     private void SetupFamilyNamePicker()
@@ -112,6 +123,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
+        UnsubscribeFromAssessment();
         SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
 
         base.PageDestroyed();
@@ -131,6 +143,39 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         foreach (var child in ChildrenInOutCare)
             if (value.ChildsInOutCare.Contains(child.ContactId))
                 SelectedChildren.Add(child);
+
+        SubscribeToAssessment();
+    }
+
+    private void SubscribeToAssessment()
+    {
+        Assessment.PropertyChanged += Assessment_PropertyChanged;
+        Influence.PropertyChanged += Assessment_PropertyChanged;
+        Capacity.PropertyChanged += Assessment_PropertyChanged;
+        Decisions.PropertyChanged += Assessment_PropertyChanged;
+        Factors.PropertyChanged += Assessment_PropertyChanged;
+        Interventions.PropertyChanged += Assessment_PropertyChanged;
+    }
+
+    private void UnsubscribeFromAssessment()
+    {
+        if (Assessment != null)
+            Assessment.PropertyChanged -= Assessment_PropertyChanged;
+
+        if (Influence != null)
+            Influence.PropertyChanged -= Assessment_PropertyChanged;
+
+        if (Capacity != null)
+            Capacity.PropertyChanged -= Assessment_PropertyChanged;
+
+        if (Decisions != null)
+            Decisions.PropertyChanged -= Assessment_PropertyChanged;
+
+        if (Factors != null)
+            Factors.PropertyChanged -= Assessment_PropertyChanged;
+
+        if (Interventions != null)
+            Interventions.PropertyChanged -= Assessment_PropertyChanged;
     }
 
     [RelayCommand]
@@ -146,7 +191,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [RelayCommand]
     public async void Reset()
     {
-        Assessment = await MakeNewSafetyAssessment();
+        await Realm.WriteAsync(() => Realm.Remove(Assessment));
+        await SetupAssessment();
         SelectedChildren?.Clear();
     }
 
