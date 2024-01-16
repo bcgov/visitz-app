@@ -88,7 +88,10 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         if (SafetyAssessment.FindByIncidentNumber(realm, CaseloadItem.CaseIncidentNumber) is SafetyAssessment sa)
             Assessment = sa;
         else
+        {
             Assessment = await MakeNewSafetyAssessment();
+            await Assessment.Save(realm);
+        }
     }
 
     private void SetupFamilyNamePicker()
@@ -105,21 +108,13 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         ChildrenInOutCare = CaseloadItem.FamilyMembers;
     }
 
-    public override async void PageDestroyed()
+    public override void PageDestroyed()
     {
-        await SaveDraft();
-
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
         SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
 
         base.PageDestroyed();
-    }
-
-    private async Task SaveDraft()
-    {
-        using var realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
-        await Assessment.Save(realm);
     }
 
     partial void OnAssessmentChanged(SafetyAssessment value)
