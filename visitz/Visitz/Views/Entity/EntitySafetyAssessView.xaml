@@ -373,18 +373,23 @@
 
                 <Border>
                     <VerticalStackLayout Spacing="10">
-                        <formctls:FormRadioButton 
-                            IsChecked="{Binding Decisions.NoSafetyFactors}"
-                            GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
-                            Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
-                        <formctls:FormRadioButton 
-                            IsChecked="{Binding Decisions.SafeInterventions}"
-                            GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
-                            Text="{local:Localize SafetyDecision2_SafeInterventions}" />
-                        <formctls:FormRadioButton 
-                            IsChecked="{Binding Decisions.UnsafeSafetyFactors}"
-                            GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
-                            Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
+                        <VerticalStackLayout 
+                            Spacing="10"
+                            RadioButtonGroup.GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                            RadioButtonGroup.SelectedValue="{Binding Decisions.Decision}">
+                            <formctls:FormRadioButton
+                                Value="{Static safetyModels:SafetyDecisionOption.Safe}"
+                                GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
+                                Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
+                            <formctls:FormRadioButton
+                                Value="{Static safetyModels:SafetyDecisionOption.SafeWithInterventions}"
+                                GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                                Text="{local:Localize SafetyDecision2_SafeInterventions}" />
+                            <formctls:FormRadioButton
+                                Value="{Static safetyModels:SafetyDecisionOption.Unsafe}"
+                                GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                                Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
+                        </VerticalStackLayout>
 
                         <VerticalStackLayout 
                             Spacing="10"
