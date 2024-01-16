@@ -127,6 +127,10 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         Decisions = value.SafetyDecisions;
         Factors = value.SafetyFactors;
         Interventions = value.SafetyInterventions;
+
+        foreach (var child in ChildrenInOutCare)
+            if (value.ChildsInOutCare.Contains(child.ContactId))
+                SelectedChildren.Add(child);
     }
 
     [RelayCommand]
