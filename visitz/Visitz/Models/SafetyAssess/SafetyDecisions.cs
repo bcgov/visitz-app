@@ -56,13 +56,7 @@ public partial class SafetyDecisions : IRealmObject
             else
                 return null;
         }
-        set
-        {
-            if (IsManaged)
-                Realm.Write(() => SetDecision(value));
-            else
-                SetDecision(value);
-        }
+        set => this.Commit(() => SetDecision(value));
     }
 
     private void SetDecision(SafetyDecisionOption? option)
