@@ -194,6 +194,10 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public async void Reset()
     {
         await Realm.WriteAsync(() => Realm.Remove(Assessment));
+
+        var msg = new DraftSavedMessage<DraftSavedView.State>(DraftSavedView.State.None);
+        StrongReferenceMessenger.Default.Send(msg);
+
         await SetupAssessment();
         SelectedChildren?.Clear();
     }
