@@ -533,4 +533,16 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="InabilityProtectSelfMarkAll" xml:space="preserve">
     <value>Conditions resulting in a child's inability to protect self. Mark all that apply to ANY child:</value>
   </data>
+  <data name="Discard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="DiscardDraftQuestion" xml:space="preserve">
+    <value>Discard draft?</value>
+  </data>
+  <data name="DiscardedSafetyAssessmentDraft" xml:space="preserve">
+    <value>Discarded safety assessment draft.</value>
+  </data>
+  <data name="DiscardSafetyAssessmentDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this safety assessment draft? You won't be able to recover any changes you've made.</value>
+  </data>
 </root>
