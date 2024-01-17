@@ -1,5 +1,5 @@
 ﻿/*
-    Code pulled from Ionix's StackOverflow answer: https://stackoverflow.com/a/66491564
+    Code adapted from Ionix's StackOverflow answer: https://stackoverflow.com/a/66491564
  */
 
 namespace Visitz.Utilities;
@@ -24,7 +24,7 @@ public sealed class Debouncer(TimeSpan? delay) : IDisposable
 
     public void Cancel()
     {
-        if (previousCancellationToken != null)
+        if (previousCancellationToken != null && !previousCancellationToken.IsCancellationRequested)
         {
             previousCancellationToken.Cancel();
             previousCancellationToken.Dispose();
