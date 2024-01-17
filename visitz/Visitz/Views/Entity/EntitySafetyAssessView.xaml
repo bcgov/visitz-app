@@ -485,6 +485,7 @@
             <views:DraftSavedView 
                 x:Name="DraftSavedIndicator"
                 Grid.Column="0"
+                TagPadding="-5"
                 VerticalOptions="Center"/>
 
             <Button

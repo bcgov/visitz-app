@@ -6,16 +6,18 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.DraftSavedView"
-    x:DataType="views:DraftSavedView">
+    x:DataType="views:DraftSavedView"
+    x:Name="this">
     
     <Grid
+        BindingContext="{Reference this}"
         RowDefinitions="Auto"
         ColumnDefinitions="Auto">
 
         <views:TagView
             x:Name="DraftSavedTagView"
             Text="{local:Localize DraftSaved}"
-            Padding="-5"
+            Padding="{Binding TagPadding}"
             IconHeightRequest="24"
             IconWidthRequest="24"
             TextColor="{StaticResource BC_Semantic_Success}"
@@ -31,7 +33,7 @@
         <views:TagView
             x:Name="SavingDraftTagView"
             Text="{local:Localize Ellipsis}"
-            Padding="-5"
+            Padding="{Binding TagPadding}"
             IconHeightRequest="24"
             IconWidthRequest="24"
             TextColor="{StaticResource BC_TextColor}"

@@ -4,6 +4,10 @@ namespace Visitz.Views;
 
 public partial class DraftSavedView : ContentView
 {
+    public static readonly BindableProperty TagPaddingProperty =
+        BindableProperty.Create(nameof(TagPadding), typeof(Thickness), typeof(DraftSavedView),
+            defaultValue: new Thickness(5.0d));
+
 	public enum State
 	{
 		None,
@@ -12,6 +16,12 @@ public partial class DraftSavedView : ContentView
 	}
 
 	public State DraftState { get; set; }
+
+    public Thickness TagPadding
+    {
+        get => (Thickness)GetValue(TagPaddingProperty);
+        set => SetValue(TagPaddingProperty, value);
+    }
 
 	public DraftSavedView()
 	{
