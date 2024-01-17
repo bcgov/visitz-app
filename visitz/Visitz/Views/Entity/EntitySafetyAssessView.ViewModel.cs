@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using Visitz.Authentication.Keycloak;
 using Visitz.Extensions;
+using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Models.SafetyAssess;
 using Visitz.Resources.Localization;
@@ -102,7 +103,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         if (!Assessment.IsManaged)
             await Assessment.Save(Realm);
 
-        // TODO: Send a message to notify that a property was changed
+        var msg = new DraftSavedMessage<DraftSavedView.State>(DraftSavedView.State.Saving);
+        StrongReferenceMessenger.Default.Send(msg);
     }
 
     private void SetupFamilyNamePicker()
