@@ -100,11 +100,11 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (!Assessment.IsManaged)
-            await Assessment.Save(Realm);
-
         var msg = new DraftSavedMessage<DraftSavedView.State>(DraftSavedView.State.Saving);
         StrongReferenceMessenger.Default.Send(msg);
+
+        if (!Assessment.IsManaged)
+            await Assessment.Save(Realm);
     }
 
     private void SetupFamilyNamePicker()
