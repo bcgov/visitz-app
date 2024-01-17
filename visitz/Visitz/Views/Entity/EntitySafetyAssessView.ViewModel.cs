@@ -77,8 +77,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         base.PageCreated();
 
-        SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
-
         var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
         WeakReferenceMessenger.Default.Register(this, id);
 
@@ -86,6 +84,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
         await SetupAssessment();
+
+        SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
     }
 
     private async Task SetupAssessment()
