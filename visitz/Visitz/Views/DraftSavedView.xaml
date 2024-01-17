@@ -12,9 +12,10 @@
         RowDefinitions="Auto"
         ColumnDefinitions="Auto">
 
-        <views:TagView 
+        <views:TagView
             x:Name="DraftSavedTagView"
             Text="{local:Localize DraftSaved}"
+            Padding="-5"
             IconHeightRequest="24"
             IconWidthRequest="24"
             TextColor="{StaticResource BC_Semantic_Success}"
@@ -27,9 +28,10 @@
             </views:TagView.ImageSource>
         </views:TagView>
 
-        <views:TagView 
+        <views:TagView
             x:Name="SavingDraftTagView"
             Text="{local:Localize Ellipsis}"
+            Padding="-5"
             IconHeightRequest="24"
             IconWidthRequest="24"
             TextColor="{StaticResource BC_TextColor}"
