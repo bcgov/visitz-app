@@ -240,6 +240,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             }
             else if (e.Action == NotifyCollectionChangedAction.Reset)
                 Assessment.ChildsInOutCare.Clear();
+
+            var msg = new DraftSavedMessage<DraftSavedView.State>(DraftSavedView.State.Saving);
+            StrongReferenceMessenger.Default.Send(msg);
         });
     }
 }
