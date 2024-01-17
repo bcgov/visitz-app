@@ -16,6 +16,7 @@
 
         <views:TagView
             x:Name="DraftSavedTagView"
+            HorizontalOptions="Start"
             Text="{local:Localize DraftSaved}"
             Padding="{Binding TagPadding}"
             IconHeightRequest="24"
@@ -32,6 +33,7 @@
 
         <views:TagView
             x:Name="SavingDraftTagView"
+            HorizontalOptions="Start"
             Text="{local:Localize Ellipsis}"
             Padding="{Binding TagPadding}"
             IconHeightRequest="24"
