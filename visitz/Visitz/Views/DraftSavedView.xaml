@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.DraftSavedView"
+    x:DataType="views:DraftSavedView">
+    
+    <Grid
+        RowDefinitions="Auto"
+        ColumnDefinitions="Auto">
+
+        <views:TagView 
+            x:Name="DraftSavedTagView"
+            Text="{local:Localize DraftSaved}"
+            IconHeightRequest="24"
+            IconWidthRequest="24"
+            TextColor="{StaticResource BC_Semantic_Success}"
+            IsVisible="False">
+            <views:TagView.ImageSource>
+                <FontImageSource 
+                    Glyph="{Static fonticons:FluentIcons.Document_checkmark_20_regular}" 
+                    FontFamily="FluentIconsRegular"
+                    Color="{StaticResource BC_Semantic_Success}" />
+            </views:TagView.ImageSource>
+        </views:TagView>
+
+        <views:TagView 
+            x:Name="SavingDraftTagView"
+            Text="{local:Localize Ellipsis}"
+            IconHeightRequest="24"
+            IconWidthRequest="24"
+            TextColor="{StaticResource BC_TextColor}"
+            IsVisible="False">
+            <views:TagView.ImageSource>
+                <FontImageSource 
+                    Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}" 
+                    FontFamily="FluentIconsRegular"
+                    Color="{StaticResource BC_TextColor}" />
+            </views:TagView.ImageSource>
+        </views:TagView>
+    </Grid>
+</ContentView>
