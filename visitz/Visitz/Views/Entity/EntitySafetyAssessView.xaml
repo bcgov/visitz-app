@@ -482,6 +482,10 @@
             ColumnDefinitions="*,Auto,Auto"
             ColumnSpacing="10"
             Padding="10">
+            <views:DraftSavedView 
+                x:Name="DraftSavedIndicator"
+                Grid.Column="0" />
+
             <Button
                 Grid.Column="1"
                 Text="Discard draft"
