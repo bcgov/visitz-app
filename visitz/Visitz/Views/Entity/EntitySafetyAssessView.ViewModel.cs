@@ -13,6 +13,7 @@ using Visitz.Models.SafetyAssess;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
+using Visitz.Utilities;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Entity;
@@ -55,6 +56,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public ObservableCollection<object> selectedChildren = [];
 
     private Realm Realm;
+
+    private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));
 
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
@@ -100,8 +103,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        var msg = new DraftSavedMessage<DraftSavedView.State>(DraftSavedView.State.Saving);
-        StrongReferenceMessenger.Default.Send(msg);
+        await TrySendSavedMessage(DraftSavedView.State.Saving);
 
         if (!Assessment.IsManaged)
             await Assessment.Save(Realm);
@@ -123,6 +125,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     public override void PageDestroyed()
     {
+        debouncer?.Dispose();
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
         UnsubscribeFromAssessment();
@@ -196,8 +199,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         if (Assessment.IsManaged)
             await Realm.WriteAsync(() => Realm.Remove(Assessment));
 
-        var msg = new DraftSavedMessage<DraftSavedView.State>(DraftSavedView.State.None);
-        StrongReferenceMessenger.Default.Send(msg);
+        await TrySendSavedMessage(DraftSavedView.State.None);
 
         await SetupAssessment();
         SelectedChildren?.Clear();
@@ -224,9 +226,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         // TODO: Tasks upon API completion
     }
 
-    private void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private async void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        Assessment.Commit(() =>
+        await Assessment.CommitAsync(async () =>
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
@@ -241,8 +243,27 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             else if (e.Action == NotifyCollectionChangedAction.Reset)
                 Assessment.ChildsInOutCare.Clear();
 
-            var msg = new DraftSavedMessage<DraftSavedView.State>(DraftSavedView.State.Saving);
-            StrongReferenceMessenger.Default.Send(msg);
+            await TrySendSavedMessage(DraftSavedView.State.Saving);
         });
+    }
+
+    private async Task TrySendSavedMessage(DraftSavedView.State state)
+    {
+        if (state.Equals(DraftSavedView.State.None))
+        {
+            debouncer.Cancel();
+            SendSavedMessage(state);
+        }
+        else if (state.Equals(DraftSavedView.State.Saving) && Assessment.IsManaged)
+        {
+            SendSavedMessage(state);
+            await debouncer.Debounce(() => SendSavedMessage(DraftSavedView.State.Saved));
+        }
+    }
+
+    private static void SendSavedMessage(DraftSavedView.State state)
+    {
+        var msg = new DraftSavedMessage<DraftSavedView.State>(state);
+        StrongReferenceMessenger.Default.Send(msg);
     }
 }

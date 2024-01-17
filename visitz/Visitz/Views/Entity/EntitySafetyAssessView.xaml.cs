@@ -4,7 +4,6 @@ using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Resources.Localization;
 using Visitz.Services;
-using Visitz.Utilities;
 
 namespace Visitz.Views.Entity;
 
@@ -17,8 +16,6 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 		get => ViewModel.CaseloadItem;
 		set => ViewModel.CaseloadItem = value;
 	}
-
-	private readonly Debouncer _debouncer = new(TimeSpan.FromMilliseconds(700.0d));
 
 	public EntitySafetyAssessView() : base(ServiceProvider.GetService<EntitySafetyAssessViewModel>())
 	{
@@ -39,8 +36,6 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
     {
 		StrongReferenceMessenger.Default.UnregisterAll(this);
 		WeakReferenceMessenger.Default.UnregisterAll(this);
-
-		_debouncer?.Dispose();
 
         base.Destroying();
     }
@@ -64,19 +59,10 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 				LocalizedStrings.Ok);
     }
 
-    private void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSavedView.State> message)
+    private async void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSavedView.State> message)
 	{
 		var thiz = (EntitySafetyAssessView)recipient;
 
-		_ = thiz.DraftSavedIndicator.SetState(message.Value);
-
-		_ = _debouncer.Debounce(() =>
-		{
-			DraftSavedView.State endState = message.Value.Equals(DraftSavedView.State.None)
-				? DraftSavedView.State.None
-				: DraftSavedView.State.Saved;
-
-			_ = DraftSavedIndicator.SetState(endState);
-		});
+		await thiz.DraftSavedIndicator.SetState(message.Value);
 	}
 }
