@@ -81,8 +81,8 @@
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Database" />
-            
-            <Grid RowDefinitions="Auto,Auto,Auto">
+
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="0"
@@ -90,10 +90,17 @@
                     Command="{Binding ClearRealmDataCommand}"
                     Text="Clear IcmDataRealm data" />
 
-                <!-- Disabled while not working on features involving encryption keys. -->
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding ClearSafetyAssessmentDraftCommand}"
+                    Text="Clear SafetyAssessmentDraft data" />
+
+                <!-- Disabled while not working on features involving encryption keys. -->
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
                     Grid.Column="1"
                     IsEnabled="False"
                     Command="{Binding DeleteEncryptionKeyCommand}"
@@ -101,7 +108,7 @@
 
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="1"
                     Command="{Binding Load620bDataCommand}"
                     Text="Load 620b data" />

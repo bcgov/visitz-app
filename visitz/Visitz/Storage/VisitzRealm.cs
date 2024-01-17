@@ -116,6 +116,12 @@ public class VisitzRealm
         await realm.WriteAsync(realm.RemoveAll);
     }
 
+    public static async Task ClearSafetyAssessmentDraftRealm()
+    {
+        using var realm = await GetSafetyAssessmentDraftAsync();
+        await realm.WriteAsync(realm.RemoveAll);
+    }
+
     public static async Task<Realm> GetIcmDataAsync()
     {
         return await GetAsync(IcmDataCopiesPath, new[]
