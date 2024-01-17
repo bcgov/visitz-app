@@ -492,7 +492,7 @@
                 Grid.Column="1"
                 Text="Discard draft"
                 Style="{StaticResource SecondaryButtonLight}"
-                Command="{Binding ResetCommand}" />
+                Clicked="DiscardButton_Clicked" />
 
             <Button
                 Grid.Column="2"

@@ -65,4 +65,22 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 
 		_ = thiz.DraftSavedIndicator.SetState(message.Value);
 	}
+
+    private async void DiscardButton_Clicked(object sender, EventArgs e)
+    {
+		if (await PromptDiscard())
+		{
+			ViewModel.Reset();
+			await Toast.Make(LocalizedStrings.DiscardedSafetyAssessmentDraft).Show();
+		}
+    }
+
+	private async static Task<bool> PromptDiscard()
+	{
+        return await Navigator.CurrentOpenPage.DisplayAlert(
+			LocalizedStrings.DiscardDraftQuestion,
+            LocalizedStrings.DiscardSafetyAssessmentDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel);
+    }
 }
