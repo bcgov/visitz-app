@@ -59,10 +59,10 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 				LocalizedStrings.Ok);
     }
 
-    private async void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSavedView.State> message)
+    private void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSavedView.State> message)
 	{
 		var thiz = (EntitySafetyAssessView)recipient;
 
-		await thiz.DraftSavedIndicator.SetState(message.Value);
+		_ = thiz.DraftSavedIndicator.SetState(message.Value);
 	}
 }

@@ -103,7 +103,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        await TrySendSavedMessage(DraftSavedView.State.Saving);
+        _ = TrySendSavedMessage(DraftSavedView.State.Saving);
 
         if (!Assessment.IsManaged)
             await Assessment.Save(Realm);
@@ -226,9 +226,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         // TODO: Tasks upon API completion
     }
 
-    private async void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        await Assessment.CommitAsync(async () =>
+        Assessment.Commit(() =>
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
@@ -243,7 +243,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             else if (e.Action == NotifyCollectionChangedAction.Reset)
                 Assessment.ChildsInOutCare.Clear();
 
-            await TrySendSavedMessage(DraftSavedView.State.Saving);
+            _ = TrySendSavedMessage(DraftSavedView.State.Saving);
         });
     }
 
