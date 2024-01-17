@@ -15,6 +15,10 @@ namespace Visitz.Models
         public string WorkerFullName { get; set; }
         public string ServiceOffice { get; set; }
         public string OfficeCode { get; set; }
+
+        /// <summary>
+        /// A value of "Y" means that two safety assessments exist and are both "Open" in ICM.
+        /// </summary>
         public string SafetyAssessmentExist { get; set; }
         public string UnitNo { get; set; }
         public string AddressLine1 { get; set; }

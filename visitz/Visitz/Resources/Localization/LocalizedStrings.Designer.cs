@@ -196,6 +196,42 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discard.
+        /// </summary>
+        public static string Discard {
+            get {
+                return ResourceManager.GetString("Discard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard draft?.
+        /// </summary>
+        public static string DiscardDraftQuestion {
+            get {
+                return ResourceManager.GetString("DiscardDraftQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discarded safety assessment draft..
+        /// </summary>
+        public static string DiscardedSafetyAssessmentDraft {
+            get {
+                return ResourceManager.GetString("DiscardedSafetyAssessmentDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this safety assessment draft? You won&apos;t be able to recover any changes you&apos;ve made..
+        /// </summary>
+        public static string DiscardSafetyAssessmentDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardSafetyAssessmentDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft saved.
         /// </summary>
         public static string DraftSaved {

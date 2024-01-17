@@ -74,4 +74,23 @@ public partial class SafetyAssessment : IRealmObject
 
         return safetyAssessmentEntity;
     }
+
+    public static SafetyAssessment FindByIncidentNumber(Realm realm, string incidentNumber)
+    {
+        return realm
+            .All<SafetyAssessment>()
+            .Where(sa => sa.IncidentNumber.Equals(incidentNumber))
+            .FirstOrDefault();
+    }
+
+    public static async Task Delete(Realm realm, SafetyAssessment safetyAssessment)
+    {
+        await realm.WriteAsync(() => realm.Remove(safetyAssessment));
+    }
+
+    public async Task Save(Realm realm)
+    {
+        if (!IsManaged)
+            await realm.WriteAsync(() => realm.Add(this));
+    }
 }

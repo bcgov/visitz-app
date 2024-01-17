@@ -2,6 +2,7 @@
 using Realms.Exceptions;
 using Realms.Schema;
 using Visitz.Models;
+using Visitz.Models.SafetyAssess;
 using Visitz.Storage.Migrations;
 
 #if WINDOWS
@@ -17,6 +18,7 @@ public class VisitzRealm
 
     public static readonly string IcmDataCopiesPath = "icmDataCopies.realm";
     public static readonly string NoteDraftRealmPath = "noteDraftRealm.realm";
+    public static readonly string SafetyAssessmentRealmPath = "safetyAssessmentRealmPath.realm";
 
     private static async Task<RealmConfiguration> MakeConfigAsync(string realmPath, RealmSchema schema)
     {
@@ -44,14 +46,8 @@ public class VisitzRealm
 
     private static async Task<Realm> GetInstanceAsync(string realmFilename, RealmSchema schema)
     {
-#if WINDOWS
-        var realmPath = Path.Combine(MauiFileSystem.Current.AppDataDirectory, realmFilename);
-        var realmConfig = await MakeConfigAsync(realmPath, schema);
-#else
-        // For non-Windows builds, we'll continue to get the Realm file using the default path that
-        // Realm provides (for backwards capability).
-        var realmConfig = await MakeConfigAsync(realmFilename, schema);
-#endif
+        var realmConfig = await MakeConfigAsync(GetRealmPath(realmFilename), schema);
+
         ConsoleTrace.TraceMethod(typeof(VisitzRealm), $"GetInstanceAsync('{realmConfig.DatabasePath}')");
 
         return await Realm.GetInstanceAsync(realmConfig);
@@ -102,6 +98,18 @@ public class VisitzRealm
         }
     }
 
+    private static string GetRealmPath(string realmName)
+    {
+#if WINDOWS
+        // Explicitly declare a path, otherwise it's put into system32.
+        return Path.Combine(MauiFileSystem.Current.AppDataDirectory, realmName);
+#else
+        // For non-Windows envs, we'll continue to rely on Realm's default path it constructs when
+        // no path is provided in the RealmConfiguration (for backwards compatibility).
+        return realmName;
+#endif
+    }
+
     public static async Task ClearIcmDataRealm()
     {
         using var realm = await GetIcmDataAsync();
@@ -121,5 +129,18 @@ public class VisitzRealm
     public static async Task<Realm> GetNoteDraftAsync()
     {
         return await GetAsync(NoteDraftRealmPath, new[] { typeof(NoteDraft), });
+    }
+
+    public static async Task<Realm> GetSafetyAssessmentDraftAsync()
+    {
+        return await GetAsync(SafetyAssessmentRealmPath, schema: new[] 
+        { 
+            typeof(SafetyAssessment),
+            typeof(FactorInfluence),
+            typeof(ProtectiveCapacity),
+            typeof(SafetyDecisions),
+            typeof(SafetyFactors),
+            typeof(SafetyInterventions),
+        });
     }
 }

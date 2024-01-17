@@ -9,9 +9,6 @@ namespace Visitz.ViewModels
     public partial class DebugOptionsViewModel : VisitzViewModel
     {
         [ObservableProperty]
-        public string idirOverride;
-
-        [ObservableProperty]
         public bool dryFireSubmitNotes;
 
         [ObservableProperty]
@@ -42,7 +39,6 @@ namespace Visitz.ViewModels
         {
             base.PageCreated();
 
-            IdirOverride = DebugOptions.IdirOverride;
             DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
             DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
 
@@ -61,11 +57,6 @@ namespace Visitz.ViewModels
 
             ApiDomain = settings.Api.ApiDomain;
             AuthenticationDomain = settings.Oidc.AuthenticationDomain;
-        }
-
-        partial void OnIdirOverrideChanged(string value)
-        {
-            DebugOptions.IdirOverride = value;
         }
 
         partial void OnDryFireSubmitNotesChanged(bool value)
@@ -112,6 +103,19 @@ namespace Visitz.ViewModels
         public void DeleteEncryptionKey()
         {
             DebugOptions.DeleteEncryptionKey();
+        }
+
+        [RelayCommand]
+        public async void Load620bData()
+        {
+            try
+            {
+                await DebugOptions.Load620bTestingRecords();
+            }
+            catch (Exception ex)
+            {
+                await Navigator.CurrentOpenPage.DisplayAlert("Error", ex.Message, "OK");
+            }
         }
 
         [RelayCommand]

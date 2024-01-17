@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -28,10 +29,12 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 
 		var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
 		WeakReferenceMessenger.Default.Register(this, id);
+		StrongReferenceMessenger.Default.Register<DraftSavedMessage<DraftSavedView.State>>(this, ReceiveAppNavMessage);
     }
 
     protected override void Destroying()
     {
+		StrongReferenceMessenger.Default.UnregisterAll(this);
 		WeakReferenceMessenger.Default.UnregisterAll(this);
 
         base.Destroying();
@@ -54,5 +57,30 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 				LocalizedStrings.Error,
 				message.Message, 
 				LocalizedStrings.Ok);
+    }
+
+    private void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSavedView.State> message)
+	{
+		var thiz = (EntitySafetyAssessView)recipient;
+
+		_ = thiz.DraftSavedIndicator.SetState(message.Value);
+	}
+
+    private async void DiscardButton_Clicked(object sender, EventArgs e)
+    {
+		if (await PromptDiscard())
+		{
+			ViewModel.Reset();
+			await Toast.Make(LocalizedStrings.DiscardedSafetyAssessmentDraft).Show();
+		}
+    }
+
+	private async static Task<bool> PromptDiscard()
+	{
+        return await Navigator.CurrentOpenPage.DisplayAlert(
+			LocalizedStrings.DiscardDraftQuestion,
+            LocalizedStrings.DiscardSafetyAssessmentDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel);
     }
 }
