@@ -7,6 +7,7 @@ namespace Visitz.Models.SafetyAssess;
 public partial class SafetyAssessment : IRealmObject
 {
     public static readonly string DateFormat = "dd/MM/yyyy";
+    public static readonly int CommentsMaxLength = 1000;
 
     [Required]
     public string IncidentNumber { get; set; }
