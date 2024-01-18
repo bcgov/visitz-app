@@ -498,7 +498,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>After weighing the Safety Factors and the Protective Capacities consider whether safety interventions 1-8 will allow the child to remain in the home for the present time. Check the item number for all safety interventions that will be implemented. If there are no available safety interventions that would allow the child/youth to remain in the home, indicate by checking item nine or ten, and follow procedures for initiating a voluntary agreement for placement in an out-of-care or in-care living arrangement or removal.</value>
   </data>
   <data name="SafetyIntervention_Prompt" xml:space="preserve">
-    <value>Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes</value>
+    <value>Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes.</value>
   </data>
   <data name="SafetyInterventions" xml:space="preserve">
     <value>Safety interventions</value>

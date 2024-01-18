@@ -1086,7 +1086,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes.
+        ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes..
         /// </summary>
         public static string SafetyIntervention_Prompt {
             get {
