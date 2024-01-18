@@ -24,6 +24,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
 
     [ObservableProperty]
+    public DateTime maxDate = DateTime.Now;
+
+    [ObservableProperty]
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
