@@ -273,6 +273,7 @@
 
                     <formctls:FormEntry
                         FieldNameIsVisible="False"
+                        Placeholder="{local:Localize Other}"
                         Text="{Binding Capacity.CmtProtectiveCapacity01Binding}" />
 
                     <formctls:FormEntry 
@@ -317,6 +318,7 @@
                         Text="{local:Localize SafetyIntervention8_OtherSafetyInterventions}" />
                     <formctls:FormEntry 
                         FieldNameIsVisible="False"
+                        Placeholder="{local:Localize Other}"
                         Text="{Binding Interventions.CmtSafetyInterventionsBinding}" />
                     <formctls:FormCheckBox 
                         IsChecked="{Binding Interventions.ChildOutsideHomeBinding}"

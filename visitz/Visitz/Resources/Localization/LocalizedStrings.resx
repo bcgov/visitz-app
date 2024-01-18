@@ -551,4 +551,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="CommentsClarificationPrompt" xml:space="preserve">
     <value>Comments (if clarification or rationale for the rating is needed)</value>
   </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
 </root>
