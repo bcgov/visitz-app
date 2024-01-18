@@ -33,7 +33,7 @@
         </Style>
 
         <Style TargetType="formctls:FormPromptAnswerField">
-            <Setter Property="AnswerContextExplanation" Value="Comments (if clarification or rationale for the rating is needed)" />
+            <Setter Property="AnswerContextExplanation" Value="{local:Localize CommentsClarificationPrompt}" />
         </Style>
 
         <Style TargetType="formctls:FormEntry">

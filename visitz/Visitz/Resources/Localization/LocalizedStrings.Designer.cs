@@ -151,6 +151,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Comments.
+        /// </summary>
+        public static string Comments {
+            get {
+                return ResourceManager.GetString("Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments (if clarification or rationale for the rating is needed).
+        /// </summary>
+        public static string CommentsClarificationPrompt {
+            get {
+                return ResourceManager.GetString("CommentsClarificationPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected—no internet available.
         /// </summary>
         public static string ConnectedNoInternet {
