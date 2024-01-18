@@ -77,10 +77,19 @@ public partial class SafetyAssessment : IRealmObject
 
     public static SafetyAssessment FindByIncidentNumber(Realm realm, string incidentNumber)
     {
-        return realm
-            .All<SafetyAssessment>()
-            .Where(sa => sa.IncidentNumber.Equals(incidentNumber))
-            .FirstOrDefault();
+        bool query(SafetyAssessment sa) => sa.IncidentNumber.Equals(incidentNumber);
+
+        // Running the FirstOrDefault() query without checking Any() first sometimes leads to an uncatchable
+        // ArgumentOutOfRangeException. I wasn't able to track down the root cause of it, so this workaround
+        // will have to do for now.
+        //
+        // https://github.com/realm/realm-dotnet/issues/3090#issuecomment-1313661344
+        // https://github.com/realm/realm-dotnet/issues/3092
+        // https://github.com/realm/realm-dotnet/issues/3333
+
+        return realm.All<SafetyAssessment>().Any(query)
+            ? realm.All<SafetyAssessment>().Where(query).FirstOrDefault()
+            : null;
     }
 
     public static async Task Delete(Realm realm, SafetyAssessment safetyAssessment)

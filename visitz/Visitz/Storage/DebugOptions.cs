@@ -64,6 +64,12 @@ namespace Visitz.Storage
                 await VisitzRealm.ClearIcmDataRealm();
         }
 
+        public static async Task ClearSafetyAssessmentDraftsRealm()
+        {
+            if (Enabled)
+                await VisitzRealm.ClearSafetyAssessmentDraftRealm();
+        }
+
         public static void DeleteEncryptionKey()
         {
             if (Enabled)

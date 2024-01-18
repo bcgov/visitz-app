@@ -20,59 +20,59 @@ public partial class SafetyFactors : IRealmObject
         
     public bool SubsExposedInfant { get; set; }
 
-    public string CmtClarification {  get; set; } = string.Empty;
+    public string CmtClarification { get; set; } = string.Empty;
 
     public bool? CurrentCircumstances { get; set; }
 
-    public string CmtCircumstances{ get; set; } = string.Empty;
+    public string CmtCircumstances { get; set; } = string.Empty;
 
     public bool? SexAbuse { get; set; }
 
-    public string CmtAbuse{ get; set; } = string.Empty;
+    public string CmtAbuse { get; set; } = string.Empty;
 
     public bool? UnableToProtect { get; set; }
 
-    public string CmtProtect{ get; set; } = string.Empty;
+    public string CmtProtect { get; set; } = string.Empty;
 
     public bool? InjuryExplanation { get; set; }
 
-    public string CmtExplanation{ get; set; } = string.Empty;
+    public string CmtExplanation { get; set; } = string.Empty;
 
     public bool? RefuseAccess { get; set; }
 
-    public string CmtAccess{ get; set; } = string.Empty;
+    public string CmtAccess { get; set; } = string.Empty;
 
     public bool? ImmediateNeeds { get; set; }
 
-    public string CmtNeeds{ get; set; } = string.Empty;
+    public string CmtNeeds { get; set; } = string.Empty;
 
     public bool? PhysicalCondition { get; set; }
 
-    public string CmtCondition{ get; set; } = string.Empty;
+    public string CmtCondition { get; set; } = string.Empty;
 
     public bool? CurrentAbuse { get; set; }
 
-    public string CmtCurrent{ get; set; } = string.Empty;
+    public string CmtCurrent { get; set; } = string.Empty;
 
     public bool? PartnerViolence { get; set; }
 
-    public string CmtViolence{ get; set; } = string.Empty;
+    public string CmtViolence { get; set; } = string.Empty;
 
     public bool? PredominantlyNegative { get; set; }
 
-    public string CmtNegative{ get; set; } = string.Empty;
+    public string CmtNegative { get; set; } = string.Empty;
 
     public bool? EmotionalStability { get; set; }
 
-    public string CmtEmotional{ get; set; } = string.Empty;
+    public string CmtEmotional { get; set; } = string.Empty;
 
     public bool? ChildFearful { get; set; }
 
-    public string CmtFearful{ get; set; } = string.Empty;
+    public string CmtFearful { get; set; } = string.Empty;
 
     public bool? OtherFactors { get; set; }
 
-    public string CmtOtherFactors{ get; set; } = string.Empty;
+    public string CmtOtherFactors { get; set; } = string.Empty;
 
     public bool? CurretAbuse { get; set; }
 

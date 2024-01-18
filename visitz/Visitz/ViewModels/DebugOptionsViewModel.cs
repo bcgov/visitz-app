@@ -100,6 +100,12 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
+        public async void ClearSafetyAssessmentDraft()
+        {
+            await DebugOptions.ClearSafetyAssessmentDraftsRealm();
+        }
+
+        [RelayCommand]
         public void DeleteEncryptionKey()
         {
             DebugOptions.DeleteEncryptionKey();
