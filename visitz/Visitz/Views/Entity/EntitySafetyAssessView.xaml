@@ -68,20 +68,31 @@
 
                 <VerticalStackLayout Style="{StaticResource FormVsl}">
 
-                    <Label 
-                        Margin="0,0,0,-10"
-                        Text="{local:Localize DateOfAssessment}" />
+                    <Grid
+                        RowDefinitions="Auto,Auto"
+                        ColumnDefinitions="*,*">
+                        <Label 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="{local:Localize DateOfAssessment}" />
 
-                    <DatePicker 
-                        Margin="0,0"
-                        Date="{Binding Assessment.DateOfAssessmentBinding, Converter={StaticResource DateTimeOffsetConverter}}"/>
+                        <DatePicker 
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,0"
+                            Date="{Binding Assessment.DateOfAssessmentBinding, Converter={StaticResource DateTimeOffsetConverter}}"/>
 
-                    <Label 
-                        Margin="0,0,0,-10"
-                        Text="{local:Localize FamilyName}" />
-                    <Picker 
-                        SelectedItem="{Binding Assessment.FamilyNameBinding}"
-                        ItemsSource="{Binding FamilyNames}" />
+                        <Label 
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{local:Localize FamilyName}" />
+                        
+                        <Picker 
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            SelectedItem="{Binding Assessment.FamilyNameBinding}"
+                            ItemsSource="{Binding FamilyNames}" />
+                    </Grid>
 
                 </VerticalStackLayout>
 
