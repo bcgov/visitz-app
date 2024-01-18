@@ -38,6 +38,7 @@
 
         <Style TargetType="formctls:FormEntry">
             <Setter Property="MaxLength" Value="{Static safetyModels:SafetyAssessment.CommentsMaxLength}" />
+            <Setter Property="Placeholder" Value="{local:Localize Comments}" />
         </Style>
 
         <Style x:Key="FormVsl" TargetType="VerticalStackLayout">
