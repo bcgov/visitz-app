@@ -461,14 +461,13 @@
                         Text="{local:Localize ReadyToFinalize}" />
 
                     <formctls:FormEntry
+                        IsVisible="False"
                         FieldName="{local:Localize SocialWorkerName}"
                         Text="{Binding Assessment.WorkerIdBinding}" />
 
-                    <Label 
-                        Margin="0,0,0,-10"
-                        Text="{local:Localize ReadyToFinalizeDate}" />
-
-                    <DatePicker Date="{Binding Decisions.ReadyFinalizeDateBinding, Converter={StaticResource DateTimeOffsetConverter}}" />
+                    <DatePicker 
+                        IsVisible="False"
+                        Date="{Binding Decisions.ReadyFinalizeDateBinding, Converter={StaticResource DateTimeOffsetConverter}}" />
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
