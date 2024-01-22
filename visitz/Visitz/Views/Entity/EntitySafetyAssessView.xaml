@@ -70,7 +70,8 @@
 
                     <Grid
                         RowDefinitions="Auto,Auto"
-                        ColumnDefinitions="*,*">
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="20">
                         <Label 
                             Grid.Row="0"
                             Grid.Column="0"
