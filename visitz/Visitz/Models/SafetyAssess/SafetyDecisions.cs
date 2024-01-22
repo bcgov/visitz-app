@@ -10,6 +10,9 @@ public partial class SafetyDecisions : IRealmObject
     public static readonly string AllChildrenPlaced = "All children placed";
     public static readonly string SomeChildrenPlaced = "Some children placed";
 
+    public static readonly int CommentsMaxLength = 16000;
+    public static readonly int NarrativeMaxLength = 2000;
+
     private bool NoSafetyFactors { get; set; }
     private bool Safe 
     {

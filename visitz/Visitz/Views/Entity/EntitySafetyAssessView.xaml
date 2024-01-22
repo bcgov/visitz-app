@@ -18,12 +18,10 @@
         <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
             <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="LineHeight" Value="1.7" />
         </Style>
 
         <Style x:Key="MidsectionHeader" TargetType="Label" BasedOn="{StaticResource BodyLarge}">
             <Setter Property="HorizontalOptions" Value="Start" />
-            <Setter Property="LineHeight" Value="1.7" />
         </Style>
 
         <Style x:Key="AssessmentHeader" TargetType="Label" BasedOn="{StaticResource TitleMedium}">
@@ -35,12 +33,17 @@
         </Style>
 
         <Style TargetType="formctls:FormPromptAnswerField">
-            <Setter Property="AnswerContextExplanation" Value="Comments (if clarification or rationale for the rating is needed)" />
+            <Setter Property="AnswerContextExplanation" Value="{local:Localize CommentsClarificationPrompt}" />
+        </Style>
+
+        <Style TargetType="formctls:FormEntry">
+            <Setter Property="MaxLength" Value="{Static safetyModels:SafetyAssessment.CommentsMaxLength}" />
+            <Setter Property="Placeholder" Value="{local:Localize Comments}" />
         </Style>
 
         <Style x:Key="FormVsl" TargetType="VerticalStackLayout">
             <Setter Property="Padding" Value="10" />
-            <Setter Property="Spacing" Value="10" />
+            <Setter Property="Spacing" Value="5" />
         </Style>
 
         <Style TargetType="Border">
@@ -65,20 +68,34 @@
 
                 <VerticalStackLayout Style="{StaticResource FormVsl}">
 
-                    <Label 
-                        Margin="0,0,0,-10"
-                        Text="{local:Localize DateOfAssessment}" />
+                    <Grid
+                        RowDefinitions="Auto,Auto"
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="20">
+                        <Label 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="{local:Localize DateOfAssessment}" />
 
-                    <DatePicker 
-                        Margin="0,0"
-                        Date="{Binding Assessment.DateOfAssessmentBinding, Converter={StaticResource DateTimeOffsetConverter}}"/>
+                        <DatePicker 
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,0"
+                            Format="MMMM dd, yyyy"
+                            MaximumDate="{Binding MaxDate}"
+                            Date="{Binding Assessment.DateOfAssessmentBinding, Converter={StaticResource DateTimeOffsetConverter}}"/>
 
-                    <Label 
-                        Margin="0,0,0,-10"
-                        Text="{local:Localize FamilyName}" />
-                    <Picker 
-                        SelectedItem="{Binding Assessment.FamilyNameBinding}"
-                        ItemsSource="{Binding FamilyNames}" />
+                        <Label 
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{local:Localize FamilyName}" />
+                        
+                        <Picker 
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            SelectedItem="{Binding Assessment.FamilyNameBinding}"
+                            ItemsSource="{Binding FamilyNames}" />
+                    </Grid>
 
                 </VerticalStackLayout>
 
@@ -270,6 +287,7 @@
 
                     <formctls:FormEntry
                         FieldNameIsVisible="False"
+                        Placeholder="{local:Localize Other}"
                         Text="{Binding Capacity.CmtProtectiveCapacity01Binding}" />
 
                     <formctls:FormEntry 
@@ -284,25 +302,7 @@
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize SafetyInterventions}" />
 
-                    <Grid 
-                        ColumnDefinitions="Auto,*"
-                        ColumnSpacing="10"
-                        Margin="0,10">
-                        <Label 
-                            Grid.Column="0"
-                            LineHeight="1.0"
-                            VerticalOptions="Center"
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                            FontSize="{StaticResource HeadlineLargeFontSize}"
-                            TextColor="{StaticResource Semantic_Warning_LargeText}"
-                            Text="{Static icons:MaterialIcons.Warning}" />
-
-                        <Label
-                            Grid.Column="1"
-                            LineHeight="1.0"
-                            VerticalOptions="Center"
-                            Text="{local:Localize SafetyIntervention_Prompt}" />
-                    </Grid>
+                    <Label Text="{local:Localize SafetyIntervention_Prompt}" />
 
                     <Label Text="{local:Localize SafetyIntervention_Description}" />
 
@@ -332,6 +332,7 @@
                         Text="{local:Localize SafetyIntervention8_OtherSafetyInterventions}" />
                     <formctls:FormEntry 
                         FieldNameIsVisible="False"
+                        Placeholder="{local:Localize Other}"
                         Text="{Binding Interventions.CmtSafetyInterventionsBinding}" />
                     <formctls:FormCheckBox 
                         IsChecked="{Binding Interventions.ChildOutsideHomeBinding}"
@@ -394,6 +395,7 @@
                     <formctls:FormEntry 
                         FieldName="{local:Localize SafetyPlanDescription}"
                         Placeholder="{local:Localize SafetyPlan}"
+                        MaxLength="{Static safetyModels:SafetyDecisions.CommentsMaxLength}"
                         Text="{Binding Decisions.CommentsBinding}"/>
 
                     <Label 
@@ -403,6 +405,7 @@
                     <formctls:FormEntry 
                         FieldName="{local:Localize NarrativeDescription}"
                         Placeholder="{local:Localize Narrative}"
+                        MaxLength="{Static safetyModels:SafetyDecisions.NarrativeMaxLength}"
                         Text="{Binding Decisions.NarrativeBinding}"/>
 
                 </VerticalStackLayout>
@@ -412,6 +415,45 @@
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
 
+                    <Label 
+                        Text="{local:Localize SelectChildrenPrompt}"
+                        Margin="0,5,0,20"/>
+ 
+                    <Grid
+                        RowDefinitions="Auto,0.5"
+                        RowSpacing="5"
+                        ColumnSpacing="5">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.CheckBoxGridLength}" />
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.LastNameGridLength}" />
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.FirstNameGridLength}" />
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.DateOfBirthGridLength}" />
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.GenderGridLength}" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="1"
+                            Text="{local:Localize LastName}" />
+
+                        <Label
+                            Grid.Column="2"
+                            Text="{local:Localize FirstName}" />
+
+                        <Label
+                            Grid.Column="3"
+                            Text="{local:Localize DateOfBirth}" />
+
+                        <Label
+                            Grid.Column="4"
+                            Text="{local:Localize Gender}" />
+
+                        <BoxView 
+                            Grid.Row="1"
+                            Grid.ColumnSpan="5"
+                            Color="{StaticResource SeparatorColor}" />
+                    </Grid>
+                    
                     <CollectionView
                         ItemsSource="{Binding ChildrenInOutCare}"
                         SelectionMode="Multiple"
@@ -419,32 +461,7 @@
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:FamilyMember">
-                                <HorizontalStackLayout>
-
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroupList>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState Name="Normal" />
-                                                <VisualState Name="Selected">
-                                                    <VisualState.Setters>
-                                                        <Setter TargetName="NameLabel" Property="BackgroundColor" Value="{StaticResource ItemSelectedColor}" />
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource ItemSelectedColor}" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                            </VisualStateGroup>
-                                        </VisualStateGroupList>
-                                    </VisualStateManager.VisualStateGroups>
-                                
-                                    <Label
-                                        x:Name="NameLabel"
-                                        LineHeight="1.0"
-                                        BackgroundColor="White"
-                                        HorizontalOptions="Start"
-                                        VerticalOptions="Center"
-                                        VerticalTextAlignment="Center"
-                                        Padding="10"
-                                        Text="{Binding FullDisplayName}" />
-                                </HorizontalStackLayout>
+                                <entity:ChildInOutCareItem />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -462,14 +479,13 @@
                         Text="{local:Localize ReadyToFinalize}" />
 
                     <formctls:FormEntry
+                        IsVisible="False"
                         FieldName="{local:Localize SocialWorkerName}"
                         Text="{Binding Assessment.WorkerIdBinding}" />
 
-                    <Label 
-                        Margin="0,0,0,-10"
-                        Text="{local:Localize ReadyToFinalizeDate}" />
-
-                    <DatePicker Date="{Binding Decisions.ReadyFinalizeDateBinding, Converter={StaticResource DateTimeOffsetConverter}}" />
+                    <DatePicker 
+                        IsVisible="False"
+                        Date="{Binding Decisions.ReadyFinalizeDateBinding, Converter={StaticResource DateTimeOffsetConverter}}" />
 
                 </VerticalStackLayout>
             </VerticalStackLayout>

@@ -151,6 +151,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Comments.
+        /// </summary>
+        public static string Comments {
+            get {
+                return ResourceManager.GetString("Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments (if clarification or rationale for the rating is needed).
+        /// </summary>
+        public static string CommentsClarificationPrompt {
+            get {
+                return ResourceManager.GetString("CommentsClarificationPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected—no internet available.
         /// </summary>
         public static string ConnectedNoInternet {
@@ -165,6 +183,15 @@ namespace Visitz.Resources.Localization {
         public static string DateOfAssessment {
             get {
                 return ResourceManager.GetString("DateOfAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of birth.
+        /// </summary>
+        public static string DateOfBirth {
+            get {
+                return ResourceManager.GetString("DateOfBirth", resourceCulture);
             }
         }
         
@@ -358,6 +385,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First name.
+        /// </summary>
+        public static string FirstName {
+            get {
+                return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender.
+        /// </summary>
+        public static string Gender {
+            get {
+                return ResourceManager.GetString("Gender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have an unpublished draft.
         /// </summary>
         public static string HaveUnpublishedDraft {
@@ -408,6 +453,15 @@ namespace Visitz.Resources.Localization {
         public static string KeyPlayer {
             get {
                 return ResourceManager.GetString("KeyPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last name.
+        /// </summary>
+        public static string LastName {
+            get {
+                return ResourceManager.GetString("LastName", resourceCulture);
             }
         }
         
@@ -574,6 +628,15 @@ namespace Visitz.Resources.Localization {
         public static string OpenDate {
             get {
                 return ResourceManager.GetString("OpenDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Other {
+            get {
+                return ResourceManager.GetString("Other", resourceCulture);
             }
         }
         
@@ -1086,7 +1149,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes.
+        ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes..
         /// </summary>
         public static string SafetyIntervention_Prompt {
             get {
@@ -1217,6 +1280,15 @@ namespace Visitz.Resources.Localization {
         public static string SecureDeviceAndTryAgain {
             get {
                 return ResourceManager.GetString("SecureDeviceAndTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select one or more children:.
+        /// </summary>
+        public static string SelectChildrenPrompt {
+            get {
+                return ResourceManager.GetString("SelectChildrenPrompt", resourceCulture);
             }
         }
         

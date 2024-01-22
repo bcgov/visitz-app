@@ -7,7 +7,8 @@ public partial class FormEntry : ContentView
 
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(nameof(Text), typeof(string), typeof(FormEntry),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultBindingMode: BindingMode.TwoWay, 
+            propertyChanged: (boundObj, oldVal, newVal) => (boundObj as FormEntry).UpdateCharacterCount());
 
     public static readonly BindableProperty LeadingSupportingTextProperty =
         BindableProperty.Create(nameof(LeadingSupportingText), typeof(string), typeof(FormEntry));
@@ -28,6 +29,17 @@ public partial class FormEntry : ContentView
 
     public static readonly BindableProperty PlaceholderProperty =
         BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(FormEntry));
+
+    public static readonly BindableProperty MaxLengthProperty =
+        BindableProperty.Create(nameof(MaxLength), typeof(int), typeof(FormEntry),
+            defaultValue: int.MaxValue, propertyChanged: (boundObj, oldVal, newVal) =>
+            {
+                var formEntry = (FormEntry)boundObj;
+                int newLength = (int)newVal;
+
+                formEntry.UpdateBottomRowVisibility(newLength);
+                formEntry.UpdateCharacterCount();
+            });
 
     public string FieldName
     {
@@ -65,8 +77,24 @@ public partial class FormEntry : ContentView
         set => SetValue(PlaceholderProperty, value);
     }
 
+    public int MaxLength
+    {
+        get => (int)GetValue(MaxLengthProperty);
+        set => SetValue(MaxLengthProperty, value);
+    }
+
     public FormEntry()
 	{
 		InitializeComponent();
 	}
+
+    private void UpdateBottomRowVisibility(int maxLength)
+    {
+        SubRow.Height = maxLength == int.MaxValue ? 0.0d : GridLength.Auto;
+    }
+
+    private void UpdateCharacterCount()
+    {
+        TrailingSupportingText = $"{Text?.Length ?? 0}/{MaxLength}";
+    }
 }

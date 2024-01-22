@@ -6,8 +6,6 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyFactors : IRealmObject
 {
-    public static readonly int CommentsMaxLength = 1000;
-
     public bool? PhysicalHarm { get; set; }
         
     public bool SeriousInjuryAbuse { get; set; }

@@ -14,7 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="FieldNameRow" />
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition x:Name="SubRow" />
         </Grid.RowDefinitions>
         
         <Label 
@@ -30,6 +30,7 @@
             AutoSize="TextChanges"
             Placeholder="{Binding Placeholder}"
             PlaceholderColor="{StaticResource Gray400}"
+            MaxLength="{Binding MaxLength}"
             Text="{Binding Text}"/>
 
         <Label 

@@ -24,6 +24,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
 
     [ObservableProperty]
+    public DateTime maxDate = DateTime.Now;
+
+    [ObservableProperty]
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
@@ -65,7 +68,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         return new SafetyAssessment()
         {
             IncidentNumber = CaseloadItem.CaseIncidentNumber,
-            WorkerId = info.FirstLastName,
+            WorkerId = info.Idir,
             FamilyName = CaseloadItem.KeyPlayerLastName,
             Operation = LocalizedStrings.Insert,
             FactorInfluence = new FactorInfluence(),
