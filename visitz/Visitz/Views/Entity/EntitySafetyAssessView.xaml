@@ -415,48 +415,45 @@
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
 
+                    <Grid
+                        RowDefinitions="Auto,0.5"
+                        RowSpacing="5"
+                        ColumnSpacing="5">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.CheckBoxGridLength}" />
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.LastNameGridLength}" />
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.FirstNameGridLength}" />
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.DateOfBirthGridLength}" />
+                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.GenderGridLength}" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="1"
+                            Text="{local:Localize LastName}" />
+
+                        <Label
+                            Grid.Column="2"
+                            Text="{local:Localize FirstName}" />
+
+                        <Label
+                            Grid.Column="3"
+                            Text="{local:Localize DateOfBirth}" />
+
+                        <Label
+                            Grid.Column="4"
+                            Text="{local:Localize Gender}" />
+
+                        <BoxView 
+                            Grid.Row="1"
+                            Grid.ColumnSpan="5"
+                            Color="{StaticResource SeparatorColor}" />
+                    </Grid>
+                    
                     <CollectionView
                         ItemsSource="{Binding ChildrenInOutCare}"
                         SelectionMode="Multiple"
                         SelectedItems="{Binding SelectedChildren}">
-
-                        <CollectionView.Header>
-                            <Grid
-                                RowDefinitions="Auto,0.5"
-                                RowSpacing="5"
-                                ColumnSpacing="5"
-                                Margin="0,10,0,0">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Static entity:ChildInOutCareItem.CheckBoxGridLength}" />
-                                    <ColumnDefinition Width="{Static entity:ChildInOutCareItem.LastNameGridLength}" />
-                                    <ColumnDefinition Width="{Static entity:ChildInOutCareItem.FirstNameGridLength}" />
-                                    <ColumnDefinition Width="{Static entity:ChildInOutCareItem.DateOfBirthGridLength}" />
-                                    <ColumnDefinition Width="{Static entity:ChildInOutCareItem.GenderGridLength}" />
-                                </Grid.ColumnDefinitions>
-
-                                <Label
-                                    Grid.Column="1"
-                                    Text="{local:Localize LastName}" />
-
-                                <Label
-                                    Grid.Column="2"
-                                    Text="{local:Localize FirstName}" />
-
-                                <Label
-                                    Grid.Column="3"
-                                    Text="{local:Localize DateOfBirth}" />
-
-                                <Label
-                                    Grid.Column="4"
-                                    Text="{local:Localize Gender}" />
-
-                                <BoxView 
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="5"
-                                    Color="{StaticResource SeparatorColor}" />
-                            </Grid>
-                        </CollectionView.Header>
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:FamilyMember">
