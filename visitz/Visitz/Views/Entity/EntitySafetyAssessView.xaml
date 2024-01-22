@@ -437,19 +437,19 @@
 
                                 <Label
                                     Grid.Column="1"
-                                    Text="Last name" />
+                                    Text="{local:Localize LastName}" />
 
                                 <Label
                                     Grid.Column="2"
-                                    Text="First name" />
+                                    Text="{local:Localize FirstName}" />
 
                                 <Label
                                     Grid.Column="3"
-                                    Text="Date of birth" />
+                                    Text="{local:Localize DateOfBirth}" />
 
                                 <Label
                                     Grid.Column="4"
-                                    Text="Gender" />
+                                    Text="{local:Localize Gender}" />
 
                                 <BoxView 
                                     Grid.Row="1"
