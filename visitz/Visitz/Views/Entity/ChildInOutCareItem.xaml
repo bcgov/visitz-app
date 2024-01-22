@@ -13,11 +13,13 @@
                 <VisualState Name="Normal">
                     <VisualState.Setters>
                         <Setter TargetName="ItemCheckBox" Property="CheckBox.IsChecked" Value="False" />
+                        <Setter Property="BackgroundColor" Value="White" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState Name="Selected">
                     <VisualState.Setters>
                         <Setter TargetName="ItemCheckBox" Property="CheckBox.IsChecked" Value="True" />
+                        <Setter Property="BackgroundColor" Value="White" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
