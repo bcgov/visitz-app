@@ -1284,6 +1284,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select one or more children:.
+        /// </summary>
+        public static string SelectChildrenPrompt {
+            get {
+                return ResourceManager.GetString("SelectChildrenPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send to team leader.
         /// </summary>
         public static string SendToTeamLeader {

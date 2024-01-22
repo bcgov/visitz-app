@@ -415,6 +415,10 @@
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
 
+                    <Label 
+                        Text="{local:Localize SelectChildrenPrompt}"
+                        Margin="0,5,0,20"/>
+ 
                     <Grid
                         RowDefinitions="Auto,0.5"
                         RowSpacing="5"

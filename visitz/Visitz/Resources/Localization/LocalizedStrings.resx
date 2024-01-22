@@ -566,4 +566,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
   </data>
+  <data name="SelectChildrenPrompt" xml:space="preserve">
+    <value>Select one or more children:</value>
+  </data>
 </root>
