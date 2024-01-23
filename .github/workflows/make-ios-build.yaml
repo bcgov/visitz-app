@@ -12,8 +12,9 @@ on:
 
 env:
   PROJPATH: "visitz/Visitz"
-  DOTNET_VERSION: "8.0.100" # see workflows README
-  MAUI_VERSION: "8.0.3" # see workflows README
+  DOTNET_VERSION: "8.0.101" # see workflows README
+  MAUI_VERSION: "8.0.6" # see workflows README
+  XCODE_VERSION: "15.1"
 
 jobs:
 
@@ -32,7 +33,7 @@ jobs:
       - name: Setup Xcode version
         uses: maxim-lobanov/setup-xcode@v1.6.0
         with:
-          xcode-version: '15.0.1'
+          xcode-version: ${{ env.XCODE_VERSION }}
 
       - name: Import code-signing certificates
         uses: Apple-Actions/import-codesign-certs@v1
