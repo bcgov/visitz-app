@@ -8,6 +8,36 @@ Nothing yet.
 
 ### iOS
 
+#### Update secrets
+
+- ##### IOS_BUILD_CERTIFICATE_NAME
+
+	The name of the distribution certificate associated with the IOS_BUILD_PROVISION_PROFILE_BASE64 provisioning profile.
+
+	It should be wrapped in quotes when saved in secrets, e.g.
+
+	> "iPhone Distribution: Some person's distribution cert name"
+
+- ##### IOS_BUILD_PROVISION_PROFILE_BASE64
+
+	A base64-encoded copy of the distribution provisioning profile.
+
+	To encode on OSX:
+
+	> `base64 -i <provisioning profile name>.mobileprovision | pbcopy`
+
+	`pbcopy` takes output and sets it to the clipboard. Then directly paste into secrets **without** quotes.
+
+- ##### IOS_CODE_SIGN_PROVISION_PROFILE_NAME
+
+	The name of the distribution provisioning profile.
+
+	It should be wrapped in quotes when saved in secrets, e.g.
+
+	> "Provisioning Profile - Name"
+
+#### Build
+
 > **Warning**: as of 2023-11-16 (early Version 2 development) the GH Action for iOS builds hardcodes its .NET and MAUI versions in the action itself instead of relying on variables. This is meant to decrease confusion in the future if anyone makes a build for an older commit.
 > 
 > Framework versions before this change:
