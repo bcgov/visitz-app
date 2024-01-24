@@ -486,6 +486,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log in to submit safety assessment.
+        /// </summary>
+        public static string LoginToSubmitSA {
+            get {
+                return ResourceManager.GetString("LoginToSubmitSA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log out.
         /// </summary>
         public static string Logout {
@@ -781,6 +790,15 @@ namespace Visitz.Resources.Localization {
         public static string PublishingNotesToIcm {
             get {
                 return ResourceManager.GetString("PublishingNotesToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Safety Assessment {1}.
+        /// </summary>
+        public static string PublishSATitle {
+            get {
+                return ResourceManager.GetString("PublishSATitle", resourceCulture);
             }
         }
         
@@ -1275,6 +1293,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Safety assessment published successfully..
+        /// </summary>
+        public static string SAPublishedSuccess {
+            get {
+                return ResourceManager.GetString("SAPublishedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
         public static string SecureDeviceAndTryAgain {
@@ -1289,6 +1316,15 @@ namespace Visitz.Resources.Localization {
         public static string SelectChildrenPrompt {
             get {
                 return ResourceManager.GetString("SelectChildrenPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending safety assessment to ICM.
+        /// </summary>
+        public static string SendingSAToICM {
+            get {
+                return ResourceManager.GetString("SendingSAToICM", resourceCulture);
             }
         }
         
