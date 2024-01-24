@@ -58,6 +58,6 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         else if (message.FinishedCancelled)
             Cancel(LocalizedStrings.LoginToSubmitSA);
         else if (message.FinishedError)
-            PublishError(message.Message);
+            PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
     }
 }

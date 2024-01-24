@@ -37,6 +37,9 @@ public abstract partial class PublishViewModel : VisitzViewModel
     [ObservableProperty]
     public bool showErrorIcon;
 
+    [ObservableProperty]
+    public string publishErrorDetail;
+
     public event EventHandler OnCompleted;
 
     private void SetState(State state)
@@ -97,11 +100,12 @@ public abstract partial class PublishViewModel : VisitzViewModel
         PublishingStatus = publishedText;
     }
 
-    public void PublishError(string errorText)
+    public void PublishError(string errorText, string errorDetails)
     {
         SetState(State.PublishError);
 
         PublishingStatus = errorText;
+        PublishErrorDetail = errorDetails;
     }
 
     public void Cancel(string cancelText)
