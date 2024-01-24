@@ -9,4 +9,10 @@ public partial class PublishPage : VisitzPage
 		InitializeComponent();
 		BindingContext = ViewModel;
 	}
+
+    protected override bool OnBackButtonPressed()
+    {
+        // Prevent the user from backing out of this screen in favour of using the dismiss button.
+        return false;
+    }
 }
