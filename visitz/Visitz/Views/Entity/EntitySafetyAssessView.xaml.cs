@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Resources.Localization;
-using Visitz.Services;
 
 namespace Visitz.Views.Entity;
 
