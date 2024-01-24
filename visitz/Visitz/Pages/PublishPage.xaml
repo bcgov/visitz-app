@@ -48,6 +48,7 @@
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Source="note_publish.png"
+            Aspect="Center"
             HorizontalOptions="Center"
             VerticalOptions="Center" />
         
