@@ -33,7 +33,8 @@
             RowDefinitions="Auto,Auto,Auto,Auto"
             RowSpacing="15"
             ColumnDefinitions="*,*"
-            ColumnSpacing="10">
+            ColumnSpacing="10"
+            MaximumWidthRequest="800">
 
             <Image 
                 Grid.Row="0"
@@ -45,32 +46,38 @@
                 HeightRequest="400"
                 WidthRequest="400"/>
 
-            <VerticalStackLayout
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="2">
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="15"
+                    MaximumHeightRequest="200">
 
-                <HorizontalStackLayout
-                    HorizontalOptions="Center"
-                    Spacing="15">
                     <ActivityIndicator
+                        Grid.Column="0"
+                        VerticalOptions="Center"
                         IsVisible="{Binding ShowPublishingIndicator}"
                         IsRunning="true"
                         Color="White" />
 
-                    <Label 
-                        Text="{Binding PublishingStatus}"
-                        TextColor="White"
-                        FontFamily="BCSansBold"
-                        FontSize="28" />
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
+                    <ScrollView 
+                        Grid.Column="1"
+                        VerticalOptions="Center"
+                        MaximumHeightRequest="200">
+                        <Label 
+                            Text="{Binding PublishingStatus}"
+                            TextColor="White"
+                            FontFamily="BCSansBold"
+                            FontSize="28" />
+                    </ScrollView>
+                </Grid>
 
             <Label
                 Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                HorizontalOptions="Center"
+                HorizontalOptions="CenterAndExpand"
                 TextColor="White"
                 Text="{Binding Title}"
                 FontFamily="BCSansBold"
