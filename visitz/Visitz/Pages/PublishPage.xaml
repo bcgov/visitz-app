@@ -65,7 +65,7 @@
                 Grid.ColumnSpan="2"
                 ColumnDefinitions="Auto,*"
                 ColumnSpacing="15"
-                MaximumHeightRequest="200">
+                MaximumHeightRequest="180">
 
                 <ActivityIndicator
                     Grid.Column="0"
