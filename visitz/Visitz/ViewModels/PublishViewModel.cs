@@ -28,6 +28,12 @@ public abstract partial class PublishViewModel : VisitzViewModel
     [ObservableProperty]
     public bool showRetrySection;
 
+    [ObservableProperty]
+    public bool showSuccessIcon;
+
+    [ObservableProperty]
+    public bool showErrorIcon;
+
     private void SetState(State state)
     {
         switch (state)
@@ -39,10 +45,10 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 SetFlags(showPublishingIndicator: true);
                 break;
             case State.Published:
-                SetFlags();
+                SetFlags(showSuccessIcon: true);
                 break;
             case State.PublishError:
-                SetFlags(showRetrySection: true);
+                SetFlags(showErrorIcon: true, showRetrySection: true);
                 break;
             case State.Cancelled:
                 SetFlags(showRetrySection: true);
@@ -52,9 +58,13 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
     private void SetFlags(
         bool showPublishingIndicator = false,
-        bool showRetrySection = false)
+        bool showRetrySection = false,
+        bool showSuccessIcon = false,
+        bool showErrorIcon = false)
     {
         ShowPublishingIndicator = showPublishingIndicator;
+        ShowSuccessIcon = showSuccessIcon;
+        ShowErrorIcon = showErrorIcon;
         ShowRetrySection = showRetrySection;
     }
 
