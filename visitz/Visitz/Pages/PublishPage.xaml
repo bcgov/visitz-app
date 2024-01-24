@@ -136,6 +136,14 @@
             Style="{StaticResource PrimaryButtonDark}"
             Command="{Binding PublishCommand}" 
             IsVisible="{Binding ShowRetrySection}" />
+
+        <ProgressBar
+            x:Name="DismissProgressBar"
+            IsVisible="False"
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            WidthRequest="100"
+            ProgressColor="White" />
     </Grid>
 
 </pages:VisitzPage>

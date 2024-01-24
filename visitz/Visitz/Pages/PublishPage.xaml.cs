@@ -10,6 +10,30 @@ public partial class PublishPage : VisitzPage
 		BindingContext = ViewModel;
 	}
 
+    protected override void OnCreated()
+    {
+        base.OnCreated();
+
+        (ViewModel as PublishViewModel).OnCompleted += PublishPage_OnPublished;
+    }
+
+    protected override void OnDestroyed()
+    {
+        (ViewModel as PublishViewModel).OnCompleted -= PublishPage_OnPublished;
+
+        base.OnDestroyed();
+    }
+
+    private async void PublishPage_OnPublished(object sender, EventArgs e)
+    {
+        DismissProgressBar.IsVisible = true;
+
+        DismissProgressBar.Progress = 1.0d;
+        await DismissProgressBar.ProgressTo(0.0d, (uint)PublishViewModel.DismissDuration, Easing.Linear);
+
+        DismissProgressBar.IsVisible = false;
+    }
+
     protected override bool OnBackButtonPressed()
     {
         // Prevent the user from backing out of this screen in favour of using the dismiss button.

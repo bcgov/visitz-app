@@ -46,12 +46,15 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         WeakReferenceMessenger.Default.Send(msg);
     }
 
-    public void Receive(ServiceStateMessage message)
+    public async void Receive(ServiceStateMessage message)
     {
         if (message.Status == VisitzService.State.Running)
             Publishing(LocalizedStrings.SendingSAToICM);
         else if (message.FinishedSuccess)
+        {
             Published(LocalizedStrings.SAPublishedSuccess);
+            await Complete();
+        }
         else if (message.FinishedCancelled)
             Cancel(LocalizedStrings.LoginToSubmitSA);
         else if (message.FinishedError)
