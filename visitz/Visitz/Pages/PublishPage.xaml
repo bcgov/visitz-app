@@ -37,11 +37,12 @@
         </Style>
     </pages:VisitzPage.Resources>
 
-    <Grid 
+    <Grid
         Padding="32"
         RowDefinitions="*,*,Auto"
         ColumnDefinitions="*,*"
-        ColumnSpacing="10">
+        ColumnSpacing="10"
+        MaximumWidthRequest="800">
 
         <Image 
             Grid.Row="0"
@@ -53,74 +54,65 @@
         <Grid
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            RowDefinitions="Auto"
             RowSpacing="15"
-            ColumnDefinitions="*,*"
-            HorizontalOptions="Center"
+            ColumnDefinitions="Auto,*"
+            ColumnSpacing="15"
             VerticalOptions="Center"
-            MaximumWidthRequest="800">
+            HorizontalOptions="Center">
 
-            <Grid
-                Grid.Row="0"
+            <ActivityIndicator
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
-                ColumnDefinitions="Auto,*"
-                ColumnSpacing="15"
+                VerticalOptions="Center"
+                IsVisible="{Binding ShowPublishingIndicator}"
+                IsRunning="true"
+                Color="White" />
+
+            <Border
+                Background="{StaticResource BC_Semantic_Success}"
+                IsVisible="{Binding ShowSuccessIcon}">
+                <Image
+                    HeightRequest="42"
+                    WidthRequest="42">
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="{Static icons:MaterialIcons.Check}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Size="84" />
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <Border
+                Background="{StaticResource BC_Semantic_Error}"
+                IsVisible="{Binding ShowErrorIcon}">
+                <Image
+                    HeightRequest="42"
+                    WidthRequest="42">
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="{Static icons:MaterialIcons.Error}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Size="84" />
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <ScrollView
+                Grid.Column="1"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
                 MaximumHeightRequest="180">
-
-                <ActivityIndicator
-                    Grid.Column="0"
-                    VerticalOptions="Center"
-                    IsVisible="{Binding ShowPublishingIndicator}"
-                    IsRunning="true"
-                    Color="White" />
-
-                <Border
-                    Background="{StaticResource BC_Semantic_Success}"
-                    IsVisible="{Binding ShowSuccessIcon}">
-                    <Image
-                        HeightRequest="42"
-                        WidthRequest="42">
-                        <Image.Source>
-                            <FontImageSource 
-                                Glyph="{Static icons:MaterialIcons.Check}"
-                                FontFamily="MaterialIconsRoundedUnfilled"
-                                Size="42" />
-                        </Image.Source>
-                    </Image>
-                </Border>
-
-                <Border
-                    Background="{StaticResource BC_Semantic_Error}"
-                    IsVisible="{Binding ShowErrorIcon}">
-                    <Image
-                        HeightRequest="42"
-                        WidthRequest="42">
-                        <Image.Source>
-                            <FontImageSource 
-                                Glyph="{Static icons:MaterialIcons.Error}"
-                                FontFamily="MaterialIconsRoundedUnfilled"
-                                Size="42" />
-                        </Image.Source>
-                    </Image>
-                </Border>
-
-                <ScrollView 
-                    Grid.Column="1"
-                    VerticalOptions="Center"
-                    MaximumHeightRequest="200">
-                    <Label 
-                        Text="{Binding PublishingStatus}"
-                        TextColor="White"
-                        FontFamily="BCSansBold"
-                        FontSize="28">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </ScrollView>
-            </Grid>
-
+                <Label
+                    Text="{Binding PublishingStatus}"
+                    TextColor="White"
+                    FontFamily="BCSansBold"
+                    HorizontalOptions="StartAndExpand"
+                    FontSize="28">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </ScrollView>
         </Grid>
         
         <Button
