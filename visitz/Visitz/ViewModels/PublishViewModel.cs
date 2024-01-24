@@ -75,5 +75,5 @@ public abstract partial class PublishViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    public abstract Task Retry();
+    public abstract void Publish();
 }

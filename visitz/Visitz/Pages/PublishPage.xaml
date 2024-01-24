@@ -91,7 +91,7 @@
                 Text="Retry"
                 HorizontalOptions="Start"
                 Style="{StaticResource PrimaryButtonDark}"
-                Command="{Binding RetryCommand}" 
+                Command="{Binding PublishCommand}" 
                 IsVisible="{Binding ShowRetrySection}" />
 
         </Grid>
