@@ -28,7 +28,7 @@
 
     <Grid 
         Padding="16"
-        RowDefinitions="Auto,*,*,Auto"
+        RowDefinitions="Auto,2*,*,Auto"
         ColumnDefinitions="*,*"
         ColumnSpacing="10">
         
@@ -47,7 +47,7 @@
             Grid.ColumnSpan="2"
             Source="note_publish.png"
             HorizontalOptions="Center"
-            VerticalOptions="End" />
+            VerticalOptions="Center" />
         
         <Grid
             Grid.Row="2"
