@@ -161,10 +161,10 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
     <value>Tap to select</value>
   </data>
   <data name="FailedToPublishToIcm" xml:space="preserve">
-    <value>❌ Publishing to ICM failed</value>
+    <value>Publishing to ICM failed</value>
   </data>
   <data name="FailedToRefreshNotes" xml:space="preserve">
-    <value>❌ Refreshing notes on device failed</value>
+    <value>Refreshing notes on device failed</value>
   </data>
   <data name="NoNotesForEntity" xml:space="preserve">
     <value>There are no notes for this {0}</value>
@@ -173,13 +173,13 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
     <value>There are no notes for {0}</value>
   </data>
   <data name="NotesPublishedToIcm" xml:space="preserve">
-    <value>✅ Notes published to ICM</value>
+    <value>Notes published to ICM</value>
   </data>
   <data name="PublishingNotesToIcm" xml:space="preserve">
     <value>Publishing notes to ICM</value>
   </data>
   <data name="RefreshedNotesOnDevice" xml:space="preserve">
-    <value>✅ Refreshed notes on device</value>
+    <value>Refreshed notes on device</value>
   </data>
   <data name="RefreshingNotes" xml:space="preserve">
     <value>Refreshing notes</value>

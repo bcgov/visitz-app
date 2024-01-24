@@ -358,7 +358,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ❌ Publishing to ICM failed.
+        ///   Looks up a localized string similar to Publishing to ICM failed.
         /// </summary>
         public static string FailedToPublishToIcm {
             get {
@@ -367,7 +367,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ❌ Refreshing notes on device failed.
+        ///   Looks up a localized string similar to Refreshing notes on device failed.
         /// </summary>
         public static string FailedToRefreshNotes {
             get {
@@ -623,7 +623,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ✅ Notes published to ICM.
+        ///   Looks up a localized string similar to Notes published to ICM.
         /// </summary>
         public static string NotesPublishedToIcm {
             get {
@@ -879,7 +879,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ✅ Refreshed notes on device.
+        ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {
             get {
