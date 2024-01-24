@@ -128,7 +128,7 @@
             IsVisible="{Binding ShowRetrySection}" />
 
         <Button 
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="1"
             Text="Retry"
             HorizontalOptions="Start"
