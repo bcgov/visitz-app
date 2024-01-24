@@ -15,7 +15,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         get => assessment;
         set
         {
-            assessment = value.Freeze();
+            assessment = value;
             var date = assessment.DateOfAssessment.ToString(SafetyAssessment.DateFormat);
 
             Title = string.Format(LocalizedStrings.PublishSATitle, assessment.FamilyName, date);
