@@ -7,7 +7,7 @@ using Visitz.Services;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadItemHolder, IRecipient<ServiceStateMessage>
+public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadItemHolder
 {
 	protected new EntitySafetyAssessViewModel ViewModel => (EntitySafetyAssessViewModel)base.ViewModel;
 
@@ -27,36 +27,14 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
     {
         base.Creating();
 
-		var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
-		WeakReferenceMessenger.Default.Register(this, id);
 		StrongReferenceMessenger.Default.Register<DraftSavedMessage<DraftSavedView.State>>(this, ReceiveAppNavMessage);
     }
 
     protected override void Destroying()
     {
 		StrongReferenceMessenger.Default.UnregisterAll(this);
-		WeakReferenceMessenger.Default.UnregisterAll(this);
 
         base.Destroying();
-    }
-
-    public async void Receive(ServiceStateMessage message)
-    {
-		if (message.Status == VisitzService.State.Running)
-			// Temporary, to be replaced with better UI/UX
-			_ = Toast.Make("Submitting safety assessment").Show();
-
-		if (message.FinishedSuccess)
-            await Navigator.CurrentOpenPage.DisplayAlert(
-                "Success",
-                "Safety assessment was submitted successfully.",
-                LocalizedStrings.Ok);
-
-        if (message.FinishedError)
-			await Navigator.CurrentOpenPage.DisplayAlert(
-				LocalizedStrings.Error,
-				message.Message, 
-				LocalizedStrings.Ok);
     }
 
     private void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSavedView.State> message)
