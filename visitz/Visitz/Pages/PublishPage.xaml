@@ -32,7 +32,7 @@
         <Style TargetType="Border">
             <Setter Property="Stroke" Value="Transparent" />
             <Setter Property="Padding" Value="{OnPlatform WinUI=8, Default=0}" />
-            <Setter Property="StrokeShape" Value="RoundRectangle 42" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 64" />
             <Setter Property="VerticalOptions" Value="Center" />
         </Style>
     </pages:VisitzPage.Resources>
@@ -72,13 +72,13 @@
                 Background="{StaticResource BC_Semantic_Success}"
                 IsVisible="{Binding ShowSuccessIcon}">
                 <Image
-                    HeightRequest="42"
-                    WidthRequest="42">
+                    HeightRequest="32"
+                    WidthRequest="32">
                     <Image.Source>
                         <FontImageSource 
                             Glyph="{Static icons:MaterialIcons.Check}"
                             FontFamily="MaterialIconsRoundedUnfilled"
-                            Size="84" />
+                            Size="64" />
                     </Image.Source>
                 </Image>
             </Border>
@@ -87,13 +87,13 @@
                 Background="{StaticResource BC_Semantic_Error}"
                 IsVisible="{Binding ShowErrorIcon}">
                 <Image
-                    HeightRequest="42"
-                    WidthRequest="42">
+                    HeightRequest="32"
+                    WidthRequest="32">
                     <Image.Source>
                         <FontImageSource 
                             Glyph="{Static icons:MaterialIcons.Error}"
                             FontFamily="MaterialIconsRoundedUnfilled"
-                            Size="84" />
+                            Size="64" />
                     </Image.Source>
                 </Image>
             </Border>
