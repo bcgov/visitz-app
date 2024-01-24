@@ -575,6 +575,9 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="LoginToSubmitSA" xml:space="preserve">
     <value>Log in to submit safety assessment</value>
   </data>
+  <data name="PublishingSAToICM" xml:space="preserve">
+    <value>Publishing safety assessment to ICM</value>
+  </data>
   <data name="PublishSATitle" xml:space="preserve">
     <value>{0} - Safety Assessment {1}</value>
     <comment>0 = SafetyAssessment.FamilyName, 1 = SafetyAssessment.DateOfAssessment</comment>
@@ -584,8 +587,5 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   </data>
   <data name="SAPublishedSuccess" xml:space="preserve">
     <value>Safety assessment published successfully.</value>
-  </data>
-  <data name="SendingSAToICM" xml:space="preserve">
-    <value>Sending safety assessment to ICM</value>
   </data>
 </root>

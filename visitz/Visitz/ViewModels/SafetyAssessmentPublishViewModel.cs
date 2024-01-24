@@ -49,7 +49,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
     public async void Receive(ServiceStateMessage message)
     {
         if (message.Status == VisitzService.State.Running)
-            Publishing(LocalizedStrings.SendingSAToICM);
+            Publishing(LocalizedStrings.PublishingSAToICM);
         else if (message.FinishedSuccess)
         {
             Published(LocalizedStrings.SAPublishedSuccess);

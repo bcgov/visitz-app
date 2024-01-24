@@ -803,6 +803,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publishing safety assessment to ICM.
+        /// </summary>
+        public static string PublishingSAToICM {
+            get {
+                return ResourceManager.GetString("PublishingSAToICM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} - Safety Assessment {1}.
         /// </summary>
         public static string PublishSATitle {
@@ -1334,15 +1343,6 @@ namespace Visitz.Resources.Localization {
         public static string SelectChildrenPrompt {
             get {
                 return ResourceManager.GetString("SelectChildrenPrompt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sending safety assessment to ICM.
-        /// </summary>
-        public static string SendingSAToICM {
-            get {
-                return ResourceManager.GetString("SendingSAToICM", resourceCulture);
             }
         }
         
