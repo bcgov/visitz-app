@@ -12,19 +12,19 @@
     NavigationPage.HasNavigationBar="False">
 
     <!--
-    BUG (iOS, others unconfirmed): There seems to be an issue with Pages opened Modally. Opening another
-    modal dialog atop can "sometimes" cause Pages lower in the navigation stack to fire OnAppearing().
-    This can cause unexpected behaviour. For example, the issue that brought this to light:
+        BUG (iOS, others unconfirmed): There seems to be an issue with Pages opened Modally. Opening another
+        modal dialog atop can "sometimes" cause Pages lower in the navigation stack to fire OnAppearing().
+        This can cause unexpected behaviour. For example, the NoteEntryPage issue that brought this to light:
 
-    Originally we opened this page modally, and the user may potentially be prompted to login. If they 
-    did start the login flow, when the WebView was opened in its own modal dialog, progressing partway 
-    through the login process would cause NoteEntryPage's OnAppearing() function to be called for an
-    unknown reason. In this case, a Keyboard event listener we registered would steal keyboard focus
-    away from the login WebView, completely preventing the user from logging in.
+        Originally we opened this page modally, and the user may potentially be prompted to login. If they 
+        did start the login flow, when the WebView was opened in its own modal dialog, progressing partway 
+        through the login process would cause NoteEntryPage's OnAppearing() function to be called for an
+        unknown reason. In this case, a Keyboard event listener we registered would steal keyboard focus
+        away from the login WebView, completely preventing the user from logging in.
 
-    As a workaround, this page is now not opened modally anymore—even though it is presented as a modal
-    page using NavigationPage.HasBackButton="False" and NavigationPage.HasNavigationBar="False".
--->
+        As a workaround, this page is now not opened modally anymore—even though it is presented as a modal
+        page using NavigationPage.HasBackButton="False" and NavigationPage.HasNavigationBar="False".
+    -->
 
     <Grid 
         Padding="16"
