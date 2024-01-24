@@ -1,3 +1,4 @@
+using Visitz.Resources.Localization;
 using Visitz.ViewModels;
 
 namespace Visitz.Pages;
@@ -40,5 +41,11 @@ public partial class PublishPage : VisitzPage
     {
         // Prevent the user from backing out of this screen in favour of using the dismiss button.
         return false;
+    }
+
+    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        if (ViewModel.ShowErrorIcon && ViewModel.PublishErrorDetail?.Length > 0)
+            await DisplayAlert(LocalizedStrings.Error, ViewModel.PublishErrorDetail, LocalizedStrings.Ok);
     }
 }

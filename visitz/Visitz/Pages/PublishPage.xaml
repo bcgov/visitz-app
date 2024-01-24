@@ -113,7 +113,11 @@
                         Text="{Binding PublishingStatus}"
                         TextColor="White"
                         FontFamily="BCSansBold"
-                        FontSize="28" />
+                        FontSize="28">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
                 </ScrollView>
             </Grid>
 
