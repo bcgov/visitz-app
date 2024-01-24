@@ -11,6 +11,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         Publishing,
         Published,
         PublishError,
+        Cancelled,
     }
 
     public State CurrentState { get; private set; } = State.Waiting;
@@ -43,6 +44,9 @@ public abstract partial class PublishViewModel : VisitzViewModel
             case State.PublishError:
                 SetFlags(showRetrySection: true);
                 break;
+            case State.Cancelled:
+                SetFlags(showRetrySection: true);
+                break;
         }
     }
 
@@ -66,6 +70,27 @@ public abstract partial class PublishViewModel : VisitzViewModel
         SetState(State.Publishing);
 
         PublishingStatus = publishingPrompt;
+    }
+
+    public void Published(string publishedText)
+    {
+        SetState(State.Published);
+
+        PublishingStatus = publishedText;
+    }
+
+    public void PublishError(string errorText)
+    {
+        SetState(State.PublishError);
+
+        PublishingStatus = errorText;
+    }
+
+    public void Cancel(string cancelText)
+    {
+        SetState(State.Cancelled);
+
+        PublishingStatus = cancelText;
     }
 
     [RelayCommand]
