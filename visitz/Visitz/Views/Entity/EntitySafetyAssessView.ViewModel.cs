@@ -195,6 +195,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 #endif
         var saPublishVm = ServiceProvider.Current.GetService<SafetyAssessmentPublishViewModel>();
         saPublishVm.Assessment = Assessment;
+        saPublishVm.CaseloadItem = CaseloadItem;
 
         var saPublish = new PublishPage(saPublishVm);
         await Navigator.Navigation.PushAsync(saPublish);

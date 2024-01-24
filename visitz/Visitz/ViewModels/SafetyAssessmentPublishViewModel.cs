@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using Realms;
+using Visitz.Messaging;
+using Visitz.Models;
 using Visitz.Models.SafetyAssess;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Views.Entity;
 
 namespace Visitz.ViewModels;
 
@@ -21,6 +23,8 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
             Title = string.Format(LocalizedStrings.PublishSATitle, assessment.FamilyName, date);
         }
     }
+
+    public CaseloadItem CaseloadItem {  get; set; }
 
     public override void PageCreated()
     {
@@ -53,11 +57,24 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         else if (message.FinishedSuccess)
         {
             Published(LocalizedStrings.SAPublishedSuccess);
+            await DiscardSentDraft();
+            RedirectToDetails();
             await Complete();
         }
         else if (message.FinishedCancelled)
             Cancel(LocalizedStrings.LoginToSubmitSA);
         else if (message.FinishedError)
             PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
+    }
+
+    private async Task DiscardSentDraft()
+    {
+        await SafetyAssessment.Delete(Assessment.Realm, Assessment);
+    }
+
+    private void RedirectToDetails()
+    {
+        var navItem = new NavItem() { ContentViewType = typeof(EntityDetailsView) };
+        StrongReferenceMessenger.Default.Send(new EntityNavMessage(navItem, CaseloadItem));
     }
 }
