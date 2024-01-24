@@ -5,6 +5,8 @@ namespace Visitz.ViewModels;
 
 public abstract partial class PublishViewModel : VisitzViewModel
 {
+    public static readonly int DismissDuration = 3000;
+
     public enum State
     {
         Waiting,
@@ -12,6 +14,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         Published,
         PublishError,
         Cancelled,
+        Completed,
     }
 
     public State CurrentState { get; private set; } = State.Waiting;
@@ -34,6 +37,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
     [ObservableProperty]
     public bool showErrorIcon;
 
+    public event EventHandler OnCompleted;
+
     private void SetState(State state)
     {
         switch (state)
@@ -52,6 +57,9 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 break;
             case State.Cancelled:
                 SetFlags(showRetrySection: true);
+                break;
+            case State.Completed:
+                SetFlags(showSuccessIcon: ShowSuccessIcon);
                 break;
         }
     }
@@ -101,6 +109,16 @@ public abstract partial class PublishViewModel : VisitzViewModel
         SetState(State.Cancelled);
 
         PublishingStatus = cancelText;
+    }
+
+    public async Task Complete()
+    {
+        SetState(State.Completed);
+
+        OnCompleted?.Invoke(this, EventArgs.Empty);
+
+        await Task.Delay(DismissDuration);
+        await Navigator.Navigation.PopAsync();
     }
 
     [RelayCommand]
