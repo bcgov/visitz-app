@@ -4,6 +4,8 @@ namespace Visitz.Pages;
 
 public partial class PublishPage : VisitzPage
 {
+    public new PublishViewModel ViewModel => base.ViewModel as PublishViewModel;
+
 	public PublishPage(PublishViewModel publishViewModel) : base(publishViewModel)
 	{
 		InitializeComponent();
@@ -14,12 +16,12 @@ public partial class PublishPage : VisitzPage
     {
         base.OnCreated();
 
-        (ViewModel as PublishViewModel).OnCompleted += PublishPage_OnPublished;
+        ViewModel.OnCompleted += PublishPage_OnPublished;
     }
 
     protected override void OnDestroyed()
     {
-        (ViewModel as PublishViewModel).OnCompleted -= PublishPage_OnPublished;
+        ViewModel.OnCompleted -= PublishPage_OnPublished;
 
         base.OnDestroyed();
     }
