@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
     x:Class="Visitz.Pages.PublishPage"
@@ -121,7 +122,7 @@
         <Button
             Grid.Row="2"
             Grid.Column="0"
-            Text="Dismiss"
+            Text="{local:Localize Dismiss}"
             HorizontalOptions="End"
             Style="{StaticResource SecondaryButtonDark}"
             Command="{Binding DismissCommand}" 
@@ -130,7 +131,7 @@
         <Button 
             Grid.Row="2"
             Grid.Column="1"
-            Text="Retry"
+            Text="{local:Localize Retry}"
             HorizontalOptions="Start"
             Style="{StaticResource PrimaryButtonDark}"
             Command="{Binding PublishCommand}" 
