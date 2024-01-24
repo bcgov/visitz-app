@@ -47,6 +47,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<EntitySafetyAssessView>();
             builder.Services.AddTransient<EntitySafetyAssessViewModel>();
 
+            builder.Services.AddTransient<PublishPage>();
+
             builder.Services.AddTransient<NoteEntryView>();
             builder.Services.AddTransient<NoteEntryViewModel>();
 

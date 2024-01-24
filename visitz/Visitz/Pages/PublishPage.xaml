@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Pages.PublishPage"
+    x:DataType="viewModels:PublishViewModel"
+    Title="{Binding Title}"
+    BackgroundColor="{StaticResource BC_Blue}"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+
+    <!--
+    BUG (iOS, others unconfirmed): There seems to be an issue with Pages opened Modally. Opening another
+    modal dialog atop can "sometimes" cause Pages lower in the navigation stack to fire OnAppearing().
+    This can cause unexpected behaviour. For example, the issue that brought this to light:
+
+    Originally we opened this page modally, and the user may potentially be prompted to login. If they 
+    did start the login flow, when the WebView was opened in its own modal dialog, progressing partway 
+    through the login process would cause NoteEntryPage's OnAppearing() function to be called for an
+    unknown reason. In this case, a Keyboard event listener we registered would steal keyboard focus
+    away from the login WebView, completely preventing the user from logging in.
+
+    As a workaround, this page is now not opened modally anymore—even though it is presented as a modal
+    page using NavigationPage.HasBackButton="False" and NavigationPage.HasNavigationBar="False".
+-->
+
+    <AbsoluteLayout>
+        <Grid
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            RowDefinitions="Auto,Auto,Auto,Auto"
+            RowSpacing="15"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="10">
+
+            <Image 
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Center"
+                Source="note_publish.png"
+                Margin="0,0,0,-40"
+                HeightRequest="400"
+                WidthRequest="400"/>
+
+            <VerticalStackLayout
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2">
+
+                <HorizontalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="15">
+                    <ActivityIndicator
+                        IsVisible="{Binding ShowPublishingIndicator}"
+                        IsRunning="true"
+                        Color="White" />
+
+                    <Label 
+                        Text="{Binding PublishingStatus}"
+                        TextColor="White"
+                        FontFamily="BCSansBold"
+                        FontSize="28" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Center"
+                TextColor="White"
+                Text="{Binding Title}"
+                FontFamily="BCSansBold"
+                FontSize="22" />
+
+            <Button
+                Grid.Row="3"
+                Grid.Column="0"
+                Text="Dismiss"
+                HorizontalOptions="End"
+                Style="{StaticResource SecondaryButtonDark}"
+                Command="{Binding DismissCommand}" 
+                IsVisible="{Binding ShowRetrySection}" />
+
+            <Button 
+                Grid.Row="3"
+                Grid.Column="1"
+                Text="Retry"
+                HorizontalOptions="Start"
+                Style="{StaticResource PrimaryButtonDark}"
+                Command="{Binding RetryCommand}" 
+                IsVisible="{Binding ShowRetrySection}" />
+
+        </Grid>
+    </AbsoluteLayout>
+
+</pages:VisitzPage>
