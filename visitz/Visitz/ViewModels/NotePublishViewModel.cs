@@ -34,6 +34,25 @@ namespace Visitz.ViewModels
             };
         }
 
+        public override void PageCreated()
+        {
+            base.PageCreated();
+
+            var id = CaseloadItem.CaseIncidentNumber;
+            var notePeriod = submitNoteEntity.NotePeriod;
+
+            WeakReferenceMessenger.Default.Register(this, SubmitAndGetNotesService.MakeId(id, notePeriod));
+            WeakReferenceMessenger.Default.Register(this, SubmitNoteService.MakeId(id, notePeriod));
+            WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(id));
+        }
+
+        public override void PageDestroyed()
+        {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            base.PageDestroyed();
+        }
+
         public override void Publish()
         {
             throw new NotImplementedException();
