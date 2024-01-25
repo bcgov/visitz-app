@@ -38,7 +38,7 @@
 
         <Style TargetType="Grid" x:Key="StatusGrid">
             <Setter Property="RowSpacing" Value="15" />
-            <Setter Property="ColumnDefinitions" Value="40,*" />
+            <Setter Property="ColumnDefinitions" Value="{OnPlatform WinUI='50,*', Default='40,*'}" />
             <Setter Property="ColumnSpacing" Value="15" />
         </Style>
     </pages:VisitzPage.Resources>
