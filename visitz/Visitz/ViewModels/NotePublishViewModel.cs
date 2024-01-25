@@ -79,8 +79,6 @@ namespace Visitz.ViewModels
                     Publishing(LocalizedStrings.PublishingNotesToIcm);
                 else if (message.FinishedSuccess)
                     await Complete();
-                else if (message.FinishedError)
-                    PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
                 else if (message.FinishedCancelled)
                     Cancel(LocalizedStrings.LoginToSubmitNotes);
             }
