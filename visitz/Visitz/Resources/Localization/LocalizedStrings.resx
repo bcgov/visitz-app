@@ -588,4 +588,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   <data name="SAPublishedSuccess" xml:space="preserve">
     <value>Safety assessment published successfully.</value>
   </data>
+  <data name="LoginToSubmitNotes" xml:space="preserve">
+    <value>Log in to submit notes</value>
+  </data>
 </root>

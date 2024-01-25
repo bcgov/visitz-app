@@ -495,6 +495,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log in to submit notes.
+        /// </summary>
+        public static string LoginToSubmitNotes {
+            get {
+                return ResourceManager.GetString("LoginToSubmitNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in to submit safety assessment.
         /// </summary>
         public static string LoginToSubmitSA {
