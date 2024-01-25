@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
 using Visitz.Models;
+using Visitz.Resources.Localization;
 using Visitz.Services;
 using VisitzApi.Models;
 
@@ -49,10 +50,13 @@ namespace Visitz.ViewModels
         {
             base.PageCreated();
 
+            Wait(LocalizedStrings.LoginToSubmitNotes);
 
             WeakReferenceMessenger.Default.Register(this, submitAndGetNotesServiceId);
             WeakReferenceMessenger.Default.Register(this, submitNotesServiceId);
             WeakReferenceMessenger.Default.Register(this, getNotesServiceId);
+
+            Publish();
         }
 
         public override void PageDestroyed()
@@ -64,12 +68,25 @@ namespace Visitz.ViewModels
 
         public override void Publish()
         {
-            throw new NotImplementedException();
+            WeakReferenceMessenger.Default.Send(SubmitAndGetNotesService.MakeStartMessage(submitNoteEntity));
         }
 
-        public void Receive(ServiceStateMessage message)
+        public async void Receive(ServiceStateMessage message)
         {
-            throw new NotImplementedException();
+            if (message.ServiceId == submitAndGetNotesServiceId)
+            {
+                if (message.Status == VisitzService.State.Running)
+                    Publishing(LocalizedStrings.PublishingNotesToIcm);
+                else if (message.FinishedSuccess)
+                    await Complete();
+                else if (message.FinishedCancelled)
+                    Cancel(LocalizedStrings.LoginToSubmitNotes);
+            }
+            else if (message.ServiceId == submitNotesServiceId)
+            {
+                if (message.FinishedError)
+                    PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
+            }
         }
     }
 }
