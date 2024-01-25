@@ -9,11 +9,11 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
     public enum State
     {
+        Cancelled,
         Waiting,
         Publishing,
         Published,
         PublishError,
-        Cancelled,
         Completed,
     }
 
@@ -46,6 +46,9 @@ public abstract partial class PublishViewModel : VisitzViewModel
     {
         switch (state)
         {
+            case State.Cancelled:
+                SetFlags(showRetrySection: true);
+                break;
             case State.Waiting:
                 SetFlags();
                 break;
@@ -57,9 +60,6 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 break;
             case State.PublishError:
                 SetFlags(showErrorIcon: true, showRetrySection: true);
-                break;
-            case State.Cancelled:
-                SetFlags(showRetrySection: true);
                 break;
             case State.Completed:
                 SetFlags(showSuccessIcon: ShowSuccessIcon);
@@ -77,6 +77,13 @@ public abstract partial class PublishViewModel : VisitzViewModel
         ShowSuccessIcon = showSuccessIcon;
         ShowErrorIcon = showErrorIcon;
         ShowRetrySection = showRetrySection;
+    }
+
+    public void Cancel(string cancelText)
+    {
+        SetState(State.Cancelled);
+
+        PublishingStatus = cancelText;
     }
 
     public void Wait(string waitingPrompt)
@@ -106,13 +113,6 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
         PublishingStatus = errorText;
         PublishErrorDetail = errorDetails;
-    }
-
-    public void Cancel(string cancelText)
-    {
-        SetState(State.Cancelled);
-
-        PublishingStatus = cancelText;
     }
 
     public async Task Complete()
