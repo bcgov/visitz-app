@@ -65,6 +65,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
     private void SetState(State state)
     {
+        CurrentState = state;
+
         switch (state)
         {
             case State.Cancelled:
