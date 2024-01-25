@@ -14,6 +14,10 @@ namespace Visitz.ViewModels
 
         private SubmitNoteEntity submitNoteEntity;
 
+        private string submitAndGetNotesServiceId;
+        private string submitNotesServiceId;
+        private string getNotesServiceId;
+
         public async void Init(CaseloadItem caseloadItem, NoteItem noteItem, string draft)
         {
             CaseloadItem = caseloadItem;
@@ -32,18 +36,23 @@ namespace Visitz.ViewModels
                 Content = NoteItem.WrapContent(info.Idir, DateTime.Now, draft),
                 CreatedBy = info.Idir,
             };
+
+            var id = CaseloadItem.CaseIncidentNumber;
+            var notePeriod = submitNoteEntity.NotePeriod;
+
+            submitAndGetNotesServiceId = SubmitAndGetNotesService.MakeId(id, notePeriod);
+            submitNotesServiceId = SubmitNoteService.MakeId(id, notePeriod);
+            getNotesServiceId = GetNotesService.MakeId(id);
         }
 
         public override void PageCreated()
         {
             base.PageCreated();
 
-            var id = CaseloadItem.CaseIncidentNumber;
-            var notePeriod = submitNoteEntity.NotePeriod;
 
-            WeakReferenceMessenger.Default.Register(this, SubmitAndGetNotesService.MakeId(id, notePeriod));
-            WeakReferenceMessenger.Default.Register(this, SubmitNoteService.MakeId(id, notePeriod));
-            WeakReferenceMessenger.Default.Register(this, GetNotesService.MakeId(id));
+            WeakReferenceMessenger.Default.Register(this, submitAndGetNotesServiceId);
+            WeakReferenceMessenger.Default.Register(this, submitNotesServiceId);
+            WeakReferenceMessenger.Default.Register(this, getNotesServiceId);
         }
 
         public override void PageDestroyed()
