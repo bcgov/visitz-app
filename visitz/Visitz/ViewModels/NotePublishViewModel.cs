@@ -94,7 +94,7 @@ namespace Visitz.ViewModels
                 if (message.Status == VisitzService.State.Running)
                     Refreshing(LocalizedStrings.RefreshingNotes);
                 else if (message.FinishedSuccess)
-                    Refreshed(LocalizedStrings.RefreshingNotes);
+                    Refreshed(LocalizedStrings.RefreshedNotesOnDevice);
                 else if (message.FinishedError)
                     RefreshError(LocalizedStrings.FailedToRefreshNotes, message.Message);
             }
