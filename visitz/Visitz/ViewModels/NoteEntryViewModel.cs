@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Realms;
 using Visitz.Events;
 using Visitz.Extensions;
 using Visitz.Models;
@@ -17,21 +16,15 @@ namespace Visitz.ViewModels
         public CaseloadItem CaseloadItem { get; set; }
 
         [ObservableProperty]
-        public string draft;
+        public NoteDraft noteDraft;
 
-        private string DraftOutput => Draft?.Trim();
+        private string DraftOutput => NoteDraft?.Draft?.Trim();
 
         [ObservableProperty]
         public bool allowPublish;
 
         [ObservableProperty]
         private NetworkAccess networkAccess = Connectivity.Current.NetworkAccess;
-
-        private string noteDraftId;
-
-        private IQueryable<NoteDraft> NoteDraftQuery { get; set; }
-
-        private IDisposable NoteDraftQueryToken { get; set; }
 
         public event EventHandler<DraftErrorEventArgs> DraftError;
 
@@ -43,66 +36,38 @@ namespace Visitz.ViewModels
 
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
-            noteDraftId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber);
-
-            var realm = await VisitzRealm.GetNoteDraftAsync();
-
-            (NoteDraftQuery, NoteDraftQueryToken) = NoteDraft.Subscribe(realm, noteDraftId, NoteDraft_Changed);
-
-            ApplyDraft();
-
+            await InitNoteDraft();
             ClearDraftMessages();
         }
 
-        public override void PageStopped()
+        private async Task InitNoteDraft()
         {
-            SaveDraft();
+            var realm = await VisitzRealm.GetNoteDraftAsync();
+            NoteDraft = NoteDraft.FindByEntityId(realm, CaseloadItem.CaseIncidentNumber);
 
-            base.PageStopped();
+            if (NoteDraft == null)
+            {
+                NoteDraft = new NoteDraft()
+                {
+                    CaseIncidentAndCreatedDateID = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber)
+                };
+                await realm.WriteAsync(() => realm.Add(NoteDraft));
+            }
         }
 
         public override void PageDestroyed()
         {
-            NoteDraftQueryToken?.Dispose();
-            NoteDraftQueryToken = null;
-
-            NoteDraftQuery = null;
-
             Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
 
             base.PageDestroyed();
         }
 
-        private void ApplyDraft()
-        {
-            Draft = NoteDraftQuery.FirstOrDefault()?.Draft;
-        }
-
-        public async Task SaveDraftToRealm()
+        [RelayCommand]
+        public void UserStoppedTyping()
         {
             ConsoleTrace.TraceMethod(this);
 
-            var realm = await VisitzRealm.GetNoteDraftAsync();
-            var noteDraft = realm.Find<NoteDraft>(noteDraftId);
-
-            await realm.WriteAsync(() =>
-            {
-                var draft = new NoteDraft
-                {
-                    CaseIncidentAndCreatedDateID = noteDraftId,
-                    Draft = Draft
-                };
-
-                realm.Add(draft, update: true);
-            });
-
             ShowDraftSavedMessage();
-        }
-
-        [RelayCommand]
-        public async void SaveDraft()
-        {
-            await SaveDraftToRealm();
         }
 
         [RelayCommand]
@@ -111,7 +76,12 @@ namespace Visitz.ViewModels
             if (UpdateAllowPublish())
             {
                 await Navigator.Navigation.PopModalAsync();
-                await NotePublishPage.Open(CaseloadItem, DraftOutput);
+
+                var notePublishVm = ServiceProvider.GetService<NotePublishViewModel>();
+                var noteItem = NoteItem.GetLatestByEntityId(CaseloadItem.Realm, CaseloadItem.CaseIncidentNumber);
+                
+                await notePublishVm.Init(CaseloadItem, noteItem, DraftOutput);
+                await Navigator.Navigation.PushAsync(new PublishPage(notePublishVm));
             }
         }
 
@@ -121,7 +91,7 @@ namespace Visitz.ViewModels
                 // Early return required to prevent infinite loops due to "cancelling" events
                 // by reassigning its previous value
                 return;
-
+            
             if (TextIsInvalid(e))
             {
                 CancelTextChangedEvent(e);
@@ -151,15 +121,7 @@ namespace Visitz.ViewModels
 
         private void CancelTextChangedEvent(TextChangedEventArgs e)
         {
-            Draft = e.OldTextValue;
-        }
-
-        private void NoteDraft_Changed(IRealmCollection<NoteDraft> sender, ChangeSet changes)
-        {
-            if (changes == null) // Initial load
-                return;
-
-            ApplyDraft();
+            NoteDraft.DraftBinding = e.OldTextValue;
         }
 
         private void ShowSavingDraftMessage()

@@ -10,6 +10,7 @@ using Visitz.Extensions;
 using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Models.SafetyAssess;
+using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
@@ -187,13 +188,17 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     }
 
     [RelayCommand]
-    public void Publish()
+    public async void Publish()
     {
 #if DEBUG
         WriteSafetyAssessmentJson();
 #endif
-        var msg = SubmitSafetyAssessmentService.MakeStartMessage(Assessment);
-        WeakReferenceMessenger.Default.Send(msg);
+        var saPublishVm = ServiceProvider.Current.GetService<SafetyAssessmentPublishViewModel>();
+        saPublishVm.Assessment = Assessment;
+        saPublishVm.CaseloadItem = CaseloadItem;
+
+        var saPublish = new PublishPage(saPublishVm);
+        await Navigator.Navigation.PushAsync(saPublish);
     }
 
     [RelayCommand]

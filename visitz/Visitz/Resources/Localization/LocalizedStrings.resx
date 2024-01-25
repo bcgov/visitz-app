@@ -161,10 +161,10 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
     <value>Tap to select</value>
   </data>
   <data name="FailedToPublishToIcm" xml:space="preserve">
-    <value>❌ Publishing to ICM failed</value>
+    <value>Publishing to ICM failed</value>
   </data>
   <data name="FailedToRefreshNotes" xml:space="preserve">
-    <value>❌ Refreshing notes on device failed</value>
+    <value>Refreshing notes on device failed</value>
   </data>
   <data name="NoNotesForEntity" xml:space="preserve">
     <value>There are no notes for this {0}</value>
@@ -173,13 +173,13 @@ To continue using the app: open the app switcher, force close MCFD Mobility, the
     <value>There are no notes for {0}</value>
   </data>
   <data name="NotesPublishedToIcm" xml:space="preserve">
-    <value>✅ Notes published to ICM</value>
+    <value>Notes published to ICM</value>
   </data>
   <data name="PublishingNotesToIcm" xml:space="preserve">
     <value>Publishing notes to ICM</value>
   </data>
   <data name="RefreshedNotesOnDevice" xml:space="preserve">
-    <value>✅ Refreshed notes on device</value>
+    <value>Refreshed notes on device</value>
   </data>
   <data name="RefreshingNotes" xml:space="preserve">
     <value>Refreshing notes</value>
@@ -568,5 +568,27 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   </data>
   <data name="SelectChildrenPrompt" xml:space="preserve">
     <value>Select one or more children:</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="LoginToSubmitSA" xml:space="preserve">
+    <value>Log in to submit safety assessment</value>
+  </data>
+  <data name="PublishingSAToICM" xml:space="preserve">
+    <value>Publishing safety assessment to ICM</value>
+  </data>
+  <data name="PublishSATitle" xml:space="preserve">
+    <value>{0} - Safety Assessment {1}</value>
+    <comment>0 = SafetyAssessment.FamilyName, 1 = SafetyAssessment.DateOfAssessment</comment>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="SAPublishedSuccess" xml:space="preserve">
+    <value>Safety assessment published successfully.</value>
+  </data>
+  <data name="LoginToSubmitNotes" xml:space="preserve">
+    <value>Log in to submit notes</value>
   </data>
 </root>

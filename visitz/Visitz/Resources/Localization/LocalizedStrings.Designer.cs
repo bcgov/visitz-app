@@ -259,6 +259,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        public static string Dismiss {
+            get {
+                return ResourceManager.GetString("Dismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft saved.
         /// </summary>
         public static string DraftSaved {
@@ -349,7 +358,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ❌ Publishing to ICM failed.
+        ///   Looks up a localized string similar to Publishing to ICM failed.
         /// </summary>
         public static string FailedToPublishToIcm {
             get {
@@ -358,7 +367,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ❌ Refreshing notes on device failed.
+        ///   Looks up a localized string similar to Refreshing notes on device failed.
         /// </summary>
         public static string FailedToRefreshNotes {
             get {
@@ -486,6 +495,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log in to submit notes.
+        /// </summary>
+        public static string LoginToSubmitNotes {
+            get {
+                return ResourceManager.GetString("LoginToSubmitNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in to submit safety assessment.
+        /// </summary>
+        public static string LoginToSubmitSA {
+            get {
+                return ResourceManager.GetString("LoginToSubmitSA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log out.
         /// </summary>
         public static string Logout {
@@ -605,7 +632,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ✅ Notes published to ICM.
+        ///   Looks up a localized string similar to Notes published to ICM.
         /// </summary>
         public static string NotesPublishedToIcm {
             get {
@@ -785,6 +812,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publishing safety assessment to ICM.
+        /// </summary>
+        public static string PublishingSAToICM {
+            get {
+                return ResourceManager.GetString("PublishingSAToICM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} - Safety Assessment {1}.
+        /// </summary>
+        public static string PublishSATitle {
+            get {
+                return ResourceManager.GetString("PublishSATitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publish to ICM.
         /// </summary>
         public static string PublishToIcm {
@@ -843,7 +888,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ✅ Refreshed notes on device.
+        ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {
             get {
@@ -857,6 +902,15 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingNotes {
             get {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        public static string Retry {
+            get {
+                return ResourceManager.GetString("Retry", resourceCulture);
             }
         }
         
@@ -1271,6 +1325,15 @@ namespace Visitz.Resources.Localization {
         public static string SafetyPlanDescription {
             get {
                 return ResourceManager.GetString("SafetyPlanDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety assessment published successfully..
+        /// </summary>
+        public static string SAPublishedSuccess {
+            get {
+                return ResourceManager.GetString("SAPublishedSuccess", resourceCulture);
             }
         }
         
