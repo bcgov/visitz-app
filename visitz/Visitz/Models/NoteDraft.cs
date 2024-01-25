@@ -25,6 +25,14 @@ namespace Visitz.Models
 
             return (noteDraftQuery, noteDraftQuery.SubscribeForNotifications(callbackDelegate));
         }
+
+        public static async Task Delete(Realm realm, string entityNumber)
+        {
+            var draft = realm.Find<NoteDraft>(MakeId(entityNumber));
+
+            if (draft != null)
+                await realm.WriteAsync(() => realm.Remove(draft));
+        }
     }
 }
 

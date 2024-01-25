@@ -3,6 +3,7 @@ using Visitz.Authentication.Keycloak;
 using Visitz.Models;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Storage;
 using VisitzApi.Models;
 
 namespace Visitz.ViewModels
@@ -85,7 +86,10 @@ namespace Visitz.ViewModels
             else if (message.ServiceId == submitNotesServiceId)
             {
                 if (message.FinishedSuccess)
+                {
                     Published(LocalizedStrings.NotesPublishedToIcm);
+                    await DiscardPublishedDraft();
+                }
                 if (message.FinishedError)
                     PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
             }
@@ -98,6 +102,12 @@ namespace Visitz.ViewModels
                 else if (message.FinishedError)
                     RefreshError(LocalizedStrings.FailedToRefreshNotes, message.Message);
             }
+        }
+
+        private async Task DiscardPublishedDraft()
+        {
+            using var realm = await VisitzRealm.GetNoteDraftAsync();
+            await NoteDraft.Delete(realm, CaseloadItem.CaseIncidentNumber);
         }
     }
 }
