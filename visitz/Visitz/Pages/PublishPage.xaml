@@ -67,7 +67,12 @@
 
         <Grid Style="{StaticResource StatusGrid}">
 
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="PublishStatus_Tapped"/>
+            </Grid.GestureRecognizers>
+
             <ActivityIndicator
+                InputTransparent="True"
                 Grid.Column="0"
                 VerticalOptions="Center"
                 IsVisible="{Binding ShowPublishingIndicator}"
@@ -75,6 +80,7 @@
                 Color="White" />
 
             <Border
+                InputTransparent="True"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Background="{StaticResource BC_Semantic_Success}"
@@ -92,6 +98,7 @@
             </Border>
 
             <Border
+                InputTransparent="True"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Background="{StaticResource BC_Semantic_Error}"
@@ -109,6 +116,7 @@
             </Border>
 
             <ScrollView
+                InputTransparent="True"
                 Grid.Column="1"
                 VerticalOptions="Center"
                 HorizontalOptions="Start"
@@ -118,24 +126,26 @@
                     TextColor="White"
                     FontFamily="BCSansBold"
                     HorizontalOptions="StartAndExpand"
-                    FontSize="28">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="PublishStatus_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    FontSize="28" />
             </ScrollView>
         </Grid>
 
         <Grid Style="{StaticResource StatusGrid}">
 
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="RefreshStatus_Tapped"/>
+            </Grid.GestureRecognizers>
+            
             <ActivityIndicator
                 Grid.Column="0"
+                InputTransparent="True"
                 VerticalOptions="Center"
                 IsVisible="{Binding ShowRefreshingIndicator}"
                 IsRunning="true"
                 Color="White" />
 
             <Border
+                InputTransparent="True"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Background="{StaticResource BC_Semantic_Success}"
@@ -153,6 +163,7 @@
             </Border>
 
             <Border
+                InputTransparent="True"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Background="{StaticResource BC_Semantic_Error}"
@@ -170,6 +181,7 @@
             </Border>
 
             <ScrollView
+                InputTransparent="True"
                 Grid.Column="1"
                 VerticalOptions="Center"
                 HorizontalOptions="Start"
@@ -179,11 +191,7 @@
                     TextColor="White"
                     FontFamily="BCSansBold"
                     HorizontalOptions="StartAndExpand"
-                    FontSize="28">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="RefreshStatus_Tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                    FontSize="28" />
             </ScrollView>
         </Grid>
         </VerticalStackLayout>
