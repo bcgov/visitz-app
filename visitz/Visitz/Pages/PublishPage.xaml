@@ -120,7 +120,7 @@
                     HorizontalOptions="StartAndExpand"
                     FontSize="28">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        <TapGestureRecognizer Tapped="PublishStatus_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
             </ScrollView>
@@ -181,7 +181,7 @@
                     HorizontalOptions="StartAndExpand"
                     FontSize="28">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        <TapGestureRecognizer Tapped="RefreshStatus_Tapped"/>
                     </Label.GestureRecognizers>
                 </Label>
             </ScrollView>

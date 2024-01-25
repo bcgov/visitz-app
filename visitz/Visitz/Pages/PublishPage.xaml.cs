@@ -43,9 +43,15 @@ public partial class PublishPage : VisitzPage
         return false;
     }
 
-    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private async void PublishStatus_Tapped(object sender, TappedEventArgs e)
     {
         if (ViewModel.ShowPublishErrorIcon && ViewModel.PublishErrorDetail?.Length > 0)
             await DisplayAlert(LocalizedStrings.Error, ViewModel.PublishErrorDetail, LocalizedStrings.Ok);
+    }
+
+    private async void RefreshStatus_Tapped(object sender, TappedEventArgs e)
+    {
+        if (ViewModel.ShowRefreshErrorIcon && ViewModel.RefreshErrorDetail?.Length > 0)
+            await DisplayAlert(LocalizedStrings.Error, ViewModel.RefreshErrorDetail, LocalizedStrings.Ok);
     }
 }
