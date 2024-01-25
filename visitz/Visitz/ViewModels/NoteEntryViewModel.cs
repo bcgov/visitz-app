@@ -111,7 +111,12 @@ namespace Visitz.ViewModels
             if (UpdateAllowPublish())
             {
                 await Navigator.Navigation.PopModalAsync();
-                await NotePublishPage.Open(CaseloadItem, DraftOutput);
+
+                var notePublishVm = ServiceProvider.GetService<NotePublishViewModel>();
+                var noteItem = NoteItem.GetLatestByEntityId(CaseloadItem.Realm, CaseloadItem.CaseIncidentNumber);
+                
+                await notePublishVm.Init(CaseloadItem, noteItem, DraftOutput);
+                await Navigator.Navigation.PushAsync(new PublishPage(notePublishVm));
             }
         }
 

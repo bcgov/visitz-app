@@ -19,7 +19,7 @@ namespace Visitz.ViewModels
         private string submitNotesServiceId;
         private string getNotesServiceId;
 
-        public async void Init(CaseloadItem caseloadItem, NoteItem noteItem, string draft)
+        public async Task Init(CaseloadItem caseloadItem, NoteItem noteItem, string draft)
         {
             CaseloadItem = caseloadItem;
             NoteItem = noteItem;
