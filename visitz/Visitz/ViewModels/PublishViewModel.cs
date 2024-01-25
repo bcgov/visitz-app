@@ -168,6 +168,9 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
     public void PublishError(string errorText, string errorDetails)
     {
+        if (CurrentState == State.PublishError)
+            return;
+
         SetState(State.PublishError);
 
         PublishingStatus = errorText;
