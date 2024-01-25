@@ -204,6 +204,7 @@
             HorizontalOptions="Start"
             Style="{StaticResource PrimaryButtonDark}"
             Command="{Binding PublishCommand}" 
+            IsEnabled="{Binding AllowRetry}"
             IsVisible="{Binding ShowRetrySection}" />
 
         <ProgressBar

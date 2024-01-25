@@ -58,6 +58,9 @@ public abstract partial class PublishViewModel : VisitzViewModel
     [ObservableProperty]
     public string refreshErrorDetail;
 
+    [ObservableProperty]
+    public bool allowRetry;
+
     public event EventHandler OnCompleted;
 
     private void SetState(State state)
@@ -95,7 +98,9 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 SetFlags(
                     showPublishSuccessIcon: ShowPublishSuccessIcon,
                     showPublishErrorIcon: ShowPublishErrorIcon,
-                    showRefreshErrorIcon: true);
+                    showRefreshErrorIcon: true,
+                    showRetrySection: true,
+                    allowRetry: false);
                 break;
             case State.Completed:
                 SetFlags(
@@ -114,7 +119,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
         bool showPublishSuccessIcon = false,
         bool showPublishErrorIcon = false,
         bool showRefreshSuccessIcon = false,
-        bool showRefreshErrorIcon = false)
+        bool showRefreshErrorIcon = false,
+        bool allowRetry = true)
     {
         ShowPublishingIndicator = showPublishingIndicator;
         ShowRefreshingIndicator = showRefreshingIndicator;
@@ -123,6 +129,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         ShowRetrySection = showRetrySection;
         ShowRefreshSuccessIcon = showRefreshSuccessIcon;
         ShowRefreshErrorIcon = showRefreshErrorIcon;
+        AllowRetry = allowRetry;
     }
 
     public void Cancel(string cancelText)
