@@ -49,6 +49,15 @@ public abstract partial class PublishViewModel : VisitzViewModel
     [ObservableProperty]
     public string publishErrorDetail;
 
+    [ObservableProperty]
+    public bool showRefreshSuccessIcon;
+
+    [ObservableProperty]
+    public bool showRefreshErrorIcon;
+
+    [ObservableProperty]
+    public string refreshErrorDetail;
+
     public event EventHandler OnCompleted;
 
     private void SetState(State state)
@@ -71,16 +80,29 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 SetFlags(showPublishErrorIcon: true, showRetrySection: true);
                 break;
             case State.Refreshing:
-                SetFlags();
+                SetFlags(
+                    showPublishSuccessIcon: ShowPublishSuccessIcon,
+                    showPublishErrorIcon: ShowPublishErrorIcon,
+                    showRefreshingIndicator: true);
                 break;
             case State.Refreshed:
-                SetFlags();
+                SetFlags(
+                    showPublishSuccessIcon: ShowPublishSuccessIcon,
+                    showPublishErrorIcon: ShowPublishErrorIcon,
+                    showRefreshSuccessIcon: true);
                 break;
             case State.RefreshError:
-                SetFlags();
+                SetFlags(
+                    showPublishSuccessIcon: ShowPublishSuccessIcon,
+                    showPublishErrorIcon: ShowPublishErrorIcon,
+                    showRefreshErrorIcon: true);
                 break;
             case State.Completed:
-                SetFlags(showPublishSuccessIcon: ShowPublishSuccessIcon);
+                SetFlags(
+                    showPublishSuccessIcon: ShowPublishSuccessIcon,
+                    showPublishErrorIcon: ShowPublishErrorIcon,
+                    showRefreshSuccessIcon: ShowRefreshSuccessIcon,
+                    showRefreshErrorIcon: ShowRefreshErrorIcon);
                 break;
         }
     }
@@ -90,13 +112,17 @@ public abstract partial class PublishViewModel : VisitzViewModel
         bool showRefreshingIndicator = false,
         bool showRetrySection = false,
         bool showPublishSuccessIcon = false,
-        bool showPublishErrorIcon = false)
+        bool showPublishErrorIcon = false,
+        bool showRefreshSuccessIcon = false,
+        bool showRefreshErrorIcon = false)
     {
         ShowPublishingIndicator = showPublishingIndicator;
         ShowRefreshingIndicator = showRefreshingIndicator;
         ShowPublishSuccessIcon = showPublishSuccessIcon;
         ShowPublishErrorIcon = showPublishErrorIcon;
         ShowRetrySection = showRetrySection;
+        ShowRefreshSuccessIcon = showRefreshSuccessIcon;
+        ShowRefreshErrorIcon = showRefreshErrorIcon;
     }
 
     public void Cancel(string cancelText)
@@ -133,6 +159,28 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
         PublishingStatus = errorText;
         PublishErrorDetail = errorDetails;
+    }
+
+    public void Refreshing(string refreshingStatus)
+    {
+        SetState(State.Refreshing);
+
+        RefreshingStatus = refreshingStatus;
+    }
+
+    public void Refreshed(string refreshingStatus)
+    {
+        SetState(State.Refreshed);
+
+        RefreshingStatus = refreshingStatus;
+    }
+
+    public void RefreshError(string refreshingError, string errorDetails)
+    {
+        SetState(State.RefreshError);
+
+        RefreshingStatus = refreshingError;
+        RefreshErrorDetail = errorDetails;
     }
 
     public async Task Complete()
