@@ -69,7 +69,7 @@
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     Background="Transparent"
-                    Text="{Binding Draft}"
+                    Text="{Binding NoteDraft.DraftBinding}"
                     TextColor="{StaticResource BlackishText}"
                     FontFamily="BCSansRegular"
                     FontSize="17"
@@ -79,7 +79,7 @@
 
                     <Editor.Behaviors>
                         <toolkit:UserStoppedTypingBehavior 
-                            Command="{Binding SaveDraftCommand}"
+                            Command="{Binding UserStoppedTypingCommand}"
                             StoppedTypingTimeThreshold="700" />
                     </Editor.Behaviors>
                 </Editor>
