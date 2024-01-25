@@ -137,6 +137,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         SetState(State.Cancelled);
 
         PublishingStatus = cancelText;
+        PublishErrorDetail = null;
     }
 
     public void Wait(string waitingPrompt)
@@ -144,6 +145,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         SetState(State.Waiting);
 
         PublishingStatus = waitingPrompt;
+        PublishErrorDetail = null;
     }
 
     public void Publishing(string publishingPrompt)
@@ -151,6 +153,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         SetState(State.Publishing);
 
         PublishingStatus = publishingPrompt;
+        PublishErrorDetail = null;
     }
 
     public void Published(string publishedText)
@@ -158,6 +161,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         SetState(State.Published);
 
         PublishingStatus = publishedText;
+        PublishErrorDetail = null;
     }
 
     public void PublishError(string errorText, string errorDetails)
@@ -173,6 +177,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         SetState(State.Refreshing);
 
         RefreshingStatus = refreshingStatus;
+        RefreshErrorDetail = null;
     }
 
     public void Refreshed(string refreshingStatus)
@@ -180,6 +185,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         SetState(State.Refreshed);
 
         RefreshingStatus = refreshingStatus;
+        RefreshErrorDetail = null;
     }
 
     public void RefreshError(string refreshingError, string errorDetails)
