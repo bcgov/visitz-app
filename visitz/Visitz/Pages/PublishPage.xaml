@@ -36,7 +36,7 @@
             <Setter Property="VerticalOptions" Value="Center" />
         </Style>
 
-        <Style TargetType="Grid" x:Name="StatusGrid">
+        <Style TargetType="Grid" x:Key="StatusGrid">
             <Setter Property="RowSpacing" Value="15" />
             <Setter Property="ColumnDefinitions" Value="40,*" />
             <Setter Property="ColumnSpacing" Value="15" />
