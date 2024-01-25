@@ -17,17 +17,17 @@ public partial class PublishPage : VisitzPage
     {
         base.OnCreated();
 
-        ViewModel.OnCompleted += PublishPage_OnPublished;
+        ViewModel.OnCompleted += PublishPage_OnCompleted;
     }
 
     protected override void OnDestroyed()
     {
-        ViewModel.OnCompleted -= PublishPage_OnPublished;
+        ViewModel.OnCompleted -= PublishPage_OnCompleted;
 
         base.OnDestroyed();
     }
 
-    private async void PublishPage_OnPublished(object sender, EventArgs e)
+    private async void PublishPage_OnCompleted(object sender, EventArgs e)
     {
         DismissProgressBar.IsVisible = true;
 
