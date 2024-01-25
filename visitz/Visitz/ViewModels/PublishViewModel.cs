@@ -14,6 +14,9 @@ public abstract partial class PublishViewModel : VisitzViewModel
         Publishing,
         Published,
         PublishError,
+        Refreshing,
+        Refreshed,
+        RefreshError,
         Completed,
     }
 
@@ -27,6 +30,12 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
     [ObservableProperty]
     public string publishingStatus;
+
+    [ObservableProperty]
+    public bool showRefreshingIndicator;
+
+    [ObservableProperty]
+    public string refreshingStatus;
 
     [ObservableProperty]
     public bool showRetrySection;
@@ -61,6 +70,15 @@ public abstract partial class PublishViewModel : VisitzViewModel
             case State.PublishError:
                 SetFlags(showErrorIcon: true, showRetrySection: true);
                 break;
+            case State.Refreshing:
+                SetFlags();
+                break;
+            case State.Refreshed:
+                SetFlags();
+                break;
+            case State.RefreshError:
+                SetFlags();
+                break;
             case State.Completed:
                 SetFlags(showSuccessIcon: ShowSuccessIcon);
                 break;
@@ -69,6 +87,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
     private void SetFlags(
         bool showPublishingIndicator = false,
+        bool showRefreshingIndicator = false,
         bool showRetrySection = false,
         bool showSuccessIcon = false,
         bool showErrorIcon = false)
@@ -76,6 +95,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         ShowPublishingIndicator = showPublishingIndicator;
         ShowSuccessIcon = showSuccessIcon;
         ShowErrorIcon = showErrorIcon;
+        ShowRefreshingIndicator = showRefreshingIndicator;
         ShowRetrySection = showRetrySection;
     }
 
