@@ -89,6 +89,15 @@ namespace Visitz.ViewModels
                 if (message.FinishedError)
                     PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
             }
+            else if (message.ServiceId == getNotesServiceId)
+            {
+                if (message.Status == VisitzService.State.Running)
+                    Refreshing(LocalizedStrings.RefreshingNotes);
+                else if (message.FinishedSuccess)
+                    Refreshed(LocalizedStrings.RefreshingNotes);
+                else if (message.FinishedError)
+                    RefreshError(LocalizedStrings.FailedToRefreshNotes, message.Message);
+            }
         }
     }
 }
