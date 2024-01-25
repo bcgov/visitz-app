@@ -48,13 +48,11 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<EntitySafetyAssessViewModel>();
 
             builder.Services.AddTransient<PublishPage>();
+            builder.Services.AddTransient<NotePublishViewModel>();
             builder.Services.AddTransient<SafetyAssessmentPublishViewModel>();
 
             builder.Services.AddTransient<NoteEntryView>();
             builder.Services.AddTransient<NoteEntryViewModel>();
-
-            builder.Services.AddTransient<NotePublishPage>();
-            builder.Services.AddTransient<NotePublishViewModel>();
 
             builder.Services.AddTransient<DebugOptionsPage>();
             builder.Services.AddTransient<DebugOptionsView>();
