@@ -41,10 +41,10 @@ public abstract partial class PublishViewModel : VisitzViewModel
     public bool showRetrySection;
 
     [ObservableProperty]
-    public bool showSuccessIcon;
+    public bool showPublishSuccessIcon;
 
     [ObservableProperty]
-    public bool showErrorIcon;
+    public bool showPublishErrorIcon;
 
     [ObservableProperty]
     public string publishErrorDetail;
@@ -65,10 +65,10 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 SetFlags(showPublishingIndicator: true);
                 break;
             case State.Published:
-                SetFlags(showSuccessIcon: true);
+                SetFlags(showPublishSuccessIcon: true);
                 break;
             case State.PublishError:
-                SetFlags(showErrorIcon: true, showRetrySection: true);
+                SetFlags(showPublishErrorIcon: true, showRetrySection: true);
                 break;
             case State.Refreshing:
                 SetFlags();
@@ -80,7 +80,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 SetFlags();
                 break;
             case State.Completed:
-                SetFlags(showSuccessIcon: ShowSuccessIcon);
+                SetFlags(showPublishSuccessIcon: ShowPublishSuccessIcon);
                 break;
         }
     }
@@ -89,13 +89,13 @@ public abstract partial class PublishViewModel : VisitzViewModel
         bool showPublishingIndicator = false,
         bool showRefreshingIndicator = false,
         bool showRetrySection = false,
-        bool showSuccessIcon = false,
-        bool showErrorIcon = false)
+        bool showPublishSuccessIcon = false,
+        bool showPublishErrorIcon = false)
     {
         ShowPublishingIndicator = showPublishingIndicator;
-        ShowSuccessIcon = showSuccessIcon;
-        ShowErrorIcon = showErrorIcon;
         ShowRefreshingIndicator = showRefreshingIndicator;
+        ShowPublishSuccessIcon = showPublishSuccessIcon;
+        ShowPublishErrorIcon = showPublishErrorIcon;
         ShowRetrySection = showRetrySection;
     }
 

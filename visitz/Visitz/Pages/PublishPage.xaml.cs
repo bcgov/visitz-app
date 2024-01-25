@@ -45,7 +45,7 @@ public partial class PublishPage : VisitzPage
 
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        if (ViewModel.ShowErrorIcon && ViewModel.PublishErrorDetail?.Length > 0)
+        if (ViewModel.ShowPublishErrorIcon && ViewModel.PublishErrorDetail?.Length > 0)
             await DisplayAlert(LocalizedStrings.Error, ViewModel.PublishErrorDetail, LocalizedStrings.Ok);
     }
 }
