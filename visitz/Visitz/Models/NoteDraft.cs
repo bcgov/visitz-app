@@ -1,4 +1,5 @@
 ﻿using Realms;
+using Visitz.Extensions;
 
 namespace Visitz.Models
 {
@@ -8,6 +9,20 @@ namespace Visitz.Models
         public string CaseIncidentAndCreatedDateID { get; set; }
 
         public string Draft { get; set; }
+
+        public string DraftBinding
+        {
+            get => IsValid ? Draft : default;
+            set
+            {
+                bool canSet = !value?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? true;
+                
+                if (canSet)
+                    this.Commit(() => Draft = value);
+
+                RaisePropertyChanged(nameof(DraftBinding));
+            }
+        }
 
         public static string MakeId(string caseIncidentNumber)
         {
