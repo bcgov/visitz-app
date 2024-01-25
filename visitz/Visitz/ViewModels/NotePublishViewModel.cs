@@ -84,6 +84,8 @@ namespace Visitz.ViewModels
             }
             else if (message.ServiceId == submitNotesServiceId)
             {
+                if (message.FinishedSuccess)
+                    Published(LocalizedStrings.NotesPublishedToIcm);
                 if (message.FinishedError)
                     PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
             }
