@@ -9,6 +9,7 @@
     x:Name="this">
 
     <StackLayout
+        x:Name="MainStack"
         BindingContext="{Reference this}"
         Orientation="Vertical"
         BindableLayout.ItemsSource="{Binding ItemsSource}"
