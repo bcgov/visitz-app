@@ -11,6 +11,21 @@ namespace Visitz.Views.Entity;
 
 public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 {
+    public readonly struct NavItems
+    {
+        public static readonly NavItem Details = new() 
+            { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView) };
+        
+        public static readonly NavItem FamilyMembers = new() 
+            { Text = LocalizedStrings.FamilyMembers, ContentViewType = typeof(EntityContactsView) };
+        
+        public static readonly NavItem Notes = new() 
+            { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView) };
+
+        public static readonly NavItem SafetyAssessment = new()
+            { Text = LocalizedStrings.SafetyAssessment, ContentViewType = typeof(EntitySafetyAssessView) };
+    }
+
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 
@@ -38,18 +53,14 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         var items = new List<NavItem>()
         {
-            new() { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView)},
-            new() { Text = LocalizedStrings.FamilyMembers, ContentViewType = typeof(EntityContactsView)},
-            new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},
+            NavItems.Details,
+            NavItems.FamilyMembers,
+            NavItems.Notes,
         };
 
         // TODO: Remove this ShowSafetyAssessment check when it's fully implemented
         if (CaseloadItem.EntityType.Equals(IcmEntity.Incident) && DebugOptions.ShowSafetyAssessment)
-            items.Add(new()
-            {
-                Text = LocalizedStrings.SafetyAssessment,
-                ContentViewType = typeof(EntitySafetyAssessView)
-            });
+            items.Add(NavItems.SafetyAssessment);
 
         return items;
     }
