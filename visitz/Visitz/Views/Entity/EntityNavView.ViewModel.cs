@@ -29,23 +29,29 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         base.PageCreated();
 
+        EntityNavItems = BuildNavList();
+
+        SelectedEntityNavItem = DefaultNavItem;
+    }
+
+    private List<NavItem> BuildNavList()
+    {
         var items = new List<NavItem>()
         {
             new() { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView)},
             new() { Text = LocalizedStrings.FamilyMembers, ContentViewType = typeof(EntityContactsView)},
-            new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},   
+            new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},
         };
 
         // TODO: Remove this ShowSafetyAssessment check when it's fully implemented
         if (CaseloadItem.EntityType.Equals(IcmEntity.Incident) && DebugOptions.ShowSafetyAssessment)
-            items.Add(new() 
+            items.Add(new()
             {
                 Text = LocalizedStrings.SafetyAssessment,
                 ContentViewType = typeof(EntitySafetyAssessView)
             });
 
-        EntityNavItems = items;
-        SelectedEntityNavItem = DefaultNavItem;
+        return items;
     }
 
     [RelayCommand]
