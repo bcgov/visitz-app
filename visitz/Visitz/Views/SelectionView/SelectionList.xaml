@@ -11,7 +11,7 @@
     <StackLayout
         x:Name="MainStack"
         BindingContext="{Reference this}"
-        Orientation="Vertical" 
+        Orientation="{Binding Orientation, TargetNullValue=Vertical}" 
         ChildAdded="MainStack_ChildAdded"
         ChildRemoved="MainStack_ChildRemoved"
         BindableLayout.ItemsSource="{Binding ItemsSource}"

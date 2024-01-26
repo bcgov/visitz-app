@@ -27,6 +27,9 @@ public partial class SelectionList : BaseContentView
     public static readonly BindableProperty SelectionChangedCommandProperty =
         BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(SelectionList));
 
+    public static readonly BindableProperty OrientationProperty =
+        BindableProperty.Create(nameof(Orientation), typeof(StackOrientation), typeof(SelectionList));
+
     private readonly TapGestureRecognizer ItemTapRecognizer = new() { Buttons = ButtonsMask.Primary, };
 
     private SelectableItem SelectedItemView
@@ -57,6 +60,12 @@ public partial class SelectionList : BaseContentView
     {
         get => (ICommand)GetValue(SelectionChangedCommandProperty);
         set => SetValue(SelectionChangedCommandProperty, value);
+    }
+
+    public StackOrientation Orientation
+    {
+        get => (StackOrientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
     }
 
     public SelectionList()
