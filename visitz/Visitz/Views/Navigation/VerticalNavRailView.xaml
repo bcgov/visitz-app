@@ -39,7 +39,7 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <nav:NavItemView />
+                    <nav:NavItemView MinimumHeightRequest="72" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
