@@ -88,6 +88,10 @@ public partial class VerticalSelectionView : BaseContentView
     private void ItemTapRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         var selectableItem = (SelectableItem)sender;
+
+        if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
+            return;
+
         selectableItem.IsSelected = !selectableItem.IsSelected;
 
         if (selectableItem.IsSelected)
