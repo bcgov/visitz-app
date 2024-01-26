@@ -1284,7 +1284,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Other.
+        ///   Looks up a localized string similar to 8. Other.
         /// </summary>
         public static string SafetyIntervention8_OtherSafetyInterventions {
             get {

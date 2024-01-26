@@ -489,7 +489,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>7. Legal intervention planned or initiated - child/youth remains in the home</value>
   </data>
   <data name="SafetyIntervention8_OtherSafetyInterventions" xml:space="preserve">
-    <value>Other</value>
+    <value>8. Other</value>
   </data>
   <data name="SafetyIntervention9_ChildOutsideHome" xml:space="preserve">
     <value>9. Parent/care-provider to voluntarily place the child outside the home</value>
