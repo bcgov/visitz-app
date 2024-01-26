@@ -30,12 +30,12 @@
 
         </HorizontalStackLayout>
 
-        <selView:VerticalSelectionView
+        <selView:SelectionList
             ItemsSource="{Binding EntityNavItems}"
             SelectedItem="{Binding SelectedEntityNavItem}"
             SelectionChangedCommand="{Binding EntityNavSelectedCommand}">
 
-            <selView:VerticalSelectionView.ItemTemplate>
+            <selView:SelectionList.ItemTemplate>
                 <DataTemplate x:DataType="models:NavItem">
                     <selView:SelectableItem>
 
@@ -64,8 +64,8 @@
 
                     </selView:SelectableItem>
                 </DataTemplate>
-            </selView:VerticalSelectionView.ItemTemplate>
-        </selView:VerticalSelectionView>
+            </selView:SelectionList.ItemTemplate>
+        </selView:SelectionList>
 
     </StackLayout>
     

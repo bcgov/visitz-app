@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
-    x:Class="Visitz.Views.SelectionView.VerticalSelectionView"
-    x:DataType="selView:VerticalSelectionView"
+    x:Class="Visitz.Views.SelectionView.SelectionList"
+    x:DataType="selView:SelectionList"
     x:Name="this">
 
     <StackLayout

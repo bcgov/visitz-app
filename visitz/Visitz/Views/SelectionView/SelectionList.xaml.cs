@@ -8,24 +8,24 @@ using Visitz.Models;
 
 namespace Visitz.Views.SelectionView;
 
-public partial class VerticalSelectionView : BaseContentView
+public partial class SelectionList : BaseContentView
 {
     private static readonly BindableProperty SelectedItemViewProperty =
-        BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(VerticalSelectionView),
+        BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(SelectionList),
             defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemViewChanged);
 
     public static readonly BindableProperty ItemsSourceProperty =
-		BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(VerticalSelectionView));
+		BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(SelectionList));
 
     public static readonly BindableProperty ItemTemplateProperty =
-        BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(VerticalSelectionView));
+        BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(SelectionList));
 
     public static readonly BindableProperty SelectedItemProperty =
-        BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(VerticalSelectionView),
+        BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(SelectionList),
             defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemChanged);
 
     public static readonly BindableProperty SelectionChangedCommandProperty =
-        BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(VerticalSelectionView));
+        BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(SelectionList));
 
     private readonly TapGestureRecognizer ItemTapRecognizer = new() { Buttons = ButtonsMask.Primary, };
 
@@ -59,7 +59,7 @@ public partial class VerticalSelectionView : BaseContentView
         set => SetValue(SelectionChangedCommandProperty, value);
     }
 
-    public VerticalSelectionView()
+    public SelectionList()
 	{
 		InitializeComponent();
         ItemTapRecognizer.Tapped += ItemTapRecognizer_Tapped;
@@ -76,7 +76,7 @@ public partial class VerticalSelectionView : BaseContentView
 
     private static void SelectedItemChanged(BindableObject boundObj, object oldValue, object newValue)
     {
-        var thiz = (VerticalSelectionView)boundObj;
+        var thiz = (SelectionList)boundObj;
 
         if (newValue is NavItem)
         {
