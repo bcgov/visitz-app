@@ -74,7 +74,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
     private void RedirectToDetails()
     {
-        var navItem = new NavItem() { ContentViewType = typeof(EntityDetailsView) };
-        StrongReferenceMessenger.Default.Send(new EntityNavMessage(navItem, CaseloadItem));
+        var detailsNav = EntityNavViewModel.NavItems.Details;
+        StrongReferenceMessenger.Default.Send(new EntityNavMessage(detailsNav, CaseloadItem));
     }
 }

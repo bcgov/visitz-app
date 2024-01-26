@@ -7,6 +7,7 @@
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.EntityNavView"
     x:DataType="entity:EntityNavViewModel"
@@ -29,16 +30,15 @@
 
         </HorizontalStackLayout>
 
-        <CollectionView
+        <selView:SelectionList
             ItemsSource="{Binding EntityNavItems}"
-            SelectionMode="Single"
             SelectedItem="{Binding SelectedEntityNavItem}"
-            ItemSizingStrategy="MeasureFirstItem"
             SelectionChangedCommand="{Binding EntityNavSelectedCommand}">
 
-            <CollectionView.ItemTemplate>
+            <selView:SelectionList.ItemTemplate>
                 <DataTemplate x:DataType="models:NavItem">
-                    <ContentView>
+                    <selView:SelectableItem>
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -61,11 +61,12 @@
                                 Padding="0,15,10,15"
                                 Text="{Binding Text}" />
                         </HorizontalStackLayout>
-                    </ContentView>
-                    
+
+                    </selView:SelectableItem>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </selView:SelectionList.ItemTemplate>
+        </selView:SelectionList>
+
     </StackLayout>
     
 </views:ViewModelContentView>

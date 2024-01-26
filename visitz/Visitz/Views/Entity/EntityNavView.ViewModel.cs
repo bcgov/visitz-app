@@ -11,6 +11,21 @@ namespace Visitz.Views.Entity;
 
 public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 {
+    public readonly struct NavItems
+    {
+        public static readonly NavItem Details = new() 
+            { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView) };
+        
+        public static readonly NavItem FamilyMembers = new() 
+            { Text = LocalizedStrings.FamilyMembers, ContentViewType = typeof(EntityContactsView) };
+        
+        public static readonly NavItem Notes = new() 
+            { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView) };
+
+        public static readonly NavItem SafetyAssessment = new()
+            { Text = LocalizedStrings.SafetyAssessment, ContentViewType = typeof(EntitySafetyAssessView) };
+    }
+
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 
@@ -29,22 +44,39 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         base.PageCreated();
 
-        EntityNavItems = new List<NavItem>()
-        {
-            new() { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView)},
-            new() { Text = LocalizedStrings.FamilyMembers, ContentViewType = typeof(EntityContactsView)},
-            new() { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView)},   
-        };
-
-        // TODO: Remove this ShowSafetyAssessment check when it's fully implemented
-        if (CaseloadItem.EntityType.Equals(IcmEntity.Incident) && DebugOptions.ShowSafetyAssessment)
-            EntityNavItems.Add(new() 
-            {
-                Text = LocalizedStrings.SafetyAssessment,
-                ContentViewType = typeof(EntitySafetyAssessView)
-            });
+        EntityNavItems = BuildNavList();
 
         SelectedEntityNavItem = DefaultNavItem;
+
+        StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, navMessage) =>
+        {
+            var (navItem, caseloadItem) = navMessage.Value;
+
+            if (navItem != null)
+                (recipient as EntityNavViewModel).SelectedEntityNavItem = navItem;
+        });
+    }
+
+    public override void PageDestroyed()
+    {
+        StrongReferenceMessenger.Default.UnregisterAll(this);
+
+        base.PageDestroyed();
+    }
+
+    private List<NavItem> BuildNavList()
+    {
+        var items = new List<NavItem>()
+        {
+            NavItems.Details,
+            NavItems.FamilyMembers,
+            NavItems.Notes,
+        };
+
+        if (CaseloadItem.EntityType.Equals(IcmEntity.Incident))
+            items.Add(NavItems.SafetyAssessment);
+
+        return items;
     }
 
     [RelayCommand]

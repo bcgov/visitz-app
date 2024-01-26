@@ -32,9 +32,6 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool skipLocalAuth;
 
-        [ObservableProperty]
-        public bool showSafetyAssessment;
-
         public override void PageCreated()
         {
             base.PageCreated();
@@ -51,7 +48,6 @@ namespace Visitz.ViewModels
             BuildingInDebug = false;
 #endif
             SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
-            ShowSafetyAssessment = DebugOptions.ShowSafetyAssessment;
 
             var settings = new AppSettings();
 
@@ -72,11 +68,6 @@ namespace Visitz.ViewModels
         partial void OnSkipLocalAuthChanged(bool value)
         {
             DebugOptions.SkipLocalAuth = value;
-        }
-
-        partial void OnShowSafetyAssessmentChanged(bool value)
-        {
-            DebugOptions.ShowSafetyAssessment = value;
         }
 
         [RelayCommand]

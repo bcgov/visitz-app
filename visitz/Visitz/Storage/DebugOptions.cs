@@ -8,7 +8,6 @@ namespace Visitz.Storage
         private static readonly string DryFireSubmitNotesKey = "DryFireSubmitNotes";
         private static readonly string DryFireSubmitNotesSimulateSuccessKey = "DryFireSubmitNotesSimulateSuccess";
         private static readonly string SkipLocalAuthKey = "SkipLocalAuth";
-        private static readonly string ShowSafetyAssessmentKey = "ShowSafetyAssessment";
 
         public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -50,12 +49,6 @@ namespace Visitz.Storage
 #endif
             }
             set => Set(SkipLocalAuthKey, value);
-        }
-
-        public static bool ShowSafetyAssessment
-        {
-            get => Get(ShowSafetyAssessmentKey, false);
-            set => Set(ShowSafetyAssessmentKey, value);
         }
 
         public static async Task ClearRealmData()

@@ -1,0 +1,133 @@
+/*
+	Workaround for https://github.com/dotnet/maui/issues/18933.
+ */
+
+using System.Collections;
+using System.Windows.Input;
+using Visitz.Models;
+
+namespace Visitz.Views.SelectionView;
+
+public partial class SelectionList : BaseContentView
+{
+    private static readonly BindableProperty SelectedItemViewProperty =
+        BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(SelectionList),
+            defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemViewChanged);
+
+    public static readonly BindableProperty ItemsSourceProperty =
+		BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(SelectionList));
+
+    public static readonly BindableProperty ItemTemplateProperty =
+        BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(SelectionList));
+
+    public static readonly BindableProperty SelectedItemProperty =
+        BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(SelectionList),
+            defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemChanged);
+
+    public static readonly BindableProperty SelectionChangedCommandProperty =
+        BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(SelectionList));
+
+    public static readonly BindableProperty OrientationProperty =
+        BindableProperty.Create(nameof(Orientation), typeof(StackOrientation), typeof(SelectionList));
+
+    private SelectableItem SelectedItemView
+    {
+        get => (SelectableItem)GetValue(SelectedItemViewProperty);
+        set => SetValue(SelectedItemViewProperty, value);
+    }
+
+    public IList ItemsSource 
+	{
+		get => (IList)GetValue(ItemsSourceProperty);
+		set => SetValue(ItemsSourceProperty, value);
+	}
+
+	public DataTemplate ItemTemplate
+    {
+        get => (DataTemplate)GetValue(ItemTemplateProperty);
+        set => SetValue(ItemTemplateProperty, value);
+    }
+
+	public object SelectedItem
+    {
+        get => GetValue(SelectedItemProperty);
+        set => SetValue(SelectedItemProperty, value);
+    }
+
+    public ICommand SelectionChangedCommand
+    {
+        get => (ICommand)GetValue(SelectionChangedCommandProperty);
+        set => SetValue(SelectionChangedCommandProperty, value);
+    }
+
+    public StackOrientation Orientation
+    {
+        get => (StackOrientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+
+    public SelectionList()
+	{
+		InitializeComponent();
+	}
+
+    private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
+    {
+        if (oldValue is SelectableItem oldSelected)
+            oldSelected.IsSelected = false;
+
+        if (newValue is SelectableItem newSelected)
+            newSelected.IsSelected = true;
+    }
+
+    private static void SelectedItemChanged(BindableObject boundObj, object oldValue, object newValue)
+    {
+        var thiz = (SelectionList)boundObj;
+
+        if (newValue is NavItem)
+        {
+            thiz.SelectionChangedCommand?.Execute(newValue);
+            thiz.SelectedItemView = thiz.GetSelectableViewByItem(newValue);
+        }
+    }
+
+    private void ItemTapRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        var selectableItem = (SelectableItem)sender;
+
+        if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
+            return;
+
+        selectableItem.IsSelected = !selectableItem.IsSelected;
+
+        if (selectableItem.IsSelected)
+            SelectedItem = selectableItem.BindingContext;
+    }
+
+    private void MainStack_ChildAdded(object sender, ElementEventArgs e)
+    {
+        if (e.Element is SelectableItem item)
+        {
+            var tap = new TapGestureRecognizer() { Buttons = ButtonsMask.Primary, };
+            tap.Tapped += ItemTapRecognizer_Tapped;
+            item.GestureRecognizers.Add(tap);
+        }
+    }
+
+    private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
+    {
+        if (e.Element is SelectableItem item)
+            foreach (var g in item.GestureRecognizers)
+                if (g is TapGestureRecognizer tap)
+                    tap.Tapped -= ItemTapRecognizer_Tapped;
+    }
+
+    private SelectableItem GetSelectableViewByItem(object item)
+    {
+        foreach (var child in MainStack.Children)
+            if (child is SelectableItem selItem && selItem.BindingContext == item)
+                return selItem;
+
+        return null;
+    }
+}
