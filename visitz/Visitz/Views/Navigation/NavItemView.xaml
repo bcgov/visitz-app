@@ -38,7 +38,8 @@
         HorizontalOptions="Fill" 
         VerticalOptions="Fill"
         Orientation="{Binding Orientation, Source={RelativeSource AncestorType={x:Type nav:NavItemView}}}"
-        Spacing="4">
+        Spacing="4"
+        Padding="8">
         <Image 
             x:Name="IconImage"
             Source="{Binding UnselectedImageSource}" 
