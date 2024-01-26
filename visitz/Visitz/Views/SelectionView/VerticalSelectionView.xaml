@@ -7,11 +7,11 @@
     x:Class="Visitz.Views.SelectionView.VerticalSelectionView"
     x:DataType="selView:VerticalSelectionView"
     x:Name="this">
-    
+
     <StackLayout
         BindingContext="{Reference this}"
         Orientation="Vertical"
-        BindableLayout.ItemsSource="{Binding ItemsSource}">
-
-    </StackLayout>
+        BindableLayout.ItemsSource="{Binding ItemsSource}"
+        BindableLayout.ItemTemplate="{Binding ItemTemplate}"/>
+    
 </views:BaseContentView>
