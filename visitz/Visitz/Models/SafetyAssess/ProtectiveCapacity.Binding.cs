@@ -10,7 +10,15 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class ProtectiveCapacity
 {
-	public bool ChildCognitiveBinding
+    private const string Binding = "Binding";
+
+    partial void OnPropertyChanged(string propertyName)
+    {
+        if (!propertyName.EndsWith(Binding))
+            RaisePropertyChanged($"{propertyName}{Binding}");
+    }
+
+    public bool ChildCognitiveBinding
     {
         get => IsValid ? ChildCognitive : default;
         set => this.Commit(() => ChildCognitive = value);

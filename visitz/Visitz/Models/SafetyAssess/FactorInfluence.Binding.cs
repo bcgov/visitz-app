@@ -10,7 +10,15 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class FactorInfluence
 {
-	public bool AgeUptoFiveBinding
+    private const string Binding = "Binding";
+
+    partial void OnPropertyChanged(string propertyName)
+    {
+        if (!propertyName.EndsWith(Binding))
+            RaisePropertyChanged($"{propertyName}{Binding}");
+    }
+
+    public bool AgeUptoFiveBinding
 	{
 		get => IsValid ? AgeUptoFive : default;
 		set => this.Commit(() => AgeUptoFive = value);

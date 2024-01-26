@@ -10,6 +10,14 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyInterventions
 {
+    private const string Binding = "Binding";
+
+    partial void OnPropertyChanged(string propertyName)
+    {
+        if (!propertyName.EndsWith(Binding))
+            RaisePropertyChanged($"{propertyName}{Binding}");
+    }
+
     public bool DirectInterventionBinding
     {
         get => IsValid ? DirectIntervention : default;

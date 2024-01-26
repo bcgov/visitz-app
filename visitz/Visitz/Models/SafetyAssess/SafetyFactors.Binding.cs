@@ -10,6 +10,14 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyFactors
 {
+    private const string Binding = "Binding";
+
+    partial void OnPropertyChanged(string propertyName)
+    {
+        if (!propertyName.EndsWith(Binding))
+            RaisePropertyChanged($"{propertyName}{Binding}");
+    }
+
     public bool? PhysicalHarmBinding 
     {
         get => IsValid ? PhysicalHarm : default;
