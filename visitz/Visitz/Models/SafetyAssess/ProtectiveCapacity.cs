@@ -71,7 +71,7 @@ public partial class ProtectiveCapacity : IRealmObject
             ParentProbSolving = ParentProbSolving.AsTruthyChar(),
             NoProCapPresent = NoProCapPresent.AsTruthyChar(),
             CapacitiesOther = CapacitiesOther.AsTruthyChar(),
-            CmtProtectiveCapacity01 = CmtProtectiveCapacity01,
+            CmtProtectiveCapacity01 = CapacitiesOther ? CmtProtectiveCapacity01 : "",
             CmtProtectiveCapacity02 = CmtProtectiveCapacity02,
         };
     }
