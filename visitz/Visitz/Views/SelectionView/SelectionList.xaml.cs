@@ -30,8 +30,6 @@ public partial class SelectionList : BaseContentView
     public static readonly BindableProperty OrientationProperty =
         BindableProperty.Create(nameof(Orientation), typeof(StackOrientation), typeof(SelectionList));
 
-    private readonly TapGestureRecognizer ItemTapRecognizer = new() { Buttons = ButtonsMask.Primary, };
-
     private SelectableItem SelectedItemView
     {
         get => (SelectableItem)GetValue(SelectedItemViewProperty);
@@ -71,7 +69,6 @@ public partial class SelectionList : BaseContentView
     public SelectionList()
 	{
 		InitializeComponent();
-        ItemTapRecognizer.Tapped += ItemTapRecognizer_Tapped;
 	}
 
     private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
@@ -110,13 +107,19 @@ public partial class SelectionList : BaseContentView
     private void MainStack_ChildAdded(object sender, ElementEventArgs e)
     {
         if (e.Element is SelectableItem item)
-            item.GestureRecognizers.Add(ItemTapRecognizer);
+        {
+            var tap = new TapGestureRecognizer() { Buttons = ButtonsMask.Primary, };
+            tap.Tapped += ItemTapRecognizer_Tapped;
+            item.GestureRecognizers.Add(tap);
+        }
     }
 
     private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
     {
         if (e.Element is SelectableItem item)
-            item.GestureRecognizers.Remove(ItemTapRecognizer);
+            foreach (var g in item.GestureRecognizers)
+                if (g is TapGestureRecognizer tap)
+                    tap.Tapped -= ItemTapRecognizer_Tapped;
     }
 
     private SelectableItem GetSelectableViewByItem(object item)
