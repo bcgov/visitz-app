@@ -27,67 +27,111 @@ public partial class ProtectiveCapacity
     public bool ParentCognitiveBinding
     {
         get => IsValid ? ParentCognitive : default;
-        set => this.Commit(() => ParentCognitive = value);
+        set
+        {
+            this.Commit(() => ParentCognitive = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool ParentWillingnessBinding
     {
         get => IsValid ? ParentWillingness : default;
-        set => this.Commit(() => ParentWillingness = value);
+        set
+        {
+            this.Commit(() => ParentWillingness = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool ParentResourcesBinding
     {
         get => IsValid ? ParentResources : default;
-        set => this.Commit(() => ParentResources = value);
+        set
+        {
+            this.Commit(() => ParentResources = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool ParentSupportiveBinding
     {
         get => IsValid ? ParentSupportive : default;
-        set => this.Commit(() => ParentSupportive = value);
+        set
+        {
+            this.Commit(() => ParentSupportive = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool ParentProtectBinding
     {
         get => IsValid ? ParentProtect : default;
-        set => this.Commit(() => ParentProtect = value);
+        set
+        {
+            this.Commit(() => ParentProtect = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool ParentAcceptBinding
     {
         get => IsValid ? ParentAccept : default;
-        set => this.Commit(() => ParentAccept = value);
+        set
+        {
+            this.Commit(() => ParentAccept = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool ParentRelationshipBinding
     {
         get => IsValid ? ParentRelationship : default;
-        set => this.Commit(() => ParentRelationship = value);
+        set
+        {
+            this.Commit(() => ParentRelationship = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool ParentAwareBinding
     {
         get => IsValid ? ParentAware : default;
-        set => this.Commit(() => ParentAware = value);
+        set
+        {
+            this.Commit(() => ParentAware = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool ParentProbSolvingBinding
     {
         get => IsValid ? ParentProbSolving : default;
-        set => this.Commit(() => ParentProbSolving = value);
+        set
+        {
+            this.Commit(() => ParentProbSolving = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
     
     public bool NoProCapPresentBinding
     {
         get => IsValid ? NoProCapPresent : default;
-        set => this.Commit(() => NoProCapPresent = value);
+        set
+        {
+            this.Commit(() => NoProCapPresent = value);
+            if (value) IsolateNoProCapPresent();
+        }
     }
     
     public bool CapacitiesOtherBinding
     {
         get => IsValid ? CapacitiesOther : default;
-        set => this.Commit(() => CapacitiesOther = value);
+        set
+        {
+            this.Commit(() => CapacitiesOther = value);
+            if (value) ClearNoProCapPresent();
+        }
     }
 
     public string CmtProtectiveCapacity01Binding

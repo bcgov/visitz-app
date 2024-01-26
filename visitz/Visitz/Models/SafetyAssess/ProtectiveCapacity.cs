@@ -75,4 +75,26 @@ public partial class ProtectiveCapacity : IRealmObject
             CmtProtectiveCapacity02 = CmtProtectiveCapacity02,
         };
     }
+
+    private void ClearNoProCapPresent()
+    {
+        NoProCapPresentBinding = false;
+    }
+
+    private void IsolateNoProCapPresent()
+    {
+        Realm.Write(() =>
+        {
+            ParentCognitiveBinding =
+            ParentWillingnessBinding =
+            ParentResourcesBinding =
+            ParentSupportiveBinding =
+            ParentProtectBinding =
+            ParentAcceptBinding =
+            ParentRelationshipBinding =
+            ParentAwareBinding =
+            ParentProbSolvingBinding =
+            CapacitiesOtherBinding = false;
+        });
+    }
 }
