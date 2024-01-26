@@ -6,8 +6,7 @@
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Navigation.NavItemView"
     x:DataType="models:NavItem"
-    HorizontalOptions="Center"
-    Padding="0,10,0,10">
+    HorizontalOptions="Center">
 
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup x:Name="CommonStates">

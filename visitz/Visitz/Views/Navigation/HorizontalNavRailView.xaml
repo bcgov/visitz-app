@@ -24,7 +24,7 @@
             
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <nav:NavItemView Orientation="Horizontal" Padding="10,0" />
+                    <nav:NavItemView Orientation="Horizontal" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
