@@ -73,8 +73,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
             NavItems.Notes,
         };
 
-        // TODO: Remove this ShowSafetyAssessment check when it's fully implemented
-        if (CaseloadItem.EntityType.Equals(IcmEntity.Incident) && DebugOptions.ShowSafetyAssessment)
+        if (CaseloadItem.EntityType.Equals(IcmEntity.Incident))
             items.Add(NavItems.SafetyAssessment);
 
         return items;

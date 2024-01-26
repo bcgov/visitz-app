@@ -121,7 +121,7 @@
                 Background="AliceBlue"
                 Text="Entity" />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -145,18 +145,6 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
-
-                <Label
-                    StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Text="Show safety assessment"/>
-
-                <Switch
-                    StyleClass="DebugLayout"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    IsToggled="{Binding ShowSafetyAssessment}"/>
             </Grid>
             
             <Label
