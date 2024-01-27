@@ -81,9 +81,11 @@ public partial class ProtectiveCapacity : IRealmObject
         NoProCapPresentBinding = false;
     }
 
-    private void IsolateNoProCapPresent()
+    private void SetNoProCapPresent(bool newVal)
     {
-        Realm.Write(() =>
+        NoProCapPresent = newVal;
+
+        if (NoProCapPresent)
         {
             ParentCognitiveBinding =
             ParentWillingnessBinding =
@@ -95,6 +97,6 @@ public partial class ProtectiveCapacity : IRealmObject
             ParentAwareBinding =
             ParentProbSolvingBinding =
             CapacitiesOtherBinding = false;
-        });
+        }
     }
 }

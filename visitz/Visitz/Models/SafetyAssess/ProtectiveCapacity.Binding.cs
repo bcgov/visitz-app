@@ -117,11 +117,7 @@ public partial class ProtectiveCapacity
     public bool NoProCapPresentBinding
     {
         get => IsValid ? NoProCapPresent : default;
-        set
-        {
-            this.Commit(() => NoProCapPresent = value);
-            if (value) IsolateNoProCapPresent();
-        }
+        set => this.Commit(() => SetNoProCapPresent(value));
     }
     
     public bool CapacitiesOtherBinding
