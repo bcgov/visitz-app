@@ -21,7 +21,13 @@ public partial class SafetyDecisions
     public SafetyDecisionOption? DecisionBinding
     {
         get => IsValid ? Decision : default;
-        set => this.Commit(() => Decision = value);
+        set
+        {
+            this.Commit(() => Decision = value);
+
+            if (value != SafetyDecisionOption.Unsafe)
+                DecisionUnsafeBinding = null;
+        }
     }
 
     public string DecisionUnsafeBinding
