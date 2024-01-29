@@ -76,11 +76,22 @@ public partial class ProtectiveCapacity : IRealmObject
         };
     }
 
+    /// <summary>
+    /// Used for form business logic: "Protective Capacities section - Checking 'No protective capacities present' 
+    /// unchecks all other Protective Capacities checkboxes. Checking any other checkbox unchecks "No protective 
+    /// capacities present" checkbox".
+    /// </summary>
     private void ClearNoProCapPresent()
     {
         NoProCapPresentBinding = false;
     }
 
+    /// <summary>
+    /// Used for form business logic: "Protective Capacities section - Checking 'No protective capacities present' 
+    /// unchecks all other Protective Capacities checkboxes. Checking any other checkbox unchecks "No protective 
+    /// capacities present" checkbox".
+    /// </summary>
+    /// <param name="newVal">Assigned directly to NoProCapPresent</param>
     private void SetNoProCapPresent(bool newVal)
     {
         NoProCapPresent = newVal;
