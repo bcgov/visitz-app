@@ -259,7 +259,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to discard this safety assessment draft? You won&apos;t be able to recover any changes you&apos;ve made..
+        ///   Looks up a localized string similar to Are you sure you want to discard this safety assessment draft? You won&apos;t be able to recover any progress you&apos;ve made..
         /// </summary>
         public static string DiscardSafetyAssessmentDraftDescription {
             get {
