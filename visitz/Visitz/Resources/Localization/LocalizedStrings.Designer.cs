@@ -151,7 +151,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must select at least one child or publishing to ICM will fail—even if you chose &apos;Safe&apos; or &apos;Safe with intervention&apos; above. This is a known issue that is being tracked..
+        ///   Looks up a localized string similar to You must select at least one child or publishing to ICM will fail..
         /// </summary>
         public static string ChildrenInOutCareIssueWarning {
             get {
@@ -471,6 +471,15 @@ namespace Visitz.Resources.Localization {
         public static string KeyPlayer {
             get {
                 return ResourceManager.GetString("KeyPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Known app issue.
+        /// </summary>
+        public static string KnownAppIssue {
+            get {
+                return ResourceManager.GetString("KnownAppIssue", resourceCulture);
             }
         }
         
@@ -947,6 +956,15 @@ namespace Visitz.Resources.Localization {
         public static string SafetyAssessmentOperation {
             get {
                 return ResourceManager.GetString("SafetyAssessmentOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Published Safety Assessments can be edited in ICM to make any corrections..
+        /// </summary>
+        public static string SafetyAssessmentsCanBeEdited {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentsCanBeEdited", resourceCulture);
             }
         }
         

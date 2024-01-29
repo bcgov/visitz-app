@@ -592,6 +592,12 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Log in to submit notes</value>
   </data>
   <data name="ChildrenInOutCareIssueWarning" xml:space="preserve">
-    <value>You must select at least one child or publishing to ICM will fail—even if you chose 'Safe' or 'Safe with intervention' above. This is a known issue that is being tracked.</value>
+    <value>You must select at least one child or publishing to ICM will fail.</value>
+  </data>
+  <data name="KnownAppIssue" xml:space="preserve">
+    <value>Known app issue</value>
+  </data>
+  <data name="SafetyAssessmentsCanBeEdited" xml:space="preserve">
+    <value>Published Safety Assessments can be edited in ICM to make any corrections.</value>
   </data>
 </root>

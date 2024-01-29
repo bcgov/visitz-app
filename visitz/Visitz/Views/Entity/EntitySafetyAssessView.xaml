@@ -429,13 +429,16 @@
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
                     
-                    <Border Stroke="Orange" HorizontalOptions="StartAndExpand">
+                    <Border Stroke="Orange" HorizontalOptions="Start">
                         <Grid 
+                            HorizontalOptions="Center"
                             ColumnDefinitions="Auto,*"
                             Padding="10"
-                            ColumnSpacing="10">
+                            RowSpacing="10"
+                            ColumnSpacing="15">
 
                             <Image
+                                Grid.RowSpan="2"
                                 Margin="0"
                                 VerticalOptions="Center"
                                 HorizontalOptions="Center"
@@ -450,9 +453,22 @@
                                 </Image.Source>
                             </Image>
 
-                            <Label 
-                                Grid.Column="1" 
-                                Text="{local:Localize ChildrenInOutCareIssueWarning}" />
+                            <VerticalStackLayout 
+                                Grid.Column="1"
+                                Spacing="10">
+                                
+                                <Label
+                                    Margin="0,0,0,5"
+                                    Text="{local:Localize KnownAppIssue}"
+                                    FontSize="{StaticResource BodyLargeFontSize}"/>
+                            
+                                <Label Text="{local:Localize ChildrenInOutCareIssueWarning}" />
+
+                                <Label 
+                                    FontFamily="BCSansItalic"
+                                    Text="{local:Localize SafetyAssessmentsCanBeEdited}" />
+
+                            </VerticalStackLayout>
                         </Grid>
                     </Border>
 
@@ -509,7 +525,9 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Style="{StaticResource FormVsl}">
+                <VerticalStackLayout 
+                    IsVisible="False"
+                    Style="{StaticResource FormVsl}">
 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
