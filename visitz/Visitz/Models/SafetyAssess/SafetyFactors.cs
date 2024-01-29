@@ -74,6 +74,22 @@ public partial class SafetyFactors : IRealmObject
 
     public bool? CurretAbuse { get; set; }
 
+    public bool AnyTrue => (PhysicalHarm ?? false)
+        || (CurrentCircumstances ?? false)
+        || (SexAbuse ?? false)
+        || (UnableToProtect ?? false)
+        || (InjuryExplanation ?? false)
+        || (RefuseAccess ?? false)
+        || (ImmediateNeeds ?? false)
+        || (PhysicalCondition ?? false)
+        || (CurrentAbuse ?? false)
+        || (PartnerViolence ?? false)
+        || (PredominantlyNegative ?? false)
+        || (EmotionalStability ?? false)
+        || (ChildFearful ?? false)
+        || (OtherFactors ?? false)
+        || (CurretAbuse ?? false);
+
     public static SafetyFactors FromApiEntity(SafetyFactorsEntity entity)
     {
         return new SafetyFactors()

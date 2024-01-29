@@ -14,8 +14,20 @@ public partial class SafetyFactors
 
     partial void OnPropertyChanged(string propertyName)
     {
-        if (!propertyName.EndsWith(Binding))
+        bool notBound = !propertyName.EndsWith(Binding);
+
+        if (notBound)
+        {
             RaisePropertyChanged($"{propertyName}{Binding}");
+
+            if (IsQuestionPrompt(propertyName))
+                RaisePropertyChanged(nameof(AnyTrue));
+        }
+    }
+
+    private bool IsQuestionPrompt(string propertyName)
+    {
+        return GetType().GetProperty(propertyName).PropertyType == typeof(bool?);
     }
 
     public bool? PhysicalHarmBinding 
