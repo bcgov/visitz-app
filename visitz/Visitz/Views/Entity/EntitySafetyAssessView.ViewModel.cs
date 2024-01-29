@@ -76,6 +76,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public bool someChildrenPlaced;
 
+    [ObservableProperty]
+    public bool canPublish;
+
     private Realm Realm;
 
     private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));
@@ -128,6 +131,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
         if (!Assessment.IsManaged)
             await Assessment.Save(Realm);
+
+        CanPublish = Factors.AllAnswered && Decisions.IsAnswered;
     }
 
     private void SetupFamilyNamePicker()

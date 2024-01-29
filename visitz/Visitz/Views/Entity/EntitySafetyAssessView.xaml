@@ -553,6 +553,7 @@
 
             <Button
                 Grid.Column="2"
+                IsEnabled="{Binding CanPublish}"
                 Text="{local:Localize PublishToIcm}"
                 Command="{Binding PublishCommand}" />
         </Grid>
