@@ -525,6 +525,10 @@
 
                 </VerticalStackLayout>
 
+                <!--
+                    Temporarily hide the team leader section until the children in care/out of care issue has been 
+                    resolved.
+                -->
                 <VerticalStackLayout 
                     IsVisible="False"
                     Style="{StaticResource FormVsl}">
