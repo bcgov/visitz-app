@@ -363,6 +363,7 @@
                                 RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionBinding}">
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.Safe}"
+                                    IsChecked="{Binding SafeChecked}"
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
                                     Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
                                 <formctls:FormRadioButton
@@ -385,6 +386,7 @@
                                 RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionUnsafeBinding}">
                                 <formctls:FormRadioButton 
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                    IsChecked="{Binding AllChildrenPlaced}"
                                     Value="{Static safetyModels:SafetyDecisions.AllChildrenPlaced}"
                                     Text="{local:Localize SafetyDecision_AllYouth}" />
                                 <formctls:FormRadioButton 
