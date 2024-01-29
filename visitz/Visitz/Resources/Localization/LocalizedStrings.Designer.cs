@@ -151,6 +151,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must select at least one child or publishing to ICM will fail—even if you chose &apos;Safe&apos; or &apos;Safe with intervention&apos; above. This is a known issue that is being tracked..
+        /// </summary>
+        public static string ChildrenInOutCareIssueWarning {
+            get {
+                return ResourceManager.GetString("ChildrenInOutCareIssueWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {

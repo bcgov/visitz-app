@@ -422,13 +422,39 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout 
-                    IsVisible="{Binding SomeChildrenPlaced}"
+                <VerticalStackLayout
                     Style="{StaticResource FormVsl}">
-                    
+
                     <Label
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
+                    
+                    <Border Stroke="Orange" HorizontalOptions="StartAndExpand">
+                        <Grid 
+                            ColumnDefinitions="Auto,*"
+                            Padding="10"
+                            ColumnSpacing="10">
+
+                            <Image
+                                Margin="0"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                HeightRequest="32"
+                                WidthRequest="32">
+                                <Image.Source>
+                                    <FontImageSource 
+                                        Glyph="{Static icons:MaterialIcons.Warning}"
+                                        FontFamily="MaterialIconsRoundedFilled"
+                                        Color="Orange"
+                                        Size="64" />
+                                </Image.Source>
+                            </Image>
+
+                            <Label 
+                                Grid.Column="1" 
+                                Text="{local:Localize ChildrenInOutCareIssueWarning}" />
+                        </Grid>
+                    </Border>
 
                     <Label 
                         Text="{local:Localize SelectChildrenPrompt}"
