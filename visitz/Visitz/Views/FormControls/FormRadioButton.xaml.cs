@@ -12,7 +12,7 @@ public partial class FormRadioButton : ContentView
 		BindableProperty.Create(nameof(Value), typeof(object), typeof(FormRadioButton));
 
     public static readonly BindableProperty IsCheckedProperty =
-        BindableProperty.Create(nameof(Value), typeof(bool), typeof(FormRadioButton),
+        BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(FormRadioButton),
             defaultBindingMode: BindingMode.TwoWay);
 
     public string Text
