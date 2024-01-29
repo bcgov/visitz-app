@@ -367,6 +367,7 @@
                                     Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.SafeWithInterventions}"
+                                    IsChecked="{Binding SafeWithInterventionsChecked}"
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                     Text="{local:Localize SafetyDecision2_SafeInterventions}" />
                                 <formctls:FormRadioButton
@@ -393,10 +394,12 @@
                     </Border>
 
                     <Label 
+                        IsVisible="{Binding SafeWithInterventionsChecked}"
                         Style="{StaticResource MidsectionHeader}"
                         Text="{local:Localize SafetyPlan}" />
 
                     <formctls:FormEntry 
+                        IsVisible="{Binding SafeWithInterventionsChecked}"
                         FieldName="{local:Localize SafetyPlanDescription}"
                         Placeholder="{local:Localize SafetyPlan}"
                         MaxLength="{Static safetyModels:SafetyDecisions.CommentsMaxLength}"

@@ -59,6 +59,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public ObservableCollection<object> selectedChildren = [];
 
+    [ObservableProperty]
+    public bool safeWithInterventionsChecked;
+
     private Realm Realm;
 
     private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));
