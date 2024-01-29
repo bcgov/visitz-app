@@ -297,7 +297,9 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Style="{StaticResource FormVsl}">
+                <VerticalStackLayout 
+                    Style="{StaticResource FormVsl}"
+                    IsVisible="{Binding Factors.AnyTrue}">
                 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
