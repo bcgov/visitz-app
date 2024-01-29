@@ -46,6 +46,6 @@ public partial class FormRadioButton : ContentView
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        RadioButton.IsChecked = true;
+        IsChecked = true;
     }
 }
