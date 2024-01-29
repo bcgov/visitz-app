@@ -120,6 +120,11 @@ public partial class SafetyInterventions
         set => this.Commit(() => SetChildRemoved(value));
     }
 
+    /// <summary>
+    /// Used for business form logic: if ChildRemoved checked, all others unchecked. If any other checked after that,
+    /// ChildRemoved is unchecked.
+    /// </summary>
+    /// <param name="newVal">Directly assigned to ChildRemoved</param>
     private void SetChildRemoved(bool newVal)
     {
         ChildRemoved = newVal;
