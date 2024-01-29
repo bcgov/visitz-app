@@ -62,6 +62,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public bool safeWithInterventionsChecked;
 
+    [ObservableProperty]
+    public bool unsafeChecked;
+
     private Realm Realm;
 
     private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));

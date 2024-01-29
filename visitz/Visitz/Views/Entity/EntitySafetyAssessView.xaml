@@ -372,11 +372,13 @@
                                     Text="{local:Localize SafetyDecision2_SafeInterventions}" />
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.Unsafe}"
+                                    IsChecked="{Binding UnsafeChecked}"
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                     Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
                             </VerticalStackLayout>
 
                             <VerticalStackLayout 
+                                IsVisible="{Binding UnsafeChecked}"
                                 Spacing="10"
                                 Margin="30,0,0,0"
                                 RadioButtonGroup.GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
