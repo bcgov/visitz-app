@@ -92,6 +92,21 @@ public partial class SafetyFactors : IRealmObject
         || (ChildFearful ?? false)
         || (OtherFactors ?? false);
 
+    public bool AllAnswered => PhysicalHarm != null
+        && CurrentCircumstances != null
+        && SexAbuse != null
+        && UnableToProtect != null
+        && InjuryExplanation != null
+        && RefuseAccess != null
+        && ImmediateNeeds != null
+        && PhysicalCondition != null
+        && CurrentAbuse != null
+        && PartnerViolence != null
+        && PredominantlyNegative != null
+        && EmotionalStability != null
+        && ChildFearful != null
+        && OtherFactors != null;
+
     public static SafetyFactors FromApiEntity(SafetyFactorsEntity entity)
     {
         return new SafetyFactors()

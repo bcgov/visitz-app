@@ -21,7 +21,10 @@ public partial class SafetyFactors
             RaisePropertyChanged($"{propertyName}{Binding}");
 
             if (IsQuestionPrompt(propertyName))
+            {
                 RaisePropertyChanged(nameof(AnyTrue));
+                RaisePropertyChanged(nameof(AllAnswered));
+            }
         }
     }
 
