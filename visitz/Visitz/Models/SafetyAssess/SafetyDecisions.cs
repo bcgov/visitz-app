@@ -115,7 +115,7 @@ public partial class SafetyDecisions : IRealmObject
             SafeInterventions = SafeInterventions.AsTruthyChar(),
             UnsafeSafetyFactors = UnsafeSafetyFactors.AsTruthyChar(),
             DecisionUnsafe = DecisionUnsafe,
-            Comments = Comments,
+            Comments = SafeInterventions ? Comments : "",
             Narrative = Narrative,
             ReadyFinalize = ReadyFinalize.AsTruthyChar(),
             ReadyFinalizeDate = finalizeDate,
