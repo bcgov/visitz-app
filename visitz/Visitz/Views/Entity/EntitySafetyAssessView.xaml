@@ -389,6 +389,7 @@
                                     Text="{local:Localize SafetyDecision_AllYouth}" />
                                 <formctls:FormRadioButton 
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                    IsChecked="{Binding SomeChildrenPlaced}"
                                     Value="{Static safetyModels:SafetyDecisions.SomeChildrenPlaced}"
                                     Text="{local:Localize SafetyDecision_SelectedYouth}" />
                             </VerticalStackLayout>
@@ -419,7 +420,10 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Style="{StaticResource FormVsl}">
+                <VerticalStackLayout 
+                    IsVisible="{Binding SomeChildrenPlaced}"
+                    Style="{StaticResource FormVsl}">
+                    
                     <Label
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
