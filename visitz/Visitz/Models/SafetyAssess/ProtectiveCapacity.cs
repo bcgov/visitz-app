@@ -98,16 +98,16 @@ public partial class ProtectiveCapacity : IRealmObject
 
         if (NoProCapPresent)
         {
-            ParentCognitiveBinding =
-            ParentWillingnessBinding =
-            ParentResourcesBinding =
-            ParentSupportiveBinding =
-            ParentProtectBinding =
-            ParentAcceptBinding =
-            ParentRelationshipBinding =
-            ParentAwareBinding =
-            ParentProbSolvingBinding =
-            CapacitiesOtherBinding = false;
+            ParentCognitive =
+            ParentWillingness =
+            ParentResources =
+            ParentSupportive =
+            ParentProtect =
+            ParentAccept =
+            ParentRelationship =
+            ParentAware =
+            ParentProbSolving =
+            CapacitiesOther = false;
         }
     }
 }
