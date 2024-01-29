@@ -72,6 +72,9 @@ public partial class SafetyFactors : IRealmObject
 
     public string CmtOtherFactors { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Unused
+    /// </summary>
     public bool? CurretAbuse { get; set; }
 
     public bool AnyTrue => (PhysicalHarm ?? false)
@@ -87,8 +90,7 @@ public partial class SafetyFactors : IRealmObject
         || (PredominantlyNegative ?? false)
         || (EmotionalStability ?? false)
         || (ChildFearful ?? false)
-        || (OtherFactors ?? false)
-        || (CurretAbuse ?? false);
+        || (OtherFactors ?? false);
 
     public static SafetyFactors FromApiEntity(SafetyFactorsEntity entity)
     {

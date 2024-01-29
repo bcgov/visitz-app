@@ -227,10 +227,4 @@ public partial class SafetyFactors
         get => IsValid ? CmtOtherFactors : default;
         set => this.Commit(() => CmtOtherFactors = value);
     }
-
-    public bool? CurretAbuseBinding 
-    {
-        get => IsValid ? CurretAbuse : default;
-        set => this.Commit(() => CurretAbuse = value);
-    }
 }
