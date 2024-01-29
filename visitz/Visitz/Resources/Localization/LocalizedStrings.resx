@@ -393,7 +393,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Child</value>
   </data>
   <data name="ChildrenInOutCare" xml:space="preserve">
-    <value>Children in-care/out-of-care</value>
+    <value>Children in care/out-of-care</value>
   </data>
   <data name="DateOfAssessment" xml:space="preserve">
     <value>Date of assessment</value>

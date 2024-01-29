@@ -142,7 +142,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Children in-care/out-of-care.
+        ///   Looks up a localized string similar to Children in care/out-of-care.
         /// </summary>
         public static string ChildrenInOutCare {
             get {
