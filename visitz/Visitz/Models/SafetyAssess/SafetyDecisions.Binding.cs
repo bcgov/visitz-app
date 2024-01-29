@@ -27,13 +27,19 @@ public partial class SafetyDecisions
 
             if (value != SafetyDecisionOption.Unsafe)
                 DecisionUnsafeBinding = null;
+
+            RaisePropertyChanged(nameof(IsAnswered));
         }
     }
 
     public string DecisionUnsafeBinding
     {
         get => IsValid ? DecisionUnsafe : default;
-        set => this.Commit(() => DecisionUnsafe = value);
+        set
+        {
+            this.Commit(() => DecisionUnsafe = value);
+            RaisePropertyChanged(nameof(IsAnswered));
+        }
     }
 
     public string CommentsBinding

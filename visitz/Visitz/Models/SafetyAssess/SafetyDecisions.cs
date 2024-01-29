@@ -84,6 +84,10 @@ public partial class SafetyDecisions : IRealmObject
 
     public DateTimeOffset ReadyFinalizeDate { get; set; } = DateTimeOffset.Now; // Only date, no time
 
+    public bool IsAnswered => Decision == SafetyDecisionOption.Unsafe 
+        ? DecisionUnsafe?.Length > 0 
+        : Decision != null;
+
     public static SafetyDecisions FromApiEntity(SafetyDecisionsEntity entity)
     {
         return new SafetyDecisions()
