@@ -131,7 +131,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         if (!Assessment.IsManaged)
             await Assessment.Save(Realm);
 
-        CanPublish = Factors.AllAnswered && Decisions.IsAnswered;
+        CanPublish = Factors.AllAnswered && Decisions.IsAnswered && IsSelectedChildrenValid();
     }
 
     private bool IsSelectedChildrenValid()
