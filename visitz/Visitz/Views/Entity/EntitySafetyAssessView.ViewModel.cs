@@ -165,8 +165,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         debouncer?.Dispose();
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
-        UnsubscribeFromAssessment();
         SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
+        UnsubscribeFromAssessment();
 
         base.PageDestroyed();
     }
