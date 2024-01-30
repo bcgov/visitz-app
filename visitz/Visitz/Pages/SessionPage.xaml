@@ -31,7 +31,7 @@
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             Aspect="AspectFill"
-            Opacity=".5">
+            Opacity="{Binding BgOpacity}">
             <Image.Source>
                 <UriImageSource 
                     Uri="{Binding BackgroundImageUri}" 
