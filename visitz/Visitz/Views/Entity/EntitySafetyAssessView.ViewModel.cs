@@ -131,6 +131,11 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         if (!Assessment.IsManaged)
             await Assessment.Save(Realm);
 
+        UpdateCanPublish();
+    }
+
+    private void UpdateCanPublish()
+    {
         CanPublish = Factors.AllAnswered && Decisions.IsAnswered && IsSelectedChildrenValid();
     }
 
@@ -285,6 +290,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
             _ = TrySendSavedMessage(DraftSavedView.State.Saving);
         });
+
+        UpdateCanPublish();
     }
 
     private async Task TrySendSavedMessage(DraftSavedView.State state)
