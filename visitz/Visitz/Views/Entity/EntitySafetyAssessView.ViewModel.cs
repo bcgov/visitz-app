@@ -319,4 +319,13 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         if (!value)
             ClearDecisionUnsafeBools();
     }
+
+    partial void OnAllChildrenPlacedChanged(bool value)
+    {
+        SelectedChildren.Clear();
+
+        if (value)
+            foreach (var child in ChildrenInOutCare)
+                SelectedChildren.Add(child);
+    }
 }
