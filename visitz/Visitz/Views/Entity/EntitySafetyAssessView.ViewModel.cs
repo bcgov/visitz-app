@@ -52,7 +52,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public IList<string> familyNames;
 
     [ObservableProperty]
-    public IEnumerable<FamilyMember> childrenInOutCare;
+    public IEnumerable<FamilyMember> availableChildrenInOutCare;
 
     // Using object instead of FamilyMember for generic as a workaround
     // see https://github.com/dotnet/maui/issues/8435#issuecomment-1365586648
@@ -145,7 +145,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private void SetupChildrenInOutCare()
     {
-        ChildrenInOutCare = CaseloadItem.FamilyMembers;
+        AvailableChildrenInOutCare = CaseloadItem.FamilyMembers;
     }
 
     public override void PageDestroyed()
@@ -170,7 +170,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         Factors = value.SafetyFactors;
         Interventions = value.SafetyInterventions;
 
-        foreach (var child in ChildrenInOutCare)
+        foreach (var child in AvailableChildrenInOutCare)
             if (value.ChildsInOutCare.Contains(child.ContactId))
                 SelectedChildren.Add(child);
 
@@ -324,7 +324,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         SelectedChildren.Clear();
 
         if (value)
-            foreach (var child in ChildrenInOutCare)
+            foreach (var child in AvailableChildrenInOutCare)
                 SelectedChildren.Add(child);
     }
 }

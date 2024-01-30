@@ -470,7 +470,7 @@
                     </Grid>
                     
                     <CollectionView
-                        ItemsSource="{Binding ChildrenInOutCare}"
+                        ItemsSource="{Binding AvailableChildrenInOutCare}"
                         SelectionMode="Multiple"
                         SelectedItems="{Binding SelectedChildren}">
 
