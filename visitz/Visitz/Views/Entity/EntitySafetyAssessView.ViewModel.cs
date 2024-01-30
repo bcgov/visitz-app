@@ -134,6 +134,13 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         CanPublish = Factors.AllAnswered && Decisions.IsAnswered;
     }
 
+    private bool IsSelectedChildrenValid()
+    {
+        return Decisions.Decision != SafetyDecisionOption.Unsafe 
+            || Decisions.DecisionUnsafe != SafetyDecisions.SomeChildrenPlaced 
+            || Assessment.ChildsInOutCare.Any();
+    }
+
     private void SetupFamilyNamePicker()
     {
         var names = new SortedSet<string>();
