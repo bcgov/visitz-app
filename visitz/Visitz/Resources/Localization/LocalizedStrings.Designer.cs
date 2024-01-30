@@ -79,6 +79,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility Authorization Request.
+        /// </summary>
+        public static string AuthorizationRequest {
+            get {
+                return ResourceManager.GetString("AuthorizationRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -504,7 +513,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to You&apos;ve successfully logged in.
         ///
-        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Please request access and try again later..
+        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Please request access by emailing .
         /// </summary>
         public static string LoginSuccessButUnauth {
             get {

@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Pages.SessionPage"
     x:DataType="viewModels:SessionViewModel"
     Title="Session"
@@ -93,7 +94,6 @@
             <Label 
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 AbsoluteLayout.LayoutBounds=".5,.7"
-                Text="{Binding AuthStatus}"
                 FontSize="20"
                 Margin="20"
                 FontFamily="BCSansBold"
@@ -102,7 +102,20 @@
                 HeightRequest="200"
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Center"
-                IsVisible="{Binding IsUnauthorized}" />
+                IsVisible="{Binding IsUnauthorized}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding AuthStatus}" />
+                        <Span 
+                            TextDecorations="Underline"
+                            Text="{Binding MailToUrl}" />
+                        <Span Text="." />
+                    </FormattedString>
+                </Label.FormattedText>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
 
             <HorizontalStackLayout 
                 AbsoluteLayout.LayoutFlags="PositionProportional"

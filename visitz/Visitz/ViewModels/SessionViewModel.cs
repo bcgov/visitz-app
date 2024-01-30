@@ -7,6 +7,7 @@ using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Services;
+using Visitz.Settings;
 using Visitz.Storage;
 
 #if IOS
@@ -129,11 +130,15 @@ public partial class SessionViewModel
     [ObservableProperty]
     public bool isUnauthorized;
 
+    [ObservableProperty]
+    public string mailToUrl;
+
     private void ApplyAuthStatusLayout()
     {
         DisplayName = SessionInfo.GivenName;
         IsAuthorized = SessionInfo.HasBasicAccessRole;
         IsUnauthorized = !IsAuthorized;
+        MailToUrl = new AppSettings().ContactInfo.MailToAuthorize;
 
         if (IsUnauthorized)
         {

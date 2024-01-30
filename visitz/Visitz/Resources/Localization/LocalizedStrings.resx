@@ -210,7 +210,7 @@ Logging out won't affect your unpublished notes.</value>
   <data name="LoginSuccessButUnauth" xml:space="preserve">
     <value>You've successfully logged in.
 
-However, you currently aren't authorized to use MCFD Mobility. Please request access and try again later.</value>
+However, you currently aren't authorized to use MCFD Mobility. Please request access by emailing </value>
   </data>
   <data name="CaseloadSearchHint" xml:space="preserve">
     <value>Search by key player's name</value>
@@ -599,5 +599,8 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   </data>
   <data name="SafetyAssessmentsCanBeEdited" xml:space="preserve">
     <value>Published Safety Assessments can be edited in ICM to make any corrections.</value>
+  </data>
+  <data name="AuthorizationRequest" xml:space="preserve">
+    <value>MCFD Mobility Authorization Request</value>
   </data>
 </root>
