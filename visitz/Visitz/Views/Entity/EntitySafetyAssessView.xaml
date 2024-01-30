@@ -62,7 +62,7 @@
     </views:ViewModelContentView.Resources>
 
     <Grid RowDefinitions="*,0.5,Auto">
-        <ScrollView Grid.Row="0">
+        <ScrollView x:Name="MainScrollView" Grid.Row="0">
             <VerticalStackLayout Style="{StaticResource FormVsl}"
                 MaximumWidthRequest="800">
 
@@ -392,6 +392,7 @@
                                 <formctls:FormRadioButton 
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                     IsChecked="{Binding SomeChildrenPlaced}"
+                                    CheckedChanged="SomeChildrenPlaced_CheckedChanged"
                                     Value="{Static safetyModels:SafetyDecisions.SomeChildrenPlaced}"
                                     Text="{local:Localize SafetyDecision_SelectedYouth}" />
                             </VerticalStackLayout>
@@ -423,54 +424,13 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout
+                    x:Name="ChildrenInCareSection"
+                    IsVisible="{Binding SomeChildrenPlaced}"
                     Style="{StaticResource FormVsl}">
 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
-                    
-                    <Border Stroke="Orange" HorizontalOptions="Start">
-                        <Grid 
-                            HorizontalOptions="Center"
-                            ColumnDefinitions="Auto,*"
-                            Padding="10"
-                            RowSpacing="10"
-                            ColumnSpacing="15">
-
-                            <Image
-                                Grid.RowSpan="2"
-                                Margin="0"
-                                VerticalOptions="Center"
-                                HorizontalOptions="Center"
-                                HeightRequest="32"
-                                WidthRequest="32">
-                                <Image.Source>
-                                    <FontImageSource 
-                                        Glyph="{Static icons:MaterialIcons.Warning}"
-                                        FontFamily="MaterialIconsRoundedFilled"
-                                        Color="Orange"
-                                        Size="64" />
-                                </Image.Source>
-                            </Image>
-
-                            <VerticalStackLayout 
-                                Grid.Column="1"
-                                Spacing="10">
-                                
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Text="{local:Localize KnownAppIssue}"
-                                    FontSize="{StaticResource BodyLargeFontSize}"/>
-                            
-                                <Label Text="{local:Localize ChildrenInOutCareIssueWarning}" />
-
-                                <Label 
-                                    FontFamily="BCSansItalic"
-                                    Text="{local:Localize SafetyAssessmentsCanBeEdited}" />
-
-                            </VerticalStackLayout>
-                        </Grid>
-                    </Border>
 
                     <Label 
                         Text="{local:Localize SelectChildrenPrompt}"
@@ -512,7 +472,7 @@
                     </Grid>
                     
                     <CollectionView
-                        ItemsSource="{Binding ChildrenInOutCare}"
+                        ItemsSource="{Binding AvailableChildrenInOutCare}"
                         SelectionMode="Multiple"
                         SelectedItems="{Binding SelectedChildren}">
 
@@ -525,12 +485,7 @@
 
                 </VerticalStackLayout>
 
-                <!--
-                    Temporarily hide the team leader section until the children in care/out of care issue has been 
-                    resolved.
-                -->
-                <VerticalStackLayout 
-                    IsVisible="False"
+                <VerticalStackLayout
                     Style="{StaticResource FormVsl}">
 
                     <Label

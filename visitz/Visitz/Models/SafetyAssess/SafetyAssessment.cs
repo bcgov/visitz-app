@@ -70,8 +70,11 @@ public partial class SafetyAssessment : IRealmObject
             SafetyDecisions = SafetyDecisions.ToApiEntity(),
         };
 
-        foreach (var childId in ChildsInOutCare)
-            safetyAssessmentEntity.AddChildContactId(childId);
+        if (ChildsInOutCare.Count == 0)
+            safetyAssessmentEntity.AddChildContactId("");
+        else
+            foreach (var childId in ChildsInOutCare)
+                safetyAssessmentEntity.AddChildContactId(childId);
 
         return safetyAssessmentEntity;
     }

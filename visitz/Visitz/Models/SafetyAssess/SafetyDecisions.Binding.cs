@@ -26,7 +26,7 @@ public partial class SafetyDecisions
             this.Commit(() => Decision = value);
 
             if (value != SafetyDecisionOption.Unsafe)
-                DecisionUnsafeBinding = null;
+                DecisionUnsafeBinding = "";
 
             RaisePropertyChanged(nameof(IsAnswered));
         }
