@@ -11,6 +11,7 @@ namespace Visitz.Settings
         private static readonly string ApiSettingsKey = "ApiSettings";
         private static readonly string OidcSettingsKey = "OidcSettings";
         private static readonly string DebugSettingsKey = "DebugSettings";
+        private static readonly string ContactInfoSettingsKey = "ContactInfoSettings";
 
         public static string AppSettingsPath => Namespace + "." + AppSettingsFile;
 
@@ -21,6 +22,9 @@ namespace Visitz.Settings
         public OidcSettings Oidc => Configuration.GetRequiredSection(OidcSettingsKey).Get<OidcSettings>();
 
         public DebugSettings Debug => Configuration.GetRequiredSection(DebugSettingsKey).Get<DebugSettings>();
+
+        public ContactInfoSettings ContactInfo => Configuration
+            .GetRequiredSection(ContactInfoSettingsKey).Get<ContactInfoSettings>();
 
         public AppSettings()
         {

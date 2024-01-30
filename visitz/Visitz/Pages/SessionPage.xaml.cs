@@ -1,4 +1,5 @@
 using Visitz.Authentication.Keycloak;
+using Visitz.Resources.Localization;
 using Visitz.ViewModels;
 
 namespace Visitz.Pages;
@@ -30,5 +31,16 @@ public partial class SessionPage : VisitzPage
     protected override bool OnBackButtonPressed()
     {
 		return AppLockPage.BackButtonEnabled;
+    }
+
+    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        var message = new EmailMessage
+        {
+            To = [(ViewModel as SessionViewModel).MailToUrl],
+            Subject = LocalizedStrings.AuthorizationRequest,
+        };
+
+        await Email.Default.ComposeAsync(message);
     }
 }

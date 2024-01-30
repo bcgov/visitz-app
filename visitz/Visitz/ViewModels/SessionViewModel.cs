@@ -7,6 +7,7 @@ using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Services;
+using Visitz.Settings;
 using Visitz.Storage;
 
 #if IOS
@@ -17,6 +18,9 @@ namespace Visitz.ViewModels;
 
 public partial class SessionViewModel : VisitzViewModel
 {
+    private static readonly double ShowcaseOpacity = 0.8d;
+    private static readonly double ReadableOpacity = 0.4d;
+
     [ObservableProperty]
     public string buildNumber;
 
@@ -25,6 +29,9 @@ public partial class SessionViewModel : VisitzViewModel
 
     [ObservableProperty]
     public string backgroundImageUri;
+
+    [ObservableProperty]
+    public double bgOpacity = ShowcaseOpacity;
 
     private VisitzSessionInfo SessionInfo;
 
@@ -82,6 +89,7 @@ public partial class SessionViewModel
         ShowAuthStatusLayout = !ShowLoginLayout;
         IsAuthorized = false;
         IsUnauthorized = false;
+        BgOpacity = ShowcaseOpacity;
 
         ApplyModalStyles(false);
     }
@@ -129,23 +137,29 @@ public partial class SessionViewModel
     [ObservableProperty]
     public bool isUnauthorized;
 
+    [ObservableProperty]
+    public string mailToUrl;
+
     private void ApplyAuthStatusLayout()
     {
         DisplayName = SessionInfo.GivenName;
         IsAuthorized = SessionInfo.HasBasicAccessRole;
         IsUnauthorized = !IsAuthorized;
+        MailToUrl = new AppSettings().ContactInfo.MailToAuthorize;
 
         if (IsUnauthorized)
         {
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
             AuthIcon = MaterialIcons.Shield_lock;
             AuthColor = VisitzColors.BC_Semantic_Error;
+            BgOpacity = ReadableOpacity;
         }
         else
         {
             AuthStatus = LocalizedStrings.YouAreAuthorized;
             AuthIcon = MaterialIcons.Verified_user;
             AuthColor = VisitzColors.BC_Semantic_Success;
+            BgOpacity = ShowcaseOpacity;
         }
 
         ShowLoginLayout = false;
