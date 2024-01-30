@@ -69,7 +69,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public bool unsafeChecked;
 
-    [Obsolete("Workaround for RadioButton rendering issue https://github.com/dotnet/maui/issues/19437")]
     [ObservableProperty]
     public bool allChildrenPlaced;
 

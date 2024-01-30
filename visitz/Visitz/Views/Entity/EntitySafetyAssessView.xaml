@@ -423,6 +423,7 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout
+                    IsVisible="{Binding SomeChildrenPlaced}"
                     Style="{StaticResource FormVsl}">
 
                     <Label
