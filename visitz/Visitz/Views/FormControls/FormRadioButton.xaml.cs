@@ -15,6 +15,8 @@ public partial class FormRadioButton : ContentView
         BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(FormRadioButton),
             defaultBindingMode: BindingMode.TwoWay);
 
+    public event EventHandler<CheckedChangedEventArgs> CheckedChanged;
+
     public string Text
     {
         get => (string)GetValue(TextProperty);
@@ -42,7 +44,14 @@ public partial class FormRadioButton : ContentView
     public FormRadioButton()
 	{
 		InitializeComponent();
+
+        RadioButton.CheckedChanged += RadioButton_CheckedChanged;
 	}
+
+    private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        CheckedChanged?.Invoke(this, e);
+    }
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
