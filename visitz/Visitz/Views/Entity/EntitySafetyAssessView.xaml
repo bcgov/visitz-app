@@ -62,7 +62,7 @@
     </views:ViewModelContentView.Resources>
 
     <Grid RowDefinitions="*,0.5,Auto">
-        <ScrollView Grid.Row="0">
+        <ScrollView x:Name="MainScrollView" Grid.Row="0">
             <VerticalStackLayout Style="{StaticResource FormVsl}"
                 MaximumWidthRequest="800">
 
@@ -392,6 +392,7 @@
                                 <formctls:FormRadioButton 
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                     IsChecked="{Binding SomeChildrenPlaced}"
+                                    CheckedChanged="SomeChildrenPlaced_CheckedChanged"
                                     Value="{Static safetyModels:SafetyDecisions.SomeChildrenPlaced}"
                                     Text="{local:Localize SafetyDecision_SelectedYouth}" />
                             </VerticalStackLayout>
@@ -423,6 +424,7 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout
+                    x:Name="ChildrenInCareSection"
                     IsVisible="{Binding SomeChildrenPlaced}"
                     Style="{StaticResource FormVsl}">
 
