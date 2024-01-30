@@ -78,7 +78,7 @@ jobs:
             -p:Oidc_ClientId=${{ vars.KEYCLOAK_CLIENT_ID }} \
             -p:Oidc_RedirectUri=${{ vars.REDIRECT_URI }} \
             -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }} \
-            -p:ContactInfo_MailToAuthorize=${{ vars.MAILTO_AUTHORIZE }} \
+            -p:ContactInfo_MailToAuthorize=${{ secrets.MAILTO_AUTHORIZE }} \
             -p:Debug_EnableDebugOptions=${{ vars.DEBUG_OPTIONS }}
 
       - name: Prepare output package
