@@ -10,16 +10,36 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyDecisions
 {
+    private const string Binding = "Binding";
+
+    partial void OnPropertyChanged(string propertyName)
+    {
+        if (!propertyName.EndsWith(Binding))
+            RaisePropertyChanged($"{propertyName}{Binding}");
+    }
+
     public SafetyDecisionOption? DecisionBinding
     {
         get => IsValid ? Decision : default;
-        set => this.Commit(() => Decision = value);
+        set
+        {
+            this.Commit(() => Decision = value);
+
+            if (value != SafetyDecisionOption.Unsafe)
+                DecisionUnsafeBinding = null;
+
+            RaisePropertyChanged(nameof(IsAnswered));
+        }
     }
 
     public string DecisionUnsafeBinding
     {
         get => IsValid ? DecisionUnsafe : default;
-        set => this.Commit(() => DecisionUnsafe = value);
+        set
+        {
+            this.Commit(() => DecisionUnsafe = value);
+            RaisePropertyChanged(nameof(IsAnswered));
+        }
     }
 
     public string CommentsBinding

@@ -142,11 +142,20 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Children in-care/out-of-care.
+        ///   Looks up a localized string similar to Children in care/out-of-care.
         /// </summary>
         public static string ChildrenInOutCare {
             get {
                 return ResourceManager.GetString("ChildrenInOutCare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must select at least one child or publishing to ICM will fail..
+        /// </summary>
+        public static string ChildrenInOutCareIssueWarning {
+            get {
+                return ResourceManager.GetString("ChildrenInOutCareIssueWarning", resourceCulture);
             }
         }
         
@@ -250,7 +259,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to discard this safety assessment draft? You won&apos;t be able to recover any changes you&apos;ve made..
+        ///   Looks up a localized string similar to Are you sure you want to discard this safety assessment draft? You won&apos;t be able to recover any progress you&apos;ve made..
         /// </summary>
         public static string DiscardSafetyAssessmentDraftDescription {
             get {
@@ -462,6 +471,15 @@ namespace Visitz.Resources.Localization {
         public static string KeyPlayer {
             get {
                 return ResourceManager.GetString("KeyPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Known app issue.
+        /// </summary>
+        public static string KnownAppIssue {
+            get {
+                return ResourceManager.GetString("KnownAppIssue", resourceCulture);
             }
         }
         
@@ -942,6 +960,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Published Safety Assessments can be edited in ICM to make any corrections..
+        /// </summary>
+        public static string SafetyAssessmentsCanBeEdited {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentsCanBeEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Safety decision.
         /// </summary>
         public static string SafetyDecision {
@@ -1284,7 +1311,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Other.
+        ///   Looks up a localized string similar to 8. Other.
         /// </summary>
         public static string SafetyIntervention8_OtherSafetyInterventions {
             get {

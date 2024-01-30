@@ -31,7 +31,7 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 
     protected override void Destroying()
     {
-		StrongReferenceMessenger.Default.UnregisterAll(this);
+        StrongReferenceMessenger.Default.UnregisterAll(this);
 
         base.Destroying();
     }

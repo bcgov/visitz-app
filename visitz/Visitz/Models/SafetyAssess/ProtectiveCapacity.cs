@@ -71,8 +71,43 @@ public partial class ProtectiveCapacity : IRealmObject
             ParentProbSolving = ParentProbSolving.AsTruthyChar(),
             NoProCapPresent = NoProCapPresent.AsTruthyChar(),
             CapacitiesOther = CapacitiesOther.AsTruthyChar(),
-            CmtProtectiveCapacity01 = CmtProtectiveCapacity01,
+            CmtProtectiveCapacity01 = CapacitiesOther ? CmtProtectiveCapacity01 : "",
             CmtProtectiveCapacity02 = CmtProtectiveCapacity02,
         };
+    }
+
+    /// <summary>
+    /// Used for form business logic: "Protective Capacities section - Checking 'No protective capacities present' 
+    /// unchecks all other Protective Capacities checkboxes. Checking any other checkbox unchecks "No protective 
+    /// capacities present" checkbox".
+    /// </summary>
+    private void ClearNoProCapPresent()
+    {
+        NoProCapPresentBinding = false;
+    }
+
+    /// <summary>
+    /// Used for form business logic: "Protective Capacities section - Checking 'No protective capacities present' 
+    /// unchecks all other Protective Capacities checkboxes. Checking any other checkbox unchecks "No protective 
+    /// capacities present" checkbox".
+    /// </summary>
+    /// <param name="newVal">Assigned directly to NoProCapPresent</param>
+    private void SetNoProCapPresent(bool newVal)
+    {
+        NoProCapPresent = newVal;
+
+        if (NoProCapPresent)
+        {
+            ParentCognitive =
+            ParentWillingness =
+            ParentResources =
+            ParentSupportive =
+            ParentProtect =
+            ParentAccept =
+            ParentRelationship =
+            ParentAware =
+            ParentProbSolving =
+            CapacitiesOther = false;
+        }
     }
 }

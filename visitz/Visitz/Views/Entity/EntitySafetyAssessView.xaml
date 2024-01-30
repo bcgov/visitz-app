@@ -286,6 +286,7 @@
                         Text="{local:Localize ProtectiveCapacity_Comments1 }" />
 
                     <formctls:FormEntry
+                        IsVisible="{Binding Capacity.CapacitiesOtherBinding}"
                         FieldNameIsVisible="False"
                         Placeholder="{local:Localize Other}"
                         Text="{Binding Capacity.CmtProtectiveCapacity01Binding}" />
@@ -296,7 +297,9 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Style="{StaticResource FormVsl}">
+                <VerticalStackLayout 
+                    Style="{StaticResource FormVsl}"
+                    IsVisible="{Binding Factors.AnyTrue}">
                 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
@@ -331,6 +334,7 @@
                         IsChecked="{Binding Interventions.OtherSafetyInterventionsBinding}"
                         Text="{local:Localize SafetyIntervention8_OtherSafetyInterventions}" />
                     <formctls:FormEntry 
+                        IsVisible="{Binding Interventions.OtherSafetyInterventionsBinding}"
                         FieldNameIsVisible="False"
                         Placeholder="{local:Localize Other}"
                         Text="{Binding Interventions.CmtSafetyInterventionsBinding}" />
@@ -359,29 +363,35 @@
                                 RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionBinding}">
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.Safe}"
+                                    IsChecked="{Binding SafeChecked}"
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
                                     Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.SafeWithInterventions}"
+                                    IsChecked="{Binding SafeWithInterventionsChecked}"
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                     Text="{local:Localize SafetyDecision2_SafeInterventions}" />
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.Unsafe}"
+                                    IsChecked="{Binding UnsafeChecked}"
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                     Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
                             </VerticalStackLayout>
 
                             <VerticalStackLayout 
+                                IsVisible="{Binding UnsafeChecked}"
                                 Spacing="10"
                                 Margin="30,0,0,0"
                                 RadioButtonGroup.GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                 RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionUnsafeBinding}">
                                 <formctls:FormRadioButton 
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                    IsChecked="{Binding AllChildrenPlaced}"
                                     Value="{Static safetyModels:SafetyDecisions.AllChildrenPlaced}"
                                     Text="{local:Localize SafetyDecision_AllYouth}" />
                                 <formctls:FormRadioButton 
                                     GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                    IsChecked="{Binding SomeChildrenPlaced}"
                                     Value="{Static safetyModels:SafetyDecisions.SomeChildrenPlaced}"
                                     Text="{local:Localize SafetyDecision_SelectedYouth}" />
                             </VerticalStackLayout>
@@ -389,10 +399,12 @@
                     </Border>
 
                     <Label 
+                        IsVisible="{Binding SafeWithInterventionsChecked}"
                         Style="{StaticResource MidsectionHeader}"
                         Text="{local:Localize SafetyPlan}" />
 
                     <formctls:FormEntry 
+                        IsVisible="{Binding SafeWithInterventionsChecked}"
                         FieldName="{local:Localize SafetyPlanDescription}"
                         Placeholder="{local:Localize SafetyPlan}"
                         MaxLength="{Static safetyModels:SafetyDecisions.CommentsMaxLength}"
@@ -410,10 +422,55 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Style="{StaticResource FormVsl}">
+                <VerticalStackLayout
+                    Style="{StaticResource FormVsl}">
+
                     <Label
                         Style="{StaticResource AssessmentHeader}"
                         Text="{local:Localize ChildrenInOutCare}" />
+                    
+                    <Border Stroke="Orange" HorizontalOptions="Start">
+                        <Grid 
+                            HorizontalOptions="Center"
+                            ColumnDefinitions="Auto,*"
+                            Padding="10"
+                            RowSpacing="10"
+                            ColumnSpacing="15">
+
+                            <Image
+                                Grid.RowSpan="2"
+                                Margin="0"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                HeightRequest="32"
+                                WidthRequest="32">
+                                <Image.Source>
+                                    <FontImageSource 
+                                        Glyph="{Static icons:MaterialIcons.Warning}"
+                                        FontFamily="MaterialIconsRoundedFilled"
+                                        Color="Orange"
+                                        Size="64" />
+                                </Image.Source>
+                            </Image>
+
+                            <VerticalStackLayout 
+                                Grid.Column="1"
+                                Spacing="10">
+                                
+                                <Label
+                                    Margin="0,0,0,5"
+                                    Text="{local:Localize KnownAppIssue}"
+                                    FontSize="{StaticResource BodyLargeFontSize}"/>
+                            
+                                <Label Text="{local:Localize ChildrenInOutCareIssueWarning}" />
+
+                                <Label 
+                                    FontFamily="BCSansItalic"
+                                    Text="{local:Localize SafetyAssessmentsCanBeEdited}" />
+
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
 
                     <Label 
                         Text="{local:Localize SelectChildrenPrompt}"
@@ -468,7 +525,13 @@
 
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Style="{StaticResource FormVsl}">
+                <!--
+                    Temporarily hide the team leader section until the children in care/out of care issue has been 
+                    resolved.
+                -->
+                <VerticalStackLayout 
+                    IsVisible="False"
+                    Style="{StaticResource FormVsl}">
 
                     <Label
                         Style="{StaticResource AssessmentHeader}"
@@ -512,6 +575,7 @@
 
             <Button
                 Grid.Column="2"
+                IsEnabled="{Binding CanPublish}"
                 Text="{local:Localize PublishToIcm}"
                 Command="{Binding PublishCommand}" />
         </Grid>

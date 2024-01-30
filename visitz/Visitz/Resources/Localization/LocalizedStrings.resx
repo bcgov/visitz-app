@@ -393,7 +393,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Child</value>
   </data>
   <data name="ChildrenInOutCare" xml:space="preserve">
-    <value>Children in-care/out-of-care</value>
+    <value>Children in care/out-of-care</value>
   </data>
   <data name="DateOfAssessment" xml:space="preserve">
     <value>Date of assessment</value>
@@ -489,7 +489,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>7. Legal intervention planned or initiated - child/youth remains in the home</value>
   </data>
   <data name="SafetyIntervention8_OtherSafetyInterventions" xml:space="preserve">
-    <value>Other</value>
+    <value>8. Other</value>
   </data>
   <data name="SafetyIntervention9_ChildOutsideHome" xml:space="preserve">
     <value>9. Parent/care-provider to voluntarily place the child outside the home</value>
@@ -543,7 +543,7 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
     <value>Discarded safety assessment draft.</value>
   </data>
   <data name="DiscardSafetyAssessmentDraftDescription" xml:space="preserve">
-    <value>Are you sure you want to discard this safety assessment draft? You won't be able to recover any changes you've made.</value>
+    <value>Are you sure you want to discard this safety assessment draft? You won't be able to recover any progress you've made.</value>
   </data>
   <data name="Comments" xml:space="preserve">
     <value>Comments</value>
@@ -590,5 +590,14 @@ However, you currently aren't authorized to use MCFD Mobility. Please request ac
   </data>
   <data name="LoginToSubmitNotes" xml:space="preserve">
     <value>Log in to submit notes</value>
+  </data>
+  <data name="ChildrenInOutCareIssueWarning" xml:space="preserve">
+    <value>You must select at least one child or publishing to ICM will fail.</value>
+  </data>
+  <data name="KnownAppIssue" xml:space="preserve">
+    <value>Known app issue</value>
+  </data>
+  <data name="SafetyAssessmentsCanBeEdited" xml:space="preserve">
+    <value>Published Safety Assessments can be edited in ICM to make any corrections.</value>
   </data>
 </root>

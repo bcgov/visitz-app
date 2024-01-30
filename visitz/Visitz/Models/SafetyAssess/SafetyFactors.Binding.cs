@@ -10,6 +10,29 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyFactors
 {
+    private const string Binding = "Binding";
+
+    partial void OnPropertyChanged(string propertyName)
+    {
+        bool notBound = !propertyName.EndsWith(Binding);
+
+        if (notBound)
+        {
+            RaisePropertyChanged($"{propertyName}{Binding}");
+
+            if (IsQuestionPrompt(propertyName))
+            {
+                RaisePropertyChanged(nameof(AnyTrue));
+                RaisePropertyChanged(nameof(AllAnswered));
+            }
+        }
+    }
+
+    private bool IsQuestionPrompt(string propertyName)
+    {
+        return GetType().GetProperty(propertyName).PropertyType == typeof(bool?);
+    }
+
     public bool? PhysicalHarmBinding 
     {
         get => IsValid ? PhysicalHarm : default;
@@ -206,11 +229,5 @@ public partial class SafetyFactors
     {
         get => IsValid ? CmtOtherFactors : default;
         set => this.Commit(() => CmtOtherFactors = value);
-    }
-
-    public bool? CurretAbuseBinding 
-    {
-        get => IsValid ? CurretAbuse : default;
-        set => this.Commit(() => CurretAbuse = value);
     }
 }

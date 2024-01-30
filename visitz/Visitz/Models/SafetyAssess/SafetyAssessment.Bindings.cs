@@ -10,6 +10,14 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyAssessment
 {
+    private const string Binding = "Binding";
+
+    partial void OnPropertyChanged(string propertyName)
+    {
+        if (!propertyName.EndsWith(Binding))
+            RaisePropertyChanged($"{propertyName}{Binding}");
+    }
+
     public string IncidentNumberBinding
     {
         get => IsValid ? IncidentNumber : default;

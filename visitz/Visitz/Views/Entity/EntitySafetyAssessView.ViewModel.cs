@@ -59,6 +59,26 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public ObservableCollection<object> selectedChildren = [];
 
+    [Obsolete("Workaround for RadioButton rendering issue https://github.com/dotnet/maui/issues/19437")]
+    [ObservableProperty]
+    public bool safeChecked;
+
+    [ObservableProperty]
+    public bool safeWithInterventionsChecked;
+
+    [ObservableProperty]
+    public bool unsafeChecked;
+
+    [Obsolete("Workaround for RadioButton rendering issue https://github.com/dotnet/maui/issues/19437")]
+    [ObservableProperty]
+    public bool allChildrenPlaced;
+
+    [ObservableProperty]
+    public bool someChildrenPlaced;
+
+    [ObservableProperty]
+    public bool canPublish;
+
     private Realm Realm;
 
     private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));
@@ -111,6 +131,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
         if (!Assessment.IsManaged)
             await Assessment.Save(Realm);
+
+        CanPublish = Factors.AllAnswered && Decisions.IsAnswered;
     }
 
     private void SetupFamilyNamePicker()
@@ -178,7 +200,11 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             Capacity.PropertyChanged -= Assessment_PropertyChanged;
 
         if (Decisions != null)
+        {
+            ClearDecisionBools();
+            ClearDecisionUnsafeBools();
             Decisions.PropertyChanged -= Assessment_PropertyChanged;
+        }
 
         if (Factors != null)
             Factors.PropertyChanged -= Assessment_PropertyChanged;
@@ -273,5 +299,24 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         var msg = new DraftSavedMessage<DraftSavedView.State>(state);
         StrongReferenceMessenger.Default.Send(msg);
+    }
+
+    private void ClearDecisionBools()
+    {
+        SafeChecked = false;
+        SafeWithInterventionsChecked = false;
+        UnsafeChecked = false;
+    }
+
+    private void ClearDecisionUnsafeBools()
+    {
+        AllChildrenPlaced = false;
+        SomeChildrenPlaced = false;
+    }
+
+    partial void OnUnsafeCheckedChanged(bool value)
+    {
+        if (!value)
+            ClearDecisionUnsafeBools();
     }
 }

@@ -10,52 +10,92 @@ namespace Visitz.Models.SafetyAssess;
 
 public partial class SafetyInterventions
 {
+    private const string Binding = "Binding";
+
+    partial void OnPropertyChanged(string propertyName)
+    {
+        if (!propertyName.EndsWith(Binding))
+            RaisePropertyChanged($"{propertyName}{Binding}");
+    }
+
     public bool DirectInterventionBinding
     {
         get => IsValid ? DirectIntervention : default;
-        set => this.Commit(() => DirectIntervention = value);
+        set => this.Commit(() => 
+        {
+            DirectIntervention = value;
+            if (value) SetChildRemoved(false);
+        });
     }
     
     public bool UseOfIndividualsBinding
     {
         get => IsValid ? UseOfIndividuals : default;
-        set => this.Commit(() => UseOfIndividuals = value);
+        set => this.Commit(() => 
+        {
+            UseOfIndividuals = value;
+            if (value) SetChildRemoved(false);
+        });
     }
     
     public bool UseCommAgenciesBinding
     {
         get => IsValid ? UseCommAgencies : default;
-        set => this.Commit(() => UseCommAgencies = value);
+        set => this.Commit(() => 
+        {
+            UseCommAgencies = value;
+            if (value) SetChildRemoved(false);
+        });
     }
     
     public bool ProtectVictimBinding
     {
         get => IsValid ? ProtectVictim : default;
-        set => this.Commit(() => ProtectVictim = value);
+        set => this.Commit(() => 
+        {
+            ProtectVictim = value;
+            if (value) SetChildRemoved(false);
+        });
     }
     
     public bool LeaveHomeBinding
     {
         get => IsValid ? LeaveHome : default;
-        set => this.Commit(() => LeaveHome = value);
+        set => this.Commit(() => 
+        {
+            LeaveHome = value;
+            if (value) SetChildRemoved(false);
+        });
     }
     
     public bool NonOffendingParentBinding
     {
         get => IsValid ? NonOffendingParent : default;
-        set => this.Commit(() => NonOffendingParent = value);
+        set => this.Commit(() => 
+        {
+            NonOffendingParent = value;
+            if (value) SetChildRemoved(false);
+        });
     }
     
     public bool LegalIntPlannedBinding
     {
         get => IsValid ? LegalIntPlanned : default;
-        set => this.Commit(() => LegalIntPlanned = value);
+        set => this.Commit(() => 
+        {
+            LegalIntPlanned = value;
+            if (value) SetChildRemoved(false);
+        });
     }
     
     public bool OtherSafetyInterventionsBinding
     {
         get => IsValid ? OtherSafetyInterventions : default;
-        set => this.Commit(() => OtherSafetyInterventions = value);
+        set => this.Commit(() => 
+        {
+            OtherSafetyInterventions = value;
+            if (value) SetChildRemoved(false);
+        });
     }
 
     public string CmtSafetyInterventionsBinding
@@ -67,12 +107,39 @@ public partial class SafetyInterventions
     public bool ChildOutsideHomeBinding
     {
         get => IsValid ? ChildOutsideHome : default;
-        set => this.Commit(() => ChildOutsideHome = value);
+        set => this.Commit(() => 
+        {
+            ChildOutsideHome = value;
+            if (value) SetChildRemoved(false);
+        });
     }
     
     public bool ChildRemovedBinding
     {
         get => IsValid ? ChildRemoved : default;
-        set => this.Commit(() => ChildRemoved = value);
+        set => this.Commit(() => SetChildRemoved(value));
+    }
+
+    /// <summary>
+    /// Used for business form logic: if ChildRemoved checked, all others unchecked. If any other checked after that,
+    /// ChildRemoved is unchecked.
+    /// </summary>
+    /// <param name="newVal">Directly assigned to ChildRemoved</param>
+    private void SetChildRemoved(bool newVal)
+    {
+        ChildRemoved = newVal;
+
+        if (ChildRemoved)
+        {
+            DirectIntervention =
+            UseOfIndividuals =
+            UseCommAgencies =
+            ProtectVictim =
+            LeaveHome =
+            NonOffendingParent =
+            LegalIntPlanned =
+            OtherSafetyInterventions =
+            ChildOutsideHome = false;
+        }
     }
 }
