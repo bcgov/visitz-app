@@ -10,6 +10,10 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 {
 	protected new EntitySafetyAssessViewModel ViewModel => (EntitySafetyAssessViewModel)base.ViewModel;
 
+	// It's preferable to use lifecycle methods to determine when auto-scrolling is allowed, but MAUI's lifecycles can
+	// be unreliable--so we'll use a time-delayed bool.
+	private bool canAutoScroll;
+
     public CaseloadItem CaseloadItem 
 	{
 		get => ViewModel.CaseloadItem;
@@ -20,6 +24,14 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 	{
 		InitializeComponent();
 		BindingContext = ViewModel;
+		
+		DelayCanAutoScroll();
+	}
+
+	private async void DelayCanAutoScroll()
+	{
+		await Task.Delay(1500);
+		canAutoScroll = true;
 	}
 
     protected override void Creating()
@@ -63,7 +75,7 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 
     private async void SomeChildrenPlaced_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-		if (e.Value)
+		if (canAutoScroll && e.Value)
 		{
 			await Task.Delay(100);
 			await MainScrollView.ScrollToAsync(ChildrenInCareSection.X, ChildrenInCareSection.Y, true);
