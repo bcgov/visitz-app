@@ -210,7 +210,9 @@ Logging out won't affect your unpublished notes.</value>
   <data name="LoginSuccessButUnauth" xml:space="preserve">
     <value>You've successfully logged in.
 
-However, you currently aren't authorized to use MCFD Mobility. Please request access by emailing </value>
+However, you currently aren't authorized to use MCFD Mobility. Use the "Request Access" button below to submit a request. 
+
+If that doesn't work, request access by emailing </value>
   </data>
   <data name="CaseloadSearchHint" xml:space="preserve">
     <value>Search by key player's name</value>

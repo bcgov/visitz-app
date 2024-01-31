@@ -513,7 +513,9 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to You&apos;ve successfully logged in.
         ///
-        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Please request access by emailing .
+        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Use the &quot;Request Access&quot; button below to submit a request. 
+        ///
+        ///If that doesn&apos;t work, request access by emailing .
         /// </summary>
         public static string LoginSuccessButUnauth {
             get {
