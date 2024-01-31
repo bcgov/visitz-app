@@ -9,9 +9,6 @@ namespace Visitz.ViewModels
     public partial class DebugOptionsViewModel : VisitzViewModel
     {
         [ObservableProperty]
-        public string idirOverride;
-
-        [ObservableProperty]
         public bool dryFireSubmitNotes;
 
         [ObservableProperty]
@@ -35,14 +32,10 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool skipLocalAuth;
 
-        [ObservableProperty]
-        public bool showSafetyAssessment;
-
         public override void PageCreated()
         {
             base.PageCreated();
 
-            IdirOverride = DebugOptions.IdirOverride;
             DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
             DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
 
@@ -55,17 +48,11 @@ namespace Visitz.ViewModels
             BuildingInDebug = false;
 #endif
             SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
-            ShowSafetyAssessment = DebugOptions.ShowSafetyAssessment;
 
             var settings = new AppSettings();
 
             ApiDomain = settings.Api.ApiDomain;
             AuthenticationDomain = settings.Oidc.AuthenticationDomain;
-        }
-
-        partial void OnIdirOverrideChanged(string value)
-        {
-            DebugOptions.IdirOverride = value;
         }
 
         partial void OnDryFireSubmitNotesChanged(bool value)
@@ -81,11 +68,6 @@ namespace Visitz.ViewModels
         partial void OnSkipLocalAuthChanged(bool value)
         {
             DebugOptions.SkipLocalAuth = value;
-        }
-
-        partial void OnShowSafetyAssessmentChanged(bool value)
-        {
-            DebugOptions.ShowSafetyAssessment = value;
         }
 
         [RelayCommand]
@@ -109,9 +91,28 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
+        public async void ClearSafetyAssessmentDraft()
+        {
+            await DebugOptions.ClearSafetyAssessmentDraftsRealm();
+        }
+
+        [RelayCommand]
         public void DeleteEncryptionKey()
         {
             DebugOptions.DeleteEncryptionKey();
+        }
+
+        [RelayCommand]
+        public async void Load620bData()
+        {
+            try
+            {
+                await DebugOptions.Load620bTestingRecords();
+            }
+            catch (Exception ex)
+            {
+                await Navigator.CurrentOpenPage.DisplayAlert("Error", ex.Message, "OK");
+            }
         }
 
         [RelayCommand]

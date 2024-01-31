@@ -32,131 +32,119 @@
     <ScrollView>
 
         <VerticalStackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <Label
-                    StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Text="Current session IDIR override" />
-
-                <Entry 
-                    StyleClass="DebugLayout,DebugInputView"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    WidthRequest="200"
-                    Text="{Binding IdirOverride}" />
-
-                <Label
-                    StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Text="Token actions" />
-
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="FillAndExpand"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Session" />
+            
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="1"
                     Command="{Binding DeleteAccessTokenCommand}"
                     Text="Delete access token"/>
 
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Grid.Column="1"
                     Command="{Binding DeleteRefreshTokenCommand}"
                     Text="Delete refresh token" />
 
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="3"
+                    Grid.Row="2"
                     Grid.Column="1"
                     Command="{Binding LogoutCommand}"
                     Text="Logout" />
 
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Text="Local database actions" />
-
-                <Button
-                    StyleClass="DebugLayout"
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Command="{Binding ClearRealmDataCommand}"
-                    Text="Clear all data" />
-
-                <!-- Disabled while not working on features involving encryption keys. -->
-                <Button
-                    StyleClass="DebugLayout"
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    IsEnabled="False"
-                    Command="{Binding DeleteEncryptionKeyCommand}"
-                    Text="Delete encryption key" />
-
-                <Label
-                    StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="6"
+                    Grid.Row="3"
                     Grid.Column="0"
                     IsEnabled="{Binding BuildingInDebug}"
                     Text="Skip local auth (#DEBUG only)"/>
 
                 <Switch
-                    Grid.Row="6"
+                    Grid.Row="3"
                     Grid.Column="1"
                     IsEnabled="{Binding BuildingInDebug}"
                     IsToggled="{Binding SkipLocalAuth}" />
+            </Grid>
 
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="FillAndExpand"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Database" />
+
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Command="{Binding ClearRealmDataCommand}"
+                    Text="Clear IcmDataRealm data" />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding ClearSafetyAssessmentDraftCommand}"
+                    Text="Clear SafetyAssessmentDraft data" />
+
+                <!-- Disabled while not working on features involving encryption keys. -->
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    IsEnabled="False"
+                    Command="{Binding DeleteEncryptionKeyCommand}"
+                    Text="Delete encryption key" />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding Load620bDataCommand}"
+                    Text="Load 620b data" />
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="FillAndExpand"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Entity" />
+
+            <Grid RowDefinitions="Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="7"
+                    Grid.Row="0"
                     Grid.Column="0"
                     Text="Dry-fire SubmitNotes"/>
 
                 <Switch
                     StyleClass="DebugLayout"
-                    Grid.Row="7"
+                    Grid.Row="0"
                     Grid.Column="1"
                     IsToggled="{Binding DryFireSubmitNotes}"/>
 
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="8"
+                    Grid.Row="1"
                     Grid.Column="0"
                     Text="Dry-fire SubmitNotes: simulate success"/>
 
                 <Switch
                     StyleClass="DebugLayout"
-                    Grid.Row="8"
+                    Grid.Row="1"
                     Grid.Column="1"
                     IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
-
-                <Label
-                    StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="9"
-                    Grid.Column="0"
-                    Text="Show safety assessment"/>
-
-                <Switch
-                    StyleClass="DebugLayout"
-                    Grid.Row="9"
-                    Grid.Column="1"
-                    IsToggled="{Binding ShowSafetyAssessment}"/>
             </Grid>
             
             <Label

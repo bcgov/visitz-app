@@ -51,6 +51,9 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
     {
         if (ContainerDetails.Content is BaseContentView baseView)
         {
+            if (baseView.GetType().Equals(navItem.ContentViewType.GetType()))
+                return;
+
             baseView.Destroy();
             ContainerDetails.Content = null;
         }

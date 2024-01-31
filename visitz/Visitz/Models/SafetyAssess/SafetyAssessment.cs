@@ -7,6 +7,7 @@ namespace Visitz.Models.SafetyAssess;
 public partial class SafetyAssessment : IRealmObject
 {
     public static readonly string DateFormat = "dd/MM/yyyy";
+    public static readonly int CommentsMaxLength = 1000;
 
     [Required]
     public string IncidentNumber { get; set; }
@@ -69,9 +70,40 @@ public partial class SafetyAssessment : IRealmObject
             SafetyDecisions = SafetyDecisions.ToApiEntity(),
         };
 
-        foreach (var childId in ChildsInOutCare)
-            safetyAssessmentEntity.AddChildContactId(childId);
+        if (ChildsInOutCare.Count == 0)
+            safetyAssessmentEntity.AddChildContactId("");
+        else
+            foreach (var childId in ChildsInOutCare)
+                safetyAssessmentEntity.AddChildContactId(childId);
 
         return safetyAssessmentEntity;
+    }
+
+    public static SafetyAssessment FindByIncidentNumber(Realm realm, string incidentNumber)
+    {
+        bool query(SafetyAssessment sa) => sa.IncidentNumber.Equals(incidentNumber);
+
+        // Running the FirstOrDefault() query without checking Any() first sometimes leads to an uncatchable
+        // ArgumentOutOfRangeException. I wasn't able to track down the root cause of it, so this workaround
+        // will have to do for now.
+        //
+        // https://github.com/realm/realm-dotnet/issues/3090#issuecomment-1313661344
+        // https://github.com/realm/realm-dotnet/issues/3092
+        // https://github.com/realm/realm-dotnet/issues/3333
+
+        return realm.All<SafetyAssessment>().Any(query)
+            ? realm.All<SafetyAssessment>().Where(query).FirstOrDefault()
+            : null;
+    }
+
+    public static async Task Delete(Realm realm, SafetyAssessment safetyAssessment)
+    {
+        await realm.WriteAsync(() => realm.Remove(safetyAssessment));
+    }
+
+    public async Task Save(Realm realm)
+    {
+        if (!IsManaged)
+            await realm.WriteAsync(() => realm.Add(this));
     }
 }

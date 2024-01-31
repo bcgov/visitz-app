@@ -38,9 +38,7 @@ namespace Visitz.Authentication.Keycloak
 
         private string GetIdir()
         {
-            return DebugOptions.IdirOverride.Length > 0 
-                ? DebugOptions.IdirOverride 
-                : TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
+            return TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
         }
 
         private List<string> GetRoles()

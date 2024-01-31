@@ -1,5 +1,4 @@
-﻿using Visitz.Animations;
-using Visitz.Animations.Haptic;
+﻿using Visitz.Animations.Haptic;
 using Visitz.Models;
 using Visitz.ViewModels;
 
@@ -37,11 +36,11 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     private async void NoteEntryView_DraftSaveStateChanged(object sender, Events.DraftSaveStatusEventArgs e)
     {
-        await Task.WhenAll
-        (
-            SetDraftSavedPromptVisible(e.DraftSaved), 
-            SetSavingDraftPromptVisible(e.SavingDraft)
-        );
+        DraftSavedView.State state = e.DraftSaved
+            ? DraftSavedView.State.Saved
+            : DraftSavedView.State.Saving;
+
+        await DraftSavedIndicator.SetState(state);
     }
 
     void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
@@ -65,30 +64,6 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         await Task.Delay(2000);
         
         EditorError.Show = false;
-    }
-
-    public async Task SetDraftSavedPromptVisible(bool visible)
-    {
-        await MainThread.InvokeOnMainThreadAsync(async () =>
-        {
-            if (DraftSavedTagView.IsVisible == visible)
-                return;
-
-            var visibilityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
-            await visibilityAnimation.Animate(DraftSavedTagView);
-        });
-    }
-
-    public async Task SetSavingDraftPromptVisible(bool visible)
-    {
-        await MainThread.InvokeOnMainThreadAsync(async () =>
-        {
-            if (SavingDraftTagView.IsVisible == visible)
-                return;
-
-            var visibilityAnimation = new VisibilityAnimation(visible, 100, Easing.CubicInOut);
-            await visibilityAnimation.Animate(SavingDraftTagView);
-        });
     }
 
     private async Task AnimateEditorError()
@@ -116,7 +91,6 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     private async void CloseButton_Clicked(object sender, EventArgs e)
     {
-        await (ViewModel as NoteEntryViewModel).SaveDraftToRealm();
         await Navigator.Navigation.PopModalAsync();
     }
 }

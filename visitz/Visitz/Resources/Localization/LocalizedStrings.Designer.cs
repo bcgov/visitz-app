@@ -79,6 +79,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility Authorization Request.
+        /// </summary>
+        public static string AuthorizationRequest {
+            get {
+                return ResourceManager.GetString("AuthorizationRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -142,11 +151,38 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Children in-care/out-of-care.
+        ///   Looks up a localized string similar to Children in care/out-of-care.
         /// </summary>
         public static string ChildrenInOutCare {
             get {
                 return ResourceManager.GetString("ChildrenInOutCare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must select at least one child or publishing to ICM will fail..
+        /// </summary>
+        public static string ChildrenInOutCareIssueWarning {
+            get {
+                return ResourceManager.GetString("ChildrenInOutCareIssueWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments.
+        /// </summary>
+        public static string Comments {
+            get {
+                return ResourceManager.GetString("Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments (if clarification or rationale for the rating is needed).
+        /// </summary>
+        public static string CommentsClarificationPrompt {
+            get {
+                return ResourceManager.GetString("CommentsClarificationPrompt", resourceCulture);
             }
         }
         
@@ -165,6 +201,15 @@ namespace Visitz.Resources.Localization {
         public static string DateOfAssessment {
             get {
                 return ResourceManager.GetString("DateOfAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of birth.
+        /// </summary>
+        public static string DateOfBirth {
+            get {
+                return ResourceManager.GetString("DateOfBirth", resourceCulture);
             }
         }
         
@@ -192,6 +237,51 @@ namespace Visitz.Resources.Localization {
         public static string DeviceAuthTitle {
             get {
                 return ResourceManager.GetString("DeviceAuthTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard.
+        /// </summary>
+        public static string Discard {
+            get {
+                return ResourceManager.GetString("Discard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard draft?.
+        /// </summary>
+        public static string DiscardDraftQuestion {
+            get {
+                return ResourceManager.GetString("DiscardDraftQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discarded safety assessment draft..
+        /// </summary>
+        public static string DiscardedSafetyAssessmentDraft {
+            get {
+                return ResourceManager.GetString("DiscardedSafetyAssessmentDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this safety assessment draft? You won&apos;t be able to recover any progress you&apos;ve made..
+        /// </summary>
+        public static string DiscardSafetyAssessmentDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardSafetyAssessmentDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        public static string Dismiss {
+            get {
+                return ResourceManager.GetString("Dismiss", resourceCulture);
             }
         }
         
@@ -286,7 +376,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ❌ Publishing to ICM failed.
+        ///   Looks up a localized string similar to Publishing to ICM failed.
         /// </summary>
         public static string FailedToPublishToIcm {
             get {
@@ -295,7 +385,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ❌ Refreshing notes on device failed.
+        ///   Looks up a localized string similar to Refreshing notes on device failed.
         /// </summary>
         public static string FailedToRefreshNotes {
             get {
@@ -318,6 +408,24 @@ namespace Visitz.Resources.Localization {
         public static string FamilyName {
             get {
                 return ResourceManager.GetString("FamilyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First name.
+        /// </summary>
+        public static string FirstName {
+            get {
+                return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender.
+        /// </summary>
+        public static string Gender {
+            get {
+                return ResourceManager.GetString("Gender", resourceCulture);
             }
         }
         
@@ -376,6 +484,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Known app issue.
+        /// </summary>
+        public static string KnownAppIssue {
+            get {
+                return ResourceManager.GetString("KnownAppIssue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last name.
+        /// </summary>
+        public static string LastName {
+            get {
+                return ResourceManager.GetString("LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
@@ -387,11 +513,31 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to You&apos;ve successfully logged in.
         ///
-        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Please request access and try again later..
+        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Use the &quot;Request Access&quot; button below to submit a request. 
+        ///
+        ///If that doesn&apos;t work, request access by emailing .
         /// </summary>
         public static string LoginSuccessButUnauth {
             get {
                 return ResourceManager.GetString("LoginSuccessButUnauth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in to submit notes.
+        /// </summary>
+        public static string LoginToSubmitNotes {
+            get {
+                return ResourceManager.GetString("LoginToSubmitNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in to submit safety assessment.
+        /// </summary>
+        public static string LoginToSubmitSA {
+            get {
+                return ResourceManager.GetString("LoginToSubmitSA", resourceCulture);
             }
         }
         
@@ -515,7 +661,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ✅ Notes published to ICM.
+        ///   Looks up a localized string similar to Notes published to ICM.
         /// </summary>
         public static string NotesPublishedToIcm {
             get {
@@ -538,6 +684,15 @@ namespace Visitz.Resources.Localization {
         public static string OpenDate {
             get {
                 return ResourceManager.GetString("OpenDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Other {
+            get {
+                return ResourceManager.GetString("Other", resourceCulture);
             }
         }
         
@@ -686,6 +841,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publishing safety assessment to ICM.
+        /// </summary>
+        public static string PublishingSAToICM {
+            get {
+                return ResourceManager.GetString("PublishingSAToICM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} - Safety Assessment {1}.
+        /// </summary>
+        public static string PublishSATitle {
+            get {
+                return ResourceManager.GetString("PublishSATitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publish to ICM.
         /// </summary>
         public static string PublishToIcm {
@@ -744,7 +917,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ✅ Refreshed notes on device.
+        ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {
             get {
@@ -758,6 +931,15 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingNotes {
             get {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        public static string Retry {
+            get {
+                return ResourceManager.GetString("Retry", resourceCulture);
             }
         }
         
@@ -785,6 +967,24 @@ namespace Visitz.Resources.Localization {
         public static string SafetyAssessmentOperation {
             get {
                 return ResourceManager.GetString("SafetyAssessmentOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Published Safety Assessments can be edited in ICM to make any corrections..
+        /// </summary>
+        public static string SafetyAssessmentsCanBeEdited {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentsCanBeEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To publish to ICM, all safety factors must be answered yes or no and a valid safety decision must be selected..
+        /// </summary>
+        public static string SafetyAssessmentValidationRulesInfo {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentValidationRulesInfo", resourceCulture);
             }
         }
         
@@ -1050,7 +1250,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes.
+        ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes..
         /// </summary>
         public static string SafetyIntervention_Prompt {
             get {
@@ -1131,7 +1331,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Other.
+        ///   Looks up a localized string similar to 8. Other.
         /// </summary>
         public static string SafetyIntervention8_OtherSafetyInterventions {
             get {
@@ -1176,11 +1376,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Safety assessment published successfully..
+        /// </summary>
+        public static string SAPublishedSuccess {
+            get {
+                return ResourceManager.GetString("SAPublishedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
         public static string SecureDeviceAndTryAgain {
             get {
                 return ResourceManager.GetString("SecureDeviceAndTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select one or more children:.
+        /// </summary>
+        public static string SelectChildrenPrompt {
+            get {
+                return ResourceManager.GetString("SelectChildrenPrompt", resourceCulture);
             }
         }
         

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.InfoBanner"
+    x:DataType="views:InfoBanner"
+    x:Name="this">
+
+    <Border
+        BindingContext="{Reference this}"
+        HorizontalOptions="Fill"
+        Stroke="Transparent"
+        StrokeShape="RoundRectangle 4"
+        StrokeThickness="0"
+        BackgroundColor="{StaticResource BC_Semantic_Info}">
+        
+        <Grid 
+            Padding="8"
+            ColumnDefinitions="Auto,*"
+            ColumnSpacing="16">
+            
+            <Image
+                Grid.Column="0"
+                VerticalOptions="Start"
+                HeightRequest="{OnPlatform iOS=28, Default=20}"
+                WidthRequest="{OnPlatform iOS=28, Default=20}">
+                <Image.Source>
+                    <FontImageSource 
+                        Glyph="{Static icons:MaterialIcons.Info}"
+                        FontFamily="MaterialIconsRoundedFilled"
+                        Color="{StaticResource BC_TextColor}"
+                        Size="{OnPlatform iOS=56, Default=40}" />
+                </Image.Source>
+            </Image>
+
+            <!--
+                TODO: Remove Label's inherent padding instead of hardcoding an adjustment by a negative margin.
+            -->
+            <Label 
+                Grid.Column="1"
+                VerticalOptions="Start"
+                HorizontalOptions="Start"
+                FontFamily="BCSansBold"
+                FontSize="{StaticResource BodyLargeFontSize}"
+                Margin="{OnPlatform WinUI='0,-3,0,0', Default='0'}"
+                Text="{Binding Text}" />
+        </Grid>
+    </Border>
+</ContentView>

@@ -31,21 +31,15 @@
             
         </toolkit:AvatarView>
 
-        <!--
-            There is some weird layout behaviour with collection view. It seems to add horizontal padding on its own,
-            so we'll explicitly set its width to get rid of it. This also had a weird side-effect of vertically 
-            shrinking its DataTemplate, so we'll set a specific height for the items as well.
-        -->
         <CollectionView
             Grid.Row="1"
             SelectionMode="Single"
-            WidthRequest="90"
             ItemsSource="{Binding NavigationItems}"
             SelectedItem="{Binding SelectedNavItem}">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <nav:NavItemView HeightRequest="70" />
+                    <nav:NavItemView MinimumHeightRequest="72" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

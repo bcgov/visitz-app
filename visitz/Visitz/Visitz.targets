@@ -80,6 +80,18 @@
 		<ReplaceFileText 
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{MailToAuthorize}}"
+			ReplacementText="$(ContactInfo_MailToAuthorize)" />
+
+		<ReplaceFileText 
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{AccessRequestFormUrl}}"
+			ReplacementText="$(ContactInfo_AccessRequestFormUrl)" />
+
+		<ReplaceFileText 
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{EnableDebugOptions}}"
 			ReplacementText="$(Debug_EnableDebugOptions)" />
 

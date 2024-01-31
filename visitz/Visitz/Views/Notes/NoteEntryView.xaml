@@ -42,43 +42,12 @@
                     </ImageButton.Source>
                 </ImageButton>
 
-                <Grid
-                    RowDefinitions="Auto"
-                    ColumnDefinitions="Auto"
+                <views:DraftSavedView
+                    x:Name="DraftSavedIndicator"
                     Grid.Row="0"
                     Grid.Column="1"
-                    VerticalOptions="Center">
-                    
-                    <views:TagView 
-                        x:Name="DraftSavedTagView"
-                        Text="{local:Localize DraftSaved}"
-                        IconHeightRequest="25"
-                        IconWidthRequest="25"
-                        TextColor="{StaticResource BC_Semantic_Success}"
-                        IsVisible="False">
-                        <views:TagView.ImageSource>
-                            <FontImageSource 
-                                Glyph="{Static fonticons:FluentIcons.Document_checkmark_20_regular}" 
-                                FontFamily="FluentIconsRegular"
-                                Color="{StaticResource BC_Semantic_Success}" />
-                        </views:TagView.ImageSource>
-                    </views:TagView>
-
-                    <views:TagView 
-                        x:Name="SavingDraftTagView"
-                        Text="{local:Localize Ellipsis}"
-                        IconHeightRequest="25"
-                        IconWidthRequest="25"
-                        IsVisible="False">
-                        <views:TagView.ImageSource>
-                            <FontImageSource 
-                            Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}" 
-                            FontFamily="FluentIconsRegular"
-                            Color="Black" />
-                        </views:TagView.ImageSource>
-                    </views:TagView>
-                </Grid>
-
+                    VerticalOptions="Center" />
+                
                 <HorizontalStackLayout 
                     Grid.Row="0"
                     Grid.Column="2"
@@ -100,7 +69,7 @@
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     Background="Transparent"
-                    Text="{Binding Draft}"
+                    Text="{Binding NoteDraft.DraftBinding}"
                     TextColor="{StaticResource BlackishText}"
                     FontFamily="BCSansRegular"
                     FontSize="17"
@@ -110,7 +79,7 @@
 
                     <Editor.Behaviors>
                         <toolkit:UserStoppedTypingBehavior 
-                            Command="{Binding SaveDraftCommand}"
+                            Command="{Binding UserStoppedTypingCommand}"
                             StoppedTypingTimeThreshold="700" />
                     </Editor.Behaviors>
                 </Editor>

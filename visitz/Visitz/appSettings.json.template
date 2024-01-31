@@ -9,5 +9,9 @@
   },
   "DebugSettings": {
     "EnableDebugSettings": {{EnableDebugOptions}}
+  },
+  "ContactInfoSettings": {
+    "MailToAuthorize": "{{MailToAuthorize}}",
+    "AccessRequestFormUrl": "{{AccessRequestFormUrl}}"
   }
 }

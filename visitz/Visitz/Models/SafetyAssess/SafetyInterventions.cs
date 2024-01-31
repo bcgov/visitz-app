@@ -58,7 +58,7 @@ public partial class SafetyInterventions : IRealmObject
             NonOffendingParent = NonOffendingParent.AsTruthyChar(),
             LegalIntPlanned = LegalIntPlanned.AsTruthyChar(),
             OtherSafetyInterventions = OtherSafetyInterventions.AsTruthyChar(),
-            CmtSafetyInterventions = CmtSafetyInterventions,
+            CmtSafetyInterventions = OtherSafetyInterventions ? CmtSafetyInterventions : "",
             ChildOutsideHome = ChildOutsideHome.AsTruthyChar(),
             ChildRemoved = ChildRemoved.AsTruthyChar(),
         };
