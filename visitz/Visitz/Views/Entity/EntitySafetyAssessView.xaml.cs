@@ -63,7 +63,7 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 
     private async void SomeChildrenPlaced_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-		if (IsLoaded && e.Value)
+		if (e.Value)
 		{
 			await Task.Delay(100);
 			await MainScrollView.ScrollToAsync(ChildrenInCareSection.X, ChildrenInCareSection.Y, true);
