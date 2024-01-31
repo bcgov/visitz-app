@@ -980,6 +980,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To publish to ICM, all safety factors must be answered yes or no and a valid safety decision must be selected..
+        /// </summary>
+        public static string SafetyAssessmentValidationRulesInfo {
+            get {
+                return ResourceManager.GetString("SafetyAssessmentValidationRulesInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Safety decision.
         /// </summary>
         public static string SafetyDecision {

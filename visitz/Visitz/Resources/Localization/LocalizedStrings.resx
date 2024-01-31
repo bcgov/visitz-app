@@ -605,4 +605,7 @@ If that doesn't work, request access by emailing </value>
   <data name="AuthorizationRequest" xml:space="preserve">
     <value>MCFD Mobility Authorization Request</value>
   </data>
+  <data name="SafetyAssessmentValidationRulesInfo" xml:space="preserve">
+    <value>To publish to ICM, all safety factors must be answered yes or no and a valid safety decision must be selected.</value>
+  </data>
 </root>
