@@ -38,16 +38,17 @@
                     CacheValidity="30:0:0:0" />
             </Image.Source>
         </Image>
-        
-        <AbsoluteLayout
+
+        <Grid
             IgnoreSafeArea="False"
             AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1">
-
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            RowDefinitions="Auto,*,Auto">
+                
             <ImageButton
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="0,0"
+                Grid.Row="0"
                 Margin="16"
+                HorizontalOptions="Start"
                 WidthRequest="44"
                 HeightRequest="44"
                 Command="{Binding ClosePageCommand}"
@@ -61,127 +62,136 @@
                         Size="44"/>
                 </ImageButton.Source>
             </ImageButton>
-
+                
             <Label 
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.05"
+                Grid.Row="0"
+                Margin="16"
+                HorizontalOptions="Center"
                 Text="{Binding DisplayName, StringFormat='Hello, {0}.'}"
                 IsVisible="{Binding ShowAuthStatusLayout}"
                 FontSize="30"
                 TextColor="White" />
 
-            <Button 
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.5"
-                StyleClass="SessionButtonLayout,GoldBorderButton"
-                Text="{local:Localize Login}"
-                Command="{Binding LoginAsyncCommand}"
-                IsVisible="{Binding ShowLoginLayout}" />
-
-            <Image
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.25"
-                IsVisible="{Binding IsUnauthorized}">
-                <Image.Source>
-                    <FontImageSource 
-                        Glyph="{Binding AuthIcon}"
-                        FontFamily="MaterialIconsRoundedFilled"
-                        Size="200"
-                        Color="{Binding AuthColor}" />
-                </Image.Source>
-            </Image>
-
-            <Label 
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.7"
-                FontSize="20"
-                Margin="20"
-                FontFamily="BCSansBold"
-                TextColor="White"
-                WidthRequest="600"
-                HeightRequest="200"
-                HorizontalTextAlignment="Center"
-                VerticalTextAlignment="Center"
-                IsVisible="{Binding IsUnauthorized}">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="{Binding AuthStatus}" />
-                        <Span 
-                            TextDecorations="Underline"
-                            Text="{Binding MailToUrl}" />
-                        <Span Text="." />
-                    </FormattedString>
-                </Label.FormattedText>
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                </Label.GestureRecognizers>
-            </Label>
-
-            <HorizontalStackLayout 
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.9"
-                IsVisible="{Binding IsUnauthorized}"
-                Spacing="20">
+            <Grid
+                Grid.Row="1"
+                Padding="16"
+                RowDefinitions="*,2*,Auto">
+                    
+                <Button
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    StyleClass="SessionButtonLayout,GoldBorderButton"
+                    Text="{local:Localize Login}"
+                    Command="{Binding LoginAsyncCommand}"
+                    IsVisible="{Binding ShowLoginLayout}" />
 
                 <Button 
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    StyleClass="SessionButtonLayout,GoldBorderButton"
                     Text="{local:Localize Logout}"
-                    Style="{StaticResource SecondaryButtonDark}"
-                    StyleClass="SessionButtonLayout"
                     Command="{Binding TryLogoutAsyncCommand}"
-                    IsVisible="{Binding IsUnauthorized}" />
+                    IsVisible="{Binding IsAuthorized}" />
 
-                <Border
-                    Stroke="White"
-                    StrokeThickness="1"
-                    Padding="5,0,5,0"
+                <Image
+                    Grid.Row="0"
+                    IsVisible="{Binding IsUnauthorized}"
+                    HeightRequest="300"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center">
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="{Binding AuthIcon}"
+                            FontFamily="MaterialIconsRoundedFilled"
+                            Size="200"
+                            Color="{Binding AuthColor}" />
+                    </Image.Source>
+                </Image>
+
+                <Label 
+                    Grid.Row="1"
+                    FontSize="20"
+                    TextColor="White"
+                    WidthRequest="600"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
                     IsVisible="{Binding IsUnauthorized}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span 
+                                FontFamily="BCSansBold"
+                                Text="{Binding AuthStatus}" />
+                            <Span 
+                                FontFamily="BCSansBold"
+                                TextDecorations="Underline"
+                                Text="{Binding MailToUrl}" />
+                            <Span 
+                                FontFamily="BCSansBold"
+                                Text="." />
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <HorizontalStackLayout 
+                    Grid.Row="2"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsUnauthorized}"
+                    Spacing="20">
+
+                    <Button 
+                        Text="{local:Localize Logout}"
+                        Style="{StaticResource SecondaryButtonDark}"
+                        StyleClass="SessionButtonLayout"
+                        Command="{Binding TryLogoutAsyncCommand}"
+                        IsVisible="{Binding IsUnauthorized}" />
+
+                    <Border
+                        Stroke="White"
+                        StrokeThickness="1"
+                        Padding="5,0,5,0"
+                        IsVisible="{Binding IsUnauthorized}">
                 
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="8" />
-                    </Border.StrokeShape>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
 
-                    <ImageButton
-                        Padding="15"
-                        MaximumHeightRequest="60"
-                        MaximumWidthRequest="60"
-                        BackgroundColor="Transparent"
-                        Command="{Binding LoginAsyncCommand}"
-                        Aspect="AspectFill">
-                        <ImageButton.Source>
-                            <FontImageSource 
-                                Glyph="{Static fonticons:MaterialIcons.Refresh}" 
-                                FontFamily="MaterialIconsRoundedFilled"
-                                Color="White"
-                                Size="60"/>
-                        </ImageButton.Source>
-                    </ImageButton>
-                </Border>
+                        <ImageButton
+                            Padding="15"
+                            MaximumHeightRequest="60"
+                            MaximumWidthRequest="60"
+                            BackgroundColor="Transparent"
+                            Command="{Binding LoginAsyncCommand}"
+                            Aspect="AspectFill">
+                            <ImageButton.Source>
+                                <FontImageSource 
+                                    Glyph="{Static fonticons:MaterialIcons.Refresh}" 
+                                    FontFamily="MaterialIconsRoundedFilled"
+                                    Color="White"
+                                    Size="60"/>
+                            </ImageButton.Source>
+                        </ImageButton>
+                    </Border>
 
-                <ContentView IsVisible="False">
-                    <!-- Temporarily hiding this "Request Access" button until the
-                    business-side process for authorizing users has been ironed
-                    out.-->
                     <Button 
                         StyleClass="SessionButtonLayout,GoldBorderButton"
                         Text="{local:Localize Request Access}"
                         Command="{Binding RequestAccessAsyncCommand}"
                         IsVisible="{Binding IsUnauthorized}" />
 
-                </ContentView>
+                </HorizontalStackLayout>
 
-            </HorizontalStackLayout>
-
-            <Button 
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.5"
-                StyleClass="SessionButtonLayout,GoldBorderButton"
-                Text="{local:Localize Logout}"
-                Command="{Binding TryLogoutAsyncCommand}"
-                IsVisible="{Binding IsAuthorized}" />
+            </Grid>
 
             <HorizontalStackLayout
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,1"
+                Grid.Row="2"
+                HorizontalOptions="Center"
                 Spacing="30"
                 Margin="5">
                 <Label 
@@ -192,8 +202,8 @@
                     Text="{Binding AppVersion, StringFormat='Version {0}'}" 
                     TextColor="White" />
             </HorizontalStackLayout>
+        </Grid>
 
-        </AbsoluteLayout>
     </AbsoluteLayout>
     
 </pages:VisitzPage>

@@ -3,4 +3,6 @@
 public class ContactInfoSettings
 {
     public string MailToAuthorize { get; set; }
+
+    public string AccessRequestFormUrl { get; set; }
 }

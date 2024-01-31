@@ -207,10 +207,14 @@ public partial class SessionViewModel
     [RelayCommand]
     private async void RequestAccessAsync()
     {
-        await VisitzPage.DisplayAlert(
-            "Request access", 
-            "Feature not implemented yet.", 
-            LocalizedStrings.Ok);
+        var formUrl = new AppSettings().ContactInfo.AccessRequestFormUrl;
+
+        await Browser.Default.OpenAsync(formUrl, new BrowserLaunchOptions
+        {
+            LaunchMode = BrowserLaunchMode.SystemPreferred,
+            TitleMode = BrowserTitleMode.Hide,
+            Flags = BrowserLaunchFlags.PresentAsFormSheet,
+        });
     }
 
     [RelayCommand]

@@ -560,6 +560,10 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Span" ApplyToDerivedTypes="True">
+        <Setter Property="FontFamily" Value="BCSansRegular" />
+    </Style>
+
     <Style TargetType="SwipeItem">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
     </Style>
