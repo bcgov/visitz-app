@@ -157,17 +157,11 @@
                     </ImageButton>
                 </Border>
 
-                <ContentView IsVisible="False">
-                    <!-- Temporarily hiding this "Request Access" button until the
-                    business-side process for authorizing users has been ironed
-                    out.-->
-                    <Button 
-                        StyleClass="SessionButtonLayout,GoldBorderButton"
-                        Text="{local:Localize Request Access}"
-                        Command="{Binding RequestAccessAsyncCommand}"
-                        IsVisible="{Binding IsUnauthorized}" />
-
-                </ContentView>
+                <Button 
+                    StyleClass="SessionButtonLayout,GoldBorderButton"
+                    Text="{local:Localize Request Access}"
+                    Command="{Binding RequestAccessAsyncCommand}"
+                    IsVisible="{Binding IsUnauthorized}" />
 
             </HorizontalStackLayout>
 
