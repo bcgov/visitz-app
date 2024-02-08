@@ -2,7 +2,7 @@
     Code adapted from Ionix's StackOverflow answer: https://stackoverflow.com/a/66491564
  */
 
-namespace Visitz.Utilities;
+namespace VisitzModel.Utilities;
 
 public sealed class Debouncer(TimeSpan? delay) : IDisposable
 {

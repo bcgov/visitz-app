@@ -14,8 +14,8 @@ using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
-using Visitz.Utilities;
 using Visitz.ViewModels;
+using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity;
 
