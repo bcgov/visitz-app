@@ -1,5 +1,4 @@
 ﻿using Visitz.Animations.Haptic;
-using Visitz.Models;
 using Visitz.ViewModels;
 using VisitzModel.Events;
 using VisitzModel.Models;

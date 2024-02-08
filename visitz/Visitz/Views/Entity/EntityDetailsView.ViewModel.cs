@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Visitz.Models;
 using Visitz.ViewModels;
 using VisitzModel.Models;
 

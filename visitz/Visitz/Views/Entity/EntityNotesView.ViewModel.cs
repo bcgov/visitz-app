@@ -4,7 +4,6 @@ using Realms;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Visitz.Extensions;
-using Visitz.Models;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.ViewModels;

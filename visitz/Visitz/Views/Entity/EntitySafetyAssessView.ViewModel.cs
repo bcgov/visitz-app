@@ -7,7 +7,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using Visitz.Authentication.Keycloak;
 using Visitz.Messaging;
-using Visitz.Models;
 using Visitz.Models.SafetyAssess;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
