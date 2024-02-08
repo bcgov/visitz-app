@@ -1,7 +1,7 @@
 ﻿using Realms;
 using VisitzModel.Extensions;
 
-namespace Visitz.Models
+namespace VisitzModel.Models
 {
     public partial class NoteDraft : IRealmObject
     {
@@ -16,7 +16,7 @@ namespace Visitz.Models
             set
             {
                 bool canSet = !value?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? true;
-                
+
                 if (canSet)
                     this.Commit(() => Draft = value);
 

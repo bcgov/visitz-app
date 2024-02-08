@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Authentication.Keycloak;
-using Visitz.Models;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
