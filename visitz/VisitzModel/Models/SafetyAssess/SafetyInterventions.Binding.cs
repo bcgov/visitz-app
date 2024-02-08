@@ -6,7 +6,7 @@
 
 using VisitzModel.Extensions;
 
-namespace Visitz.Models.SafetyAssess;
+namespace VisitzModel.Models.SafetyAssess;
 
 public partial class SafetyInterventions
 {

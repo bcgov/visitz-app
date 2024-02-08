@@ -1,9 +1,8 @@
 ﻿using Realms;
-using Visitz.Extensions;
 using VisitzModel.Extensions;
 using VisitzApi.Models.SafetyAssess;
 
-namespace Visitz.Models.SafetyAssess;
+namespace VisitzModel.Models.SafetyAssess;
 
 public partial class SafetyInterventions : IRealmObject
 {

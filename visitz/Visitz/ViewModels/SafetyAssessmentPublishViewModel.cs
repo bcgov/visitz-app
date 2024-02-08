@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Messaging;
-using Visitz.Models.SafetyAssess;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Views.Entity;
 using VisitzModel.Models;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels;
 

@@ -2,7 +2,7 @@
 using System.Globalization;
 using VisitzApi.Models.SafetyAssess;
 
-namespace Visitz.Models.SafetyAssess;
+namespace VisitzModel.Models.SafetyAssess;
 
 public partial class SafetyAssessment : IRealmObject
 {

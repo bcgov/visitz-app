@@ -1,8 +1,8 @@
-﻿using Visitz.Models.SafetyAssess;
-using Visitz.Services.Messages;
+﻿using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Models;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Services;
 

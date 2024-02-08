@@ -1,10 +1,10 @@
 ﻿using Realms;
 using Realms.Exceptions;
 using Realms.Schema;
-using Visitz.Models.SafetyAssess;
 using Visitz.Storage.Migrations;
 using VisitzModel;
 using VisitzModel.Models;
+using VisitzModel.Models.SafetyAssess;
 
 #if WINDOWS
 using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
