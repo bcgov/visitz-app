@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Visitz.Authentication.Keycloak;
-using Visitz.Extensions;
 using Visitz.Messaging;
 using Visitz.Models;
 using Visitz.Models.SafetyAssess;

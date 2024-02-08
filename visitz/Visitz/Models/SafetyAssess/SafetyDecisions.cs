@@ -1,6 +1,5 @@
 ﻿using Realms;
 using System.Globalization;
-using Visitz.Extensions;
 using VisitzModel.Extensions;
 using VisitzApi.Models.SafetyAssess;
 

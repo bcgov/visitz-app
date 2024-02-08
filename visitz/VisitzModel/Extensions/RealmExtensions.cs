@@ -1,8 +1,8 @@
 ﻿using Realms;
 
-namespace Visitz.Extensions;
+namespace VisitzModel.Extensions;
 
-internal static class RealmExtensions
+public static class RealmExtensions
 {
     public static void Commit(this IRealmObject realmObject, Action action)
     {

@@ -4,7 +4,7 @@
 	https://github.com/realm/realm-dotnet/issues/2270#issuecomment-786720318
  */
 
-using Visitz.Extensions;
+using VisitzModel.Extensions;
 
 namespace Visitz.Models.SafetyAssess;
 

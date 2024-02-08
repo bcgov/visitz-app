@@ -1,5 +1,4 @@
 ﻿using Realms;
-using Visitz.Extensions;
 using VisitzModel.Extensions;
 
 namespace Visitz.Models
