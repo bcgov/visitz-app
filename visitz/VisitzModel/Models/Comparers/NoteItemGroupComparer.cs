@@ -1,6 +1,6 @@
 ﻿using VisitzModel.Models;
 
-namespace Visitz.Models.Comparers;
+namespace VisitzModel.Models.Comparers;
 
 public class NoteItemGroupComparer(string entityType) : IComparer<NoteItemGroup>
 {

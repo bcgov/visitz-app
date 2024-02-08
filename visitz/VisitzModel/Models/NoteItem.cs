@@ -2,7 +2,7 @@
 using System.Globalization;
 using VisitzApi.Models;
 
-namespace Visitz.Models
+namespace VisitzModel.Models
 {
     /// <summary>
     /// The business object that would be used by the app source.
@@ -41,7 +41,7 @@ namespace Visitz.Models
         public string CreatedDate { get; set; }
         public string Content { get; set; }
         public int PageNumber { get; set; }
-        
+
         public DateTimeOffset NotePeriodDateTime { get; set; }
         public DateTimeOffset CreatedDateTime { get; set; }
 
@@ -67,10 +67,10 @@ namespace Visitz.Models
                 CreatedDate = note.CreatedDate,
                 Content = note.Content,
                 PageNumber = pageNumber,
-                NotePeriodDateTime = note.NotePeriod?.Length > 0 
-                    ? DateTimeOffset.Parse(note.NotePeriod) 
+                NotePeriodDateTime = note.NotePeriod?.Length > 0
+                    ? DateTimeOffset.Parse(note.NotePeriod)
                     : DateTimeOffset.MinValue,
-                CreatedDateTime = note.CreatedDate?.Length > 0 
+                CreatedDateTime = note.CreatedDate?.Length > 0
                     ? DateTimeOffset.Parse(note.CreatedDate)
                     : DateTimeOffset.MinValue,
             };

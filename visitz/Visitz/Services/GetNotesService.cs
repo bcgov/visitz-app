@@ -1,7 +1,7 @@
-﻿using Visitz.Models;
-using Visitz.Services.Messages;
+﻿using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Models;
 
 namespace Visitz.Services
 {

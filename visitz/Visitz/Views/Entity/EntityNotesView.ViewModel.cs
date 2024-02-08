@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Visitz.Extensions;
 using Visitz.Models;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.ViewModels;
 using Visitz.Views.Notes;
@@ -73,7 +74,8 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         if (changes == null)
         {
-            var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery);
+            var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType, NoteItemsQuery,
+                LocalizedStrings.NotePageNumberHeader);
             InitNotesCollection(groups);
             return;
         }
@@ -88,7 +90,8 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
             NoteItemGroup.RemoveFromSortedGroups(Notes, deletedIndex);
 
         foreach (var insertedIndex in changes.InsertedIndices)
-            NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex], CaseloadItem.EntityType);
+            NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex], CaseloadItem.EntityType,
+                LocalizedStrings.NotePageNumberHeader);
     }
 
     [RelayCommand]

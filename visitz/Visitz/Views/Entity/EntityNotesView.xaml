@@ -5,7 +5,7 @@
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.EntityNotesView"
     x:DataType="entity:EntityNotesViewModel">

@@ -1,19 +1,19 @@
 ﻿using Realms;
 using System.Collections.ObjectModel;
-using Visitz.Models.Comparers;
-using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
-using VisitzModel.Models;
+using VisitzModel.Models.Comparers;
 
-namespace Visitz.Models;
+namespace VisitzModel.Models;
 
 public class NoteItemGroup : ObservableCollection<NoteItem>
 {
     private static readonly string DistinctQuery = "TRUEPREDICATE DISTINCT({0})";
 
+    private string NotePageNumberHeaderTemplate { get; set; }
+
     public string Name => EntityType == IcmEntity.Case
         ? NoteItem.NotePeriodFrom(NotePeriodDateTime)
-        : MakePageNumberHeader(PageNumber);
+        : MakePageNumberHeader(NotePageNumberHeaderTemplate, PageNumber);
 
     public DateTimeOffset NotePeriodDateTime { get; private set; }
 
@@ -21,26 +21,28 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
 
     public string EntityType { get; private set; }
 
-    public NoteItemGroup(NoteItem note, string entityType) : base()
+    public NoteItemGroup(NoteItem note, string entityType, string notePageNumberHeaderTemplate) : base()
     {
         NotePeriodDateTime = note.NotePeriodDateTime;
+        NotePageNumberHeaderTemplate = notePageNumberHeaderTemplate;
         PageNumber = note.PageNumber;
         EntityType = entityType;
         Add(note);
     }
 
-    public NoteItemGroup(List<NoteItem> notes, string entityType) : base(notes)
+    public NoteItemGroup(List<NoteItem> notes, string entityType, string notePageNumberHeaderTemplate) : base(notes)
     {
         var note = notes.First();
 
         NotePeriodDateTime = note.NotePeriodDateTime;
+        NotePageNumberHeaderTemplate = notePageNumberHeaderTemplate;
         PageNumber = note.PageNumber;
         EntityType = entityType;
     }
 
-    private static string MakePageNumberHeader(int pageNumber)
+    private static string MakePageNumberHeader(string notePageNumberHeaderTemplate, int pageNumber)
     {
-        return LocalizedStrings.NotePageNumberHeader.Format(pageNumber);
+        return notePageNumberHeaderTemplate.Format(pageNumber);
     }
 
     private static IOrderedEnumerable<string> GetPeriodHeaders(IQueryable<NoteItem> entityNotesQuery)
@@ -69,10 +71,11 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
                 .OrderBy(item => DateTime.Parse(item.CreatedDate))
                 .ToList();
 
-        return new NoteItemGroup(notesForPeriod, IcmEntity.Case);
+        return new NoteItemGroup(notesForPeriod, IcmEntity.Case, string.Empty);
     }
 
-    private static NoteItemGroup GetNotesGroupByPage(int pageNumber, IQueryable<NoteItem> entityNotesQuery)
+    private static NoteItemGroup GetNotesGroupByPage(int pageNumber, IQueryable<NoteItem> entityNotesQuery, 
+        string notePageNumberHeaderTemplate)
     {
         var notesForPage = entityNotesQuery
             .Where(item => item.PageNumber == pageNumber)
@@ -80,11 +83,12 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
             .OrderBy(item => DateTime.Parse(item.CreatedDate))
             .ToList();
 
-        string groupName = MakePageNumberHeader(pageNumber);
-        return new NoteItemGroup(notesForPage, IcmEntity.Incident);
+        string groupName = MakePageNumberHeader(notePageNumberHeaderTemplate, pageNumber);
+        return new NoteItemGroup(notesForPage, IcmEntity.Incident, notePageNumberHeaderTemplate);
     }
 
-    public static List<NoteItemGroup> GetGroupsFromNotesQuery(string icmEntityType, IQueryable<NoteItem> entityNotesQuery)
+    public static List<NoteItemGroup> GetGroupsFromNotesQuery(string icmEntityType, 
+        IQueryable<NoteItem> entityNotesQuery, string notePageNumberHeaderTemplate)
     {
         var groups = new List<NoteItemGroup>();
 
@@ -96,29 +100,31 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         else
         {
             foreach (var pageNumber in GetPageHeaders(entityNotesQuery))
-                groups.Add(GetNotesGroupByPage(pageNumber, entityNotesQuery));
+                groups.Add(GetNotesGroupByPage(pageNumber, entityNotesQuery, notePageNumberHeaderTemplate));
         }
 
         return groups;
     }
 
-    private static NoteItemGroup GetLastTargetGroup(IList<NoteItemGroup> groups, NoteItem note, string entityType)
+    private static NoteItemGroup GetLastTargetGroup(IList<NoteItemGroup> groups, NoteItem note, string entityType, 
+        string notePageNumberHeaderTemplate = "")
     {
         return entityType == IcmEntity.Case
             ? groups.LastOrDefault(group => group.Name == note.NotePeriod)
-            : groups.LastOrDefault(group => group.Name == MakePageNumberHeader(note.PageNumber));
+            : groups.LastOrDefault(group => group.Name == MakePageNumberHeader(notePageNumberHeaderTemplate, note.PageNumber));
     }
 
-    public static void InsertInSortedGroups(ObservableCollection<NoteItemGroup> groups, NoteItem note, string entityType)
+    public static void InsertInSortedGroups(ObservableCollection<NoteItemGroup> groups, NoteItem note, string entityType, 
+        string notePageNumberHeaderTemplate)
     {
         var targetGroup = GetLastTargetGroup(groups, note, entityType);
 
         if (targetGroup == null)
         {
-            targetGroup = new NoteItemGroup(note, entityType);
+            targetGroup = new NoteItemGroup(note, entityType, notePageNumberHeaderTemplate);
 
-            var comparer = entityType == IcmEntity.Case 
-                ? NoteItemGroupComparer.NotePeriodInstance 
+            var comparer = entityType == IcmEntity.Case
+                ? NoteItemGroupComparer.NotePeriodInstance
                 : NoteItemGroupComparer.PageNumberInstance;
 
             int groupIndex = groups.BinarySearch(targetGroup, comparer);
@@ -139,7 +145,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         }
     }
 
-    private static (int,int) GetJaggedIndex(ObservableCollection<NoteItemGroup> groups, int flattenedIndex)
+    private static (int, int) GetJaggedIndex(ObservableCollection<NoteItemGroup> groups, int flattenedIndex)
     {
         int matchIndex = 0;
 
