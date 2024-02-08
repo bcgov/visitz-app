@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Visitz.Models.Comparers;
 using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
+using VisitzModel.Models;
 
 namespace Visitz.Models;
 

@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.FontIcons;
 using Visitz.Messaging;
-using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;

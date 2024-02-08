@@ -1,4 +1,4 @@
-﻿namespace Visitz.Models
+﻿namespace VisitzModel.Models
 {
     public readonly struct IcmEntity
     {
