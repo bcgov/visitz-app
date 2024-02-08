@@ -1,4 +1,4 @@
-﻿namespace Visitz.Extensions;
+﻿namespace VisitzModel.Extensions;
 
 public static class SortedSetExtensions
 {

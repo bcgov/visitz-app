@@ -1,8 +1,8 @@
 ﻿using Realms;
 using System.Collections.ObjectModel;
-using Visitz.Extensions;
 using Visitz.Models.Comparers;
 using Visitz.Resources.Localization;
+using VisitzModel.Extensions;
 
 namespace Visitz.Models;
 

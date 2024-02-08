@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Visitz.Extensions;
+namespace VisitzModel.Extensions;
 
 public static partial class StringUnicodeExtensions
 {

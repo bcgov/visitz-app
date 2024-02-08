@@ -1,6 +1,6 @@
 ﻿using Realms;
-using Visitz.Extensions;
 using VisitzApi.Models;
+using VisitzModel.Extensions;
 
 namespace Visitz.Models
 {

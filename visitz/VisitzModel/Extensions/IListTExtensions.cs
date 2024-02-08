@@ -1,6 +1,6 @@
 ﻿// Adapted from https://stackoverflow.com/a/967098
 
-namespace Visitz.Extensions;
+namespace VisitzModel.Extensions;
 
 public static class IListTExtensions
 {

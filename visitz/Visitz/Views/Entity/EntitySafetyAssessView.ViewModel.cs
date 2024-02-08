@@ -15,6 +15,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using Visitz.ViewModels;
+using VisitzModel.Extensions;
 using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity;

@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Messaging;
 using Visitz.Models;
@@ -11,6 +10,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Views.SegmentedButtons;
+using VisitzModel.Extensions;
 
 namespace Visitz.ViewModels
 {
