@@ -4,6 +4,7 @@ using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
@@ -55,7 +56,7 @@ namespace Visitz.Services
 
         private async Task GetAllNotes()
         {
-            using var realm = await VisitzRealm.GetIcmDataAsync();
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
             var allIdEntities = realm
                 .All<CaseloadItem>()

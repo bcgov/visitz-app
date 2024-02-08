@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Visitz.Storage
+namespace VisitzModel.Storage
 {
     public static class VisitzKey
     {
@@ -28,7 +28,7 @@ namespace Visitz.Storage
         {
             var encodedKey = await SecureStorage.Default.GetAsync(EncryptionKeyName + keyName);
 
-            return encodedKey != null 
+            return encodedKey != null
                 ? Convert.FromBase64String(encodedKey)
                 : null;
         }

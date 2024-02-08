@@ -5,6 +5,7 @@ using Visitz.Services;
 using Visitz.Storage;
 using VisitzApi.Models;
 using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -108,7 +109,7 @@ namespace Visitz.ViewModels
 
         private async Task DiscardPublishedDraft()
         {
-            using var realm = await VisitzRealm.GetNoteDraftAsync();
+            using var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
             await NoteDraft.Delete(realm, CaseloadItem.CaseIncidentNumber);
         }
     }

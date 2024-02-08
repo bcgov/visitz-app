@@ -97,12 +97,6 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public void DeleteEncryptionKey()
-        {
-            DebugOptions.DeleteEncryptionKey();
-        }
-
-        [RelayCommand]
         public async void Load620bData()
         {
             try

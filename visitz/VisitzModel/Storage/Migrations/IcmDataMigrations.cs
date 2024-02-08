@@ -1,7 +1,8 @@
 ﻿using Realms;
 using VisitzModel.Models;
+using VisitzModel.Storage;
 
-namespace Visitz.Storage.Migrations;
+namespace VisitzModel.Storage.Migrations;
 
 public static class IcmDataMigrations
 {
@@ -26,14 +27,14 @@ public static class IcmDataMigrations
     {
         var oldNotes = migration.OldRealm.DynamicApi.All("NoteItem");
         var newNotes = migration.NewRealm.All<NoteItem>();
-        
-        for (int i = 0; i < newNotes.Count();  i++)
+
+        for (int i = 0; i < newNotes.Count(); i++)
             MigrateNoteItem(oldSchemaVersion, oldNotes.ElementAt(i), newNotes.ElementAt(i));
     }
 
     private static void MigrateNoteItem(ulong oldSchemaVersion, IRealmObject oldNote, NoteItem newNote)
     {
-        if (oldSchemaVersion < VisitzRealm.Version2_0)
+        if (oldSchemaVersion < VisitzRealmBase.Version2_0)
         {
             // Make Primary Key
             var oldIcmId = oldNote.DynamicApi.Get<string>("IcmId");

@@ -11,6 +11,7 @@ using Visitz.Storage;
 using Visitz.Views.SegmentedButtons;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -92,7 +93,7 @@ namespace Visitz.ViewModels
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-            Realm = await VisitzRealm.GetIcmDataAsync();
+            Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
             int sortPrefIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);

@@ -895,28 +895,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MCFD Mobility is unable to access downloaded copies of ICM data due to an unexpected event. This error can&apos;t be recovered from.
-        ///
-        ///Downloaded copies of ICM data will be deleted.
-        ///
-        ///To continue using the app: open the app switcher, force close MCFD Mobility, then launch it again..
-        /// </summary>
-        public static string RealmDatabaseErrorMessage {
-            get {
-                return ResourceManager.GetString("RealmDatabaseErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restart app to fix data issue.
-        /// </summary>
-        public static string RealmDatabaseErrorTitle {
-            get {
-                return ResourceManager.GetString("RealmDatabaseErrorTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {

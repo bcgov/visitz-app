@@ -16,6 +16,7 @@ using VisitzModel;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Models.SafetyAssess;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity;
@@ -107,7 +108,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
         WeakReferenceMessenger.Default.Register(this, id);
 
-        Realm = await VisitzRealm.GetSafetyAssessmentDraftAsync();
+        Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
         await SetupAssessment();

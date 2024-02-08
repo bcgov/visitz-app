@@ -9,6 +9,7 @@ using Visitz.Storage;
 using Visitz.ViewModels;
 using Visitz.Views.Notes;
 using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Views.Entity;
 
@@ -35,7 +36,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         base.PageCreated();
 
-        var realm = await VisitzRealm.GetIcmDataAsync();
+        var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
         NoteItemsQuery = NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber);
         NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItemsQuery_Changed);

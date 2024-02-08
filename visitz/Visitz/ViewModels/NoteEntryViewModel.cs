@@ -43,7 +43,7 @@ namespace Visitz.ViewModels
 
         private async Task InitNoteDraft()
         {
-            var realm = await VisitzRealm.GetNoteDraftAsync();
+            var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
             NoteDraft = NoteDraft.FindByEntityId(realm, CaseloadItem.CaseIncidentNumber);
 
             if (NoteDraft == null)

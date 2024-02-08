@@ -195,7 +195,7 @@ public partial class SessionViewModel
         bool reopen = ShouldReopen();
 
         await VisitzSession.LogoutAsync();
-        await VisitzRealm.ClearIcmDataRealm();
+        await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
 
         if (reopen)
         {
