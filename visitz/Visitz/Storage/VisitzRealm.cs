@@ -4,6 +4,8 @@ using Realms.Schema;
 using Visitz.Models;
 using Visitz.Models.SafetyAssess;
 using Visitz.Storage.Migrations;
+using VisitzModel;
+
 
 #if WINDOWS
 using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;

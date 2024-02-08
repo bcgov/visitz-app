@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Pages;
+using VisitzModel;
 
 namespace Visitz.ViewModels
 {

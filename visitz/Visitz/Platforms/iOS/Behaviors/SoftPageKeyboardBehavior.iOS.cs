@@ -1,6 +1,7 @@
 ﻿using CoreGraphics;
 using Foundation;
 using UIKit;
+using VisitzModel;
 
 namespace Visitz.Behaviors;
 

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Visitz;
+namespace VisitzModel;
 
 public static class ConsoleTrace
 {
@@ -9,7 +9,7 @@ public static class ConsoleTrace
     public static void TraceMethod(
         object caller,
         string message = null,
-        string prepend = null, 
+        string prepend = null,
         [CallerMemberName] string memberName = "")
     {
         TraceMethod(caller.GetType(), message, prepend, memberName);

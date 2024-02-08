@@ -2,6 +2,7 @@
 using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
+using VisitzModel;
 
 namespace Visitz;
 

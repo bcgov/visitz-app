@@ -2,6 +2,7 @@
 using IdentityModel.OidcClient.Results;
 using Visitz.Authentication.Keycloak.Events;
 using Visitz.Network;
+using VisitzModel;
 
 namespace Visitz.Authentication.Keycloak
 {
