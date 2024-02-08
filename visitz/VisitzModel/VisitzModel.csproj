@@ -20,4 +20,8 @@
 	<ItemGroup>
 		<PackageReference Include="Realm" Version="11.2.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
+	</ItemGroup>
 </Project>
