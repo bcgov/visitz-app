@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitzApi", "VisitzApi\Visi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitzApiTest", "VisitzApiTest\VisitzApiTest.csproj", "{91EBA7F1-373C-40B8-A10A-B85DF0FDE8B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisitzModel", "VisitzModel\VisitzModel.csproj", "{30EC535F-2E2D-4E2A-9644-7667F003A607}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{91EBA7F1-373C-40B8-A10A-B85DF0FDE8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91EBA7F1-373C-40B8-A10A-B85DF0FDE8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91EBA7F1-373C-40B8-A10A-B85DF0FDE8B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30EC535F-2E2D-4E2A-9644-7667F003A607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30EC535F-2E2D-4E2A-9644-7667F003A607}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30EC535F-2E2D-4E2A-9644-7667F003A607}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30EC535F-2E2D-4E2A-9644-7667F003A607}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
