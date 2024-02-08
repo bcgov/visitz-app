@@ -4,13 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:segmentedButtons="clr-namespace:Visitz.Views.SegmentedButtons"
+    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.SegmentedButtons.SegmentedButtonsView"
     x:DataType="segmentedButtons:SegmentedButtonsView"
     x:Name="this">
 
     <views:BaseContentView.Resources>
-        <Style TargetType="views:ActivatableTagView">
+        <Style TargetType="tagview:ActivatableTagView">
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup Name="Activatable">
@@ -52,7 +53,7 @@
             
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="segmentedButtons:SegmentedOptions">
-                    <views:ActivatableTagView
+                    <tagview:ActivatableTagView
                         ActiveStateChanged="ActivatableTagView_ActiveStateChanged"
                         Margin="{OnPlatform WinUI='0,0,0,1'}"
                         BorderColor="{Binding BorderColor, Source={RelativeSource AncestorType=
