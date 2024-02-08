@@ -81,6 +81,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
+	  <ProjectReference Include="..\VisitzModel\VisitzModel.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
