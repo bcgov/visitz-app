@@ -2,9 +2,9 @@
 <ContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:Visitz.Views"
-    x:DataType="views:TagView"
-    x:Class="Visitz.Views.TagView"
+    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
+    x:DataType="tagview:TagView"
+    x:Class="Visitz.Views.TagViews.TagView"
     x:Name="this">
 
     <Border

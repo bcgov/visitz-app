@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.DraftSavedView"
     x:DataType="views:DraftSavedView"
@@ -14,7 +15,7 @@
         RowDefinitions="Auto"
         ColumnDefinitions="Auto">
 
-        <views:TagView
+        <tagview:TagView
             x:Name="DraftSavedTagView"
             HorizontalOptions="Start"
             Text="{local:Localize DraftSaved}"
@@ -23,15 +24,15 @@
             IconWidthRequest="24"
             TextColor="{StaticResource BC_Semantic_Success}"
             IsVisible="False">
-            <views:TagView.ImageSource>
+            <tagview:TagView.ImageSource>
                 <FontImageSource 
                     Glyph="{Static fonticons:FluentIcons.Document_checkmark_20_regular}" 
                     FontFamily="FluentIconsRegular"
                     Color="{StaticResource BC_Semantic_Success}" />
-            </views:TagView.ImageSource>
-        </views:TagView>
+            </tagview:TagView.ImageSource>
+        </tagview:TagView>
 
-        <views:TagView
+        <tagview:TagView
             x:Name="SavingDraftTagView"
             HorizontalOptions="Start"
             Text="{local:Localize Ellipsis}"
@@ -40,12 +41,12 @@
             IconWidthRequest="24"
             TextColor="{StaticResource BC_TextColor}"
             IsVisible="False">
-            <views:TagView.ImageSource>
+            <tagview:TagView.ImageSource>
                 <FontImageSource 
                     Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}" 
                     FontFamily="FluentIconsRegular"
                     Color="{StaticResource BC_TextColor}" />
-            </views:TagView.ImageSource>
-        </views:TagView>
+            </tagview:TagView.ImageSource>
+        </tagview:TagView>
     </Grid>
 </ContentView>

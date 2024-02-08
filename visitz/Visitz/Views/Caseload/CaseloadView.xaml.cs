@@ -1,10 +1,10 @@
 #if !MACCATALYST
 using CommunityToolkit.Maui.Core.Platform;
+#endif
+
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
-#endif
-
 using Visitz.ViewModels;
 using Visitz.Views.SegmentedButtons;
 

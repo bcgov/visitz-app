@@ -1,6 +1,7 @@
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
+using Visitz.Views.TagViews;
 
 namespace Visitz.Views;
 

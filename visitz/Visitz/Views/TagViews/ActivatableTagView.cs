@@ -1,6 +1,6 @@
 using Visitz.VisualStates;
 
-namespace Visitz.Views;
+namespace Visitz.Views.TagViews;
 
 public partial class ActivatableTagView : TagView, IActiveState
 {

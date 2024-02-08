@@ -7,7 +7,7 @@
     xmlns:models="clr-namespace:Visitz.Models"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.CaseloadItemView"
     x:DataType="models:CaseloadItem">
 
@@ -42,7 +42,7 @@
                 FontFamily="BCSansRegular"
                 VerticalOptions="Center" />
 
-            <views:TagView
+            <tagview:TagView
                 x:Name="TagView"
                 Grid.Column="2"
                 Padding="5,0"
