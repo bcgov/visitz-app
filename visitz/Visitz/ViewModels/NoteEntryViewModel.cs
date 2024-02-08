@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Events;
 using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using VisitzModel;
+using VisitzModel.Events;
 using VisitzModel.Extensions;
 
 namespace Visitz.ViewModels

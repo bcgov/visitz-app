@@ -1,4 +1,4 @@
-﻿namespace Visitz.Events;
+﻿namespace VisitzModel.Events;
 
 public class DraftErrorEventArgs(string errorMessage) : EventArgs()
 {
