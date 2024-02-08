@@ -16,6 +16,7 @@ using Visitz.Storage;
 using Visitz.ViewModels;
 using VisitzModel;
 using VisitzModel.Extensions;
+using VisitzModel.Models;
 using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity;
