@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
 using Visitz.Models;
+using VisitzModel.Models;
 
 namespace Visitz.Messaging;
 

@@ -5,6 +5,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using VisitzApi.Models;
+using VisitzModel.Models;
 
 namespace Visitz.ViewModels
 {

@@ -2,6 +2,7 @@
 using Visitz.Models;
 using Visitz.Resources.Styles;
 using Visitz.Views.TagViews;
+using VisitzModel.Models;
 
 namespace Visitz.Behaviors.Tags;
 

@@ -1,4 +1,6 @@
-﻿namespace Visitz.Models;
+﻿using VisitzModel.Models;
+
+namespace Visitz.Models;
 
 public interface ICaseloadItemHolder
 {

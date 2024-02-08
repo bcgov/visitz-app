@@ -11,6 +11,7 @@ using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Views.SegmentedButtons;
 using VisitzModel.Extensions;
+using VisitzModel.Models;
 
 namespace Visitz.ViewModels
 {

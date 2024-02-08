@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Visitz.Models;
+using VisitzModel.Models;
 
 namespace Visitz.Storage
 {

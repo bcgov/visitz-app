@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Messaging;
-using Visitz.Models;
 using Visitz.Views.Entity;
 using Visitz.Views.SplitView;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Caseload;
 

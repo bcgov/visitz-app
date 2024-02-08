@@ -8,6 +8,7 @@ using Visitz.Models;
 using Visitz.Storage;
 using Visitz.ViewModels;
 using Visitz.Views.Notes;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Entity;
 

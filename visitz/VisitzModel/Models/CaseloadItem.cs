@@ -1,9 +1,8 @@
 ﻿using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
-using VisitzModel.Models;
 
-namespace Visitz.Models
+namespace VisitzModel.Models
 {
     public partial class CaseloadItem : IRealmObject
     {
@@ -75,7 +74,7 @@ namespace Visitz.Models
 
         public string FullType => CaseIncidentType + " " + EntityType;
 
-        public string TypeInitials => (EntityType == IcmEntity.Incident 
+        public string TypeInitials => (EntityType == IcmEntity.Incident
             ? EntityType[..2]
             : CaseIncidentType.GetInitials()).ToUpper();
 

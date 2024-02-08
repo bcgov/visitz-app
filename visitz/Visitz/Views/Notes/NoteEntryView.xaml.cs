@@ -2,6 +2,7 @@
 using Visitz.Models;
 using Visitz.ViewModels;
 using VisitzModel.Events;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Notes;
 

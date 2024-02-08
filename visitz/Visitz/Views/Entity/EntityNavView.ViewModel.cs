@@ -6,6 +6,7 @@ using Visitz.Models;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.ViewModels;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Entity;
 

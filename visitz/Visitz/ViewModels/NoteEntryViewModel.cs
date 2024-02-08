@@ -7,6 +7,7 @@ using Visitz.Storage;
 using VisitzModel;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
+using VisitzModel.Models;
 
 namespace Visitz.ViewModels
 {
