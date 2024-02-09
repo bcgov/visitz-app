@@ -1,4 +1,4 @@
-﻿namespace Visitz.Authentication.Keycloak.Events;
+﻿namespace Oidc.Events;
 
 public class SessionChangedEventArgs : EventArgs
 {

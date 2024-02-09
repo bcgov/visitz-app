@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Oidc;
 using Realms;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Visitz.Authentication.Keycloak;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -85,7 +85,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
-        var info = await VisitzSessionInfo.GetAsync();
+        var info = await OidcSessionInfo.GetAsync();
         return new SafetyAssessment()
         {
             IncidentNumber = CaseloadItem.CaseIncidentNumber,

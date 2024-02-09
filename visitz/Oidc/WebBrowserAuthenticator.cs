@@ -1,9 +1,7 @@
 ﻿using IdentityModel.Client;
 using IdentityModel.OidcClient.Browser;
-using Visitz.Resources.Localization;
-using Visitz.Settings;
 
-namespace Visitz.Authentication.Keycloak
+namespace Oidc
 {
     /// <summary>
     /// The class implements the IBrowser interface to handle the authentication step.
@@ -17,9 +15,9 @@ namespace Visitz.Authentication.Keycloak
         {
             try
             {
-                var callbackUrl = options.EndUrl?.Length > 0 
-                    ? options.EndUrl 
-                    : new AppSettings().Oidc.RedirectUri;
+                var callbackUrl = options.EndUrl?.Length > 0
+                    ? options.EndUrl
+                    : redirect URI here;
 
                 WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(new()
                 {
@@ -53,7 +51,7 @@ namespace Visitz.Authentication.Keycloak
                 return new BrowserResult
                 {
                     ResultType = BrowserResultType.UserCancel,
-                    ErrorDescription = LocalizedStrings.UserCancelledAuth
+                    ErrorDescription = BrowserResultType.UserCancel.ToString()
                 };
             }
             catch (Exception ex)
@@ -83,7 +81,7 @@ namespace Visitz.Authentication.Keycloak
         {
             if (url.EndsWith(EncodedHashtag))
                 url = url[..url.LastIndexOf(EncodedHashtag)];
-                
+
             return url;
         }
     }

@@ -1,4 +1,5 @@
-using Visitz.Authentication.Keycloak;
+using Oidc;
+using Visitz.Auth;
 using Visitz.Resources.Localization;
 using Visitz.ViewModels;
 
@@ -22,7 +23,7 @@ public partial class SessionPage : VisitzPage
 
 	public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
 	{
-        if (IsOpen || await VisitzSession.HasBasicAccess())
+        if (IsOpen || await OidcSession.HasRole(VisitzRoles.BasicAccess))
             return;
 
         await OpenAsync(fromPage, modal: modal, animated: animated);

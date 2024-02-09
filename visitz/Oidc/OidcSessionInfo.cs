@@ -1,10 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
-using Visitz.Storage;
 
-namespace Visitz.Authentication.Keycloak
+namespace Oidc
 {
-    public class VisitzSessionInfo
+    public class OidcSessionInfo
     {
         private static readonly string IdirUsernameKey = "idir_username";
         private static readonly string DisplayNameKey = "display_name";
@@ -14,18 +13,18 @@ namespace Visitz.Authentication.Keycloak
         private static readonly string FamilyNameKey = "family_name";
         private static readonly string EmailKey = "email";
 
-        private static VisitzSessionInfo SessionInfo { get; set; }
+        private static OidcSessionInfo SessionInfo { get; set; }
 
         private JwtSecurityToken AccessToken { get; set; }
 
-        public static async Task<VisitzSessionInfo> GetAsync()
+        public static async Task<OidcSessionInfo> GetAsync()
         {
-            SessionInfo ??= new VisitzSessionInfo();
+            SessionInfo ??= new OidcSessionInfo();
             SessionInfo.AccessToken = await TokenHolder.GetAccessTokenAsync();
             return SessionInfo;
         }
 
-        private VisitzSessionInfo() { }
+        private OidcSessionInfo() { }
 
         private bool TryGet<T>(string key, out T output)
         {
@@ -72,8 +71,6 @@ namespace Visitz.Authentication.Keycloak
         public string FirstLastName => $"{GivenName} {FamilyName}";
 
         public string Email => TryGet<string>(EmailKey, out var email) ? email : "";
-
-        public bool HasBasicAccessRole => GetRoles().Contains(VisitzRoles.BasicAccess);
 
         public string UserInitials
         {

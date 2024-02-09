@@ -1,15 +1,11 @@
-﻿using Visitz.Resources.Localization;
-
-namespace Visitz.Network;
+﻿namespace Oidc.Network;
 
 public static class NetworkHelper
 {
     public static bool InternetAvailable => Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
 
-    public static void AssertInternetAvailable(string messageIfUnavailable = null)
+    public static void AssertInternetAvailable(string messageIfUnavailable)
     {
-        messageIfUnavailable ??= LocalizedStrings.NoInternet;
-
         MainThread.BeginInvokeOnMainThread(delegate
         {
             // Forcing Internet check on main thread to avoid issue on Windows:

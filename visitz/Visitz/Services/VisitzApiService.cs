@@ -1,7 +1,7 @@
 ﻿using IdentityModel.OidcClient.Browser;
+using Oidc;
+using Oidc.Exceptions;
 using System.Net;
-using Visitz.Authentication;
-using Visitz.Authentication.Keycloak;
 using Visitz.Resources.Localization;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
@@ -21,7 +21,7 @@ namespace Visitz.Services
         {
             try
             {
-                await VisitzSession.AssertValidSessionAsync();
+                await OidcSession.AssertValidSessionAsync(messageIfUnavailable: LocalizedStrings.NoInternet);
                 await RunApiServiceAsync();
             }
             catch (LoginException ex)
@@ -42,7 +42,7 @@ namespace Visitz.Services
 #endif
                 if (IsSessionException(ex.HttpStatusCode))
                 {
-                    await VisitzSession.InvalidateSessionAsync();
+                    await OidcSession.InvalidateSessionAsync();
                     throw new UnauthorizedAccessException(LocalizedStrings.UnauthorizedForApi, ex);
 
                     // No need for different messages for 401 vs. 403, since 401 would've been handled by the

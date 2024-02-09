@@ -1,15 +1,9 @@
-﻿using Visitz.Authentication.Keycloak;
-using Visitz.Settings;
-
-namespace Visitz.VisitzConfig
+﻿namespace Oidc
 {
-    public static class VisitzAuth
+    public static class OidcMauiAppBuilderExtension
     {
-        public static MauiAppBuilder ConfigureVisitzAuth(this MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureOidcSettings(this MauiAppBuilder builder, OidcSettings settings)
         {
-            // TODO: Get AppSettings working correctly with DI
-            var settings = new AppSettings().Oidc;
-
             var options = new AuthenticationClient.Options()
             {
                 Domain = settings.AuthenticationDomain,

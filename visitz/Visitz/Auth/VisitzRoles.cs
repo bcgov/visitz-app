@@ -1,4 +1,4 @@
-﻿namespace Visitz.Authentication.Keycloak;
+﻿namespace Visitz.Auth;
 
 public static class VisitzRoles
 {

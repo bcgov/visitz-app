@@ -1,4 +1,4 @@
-﻿namespace Visitz.Network;
+﻿namespace Oidc.Network;
 
 public class InternetUnavailableException : Exception
 {

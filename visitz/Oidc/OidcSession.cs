@@ -1,38 +1,39 @@
 ﻿using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
-using Visitz.Authentication.Keycloak.Events;
-using Visitz.Network;
-using VisitzModel;
+using Oidc.Events;
+using Oidc.Exceptions;
+using Oidc.Network;
+using Oidc.Util;
 
-namespace Visitz.Authentication.Keycloak
+namespace Oidc
 {
-    public class VisitzSession
+    public class OidcSession
     {
         private static AuthenticationClient AuthClient =>
-            ServiceProvider.Current.GetRequiredService<AuthenticationClient>();
+            ServicesProvider.Current.GetRequiredService<AuthenticationClient>();
 
         public static event EventHandler<SessionChangedEventArgs> SessionChanged;
 
-        public static async Task AssertValidSessionAsync()
+        public static async Task AssertValidSessionAsync(string messageIfUnavailable)
         {
-            NetworkHelper.AssertInternetAvailable();
+            NetworkHelper.AssertInternetAvailable(messageIfUnavailable);
 
             if (!await TokenHolder.IsAccessTokenValid())
             {
                 if (await TokenHolder.IsRefreshTokenExpired())
-                    await LoginAsync();
+                    await LoginAsync(messageIfUnavailable);
                 else
-                    await RefreshAsync();
+                    await RefreshAsync(messageIfUnavailable);
             }
         }
 
-        public static async Task LoginAsync()
+        public static async Task LoginAsync(string messageIfUnavailable)
         {
             LoginResult loginResult = null;
 
             try
             {
-                NetworkHelper.AssertInternetAvailable();
+                NetworkHelper.AssertInternetAvailable(messageIfUnavailable);
 
                 loginResult = await AuthClient.LoginAsync();
 
@@ -44,24 +45,24 @@ namespace Visitz.Authentication.Keycloak
             finally
             {
 #if DEBUG
-                ConsoleTrace.TraceMethod(typeof(VisitzSession),
+                ConsoleTrace.TraceMethod(typeof(OidcSession),
                     $"loginResult.IsError: '{loginResult?.IsError}', error: '{loginResult?.Error}'");
 #endif
-                var info = await VisitzSessionInfo.GetAsync();
+                var info = await OidcSessionInfo.GetAsync();
                 SessionChanged?.Invoke(info, new LoginChangedEventArgs()
-                { 
-                    Success = !loginResult?.IsError ?? false 
+                {
+                    Success = !loginResult?.IsError ?? false
                 });
             }
         }
 
-        private static async Task RefreshAsync()
+        private static async Task RefreshAsync(string messageIfUnavailable)
         {
             RefreshTokenResult refreshResult = null;
 
             try
             {
-                NetworkHelper.AssertInternetAvailable();
+                NetworkHelper.AssertInternetAvailable(messageIfUnavailable);
 
                 var refreshToken = await TokenHolder.GetRefreshTokenStringAsync();
                 refreshResult = await AuthClient.RefreshAsync(refreshToken);
@@ -74,13 +75,13 @@ namespace Visitz.Authentication.Keycloak
             finally
             {
 #if DEBUG
-                ConsoleTrace.TraceMethod(typeof(VisitzSession), 
+                ConsoleTrace.TraceMethod(typeof(OidcSession),
                     $"refreshResult.IsError: '{refreshResult?.IsError}', error: '{refreshResult?.Error}'");
 #endif
-                var info = await VisitzSessionInfo.GetAsync();
-                SessionChanged?.Invoke(info, new RefreshChangedEventArgs() 
-                { 
-                    Success = !refreshResult?.IsError ?? false 
+                var info = await OidcSessionInfo.GetAsync();
+                SessionChanged?.Invoke(info, new RefreshChangedEventArgs()
+                {
+                    Success = !refreshResult?.IsError ?? false
                 });
             }
         }
@@ -91,20 +92,20 @@ namespace Visitz.Authentication.Keycloak
             var logoutSuccess = !logoutResult.IsError;
 
 #if DEBUG
-            ConsoleTrace.TraceMethod(typeof(VisitzSession),
+            ConsoleTrace.TraceMethod(typeof(OidcSession),
                 $"logoutResult.IsError: '{logoutResult.IsError}', error: '{logoutResult.Error}'");
 #endif
             await InvalidateSessionAsync();
 
-            var info = await VisitzSessionInfo.GetAsync();
+            var info = await OidcSessionInfo.GetAsync();
             SessionChanged?.Invoke(info, new LogoutChangedEventArgs() { Success = logoutSuccess });
 
             return logoutSuccess;
         }
 
-        public static async Task<VisitzSessionInfo> GetInfoAsync()
+        public static async Task<OidcSessionInfo> GetInfoAsync()
         {
-            return await VisitzSessionInfo.GetAsync();
+            return await OidcSessionInfo.GetAsync();
         }
 
         public static async Task InvalidateSessionAsync()
@@ -113,7 +114,7 @@ namespace Visitz.Authentication.Keycloak
             TokenHolder.DeleteRefreshToken();
             TokenHolder.DeleteIdentityToken();
 
-            var info = await VisitzSessionInfo.GetAsync();
+            var info = await OidcSessionInfo.GetAsync();
             SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs() { Success = true });
         }
 
@@ -124,10 +125,10 @@ namespace Visitz.Authentication.Keycloak
                 && await TokenHolder.GetIdentityTokenStringAsync() is not null;
         }
 
-        public static async Task<bool> HasBasicAccess()
+        public static async Task<bool> HasRole(string role)
         {
-            var info = await VisitzSessionInfo.GetAsync();
-            return await SessionExistsAsync() && info.HasBasicAccessRole;
+            var info = await OidcSessionInfo.GetAsync();
+            return await SessionExistsAsync() && info.Roles.Contains(role);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Authentication.Keycloak;
+using Oidc;
 using Visitz.Settings;
 using Visitz.Storage;
 
@@ -113,7 +113,7 @@ namespace Visitz.ViewModels
         public async void Logout()
         {
             if (DebugOptions.Enabled)
-                await VisitzSession.LogoutAsync();
+                await OidcSession.LogoutAsync();
         }
     }
 }

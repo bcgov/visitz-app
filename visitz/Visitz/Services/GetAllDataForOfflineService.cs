@@ -1,5 +1,5 @@
-﻿using Realms;
-using Visitz.Authentication.Keycloak;
+﻿using Oidc;
+using Realms;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
@@ -50,7 +50,7 @@ namespace Visitz.Services
 
         private async Task GetCaseload()
         {
-            var info = await VisitzSessionInfo.GetAsync();
+            var info = await OidcSessionInfo.GetAsync();
             await ServiceHandler.TryRunServiceAsync(GetCaseloadService.MakeStartMessage(info.Idir));
         }
 

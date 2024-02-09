@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Authentication.Keycloak;
+using Oidc;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
@@ -30,7 +30,7 @@ namespace Visitz.ViewModels
                 ? $"{caseloadItem.DisplayName} • {noteItem?.PeriodOrPageNumber}"
                 : caseloadItem.DisplayName;
 
-            var info = await VisitzSessionInfo.GetAsync();
+            var info = await OidcSessionInfo.GetAsync();
             submitNoteEntity = new()
             {
                 EntityNumber = caseloadItem.CaseIncidentNumber,

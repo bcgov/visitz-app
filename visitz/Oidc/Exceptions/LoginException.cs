@@ -1,4 +1,4 @@
-﻿namespace Visitz.Authentication;
+﻿namespace Oidc.Exceptions;
 
 public class LoginException : Exception
 {
