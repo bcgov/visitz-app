@@ -244,7 +244,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void OpenSessionPage()
         {
-            await SessionPage.OpenAsync(VisitzPage, true);
+            await Navigator.GoToPage<SessionPage>(modal: true);
         }
 
         public void SearchCaseload()

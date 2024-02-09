@@ -202,7 +202,7 @@ public partial class SessionViewModel
         if (reopen)
         {
             await Navigator.Navigation.PopModalAsync();
-            await SessionPage.OpenAsync(modal: true);
+            await Navigator.GoToPage<SessionPage>(modal: true);
         }
     }
 
