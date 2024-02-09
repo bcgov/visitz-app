@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Maui;
-using Visitz.Authentication;
+using Visitz.Device;
 using Visitz.Pages;
 using Visitz.ViewModels;
 using Visitz.Views;

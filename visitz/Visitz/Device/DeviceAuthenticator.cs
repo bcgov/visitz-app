@@ -2,7 +2,7 @@
 using Plugin.Fingerprint.Abstractions;
 using Visitz.Resources.Localization;
 
-namespace Visitz.Authentication
+namespace Visitz.Device
 {
     /// <summary>
     /// Authenticate a user via fingerprint, face id or any other biometric / local authentication method.
