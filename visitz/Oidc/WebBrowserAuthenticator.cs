@@ -15,14 +15,10 @@ namespace Oidc
         {
             try
             {
-                var callbackUrl = options.EndUrl?.Length > 0
-                    ? options.EndUrl
-                    : redirect URI here;
-
                 WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(new()
                 {
                     Url = new Uri(options.StartUrl),
-                    CallbackUrl = new Uri(callbackUrl),
+                    CallbackUrl = new Uri(options.EndUrl),
 
                     /*
                         Right now, the best way to accomodate a "real" logout feature is to enable this option.
@@ -37,7 +33,7 @@ namespace Oidc
                     PrefersEphemeralWebBrowserSession = false,
                 });
 
-                var url = new RequestUrl(callbackUrl)
+                var url = new RequestUrl(options.EndUrl)
                     .Create(new Parameters(result.Properties));
 
                 return new BrowserResult
