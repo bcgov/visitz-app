@@ -2,7 +2,7 @@
 <views:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:entity="clr-namespace:Visitz.ViewModels.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"

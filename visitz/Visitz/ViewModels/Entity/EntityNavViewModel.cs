@@ -2,11 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
-using Visitz.ViewModels;
+using Visitz.Views.Entity;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 
-namespace Visitz.Views.Entity;
+namespace Visitz.ViewModels.Entity;
 
 public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 {

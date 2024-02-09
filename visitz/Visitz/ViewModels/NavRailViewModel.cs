@@ -6,13 +6,12 @@ using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
-using Visitz.ViewModels;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 
-namespace Visitz.Views.Navigation;
+namespace Visitz.ViewModels;
 
 public partial class NavRailViewModel : VisitzViewModel
 {

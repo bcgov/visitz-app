@@ -6,12 +6,10 @@ using System.Collections.Specialized;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
-using Visitz.ViewModels;
 using Visitz.Views.Notes;
 using VisitzModel.Models;
-using VisitzModel.Storage;
 
-namespace Visitz.Views.Entity;
+namespace Visitz.ViewModels.Entity;
 
 public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 {

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.ViewModels.Entity;
 using Visitz.Views.Entity;
 using VisitzModel.Messaging;
 using VisitzModel.Models;

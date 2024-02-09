@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagbehaviors="clr-namespace:Visitz.Behaviors.Tags"
-    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:entity="clr-namespace:Visitz.ViewModels.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:selView="clr-namespace:Visitz.Views.SelectionView"

@@ -10,7 +10,7 @@ using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
-using Visitz.ViewModels;
+using Visitz.Views;
 using VisitzModel;
 using VisitzModel.Extensions;
 using VisitzModel.Messaging;
@@ -18,7 +18,7 @@ using VisitzModel.Models;
 using VisitzModel.Models.SafetyAssess;
 using VisitzModel.Utilities;
 
-namespace Visitz.Views.Entity;
+namespace Visitz.ViewModels.Entity;
 
 public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadItemHolder, IRecipient<ServiceStateMessage>
 {

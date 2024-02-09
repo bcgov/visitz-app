@@ -1,3 +1,4 @@
+using Visitz.ViewModels.Entity;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity;
