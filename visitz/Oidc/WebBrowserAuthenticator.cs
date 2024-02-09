@@ -22,10 +22,13 @@ namespace Oidc
 
                     /*
                         Right now, the best way to accomodate a "real" logout feature is to enable this option.
-                        Keeping it disabled for now because, at worst, a user has to go through the login process 
-                        every 30 minutes: enter work email, redirect to siteminder, enter gov email login, approve
-                        login via authenticator (potentially a phone call), then they'd choose "remember me" even
-                        though we would immediately dump the cookie because of this setting.
+                        With it disabled, the user's login will be stored in their cookies--so if they "log out"
+                        in the app but don't follow the IDP's logout, their credentials will remain in cookies
+                        and they'll be auto-logged in. Which could lead to confusion.
+
+                        Keeping it disabled for now because, if enabled, a user has to go through the login process 
+                        every 30 minutes: enter credentials, approve login via authenticator (potentially a phone call),
+                        then they'd choose "remember me" even though we would immediately dump the cookie.
 
                         So while we should be using this setting, I think we shouldn't enable it until we implement
                         FIDO2 logins.
