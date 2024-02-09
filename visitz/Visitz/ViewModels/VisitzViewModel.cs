@@ -11,13 +11,6 @@ namespace Visitz.ViewModels
     {
         public VisitzPage VisitzPage { get; set; }
 
-        public IDictionary<string, object> Parameters => VisitzPage.Parameters;
-
-        protected async Task NavigateTo<T>(IDictionary<string, object> parameters = null) where T : VisitzPage
-        {
-            await VisitzPage.NavigateTo<T>(VisitzPage, parameters);
-        }
-
         public virtual void PageCreated() 
         {
             ConsoleTrace.TraceMethod(this);
