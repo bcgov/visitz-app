@@ -6,6 +6,7 @@ namespace Oidc
 {
     public class TokenHolder
     {
+        // TODO: Allow this namespace prefix to be configurable outside this CS project
         private static readonly string NamespaceKey = "visitz_oauth_";
         private static readonly string AccessTokenKey = NamespaceKey + "access_token";
         private static readonly string RefreshTokenKey = NamespaceKey + "refresh_token";
