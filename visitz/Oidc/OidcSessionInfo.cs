@@ -1,5 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace Oidc
 {
@@ -15,36 +14,27 @@ namespace Oidc
 
         private static OidcSessionInfo SessionInfo { get; set; }
 
-        private JwtSecurityToken AccessToken { get; set; }
+        private TokenInfo Token { get; set; }
 
         public static async Task<OidcSessionInfo> GetAsync()
         {
             SessionInfo ??= new OidcSessionInfo();
-            SessionInfo.AccessToken = await TokenHolder.GetAccessTokenAsync();
+            SessionInfo.Token = new TokenInfo(await TokenHolder.GetAccessTokenAsync());
             return SessionInfo;
         }
 
         private OidcSessionInfo() { }
 
-        private bool TryGet<T>(string key, out T output)
-        {
-            object tryOutput = null;
-            var didGet = AccessToken?.Payload?.TryGetValue(key, out tryOutput) ?? false;
-
-            output = tryOutput != null ? (T)tryOutput : default;
-            return didGet;
-        }
-
         private string GetIdir()
         {
-            return TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
+            return Token.TryGet<string>(IdirUsernameKey, out var idir) ? idir : "";
         }
 
         private List<string> GetRoles()
         {
             List<string> outRoles = [];
 
-            if (TryGet<JsonElement>(RolesKey, out var roles))
+            if (Token.TryGet<JsonElement>(RolesKey, out var roles))
                 foreach (var role in roles.EnumerateArray())
                     outRoles.Add(role.ToString());
 
@@ -58,19 +48,19 @@ namespace Oidc
 
         public string Idir => GetIdir();
 
-        public string DisplayName => TryGet<string>(DisplayNameKey, out var displayName) ? displayName : "";
+        public string DisplayName => Token.TryGet<string>(DisplayNameKey, out var displayName) ? displayName : "";
 
         public List<string> Roles => GetRoles();
 
-        public string PreferredUsername => TryGet<string>(PreferredUsernameKey, out var name) ? name : "";
+        public string PreferredUsername => Token.TryGet<string>(PreferredUsernameKey, out var name) ? name : "";
 
-        public string GivenName => TryGet<string>(GivenNameKey, out var givenName) ? givenName : "";
+        public string GivenName => Token.TryGet<string>(GivenNameKey, out var givenName) ? givenName : "";
 
-        public string FamilyName => TryGet<string>(FamilyNameKey, out var familyName) ? familyName : "";
+        public string FamilyName => Token.TryGet<string>(FamilyNameKey, out var familyName) ? familyName : "";
 
         public string FirstLastName => $"{GivenName} {FamilyName}";
 
-        public string Email => TryGet<string>(EmailKey, out var email) ? email : "";
+        public string Email => Token.TryGet<string>(EmailKey, out var email) ? email : "";
 
         public string UserInitials
         {
