@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitzModel", "VisitzModel\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitzModelTest", "VisitzModelTest\VisitzModelTest.csproj", "{14CDB4E0-68DE-41AC-BE70-8B894119A3E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oidc", "Oidc\Oidc.csproj", "{C58FA92B-6EAE-4BE9-9044-626A2513CCBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oidc", "Oidc\Oidc.csproj", "{C58FA92B-6EAE-4BE9-9044-626A2513CCBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OidcTest", "OidcTest\OidcTest.csproj", "{048C78A9-4700-47F0-910D-0A21C3A2963D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{C58FA92B-6EAE-4BE9-9044-626A2513CCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C58FA92B-6EAE-4BE9-9044-626A2513CCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C58FA92B-6EAE-4BE9-9044-626A2513CCBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{048C78A9-4700-47F0-910D-0A21C3A2963D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{048C78A9-4700-47F0-910D-0A21C3A2963D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{048C78A9-4700-47F0-910D-0A21C3A2963D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{048C78A9-4700-47F0-910D-0A21C3A2963D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
