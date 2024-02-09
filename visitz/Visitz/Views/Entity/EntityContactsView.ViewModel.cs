@@ -12,9 +12,9 @@ public partial class EntityContactsViewModel : VisitzViewModel, ICaseloadItemHol
     [ObservableProperty]
     public IEnumerable<FamilyMember> contacts;
 
-    public override void PageCreated()
+    public override void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         Contacts = CaseloadItem.FamilyMembers;
     }

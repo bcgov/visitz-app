@@ -31,9 +31,9 @@ namespace Visitz.ViewModels
 
         public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
 
-        public override async void PageCreated()
+        public override async void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
@@ -56,11 +56,11 @@ namespace Visitz.ViewModels
             }
         }
 
-        public override void PageDestroyed()
+        public override void Destroy()
         {
             Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
 
-            base.PageDestroyed();
+            base.Destroy();
         }
 
         [RelayCommand]

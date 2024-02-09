@@ -22,9 +22,9 @@ public partial class NavRailViewModel : VisitzViewModel
     [ObservableProperty]
     public NavItem selectedNavItem;
 
-    public override void PageCreated()
+    public override void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         NavigationItems = BuildNavItems();
         SelectedNavItem = NavigationItems.First();

@@ -20,16 +20,16 @@ namespace Visitz.ViewModels
             Authenticator = authenticator;
         }
 
-        public override async void PageCreated()
+        public override async void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
         }
 
-        public override async void PageStarted()
+        public override async void Start()
         {
-            base.PageStarted();
+            base.Start();
 
             await PromptAuthentication();
         }

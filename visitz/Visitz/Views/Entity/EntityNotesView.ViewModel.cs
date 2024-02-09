@@ -32,9 +32,9 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
     public NoteItem LastNoteItem => LastNoteItemGroup?.LastOrDefault();
 
-    public override async void PageCreated()
+    public override async void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
@@ -42,7 +42,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItemsQuery_Changed);
     }
 
-    public override void PageDestroyed()
+    public override void Destroy()
     {
         if (Notes != null)
             Notes.CollectionChanged -= Notes_CollectionChanged;
@@ -51,7 +51,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         NoteItemsQueryToken?.Dispose();
         NoteItemsQueryToken = null;
 
-        base.PageDestroyed();
+        base.Destroy();
     }
 
     private void InitNotesCollection(List<NoteItemGroup> items)

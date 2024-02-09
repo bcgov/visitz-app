@@ -32,9 +32,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool skipLocalAuth;
 
-        public override void PageCreated()
+        public override void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
             DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;

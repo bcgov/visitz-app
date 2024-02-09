@@ -43,9 +43,9 @@ public partial class SessionViewModel : VisitzViewModel
         return info.DisplayName?.Length > 0 ? info.DisplayName : LocalizedStrings.Login;
     }
 
-    public override async void PageCreated()
+    public override async void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         BuildNumber = AppInfo.Current.BuildString;
         AppVersion = AppInfo.Current.VersionString;
@@ -58,11 +58,11 @@ public partial class SessionViewModel : VisitzViewModel
         BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
     }
 
-    public override void PageDestroyed()
+    public override void Destroy()
     {
         OidcSession.SessionChanged -= VisitzSession_SessionChanged;
 
-        base.PageDestroyed();
+        base.Destroy();
     }
 
     private async void VisitzSession_SessionChanged(object sender, EventArgs e)

@@ -39,9 +39,9 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 
     public NavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
 
-    public override void PageCreated()
+    public override void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         EntityNavItems = BuildNavList();
 
@@ -56,11 +56,11 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
         });
     }
 
-    public override void PageDestroyed()
+    public override void Destroy()
     {
         StrongReferenceMessenger.Default.UnregisterAll(this);
 
-        base.PageDestroyed();
+        base.Destroy();
     }
 
     private List<NavItem> BuildNavList()

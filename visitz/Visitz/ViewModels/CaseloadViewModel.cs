@@ -121,20 +121,20 @@ namespace Visitz.ViewModels
             Realm = null;
         }
 
-        public override async void PageCreated()
+        public override async void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             await Setup();
 
             ApplyCaseloadQuery();
         }
 
-        public override void PageDestroyed()
+        public override void Destroy()
         {
             Teardown();
 
-            base.PageDestroyed();
+            base.Destroy();
         }
 
         private void Caseload_Changed(IRealmCollection<CaseloadItem> sender, ChangeSet changes)

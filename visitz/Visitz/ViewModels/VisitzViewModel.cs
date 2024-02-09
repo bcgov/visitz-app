@@ -11,22 +11,22 @@ namespace Visitz.ViewModels
     {
         public VisitzPage VisitzPage { get; set; }
 
-        public virtual void PageCreated() 
+        public virtual void Create() 
         {
             ConsoleTrace.TraceMethod(this);
         }
 
-        public virtual void PageStarted()
+        public virtual void Start()
         {
             ConsoleTrace.TraceMethod(this);
         }
 
-        public virtual void PageStopped()
+        public virtual void Stop()
         {
             ConsoleTrace.TraceMethod(this);
         }
 
-        public virtual void PageDestroyed()
+        public virtual void Destroy()
         {
             ConsoleTrace.TraceMethod(this);
         }
@@ -64,25 +64,25 @@ namespace Visitz.ViewModels
         private void Window_Activated(object sender, EventArgs e)
         {
             ConsoleTrace.TraceMethod(this);
-            PageStarted();
+            Start();
         }
 
         public void Window_Resumed(object sender, EventArgs e)
         {
             ConsoleTrace.TraceMethod(this);
-            PageStarted();
+            Start();
         }
 
         public void Window_Stopped(object sender, EventArgs e)
         {
             ConsoleTrace.TraceMethod(this);
-            PageStopped();
+            Stop();
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
             ConsoleTrace.TraceMethod(this);
-            PageStopped();
+            Stop();
         }
     }
 }

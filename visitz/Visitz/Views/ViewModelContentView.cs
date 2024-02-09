@@ -8,11 +8,11 @@ public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseCont
 
 	protected override void Creating()
 	{
-		ViewModel.PageCreated();
+		ViewModel.Create();
 	}
 
     protected override void Destroying()
 	{
-        ViewModel.PageDestroyed();
+        ViewModel.Destroy();
     }
 }

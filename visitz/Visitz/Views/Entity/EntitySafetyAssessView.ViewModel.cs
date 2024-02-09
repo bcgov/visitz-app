@@ -100,9 +100,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         };
     }
 
-    public override async void PageCreated()
+    public override async void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
         WeakReferenceMessenger.Default.Register(this, id);
@@ -161,7 +161,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         AvailableChildrenInOutCare = CaseloadItem.FamilyMembers;
     }
 
-    public override void PageDestroyed()
+    public override void Destroy()
     {
         debouncer?.Dispose();
         WeakReferenceMessenger.Default.UnregisterAll(this);
@@ -169,7 +169,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
         UnsubscribeFromAssessment();
 
-        base.PageDestroyed();
+        base.Destroy();
     }
 
     partial void OnAssessmentChanged(SafetyAssessment value)
