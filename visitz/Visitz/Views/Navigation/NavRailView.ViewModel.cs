@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.FontIcons;
-using Visitz.Messaging;
-using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -11,6 +9,8 @@ using Visitz.Storage;
 using Visitz.ViewModels;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
+using VisitzModel.Messaging;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Navigation;
 

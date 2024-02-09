@@ -1,7 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Messaging;
 using Visitz.Resources.Localization;
+using VisitzModel.Messaging;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity;

@@ -3,13 +3,13 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.FontIcons;
-using Visitz.Messaging;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Views.SegmentedButtons;
 using VisitzModel.Extensions;
+using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Storage;
 

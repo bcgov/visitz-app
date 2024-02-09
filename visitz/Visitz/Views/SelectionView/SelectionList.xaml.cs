@@ -4,7 +4,7 @@
 
 using System.Collections;
 using System.Windows.Input;
-using Visitz.Models;
+using VisitzModel.Models;
 
 namespace Visitz.Views.SelectionView;
 

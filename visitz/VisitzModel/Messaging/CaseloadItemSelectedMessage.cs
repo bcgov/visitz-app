@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
 using VisitzModel.Models;
 
-namespace Visitz.Messaging;
+namespace VisitzModel.Messaging;
 
 public class CaseloadItemSelectedMessage(CaseloadItem value) : ValueChangedMessage<CaseloadItem>(value)
 {

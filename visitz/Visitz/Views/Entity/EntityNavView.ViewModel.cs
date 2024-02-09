@@ -1,11 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Messaging;
-using Visitz.Models;
 using Visitz.Resources.Localization;
-using Visitz.Storage;
 using Visitz.ViewModels;
+using VisitzModel.Messaging;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity;

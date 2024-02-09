@@ -6,7 +6,7 @@
     xmlns:tagbehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
-    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.EntityNavView"

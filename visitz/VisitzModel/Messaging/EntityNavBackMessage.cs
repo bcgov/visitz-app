@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
 
-namespace Visitz.Messaging;
+namespace VisitzModel.Messaging;
 
 public class EntityNavBackMessage() : ValueChangedMessage<object>(null)
 {

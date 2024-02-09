@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Visitz.Authentication.Keycloak;
-using Visitz.Messaging;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -14,9 +13,9 @@ using Visitz.Storage;
 using Visitz.ViewModels;
 using VisitzModel;
 using VisitzModel.Extensions;
+using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.SafetyAssess;
-using VisitzModel.Storage;
 using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity;
