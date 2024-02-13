@@ -185,7 +185,7 @@ public partial class SessionViewModel
 
     private async Task<bool> PromptLogout()
     {
-        return await VisitzPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlert(
             LocalizedStrings.LogoutAndClearData,
             LocalizedStrings.LogoutAndClearDataDesc,
             LocalizedStrings.Logout,

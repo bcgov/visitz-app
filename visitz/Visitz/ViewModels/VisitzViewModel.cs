@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Visitz.Pages;
 using VisitzModel;
 
 namespace Visitz.ViewModels
@@ -9,8 +8,6 @@ namespace Visitz.ViewModels
     /// </summary>
 	public partial class VisitzViewModel : ObservableObject
     {
-        public VisitzPage VisitzPage { get; set; }
-
         public virtual void Create() 
         {
             ConsoleTrace.TraceMethod(this);

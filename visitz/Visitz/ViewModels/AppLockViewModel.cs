@@ -10,8 +10,6 @@ namespace Visitz.ViewModels
     {
         private DeviceAuthenticator Authenticator { get; }
 
-        public AppLockPage Page => (AppLockPage)VisitzPage;
-
         [ObservableProperty]
         public string backgroundImageUri;
 
@@ -45,7 +43,7 @@ namespace Visitz.ViewModels
             switch (result)
             {
                 case DeviceAuthenticator.Result.NotConfigured:
-                    await Page.DisplayAlert(
+                    await Navigator.CurrentOpenPage.DisplayAlert(
                         LocalizedStrings.EnableDeviceSecurity,
                         LocalizedStrings.SecureDeviceAndTryAgain,
                         LocalizedStrings.Ok
