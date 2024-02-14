@@ -1,0 +1,60 @@
+name: Run .NET MAUI tests
+
+run-name: Run .NET MAUI tests (${{ github.ref_name }})
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+
+env:
+  BASE_PROJPATH: "./visitz"
+  DOTNET_VERSION: "8.0.100" # see workflows README
+  MAUI_VERSION: "8.0.6" # see workflows README
+
+jobs:
+  run-maui-tests:
+    name: Build and test .NET MAUI project
+    runs-on: windows-2022
+    timeout-minutes: 20
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Force use .NET SDK ${{ env.DOTNET_VERSION }}
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: |
+          (Get-Content .\global.json.template).Replace('DOTNET_VERSION', '${{ env.DOTNET_VERSION }}') | Set-Content .\global.json
+
+      - name: Cache .NET dependencies
+        uses: actions/cache@v4
+        if: always()
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install .NET MAUI ${{ env.MAUI_VERSION }} workloads
+        run: |
+          dotnet workload restore `
+            -- source https://api.nuget.org/v3/index.json `
+            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
+
+      - name: Restore solution
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: dotnet restore
+
+      - name: Build solution
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: dotnet build
+
+      - name: Run tests
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: dotnet test
