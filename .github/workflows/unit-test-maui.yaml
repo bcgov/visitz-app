@@ -49,7 +49,7 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet workload restore `
-            --from-rollback-file .github/dotnet/maui/${{ env.MAUI_VERSION }}.json
+            --from-rollback-file ../.github/dotnet/maui/${{ env.MAUI_VERSION }}.json
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
