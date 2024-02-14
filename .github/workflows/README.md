@@ -1,5 +1,11 @@
 # MCFD Mobility GitHub Actions
 
+## Tests
+
+On push, if any files in the `visitz/` directory have changed, an Action will be triggered that runs all tests for the Visitz MAUI project.
+
+The production branch requires all tests succeed before allowing a PR merge.
+
 ## App release builds
 
 ### Android
