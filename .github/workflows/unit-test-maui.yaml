@@ -64,8 +64,8 @@ jobs:
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
-        run: dotnet build --framework net8.0
+        run: dotnet build
 
       - name: Run tests
         working-directory: ${{ env.BASE_PROJPATH }}
-        run: dotnet test --framework net8.0
+        run: dotnet test
