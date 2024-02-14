@@ -66,4 +66,4 @@ jobs:
 
       - name: Run tests
         working-directory: ${{ env.BASE_PROJPATH }}
-        run: dotnet test
+        run: dotnet test --no-build
