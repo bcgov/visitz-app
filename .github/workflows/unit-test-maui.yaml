@@ -42,6 +42,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Install .NET MAUI ${{ env.MAUI_VERSION }} workloads
+        working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet workload restore `
             -- source https://api.nuget.org/v3/index.json `
