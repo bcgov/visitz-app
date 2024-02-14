@@ -9,7 +9,7 @@ on:
 
 env:
   BASE_PROJPATH: "./visitz"
-  DOTNET_VERSION: "8.0.100" # see workflows README
+  DOTNET_VERSION: "8.0.101" # see workflows README
   MAUI_VERSION: "8.0.6" # see workflows README
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet workload restore `
-            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
+            --from-rollback-file .github/dotnet/maui/${{ env.MAUI_VERSION }}.json
 
       - name: Restore solution
         working-directory: ${{ env.BASE_PROJPATH }}
