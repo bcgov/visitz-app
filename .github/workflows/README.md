@@ -58,7 +58,7 @@ Nothing yet.
 |	Audience					|	GH Environment	|	Loginproxy	|	Visitz API	|	Debug options	|
 |	---							|	---				|	---			|	---			|	---				|
 |	Developers					|	developer		|	dev			|	dev			|	**enabled**		|
-|	MCFD Mobility project team	|	project-team	|	dev		|	dev		|	**enabled**		|
+|	MCFD Mobility project team	|	project-team	|	dev			|	dev			|	**enabled**		|
 |	Early adopters				|	beta			|	prod		|	prod		|	*disabled*		|
 |	General users				|	prod			|	prod		|	prod		|	*disabled*		|
 
