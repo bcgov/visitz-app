@@ -16,7 +16,7 @@ jobs:
   run-maui-tests:
     name: Build and test .NET MAUI project
     runs-on: windows-2022
-    timeout-minutes: 20
+    timeout-minutes: 40
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
