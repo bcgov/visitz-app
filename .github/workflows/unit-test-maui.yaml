@@ -4,7 +4,6 @@ run-name: Run .NET MAUI tests (${{ github.ref_name }})
 
 on:
   workflow_dispatch:
-  pull_request:
   push:
 
 permissions:
