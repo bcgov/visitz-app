@@ -50,9 +50,7 @@ jobs:
         run: |
           dotnet --version
           dotnet nuget locals all --clear
-          dotnet workload install maui `
-            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
-          dotnet workload install ios maccatalyst `
+          dotnet workload install maui ios maccatalyst `
             --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
 
       - name: Build solution
