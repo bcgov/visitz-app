@@ -17,8 +17,6 @@ jobs:
     name: Build and test .NET MAUI project
     runs-on: windows-2022
     timeout-minutes: 40
-    env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
       - uses: actions/checkout@v4
 
@@ -41,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         if: always()
         with:
-          path: ${{ github.workspace }}/.nuget/packages
+          path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
