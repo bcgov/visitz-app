@@ -30,6 +30,8 @@
 
 	- This keeps the commit history cleaner, and pull requests won't be littered with changes unrelated to your new work.
 
+	- Unless there's a good reason, avoid the *Rebase and Merge* option when merging a Pull Request. It's recommended to rebase your feature branch, push, then run a normal merge.
+
 4. Before merging a branch into one of the mainlines (dev, test, prod) you *must* remove all instances of commented code.
 
     * Temporarily disabling code: remove it.
