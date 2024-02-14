@@ -22,10 +22,14 @@ Visitz uses API endpoints which have been set up in another repository.
 
 ### Project Structure
 
-Visitz is built using two C# projects: "Visitz" and "VisitzApi":
+Visitz is built using several C# projects:
 
-- Visitz: Bulk of the business-code
-- VisitzApi: API wrapper for interacting with API integrations.
+- `Visitz`: The MAUI implementation of the app.
+- `VisitzApi`: Wrapper for interacting with API integrations.
+- `VisitzModel`: The bulk of the business-logic.
+- `Oidc`: OIDC authentication implemenation for MAUI.
+
+Except for `Visitz`, each project has its own xUnit testing project associated with it.
 
 ## Environment Setup
 
