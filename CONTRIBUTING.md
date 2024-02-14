@@ -26,11 +26,9 @@
 
             - If your Visitz.csproj.user file gets corrupted, just re-do the setup in Visitz.csproj and move it over again.
 
-3. When merging Pull Requests it is recommended to use the *Rebase and Merge* option. You *must not* use the *Squash and Merge* option.
+3. Don't merge remote branches into your feature branch in order to keep them up to date. Rebase your feature branch onto remote branches instead.
 
-    * When you *Rebase* a Pull Request it is not necessary to merge the main branch into your working branch to "update" it. Rebasing inherently handles this for you. If you *do* merge the main branch into your working branch and try to rebase you will get a merge conflict.
-
-    * When you *Squash* a Pull Request, you lose all meaningful information attached to all the commits from that branch. It combines the contents of all commits into one commit and discards the commits' metadata: who wrote it, the timestamp, commit ID, comments the author wrote for context.
+	- This keeps the commit history cleaner, and pull requests won't be littered with changes unrelated to your new work.
 
 4. Before merging a branch into one of the mainlines (dev, test, prod) you *must* remove all instances of commented code.
 
