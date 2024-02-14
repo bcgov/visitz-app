@@ -60,6 +60,9 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: dotnet build
 
+      # Running with --no-build to work around an MSBuild targets issue.
+      # (Details: build throws an error about a missing "Visitz.appSettings.json" file. That file should only exist
+      # when running a build in Release mode.)
       - name: Run tests
         working-directory: ${{ env.BASE_PROJPATH }}
         run: dotnet test --no-build
