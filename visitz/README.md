@@ -55,5 +55,4 @@ Except for `Visitz`, each project has its own xUnit testing project associated w
 
 5. Select build configuration and launch
 
-    - Visitz is currently only being built for iOS and Windows. Other platforms may or may not work when launching.
-
+    - Visitz currently only supports being built for iOS and Windows. Other platforms may or may not work when launching.
