@@ -48,8 +48,12 @@ jobs:
       - name: Install .NET MAUI ${{ env.MAUI_VERSION }} workloads
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
+          dotnet --version
+          dotnet nuget locals all --clear
           dotnet workload install maui `
-            --from-rollback-file ../.github/dotnet/maui/${{ env.MAUI_VERSION }}.json
+            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
+          dotnet workload install ios maccatalyst `
+            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
