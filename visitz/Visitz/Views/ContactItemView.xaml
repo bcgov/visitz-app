@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:tag_behaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
-    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.ContactItemView"
     x:DataType="models:FamilyMember"

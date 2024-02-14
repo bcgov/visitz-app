@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Authentication.Keycloak;
-using Visitz.Models;
+using Oidc;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using VisitzApi.Models;
+using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -29,7 +30,7 @@ namespace Visitz.ViewModels
                 ? $"{caseloadItem.DisplayName} • {noteItem?.PeriodOrPageNumber}"
                 : caseloadItem.DisplayName;
 
-            var info = await VisitzSessionInfo.GetAsync();
+            var info = await OidcSessionInfo.GetAsync();
             submitNoteEntity = new()
             {
                 EntityNumber = caseloadItem.CaseIncidentNumber,
@@ -47,9 +48,9 @@ namespace Visitz.ViewModels
             getNotesServiceId = GetNotesService.MakeId(id);
         }
 
-        public override void PageCreated()
+        public override void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             Wait(LocalizedStrings.LoginToSubmitNotes);
 
@@ -60,11 +61,11 @@ namespace Visitz.ViewModels
             Publish();
         }
 
-        public override void PageDestroyed()
+        public override void Destroy()
         {
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
-            base.PageDestroyed();
+            base.Destroy();
         }
 
         public override void Publish()
@@ -108,7 +109,7 @@ namespace Visitz.ViewModels
 
         private async Task DiscardPublishedDraft()
         {
-            using var realm = await VisitzRealm.GetNoteDraftAsync();
+            using var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
             await NoteDraft.Delete(realm, CaseloadItem.CaseIncidentNumber);
         }
     }

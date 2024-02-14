@@ -1,7 +1,8 @@
-﻿using Visitz.Authentication.Keycloak;
+﻿using Oidc;
 using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
+using VisitzModel;
 
 namespace Visitz;
 
@@ -49,7 +50,7 @@ public partial class VisitzApp : Application
         if (DebugOptions.SkipLocalAuth)
             return;
 #endif
-        if (await VisitzSession.SessionExistsAsync())
+        if (await OidcSession.SessionExistsAsync())
             await AppLockPage.TryPrompt();
     }
 

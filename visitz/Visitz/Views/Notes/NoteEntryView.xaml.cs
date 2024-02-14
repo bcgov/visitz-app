@@ -1,6 +1,7 @@
 ﻿using Visitz.Animations.Haptic;
-using Visitz.Models;
 using Visitz.ViewModels;
+using VisitzModel.Events;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Notes;
 
@@ -29,12 +30,12 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         base.Destroying();
     }
 
-    private async void NoteEntryView_DraftError(object sender, Events.DraftErrorEventArgs e)
+    private async void NoteEntryView_DraftError(object sender, DraftErrorEventArgs e)
     {
         await ShowEditorError(e.ErrorMessage);
     }
 
-    private async void NoteEntryView_DraftSaveStateChanged(object sender, Events.DraftSaveStatusEventArgs e)
+    private async void NoteEntryView_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
     {
         DraftSavedView.State state = e.DraftSaved
             ? DraftSavedView.State.Saved

@@ -4,15 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:converters="clr-namespace:Visitz.Converters"
-    xmlns:models="clr-namespace:Visitz.Models"
-    xmlns:safetyModels="clr-namespace:Visitz.Models.SafetyAssess"
+    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
+    xmlns:safetyModels="clr-namespace:VisitzModel.Models.SafetyAssess;assembly=VisitzModel"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:entityModel="clr-namespace:Visitz.ViewModels.Entity"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.EntitySafetyAssessView"
-    x:DataType="entity:EntitySafetyAssessViewModel">
+    x:DataType="entityModel:EntitySafetyAssessViewModel">
 
     <views:ViewModelContentView.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
@@ -364,22 +365,22 @@
                         <VerticalStackLayout Spacing="10">
                             <VerticalStackLayout 
                                 Spacing="10"
-                                RadioButtonGroup.GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                                RadioButtonGroup.GroupName="{Static entityModel:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                 RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionBinding}">
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.Safe}"
                                     IsChecked="{Binding SafeChecked}"
-                                    GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
+                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
                                     Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.SafeWithInterventions}"
                                     IsChecked="{Binding SafeWithInterventionsChecked}"
-                                    GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                     Text="{local:Localize SafetyDecision2_SafeInterventions}" />
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.Unsafe}"
                                     IsChecked="{Binding UnsafeChecked}"
-                                    GroupName="{Static entity:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                     Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
                             </VerticalStackLayout>
 
@@ -387,15 +388,15 @@
                                 IsVisible="{Binding UnsafeChecked}"
                                 Spacing="10"
                                 Margin="30,0,0,0"
-                                RadioButtonGroup.GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                RadioButtonGroup.GroupName="{Static entityModel:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                 RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionUnsafeBinding}">
                                 <formctls:FormRadioButton 
-                                    GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                     IsChecked="{Binding AllChildrenPlaced}"
                                     Value="{Static safetyModels:SafetyDecisions.AllChildrenPlaced}"
                                     Text="{local:Localize SafetyDecision_AllYouth}" />
                                 <formctls:FormRadioButton 
-                                    GroupName="{Static entity:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                     IsChecked="{Binding SomeChildrenPlaced}"
                                     CheckedChanged="SomeChildrenPlaced_CheckedChanged"
                                     Value="{Static safetyModels:SafetyDecisions.SomeChildrenPlaced}"

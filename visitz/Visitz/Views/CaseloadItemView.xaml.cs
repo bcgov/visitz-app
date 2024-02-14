@@ -1,6 +1,6 @@
 using Visitz.FontIcons;
-using Visitz.Models;
 using Visitz.Resources.Styles;
+using VisitzModel.Models;
 
 namespace Visitz.Views;
 

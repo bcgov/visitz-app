@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Authentication.Keycloak;
+using Oidc;
 using Visitz.Settings;
 using Visitz.Storage;
 
@@ -32,9 +32,9 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool skipLocalAuth;
 
-        public override void PageCreated()
+        public override void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
             DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
@@ -97,12 +97,6 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public void DeleteEncryptionKey()
-        {
-            DebugOptions.DeleteEncryptionKey();
-        }
-
-        [RelayCommand]
         public async void Load620bData()
         {
             try
@@ -119,7 +113,7 @@ namespace Visitz.ViewModels
         public async void Logout()
         {
             if (DebugOptions.Enabled)
-                await VisitzSession.LogoutAsync();
+                await OidcSession.LogoutAsync();
         }
     }
 }

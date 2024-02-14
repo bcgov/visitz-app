@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Visitz.Authentication;
+using Visitz.Device;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -10,8 +10,6 @@ namespace Visitz.ViewModels
     {
         private DeviceAuthenticator Authenticator { get; }
 
-        public AppLockPage Page => (AppLockPage)VisitzPage;
-
         [ObservableProperty]
         public string backgroundImageUri;
 
@@ -20,16 +18,16 @@ namespace Visitz.ViewModels
             Authenticator = authenticator;
         }
 
-        public override async void PageCreated()
+        public override async void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
         }
 
-        public override async void PageStarted()
+        public override async void Start()
         {
-            base.PageStarted();
+            base.Start();
 
             await PromptAuthentication();
         }
@@ -45,7 +43,7 @@ namespace Visitz.ViewModels
             switch (result)
             {
                 case DeviceAuthenticator.Result.NotConfigured:
-                    await Page.DisplayAlert(
+                    await Navigator.CurrentOpenPage.DisplayAlert(
                         LocalizedStrings.EnableDeviceSecurity,
                         LocalizedStrings.SecureDeviceAndTryAgain,
                         LocalizedStrings.Ok

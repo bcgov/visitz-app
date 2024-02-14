@@ -1,9 +1,10 @@
-﻿using Realms;
-using Visitz.Authentication.Keycloak;
-using Visitz.Models;
+﻿using Oidc;
+using Realms;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
@@ -49,13 +50,13 @@ namespace Visitz.Services
 
         private async Task GetCaseload()
         {
-            var info = await VisitzSessionInfo.GetAsync();
+            var info = await OidcSessionInfo.GetAsync();
             await ServiceHandler.TryRunServiceAsync(GetCaseloadService.MakeStartMessage(info.Idir));
         }
 
         private async Task GetAllNotes()
         {
-            using var realm = await VisitzRealm.GetIcmDataAsync();
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
             var allIdEntities = realm
                 .All<CaseloadItem>()

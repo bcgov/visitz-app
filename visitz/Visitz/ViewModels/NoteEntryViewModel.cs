@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Events;
-using Visitz.Extensions;
-using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
+using VisitzModel;
+using VisitzModel.Events;
+using VisitzModel.Extensions;
+using VisitzModel.Models;
 
 namespace Visitz.ViewModels
 {
@@ -30,9 +31,9 @@ namespace Visitz.ViewModels
 
         public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
 
-        public override async void PageCreated()
+        public override async void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
@@ -42,7 +43,7 @@ namespace Visitz.ViewModels
 
         private async Task InitNoteDraft()
         {
-            var realm = await VisitzRealm.GetNoteDraftAsync();
+            var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
             NoteDraft = NoteDraft.FindByEntityId(realm, CaseloadItem.CaseIncidentNumber);
 
             if (NoteDraft == null)
@@ -55,11 +56,11 @@ namespace Visitz.ViewModels
             }
         }
 
-        public override void PageDestroyed()
+        public override void Destroy()
         {
             Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
 
-            base.PageDestroyed();
+            base.Destroy();
         }
 
         [RelayCommand]

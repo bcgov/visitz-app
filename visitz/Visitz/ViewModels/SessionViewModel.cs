@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Authentication.Keycloak;
+using Oidc;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
@@ -9,6 +10,7 @@ using Visitz.Resources.Styles;
 using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
+
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -33,45 +35,45 @@ public partial class SessionViewModel : VisitzViewModel
     [ObservableProperty]
     public double bgOpacity = ShowcaseOpacity;
 
-    private VisitzSessionInfo SessionInfo;
+    private OidcSessionInfo SessionInfo;
 
-    public static async Task<string> GetDisplayNamePrompt(VisitzSessionInfo info = null)
+    public static async Task<string> GetDisplayNamePrompt(OidcSessionInfo info = null)
     {
-        info ??= await VisitzSessionInfo.GetAsync();
+        info ??= await OidcSessionInfo.GetAsync();
         return info.DisplayName?.Length > 0 ? info.DisplayName : LocalizedStrings.Login;
     }
 
-    public override async void PageCreated()
+    public override async void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         BuildNumber = AppInfo.Current.BuildString;
         AppVersion = AppInfo.Current.VersionString;
 
-        SessionInfo = await VisitzSessionInfo.GetAsync();
+        SessionInfo = await OidcSessionInfo.GetAsync();
         await ApplyLayout();
 
-        VisitzSession.SessionChanged += VisitzSession_SessionChanged;
+        OidcSession.SessionChanged += VisitzSession_SessionChanged;
 
         BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
     }
 
-    public override void PageDestroyed()
+    public override void Destroy()
     {
-        VisitzSession.SessionChanged -= VisitzSession_SessionChanged;
+        OidcSession.SessionChanged -= VisitzSession_SessionChanged;
 
-        base.PageDestroyed();
+        base.Destroy();
     }
 
     private async void VisitzSession_SessionChanged(object sender, EventArgs e)
     {
-        SessionInfo = sender as VisitzSessionInfo;
+        SessionInfo = sender as OidcSessionInfo;
         await ApplyLayout();
     }
 
     private async Task ApplyLayout()
     {
-        if (await VisitzSession.SessionExistsAsync())
+        if (await OidcSession.SessionExistsAsync())
             ApplyAuthStatusLayout();
         else
             ApplyLoginLayout();
@@ -99,9 +101,9 @@ public partial class SessionViewModel
     {
         try
         {
-            await VisitzSession.LoginAsync();
+            await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet);
 
-            if (SessionInfo.HasBasicAccessRole)
+            if (SessionInfo.HasBasicAccessRole())
             {
                 await Navigator.Navigation.PopModalAsync();
                 WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
@@ -143,7 +145,7 @@ public partial class SessionViewModel
     private void ApplyAuthStatusLayout()
     {
         DisplayName = SessionInfo.GivenName;
-        IsAuthorized = SessionInfo.HasBasicAccessRole;
+        IsAuthorized = SessionInfo.HasBasicAccessRole();
         IsUnauthorized = !IsAuthorized;
         MailToUrl = new AppSettings().ContactInfo.MailToAuthorize;
 
@@ -183,7 +185,7 @@ public partial class SessionViewModel
 
     private async Task<bool> PromptLogout()
     {
-        return await VisitzPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlert(
             LocalizedStrings.LogoutAndClearData,
             LocalizedStrings.LogoutAndClearDataDesc,
             LocalizedStrings.Logout,
@@ -194,13 +196,13 @@ public partial class SessionViewModel
     {
         bool reopen = ShouldReopen();
 
-        await VisitzSession.LogoutAsync();
-        await VisitzRealm.ClearIcmDataRealm();
+        await OidcSession.LogoutAsync();
+        await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
 
         if (reopen)
         {
             await Navigator.Navigation.PopModalAsync();
-            await SessionPage.OpenAsync(modal: true);
+            await Navigator.GoToPage<SessionPage>(modal: true);
         }
     }
 
@@ -239,7 +241,7 @@ public partial class SessionViewModel
     private void ApplyModalStyles(bool sessionExists)
     {
 #if IOS
-        PresentationStyle = sessionExists && SessionInfo.HasBasicAccessRole
+        PresentationStyle = sessionExists && SessionInfo.HasBasicAccessRole()
             ? DialogStyle
             : UIModalPresentationStyle.FullScreen;
 #endif

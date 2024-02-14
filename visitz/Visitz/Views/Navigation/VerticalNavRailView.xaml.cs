@@ -1,4 +1,4 @@
-using Visitz.Pages;
+using Visitz.ViewModels;
 
 namespace Visitz.Views.Navigation;
 

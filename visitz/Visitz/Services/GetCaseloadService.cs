@@ -1,7 +1,7 @@
-﻿using Visitz.Models;
-using Visitz.Services.Messages;
+﻿using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Models;
 
 namespace Visitz.Services
 {
@@ -38,7 +38,7 @@ namespace Visitz.Services
 
             caseloadContent = FilterNonCasesAndIncidents(caseloadContent);
 
-            using var realm = await VisitzRealm.GetIcmDataAsync();
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
             var currentCaseload = realm.All<CaseloadItem>();
             var deletedCaseload = currentCaseload.ExceptBy(caseloadContent.Select(CaseloadSelector), CaseloadSelector);
 

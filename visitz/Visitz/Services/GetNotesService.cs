@@ -1,7 +1,8 @@
-﻿using Visitz.Models;
-using Visitz.Services.Messages;
+﻿using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
@@ -49,7 +50,7 @@ namespace Visitz.Services
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
             var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
 
-            using var realm = await VisitzRealm.GetIcmDataAsync();
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
             var currentNotes = NoteItem.GetNotesByEntityId(realm, id);
             var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
 
