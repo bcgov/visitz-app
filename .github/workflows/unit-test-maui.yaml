@@ -32,6 +32,11 @@ jobs:
         run: |
           (Get-Content .\global.json.template).Replace('DOTNET_VERSION', '${{ env.DOTNET_VERSION }}') | Set-Content .\global.json
 
+      - name: Prepare NuGet
+        run: |
+          dotnet --version
+          dotnet nuget locals all clear
+
       - name: Cache .NET dependencies
         uses: actions/cache@v4
         if: always()
@@ -49,7 +54,6 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
-          dotnet nuget locals all --clear
           dotnet workload install maui ios maccatalyst `
             --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
 
