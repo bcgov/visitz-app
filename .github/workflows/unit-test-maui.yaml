@@ -45,7 +45,7 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet workload restore `
-            -- source https://api.nuget.org/v3/index.json `
+            --source https://api.nuget.org/v3/index.json `
             --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
 
       - name: Restore solution
