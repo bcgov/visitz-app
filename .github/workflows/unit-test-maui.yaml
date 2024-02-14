@@ -44,10 +44,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Restore solution
-        working-directory: ${{ env.BASE_PROJPATH }}
-        run: dotnet restore
-
       - name: Install .NET MAUI ${{ env.MAUI_VERSION }} workload
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
