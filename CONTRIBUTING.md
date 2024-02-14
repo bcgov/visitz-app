@@ -74,6 +74,6 @@ Then follow:
             : SmallerStringUtilities.TrimSomeWhitespace(stringVal)
         ```
         
-4. Use `static readonly` instead of `const` for global constant values.
+4. Use `static readonly` instead of `const` for public global constant values.
 
     * [What is the difference between const and static in C#?](https://stackoverflow.com/a/2512962)
