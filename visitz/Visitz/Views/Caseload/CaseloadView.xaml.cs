@@ -37,7 +37,11 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
         ViewModel.ApplyCaseloadQuery();
     }
 
+#if MACCATALYST
+    private void CaseloadSearchBar_SearchButtonPressed(object sender, EventArgs e)
+#else
     private async void CaseloadSearchBar_SearchButtonPressed(object sender, EventArgs e)
+#endif
     {
         ViewModel.SearchCaseload();
 
