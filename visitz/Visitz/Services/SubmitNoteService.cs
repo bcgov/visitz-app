@@ -5,7 +5,7 @@ using VisitzApi.Models;
 
 namespace Visitz.Services
 {
-    public class SubmitNoteService : VisitzApiService
+    public class SubmitNoteService(Vpi vpi) : VisitzApiService(vpi)
     {
         public static string MakeId(string entityNumber, string notePeriod)
         {
@@ -23,8 +23,6 @@ namespace Visitz.Services
         }
 
         private new SubmitNoteEntity Payload => (SubmitNoteEntity)base.Payload;
-
-        public SubmitNoteService(Vpi vpi) : base(vpi) { }
 
         public override string GetId()
         {

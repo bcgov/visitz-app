@@ -5,17 +5,12 @@ using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
-    public partial class AppLockViewModel : VisitzViewModel
+    public partial class AppLockViewModel(DeviceAuthenticator authenticator) : VisitzViewModel
     {
-        private DeviceAuthenticator Authenticator { get; }
+        private DeviceAuthenticator Authenticator { get; } = authenticator;
 
         [ObservableProperty]
         public string backgroundImageUri;
-
-        public AppLockViewModel(DeviceAuthenticator authenticator)
-        {
-            Authenticator = authenticator;
-        }
 
         public override async void Create()
         {

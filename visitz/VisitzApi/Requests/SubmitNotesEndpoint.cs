@@ -4,7 +4,8 @@ using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-    internal class SubmitNotesEndpoint : VisitzBaseEndpoint<(bool success, string noteId)>
+    internal class SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit)
+        : VisitzBaseEndpoint<(bool success, string noteId)>(baseUrl, SubmitNotesPath)
     {
         private static readonly string SubmitNotesPath = "/v1/679C";
 
@@ -13,7 +14,7 @@ namespace VisitzApi.Requests
 
         private static readonly string NoteIdKey = "noteId";
 
-        public SubmitNoteEntity NoteToSubmit { get; }
+        public SubmitNoteEntity NoteToSubmit { get; } = noteToSubmit;
 
         private string RequestPayload
         {
@@ -27,11 +28,6 @@ namespace VisitzApi.Requests
                     }
                 }.ToString();
             }
-        }
-
-        public SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit) : base(baseUrl, SubmitNotesPath)
-        {
-            NoteToSubmit = noteToSubmit;
         }
 
         public override HttpRequestMessage MakeRequest()

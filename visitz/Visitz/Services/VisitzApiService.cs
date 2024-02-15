@@ -8,14 +8,9 @@ using VisitzApi.ErrorHandling;
 
 namespace Visitz.Services
 {
-    public abstract class VisitzApiService : VisitzService
+    public abstract class VisitzApiService(Vpi vpi) : VisitzService
     {
-        protected Vpi Vpi { get; set; }
-
-        public VisitzApiService(Vpi vpi)
-        {
-            Vpi = vpi;
-        }
+        protected Vpi Vpi { get; set; } = vpi;
 
         protected override sealed async Task RunServiceAsync()
         {
