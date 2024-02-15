@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisitzModelTest", "VisitzMo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oidc", "Oidc\Oidc.csproj", "{C58FA92B-6EAE-4BE9-9044-626A2513CCBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OidcTest", "OidcTest\OidcTest.csproj", "{048C78A9-4700-47F0-910D-0A21C3A2963D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OidcTest", "OidcTest\OidcTest.csproj", "{048C78A9-4700-47F0-910D-0A21C3A2963D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
