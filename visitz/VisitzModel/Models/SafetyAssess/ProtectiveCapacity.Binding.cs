@@ -20,13 +20,13 @@ public partial class ProtectiveCapacity
 
     public bool ChildCognitiveBinding
     {
-        get => IsValid ? ChildCognitive : default;
+        get => IsValid && ChildCognitive;
         set => this.Commit(() => ChildCognitive = value);
     }
 	
     public bool ParentCognitiveBinding
     {
-        get => IsValid ? ParentCognitive : default;
+        get => IsValid && ParentCognitive;
         set
         {
             this.Commit(() => ParentCognitive = value);
@@ -36,7 +36,7 @@ public partial class ProtectiveCapacity
     
     public bool ParentWillingnessBinding
     {
-        get => IsValid ? ParentWillingness : default;
+        get => IsValid && ParentWillingness;
         set
         {
             this.Commit(() => ParentWillingness = value);
@@ -46,7 +46,7 @@ public partial class ProtectiveCapacity
     
     public bool ParentResourcesBinding
     {
-        get => IsValid ? ParentResources : default;
+        get => IsValid && ParentResources;
         set
         {
             this.Commit(() => ParentResources = value);
@@ -56,7 +56,7 @@ public partial class ProtectiveCapacity
     
     public bool ParentSupportiveBinding
     {
-        get => IsValid ? ParentSupportive : default;
+        get => IsValid && ParentSupportive;
         set
         {
             this.Commit(() => ParentSupportive = value);
@@ -66,7 +66,7 @@ public partial class ProtectiveCapacity
     
     public bool ParentProtectBinding
     {
-        get => IsValid ? ParentProtect : default;
+        get => IsValid && ParentProtect;
         set
         {
             this.Commit(() => ParentProtect = value);
@@ -76,7 +76,7 @@ public partial class ProtectiveCapacity
     
     public bool ParentAcceptBinding
     {
-        get => IsValid ? ParentAccept : default;
+        get => IsValid && ParentAccept;
         set
         {
             this.Commit(() => ParentAccept = value);
@@ -86,7 +86,7 @@ public partial class ProtectiveCapacity
     
     public bool ParentRelationshipBinding
     {
-        get => IsValid ? ParentRelationship : default;
+        get => IsValid && ParentRelationship;
         set
         {
             this.Commit(() => ParentRelationship = value);
@@ -96,7 +96,7 @@ public partial class ProtectiveCapacity
     
     public bool ParentAwareBinding
     {
-        get => IsValid ? ParentAware : default;
+        get => IsValid && ParentAware;
         set
         {
             this.Commit(() => ParentAware = value);
@@ -106,7 +106,7 @@ public partial class ProtectiveCapacity
     
     public bool ParentProbSolvingBinding
     {
-        get => IsValid ? ParentProbSolving : default;
+        get => IsValid && ParentProbSolving;
         set
         {
             this.Commit(() => ParentProbSolving = value);
@@ -116,13 +116,13 @@ public partial class ProtectiveCapacity
     
     public bool NoProCapPresentBinding
     {
-        get => IsValid ? NoProCapPresent : default;
+        get => IsValid && NoProCapPresent;
         set => this.Commit(() => SetNoProCapPresent(value));
     }
     
     public bool CapacitiesOtherBinding
     {
-        get => IsValid ? CapacitiesOther : default;
+        get => IsValid && CapacitiesOther;
         set
         {
             this.Commit(() => CapacitiesOther = value);

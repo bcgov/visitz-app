@@ -67,10 +67,9 @@ namespace Visitz.Services
                 }
             }
 
-            if (erroredIds.Count <= 0)
-                ResultCode = Result.Successful;
-            else
-                throw new PartialErrorException(successIds, erroredIds);
+            ResultCode = erroredIds.Count <= 0 
+                ? Result.Successful 
+                : throw new PartialErrorException(successIds, erroredIds);
         }
     }
 

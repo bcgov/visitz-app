@@ -20,31 +20,31 @@ public partial class FactorInfluence
 
     public bool AgeUptoFiveBinding
 	{
-		get => IsValid ? AgeUptoFive : default;
+		get => IsValid && AgeUptoFive;
 		set => this.Commit(() => AgeUptoFive = value);
 	}
 	
 	public bool MedicalMentalDisorderBinding
 	{
-		get => IsValid ? MedicalMentalDisorder : default;
+		get => IsValid && MedicalMentalDisorder;
 		set => this.Commit(() => MedicalMentalDisorder = value);
 	}
 	
 	public bool NotReadilyAccessibleBinding
 	{
-		get => IsValid ? NotReadilyAccessible : default;
+		get => IsValid && NotReadilyAccessible;
 		set => this.Commit(() => NotReadilyAccessible = value);
 	}
 	
 	public bool DiminishedMentalBinding
 	{
-		get => IsValid ? DiminishedMental : default;
+		get => IsValid && DiminishedMental;
 		set => this.Commit(() => DiminishedMental = value);
 	}
 	
 	public bool DiminishedPhysicalBinding
 	{
-		get => IsValid ? DiminishedPhysical : default;
+		get => IsValid && DiminishedPhysical;
 		set => this.Commit(() => DiminishedPhysical = value);
 	}
 }

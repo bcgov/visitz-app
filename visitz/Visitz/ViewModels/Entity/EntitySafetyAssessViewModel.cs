@@ -119,10 +119,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         UnsubscribeFromAssessment();
 
-        if (SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) is SafetyAssessment sa)
-            Assessment = sa;
-        else
-            Assessment = await MakeNewSafetyAssessment();
+        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) 
+            ?? await MakeNewSafetyAssessment();
     }
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)

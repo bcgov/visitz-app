@@ -30,9 +30,6 @@ public static class StringExtensions
 
     public static bool ParseWordTruthiness(this string text)
     {
-        if (text == null)
-            return false;
-
-        return text.Trim().StartsWith("Y", StringComparison.CurrentCultureIgnoreCase);
+        return text != null && text.Trim().StartsWith("Y", StringComparison.CurrentCultureIgnoreCase);
     }
 }

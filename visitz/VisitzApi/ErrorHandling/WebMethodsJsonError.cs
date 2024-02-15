@@ -16,10 +16,8 @@ namespace VisitzApi.ErrorHandling
 
             var jsonPayload = FindPayload(json.RootElement);
 
-            if (jsonPayload is JsonElement payload)
-                return TryFindStatusResponse(payload, out errorMessage) || TryFindError(payload, out errorMessage);
-
-            return false;
+            return jsonPayload is JsonElement payload
+                && (TryFindStatusResponse(payload, out errorMessage) || TryFindError(payload, out errorMessage));
         }
 
         private static JsonElement? FindPayload(JsonElement element)
@@ -56,10 +54,9 @@ namespace VisitzApi.ErrorHandling
         {
             errorMessage = string.Empty;
 
-            if (error.TryGetProperty(ErrorKey, out var errorJson))
-                return TryFindErrorDetail(errorJson, out errorMessage);
-
-            return errorMessage?.Length > 0;
+            return error.TryGetProperty(ErrorKey, out var errorJson)
+                ? TryFindErrorDetail(errorJson, out errorMessage)
+                : errorMessage?.Length > 0;
         }
 
         private static bool TryFindErrorDetail(JsonElement error, out string errorMessage)

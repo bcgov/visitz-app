@@ -211,14 +211,9 @@ namespace Visitz.ViewModels
 
         private void ApplyCollectionViewPrompt()
         {
-            if (!string.IsNullOrWhiteSpace(SearchQuery))
-            {
-                CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SearchQuery);
-            }
-            else
-            {
-                CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
-            }
+            CollectionViewPrompt = !string.IsNullOrWhiteSpace(SearchQuery)
+                ? LocalizedStrings.NoResultsForSearch.Format(SearchQuery)
+                : LocalizedStrings.PullToRefreshCaseload;
         }
 
         [RelayCommand]

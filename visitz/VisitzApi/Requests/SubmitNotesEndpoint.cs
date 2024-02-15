@@ -51,10 +51,17 @@ namespace VisitzApi.Requests
                 .GetProperty(ResponseSubmitNotesKey)
                 .GetProperty(JsonKey.PayLoad);
 
-            if (rJson.TryGetProperty(JsonKey.Status, out var status) && rJson.TryGetProperty(NoteIdKey, out var id))
-                return (status.GetString() == JsonKey.Success, id.GetString());
-            else
-                return (false, null);
+            return GetProperties(rJson);
+        }
+
+        private static (bool success, string noteId) GetProperties(JsonElement json)
+        {
+            bool gotStatus = json.TryGetProperty(JsonKey.Status, out var status);
+            bool gotNoteId = json.TryGetProperty(NoteIdKey, out var id);
+
+            return gotStatus && gotNoteId
+                ? (status.GetString() == JsonKey.Success, id.GetString())
+                : (false, null);
         }
     }
 }

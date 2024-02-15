@@ -56,7 +56,7 @@ public partial class SafetyDecisions
 
     public bool ReadyFinalizeBinding
     {
-        get => IsValid ? ReadyFinalize : default;
+        get => IsValid && ReadyFinalize;
         set => this.Commit(() => ReadyFinalize = value);
     }
 
