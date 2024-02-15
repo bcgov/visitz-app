@@ -1,4 +1,3 @@
-using Visitz.FontIcons;
 using Visitz.Resources.Styles;
 using VisitzModel.Models;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using VisitzApi.ErrorHandling;
+﻿using VisitzApi.ErrorHandling;
 
 namespace VisitzApi.Requests
 {

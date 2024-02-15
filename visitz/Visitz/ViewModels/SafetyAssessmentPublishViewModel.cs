@@ -2,7 +2,6 @@
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.ViewModels.Entity;
-using Visitz.Views.Entity;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.SafetyAssess;

@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Device;
-using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 

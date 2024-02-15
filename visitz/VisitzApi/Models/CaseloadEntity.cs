@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace VisitzApi.Models
+﻿namespace VisitzApi.Models
 {
     public class CaseloadEntity
     {

@@ -1,9 +1,6 @@
 ﻿using VisitzApi.Models;
-using VisitzApi.Requests;
-using System.Net;
-using VisitzApi.ErrorHandling;
 using VisitzApi.Models.SafetyAssess;
-using System.Text.Json;
+using VisitzApi.Requests;
 
 namespace VisitzApi
 {

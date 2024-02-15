@@ -2,7 +2,6 @@
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
-using VisitzModel.Storage;
 
 namespace Visitz.Services
 {

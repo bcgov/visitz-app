@@ -1,6 +1,6 @@
-﻿using VisitzApi.Models;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
+using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
