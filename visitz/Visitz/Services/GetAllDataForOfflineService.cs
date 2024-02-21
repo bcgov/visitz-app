@@ -4,11 +4,10 @@ using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
-using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
-    public class GetAllDataForOfflineService : VisitzApiService
+    public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
     {
         public static string MakeId()
         {
@@ -25,12 +24,7 @@ namespace Visitz.Services
             };
         }
 
-        private ServiceHandler ServiceHandler { get; set; }
-
-        public GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler) : base(vpi)
-        {
-            ServiceHandler = serviceHandler;
-        }
+        private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
         public override string GetId()
         {

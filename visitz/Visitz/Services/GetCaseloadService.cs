@@ -5,7 +5,7 @@ using VisitzModel.Models;
 
 namespace Visitz.Services
 {
-    public class GetCaseloadService : VisitzApiService
+    public class GetCaseloadService(Vpi vpi) : VisitzApiService(vpi)
     {
         public static string MakeId()
         {
@@ -23,8 +23,6 @@ namespace Visitz.Services
         }
 
         public string Idir => (string)Payload;
-
-        public GetCaseloadService(Vpi vpi) : base(vpi) { }
 
         protected override async Task RunApiServiceAsync()
         {

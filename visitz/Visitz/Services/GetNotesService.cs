@@ -2,11 +2,10 @@
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
-using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
-    public class GetNotesService : VisitzApiService
+    public class GetNotesService(Vpi vpi) : VisitzApiService(vpi)
     {
         public static string MakeId(string caseIncidentId)
         {
@@ -29,8 +28,6 @@ namespace Visitz.Services
         }
 
         private ValueTuple<string, string> PayloadTuple => (ValueTuple<string, string>)Payload;
-
-        public GetNotesService(Vpi vpi) : base(vpi) { }
 
         public override string GetId()
         {

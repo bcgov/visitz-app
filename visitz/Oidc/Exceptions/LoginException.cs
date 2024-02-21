@@ -1,9 +1,5 @@
 ﻿namespace Oidc.Exceptions;
 
-public class LoginException : Exception
+public class LoginException(string message) : Exception(message)
 {
-    public LoginException(string message) : base(message)
-    {
-
-    }
 }

@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui;
-using Visitz.Device;
+﻿using Visitz.Device;
 using Visitz.Pages;
 using Visitz.ViewModels;
 using Visitz.ViewModels.Entity;
@@ -7,7 +6,6 @@ using Visitz.Views;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Entity;
-using Visitz.Views.Navigation;
 using Visitz.Views.Notes;
 
 namespace Visitz.VisitzConfig

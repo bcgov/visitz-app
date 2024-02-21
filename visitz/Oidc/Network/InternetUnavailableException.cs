@@ -1,9 +1,5 @@
 ﻿namespace Oidc.Network;
 
-public class InternetUnavailableException : Exception
+public class InternetUnavailableException(string message) : Exception(message)
 {
-    public InternetUnavailableException(string message) : base(message)
-    {
-
-    }
 }

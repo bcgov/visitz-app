@@ -32,7 +32,10 @@ public class BcGovAlbum
         var r = new Random();
         var pictures = await GetPictureUris();
 
+        // Suppressing this instance of SCS0005 since we're not using randomization for security.
+#pragma warning disable SCS0005 // Weak random number generator.
         return pictures[r.Next(pictures.Length)];
+#pragma warning restore SCS0005 // Weak random number generator.
     }
 
     public static async Task<string> GetFeaturedPictureUri()

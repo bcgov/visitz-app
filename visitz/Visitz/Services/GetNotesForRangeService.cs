@@ -4,7 +4,7 @@ using VisitzApi;
 
 namespace Visitz.Services
 {
-    public class GetNotesForRangeService : VisitzApiService
+    public class GetNotesForRangeService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
     {
         public static string MakeId()
         {
@@ -21,15 +21,10 @@ namespace Visitz.Services
             };
         }
 
-        private ServiceHandler ServiceHandler { get; set; }
+        private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
         private IEnumerable<ValueTuple<string,string>> IdEntityItems => 
             (IEnumerable<ValueTuple<string, string>>)Payload;
-
-        public GetNotesForRangeService(Vpi vpi, ServiceHandler serviceHandler) : base(vpi) 
-        {
-            ServiceHandler = serviceHandler;
-        }
 
         public override string GetId()
         {
@@ -67,10 +62,9 @@ namespace Visitz.Services
                 }
             }
 
-            if (erroredIds.Count <= 0)
-                ResultCode = Result.Successful;
-            else
-                throw new PartialErrorException(successIds, erroredIds);
+            ResultCode = erroredIds.Count <= 0 
+                ? Result.Successful 
+                : throw new PartialErrorException(successIds, erroredIds);
         }
     }
 

@@ -1,10 +1,11 @@
-﻿using VisitzApi.Models;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
+using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-    internal class NotesEndpoint : VisitzBaseEndpoint<IEnumerable<NoteEntity>>
+    internal class NotesEndpoint(string baseUrl, string entityNumber, string entityType) 
+        : VisitzBaseEndpoint<IEnumerable<NoteEntity>>(baseUrl, GetNotesPath)
     {
         private static readonly string GetNotesPath = "/v1/678";
 
@@ -15,8 +16,8 @@ namespace VisitzApi.Requests
         private static readonly string EntityTypeKey = "entityType";
         private static readonly string NotesKey = "notes";
 
-        public string EntityNumber { get; }
-        public string EntityType { get; }
+        public string EntityNumber { get; } = entityNumber;
+        public string EntityType { get; } = entityType;
 
         private string RequestPayload
         {
@@ -34,12 +35,6 @@ namespace VisitzApi.Requests
                     }
                 }.ToString();
             }
-        }
-
-        public NotesEndpoint(string baseUrl, string entityNumber, string entityType) : base(baseUrl, GetNotesPath)
-        {
-            EntityNumber = entityNumber;
-            EntityType = entityType;
         }
 
         public override HttpRequestMessage MakeRequest()

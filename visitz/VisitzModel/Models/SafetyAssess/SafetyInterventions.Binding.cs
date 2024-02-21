@@ -20,7 +20,7 @@ public partial class SafetyInterventions
 
     public bool DirectInterventionBinding
     {
-        get => IsValid ? DirectIntervention : default;
+        get => IsValid && DirectIntervention;
         set => this.Commit(() => 
         {
             DirectIntervention = value;
@@ -30,7 +30,7 @@ public partial class SafetyInterventions
     
     public bool UseOfIndividualsBinding
     {
-        get => IsValid ? UseOfIndividuals : default;
+        get => IsValid && UseOfIndividuals;
         set => this.Commit(() => 
         {
             UseOfIndividuals = value;
@@ -40,7 +40,7 @@ public partial class SafetyInterventions
     
     public bool UseCommAgenciesBinding
     {
-        get => IsValid ? UseCommAgencies : default;
+        get => IsValid && UseCommAgencies;
         set => this.Commit(() => 
         {
             UseCommAgencies = value;
@@ -50,7 +50,7 @@ public partial class SafetyInterventions
     
     public bool ProtectVictimBinding
     {
-        get => IsValid ? ProtectVictim : default;
+        get => IsValid && ProtectVictim;
         set => this.Commit(() => 
         {
             ProtectVictim = value;
@@ -60,7 +60,7 @@ public partial class SafetyInterventions
     
     public bool LeaveHomeBinding
     {
-        get => IsValid ? LeaveHome : default;
+        get => IsValid && LeaveHome;
         set => this.Commit(() => 
         {
             LeaveHome = value;
@@ -70,7 +70,7 @@ public partial class SafetyInterventions
     
     public bool NonOffendingParentBinding
     {
-        get => IsValid ? NonOffendingParent : default;
+        get => IsValid && NonOffendingParent;
         set => this.Commit(() => 
         {
             NonOffendingParent = value;
@@ -80,7 +80,7 @@ public partial class SafetyInterventions
     
     public bool LegalIntPlannedBinding
     {
-        get => IsValid ? LegalIntPlanned : default;
+        get => IsValid && LegalIntPlanned;
         set => this.Commit(() => 
         {
             LegalIntPlanned = value;
@@ -90,7 +90,7 @@ public partial class SafetyInterventions
     
     public bool OtherSafetyInterventionsBinding
     {
-        get => IsValid ? OtherSafetyInterventions : default;
+        get => IsValid && OtherSafetyInterventions;
         set => this.Commit(() => 
         {
             OtherSafetyInterventions = value;
@@ -106,7 +106,7 @@ public partial class SafetyInterventions
     
     public bool ChildOutsideHomeBinding
     {
-        get => IsValid ? ChildOutsideHome : default;
+        get => IsValid && ChildOutsideHome;
         set => this.Commit(() => 
         {
             ChildOutsideHome = value;
@@ -116,7 +116,7 @@ public partial class SafetyInterventions
     
     public bool ChildRemovedBinding
     {
-        get => IsValid ? ChildRemoved : default;
+        get => IsValid && ChildRemoved;
         set => this.Commit(() => SetChildRemoved(value));
     }
 

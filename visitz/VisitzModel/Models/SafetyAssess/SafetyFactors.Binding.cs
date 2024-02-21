@@ -41,31 +41,31 @@ public partial class SafetyFactors
         
     public bool SeriousInjuryAbuseBinding 
     {
-        get => IsValid ? SeriousInjuryAbuse : default;
+        get => IsValid && SeriousInjuryAbuse;
         set => this.Commit(() => SeriousInjuryAbuse = value);
     }
         
     public bool FearsMaltreatChildBinding 
     {
-        get => IsValid ? FearsMaltreatChild : default;
+        get => IsValid && FearsMaltreatChild;
         set => this.Commit(() => FearsMaltreatChild = value);
     }
         
     public bool ThreatAgainstChildBinding 
     {
-        get => IsValid ? ThreatAgainstChild : default;
+        get => IsValid && ThreatAgainstChild;
         set => this.Commit(() => ThreatAgainstChild = value);
     }
         
     public bool ExcessiveForceBinding 
     {
-        get => IsValid ? ExcessiveForce : default;
+        get => IsValid && ExcessiveForce;
         set => this.Commit(() => ExcessiveForce = value);
     }
         
     public bool SubsExposedInfantBinding 
     {
-        get => IsValid ? SubsExposedInfant : default;
+        get => IsValid && SubsExposedInfant;
         set => this.Commit(() => SubsExposedInfant = value);
     }
 

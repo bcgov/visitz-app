@@ -7,17 +7,15 @@ public class YesNoAnswerToBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value == null)
-            return null;
-        else
-            return ((bool)value) ? YesNoAnswer.Yes : YesNoAnswer.No;
+        return value == null
+            ? null
+            : ((bool)value) ? YesNoAnswer.Yes : YesNoAnswer.No;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value == null)
-            return null;
-        else
-            return ((YesNoAnswer)value) == YesNoAnswer.Yes;
+        return value == null
+            ? null
+            : ((YesNoAnswer)value) == YesNoAnswer.Yes;
     }
 }

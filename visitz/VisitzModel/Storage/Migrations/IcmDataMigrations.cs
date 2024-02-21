@@ -1,6 +1,5 @@
 ﻿using Realms;
 using VisitzModel.Models;
-using VisitzModel.Storage;
 
 namespace VisitzModel.Storage.Migrations;
 
@@ -8,19 +7,9 @@ public static class IcmDataMigrations
 {
     public static void MigrateRealm(Migration migration, ulong oldSchemaVersion)
     {
-        MigrateCaseloadItems(migration, oldSchemaVersion);
-        MigrateFamilyMembers(migration, oldSchemaVersion);
+        //TODO: Migrate CaseloadItems
+        //TODO: Migrate FamilyMembers
         MigrateNoteItems(migration, oldSchemaVersion);
-    }
-
-    private static void MigrateCaseloadItems(Migration migration, ulong oldSchemaVersion)
-    {
-        /* Nothing... yet. */
-    }
-
-    private static void MigrateFamilyMembers(Migration migration, ulong oldSchemaVersion)
-    {
-        /* Nothing... yet. */
     }
 
     private static void MigrateNoteItems(Migration migration, ulong oldSchemaVersion)

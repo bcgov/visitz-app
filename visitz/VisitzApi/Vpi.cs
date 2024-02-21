@@ -1,25 +1,16 @@
 ﻿using VisitzApi.Models;
-using VisitzApi.Requests;
-using System.Net;
-using VisitzApi.ErrorHandling;
 using VisitzApi.Models.SafetyAssess;
-using System.Text.Json;
+using VisitzApi.Requests;
 
 namespace VisitzApi
 {
     /// <summary>
     /// VPI - Visitz (A)PI - convenience wrapper class for interaction with Visitz' API endpoints.
     /// </summary>
-    public class Vpi
+    public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     {
-        private HttpClient HttpClient { get; }
-        private string BaseVisitzApiUrl { get; }
-
-        public Vpi(HttpClient httpClient, string baseVisitzApiUrl)
-        {
-            HttpClient = httpClient;
-            BaseVisitzApiUrl = baseVisitzApiUrl;
-        }
+        private HttpClient HttpClient { get; } = httpClient;
+        private string BaseVisitzApiUrl { get; } = baseVisitzApiUrl;
 
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {

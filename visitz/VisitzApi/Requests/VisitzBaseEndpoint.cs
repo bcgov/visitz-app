@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using VisitzApi.ErrorHandling;
+﻿using VisitzApi.ErrorHandling;
 
 namespace VisitzApi.Requests
 {
-    internal abstract class VisitzBaseEndpoint<ResponseType>
+    internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string requestPath)
     {
         protected static KeyValuePair<string, string> FormDataPair(string key, string value)
         {
@@ -18,17 +17,11 @@ namespace VisitzApi.Requests
             };
         }
 
-        public string BaseUrl { get; }
-        public string RequestPath { get; }
+        public string BaseUrl { get; } = baseUrl;
+        public string RequestPath { get; } = requestPath;
 
         public string RequestUrl => BaseUrl.TrimEnd('/') + "/" + RequestPath.TrimStart('/');
         public Uri RequestUri => new(RequestUrl);
-
-        public VisitzBaseEndpoint(string baseUrl, string requestPath)
-        {
-            BaseUrl = baseUrl;
-            RequestPath = requestPath;
-        }
 
         public abstract HttpRequestMessage MakeRequest();
 

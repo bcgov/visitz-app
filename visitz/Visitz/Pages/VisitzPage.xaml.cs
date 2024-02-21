@@ -4,18 +4,13 @@ using VisitzModel;
 
 namespace Visitz.Pages;
 
-public abstract partial class VisitzPage : ContentPage 
+public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage() 
 {
-    protected VisitzViewModel ViewModel { get; set; }
+    protected VisitzViewModel ViewModel { get; set; } = visitzViewModel;
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
 
     public IDictionary<string, object> Parameters { get; set; }
-
-    public VisitzPage(VisitzViewModel visitzViewModel) : base()
-    {
-        ViewModel = visitzViewModel;
-    }
 
     protected virtual void OnCreated() 
     {

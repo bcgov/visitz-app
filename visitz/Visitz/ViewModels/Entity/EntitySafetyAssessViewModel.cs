@@ -119,10 +119,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         UnsubscribeFromAssessment();
 
-        if (SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) is SafetyAssessment sa)
-            Assessment = sa;
-        else
-            Assessment = await MakeNewSafetyAssessment();
+        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) 
+            ?? await MakeNewSafetyAssessment();
     }
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -256,12 +254,14 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     {
         var entity = Assessment.ToApiEntity();
 
+#pragma warning disable CA1869 // Cache and reuse 'JsonSerializerOptions' instances
         var json = System.Text.Json.JsonSerializer.Serialize(entity, new System.Text.Json.JsonSerializerOptions
         {
             AllowTrailingCommas = true,
             PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
             WriteIndented = true,
         });
+#pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances
 
         ConsoleTrace.TraceMethod(this, json);
     }
