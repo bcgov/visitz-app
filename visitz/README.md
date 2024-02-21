@@ -14,6 +14,8 @@ Visitz is built using .NET MAUI.
 - IdentityModel.OidcClient
 - Plugin.Fingerprint
 - Realm (MongoDB Realm)
+- SecurityCodeScan.VS2019 (Security analysis)
+- SharpSource (Linter)
 - System.IdentityModel.Tokens.Jwt
 
 ### Integrations
