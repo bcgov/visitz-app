@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <views:ViewModelContentView 
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
-    xmlns:icons="clr-namespace:Visitz.FontIcons"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
-    xmlns:views="clr-namespace:Visitz.Views"
-    x:Class="Visitz.Views.Navigation.VerticalNavRailView"
-    x:DataType="viewModels:NavRailViewModel"
-    BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-    MaximumWidthRequest="95">
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+	xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+	xmlns:icons="clr-namespace:Visitz.FontIcons"
+	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+	xmlns:views="clr-namespace:Visitz.Views"
+	x:Class="Visitz.Views.Navigation.VerticalNavRailView"
+	x:DataType="viewModels:NavRailViewModel"
+	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+	MaximumWidthRequest="95">
 
-    <Grid 
-        RowDefinitions="Auto,Auto,*,Auto,Auto">
-        
-        <toolkit:AvatarView
-            Grid.Row="0"
-            Margin="0,10"
-            BackgroundColor="{StaticResource Blue300Accent}"
-            FontFamily="BCSansBold">
+	<Grid 
+		RowDefinitions="Auto,Auto,*,Auto,Auto">
+		
+		<toolkit:AvatarView
+			Grid.Row="0"
+			Margin="0,10"
+			BackgroundColor="{StaticResource Blue300Accent}"
+			FontFamily="BCSansBold">
 
-            <toolkit:AvatarView.Behaviors>
-                <behaviors:AvatarSessionBehavior />
-            </toolkit:AvatarView.Behaviors>
+			<toolkit:AvatarView.Behaviors>
+				<behaviors:AvatarSessionBehavior />
+			</toolkit:AvatarView.Behaviors>
 
-            <toolkit:AvatarView.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OpenSessionPageCommand}" />
-            </toolkit:AvatarView.GestureRecognizers>
-            
-        </toolkit:AvatarView>
+			<toolkit:AvatarView.GestureRecognizers>
+				<TapGestureRecognizer Command="{Binding OpenSessionPageCommand}" />
+			</toolkit:AvatarView.GestureRecognizers>
+			
+		</toolkit:AvatarView>
 
-        <CollectionView
-            Grid.Row="1"
-            SelectionMode="Single"
-            ItemsSource="{Binding NavigationItems}"
-            SelectedItem="{Binding SelectedNavItem}">
+		<CollectionView
+			Grid.Row="1"
+			SelectionMode="Single"
+			ItemsSource="{Binding NavigationItems}"
+			SelectedItem="{Binding SelectedNavItem}">
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <nav:NavItemView MinimumHeightRequest="72" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<nav:NavItemView MinimumHeightRequest="72" />
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
 
-        <Button
-            Grid.Row="3"
-            Style="{StaticResource SecondaryButtonDark}"
-            HorizontalOptions="Center"
-            BorderColor="Transparent"
-            FontFamily="MaterialIconsRoundedUnfilled"
-            FontSize="35"
+		<Button
+			Grid.Row="3"
+			Style="{StaticResource SecondaryButtonDark}"
+			HorizontalOptions="Center"
+			BorderColor="Transparent"
+			FontFamily="MaterialIconsRoundedUnfilled"
+			FontSize="35"
 			FontAutoScalingEnabled="False"
-            Command="{Binding RefreshCaseloadCommand}"
-            Text="{Static icons:MaterialIcons.Download_for_offline}" />
+			Command="{Binding RefreshCaseloadCommand}"
+			Text="{Static icons:MaterialIcons.Download_for_offline}" />
 
-        <Image 
-            Grid.Row="4"
-            HorizontalOptions="Center"
-            Source="bc_logo_vertical_reverse.png"/>
-    </Grid>
+		<Image 
+			Grid.Row="4"
+			HorizontalOptions="Center"
+			Source="bc_logo_vertical_reverse.png"/>
+	</Grid>
 
 </views:ViewModelContentView>
