@@ -37,6 +37,7 @@
             BorderColor="Transparent"
             FontFamily="MaterialIconsRoundedUnfilled"
             FontSize="35"
+			FontAutoScalingEnabled="False"
             Command="{Binding RefreshCaseloadCommand}"
             Text="{Static icons:MaterialIcons.Download_for_offline}" />
 
