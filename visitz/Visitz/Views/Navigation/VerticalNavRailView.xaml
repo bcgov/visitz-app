@@ -11,7 +11,7 @@
     x:Class="Visitz.Views.Navigation.VerticalNavRailView"
     x:DataType="viewModels:NavRailViewModel"
     BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-    MaximumWidthRequest="90">
+    MaximumWidthRequest="95">
 
     <Grid 
         RowDefinitions="Auto,Auto,*,Auto,Auto">
