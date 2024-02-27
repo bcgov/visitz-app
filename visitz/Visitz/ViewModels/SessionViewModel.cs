@@ -10,7 +10,7 @@ using Visitz.Resources.Styles;
 using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
-
+using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -20,9 +20,6 @@ namespace Visitz.ViewModels;
 
 public partial class SessionViewModel : VisitzViewModel
 {
-    private static readonly double ShowcaseOpacity = 0.8d;
-    private static readonly double ReadableOpacity = 0.4d;
-
     [ObservableProperty]
     public string buildNumber;
 
@@ -33,7 +30,7 @@ public partial class SessionViewModel : VisitzViewModel
     public string backgroundImageUri;
 
     [ObservableProperty]
-    public double bgOpacity = ShowcaseOpacity;
+    public DisplayOptions bgDisplayOptions = DisplayOptions.Clear;
 
     private OidcSessionInfo SessionInfo;
 
@@ -91,7 +88,7 @@ public partial class SessionViewModel
         ShowAuthStatusLayout = !ShowLoginLayout;
         IsAuthorized = false;
         IsUnauthorized = false;
-        BgOpacity = ShowcaseOpacity;
+        BgDisplayOptions = DisplayOptions.Clear;
 
         ApplyModalStyles(false);
     }
@@ -150,6 +147,8 @@ public partial class SessionViewModel
 
     private void ApplyAuthStatusLayout()
     {
+        BgDisplayOptions = DisplayOptions.TextReadable;
+
         DisplayName = SessionInfo.GivenName;
         IsAuthorized = SessionInfo.HasBasicAccessRole();
         IsUnauthorized = !IsAuthorized;
@@ -164,14 +163,12 @@ public partial class SessionViewModel
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
             AuthIcon = MaterialIcons.Shield_lock;
             AuthColor = VisitzColors.BC_Semantic_Error;
-            BgOpacity = ReadableOpacity;
         }
         else
         {
             AuthStatus = LocalizedStrings.YouAreAuthorized;
             AuthIcon = MaterialIcons.Verified_user;
             AuthColor = VisitzColors.BC_Semantic_Success;
-            BgOpacity = ShowcaseOpacity;
         }
 
         ShowLoginLayout = false;

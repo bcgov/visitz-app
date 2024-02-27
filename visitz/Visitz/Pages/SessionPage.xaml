@@ -28,19 +28,12 @@
     </ContentPage.Resources>
 
     <AbsoluteLayout IgnoreSafeArea="True">
-        <Image 
+		<views:FeaturedBackgroundUnderlay
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
-            Aspect="AspectFill"
-            Opacity="{Binding BgOpacity}">
-            <Image.Source>
-                <UriImageSource 
-                    Uri="{Binding BackgroundImageUri}" 
-                    CacheValidity="30:0:0:0" />
-            </Image.Source>
-        </Image>
+            ImageDisplayOptions="{Binding BgDisplayOptions}" />
 
-        <Grid
+		<Grid
             IgnoreSafeArea="False"
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
