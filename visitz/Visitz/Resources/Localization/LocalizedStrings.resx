@@ -601,6 +601,15 @@ If that doesn't work, request access by emailing </value>
   <data name="FeedbackUrlPrompt" xml:space="preserve">
     <value>Got feedback? Let us know!</value>
   </data>
+  <data name="FeedbackRequestDescription" xml:space="preserve">
+    <value>Please take two minutes to tell us how the app is working for you.</value>
+  </data>
+  <data name="StartSurvey" xml:space="preserve">
+    <value>Start survey</value>
+  </data>
+  <data name="WeWantYourFeedback" xml:space="preserve">
+    <value>We want your feedback!</value>
+  </data>
   <data name="RetryLogin" xml:space="preserve">
     <value>Retry login</value>
   </data>

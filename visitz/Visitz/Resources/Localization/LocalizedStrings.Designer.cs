@@ -412,6 +412,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please take two minutes to tell us how the app is working for you..
+        /// </summary>
+        public static string FeedbackRequestDescription {
+            get {
+                return ResourceManager.GetString("FeedbackRequestDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Got feedback? Let us know!.
         /// </summary>
         public static string FeedbackUrlPrompt {
@@ -1417,6 +1426,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start survey.
+        /// </summary>
+        public static string StartSurvey {
+            get {
+                return ResourceManager.GetString("StartSurvey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IN.
         /// </summary>
         public static string Subtype_ChildProtectionIncidentInitials {
@@ -1485,6 +1503,15 @@ namespace Visitz.Resources.Localization {
         public static string UserCancelledAuth {
             get {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We want your feedback!.
+        /// </summary>
+        public static string WeWantYourFeedback {
+            get {
+                return ResourceManager.GetString("WeWantYourFeedback", resourceCulture);
             }
         }
         
