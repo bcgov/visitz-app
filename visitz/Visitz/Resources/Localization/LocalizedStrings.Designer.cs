@@ -412,6 +412,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Got feedback? Let us know!.
+        /// </summary>
+        public static string FeedbackUrlPrompt {
+            get {
+                return ResourceManager.GetString("FeedbackUrlPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string FirstName {

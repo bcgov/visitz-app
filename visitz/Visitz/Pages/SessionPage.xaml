@@ -1,4 +1,4 @@
-﻿<pages:VisitzPage 
+<pages:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
@@ -202,7 +202,22 @@
                     Text="{Binding AppVersion, StringFormat='Version {0}'}" 
                     TextColor="White" />
             </HorizontalStackLayout>
-        </Grid>
+
+			<Label
+				Grid.Row="2"
+				HorizontalOptions="End"
+				Padding="5"
+				Text="{local:Localize FeedbackUrlPrompt}"
+				TextColor="White"
+				TextDecorations="Underline"
+				IsVisible="{Binding ShowFeedbackUrl}">
+				<Label.GestureRecognizers>
+					<TapGestureRecognizer
+						Command="{Binding OpenFeedbackUrlCommand}"
+						CommandParameter="{Binding FeedbackUrl}" />
+				</Label.GestureRecognizers>
+			</Label>
+		</Grid>
 
     </AbsoluteLayout>
     

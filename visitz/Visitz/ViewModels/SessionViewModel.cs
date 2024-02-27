@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
@@ -142,12 +142,22 @@ public partial class SessionViewModel
     [ObservableProperty]
     public string mailToUrl;
 
+	[ObservableProperty]
+	public bool showFeedbackUrl;
+
+	[ObservableProperty]
+	public string feedbackUrl;
+
     private void ApplyAuthStatusLayout()
     {
         DisplayName = SessionInfo.GivenName;
         IsAuthorized = SessionInfo.HasBasicAccessRole();
         IsUnauthorized = !IsAuthorized;
-        MailToUrl = new AppSettings().ContactInfo.MailToAuthorize;
+		ShowFeedbackUrl = IsAuthorized;
+
+		var contactInfo = new AppSettings().ContactInfo;
+		MailToUrl = contactInfo.MailToAuthorize;
+		FeedbackUrl = contactInfo.FeedbackSurveyUrl;
 
         if (IsUnauthorized)
         {
@@ -219,7 +229,18 @@ public partial class SessionViewModel
         });
     }
 
-    [RelayCommand]
+	[RelayCommand]
+	static async Task OpenFeedbackUrl(string feedbackUrl)
+	{
+		await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
+		{
+			LaunchMode = BrowserLaunchMode.SystemPreferred,
+			TitleMode = BrowserTitleMode.Hide,
+			Flags = BrowserLaunchFlags.PresentAsFormSheet,
+		});
+	}
+
+	[RelayCommand]
     private async void ClosePage()
     {
         await Navigator.Navigation.PopModalAsync();
