@@ -15,19 +15,7 @@
     ios:Page.UseSafeArea="False"
     ios:Page.ModalPresentationStyle="{Binding PresentationStyle}">
 
-    <ContentPage.Resources>
-        <Style TargetType="Button" Class="GoldBorderButton">
-            <Setter Property="BorderColor" Value="{StaticResource BC_Gold}" />
-            <Setter Property="BorderWidth" Value="1" />
-        </Style>
-        <Style TargetType="Button" Class="SessionButtonLayout">
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="Padding" Value="50,20,50,20" />
-            <Setter Property="FontFamily" Value="BCSansBold" />
-        </Style>
-    </ContentPage.Resources>
-
-    <AbsoluteLayout IgnoreSafeArea="True">
+	<AbsoluteLayout IgnoreSafeArea="True">
 		<views:FeaturedBackgroundUnderlay
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -65,7 +53,7 @@
                     Grid.RowSpan="3"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
-                    StyleClass="SessionButtonLayout,GoldBorderButton"
+                    StyleClass="FeatureButton,GoldBorderButton"
                     Text="{local:Localize Login}"
                     Command="{Binding LoginAsyncCommand}"
                     IsVisible="{Binding ShowLoginLayout}" />
@@ -75,7 +63,7 @@
                     Grid.RowSpan="3"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
-                    StyleClass="SessionButtonLayout,GoldBorderButton"
+                    StyleClass="FeatureButton,GoldBorderButton"
                     Text="{local:Localize Logout}"
                     Command="{Binding TryLogoutAsyncCommand}"
                     IsVisible="{Binding IsAuthorized}" />
@@ -131,7 +119,7 @@
                     <Button 
                         Text="{local:Localize Logout}"
                         Style="{StaticResource SecondaryButtonDark}"
-                        StyleClass="SessionButtonLayout"
+                        StyleClass="FeatureButton"
                         Command="{Binding TryLogoutAsyncCommand}"
                         IsVisible="{Binding IsUnauthorized}" />
 
@@ -163,7 +151,7 @@
                     </Border>
 
                     <Button 
-                        StyleClass="SessionButtonLayout,GoldBorderButton"
+                        StyleClass="FeatureButton,GoldBorderButton"
                         Text="{local:Localize Request Access}"
                         Command="{Binding RequestAccessAsyncCommand}"
                         IsVisible="{Binding IsUnauthorized}" />
