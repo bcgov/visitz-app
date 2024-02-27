@@ -1,4 +1,4 @@
-﻿#if IOS || MACCATALYST
+#if IOS || MACCATALYST
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 #endif
@@ -9,7 +9,7 @@ public static class ContentViewExtensions
 {
     public static readonly double Height = 700;
     
-    public static readonly double Width = 600;
+    public static readonly double Width = 850;
 
     public static ContentPage WrapPageForModal(this ContentView contentView)
     {
@@ -22,7 +22,7 @@ public static class ContentViewExtensions
         };
 
 #if IOS
-        page.On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.FormSheet);
+        page.On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.PageSheet);
 #endif
 
         return page;
