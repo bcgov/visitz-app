@@ -1,3 +1,7 @@
+#if IOS
+using Microsoft.Maui.Controls.PlatformConfiguration;
+#endif
+
 using Visitz.FontIcons;
 
 namespace Visitz.Controls;
@@ -10,6 +14,9 @@ internal class CloseButton : ImageButton
 		HeightRequest = 44;
 
 		Source = MaterialIcons.Close.GetFilledMaterialIcon(Colors.White);
+#if IOS
+		(On<iOS>().Element.Source as FontImageSource).Size = WidthRequest * 2;
+#endif
 
 		Clicked += CloseButton_Clicked;
 	}
