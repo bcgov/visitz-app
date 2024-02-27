@@ -56,7 +56,8 @@
 					StyleClass="FeatureButton,GoldBorderButton"
 					VerticalOptions="Center"
 					HorizontalOptions="Center"
-					Text="{localize:Localize StartSurvey}" />
+					Text="{localize:Localize StartSurvey}"
+					Clicked="StartSurvey_Clicked" />
 			
 			</Grid>
 
