@@ -217,7 +217,9 @@
 
 	<Style TargetType="Button" Class="FeatureButton">
 		<Setter Property="FontSize" Value="20" />
-		<Setter Property="Padding" Value="50,20,50,20" />
+		<Setter Property="MinimumWidthRequest" Value="150" />
+		<Setter Property="MinimumHeightRequest" Value="70" />
+		<Setter Property="Padding" Value="20,15" />
 		<Setter Property="FontFamily" Value="BCSansBold" />
 	</Style>
 
