@@ -1,7 +1,8 @@
+using Visitz.Settings;
+
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
-using Visitz.Settings;
 #endif
 
 namespace Visitz.Pages;
