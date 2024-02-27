@@ -931,6 +931,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retry login.
+        /// </summary>
+        public static string RetryLogin {
+            get {
+                return ResourceManager.GetString("RetryLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Safety assessment.
         /// </summary>
         public static string SafetyAssessment {

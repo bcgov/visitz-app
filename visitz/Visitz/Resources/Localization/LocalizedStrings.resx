@@ -601,4 +601,7 @@ If that doesn't work, request access by emailing </value>
   <data name="FeedbackUrlPrompt" xml:space="preserve">
     <value>Got feedback? Let us know!</value>
   </data>
+  <data name="RetryLogin" xml:space="preserve">
+    <value>Retry login</value>
+  </data>
 </root>

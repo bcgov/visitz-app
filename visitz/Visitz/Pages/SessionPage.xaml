@@ -123,32 +123,19 @@
                         Command="{Binding TryLogoutAsyncCommand}"
                         IsVisible="{Binding IsUnauthorized}" />
 
-                    <Border
-                        Stroke="White"
-                        StrokeThickness="1"
-                        Padding="5,0,5,0"
-                        IsVisible="{Binding IsUnauthorized}">
-                
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="8" />
-                        </Border.StrokeShape>
-
-                        <ImageButton
-                            Padding="15"
-                            MaximumHeightRequest="60"
-                            MaximumWidthRequest="60"
-                            BackgroundColor="Transparent"
-                            Command="{Binding LoginAsyncCommand}"
-                            Aspect="AspectFill">
-                            <ImageButton.Source>
-                                <FontImageSource 
-                                    Glyph="{Static fonticons:MaterialIcons.Refresh}" 
-                                    FontFamily="MaterialIconsRoundedFilled"
-                                    Color="White"
-                                    Size="60"/>
-                            </ImageButton.Source>
-                        </ImageButton>
-                    </Border>
+					<Button
+						Style="{StaticResource SecondaryButtonDark}"
+						StyleClass="FeatureButton"
+						Command="{Binding LoginAsyncCommand}"
+						Text="{local:Localize RetryLogin}"
+						IsVisible="{Binding IsUnauthorized}">
+						<Button.ImageSource>
+							<FontImageSource
+								Glyph="{Static fonticons:MaterialIcons.Refresh}" 
+								FontFamily="MaterialIconsRoundedFilled"
+								Color="White"/>
+						</Button.ImageSource>
+					</Button>
 
                     <Button 
                         StyleClass="FeatureButton,GoldBorderButton"
