@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Realms;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Visitz.Behaviors;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -104,6 +105,8 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         noteEntryView.CaseloadItem = CaseloadItem;
 
         var noteEntryPage = noteEntryView.WrapPageForModal();
+		noteEntryPage.Behaviors.Add(new SoftPageKeyboardBehavior());
+
         await Navigator.Navigation.PushModalAsync(noteEntryPage);
     }
 }
