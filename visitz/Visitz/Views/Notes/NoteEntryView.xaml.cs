@@ -1,4 +1,4 @@
-﻿using Visitz.Animations.Haptic;
+using Visitz.Animations.Haptic;
 using Visitz.ViewModels;
 using VisitzModel.Events;
 using VisitzModel.Models;
@@ -88,10 +88,5 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
     void Scroll_To_Bottom_Clicked(object sender, EventArgs e)
     {
         FocusBottom();
-    }
-
-    private async void CloseButton_Clicked(object sender, EventArgs e)
-    {
-        await Navigator.Navigation.PopModalAsync();
     }
 }

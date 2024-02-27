@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+	xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:notes="clr-namespace:Visitz.Views.Notes"
@@ -27,20 +28,11 @@
                 ColumnDefinitions="Auto,*,Auto"
                 RowDefinitions="Auto">
 
-                <ImageButton
+				<controls:CloseButton
                     Grid.Row="0"
                     Grid.Column="0"
-                    HeightRequest="40"
-                    WidthRequest="40"
                     VerticalOptions="Center"
-                    Clicked="CloseButton_Clicked">
-                    <ImageButton.Source>
-                        <FontImageSource 
-                            Glyph="{Static fonticons:MaterialIcons.Close}" 
-                            FontFamily="MaterialIconsRoundedFilled"
-                            Color="{StaticResource Gray600}" />
-                    </ImageButton.Source>
-                </ImageButton>
+					FontIconColor="{StaticResource Gray600}" />
 
                 <views:DraftSavedView
                     x:Name="DraftSavedIndicator"
