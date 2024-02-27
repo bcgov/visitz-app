@@ -1,6 +1,7 @@
 <pages:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
@@ -44,24 +45,13 @@
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             RowDefinitions="Auto,*,Auto">
-                
-            <ImageButton
+
+			<controls:CloseButton
                 Grid.Row="0"
                 Margin="16"
                 HorizontalOptions="Start"
-                WidthRequest="44"
-                HeightRequest="44"
-                Command="{Binding ClosePageCommand}"
                 IsVisible="{Binding IsAuthorized}"
-                IsEnabled="{Binding IsAuthorized}">
-                <ImageButton.Source>
-                    <FontImageSource 
-                        Glyph="{Static fonticons:MaterialIcons.Close}" 
-                        FontFamily="MaterialIconsRoundedFilled"
-                        Color="White"
-                        Size="44"/>
-                </ImageButton.Source>
-            </ImageButton>
+                IsEnabled="{Binding IsAuthorized}" />
                 
             <Label 
                 Grid.Row="0"

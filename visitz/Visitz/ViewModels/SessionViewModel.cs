@@ -239,12 +239,6 @@ public partial class SessionViewModel
 			Flags = BrowserLaunchFlags.PresentAsFormSheet,
 		});
 	}
-
-	[RelayCommand]
-    private async void ClosePage()
-    {
-        await Navigator.Navigation.PopModalAsync();
-    }
 }
 
 public partial class SessionViewModel
