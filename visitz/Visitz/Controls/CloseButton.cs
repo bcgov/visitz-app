@@ -8,6 +8,23 @@ namespace Visitz.Controls;
 
 internal class CloseButton : ImageButton
 {
+	public static readonly BindableProperty FontIconColorProperty =
+		BindableProperty.Create(nameof(FontIconColor), typeof(Color), typeof(CloseButton),
+			propertyChanged: (boundObj, oldVal, newVal) =>
+			{
+				var closeButton = (CloseButton)boundObj;
+				var newColor = (Color)newVal;
+
+				if (closeButton.Source is FontImageSource fis)
+					fis.Color = newColor;
+			});
+
+	public Color FontIconColor
+	{
+		get => (Color)GetValue(FontIconColorProperty);
+		set => SetValue(FontIconColorProperty, value);
+	}
+
 	public CloseButton() : base()
 	{
 		WidthRequest = 44;
