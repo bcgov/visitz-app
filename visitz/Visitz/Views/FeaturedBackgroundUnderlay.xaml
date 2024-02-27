@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.FeaturedBackgroundUnderlay"
-	x:DataType="views:FeaturedBackgroundUnderlay"
-	Background="Black">
+	x:DataType="views:FeaturedBackgroundUnderlay">
 
 	<AbsoluteLayout>
 
