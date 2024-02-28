@@ -37,6 +37,7 @@ namespace Visitz.ViewModels
                     await Navigator.Navigation.PopModalAsync();
 
 					new SurveyFeedbackTracker(Preferences.Default).IncrementTimesAppUnlocked();
+					await FeedbackSurveyPage.TryOpen();
                     break;
             }
         }

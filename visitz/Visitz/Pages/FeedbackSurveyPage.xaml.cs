@@ -1,4 +1,6 @@
 using Visitz.Settings;
+using VisitzModel;
+using VisitzModel.Storage;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -9,6 +11,22 @@ namespace Visitz.Pages;
 
 public partial class FeedbackSurveyPage : ContentPage
 {
+	public static async Task TryOpen()
+	{
+		var tracker = new SurveyFeedbackTracker(Preferences.Default);
+
+		ConsoleTrace.TraceMethod(typeof(FeedbackSurveyPage),
+			$"\n!SurveyPrompted: '{!tracker.SurveyPrompted}'" +
+			$"\nUnlockedAppEnough: '{tracker.UnlockedAppEnough}'" +
+			$"\nHavePublishedAnything: '{tracker.HavePublishedAnything}'");
+
+		if (!tracker.SurveyPrompted && tracker.UnlockedAppEnough && tracker.HavePublishedAnything)
+		{
+			await Navigator.Navigation.PushModalAsync(new FeedbackSurveyPage());
+			tracker.SetHavePromptedSurvey();
+		}
+	}
+
 	public FeedbackSurveyPage()
 	{
 #if IOS
