@@ -80,6 +80,7 @@ jobs:
             -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }} \
             -p:ContactInfo_MailToAuthorize=${{ secrets.MAILTO_AUTHORIZE }} \
             -p:ContactInfo_AccessRequestFormUrl="${{ vars.ACCESS_REQUEST_FORM_URL }}" \
+            -p:ContactInfo_FeedbackSurveyUrl="${{ vars.FEEDBACK_SURVEY_URL }}" \
             -p:Debug_EnableDebugOptions=${{ vars.DEBUG_OPTIONS }}
 
       - name: Prepare output package

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.FeaturedBackgroundUnderlay"
+	x:DataType="views:FeaturedBackgroundUnderlay">
+
+	<AbsoluteLayout>
+
+		<Image
+			x:Name="FeatureImage"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			Aspect="AspectFill" />
+
+		<BoxView
+			x:Name="OverlayBoxView"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			Color="Black"
+			Opacity="0.0" />
+		
+	</AbsoluteLayout>
+</views:BaseContentView>

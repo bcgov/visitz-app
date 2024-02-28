@@ -105,6 +105,22 @@
                     Text="Load 620b data" />
             </Grid>
 
+			<Label
+				StyleClass="DebugLayout,DebugLabel"
+				HorizontalOptions="FillAndExpand"
+				FontSize="20"
+				Background="AliceBlue"
+				Text="Preferences" />
+
+			<Grid RowDefinitions="Auto">
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="0"
+					Grid.Column="1"
+					Command="{Binding ClearFeedbackSurveyPrefsCommand}"
+					Text="Clear feedback survey preferences" />
+			</Grid>
+			
             <Label
                 StyleClass="DebugLayout,DebugLabel"
                 HorizontalOptions="FillAndExpand"

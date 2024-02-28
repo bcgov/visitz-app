@@ -1,7 +1,8 @@
-﻿using Visitz.Services.Messages;
+using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
@@ -45,6 +46,9 @@ namespace Visitz.Services
             var (status, _) = await Vpi.SubmitNotesAsync(Payload);
 
             ResultCode = status ? Result.Successful : Result.Error;
+
+			if (ResultCode.Equals(Result.Successful))
+				new SurveyFeedbackTracker(Preferences.Default).SetHasPublishedAnything();
         }
     }
 }

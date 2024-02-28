@@ -1,5 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Visitz.Pages;
 
 namespace Visitz.ViewModels;
 
@@ -209,6 +210,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
         await Task.Delay(DismissDuration);
         await Navigator.Navigation.PopAsync();
+
+		await FeedbackSurveyPage.TryOpen();
     }
 
     [RelayCommand]

@@ -1,8 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace Oidc.Util;
 
-public static class ConsoleTrace
+internal static class ConsoleTrace
 {
     private static int traceCount = 0;
 

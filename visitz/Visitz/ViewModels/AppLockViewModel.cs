@@ -1,23 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Device;
+using Visitz.Pages;
 using Visitz.Resources.Localization;
-using Visitz.Storage;
+using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
 {
     public partial class AppLockViewModel(DeviceAuthenticator authenticator) : VisitzViewModel
     {
         private DeviceAuthenticator Authenticator { get; } = authenticator;
-
-        [ObservableProperty]
-        public string backgroundImageUri;
-
-        public override async void Create()
-        {
-            base.Create();
-
-            BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
-        }
 
         public override async void Start()
         {
@@ -45,6 +35,9 @@ namespace Visitz.ViewModels
                     break;
                 case DeviceAuthenticator.Result.Successful:
                     await Navigator.Navigation.PopModalAsync();
+
+					new SurveyFeedbackTracker(Preferences.Default).IncrementTimesAppUnlocked();
+					await FeedbackSurveyPage.TryOpen();
                     break;
             }
         }

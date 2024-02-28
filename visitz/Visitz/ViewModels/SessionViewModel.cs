@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
@@ -10,7 +10,7 @@ using Visitz.Resources.Styles;
 using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
-
+using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -20,9 +20,6 @@ namespace Visitz.ViewModels;
 
 public partial class SessionViewModel : VisitzViewModel
 {
-    private static readonly double ShowcaseOpacity = 0.8d;
-    private static readonly double ReadableOpacity = 0.4d;
-
     [ObservableProperty]
     public string buildNumber;
 
@@ -33,7 +30,7 @@ public partial class SessionViewModel : VisitzViewModel
     public string backgroundImageUri;
 
     [ObservableProperty]
-    public double bgOpacity = ShowcaseOpacity;
+    public DisplayOptions bgDisplayOptions = DisplayOptions.Clear;
 
     private OidcSessionInfo SessionInfo;
 
@@ -91,7 +88,7 @@ public partial class SessionViewModel
         ShowAuthStatusLayout = !ShowLoginLayout;
         IsAuthorized = false;
         IsUnauthorized = false;
-        BgOpacity = ShowcaseOpacity;
+        BgDisplayOptions = DisplayOptions.Clear;
 
         ApplyModalStyles(false);
     }
@@ -142,26 +139,36 @@ public partial class SessionViewModel
     [ObservableProperty]
     public string mailToUrl;
 
+	[ObservableProperty]
+	public bool showFeedbackUrl;
+
+	[ObservableProperty]
+	public string feedbackUrl;
+
     private void ApplyAuthStatusLayout()
     {
+        BgDisplayOptions = DisplayOptions.TextReadable;
+
         DisplayName = SessionInfo.GivenName;
         IsAuthorized = SessionInfo.HasBasicAccessRole();
         IsUnauthorized = !IsAuthorized;
-        MailToUrl = new AppSettings().ContactInfo.MailToAuthorize;
+		ShowFeedbackUrl = IsAuthorized;
+
+		var contactInfo = new AppSettings().ContactInfo;
+		MailToUrl = contactInfo.MailToAuthorize;
+		FeedbackUrl = contactInfo.FeedbackSurveyUrl;
 
         if (IsUnauthorized)
         {
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
             AuthIcon = MaterialIcons.Shield_lock;
             AuthColor = VisitzColors.BC_Semantic_Error;
-            BgOpacity = ReadableOpacity;
         }
         else
         {
             AuthStatus = LocalizedStrings.YouAreAuthorized;
             AuthIcon = MaterialIcons.Verified_user;
             AuthColor = VisitzColors.BC_Semantic_Success;
-            BgOpacity = ShowcaseOpacity;
         }
 
         ShowLoginLayout = false;
@@ -219,11 +226,16 @@ public partial class SessionViewModel
         });
     }
 
-    [RelayCommand]
-    private async void ClosePage()
-    {
-        await Navigator.Navigation.PopModalAsync();
-    }
+	[RelayCommand]
+	static async Task OpenFeedbackUrl(string feedbackUrl)
+	{
+		await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
+		{
+			LaunchMode = BrowserLaunchMode.SystemPreferred,
+			TitleMode = BrowserTitleMode.Hide,
+			Flags = BrowserLaunchFlags.PresentAsPageSheet,
+		});
+	}
 }
 
 public partial class SessionViewModel

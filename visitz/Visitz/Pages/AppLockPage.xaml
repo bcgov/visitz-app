@@ -1,10 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <pages:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Pages.AppLockPage"
     x:DataType="viewmodels:AppLockViewModel"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
@@ -18,19 +19,10 @@
 
     <AbsoluteLayout BackgroundColor="Black" IgnoreSafeArea="True">
 
-        <Image
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
-            Aspect="AspectFill"
-            Opacity=".5">
-            
-            <Image.Source>
-                <UriImageSource 
-                    Uri="{Binding BackgroundImageUri}" 
-                    CacheValidity="30:0:0:0" />
-            </Image.Source>
-        </Image>
-
+		<views:FeaturedBackgroundUnderlay
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			ImageDisplayOptions="TextReadable" />
 
         <StackLayout 
             AbsoluteLayout.LayoutFlags="PositionProportional"
