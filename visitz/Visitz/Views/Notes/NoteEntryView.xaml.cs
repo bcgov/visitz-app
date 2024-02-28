@@ -72,21 +72,4 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(NotesEditor);
     }
-
-    private void FocusBottom()
-    {
-        int end = NotesEditor.Text?.Length ?? 0;
-
-        // Move the cursor an extra time to ensure the Editor viewport is always moved to the cursor.
-        // (if cursor is already at 'end', setting it to 'end' again won't move the viewport)
-        NotesEditor.CursorPosition = Math.Max(0, end - 1);
-
-        NotesEditor.CursorPosition = end;
-        NotesEditor.Focus();
-    }
-
-    void Scroll_To_Bottom_Clicked(object sender, EventArgs e)
-    {
-        FocusBottom();
-    }
 }
