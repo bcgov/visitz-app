@@ -1,8 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
 using Visitz.Settings;
 using Visitz.Storage;
+using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -115,5 +116,11 @@ namespace Visitz.ViewModels
             if (DebugOptions.Enabled)
                 await OidcSession.LogoutAsync();
         }
-    }
+
+		[RelayCommand]
+		public static void ClearFeedbackSurveyPrefs()
+		{
+			new SurveyFeedbackTracker(Preferences.Default).ClearAll();
+		}
+	}
 }
