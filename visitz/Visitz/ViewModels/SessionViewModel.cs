@@ -233,7 +233,7 @@ public partial class SessionViewModel
 		{
 			LaunchMode = BrowserLaunchMode.SystemPreferred,
 			TitleMode = BrowserTitleMode.Hide,
-			Flags = BrowserLaunchFlags.PresentAsFormSheet,
+			Flags = BrowserLaunchFlags.PresentAsPageSheet,
 		});
 	}
 }

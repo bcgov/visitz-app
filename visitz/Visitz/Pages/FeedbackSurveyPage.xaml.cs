@@ -46,7 +46,7 @@ public partial class FeedbackSurveyPage : ContentPage
 		{
 			LaunchMode = BrowserLaunchMode.SystemPreferred,
 			TitleMode = BrowserTitleMode.Hide,
-			Flags = BrowserLaunchFlags.PresentAsFormSheet,
+			Flags = BrowserLaunchFlags.PresentAsPageSheet,
 		});
 	}
 }
