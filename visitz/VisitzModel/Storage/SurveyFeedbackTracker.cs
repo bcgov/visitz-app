@@ -26,7 +26,7 @@ public class SurveyFeedbackTracker(IPreferences prefs)
 
 	public bool UnlockedAppEnough => TimesAppUnlocked >= TimesAppUnlockedThreshold;
 
-	public bool HavePublishedAnything
+	public bool PublishedAnything
 	{
 		get => Preferences.Get(HavePublishedAnythingKey, false);
 		private set => Preferences.Set(HavePublishedAnythingKey, value);
@@ -51,7 +51,7 @@ public class SurveyFeedbackTracker(IPreferences prefs)
 
 	public void SetHasPublishedAnything()
 	{
-		HavePublishedAnything = true;
+		PublishedAnything = true;
 	}
 
 	public void ClearAll()

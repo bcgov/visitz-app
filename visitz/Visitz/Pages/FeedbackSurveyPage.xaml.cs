@@ -18,9 +18,9 @@ public partial class FeedbackSurveyPage : ContentPage
 		ConsoleTrace.TraceMethod(typeof(FeedbackSurveyPage),
 			$"\n!SurveyPrompted: '{!tracker.SurveyPrompted}'" +
 			$"\nUnlockedAppEnough: '{tracker.UnlockedAppEnough}'" +
-			$"\nHavePublishedAnything: '{tracker.HavePublishedAnything}'");
+			$"\nHavePublishedAnything: '{tracker.PublishedAnything}'");
 
-		if (!tracker.SurveyPrompted && tracker.UnlockedAppEnough && tracker.HavePublishedAnything)
+		if (!tracker.SurveyPrompted && tracker.UnlockedAppEnough && tracker.PublishedAnything)
 		{
 			await Navigator.Navigation.PushModalAsync(new FeedbackSurveyPage());
 			tracker.SetHavePromptedSurvey();
