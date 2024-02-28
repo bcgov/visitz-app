@@ -1,23 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Device;
 using Visitz.Resources.Localization;
-using Visitz.Storage;
 
 namespace Visitz.ViewModels
 {
     public partial class AppLockViewModel(DeviceAuthenticator authenticator) : VisitzViewModel
     {
         private DeviceAuthenticator Authenticator { get; } = authenticator;
-
-        [ObservableProperty]
-        public string backgroundImageUri;
-
-        public override async void Create()
-        {
-            base.Create();
-
-            BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
-        }
 
         public override async void Start()
         {
