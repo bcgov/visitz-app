@@ -1,5 +1,7 @@
 using Visitz.Device;
+using Visitz.Pages;
 using Visitz.Resources.Localization;
+using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
 {
@@ -33,6 +35,8 @@ namespace Visitz.ViewModels
                     break;
                 case DeviceAuthenticator.Result.Successful:
                     await Navigator.Navigation.PopModalAsync();
+
+					new SurveyFeedbackTracker(Preferences.Default).IncrementTimesAppUnlocked();
                     break;
             }
         }
