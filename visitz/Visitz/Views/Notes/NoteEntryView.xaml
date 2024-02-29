@@ -21,12 +21,13 @@
         
         <StackLayout 
             Orientation="Vertical"
-            Spacing="10"
+            Spacing="5"
             Padding="20">
 
-            <Grid 
-                ColumnDefinitions="Auto,*,Auto"
-                RowDefinitions="Auto">
+            <Grid
+				ColumnDefinitions="Auto,*,Auto"
+				RowDefinitions="Auto,Auto"
+				RowSpacing="5">
 
 				<controls:CloseButton
                     Grid.Row="0"
@@ -53,7 +54,14 @@
                         IsEnabled="{Binding AllowPublish}" />
                 </HorizontalStackLayout>
 
-            </Grid>
+				<Label
+					Grid.Row="1"
+					Grid.Column="2"
+					HorizontalOptions="End"
+					VerticalOptions="Center"
+					Text="{Binding RemainingCharacters, StringFormat={Static viewmodels:NoteEntryViewModel.RemainingCharactersString}}"
+					Style="{StaticResource LabelSmall}" />
+			</Grid>
 
             <AbsoluteLayout VerticalOptions="FillAndExpand">
                 <Editor
@@ -75,15 +83,15 @@
                     </Editor.Behaviors>
                 </Editor>
 
-                <views:ErrorTooltip 
+				<views:ErrorTooltip 
                     x:Name="EditorError"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     AbsoluteLayout.LayoutBounds="0.5,-.08"
                     IsVisible="False" />
 
-            </AbsoluteLayout>
+			</AbsoluteLayout>
 
-        </StackLayout>
+		</StackLayout>
     </Border>
 
 </views:ViewModelContentView>
