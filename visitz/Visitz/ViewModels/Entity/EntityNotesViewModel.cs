@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using System.Collections.ObjectModel;
@@ -105,8 +105,6 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         noteEntryView.CaseloadItem = CaseloadItem;
 
         var noteEntryPage = noteEntryView.WrapPageForModal();
-		noteEntryPage.Behaviors.Add(new SoftPageKeyboardBehavior());
-
         await Navigator.Navigation.PushModalAsync(noteEntryPage);
     }
 }
