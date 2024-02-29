@@ -13,6 +13,10 @@
     x:Class="Visitz.Views.Notes.NoteEntryView"
     x:DataType="viewmodels:NoteEntryViewModel">
 
+	<views:ViewModelContentView.Behaviors>
+		<behaviors:SoftKbResizeBehavior />
+	</views:ViewModelContentView.Behaviors>
+
     <Border
         Background="White"
         Padding="-5"
