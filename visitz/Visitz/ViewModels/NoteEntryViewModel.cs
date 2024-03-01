@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
@@ -13,6 +13,7 @@ namespace Visitz.ViewModels
     public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         private static readonly int CharacterLimit = 16000;
+		public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
 
         public CaseloadItem CaseloadItem { get; set; }
 
@@ -23,6 +24,9 @@ namespace Visitz.ViewModels
 
         [ObservableProperty]
         public bool allowPublish;
+
+		[ObservableProperty]
+		public int remainingCharacters = CharacterLimit;
 
         [ObservableProperty]
         private NetworkAccess networkAccess = Connectivity.Current.NetworkAccess;
@@ -106,6 +110,7 @@ namespace Visitz.ViewModels
                 return;
             }
 
+			RemainingCharacters = CharacterLimit - e.NewTextValue?.Length ?? 0;
             UpdateAllowPublish(e.NewTextValue);
             ShowSavingDraftMessage();
         }
