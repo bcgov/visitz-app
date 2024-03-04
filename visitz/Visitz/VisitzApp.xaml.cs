@@ -16,12 +16,10 @@ public partial class VisitzApp : Application
     {
         InitializeComponent();
 
-        MainPage = new NavigationPage(new RootPage());
-
         TryStartDebugSensor();
     }
 
-    protected async override void OnStart()
+	protected async override void OnStart()
     {
         ConsoleTrace.TraceMethod(this);
 
@@ -68,14 +66,11 @@ public partial class VisitzApp : Application
             await AppLockPage.TryPrompt();
     }
 
-#if WINDOWS
     protected override Window CreateWindow(IActivationState activationState)
     {
-        return SetWindowLayout(base.CreateWindow(activationState));
+		var mainPage = new NavigationPage(ServiceProvider.GetService<RootPage>());
+		return new VisitzWindow(mainPage);
     }
-
-    private static partial Window SetWindowLayout(Window window);
-#endif
 
     private static void TryStartDebugSensor()
     {
