@@ -69,10 +69,19 @@ public partial class VisitzApp : Application
     protected override Window CreateWindow(IActivationState activationState)
     {
 		var mainPage = new NavigationPage(ServiceProvider.GetService<RootPage>());
-		return new VisitzWindow(mainPage);
+		var visitzWindow = new VisitzWindow(mainPage);
+
+		visitzWindow.ActivatedWhenInvalid += VisitzWindow_ActivatedWhenInvalid;
+
+		return visitzWindow;
     }
 
-    private static void TryStartDebugSensor()
+	private async void VisitzWindow_ActivatedWhenInvalid(object sender, EventArgs e)
+	{
+		await TryModalSecurityChecksAsync();
+	}
+
+	private static void TryStartDebugSensor()
     {
         if (DebugOptions.Enabled)
             TryStartShakeDetector();
