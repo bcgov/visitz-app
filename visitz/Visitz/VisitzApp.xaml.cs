@@ -1,4 +1,4 @@
-﻿using Oidc;
+using Oidc;
 using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
@@ -16,12 +16,10 @@ public partial class VisitzApp : Application
     {
         InitializeComponent();
 
-        MainPage = new NavigationPage(new RootPage());
-
         TryStartDebugSensor();
     }
 
-    protected async override void OnStart()
+	protected async override void OnStart()
     {
         ConsoleTrace.TraceMethod(this);
 
@@ -33,14 +31,28 @@ public partial class VisitzApp : Application
     }
 
     protected async override void OnResume()
-    {
+	{
         ConsoleTrace.TraceMethod(this);
 
         base.OnResume();
         AppResumed?.Invoke(this, null);
 
-        await TryModalSecurityChecksAsync();
+		if (ShouldTryModalSecurityChecksOnResume())
+			await TryModalSecurityChecksAsync();
     }
+
+	private static bool ShouldTryModalSecurityChecksOnResume()
+	{
+#if WINDOWS
+		// Application.OnResume is invoked every time the window gains focus, including after a user
+		// correctly enters their credentials in a modal dialog. To prevent an infinite loop of being
+		// prompted to enter credentials on Windows, we'll only issue the auth challenge during
+		// Application.OnStart.
+		return false;
+#else
+		return true;
+#endif
+	}
 
     private static async Task TryModalSecurityChecksAsync()
     {
@@ -54,16 +66,22 @@ public partial class VisitzApp : Application
             await AppLockPage.TryPrompt();
     }
 
-#if WINDOWS
     protected override Window CreateWindow(IActivationState activationState)
     {
-        return SetWindowLayout(base.CreateWindow(activationState));
+		var mainPage = new NavigationPage(ServiceProvider.GetService<RootPage>());
+		var visitzWindow = new VisitzWindow(mainPage);
+
+		visitzWindow.ActivatedWhenInvalid += VisitzWindow_ActivatedWhenInvalid;
+
+		return visitzWindow;
     }
 
-    private static partial Window SetWindowLayout(Window window);
-#endif
+	private async void VisitzWindow_ActivatedWhenInvalid(object sender, EventArgs e)
+	{
+		await TryModalSecurityChecksAsync();
+	}
 
-    private static void TryStartDebugSensor()
+	private static void TryStartDebugSensor()
     {
         if (DebugOptions.Enabled)
             TryStartShakeDetector();

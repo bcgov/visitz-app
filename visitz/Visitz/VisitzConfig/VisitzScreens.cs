@@ -1,4 +1,4 @@
-﻿using Visitz.Device;
+using Visitz.Device;
 using Visitz.Pages;
 using Visitz.ViewModels;
 using Visitz.ViewModels.Entity;
@@ -14,6 +14,7 @@ namespace Visitz.VisitzConfig
     {
         public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
         {
+			builder.Services.AddSingleton<RootPage>();
             builder.Services.AddSingleton<RootViewModel>();
 
             builder.Services.AddSingleton<NavRailViewModel>();
