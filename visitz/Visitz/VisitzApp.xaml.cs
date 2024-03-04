@@ -1,4 +1,4 @@
-﻿using Oidc;
+using Oidc;
 using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
@@ -33,14 +33,28 @@ public partial class VisitzApp : Application
     }
 
     protected async override void OnResume()
-    {
+	{
         ConsoleTrace.TraceMethod(this);
 
         base.OnResume();
         AppResumed?.Invoke(this, null);
 
-        await TryModalSecurityChecksAsync();
+		if (ShouldTryModalSecurityChecksOnResume())
+			await TryModalSecurityChecksAsync();
     }
+
+	private static bool ShouldTryModalSecurityChecksOnResume()
+	{
+#if WINDOWS
+		// Application.OnResume is invoked every time the window gains focus, including after a user
+		// correctly enters their credentials in a modal dialog. To prevent an infinite loop of being
+		// prompted to enter credentials on Windows, we'll only issue the auth challenge during
+		// Application.OnStart.
+		return false;
+#else
+		return true;
+#endif
+	}
 
     private static async Task TryModalSecurityChecksAsync()
     {

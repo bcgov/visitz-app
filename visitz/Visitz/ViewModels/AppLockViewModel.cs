@@ -9,12 +9,23 @@ namespace Visitz.ViewModels
     {
         private DeviceAuthenticator Authenticator { get; } = authenticator;
 
+#if WINDOWS
+        public override async void Create()
+        {
+            base.Create();
+
+			await PromptAuthentication();
+		}
+#endif
+
+#if !WINDOWS
         public override async void Start()
         {
             base.Start();
 
-            await PromptAuthentication();
+			await PromptAuthentication();
         }
+#endif
 
         public async Task PromptAuthentication()
         {
