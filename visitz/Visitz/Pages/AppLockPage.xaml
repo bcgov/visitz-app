@@ -31,12 +31,9 @@
             WidthRequest="500"
             Spacing="40">
 
-            <Grid HorizontalOptions="Center">
-                <Image Source="tilted_rectangle_bg.png" />
-                <Image Source="file_folder.png" />
-            </Grid>
+			<views:DocumentHeroImage />
 
-            <Button 
+			<Button 
                 Text="{local:Localize DeviceAuthTitle}"
                 HorizontalOptions="Center"
                 TextColor="White"
