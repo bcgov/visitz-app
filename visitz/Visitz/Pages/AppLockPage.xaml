@@ -24,41 +24,38 @@
 			AbsoluteLayout.LayoutBounds="0,0,1,1"
 			ImageDisplayOptions="TextReadable" />
 
-        <StackLayout 
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds=".5,.5"
-            Orientation="Vertical"
-            WidthRequest="500"
-            Spacing="40">
+		<Grid
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			RowDefinitions="2*,Auto,*">
 
-			<views:DocumentHeroImage />
-
-			<Button 
+			<views:DocumentHeroImage
+				Grid.Row="0"
+				HorizontalOptions="Center"
+				VerticalOptions="Center" />
+			
+			<Button
+				Grid.Row="1"
+				StyleClass="GoldBorderButton"
                 Text="{local:Localize DeviceAuthTitle}"
                 HorizontalOptions="Center"
-                TextColor="White"
-                BorderColor="{StaticResource BC_Gold}"
-                BorderWidth="1"
+				VerticalOptions="Center"
                 Padding="50,20,50,20"
-                BackgroundColor="{StaticResource Primary}"
                 FontFamily="BCSansBold"
                 FontSize="20"
                 Clicked="Unlock_Clicked"/>
 
-            <!--There seems to be an issue with WordWrap Label height when in VerticalStackLayouts.
-            So for now we'll just hardcode a height, but this really should be fixed with a better
-            workaround (or MAUI update). -->
-            <Label 
+            <Label
+				Grid.Row="2"
                 Text="{local:Localize DeviceAuthReason}"
                 HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center"
                 HorizontalTextAlignment="Center"
+				MaximumWidthRequest="500"
                 TextColor="White"
                 FontFamily="BCSansBold"
-                FontSize="20"
-                LineBreakMode="WordWrap"
-                HeightRequest="100"/>
-
-        </StackLayout>
+                FontSize="20" />
+		</Grid>
         
     </AbsoluteLayout>
 
