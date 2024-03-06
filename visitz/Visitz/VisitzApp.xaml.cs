@@ -14,6 +14,11 @@ public partial class VisitzApp : Application
 
     public VisitzApp()
     {
+#if WINDOWS
+		if (Oidc.WinWorkaround.WebAuthenticator.CheckOAuthRedirectionActivation())
+			return;
+#endif
+
         InitializeComponent();
 
         TryStartDebugSensor();

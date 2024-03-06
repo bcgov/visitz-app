@@ -1,12 +1,12 @@
-﻿using IdentityModel.Client;
+using IdentityModel.Client;
 using IdentityModel.OidcClient.Browser;
 
 namespace Oidc
 {
-    /// <summary>
-    /// The class implements the IBrowser interface to handle the authentication step.
-    /// In practice, this class is responsible for opening the system browser, which will show the user the Login page.
-    /// </summary>
+	/// <summary>
+	/// The class implements the IBrowser interface to handle the authentication step.
+	/// In practice, this class is responsible for opening the system browser, which will show the user the Login page.
+	/// </summary>
 	public class WebBrowserAuthenticator : IdentityModel.OidcClient.Browser.IBrowser
     {
         private const string EncodedHashtag = "%23";
@@ -15,7 +15,13 @@ namespace Oidc
         {
             try
             {
-                WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(new()
+#if WINDOWS
+				var result = await WinWorkaround.WebAuthenticator.AuthenticateAsync(
+					new Uri(options.StartUrl),
+					new Uri(options.EndUrl),
+					cancellationToken);
+#else
+				WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(new()
                 {
                     Url = new Uri(options.StartUrl),
                     CallbackUrl = new Uri(options.EndUrl),
@@ -35,8 +41,8 @@ namespace Oidc
                      */
                     PrefersEphemeralWebBrowserSession = false,
                 });
-
-                var url = new RequestUrl(options.EndUrl)
+#endif
+				var url = new RequestUrl(options.EndUrl)
                     .Create(new Parameters(result.Properties));
 
                 return new BrowserResult
