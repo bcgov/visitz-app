@@ -68,20 +68,21 @@
                     Command="{Binding TryLogoutAsyncCommand}"
                     IsVisible="{Binding IsAuthorized}" />
 
-                <Image
-                    Grid.Row="0"
-                    IsVisible="{Binding IsUnauthorized}"
-                    HeightRequest="300"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center">
-                    <Image.Source>
-                        <FontImageSource 
-                            Glyph="{Binding AuthIcon}"
-                            FontFamily="MaterialIconsRoundedFilled"
-                            Size="200"
-                            Color="{Binding AuthColor}" />
-                    </Image.Source>
-                </Image>
+				<ContentView
+					Grid.Row="0"
+					IsVisible="{Binding IsUnauthorized}"
+					VerticalOptions="Center"
+					HorizontalOptions="Center">
+					<Image>
+						<Image.Source>
+							<FontImageSource 
+								Glyph="{Binding AuthIcon}"
+								FontFamily="MaterialIconsRoundedFilled"
+								Size="200"
+								Color="{Binding AuthColor}" />
+						</Image.Source>
+					</Image>
+				</ContentView>
 
                 <Label 
                     Grid.Row="1"
