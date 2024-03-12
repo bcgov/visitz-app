@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -34,7 +34,7 @@ namespace Visitz.ViewModels
             {
                 EntityNumber = caseloadItem.CaseIncidentNumber,
                 EntityType = caseloadItem.EntityType,
-                NotePeriod = noteItem?.NotePeriod ?? NoteItem.NotePeriodFrom(DateTime.Now),
+                NotePeriod = NoteItem.NotePeriodFrom(DateTime.Now),
                 Content = NoteItem.WrapContent(info.Idir, DateTime.Now, draft),
                 CreatedBy = info.Idir,
             };
