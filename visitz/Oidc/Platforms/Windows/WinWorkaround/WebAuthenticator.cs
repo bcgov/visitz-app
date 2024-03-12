@@ -26,6 +26,8 @@ namespace Oidc.WinWorkaround
 	/// </remarks>
 	public sealed class WebAuthenticator
 	{
+		public static event EventHandler<InvokingAuthEventArgs> PromptAuthentication;
+
 		/// <summary>
 		/// Begin an authentication flow by navigating to the specified url and waiting for a callback/redirect to the callbackUrl scheme.
 		/// </summary>
@@ -259,14 +261,16 @@ namespace Oidc.WinWorkaround
 				}
 			}
 
-			var process = new System.Diagnostics.Process();
-			process.StartInfo.FileName = "rundll32.exe";
-			process.StartInfo.Arguments = $"url.dll,FileProtocolHandler \"{authorizeUri.OriginalString}\"";
-			process.StartInfo.UseShellExecute = true;
-			process.Start();
+			PromptAuthentication?.Invoke(this, new InvokingAuthEventArgs(authorizeUri));
 			tasks.Add(taskId, tcs);
+
 			var uri = await tcs.Task.ConfigureAwait(false);
 			return new WebAuthenticatorResult(uri);
 		}
+	}
+
+	public class InvokingAuthEventArgs(Uri uri) : EventArgs
+	{
+		public Uri Uri { get; private set; } = uri;
 	}
 }
