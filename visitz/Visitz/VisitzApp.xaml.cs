@@ -12,8 +12,19 @@ public partial class VisitzApp : Application
 
     public event EventHandler<EventArgs> AppResumed;
 
-    public VisitzApp()
+#if WINDOWS
+	public CancellationTokenSource AuthCancelTokenSource { get; set; }
+#endif
+
+	public VisitzApp()
     {
+#if WINDOWS
+		if (Oidc.WinWorkaround.WebAuthenticator.CheckOAuthRedirectionActivation())
+			return;
+
+		Oidc.WinWorkaround.WebAuthenticator.PromptAuthentication += WebAuthenticator_PromptForCredentials;
+#endif
+
         InitializeComponent();
 
         TryStartDebugSensor();
@@ -80,6 +91,18 @@ public partial class VisitzApp : Application
 	{
 		await TryModalSecurityChecksAsync();
 	}
+
+#if WINDOWS
+	private async void WebAuthenticator_PromptForCredentials(object sender, Oidc.WinWorkaround.InvokingAuthEventArgs e)
+	{
+		var webViewPage = ServiceProvider.GetService<WebViewPage>();
+
+		webViewPage.AuthUri = e.Uri;
+		webViewPage.CancelTokenSource = AuthCancelTokenSource;
+
+		await Navigator.Navigation.PushModalAsync(webViewPage);
+	}
+#endif
 
 	private static void TryStartDebugSensor()
     {

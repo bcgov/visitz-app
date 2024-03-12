@@ -1,4 +1,4 @@
-﻿using IdentityModel.OidcClient.Browser;
+using IdentityModel.OidcClient.Browser;
 using Oidc;
 using Oidc.Exceptions;
 using System.Net;
@@ -16,7 +16,14 @@ namespace Visitz.Services
         {
             try
             {
-                await OidcSession.AssertValidSessionAsync(messageIfUnavailable: LocalizedStrings.NoInternet);
+				var cancelTokenSource = new CancellationTokenSource();
+#if WINDOWS
+				(Application.Current as VisitzApp).AuthCancelTokenSource = cancelTokenSource;
+#endif
+				await OidcSession.AssertValidSessionAsync(
+					messageIfUnavailable: LocalizedStrings.NoInternet,
+					cancelTokenSource.Token);
+
                 await RunApiServiceAsync();
             }
             catch (LoginException ex)

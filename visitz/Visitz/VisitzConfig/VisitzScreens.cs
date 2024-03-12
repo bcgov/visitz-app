@@ -29,8 +29,11 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
 
-            builder.Services.AddTransient<EntityNavView>();
-            builder.Services.AddTransient<EntityNavViewModel>();
+			builder.Services.AddTransient<WebViewPage>();
+			builder.Services.AddTransient<WebViewModel>();
+
+			builder.Services.AddTransient<EntityNavView>();
+			builder.Services.AddTransient<EntityNavViewModel>();
 
             builder.Services.AddTransient<EntityContainerView>();
             builder.Services.AddTransient<EntityContainerViewModel>();
