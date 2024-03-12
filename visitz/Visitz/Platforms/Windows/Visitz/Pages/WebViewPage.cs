@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System.Diagnostics;
+using Visitz.Controls;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
 
@@ -15,6 +16,7 @@ public partial class WebViewPage
 	partial void Setup()
 	{
 		MainWebView.Loaded += MainWebView_Loaded;
+		CloseButton.Closing += CloseButton_Closing;
 	}
 
 	private static async Task<CoreWebView2> GetCoreWebView(WebView webView)
@@ -73,5 +75,10 @@ public partial class WebViewPage
 		_ = Navigator.Navigation.PopModalAsync();
 
 		sender.NavigationCompleted -= CompleteRedirectNavigation;
+	}
+
+	private void CloseButton_Closing(object sender, ClosingEventArgs e)
+	{
+		CancelTokenSource?.Cancel();
 	}
 }
