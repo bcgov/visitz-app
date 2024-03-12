@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Oidc;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
+using VisitzApi.Models;
 using VisitzModel;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
@@ -83,9 +85,22 @@ namespace Visitz.ViewModels
                 await Navigator.Navigation.PopModalAsync();
 
                 var notePublishVm = ServiceProvider.GetService<NotePublishViewModel>();
-                var noteItem = NoteItem.GetLatestByEntityId(CaseloadItem.Realm, CaseloadItem.CaseIncidentNumber);
-                
-                await notePublishVm.Init(CaseloadItem, noteItem, DraftOutput);
+
+#pragma warning disable SS002 // DateTime.Now was referenced
+				var now = DateTime.Now; // API system does not use UTC times
+#pragma warning restore SS002 // DateTime.Now was referenced
+
+				var info = await OidcSessionInfo.GetAsync();
+				var submitNoteEntity = new SubmitNoteEntity
+				{
+					EntityNumber = CaseloadItem.CaseIncidentNumber,
+					EntityType = CaseloadItem.EntityType,
+					NotePeriod = NoteItem.NotePeriodFrom(now),
+					Content = NoteItem.WrapContent(info.Idir, now, DraftOutput),
+					CreatedBy = info.Idir,
+				};
+
+                notePublishVm.Init(CaseloadItem, submitNoteEntity);
                 await Navigator.Navigation.PushAsync(new PublishPage(notePublishVm));
             }
         }
