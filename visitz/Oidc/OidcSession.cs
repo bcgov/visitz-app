@@ -14,14 +14,14 @@ namespace Oidc
 
         public static event EventHandler<SessionChangedEventArgs> SessionChanged;
 
-        public static async Task AssertValidSessionAsync(string messageIfUnavailable)
+        public static async Task AssertValidSessionAsync(string messageIfUnavailable, CancellationToken cancellationToken = default)
         {
             NetworkHelper.AssertInternetAvailable(messageIfUnavailable);
 
             if (!await TokenHolder.IsAccessTokenValid())
             {
                 if (await TokenHolder.IsRefreshTokenExpired())
-                    await LoginAsync(messageIfUnavailable);
+                    await LoginAsync(messageIfUnavailable, cancellationToken);
                 else
                     await RefreshAsync(messageIfUnavailable);
             }

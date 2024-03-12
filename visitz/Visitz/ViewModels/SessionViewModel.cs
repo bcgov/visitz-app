@@ -98,7 +98,11 @@ public partial class SessionViewModel
     {
         try
         {
-            await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet);
+			var cancelToken = new CancellationTokenSource();
+#if WINDOWS
+			(Application.Current as VisitzApp).AuthCancelTokenSource = cancelToken;
+#endif
+			await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
 
             if (SessionInfo.HasBasicAccessRole())
             {
