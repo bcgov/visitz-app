@@ -23,6 +23,16 @@ public partial class WebViewPage
 
 		await winWebView.EnsureCoreWebView2Async();
 
+		if (winWebView.CoreWebView2.Settings is CoreWebView2Settings settings)
+		{
+			settings.IsZoomControlEnabled = false;
+#if DEBUG
+			settings.AreDevToolsEnabled = true;
+#else
+			settings.AreDevToolsEnabled = false;
+#endif
+		}
+
 		return winWebView.CoreWebView2;
 	}
 
