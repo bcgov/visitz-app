@@ -12,6 +12,8 @@ public partial class WebViewPage : VisitzPage
 		set => ViewModel.AuthUri = value;
 	}
 
+	public CancellationTokenSource CancelTokenSource { get; set; }
+
 	public WebViewPage() : base(ServiceProvider.GetService<WebViewModel>())
 	{
 		InitializeComponent();
