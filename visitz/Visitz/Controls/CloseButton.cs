@@ -25,6 +25,8 @@ internal class CloseButton : ImageButton
 		set => SetValue(FontIconColorProperty, value);
 	}
 
+	public event EventHandler<ClosingEventArgs> Closing;
+
 	public CloseButton() : base()
 	{
 		WidthRequest = 44;
@@ -40,6 +42,12 @@ internal class CloseButton : ImageButton
 
 	private async void CloseButton_Clicked(object sender, EventArgs e)
 	{
+		var closingEventArgs = new ClosingEventArgs();
+		Closing?.Invoke(this, closingEventArgs);
+
+		if (closingEventArgs.Cancel)
+			return;
+
 		if (Navigator.CurrentOpenModal != null)
 			await Navigator.Navigation.PopModalAsync();
 		else
