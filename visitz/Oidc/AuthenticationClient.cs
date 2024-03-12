@@ -1,4 +1,4 @@
-﻿using IdentityModel.OidcClient;
+using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Browser;
 using IdentityModel.OidcClient.Results;
 
@@ -36,9 +36,9 @@ namespace Oidc
             }
         }
 
-        public async Task<LoginResult> LoginAsync()
+        public async Task<LoginResult> LoginAsync(CancellationToken cancellationToken = default)
         {
-            return await oidcClient.LoginAsync();
+            return await oidcClient.LoginAsync(cancellationToken: cancellationToken);
         }
 
         public async Task<LogoutResult> LogoutAsync()

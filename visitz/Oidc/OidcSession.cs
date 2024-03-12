@@ -1,4 +1,4 @@
-﻿using IdentityModel.OidcClient;
+using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
 using Oidc.Events;
 using Oidc.Exceptions;
@@ -27,7 +27,7 @@ namespace Oidc
             }
         }
 
-        public static async Task LoginAsync(string messageIfUnavailable)
+        public static async Task LoginAsync(string messageIfUnavailable, CancellationToken cancellationToken = default)
         {
             LoginResult loginResult = null;
 
@@ -35,7 +35,7 @@ namespace Oidc
             {
                 NetworkHelper.AssertInternetAvailable(messageIfUnavailable);
 
-                loginResult = await AuthClient.LoginAsync();
+                loginResult = await AuthClient.LoginAsync(cancellationToken);
 
                 if (loginResult.IsError)
                     throw new LoginException(loginResult.Error);
