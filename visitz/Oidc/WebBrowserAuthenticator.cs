@@ -51,21 +51,20 @@ namespace Oidc
                     ResultType = BrowserResultType.Success
                 };
             }
-            catch (TaskCanceledException)
-            {
-                return new BrowserResult
-                {
-                    ResultType = BrowserResultType.UserCancel,
-                    ErrorDescription = BrowserResultType.UserCancel.ToString()
-                };
-            }
             catch (Exception ex)
             {
-                return new BrowserResult
-                {
-                    ResultType = BrowserResultType.UnknownError,
-                    ErrorDescription = ex.Message
-                };
+				if (ex is TaskCanceledException || ex is OperationCanceledException)
+					return new BrowserResult
+					{
+						ResultType = BrowserResultType.UserCancel,
+						ErrorDescription = BrowserResultType.UserCancel.ToString()
+					};
+				else
+					return new BrowserResult
+					{
+						ResultType = BrowserResultType.UnknownError,
+						ErrorDescription = ex.Message
+					};
             }
         }
 
