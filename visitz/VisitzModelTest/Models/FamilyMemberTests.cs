@@ -12,14 +12,14 @@ public class FamilyMemberTests
 	[InlineData("2020-05-54")]
 	[InlineData("2020-13-01")]
 	[InlineData("-2020-05-01")]
-	public void AgeZeroWhenDateOfBirthIsInvalidValue(string dateOfBirth)
+	public void AgeNullWhenDateOfBirthIsInvalidValue(string dateOfBirth)
 	{
 		FamilyMember member = new()
 		{
 			DateOfBirth = dateOfBirth
 		};
 
-		Assert.Equal(0, member.Age);
+		Assert.Null(member.Age);
 	}
 
 	[Theory]
