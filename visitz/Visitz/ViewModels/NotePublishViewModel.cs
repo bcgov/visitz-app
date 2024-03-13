@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -10,36 +10,18 @@ namespace Visitz.ViewModels
 {
     public partial class NotePublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
     {
-        public CaseloadItem CaseloadItem { get; private set; }
-
-        public NoteItem NoteItem { get; private set; }
-
         private SubmitNoteEntity submitNoteEntity;
 
         private string submitAndGetNotesServiceId;
         private string submitNotesServiceId;
         private string getNotesServiceId;
 
-        public async Task Init(CaseloadItem caseloadItem, NoteItem noteItem, string draft)
+        public void Init(CaseloadItem caseloadItem, SubmitNoteEntity submitNote)
         {
-            CaseloadItem = caseloadItem;
-            NoteItem = noteItem;
+            Title = caseloadItem.DisplayName;
+			submitNoteEntity = submitNote;
 
-            Title = noteItem?.PeriodOrPageNumber != null
-                ? $"{caseloadItem.DisplayName} • {noteItem?.PeriodOrPageNumber}"
-                : caseloadItem.DisplayName;
-
-            var info = await OidcSessionInfo.GetAsync();
-            submitNoteEntity = new()
-            {
-                EntityNumber = caseloadItem.CaseIncidentNumber,
-                EntityType = caseloadItem.EntityType,
-                NotePeriod = noteItem?.NotePeriod ?? NoteItem.NotePeriodFrom(DateTime.Now),
-                Content = NoteItem.WrapContent(info.Idir, DateTime.Now, draft),
-                CreatedBy = info.Idir,
-            };
-
-            var id = CaseloadItem.CaseIncidentNumber;
+            var id = caseloadItem.CaseIncidentNumber;
             var notePeriod = submitNoteEntity.NotePeriod;
 
             submitAndGetNotesServiceId = SubmitAndGetNotesService.MakeId(id, notePeriod);
@@ -109,7 +91,7 @@ namespace Visitz.ViewModels
         private async Task DiscardPublishedDraft()
         {
             using var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
-            await NoteDraft.Delete(realm, CaseloadItem.CaseIncidentNumber);
+            await NoteDraft.Delete(realm, submitNoteEntity.EntityNumber);
         }
     }
 }
