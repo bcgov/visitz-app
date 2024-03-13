@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
 
@@ -44,9 +44,13 @@ namespace VisitzModel.Models
             .TrimEnd([',', ' ', '-'])
             .TrimEnd([',', ' ', '-']);
 
-        public int Age => (DateTime.Now - DateTime.Parse(DateOfBirth)).Days / 365;
+#pragma warning disable SS003 // The operands of a divisive expression are both integers and result in an implicit rounding.
+		public int Age => DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
+					? (DateTimeExtensions.LocalNow - dateOfBirth).Days / 365 // Integer division is intentional
+					: 0;
+#pragma warning restore SS003 // The operands of a divisive expression are both integers and result in an implicit rounding.
 
-        public static FamilyMember FromApiEntity(FamilyMemberEntity familyMember)
+		public static FamilyMember FromApiEntity(FamilyMemberEntity familyMember)
         {
             return new FamilyMember()
             {
