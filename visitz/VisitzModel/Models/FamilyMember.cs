@@ -45,9 +45,9 @@ namespace VisitzModel.Models
             .TrimEnd([',', ' ', '-']);
 
 #pragma warning disable SS003 // The operands of a divisive expression are both integers and result in an implicit rounding.
-		public int Age => DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
+		public int? Age => DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
 					? (DateTimeExtensions.LocalNow - dateOfBirth).Days / 365 // Integer division is intentional
-					: 0;
+					: null;
 #pragma warning restore SS003 // The operands of a divisive expression are both integers and result in an implicit rounding.
 
 		public static FamilyMember FromApiEntity(FamilyMemberEntity familyMember)
