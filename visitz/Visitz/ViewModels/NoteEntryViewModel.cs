@@ -78,7 +78,7 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-		public async void PublishNotes()
+		public async Task PublishNotes()
 		{
             if (UpdateAllowPublish())
             {
