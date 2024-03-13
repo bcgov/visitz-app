@@ -1,4 +1,4 @@
-using Oidc;
+﻿using Oidc;
 using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
@@ -26,6 +26,8 @@ public partial class VisitzApp : Application
 #endif
 
         InitializeComponent();
+
+        MainPage = new NavigationPage(new RootPage());
 
         TryStartDebugSensor();
     }
@@ -79,8 +81,7 @@ public partial class VisitzApp : Application
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-		var mainPage = new NavigationPage(ServiceProvider.GetService<RootPage>());
-		var visitzWindow = new VisitzWindow(mainPage);
+		var visitzWindow = new VisitzWindow(MainPage);
 
 		visitzWindow.ActivatedWhenInvalid += VisitzWindow_ActivatedWhenInvalid;
 
