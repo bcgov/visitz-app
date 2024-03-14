@@ -1,11 +1,12 @@
-﻿using Visitz.Services.Messages;
+using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
-    public class SubmitNoteService : VisitzApiService
+    public class SubmitNoteService(Vpi vpi) : VisitzApiService(vpi)
     {
         public static string MakeId(string entityNumber, string notePeriod)
         {
@@ -23,8 +24,6 @@ namespace Visitz.Services
         }
 
         private new SubmitNoteEntity Payload => (SubmitNoteEntity)base.Payload;
-
-        public SubmitNoteService(Vpi vpi) : base(vpi) { }
 
         public override string GetId()
         {
@@ -47,6 +46,9 @@ namespace Visitz.Services
             var (status, _) = await Vpi.SubmitNotesAsync(Payload);
 
             ResultCode = status ? Result.Successful : Result.Error;
+
+			if (ResultCode.Equals(Result.Successful))
+				new SurveyFeedbackTracker(Preferences.Default).SetHasPublishedAnything();
         }
     }
 }

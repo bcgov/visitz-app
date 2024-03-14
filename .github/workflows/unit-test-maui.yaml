@@ -1,0 +1,84 @@
+name: Run .NET MAUI tests
+
+run-name: Run .NET MAUI tests (${{ github.ref_name }})
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - visitz/**/*
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+env:
+  BASE_PROJPATH: "./visitz"
+  DOTNET_VERSION: "8.0.101" # see workflows README
+  MAUI_VERSION: "8.0.6" # see workflows README
+
+jobs:
+  run-maui-tests:
+    name: Build and test .NET MAUI project
+    runs-on: windows-2022
+    timeout-minutes: 40
+    env:
+      TEST_RESULTS: "testResults"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Force use .NET SDK ${{ env.DOTNET_VERSION }}
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: |
+          (Get-Content .\global.json.template).Replace('DOTNET_VERSION', '${{ env.DOTNET_VERSION }}') | Set-Content .\global.json
+
+      - name: Prepare NuGet
+        run: |
+          dotnet --version
+          dotnet nuget locals all --clear
+
+      - name: Cache .NET dependencies
+        uses: actions/cache@v4
+        if: always()
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install .NET MAUI ${{ env.MAUI_VERSION }} workload
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: |
+          dotnet --version
+          dotnet workload install maui --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
+      
+      - name: Install .NET MAUI ${{ env.MAUI_VERSION }} 'ios' and 'maccatalyst' workloads
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: |
+          dotnet --version
+          dotnet workload install ios maccatalyst --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_VERSION }}.json
+
+      - name: Build solution
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: dotnet build
+
+      # Running with --no-build to work around an MSBuild targets issue.
+      # (Details: build throws an error about a missing "Visitz.appSettings.json" file. That file should only exist
+      # when running a build in Release mode.)
+      - name: Run tests
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: dotnet test --logger "trx;LogFilePrefix=${{ env.TEST_RESULTS }}" --no-build
+
+      - name: Report tests
+        uses: dorny/test-reporter@v1.8.0
+        if: success() || failure()
+        with:
+          name: Visitz MAUI Tests
+          path: "**/${{ env.TEST_RESULTS }}*.trx"
+          reporter: dotnet-trx

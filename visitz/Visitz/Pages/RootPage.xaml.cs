@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Messaging;
-using Visitz.Models;
 using Visitz.ViewModels;
+using VisitzModel.Messaging;
+using VisitzModel.Models;
 
 namespace Visitz.Pages;
 

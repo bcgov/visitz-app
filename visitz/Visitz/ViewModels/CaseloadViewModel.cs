@@ -2,15 +2,15 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using Visitz.Extensions;
 using Visitz.FontIcons;
-using Visitz.Messaging;
-using Visitz.Models;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Views.SegmentedButtons;
+using VisitzModel.Extensions;
+using VisitzModel.Messaging;
+using VisitzModel.Models;
 
 namespace Visitz.ViewModels
 {
@@ -92,7 +92,7 @@ namespace Visitz.ViewModels
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-            Realm = await VisitzRealm.GetIcmDataAsync();
+            Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
             int sortPrefIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
@@ -120,20 +120,20 @@ namespace Visitz.ViewModels
             Realm = null;
         }
 
-        public override async void PageCreated()
+        public override async void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             await Setup();
 
             ApplyCaseloadQuery();
         }
 
-        public override void PageDestroyed()
+        public override void Destroy()
         {
             Teardown();
 
-            base.PageDestroyed();
+            base.Destroy();
         }
 
         private void Caseload_Changed(IRealmCollection<CaseloadItem> sender, ChangeSet changes)
@@ -211,14 +211,9 @@ namespace Visitz.ViewModels
 
         private void ApplyCollectionViewPrompt()
         {
-            if (!string.IsNullOrWhiteSpace(SearchQuery))
-            {
-                CollectionViewPrompt = LocalizedStrings.NoResultsForSearch.Format(SearchQuery);
-            }
-            else
-            {
-                CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
-            }
+            CollectionViewPrompt = !string.IsNullOrWhiteSpace(SearchQuery)
+                ? LocalizedStrings.NoResultsForSearch.Format(SearchQuery)
+                : LocalizedStrings.PullToRefreshCaseload;
         }
 
         [RelayCommand]
@@ -243,7 +238,7 @@ namespace Visitz.ViewModels
         [RelayCommand]
         public async void OpenSessionPage()
         {
-            await SessionPage.OpenAsync(VisitzPage, true);
+            await Navigator.GoToPage<SessionPage>(modal: true);
         }
 
         public void SearchCaseload()

@@ -1,27 +1,29 @@
-﻿using IdentityModel.OidcClient.Browser;
+using IdentityModel.OidcClient.Browser;
+using Oidc;
+using Oidc.Exceptions;
 using System.Net;
-using Visitz.Authentication;
-using Visitz.Authentication.Keycloak;
 using Visitz.Resources.Localization;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
 
 namespace Visitz.Services
 {
-    public abstract class VisitzApiService : VisitzService
+    public abstract class VisitzApiService(Vpi vpi) : VisitzService
     {
-        protected Vpi Vpi { get; set; }
-
-        public VisitzApiService(Vpi vpi)
-        {
-            Vpi = vpi;
-        }
+        protected Vpi Vpi { get; set; } = vpi;
 
         protected override sealed async Task RunServiceAsync()
         {
             try
             {
-                await VisitzSession.AssertValidSessionAsync();
+				var cancelTokenSource = new CancellationTokenSource();
+#if WINDOWS
+				(Application.Current as VisitzApp).AuthCancelTokenSource = cancelTokenSource;
+#endif
+				await OidcSession.AssertValidSessionAsync(
+					messageIfUnavailable: LocalizedStrings.NoInternet,
+					cancelTokenSource.Token);
+
                 await RunApiServiceAsync();
             }
             catch (LoginException ex)
@@ -42,7 +44,7 @@ namespace Visitz.Services
 #endif
                 if (IsSessionException(ex.HttpStatusCode))
                 {
-                    await VisitzSession.InvalidateSessionAsync();
+                    await OidcSession.InvalidateSessionAsync();
                     throw new UnauthorizedAccessException(LocalizedStrings.UnauthorizedForApi, ex);
 
                     // No need for different messages for 401 vs. 403, since 401 would've been handled by the

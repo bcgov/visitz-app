@@ -10,20 +10,20 @@ internal partial class RootViewModel : VisitzViewModel
     [ObservableProperty]
     public bool isPortrait = false;
 
-    public override void PageCreated()
+    public override void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         UpdateOrientationVisibility(DeviceDisplay.Current.MainDisplayInfo.Orientation);
 
         DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
     }
 
-    public override void PageDestroyed()
+    public override void Destroy()
     {
         DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
 
-        base.PageDestroyed();
+        base.Destroy();
     }
 
     private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)

@@ -1,45 +1,27 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Authentication.Keycloak;
-using Visitz.Models;
+using CommunityToolkit.Mvvm.Messaging;
+using Oidc;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using VisitzApi.Models;
+using VisitzModel.Models;
 
 namespace Visitz.ViewModels
 {
     public partial class NotePublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
     {
-        public CaseloadItem CaseloadItem { get; private set; }
-
-        public NoteItem NoteItem { get; private set; }
-
         private SubmitNoteEntity submitNoteEntity;
 
         private string submitAndGetNotesServiceId;
         private string submitNotesServiceId;
         private string getNotesServiceId;
 
-        public async Task Init(CaseloadItem caseloadItem, NoteItem noteItem, string draft)
+        public void Init(CaseloadItem caseloadItem, SubmitNoteEntity submitNote)
         {
-            CaseloadItem = caseloadItem;
-            NoteItem = noteItem;
+            Title = caseloadItem.DisplayName;
+			submitNoteEntity = submitNote;
 
-            Title = noteItem?.PeriodOrPageNumber != null
-                ? $"{caseloadItem.DisplayName} • {noteItem?.PeriodOrPageNumber}"
-                : caseloadItem.DisplayName;
-
-            var info = await VisitzSessionInfo.GetAsync();
-            submitNoteEntity = new()
-            {
-                EntityNumber = caseloadItem.CaseIncidentNumber,
-                EntityType = caseloadItem.EntityType,
-                NotePeriod = noteItem?.NotePeriod ?? NoteItem.NotePeriodFrom(DateTime.Now),
-                Content = NoteItem.WrapContent(info.Idir, DateTime.Now, draft),
-                CreatedBy = info.Idir,
-            };
-
-            var id = CaseloadItem.CaseIncidentNumber;
+            var id = caseloadItem.CaseIncidentNumber;
             var notePeriod = submitNoteEntity.NotePeriod;
 
             submitAndGetNotesServiceId = SubmitAndGetNotesService.MakeId(id, notePeriod);
@@ -47,9 +29,9 @@ namespace Visitz.ViewModels
             getNotesServiceId = GetNotesService.MakeId(id);
         }
 
-        public override void PageCreated()
+        public override void Create()
         {
-            base.PageCreated();
+            base.Create();
 
             Wait(LocalizedStrings.LoginToSubmitNotes);
 
@@ -60,11 +42,11 @@ namespace Visitz.ViewModels
             Publish();
         }
 
-        public override void PageDestroyed()
+        public override void Destroy()
         {
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
-            base.PageDestroyed();
+            base.Destroy();
         }
 
         public override void Publish()
@@ -108,8 +90,8 @@ namespace Visitz.ViewModels
 
         private async Task DiscardPublishedDraft()
         {
-            using var realm = await VisitzRealm.GetNoteDraftAsync();
-            await NoteDraft.Delete(realm, CaseloadItem.CaseIncidentNumber);
+            using var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
+            await NoteDraft.Delete(realm, submitNoteEntity.EntityNumber);
         }
     }
 }

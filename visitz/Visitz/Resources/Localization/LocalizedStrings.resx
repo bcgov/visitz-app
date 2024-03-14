@@ -138,16 +138,6 @@
   <data name="UserCancelledAuth" xml:space="preserve">
     <value>User cancelled IDIR login.</value>
   </data>
-  <data name="RealmDatabaseErrorMessage" xml:space="preserve">
-    <value>MCFD Mobility is unable to access downloaded copies of ICM data due to an unexpected event. This error can't be recovered from.
-
-Downloaded copies of ICM data will be deleted.
-
-To continue using the app: open the app switcher, force close MCFD Mobility, then launch it again.</value>
-  </data>
-  <data name="RealmDatabaseErrorTitle" xml:space="preserve">
-    <value>Restart app to fix data issue</value>
-  </data>
   <data name="CaseType" xml:space="preserve">
     <value>Case type</value>
   </data>
@@ -607,5 +597,20 @@ If that doesn't work, request access by emailing </value>
   </data>
   <data name="SafetyAssessmentValidationRulesInfo" xml:space="preserve">
     <value>To publish to ICM, all safety factors must be answered yes or no and a valid safety decision must be selected.</value>
+  </data>
+  <data name="FeedbackUrlPrompt" xml:space="preserve">
+    <value>Got feedback? Let us know!</value>
+  </data>
+  <data name="FeedbackRequestDescription" xml:space="preserve">
+    <value>Please take two minutes to tell us how the app is working for you.</value>
+  </data>
+  <data name="StartSurvey" xml:space="preserve">
+    <value>Start survey</value>
+  </data>
+  <data name="WeWantYourFeedback" xml:space="preserve">
+    <value>We want your feedback!</value>
+  </data>
+  <data name="RetryLogin" xml:space="preserve">
+    <value>Retry login</value>
   </data>
 </root>

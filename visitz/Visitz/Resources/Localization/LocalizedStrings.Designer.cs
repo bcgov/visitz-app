@@ -412,6 +412,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please take two minutes to tell us how the app is working for you..
+        /// </summary>
+        public static string FeedbackRequestDescription {
+            get {
+                return ResourceManager.GetString("FeedbackRequestDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got feedback? Let us know!.
+        /// </summary>
+        public static string FeedbackUrlPrompt {
+            get {
+                return ResourceManager.GetString("FeedbackUrlPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string FirstName {
@@ -895,28 +913,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MCFD Mobility is unable to access downloaded copies of ICM data due to an unexpected event. This error can&apos;t be recovered from.
-        ///
-        ///Downloaded copies of ICM data will be deleted.
-        ///
-        ///To continue using the app: open the app switcher, force close MCFD Mobility, then launch it again..
-        /// </summary>
-        public static string RealmDatabaseErrorMessage {
-            get {
-                return ResourceManager.GetString("RealmDatabaseErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Restart app to fix data issue.
-        /// </summary>
-        public static string RealmDatabaseErrorTitle {
-            get {
-                return ResourceManager.GetString("RealmDatabaseErrorTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {
@@ -940,6 +936,15 @@ namespace Visitz.Resources.Localization {
         public static string Retry {
             get {
                 return ResourceManager.GetString("Retry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry login.
+        /// </summary>
+        public static string RetryLogin {
+            get {
+                return ResourceManager.GetString("RetryLogin", resourceCulture);
             }
         }
         
@@ -1421,6 +1426,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start survey.
+        /// </summary>
+        public static string StartSurvey {
+            get {
+                return ResourceManager.GetString("StartSurvey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IN.
         /// </summary>
         public static string Subtype_ChildProtectionIncidentInitials {
@@ -1489,6 +1503,15 @@ namespace Visitz.Resources.Localization {
         public static string UserCancelledAuth {
             get {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We want your feedback!.
+        /// </summary>
+        public static string WeWantYourFeedback {
+            get {
+                return ResourceManager.GetString("WeWantYourFeedback", resourceCulture);
             }
         }
         

@@ -1,11 +1,12 @@
-﻿using VisitzApi.Models;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 using VisitzApi.ErrorHandling;
+using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-    internal class GetCaseloadEndpoint : VisitzBaseEndpoint<IEnumerable<CaseloadEntity>>
+    internal class GetCaseloadEndpoint(string baseUrl, params string[] workerIds) 
+        : VisitzBaseEndpoint<IEnumerable<CaseloadEntity>>(baseUrl, CaseloadPath)
     {
         private static readonly string CaseloadPath = "/v1/620b";
 
@@ -19,7 +20,7 @@ namespace VisitzApi.Requests
 
         private static readonly string NoRecordsFoundError = "No records found";
 
-        private readonly string[] _workerIds;
+        private readonly string[] _workerIds = workerIds;
 
         private JsonArray WorkerIds
         {
@@ -45,11 +46,6 @@ namespace VisitzApi.Requests
                     }
                 }.ToString();
             }
-        }
-
-        public GetCaseloadEndpoint(string baseUrl, params string[] workerIds) : base(baseUrl, CaseloadPath)
-        {
-            _workerIds = workerIds;
         }
 
         public override HttpRequestMessage MakeRequest()

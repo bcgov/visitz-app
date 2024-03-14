@@ -1,6 +1,4 @@
-﻿using VisitzApi.Extensions;
-using System.Net;
-using System.Text.Json;
+﻿using System.Net;
 
 namespace VisitzApi.ErrorHandling
 {

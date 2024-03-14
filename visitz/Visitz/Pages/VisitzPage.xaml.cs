@@ -1,27 +1,22 @@
 using Visitz.Extensions;
 using Visitz.ViewModels;
+using VisitzModel;
 
 namespace Visitz.Pages;
 
-public abstract partial class VisitzPage : ContentPage 
+public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage() 
 {
-    protected VisitzViewModel ViewModel { get; set; }
+    protected VisitzViewModel ViewModel { get; set; } = visitzViewModel;
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
 
     public IDictionary<string, object> Parameters { get; set; }
 
-    public VisitzPage(VisitzViewModel visitzViewModel) : base()
-    {
-        ViewModel = visitzViewModel;
-        visitzViewModel.VisitzPage = this;
-    }
-
     protected virtual void OnCreated() 
     {
         ConsoleTrace.TraceMethod(this);
 
-        ViewModel.PageCreated();
+        ViewModel.Create();
         ViewModel.AttachToLifecycle(CurrentWindow);
     }
 
@@ -30,14 +25,14 @@ public abstract partial class VisitzPage : ContentPage
         ConsoleTrace.TraceMethod(this);
 
         base.OnAppearing();
-        ViewModel.PageStarted();
+        ViewModel.Start();
     }
 
     protected override void OnDisappearing()
     {
         ConsoleTrace.TraceMethod(this);
 
-        ViewModel.PageStopped();
+        ViewModel.Stop();
         base.OnDisappearing();
     }
 
@@ -47,7 +42,7 @@ public abstract partial class VisitzPage : ContentPage
 
         Behaviors.Clear();
         ViewModel.DetachFromLifecycle(CurrentWindow);
-        ViewModel.PageDestroyed();
+        ViewModel.Destroy();
     }
 
     protected override bool OnBackButtonPressed()

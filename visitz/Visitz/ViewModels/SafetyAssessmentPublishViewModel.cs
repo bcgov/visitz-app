@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Messaging;
-using Visitz.Models;
-using Visitz.Models.SafetyAssess;
 using Visitz.Resources.Localization;
 using Visitz.Services;
-using Visitz.Views.Entity;
+using Visitz.ViewModels.Entity;
+using VisitzModel.Messaging;
+using VisitzModel.Models;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels;
 
@@ -26,9 +26,9 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
     public CaseloadItem CaseloadItem {  get; set; }
 
-    public override void PageCreated()
+    public override void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         WeakReferenceMessenger.Default.Register(this, SubmitSafetyAssessmentService.MakeId(Assessment.IncidentNumber));
 
@@ -37,11 +37,11 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         Publish();
     }
 
-    public override void PageDestroyed()
+    public override void Destroy()
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
-        base.PageDestroyed();
+        base.Destroy();
     }
 
     public override void Publish()

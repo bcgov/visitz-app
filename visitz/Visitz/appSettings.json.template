@@ -12,6 +12,7 @@
   },
   "ContactInfoSettings": {
     "MailToAuthorize": "{{MailToAuthorize}}",
-    "AccessRequestFormUrl": "{{AccessRequestFormUrl}}"
+    "AccessRequestFormUrl": "{{AccessRequestFormUrl}}",
+    "FeedbackSurveyUrl": "{{FeedbackSurveyUrl}}"
   }
 }

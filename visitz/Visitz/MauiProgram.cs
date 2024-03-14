@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Maui;
+using Oidc;
+using Visitz.Settings;
 using Visitz.VisitzConfig;
+
 
 #if IOS
 using Visitz.Platforms.iOS;
@@ -29,7 +32,10 @@ public static class MauiProgram
             })
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
-            .ConfigureVisitzAuth()
+
+            // TODO: Get AppSettings working correctly with DI
+            .ConfigureOidcSettings(new AppSettings().Oidc)
+
             .ConfigureVisitzApi()
             .ConfigureVisitzLogging()
             .ConfigureVisitzScreens()

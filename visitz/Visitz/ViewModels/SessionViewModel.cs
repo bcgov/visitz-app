@@ -1,7 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Authentication.Keycloak;
+using Oidc;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
@@ -9,6 +10,7 @@ using Visitz.Resources.Styles;
 using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
+using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -18,9 +20,6 @@ namespace Visitz.ViewModels;
 
 public partial class SessionViewModel : VisitzViewModel
 {
-    private static readonly double ShowcaseOpacity = 0.8d;
-    private static readonly double ReadableOpacity = 0.4d;
-
     [ObservableProperty]
     public string buildNumber;
 
@@ -31,47 +30,47 @@ public partial class SessionViewModel : VisitzViewModel
     public string backgroundImageUri;
 
     [ObservableProperty]
-    public double bgOpacity = ShowcaseOpacity;
+    public DisplayOptions bgDisplayOptions = DisplayOptions.Clear;
 
-    private VisitzSessionInfo SessionInfo;
+    private OidcSessionInfo SessionInfo;
 
-    public static async Task<string> GetDisplayNamePrompt(VisitzSessionInfo info = null)
+    public static async Task<string> GetDisplayNamePrompt(OidcSessionInfo info = null)
     {
-        info ??= await VisitzSessionInfo.GetAsync();
+        info ??= await OidcSessionInfo.GetAsync();
         return info.DisplayName?.Length > 0 ? info.DisplayName : LocalizedStrings.Login;
     }
 
-    public override async void PageCreated()
+    public override async void Create()
     {
-        base.PageCreated();
+        base.Create();
 
         BuildNumber = AppInfo.Current.BuildString;
         AppVersion = AppInfo.Current.VersionString;
 
-        SessionInfo = await VisitzSessionInfo.GetAsync();
+        SessionInfo = await OidcSessionInfo.GetAsync();
         await ApplyLayout();
 
-        VisitzSession.SessionChanged += VisitzSession_SessionChanged;
+        OidcSession.SessionChanged += VisitzSession_SessionChanged;
 
         BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
     }
 
-    public override void PageDestroyed()
+    public override void Destroy()
     {
-        VisitzSession.SessionChanged -= VisitzSession_SessionChanged;
+        OidcSession.SessionChanged -= VisitzSession_SessionChanged;
 
-        base.PageDestroyed();
+        base.Destroy();
     }
 
     private async void VisitzSession_SessionChanged(object sender, EventArgs e)
     {
-        SessionInfo = sender as VisitzSessionInfo;
+        SessionInfo = sender as OidcSessionInfo;
         await ApplyLayout();
     }
 
     private async Task ApplyLayout()
     {
-        if (await VisitzSession.SessionExistsAsync())
+        if (await OidcSession.SessionExistsAsync())
             ApplyAuthStatusLayout();
         else
             ApplyLoginLayout();
@@ -89,7 +88,7 @@ public partial class SessionViewModel
         ShowAuthStatusLayout = !ShowLoginLayout;
         IsAuthorized = false;
         IsUnauthorized = false;
-        BgOpacity = ShowcaseOpacity;
+        BgDisplayOptions = DisplayOptions.Clear;
 
         ApplyModalStyles(false);
     }
@@ -99,9 +98,13 @@ public partial class SessionViewModel
     {
         try
         {
-            await VisitzSession.LoginAsync();
+			var cancelToken = new CancellationTokenSource();
+#if WINDOWS
+			(Application.Current as VisitzApp).AuthCancelTokenSource = cancelToken;
+#endif
+			await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
 
-            if (SessionInfo.HasBasicAccessRole)
+            if (SessionInfo.HasBasicAccessRole())
             {
                 await Navigator.Navigation.PopModalAsync();
                 WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
@@ -140,26 +143,36 @@ public partial class SessionViewModel
     [ObservableProperty]
     public string mailToUrl;
 
+	[ObservableProperty]
+	public bool showFeedbackUrl;
+
+	[ObservableProperty]
+	public string feedbackUrl;
+
     private void ApplyAuthStatusLayout()
     {
+        BgDisplayOptions = DisplayOptions.TextReadable;
+
         DisplayName = SessionInfo.GivenName;
-        IsAuthorized = SessionInfo.HasBasicAccessRole;
+        IsAuthorized = SessionInfo.HasBasicAccessRole();
         IsUnauthorized = !IsAuthorized;
-        MailToUrl = new AppSettings().ContactInfo.MailToAuthorize;
+		ShowFeedbackUrl = IsAuthorized;
+
+		var contactInfo = new AppSettings().ContactInfo;
+		MailToUrl = contactInfo.MailToAuthorize;
+		FeedbackUrl = contactInfo.FeedbackSurveyUrl;
 
         if (IsUnauthorized)
         {
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
             AuthIcon = MaterialIcons.Shield_lock;
             AuthColor = VisitzColors.BC_Semantic_Error;
-            BgOpacity = ReadableOpacity;
         }
         else
         {
             AuthStatus = LocalizedStrings.YouAreAuthorized;
             AuthIcon = MaterialIcons.Verified_user;
             AuthColor = VisitzColors.BC_Semantic_Success;
-            BgOpacity = ShowcaseOpacity;
         }
 
         ShowLoginLayout = false;
@@ -183,7 +196,7 @@ public partial class SessionViewModel
 
     private async Task<bool> PromptLogout()
     {
-        return await VisitzPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlert(
             LocalizedStrings.LogoutAndClearData,
             LocalizedStrings.LogoutAndClearDataDesc,
             LocalizedStrings.Logout,
@@ -194,13 +207,13 @@ public partial class SessionViewModel
     {
         bool reopen = ShouldReopen();
 
-        await VisitzSession.LogoutAsync();
-        await VisitzRealm.ClearIcmDataRealm();
+        await OidcSession.LogoutAsync();
+        await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
 
         if (reopen)
         {
             await Navigator.Navigation.PopModalAsync();
-            await SessionPage.OpenAsync(modal: true);
+            await Navigator.GoToPage<SessionPage>(modal: true);
         }
     }
 
@@ -217,11 +230,16 @@ public partial class SessionViewModel
         });
     }
 
-    [RelayCommand]
-    private async void ClosePage()
-    {
-        await Navigator.Navigation.PopModalAsync();
-    }
+	[RelayCommand]
+	static async Task OpenFeedbackUrl(string feedbackUrl)
+	{
+		await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
+		{
+			LaunchMode = BrowserLaunchMode.SystemPreferred,
+			TitleMode = BrowserTitleMode.Hide,
+			Flags = BrowserLaunchFlags.PresentAsPageSheet,
+		});
+	}
 }
 
 public partial class SessionViewModel
@@ -239,7 +257,7 @@ public partial class SessionViewModel
     private void ApplyModalStyles(bool sessionExists)
     {
 #if IOS
-        PresentationStyle = sessionExists && SessionInfo.HasBasicAccessRole
+        PresentationStyle = sessionExists && SessionInfo.HasBasicAccessRole()
             ? DialogStyle
             : UIModalPresentationStyle.FullScreen;
 #endif

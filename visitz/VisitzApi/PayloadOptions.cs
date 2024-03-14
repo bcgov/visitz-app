@@ -2,7 +2,7 @@
 
 namespace VisitzApi;
 
-internal readonly struct PayloadOptions
+public readonly struct PayloadOptions
 {
     public static readonly JsonSerializerOptions Default = new()
     {

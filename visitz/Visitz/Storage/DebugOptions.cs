@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Visitz.Models;
+using VisitzModel.Models;
 
 namespace Visitz.Storage
 {
@@ -54,19 +54,13 @@ namespace Visitz.Storage
         public static async Task ClearRealmData()
         {
             if (Enabled)
-                await VisitzRealm.ClearIcmDataRealm();
+                await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
         }
 
         public static async Task ClearSafetyAssessmentDraftsRealm()
         {
             if (Enabled)
-                await VisitzRealm.ClearSafetyAssessmentDraftRealm();
-        }
-
-        public static void DeleteEncryptionKey()
-        {
-            if (Enabled)
-                VisitzRealm.DeleteRealmKey(VisitzRealm.IcmDataCopiesPath);
+                await (await VisitzRealms.GetSafetyAssessmentDraftAsync()).ClearAllData();
         }
 
         public static async Task Load620bTestingRecords()
@@ -80,7 +74,7 @@ namespace Visitz.Storage
             };
 
             var caseload = await JsonSerializer.DeserializeAsync<IEnumerable<CaseloadItem>>(json, options: opts);
-            using var realm = await VisitzRealm.GetIcmDataAsync();
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
             await realm.WriteAsync(() => realm.Add(caseload, update: true));
         }

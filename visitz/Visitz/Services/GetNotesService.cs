@@ -1,11 +1,11 @@
-﻿using Visitz.Models;
-using Visitz.Services.Messages;
+﻿using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Models;
 
 namespace Visitz.Services
 {
-    public class GetNotesService : VisitzApiService
+    public class GetNotesService(Vpi vpi) : VisitzApiService(vpi)
     {
         public static string MakeId(string caseIncidentId)
         {
@@ -29,8 +29,6 @@ namespace Visitz.Services
 
         private ValueTuple<string, string> PayloadTuple => (ValueTuple<string, string>)Payload;
 
-        public GetNotesService(Vpi vpi) : base(vpi) { }
-
         public override string GetId()
         {
             var (caseIncidentId, _) = PayloadTuple;
@@ -49,7 +47,7 @@ namespace Visitz.Services
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
             var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
 
-            using var realm = await VisitzRealm.GetIcmDataAsync();
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
             var currentNotes = NoteItem.GetNotesByEntityId(realm, id);
             var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
 

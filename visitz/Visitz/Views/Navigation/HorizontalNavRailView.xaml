@@ -1,48 +1,50 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <views:ViewModelContentView
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:icons="clr-namespace:Visitz.FontIcons"
-    xmlns:views="clr-namespace:Visitz.Views"
-    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Class="Visitz.Views.Navigation.HorizontalNavRailView"
-    x:DataType="nav:NavRailViewModel"
-    BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-    MaximumHeightRequest="72">
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:icons="clr-namespace:Visitz.FontIcons"
+	xmlns:views="clr-namespace:Visitz.Views"
+	xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+	x:Class="Visitz.Views.Navigation.HorizontalNavRailView"
+	x:DataType="viewModels:NavRailViewModel"
+	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+	MaximumHeightRequest="72">
 
-    <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-        <CollectionView
-            Grid.Column="0"
-            SelectionMode="Single"
-            ItemsSource="{Binding NavigationItems}"
-            SelectedItem="{Binding SelectedNavItem}">
+	<Grid ColumnDefinitions="Auto,*,Auto,Auto">
+		<CollectionView
+			Grid.Column="0"
+			SelectionMode="Single"
+			ItemsSource="{Binding NavigationItems}"
+			SelectedItem="{Binding SelectedNavItem}">
 
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal" />
-            </CollectionView.ItemsLayout>
-            
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <nav:NavItemView Orientation="Horizontal" MinimumWidthRequest="72" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+			<CollectionView.ItemsLayout>
+				<LinearItemsLayout Orientation="Horizontal" />
+			</CollectionView.ItemsLayout>
+			
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<nav:NavItemView Orientation="Horizontal" MinimumWidthRequest="72" />
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
 
-        <Button
-            Grid.Column="2"
-            Style="{StaticResource SecondaryButtonDark}"
-            VerticalOptions="Center"
-            BorderColor="Transparent"
-            FontFamily="MaterialIconsRoundedUnfilled"
-            FontSize="35"
-            Command="{Binding RefreshCaseloadCommand}"
-            Text="{Static icons:MaterialIcons.Download_for_offline}" />
+		<Button
+			Grid.Column="2"
+			Style="{StaticResource SecondaryButtonDark}"
+			VerticalOptions="Center"
+			BorderColor="Transparent"
+			FontFamily="MaterialIconsRoundedUnfilled"
+			FontSize="35"
+			FontAutoScalingEnabled="False"
+			Command="{Binding RefreshCaseloadCommand}"
+			Text="{Static icons:MaterialIcons.Download_for_offline}" />
 
-        <Image 
-            Grid.Column="3"
-            VerticalOptions="Center"
-            Source="bc_logo_vertical_reverse.png"/>
-    </Grid>
-    
+		<Image 
+			Grid.Column="3"
+			VerticalOptions="Center"
+			Source="bc_logo_vertical_reverse.png"/>
+	</Grid>
+	
 </views:ViewModelContentView>

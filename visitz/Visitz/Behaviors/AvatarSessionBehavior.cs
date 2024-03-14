@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui.Views;
-using Visitz.Authentication.Keycloak;
-using Visitz.Authentication.Keycloak.Events;
+using Oidc;
+using Oidc.Events;
 
 namespace Visitz.Behaviors;
 
@@ -14,12 +14,12 @@ internal class AvatarSessionBehavior : Behavior<AvatarView>
         _avatarView = bindable;
 
         await SetInitials();
-        VisitzSession.SessionChanged += VisitzSession_SessionChanged;
+        OidcSession.SessionChanged += VisitzSession_SessionChanged;
     }
 
     protected override void OnDetachingFrom(AvatarView bindable)
     {
-        VisitzSession.SessionChanged -= VisitzSession_SessionChanged;
+        OidcSession.SessionChanged -= VisitzSession_SessionChanged;
 
         base.OnDetachingFrom(bindable);
     }
@@ -31,7 +31,7 @@ internal class AvatarSessionBehavior : Behavior<AvatarView>
 
     private async Task SetInitials()
     {
-        var info = await VisitzSessionInfo.GetAsync();
+        var info = await OidcSessionInfo.GetAsync();
 
         _avatarView.Text = info.UserInitials ?? "--";
     }

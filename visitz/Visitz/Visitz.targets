@@ -89,6 +89,12 @@
 			MatchExpression="{{AccessRequestFormUrl}}"
 			ReplacementText="$(ContactInfo_AccessRequestFormUrl)" />
 
+		<ReplaceFileText
+			InputFilename="$(ProjectDir)appSettings.json"
+			OutputFilename="$(ProjectDir)appSettings.json"
+			MatchExpression="{{FeedbackSurveyUrl}}"
+			ReplacementText="$(ContactInfo_FeedbackSurveyUrl)" />
+
 		<ReplaceFileText 
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"

@@ -1,10 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <pages:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Pages.AppLockPage"
     x:DataType="viewmodels:AppLockViewModel"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
@@ -18,58 +19,43 @@
 
     <AbsoluteLayout BackgroundColor="Black" IgnoreSafeArea="True">
 
-        <Image
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
-            Aspect="AspectFill"
-            Opacity=".5">
-            
-            <Image.Source>
-                <UriImageSource 
-                    Uri="{Binding BackgroundImageUri}" 
-                    CacheValidity="30:0:0:0" />
-            </Image.Source>
-        </Image>
+		<views:FeaturedBackgroundUnderlay
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			ImageDisplayOptions="TextReadable" />
 
+		<Grid
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			RowDefinitions="2*,Auto,*">
 
-        <StackLayout 
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds=".5,.5"
-            Orientation="Vertical"
-            WidthRequest="500"
-            Spacing="40">
-
-            <Grid HorizontalOptions="Center">
-                <Image Source="tilted_rectangle_bg.png" />
-                <Image Source="file_folder.png" />
-            </Grid>
-
-            <Button 
+			<views:DocumentHeroImage
+				Grid.Row="0"
+				HorizontalOptions="Center"
+				VerticalOptions="Center" />
+			
+			<Button
+				Grid.Row="1"
+				StyleClass="GoldBorderButton"
                 Text="{local:Localize DeviceAuthTitle}"
                 HorizontalOptions="Center"
-                TextColor="White"
-                BorderColor="{StaticResource BC_Gold}"
-                BorderWidth="1"
+				VerticalOptions="Center"
                 Padding="50,20,50,20"
-                BackgroundColor="{StaticResource Primary}"
                 FontFamily="BCSansBold"
                 FontSize="20"
                 Clicked="Unlock_Clicked"/>
 
-            <!--There seems to be an issue with WordWrap Label height when in VerticalStackLayouts.
-            So for now we'll just hardcode a height, but this really should be fixed with a better
-            workaround (or MAUI update). -->
-            <Label 
+            <Label
+				Grid.Row="2"
                 Text="{local:Localize DeviceAuthReason}"
                 HorizontalOptions="FillAndExpand"
+				VerticalOptions="Center"
                 HorizontalTextAlignment="Center"
+				MaximumWidthRequest="500"
                 TextColor="White"
                 FontFamily="BCSansBold"
-                FontSize="20"
-                LineBreakMode="WordWrap"
-                HeightRequest="100"/>
-
-        </StackLayout>
+                FontSize="20" />
+		</Grid>
         
     </AbsoluteLayout>
 

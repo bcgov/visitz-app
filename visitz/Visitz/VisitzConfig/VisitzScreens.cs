@@ -1,12 +1,11 @@
-﻿using CommunityToolkit.Maui;
-using Visitz.Authentication;
+using Visitz.Device;
 using Visitz.Pages;
 using Visitz.ViewModels;
+using Visitz.ViewModels.Entity;
 using Visitz.Views;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Entity;
-using Visitz.Views.Navigation;
 using Visitz.Views.Notes;
 
 namespace Visitz.VisitzConfig
@@ -15,6 +14,7 @@ namespace Visitz.VisitzConfig
     {
         public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
         {
+			builder.Services.AddSingleton<RootPage>();
             builder.Services.AddSingleton<RootViewModel>();
 
             builder.Services.AddSingleton<NavRailViewModel>();
@@ -29,8 +29,11 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
 
-            builder.Services.AddTransient<EntityNavView>();
-            builder.Services.AddTransient<EntityNavViewModel>();
+			builder.Services.AddTransient<WebViewPage>();
+			builder.Services.AddTransient<WebViewModel>();
+
+			builder.Services.AddTransient<EntityNavView>();
+			builder.Services.AddTransient<EntityNavViewModel>();
 
             builder.Services.AddTransient<EntityContainerView>();
             builder.Services.AddTransient<EntityContainerViewModel>();

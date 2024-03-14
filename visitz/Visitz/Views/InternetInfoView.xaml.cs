@@ -1,6 +1,7 @@
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
+using Visitz.Views.TagViews;
 
 namespace Visitz.Views;
 
@@ -78,26 +79,5 @@ public partial class InternetInfoView : ContentView
         Message = LocalizedStrings.NoInternet;
         Color = Colors.Red;
         ImageSource = MaterialIcons.Signal_disconnected.GetUnfilledMaterialIcon(Color);
-    }
-
-    // REVIEW: We *could* show a more meaningful message when connected without internet, but it turns out
-    // that trying to use yellow on a white background is an awful undertaking.
-    private void LocalNetworkStyles(NetworkAccess networkAccess)
-    {
-        switch (networkAccess)
-        {
-            case NetworkAccess.Unknown:
-            case NetworkAccess.ConstrainedInternet:
-            case NetworkAccess.None:
-                Message = LocalizedStrings.NoInternet;
-                Color = Colors.Red;
-                ImageSource = MaterialIcons.Signal_disconnected.GetUnfilledMaterialIcon(Color);
-                break;
-            case NetworkAccess.Local:
-                Message = LocalizedStrings.ConnectedNoInternet;
-                Color = Color.FromArgb("#ccb800");
-                ImageSource = FluentIcons.Wifi_warning_20_regular.GetFluentIcon(Color);
-                break;
-        }
     }
 }

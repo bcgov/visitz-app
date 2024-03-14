@@ -1,4 +1,5 @@
-using Visitz.Authentication.Keycloak;
+using Oidc;
+using Visitz.Auth;
 using Visitz.Resources.Localization;
 using Visitz.ViewModels;
 
@@ -15,17 +16,12 @@ public partial class SessionPage : VisitzPage
 		BindingContext = viewModel;
 	}
 
-	public static async Task OpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
-	{
-		await NavigateTo<SessionPage>(fromPage, modal: modal, animated: animated);
-	}
-
 	public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
 	{
-        if (IsOpen || await VisitzSession.HasBasicAccess())
+        if (IsOpen || await OidcSession.HasRole(VisitzRoles.BasicAccess))
             return;
 
-        await OpenAsync(fromPage, modal: modal, animated: animated);
+        await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);
 	}
 
     protected override bool OnBackButtonPressed()

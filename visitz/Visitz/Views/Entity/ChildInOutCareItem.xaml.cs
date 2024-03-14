@@ -1,3 +1,5 @@
+using VisitzModel;
+
 namespace Visitz.Views.Entity;
 
 public partial class ChildInOutCareItem : ContentView

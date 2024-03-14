@@ -1,38 +1,31 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Visitz.Authentication;
+using Visitz.Device;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
-using Visitz.Storage;
+using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
 {
-    public partial class AppLockViewModel : VisitzViewModel
+    public partial class AppLockViewModel(DeviceAuthenticator authenticator) : VisitzViewModel
     {
-        private DeviceAuthenticator Authenticator { get; }
+        private DeviceAuthenticator Authenticator { get; } = authenticator;
 
-        public AppLockPage Page => (AppLockPage)VisitzPage;
-
-        [ObservableProperty]
-        public string backgroundImageUri;
-
-        public AppLockViewModel(DeviceAuthenticator authenticator)
+#if WINDOWS
+        public override async void Create()
         {
-            Authenticator = authenticator;
-        }
+            base.Create();
 
-        public override async void PageCreated()
+			await PromptAuthentication();
+		}
+#endif
+
+#if !WINDOWS
+        public override async void Start()
         {
-            base.PageCreated();
+            base.Start();
 
-            BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
+			await PromptAuthentication();
         }
-
-        public override async void PageStarted()
-        {
-            base.PageStarted();
-
-            await PromptAuthentication();
-        }
+#endif
 
         public async Task PromptAuthentication()
         {
@@ -45,7 +38,7 @@ namespace Visitz.ViewModels
             switch (result)
             {
                 case DeviceAuthenticator.Result.NotConfigured:
-                    await Page.DisplayAlert(
+                    await Navigator.CurrentOpenPage.DisplayAlert(
                         LocalizedStrings.EnableDeviceSecurity,
                         LocalizedStrings.SecureDeviceAndTryAgain,
                         LocalizedStrings.Ok
@@ -53,6 +46,9 @@ namespace Visitz.ViewModels
                     break;
                 case DeviceAuthenticator.Result.Successful:
                     await Navigator.Navigation.PopModalAsync();
+
+					new SurveyFeedbackTracker(Preferences.Default).IncrementTimesAppUnlocked();
+					await FeedbackSurveyPage.TryOpen();
                     break;
             }
         }

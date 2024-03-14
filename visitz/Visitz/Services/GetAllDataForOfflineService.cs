@@ -1,13 +1,13 @@
-﻿using Realms;
-using Visitz.Authentication.Keycloak;
-using Visitz.Models;
+﻿using Oidc;
+using Realms;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Models;
 
 namespace Visitz.Services
 {
-    public class GetAllDataForOfflineService : VisitzApiService
+    public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
     {
         public static string MakeId()
         {
@@ -24,12 +24,7 @@ namespace Visitz.Services
             };
         }
 
-        private ServiceHandler ServiceHandler { get; set; }
-
-        public GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler) : base(vpi)
-        {
-            ServiceHandler = serviceHandler;
-        }
+        private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
         public override string GetId()
         {
@@ -49,13 +44,13 @@ namespace Visitz.Services
 
         private async Task GetCaseload()
         {
-            var info = await VisitzSessionInfo.GetAsync();
+            var info = await OidcSessionInfo.GetAsync();
             await ServiceHandler.TryRunServiceAsync(GetCaseloadService.MakeStartMessage(info.Idir));
         }
 
         private async Task GetAllNotes()
         {
-            using var realm = await VisitzRealm.GetIcmDataAsync();
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
             var allIdEntities = realm
                 .All<CaseloadItem>()
