@@ -613,4 +613,10 @@ If that doesn't work, request access by emailing </value>
   <data name="RetryLogin" xml:space="preserve">
     <value>Retry login</value>
   </data>
+  <data name="LastUpdated" xml:space="preserve">
+    <value>Last updated</value>
+  </data>
+  <data name="NA" xml:space="preserve">
+    <value>N/A</value>
+  </data>
 </root>
