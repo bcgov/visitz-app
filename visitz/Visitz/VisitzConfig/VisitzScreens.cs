@@ -25,7 +25,10 @@ namespace Visitz.VisitzConfig
             builder.Services.AddSingleton<CaseloadView>();
             builder.Services.AddSingleton<CaseloadViewModel>();
 
-            builder.Services.AddTransient<DeviceAuthenticator>();
+			builder.Services.AddSingleton<CaseloadDetailView>();
+			builder.Services.AddSingleton<CaseloadDetailViewModel>();
+
+			builder.Services.AddTransient<DeviceAuthenticator>();
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
 
