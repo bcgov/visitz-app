@@ -11,6 +11,9 @@ public partial class CaseloadContainerView : SplitLayoutView
     private static readonly double MinimumStartPaneWidth = 300.0f;
     private static readonly GridLength StartPaneCaseloadViewLength = new(0.6, GridUnitType.Star);
 
+	static IView CaseloadView;
+	static IView CaseloadDetailView;
+
     public CaseloadContainerView()
     {
 		InitializeComponent();
@@ -25,8 +28,10 @@ public partial class CaseloadContainerView : SplitLayoutView
 
         RegisterReceivers();
 
-        SetStartPane(ServiceProvider.GetService<CaseloadView>());
-        SetEndPane(ServiceProvider.GetService<CaseloadDetailView>());
+		CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
+		CaseloadDetailView ??= ServiceProvider.GetService<CaseloadDetailView>();
+
+		NavigateBack();
     }
 
     protected override void Destroying()
@@ -64,9 +69,9 @@ public partial class CaseloadContainerView : SplitLayoutView
 
     private void NavigateBack()
     {
-        SetStartPane(ServiceProvider.GetService<CaseloadView>());
-        SetEndPane(ServiceProvider.GetService<CaseloadDetailView>());
+		SetStartPane(CaseloadView);
+		SetEndPane(CaseloadDetailView);
 
-        StartPaneColumnWidth = StartPaneCaseloadViewLength;
+		StartPaneColumnWidth = StartPaneCaseloadViewLength;
     }
 }
