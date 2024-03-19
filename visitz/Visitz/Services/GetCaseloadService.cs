@@ -1,12 +1,16 @@
-﻿using Visitz.Services.Messages;
+using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Extensions;
 using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
-    public class GetCaseloadService(Vpi vpi) : VisitzApiService(vpi)
+    public class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi)
     {
+		LastUpdatedPrefs LastUpdated { get; set; } = prefs;
+
         public static string MakeId()
         {
             return nameof(GetCaseloadService);
@@ -49,6 +53,7 @@ namespace Visitz.Services
             });
 
             ResultCode = Result.Successful;
+			LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow);
         }
 
         public override string GetId()
