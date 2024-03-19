@@ -1,10 +1,11 @@
-﻿using Visitz.Services;
+using Visitz.Services;
+using VisitzModel.Storage;
 
 namespace Visitz.VisitzConfig
 {
     public static class VisitzServicesConfig
     {
-        public static MauiAppBuilder ConfigureVisitzServices(this MauiAppBuilder builder)
+        public static MauiAppBuilder ConfigureVisitzApiServices(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<ServiceHandler>();
 
@@ -18,5 +19,12 @@ namespace Visitz.VisitzConfig
 
             return builder;
         }
+
+		public static MauiAppBuilder ConfigureVisitzUtilities(this MauiAppBuilder builder)
+		{
+			builder.Services.AddSingleton(_ => new LastUpdatedPrefs(Preferences.Default));
+
+			return builder;
+		}
     }
 }
