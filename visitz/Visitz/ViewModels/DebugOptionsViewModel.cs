@@ -4,6 +4,7 @@ using Oidc;
 using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
+using VisitzModel.Extensions;
 using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
@@ -34,11 +35,13 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool skipLocalAuth;
 
-		LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
+		readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
 		[ObservableProperty]
 		public DateTime? caseloadLastUpdated;
 
+		[ObservableProperty]
+		public DateTime maxDate = DateTimeExtensions.LocalNow;
 
 		public override void Create()
         {

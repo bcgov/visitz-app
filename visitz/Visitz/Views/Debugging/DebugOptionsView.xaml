@@ -130,7 +130,8 @@
 				<DatePicker
 					Grid.Row="1"
 					Grid.Column="1"
-					Date="{Binding CaseloadLastUpdated}" />
+					Date="{Binding CaseloadLastUpdated}"
+					MaximumDate="{Binding MaxDate}" />
 			</Grid>
 			
             <Label
