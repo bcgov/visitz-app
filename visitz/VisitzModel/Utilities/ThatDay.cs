@@ -30,7 +30,7 @@ public class ThatDay
 
 	private string GetThatDayString()
 	{
-		var timeDiff = From - Then;
+		var timeDiff = From.Date - Then.Date;
 		string output;
 
 		if (From.Date.Equals(Then.Date))
