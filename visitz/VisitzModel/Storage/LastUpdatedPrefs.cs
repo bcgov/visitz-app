@@ -18,6 +18,12 @@ public class LastUpdatedPrefs(IPreferences prefs)
 		LastUpdatedChanged?.Invoke(this, new LastUpdatedChangedEventArgs(fullKey, value));
 	}
 
+	public DateTime? Get(string key)
+	{
+		var fullKey = KeyPrefix + key;
+		return Preferences.ContainsKey(fullKey) ? Get(key, default) : null;
+	}
+
 	public DateTime Get(string key, DateTime defaultValue)
 	{
 		var fullKey = KeyPrefix + key;
