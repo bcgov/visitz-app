@@ -520,6 +520,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last updated.
+        /// </summary>
+        public static string LastUpdated {
+            get {
+                return ResourceManager.GetString("LastUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
@@ -594,6 +603,15 @@ namespace Visitz.Resources.Localization {
         public static string MarkAllThatApply {
             get {
                 return ResourceManager.GetString("MarkAllThatApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N/A.
+        /// </summary>
+        public static string NA {
+            get {
+                return ResourceManager.GetString("NA", resourceCulture);
             }
         }
         

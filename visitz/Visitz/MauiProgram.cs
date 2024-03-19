@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui;
 using Oidc;
 using Visitz.Settings;
 using Visitz.VisitzConfig;
@@ -39,7 +39,8 @@ public static class MauiProgram
             .ConfigureVisitzApi()
             .ConfigureVisitzLogging()
             .ConfigureVisitzScreens()
-            .ConfigureVisitzServices();
+            .ConfigureVisitzApiServices()
+			.ConfigureVisitzUtilities();
 
         VisitzDebugOptions.ConfigureVisitzDebugOptions();
 
