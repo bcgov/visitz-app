@@ -41,8 +41,10 @@ public partial class LastUpdatedBanner : ContentView
 
 	private void SetLastUpdated(DateTime? lastUpdated)
 	{
-		LastUpdatedLabel.Text = lastUpdated is DateTime last
-			? new ThatDay(last, DateTimeExtensions.LocalNow).ToString()
+		var now = DateTimeExtensions.LocalNow;
+
+		LastUpdatedLabel.Text = lastUpdated is DateTime last && (now - last).TotalDays > 0
+			? new ThatDay(last, now).ToString()
 			: LastUpdatedLabel.Text = FallbackText;
 	}
 }

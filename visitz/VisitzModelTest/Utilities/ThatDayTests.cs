@@ -31,6 +31,15 @@ public class ThatDayTests
 	static readonly string ArbitrarySeveralYearsAgoDateTime = "2015-08-28 " + ArbitrarySeveralYearsAgoTime;
 
 	[Fact]
+	public void ThrowsWhenComparingFutureDateTime()
+	{
+		var then = DateTime.Parse(ArbitraryNowDateTime);
+		var now = DateTime.Parse(ArbitrarySameDayDateTime);
+
+		Assert.Throws<ArgumentException>(() => new ThatDay(then, now));
+	}
+
+	[Fact]
 	public void DateTimeIsToday()
 	{
 		var then = DateTime.Parse(ArbitrarySameDayDateTime);
