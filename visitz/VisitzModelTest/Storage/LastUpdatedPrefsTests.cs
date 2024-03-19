@@ -23,6 +23,25 @@ public class LastUpdatedPrefsTests
 	}
 
 	[Fact]
+	public void NullFromGetOverloadReturnedWhenRequestedKeyMissing()
+	{
+		var luPrefs = GetLastUpdatedPrefsMock();
+
+		Assert.Null(luPrefs.Get(ArbitraryKey));
+	}
+
+	[Fact]
+	public void ValueFromGetOverloadStoresAndRetrievesTheSame()
+	{
+		var luPrefs = GetLastUpdatedPrefsMock();
+		var localNow = DateTimeExtensions.LocalNow;
+
+		luPrefs.Set(ArbitraryKey, localNow);
+
+		Assert.Equal(localNow, luPrefs.Get(ArbitraryKey));
+	}
+
+	[Fact]
 	public void LocalTimeStoresAndRetrievesTheSame()
 	{
 		var luPrefs = GetLastUpdatedPrefsMock();
