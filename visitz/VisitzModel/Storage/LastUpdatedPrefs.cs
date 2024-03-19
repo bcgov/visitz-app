@@ -15,7 +15,7 @@ public class LastUpdatedPrefs(IPreferences prefs)
 		var fullKey = KeyPrefix + key;
 
 		Preferences.Set(fullKey, value);
-		LastUpdatedChanged?.Invoke(this, new LastUpdatedChangedEventArgs(fullKey, value));
+		LastUpdatedChanged?.Invoke(this, new LastUpdatedChangedEventArgs(key, value));
 	}
 
 	public DateTime? Get(string key)

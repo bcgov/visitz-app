@@ -80,4 +80,22 @@ public class LastUpdatedPrefsTests
 
 		Assert.Equal(localNow, valueAfterEvent);
 	}
+
+	[Fact]
+	public void ValueIsRetrievableFromEventArgs()
+	{
+		var luPrefs = GetLastUpdatedPrefsMock();
+		var localNow = DateTimeExtensions.LocalNow;
+		DateTime? valueAfterEvent = null;
+
+		luPrefs.LastUpdatedChanged += (sender, args) =>
+		{
+			if (sender is LastUpdatedPrefs prefs)
+				valueAfterEvent = prefs.Get(args.Id);
+		};
+
+		luPrefs.Set(ArbitraryKey, localNow);
+
+		Assert.Equal(localNow, valueAfterEvent);
+	}
 }
