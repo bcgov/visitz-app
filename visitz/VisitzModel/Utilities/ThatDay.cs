@@ -4,10 +4,14 @@ namespace VisitzModel.Utilities;
 
 public class ThatDay
 {
+	static readonly string Yesterday = "Yesterday";
+	static readonly string Last = "Last";
+
 	static readonly string DiffExceptionMsg = "Future diffs are not supported, are your args in the correct order?";
 
 	static readonly string TimeOnlyFormat = "hh:mm tt";
 	static readonly string TimeWeekdayFormat = "hh:mm tt dddd";
+	static readonly string TimeLastWeekdayFormat = $"hh:mm tt '{Last}' dddd";
 	static readonly string TimeMonthDayFormat = "hh:mm tt MMM dd";
 	static readonly string TimeMonthDayYearFormat = "hh:mm tt MMM dd yyyy";
 
@@ -31,8 +35,15 @@ public class ThatDay
 
 		if (From.Date.Equals(Then.Date))
 			output = Then.ToString(TimeOnlyFormat, CultureInfo.InvariantCulture);
-		else if (Math.Ceiling(timeDiff.TotalDays) < 7)
-			output = Then.ToString(TimeWeekdayFormat, CultureInfo.InvariantCulture);
+		else if (Math.Floor(timeDiff.TotalDays) == 1)
+			output = Then.ToString(TimeOnlyFormat, CultureInfo.InvariantCulture) + $" {Yesterday}";
+		else if (Math.Ceiling(timeDiff.TotalDays) <= 7)
+		{
+			if (From.DayOfWeek - Then.DayOfWeek < 0)
+				output = Then.ToString(TimeLastWeekdayFormat, CultureInfo.InvariantCulture);
+			else
+				output = Then.ToString(TimeWeekdayFormat, CultureInfo.InvariantCulture);
+		}
 		else if (From.Year - Then.Year < 1)
 			output = Then.ToString(TimeMonthDayFormat, CultureInfo.InvariantCulture);
 		else
