@@ -6,29 +6,9 @@ public class ThatDayTests
 {
 	static readonly string ArbitraryNowDateTime = "2024-03-14 11:53 AM";
 
+
 	static readonly string ArbitrarySameDayTime = "8:56 AM";
 	static readonly string ArbitrarySameDayDateTime = "2024-03-14 " + ArbitrarySameDayTime;
-
-	static readonly string ArbitraryLastNightTime = "8:56 PM";
-	static readonly string ArbitraryLastNightDateTime = "2024-03-13 " + ArbitraryLastNightTime;
-
-	static readonly string ArbitrarySameWeekTime = "6:21 AM";
-	static readonly string ArbitrarySameWeekDateTime = "2024-03-11 " + ArbitrarySameWeekTime;
-
-	static readonly string Arbitrary6DaysAgoTime = "1:33 PM";
-	static readonly string Arbitrary6DaysAgoDateTime = "2024-03-8 " + Arbitrary6DaysAgoTime;
-
-	static readonly string ArbitraryLastWeekTime = "1:33 PM";
-	static readonly string ArbitraryLastWeekDateTime = "2024-03-7 " + ArbitraryLastWeekTime;
-
-	static readonly string ArbitraryLastMonthTime = "12:17 PM";
-	static readonly string ArbitraryLastMonthDateTime = "2024-02-2 " + ArbitraryLastMonthTime;
-
-	static readonly string ArbitraryLastYearTime = "12:17 PM";
-	static readonly string ArbitraryLastYearDateTime = "2023-08-28 " + ArbitraryLastYearTime;
-
-	static readonly string ArbitrarySeveralYearsAgoTime = "9:01 PM";
-	static readonly string ArbitrarySeveralYearsAgoDateTime = "2015-08-28 " + ArbitrarySeveralYearsAgoTime;
 
 	[Fact]
 	public void ThrowsWhenComparingFutureDateTime()
@@ -50,6 +30,10 @@ public class ThatDayTests
 		Assert.Equal(ArbitrarySameDayTime, thatDay.ToString());
 	}
 
+
+	static readonly string ArbitraryLastNightTime = "8:56 PM";
+	static readonly string ArbitraryLastNightDateTime = "2024-03-13 " + ArbitraryLastNightTime;
+
 	[Fact]
 	public void DateTimeLastNightIsYesterday()
 	{
@@ -61,6 +45,10 @@ public class ThatDayTests
 
 		Assert.Equal(todayTime, thatDay.ToString());
 	}
+
+
+	static readonly string ArbitrarySameWeekTime = "6:21 AM";
+	static readonly string ArbitrarySameWeekDateTime = "2024-03-11 " + ArbitrarySameWeekTime;
 
 	[Fact]
 	public void DateTimeIsMondayThisWeek()
@@ -74,6 +62,10 @@ public class ThatDayTests
 		Assert.Equal(mondayTime, thatDay.ToString());
 	}
 
+
+	static readonly string Arbitrary6DaysAgoTime = "1:33 PM";
+	static readonly string Arbitrary6DaysAgoDateTime = "2024-03-8 " + Arbitrary6DaysAgoTime;
+
 	[Fact]
 	public void DateTimeIsSixDaysAgoLastWeek()
 	{
@@ -85,6 +77,10 @@ public class ThatDayTests
 
 		Assert.Equal(lastWeekDateTime, thatDay.ToString());
 	}
+
+
+	static readonly string ArbitraryLastWeekTime = "1:33 PM";
+	static readonly string ArbitraryLastWeekDateTime = "2024-03-7 " + ArbitraryLastWeekTime;
 
 	[Fact]
 	public void DateTimeIsLastWeek()
@@ -98,6 +94,10 @@ public class ThatDayTests
 		Assert.Equal(lastWeekDateTime, thatDay.ToString());
 	}
 
+
+	static readonly string ArbitraryLastMonthTime = "12:17 PM";
+	static readonly string ArbitraryLastMonthDateTime = "2024-02-2 " + ArbitraryLastMonthTime;
+
 	[Fact]
 	public void DateTimeIsLastMonth()
 	{
@@ -110,6 +110,10 @@ public class ThatDayTests
 		Assert.Equal(lastMonthDateTime, thatDay.ToString());
 	}
 
+
+	static readonly string ArbitraryLastYearTime = "12:17 PM";
+	static readonly string ArbitraryLastYearDateTime = "2023-08-28 " + ArbitraryLastYearTime;
+
 	[Fact]
 	public void DateTimeIsLastYear()
 	{
@@ -121,6 +125,10 @@ public class ThatDayTests
 
 		Assert.Equal(lastYearDateTime, thatDay.ToString());
 	}
+
+
+	static readonly string ArbitrarySeveralYearsAgoTime = "9:01 PM";
+	static readonly string ArbitrarySeveralYearsAgoDateTime = "2015-08-28 " + ArbitrarySeveralYearsAgoTime;
 
 	[Fact]
 	public void DateTimeIsSeveralYearsAgo()
