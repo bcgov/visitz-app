@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
+using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
 using VisitzModel.Storage;
@@ -33,7 +34,13 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool skipLocalAuth;
 
-        public override void Create()
+		LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
+
+		[ObservableProperty]
+		public DateTime? caseloadLastUpdated;
+
+
+		public override void Create()
         {
             base.Create();
 
@@ -54,6 +61,8 @@ namespace Visitz.ViewModels
 
             ApiDomain = settings.Api.ApiDomain;
             AuthenticationDomain = settings.Oidc.AuthenticationDomain;
+
+			CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId());
         }
 
         partial void OnDryFireSubmitNotesChanged(bool value)
@@ -121,6 +130,11 @@ namespace Visitz.ViewModels
 		public static void ClearFeedbackSurveyPrefs()
 		{
 			new SurveyFeedbackTracker(Preferences.Default).ClearAll();
+		}
+
+		partial void OnCaseloadLastUpdatedChanged(DateTime? value)
+		{
+			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), value ?? DateTime.MinValue);
 		}
 	}
 }
