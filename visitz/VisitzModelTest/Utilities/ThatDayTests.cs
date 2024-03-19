@@ -48,18 +48,18 @@ public class ThatDayTests
 
 
 	static readonly string ArbitrarySameWeekTime = "6:21 AM";
-	static readonly string ArbitrarySameWeekDateTime = "2024-03-11 " + ArbitrarySameWeekTime;
+	static readonly string ArbitrarySameWeekDateTime = "2024-03-12 " + ArbitrarySameWeekTime;
 
 	[Fact]
-	public void DateTimeIsMondayThisWeek()
+	public void DateTimeIsTuesdayThisWeek()
 	{
 		var then = DateTime.Parse(ArbitrarySameWeekDateTime);
 		var now = DateTime.Parse(ArbitraryNowDateTime);
 
 		var thatDay = new ThatDay(then, now);
-		string mondayTime = ArbitrarySameWeekTime + " Monday";
+		string tuesdayTime = ArbitrarySameWeekTime + " Tuesday";
 
-		Assert.Equal(mondayTime, thatDay.ToString());
+		Assert.Equal(tuesdayTime, thatDay.ToString());
 	}
 
 

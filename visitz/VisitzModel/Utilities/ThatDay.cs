@@ -35,7 +35,7 @@ public class ThatDay
 
 		if (From.Date.Equals(Then.Date))
 			output = Then.ToString(TimeOnlyFormat, CultureInfo.InvariantCulture);
-		else if (Math.Floor(timeDiff.TotalDays) == 1)
+		else if (timeDiff.TotalDays < 2)
 			output = Then.ToString(TimeOnlyFormat, CultureInfo.InvariantCulture) + $" {Yesterday}";
 		else if (Math.Ceiling(timeDiff.TotalDays) <= 7)
 		{
