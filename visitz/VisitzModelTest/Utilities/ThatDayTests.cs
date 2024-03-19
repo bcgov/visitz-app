@@ -57,13 +57,13 @@ public class ThatDayTests
 		var now = DateTime.Parse(ArbitraryNowDateTime);
 
 		var thatDay = new ThatDay(then, now);
-		string todayTime = ArbitraryLastNightTime + " Wednesday";
+		string todayTime = ArbitraryLastNightTime + " Yesterday";
 
 		Assert.Equal(todayTime, thatDay.ToString());
 	}
 
 	[Fact]
-	public void DateTimeIsMonday()
+	public void DateTimeIsMondayThisWeek()
 	{
 		var then = DateTime.Parse(ArbitrarySameWeekDateTime);
 		var now = DateTime.Parse(ArbitraryNowDateTime);
@@ -75,13 +75,13 @@ public class ThatDayTests
 	}
 
 	[Fact]
-	public void DateTimeIsSixDaysAgo()
+	public void DateTimeIsSixDaysAgoLastWeek()
 	{
 		var then = DateTime.Parse(Arbitrary6DaysAgoDateTime);
 		var now = DateTime.Parse(ArbitraryNowDateTime);
 
 		var thatDay = new ThatDay(then, now);
-		string lastWeekDateTime = Arbitrary6DaysAgoTime + " Friday";
+		string lastWeekDateTime = Arbitrary6DaysAgoTime + " Last Friday";
 
 		Assert.Equal(lastWeekDateTime, thatDay.ToString());
 	}
