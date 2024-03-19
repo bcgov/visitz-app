@@ -31,6 +31,7 @@ internal partial class CaseloadDetailViewModel : VisitzViewModel
 
 	private void LastUpdatedPrefs_LastUpdatedChanged(object sender, LastUpdatedChangedEventArgs e)
 	{
-		LastUpdated = (sender as LastUpdatedPrefs).Get(e.Id);
+		if (e.Id.Equals(GetCaseloadService.MakeId()))
+			LastUpdated = (sender as LastUpdatedPrefs).Get(e.Id);
 	}
 }
