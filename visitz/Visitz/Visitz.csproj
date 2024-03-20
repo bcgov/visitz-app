@@ -74,7 +74,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.6" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.6" />
 		<PackageReference Include="Plugin.Fingerprint" Version="3.0.0-beta.1" />
-		<PackageReference Include="Realm" Version="11.2.0" />
+		<PackageReference Include="Realm" Version="11.7.0" />
 		<PackageReference Include="SecurityCodeScan.VS2019" Version="5.6.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
