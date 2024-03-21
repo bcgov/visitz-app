@@ -4,7 +4,7 @@
 
 Visitz is built using .NET MAUI.
 
-- .NET 8.0.101
+- .NET 8.0.203
 - .NET MAUI 8.0.14
 
 ### Notable Libraries (NuGet)

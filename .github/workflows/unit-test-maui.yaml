@@ -15,7 +15,7 @@ permissions:
 
 env:
   BASE_PROJPATH: "./visitz"
-  DOTNET_VERSION: "8.0.101" # see workflows README
+  DOTNET_VERSION: "8.0.203" # see workflows README
   MAUI_VERSION: "8.0.14" # see workflows README
 
 jobs:
