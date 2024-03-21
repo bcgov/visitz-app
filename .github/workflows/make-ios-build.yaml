@@ -13,7 +13,7 @@ on:
 env:
   PROJPATH: "visitz/Visitz"
   DOTNET_VERSION: "8.0.101" # see workflows README
-  MAUI_VERSION: "8.0.6" # see workflows README
+  MAUI_VERSION: "8.0.14" # see workflows README
   XCODE_VERSION: "15.1"
 
 jobs:
