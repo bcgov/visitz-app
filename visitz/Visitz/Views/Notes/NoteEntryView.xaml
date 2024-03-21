@@ -37,7 +37,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     VerticalOptions="Center"
-					FontIconColor="{StaticResource Gray600}" />
+					TextColor="{StaticResource Gray600}" />
 
                 <views:DraftSavedView
                     x:Name="DraftSavedIndicator"

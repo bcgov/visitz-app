@@ -284,7 +284,7 @@
 		</Setter>
 	</Style>
 
-	<Style TargetType="controls:FontIconButton" BasedOn="{StaticResource FontIconButtonLightMode}">
+	<Style TargetType="controls:FontIconButton" BasedOn="{StaticResource FontIconButtonLightMode}" ApplyToDerivedTypes="True">
 		<Setter Property="BorderColor" Value="Transparent" />
 		<Setter Property="CornerRadius" Value="8" />
 		<Setter Property="FontAutoScalingEnabled" Value="False" />
