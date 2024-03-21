@@ -49,6 +49,7 @@
 		<controls:FontIconButton
 			Grid.Row="3"
 			Style="{StaticResource FontIconButtonDarkMode}"
+			Size="Larger"
 			HorizontalOptions="Center"
 			FontFamily="MaterialIconsRoundedUnfilled"
 			Command="{Binding RefreshCaseloadCommand}"
