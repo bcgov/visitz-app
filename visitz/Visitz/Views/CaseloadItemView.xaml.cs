@@ -14,11 +14,12 @@ public partial class CaseloadItemView : ContentView
     {
         base.OnBindingContextChanged();
 
-        var item = (CaseloadItem)BindingContext;
+        if (BindingContext is CaseloadItem item)
+		{
+			OpenDateLabel.IsVisible = item.DisplayDate?.Length > 0;
 
-        OpenDateLabel.IsVisible = item.DisplayDate?.Length > 0;
-
-        UpdateTagViewStyles(item);
+			UpdateTagViewStyles(item);
+		}
     }
 
     private void UpdateTagViewStyles(CaseloadItem item)
