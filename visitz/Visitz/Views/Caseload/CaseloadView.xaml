@@ -183,7 +183,10 @@
                         SelectionMode="None"
                         ItemSizingStrategy="MeasureFirstItem">
                         <CollectionView.EmptyView>
-                            <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
+                            <VerticalStackLayout
+								HorizontalOptions="Fill"
+								Padding="20"
+								Spacing="10">
                                 <Label 
                                     HorizontalOptions="Center"
 									HorizontalTextAlignment="Center"
