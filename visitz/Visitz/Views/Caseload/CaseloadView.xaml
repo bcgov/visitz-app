@@ -8,7 +8,7 @@
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:segmentedButtons="clr-namespace:Visitz.Views.SegmentedButtons"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:views="clr-namespace:Visitz.Views"
