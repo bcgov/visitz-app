@@ -12,7 +12,7 @@ on:
 
 env:
   PROJPATH: "visitz/Visitz"
-  DOTNET_VERSION: "8.0.203" # see workflows README
+  DOTNET_SDK_VERSION: "8.0.203" # see workflows README
   MAUI_WORKLOAD_VERSION: "8.0.7" # see workflows README
   XCODE_VERSION: "15.1"
 
@@ -56,7 +56,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3.1.0
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
         run: |

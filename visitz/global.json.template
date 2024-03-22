@@ -1,6 +1,6 @@
 {
   "sdk": {
-    "version": "DOTNET_VERSION",
+    "version": "DOTNET_SDK_VERSION",
     "allowPrerelease": false,
     "rollForward": "disable"
   }
