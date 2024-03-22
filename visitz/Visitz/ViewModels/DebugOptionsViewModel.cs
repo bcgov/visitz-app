@@ -98,19 +98,19 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async void ClearRealmData()
+        public async Task ClearRealmData()
         {
             await DebugOptions.ClearRealmData();
         }
 
         [RelayCommand]
-        public async void ClearSafetyAssessmentDraft()
+        public async Task ClearSafetyAssessmentDraft()
         {
             await DebugOptions.ClearSafetyAssessmentDraftsRealm();
         }
 
         [RelayCommand]
-        public async void Load620bData()
+        public async Task Load620bData()
         {
             try
             {
@@ -123,7 +123,7 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async void Logout()
+        public async Task Logout()
         {
             if (DebugOptions.Enabled)
                 await OidcSession.LogoutAsync();

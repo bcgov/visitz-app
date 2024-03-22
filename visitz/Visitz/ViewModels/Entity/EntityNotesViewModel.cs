@@ -94,7 +94,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     }
 
     [RelayCommand]
-    public async void AddNote()
+	public async Task AddNote()
     {
         await OpenNoteEntry();
     }
