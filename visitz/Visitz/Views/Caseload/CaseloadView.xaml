@@ -146,21 +146,21 @@
         <AbsoluteLayout VerticalOptions="FillAndExpand">
 
             <VerticalStackLayout
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.5"
-                Spacing="40"
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
+                AbsoluteLayout.LayoutBounds="0.5,0.5,1,-1"
+                Spacing="{OnPlatform WinUI=0, Default=40}"
                 IsVisible="{Binding ShowEmptyCaseloadMessage}">
-                <Image>
-                    <Image.Source>
-                        <FontImageSource 
-                        Glyph="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
-                        FontFamily="FluentIconsRegular"
-                        Color="{StaticResource Primary}"
-                        Size="160"/>
-                    </Image.Source>
-                </Image>
+				<Label
+					HorizontalOptions="Center"
+					FontAutoScalingEnabled="False"
+					FontFamily="FluentIconsRegular"
+					FontSize="160"
+					TextColor="{StaticResource Primary}"
+					Text="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}" />
 
-                <Label
+				<Label
+					HorizontalOptions="Center"
+					HorizontalTextAlignment="Center"
                     FontSize="20"
                     Text="{local:Localize CaseloadIsEmpty}" />
             </VerticalStackLayout>
@@ -183,9 +183,13 @@
                         SelectionMode="None"
                         ItemSizingStrategy="MeasureFirstItem">
                         <CollectionView.EmptyView>
-                            <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
+                            <VerticalStackLayout
+								HorizontalOptions="Fill"
+								Padding="20"
+								Spacing="10">
                                 <Label 
                                     HorizontalOptions="Center"
+									HorizontalTextAlignment="Center"
                                     FontSize="16"
                                     Text="{Binding CollectionViewPrompt}" />
 
