@@ -146,8 +146,8 @@
         <AbsoluteLayout VerticalOptions="FillAndExpand">
 
             <VerticalStackLayout
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.5"
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
+                AbsoluteLayout.LayoutBounds="0.5,0.5,1,-1"
                 Spacing="40"
                 IsVisible="{Binding ShowEmptyCaseloadMessage}">
                 <Image>
