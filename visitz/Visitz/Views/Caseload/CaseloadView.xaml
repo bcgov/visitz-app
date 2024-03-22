@@ -150,17 +150,19 @@
                 AbsoluteLayout.LayoutBounds="0.5,0.5,1,-1"
                 Spacing="40"
                 IsVisible="{Binding ShowEmptyCaseloadMessage}">
-                <Image>
+                <Image HorizontalOptions="Center">
                     <Image.Source>
                         <FontImageSource 
-                        Glyph="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
-                        FontFamily="FluentIconsRegular"
-                        Color="{StaticResource Primary}"
-                        Size="160"/>
+							Glyph="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
+							FontFamily="FluentIconsRegular"
+							Color="{StaticResource Primary}"
+							Size="160"/>
                     </Image.Source>
                 </Image>
 
                 <Label
+					HorizontalOptions="Center"
+					HorizontalTextAlignment="Center"
                     FontSize="20"
                     Text="{local:Localize CaseloadIsEmpty}" />
             </VerticalStackLayout>
@@ -186,6 +188,7 @@
                             <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
                                 <Label 
                                     HorizontalOptions="Center"
+									HorizontalTextAlignment="Center"
                                     FontSize="16"
                                     Text="{Binding CollectionViewPrompt}" />
 
