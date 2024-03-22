@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui.Animations;
+using CommunityToolkit.Maui.Animations;
 
 namespace Visitz.Animations
 {
@@ -18,7 +18,7 @@ namespace Visitz.Animations
             Easing = easing ?? (showView ? Easing.CubicIn : Easing.CubicOut);
         }
 
-        public override async Task Animate(VisualElement view)
+        public override async Task Animate(VisualElement view, CancellationToken token = default)
         {
             if (ShowView)
             {

@@ -1,12 +1,14 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace VisitzModel;
 
 public static class ConsoleTrace
 {
-    private static int traceCount = 0;
+#if DEBUG
+	private static int traceCount = 0;
+#endif
 
-    public static void TraceMethod(
+	public static void TraceMethod(
         object caller,
         string message = null,
         string prepend = null,
@@ -32,7 +34,8 @@ public static class ConsoleTrace
 #endif
     }
 
-    private static void WriteLine(string line)
+#if DEBUG
+	private static void WriteLine(string line)
     {
 #if WINDOWS
         System.Diagnostics.Debug.WriteLine(line);
@@ -40,4 +43,5 @@ public static class ConsoleTrace
         Console.WriteLine(line);
 #endif
     }
+#endif
 }

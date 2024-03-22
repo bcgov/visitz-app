@@ -55,7 +55,7 @@
                     HorizontalOptions="Center"
                     StyleClass="FeatureButton,GoldBorderButton"
                     Text="{local:Localize Login}"
-                    Command="{Binding LoginAsyncCommand}"
+                    Command="{Binding LoginCommand}"
                     IsVisible="{Binding ShowLoginLayout}" />
 
                 <Button 
@@ -65,7 +65,7 @@
                     HorizontalOptions="Center"
                     StyleClass="FeatureButton,GoldBorderButton"
                     Text="{local:Localize Logout}"
-                    Command="{Binding TryLogoutAsyncCommand}"
+                    Command="{Binding TryLogoutCommand}"
                     IsVisible="{Binding IsAuthorized}" />
 
 				<ContentView
@@ -121,13 +121,13 @@
                         Text="{local:Localize Logout}"
                         Style="{StaticResource SecondaryButtonDark}"
                         StyleClass="FeatureButton"
-                        Command="{Binding TryLogoutAsyncCommand}"
+                        Command="{Binding TryLogoutCommand}"
                         IsVisible="{Binding IsUnauthorized}" />
 
 					<Button
 						Style="{StaticResource SecondaryButtonDark}"
 						StyleClass="FeatureButton"
-						Command="{Binding LoginAsyncCommand}"
+						Command="{Binding LoginCommand}"
 						Text="{local:Localize RetryLogin}"
 						IsVisible="{Binding IsUnauthorized}">
 						<Button.ImageSource>
@@ -141,7 +141,7 @@
                     <Button 
                         StyleClass="FeatureButton,GoldBorderButton"
                         Text="{local:Localize Request Access}"
-                        Command="{Binding RequestAccessAsyncCommand}"
+                        Command="{Binding RequestAccessCommand}"
                         IsVisible="{Binding IsUnauthorized}" />
 
                 </HorizontalStackLayout>

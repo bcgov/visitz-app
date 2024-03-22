@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.FontIcons;
@@ -60,7 +60,7 @@ public partial class NavRailViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    private static async void OpenSessionPage()
+    private static async Task OpenSessionPage()
     {
         await Navigator.GoToPage<SessionPage>(modal: true);
     }

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Services.Messages;
 
 namespace Visitz.Services
@@ -60,13 +60,13 @@ namespace Visitz.Services
             {
                 await service.RunAsync();
             }
+#if DEBUG
             catch (Exception ex)
             {
-#if DEBUG
                 Console.WriteLine(ex.ToString());
-#endif
                 throw;
             }
+#endif
             finally
             {
                 await service.FinishAsync();
