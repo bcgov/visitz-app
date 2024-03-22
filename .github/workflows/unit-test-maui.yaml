@@ -15,7 +15,7 @@ permissions:
 
 env:
   BASE_PROJPATH: "./visitz"
-  DOTNET_VERSION: "8.0.203" # see workflows README
+  DOTNET_SDK_VERSION: "8.0.203" # see workflows README
   MAUI_WORKLOAD_VERSION: "8.0.7" # see workflows README
 
 jobs:
@@ -31,12 +31,12 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4.0.0
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
-      - name: Force use .NET SDK ${{ env.DOTNET_VERSION }}
+      - name: Force use .NET SDK ${{ env.DOTNET_SDK_VERSION }}
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
-          (Get-Content .\global.json.template).Replace('DOTNET_VERSION', '${{ env.DOTNET_VERSION }}') | Set-Content .\global.json
+          (Get-Content .\global.json.template).Replace('DOTNET_SDK_VERSION', '${{ env.DOTNET_SDK_VERSION }}') | Set-Content .\global.json
 
       - name: Prepare NuGet
         run: |
