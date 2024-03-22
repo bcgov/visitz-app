@@ -150,17 +150,15 @@
                 AbsoluteLayout.LayoutBounds="0.5,0.5,1,-1"
                 Spacing="40"
                 IsVisible="{Binding ShowEmptyCaseloadMessage}">
-                <Image HorizontalOptions="Center">
-                    <Image.Source>
-                        <FontImageSource 
-							Glyph="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
-							FontFamily="FluentIconsRegular"
-							Color="{StaticResource Primary}"
-							Size="160"/>
-                    </Image.Source>
-                </Image>
+				<Label
+					HorizontalOptions="Center"
+					FontAutoScalingEnabled="False"
+					FontFamily="FluentIconsRegular"
+					FontSize="160"
+					TextColor="{StaticResource Primary}"
+					Text="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}" />
 
-                <Label
+				<Label
 					HorizontalOptions="Center"
 					HorizontalTextAlignment="Center"
                     FontSize="20"
