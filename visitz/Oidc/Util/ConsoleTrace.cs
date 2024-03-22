@@ -4,7 +4,9 @@ namespace Oidc.Util;
 
 internal static class ConsoleTrace
 {
+#if DEBUG
     private static int traceCount = 0;
+#endif
 
     public static void TraceMethod(
         object caller,
@@ -32,6 +34,7 @@ internal static class ConsoleTrace
 #endif
     }
 
+#if DEBUG
     private static void WriteLine(string line)
     {
 #if WINDOWS
@@ -40,4 +43,5 @@ internal static class ConsoleTrace
         Console.WriteLine(line);
 #endif
     }
+#endif
 }
