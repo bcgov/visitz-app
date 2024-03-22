@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
@@ -230,13 +230,13 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async void OpenDebugOptionsPage()
+        public async Task OpenDebugOptionsPage()
         {
             await DebugOptionsPage.TryOpen();
         }
 
         [RelayCommand]
-        public async void OpenSessionPage()
+        public async Task OpenSessionPage()
         {
             await Navigator.GoToPage<SessionPage>(modal: true);
         }

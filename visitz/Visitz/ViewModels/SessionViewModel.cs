@@ -94,7 +94,7 @@ public partial class SessionViewModel
     }
 
     [RelayCommand]
-    public async void LoginAsync()
+	public async Task LoginAsync()
     {
         try
         {
@@ -182,13 +182,13 @@ public partial class SessionViewModel
     }
 
     [RelayCommand]
-    public async void LogoutAsync()
+	public async Task LogoutAsync()
     {
         await DoLogoutAsync();
     }
 
     [RelayCommand]
-    public async void TryLogoutAsync()
+	public async Task TryLogoutAsync()
     {
         if (await PromptLogout())
             await DoLogoutAsync();
@@ -218,7 +218,7 @@ public partial class SessionViewModel
     }
 
     [RelayCommand]
-    private async void RequestAccessAsync()
+    private async Task RequestAccessAsync()
     {
         var formUrl = new AppSettings().ContactInfo.AccessRequestFormUrl;
 
