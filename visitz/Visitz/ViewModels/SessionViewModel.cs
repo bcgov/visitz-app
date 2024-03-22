@@ -93,7 +93,13 @@ public partial class SessionViewModel
         ApplyModalStyles(false);
     }
 
-    [RelayCommand]
+	[RelayCommand]
+	public void Login()
+	{
+		_ = LoginAsync();
+	}
+
+
 	public async Task LoginAsync()
     {
         try
@@ -182,19 +188,18 @@ public partial class SessionViewModel
     }
 
     [RelayCommand]
-	public async Task LogoutAsync()
+	public void TryLogout()
     {
-        await DoLogoutAsync();
+		_ = PromptAndLogoutAsync();
     }
 
-    [RelayCommand]
-	public async Task TryLogoutAsync()
-    {
+	private async Task PromptAndLogoutAsync()
+	{
         if (await PromptLogout())
             await DoLogoutAsync();
-    }
+	}
 
-    private async Task<bool> PromptLogout()
+    private static async Task<bool> PromptLogout()
     {
         return await Navigator.CurrentOpenPage.DisplayAlert(
             LocalizedStrings.LogoutAndClearData,
@@ -218,8 +223,13 @@ public partial class SessionViewModel
     }
 
     [RelayCommand]
-    private async Task RequestAccessAsync()
+    private static void RequestAccess()
     {
+		_ = DoRequestAccessAsync();
+    }
+
+	private static async Task DoRequestAccessAsync()
+	{
         var formUrl = new AppSettings().ContactInfo.AccessRequestFormUrl;
 
         await Browser.Default.OpenAsync(formUrl, new BrowserLaunchOptions
@@ -228,10 +238,15 @@ public partial class SessionViewModel
             TitleMode = BrowserTitleMode.Hide,
             Flags = BrowserLaunchFlags.PresentAsFormSheet,
         });
-    }
+	}
 
 	[RelayCommand]
-	static async Task OpenFeedbackUrl(string feedbackUrl)
+	static void OpenFeedbackUrl(string feedbackUrl)
+	{
+		_ = DoOpenFeedbackUrl(feedbackUrl);
+	}
+
+	static async Task DoOpenFeedbackUrl(string feedbackUrl)
 	{
 		await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
 		{
