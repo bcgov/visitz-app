@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using VisitzModel.Models;
 
 namespace Visitz.Storage
@@ -65,7 +65,7 @@ namespace Visitz.Storage
 
         public static async Task Load620bTestingRecords()
         {
-            using var json = await FileSystem.OpenAppPackageFileAsync(Path.Join("MockIcmData", "620b.json"));
+            await using var json = await FileSystem.OpenAppPackageFileAsync(Path.Join("MockIcmData", "620b.json"));
 
             var opts = new JsonSerializerOptions() 
             {

@@ -1,4 +1,4 @@
-﻿namespace Visitz.Storage;
+namespace Visitz.Storage;
 
 /// <summary>Convenience class for interacting with the curated list of BC Gov pictures.</summary>
 /// <remarks>
@@ -20,7 +20,7 @@ public class BcGovAlbum
 
     public static async Task<string[]> GetPictureUris()
     {
-        using var stream = await FileSystem.OpenAppPackageFileAsync(PicturesFilepath);
+        await using var stream = await FileSystem.OpenAppPackageFileAsync(PicturesFilepath);
         using var reader = new StreamReader(stream);
 
         var contents = await reader.ReadToEndAsync();

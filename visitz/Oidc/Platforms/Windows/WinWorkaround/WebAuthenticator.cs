@@ -1,3 +1,4 @@
+#nullable enable
 using Microsoft.Windows.AppLifecycle;
 using Oidc.WinWorkaround;
 using System;
@@ -26,7 +27,7 @@ namespace Oidc.WinWorkaround
 	/// </remarks>
 	public sealed class WebAuthenticator
 	{
-		public static event EventHandler<InvokingAuthEventArgs> PromptAuthentication;
+		public static event EventHandler<InvokingAuthEventArgs>? PromptAuthentication;
 
 		/// <summary>
 		/// Begin an authentication flow by navigating to the specified url and waiting for a callback/redirect to the callbackUrl scheme.

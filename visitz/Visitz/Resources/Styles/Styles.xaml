@@ -2,7 +2,8 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:controls="clr-namespace:Visitz.Controls">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
@@ -215,6 +216,81 @@
         </Setter>
     </Style>
 
+	<Style x:Key="FontIconButtonLightMode" TargetType="controls:FontIconButton">
+		<Setter Property="TextColor" Value="{StaticResource BC_TextColor}" />
+		<Setter Property="VisualStateManager.VisualStateGroups">
+			<VisualStateGroupList>
+				<VisualStateGroup x:Name="LightSecondaryButtonVisualStatesCommonStates">
+					<!-- 
+						BUG: Using Background instead of BackgroundColor because of an issue:
+						https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
+					-->
+					<VisualState x:Name="Normal">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="Transparent" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="Disabled">
+						<VisualState.Setters>
+							<Setter Property="Opacity" Value="0.3" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="PointerOver">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="#11000000" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="Pressed">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="#22000000" />
+						</VisualState.Setters>
+					</VisualState>
+				</VisualStateGroup>
+			</VisualStateGroupList>
+		</Setter>
+	</Style>
+
+	<Style x:Key="FontIconButtonDarkMode" TargetType="controls:FontIconButton">
+		<Setter Property="TextColor" Value="White" />
+		<Setter Property="VisualStateManager.VisualStateGroups">
+			<VisualStateGroupList>
+				<VisualStateGroup x:Name="DarkSecondaryButtonVisualStatesCommonStates">
+					<!-- 
+						BUG: Using Background instead of BackgroundColor because of an issue:
+						https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
+					-->
+					<VisualState x:Name="Normal">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="Transparent" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="Disabled">
+						<VisualState.Setters>
+							<Setter Property="Opacity" Value="0.3" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="PointerOver">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="#33ffffff" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="Pressed">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="#22ffffff" />
+						</VisualState.Setters>
+					</VisualState>
+				</VisualStateGroup>
+			</VisualStateGroupList>
+		</Setter>
+	</Style>
+
+	<Style TargetType="controls:FontIconButton" BasedOn="{StaticResource FontIconButtonLightMode}" ApplyToDerivedTypes="True">
+		<Setter Property="BorderColor" Value="Transparent" />
+		<Setter Property="CornerRadius" Value="8" />
+		<Setter Property="FontAutoScalingEnabled" Value="False" />
+		<Setter Property="Padding" Value="0" />
+	</Style>
+
 	<Style TargetType="Button" Class="FeatureButton">
 		<Setter Property="FontSize" Value="20" />
 		<Setter Property="MinimumWidthRequest" Value="150" />
@@ -324,7 +400,7 @@
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
-        <Setter Property="VisualStateManager.VisualStateGroups">
+		<Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal">

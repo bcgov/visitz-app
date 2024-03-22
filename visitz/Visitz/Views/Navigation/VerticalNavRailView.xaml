@@ -3,6 +3,7 @@
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+	xmlns:controls="clr-namespace:Visitz.Controls"
 	xmlns:nav="clr-namespace:Visitz.Views.Navigation"
 	xmlns:icons="clr-namespace:Visitz.FontIcons"
 	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -45,14 +46,12 @@
 			</CollectionView.ItemTemplate>
 		</CollectionView>
 
-		<Button
+		<controls:FontIconButton
 			Grid.Row="3"
-			Style="{StaticResource SecondaryButtonDark}"
+			Style="{StaticResource FontIconButtonDarkMode}"
+			Size="Larger"
 			HorizontalOptions="Center"
-			BorderColor="Transparent"
 			FontFamily="MaterialIconsRoundedUnfilled"
-			FontSize="35"
-			FontAutoScalingEnabled="False"
 			Command="{Binding RefreshCaseloadCommand}"
 			Text="{Static icons:MaterialIcons.Download_for_offline}" />
 

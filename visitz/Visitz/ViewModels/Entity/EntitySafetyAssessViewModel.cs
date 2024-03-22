@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
@@ -26,7 +26,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
 
     [ObservableProperty]
-    public DateTime maxDate = DateTime.Now;
+    public DateTime maxDate = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
     public CaseloadItem caseloadItem;
@@ -224,7 +224,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     }
 
     [RelayCommand]
-    public async void Publish()
+	public async Task Publish()
     {
 #if DEBUG
         WriteSafetyAssessmentJson();
@@ -238,7 +238,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     }
 
     [RelayCommand]
-    public async void Reset()
+	public async Task Reset()
     {
         if (Assessment.IsManaged)
             await Realm.WriteAsync(() => Realm.Remove(Assessment));
