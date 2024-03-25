@@ -16,7 +16,7 @@ public static class IncidentTypeExtensions
 		};
 	}
 
-	public static bool TryParseEntityType(this string str, out IncidentType incidentType)
+	public static bool TryParseIncidentType(this string str, out IncidentType incidentType)
 	{
 		str = str.Trim();
 
