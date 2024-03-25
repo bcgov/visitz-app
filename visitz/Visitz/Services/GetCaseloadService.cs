@@ -2,7 +2,9 @@ using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services
@@ -69,10 +71,11 @@ namespace Visitz.Services
         /// <returns></returns>
         private IEnumerable<CaseloadItem> FilterNonCasesAndIncidents(IEnumerable<CaseloadItem> caseloadItems)
         {
-            return caseloadItems.Where(item => 
-                item.EntityType == IcmEntity.Case 
-                || item.EntityType == IcmEntity.Incident
-            );
+            return caseloadItems.Where(item =>
+			{
+				EntityType type = item.EntityType.ParseEntityType();
+				return type == EntityType.Case || type == EntityType.Incident;
+			});
         }
 
         static string CaseloadSelector(CaseloadItem caseloadItem) => caseloadItem.CaseIncidentNumber;
