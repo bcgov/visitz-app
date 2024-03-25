@@ -5,7 +5,6 @@
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:entity="clr-namespace:Visitz.ViewModels.Entity"
-    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     x:Class="Visitz.Views.Entity.EntityContainerView"
     x:DataType="entity:EntityContainerViewModel">
     
