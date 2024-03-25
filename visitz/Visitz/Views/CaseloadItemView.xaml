@@ -5,7 +5,6 @@
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
-    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.CaseloadItemView"
