@@ -1,6 +1,8 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models
 {
@@ -44,24 +46,18 @@ namespace VisitzModel.Models
             .FirstOrDefault();
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
-        public string DisplayDate
-        {
-            get
-            {
-                if (EntityType == IcmEntity.Incident)
-                    return DateReported;
-                else if (EntityType == IcmEntity.Memo)
-                    return MemoCallDate;
-                else // IcmEntity.Case, etc...
-                    return CreatedDate;
-            }
-        }
+		public string DisplayDate => EntityType.ParseEntityType() switch
+		{
+			EntityTypes.EntityType.Incident => DateReported,
+			EntityTypes.EntityType.Memo => MemoCallDate,
+			_ => CreatedDate, // Case, etc...
+		};
 
         public string DisplayName
         {
             get
             {
-                if (EntityType == IcmEntity.Memo)
+                if (EntityType.ParseEntityType() == EntityTypes.EntityType.Memo)
                     return WorkerFullName;
                 else if (TryGetKeyPlayer(out FamilyMember keyPlayer))
                     return $"{keyPlayer.LastName}, {keyPlayer.FirstName}";
@@ -74,7 +70,7 @@ namespace VisitzModel.Models
 
         public string FullType => CaseIncidentType + " " + EntityType;
 
-        public string TypeInitials => (EntityType == IcmEntity.Incident
+        public string TypeInitials => (EntityType.ParseEntityType() == EntityTypes.EntityType.Incident
             ? EntityType[..2]
             : CaseIncidentType.GetInitials()).ToUpper();
 
