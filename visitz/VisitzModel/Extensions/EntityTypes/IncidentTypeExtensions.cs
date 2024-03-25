@@ -16,19 +16,23 @@ public static class IncidentTypeExtensions
 		};
 	}
 
-	public static bool TryParseIncidentType(this string str, out IncidentType incidentType)
+	public static IncidentType ParseIncidentType(this string str)
 	{
 		str = str.Trim();
 
 		if (EntityTypeExtensions.Matches(str, IncidentTypeStrings.ChildProtection))
-			incidentType = IncidentType.ChildProtection;
+			return IncidentType.ChildProtection;
 		else if (EntityTypeExtensions.Matches(str, IncidentTypeStrings.ProtocolInvestigation))
-			incidentType = IncidentType.ProtocolInvestigation;
+			return IncidentType.ProtocolInvestigation;
 		else if (EntityTypeExtensions.Matches(str, IncidentTypeStrings.ReferralAndInquiry))
-			incidentType = IncidentType.ReferralAndInquiry;
+			return IncidentType.ReferralAndInquiry;
 		else
-			incidentType = IncidentType.Unknown;
+			return IncidentType.Unknown;
+	}
 
+	public static bool TryParseIncidentType(this string str, out IncidentType incidentType)
+	{
+		incidentType = ParseIncidentType(str);
 		return incidentType > IncidentType.Unknown && incidentType <= IncidentType.ReferralAndInquiry;
 	}
 }

@@ -22,21 +22,25 @@ public static class EntityTypeExtensions
 		return str.Equals(expected, StringComparison.InvariantCultureIgnoreCase);
 	}
 
-	public static bool TryParseEntityType(this string str, out EntityType entityType)
+	public static EntityType ParseEntityType(this string str)
 	{
 		str = str.Trim();
 
 		if (Matches(str, EntityTypeStrings.Case))
-			entityType = EntityType.Case;
+			return EntityType.Case;
 		else if (Matches(str, EntityTypeStrings.Incident))
-			entityType = EntityType.Incident;
+			return EntityType.Incident;
 		else if (Matches(str, EntityTypeStrings.Memo))
-			entityType = EntityType.Memo;
+			return EntityType.Memo;
 		else if (Matches(str, EntityTypeStrings.ServiceRequest))
-			entityType = EntityType.ServiceRequest;
+			return EntityType.ServiceRequest;
 		else
-			entityType = EntityType.Unknown;
+			return EntityType.Unknown;
+	}
 
+	public static bool TryParseEntityType(this string str, out EntityType entityType)
+	{
+		entityType = ParseEntityType(str);
 		return entityType > EntityType.Unknown && entityType <= EntityType.ServiceRequest;
 	}
 }
