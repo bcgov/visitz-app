@@ -22,31 +22,35 @@ public static class MemoTypeExtensions
 		};
 	}
 
-	public static bool TryParseMemoType(this string str, out MemoType memoType)
+	public static MemoType ParseMemoType(this string str)
 	{
 		str = str.Trim();
 
 		if (EntityTypeExtensions.Matches(str, MemoTypeStrings.AfterHoursAction))
-			memoType = MemoType.AfterHoursAction;
+			return MemoType.AfterHoursAction;
 		else if (EntityTypeExtensions.Matches(str, MemoTypeStrings.AfterHoursFrom))
-			memoType = MemoType.AfterHoursFrom;
+			return MemoType.AfterHoursFrom;
 		else if (EntityTypeExtensions.Matches(str, MemoTypeStrings.AfterHoursInfo))
-			memoType = MemoType.AfterHoursInfo;
+			return MemoType.AfterHoursInfo;
 		else if (EntityTypeExtensions.Matches(str, MemoTypeStrings.AgreementWithYoungAdults))
-			memoType = MemoType.AgreementWithYoungAdults;
+			return MemoType.AgreementWithYoungAdults;
 		else if (EntityTypeExtensions.Matches(str, MemoTypeStrings.Cysn))
-			memoType = MemoType.Cysn;
+			return MemoType.Cysn;
 		else if (EntityTypeExtensions.Matches(str, MemoTypeStrings.CentralizedServicesHub))
-			memoType = MemoType.CentralizedServicesHub;
+			return MemoType.CentralizedServicesHub;
 		else if (EntityTypeExtensions.Matches(str, MemoTypeStrings.ProtocolInvestigation))
-			memoType = MemoType.ProtocolInvestigation;
+			return MemoType.ProtocolInvestigation;
 		else if (EntityTypeExtensions.Matches(str, MemoTypeStrings.Screening))
-			memoType = MemoType.Screening;
+			return MemoType.Screening;
 		else if (EntityTypeExtensions.Matches(str, MemoTypeStrings.SupportNeedsRequest))
-			memoType = MemoType.SupportNeedsRequest;
+			return MemoType.SupportNeedsRequest;
 		else
-			memoType = MemoType.Unknown;
+			return MemoType.Unknown;
+	}
 
+	public static bool TryParseMemoType(this string str, out MemoType memoType)
+	{
+		memoType = ParseMemoType(str);
 		return memoType > MemoType.Unknown && memoType <= MemoType.SupportNeedsRequest;
 	}
 }

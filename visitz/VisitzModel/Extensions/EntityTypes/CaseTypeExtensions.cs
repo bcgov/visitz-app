@@ -27,41 +27,45 @@ public static class CaseTypeExtensions
 		};
 	}
 
-	public static bool TryParseCaseType(this string str, out CaseType caseType)
+	public static CaseType ParseCaseType(this string str)
 	{
 		str = str.Trim();
 
 		if (EntityTypeExtensions.Matches(str, CaseTypeStrings.AdoptionHome))
-			caseType = CaseType.AdoptionHome;
+			return CaseType.AdoptionHome;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.AdoptionService))
-			caseType = CaseType.AdoptionService;
+			return CaseType.AdoptionService;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.AssessmentOnly))
-			caseType = CaseType.AssessmentOnly;
+			return CaseType.AssessmentOnly;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.AssistedAdoption))
-			caseType = CaseType.AssistedAdoption;
+			return CaseType.AssistedAdoption;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.Autism))
-			caseType = CaseType.Autism;
+			return CaseType.Autism;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.CysnFamilyServices))
-			caseType = CaseType.CysnFamilyServices;
+			return CaseType.CysnFamilyServices;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.ChildAtHomeProgram))
-			caseType = CaseType.ChildAtHomeProgram;
+			return CaseType.ChildAtHomeProgram;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.ChildServices))
-			caseType = CaseType.ChildServices;
+			return CaseType.ChildServices;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.FamilyServices))
-			caseType = CaseType.FamilyServices;
+			return CaseType.FamilyServices;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.MedicalBenefits))
-			caseType = CaseType.MedicalBenefits;
+			return CaseType.MedicalBenefits;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.PostAdoptionService))
-			caseType = CaseType.PostAdoptionService;
+			return CaseType.PostAdoptionService;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.PostMajorityServices))
-			caseType = CaseType.PostMajorityServices;
+			return CaseType.PostMajorityServices;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.Resource))
-			caseType = CaseType.Resource;
+			return CaseType.Resource;
 		else if (EntityTypeExtensions.Matches(str, CaseTypeStrings.SupportNeedsChildrenYouth))
-			caseType = CaseType.SupportNeedsChildrenYouth;
+			return CaseType.SupportNeedsChildrenYouth;
 		else
-			caseType = CaseType.Unknown;
+			return CaseType.Unknown;
+	}
 
+	public static bool TryParseCaseType(this string str, out CaseType caseType)
+	{
+		caseType = ParseCaseType(str);
 		return caseType > CaseType.Unknown && caseType <= CaseType.SupportNeedsChildrenYouth;
 	}
 }

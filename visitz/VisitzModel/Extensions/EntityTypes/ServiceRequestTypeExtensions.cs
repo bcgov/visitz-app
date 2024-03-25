@@ -24,34 +24,39 @@ public static class ServiceRequestTypeExtensions
 		};
 	}
 
-	public static bool TryParseServiceRequestType(this string str, out ServiceRequestType serviceRequestType)
+	public static ServiceRequestType ParseServiceRequestType(this string str)
 	{
 		str = str.Trim();
 
 		if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.AfterHours))
-			serviceRequestType = ServiceRequestType.AfterHours;
+			return ServiceRequestType.AfterHours;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.AutismFundingUnit))
-			serviceRequestType = ServiceRequestType.AutismFundingUnit;
+			return ServiceRequestType.AutismFundingUnit;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.CommunityDevelopment))
-			serviceRequestType = ServiceRequestType.CommunityDevelopment;
+			return ServiceRequestType.CommunityDevelopment;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.FamilyNeedsAssessment))
-			serviceRequestType = ServiceRequestType.FamilyNeedsAssessment;
+			return ServiceRequestType.FamilyNeedsAssessment;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.MedicalBenefits))
-			serviceRequestType = ServiceRequestType.MedicalBenefits;
+			return ServiceRequestType.MedicalBenefits;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.PostMajorityServices))
-			serviceRequestType = ServiceRequestType.PostMajorityServices;
+			return ServiceRequestType.PostMajorityServices;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.RequestServiceCfs))
-			serviceRequestType = ServiceRequestType.RequestServiceCfs;
+			return ServiceRequestType.RequestServiceCfs;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.RequestServiceCapp))
-			serviceRequestType = ServiceRequestType.RequestServiceCapp;
+			return ServiceRequestType.RequestServiceCapp;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.RequestForFamilySupport))
-			serviceRequestType = ServiceRequestType.RequestForFamilySupport;
+			return ServiceRequestType.RequestForFamilySupport;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.RequestForInformation))
-			serviceRequestType = ServiceRequestType.RequestForInformation;
+			return ServiceRequestType.RequestForInformation;
 		else if (EntityTypeExtensions.Matches(str, ServiceRequestTypeStrings.YouthServices))
-			serviceRequestType = ServiceRequestType.YouthServices;
+			return ServiceRequestType.YouthServices;
 		else
-			serviceRequestType = ServiceRequestType.Unknown;
+			return ServiceRequestType.Unknown;
+	}
+
+	public static bool TryParseServiceRequestType(this string str, out ServiceRequestType serviceRequestType)
+	{
+		serviceRequestType = ParseServiceRequestType(str);
 
 		return serviceRequestType > ServiceRequestType.Unknown
 			&& serviceRequestType <= ServiceRequestType.YouthServices;
