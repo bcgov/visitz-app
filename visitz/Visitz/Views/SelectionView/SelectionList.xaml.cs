@@ -4,6 +4,7 @@
 
 using System.Collections;
 using System.Windows.Input;
+using Visitz.VisualStates;
 using VisitzModel.Models;
 
 namespace Visitz.Views.SelectionView;
@@ -30,9 +31,9 @@ public partial class SelectionList : BaseContentView
     public static readonly BindableProperty OrientationProperty =
         BindableProperty.Create(nameof(Orientation), typeof(StackOrientation), typeof(SelectionList));
 
-    private SelectableItem SelectedItemView
+    private ISelectedState SelectedItemView
     {
-        get => (SelectableItem)GetValue(SelectedItemViewProperty);
+        get => (ISelectedState)GetValue(SelectedItemViewProperty);
         set => SetValue(SelectedItemViewProperty, value);
     }
 
@@ -73,10 +74,10 @@ public partial class SelectionList : BaseContentView
 
     private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
     {
-        if (oldValue is SelectableItem oldSelected)
+        if (oldValue is ISelectedState oldSelected)
             oldSelected.IsSelected = false;
 
-        if (newValue is SelectableItem newSelected)
+        if (newValue is ISelectedState newSelected)
             newSelected.IsSelected = true;
     }
 
@@ -93,39 +94,39 @@ public partial class SelectionList : BaseContentView
 
     private void ItemTapRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        var selectableItem = (SelectableItem)sender;
+        var selectableItem = (ISelectedState)sender;
 
         if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
             return;
 
         selectableItem.IsSelected = !selectableItem.IsSelected;
 
-        if (selectableItem.IsSelected)
-            SelectedItem = selectableItem.BindingContext;
+        if (selectableItem.IsSelected && selectableItem is BindableObject bindable)
+            SelectedItem = bindable.BindingContext;
     }
 
     private void MainStack_ChildAdded(object sender, ElementEventArgs e)
     {
-        if (e.Element is SelectableItem item)
+        if (e.Element is View view)
         {
             var tap = new TapGestureRecognizer() { Buttons = ButtonsMask.Primary, };
             tap.Tapped += ItemTapRecognizer_Tapped;
-            item.GestureRecognizers.Add(tap);
+            view.GestureRecognizers.Add(tap);
         }
     }
 
     private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
     {
-        if (e.Element is SelectableItem item)
-            foreach (var g in item.GestureRecognizers)
+        if (e.Element is View view)
+            foreach (var g in view.GestureRecognizers)
                 if (g is TapGestureRecognizer tap)
                     tap.Tapped -= ItemTapRecognizer_Tapped;
     }
 
-    private SelectableItem GetSelectableViewByItem(object item)
+    private ISelectedState GetSelectableViewByItem(object item)
     {
         foreach (var child in MainStack.Children)
-            if (child is SelectableItem selItem && selItem.BindingContext == item)
+            if (child is ISelectedState selItem && child is View view && view.BindingContext == item)
                 return selItem;
 
         return null;
