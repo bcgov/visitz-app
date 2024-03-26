@@ -6,6 +6,7 @@
 	xmlns:controls="clr-namespace:Visitz.Controls"
 	xmlns:nav="clr-namespace:Visitz.Views.Navigation"
 	xmlns:icons="clr-namespace:Visitz.FontIcons"
+	xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
 	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
 	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
 	xmlns:views="clr-namespace:Visitz.Views"
@@ -33,18 +34,17 @@
 			
 		</toolkit:AvatarView>
 
-		<CollectionView
+		<selView:SelectionList
 			Grid.Row="1"
-			SelectionMode="Single"
 			ItemsSource="{Binding NavigationItems}"
 			SelectedItem="{Binding SelectedNavItem}">
 
-			<CollectionView.ItemTemplate>
+			<selView:SelectionList.ItemTemplate>
 				<DataTemplate>
-					<nav:NavItemView MinimumHeightRequest="72" />
+					<nav:NavItemView MinimumHeightRequest="72" HorizontalOptions="Fill" />
 				</DataTemplate>
-			</CollectionView.ItemTemplate>
-		</CollectionView>
+			</selView:SelectionList.ItemTemplate>
+		</selView:SelectionList>
 
 		<controls:FontIconButton
 			Grid.Row="3"
