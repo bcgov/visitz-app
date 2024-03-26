@@ -10,7 +10,9 @@ namespace VisitzModel.Models
         [PrimaryKey]
         public string CaseIncidentNumber { get; set; }
 
-        public string EntityType { get; set; }
+		// TODO: Convert EntityType from string to VisitzModel.Extensions.EntityTypes.EntityType.
+		// Will need to workaround RLM024 (Realm does not support enums).
+		public string EntityType { get; set; }
         public string CaseIncidentType { get; set; }
         public string WorkerId { get; set; }
         public string WorkerFullName { get; set; }
