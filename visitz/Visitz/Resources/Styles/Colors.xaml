@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -49,7 +49,7 @@
     <!-- Tags Colors -->
     <Color x:Key="EntityCaseTagBackground">#C2E0FF</Color>
     <Color x:Key="EntityCaseTagText">#00478F</Color>
-    <Color x:Key="EntityIncidentTagBackground">#B3FEF1</Color>
+	<Color x:Key="EntityIncidentTagBackground">#34FEDC</Color>
     <Color x:Key="EntityIncidentTagText">#004C3F</Color>
     
     <Color x:Key="ContactRelationshipTagBackground">#E2CCF8</Color>

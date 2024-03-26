@@ -33,4 +33,55 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources\Localization\CaseTypeStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>CaseTypeStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Resources\Localization\EntityTypeStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>EntityTypeStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Resources\Localization\IncidentTypeStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>IncidentTypeStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Resources\Localization\MemoTypeStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>MemoTypeStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Resources\Localization\ServiceRequestTypeStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>ServiceRequestTypeStrings.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Localization\CaseTypeStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>CaseTypeStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Localization\EntityTypeStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>EntityTypeStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Localization\IncidentTypeStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>IncidentTypeStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Localization\MemoTypeStrings.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>MemoTypeStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Localization\ServiceRequestTypeStrings.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>ServiceRequestTypeStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
 </Project>

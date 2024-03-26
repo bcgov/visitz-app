@@ -1,11 +1,13 @@
-﻿namespace VisitzModel.Models.Comparers;
+using VisitzModel.Models.EntityTypes;
 
-public class NoteItemGroupComparer(string entityType) : IComparer<NoteItemGroup>
+namespace VisitzModel.Models.Comparers;
+
+public class NoteItemGroupComparer(EntityType entityType) : IComparer<NoteItemGroup>
 {
-    public static readonly NoteItemGroupComparer NotePeriodInstance = new(IcmEntity.Case);
-    public static readonly NoteItemGroupComparer PageNumberInstance = new(IcmEntity.Incident);
+    public static readonly NoteItemGroupComparer NotePeriodInstance = new(EntityType.Case);
+    public static readonly NoteItemGroupComparer PageNumberInstance = new(EntityType.Incident);
 
-    public string EntityType { get; set; } = entityType;
+    public EntityType EntityType { get; set; } = entityType;
 
     public int Compare(NoteItemGroup x, NoteItemGroup y)
     {
@@ -17,7 +19,7 @@ public class NoteItemGroupComparer(string entityType) : IComparer<NoteItemGroup>
                 return 1;
             else
             {
-                if (EntityType == IcmEntity.Case)
+                if (EntityType == EntityType.Case)
                     return x.NotePeriodDateTime.CompareTo(y.NotePeriodDateTime);
                 else
                 {
