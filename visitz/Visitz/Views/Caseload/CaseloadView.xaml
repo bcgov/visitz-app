@@ -165,58 +165,49 @@
                     Text="{local:Localize CaseloadIsEmpty}" />
             </VerticalStackLayout>
 
-            <RefreshView
+			<RefreshView
                 AbsoluteLayout.LayoutFlags="All"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 Command="{Binding RefreshCaseloadCommand}"
                 IsRefreshing="{Binding IsRefreshing}">
 
-                <!-- 
-                    WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
-                    Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
-                    This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
-                -->
-                <ContentView>
+				<CollectionView
+                    ItemsSource="{Binding Caseload}"
+                    SelectionMode="None"
+                    ItemSizingStrategy="MeasureFirstItem">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout
+							HorizontalOptions="Fill"
+							Padding="20"
+							Spacing="10">
+                            <Label 
+                                HorizontalOptions="Center"
+								HorizontalTextAlignment="Center"
+                                FontSize="16"
+                                Text="{Binding CollectionViewPrompt}" />
 
-                    <CollectionView
-                        ItemsSource="{Binding Caseload}"
-                        SelectionMode="None"
-                        ItemSizingStrategy="MeasureFirstItem">
-                        <CollectionView.EmptyView>
-                            <VerticalStackLayout
-								HorizontalOptions="Fill"
-								Padding="20"
-								Spacing="10">
-                                <Label 
-                                    HorizontalOptions="Center"
-									HorizontalTextAlignment="Center"
-                                    FontSize="16"
-                                    Text="{Binding CollectionViewPrompt}" />
-
-                                <Label 
-                                    HorizontalOptions="Center" 
-                                    FontSize="24"
-                                    Text="↓" />
-                            </VerticalStackLayout>
-                        </CollectionView.EmptyView>
-                        <CollectionView.ItemsLayout>
-                            <!-- 
-                                FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
-                                When dynamically changing the ItemsSource binding, the bottom of the CollectionView
-                                has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
-                                VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
-                                expected. 
-                            -->
-                            <GridItemsLayout Orientation="Vertical" Span="1" />
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:CaseloadItem">
-                                <caseload:CaseloadItemView />
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-
-                </ContentView>
+                            <Label 
+                                HorizontalOptions="Center" 
+                                FontSize="24"
+                                Text="↓" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemsLayout>
+                        <!-- 
+                            FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
+                            When dynamically changing the ItemsSource binding, the bottom of the CollectionView
+                            has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
+                            VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
+                            expected. 
+                        -->
+                        <GridItemsLayout Orientation="Vertical" Span="1" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CaseloadItem">
+                            <caseload:CaseloadItemView />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
             </RefreshView>
 
