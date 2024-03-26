@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Views.Entity;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.ViewModels.Entity;
 
@@ -72,7 +74,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
             NavItems.Notes,
         };
 
-        if (CaseloadItem.EntityType.Equals(IcmEntity.Incident))
+        if (CaseloadItem.EntityType.ParseEntityType() == EntityType.Incident)
             items.Add(NavItems.SafetyAssessment);
 
         return items;
