@@ -1,6 +1,6 @@
 using VisitzModel.Models;
 
-namespace Visitz.Views;
+namespace Visitz.Views.Caseload;
 
 public partial class CaseloadItemView : ContentView
 {
