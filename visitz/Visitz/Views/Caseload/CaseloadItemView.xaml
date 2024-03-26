@@ -7,7 +7,7 @@
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
-    x:Class="Visitz.Views.CaseloadItemView"
+    x:Class="Visitz.Views.Caseload.CaseloadItemView"
     x:DataType="models:CaseloadItem">
 
     <ContentView.GestureRecognizers>
