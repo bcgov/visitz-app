@@ -211,7 +211,7 @@
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:CaseloadItem">
-                                <views:CaseloadItemView />
+                                <caseload:CaseloadItemView />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
