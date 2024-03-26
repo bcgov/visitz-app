@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Windows.Input;
 using Visitz.VisualStates;
+using VisitzModel;
 using VisitzModel.Models;
 
 namespace Visitz.Views.SelectionView;
@@ -92,35 +93,35 @@ public partial class SelectionList : BaseContentView
         }
     }
 
-    private void ItemTapRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-        var selectableItem = (ISelectedState)sender;
+	private void Point_PointerReleased(object sender, PointerEventArgs e)
+	{
+		var selectableItem = (ISelectedState)sender;
 
-        if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
-            return;
+		if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
+			return;
 
-        selectableItem.IsSelected = !selectableItem.IsSelected;
+		selectableItem.IsSelected = !selectableItem.IsSelected;
 
-        if (selectableItem.IsSelected && selectableItem is BindableObject bindable)
-            SelectedItem = bindable.BindingContext;
-    }
+		if (selectableItem.IsSelected && selectableItem is BindableObject bindable)
+			SelectedItem = bindable.BindingContext;
+	}
 
-    private void MainStack_ChildAdded(object sender, ElementEventArgs e)
+	private void MainStack_ChildAdded(object sender, ElementEventArgs e)
     {
         if (e.Element is View view)
         {
-            var tap = new TapGestureRecognizer() { Buttons = ButtonsMask.Primary, };
-            tap.Tapped += ItemTapRecognizer_Tapped;
-            view.GestureRecognizers.Add(tap);
-        }
+			PointerGestureRecognizer point = new();
+			point.PointerReleased += Point_PointerReleased;
+			view.GestureRecognizers.Add(point);
+		}
     }
 
-    private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
+	private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
     {
         if (e.Element is View view)
             foreach (var g in view.GestureRecognizers)
-                if (g is TapGestureRecognizer tap)
-                    tap.Tapped -= ItemTapRecognizer_Tapped;
+                if (g is PointerGestureRecognizer tap)
+                    tap.PointerReleased -= Point_PointerReleased;
     }
 
     private ISelectedState GetSelectableViewByItem(object item)
