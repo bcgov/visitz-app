@@ -175,6 +175,7 @@
                     ItemsSource="{Binding Caseload}"
                     SelectionMode="None"
                     ItemSizingStrategy="MeasureFirstItem">
+					
                     <CollectionView.EmptyView>
                         <VerticalStackLayout
 							HorizontalOptions="Fill"
@@ -192,21 +193,17 @@
                                 Text="↓" />
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
-                    <CollectionView.ItemsLayout>
-                        <!-- 
-                            FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
-                            When dynamically changing the ItemsSource binding, the bottom of the CollectionView
-                            has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
-                            VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
-                            expected. 
-                        -->
-                        <GridItemsLayout Orientation="Vertical" Span="1" />
+					
+					<CollectionView.ItemsLayout>
+						<LinearItemsLayout Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
+					
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:CaseloadItem">
                             <caseload:CaseloadItemView />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
+					
                 </CollectionView>
 
             </RefreshView>
