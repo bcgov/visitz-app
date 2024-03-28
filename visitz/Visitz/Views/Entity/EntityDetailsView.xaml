@@ -13,7 +13,7 @@
     <ScrollView>
 
         <Grid 
-            RowDefinitions="Auto,Auto,Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
             ColumnDefinitions="Auto,*"
             RowSpacing="15"
             ColumnSpacing="15"
@@ -71,6 +71,32 @@
                 HorizontalOptions="Start"
                 Text="{Binding CaseloadItem.Address}" />
 
-        </Grid>
+			<Label
+				Grid.Row="4"
+				Grid.Column="0"
+				HorizontalOptions="End"
+				FontFamily="BCSansBold"
+				Text="Key player home #" />
+
+			<Label
+				Grid.Row="4"
+				Grid.Column="1"
+				HorizontalOptions="Start"
+				Text="{Binding CaseloadItem.KeyPlayer.HomePhoneFormatted}" />
+
+			<Label
+				Grid.Row="5"
+				Grid.Column="0"
+				HorizontalOptions="End"
+				FontFamily="BCSansBold"
+				Text="Key player cell #" />
+
+			<Label
+				Grid.Row="5"
+				Grid.Column="1"
+				HorizontalOptions="Start"
+				Text="{Binding CaseloadItem.KeyPlayer.CellPhoneFormatted}" />
+
+		</Grid>
     </ScrollView>
 </views:ViewModelContentView>
