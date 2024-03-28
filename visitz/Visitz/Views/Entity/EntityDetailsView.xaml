@@ -76,7 +76,7 @@
 				Grid.Column="0"
 				HorizontalOptions="End"
 				FontFamily="BCSansBold"
-				Text="Key player home #" />
+				Text="Home #" />
 
 			<Label
 				Grid.Row="4"
@@ -89,7 +89,7 @@
 				Grid.Column="0"
 				HorizontalOptions="End"
 				FontFamily="BCSansBold"
-				Text="Key player cell #" />
+				Text="Cell #" />
 
 			<Label
 				Grid.Row="5"
