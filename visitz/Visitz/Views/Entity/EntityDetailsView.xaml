@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:entity="clr-namespace:Visitz.ViewModels.Entity"
+	xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
@@ -13,7 +14,7 @@
     <ScrollView>
 
         <Grid 
-            RowDefinitions="Auto,Auto,Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
             ColumnDefinitions="Auto,*"
             RowSpacing="15"
             ColumnSpacing="15"
@@ -24,7 +25,7 @@
                 Grid.Column="0"
                 HorizontalOptions="End"
                 FontFamily="BCSansBold"
-                Text="Open date" />
+                Text="{local:Localize OpenDate}" />
 
             <Label
                 Grid.Row="0"
@@ -37,7 +38,7 @@
                 Grid.Column="0"
                 HorizontalOptions="End"
                 FontFamily="BCSansBold"
-                Text="ID" />
+                Text="{local:Localize Id}" />
 
             <Label
                 Grid.Row="1"
@@ -50,7 +51,7 @@
                 Grid.Column="0"
                 HorizontalOptions="End"
                 FontFamily="BCSansBold"
-                Text="Service office" />
+                Text="{local:Localize ServiceOffice}" />
 
             <Label
                 Grid.Row="2"
@@ -63,7 +64,7 @@
                 Grid.Column="0"
                 HorizontalOptions="End"
                 FontFamily="BCSansBold"
-                Text="Address" />
+                Text="{local:Localize Address}" />
 
             <Label
                 Grid.Row="3"
@@ -71,6 +72,32 @@
                 HorizontalOptions="Start"
                 Text="{Binding CaseloadItem.Address}" />
 
-        </Grid>
+			<Label
+				Grid.Row="4"
+				Grid.Column="0"
+				HorizontalOptions="End"
+				FontFamily="BCSansBold"
+				Text="{local:Localize HomeNumber}" />
+
+			<Label
+				Grid.Row="4"
+				Grid.Column="1"
+				HorizontalOptions="Start"
+				Text="{Binding CaseloadItem.KeyPlayer.HomePhoneFormatted}" />
+
+			<Label
+				Grid.Row="5"
+				Grid.Column="0"
+				HorizontalOptions="End"
+				FontFamily="BCSansBold"
+				Text="{local:Localize CellNumber}" />
+
+			<Label
+				Grid.Row="5"
+				Grid.Column="1"
+				HorizontalOptions="Start"
+				Text="{Binding CaseloadItem.KeyPlayer.CellPhoneFormatted}" />
+
+		</Grid>
     </ScrollView>
 </views:ViewModelContentView>

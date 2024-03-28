@@ -619,4 +619,28 @@ If that doesn't work, request access by emailing </value>
   <data name="NA" xml:space="preserve">
     <value>N/A</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="Birthdate" xml:space="preserve">
+    <value>Birthdate</value>
+  </data>
+  <data name="CellNumber" xml:space="preserve">
+    <value>Cell #</value>
+  </data>
+  <data name="HomeNumber" xml:space="preserve">
+    <value>Home #</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Indigenous" xml:space="preserve">
+    <value>Indigenous</value>
+  </data>
+  <data name="ServiceOffice" xml:space="preserve">
+    <value>Service office</value>
+  </data>
 </root>
