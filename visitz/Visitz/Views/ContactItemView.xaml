@@ -11,7 +11,7 @@
     HorizontalOptions="Start">
 
     <Grid
-        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+        RowDefinitions="*,*,*,*,*,*,*,*"
         RowSpacing="10"
         ColumnDefinitions="Auto,*"
         ColumnSpacing="10"
