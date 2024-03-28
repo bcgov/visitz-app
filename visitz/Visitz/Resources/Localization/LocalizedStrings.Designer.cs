@@ -70,6 +70,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Age.
+        /// </summary>
+        public static string Age {
+            get {
+                return ResourceManager.GetString("Age", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -84,6 +102,15 @@ namespace Visitz.Resources.Localization {
         public static string AuthorizationRequest {
             get {
                 return ResourceManager.GetString("AuthorizationRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Birthdate.
+        /// </summary>
+        public static string Birthdate {
+            get {
+                return ResourceManager.GetString("Birthdate", resourceCulture);
             }
         }
         
@@ -129,6 +156,15 @@ namespace Visitz.Resources.Localization {
         public static string CaseType {
             get {
                 return ResourceManager.GetString("CaseType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cell #.
+        /// </summary>
+        public static string CellNumber {
+            get {
+                return ResourceManager.GetString("CellNumber", resourceCulture);
             }
         }
         
@@ -457,6 +493,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home #.
+        /// </summary>
+        public static string HomeNumber {
+            get {
+                return ResourceManager.GetString("HomeNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        public static string Id {
+            get {
+                return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conditions resulting in a child&apos;s inability to protect self. Mark all that apply to ANY child:.
         /// </summary>
         public static string InabilityProtectSelfMarkAll {
@@ -471,6 +525,15 @@ namespace Visitz.Resources.Localization {
         public static string IncidentNumber {
             get {
                 return ResourceManager.GetString("IncidentNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indigenous.
+        /// </summary>
+        public static string Indigenous {
+            get {
+                return ResourceManager.GetString("Indigenous", resourceCulture);
             }
         }
         
@@ -1431,6 +1494,15 @@ namespace Visitz.Resources.Localization {
         public static string SendToTeamLeader {
             get {
                 return ResourceManager.GetString("SendToTeamLeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service office.
+        /// </summary>
+        public static string ServiceOffice {
+            get {
+                return ResourceManager.GetString("ServiceOffice", resourceCulture);
             }
         }
         
