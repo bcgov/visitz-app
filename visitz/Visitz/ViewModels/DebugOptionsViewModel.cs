@@ -38,7 +38,7 @@ namespace Visitz.ViewModels
 		readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
 		[ObservableProperty]
-		public DateTime? caseloadLastUpdated;
+		public DateTime caseloadLastUpdated;
 
 		[ObservableProperty]
 		public DateTime maxDate = DateTimeExtensions.LocalNow;
@@ -65,7 +65,7 @@ namespace Visitz.ViewModels
             ApiDomain = settings.Api.ApiDomain;
             AuthenticationDomain = settings.Oidc.AuthenticationDomain;
 
-			CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId());
+			CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
         }
 
         partial void OnDryFireSubmitNotesChanged(bool value)
@@ -135,9 +135,10 @@ namespace Visitz.ViewModels
 			new SurveyFeedbackTracker(Preferences.Default).ClearAll();
 		}
 
-		partial void OnCaseloadLastUpdatedChanged(DateTime? value)
+		[RelayCommand]
+		public void ApplyCaseloadLastUpdated()
 		{
-			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), value ?? DateTime.MinValue);
+			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
 		}
 	}
 }
