@@ -127,11 +127,18 @@
 					IsEnabled="{Binding BuildingInDebug}"
 					Text="Caseload last updated"/>
 
-				<DatePicker
+				<HorizontalStackLayout
 					Grid.Row="1"
 					Grid.Column="1"
-					Date="{Binding CaseloadLastUpdated}"
-					MaximumDate="{Binding MaxDate}" />
+					Spacing="5">
+					<DatePicker
+						Date="{Binding CaseloadLastUpdated}"
+						MaximumDate="{Binding MaxDate}" />
+
+					<Button
+						Command="{Binding ApplyCaseloadLastUpdatedCommand}"
+						Text="Apply" />
+				</HorizontalStackLayout>
 			</Grid>
 			
             <Label

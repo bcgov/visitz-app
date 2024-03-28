@@ -38,7 +38,7 @@ namespace Visitz.ViewModels
 		readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
 		[ObservableProperty]
-		public DateTime? caseloadLastUpdated;
+		public DateTime caseloadLastUpdated;
 
 		[ObservableProperty]
 		public DateTime maxDate = DateTimeExtensions.LocalNow;
@@ -65,7 +65,7 @@ namespace Visitz.ViewModels
             ApiDomain = settings.Api.ApiDomain;
             AuthenticationDomain = settings.Oidc.AuthenticationDomain;
 
-			CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId());
+			CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
         }
 
         partial void OnDryFireSubmitNotesChanged(bool value)
@@ -84,33 +84,33 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public void DeleteAccessToken()
+        public static void DeleteAccessToken()
         {
             if (DebugOptions.Enabled)
                 TokenHolder.DeleteAccessToken();
         }
 
         [RelayCommand]
-        public void DeleteRefreshToken()
+        public static void DeleteRefreshToken()
         {
             if (DebugOptions.Enabled)
                 TokenHolder.DeleteRefreshToken();
         }
 
         [RelayCommand]
-        public async Task ClearRealmData()
+        public static async Task ClearRealmData()
         {
             await DebugOptions.ClearRealmData();
         }
 
         [RelayCommand]
-        public async Task ClearSafetyAssessmentDraft()
+        public static async Task ClearSafetyAssessmentDraft()
         {
             await DebugOptions.ClearSafetyAssessmentDraftsRealm();
         }
 
         [RelayCommand]
-        public async Task Load620bData()
+        public static async Task Load620bData()
         {
             try
             {
@@ -123,7 +123,7 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async Task Logout()
+        public static async Task Logout()
         {
             if (DebugOptions.Enabled)
                 await OidcSession.LogoutAsync();
@@ -135,9 +135,10 @@ namespace Visitz.ViewModels
 			new SurveyFeedbackTracker(Preferences.Default).ClearAll();
 		}
 
-		partial void OnCaseloadLastUpdatedChanged(DateTime? value)
+		[RelayCommand]
+		public void ApplyCaseloadLastUpdated()
 		{
-			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), value ?? DateTime.MinValue);
+			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
 		}
 	}
 }
