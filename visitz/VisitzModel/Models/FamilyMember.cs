@@ -1,6 +1,7 @@
 using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
+using VisitzModel.Utilities;
 
 namespace VisitzModel.Models
 {
@@ -30,6 +31,10 @@ namespace VisitzModel.Models
 
         public string FullDisplayName => string.Join(" ",
             FirstName, MiddleName, LastName);
+
+		public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone);
+
+		public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone);
 
         public bool IsKeyPlayer => KeyPlayer == "Y";
 
