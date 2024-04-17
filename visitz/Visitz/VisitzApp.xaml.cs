@@ -1,4 +1,5 @@
-﻿using Oidc;
+using Oidc;
+using Oidc.Events;
 using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
@@ -24,6 +25,8 @@ public partial class VisitzApp : Application
 
 		Oidc.WinWorkaround.WebAuthenticator.PromptAuthentication += WebAuthenticator_PromptForCredentials;
 #endif
+
+		OidcSession.SessionChanged += OidcSession_SessionChanged;
 
         InitializeComponent();
 
@@ -126,4 +129,15 @@ public partial class VisitzApp : Application
     {
         await DebugOptionsPage.TryOpen();
     }
+
+	private void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
+	{
+		if (e is LogoutChangedEventArgs args && args.Success)
+			_ = ClearIcmData();
+	}
+
+	private static async Task ClearIcmData()
+	{
+		await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
+	}
 }
