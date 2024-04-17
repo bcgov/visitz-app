@@ -283,7 +283,7 @@ public partial class SessionViewModel
     private bool ShouldReopen()
     {
 #if IOS
-        return PresentationStyle == DialogStyle;
+        return true;
 #else
         return false;
 #endif
