@@ -103,6 +103,17 @@ namespace Oidc
             return logoutSuccess;
         }
 
+		public static async Task LocalLogoutAsync()
+		{
+#if DEBUG
+			ConsoleTrace.TraceMethod(typeof(OidcSession), $"Local logout initiated");
+#endif
+			await InvalidateSessionAsync();
+
+			var info = await OidcSessionInfo.GetAsync();
+			SessionChanged?.Invoke(info, new LogoutChangedEventArgs() { Success = true });
+		}
+
         public static async Task<OidcSessionInfo> GetInfoAsync()
         {
             return await OidcSessionInfo.GetAsync();
