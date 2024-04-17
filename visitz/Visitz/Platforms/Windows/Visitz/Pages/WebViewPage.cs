@@ -15,7 +15,7 @@ public partial class WebViewPage
 
 	readonly Uri _baseRedirectUri = new(new AppSettings().Oidc.RedirectUri);
 
-	Action SessionAction { get; set; }
+	Func<Task> SessionTask { get; set; }
 
 	partial void Setup()
 	{
@@ -47,16 +47,24 @@ public partial class WebViewPage
 		var webView = sender as WebView;
 		var coreWebView = await GetCoreWebView(webView);
 
-		coreWebView.NavigationCompleted += CompleteRedirectNavigation;
 		coreWebView.NavigationStarting += (sender, args) =>
 		{
 			if (args.Uri.StartsWith(_baseRedirectUri.Scheme, StringComparison.InvariantCultureIgnoreCase))
 			{
-				SessionAction = async () => await PerformCustomSchemeRedirect(args.Uri);
+				SessionTask = async () => await PerformCustomSchemeRedirect(args.Uri);
 			}
 			else if (args.Uri.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase))
 			{
-				SessionAction = async () => await ForceLogout(sender);
+				SessionTask = async () => await ForceLogout(sender);
+			}
+		};
+
+		coreWebView.NavigationCompleted += async (sender, args) =>
+		{
+			if (SessionTask != null)
+			{
+				await SessionTask();
+				await Navigator.Navigation.PopModalAsync();
 			}
 		};
 
@@ -72,16 +80,7 @@ public partial class WebViewPage
 		webView.Source = ViewModel.AuthUri;
 	}
 
-	public void CompleteRedirectNavigation(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
-	{
-		if (SessionAction != null && args.HttpStatusCode >= ((int)HttpStatusCode.InternalServerError))
-		{
-			SessionAction();
-			SessionAction = null;
-		}
-	}
-
-	private static async Task PerformCustomSchemeRedirect(string uri)
+	private static Task PerformCustomSchemeRedirect(string uri)
 	{
 		Process.Start(new ProcessStartInfo
 		{
@@ -89,7 +88,7 @@ public partial class WebViewPage
 			UseShellExecute = true,
 		});
 
-		await Navigator.Navigation.PopModalAsync();
+		return Task.CompletedTask;
 	}
 
 	// A workaround implementation to forcibly logout the user on Windows.
@@ -102,7 +101,6 @@ public partial class WebViewPage
 
 		await CancelTokenSource?.CancelAsync();
 		await OidcSession.LocalLogoutAsync();
-		await Navigator.Navigation.PopModalAsync();
 	}
 
 	private void CloseButton_Closing(object sender, ClosingEventArgs e)
