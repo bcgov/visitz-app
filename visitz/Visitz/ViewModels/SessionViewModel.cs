@@ -68,7 +68,7 @@ public partial class SessionViewModel : VisitzViewModel
         SessionInfo = sender as OidcSessionInfo;
         await ApplyLayout();
 
-		if (e is LogoutChangedEventArgs args && args.Success && ShouldReopen())
+		if (e is LogoutChangedEventArgs && ShouldReopen())
 			_ = ReopenSessionPage();
 
 	}
