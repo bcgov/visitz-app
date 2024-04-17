@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
+using Oidc.Events;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Pages;
@@ -50,23 +51,27 @@ public partial class SessionViewModel : VisitzViewModel
         SessionInfo = await OidcSessionInfo.GetAsync();
         await ApplyLayout();
 
-        OidcSession.SessionChanged += VisitzSession_SessionChanged;
+        OidcSession.SessionChanged += OidcSession_SessionChanged;
 
         BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
     }
 
     public override void Destroy()
     {
-        OidcSession.SessionChanged -= VisitzSession_SessionChanged;
+        OidcSession.SessionChanged -= OidcSession_SessionChanged;
 
         base.Destroy();
     }
 
-    private async void VisitzSession_SessionChanged(object sender, EventArgs e)
+    private async void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
     {
         SessionInfo = sender as OidcSessionInfo;
         await ApplyLayout();
-    }
+
+		if (e is LogoutChangedEventArgs args && args.Success && ShouldReopen())
+			_ = ReopenSessionPage();
+
+	}
 
     private async Task ApplyLayout()
     {
@@ -112,7 +117,7 @@ public partial class SessionViewModel
 
             if (SessionInfo.HasBasicAccessRole())
             {
-                await Navigator.Navigation.PopModalAsync();
+				await Navigator.PopAllModalsAsync(true);
                 WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
             }
         }
@@ -188,12 +193,12 @@ public partial class SessionViewModel
     }
 
     [RelayCommand]
-	public void TryLogout()
+	public static void TryLogout()
     {
 		_ = PromptAndLogoutAsync();
     }
 
-	private async Task PromptAndLogoutAsync()
+	private static async Task PromptAndLogoutAsync()
 	{
         if (await PromptLogout())
             await DoLogoutAsync();
@@ -208,19 +213,16 @@ public partial class SessionViewModel
             LocalizedStrings.Cancel);
     }
 
-    private async Task DoLogoutAsync()
+    private static async Task DoLogoutAsync()
     {
-        bool reopen = ShouldReopen();
-
         await OidcSession.LogoutAsync();
-        await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
-
-        if (reopen)
-        {
-            await Navigator.Navigation.PopModalAsync();
-            await Navigator.GoToPage<SessionPage>(modal: true);
-        }
     }
+
+	private static async Task ReopenSessionPage(bool modal = true)
+	{
+		await Navigator.PopAllModalsAsync(true);
+		await Navigator.GoToPage<SessionPage>(modal: modal);
+	}
 
     [RelayCommand]
     private static void RequestAccess()
