@@ -1,6 +1,6 @@
 <Project 
-	InitialTargets="CopyAppSettings;SetAppBuildTypeColor" 
-	DefaultTargets="DoAppSettings" 
+	InitialTargets="CopyAppSettings;SetAppxManifestVersion;SetAppBuildTypeColor"
+	DefaultTargets="DoAppSettings"
 	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release' And '$(DeploymentEnvironment)' != ''">
@@ -107,9 +107,11 @@
 		<Namespace>
 			<Namespace Prefix="dn" Uri="http://schemas.microsoft.com/dotnet/2021/maui" />
 			<Namespace Prefix="x" Uri="http://schemas.microsoft.com/winfx/2009/xaml" />
+			<Namespace Prefix="appx" Uri="http://schemas.microsoft.com/appx/manifest/foundation/windows10" />
 		</Namespace>
 		
 		<VisitzColorsXamlPath>$(MSBuildProjectDirectory)\Resources\Styles\Colors.xaml</VisitzColorsXamlPath>
+		<AppxManifestPath>$(MSBuildProjectDirectory)\Platforms\Windows\Package.appxmanifest</AppxManifestPath>
 	</PropertyGroup>
 
 	<Target 
@@ -123,6 +125,20 @@
 			Value="$(BuildTypeColor)"
 			Query="/dn:ResourceDictionary/dn:Color[@x:Key='BuildBarBackgroundColor']"
 			Namespaces="$(Namespace)" />
+	</Target>
+
+	<Target
+		Name="SetAppxManifestVersion"
+		Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'">
+
+		<Message Importance="high" Text="Setting AppxManifest version '$(ApplicationDisplayVersion).0'" />
+
+		<XmlPoke
+			XmlInputPath="$(AppxManifestPath)"
+			Value="$(ApplicationDisplayVersion).0"
+			Query="/appx:Package/appx:Identity/@Version"
+			Namespaces="$(Namespace)" />
+
 	</Target>
 
 </Project>
