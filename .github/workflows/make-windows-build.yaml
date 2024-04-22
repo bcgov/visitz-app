@@ -67,7 +67,7 @@ jobs:
             --configuration Release `
             -p:ApplicationVersion=${{ github.run_number }} `
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} `
-            -p:PackageCertificateThumbprint=${{ secrets.CERT_THUMBPRINT }} `
+            -p:PackageCertificateThumbprint=${{ secrets.WINDOWS_RELEASE_CERT_THUMBPRINT }} `
             -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} `
             -p:RuntimeIdentifierOverride=win10-x64 `
             -p:UseAppSettings=true `
