@@ -1,0 +1,92 @@
+name: Build Windows release package
+
+run-name: Build Windows release package (${{ github.event.inputs.environment }})
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to build package for'
+        type: environment
+        required: true
+
+env:
+  BASE_PROJPATH: "./visitz"
+  PROJPATH: "visitz/Visitz"
+  DOTNET_SDK_VERSION: "8.0.203" # see workflows README
+  MAUI_WORKLOAD_VERSION: "8.0.7" # see workflows README
+
+jobs:
+
+  build-windows-package:
+    name: Building and uploading MSIX to GitHub
+    runs-on: windows-2022
+    environment: ${{ inputs.environment }}
+    timeout-minutes: 40
+    env:
+      # TODO: read "MCFD Mobility" app name from MSBuild instead
+      OUTPUT_NAME: "MCFD Mobility-Windows-${{ github.event.inputs.environment }}-build_${{ github.run_number }}"
+      OUTPUT_PATH: "/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+
+      - name: Force use .NET SDK ${{ env.DOTNET_SDK_VERSION }}
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: |
+          (Get-Content .\global.json.template).Replace('DOTNET_SDK_VERSION', '${{ env.DOTNET_SDK_VERSION }}') | Set-Content .\global.json
+
+      - name: Prepare NuGet
+        run: |
+          dotnet --version
+          dotnet nuget locals all --clear
+
+      - name: Cache .NET dependencies
+        uses: actions/cache@v4
+        if: always()
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workload
+        working-directory: ${{ env.BASE_PROJPATH }}
+        run: |
+          dotnet --version
+          dotnet workload install maui --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_WORKLOAD_VERSION }}.json
+
+      - name: .NET release build for Windows (${{ inputs.environment }})
+        run: |
+          dotnet publish $PROJPATH `
+            --framework net8.0-windows10.0.19041.0 `
+            --configuration Release `
+            -p:ApplicationVersion=${{ github.run_number }} `
+            -p:DeploymentEnvironment=${{ vars.ENV_NAME }} `
+            -p:PackageCertificateThumbprint=${{ secrets.CERT_THUMBPRINT }} `
+            -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} `
+            -p:RuntimeIdentifierOverride=win10-x64 `
+            -p:UseAppSettings=true `
+            -p:Oidc_AuthenticationDomain=${{ vars.AUTHENTICATION_DOMAIN }} `
+            -p:Oidc_ClientId=${{ vars.KEYCLOAK_CLIENT_ID }} `
+            -p:Oidc_RedirectUri=${{ vars.REDIRECT_URI }} `
+            -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }} `
+            -p:ContactInfo_MailToAuthorize=${{ secrets.MAILTO_AUTHORIZE }} `
+            -p:ContactInfo_AccessRequestFormUrl="${{ vars.ACCESS_REQUEST_FORM_URL }}" `
+            -p:ContactInfo_FeedbackSurveyUrl="${{ vars.FEEDBACK_SURVEY_URL }}" `
+            -p:Debug_EnableDebugOptions=${{ vars.DEBUG_OPTIONS }}
+
+      - name: Prepare output package
+        run: |
+          cd ${{ env.PROJPATH }}\${{ env.OUTPUT_PATH }}
+          mv **\*.msix ".\$OUTPUT_NAME.msix"
+
+      - name: Upload MSIX (${{ inputs.environment }})
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: ${{ env.OUTPUT_NAME }}
+          path: ${{ env.PROJPATH }}\${{ env.OUTPUT_PATH }}
