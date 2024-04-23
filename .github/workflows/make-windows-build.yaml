@@ -15,6 +15,7 @@ env:
   PROJPATH: "visitz/Visitz"
   DOTNET_SDK_VERSION: "8.0.203" # see workflows README
   MAUI_WORKLOAD_VERSION: "8.0.7" # see workflows README
+  CERT_FILEPATH: "release-cert.pfx"
 
 jobs:
 
@@ -29,6 +30,22 @@ jobs:
       OUTPUT_PATH: "/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/"
     steps:
       - uses: actions/checkout@v4
+
+      - name: Decode signing certificate
+        env:
+          certFilepath: ${{ env.CERT_FILEPATH }}
+        run: |
+          $encodedFilepath = "encoded-cert.txt"
+          Set-Content $encodedFilepath -Value "${{ secrets.WINDOWS_RELEASE_CERT_BASE64 }}"
+          certutil.exe -decode $encodedFilepath $certFilepath
+
+      - name: Import signing certificate
+        env:
+          certFilepath: ${{ env.CERT_FILEPATH }}
+        run: |
+          $storeLoc = "Cert:\CurrentUser\My\"
+          $pw = ConvertTo-SecureString -String "${{ secrets.WINDOWS_RELEASE_CERT_PASSWORD }}" -AsPlainText -Force
+          Import-PfxCertificate -FilePath $certFilepath -CertStoreLocation $storeLoc -Password $pw
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4.0.0
