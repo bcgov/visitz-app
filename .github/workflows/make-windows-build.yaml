@@ -81,7 +81,7 @@ jobs:
         uses: action-pack/increment@v2
         with:
           name: "OUTPUT_BUILD_NUMBER"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.INCREMENT_TOKEN }}
 
       - name: .NET release build for Windows (${{ inputs.environment }})
         run: |
