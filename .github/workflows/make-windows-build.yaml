@@ -47,6 +47,12 @@ jobs:
           $pw = ConvertTo-SecureString -String "${{ secrets.WINDOWS_RELEASE_CERT_PASSWORD }}" -AsPlainText -Force
           Import-PfxCertificate -FilePath $env:certFilepath -CertStoreLocation $storeLoc -Password $pw
 
+      - name: Increment build number
+        uses: action-pack/increment@v2
+        with:
+          name: "OUTPUT_BUILD_NUMBER"
+          token: ${{ secrets.INCREMENT_TOKEN }}
+
       - name: Force use .NET SDK ${{ env.DOTNET_SDK_VERSION }}
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
@@ -76,12 +82,6 @@ jobs:
         run: |
           dotnet --version
           dotnet workload install maui --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_WORKLOAD_VERSION }}.json
-
-      - name: Increment build number
-        uses: action-pack/increment@v2
-        with:
-          name: "OUTPUT_BUILD_NUMBER"
-          token: ${{ secrets.INCREMENT_TOKEN }}
 
       - name: .NET release build for Windows (${{ inputs.environment }})
         run: |
