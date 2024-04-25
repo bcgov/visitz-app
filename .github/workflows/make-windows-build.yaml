@@ -51,7 +51,7 @@ jobs:
         run: |
           $newBuildNumber = ${{ github.run_number }} + ${{ vars.WINDOWS_BUILD_NUMBER_OFFSET }}
           echo "ADJUSTED_BUILD_NUMBER=$($newBuildNumber)" >> $env:GITHUB_ENV
-          $env:OUTPUT_NAME += $newBuildNumber
+          echo "OUTPUT_NAME=$($env:OUTPUT_NAME + $newBuildNumber)" >> $env:GITHUB_ENV
           echo "New OUTPUT_NAME: $env:OUTPUT_NAME"
 
       - name: Force use .NET SDK ${{ env.DOTNET_SDK_VERSION }}
