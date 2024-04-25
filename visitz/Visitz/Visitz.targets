@@ -132,11 +132,20 @@
 		Name="SetAppxManifestValues"
 		Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'">
 
-		<Message Importance="high" Text="Setting AppxManifest version '$(ApplicationDisplayVersion).0'" />
+		<!--
+
+			Windows docs for version numbering (https://learn.microsoft.com/en-gb/windows/apps/publish/publish-your-app/package-version-numbering?pivots=store-installer-msix#version-numbering-for-windows10-and-11-packages)
+			mention that the fourth (PATCH) component of the version string should be left as 0 for the Windows store, but
+			MAUI developers mention using ApplicationVersion instead (https://github.com/dotnet/maui/pull/2704#issue-1007563823).
+			We'll go with the MAUI route.
+
+		 -->
+
+		<Message Importance="high" Text="Setting AppxManifest version '$(ApplicationDisplayVersion).$(ApplicationVersion)'" />
 
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
-			Value="$(ApplicationDisplayVersion).0"
+			Value="$(ApplicationDisplayVersion).$(ApplicationVersion)"
 			Query="/appx:Package/appx:Identity/@Version"
 			Namespaces="$(Namespace)" />
 
