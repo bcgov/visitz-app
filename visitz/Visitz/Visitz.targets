@@ -135,7 +135,7 @@
 		<!--
 
 			Windows docs for version numbering (https://learn.microsoft.com/en-gb/windows/apps/publish/publish-your-app/package-version-numbering?pivots=store-installer-msix#version-numbering-for-windows10-and-11-packages)
-			mention that the fourth (PATCH) component of the version string should be left as 0 for the Windows store, but
+			mention that the fourth (BUILD) component of the version string should be left as 0 for the Windows store, but
 			MAUI developers mention using ApplicationVersion instead (https://github.com/dotnet/maui/pull/2704#issue-1007563823).
 			We'll go with the MAUI route.
 
