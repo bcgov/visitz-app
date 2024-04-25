@@ -88,7 +88,7 @@ jobs:
           dotnet publish $env:PROJPATH `
             --framework net8.0-windows10.0.19041.0 `
             --configuration Release `
-            -p:ApplicationVersion=$env:ADJUSTED_BUILD_NUMBER `
+            -p:ApplicationVersion=${{ env.ADJUSTED_BUILD_NUMBER }} `
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} `
             -p:PackageCertificateThumbprint=${{ secrets.WINDOWS_RELEASE_CERT_THUMBPRINT }} `
             -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} `
