@@ -106,4 +106,4 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{ env.OUTPUT_NAME }}
-          path: ${{ env.PROJPATH }}\${{ env.OUTPUT_PATH }}
+          path: ${{ env.PROJPATH }}\${{ env.OUTPUT_PATH }}\$OUTPUT_NAME.msix
