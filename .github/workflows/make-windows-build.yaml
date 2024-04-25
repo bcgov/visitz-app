@@ -77,12 +77,18 @@ jobs:
           dotnet --version
           dotnet workload install maui --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_WORKLOAD_VERSION }}.json
 
+      - name: Increment build number
+        uses: action-pack/increment@v2
+        with:
+          name: "OUTPUT_BUILD_NUMBER"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: .NET release build for Windows (${{ inputs.environment }})
         run: |
           dotnet publish $env:PROJPATH `
             --framework net8.0-windows10.0.19041.0 `
             --configuration Release `
-            -p:ApplicationVersion=${{ github.run_number }} `
+            -p:ApplicationVersion=${{ vars.OUTPUT_BUILD_NUMBER }} `
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} `
             -p:PackageCertificateThumbprint=${{ secrets.WINDOWS_RELEASE_CERT_THUMBPRINT }} `
             -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} `
