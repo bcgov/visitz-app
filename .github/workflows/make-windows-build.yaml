@@ -100,10 +100,10 @@ jobs:
       - name: Prepare output package
         run: |
           cd ${{ env.PROJPATH }}\${{ env.OUTPUT_PATH }}
-          mv **\Visitz_*.msix ".\$OUTPUT_NAME.msix"
+          mv **\Visitz_*.msix ".\${{ env.OUTPUT_NAME }}.msix"
 
       - name: Upload MSIX (${{ inputs.environment }})
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{ env.OUTPUT_NAME }}
-          path: ${{ env.PROJPATH }}\${{ env.OUTPUT_PATH }}\$OUTPUT_NAME.msix
+          path: ${{ env.PROJPATH }}\${{ env.OUTPUT_PATH }}\${{ env.OUTPUT_NAME }}.msix
