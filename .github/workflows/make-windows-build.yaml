@@ -79,7 +79,7 @@ jobs:
 
       - name: .NET release build for Windows (${{ inputs.environment }})
         run: |
-          dotnet publish $PROJPATH `
+          dotnet publish $env:PROJPATH `
             --framework net8.0-windows10.0.19041.0 `
             --configuration Release `
             -p:ApplicationVersion=${{ github.run_number }} `
