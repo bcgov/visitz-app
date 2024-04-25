@@ -1,6 +1,6 @@
 name: Build Windows release package
 
-run-name: Build Windows release package (${{ github.event.inputs.environment }}) (build ${{ env.ADJUSTED_BUILD_NUMBER }})
+run-name: Build Windows release package (${{ github.event.inputs.environment }})
 
 on:
   workflow_dispatch:
