@@ -1,6 +1,6 @@
 <Project 
-	InitialTargets="CopyAppSettings;SetAppBuildTypeColor" 
-	DefaultTargets="DoAppSettings" 
+	InitialTargets="CopyAppSettings;SetAppxManifestValues;SetAppBuildTypeColor"
+	DefaultTargets="DoAppSettings"
 	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release' And '$(DeploymentEnvironment)' != ''">
@@ -107,9 +107,12 @@
 		<Namespace>
 			<Namespace Prefix="dn" Uri="http://schemas.microsoft.com/dotnet/2021/maui" />
 			<Namespace Prefix="x" Uri="http://schemas.microsoft.com/winfx/2009/xaml" />
+			<Namespace Prefix="appx" Uri="http://schemas.microsoft.com/appx/manifest/foundation/windows10" />
+			<Namespace Prefix="uap" Uri="http://schemas.microsoft.com/appx/manifest/uap/windows10" />
 		</Namespace>
 		
 		<VisitzColorsXamlPath>$(MSBuildProjectDirectory)\Resources\Styles\Colors.xaml</VisitzColorsXamlPath>
+		<AppxManifestPath>$(MSBuildProjectDirectory)\Platforms\Windows\Package.appxmanifest</AppxManifestPath>
 	</PropertyGroup>
 
 	<Target 
@@ -123,6 +126,43 @@
 			Value="$(BuildTypeColor)"
 			Query="/dn:ResourceDictionary/dn:Color[@x:Key='BuildBarBackgroundColor']"
 			Namespaces="$(Namespace)" />
+	</Target>
+
+	<Target
+		Name="SetAppxManifestValues"
+		Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'">
+
+		<!--
+
+			Windows docs for version numbering (https://learn.microsoft.com/en-gb/windows/apps/publish/publish-your-app/package-version-numbering?pivots=store-installer-msix#version-numbering-for-windows10-and-11-packages)
+			mention that the fourth (BUILD) component of the version string should be left as 0 for the Windows store, but
+			MAUI developers mention using ApplicationVersion instead (https://github.com/dotnet/maui/pull/2704#issue-1007563823).
+			We'll go with the MAUI route.
+
+		 -->
+
+		<Message Importance="high" Text="Setting AppxManifest version '$(ApplicationDisplayVersion).$(ApplicationVersion)'" />
+
+		<XmlPoke
+			XmlInputPath="$(AppxManifestPath)"
+			Value="$(ApplicationDisplayVersion).$(ApplicationVersion)"
+			Query="/appx:Package/appx:Identity/@Version"
+			Namespaces="$(Namespace)" />
+
+		<Message Importance="high" Text="Setting AppxManifest background colors to '$(BuildTypeColor)'" />
+
+		<XmlPoke
+			XmlInputPath="$(AppxManifestPath)"
+			Value="$(BuildTypeColor)"
+			Query="/appx:Package/appx:Applications/appx:Application/uap:VisualElements/@BackgroundColor"
+			Namespaces="$(Namespace)" />
+
+		<XmlPoke
+			XmlInputPath="$(AppxManifestPath)"
+			Value="$(BuildTypeColor)"
+			Query="/appx:Package/appx:Applications/appx:Application/uap:VisualElements/uap:SplashScreen/@BackgroundColor"
+			Namespaces="$(Namespace)" />
+
 	</Target>
 
 </Project>
