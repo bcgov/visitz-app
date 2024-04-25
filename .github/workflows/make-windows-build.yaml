@@ -26,7 +26,7 @@ jobs:
     timeout-minutes: 40
     env:
       # TODO: read "MCFD Mobility" app name from MSBuild instead
-      OUTPUT_NAME: "MCFD Mobility-Windows-${{ github.event.inputs.environment }}-build_${{ github.run_number }}"
+      OUTPUT_NAME: "MCFD Mobility-Windows-${{ github.event.inputs.environment }}-build_"
       OUTPUT_PATH: "/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/"
     steps:
       - uses: actions/checkout@v4
@@ -48,8 +48,11 @@ jobs:
           Import-PfxCertificate -FilePath $env:certFilepath -CertStoreLocation $storeLoc -Password $pw
 
       - name: Offset build number
-        run: 
-          echo "ADJUSTED_BUILD_NUMBER=$(${{ github.run_number }} + ${{ vars.WINDOWS_BUILD_NUMBER_OFFSET }})" >> $env:GITHUB_ENV
+        run: |
+          $newBuildNumber = ${{ github.run_number }} + ${{ vars.WINDOWS_BUILD_NUMBER_OFFSET }}
+          echo "ADJUSTED_BUILD_NUMBER=$($newBuildNumber)" >> $env:GITHUB_ENV
+          $env:OUTPUT_NAME += $newBuildNumber
+          echo "New OUTPUT_NAME: $env:OUTPUT_NAME"
 
       - name: Force use .NET SDK ${{ env.DOTNET_SDK_VERSION }}
         working-directory: ${{ env.BASE_PROJPATH }}
