@@ -1,6 +1,6 @@
 name: Build Windows release package
 
-run-name: Build Windows release package (${{ github.event.inputs.environment }})
+run-name: Build Windows release package (${{ github.event.inputs.environment }}) (build ${{ env.ADJUSTED_BUILD_NUMBER }})
 
 on:
   workflow_dispatch:
@@ -47,11 +47,9 @@ jobs:
           $pw = ConvertTo-SecureString -String "${{ secrets.WINDOWS_RELEASE_CERT_PASSWORD }}" -AsPlainText -Force
           Import-PfxCertificate -FilePath $env:certFilepath -CertStoreLocation $storeLoc -Password $pw
 
-      - name: Increment build number
-        uses: action-pack/increment@v2
-        with:
-          name: "OUTPUT_BUILD_NUMBER"
-          token: ${{ secrets.INCREMENT_TOKEN }}
+      - name: Offset build number
+        run: 
+          echo "ADJUSTED_BUILD_NUMBER=$(${{ github.run_number }} + ${{ vars.WINDOWS_BUILD_NUMBER_OFFSET }})" >> $env:GITHUB_ENV
 
       - name: Force use .NET SDK ${{ env.DOTNET_SDK_VERSION }}
         working-directory: ${{ env.BASE_PROJPATH }}
@@ -88,7 +86,7 @@ jobs:
           dotnet publish $env:PROJPATH `
             --framework net8.0-windows10.0.19041.0 `
             --configuration Release `
-            -p:ApplicationVersion=${{ vars.OUTPUT_BUILD_NUMBER }} `
+            -p:ApplicationVersion=$env:ADJUSTED_BUILD_NUMBER `
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} `
             -p:PackageCertificateThumbprint=${{ secrets.WINDOWS_RELEASE_CERT_THUMBPRINT }} `
             -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} `
