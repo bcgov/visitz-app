@@ -28,6 +28,9 @@ namespace VisitzModel.Models
         public string ContactPostalCode { get; set; }
         public string ContactProvinceState { get; set; }
         public string ContactCountry { get; set; }
+		public bool? SubjectFlag { get; set; }
+		public bool? ParentCaregiver { get; set; }
+		public bool? SubjectChild { get; set; }
 
         public string FullDisplayName => string.Join(" ",
             FirstName, MiddleName, LastName);
@@ -83,6 +86,9 @@ namespace VisitzModel.Models
                 ContactPostalCode = familyMember.ContactPostalCode,
                 ContactProvinceState = familyMember.ContactProvinceState,
                 ContactCountry = familyMember.ContactCountry,
+				SubjectFlag = familyMember.SubjectFlag.ParseEmptyWordTruthiness(),
+				ParentCaregiver = familyMember.ParentCaregiver.ParseEmptyWordTruthiness(),
+				SubjectChild = familyMember.SubjectChild.ParseEmptyWordTruthiness(),
             };
         }
 
