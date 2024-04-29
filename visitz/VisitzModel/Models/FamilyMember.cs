@@ -52,6 +52,21 @@ namespace VisitzModel.Models
             .TrimEnd([',', ' ', '-'])
             .TrimEnd([',', ' ', '-']);
 
+		public int SortPositionAsc
+		{
+			get
+			{
+				if (IsKeyPlayer)
+					return 0;
+				else if (ParentCaregiver ?? false)
+					return 1;
+				else if (SubjectChild ?? false)
+					return 2;
+				else
+					return int.MaxValue;
+			}
+		}
+
 #pragma warning disable SS003 // The operands of a divisive expression are both integers and result in an implicit rounding.
 		public int? Age => DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
 					? (DateTimeExtensions.LocalNow - dateOfBirth).Days / 365 // Integer division is intentional
