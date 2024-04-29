@@ -1,4 +1,4 @@
-﻿namespace VisitzModel.Extensions;
+namespace VisitzModel.Extensions;
 
 public static class StringExtensions
 {
@@ -32,4 +32,12 @@ public static class StringExtensions
     {
         return text != null && text.Trim().StartsWith("Y", StringComparison.CurrentCultureIgnoreCase);
     }
+
+	public static bool? ParseEmptyWordTruthiness(this string text)
+	{
+		if (text == null || text.Trim().Length == 0)
+			return null;
+		else
+			return ParseWordTruthiness(text);
+	}
 }

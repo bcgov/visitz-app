@@ -1,5 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using VisitzModel.Models;
+using VisitzModel.Sorting;
 
 namespace Visitz.ViewModels.Entity;
 
@@ -15,6 +16,6 @@ public partial class EntityContactsViewModel : VisitzViewModel, ICaseloadItemHol
     {
         base.Create();
 
-        Contacts = CaseloadItem.FamilyMembers;
+        Contacts = CaseloadItem.FamilyMembers.Order(new FamilyMemberComparer());
     }
 }
