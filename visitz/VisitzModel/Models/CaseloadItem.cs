@@ -155,6 +155,13 @@ namespace VisitzModel.Models
                 .Filter($"TRUEPREDICATE DISTINCT({subtype}) SORT({subtype} {sortDirection})");
         }
 
+		/// <summary>
+		/// Adds new CaseloadItems to the Realm and cascade-deletes any pre-existing CaseloadItems not found in the incoming list.
+		/// The cascade deletion only extends to objects within this Realm—it does not affect any drafts the user may have.
+		/// </summary>
+		/// <param name="realm"></param>
+		/// <param name="newCaseloadItems"></param>
+		/// <returns></returns>
 		public static async Task ReplaceCaseloadWithAsync(Realm realm, IEnumerable<CaseloadItem> newCaseloadItems)
 		{
 			var currentCaseload = realm.All<CaseloadItem>();
@@ -163,10 +170,18 @@ namespace VisitzModel.Models
 			await realm.WriteAsync(() =>
 			{
 				foreach (var itemToDelete in itemsToDelete)
-					realm.Remove(itemToDelete);
+					CascadeDelete(realm, itemToDelete);
 
 				realm.Add(newCaseloadItems, update: true);
 			});
+		}
+
+		static void CascadeDelete(Realm realm, CaseloadItem itemToDelete)
+		{
+			foreach (var note in NoteItem.GetNotesByEntityId(realm, itemToDelete.CaseIncidentNumber))
+				realm.Remove(note);
+
+			realm.Remove(itemToDelete);
 		}
 
 		static string CaseloadSelector(CaseloadItem caseloadItem) => caseloadItem.CaseIncidentNumber;
