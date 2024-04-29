@@ -7,7 +7,12 @@ namespace VisitzModel.Models
 {
     public partial class FamilyMember : IEmbeddedObject
     {
-        public string ContactId { get; set; }
+		public static readonly int KeyPlayerSortPosition = 0;
+		public static readonly int ParentCaregiverSortPosition = 1;
+		public static readonly int SubjectChildSortPosition = 2;
+		public static readonly int OtherSortPosition = int.MaxValue;
+
+		public string ContactId { get; set; }
         public string KeyPlayer { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -57,13 +62,13 @@ namespace VisitzModel.Models
 			get
 			{
 				if (IsKeyPlayer)
-					return 0;
+					return KeyPlayerSortPosition;
 				else if (ParentCaregiver ?? false)
-					return 1;
+					return ParentCaregiverSortPosition;
 				else if (SubjectChild ?? false)
-					return 2;
+					return SubjectChildSortPosition;
 				else
-					return int.MaxValue;
+					return OtherSortPosition;
 			}
 		}
 
