@@ -43,16 +43,7 @@ namespace Visitz.Services
             caseloadContent = FilterNonCasesAndIncidents(caseloadContent);
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            var currentCaseload = realm.All<CaseloadItem>();
-            var deletedCaseload = currentCaseload.ExceptBy(caseloadContent.Select(CaseloadSelector), CaseloadSelector);
-
-            await realm.WriteAsync(() =>
-            {
-                foreach (var deletedCaseloadItem in deletedCaseload)
-                    realm.Remove(deletedCaseloadItem);
-
-                realm.Add(caseloadContent, update: true);
-            });
+            await CaseloadItem.ReplaceCaseloadWithAsync(realm, caseloadContent);
 
             ResultCode = Result.Successful;
 			LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow);
@@ -77,7 +68,5 @@ namespace Visitz.Services
 				return type == EntityType.Case || type == EntityType.Incident;
 			});
         }
-
-        static string CaseloadSelector(CaseloadItem caseloadItem) => caseloadItem.CaseIncidentNumber;
     }
 }

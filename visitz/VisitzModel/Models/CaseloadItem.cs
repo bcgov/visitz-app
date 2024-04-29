@@ -154,5 +154,21 @@ namespace VisitzModel.Models
                 .All<CaseloadItem>()
                 .Filter($"TRUEPREDICATE DISTINCT({subtype}) SORT({subtype} {sortDirection})");
         }
-    }
+
+		public static async Task ReplaceCaseloadWithAsync(Realm realm, IEnumerable<CaseloadItem> newCaseloadItems)
+		{
+			var currentCaseload = realm.All<CaseloadItem>();
+			var itemsToDelete = currentCaseload.ExceptBy(newCaseloadItems.Select(CaseloadSelector), CaseloadSelector);
+
+			await realm.WriteAsync(() =>
+			{
+				foreach (var itemToDelete in itemsToDelete)
+					realm.Remove(itemToDelete);
+
+				realm.Add(newCaseloadItems, update: true);
+			});
+		}
+
+		static string CaseloadSelector(CaseloadItem caseloadItem) => caseloadItem.CaseIncidentNumber;
+	}
 }
