@@ -643,4 +643,7 @@ If that doesn't work, request access by emailing </value>
   <data name="ServiceOffice" xml:space="preserve">
     <value>Service office</value>
   </data>
+  <data name="Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
 </root>

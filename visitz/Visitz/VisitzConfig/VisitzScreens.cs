@@ -19,7 +19,10 @@ namespace Visitz.VisitzConfig
 
             builder.Services.AddSingleton<NavRailViewModel>();
 
-            builder.Services.AddSingleton<CaseloadContainerView>();
+			builder.Services.AddTransient<DataRefreshButton>();
+			builder.Services.AddTransient<DataRefreshViewModel>();
+
+			builder.Services.AddSingleton<CaseloadContainerView>();
             builder.Services.AddSingleton<WatermarkView>();
 
             builder.Services.AddSingleton<CaseloadView>();

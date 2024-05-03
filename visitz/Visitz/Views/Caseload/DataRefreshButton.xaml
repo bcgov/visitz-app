@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:icons="clr-namespace:Visitz.FontIcons"
+	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+	xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Caseload.DataRefreshButton"
+	x:DataType="viewModels:DataRefreshViewModel">
+
+	<VerticalStackLayout>
+		<Label
+			HorizontalOptions="Center"
+			Text="{Binding SuperMessage}"
+			TextColor="White"
+			IsVisible="{Binding SuperMessageVisible}" />
+
+		<controls:FontIconButton
+			Style="{StaticResource FontIconButtonDarkMode}"
+			Size="Larger"
+			HorizontalOptions="Center"
+			FontFamily="MaterialIconsRoundedUnfilled"
+			Command="{Binding RefreshDataCommand}"
+			Text="{Static icons:MaterialIcons.Download_for_offline}" />
+	</VerticalStackLayout>
+</views:ViewModelContentView>
