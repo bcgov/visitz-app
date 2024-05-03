@@ -64,10 +64,4 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         await Navigator.GoToPage<SessionPage>(modal: true);
     }
-
-    [RelayCommand]
-    public static void RefreshCaseload()
-    {
-        WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
-    }
 }
