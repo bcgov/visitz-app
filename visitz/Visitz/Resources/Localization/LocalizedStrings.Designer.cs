@@ -277,6 +277,28 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device offline.
+        /// </summary>
+        public static string DeviceOffline {
+            get {
+                return ResourceManager.GetString("DeviceOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device is not connected to the internet right now.
+        ///
+        ///Your caseload and any drafts you&apos;ve made are still available on this device and you can continue to work on them.
+        ///
+        ///When this device is online again you can refresh your caseload or publish any work to ICM..
+        /// </summary>
+        public static string DeviceOfflineDesc {
+            get {
+                return ResourceManager.GetString("DeviceOfflineDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard.
         /// </summary>
         public static string Discard {
@@ -666,6 +688,15 @@ namespace Visitz.Resources.Localization {
         public static string MarkAllThatApply {
             get {
                 return ResourceManager.GetString("MarkAllThatApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More info.
+        /// </summary>
+        public static string MoreInfo {
+            get {
+                return ResourceManager.GetString("MoreInfo", resourceCulture);
             }
         }
         
@@ -1584,6 +1615,15 @@ namespace Visitz.Resources.Localization {
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to reach ICM (device offline).
+        /// </summary>
+        public static string UnableToReachIcmDeviceOffline {
+            get {
+                return ResourceManager.GetString("UnableToReachIcmDeviceOffline", resourceCulture);
             }
         }
         

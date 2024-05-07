@@ -14,6 +14,17 @@ namespace Visitz.Services
 
         protected override sealed async Task RunServiceAsync()
         {
+			if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+			{
+				SnackbarHandler.ShowTextWithDetails(
+					LocalizedStrings.UnableToReachIcmDeviceOffline,
+					LocalizedStrings.DeviceOffline,
+					LocalizedStrings.DeviceOfflineDesc);
+
+				ResultCode = Result.Cancelled;
+				return;
+			}
+
             try
             {
 				var cancelTokenSource = new CancellationTokenSource();
