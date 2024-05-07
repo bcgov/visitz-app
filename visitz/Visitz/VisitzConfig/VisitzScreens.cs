@@ -19,6 +19,9 @@ namespace Visitz.VisitzConfig
 
             builder.Services.AddSingleton<NavRailViewModel>();
 
+			builder.Services.AddTransient<VisitzSnackbar>();
+			builder.Services.AddTransient<VisitzSnackbarViewModel>();
+
 			builder.Services.AddTransient<DataRefreshButton>();
 			builder.Services.AddTransient<DataRefreshViewModel>();
 

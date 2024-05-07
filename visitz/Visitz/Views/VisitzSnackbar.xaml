@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+	xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.VisitzSnackbar"
+	x:DataType="viewModels:VisitzSnackbarViewModel"
+	BackgroundColor="Transparent">
+
+	<Border
+		VerticalOptions="Start"
+		HorizontalOptions="Start"
+		BackgroundColor="{StaticResource BC_TextColor}"
+		Stroke="Transparent"
+		StrokeThickness="0"
+		StrokeShape="RoundRectangle 4">
+		
+		<HorizontalStackLayout
+			Padding="16,8,0,8"
+			Spacing="4">
+			
+			<Label
+				Text="{Binding Message}"
+				TextColor="White"
+				VerticalOptions="Center" 
+				HorizontalOptions="Start" />
+
+			<Button
+				Style="{StaticResource SecondaryButtonDark}"
+				BorderWidth="0"
+				TextColor="White"
+				FontFamily="BCSansBold"
+				Command="{Binding ActionButtonSelectedCommand}"
+				Text="{Binding ActionText}" />
+		</HorizontalStackLayout>
+	</Border>
+</views:ViewModelContentView>
