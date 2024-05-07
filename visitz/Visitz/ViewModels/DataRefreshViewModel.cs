@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Resources.Localization;
 using Visitz.Services;
 
 namespace Visitz.ViewModels;
@@ -35,7 +36,7 @@ internal partial class DataRefreshViewModel : VisitzViewModel
 
 	private void SetConnectivityMessage(NetworkAccess access)
 	{
-		SuperMessage = access == NetworkAccess.Internet ? "" : "Offline";
+		SuperMessage = access == NetworkAccess.Internet ? "" : LocalizedStrings.Offline;
 	}
 
 	[RelayCommand]
