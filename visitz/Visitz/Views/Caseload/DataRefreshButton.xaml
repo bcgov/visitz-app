@@ -17,6 +17,7 @@
 			IsVisible="{Binding SuperMessageVisible}" />
 
 		<controls:FontIconButton
+			x:Name="RefreshButton"
 			Style="{StaticResource FontIconButtonDarkMode}"
 			Size="Larger"
 			HorizontalOptions="Center"

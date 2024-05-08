@@ -1,3 +1,4 @@
+using Visitz.FontIcons;
 using Visitz.ViewModels;
 
 namespace Visitz.Views.Caseload;
@@ -8,5 +9,27 @@ public partial class DataRefreshButton : ViewModelContentView
 	{
 		InitializeComponent();
 		BindingContext = ViewModel;
+
+		SetIconByNetworkAccess(Connectivity.Current.NetworkAccess);
+		Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+	}
+
+	protected override void Destroying()
+	{
+		Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+
+		base.Destroying();
+	}
+
+	private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+	{
+		SetIconByNetworkAccess(e.NetworkAccess);
+	}
+
+	private void SetIconByNetworkAccess(NetworkAccess networkAccess)
+	{
+		RefreshButton.Text = networkAccess == NetworkAccess.Internet
+			? MaterialIcons.Download_for_offline
+			: MaterialIcons.File_download_off;
 	}
 }
