@@ -30,7 +30,8 @@
 		</selView:SelectionList>
 
 		<caseload:DataRefreshButton
-			Grid.Row="3"
+			Grid.Column="2"
+			Orientation="Horizontal"
 			HorizontalOptions="Center" />
 
 		<Image 

@@ -5,6 +5,14 @@ namespace Visitz.Views.Caseload;
 
 public partial class DataRefreshButton : ViewModelContentView
 {
+	new DataRefreshViewModel ViewModel => base.ViewModel as DataRefreshViewModel;
+
+	public StackOrientation Orientation
+	{
+		get => ViewModel.Orientation;
+		set => ViewModel.Orientation = value;
+	}
+
 	public DataRefreshButton() : base(ServiceProvider.GetService<DataRefreshViewModel>())
 	{
 		InitializeComponent();

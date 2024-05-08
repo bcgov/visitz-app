@@ -49,6 +49,7 @@
 
 		<caseload:DataRefreshButton
 			Grid.Row="3"
+			Orientation="Vertical"
 			HorizontalOptions="Center" />
 
 		<Image 

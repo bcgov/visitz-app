@@ -14,6 +14,9 @@ internal partial class DataRefreshViewModel : VisitzViewModel
 	[ObservableProperty]
 	public string superMessage;
 
+	[ObservableProperty]
+	public StackOrientation orientation = StackOrientation.Vertical;
+
 	public override void Create()
 	{
 		base.Create();

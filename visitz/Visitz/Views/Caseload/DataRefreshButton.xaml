@@ -9,9 +9,10 @@
     x:Class="Visitz.Views.Caseload.DataRefreshButton"
 	x:DataType="viewModels:DataRefreshViewModel">
 
-	<VerticalStackLayout>
+	<StackLayout Orientation="{Binding Orientation}">
 		<Label
 			HorizontalOptions="Center"
+			VerticalOptions="Center"
 			Text="{Binding SuperMessage}"
 			TextColor="White"
 			IsVisible="{Binding SuperMessageVisible}" />
@@ -21,8 +22,9 @@
 			Style="{StaticResource FontIconButtonDarkMode}"
 			Size="Larger"
 			HorizontalOptions="Center"
+			VerticalOptions="Center"
 			FontFamily="MaterialIconsRoundedUnfilled"
 			Command="{Binding RefreshDataCommand}"
 			Text="{Static icons:MaterialIcons.Download_for_offline}" />
-	</VerticalStackLayout>
+	</StackLayout>
 </views:ViewModelContentView>
