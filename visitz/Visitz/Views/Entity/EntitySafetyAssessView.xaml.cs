@@ -61,7 +61,7 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 		if (await PromptDiscard())
 		{
 			ViewModel.Reset();
-			await Toast.Make(LocalizedStrings.DiscardedSafetyAssessmentDraft).Show();
+			SnackbarHandler.ShowText(LocalizedStrings.DiscardedSafetyAssessmentDraft);
 		}
     }
 
