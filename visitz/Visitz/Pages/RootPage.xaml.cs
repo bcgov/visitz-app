@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Animations;
 using Visitz.ViewModels;
 using Visitz.Views;
 using VisitzModel;
@@ -57,14 +58,23 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
 
 		Snackbar = snackbar;
 		SnackbarContainer.Content = Snackbar;
-
 		SnackbarContainer.IsVisible = Snackbar != null;
+
 		if (Snackbar != null)
+		{
 			Snackbar.ShouldClose += Snackbar_ShouldClose;
+			_ = new VisibilityAnimation(showView: true, 150).Animate(Snackbar);
+		}
 	}
 
 	public void Snackbar_ShouldClose(object sender, EventArgs e)
 	{
+		_ = AnimateCloseSnackbar();
+	}
+
+	private async Task AnimateCloseSnackbar()
+	{
+		await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
 		SetSnackbar(null);
 	}
 }
