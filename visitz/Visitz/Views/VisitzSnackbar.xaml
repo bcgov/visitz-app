@@ -17,7 +17,7 @@
 		StrokeShape="RoundRectangle 4">
 		
 		<HorizontalStackLayout
-			Padding="16,8,0,8"
+			Padding="16"
 			Spacing="4">
 			
 			<Label
@@ -32,7 +32,8 @@
 				TextColor="White"
 				FontFamily="BCSansBold"
 				Command="{Binding ActionButtonSelectedCommand}"
-				Text="{Binding ActionText}" />
+				Text="{Binding ActionText}"
+				IsVisible="{Binding ActionVisible}" />
 		</HorizontalStackLayout>
 	</Border>
 </views:ViewModelContentView>
