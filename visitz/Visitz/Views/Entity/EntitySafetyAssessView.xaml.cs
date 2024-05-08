@@ -60,7 +60,7 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
     {
 		if (await PromptDiscard())
 		{
-			ViewModel.Reset();
+			await ViewModel.Reset();
 			SnackbarHandler.ShowText(LocalizedStrings.DiscardedSafetyAssessmentDraft);
 		}
     }
