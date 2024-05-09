@@ -643,4 +643,23 @@ If that doesn't work, request access by emailing </value>
   <data name="ServiceOffice" xml:space="preserve">
     <value>Service office</value>
   </data>
+  <data name="Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="DeviceOffline" xml:space="preserve">
+    <value>Device offline</value>
+  </data>
+  <data name="DeviceOfflineDesc" xml:space="preserve">
+    <value>Your device is not connected to the internet right now.
+
+Your caseload and any drafts you've made are still available on this device and you can continue to work on them.
+
+When this device is online again you can refresh your caseload or publish any work to ICM.</value>
+  </data>
+  <data name="MoreInfo" xml:space="preserve">
+    <value>More info</value>
+  </data>
+  <data name="UnableToReachIcmDeviceOffline" xml:space="preserve">
+    <value>Unable to reach ICM (device offline)</value>
+  </data>
 </root>
