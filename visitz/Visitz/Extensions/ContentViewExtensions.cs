@@ -5,7 +5,7 @@ using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace Visitz.Extensions;
 
-public static partial class ContentViewExtensions
+public static class ContentViewExtensions
 {
     public static readonly double DefaultHeight = 700;
 
