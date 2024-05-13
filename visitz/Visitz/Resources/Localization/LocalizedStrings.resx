@@ -662,4 +662,14 @@ When this device is online again you can refresh your caseload or publish any wo
   <data name="UnableToReachIcmDeviceOffline" xml:space="preserve">
     <value>Unable to reach ICM (device offline)</value>
   </data>
+  <data name="CollectionNotice" xml:space="preserve">
+    <value>Collection Notice</value>
+  </data>
+  <data name="CollectionNoticeDesc" xml:space="preserve">
+    <value>Your personal information is being collected to facilitate the delivery of Child, Family and Community Services.
+
+This information is being collected by The Ministry of Children and Family Development under section 26(a) of the Freedom of Information and Protection of Privacy Act and the Child, Family and Community Services Act under section 96(2.1).
+
+If you have any questions about the collection, use, or disclosure of this information please contact your caseworker.</value>
+  </data>
 </root>

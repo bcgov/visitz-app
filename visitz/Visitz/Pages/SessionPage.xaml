@@ -148,7 +148,19 @@
 
             </Grid>
 
-            <HorizontalStackLayout
+			<Label
+				Grid.Row="2"
+				HorizontalOptions="Start"
+				Padding="5"
+				Text="{local:Localize CollectionNotice}"
+				TextColor="White"
+				TextDecorations="Underline">
+				<Label.GestureRecognizers>
+					<TapGestureRecognizer Command="{Binding OpenCollectionNoticeCommand}" />
+				</Label.GestureRecognizers>
+			</Label>
+
+			<HorizontalStackLayout
                 Grid.Row="2"
                 HorizontalOptions="Center"
                 Spacing="30"
