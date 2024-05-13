@@ -7,8 +7,9 @@ namespace Visitz.Extensions;
 
 public static partial class ContentViewExtensions
 {
-    public static readonly double Height = 700;
+    public static readonly double DefaultHeight = 700;
 
+	public static readonly double Unset = -1;
 	public static readonly double MediumWidth = 600;
 	public static readonly double WideWidth = 850;
 
@@ -18,20 +19,23 @@ public static partial class ContentViewExtensions
         {
             Background = Colors.Transparent,
             Content = contentView,
-            HeightRequest = Height,
         };
 #if IOS
 		var presentationStyle = size switch
 		{
 			ViewModalSize.Medium => UIModalPresentationStyle.FormSheet,
+			ViewModalSize.Fullscreen => UIModalPresentationStyle.FullScreen,
 			_ => UIModalPresentationStyle.PageSheet,
 		};
 
 		page.On<iOS>().SetModalPresentationStyle(presentationStyle);
 #else
+		page.HeightRequest = size == ViewModalSize.Fullscreen ? Unset : DefaultHeight ;
+
 		page.WidthRequest = size switch
 		{
 			ViewModalSize.Medium => MediumWidth,
+			ViewModalSize.Fullscreen => Unset,
 			_ => WideWidth,
 		};
 #endif
