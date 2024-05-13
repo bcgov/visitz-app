@@ -5,24 +5,34 @@ using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace Visitz.Extensions;
 
-public static class ContentViewExtensions
+public static partial class ContentViewExtensions
 {
     public static readonly double Height = 700;
-    
-    public static readonly double Width = 850;
 
-    public static ContentPage WrapPageForModal(this ContentView contentView)
+	public static readonly double MediumWidth = 600;
+	public static readonly double WideWidth = 850;
+
+    public static ContentPage WrapPageForModal(this ContentView contentView, ViewModalSize size = ViewModalSize.Wide)
     {
         var page = new ContentPage()
         {
             Background = Colors.Transparent,
             Content = contentView,
             HeightRequest = Height,
-            WidthRequest = Width,
+            WidthRequest = size switch
+			{
+				ViewModalSize.Medium => MediumWidth,
+				_ => WideWidth,
+			}
         };
-
 #if IOS
-        page.On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.PageSheet);
+		var presentationStyle = size switch
+		{
+			ViewModalSize.Medium => UIModalPresentationStyle.FormSheet,
+			_ => UIModalPresentationStyle.PageSheet,
+		};
+
+		page.On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.PageSheet);
 #endif
 
         return page;
