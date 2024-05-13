@@ -12,6 +12,8 @@ using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
+using Visitz.Views;
+
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -240,6 +242,20 @@ public partial class SessionViewModel
             TitleMode = BrowserTitleMode.Hide,
             Flags = BrowserLaunchFlags.PresentAsFormSheet,
         });
+	}
+
+	[RelayCommand]
+	static void OpenCollectionNotice()
+	{
+		_ = DoOpenFeedbackUrl();
+	}
+
+	static async Task DoOpenFeedbackUrl()
+	{
+		await Navigator.Navigation.PopModalAsync(animated: false);
+
+		var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
+		await Navigator.Navigation.PushModalAsync(noticeView.WrapPageForModal(ViewModalSize.Medium));
 	}
 
 	[RelayCommand]
