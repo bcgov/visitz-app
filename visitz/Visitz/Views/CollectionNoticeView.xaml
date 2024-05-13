@@ -6,31 +6,34 @@
 	xmlns:local="clr-namespace:Visitz.Localization"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.CollectionNoticeView"
-	x:DataType="views:CollectionNoticeView"
-	BackgroundColor="{StaticResource Default_Background}"
-	WidthRequest="600">
-	
-    <Grid
-		RowDefinitions="*,6*"
-		Padding="16,0">
+	x:DataType="views:CollectionNoticeView">
 
-		<controls:CloseButton
-			Grid.Row="0"
-			TextColor="{StaticResource Gray600}"
-			HorizontalOptions="Start" />
+	<Border
+		BackgroundColor="{StaticResource Default_Background}"
+		StrokeShape="RoundRectangle 12"
+		StrokeThickness="0">
+		<Grid
+			RowDefinitions="*,6*"
+			Padding="16,0">
+
+			<controls:CloseButton
+				Grid.Row="0"
+				TextColor="{StaticResource Gray600}"
+				HorizontalOptions="Start" />
 		
-		<Label
-			Grid.Row="0"
-			FontSize="{StaticResource TitleLargeFontSize}"
-            Text="{local:Localize CollectionNotice}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+			<Label
+				Grid.Row="0"
+				FontSize="{StaticResource TitleLargeFontSize}"
+				Text="{local:Localize CollectionNotice}"
+				VerticalOptions="Center" 
+				HorizontalOptions="Center" />
 
-		<Label
-			Grid.Row="1"
-			Margin="16"
-			Text="{local:Localize CollectionNoticeDesc}"
-			VerticalOptions="Start"
-			HorizontalOptions="Start" />
-	</Grid>
+			<Label
+				Grid.Row="1"
+				Margin="16"
+				Text="{local:Localize CollectionNoticeDesc}"
+				VerticalOptions="Start"
+				HorizontalOptions="Start" />
+		</Grid>
+	</Border>
 </ContentView>
