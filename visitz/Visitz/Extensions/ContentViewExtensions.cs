@@ -19,11 +19,6 @@ public static partial class ContentViewExtensions
             Background = Colors.Transparent,
             Content = contentView,
             HeightRequest = Height,
-            WidthRequest = size switch
-			{
-				ViewModalSize.Medium => MediumWidth,
-				_ => WideWidth,
-			}
         };
 #if IOS
 		var presentationStyle = size switch
@@ -32,9 +27,15 @@ public static partial class ContentViewExtensions
 			_ => UIModalPresentationStyle.PageSheet,
 		};
 
-		page.On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.PageSheet);
+		page.On<iOS>().SetModalPresentationStyle(presentationStyle);
+#else
+		page.WidthRequest = size switch
+		{
+			ViewModalSize.Medium => MediumWidth,
+			_ => WideWidth,
+		};
 #endif
 
-        return page;
+		return page;
     }
 }
