@@ -19,6 +19,8 @@
     <Color x:Key="BC_Semantic_Info">#D9EAF7</Color>
     <Color x:Key="BC_Semantic_Warning">#F9F1C6</Color>
 
+	<Color x:Key="Default_Background">White</Color>
+
     <Color x:Key="Semantic_Warning_LargeText">#B38600</Color>
 
     <!-- Primary uses color 'BC_Blue' -->

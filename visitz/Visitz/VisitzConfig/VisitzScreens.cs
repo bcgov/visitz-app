@@ -73,7 +73,9 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<SessionPage>();
             builder.Services.AddTransient<SessionViewModel>();
 
-            return builder;
+			builder.Services.AddTransient<CollectionNoticeView>();
+
+			return builder;
         }
     }
 }

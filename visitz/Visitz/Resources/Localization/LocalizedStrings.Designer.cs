@@ -205,6 +205,28 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collection Notice.
+        /// </summary>
+        public static string CollectionNotice {
+            get {
+                return ResourceManager.GetString("CollectionNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your personal information is being collected to facilitate the delivery of Child, Family and Community Services.
+        ///
+        ///This information is being collected by The Ministry of Children and Family Development under section 26(a) of the Freedom of Information and Protection of Privacy Act and the Child, Family and Community Services Act under section 96(2.1).
+        ///
+        ///If you have any questions about the collection, use, or disclosure of this information please contact your caseworker..
+        /// </summary>
+        public static string CollectionNoticeDesc {
+            get {
+                return ResourceManager.GetString("CollectionNoticeDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {

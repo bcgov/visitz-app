@@ -1,4 +1,4 @@
-﻿/*
+/*
     THIS FILE IS NOT AUTO-GENERATED.
 
     But it should be.
@@ -31,7 +31,9 @@ public static class VisitzColors
     public static readonly Color BC_Semantic_Info = TryGetColor(nameof(BC_Semantic_Info));
     public static readonly Color BC_Semantic_Warning = TryGetColor(nameof(BC_Semantic_Warning));
 
-    public static readonly Color Semantic_Warning_LargeText = TryGetColor(nameof(Semantic_Warning_LargeText));
+	public static readonly Color Default_Background = TryGetColor(nameof(Default_Background));
+
+	public static readonly Color Semantic_Warning_LargeText = TryGetColor(nameof(Semantic_Warning_LargeText));
 
     // Primary uses color 'BC_Blue'
     public static readonly Color Primary = TryGetColor(nameof(Primary));
