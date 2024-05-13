@@ -255,7 +255,7 @@ public partial class SessionViewModel
 		await Navigator.Navigation.PopModalAsync(animated: false);
 
 		var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
-		await Navigator.Navigation.PushModalAsync(noticeView.WrapPageForModal(ViewModalSize.Medium));
+		await Navigator.Navigation.PushModalAsync(noticeView.WrapPageForModal(ViewModalSize.Fullscreen));
 	}
 
 	[RelayCommand]
