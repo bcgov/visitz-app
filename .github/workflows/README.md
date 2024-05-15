@@ -88,4 +88,18 @@ Nothing yet.
 
 ### Windows
 
-Nothing yet.
+#### Build
+
+1. Run "Build Windows release package" workflow manually
+
+2. Choose branch to build from
+
+	- **production** branch for production/beta builds
+
+	- **dev\*** branches for developer or project-team builds
+
+3. Choose a GitHub Environment to build with
+
+4. Run workflow
+
+5. On success, manually distribute GH Action artifacts as required
