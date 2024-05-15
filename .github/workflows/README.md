@@ -132,3 +132,41 @@ Nothing yet.
 	The password for the code signing certificate—used when importing.
 
 	It does not need to be wrapped in quotes when saved in secrets.
+
+#### Testing builds with a self-signed certificate
+
+> If you sign a build with a self-signed certificate, users of the app must explicitly trust and install your self-signed cert before they can use the app, which could become a security issue. Proceed with caution.
+
+1. [Create a signing certificate](https://learn.microsoft.com/en-us/dotnet/maui/windows/deployment/publish-cli?view=net-maui-8.0#create-a-signing-certificate)
+
+	```powershell
+	New-SelfSignedCertificate `
+		-Type Custom `
+		-Subject "CN=MCFD" `
+		-KeyUsage DigitalSignature `
+		-FriendlyName "MCFD Mobility self-signed testing cert" `
+		-CertStoreLocation "Cert:\CurrentUser\My" `
+		-TextExtension @("2.5.29.37={text}1.3.6.1.5.5.7.3.3", "2.5.29.19={text}")
+	```
+
+	The `-Subject` value must match the Package.Identity.@Publisher value in Package.appxmanifest.
+
+2. Run a local dotnet publish build using the new certificate you created. Refer to make-windows-build.yaml on how to run the publish build.
+
+3. [Install the app](https://learn.microsoft.com/en-us/dotnet/maui/windows/deployment/publish-cli?view=net-maui-8.0#installing-the-app)
+
+	Instructions from guide:
+
+	1. Right-click on the .msix file and choose Properties.
+	2. Select the Digital Signatures tab.
+	3. Choose the certificate then press Details.
+	4. Select View Certificate.
+	5. Select Install Certificate....
+	6. Choose Local Machine then select Next.
+		> Important! You must choose `Local Machine` or the certificate won't be discoverable by the installer.
+	7. If you're prompted by User Account Control to Do you want to allow this app to make changes to your device?, select Yes.
+	8. In the Certificate Import Wizard window, select Place all certificates in the following store.
+	9. Select Browse... and then choose the Trusted People store. Select OK to close the dialog.
+	10. Select Next and then Finish. You should see a dialog that says: The import was successful.
+	11. Select OK on any window opened as part of this process, to close them all.
+	12. Run the MSIX file and `Install` it.
