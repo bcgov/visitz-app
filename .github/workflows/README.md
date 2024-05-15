@@ -108,3 +108,27 @@ Nothing yet.
 4. Run workflow
 
 5. On success, manually distribute GH Action artifacts as required
+
+#### Update secrets
+
+- ##### WINDOWS_RELEASE_CERT_THUMBPRINT
+
+	The thumbprint of the code signing certificate stored in WINDOWS_RELEASE_CERT_BASE64.
+
+	It does not need to be wrapped in quotes when saved in secrets.
+
+- ##### WINDOWS_RELEASE_CERT_BASE64
+
+	A base64-encoded copy of the code signing certificate.
+
+	To encode via PowerShell:
+
+	> `[System.Convert]::ToBase64String([IO.File]::ReadAllBytes("<filename>")) | Set-Clipboard`
+
+	`Set-Clipboard` takes output and sets it to the clipboard. Then directly paste into secrets **without** quotes. A trailing newline is ok.
+
+- ##### WINDOWS_RELEASE_CERT_PASSWORD
+
+	The password for the code signing certificate—used when importing.
+
+	It does not need to be wrapped in quotes when saved in secrets.
