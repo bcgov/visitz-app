@@ -1,5 +1,22 @@
 # MCFD Mobility GitHub Actions
 
+## Github Environments
+
+We keep a set of main deployment environments:
+
+|	Audience					|	GH Environment	|	Loginproxy	|	Visitz API	|	Debug options	|
+|	---							|	---				|	---			|	---			|	---				|
+|	Developers					|	developer		|	dev			|	dev			|	**enabled**		|
+|	MCFD Mobility project team	|	project-team	|	dev			|	dev			|	**enabled**		|
+|	Early adopters				|	beta			|	prod		|	prod		|	*disabled*		|
+|	General users				|	prod			|	prod		|	prod		|	*disabled*		|
+
+Notes:
+
+1. The `developer` environment is mainly available for developers to grab environment configs for their local builds. It will rarely be used to make builds via this GH Action.
+
+2. Any existing environment that isn't listed in this table is transitory.
+
 ## Tests
 
 On push, if any files in the `visitz/` directory have changed, an Action will be triggered that runs all tests for the Visitz MAUI project.
@@ -59,20 +76,11 @@ Nothing yet.
 
 	- **dev\*** branches for developer or project-team builds
 
-3. Choose GitHub environment to use
-
-|	Audience					|	GH Environment	|	Loginproxy	|	Visitz API	|	Debug options	|
-|	---							|	---				|	---			|	---			|	---				|
-|	Developers					|	developer		|	dev			|	dev			|	**enabled**		|
-|	MCFD Mobility project team	|	project-team	|	dev			|	dev			|	**enabled**		|
-|	Early adopters				|	beta			|	prod		|	prod		|	*disabled*		|
-|	General users				|	prod			|	prod		|	prod		|	*disabled*		|
+3. Choose a GitHub Environment to build with
 
 4. Run workflow
 
 5. On success, manually distribute GH Action artifacts as required
-
-> The `developer` environment is mainly available for developers to grab environment configs for their local builds. It will rarely be used to make builds via this GH Action.
 
 ### Mac
 
