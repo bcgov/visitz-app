@@ -1,6 +1,8 @@
 using Realms;
 using System.Globalization;
 using VisitzApi.Models;
+using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models
 {
@@ -109,8 +111,16 @@ namespace VisitzModel.Models
                 .Select((note, index) => FromApiEntity(icmId, note, index + 1));
         }
 
-		public static async Task UpsertNotesAsync(Realm realm, string entityId, IEnumerable<NoteItem> newNotes)
+		public static async Task UpsertNotesAsync(
+			Realm realm,
+			string entityId,
+			string entityType,
+			IEnumerable<NoteItem> newNotes)
 		{
+			if (entityType.ParseEntityType() == EntityType.Case)
+				// Case notes older <= 2012 may have a blank note period.
+				newNotes = SimulateNotePeriods(newNotes);
+
 			var currentNotes = GetNotesByEntityId(realm, entityId);
 			var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
 
@@ -121,6 +131,17 @@ namespace VisitzModel.Models
 
 				realm.Add(newNotes, update: true);
 			});
+		}
+
+		static List<NoteItem> SimulateNotePeriods(IEnumerable<NoteItem> notes)
+		{
+			var simulatedPeriodNotes = notes.ToList();
+
+			foreach (var note in simulatedPeriodNotes)
+				if (string.IsNullOrWhiteSpace(note.NotePeriod))
+					note.NotePeriod = NotePeriodFrom(DateTimeOffset.Parse(note.CreatedDate));
+
+			return simulatedPeriodNotes;
 		}
 
 		static string NoteSelector(NoteItem note) => note.FullID;

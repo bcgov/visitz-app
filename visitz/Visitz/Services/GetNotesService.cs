@@ -47,10 +47,10 @@ namespace Visitz.Services
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
             var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
 
-            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-			await NoteItem.UpsertNotesAsync(realm, id, newNotes);
+			using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+			await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes);
 
             ResultCode = Result.Successful;
         }
-    }
+	}
 }
