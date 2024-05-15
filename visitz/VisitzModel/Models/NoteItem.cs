@@ -9,7 +9,10 @@ namespace VisitzModel.Models
     /// </summary>
     public partial class NoteItem : IRealmObject
     {
-        private static readonly string IcmNotePeriodDateFormat = "MMM yyyy";
+		private const string NotePeriodName = "NotePeriod";
+		private const string CreatedDateName = "CreatedDate";
+
+		private static readonly string IcmNotePeriodDateFormat = "MMM yyyy";
         private static readonly string NoteWrapperTimestampFormat = "yyyy-MMM-dd hh:mm:ss tt";
         private static readonly string Separator = "────";
 
@@ -37,8 +40,36 @@ namespace VisitzModel.Models
         [Indexed]
         public string IcmId { get; set; }
 
-        public string NotePeriod { get; set; }
-        public string CreatedDate { get; set; }
+		[MapTo(NotePeriodName)]
+		private string NotePeriodField {  get; set; }
+        public string NotePeriod
+		{
+			get => NotePeriodField;
+			set
+			{
+				NotePeriodField = value;
+
+				NotePeriodDateTime = value?.Length > 0
+					? DateTimeOffset.Parse(value)
+					: DateTimeOffset.MinValue;
+			}
+		}
+
+		[MapTo(CreatedDateName)]
+		private string CreatedDateField { get; set; }
+		public string CreatedDate
+		{
+			get => CreatedDateField;
+			set
+			{
+				CreatedDateField = value;
+
+				CreatedDateTime = value?.Length > 0
+					? DateTimeOffset.Parse(value)
+					: DateTimeOffset.MinValue;
+			}
+		}
+
         public string Content { get; set; }
         public int PageNumber { get; set; }
 
@@ -67,12 +98,6 @@ namespace VisitzModel.Models
                 CreatedDate = note.CreatedDate,
                 Content = note.Content,
                 PageNumber = pageNumber,
-                NotePeriodDateTime = note.NotePeriod?.Length > 0
-                    ? DateTimeOffset.Parse(note.NotePeriod)
-                    : DateTimeOffset.MinValue,
-                CreatedDateTime = note.CreatedDate?.Length > 0
-                    ? DateTimeOffset.Parse(note.CreatedDate)
-                    : DateTimeOffset.MinValue,
             };
         }
 
