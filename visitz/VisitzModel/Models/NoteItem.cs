@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 using System.Globalization;
 using VisitzApi.Models;
 
@@ -84,7 +84,23 @@ namespace VisitzModel.Models
                 .Select((note, index) => FromApiEntity(icmId, note, index + 1));
         }
 
-        public static string NotePeriodFrom(DateTime dateTime)
+		public static async Task UpsertNotesAsync(Realm realm, string entityId, IEnumerable<NoteItem> newNotes)
+		{
+			var currentNotes = GetNotesByEntityId(realm, entityId);
+			var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
+
+			await realm.WriteAsync(() =>
+			{
+				foreach (var deletedNote in deletedNotes)
+					realm.Remove(deletedNote);
+
+				realm.Add(newNotes, update: true);
+			});
+		}
+
+		static string NoteSelector(NoteItem note) => note.FullID;
+
+		public static string NotePeriodFrom(DateTime dateTime)
         {
             return NotePeriodFrom(new DateTimeOffset(dateTime));
         }
