@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -18,46 +17,36 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 	[ObservableProperty]
 	public MasterDraftItem selectedItem;
 
+	readonly ObservableRealmCount realmCount = new();
+
 	MasterDraftItem noteDraftItem;
-	IQueryable<NoteDraft> noteDraftQuery;
-	IDisposable noteQueryToken;
 
 	MasterDraftItem assessmentDraftItem;
-	IQueryable<SafetyAssessment> safetyAssessmentDraftQuery;
-	IDisposable assessmentQueryToken;
 
 	public override async void Create()
 	{
 		base.Create();
 
-		var noteDraftsRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
-		noteDraftQuery = noteDraftsRealm.All<NoteDraft>();
-		noteQueryToken = noteDraftQuery.SubscribeForNotifications(NoteDraftsCount);
+		realmCount.CountChanged += RealmCount_CountChanged;
 
-		var assessmentDraftsRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
-		safetyAssessmentDraftQuery = assessmentDraftsRealm.All<SafetyAssessment>();
-		assessmentQueryToken = safetyAssessmentDraftQuery.SubscribeForNotifications(SafetyAssessmentDraftsCount);
+		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
+		realmCount.Subscribe<SafetyAssessment>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
 	}
 
 	public override void Destroy()
 	{
 		base.Destroy();
 
-		noteQueryToken.Dispose();
-		noteDraftQuery = null;
-
-		assessmentQueryToken.Dispose();
-		safetyAssessmentDraftQuery = null;
+		realmCount.CountChanged -= RealmCount_CountChanged;
+		realmCount.Dispose();
 	}
 
-	void NoteDraftsCount(IRealmCollection<NoteDraft> sender, ChangeSet _)
+	private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
 	{
-		UpdateItem(LocalizedStrings.Notes, sender.Count, ref noteDraftItem);
-	}
-
-	void SafetyAssessmentDraftsCount(IRealmCollection<SafetyAssessment> sender, ChangeSet _)
-	{
-		UpdateItem(LocalizedStrings.SafetyAssessment, sender.Count, ref assessmentDraftItem);
+		if (e.Kind == typeof(NoteDraft))
+			UpdateItem(LocalizedStrings.Notes, e.Count, ref noteDraftItem);
+		else if (e.Kind == typeof(SafetyAssessment))
+			UpdateItem(LocalizedStrings.SafetyAssessment, e.Count, ref assessmentDraftItem);
 	}
 
 	void UpdateItem(string name, int count, ref MasterDraftItem item)
