@@ -3,8 +3,10 @@
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
 	xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
 	xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
 	xmlns:viewModels="clr-namespace:Visitz.ViewModels.Drafts"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Drafts.DraftsMasterList"
@@ -13,13 +15,57 @@
 
 	<Grid RowDefinitions="Auto,*">
 
-		<controls:TopAppBar
-			Grid.Row="0">
+		<controls:TopAppBar Grid.Row="0">
 			<Label 
 				Text="{local:Localize Drafts}"
 				Style="{StaticResource HeadlineMedium}"
 				VerticalOptions="Center" />
 		</controls:TopAppBar>
+
+		<selView:SelectionList
+			Grid.Row="1"
+			ItemsSource="{Binding MasterDraftItems}"
+			SelectedItem="{Binding SelectedItem}"
+			SelectionChangedCommand="{Binding MasterDraftItemSelectedCommand}">
+
+			<selView:SelectionList.ItemTemplate>
+				<DataTemplate x:DataType="draftModels:MasterDraftItem">
+					<selView:SelectableItem>
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal">
+									<VisualState.Setters>
+										<Setter Property="BackgroundColor" Value="Transparent" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Selected">
+									<VisualState.Setters>
+										<Setter Property="BackgroundColor" Value="{StaticResource EntityNavSelectedColor}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<Grid
+							ColumnDefinitions="*,*"
+							Padding="10,15">
+							<Label
+								Grid.Column="0"
+								VerticalOptions="Center"
+								Text="{Binding Name}" />
+
+							<Label
+								Grid.Column="1"
+								VerticalOptions="Center"
+								HorizontalOptions="End"
+								Text="{Binding Count}" />
+						</Grid>
+
+					</selView:SelectableItem>
+				</DataTemplate>
+			</selView:SelectionList.ItemTemplate>
+		</selView:SelectionList>
 
 	</Grid>
 </views:ViewModelContentView>
