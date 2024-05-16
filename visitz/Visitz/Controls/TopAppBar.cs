@@ -2,7 +2,7 @@ using Visitz.Resources.Styles;
 
 namespace Visitz.Controls;
 
-internal class TopAppBar : HorizontalStackLayout
+internal class TopAppBar : Grid
 {
 	private static readonly double DefaultThickness = 10;
 	private static readonly Color DefaultBackgroundColor = VisitzColors.Default_Background;
