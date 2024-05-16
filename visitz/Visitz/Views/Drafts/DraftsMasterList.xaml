@@ -24,6 +24,7 @@
 
 		<selView:SelectionList
 			Grid.Row="1"
+			AutoSelectDefault="True"
 			ItemsSource="{Binding MasterDraftItems}"
 			SelectedItem="{Binding SelectedItem}"
 			SelectionChangedCommand="{Binding MasterDraftItemSelectedCommand}">
