@@ -5,8 +5,6 @@
 using System.Collections;
 using System.Windows.Input;
 using Visitz.VisualStates;
-using VisitzModel;
-using VisitzModel.Models;
 
 namespace Visitz.Views.SelectionView;
 
@@ -86,7 +84,7 @@ public partial class SelectionList : BaseContentView
     {
         var thiz = (SelectionList)boundObj;
 
-        if (newValue is NavItem)
+        if (newValue is not null)
         {
             thiz.SelectionChangedCommand?.Execute(newValue);
             thiz.SelectedItemView = thiz.GetSelectableViewByItem(newValue);
