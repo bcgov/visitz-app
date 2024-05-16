@@ -1,4 +1,4 @@
-﻿using Visitz.Services.Messages;
+using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
@@ -47,21 +47,10 @@ namespace Visitz.Services
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
             var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
 
-            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            var currentNotes = NoteItem.GetNotesByEntityId(realm, id);
-            var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
-
-            await realm.WriteAsync(() =>
-            {
-                foreach (var deletedNote in deletedNotes)
-                    realm.Remove(deletedNote);
-
-                realm.Add(newNotes, update: true);
-            });
+			using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+			await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes);
 
             ResultCode = Result.Successful;
         }
-
-        static string NoteSelector(NoteItem note) => note.FullID;
-    }
+	}
 }
