@@ -52,26 +52,29 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 
 	void NoteDraftsCount(IRealmCollection<NoteDraft> sender, ChangeSet _)
 	{
-		SetItem(LocalizedStrings.Notes, sender.Count, ref noteDraftItem);
+		UpdateItem(LocalizedStrings.Notes, sender.Count, ref noteDraftItem);
 	}
 
 	void SafetyAssessmentDraftsCount(IRealmCollection<SafetyAssessment> sender, ChangeSet _)
 	{
-		SetItem(LocalizedStrings.SafetyAssessment, sender.Count, ref assessmentDraftItem);
+		UpdateItem(LocalizedStrings.SafetyAssessment, sender.Count, ref assessmentDraftItem);
 	}
 
-	void SetItem(string name, int count, ref MasterDraftItem item)
+	void UpdateItem(string name, int count, ref MasterDraftItem item)
 	{
 		if (item != null)
 			MasterDraftItems.Remove(item);
 
-		item = new MasterDraftItem()
+		if (count > 0)
 		{
-			Name = name,
-			Count = count,
-		};
+			item = new MasterDraftItem()
+			{
+				Name = name,
+				Count = count,
+			};
 
-		InsertSortedAsc(MasterDraftItems, item);
+			InsertSortedAsc(MasterDraftItems, item);
+		}
 	}
 
 	[RelayCommand]
