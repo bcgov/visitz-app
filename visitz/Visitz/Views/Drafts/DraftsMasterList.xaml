@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ViewModelContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
+	xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:viewModels="clr-namespace:Visitz.ViewModels.Drafts"
+	xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Drafts.DraftsMasterList"
+	x:DataType="viewModels:DraftsMasterListViewModel"
+	BackgroundColor="{StaticResource Default_Background}">
+
+	<Grid RowDefinitions="Auto,*">
+
+		<controls:TopAppBar
+			Grid.Row="0">
+			<Label 
+				Text="{local:Localize Drafts}"
+				Style="{StaticResource HeadlineMedium}"
+				VerticalOptions="Center" />
+		</controls:TopAppBar>
+
+	</Grid>
+</views:ViewModelContentView>

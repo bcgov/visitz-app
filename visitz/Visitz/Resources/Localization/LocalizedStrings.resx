@@ -672,4 +672,13 @@ This information is being collected by The Ministry of Children and Family Devel
 
 If you have any questions about the collection, use, or disclosure of this information please contact your caseworker.</value>
   </data>
+  <data name="Drafts" xml:space="preserve">
+    <value>Drafts</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="LastModified" xml:space="preserve">
+    <value>Last modified</value>
+  </data>
 </root>

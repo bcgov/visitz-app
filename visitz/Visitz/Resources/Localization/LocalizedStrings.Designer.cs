@@ -366,6 +366,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drafts.
+        /// </summary>
+        public static string Drafts {
+            get {
+                return ResourceManager.GetString("Drafts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Draft saved.
         /// </summary>
         public static string DraftSaved {
@@ -510,6 +519,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string FirstName {
@@ -614,6 +632,15 @@ namespace Visitz.Resources.Localization {
         public static string KnownAppIssue {
             get {
                 return ResourceManager.GetString("KnownAppIssue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last modified.
+        /// </summary>
+        public static string LastModified {
+            get {
+                return ResourceManager.GetString("LastModified", resourceCulture);
             }
         }
         
