@@ -17,11 +17,26 @@ namespace Visitz.ViewModels;
 
 public partial class NavRailViewModel : VisitzViewModel
 {
-    [ObservableProperty]
+	static readonly double IosIconSize = 34;
+	static readonly double DefaultIconSize = 24;
+
+	[ObservableProperty]
     public ObservableCollection<object> navigationItems = [];
 
     [ObservableProperty]
     public NavItem selectedNavItem;
+
+	public static double IconSize
+	{
+		get
+		{
+#if IOS
+		return IosIconSize;
+#else
+		return DefaultIconSize;
+#endif
+		}
+	}
 
 	[ObservableProperty]
 	public NavItem caseloadNavItem = new()
@@ -29,7 +44,7 @@ public partial class NavRailViewModel : VisitzViewModel
 		Text = LocalizedStrings.Caseload,
 		ContentViewType = typeof(CaseloadContainerView),
 		Color = Colors.White,
-		IconSize = 30,
+		IconSize = IconSize,
 		SelectedImageSource = MaterialIcons.Folder_open.GetFilledMaterialIcon(Colors.White),
 		UnselectedImageSource = MaterialIcons.Folder_open.GetUnfilledMaterialIcon(Colors.White),
 	};
@@ -40,7 +55,7 @@ public partial class NavRailViewModel : VisitzViewModel
 		Text = LocalizedStrings.Drafts,
 		ContentViewType = typeof(DraftsContainerView),
 		Color = Colors.White,
-		IconSize = 30,
+		IconSize = IconSize,
 		SelectedImageSource = MaterialIcons.Draft.GetFilledMaterialIcon(Colors.White),
 		UnselectedImageSource = MaterialIcons.Draft.GetUnfilledMaterialIcon(Colors.White),
 	};
