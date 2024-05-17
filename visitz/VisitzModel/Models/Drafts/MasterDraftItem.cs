@@ -1,9 +1,14 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace VisitzModel.Models.Drafts;
 
-public class MasterDraftItem : IComparable<MasterDraftItem>
+public partial class MasterDraftItem : ObservableObject, IComparable<MasterDraftItem>
 {
-	public string Name { get; set; }
-	public int Count { get; set; }
+	[ObservableProperty]
+	public string name;
+
+	[ObservableProperty]
+	public int count;
 
 	public int CompareTo(MasterDraftItem other)
 	{
