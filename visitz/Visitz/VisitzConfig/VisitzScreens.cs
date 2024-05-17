@@ -1,10 +1,12 @@
 using Visitz.Device;
 using Visitz.Pages;
 using Visitz.ViewModels;
+using Visitz.ViewModels.Drafts;
 using Visitz.ViewModels.Entity;
 using Visitz.Views;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
+using Visitz.Views.Drafts;
 using Visitz.Views.Entity;
 using Visitz.Views.Notes;
 
@@ -74,6 +76,14 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<SessionViewModel>();
 
 			builder.Services.AddTransient<CollectionNoticeView>();
+
+			builder.Services.AddSingleton<DraftsContainerView>();
+
+			builder.Services.AddTransient<DraftsMasterList>();
+			builder.Services.AddTransient<DraftsMasterListViewModel>();
+
+			builder.Services.AddTransient<DraftsList>();
+			builder.Services.AddTransient<DraftsListViewModel>();
 
 			return builder;
         }

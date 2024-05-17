@@ -3,10 +3,10 @@
  */
 
 using System.Collections;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows.Input;
 using Visitz.VisualStates;
-using VisitzModel;
-using VisitzModel.Models;
 
 namespace Visitz.Views.SelectionView;
 
@@ -17,7 +17,8 @@ public partial class SelectionList : BaseContentView
             defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemViewChanged);
 
     public static readonly BindableProperty ItemsSourceProperty =
-		BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(SelectionList));
+		BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(SelectionList),
+			propertyChanged: ItemsSourceChanged);
 
     public static readonly BindableProperty ItemTemplateProperty =
         BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(SelectionList));
@@ -32,7 +33,10 @@ public partial class SelectionList : BaseContentView
     public static readonly BindableProperty OrientationProperty =
         BindableProperty.Create(nameof(Orientation), typeof(StackOrientation), typeof(SelectionList));
 
-    private ISelectedState SelectedItemView
+	public static readonly BindableProperty AutoSelectDefaultProperty =
+		BindableProperty.Create(nameof(AutoSelectDefault), typeof(bool), typeof(SelectionList));
+
+	private ISelectedState SelectedItemView
     {
         get => (ISelectedState)GetValue(SelectedItemViewProperty);
         set => SetValue(SelectedItemViewProperty, value);
@@ -68,12 +72,58 @@ public partial class SelectionList : BaseContentView
         set => SetValue(OrientationProperty, value);
     }
 
+	public bool AutoSelectDefault
+	{
+		get => (bool)GetValue(AutoSelectDefaultProperty);
+		set => SetValue(AutoSelectDefaultProperty, value);
+	}
+
     public SelectionList()
 	{
 		InitializeComponent();
 	}
 
-    private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
+	private static void ItemsSourceChanged(BindableObject boundObj, object oldValue, object newValue)
+	{
+		var thiz = (SelectionList)boundObj;
+		var oldSource = (IList)oldValue;
+		var newSource = (IList)newValue;
+
+		if (thiz.AutoSelectDefault)
+			HandleItemsSourceAutoUpdate(thiz, oldSource, newSource);
+	}
+
+	private static void HandleItemsSourceAutoUpdate(SelectionList selectionList, IList oldSource, IList newSource)
+	{
+		if (newSource != null)
+		{
+			if (newSource.Count > 0)
+				selectionList.SelectedItem = newSource[0];
+
+			if (newSource is INotifyCollectionChanged newCollection)
+				newCollection.CollectionChanged += selectionList.ItemsSource_CollectionChanged;
+		}
+
+		if (oldSource is INotifyCollectionChanged oldCollection)
+			oldCollection.CollectionChanged -= selectionList.ItemsSource_CollectionChanged;
+	}
+
+	private void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+	{
+		if (e.Action == NotifyCollectionChangedAction.Add)
+			SelectedItem ??= e.NewItems[0];
+		else if (e.Action == NotifyCollectionChangedAction.Remove)
+		{
+			if (ItemsSource.Count <= 0)
+				SelectedItem = null;
+			else if (ItemsSource.IndexOf(SelectedItem) == -1)
+				SelectedItem = ItemsSource[0];
+		}
+		else if (e.Action == NotifyCollectionChangedAction.Reset)
+			SelectedItem = null;
+	}
+
+	private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
     {
         if (oldValue is ISelectedState oldSelected)
             oldSelected.IsSelected = false;
@@ -86,7 +136,7 @@ public partial class SelectionList : BaseContentView
     {
         var thiz = (SelectionList)boundObj;
 
-        if (newValue is NavItem)
+        if (newValue is not null)
         {
             thiz.SelectionChangedCommand?.Execute(newValue);
             thiz.SelectedItemView = thiz.GetSelectableViewByItem(newValue);

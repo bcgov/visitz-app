@@ -24,26 +24,54 @@
 			</VisualState>
 		</VisualStateGroup>
 	</VisualStateManager.VisualStateGroups>
-	
-	<StackLayout 
+
+	<StackLayout
 		x:Name="MainStack"
-		HorizontalOptions="Center" 
+		HorizontalOptions="Fill" 
 		VerticalOptions="Center"
 		Orientation="{Binding Orientation, Source={RelativeSource AncestorType={x:Type nav:NavItemView}}}"
 		Spacing="2">
-		<Image 
-			x:Name="IconImage"
-			Source="{Binding UnselectedImageSource}" 
-			HeightRequest="{Binding IconSize}" 
-			WidthRequest="{Binding IconSize}"
+		
+		<Grid
 			HorizontalOptions="Center"
-			VerticalOptions="Center" />
+			VerticalOptions="FillAndExpand">
+			
+			<Image 
+				x:Name="IconImage"
+				Source="{Binding UnselectedImageSource}" 
+				HeightRequest="{Binding IconSize}" 
+				WidthRequest="{Binding IconSize}"
+				HorizontalOptions="Center"
+				VerticalOptions="Center" />
 
+			<Border
+				Margin="{OnPlatform iOS='-8,-4', Default='-16,-4'}"
+				VerticalOptions="StartAndExpand"
+				HorizontalOptions="EndAndExpand"
+				BackgroundColor="{StaticResource BC_Gold}"
+				StrokeShape="RoundRectangle 20"
+				StrokeThickness="0"
+				IsVisible="{Binding ShowBadge}">
+
+				<Label
+					Padding="{OnPlatform WinUI=2}"
+					MinimumHeightRequest="20"
+					MinimumWidthRequest="20"
+					VerticalOptions="Center"
+					HorizontalOptions="Center"
+					FontSize="11"
+					Text="{Binding BadgeCount}"
+					HorizontalTextAlignment="Center"
+					VerticalTextAlignment="Center"/>
+
+			</Border>
+		</Grid>
+		
 		<Label 
 			Text="{Binding Text}"
 			TextColor="{Binding Color}"
 			HorizontalOptions="Center"
 			VerticalOptions="Center" />
 	</StackLayout>
-	
+
 </ContentView>

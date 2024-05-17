@@ -76,6 +76,9 @@ public abstract class SplitLayoutView : BaseContentView
         SplitLayout.Add(StartPane, 0, 0);
         SplitLayout.Add(separator, 1, 0);
         SplitLayout.Add(EndPane, 2, 0);
+
+		StartPane.IsClippedToBounds = true;
+		EndPane.IsClippedToBounds = true;
     }
 
     public void SetStartPane(IView view)
