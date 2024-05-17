@@ -114,7 +114,9 @@ public partial class SelectionList : BaseContentView
 			SelectedItem ??= e.NewItems[0];
 		else if (e.Action == NotifyCollectionChangedAction.Remove)
 		{
-			if (ItemsSource.Count > 0 && ItemsSource.IndexOf(SelectedItem) == -1)
+			if (ItemsSource.Count <= 0)
+				SelectedItem = null;
+			else if (ItemsSource.IndexOf(SelectedItem) == -1)
 				SelectedItem = ItemsSource[0];
 		}
 		else if (e.Action == NotifyCollectionChangedAction.Reset)
