@@ -97,6 +97,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You&apos;re all caught up! No drafts here..
+        /// </summary>
+        public static string AllCaughtUpNoDrafts {
+            get {
+                return ResourceManager.GetString("AllCaughtUpNoDrafts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility Authorization Request.
         /// </summary>
         public static string AuthorizationRequest {

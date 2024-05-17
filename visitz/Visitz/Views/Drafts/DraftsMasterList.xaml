@@ -68,5 +68,12 @@
 			</selView:SelectionList.ItemTemplate>
 		</selView:SelectionList>
 
+		<views:EmptyCollectionMessage
+			Grid.Row="1"
+			HorizontalOptions="Center"
+			VerticalOptions="Center"
+			Text="{local:Localize AllCaughtUpNoDrafts}"
+			IsVisible="{Binding ShowEmptyView}"/>
+
 	</Grid>
 </views:ViewModelContentView>

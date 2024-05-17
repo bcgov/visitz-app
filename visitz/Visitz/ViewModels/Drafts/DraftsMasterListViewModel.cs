@@ -17,6 +17,9 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 	[ObservableProperty]
 	public MasterDraftItem selectedItem;
 
+	[ObservableProperty]
+	public bool showEmptyView;
+
 	readonly ObservableRealmCount realmCount = new();
 
 	MasterDraftItem noteDraftItem;
@@ -43,6 +46,8 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 
 	private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
 	{
+		ShowEmptyView = (sender as ObservableRealmCount).Total <= 0;
+
 		if (e.Kind == typeof(NoteDraft))
 			UpdateItem(LocalizedStrings.Notes, e.Count, ref noteDraftItem);
 		else if (e.Kind == typeof(SafetyAssessment))

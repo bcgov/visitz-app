@@ -681,4 +681,7 @@ If you have any questions about the collection, use, or disclosure of this infor
   <data name="LastModified" xml:space="preserve">
     <value>Last modified</value>
   </data>
+  <data name="AllCaughtUpNoDrafts" xml:space="preserve">
+    <value>You're all caught up! No drafts here.</value>
+  </data>
 </root>
