@@ -10,6 +10,8 @@ public partial class MasterDraftItem : ObservableObject, IComparable<MasterDraft
 	[ObservableProperty]
 	public int count;
 
+	public Type ItemType { get; set; }
+
 	public int CompareTo(MasterDraftItem other)
 	{
 		int nameComparison = Name.CompareTo(other.Name);
