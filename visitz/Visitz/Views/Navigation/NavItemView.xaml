@@ -45,18 +45,24 @@
 				VerticalOptions="Center" />
 
 			<Border
-				MinimumHeightRequest="16"
-				MinimumWidthRequest="16"
-				Margin="-14,-8"
+				Margin="{OnPlatform iOS='-8,-4', Default='-16,-4'}"
 				VerticalOptions="StartAndExpand"
 				HorizontalOptions="EndAndExpand"
-				Padding="6,1"
 				BackgroundColor="{StaticResource BC_Gold}"
-				StrokeShape="RoundRectangle 16"
+				StrokeShape="RoundRectangle 20"
 				StrokeThickness="0"
 				IsVisible="{Binding ShowBadge}">
 
-				<Label Text="{Binding BadgeCount}" />
+				<Label
+					Padding="{OnPlatform WinUI=2}"
+					MinimumHeightRequest="20"
+					MinimumWidthRequest="20"
+					VerticalOptions="Center"
+					HorizontalOptions="Center"
+					FontSize="11"
+					Text="{Binding BadgeCount}"
+					HorizontalTextAlignment="Center"
+					VerticalTextAlignment="Center"/>
 
 			</Border>
 		</Grid>
