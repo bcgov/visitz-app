@@ -11,6 +11,7 @@ using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels;
 
@@ -51,15 +52,26 @@ public partial class NavRailViewModel : VisitzViewModel
 		ContentViewType = typeof(DebugOptionsView),
 	};
 
-	public override void Create()
+	readonly ObservableRealmCount realmCount = new();
+
+	public override async void Create()
     {
         base.Create();
 
         BuildNavCollection();
         SelectedNavItem = (NavItem)NavigationItems.First();
-    }
 
-    private void BuildNavCollection()
+		await SubscribeToAllDraftCounts();
+	}
+
+	public override void Destroy()
+	{
+		base.Destroy();
+
+		realmCount.Dispose();
+	}
+
+	private void BuildNavCollection()
     {
 		NavigationItems.Clear();
 
@@ -69,6 +81,14 @@ public partial class NavRailViewModel : VisitzViewModel
 		if (DebugOptions.Enabled)
 			NavigationItems.Add(DebugNavItem);
     }
+
+	private async Task SubscribeToAllDraftCounts()
+	{
+		realmCount.CountChanged += RealmCount_CountChanged;
+
+		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
+		realmCount.Subscribe<SafetyAssessment>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
+	}
 
     partial void OnSelectedNavItemChanged(NavItem value)
     {
@@ -80,4 +100,9 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         await Navigator.GoToPage<SessionPage>(modal: true);
     }
+
+	private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
+	{
+		DraftsNavItem.BadgeCount = (sender as ObservableRealmCount).Total;
+	}
 }
