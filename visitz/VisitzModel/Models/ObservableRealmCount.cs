@@ -43,8 +43,12 @@ public class ObservableRealmCount : IDisposable
 		if (!disposedValue)
 		{
 			if (disposing)
+			{
 				foreach (var (_, _, token, _) in CountSubscriptions.Values)
 					token.Dispose();
+
+				CountSubscriptions.Clear();
+			}
 
 			disposedValue = true;
 		}
