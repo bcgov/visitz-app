@@ -1,8 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
+using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.SafetyAssess;
@@ -49,12 +52,12 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 		ShowEmptyView = (sender as ObservableRealmCount).Total <= 0;
 
 		if (e.Kind == typeof(NoteDraft))
-			UpdateItem(LocalizedStrings.Notes, e.Count, ref noteDraftItem);
+			UpdateItem(LocalizedStrings.Notes, e.Count, ref noteDraftItem, typeof(NoteDraft));
 		else if (e.Kind == typeof(SafetyAssessment))
-			UpdateItem(LocalizedStrings.SafetyAssessment, e.Count, ref assessmentDraftItem);
+			UpdateItem(LocalizedStrings.SafetyAssessment, e.Count, ref assessmentDraftItem, typeof(SafetyAssessment));
 	}
 
-	void UpdateItem(string name, int count, ref MasterDraftItem item)
+	void UpdateItem(string name, int count, ref MasterDraftItem item, Type itemType)
 	{
 		if (item != null)
 			MasterDraftItems.Remove(item);
@@ -65,6 +68,7 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 			{
 				Name = name,
 				Count = count,
+				ItemType = itemType,
 			};
 
 			InsertSortedAsc(MasterDraftItems, item);
@@ -74,7 +78,9 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 	[RelayCommand]
 	public void MasterDraftItemSelected()
 	{
-
+		var kind = SelectedItem.ItemType;
+		var msg = new DraftMasterSelectedMessage(kind, realmCount[kind].Realm);
+		StrongReferenceMessenger.Default.Send(msg);
 	}
 
 	// TODO: Use the IList<T>.InsertSortedAsc once MAUI fixes ObservableCollection<object> issues.
