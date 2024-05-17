@@ -4,28 +4,70 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:controls="clr-namespace:Visitz.Controls"
 	xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
 	xmlns:viewModels="clr-namespace:Visitz.ViewModels.Drafts"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Drafts.DraftsList"
 	x:DataType="viewModels:DraftsListViewModel">
 
+	<views:ViewModelContentView.Resources>
+		<Style TargetType="Grid" x:Key="SameWidth">
+			<Setter Property="ColumnDefinitions" Value="*,2*,1.3*" />
+		</Style>
+	</views:ViewModelContentView.Resources>
+
 	<Grid RowDefinitions="Auto,*">
 
 		<controls:TopAppBar
-			Grid.Row="0"
-			ColumnDefinitions="*,*,*">
+			Style="{StaticResource SameWidth}"
+			Grid.Row="0">
 			<Label
 				Grid.Column="0"
 				FontFamily="BCSansBold"
 				VerticalOptions="End"
 				Text="{local:Localize LastModified}" />
-				
+
+			<Label
+				Grid.Column="1"
+				FontFamily="BCSansBold"
+				VerticalOptions="End"
+				Text="Preview" />
+
 			<Label
 				Grid.Column="2"
 				FontFamily="BCSansBold"
 				VerticalOptions="End"
 				Text="{local:Localize File}" />
 		</controls:TopAppBar>
+
+		<CollectionView
+			Grid.Row="1"
+			ItemsSource="{Binding DraftItems}">
+			<CollectionView.ItemTemplate>
+				<DataTemplate x:DataType="draftModels:IDraftItem">
+					<ContentView>
+						<Grid
+							Style="{StaticResource SameWidth}"
+							ColumnSpacing="8"
+							Margin="10">
+							<Label
+								Grid.Column="0"
+								Text="{Binding LastUpdated}" />
+
+							<Label
+								Grid.Column="1"
+								Text="{Binding Preview}"
+								MaxLines="3"
+								LineBreakMode="HeadTruncation"/>
+
+							<Label
+								Grid.Column="2"
+								Text="{Binding Name}" />
+						</Grid>
+					</ContentView>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
 
 	</Grid>
 </views:ViewModelContentView>
