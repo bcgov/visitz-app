@@ -1,6 +1,8 @@
-﻿namespace VisitzModel.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
-public class NavItem
+namespace VisitzModel.Models;
+
+public partial class NavItem : ObservableObject
 {
     private ImageSource selectedImageSource;
     private ImageSource unselectedImageSource;
