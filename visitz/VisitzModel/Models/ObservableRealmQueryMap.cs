@@ -2,26 +2,26 @@ using Realms;
 
 namespace VisitzModel.Models;
 
-public class ObservableRealmQueryMap<T> : IDisposable where T : IRealmObject
+public class ObservableRealmQueryMap : IDisposable
 {
 	private bool disposedValue;
 
 	Dictionary<Type, (Realm, IQueryable, IDisposable QueryToken)> Queries { get; } = [];
 
-	public event EventHandler<(Type, IRealmCollection<T> Items, ChangeSet Changes)> ItemsChanged;
+	public event EventHandler<(Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes)> ItemsChanged;
 
-	public void Subscribe(Realm realm, IQueryable<T> query)
+	public void Subscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
 	{
 		var queryToken = query.SubscribeForNotifications(Query_ItemsChanged);
 		Queries[typeof(T)] = (realm, query, queryToken);
 	}
 
-	public void Unsubscribe<Q>() where Q : T
+	public void Unsubscribe<T>() where T : IRealmObject
 	{
-		if (Queries.ContainsKey(typeof(Q)))
+		if (Queries.ContainsKey(typeof(T)))
 		{
-			Queries[typeof(Q)].QueryToken.Dispose();
-			Queries.Remove(typeof(Q));
+			Queries[typeof(T)].QueryToken.Dispose();
+			Queries.Remove(typeof(T));
 		}
 	}
 
@@ -33,9 +33,9 @@ public class ObservableRealmQueryMap<T> : IDisposable where T : IRealmObject
 		Queries.Clear();
 	}
 
-	void Query_ItemsChanged(IRealmCollection<T> sender, ChangeSet changes)
+	void Query_ItemsChanged<T>(IRealmCollection<T> sender, ChangeSet changes) where T : IRealmObject
 	{
-		ItemsChanged?.Invoke(this, (typeof(T), sender, changes));
+		ItemsChanged?.Invoke(this, (typeof(T), sender as IRealmCollection<IRealmObject>, changes));
 	}
 
 	protected virtual void Dispose(bool disposing)
