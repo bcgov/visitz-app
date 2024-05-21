@@ -1,13 +1,23 @@
 using Realms;
 using VisitzModel.Extensions;
 using VisitzModel.Models.Drafts;
+using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models
 {
     public partial class NoteDraft : IRealmObject, IDraftItem
     {
+		// Only allow one note draft per parent entity.
         [PrimaryKey]
-        public string CaseIncidentAndCreatedDateID { get; set; }
+		public string ParentEntityId { get; set; }
+
+		private int ParentEntityTypeInt { get; set; }
+
+		public EntityType ParentEntityType
+		{
+			get => (EntityType)ParentEntityTypeInt;
+			set => ParentEntityTypeInt = (int)value;
+		}
 
         public string Draft { get; set; }
 
@@ -22,21 +32,21 @@ namespace VisitzModel.Models
                     this.Commit(() => Draft = value);
 
                 RaisePropertyChanged(nameof(DraftBinding));
-            }
-        }
+				LastUpdated = DateTimeOffset.Now;
+			}
+		}
 
-		// TODO: Returning LocalNow is only for testing during development
-		public DateTime LastUpdated { get => DateTimeExtensions.LocalNow; set { } }
+		public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
 
-		public string Preview { get => Draft; set { } }
+		public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-		// TODO: Returning CaseIncidentAndCreatedDateID is only for testing during development
-		public string Name { get => CaseIncidentAndCreatedDateID; set { } }
+		public string Preview { get => Draft; }
 
-		public static string MakeId(string caseIncidentNumber)
+		public string DraftLocation { get; set; }
+
+		public static string MakeId(string parentEntityId)
         {
-            // For now (2023-10-03), we will only hold one draft per caseIncidentNumber.
-            return $"{caseIncidentNumber}";
+            return $"{parentEntityId}";
         }
 
         public static NoteDraft FindByEntityId(Realm realm, string entityId)
