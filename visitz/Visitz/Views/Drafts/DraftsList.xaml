@@ -58,7 +58,8 @@
 							
 							<Label
 								Grid.Column="0"
-								Text="{Binding LastUpdated, Converter={StaticResource ThatDayConverter}}" />
+								Text="{Binding LastUpdated, Converter={StaticResource ThatDayConverter}}"
+								TextColor="{StaticResource BC_TextColor_Lighter}" />
 
 							<Label
 								Grid.Column="1"
