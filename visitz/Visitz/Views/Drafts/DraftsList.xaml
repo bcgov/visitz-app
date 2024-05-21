@@ -3,6 +3,7 @@
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:converters="clr-namespace:Visitz.Converters"
 	xmlns:local="clr-namespace:Visitz.Localization"
 	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
 	xmlns:viewModels="clr-namespace:Visitz.ViewModels.Drafts"
@@ -50,9 +51,14 @@
 							Style="{StaticResource SameWidth}"
 							ColumnSpacing="8"
 							Margin="10">
+
+							<Grid.Resources>
+								<converters:DateTimeOffsetThatDayConverter x:Key="ThatDayConverter" />
+							</Grid.Resources>
+							
 							<Label
 								Grid.Column="0"
-								Text="{Binding LastUpdated}" />
+								Text="{Binding LastUpdated, Converter={StaticResource ThatDayConverter}}" />
 
 							<Label
 								Grid.Column="1"
