@@ -13,7 +13,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
 	[ObservableProperty]
 	public ObservableCollection<object> draftItems = [];
 
-	readonly ObservableRealmQueryMap<IDraftItem> queryMap = new();
+	readonly ObservableRealmQueryMap queryMap = new();
 
 	public override void Create()
 	{
@@ -41,7 +41,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
 			queryMap.Subscribe(realm, realm.All<NoteDraft>());
 	}
 
-	private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IDraftItem> Items, ChangeSet Changes) e)
+	private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
 	{
 		if (e.Changes == null)
 		{
