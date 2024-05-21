@@ -55,6 +55,16 @@ namespace VisitzModel.Models
 
 		public string DraftLocation { get; set; }
 
+		public string DraftLocationBinding
+		{
+			get => IsValid ? DraftLocation : default;
+			set
+			{
+				this.Commit(() => DraftLocation = value);
+				RaisePropertyChanged(nameof(DraftLocation));
+			}
+		}
+
 		public static string MakeId(string parentEntityId)
         {
             return $"{parentEntityId}";
