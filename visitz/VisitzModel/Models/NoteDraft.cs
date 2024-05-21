@@ -32,15 +32,24 @@ namespace VisitzModel.Models
 				{
                     this.Commit(() => Draft = value);
 					RaisePropertyChanged(nameof(DraftBinding));
+					LastUpdatedBinding = DateTimeOffset.Now;
 				}
-
-				LastUpdated = DateTimeOffset.Now;
 			}
 		}
 
 		public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
 
 		public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
+
+		public DateTimeOffset LastUpdatedBinding
+		{
+			get => IsValid ? LastUpdated : default;
+			set
+			{
+				this.Commit(() => LastUpdated = value);
+				RaisePropertyChanged(nameof(LastUpdated));
+			}
+		}
 
 		public string Preview { get => Draft; }
 
