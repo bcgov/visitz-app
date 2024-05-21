@@ -32,7 +32,7 @@
 				Grid.Column="1"
 				FontFamily="BCSansBold"
 				VerticalOptions="End"
-				Text="Preview" />
+				Text="{local:Localize Preview}" />
 
 			<Label
 				Grid.Column="2"
