@@ -38,9 +38,11 @@ internal partial class DraftsListViewModel : VisitzViewModel
 		queryMap.UnsubscribeAll();
 
 		var (type, realm) = message.Value;
-		
+
 		if (type == typeof(NoteDraft))
 			SortAndSubscribe(realm, realm.All<NoteDraft>());
+		else
+			throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
 	}
 
 	private void SortAndSubscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
