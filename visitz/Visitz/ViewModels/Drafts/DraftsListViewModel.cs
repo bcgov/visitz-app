@@ -4,6 +4,7 @@ using Realms;
 using System.Collections.ObjectModel;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 
 namespace Visitz.ViewModels.Drafts;
 
@@ -37,9 +38,15 @@ internal partial class DraftsListViewModel : VisitzViewModel
 		queryMap.UnsubscribeAll();
 
 		var (type, realm) = message.Value;
-
+		
 		if (type == typeof(NoteDraft))
-			queryMap.Subscribe(realm, realm.All<NoteDraft>());
+			SortAndSubscribe(realm, realm.All<NoteDraft>());
+	}
+
+	private void SortAndSubscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
+	{
+		var sortedQuery = query.Filter($"TRUEPREDICATE SORT({nameof(IDraftItem.LastUpdated)} DESC)");
+		queryMap.Subscribe(realm, sortedQuery);
 	}
 
 	private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
