@@ -39,17 +39,6 @@ namespace VisitzModel.Models
             return $"{caseIncidentNumber}";
         }
 
-        public static (IQueryable<NoteDraft> noteDraftQuery, IDisposable queryToken) Subscribe(
-            Realm realm,
-            string caseIncidentAndCreatedDateID,
-            NotificationCallbackDelegate<NoteDraft> callbackDelegate)
-        {
-            var noteDraftQuery = realm.All<NoteDraft>()
-                .Where(draft => draft.CaseIncidentAndCreatedDateID == caseIncidentAndCreatedDateID);
-
-            return (noteDraftQuery, noteDraftQuery.SubscribeForNotifications(callbackDelegate));
-        }
-
         public static NoteDraft FindByEntityId(Realm realm, string entityId)
         {
             return realm.Find<NoteDraft>(MakeId(entityId));
@@ -64,4 +53,3 @@ namespace VisitzModel.Models
         }
     }
 }
-
