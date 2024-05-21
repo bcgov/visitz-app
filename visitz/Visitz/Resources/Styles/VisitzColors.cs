@@ -22,7 +22,8 @@ public static class VisitzColors
     public static readonly Color BC_Blue = TryGetColor(nameof(BC_Blue));
     public static readonly Color BC_Gold = TryGetColor(nameof(BC_Gold));
     public static readonly Color BC_TextColor = TryGetColor(nameof(BC_TextColor));
-    public static readonly Color BC_Hyperlink = TryGetColor(nameof(BC_Hyperlink));
+	public static readonly Color BC_TextColor_Lighter = TryGetColor(nameof(BC_TextColor_Lighter));
+	public static readonly Color BC_Hyperlink = TryGetColor(nameof(BC_Hyperlink));
     public static readonly Color BC_Background_Dark = TryGetColor(nameof(BC_Background_Dark));
     public static readonly Color BC_Background_Light = TryGetColor(nameof(BC_Background_Light));
     public static readonly Color BC_InputControlsTextColor = TryGetColor(nameof(BC_InputControlsTextColor));

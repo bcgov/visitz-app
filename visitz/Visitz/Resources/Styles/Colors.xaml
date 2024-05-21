@@ -9,6 +9,7 @@
     <Color x:Key="BC_Blue_Disabled">#CDDADF</Color>
     <Color x:Key="BC_Gold">#FCBA19</Color>
     <Color x:Key="BC_TextColor">#313132</Color>
+	<Color x:Key="BC_TextColor_Lighter">#727272</Color>
     <Color x:Key="BC_TextColor_Disabled">#424242</Color>
     <Color x:Key="BC_Hyperlink">#1A5A96</Color>
     <Color x:Key="BC_Background_Dark">#38598A</Color>
