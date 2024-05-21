@@ -62,7 +62,7 @@
 
 							<Label
 								Grid.Column="2"
-								Text="{Binding Name}" />
+								Text="{Binding DraftLocation}" />
 						</Grid>
 					</ContentView>
 				</DataTemplate>

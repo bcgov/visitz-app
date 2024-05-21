@@ -56,7 +56,7 @@ namespace Visitz.ViewModels
             {
                 NoteDraft = new NoteDraft()
                 {
-                    CaseIncidentAndCreatedDateID = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber)
+                    ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber)
                 };
                 await realm.WriteAsync(() => realm.Add(NoteDraft));
             }
