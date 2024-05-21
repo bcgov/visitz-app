@@ -6,6 +6,7 @@
 	xmlns:converters="clr-namespace:Visitz.Converters"
 	xmlns:local="clr-namespace:Visitz.Localization"
 	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
+	xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
 	xmlns:viewModels="clr-namespace:Visitz.ViewModels.Drafts"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Drafts.DraftsList"
@@ -13,7 +14,7 @@
 
 	<views:ViewModelContentView.Resources>
 		<Style TargetType="Grid" x:Key="SameWidth">
-			<Setter Property="ColumnDefinitions" Value="*, 2*, 1*" />
+			<Setter Property="ColumnDefinitions" Value="*, 2*, 1*, 0.3*" />
 			<Setter Property="ColumnSpacing" Value="8" />
 		</Style>
 	</views:ViewModelContentView.Resources>
@@ -44,6 +45,9 @@
 				Grid.Column="2"
 				Text="{local:Localize LastModified}" />
 
+			<Label
+				Grid.Column="3"
+				Text="Type" />
 		</controls:TopAppBar>
 
 		<CollectionView
@@ -52,30 +56,45 @@
 			<CollectionView.ItemTemplate>
 				<DataTemplate x:DataType="draftModels:IDraftItem">
 					<ContentView>
-						<Grid
-							Style="{StaticResource SameWidth}"
-							Margin="10">
+						<VerticalStackLayout>
+							<Grid
+								RowDefinitions="*,Auto"
+								Style="{StaticResource SameWidth}"
+								Margin="10">
 
-							<Grid.Resources>
-								<converters:DateTimeOffsetThatDayConverter x:Key="ThatDayConverter" />
-							</Grid.Resources>
+								<Grid.Resources>
+									<converters:DateTimeOffsetThatDayConverter x:Key="ThatDayConverter" />
+								</Grid.Resources>
 							
-							<Label
-								Grid.Column="0"
-								Text="{Binding DraftLocation}" />
+								<Label 
+									Grid.Column="0"
+									VerticalOptions="Start"
+									Text="{Binding DraftLocation}" />
 
-							<Label
-								Grid.Column="1"
-								Text="{Binding Preview}"
-								MaxLines="3"
-								LineBreakMode="HeadTruncation" />
+								<Label 
+									Grid.Column="1"
+									VerticalOptions="Start"
+									Text="{Binding Preview}"
+									MaxLines="3"
+									LineBreakMode="HeadTruncation" />
 
-							<Label
-								Grid.Column="2"
-								Text="{Binding LastUpdated.LocalDateTime, StringFormat='{0:g}'}"
-								TextColor="{StaticResource BC_TextColor_Lighter}" />
+								<Label 
+									Grid.Column="2"
+									VerticalOptions="Start"
+									Text="{Binding LastUpdated.LocalDateTime, StringFormat='{0:g}'}"
+									TextColor="{StaticResource BC_TextColor_Lighter}" />
+
+								<tagViews:EntityTypeBadge 
+									Grid.Column="3"
+									HorizontalOptions="Start"
+									VerticalOptions="Start" />
+							</Grid>
 							
-						</Grid>
+							<BoxView
+								Margin="10,0"
+								HeightRequest="0.5"
+								Color="{StaticResource Gray200}" />
+						</VerticalStackLayout>
 					</ContentView>
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
