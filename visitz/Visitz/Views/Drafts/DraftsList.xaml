@@ -22,22 +22,25 @@
 		<controls:TopAppBar
 			Style="{StaticResource SameWidth}"
 			Grid.Row="0">
+
+			<controls:TopAppBar.Resources>
+				<Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
+					<Setter Property="FontFamily" Value="BCSansBold" />
+					<Setter Property="TextColor" Value="{StaticResource BC_TextColor_Lighter}" />
+					<Setter Property="VerticalOptions" Value="End" />
+				</Style>
+			</controls:TopAppBar.Resources>
+				
 			<Label
 				Grid.Column="0"
-				FontFamily="BCSansBold"
-				VerticalOptions="End"
 				Text="{local:Localize LastModified}" />
 
 			<Label
 				Grid.Column="1"
-				FontFamily="BCSansBold"
-				VerticalOptions="End"
 				Text="{local:Localize Preview}" />
 
 			<Label
 				Grid.Column="2"
-				FontFamily="BCSansBold"
-				VerticalOptions="End"
 				Text="{local:Localize File}" />
 		</controls:TopAppBar>
 
