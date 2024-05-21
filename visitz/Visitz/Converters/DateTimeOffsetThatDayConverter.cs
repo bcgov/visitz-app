@@ -7,9 +7,15 @@ internal class DateTimeOffsetThatDayConverter : IValueConverter
 {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		var then = ((DateTimeOffset)value).LocalDateTime;
-		var now = DateTimeOffset.Now.LocalDateTime;
-		return value == null ? null : new ThatDay(then, now).ToString();
+		if (value == null)
+			return null;
+
+		var then = (DateTimeOffset)value;
+		if (then == DateTimeOffset.MinValue)
+			return "N/A";
+
+		var now = DateTimeOffset.Now;
+		return value == null ? null : new ThatDay(then.LocalDateTime, now.LocalDateTime).ToString();
 	}
 
 	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
