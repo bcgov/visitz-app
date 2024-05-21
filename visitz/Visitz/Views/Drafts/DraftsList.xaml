@@ -14,6 +14,7 @@
 	<views:ViewModelContentView.Resources>
 		<Style TargetType="Grid" x:Key="SameWidth">
 			<Setter Property="ColumnDefinitions" Value="*,2*,1.3*" />
+			<Setter Property="ColumnSpacing" Value="8" />
 		</Style>
 	</views:ViewModelContentView.Resources>
 
@@ -52,7 +53,6 @@
 					<ContentView>
 						<Grid
 							Style="{StaticResource SameWidth}"
-							ColumnSpacing="8"
 							Margin="10">
 
 							<Grid.Resources>
