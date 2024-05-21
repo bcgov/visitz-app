@@ -44,9 +44,9 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         await DraftSavedIndicator.SetState(state);
     }
 
-    void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
+    async void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ((NoteEntryViewModel)BindingContext).EditorTextChanged(e);
+        await ((NoteEntryViewModel)BindingContext).EditorTextChanged(e);
     }
 
     public async Task ShowEditorError(string text)
