@@ -29,9 +29,11 @@ namespace VisitzModel.Models
                 bool canSet = !value?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? true;
 
                 if (canSet)
+				{
                     this.Commit(() => Draft = value);
+					RaisePropertyChanged(nameof(DraftBinding));
+				}
 
-                RaisePropertyChanged(nameof(DraftBinding));
 				LastUpdated = DateTimeOffset.Now;
 			}
 		}
