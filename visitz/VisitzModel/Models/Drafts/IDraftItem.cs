@@ -4,9 +4,11 @@ namespace VisitzModel.Models.Drafts;
 
 public interface IDraftItem : IRealmObject
 {
-	DateTime LastUpdated { get; set; }
+	DateTimeOffset DraftCreated { get; set; }
 
-	string Preview { get; set; }
+	DateTimeOffset LastUpdated { get; set; }
 
-	string Name { get; set; }
+	string Preview { get; }
+
+	string DraftLocation { get; set; }
 }
