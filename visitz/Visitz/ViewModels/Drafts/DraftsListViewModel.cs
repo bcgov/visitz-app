@@ -4,7 +4,6 @@ using Realms;
 using System.Collections.ObjectModel;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
-using VisitzModel.Models.Drafts;
 
 namespace Visitz.ViewModels.Drafts;
 
@@ -29,6 +28,8 @@ internal partial class DraftsListViewModel : VisitzViewModel
 		base.Destroy();
 
 		StrongReferenceMessenger.Default.UnregisterAll(this);
+
+		queryMap.ItemsChanged -= QueryMap_ItemsChanged;
 	}
 
 	private void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
