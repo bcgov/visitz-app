@@ -5,6 +5,26 @@ namespace VisitzModel.Models;
 
 public partial class NoteDraft
 {
+	public EntityType RelatedEntityTypeBinding
+	{
+		get => IsValid ? RelatedEntityType : default;
+		set
+		{
+			this.Commit(() => RelatedEntityType = value);
+			RaisePropertyChanged(nameof(RelatedEntityType));
+		}
+	}
+
+	public EntitySubtype RelatedEntitySubtypeBinding
+	{
+		get => IsValid ? RelatedEntitySubtype : default;
+		set
+		{
+			this.Commit(() => RelatedEntitySubtype = value);
+			RaisePropertyChanged(nameof(RelatedEntitySubtype));
+		}
+	}
+
 	public DateTimeOffset LastUpdatedBinding
 	{
 		get => IsValid ? LastUpdated : default;
