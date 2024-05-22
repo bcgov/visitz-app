@@ -52,16 +52,8 @@ public class EntityTypeBadge : TagView
 
 	void ApplyEntityTypes()
 	{
-		if (EntityType != EntityType.Unknown)
-		{
-			BackgroundColor = EntityType.GetBackgroundColor();
-			TextColor = EntityType.GetTextColor();
-		}
-		else
-		{
-			BackgroundColor = Colors.Transparent;
-			TextColor = VisitzColors.BC_TextColor;
-		}
+		BackgroundColor = EntityType.GetBackgroundColor();
+		TextColor = EntityType.GetTextColor();
 
 		Text = EntityType == EntityType.Incident
 			? EntityType.GetDisplayString().GetInitialsOrTruncate()
