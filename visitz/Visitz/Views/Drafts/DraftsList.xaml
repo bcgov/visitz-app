@@ -81,7 +81,7 @@
 								<Label 
 									Grid.Column="2"
 									VerticalOptions="Start"
-									Text="{Binding LastUpdated.LocalDateTime, StringFormat='{0:g}'}"
+									Text="{Binding LastUpdated.LocalDateTime, StringFormat='{0:d}'}"
 									TextColor="{StaticResource BC_TextColor_Lighter}" />
 
 								<tagViews:EntityTypeBadge 
