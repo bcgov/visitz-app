@@ -10,6 +10,7 @@ public static class EntityTypeUiExtensions
 	{
 		return entityType switch
 		{
+			EntityType.Unknown => MaterialIcons.Question_mark,
 			EntityType.Case => MaterialIcons.Folder,
 			EntityType.Incident => MaterialIcons.Warning,
 			EntityType.Memo => MaterialIcons.Note_alt,
@@ -22,6 +23,7 @@ public static class EntityTypeUiExtensions
 	{
 		return entityType switch
 		{
+			EntityType.Unknown => VisitzColors.EntityUnknownTypeTagText,
 			EntityType.Case => VisitzColors.EntityCaseTagText,
 			EntityType.Incident => VisitzColors.EntityIncidentTagText,
 			EntityType.Memo => VisitzColors.EntityMemoTagText,
@@ -34,6 +36,7 @@ public static class EntityTypeUiExtensions
 	{
 		return entityType switch
 		{
+			EntityType.Unknown => VisitzColors.EntityUnknownTypeBackground,
 			EntityType.Case => VisitzColors.EntityCaseTagBackground,
 			EntityType.Incident => VisitzColors.EntityIncidentTagBackground,
 			EntityType.Memo => VisitzColors.EntityMemoTagBackground,
@@ -44,7 +47,7 @@ public static class EntityTypeUiExtensions
 
 	public static FontImageSource GetIcon(this EntityType entityType)
 	{
-		if (entityType == EntityType.Unknown || entityType > EntityType.ServiceRequest)
+		if (entityType > EntityType.ServiceRequest)
 			throw new NotImplementedException();
 
 		return new FontImageSource()
