@@ -75,7 +75,7 @@
 									Grid.Column="1"
 									VerticalOptions="Start"
 									Text="{Binding Preview}"
-									MaxLines="3"
+									MaxLines="1"
 									LineBreakMode="HeadTruncation" />
 
 								<Label 
