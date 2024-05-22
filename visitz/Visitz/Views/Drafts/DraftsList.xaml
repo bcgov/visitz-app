@@ -87,7 +87,9 @@
 								<tagViews:EntityTypeBadge 
 									Grid.Column="3"
 									HorizontalOptions="Start"
-									VerticalOptions="Start" />
+									VerticalOptions="Start"
+									EntityType="{Binding RelatedEntityType}"
+									EntitySubtype="{Binding RelatedEntitySubtype}" />
 							</Grid>
 							
 							<BoxView
