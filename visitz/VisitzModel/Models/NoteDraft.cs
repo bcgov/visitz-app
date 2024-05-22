@@ -1,5 +1,4 @@
 using Realms;
-using VisitzModel.Extensions;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 
