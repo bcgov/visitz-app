@@ -29,49 +29,13 @@ namespace VisitzModel.Models
 
 		public string Draft { get; set; }
 
-        public string DraftBinding
-        {
-            get => IsValid ? Draft : default;
-            set
-            {
-                bool canSet = !value?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? true;
-
-                if (canSet)
-				{
-                    this.Commit(() => Draft = value);
-					RaisePropertyChanged(nameof(DraftBinding));
-					LastUpdatedBinding = DateTimeOffset.Now;
-				}
-			}
-		}
-
 		public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
 
 		public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-		public DateTimeOffset LastUpdatedBinding
-		{
-			get => IsValid ? LastUpdated : default;
-			set
-			{
-				this.Commit(() => LastUpdated = value);
-				RaisePropertyChanged(nameof(LastUpdated));
-			}
-		}
-
 		public string Preview { get => Draft; }
 
 		public string DraftLocation { get; set; }
-
-		public string DraftLocationBinding
-		{
-			get => IsValid ? DraftLocation : default;
-			set
-			{
-				this.Commit(() => DraftLocation = value);
-				RaisePropertyChanged(nameof(DraftLocation));
-			}
-		}
 
 		public static string MakeId(string parentEntityId)
         {
