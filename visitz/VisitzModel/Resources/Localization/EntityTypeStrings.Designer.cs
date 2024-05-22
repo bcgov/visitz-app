@@ -95,5 +95,14 @@ namespace VisitzModel.Resources.Localization {
                 return ResourceManager.GetString("ServiceRequest", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
     }
 }

@@ -6,9 +6,11 @@ public class ObservableRealmCount : IDisposable
 {
 	private bool disposedValue;
 
-	Dictionary<Type, (Realm, IQueryable, IDisposable QueryToken, int Count)> CountSubscriptions { get; } = [];
+	public Dictionary<Type, (Realm Realm, IQueryable, IDisposable Token, int Count)> CountSubscriptions { get; } = [];
 
 	public event EventHandler<(Type Kind, int Count)> CountChanged;
+
+	public (Realm Realm, IQueryable Query, IDisposable Token, int Count) this[Type key] => CountSubscriptions[key];
 
 	public int Total
 	{
@@ -43,8 +45,12 @@ public class ObservableRealmCount : IDisposable
 		if (!disposedValue)
 		{
 			if (disposing)
+			{
 				foreach (var (_, _, token, _) in CountSubscriptions.Values)
 					token.Dispose();
+
+				CountSubscriptions.Clear();
+			}
 
 			disposedValue = true;
 		}

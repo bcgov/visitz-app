@@ -3,29 +3,104 @@
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:converters="clr-namespace:Visitz.Converters"
 	xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
+	xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
 	xmlns:viewModels="clr-namespace:Visitz.ViewModels.Drafts"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Drafts.DraftsList"
 	x:DataType="viewModels:DraftsListViewModel">
 
+	<views:ViewModelContentView.Resources>
+		<Style TargetType="Grid" x:Key="SameWidth">
+			<Setter Property="ColumnDefinitions" Value="*, 2*, 1*, 0.3*" />
+			<Setter Property="ColumnSpacing" Value="8" />
+		</Style>
+	</views:ViewModelContentView.Resources>
+
 	<Grid RowDefinitions="Auto,*">
 
 		<controls:TopAppBar
-			Grid.Row="0"
-			ColumnDefinitions="*,*,*">
-			<Label
-				Grid.Column="0"
-				FontFamily="BCSansBold"
-				VerticalOptions="End"
-				Text="{local:Localize LastModified}" />
+			Style="{StaticResource SameWidth}"
+			Grid.Row="0">
+
+			<controls:TopAppBar.Resources>
+				<Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
+					<Setter Property="FontFamily" Value="BCSansBold" />
+					<Setter Property="TextColor" Value="{StaticResource BC_TextColor_Lighter}" />
+					<Setter Property="VerticalOptions" Value="End" />
+				</Style>
+			</controls:TopAppBar.Resources>
 				
 			<Label
-				Grid.Column="2"
-				FontFamily="BCSansBold"
-				VerticalOptions="End"
+				Grid.Column="0"
 				Text="{local:Localize File}" />
+
+			<Label
+				Grid.Column="1"
+				Text="{local:Localize Preview}" />
+
+			<Label
+				Grid.Column="2"
+				Text="{local:Localize LastModified}" />
+
+			<Label
+				Grid.Column="3"
+				Text="Type" />
 		</controls:TopAppBar>
+
+		<CollectionView
+			Grid.Row="1"
+			ItemsSource="{Binding DraftItems}">
+			<CollectionView.ItemTemplate>
+				<DataTemplate x:DataType="draftModels:IDraftItem">
+					<ContentView>
+						<VerticalStackLayout>
+							<Grid
+								RowDefinitions="*,Auto"
+								Style="{StaticResource SameWidth}"
+								Margin="10">
+
+								<Grid.Resources>
+									<converters:DateTimeOffsetThatDayConverter x:Key="ThatDayConverter" />
+								</Grid.Resources>
+							
+								<Label 
+									Grid.Column="0"
+									VerticalOptions="Start"
+									Text="{Binding DraftLocation}" />
+
+								<Label 
+									Grid.Column="1"
+									VerticalOptions="Start"
+									Text="{Binding Preview}"
+									MaxLines="1"
+									LineBreakMode="HeadTruncation" />
+
+								<Label 
+									Grid.Column="2"
+									VerticalOptions="Start"
+									Text="{Binding LastUpdated.LocalDateTime, StringFormat='{0:d}'}"
+									TextColor="{StaticResource BC_TextColor_Lighter}" />
+
+								<tagViews:EntityTypeBadge 
+									Grid.Column="3"
+									HorizontalOptions="Start"
+									VerticalOptions="Start"
+									EntityType="{Binding RelatedEntityType}"
+									EntitySubtype="{Binding RelatedEntitySubtype}" />
+							</Grid>
+							
+							<BoxView
+								Margin="10,0"
+								HeightRequest="0.5"
+								Color="{StaticResource Gray200}" />
+						</VerticalStackLayout>
+					</ContentView>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
 
 	</Grid>
 </views:ViewModelContentView>

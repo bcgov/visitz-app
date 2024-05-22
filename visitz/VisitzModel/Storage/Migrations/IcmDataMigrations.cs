@@ -26,7 +26,7 @@ public static class IcmDataMigrations
 
 	private static void MigrateItemFamilyMembers(ulong oldSchemaVersion, IRealmObject _, IRealmObject newItem)
 	{
-		if (oldSchemaVersion < VisitzRealmBase.Version2_1)
+		if (oldSchemaVersion < VisitzRealmBase.Version2_3_3)
 		{
 			const string SubjectFlag = "SubjectFlag";
 			const string ParentCaregiver = "ParentCaregiver";

@@ -10,7 +10,7 @@ namespace VisitzModel.Storage;
 public abstract class VisitzRealmBase
 {
     public static readonly ulong Version2_0 = 1;
-	public static readonly ulong Version2_1 = 2;
+	public static readonly ulong Version2_3_3 = 2;
 
 	public string RealmName { get; private set; }
 

@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
+using Realms;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -8,7 +9,9 @@ using VisitzApi.Models;
 using VisitzModel;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
+using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.ViewModels
 {
@@ -37,6 +40,8 @@ namespace Visitz.ViewModels
 
         public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
 
+		Realm Realm { get; set; }
+
         public override async void Create()
         {
             base.Create();
@@ -49,22 +54,18 @@ namespace Visitz.ViewModels
 
         private async Task InitNoteDraft()
         {
-            var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
-            NoteDraft = NoteDraft.FindByEntityId(realm, CaseloadItem.CaseIncidentNumber);
-
-            if (NoteDraft == null)
-            {
-                NoteDraft = new NoteDraft()
-                {
-                    CaseIncidentAndCreatedDateID = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber)
-                };
-                await realm.WriteAsync(() => realm.Add(NoteDraft));
-            }
+            Realm = await VisitzRealms.GetNoteDraftsRealmAsync();
+			NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? new NoteDraft()
+			{
+				ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
+			};
         }
 
         public override void Destroy()
         {
             Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+
+			Realm.Dispose();
 
             base.Destroy();
         }
@@ -105,14 +106,19 @@ namespace Visitz.ViewModels
             }
         }
 
-        public void EditorTextChanged(TextChangedEventArgs e)
+        public async Task EditorTextChanged(TextChangedEventArgs e)
         {
             if (string.Equals(e.OldTextValue, e.NewTextValue))
-                // Early return required to prevent infinite loops due to "cancelling" events
-                // by reassigning its previous value
-                return;
-            
-            if (TextIsInvalid(e))
+				// Early return required to prevent infinite loops due to "cancelling" events
+				// by reassigning its previous value
+				return;
+
+			if (!NoteDraft.IsManaged)
+				await Realm.WriteAsync(() => Realm.Add(NoteDraft));
+
+			SetDraftInfo();
+
+			if (TextIsInvalid(e))
             {
                 CancelTextChangedEvent(e);
                 DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.InvalidEntry));
@@ -139,6 +145,18 @@ namespace Visitz.ViewModels
         {
             return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
         }
+
+		private void SetDraftInfo()
+		{
+			if (string.IsNullOrWhiteSpace(NoteDraft.DraftLocationBinding))
+				NoteDraft.DraftLocationBinding = CaseloadItem.DisplayName;
+
+			if (NoteDraft.RelatedEntityTypeBinding == EntityType.Unknown)
+				NoteDraft.RelatedEntityTypeBinding = CaseloadItem.EntityType.ParseEntityType();
+
+			if (NoteDraft.RelatedEntitySubtypeBinding == EntitySubtype.Unknown)
+				NoteDraft.RelatedEntitySubtypeBinding = CaseloadItem.CaseIncidentType.ParseEntitySubtype();
+		}
 
         private void CancelTextChangedEvent(TextChangedEventArgs e)
         {

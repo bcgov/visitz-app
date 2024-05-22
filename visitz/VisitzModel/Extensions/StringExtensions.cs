@@ -18,6 +18,16 @@ public static class StringExtensions
             .Select(split => char.ToUpper(split[0])));
     }
 
+	public static string GetInitialsOrTruncate(this string text)
+	{
+		if (text.Contains(' '))
+			return GetInitials(text);
+		else if (text.Length >= 2)
+			return text[..2].ToUpperInvariant();
+		else
+			return text.ToUpperInvariant();
+	}
+
     public static string FormatAddressPart(this string addressPart, string separator)
     {
         return addressPart?.Length > 0 ? addressPart + separator : string.Empty;
