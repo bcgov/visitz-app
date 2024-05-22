@@ -5,7 +5,7 @@ namespace VisitzModel.Extensions.EntityTypes;
 
 public static class EntityTypeExtensions
 {
-	public static string ToString(this EntityType entityType)
+	public static string GetDisplayString(this EntityType entityType)
 	{
 		return entityType switch
 		{
