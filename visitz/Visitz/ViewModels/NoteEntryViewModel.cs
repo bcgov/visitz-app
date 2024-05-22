@@ -9,7 +9,9 @@ using VisitzApi.Models;
 using VisitzModel;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
+using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.ViewModels
 {
@@ -53,7 +55,7 @@ namespace Visitz.ViewModels
         private async Task InitNoteDraft()
         {
             Realm = await VisitzRealms.GetNoteDraftsRealmAsync();
-            NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? new NoteDraft()
+			NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? new NoteDraft()
 			{
 				ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
 			};
@@ -114,7 +116,7 @@ namespace Visitz.ViewModels
 			if (!NoteDraft.IsManaged)
 				await Realm.WriteAsync(() => Realm.Add(NoteDraft));
 
-			NoteDraft.DraftLocationBinding = CaseloadItem.DisplayName;
+			SetDraftInfo();
 
 			if (TextIsInvalid(e))
             {
@@ -143,6 +145,18 @@ namespace Visitz.ViewModels
         {
             return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
         }
+
+		private void SetDraftInfo()
+		{
+			if (string.IsNullOrWhiteSpace(NoteDraft.DraftLocationBinding))
+				NoteDraft.DraftLocationBinding = CaseloadItem.DisplayName;
+
+			if (NoteDraft.RelatedEntityTypeBinding == EntityType.Unknown)
+				NoteDraft.RelatedEntityTypeBinding = CaseloadItem.EntityType.ParseEntityType();
+
+			if (NoteDraft.RelatedEntitySubtypeBinding == EntitySubtype.Unknown)
+				NoteDraft.RelatedEntitySubtypeBinding = CaseloadItem.CaseIncidentType.ParseEntitySubtype();
+		}
 
         private void CancelTextChangedEvent(TextChangedEventArgs e)
         {
