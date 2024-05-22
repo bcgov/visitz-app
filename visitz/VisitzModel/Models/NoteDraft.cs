@@ -11,15 +11,23 @@ namespace VisitzModel.Models
         [PrimaryKey]
 		public string ParentEntityId { get; set; }
 
-		private int ParentEntityTypeInt { get; set; }
+		private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
 
-		public EntityType ParentEntityType
+		public EntityType RelatedEntityType
 		{
-			get => (EntityType)ParentEntityTypeInt;
-			set => ParentEntityTypeInt = (int)value;
+			get => (EntityType)RelatedEntityTypeInt;
+			set => RelatedEntityTypeInt = (int)value;
 		}
 
-        public string Draft { get; set; }
+		private int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
+
+		public EntitySubtype RelatedEntitySubtype
+		{
+			get => (EntitySubtype)RelatedEntitySubtypeInt;
+			set => RelatedEntitySubtypeInt = (int)value;
+		}
+
+		public string Draft { get; set; }
 
         public string DraftBinding
         {
