@@ -9,6 +9,8 @@ public static class EntitySubtypeExtensions
 	{
 		return subtype switch
 		{
+			EntitySubtype.Unknown => EntityTypeStrings.Unknown,
+
 			EntitySubtype.AdoptionHome => EntitySubtypeStrings.AdoptionHome,
 			EntitySubtype.AdoptionService => EntitySubtypeStrings.AdoptionService,
 			EntitySubtype.AssessmentOnly => EntitySubtypeStrings.AssessmentOnly,

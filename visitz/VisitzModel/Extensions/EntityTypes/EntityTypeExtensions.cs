@@ -9,6 +9,8 @@ public static class EntityTypeExtensions
 	{
 		return entityType switch
 		{
+			EntityType.Unknown => EntityTypeStrings.Unknown,
+
 			EntityType.Case => EntityTypeStrings.Case,
 			EntityType.Incident => EntityTypeStrings.Incident,
 			EntityType.Memo => EntityTypeStrings.Memo,
