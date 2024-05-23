@@ -687,4 +687,7 @@ If you have any questions about the collection, use, or disclosure of this infor
   <data name="Preview" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="SafetyAssessments" xml:space="preserve">
+    <value>Safety assessments</value>
+  </data>
 </root>
