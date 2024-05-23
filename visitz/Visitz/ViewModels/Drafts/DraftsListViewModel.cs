@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels.Drafts;
 
@@ -41,6 +42,8 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
 		if (type == typeof(NoteDraft))
 			SortAndSubscribe(realm, realm.All<NoteDraft>());
+		else if (type == typeof(AssessmentDraft))
+			SortAndSubscribe(realm, realm.All<AssessmentDraft>());
 		else
 			throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
 	}

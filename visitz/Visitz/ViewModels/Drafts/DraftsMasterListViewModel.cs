@@ -36,7 +36,7 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 		realmCount.CountChanged += RealmCount_CountChanged;
 
 		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
-		realmCount.Subscribe<SafetyAssessment>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
+		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
 	}
 
 	public override void Destroy()
@@ -53,8 +53,8 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 
 		if (e.Kind == typeof(NoteDraft))
 			UpdateItem(LocalizedStrings.Notes, e.Count, ref noteDraftItem, typeof(NoteDraft));
-		else if (e.Kind == typeof(SafetyAssessment))
-			UpdateItem(LocalizedStrings.SafetyAssessment, e.Count, ref assessmentDraftItem, typeof(SafetyAssessment));
+		else if (e.Kind == typeof(AssessmentDraft))
+			UpdateItem(LocalizedStrings.SafetyAssessment, e.Count, ref assessmentDraftItem, typeof(AssessmentDraft));
 	}
 
 	void UpdateItem(string name, int count, ref MasterDraftItem item, Type itemType)
