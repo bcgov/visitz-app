@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -25,9 +24,19 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 
 	readonly ObservableRealmCount realmCount = new();
 
-	MasterDraftItem noteDraftItem;
+	[ObservableProperty]
+	MasterDraftItem noteDraftItem = new()
+	{
+		Name = LocalizedStrings.Notes,
+		ItemType = typeof(NoteDraft),
+	};
 
-	MasterDraftItem assessmentDraftItem;
+	[ObservableProperty]
+	MasterDraftItem assessmentDraftItem = new()
+	{
+		Name = LocalizedStrings.SafetyAssessments,
+		ItemType = typeof(AssessmentDraft),
+	};
 
 	public override async void Create()
 	{
@@ -36,7 +45,7 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 		realmCount.CountChanged += RealmCount_CountChanged;
 
 		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
-		realmCount.Subscribe<SafetyAssessment>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
+		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
 	}
 
 	public override void Destroy()
@@ -52,27 +61,19 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 		ShowEmptyView = (sender as ObservableRealmCount).Total <= 0;
 
 		if (e.Kind == typeof(NoteDraft))
-			UpdateItem(LocalizedStrings.Notes, e.Count, ref noteDraftItem, typeof(NoteDraft));
-		else if (e.Kind == typeof(SafetyAssessment))
-			UpdateItem(LocalizedStrings.SafetyAssessment, e.Count, ref assessmentDraftItem, typeof(SafetyAssessment));
+			UpdateItem(NoteDraftItem, e.Count);
+		else if (e.Kind == typeof(AssessmentDraft))
+			UpdateItem(AssessmentDraftItem, e.Count);
 	}
 
-	void UpdateItem(string name, int count, ref MasterDraftItem item, Type itemType)
+	void UpdateItem(MasterDraftItem item, int count)
 	{
-		if (item != null)
+		item.Count = count;
+
+		if (count <= 0)
 			MasterDraftItems.Remove(item);
-
-		if (count > 0)
-		{
-			item = new MasterDraftItem()
-			{
-				Name = name,
-				Count = count,
-				ItemType = itemType,
-			};
-
+		else if (!MasterDraftItems.Contains(item))
 			InsertSortedAsc(MasterDraftItems, item);
-		}
 	}
 
 	[RelayCommand]

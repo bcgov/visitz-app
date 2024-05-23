@@ -83,6 +83,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));
 
+	[ObservableProperty]
+	private AssessmentDraft draftItem;
+
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
         var info = await OidcSessionInfo.GetAsync();
@@ -117,20 +120,31 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async Task SetupAssessment()
     {
-        UnsubscribeFromAssessment();
-
+		DraftItem = null;
         Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) 
             ?? await MakeNewSafetyAssessment();
-    }
+
+		await TryAssociateDraftItem();
+
+		SubscribeToAssessment();
+	}
+
+	private async Task TryAssociateDraftItem()
+	{
+		if (Assessment.IsManaged)
+			DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
+	}
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         _ = TrySendSavedMessage(DraftSavedView.State.Saving);
 
-        if (!Assessment.IsManaged)
-            await Assessment.Save(Realm);
+		if (!Assessment.IsManaged)
+			DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
+		else if (DraftItem != null)
+			DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
-        UpdateCanPublish();
+		UpdateCanPublish();
     }
 
     private void UpdateCanPublish()
@@ -184,8 +198,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         foreach (var child in AvailableChildrenInOutCare)
             if (value.ChildsInOutCare.Contains(child.ContactId))
                 SelectedChildren.Add(child);
-
-        SubscribeToAssessment();
     }
 
     private void SubscribeToAssessment()
@@ -240,8 +252,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [RelayCommand]
 	public async Task Reset()
     {
-        if (Assessment.IsManaged)
-            await Realm.WriteAsync(() => Realm.Remove(Assessment));
+		UnsubscribeFromAssessment();
+		await AssessmentDraft.TryDeleteAsync(Assessment);
 
         await TrySendSavedMessage(DraftSavedView.State.None);
 

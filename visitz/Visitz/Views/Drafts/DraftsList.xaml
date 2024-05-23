@@ -14,7 +14,7 @@
 
 	<views:ViewModelContentView.Resources>
 		<Style TargetType="Grid" x:Key="SameWidth">
-			<Setter Property="ColumnDefinitions" Value="*, 2*, 1*, 0.3*" />
+			<Setter Property="ColumnDefinitions" Value="*, *, 0.75*, 0.3*" />
 			<Setter Property="ColumnSpacing" Value="8" />
 		</Style>
 	</views:ViewModelContentView.Resources>
@@ -44,10 +44,6 @@
 			<Label
 				Grid.Column="2"
 				Text="{local:Localize LastModified}" />
-
-			<Label
-				Grid.Column="3"
-				Text="Type" />
 		</controls:TopAppBar>
 
 		<CollectionView
@@ -76,12 +72,12 @@
 									VerticalOptions="Start"
 									Text="{Binding Preview}"
 									MaxLines="1"
-									LineBreakMode="HeadTruncation" />
+									LineBreakMode="TailTruncation" />
 
 								<Label 
 									Grid.Column="2"
 									VerticalOptions="Start"
-									Text="{Binding LastUpdated.LocalDateTime, StringFormat='{0:d}'}"
+									Text="{Binding LastUpdated.LocalDateTime, StringFormat='{0:yyyy-MMM-dd}'}"
 									TextColor="{StaticResource BC_TextColor_Lighter}" />
 
 								<tagViews:EntityTypeBadge 

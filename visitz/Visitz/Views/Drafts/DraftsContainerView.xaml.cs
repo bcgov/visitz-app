@@ -16,7 +16,7 @@ public partial class DraftsContainerView : SplitLayoutView
 	{
 		base.Creating();
 
-		StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
+		StartPaneColumnWidth = GridLength.Auto;
 		StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
 
 		StartView ??= ServiceProvider.GetService<DraftsMasterList>();

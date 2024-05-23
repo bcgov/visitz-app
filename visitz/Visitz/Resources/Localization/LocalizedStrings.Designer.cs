@@ -1164,6 +1164,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Safety assessments.
+        /// </summary>
+        public static string SafetyAssessments {
+            get {
+                return ResourceManager.GetString("SafetyAssessments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Published Safety Assessments can be edited in ICM to make any corrections..
         /// </summary>
         public static string SafetyAssessmentsCanBeEdited {
