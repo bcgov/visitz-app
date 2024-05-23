@@ -57,4 +57,18 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
 
 		return draft;
 	}
+
+	public static async Task TryDeleteAsync(SafetyAssessment assessment)
+	{
+		var realm = assessment.Realm;
+
+		await realm.WriteAsync(() =>
+		{
+			if (realm.Find<AssessmentDraft>(assessment.IncidentNumber) is AssessmentDraft draft)
+				realm.Remove(draft);
+
+			if (assessment.IsManaged)
+				realm.Remove(assessment);
+		});
+	}
 }
