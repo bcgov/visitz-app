@@ -83,6 +83,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));
 
+	[ObservableProperty]
+	private AssessmentDraft draftItem;
+
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
         var info = await OidcSessionInfo.GetAsync();
@@ -121,16 +124,27 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
         Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) 
             ?? await MakeNewSafetyAssessment();
-    }
+
+		await TryAssociateDraftItem();
+	}
+
+	private async Task TryAssociateDraftItem()
+	{
+		if (Assessment.IsManaged)
+			DraftItem = await AssessmentDraft.Upsert(Assessment, CaseloadItem.DisplayName);
+	}
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         _ = TrySendSavedMessage(DraftSavedView.State.Saving);
 
-        if (!Assessment.IsManaged)
-            await Assessment.Save(Realm);
+		if (!Assessment.IsManaged)
+			DraftItem = await AssessmentDraft.Upsert(Assessment, CaseloadItem.DisplayName);
 
-        UpdateCanPublish();
+		if (DraftItem != null)
+			DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
+
+		UpdateCanPublish();
     }
 
     private void UpdateCanPublish()
