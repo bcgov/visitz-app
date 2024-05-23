@@ -72,7 +72,7 @@
 									VerticalOptions="Start"
 									Text="{Binding Preview}"
 									MaxLines="1"
-									LineBreakMode="HeadTruncation" />
+									LineBreakMode="TailTruncation" />
 
 								<Label 
 									Grid.Column="2"
