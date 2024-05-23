@@ -4,6 +4,7 @@ using VisitzModel.Models.EntityTypes;
 using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.SafetyAssess;
+
 public partial class AssessmentDraft : IRealmObject, IDraftItem
 {
 	[PrimaryKey]
@@ -31,13 +32,12 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
 	}
 
 	public static async Task<AssessmentDraft> Upsert(
+		Realm realm,
 		SafetyAssessment assessment,
 		string draftLocation,
 		EntityType type = EntityType.Incident,
 		EntitySubtype subtype = EntitySubtype.ChildProtection)
 	{
-		var realm = assessment.Realm;
-
 		var draft = realm.Find<AssessmentDraft>(assessment.IncidentNumber) ?? new()
 		{
 			DraftEntityId = assessment.IncidentNumber,
