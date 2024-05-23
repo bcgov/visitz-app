@@ -56,12 +56,9 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
 	private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
 	{
-		if (e.Changes == null)
-		{
-			DraftItems.Clear();
+		DraftItems.Clear();
 
-			foreach (var item in e.Items)
-				DraftItems.Add(item);
-		}
+		foreach (var item in e.Items)
+			DraftItems.Add(item);
 	}
 }
