@@ -14,7 +14,7 @@
 
 	<views:ViewModelContentView.Resources>
 		<Style TargetType="Grid" x:Key="SameWidth">
-			<Setter Property="ColumnDefinitions" Value="*, 2*, 1*, 0.3*" />
+			<Setter Property="ColumnDefinitions" Value="1.4*, 2*, 1*, 0.3*" />
 			<Setter Property="ColumnSpacing" Value="8" />
 		</Style>
 	</views:ViewModelContentView.Resources>
