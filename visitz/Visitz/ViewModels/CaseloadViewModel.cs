@@ -9,8 +9,10 @@ using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Views.SegmentedButtons;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.ViewModels
 {
@@ -32,17 +34,17 @@ namespace Visitz.ViewModels
             MaterialIcons.Calendar_month.GetUnfilledMaterialIcon());
 
         private static readonly SegmentedOptions FilterChildProtection = new(
-            nameof(IcmEntitySubtype.ChildProtection), 
+            nameof(EntitySubtype.ChildProtection), 
             LocalizedStrings.Subtype_ChildProtectionIncidentInitials, 
             MaterialIcons.Description.GetUnfilledMaterialIcon());
         
         private static readonly SegmentedOptions FilterChildServices = new(
-            nameof(IcmEntitySubtype.ChildServices), 
+            nameof(EntitySubtype.ChildServices), 
             LocalizedStrings.Subtype_ChildServicesInitials, 
             MaterialIcons.Folder.GetUnfilledMaterialIcon());
         
         private static readonly SegmentedOptions FilterFamilyServices = new(
-            nameof(IcmEntitySubtype.FamilyServices), 
+            nameof(EntitySubtype.FamilyServices), 
             LocalizedStrings.Subtype_FamilyServicesInitials, 
             MaterialIcons.Folder.GetUnfilledMaterialIcon());
 
@@ -192,16 +194,17 @@ namespace Visitz.ViewModels
 
             string subtype;
 
-            if (ActivatedFilterOption.Id == nameof(IcmEntitySubtype.ChildProtection))
-                subtype = IcmEntitySubtype.ChildProtection;
-            else if (ActivatedFilterOption.Id == nameof(IcmEntitySubtype.ChildServices))
-                subtype = IcmEntitySubtype.ChildServices;
-            else if (ActivatedFilterOption.Id == nameof(IcmEntitySubtype.FamilyServices))
-                subtype = IcmEntitySubtype.FamilyServices;
+            if (ActivatedFilterOption.Id == nameof(EntitySubtype.ChildProtection))
+                subtype = EntitySubtype.ChildProtection.GetDisplayString();
+            else if (ActivatedFilterOption.Id == nameof(EntitySubtype.ChildServices))
+                subtype = EntitySubtype.ChildServices.GetDisplayString();
+            else if (ActivatedFilterOption.Id == nameof(EntitySubtype.FamilyServices))
+                subtype = EntitySubtype.FamilyServices.GetDisplayString();
             else
                 return;
 
-            query = query.Where(item => item.CaseIncidentType.Equals(subtype));
+			subtype = subtype.ToLowerInvariant();
+            query = query.Where(item => item.CaseIncidentType.ToLowerInvariant().Equals(subtype));
         }
 
         partial void OnCaseloadChanged(IEnumerable<CaseloadItem> value)
