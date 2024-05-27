@@ -7,10 +7,12 @@ namespace Visitz.Views.Notes;
 
 public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 {
+	new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
+
     public CaseloadItem CaseloadItem
     {
-        get => (ViewModel as ICaseloadItemHolder).CaseloadItem;
-        set => (ViewModel as ICaseloadItemHolder).CaseloadItem = value;
+        get => ViewModel.CaseloadItem;
+        set => ViewModel.CaseloadItem = value;
     }
 
     public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())
@@ -18,14 +20,14 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 		InitializeComponent();
 		BindingContext = ViewModel;
 
-        (ViewModel as NoteEntryViewModel).DraftError += NoteEntryView_DraftError;
-        (ViewModel as NoteEntryViewModel).DraftSaveStateChanged += NoteEntryView_DraftSaveStateChanged;
+        ViewModel.DraftError += NoteEntryView_DraftError;
+        ViewModel.DraftSaveStateChanged += NoteEntryView_DraftSaveStateChanged;
 	}
 
     protected override void Destroying()
     {
-        (ViewModel as NoteEntryViewModel).DraftSaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
-        (ViewModel as NoteEntryViewModel).DraftError -= NoteEntryView_DraftError;
+        ViewModel.DraftSaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
+        ViewModel.DraftError -= NoteEntryView_DraftError;
 
         base.Destroying();
     }
@@ -46,7 +48,7 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     async void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        await ((NoteEntryViewModel)BindingContext).EditorTextChanged(e);
+        await ViewModel.EditorTextChanged(e);
     }
 
     public async Task ShowEditorError(string text)
