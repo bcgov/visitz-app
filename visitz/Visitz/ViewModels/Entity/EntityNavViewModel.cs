@@ -64,14 +64,6 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
         EntityNavItems = BuildNavList();
 
         SelectedEntityNavItem ??= DefaultNavItem;
-
-        StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, navMessage) =>
-        {
-            var (navItem, caseloadItem) = navMessage.Value;
-
-            if (navItem != null)
-                (recipient as EntityNavViewModel).SelectedEntityNavItem = navItem;
-        });
     }
 
     public override void Destroy()
