@@ -12,7 +12,7 @@ namespace Visitz.ViewModels.Entity;
 
 public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 {
-    public readonly struct NavItems
+    public static class NavItems
     {
         public static readonly NavItem Details = new() 
             { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView) };
