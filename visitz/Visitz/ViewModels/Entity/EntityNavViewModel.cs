@@ -11,7 +11,7 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.ViewModels.Entity;
 
-public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
 {
     public static class NavItems
     {
@@ -55,6 +55,9 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
     [ObservableProperty]
     public EntityNavItem selectedEntityNavItem;
 
+	[ObservableProperty]
+	public EntitySection requestedSection;
+
     public EntityNavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
 
     public override void Create()
@@ -97,12 +100,17 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 			EntitySection.SafetyAssessment => NavItems.SafetyAssessment,
 			_ => NavItems.Details,
 		};
+
+		RequestedSection = section;
 	}
 
-    [RelayCommand]
+	[RelayCommand]
     public void EntityNavSelected()
     {
-        StrongReferenceMessenger.Default.Send(new EntityNavMessage(SelectedEntityNavItem, CaseloadItem));
+		var msg = new EntityNavMessage(SelectedEntityNavItem, CaseloadItem, RequestedSection);
+		StrongReferenceMessenger.Default.Send(msg);
+
+		RequestedSection = EntitySection.Unknown;
     }
 
     [RelayCommand]
