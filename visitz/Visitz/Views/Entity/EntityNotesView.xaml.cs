@@ -1,9 +1,10 @@
 using Visitz.ViewModels.Entity;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder
+public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder, ISelectedEntitySection
 {
 	new EntityNotesViewModel ViewModel => base.ViewModel as EntityNotesViewModel;
 
@@ -12,6 +13,12 @@ public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder
 		get => ViewModel.CaseloadItem;
 		set => ViewModel.CaseloadItem = value;
     }
+
+	public EntitySection SelectedSection
+	{
+		get => ViewModel.SelectedSection;
+		set => ViewModel.SelectedSection = value;
+	}
 
 	public EntityNotesView() : base(ServiceProvider.GetService<EntityNotesViewModel>())
 	{
