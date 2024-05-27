@@ -7,6 +7,7 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.ViewModels.Entity;
 
@@ -14,32 +15,47 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 {
     public static class NavItems
     {
-        public static readonly NavItem Details = new() 
-            { Text = LocalizedStrings.Details, ContentViewType = typeof(EntityDetailsView) };
+        public static readonly EntityNavItem Details = new()
+		{
+			Text = LocalizedStrings.Details,
+			ContentViewType = typeof(EntityDetailsView)
+		};
         
-        public static readonly NavItem FamilyMembers = new() 
-            { Text = LocalizedStrings.FamilyMembers, ContentViewType = typeof(EntityContactsView) };
+        public static readonly EntityNavItem FamilyMembers = new()
+		{
+			Text = LocalizedStrings.FamilyMembers,
+			ContentViewType = typeof(EntityContactsView),
+			Section = EntitySection.Family,
+		};
         
-        public static readonly NavItem Notes = new() 
-            { Text = LocalizedStrings.Notes, ContentViewType = typeof(EntityNotesView) };
+        public static readonly EntityNavItem Notes = new()
+		{
+			Text = LocalizedStrings.Notes,
+			ContentViewType = typeof(EntityNotesView),
+			Section = EntitySection.Notes,
+		};
 
-        public static readonly NavItem SafetyAssessment = new()
-            { Text = LocalizedStrings.SafetyAssessment, ContentViewType = typeof(EntitySafetyAssessView) };
+        public static readonly EntityNavItem SafetyAssessment = new()
+		{
+			Text = LocalizedStrings.SafetyAssessment,
+			ContentViewType = typeof(EntitySafetyAssessView),
+			Section = EntitySection.SafetyAssessment,
+		};
     }
 
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
-    public NavItem headerNavItem;
+    public EntityNavItem headerNavItem;
 
     [ObservableProperty]
-    public IList<NavItem> entityNavItems;
+    public IList<EntityNavItem> entityNavItems;
 
     [ObservableProperty]
-    public NavItem selectedEntityNavItem;
+    public EntityNavItem selectedEntityNavItem;
 
-    public NavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
+    public EntityNavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
 
     public override void Create()
     {
@@ -47,7 +63,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 
         EntityNavItems = BuildNavList();
 
-        SelectedEntityNavItem = DefaultNavItem;
+        SelectedEntityNavItem ??= DefaultNavItem;
 
         StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, navMessage) =>
         {
@@ -65,9 +81,9 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
         base.Destroy();
     }
 
-    private List<NavItem> BuildNavList()
+    private List<EntityNavItem> BuildNavList()
     {
-        var items = new List<NavItem>()
+        var items = new List<EntityNavItem>()
         {
             NavItems.Details,
             NavItems.FamilyMembers,
@@ -79,6 +95,18 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 
         return items;
     }
+
+	public void SetSelectedSection(EntitySection section)
+	{
+		SelectedEntityNavItem = section switch
+		{
+			EntitySection.Family => NavItems.FamilyMembers,
+			EntitySection.Notes => NavItems.Notes,
+			EntitySection.NoteEntry => NavItems.Notes,
+			EntitySection.SafetyAssessment => NavItems.SafetyAssessment,
+			_ => NavItems.Details,
+		};
+	}
 
     [RelayCommand]
     public void EntityNavSelected()
