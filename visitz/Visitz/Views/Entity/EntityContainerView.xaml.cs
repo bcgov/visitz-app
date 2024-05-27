@@ -29,10 +29,10 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
         StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, message) =>
         {
-            var (navItem, caseloadItem) = message.Value;
+            var (navItem, caseloadItem, subsection) = message.Value;
 
             if (navItem != null)
-                (recipient as EntityContainerView).OpenEntitySection(navItem, caseloadItem);
+                (recipient as EntityContainerView).OpenEntitySection(navItem, caseloadItem, subsection);
         });
     }
 
@@ -49,7 +49,7 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
         base.Destroying();
     }
 
-    private void OpenEntitySection(NavItem navItem, CaseloadItem caseloadItem)
+    private void OpenEntitySection(EntityNavItem navItem, CaseloadItem caseloadItem, EntitySection? subsection)
     {
         if (ContainerDetails.Content is BaseContentView baseView)
         {
@@ -61,7 +61,12 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
         }
 
         var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
-        (view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
+
+		(view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
+
+		if (view is ISelectedEntitySection sectionView)
+			sectionView.SelectedSection = subsection ?? navItem.Section;
+
         ContainerDetails.Content = (View)view;
     }
 }
