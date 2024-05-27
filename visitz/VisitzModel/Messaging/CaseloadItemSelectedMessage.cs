@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using VisitzModel.Models;
-using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Navigation;
 
 namespace VisitzModel.Messaging;
 

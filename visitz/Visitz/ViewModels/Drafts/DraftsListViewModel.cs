@@ -8,7 +8,7 @@ using Visitz.Views.Caseload;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
-using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels.Drafts;

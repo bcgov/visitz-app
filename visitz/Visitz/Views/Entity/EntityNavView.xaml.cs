@@ -1,6 +1,6 @@
 using Visitz.ViewModels.Entity;
 using VisitzModel.Models;
-using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 

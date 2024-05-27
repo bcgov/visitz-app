@@ -1,4 +1,4 @@
-namespace VisitzModel.Models.EntityTypes;
+namespace VisitzModel.Models.Navigation;
 
 public enum EntitySection
 {

@@ -3,7 +3,7 @@ using Visitz.Views.Entity;
 using Visitz.Views.SplitView;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
-using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Caseload;
 
