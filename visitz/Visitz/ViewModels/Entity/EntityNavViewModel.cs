@@ -93,8 +93,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
 		SelectedEntityNavItem = section switch
 		{
 			EntitySection.Family => NavItems.FamilyMembers,
-			EntitySection.Notes => NavItems.Notes,
-			EntitySection.NoteEntry => NavItems.Notes,
+			EntitySection.Notes or EntitySection.NoteEntry => NavItems.Notes,
 			EntitySection.SafetyAssessment => NavItems.SafetyAssessment,
 			_ => NavItems.Details,
 		};
