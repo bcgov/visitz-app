@@ -93,6 +93,8 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 
 	public void SetRequestedSection(EntitySection section)
 	{
+		RequestedSection = section;
+
 		SelectedEntityNavItem = section switch
 		{
 			EntitySection.Family => NavItems.FamilyMembers,
@@ -100,8 +102,6 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 			EntitySection.SafetyAssessment => NavItems.SafetyAssessment,
 			_ => NavItems.Details,
 		};
-
-		RequestedSection = section;
 	}
 
 	[RelayCommand]
