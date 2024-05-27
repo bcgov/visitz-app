@@ -43,7 +43,7 @@
 
 			<Label
 				Grid.Column="2"
-				Text="{local:Localize LastModified}" />
+				Text="{local:Localize Modified}" />
 		</controls:TopAppBar>
 
 		<CollectionView
