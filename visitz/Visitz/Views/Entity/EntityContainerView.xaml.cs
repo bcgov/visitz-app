@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.ViewModels.Entity;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 

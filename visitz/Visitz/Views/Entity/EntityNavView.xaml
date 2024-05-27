@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:entity="clr-namespace:Visitz.ViewModels.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
-    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
+    xmlns:navModels="clr-namespace:VisitzModel.Models.Navigation;assembly=VisitzModel"
     xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.EntityNavView"
@@ -35,7 +35,7 @@
             SelectionChangedCommand="{Binding EntityNavSelectedCommand}">
 
             <selView:SelectionList.ItemTemplate>
-                <DataTemplate x:DataType="models:NavItem">
+                <DataTemplate x:DataType="navModels:NavItem">
                     <selView:SelectableItem>
 
                         <VisualStateManager.VisualStateGroups>

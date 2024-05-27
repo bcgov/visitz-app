@@ -11,6 +11,7 @@ using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels;
