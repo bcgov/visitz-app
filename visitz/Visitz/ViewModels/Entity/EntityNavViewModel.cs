@@ -88,7 +88,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder
         return items;
     }
 
-	public void SetSelectedSection(EntitySection section)
+	public void SetRequestedSection(EntitySection section)
 	{
 		SelectedEntityNavItem = section switch
 		{

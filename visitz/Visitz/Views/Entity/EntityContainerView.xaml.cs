@@ -64,8 +64,8 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
 		(view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
 
-		if (view is ISelectedEntitySection sectionView)
-			sectionView.SelectedSection = subsection ?? navItem.Section;
+		if (view is IRequestedEntitySection sectionView)
+			sectionView.RequestedSection = subsection ?? navItem.Section;
 
         ContainerDetails.Content = (View)view;
     }

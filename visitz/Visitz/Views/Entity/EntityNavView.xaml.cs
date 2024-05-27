@@ -20,8 +20,8 @@ public partial class EntityNavView : ViewModelContentView, ICaseloadItemHolder
 		BindingContext = ViewModel;
 	}
 
-	public void SetSelectedSection(EntitySection section)
+	public void SetRequestedSection(EntitySection section)
 	{
-		ViewModel.SetSelectedSection(section);
+		ViewModel.SetRequestedSection(section);
 	}
 }

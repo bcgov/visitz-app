@@ -4,7 +4,7 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder, ISelectedEntitySection
+public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder, IRequestedEntitySection
 {
 	new EntityNotesViewModel ViewModel => base.ViewModel as EntityNotesViewModel;
 
@@ -14,10 +14,10 @@ public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder
 		set => ViewModel.CaseloadItem = value;
     }
 
-	public EntitySection SelectedSection
+	public EntitySection RequestedSection
 	{
-		get => ViewModel.SelectedSection;
-		set => ViewModel.SelectedSection = value;
+		get => ViewModel.RequestedSection;
+		set => ViewModel.RequestedSection = value;
 	}
 
 	public EntityNotesView() : base(ServiceProvider.GetService<EntityNotesViewModel>())

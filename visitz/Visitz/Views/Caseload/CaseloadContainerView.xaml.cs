@@ -60,7 +60,7 @@ public partial class CaseloadContainerView : SplitLayoutView
 
         var entityNav = ServiceProvider.GetService<EntityNavView>();
         entityNav.CaseloadItem = item;
-		entityNav.SetSelectedSection(section);
+		entityNav.SetRequestedSection(section);
         SetStartPane(entityNav);
 
         StartPaneColumnWidth = GridLength.Auto;
