@@ -339,6 +339,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discard draft.
+        /// </summary>
+        public static string DiscardDraft {
+            get {
+                return ResourceManager.GetString("DiscardDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard draft?.
         /// </summary>
         public static string DiscardDraftQuestion {
