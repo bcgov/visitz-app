@@ -6,14 +6,14 @@ public class ObservableRealmQueryMap : IDisposable
 {
 	private bool disposedValue;
 
-	Dictionary<Type, (Realm, IQueryable, IDisposable QueryToken)> Queries { get; } = [];
+	Dictionary<Type, (Realm, IQueryable<IRealmObject>, IDisposable QueryToken)> Queries { get; } = [];
 
 	public event EventHandler<(Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes)> ItemsChanged;
 
 	public void Subscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
 	{
 		var queryToken = query.SubscribeForNotifications(Query_ItemsChanged);
-		Queries[typeof(T)] = (realm, query, queryToken);
+		Queries[typeof(T)] = (realm, query as IQueryable<IRealmObject>, queryToken);
 	}
 
 	public void Unsubscribe<T>() where T : IRealmObject
