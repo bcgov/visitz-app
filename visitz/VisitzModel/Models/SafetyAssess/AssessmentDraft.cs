@@ -10,6 +10,8 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
 	[PrimaryKey]
 	public string DraftEntityId { get; set; }
 
+	public string RelatedEntityId { get => DraftEntityId; set { } }
+
 	public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
 	public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 

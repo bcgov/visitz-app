@@ -11,6 +11,7 @@ using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels;
@@ -77,6 +78,8 @@ public partial class NavRailViewModel : VisitzViewModel
         SelectedNavItem = (NavItem)NavigationItems.First();
 
 		await SubscribeToAllDraftCounts();
+
+		StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
 	}
 
 	public override void Destroy()
@@ -119,5 +122,16 @@ public partial class NavRailViewModel : VisitzViewModel
 	private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
 	{
 		DraftsNavItem.BadgeCount = (sender as ObservableRealmCount).Total;
+	}
+
+	private void ReceiveAppNavMessage(object recipient, AppNavMessage message)
+	{
+		if (message.Value != null && SelectedNavItem != message.Value)
+			SelectedNavItem = GetNavItemByType(message.Value.ContentViewType);
+	}
+
+	private NavItem GetNavItemByType(Type contentViewType)
+	{
+		return (NavItem)NavigationItems.FirstOrDefault(item => (item as NavItem).ContentViewType == contentViewType);
 	}
 }

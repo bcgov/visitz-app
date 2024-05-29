@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.ViewModels.Entity;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
@@ -28,10 +29,10 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
         StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, message) =>
         {
-            var (navItem, caseloadItem) = message.Value;
+            var (navItem, caseloadItem, subsection) = message.Value;
 
             if (navItem != null)
-                (recipient as EntityContainerView).OpenEntitySection(navItem, caseloadItem);
+                (recipient as EntityContainerView).OpenEntitySection(navItem, caseloadItem, subsection);
         });
     }
 
@@ -48,7 +49,7 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
         base.Destroying();
     }
 
-    private void OpenEntitySection(NavItem navItem, CaseloadItem caseloadItem)
+    private void OpenEntitySection(EntityNavItem navItem, CaseloadItem caseloadItem, EntitySection? subsection)
     {
         if (ContainerDetails.Content is BaseContentView baseView)
         {
@@ -60,7 +61,12 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
         }
 
         var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
-        (view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
+
+		(view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
+
+		if (view is IRequestedEntitySection sectionView)
+			sectionView.RequestedSection = subsection ?? navItem.Section;
+
         ContainerDetails.Content = (View)view;
     }
 }

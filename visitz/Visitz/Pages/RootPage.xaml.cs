@@ -2,9 +2,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Animations;
 using Visitz.ViewModels;
 using Visitz.Views;
-using VisitzModel;
 using VisitzModel.Messaging;
-using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Pages;
 

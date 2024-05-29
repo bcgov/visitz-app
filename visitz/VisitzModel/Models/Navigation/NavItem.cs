@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace VisitzModel.Models;
+namespace VisitzModel.Models.Navigation;
 
 public partial class NavItem : ObservableObject
 {

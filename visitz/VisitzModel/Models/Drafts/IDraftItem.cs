@@ -5,6 +5,8 @@ namespace VisitzModel.Models.Drafts;
 
 public interface IDraftItem : IRealmObject
 {
+	string RelatedEntityId { get; set; }
+
 	DateTimeOffset DraftCreated { get; set; }
 
 	DateTimeOffset LastUpdated { get; set; }

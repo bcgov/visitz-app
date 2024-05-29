@@ -10,6 +10,8 @@ namespace VisitzModel.Models
         [PrimaryKey]
 		public string ParentEntityId { get; set; }
 
+		public string RelatedEntityId { get => ParentEntityId; set { } }
+
 		private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
 
 		public EntityType RelatedEntityType

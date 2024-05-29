@@ -163,6 +163,9 @@ public partial class SelectionList : BaseContentView
 			PointerGestureRecognizer point = new();
 			point.PointerReleased += Point_PointerReleased;
 			view.GestureRecognizers.Add(point);
+
+			if (view is ISelectedState selectable && view.BindingContext == SelectedItem)
+				SelectedItemView = selectable;
 		}
     }
 

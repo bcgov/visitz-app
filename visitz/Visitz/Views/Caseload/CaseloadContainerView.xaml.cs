@@ -3,6 +3,7 @@ using Visitz.Views.Entity;
 using Visitz.Views.SplitView;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Caseload;
 
@@ -42,7 +43,7 @@ public partial class CaseloadContainerView : SplitLayoutView
     {
         StrongReferenceMessenger.Default.Register<CaseloadItemSelectedMessage>(this, (recipient, message) =>
         {
-            (recipient as CaseloadContainerView).OpenCaseloadItem(message.Value);
+            (recipient as CaseloadContainerView).OpenCaseloadItem(message.Value, message.Section);
         });
 
         StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
@@ -51,7 +52,7 @@ public partial class CaseloadContainerView : SplitLayoutView
         });
     }
 
-    private void OpenCaseloadItem(CaseloadItem item)
+    private void OpenCaseloadItem(CaseloadItem item, EntitySection section)
     {
         var containerView = ServiceProvider.GetService<EntityContainerView>();
         containerView.CaseloadItem = item;
@@ -59,6 +60,7 @@ public partial class CaseloadContainerView : SplitLayoutView
 
         var entityNav = ServiceProvider.GetService<EntityNavView>();
         entityNav.CaseloadItem = item;
+		entityNav.SetRequestedSection(section);
         SetStartPane(entityNav);
 
         StartPaneColumnWidth = GridLength.Auto;

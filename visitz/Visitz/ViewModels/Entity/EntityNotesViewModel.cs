@@ -3,17 +3,17 @@ using CommunityToolkit.Mvvm.Input;
 using Realms;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Visitz.Behaviors;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Notes;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.ViewModels.Entity;
 
-public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
 {
     [ObservableProperty]
     public CaseloadItem caseloadItem;
@@ -32,7 +32,10 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
     public NoteItem LastNoteItem => LastNoteItemGroup?.LastOrDefault();
 
-    public override async void Create()
+	[ObservableProperty]
+	public EntitySection requestedSection;
+
+	public override async void Create()
     {
         base.Create();
 
@@ -40,6 +43,9 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
         NoteItemsQuery = NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber);
         NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItemsQuery_Changed);
+
+		if (RequestedSection == EntitySection.NoteEntry)
+			await OpenNoteEntry();
     }
 
     public override void Destroy()
