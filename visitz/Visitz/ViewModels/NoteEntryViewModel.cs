@@ -140,7 +140,7 @@ namespace Visitz.ViewModels
 			AllowDiscard = NoteDraft.IsManaged;
             UpdateAllowPublish(e.NewTextValue);
 
-			if (length > 0)
+			if (NoteDraft.IsManaged)
 			{
 				ShowSavingDraftMessage();
 				await debouncer.Debounce(ShowDraftSavedMessage);
