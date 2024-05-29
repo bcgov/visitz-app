@@ -24,9 +24,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     [ObservableProperty]
     public bool isNotesEmtpy;
 
-    private IQueryable<NoteItem> NoteItemsQuery { get; set; }
-
-    private IDisposable NoteItemsQueryToken { get; set; }
+	private readonly ObservableRealmQueryMap realmQueryMap = new();
 
     public NoteItemGroup LastNoteItemGroup => Notes?.LastOrDefault();
 
@@ -41,21 +39,20 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
         var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        NoteItemsQuery = NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber);
-        NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItemsQuery_Changed);
+		realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
+		realmQueryMap.Subscribe(realm, NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber));
 
 		if (RequestedSection == EntitySection.NoteEntry)
 			await OpenNoteEntry();
     }
 
-    public override void Destroy()
+	public override void Destroy()
     {
         if (Notes != null)
             Notes.CollectionChanged -= Notes_CollectionChanged;
         Notes = null;
 
-        NoteItemsQueryToken?.Dispose();
-        NoteItemsQueryToken = null;
+		realmQueryMap.Dispose();
 
         base.Destroy();
     }
@@ -76,12 +73,19 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         IsNotesEmtpy = !Notes?.Any() ?? true;
     }
 
-    private void NoteItemsQuery_Changed(IRealmCollection<NoteItem> realmNotes, ChangeSet changes)
+	private void RealmQueryMap_ItemsChanged(object sender, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
+		var realmNotes = e.Items as IRealmCollection<NoteItem>;
+		var changes = e.Changes;
+
         if (changes == null)
         {
-            var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType.ParseEntityType(),
-				NoteItemsQuery, LocalizedStrings.NotePageNumberHeader);
+            var groups = NoteItemGroup.GetGroupsFromNotesQuery(
+				CaseloadItem.EntityType.ParseEntityType(),
+				realmQueryMap[typeof(NoteItem)].Query as IQueryable<NoteItem>,
+				LocalizedStrings.NotePageNumberHeader
+			);
+
             InitNotesCollection(groups);
             return;
         }
