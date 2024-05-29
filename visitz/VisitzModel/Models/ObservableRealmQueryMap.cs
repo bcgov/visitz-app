@@ -10,6 +10,8 @@ public class ObservableRealmQueryMap : IDisposable
 
 	public event EventHandler<(Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes)> ItemsChanged;
 
+	public (Realm Realm, IQueryable<IRealmObject> Query, IDisposable QueryToken) this[Type key] => Queries[key];
+
 	public void Subscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
 	{
 		var queryToken = query.SubscribeForNotifications(Query_ItemsChanged);
