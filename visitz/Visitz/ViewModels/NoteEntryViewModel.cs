@@ -31,6 +31,9 @@ namespace Visitz.ViewModels
         public bool allowPublish;
 
 		[ObservableProperty]
+		public bool allowDiscard;
+
+		[ObservableProperty]
 		public int remainingCharacters = CharacterLimit;
 
         [ObservableProperty]
@@ -55,11 +58,16 @@ namespace Visitz.ViewModels
         private async Task InitNoteDraft()
         {
             Realm = await VisitzRealms.GetNoteDraftsRealmAsync();
-			NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? new NoteDraft()
+			NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? CreateNoteDraft();
+        }
+
+		private NoteDraft CreateNoteDraft()
+		{
+			return new NoteDraft()
 			{
 				ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
 			};
-        }
+		}
 
         public override void Destroy()
         {
@@ -113,7 +121,9 @@ namespace Visitz.ViewModels
 				// by reassigning its previous value
 				return;
 
-			if (!NoteDraft.IsManaged)
+			int length = e.NewTextValue?.Length ?? 0;
+
+			if (length > 0 && !NoteDraft.IsManaged)
 				await Realm.WriteAsync(() => Realm.Add(NoteDraft));
 
 			SetDraftInfo();
@@ -131,7 +141,8 @@ namespace Visitz.ViewModels
                 return;
             }
 
-			RemainingCharacters = CharacterLimit - e.NewTextValue?.Length ?? 0;
+			RemainingCharacters = CharacterLimit - length;
+			AllowDiscard = NoteDraft.IsManaged;
             UpdateAllowPublish(e.NewTextValue);
             ShowSavingDraftMessage();
         }
@@ -199,5 +210,14 @@ namespace Visitz.ViewModels
         {
             NetworkAccess = e.NetworkAccess;
         }
-    }
+
+		public async Task ResetDraftAsync()
+		{
+			if (!NoteDraft.IsManaged)
+				return;
+
+			await Realm.WriteAsync(() => Realm.Remove(NoteDraft));
+			NoteDraft = CreateNoteDraft();
+		}
+	}
 }

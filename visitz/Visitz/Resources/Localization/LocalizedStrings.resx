@@ -696,4 +696,7 @@ If you have any questions about the collection, use, or disclosure of this infor
   <data name="DiscardDraft" xml:space="preserve">
     <value>Discard draft</value>
   </data>
+  <data name="DiscardNoteDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this note draft? You won't be able to recover it.</value>
+  </data>
 </root>

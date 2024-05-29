@@ -1,4 +1,5 @@
 using Visitz.Animations.Haptic;
+using Visitz.Resources.Localization;
 using Visitz.ViewModels;
 using VisitzModel.Events;
 using VisitzModel.Models;
@@ -74,4 +75,19 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(NotesEditor);
     }
+
+	private async void Discard_Clicked(object sender, EventArgs e)
+	{
+		if (await PromptDiscard())
+			await ViewModel.ResetDraftAsync();
+	}
+
+	private static async Task<bool> PromptDiscard()
+	{
+		return await Navigator.CurrentOpenPage.DisplayAlert(
+			LocalizedStrings.DiscardDraftQuestion,
+			LocalizedStrings.DiscardNoteDraftDescription,
+			LocalizedStrings.Discard,
+			LocalizedStrings.Cancel);
+	}
 }

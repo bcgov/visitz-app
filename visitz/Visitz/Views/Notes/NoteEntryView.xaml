@@ -52,7 +52,13 @@
 
                     <views:InternetInfoView />
 
-                    <Button
+					<Button
+						Style="{StaticResource SecondaryButtonLight}"
+						Text="{local:Localize DiscardDraft}"
+						Clicked="Discard_Clicked"
+						IsEnabled="{Binding AllowDiscard}" />
+
+					<Button
                         Text="{local:Localize PublishToIcm}"
                         Command="{Binding PublishNotesCommand}"
                         IsEnabled="{Binding AllowPublish}" />
