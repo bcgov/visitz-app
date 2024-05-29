@@ -8,7 +8,7 @@ public class ObservableRealmQueryMap : IDisposable
 
 	Dictionary<Type, (Realm, IQueryable<IRealmObject>, IDisposable QueryToken)> Queries { get; } = [];
 
-	public event EventHandler<(Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes)> ItemsChanged;
+	public event EventHandler<(Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes)> ItemsChanged;
 
 	public (Realm Realm, IQueryable<IRealmObject> Query, IDisposable QueryToken) this[Type key] => Queries[key];
 
