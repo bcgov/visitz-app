@@ -86,11 +86,7 @@
                     TextChanged="NotesEditor_TextChanged"
                     Keyboard="Text">
 
-                    <Editor.Behaviors>
-                        <toolkit:UserStoppedTypingBehavior 
-                            Command="{Binding UserStoppedTypingCommand}"
-                            StoppedTypingTimeThreshold="700" />
-                    </Editor.Behaviors>
+                    
                 </Editor>
 
 				<views:ErrorTooltip 

@@ -12,6 +12,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Utilities;
 
 namespace Visitz.ViewModels
 {
@@ -42,6 +43,8 @@ namespace Visitz.ViewModels
         public event EventHandler<DraftErrorEventArgs> DraftError;
 
         public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
+
+		private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
 
 		Realm Realm { get; set; }
 
@@ -76,14 +79,6 @@ namespace Visitz.ViewModels
 			Realm.Dispose();
 
             base.Destroy();
-        }
-
-        [RelayCommand]
-        public void UserStoppedTyping()
-        {
-            ConsoleTrace.TraceMethod(this);
-
-            ShowDraftSavedMessage();
         }
 
         [RelayCommand]
@@ -144,7 +139,17 @@ namespace Visitz.ViewModels
 			RemainingCharacters = CharacterLimit - length;
 			AllowDiscard = NoteDraft.IsManaged;
             UpdateAllowPublish(e.NewTextValue);
-            ShowSavingDraftMessage();
+
+			if (length > 0)
+			{
+				ShowSavingDraftMessage();
+				await debouncer.Debounce(ShowDraftSavedMessage);
+			}
+			else
+			{
+				debouncer.Cancel();
+				ClearDraftMessages();
+			}
         }
 
         private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
