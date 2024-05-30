@@ -94,13 +94,10 @@ namespace Visitz.ViewModels
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-            Realm = await VisitzRealms.GetIcmDataRealmAsync();
+			await SetupRealm();
 
             int sortPrefIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
-
-            CaseloadQuery = Realm.All<CaseloadItem>();
-            CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
 
             ShowEmptyCaseloadMessage = false;
             CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
@@ -108,6 +105,14 @@ namespace Visitz.ViewModels
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
+
+		private async Task SetupRealm()
+		{
+			Realm = await VisitzRealms.GetIcmDataRealmAsync();
+
+			CaseloadQuery = Realm.All<CaseloadItem>();
+			CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
+		}
 
         private void Teardown()
         {
