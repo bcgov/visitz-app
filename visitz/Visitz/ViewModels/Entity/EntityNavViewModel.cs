@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Entity;
@@ -23,7 +24,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
     public EntityNavItem headerNavItem;
 
     [ObservableProperty]
-    public IList<EntityNavItem> entityNavItems;
+    public ObservableCollection<EntityNavItem> entityNavItems = [];
 
     [ObservableProperty]
     public EntityNavItem selectedEntityNavItem;
@@ -66,7 +67,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
     {
         base.Create();
 
-        EntityNavItems = BuildNavList();
+        BuildNavList();
 
         SelectedEntityNavItem ??= DefaultNavItem;
 
@@ -83,19 +84,14 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
         base.Destroy();
     }
 
-    private List<EntityNavItem> BuildNavList()
+    private void BuildNavList()
     {
-        var items = new List<EntityNavItem>()
-        {
-            Details,
-            FamilyMembers,
-            Notes,
-        };
+		EntityNavItems.Add(Details);
+		EntityNavItems.Add(FamilyMembers);
+		EntityNavItems.Add(Notes);
 
         if (ShouldShowSafetyAssessment())
-            items.Add(SafetyAssessment);
-
-        return items;
+            EntityNavItems.Add(SafetyAssessment);
     }
 
 	private async Task SetupDraftsObserver()
