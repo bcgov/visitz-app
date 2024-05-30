@@ -1,13 +1,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using Visitz.Resources.Localization;
+using Visitz.Storage;
 using Visitz.Views.Entity;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Navigation;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels.Entity;
 
@@ -60,17 +63,24 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 
     public EntityNavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
 
-    public override void Create()
+	private readonly ObservableRealmQueryMap realmQueryMap = new();
+
+    public override async void Create()
     {
         base.Create();
 
         EntityNavItems = BuildNavList();
 
         SelectedEntityNavItem ??= DefaultNavItem;
+
+		await SetupDraftsObserver();
     }
 
     public override void Destroy()
     {
+		realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
+		realmQueryMap.Dispose();
+
         StrongReferenceMessenger.Default.UnregisterAll(this);
 
         base.Destroy();
@@ -85,11 +95,35 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
             NavItems.Notes,
         };
 
-        if (CaseloadItem.EntityType.ParseEntityType() == EntityType.Incident)
+        if (ShouldShowSafetyAssessment())
             items.Add(NavItems.SafetyAssessment);
 
         return items;
     }
+
+	private async Task SetupDraftsObserver()
+	{
+		realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
+
+		var noteRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
+		realmQueryMap.Subscribe(noteRealm, noteRealm.All<NoteDraft>()
+			.Where(draft => draft.ParentEntityId == CaseloadItem.CaseIncidentNumber));
+
+		if (ShouldShowSafetyAssessment())
+		{
+			var assessmentRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+			realmQueryMap.Subscribe(assessmentRealm, assessmentRealm.All<AssessmentDraft>()
+				.Where(draft => draft.DraftEntityId == CaseloadItem.CaseIncidentNumber));
+		}
+	}
+
+	private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+	{
+		if (e.Type == typeof(NoteDraft))
+			NavItems.Notes.HasDraft = e.Items.Any();
+		else if (e.Type == typeof(AssessmentDraft))
+			NavItems.SafetyAssessment.HasDraft = e.Items.Any();
+	}
 
 	public void SetRequestedSection(EntitySection section)
 	{
@@ -118,4 +152,9 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
     {
         StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
     }
+
+	private bool ShouldShowSafetyAssessment()
+	{
+		return CaseloadItem.EntityType.ParseEntityType() == EntityType.Incident;
+	}
 }
