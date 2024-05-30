@@ -114,7 +114,6 @@
             <!-- TODO: Hardcoding width on iOS because of a rendering issue. -->
             <Button 
                 Grid.Column="2"
-                WidthRequest="{OnPlatform iOS=150}"
                 Text="{Binding OpenNoteEntryText}"
                 Command="{Binding AddNoteCommand}">
                 <Button.ImageSource>
