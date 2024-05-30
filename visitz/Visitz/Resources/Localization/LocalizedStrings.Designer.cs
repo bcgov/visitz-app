@@ -263,6 +263,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue draft.
+        /// </summary>
+        public static string ContinueDraft {
+            get {
+                return ResourceManager.GetString("ContinueDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date of assessment.
         /// </summary>
         public static string DateOfAssessment {
