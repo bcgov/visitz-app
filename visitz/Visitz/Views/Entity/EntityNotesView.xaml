@@ -114,7 +114,7 @@
             <!-- TODO: Hardcoding width on iOS because of a rendering issue. -->
             <Button 
                 Grid.Column="2"
-                Text="{Binding OpenNoteEntryText}"
+                Text="{Binding OpenNoteEntryText, TargetNullValue={local:Localize AddNotes}}"
                 Command="{Binding AddNoteCommand}">
                 <Button.ImageSource>
                     <FontImageSource 
