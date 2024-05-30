@@ -35,7 +35,7 @@
             SelectionChangedCommand="{Binding EntityNavSelectedCommand}">
 
             <selView:SelectionList.ItemTemplate>
-                <DataTemplate x:DataType="navModels:NavItem">
+                <DataTemplate x:DataType="navModels:EntityNavItem">
                     <selView:SelectableItem>
 
                         <VisualStateManager.VisualStateGroups>
@@ -53,13 +53,19 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <HorizontalStackLayout>
-                            <Label 
+                        <Grid ColumnDefinitions="6,*">
+							<BoxView
+								Grid.Column="0"
+								Color="{StaticResource BC_Gold}"
+								IsVisible="{Binding HasDraft}" />
+							
+							<Label
+								Grid.Column="1"
                                 VerticalOptions="Center"
                                 Margin="10,0,0,0"
                                 Padding="0,15,10,15"
                                 Text="{Binding Text}" />
-                        </HorizontalStackLayout>
+                        </Grid>
 
                     </selView:SelectableItem>
                 </DataTemplate>
