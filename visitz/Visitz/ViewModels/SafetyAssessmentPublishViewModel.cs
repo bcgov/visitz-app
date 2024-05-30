@@ -1,9 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.ViewModels.Entity;
+using Visitz.Views.Entity;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels;
@@ -74,7 +76,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
     private void RedirectToDetails()
     {
-        var detailsNav = EntityNavViewModel.NavItems.Details;
+		var detailsNav = new EntityNavItem() { ContentViewType = typeof(EntityDetailsView) };
         StrongReferenceMessenger.Default.Send(new EntityNavMessage(detailsNav, CaseloadItem));
     }
 }

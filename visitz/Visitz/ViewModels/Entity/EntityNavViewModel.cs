@@ -16,36 +16,6 @@ namespace Visitz.ViewModels.Entity;
 
 public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
 {
-    public static class NavItems
-    {
-        public static readonly EntityNavItem Details = new()
-		{
-			Text = LocalizedStrings.Details,
-			ContentViewType = typeof(EntityDetailsView)
-		};
-        
-        public static readonly EntityNavItem FamilyMembers = new()
-		{
-			Text = LocalizedStrings.FamilyMembers,
-			ContentViewType = typeof(EntityContactsView),
-			Section = EntitySection.Family,
-		};
-        
-        public static readonly EntityNavItem Notes = new()
-		{
-			Text = LocalizedStrings.Notes,
-			ContentViewType = typeof(EntityNotesView),
-			Section = EntitySection.Notes,
-		};
-
-        public static readonly EntityNavItem SafetyAssessment = new()
-		{
-			Text = LocalizedStrings.SafetyAssessment,
-			ContentViewType = typeof(EntitySafetyAssessView),
-			Section = EntitySection.SafetyAssessment,
-		};
-    }
-
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 
@@ -65,7 +35,34 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 
 	private readonly ObservableRealmQueryMap realmQueryMap = new();
 
-    public override async void Create()
+	private readonly EntityNavItem Details = new()
+	{
+		Text = LocalizedStrings.Details,
+		ContentViewType = typeof(EntityDetailsView)
+	};
+
+	private readonly EntityNavItem FamilyMembers = new()
+	{
+		Text = LocalizedStrings.FamilyMembers,
+		ContentViewType = typeof(EntityContactsView),
+		Section = EntitySection.Family,
+	};
+
+	private readonly EntityNavItem Notes = new()
+	{
+		Text = LocalizedStrings.Notes,
+		ContentViewType = typeof(EntityNotesView),
+		Section = EntitySection.Notes,
+	};
+
+	private readonly EntityNavItem SafetyAssessment = new()
+	{
+		Text = LocalizedStrings.SafetyAssessment,
+		ContentViewType = typeof(EntitySafetyAssessView),
+		Section = EntitySection.SafetyAssessment,
+	};
+
+	public override async void Create()
     {
         base.Create();
 
@@ -90,13 +87,13 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
     {
         var items = new List<EntityNavItem>()
         {
-            NavItems.Details,
-            NavItems.FamilyMembers,
-            NavItems.Notes,
+            Details,
+            FamilyMembers,
+            Notes,
         };
 
         if (ShouldShowSafetyAssessment())
-            items.Add(NavItems.SafetyAssessment);
+            items.Add(SafetyAssessment);
 
         return items;
     }
@@ -120,9 +117,9 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 	private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
 	{
 		if (e.Type == typeof(NoteDraft))
-			NavItems.Notes.HasDraft = e.Items.Any();
+			Notes.HasDraft = e.Items.Any();
 		else if (e.Type == typeof(AssessmentDraft))
-			NavItems.SafetyAssessment.HasDraft = e.Items.Any();
+			SafetyAssessment.HasDraft = e.Items.Any();
 	}
 
 	public void SetRequestedSection(EntitySection section)
@@ -131,10 +128,10 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 
 		SelectedEntityNavItem = section switch
 		{
-			EntitySection.Family => NavItems.FamilyMembers,
-			EntitySection.Notes or EntitySection.NoteEntry => NavItems.Notes,
-			EntitySection.SafetyAssessment => NavItems.SafetyAssessment,
-			_ => NavItems.Details,
+			EntitySection.Family => FamilyMembers,
+			EntitySection.Notes or EntitySection.NoteEntry => Notes,
+			EntitySection.SafetyAssessment => SafetyAssessment,
+			_ => Details,
 		};
 	}
 
