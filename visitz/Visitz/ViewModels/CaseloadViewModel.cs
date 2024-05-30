@@ -12,7 +12,9 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.ViewModels
 {
@@ -90,6 +92,17 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool showAvatarView;
 
+		private readonly ObservableRealmQueryMap realmQueryMap = new();
+
+		[ObservableProperty]
+		public HashSet<(string EntityId, EntityType Type)> draftedNotes = [];
+
+		[ObservableProperty]
+		public HashSet<(string EntityId, EntityType Type)> draftedAssessments = [];
+
+		[ObservableProperty]
+		public HashSet<(string EntityId, EntityType Type)> draftedItems = [];
+
         private async Task Setup()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
@@ -112,13 +125,23 @@ namespace Visitz.ViewModels
 
 			CaseloadQuery = Realm.All<CaseloadItem>();
 			CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
+
+			realmQueryMap.ItemsChanged += RealmQueryMap_DraftsChanged;
+
+			var noteDraft = await VisitzRealms.GetNoteDraftsRealmAsync();
+			realmQueryMap.Subscribe(noteDraft, noteDraft.All<NoteDraft>());
+
+			var assessmentDraft = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+			realmQueryMap.Subscribe(assessmentDraft, assessmentDraft.All<AssessmentDraft>());
 		}
 
-        private void Teardown()
+		private void Teardown()
         {
             DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
+
+			realmQueryMap.Dispose();
 
             CaseloadQueryToken?.Dispose();
             CaseloadQueryToken = null;
@@ -278,5 +301,32 @@ namespace Visitz.ViewModels
         {
             ShowAvatarView = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
-    }
+
+		private void RealmQueryMap_DraftsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+		{
+			HashSet<(string EntityId, EntityType Type)> drafted = [];
+
+			foreach (var item in e.Items.Cast<IDraftItem>())
+				drafted.Add((item.RelatedEntityId, item.RelatedEntityType));
+
+			if (e.Type == typeof(NoteDraft))
+				DraftedNotes = drafted;
+			else if (e.Type == typeof(AssessmentDraft))
+				DraftedAssessments = drafted;
+		}
+
+		partial void OnDraftedNotesChanged(HashSet<(string EntityId, EntityType Type)> value)
+		{
+			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
+			newSet.UnionWith(DraftedAssessments);
+			DraftedItems = newSet;
+		}
+
+		partial void OnDraftedAssessmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
+		{
+			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
+			newSet.UnionWith(DraftedNotes);
+			DraftedItems = newSet;
+		}
+	}
 }
