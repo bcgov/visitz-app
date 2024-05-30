@@ -33,6 +33,9 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 	[ObservableProperty]
 	public EntitySection requestedSection;
 
+	[ObservableProperty]
+	public string openNoteEntryText;
+
 	public override async void Create()
     {
         base.Create();
@@ -41,6 +44,11 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
 		realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
 		realmQueryMap.Subscribe(realm, NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber));
+
+		var noteDraftRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
+
+		realmQueryMap.Subscribe(noteDraftRealm, noteDraftRealm.All<NoteDraft>()
+			.Where(draft => draft.ParentEntityId == CaseloadItem.CaseIncidentNumber));
 
 		if (RequestedSection == EntitySection.NoteEntry)
 			await OpenNoteEntry();
@@ -73,36 +81,46 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         IsNotesEmtpy = !Notes?.Any() ?? true;
     }
 
-	private void RealmQueryMap_ItemsChanged(object sender, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+	private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
-		var realmNotes = e.Items as IRealmCollection<NoteItem>;
-		var changes = e.Changes;
+		if (e.Type == typeof(NoteItem))
+			UpdateNotesList(e.Items as IRealmCollection<NoteItem>, e.Changes);
+		else if (e.Type == typeof(NoteDraft))
+			UpdateOpenNoteEntryText(e.Items.Any());
+	}
 
-        if (changes == null)
-        {
-            var groups = NoteItemGroup.GetGroupsFromNotesQuery(
+	private void UpdateNotesList(IRealmCollection<NoteItem> realmNotes, ChangeSet changes)
+	{
+		if (changes == null)
+		{
+			var groups = NoteItemGroup.GetGroupsFromNotesQuery(
 				CaseloadItem.EntityType.ParseEntityType(),
 				realmQueryMap[typeof(NoteItem)].Query as IQueryable<NoteItem>,
 				LocalizedStrings.NotePageNumberHeader
 			);
 
-            InitNotesCollection(groups);
-            return;
-        }
+			InitNotesCollection(groups);
+			return;
+		}
 
-        if (changes.IsCleared)
-        {
-            Notes.Clear();
-            return;
-        }
+		if (changes.IsCleared)
+		{
+			Notes.Clear();
+			return;
+		}
 
-        foreach (var deletedIndex in changes.DeletedIndices.Reverse())
-            NoteItemGroup.RemoveFromSortedGroups(Notes, deletedIndex);
+		foreach (var deletedIndex in changes.DeletedIndices.Reverse())
+			NoteItemGroup.RemoveFromSortedGroups(Notes, deletedIndex);
 
-        foreach (var insertedIndex in changes.InsertedIndices)
-            NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex],
+		foreach (var insertedIndex in changes.InsertedIndices)
+			NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex],
 				CaseloadItem.EntityType.ParseEntityType(), LocalizedStrings.NotePageNumberHeader);
-    }
+	}
+
+	private void UpdateOpenNoteEntryText(bool draftAvailable)
+	{
+		OpenNoteEntryText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddNotes;
+	}
 
     [RelayCommand]
 	public async Task AddNote()
