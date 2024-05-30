@@ -53,7 +53,12 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Grid ColumnDefinitions="6,*">
+                        <Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							
 							<BoxView
 								Grid.Column="0"
 								Color="{StaticResource BC_Gold}"
