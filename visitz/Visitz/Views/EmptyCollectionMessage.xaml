@@ -8,10 +8,13 @@
 	x:DataType="views:EmptyCollectionMessage"
 	x:Name="this">
 	
-	<VerticalStackLayout
+	<Grid
 		BindingContext="{Reference this}"
-		Spacing="{OnPlatform WinUI=0, Default=40}">
+		RowDefinitions="*,Auto"
+		RowSpacing="{OnPlatform WinUI=0, Default=40}"
+		HorizontalOptions="Center">
 		<Label
+			Grid.Row="0"
 			HorizontalOptions="Center"
 			FontAutoScalingEnabled="False"
 			FontFamily="FluentIconsRegular"
@@ -20,9 +23,11 @@
 			Text="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}" />
 
 		<Label
-			HorizontalOptions="Center"
+			Grid.Row="1"
 			HorizontalTextAlignment="Center"
 			FontSize="20"
-			Text="{Binding Text}" />
-	</VerticalStackLayout>
+			MaximumWidthRequest="290"
+			Text="{Binding Text}"
+			LineBreakMode="WordWrap"/>
+	</Grid>
 </ContentView>
