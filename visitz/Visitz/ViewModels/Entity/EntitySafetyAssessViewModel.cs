@@ -79,6 +79,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public bool canPublish;
 
+	[ObservableProperty]
+	public bool canDiscard;
+
     private Realm Realm;
 
     private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
@@ -144,6 +147,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 		else if (DraftItem != null)
 			DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
+		CanDiscard = Assessment.IsManaged;
 		UpdateCanPublish();
     }
 
@@ -198,6 +202,8 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         foreach (var child in AvailableChildrenInOutCare)
             if (value.ChildsInOutCare.Contains(child.ContactId))
                 SelectedChildren.Add(child);
+
+		CanDiscard = value.IsManaged;
     }
 
     private void SubscribeToAssessment()

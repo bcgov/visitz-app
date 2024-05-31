@@ -532,7 +532,8 @@
                 Grid.Column="1"
                 Text="{local:Localize DiscardDraft}"
                 Style="{StaticResource SecondaryButtonLight}"
-                Clicked="DiscardButton_Clicked" />
+                Clicked="DiscardButton_Clicked"
+				IsEnabled="{Binding CanDiscard}" />
 
             <Button
                 Grid.Column="2"
