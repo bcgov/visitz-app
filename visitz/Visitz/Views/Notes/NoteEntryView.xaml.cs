@@ -1,4 +1,5 @@
 using Visitz.Animations.Haptic;
+using Visitz.Resources.Localization;
 using Visitz.ViewModels;
 using VisitzModel.Events;
 using VisitzModel.Models;
@@ -39,9 +40,14 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     private async void NoteEntryView_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
     {
-        DraftSavedView.State state = e.DraftSaved
-            ? DraftSavedView.State.Saved
-            : DraftSavedView.State.Saving;
+		DraftSavedView.State state;
+
+		if (e.DraftSaved)
+			state = DraftSavedView.State.Saved;
+		else if (e.SavingDraft)
+			state = DraftSavedView.State.Saving;
+		else
+			state = DraftSavedView.State.None;
 
         await DraftSavedIndicator.SetState(state);
     }
@@ -74,4 +80,22 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(NotesEditor);
     }
+
+	private async void Discard_Clicked(object sender, EventArgs e)
+	{
+		if (await PromptDiscard())
+		{
+			await ViewModel.ResetDraftAsync();
+			await Navigator.Navigation.PopModalAsync();
+		}
+	}
+
+	private static async Task<bool> PromptDiscard()
+	{
+		return await Navigator.CurrentOpenPage.DisplayAlert(
+			LocalizedStrings.DiscardDraftQuestion,
+			LocalizedStrings.DiscardNoteDraftDescription,
+			LocalizedStrings.Discard,
+			LocalizedStrings.Cancel);
+	}
 }

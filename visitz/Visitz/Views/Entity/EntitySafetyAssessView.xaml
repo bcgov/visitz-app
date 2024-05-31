@@ -530,7 +530,7 @@
 
             <Button
                 Grid.Column="1"
-                Text="Discard draft"
+                Text="{local:Localize DiscardDraft}"
                 Style="{StaticResource SecondaryButtonLight}"
                 Clicked="DiscardButton_Clicked" />
 

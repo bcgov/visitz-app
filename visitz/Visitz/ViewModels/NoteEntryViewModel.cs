@@ -12,6 +12,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Utilities;
 
 namespace Visitz.ViewModels
 {
@@ -31,6 +32,9 @@ namespace Visitz.ViewModels
         public bool allowPublish;
 
 		[ObservableProperty]
+		public bool allowDiscard;
+
+		[ObservableProperty]
 		public int remainingCharacters = CharacterLimit;
 
         [ObservableProperty]
@@ -39,6 +43,8 @@ namespace Visitz.ViewModels
         public event EventHandler<DraftErrorEventArgs> DraftError;
 
         public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
+
+		private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
 
 		Realm Realm { get; set; }
 
@@ -55,11 +61,16 @@ namespace Visitz.ViewModels
         private async Task InitNoteDraft()
         {
             Realm = await VisitzRealms.GetNoteDraftsRealmAsync();
-			NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? new NoteDraft()
+			NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? CreateNoteDraft();
+        }
+
+		private NoteDraft CreateNoteDraft()
+		{
+			return new NoteDraft()
 			{
 				ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
 			};
-        }
+		}
 
         public override void Destroy()
         {
@@ -68,14 +79,6 @@ namespace Visitz.ViewModels
 			Realm.Dispose();
 
             base.Destroy();
-        }
-
-        [RelayCommand]
-        public void UserStoppedTyping()
-        {
-            ConsoleTrace.TraceMethod(this);
-
-            ShowDraftSavedMessage();
         }
 
         [RelayCommand]
@@ -113,7 +116,9 @@ namespace Visitz.ViewModels
 				// by reassigning its previous value
 				return;
 
-			if (!NoteDraft.IsManaged)
+			int length = e.NewTextValue?.Length ?? 0;
+
+			if (length > 0 && !NoteDraft.IsManaged)
 				await Realm.WriteAsync(() => Realm.Add(NoteDraft));
 
 			SetDraftInfo();
@@ -131,9 +136,20 @@ namespace Visitz.ViewModels
                 return;
             }
 
-			RemainingCharacters = CharacterLimit - e.NewTextValue?.Length ?? 0;
+			RemainingCharacters = CharacterLimit - length;
+			AllowDiscard = NoteDraft.IsManaged;
             UpdateAllowPublish(e.NewTextValue);
-            ShowSavingDraftMessage();
+
+			if (NoteDraft.IsManaged)
+			{
+				ShowSavingDraftMessage();
+				await debouncer.Debounce(ShowDraftSavedMessage);
+			}
+			else
+			{
+				debouncer.Cancel();
+				ClearDraftMessages();
+			}
         }
 
         private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
@@ -199,5 +215,14 @@ namespace Visitz.ViewModels
         {
             NetworkAccess = e.NetworkAccess;
         }
-    }
+
+		public async Task ResetDraftAsync()
+		{
+			if (!NoteDraft.IsManaged)
+				return;
+
+			await Realm.WriteAsync(() => Realm.Remove(NoteDraft));
+			NoteDraft = CreateNoteDraft();
+		}
+	}
 }

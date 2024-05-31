@@ -1,5 +1,6 @@
 using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Utilities;
 
 namespace Visitz.Views;
@@ -41,10 +42,8 @@ public partial class LastUpdatedBanner : ContentView
 
 	private void SetLastUpdated(DateTime? lastUpdated)
 	{
-		var now = DateTimeExtensions.LocalNow;
-
-		LastUpdatedLabel.Text = lastUpdated is DateTime last && (now - last).TotalDays > 0
-			? new ThatDay(last, now).ToString()
+		LastUpdatedLabel.Text = lastUpdated is DateTime last
+			? last.ToString(IcmDateFormats.BasicTimestamp)
 			: LastUpdatedLabel.Text = FallbackText;
 	}
 }

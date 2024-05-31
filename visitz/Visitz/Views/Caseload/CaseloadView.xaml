@@ -186,7 +186,7 @@
 					
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:CaseloadItem">
-                            <caseload:CaseloadItemView />
+							<caseload:CaseloadItemView DraftedItems="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=DraftedItems}" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 					

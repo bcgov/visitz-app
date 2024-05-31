@@ -24,9 +24,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     [ObservableProperty]
     public bool isNotesEmtpy;
 
-    private IQueryable<NoteItem> NoteItemsQuery { get; set; }
-
-    private IDisposable NoteItemsQueryToken { get; set; }
+	private readonly ObservableRealmQueryMap realmQueryMap = new();
 
     public NoteItemGroup LastNoteItemGroup => Notes?.LastOrDefault();
 
@@ -35,27 +33,34 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 	[ObservableProperty]
 	public EntitySection requestedSection;
 
+	[ObservableProperty]
+	public string openNoteEntryText;
+
 	public override async void Create()
     {
         base.Create();
 
         var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        NoteItemsQuery = NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber);
-        NoteItemsQueryToken = NoteItemsQuery.SubscribeForNotifications(NoteItemsQuery_Changed);
+		realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
+		realmQueryMap.Subscribe(realm, NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber));
+
+		var noteDraftRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
+
+		realmQueryMap.Subscribe(noteDraftRealm, noteDraftRealm.All<NoteDraft>()
+			.Where(draft => draft.ParentEntityId == CaseloadItem.CaseIncidentNumber));
 
 		if (RequestedSection == EntitySection.NoteEntry)
 			await OpenNoteEntry();
     }
 
-    public override void Destroy()
+	public override void Destroy()
     {
         if (Notes != null)
             Notes.CollectionChanged -= Notes_CollectionChanged;
         Notes = null;
 
-        NoteItemsQueryToken?.Dispose();
-        NoteItemsQueryToken = null;
+		realmQueryMap.Dispose();
 
         base.Destroy();
     }
@@ -76,29 +81,46 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         IsNotesEmtpy = !Notes?.Any() ?? true;
     }
 
-    private void NoteItemsQuery_Changed(IRealmCollection<NoteItem> realmNotes, ChangeSet changes)
+	private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
-        if (changes == null)
-        {
-            var groups = NoteItemGroup.GetGroupsFromNotesQuery(CaseloadItem.EntityType.ParseEntityType(),
-				NoteItemsQuery, LocalizedStrings.NotePageNumberHeader);
-            InitNotesCollection(groups);
-            return;
-        }
+		if (e.Type == typeof(NoteItem))
+			UpdateNotesList(e.Items as IRealmCollection<NoteItem>, e.Changes);
+		else if (e.Type == typeof(NoteDraft))
+			UpdateOpenNoteEntryText(e.Items.Any());
+	}
 
-        if (changes.IsCleared)
-        {
-            Notes.Clear();
-            return;
-        }
+	private void UpdateNotesList(IRealmCollection<NoteItem> realmNotes, ChangeSet changes)
+	{
+		if (changes == null)
+		{
+			var groups = NoteItemGroup.GetGroupsFromNotesQuery(
+				CaseloadItem.EntityType.ParseEntityType(),
+				realmQueryMap[typeof(NoteItem)].Query as IQueryable<NoteItem>,
+				LocalizedStrings.NotePageNumberHeader
+			);
 
-        foreach (var deletedIndex in changes.DeletedIndices.Reverse())
-            NoteItemGroup.RemoveFromSortedGroups(Notes, deletedIndex);
+			InitNotesCollection(groups);
+			return;
+		}
 
-        foreach (var insertedIndex in changes.InsertedIndices)
-            NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex],
+		if (changes.IsCleared)
+		{
+			Notes.Clear();
+			return;
+		}
+
+		foreach (var deletedIndex in changes.DeletedIndices.Reverse())
+			NoteItemGroup.RemoveFromSortedGroups(Notes, deletedIndex);
+
+		foreach (var insertedIndex in changes.InsertedIndices)
+			NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex],
 				CaseloadItem.EntityType.ParseEntityType(), LocalizedStrings.NotePageNumberHeader);
-    }
+	}
+
+	private void UpdateOpenNoteEntryText(bool draftAvailable)
+	{
+		OpenNoteEntryText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddNotes;
+	}
 
     [RelayCommand]
 	public async Task AddNote()

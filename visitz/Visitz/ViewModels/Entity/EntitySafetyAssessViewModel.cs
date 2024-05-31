@@ -81,7 +81,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private Realm Realm;
 
-    private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));
+    private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
 
 	[ObservableProperty]
 	private AssessmentDraft draftItem;

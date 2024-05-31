@@ -2,6 +2,7 @@ using Realms;
 using System.Globalization;
 using VisitzApi.Models;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models
@@ -14,8 +15,8 @@ namespace VisitzModel.Models
 		private const string NotePeriodName = "NotePeriod";
 		private const string CreatedDateName = "CreatedDate";
 
-		private static readonly string IcmNotePeriodDateFormat = "MMM yyyy";
-        private static readonly string NoteWrapperTimestampFormat = "yyyy-MMM-dd hh:mm:ss tt";
+		private static readonly string IcmNotePeriodDateFormat = IcmDateFormats.NotePeriod;
+        private static readonly string NoteWrapperTimestampFormat = IcmDateFormats.BasicTimestamp;
         private static readonly string Separator = "────";
 
         /// <summary>

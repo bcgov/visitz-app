@@ -263,6 +263,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue draft.
+        /// </summary>
+        public static string ContinueDraft {
+            get {
+                return ResourceManager.GetString("ContinueDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date of assessment.
         /// </summary>
         public static string DateOfAssessment {
@@ -339,6 +348,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discard draft.
+        /// </summary>
+        public static string DiscardDraft {
+            get {
+                return ResourceManager.GetString("DiscardDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard draft?.
         /// </summary>
         public static string DiscardDraftQuestion {
@@ -353,6 +371,15 @@ namespace Visitz.Resources.Localization {
         public static string DiscardedSafetyAssessmentDraft {
             get {
                 return ResourceManager.GetString("DiscardedSafetyAssessmentDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this note draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardNoteDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardNoteDraftDescription", resourceCulture);
             }
         }
         
