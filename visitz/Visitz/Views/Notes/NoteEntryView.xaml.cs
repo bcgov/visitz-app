@@ -84,7 +84,10 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 	private async void Discard_Clicked(object sender, EventArgs e)
 	{
 		if (await PromptDiscard())
+		{
 			await ViewModel.ResetDraftAsync();
+			await Navigator.Navigation.PopModalAsync();
+		}
 	}
 
 	private static async Task<bool> PromptDiscard()
