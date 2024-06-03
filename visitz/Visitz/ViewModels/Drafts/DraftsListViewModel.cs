@@ -84,9 +84,14 @@ internal partial class DraftsListViewModel : VisitzViewModel
 		var caseloadItem = DataRealm
 			.All<CaseloadItem>()
 			.Where(item => item.CaseIncidentNumber == draftItem.RelatedEntityId)
-			.FirstOrDefault(); 
+			.FirstOrDefault();
 
-		var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, SectionToOpen);
+		NavigateTo(caseloadItem, SectionToOpen);
+	}
+
+	static void NavigateTo(CaseloadItem caseloadItem, EntitySection section)
+	{
+		var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section);
 		StrongReferenceMessenger.Default.Send(caseloadNav);
 
 		var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
