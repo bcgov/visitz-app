@@ -133,6 +133,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel and keep draft.
+        /// </summary>
+        public static string CancelAndKeepDraft {
+            get {
+                return ResourceManager.GetString("CancelAndKeepDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
         public static string Caseload {
@@ -389,6 +398,28 @@ namespace Visitz.Resources.Localization {
         public static string DiscardSafetyAssessmentDraftDescription {
             get {
                 return ResourceManager.GetString("DiscardSafetyAssessmentDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard unlinked draft.
+        /// </summary>
+        public static string DiscardUnlinkedDraft {
+            get {
+                return ResourceManager.GetString("DiscardUnlinkedDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are not assigned to {0} &apos;{1}&apos;. To continue working on drafts for this record you must be assigned.
+        ///
+        ///If you select &apos;Cancel and keep draft&apos;, the draft will remain on your device.
+        ///
+        ///Do you want to discard this unlinked draft permanently?.
+        /// </summary>
+        public static string DiscardUnlinkedDraftDesc {
+            get {
+                return ResourceManager.GetString("DiscardUnlinkedDraftDesc", resourceCulture);
             }
         }
         
@@ -710,7 +741,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to You&apos;ve successfully logged in.
         ///
-        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Use the &quot;Request Access&quot; button below to submit a request. 
+        ///Use the &quot;Request Access&quot; button below to submit a request for authorization to use the app.
         ///
         ///If that doesn&apos;t work, request access by emailing .
         /// </summary>

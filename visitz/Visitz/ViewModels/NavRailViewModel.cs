@@ -105,7 +105,7 @@ public partial class NavRailViewModel : VisitzViewModel
 		realmCount.CountChanged += RealmCount_CountChanged;
 
 		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
-		realmCount.Subscribe<SafetyAssessment>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
+		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
 	}
 
     partial void OnSelectedNavItemChanged(NavItem value)

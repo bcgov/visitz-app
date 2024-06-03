@@ -65,7 +65,7 @@
 								Margin="10">
 
 								<Grid.Resources>
-									<converters:DateTimeOffsetThatDayConverter x:Key="ThatDayConverter" />
+									<converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
 								</Grid.Resources>
 							
 								<Label 
@@ -83,7 +83,7 @@
 								<Label 
 									Grid.Column="2"
 									VerticalOptions="Start"
-									Text="{Binding LastUpdated.LocalDateTime, StringFormat='{0:yyyy-MMM-dd}'}"
+									Text="{Binding LastUpdated.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"
 									TextColor="{StaticResource BC_TextColor_Lighter}" />
 
 								<tagViews:EntityTypeBadge 

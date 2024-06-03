@@ -24,6 +24,8 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
 	EntitySection SectionToOpen { get; set; }
 
+	public event EventHandler<IDraftItem> SelectedItemRelatedMissing;
+
 	public override async void Create()
 	{
 		base.Create();
@@ -84,12 +86,38 @@ internal partial class DraftsListViewModel : VisitzViewModel
 		var caseloadItem = DataRealm
 			.All<CaseloadItem>()
 			.Where(item => item.CaseIncidentNumber == draftItem.RelatedEntityId)
-			.FirstOrDefault(); 
+			.FirstOrDefault();
 
-		var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, SectionToOpen);
+		if (caseloadItem != null)
+			NavigateTo(caseloadItem, SectionToOpen);
+		else
+			SelectedItemRelatedMissing?.Invoke(this, draftItem);
+	}
+
+	static void NavigateTo(CaseloadItem caseloadItem, EntitySection section)
+	{
+		var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section);
 		StrongReferenceMessenger.Default.Send(caseloadNav);
 
 		var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
 		StrongReferenceMessenger.Default.Send(appNav);
+	}
+
+	public static async Task DeleteDraft(IDraftItem draft)
+	{
+		var realm = draft.Realm;
+
+		await realm.WriteAsync(() =>
+		{
+			if (draft is AssessmentDraft)
+			{
+				var assessment = SafetyAssessment.FindByIncidentNumber(realm, draft.RelatedEntityId);
+
+				if (assessment != null)
+					realm.Remove(assessment);
+			}
+
+			realm.Remove(draft);
+		});
 	}
 }
