@@ -702,4 +702,19 @@ If you have any questions about the collection, use, or disclosure of this infor
   <data name="DiscardNoteDraftDescription" xml:space="preserve">
     <value>Are you sure you want to discard this note draft? You won't be able to recover it.</value>
   </data>
+  <data name="CancelAndKeepDraft" xml:space="preserve">
+    <value>Cancel and keep draft</value>
+  </data>
+  <data name="DiscardUnlinkedDraft" xml:space="preserve">
+    <value>Discard unlinked draft</value>
+  </data>
+  <data name="DiscardUnlinkedDraftDesc" xml:space="preserve">
+    <value>You are not assigned to {0} '{1}'. To continue working on drafts for this record you must be assigned.
+
+If you select 'Cancel and keep draft', the draft will remain on your device.
+
+Do you want to discard this unlinked draft permanently?</value>
+    <comment>0 = Entity type
+1 = Entity display text if available, otherwise Entity ID number</comment>
+  </data>
 </root>
