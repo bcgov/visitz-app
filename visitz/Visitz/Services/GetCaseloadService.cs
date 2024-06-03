@@ -46,7 +46,7 @@ namespace Visitz.Services
             await CaseloadItem.ReplaceCaseloadWithAsync(realm, caseloadContent);
 
             ResultCode = Result.Successful;
-			LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow);
+			await MainThread.InvokeOnMainThreadAsync(() => LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow));
         }
 
         public override string GetId()
