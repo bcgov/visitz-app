@@ -105,6 +105,19 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
 	public static async Task DeleteDraft(IDraftItem draft)
 	{
-		await draft.Realm.WriteAsync(() => draft.Realm.Remove(draft));
+		var realm = draft.Realm;
+
+		await realm.WriteAsync(() =>
+		{
+			if (draft is AssessmentDraft)
+			{
+				var assessment = SafetyAssessment.FindByIncidentNumber(realm, draft.RelatedEntityId);
+
+				if (assessment != null)
+					realm.Remove(assessment);
+			}
+
+			realm.Remove(draft);
+		});
 	}
 }
