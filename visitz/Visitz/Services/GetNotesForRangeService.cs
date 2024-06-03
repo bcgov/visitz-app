@@ -57,26 +57,26 @@ namespace Visitz.Services
                 await ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(id, entityType));
                 successIds.Add(id);
             }
-            catch
+            catch (Exception ex)
             {
-                erroredIds.Add(id);
+                erroredIds.Add(id + " -> " + ex.Message);
             }
 		}
 	}
 
-    public class PartialErrorException(List<string> successIds, List<string> errorIds) 
-        : Exception(MakeMessage(errorIds))
+    public class PartialErrorException(List<string> successIds, List<string> errors) 
+        : Exception(MakeMessage(errors))
     {
         public List<string> SuccessIds { get; set; } = successIds;
 
-        public List<string> ErrorIds { get; set; } = errorIds;
+        public List<string> ErrorIds { get; set; } = errors;
 
-        public static string MakeMessage(List<string> errorIds)
+        public static string MakeMessage(List<string> errors)
         {
-            StringBuilder sb = new($"{nameof(GetNotesForRangeService)} error for IDs:\n\n");
+            StringBuilder sb = new($"{nameof(GetNotesForRangeService)} errors:\n\n");
 
-            foreach (var id in errorIds.Order())
-                sb.AppendLine($"• \t{id}");
+            foreach (var error in errors.Order())
+                sb.AppendLine($"• {error}");
 
             return sb.ToString();
         }
