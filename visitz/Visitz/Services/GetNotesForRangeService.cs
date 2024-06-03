@@ -76,7 +76,7 @@ namespace Visitz.Services
             StringBuilder sb = new($"{nameof(GetNotesForRangeService)} error for IDs:\n\n");
 
             foreach (var id in errorIds.Order())
-                sb.AppendLine($"\t{id}");
+                sb.AppendLine($"• \t{id}");
 
             return sb.ToString();
         }

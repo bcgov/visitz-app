@@ -1,3 +1,4 @@
+using System.Globalization;
 using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
 using VisitzModel.Formats;
@@ -43,7 +44,7 @@ public partial class LastUpdatedBanner : ContentView
 	private void SetLastUpdated(DateTime? lastUpdated)
 	{
 		LastUpdatedLabel.Text = lastUpdated is DateTime last
-			? last.ToString(IcmDateFormats.BasicTimestamp)
+			? last.ToString(IcmDateFormats.BasicTimestamp, CultureInfo.InvariantCulture)
 			: LastUpdatedLabel.Text = FallbackText;
 	}
 }
