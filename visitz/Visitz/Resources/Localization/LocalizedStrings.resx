@@ -200,7 +200,7 @@ Logging out won't affect your unpublished notes.</value>
   <data name="LoginSuccessButUnauth" xml:space="preserve">
     <value>You've successfully logged in.
 
-However, you currently aren't authorized to use MCFD Mobility. Use the "Request Access" button below to submit a request. 
+Use the "Request Access" button below to submit a request for authorization to use the app.
 
 If that doesn't work, request access by emailing </value>
   </data>
