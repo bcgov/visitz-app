@@ -24,6 +24,8 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
 	EntitySection SectionToOpen { get; set; }
 
+	public event EventHandler<IDraftItem> SelectedItemRelatedMissing;
+
 	public override async void Create()
 	{
 		base.Create();
@@ -86,7 +88,10 @@ internal partial class DraftsListViewModel : VisitzViewModel
 			.Where(item => item.CaseIncidentNumber == draftItem.RelatedEntityId)
 			.FirstOrDefault();
 
-		NavigateTo(caseloadItem, SectionToOpen);
+		if (caseloadItem != null)
+			NavigateTo(caseloadItem, SectionToOpen);
+		else
+			SelectedItemRelatedMissing?.Invoke(this, draftItem);
 	}
 
 	static void NavigateTo(CaseloadItem caseloadItem, EntitySection section)
@@ -96,5 +101,10 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
 		var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
 		StrongReferenceMessenger.Default.Send(appNav);
+	}
+
+	public static async Task DeleteDraft(IDraftItem draft)
+	{
+		await draft.Realm.WriteAsync(() => draft.Realm.Remove(draft));
 	}
 }
