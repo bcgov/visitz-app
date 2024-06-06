@@ -12,21 +12,12 @@ internal partial class CaseloadDetailViewModel : VisitzViewModel
 	[ObservableProperty]
 	public DateTime? lastUpdated;
 
-	public override void Create()
+	public CaseloadDetailViewModel(LastUpdatedPrefs lastUpdatedPrefs)
 	{
-		base.Create();
-
-		LastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
-		LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
+		LastUpdatedPrefs = lastUpdatedPrefs;
 
 		LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
-	}
-
-	public override void Destroy()
-	{
-		base.Destroy();
-
-		LastUpdatedPrefs.LastUpdatedChanged -= LastUpdatedPrefs_LastUpdatedChanged;
+		LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
 	}
 
 	private void LastUpdatedPrefs_LastUpdatedChanged(object sender, LastUpdatedChangedEventArgs e)
