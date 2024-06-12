@@ -384,6 +384,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discarded note draft.
+        /// </summary>
+        public static string DiscardNoteDraft {
+            get {
+                return ResourceManager.GetString("DiscardNoteDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to discard this note draft? You won&apos;t be able to recover it..
         /// </summary>
         public static string DiscardNoteDraftDescription {
