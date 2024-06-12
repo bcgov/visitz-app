@@ -717,4 +717,7 @@ Do you want to discard this unlinked draft permanently?</value>
     <comment>0 = Entity type
 1 = Entity display text if available, otherwise Entity ID number</comment>
   </data>
+  <data name="DiscardNoteDraft" xml:space="preserve">
+    <value>Discarded note draft</value>
+  </data>
 </root>

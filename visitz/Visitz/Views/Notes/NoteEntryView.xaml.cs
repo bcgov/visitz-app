@@ -87,6 +87,7 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 		{
 			await ViewModel.ResetDraftAsync();
 			await Navigator.Navigation.PopModalAsync();
+			SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
 		}
 	}
 
