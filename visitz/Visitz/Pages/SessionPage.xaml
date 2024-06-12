@@ -154,7 +154,8 @@
 				Padding="5,20,5,5"
 				Text="{local:Localize CollectionNotice}"
 				TextColor="White"
-				TextDecorations="Underline">
+				TextDecorations="Underline"
+				IsVisible="{Binding IsAuthorized}">
 				<Label.GestureRecognizers>
 					<TapGestureRecognizer Command="{Binding OpenCollectionNoticeCommand}" />
 				</Label.GestureRecognizers>
