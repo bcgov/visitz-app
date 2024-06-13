@@ -72,9 +72,11 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
         SelectedEntityNavItem ??= DefaultNavItem;
 
 		await SetupDraftsObserver();
+
+		StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, ReceiveEntityNavMessage);
     }
 
-    public override void Destroy()
+	public override void Destroy()
     {
 		realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
 		realmQueryMap.Dispose();
@@ -122,7 +124,12 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 	{
 		RequestedSection = section;
 
-		SelectedEntityNavItem = section switch
+		SelectedEntityNavItem = GetMappedNavItem(section);
+	}
+
+	private EntityNavItem GetMappedNavItem(EntitySection? section)
+	{
+		return section switch
 		{
 			EntitySection.Family => FamilyMembers,
 			EntitySection.Notes or EntitySection.NoteEntry => Notes,
@@ -149,5 +156,11 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 	private bool ShouldShowSafetyAssessment()
 	{
 		return CaseloadItem.EntityType.ParseEntityType() == EntityType.Incident;
+	}
+
+	private void ReceiveEntityNavMessage(object recipient, EntityNavMessage message)
+	{
+		if (SelectedEntityNavItem != message.Value.Item1)
+			SelectedEntityNavItem = GetMappedNavItem(message.Value.Item3);
 	}
 }
