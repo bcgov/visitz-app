@@ -63,9 +63,11 @@ Nothing yet.
 
 	The name of the distribution certificate associated with the IOS_BUILD_PROVISION_PROFILE_BASE64 provisioning profile.
 
-	It should be wrapped in quotes when saved in secrets, e.g.
+	Its format is `<Certificate Type>: <Certificate Name>`. It should be wrapped in quotes when saved in secrets, e.g.
 
 	> "iPhone Distribution: Some person's distribution cert name"
+
+  	***IMPORTANT***: The Apple Developer site may show "iOS Distribution" instead of "iPhone Distribution" for the `Certificate Type`. This is just a front-end label change—use "iPhone Distribution" instead. If you're absolutely not sure what prefix to use, import the certificate into an OSX keychain, `Get Info` on it, and use its full `Common Name`.
 
 - ##### IOS_BUILD_PROVISION_PROFILE_BASE64
 
