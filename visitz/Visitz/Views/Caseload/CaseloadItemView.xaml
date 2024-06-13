@@ -33,7 +33,7 @@
 			<BoxView
 				x:Name="DraftIndicator"
 				Grid.Column="0"
-				Margin="0,-10"
+				Margin="-1,-10,0,-10"
 				Color="{StaticResource BC_Gold}"
 				IsVisible="False" />
 
