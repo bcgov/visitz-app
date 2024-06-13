@@ -129,6 +129,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
 		await TryAssociateDraftItem();
 
+		UpdateCanPublish();
 		SubscribeToAssessment();
 	}
 
