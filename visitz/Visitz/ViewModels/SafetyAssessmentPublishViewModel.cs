@@ -71,7 +71,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
     private async Task DiscardSentDraft()
     {
-        await SafetyAssessment.Delete(Assessment.Realm, Assessment);
+        await AssessmentDraft.TryDeleteAsync(Assessment);
     }
 
     private void RedirectToDetails()

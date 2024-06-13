@@ -144,7 +144,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
 		if (!Assessment.IsManaged)
 			DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
-		else if (DraftItem != null)
+		else if (DraftItem?.IsValid ?? false)
 			DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
 		CanDiscard = Assessment.IsManaged;
