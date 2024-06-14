@@ -121,7 +121,7 @@ namespace Visitz.ViewModels
 			int length = e.NewTextValue?.Length ?? 0;
 
 			if (length > 0 && !NoteDraft.IsManaged)
-				await Realm.WriteAsync(() => Realm.Add(NoteDraft));
+				Realm.Write(() => Realm.Add(NoteDraft));
 
 			if (TextIsInvalid(e))
             {
