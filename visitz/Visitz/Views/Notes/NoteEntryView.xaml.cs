@@ -1,4 +1,5 @@
 using Visitz.Animations.Haptic;
+using Visitz.Resources.Localization;
 using Visitz.ViewModels;
 using VisitzModel.Events;
 using VisitzModel.Models;
@@ -7,10 +8,12 @@ namespace Visitz.Views.Notes;
 
 public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 {
+	new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
+
     public CaseloadItem CaseloadItem
     {
-        get => (ViewModel as ICaseloadItemHolder).CaseloadItem;
-        set => (ViewModel as ICaseloadItemHolder).CaseloadItem = value;
+        get => ViewModel.CaseloadItem;
+        set => ViewModel.CaseloadItem = value;
     }
 
     public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())
@@ -18,14 +21,14 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 		InitializeComponent();
 		BindingContext = ViewModel;
 
-        (ViewModel as NoteEntryViewModel).DraftError += NoteEntryView_DraftError;
-        (ViewModel as NoteEntryViewModel).DraftSaveStateChanged += NoteEntryView_DraftSaveStateChanged;
+        ViewModel.DraftError += NoteEntryView_DraftError;
+        ViewModel.DraftSaveStateChanged += NoteEntryView_DraftSaveStateChanged;
 	}
 
     protected override void Destroying()
     {
-        (ViewModel as NoteEntryViewModel).DraftSaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
-        (ViewModel as NoteEntryViewModel).DraftError -= NoteEntryView_DraftError;
+        ViewModel.DraftSaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
+        ViewModel.DraftError -= NoteEntryView_DraftError;
 
         base.Destroying();
     }
@@ -37,16 +40,21 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     private async void NoteEntryView_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
     {
-        DraftSavedView.State state = e.DraftSaved
-            ? DraftSavedView.State.Saved
-            : DraftSavedView.State.Saving;
+		DraftSavedView.State state;
+
+		if (e.DraftSaved)
+			state = DraftSavedView.State.Saved;
+		else if (e.SavingDraft)
+			state = DraftSavedView.State.Saving;
+		else
+			state = DraftSavedView.State.None;
 
         await DraftSavedIndicator.SetState(state);
     }
 
-    void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
+    async void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ((NoteEntryViewModel)BindingContext).EditorTextChanged(e);
+        await ViewModel.EditorTextChanged(e);
     }
 
     public async Task ShowEditorError(string text)
@@ -72,4 +80,23 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(NotesEditor);
     }
+
+	private async void Discard_Clicked(object sender, EventArgs e)
+	{
+		if (await PromptDiscard())
+		{
+			await ViewModel.ResetDraftAsync();
+			await Navigator.Navigation.PopModalAsync();
+			SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
+		}
+	}
+
+	private static async Task<bool> PromptDiscard()
+	{
+		return await Navigator.CurrentOpenPage.DisplayAlert(
+			LocalizedStrings.DiscardDraftQuestion,
+			LocalizedStrings.DiscardNoteDraftDescription,
+			LocalizedStrings.Discard,
+			LocalizedStrings.Cancel);
+	}
 }

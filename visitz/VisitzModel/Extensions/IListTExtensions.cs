@@ -1,4 +1,4 @@
-﻿// Adapted from https://stackoverflow.com/a/967098
+// Adapted from https://stackoverflow.com/a/967098
 
 namespace VisitzModel.Extensions;
 
@@ -29,4 +29,19 @@ public static class IListTExtensions
 
         return ~lower;
     }
+
+	public static void InsertSortedAsc<T>(this IList<T> list, T newItem) where T : IComparable<T>
+	{
+		if (list.Count == 0)
+			list.Add(newItem);
+		else
+		{
+			var find = list.FirstOrDefault(item => item.CompareTo(newItem) >= 0);
+
+			if (find != null)
+				list.Insert(list.IndexOf(find), newItem);
+			else
+				list.Add(newItem);
+		}
+	}
 }

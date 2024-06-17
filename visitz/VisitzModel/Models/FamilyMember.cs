@@ -1,12 +1,18 @@
 using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
+using VisitzModel.Utilities;
 
 namespace VisitzModel.Models
 {
     public partial class FamilyMember : IEmbeddedObject
     {
-        public string ContactId { get; set; }
+		public static readonly int KeyPlayerSortPosition = 0;
+		public static readonly int ParentCaregiverSortPosition = 1;
+		public static readonly int SubjectChildSortPosition = 2;
+		public static readonly int OtherSortPosition = int.MaxValue;
+
+		public string ContactId { get; set; }
         public string KeyPlayer { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -27,9 +33,16 @@ namespace VisitzModel.Models
         public string ContactPostalCode { get; set; }
         public string ContactProvinceState { get; set; }
         public string ContactCountry { get; set; }
+		public bool? SubjectFlag { get; set; }
+		public bool? ParentCaregiver { get; set; }
+		public bool? SubjectChild { get; set; }
 
         public string FullDisplayName => string.Join(" ",
             FirstName, MiddleName, LastName);
+
+		public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone);
+
+		public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone);
 
         public bool IsKeyPlayer => KeyPlayer == "Y";
 
@@ -43,6 +56,21 @@ namespace VisitzModel.Models
             + ContactPostalCode.FormatAddressPart("")
             .TrimEnd([',', ' ', '-'])
             .TrimEnd([',', ' ', '-']);
+
+		public int SortPositionAsc
+		{
+			get
+			{
+				if (IsKeyPlayer)
+					return KeyPlayerSortPosition;
+				else if (ParentCaregiver ?? false)
+					return ParentCaregiverSortPosition;
+				else if (SubjectChild ?? false)
+					return SubjectChildSortPosition;
+				else
+					return OtherSortPosition;
+			}
+		}
 
 #pragma warning disable SS003 // The operands of a divisive expression are both integers and result in an implicit rounding.
 		public int? Age => DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
@@ -78,6 +106,9 @@ namespace VisitzModel.Models
                 ContactPostalCode = familyMember.ContactPostalCode,
                 ContactProvinceState = familyMember.ContactProvinceState,
                 ContactCountry = familyMember.ContactCountry,
+				SubjectFlag = familyMember.SubjectFlag.ParseEmptyWordTruthiness(),
+				ParentCaregiver = familyMember.ParentCaregiver.ParseEmptyWordTruthiness(),
+				SubjectChild = familyMember.SubjectChild.ParseEmptyWordTruthiness(),
             };
         }
 

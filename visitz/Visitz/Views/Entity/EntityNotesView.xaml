@@ -111,11 +111,9 @@
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Text="{Static icons:MaterialIcons.Search}" />
 
-            <!-- TODO: Hardcoding width on iOS because of a rendering issue. -->
             <Button 
                 Grid.Column="2"
-                WidthRequest="{OnPlatform iOS=150}"
-                Text="{local:Localize AddNotes}"
+                Text="{Binding OpenNoteEntryText, TargetNullValue={local:Localize AddNotes}}"
                 Command="{Binding AddNoteCommand}">
                 <Button.ImageSource>
                     <FontImageSource 

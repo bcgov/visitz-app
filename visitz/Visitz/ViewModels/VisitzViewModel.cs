@@ -8,6 +8,17 @@ namespace Visitz.ViewModels
     /// </summary>
 	public partial class VisitzViewModel : ObservableObject
     {
+		bool created;
+
+		public void OnCreate()
+		{
+			if (!created)
+			{
+				Create();
+				created = true;
+			}
+		}
+
         public virtual void Create() 
         {
             ConsoleTrace.TraceMethod(this);

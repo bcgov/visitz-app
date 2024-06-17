@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
@@ -26,7 +26,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
 
     [ObservableProperty]
-    public DateTime maxDate = DateTime.Now;
+    public DateTime maxDate = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
     public CaseloadItem caseloadItem;
@@ -79,9 +79,15 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public bool canPublish;
 
+	[ObservableProperty]
+	public bool canDiscard;
+
     private Realm Realm;
 
-    private readonly Debouncer debouncer = new(TimeSpan.FromMilliseconds(700));
+    private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
+
+	[ObservableProperty]
+	private AssessmentDraft draftItem;
 
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
@@ -117,20 +123,33 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async Task SetupAssessment()
     {
-        UnsubscribeFromAssessment();
-
+		DraftItem = null;
         Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) 
             ?? await MakeNewSafetyAssessment();
-    }
+
+		await TryAssociateDraftItem();
+
+		UpdateCanPublish();
+		SubscribeToAssessment();
+	}
+
+	private async Task TryAssociateDraftItem()
+	{
+		if (Assessment.IsManaged)
+			DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
+	}
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         _ = TrySendSavedMessage(DraftSavedView.State.Saving);
 
-        if (!Assessment.IsManaged)
-            await Assessment.Save(Realm);
+		if (!Assessment.IsManaged)
+			DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
+		else if (DraftItem?.IsValid ?? false)
+			DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
-        UpdateCanPublish();
+		CanDiscard = Assessment.IsManaged;
+		UpdateCanPublish();
     }
 
     private void UpdateCanPublish()
@@ -185,7 +204,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             if (value.ChildsInOutCare.Contains(child.ContactId))
                 SelectedChildren.Add(child);
 
-        SubscribeToAssessment();
+		CanDiscard = value.IsManaged;
     }
 
     private void SubscribeToAssessment()
@@ -224,7 +243,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     }
 
     [RelayCommand]
-    public async void Publish()
+	public async Task Publish()
     {
 #if DEBUG
         WriteSafetyAssessmentJson();
@@ -238,10 +257,10 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     }
 
     [RelayCommand]
-    public async void Reset()
+	public async Task Reset()
     {
-        if (Assessment.IsManaged)
-            await Realm.WriteAsync(() => Realm.Remove(Assessment));
+		UnsubscribeFromAssessment();
+		await AssessmentDraft.TryDeleteAsync(Assessment);
 
         await TrySendSavedMessage(DraftSavedView.State.None);
 

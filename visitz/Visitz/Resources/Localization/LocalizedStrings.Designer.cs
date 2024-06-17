@@ -70,11 +70,38 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Age.
+        /// </summary>
+        public static string Age {
+            get {
+                return ResourceManager.GetString("Age", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
             get {
                 return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re all caught up! No drafts here..
+        /// </summary>
+        public static string AllCaughtUpNoDrafts {
+            get {
+                return ResourceManager.GetString("AllCaughtUpNoDrafts", resourceCulture);
             }
         }
         
@@ -88,11 +115,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Birthdate.
+        /// </summary>
+        public static string Birthdate {
+            get {
+                return ResourceManager.GetString("Birthdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel and keep draft.
+        /// </summary>
+        public static string CancelAndKeepDraft {
+            get {
+                return ResourceManager.GetString("CancelAndKeepDraft", resourceCulture);
             }
         }
         
@@ -133,6 +178,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cell #.
+        /// </summary>
+        public static string CellNumber {
+            get {
+                return ResourceManager.GetString("CellNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Character limit reached.
         /// </summary>
         public static string CharacterLimitReached {
@@ -169,6 +223,28 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collection Notice.
+        /// </summary>
+        public static string CollectionNotice {
+            get {
+                return ResourceManager.GetString("CollectionNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your personal information is being collected to facilitate the delivery of Child, Family and Community Services.
+        ///
+        ///This information is being collected by The Ministry of Children and Family Development under section 26(a) of the Freedom of Information and Protection of Privacy Act and the Child, Family and Community Services Act under section 96(2.1).
+        ///
+        ///If you have any questions about the collection, use, or disclosure of this information please contact your caseworker..
+        /// </summary>
+        public static string CollectionNoticeDesc {
+            get {
+                return ResourceManager.GetString("CollectionNoticeDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {
@@ -192,6 +268,15 @@ namespace Visitz.Resources.Localization {
         public static string ConnectedNoInternet {
             get {
                 return ResourceManager.GetString("ConnectedNoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue draft.
+        /// </summary>
+        public static string ContinueDraft {
+            get {
+                return ResourceManager.GetString("ContinueDraft", resourceCulture);
             }
         }
         
@@ -241,11 +326,42 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device offline.
+        /// </summary>
+        public static string DeviceOffline {
+            get {
+                return ResourceManager.GetString("DeviceOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your device is not connected to the internet right now.
+        ///
+        ///Your caseload and any drafts you&apos;ve made are still available on this device and you can continue to work on them.
+        ///
+        ///When this device is online again you can refresh your caseload or publish any work to ICM..
+        /// </summary>
+        public static string DeviceOfflineDesc {
+            get {
+                return ResourceManager.GetString("DeviceOfflineDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard.
         /// </summary>
         public static string Discard {
             get {
                 return ResourceManager.GetString("Discard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discard draft.
+        /// </summary>
+        public static string DiscardDraft {
+            get {
+                return ResourceManager.GetString("DiscardDraft", resourceCulture);
             }
         }
         
@@ -268,6 +384,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discarded note draft.
+        /// </summary>
+        public static string DiscardNoteDraft {
+            get {
+                return ResourceManager.GetString("DiscardNoteDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this note draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardNoteDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardNoteDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to discard this safety assessment draft? You won&apos;t be able to recover any progress you&apos;ve made..
         /// </summary>
         public static string DiscardSafetyAssessmentDraftDescription {
@@ -277,11 +411,42 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discard unlinked draft.
+        /// </summary>
+        public static string DiscardUnlinkedDraft {
+            get {
+                return ResourceManager.GetString("DiscardUnlinkedDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are not assigned to {0} &apos;{1}&apos;. To continue working on drafts for this record you must be assigned.
+        ///
+        ///If you select &apos;Cancel and keep draft&apos;, the draft will remain on your device.
+        ///
+        ///Do you want to discard this unlinked draft permanently?.
+        /// </summary>
+        public static string DiscardUnlinkedDraftDesc {
+            get {
+                return ResourceManager.GetString("DiscardUnlinkedDraftDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dismiss.
         /// </summary>
         public static string Dismiss {
             get {
                 return ResourceManager.GetString("Dismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drafts.
+        /// </summary>
+        public static string Drafts {
+            get {
+                return ResourceManager.GetString("Drafts", resourceCulture);
             }
         }
         
@@ -430,6 +595,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string FirstName {
@@ -457,6 +631,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home #.
+        /// </summary>
+        public static string HomeNumber {
+            get {
+                return ResourceManager.GetString("HomeNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        public static string Id {
+            get {
+                return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conditions resulting in a child&apos;s inability to protect self. Mark all that apply to ANY child:.
         /// </summary>
         public static string InabilityProtectSelfMarkAll {
@@ -471,6 +663,15 @@ namespace Visitz.Resources.Localization {
         public static string IncidentNumber {
             get {
                 return ResourceManager.GetString("IncidentNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indigenous.
+        /// </summary>
+        public static string Indigenous {
+            get {
+                return ResourceManager.GetString("Indigenous", resourceCulture);
             }
         }
         
@@ -511,11 +712,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last modified.
+        /// </summary>
+        public static string LastModified {
+            get {
+                return ResourceManager.GetString("LastModified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
         public static string LastName {
             get {
                 return ResourceManager.GetString("LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last updated.
+        /// </summary>
+        public static string LastUpdated {
+            get {
+                return ResourceManager.GetString("LastUpdated", resourceCulture);
             }
         }
         
@@ -531,7 +750,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to You&apos;ve successfully logged in.
         ///
-        ///However, you currently aren&apos;t authorized to use MCFD Mobility. Use the &quot;Request Access&quot; button below to submit a request. 
+        ///Use the &quot;Request Access&quot; button below to submit a request for authorization to use the app.
         ///
         ///If that doesn&apos;t work, request access by emailing .
         /// </summary>
@@ -594,6 +813,33 @@ namespace Visitz.Resources.Localization {
         public static string MarkAllThatApply {
             get {
                 return ResourceManager.GetString("MarkAllThatApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modified.
+        /// </summary>
+        public static string Modified {
+            get {
+                return ResourceManager.GetString("Modified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More info.
+        /// </summary>
+        public static string MoreInfo {
+            get {
+                return ResourceManager.GetString("MoreInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N/A.
+        /// </summary>
+        public static string NA {
+            get {
+                return ResourceManager.GetString("NA", resourceCulture);
             }
         }
         
@@ -688,6 +934,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Offline.
+        /// </summary>
+        public static string Offline {
+            get {
+                return ResourceManager.GetString("Offline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         public static string Ok {
@@ -720,6 +975,15 @@ namespace Visitz.Resources.Localization {
         public static string ParentCareProvider {
             get {
                 return ResourceManager.GetString("ParentCareProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preview.
+        /// </summary>
+        public static string Preview {
+            get {
+                return ResourceManager.GetString("Preview", resourceCulture);
             }
         }
         
@@ -972,6 +1236,15 @@ namespace Visitz.Resources.Localization {
         public static string SafetyAssessmentOperation {
             get {
                 return ResourceManager.GetString("SafetyAssessmentOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Safety assessments.
+        /// </summary>
+        public static string SafetyAssessments {
+            get {
+                return ResourceManager.GetString("SafetyAssessments", resourceCulture);
             }
         }
         
@@ -1417,6 +1690,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service office.
+        /// </summary>
+        public static string ServiceOffice {
+            get {
+                return ResourceManager.GetString("ServiceOffice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Social worker name.
         /// </summary>
         public static string SocialWorkerName {
@@ -1485,6 +1767,15 @@ namespace Visitz.Resources.Localization {
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to reach ICM (device offline).
+        /// </summary>
+        public static string UnableToReachIcmDeviceOffline {
+            get {
+                return ResourceManager.GetString("UnableToReachIcmDeviceOffline", resourceCulture);
             }
         }
         

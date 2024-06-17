@@ -3,8 +3,10 @@
  */
 
 using System.Collections;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows.Input;
-using VisitzModel.Models;
+using Visitz.VisualStates;
 
 namespace Visitz.Views.SelectionView;
 
@@ -15,7 +17,8 @@ public partial class SelectionList : BaseContentView
             defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemViewChanged);
 
     public static readonly BindableProperty ItemsSourceProperty =
-		BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(SelectionList));
+		BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(SelectionList),
+			propertyChanged: ItemsSourceChanged);
 
     public static readonly BindableProperty ItemTemplateProperty =
         BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(SelectionList));
@@ -30,9 +33,12 @@ public partial class SelectionList : BaseContentView
     public static readonly BindableProperty OrientationProperty =
         BindableProperty.Create(nameof(Orientation), typeof(StackOrientation), typeof(SelectionList));
 
-    private SelectableItem SelectedItemView
+	public static readonly BindableProperty AutoSelectDefaultProperty =
+		BindableProperty.Create(nameof(AutoSelectDefault), typeof(bool), typeof(SelectionList));
+
+	private ISelectedState SelectedItemView
     {
-        get => (SelectableItem)GetValue(SelectedItemViewProperty);
+        get => (ISelectedState)GetValue(SelectedItemViewProperty);
         set => SetValue(SelectedItemViewProperty, value);
     }
 
@@ -66,17 +72,63 @@ public partial class SelectionList : BaseContentView
         set => SetValue(OrientationProperty, value);
     }
 
+	public bool AutoSelectDefault
+	{
+		get => (bool)GetValue(AutoSelectDefaultProperty);
+		set => SetValue(AutoSelectDefaultProperty, value);
+	}
+
     public SelectionList()
 	{
 		InitializeComponent();
 	}
 
-    private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
+	private static void ItemsSourceChanged(BindableObject boundObj, object oldValue, object newValue)
+	{
+		var thiz = (SelectionList)boundObj;
+		var oldSource = (IList)oldValue;
+		var newSource = (IList)newValue;
+
+		if (thiz.AutoSelectDefault)
+			HandleItemsSourceAutoUpdate(thiz, oldSource, newSource);
+	}
+
+	private static void HandleItemsSourceAutoUpdate(SelectionList selectionList, IList oldSource, IList newSource)
+	{
+		if (newSource != null)
+		{
+			if (newSource.Count > 0)
+				selectionList.SelectedItem = newSource[0];
+
+			if (newSource is INotifyCollectionChanged newCollection)
+				newCollection.CollectionChanged += selectionList.ItemsSource_CollectionChanged;
+		}
+
+		if (oldSource is INotifyCollectionChanged oldCollection)
+			oldCollection.CollectionChanged -= selectionList.ItemsSource_CollectionChanged;
+	}
+
+	private void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+	{
+		if (e.Action == NotifyCollectionChangedAction.Add)
+			SelectedItem ??= e.NewItems[0];
+		else if (e.Action == NotifyCollectionChangedAction.Remove)
+		{
+			if (ItemsSource.Count <= 0)
+				SelectedItem = null;
+			else if (ItemsSource.IndexOf(SelectedItem) == -1)
+				SelectedItem = ItemsSource[0];
+		}
+		else if (e.Action == NotifyCollectionChangedAction.Reset)
+			SelectedItem = null;
+	}
+
+	private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
     {
-        if (oldValue is SelectableItem oldSelected)
+        if (oldValue is ISelectedState oldSelected)
             oldSelected.IsSelected = false;
 
-        if (newValue is SelectableItem newSelected)
+        if (newValue is ISelectedState newSelected)
             newSelected.IsSelected = true;
     }
 
@@ -84,48 +136,51 @@ public partial class SelectionList : BaseContentView
     {
         var thiz = (SelectionList)boundObj;
 
-        if (newValue is NavItem)
+        if (newValue is not null)
         {
             thiz.SelectionChangedCommand?.Execute(newValue);
             thiz.SelectedItemView = thiz.GetSelectableViewByItem(newValue);
         }
     }
 
-    private void ItemTapRecognizer_Tapped(object sender, TappedEventArgs e)
+	private void Point_PointerReleased(object sender, PointerEventArgs e)
+	{
+		var selectableItem = (ISelectedState)sender;
+
+		if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
+			return;
+
+		selectableItem.IsSelected = !selectableItem.IsSelected;
+
+		if (selectableItem.IsSelected && selectableItem is BindableObject bindable)
+			SelectedItem = bindable.BindingContext;
+	}
+
+	private void MainStack_ChildAdded(object sender, ElementEventArgs e)
     {
-        var selectableItem = (SelectableItem)sender;
-
-        if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
-            return;
-
-        selectableItem.IsSelected = !selectableItem.IsSelected;
-
-        if (selectableItem.IsSelected)
-            SelectedItem = selectableItem.BindingContext;
-    }
-
-    private void MainStack_ChildAdded(object sender, ElementEventArgs e)
-    {
-        if (e.Element is SelectableItem item)
+        if (e.Element is View view)
         {
-            var tap = new TapGestureRecognizer() { Buttons = ButtonsMask.Primary, };
-            tap.Tapped += ItemTapRecognizer_Tapped;
-            item.GestureRecognizers.Add(tap);
-        }
+			PointerGestureRecognizer point = new();
+			point.PointerReleased += Point_PointerReleased;
+			view.GestureRecognizers.Add(point);
+
+			if (view is ISelectedState selectable && view.BindingContext == SelectedItem)
+				SelectedItemView = selectable;
+		}
     }
 
-    private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
+	private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
     {
-        if (e.Element is SelectableItem item)
-            foreach (var g in item.GestureRecognizers)
-                if (g is TapGestureRecognizer tap)
-                    tap.Tapped -= ItemTapRecognizer_Tapped;
+        if (e.Element is View view)
+            foreach (var g in view.GestureRecognizers)
+                if (g is PointerGestureRecognizer tap)
+                    tap.PointerReleased -= Point_PointerReleased;
     }
 
-    private SelectableItem GetSelectableViewByItem(object item)
+    private ISelectedState GetSelectableViewByItem(object item)
     {
         foreach (var child in MainStack.Children)
-            if (child is SelectableItem selItem && selItem.BindingContext == item)
+            if (child is ISelectedState selItem && child is View view && view.BindingContext == item)
                 return selItem;
 
         return null;

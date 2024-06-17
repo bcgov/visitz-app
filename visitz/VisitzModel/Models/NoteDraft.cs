@@ -1,44 +1,46 @@
-﻿using Realms;
-using VisitzModel.Extensions;
+using Realms;
+using VisitzModel.Models.Drafts;
+using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models
 {
-    public partial class NoteDraft : IRealmObject
+    public partial class NoteDraft : IRealmObject, IDraftItem
     {
+		// Only allow one note draft per parent entity.
         [PrimaryKey]
-        public string CaseIncidentAndCreatedDateID { get; set; }
+		public string ParentEntityId { get; set; }
 
-        public string Draft { get; set; }
+		public string RelatedEntityId { get => ParentEntityId; set { } }
 
-        public string DraftBinding
+		private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
+
+		public EntityType RelatedEntityType
+		{
+			get => (EntityType)RelatedEntityTypeInt;
+			set => RelatedEntityTypeInt = (int)value;
+		}
+
+		private int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
+
+		public EntitySubtype RelatedEntitySubtype
+		{
+			get => (EntitySubtype)RelatedEntitySubtypeInt;
+			set => RelatedEntitySubtypeInt = (int)value;
+		}
+
+		public string Draft { get; set; }
+
+		public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
+
+		public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
+
+		public string Preview { get => Draft; }
+
+		public string DraftLocation { get; set; }
+
+		public static string MakeId(string parentEntityId)
         {
-            get => IsValid ? Draft : default;
-            set
-            {
-                bool canSet = !value?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? true;
-
-                if (canSet)
-                    this.Commit(() => Draft = value);
-
-                RaisePropertyChanged(nameof(DraftBinding));
-            }
-        }
-
-        public static string MakeId(string caseIncidentNumber)
-        {
-            // For now (2023-10-03), we will only hold one draft per caseIncidentNumber.
-            return $"{caseIncidentNumber}";
-        }
-
-        public static (IQueryable<NoteDraft> noteDraftQuery, IDisposable queryToken) Subscribe(
-            Realm realm,
-            string caseIncidentAndCreatedDateID,
-            NotificationCallbackDelegate<NoteDraft> callbackDelegate)
-        {
-            var noteDraftQuery = realm.All<NoteDraft>()
-                .Where(draft => draft.CaseIncidentAndCreatedDateID == caseIncidentAndCreatedDateID);
-
-            return (noteDraftQuery, noteDraftQuery.SubscribeForNotifications(callbackDelegate));
+            return $"{parentEntityId}";
         }
 
         public static NoteDraft FindByEntityId(Realm realm, string entityId)
@@ -55,4 +57,3 @@ namespace VisitzModel.Models
         }
     }
 }
-

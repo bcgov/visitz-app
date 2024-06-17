@@ -1,12 +1,18 @@
-﻿using Visitz.Services.Messages;
+using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
+using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 
 namespace Visitz.Services
 {
-    public class GetCaseloadService(Vpi vpi) : VisitzApiService(vpi)
+    public class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi)
     {
+		LastUpdatedPrefs LastUpdated { get; set; } = prefs;
+
         public static string MakeId()
         {
             return nameof(GetCaseloadService);
@@ -37,18 +43,10 @@ namespace Visitz.Services
             caseloadContent = FilterNonCasesAndIncidents(caseloadContent);
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            var currentCaseload = realm.All<CaseloadItem>();
-            var deletedCaseload = currentCaseload.ExceptBy(caseloadContent.Select(CaseloadSelector), CaseloadSelector);
-
-            await realm.WriteAsync(() =>
-            {
-                foreach (var deletedCaseloadItem in deletedCaseload)
-                    realm.Remove(deletedCaseloadItem);
-
-                realm.Add(caseloadContent, update: true);
-            });
+            await CaseloadItem.ReplaceCaseloadWithAsync(realm, caseloadContent);
 
             ResultCode = Result.Successful;
+			await MainThread.InvokeOnMainThreadAsync(() => LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow));
         }
 
         public override string GetId()
@@ -64,12 +62,11 @@ namespace Visitz.Services
         /// <returns></returns>
         private IEnumerable<CaseloadItem> FilterNonCasesAndIncidents(IEnumerable<CaseloadItem> caseloadItems)
         {
-            return caseloadItems.Where(item => 
-                item.EntityType == IcmEntity.Case 
-                || item.EntityType == IcmEntity.Incident
-            );
+            return caseloadItems.Where(item =>
+			{
+				EntityType type = item.EntityType.ParseEntityType();
+				return type == EntityType.Case || type == EntityType.Incident;
+			});
         }
-
-        static string CaseloadSelector(CaseloadItem caseloadItem) => caseloadItem.CaseIncidentNumber;
     }
 }

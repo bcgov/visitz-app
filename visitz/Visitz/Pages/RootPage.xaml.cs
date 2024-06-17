@@ -1,12 +1,16 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Animations;
 using Visitz.ViewModels;
+using Visitz.Views;
 using VisitzModel.Messaging;
-using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Pages;
 
-public partial class RootPage : VisitzPage
+public partial class RootPage : VisitzPage, ISnackbarPresenter
 {
+	VisitzSnackbar Snackbar { get; set; }
+
 	public RootPage() : base(ServiceProvider.GetService<RootViewModel>())
 	{
 		InitializeComponent();
@@ -44,5 +48,32 @@ public partial class RootPage : VisitzPage
 
         ContentPane.Clear();
         ContentPane.Add(view);
+	}
+
+	public void SetSnackbar(VisitzSnackbar snackbar)
+	{
+		if (Snackbar != null)
+			Snackbar.ShouldClose -= Snackbar_ShouldClose;
+
+		Snackbar = snackbar;
+		SnackbarContainer.Content = Snackbar;
+		SnackbarContainer.IsVisible = Snackbar != null;
+
+		if (Snackbar != null)
+		{
+			Snackbar.ShouldClose += Snackbar_ShouldClose;
+			_ = new VisibilityAnimation(showView: true, 150).Animate(Snackbar);
+		}
+	}
+
+	public void Snackbar_ShouldClose(object sender, EventArgs e)
+	{
+		_ = AnimateCloseSnackbar();
+	}
+
+	private async Task AnimateCloseSnackbar()
+	{
+		await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
+		SetSnackbar(null);
 	}
 }

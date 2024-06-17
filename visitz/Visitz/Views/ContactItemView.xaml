@@ -1,7 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tag_behaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
@@ -11,7 +12,7 @@
     HorizontalOptions="Start">
 
     <Grid
-        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+        RowDefinitions="*,*,*,*,*,*,*,*"
         RowSpacing="10"
         ColumnDefinitions="Auto,*"
         ColumnSpacing="10"
@@ -39,7 +40,7 @@
             Grid.Row="1"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="Age" />
+            Text="{local:Localize Age}" />
 
         <Label 
             Grid.Row="1"
@@ -52,7 +53,7 @@
             Grid.Row="2"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="Birthdate" />
+            Text="{local:Localize Birthdate}" />
 
         <Label 
             Grid.Row="2"
@@ -65,7 +66,7 @@
             Grid.Row="3"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="Gender" />
+            Text="{local:Localize Gender}" />
 
         <Label 
             Grid.Row="3"
@@ -78,7 +79,7 @@
             Grid.Row="4"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="Indigenous" />
+            Text="{local:Localize Indigenous}" />
 
         <Label 
             Grid.Row="4"
@@ -91,7 +92,7 @@
             Grid.Row="5"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="Address" />
+            Text="{local:Localize Address}" />
 
         <Label 
             Grid.Row="5"
@@ -100,5 +101,30 @@
             FontFamily="BCSansRegular"
             Text="{Binding Address}" />
 
-    </Grid>
+		<Label 
+			Grid.Row="6"
+			FontFamily="BCSansBold"
+			HorizontalOptions="End"
+			Text="{local:Localize HomeNumber}" />
+
+		<Label 
+			Grid.Row="6"
+			Grid.Column="1"
+			HorizontalOptions="Start"
+			FontFamily="BCSansRegular"
+			Text="{Binding HomePhoneFormatted}" />
+
+		<Label 
+			Grid.Row="7"
+			FontFamily="BCSansBold"
+			HorizontalOptions="End"
+			Text="{local:Localize CellNumber}" />
+
+		<Label 
+			Grid.Row="7"
+			Grid.Column="1"
+			HorizontalOptions="Start"
+			FontFamily="BCSansRegular"
+			Text="{Binding CellPhoneFormatted}" />
+	</Grid>
 </ContentView>

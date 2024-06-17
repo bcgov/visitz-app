@@ -5,7 +5,6 @@
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:entity="clr-namespace:Visitz.ViewModels.Entity"
-    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     x:Class="Visitz.Views.Entity.EntityContainerView"
     x:DataType="entity:EntityContainerViewModel">
     
@@ -29,16 +28,17 @@
                 HorizontalOptions="StartAndExpand"
                 VerticalOptions="Center" />
 
-            <tagview:TagView
-                BindingContext="{Binding CaseloadItem}"
-                Grid.Column="1"
-                VerticalOptions="Center"
-                FontSize="{StaticResource TitleMediumFontSize}"
-                TextColor="{StaticResource BC_TextColor}">
-                <tagview:TagView.Behaviors>
-                    <tagBehaviors:EntityTypeTagBehavior />
-                </tagview:TagView.Behaviors>
-            </tagview:TagView>
+			<HorizontalStackLayout
+				Grid.Column="1"
+				VerticalOptions="Center"
+				Spacing="5">
+				<tagview:EntityTypeBadge BindingContext="{Binding CaseloadItem}" />
+				
+				<Label
+					FontSize="{StaticResource TitleMediumFontSize}"
+					Text="{Binding CaseloadItem.FullType}"
+					TextColor="{Binding EntityTypeTextColor}" />
+			</HorizontalStackLayout>
         </Grid>
 
         <ContentView 

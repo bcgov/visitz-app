@@ -1,6 +1,8 @@
-﻿namespace VisitzModel.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
-public class NavItem
+namespace VisitzModel.Models.Navigation;
+
+public partial class NavItem : ObservableObject
 {
     private ImageSource selectedImageSource;
     private ImageSource unselectedImageSource;
@@ -56,4 +58,15 @@ public class NavItem
     }
 
     public Type ContentViewType { get; set; }
+
+	[ObservableProperty]
+	public int badgeCount;
+
+	[ObservableProperty]
+	public bool showBadge = false;
+
+	partial void OnBadgeCountChanged(int oldValue, int newValue)
+	{
+		ShowBadge = newValue > 0;
+	}
 }

@@ -22,7 +22,7 @@
 				x:Name="CloseButton"
 				HorizontalOptions="Start"
 				Margin="4"
-				FontIconColor="{StaticResource BC_TextColor}" />
+				TextColor="{StaticResource BC_TextColor}" />
 
 			<BoxView
 				Grid.Row="1"

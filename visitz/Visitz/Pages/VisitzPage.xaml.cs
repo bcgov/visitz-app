@@ -16,7 +16,7 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
     {
         ConsoleTrace.TraceMethod(this);
 
-        ViewModel.Create();
+        ViewModel.OnCreate();
         ViewModel.AttachToLifecycle(CurrentWindow);
     }
 

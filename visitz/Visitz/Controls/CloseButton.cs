@@ -6,36 +6,15 @@ using Visitz.FontIcons;
 
 namespace Visitz.Controls;
 
-internal class CloseButton : ImageButton
+internal class CloseButton : FontIconButton
 {
-	public static readonly BindableProperty FontIconColorProperty =
-		BindableProperty.Create(nameof(FontIconColor), typeof(Color), typeof(CloseButton),
-			propertyChanged: (boundObj, oldVal, newVal) =>
-			{
-				var closeButton = (CloseButton)boundObj;
-				var newColor = (Color)newVal;
-
-				if (closeButton.Source is FontImageSource fis)
-					fis.Color = newColor;
-			});
-
-	public Color FontIconColor
-	{
-		get => (Color)GetValue(FontIconColorProperty);
-		set => SetValue(FontIconColorProperty, value);
-	}
-
 	public event EventHandler<ClosingEventArgs> Closing;
 
 	public CloseButton() : base()
 	{
-		WidthRequest = 44;
-		HeightRequest = 44;
-
-		Source = MaterialIcons.Close.GetFilledMaterialIcon(Colors.White);
-#if IOS
-		(On<iOS>().Element.Source as FontImageSource).Size = WidthRequest * 2;
-#endif
+		FontFamily = MaterialIcons.RoundedUnfilled.FontFamily;
+		Text = MaterialIcons.Close;
+		TextColor = Colors.White;
 
 		Clicked += CloseButton_Clicked;
 	}

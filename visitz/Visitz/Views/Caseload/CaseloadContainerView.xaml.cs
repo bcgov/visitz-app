@@ -3,13 +3,14 @@ using Visitz.Views.Entity;
 using Visitz.Views.SplitView;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Caseload;
 
 public partial class CaseloadContainerView : SplitLayoutView
 {
-    private static readonly double MinimumStartPaneWidth = 300.0f;
-    private static readonly GridLength StartPaneCaseloadViewLength = new(0.6, GridUnitType.Star);
+	static IView CaseloadView;
+	static IView CaseloadDetailView;
 
     public CaseloadContainerView()
     {
@@ -20,13 +21,15 @@ public partial class CaseloadContainerView : SplitLayoutView
     {
         base.Creating();
 
-        StartPaneColumnWidth = StartPaneCaseloadViewLength;
-        StartPane.MinimumWidthRequest = MinimumStartPaneWidth;
+        StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
+        StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
 
         RegisterReceivers();
 
-        SetStartPane(ServiceProvider.GetService<CaseloadView>());
-        SetEndPane(ServiceProvider.GetService<WatermarkView>());
+		CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
+		CaseloadDetailView ??= ServiceProvider.GetService<CaseloadDetailView>();
+
+		NavigateBack();
     }
 
     protected override void Destroying()
@@ -40,7 +43,7 @@ public partial class CaseloadContainerView : SplitLayoutView
     {
         StrongReferenceMessenger.Default.Register<CaseloadItemSelectedMessage>(this, (recipient, message) =>
         {
-            (recipient as CaseloadContainerView).OpenCaseloadItem(message.Value);
+            (recipient as CaseloadContainerView).OpenCaseloadItem(message.Value, message.Section);
         });
 
         StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
@@ -49,7 +52,7 @@ public partial class CaseloadContainerView : SplitLayoutView
         });
     }
 
-    private void OpenCaseloadItem(CaseloadItem item)
+    private void OpenCaseloadItem(CaseloadItem item, EntitySection section)
     {
         var containerView = ServiceProvider.GetService<EntityContainerView>();
         containerView.CaseloadItem = item;
@@ -57,6 +60,7 @@ public partial class CaseloadContainerView : SplitLayoutView
 
         var entityNav = ServiceProvider.GetService<EntityNavView>();
         entityNav.CaseloadItem = item;
+		entityNav.SetRequestedSection(section);
         SetStartPane(entityNav);
 
         StartPaneColumnWidth = GridLength.Auto;
@@ -64,9 +68,9 @@ public partial class CaseloadContainerView : SplitLayoutView
 
     private void NavigateBack()
     {
-        SetStartPane(ServiceProvider.GetService<CaseloadView>());
-        SetEndPane(ServiceProvider.GetService<WatermarkView>());
+		SetStartPane(CaseloadView);
+		SetEndPane(CaseloadDetailView);
 
-        StartPaneColumnWidth = StartPaneCaseloadViewLength;
+		StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
     }
 }

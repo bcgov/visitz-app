@@ -1,11 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
+using System.Collections.Concurrent;
 using Visitz.Services.Messages;
 
 namespace Visitz.Services
 {
     public class ServiceHandler : IRecipient<StartServiceMessage>
     {
-        readonly IDictionary<string, VisitzService> Services = new Dictionary<string, VisitzService>();
+        readonly ConcurrentDictionary<string, VisitzService> Services = [];
 
         public ServiceHandler()
         {
@@ -47,7 +48,7 @@ namespace Visitz.Services
                 }
                 finally
                 {
-                    Services.Remove(startMessage.ServiceId);
+                    Services.TryRemove(startMessage.ServiceId, out var _);
                 }
             }
             else
@@ -60,13 +61,13 @@ namespace Visitz.Services
             {
                 await service.RunAsync();
             }
+#if DEBUG
             catch (Exception ex)
             {
-#if DEBUG
                 Console.WriteLine(ex.ToString());
-#endif
                 throw;
             }
+#endif
             finally
             {
                 await service.FinishAsync();

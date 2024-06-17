@@ -11,8 +11,10 @@ namespace Visitz.VisitzConfig
         public static MauiAppBuilder ConfigureVisitzApi(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<AppendTokenHandler>();
+            builder.Services.AddSingleton<AppendAcceptLanguageHandler>();
 
             builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<AppendTokenHandler>();
+            builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<AppendAcceptLanguageHandler>();
 
             builder.Services.AddSingleton(sp => 
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));

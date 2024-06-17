@@ -37,7 +37,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     VerticalOptions="Center"
-					FontIconColor="{StaticResource Gray600}" />
+					TextColor="{StaticResource Gray600}" />
 
                 <views:DraftSavedView
                     x:Name="DraftSavedIndicator"
@@ -52,7 +52,13 @@
 
                     <views:InternetInfoView />
 
-                    <Button
+					<Button
+						Style="{StaticResource SecondaryButtonLight}"
+						Text="{local:Localize DiscardDraft}"
+						Clicked="Discard_Clicked"
+						IsEnabled="{Binding AllowDiscard}" />
+
+					<Button
                         Text="{local:Localize PublishToIcm}"
                         Command="{Binding PublishNotesCommand}"
                         IsEnabled="{Binding AllowPublish}" />
@@ -80,11 +86,7 @@
                     TextChanged="NotesEditor_TextChanged"
                     Keyboard="Text">
 
-                    <Editor.Behaviors>
-                        <toolkit:UserStoppedTypingBehavior 
-                            Command="{Binding UserStoppedTypingCommand}"
-                            StoppedTypingTimeThreshold="700" />
-                    </Editor.Behaviors>
+                    
                 </Editor>
 
 				<views:ErrorTooltip 

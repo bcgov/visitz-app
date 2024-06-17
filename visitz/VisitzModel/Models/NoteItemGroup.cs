@@ -1,7 +1,8 @@
-﻿using Realms;
+using Realms;
 using System.Collections.ObjectModel;
 using VisitzModel.Extensions;
 using VisitzModel.Models.Comparers;
+using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models;
 
@@ -11,7 +12,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
 
     private string NotePageNumberHeaderTemplate { get; set; }
 
-    public string Name => EntityType == IcmEntity.Case
+    public string Name => EntityType == EntityType.Case
         ? NoteItem.NotePeriodFrom(NotePeriodDateTime)
         : MakePageNumberHeader(NotePageNumberHeaderTemplate, PageNumber);
 
@@ -19,9 +20,9 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
 
     public int PageNumber { get; private set; }
 
-    public string EntityType { get; private set; }
+    public EntityType EntityType { get; private set; }
 
-    public NoteItemGroup(NoteItem note, string entityType, string notePageNumberHeaderTemplate) : base()
+    public NoteItemGroup(NoteItem note, EntityType entityType, string notePageNumberHeaderTemplate) : base()
     {
         NotePeriodDateTime = note.NotePeriodDateTime;
         NotePageNumberHeaderTemplate = notePageNumberHeaderTemplate;
@@ -30,7 +31,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         Add(note);
     }
 
-    public NoteItemGroup(List<NoteItem> notes, string entityType, string notePageNumberHeaderTemplate) : base(notes)
+    public NoteItemGroup(List<NoteItem> notes, EntityType entityType, string notePageNumberHeaderTemplate) : base(notes)
     {
         var note = notes.First();
 
@@ -71,7 +72,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
                 .OrderBy(item => DateTime.Parse(item.CreatedDate))
                 .ToList();
 
-        return new NoteItemGroup(notesForPeriod, IcmEntity.Case, string.Empty);
+        return new NoteItemGroup(notesForPeriod, EntityType.Case, string.Empty);
     }
 
     private static NoteItemGroup GetNotesGroupByPage(int pageNumber, IQueryable<NoteItem> entityNotesQuery, 
@@ -84,15 +85,15 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
             .ToList();
 
         string groupName = MakePageNumberHeader(notePageNumberHeaderTemplate, pageNumber);
-        return new NoteItemGroup(notesForPage, IcmEntity.Incident, notePageNumberHeaderTemplate);
+        return new NoteItemGroup(notesForPage, EntityType.Incident, notePageNumberHeaderTemplate);
     }
 
-    public static List<NoteItemGroup> GetGroupsFromNotesQuery(string icmEntityType, 
+    public static List<NoteItemGroup> GetGroupsFromNotesQuery(EntityType icmEntityType, 
         IQueryable<NoteItem> entityNotesQuery, string notePageNumberHeaderTemplate)
     {
         var groups = new List<NoteItemGroup>();
 
-        if (icmEntityType == IcmEntity.Case)
+        if (icmEntityType == EntityType.Case)
         {
             foreach (var notePeriod in GetPeriodHeaders(entityNotesQuery))
                 groups.Add(GetNotesGroupByPeriod(notePeriod, entityNotesQuery));
@@ -106,15 +107,15 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         return groups;
     }
 
-    private static NoteItemGroup GetLastTargetGroup(IList<NoteItemGroup> groups, NoteItem note, string entityType, 
+    private static NoteItemGroup GetLastTargetGroup(IList<NoteItemGroup> groups, NoteItem note, EntityType entityType, 
         string notePageNumberHeaderTemplate = "")
     {
-        return entityType == IcmEntity.Case
+        return entityType == EntityType.Case
             ? groups.LastOrDefault(group => group.Name == note.NotePeriod)
             : groups.LastOrDefault(group => group.Name == MakePageNumberHeader(notePageNumberHeaderTemplate, note.PageNumber));
     }
 
-    public static void InsertInSortedGroups(ObservableCollection<NoteItemGroup> groups, NoteItem note, string entityType, 
+    public static void InsertInSortedGroups(ObservableCollection<NoteItemGroup> groups, NoteItem note, EntityType entityType, 
         string notePageNumberHeaderTemplate)
     {
         var targetGroup = GetLastTargetGroup(groups, note, entityType);
@@ -123,7 +124,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         {
             targetGroup = new NoteItemGroup(note, entityType, notePageNumberHeaderTemplate);
 
-            var comparer = entityType == IcmEntity.Case
+            var comparer = entityType == EntityType.Case
                 ? NoteItemGroupComparer.NotePeriodInstance
                 : NoteItemGroupComparer.PageNumberInstance;
 

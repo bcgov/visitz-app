@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging.Messages;
-using VisitzModel.Models;
+using CommunityToolkit.Mvvm.Messaging.Messages;
+using VisitzModel.Models.Navigation;
 
 namespace VisitzModel.Messaging;
 

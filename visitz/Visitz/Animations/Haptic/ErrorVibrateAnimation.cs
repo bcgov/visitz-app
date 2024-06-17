@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui.Animations;
+using CommunityToolkit.Maui.Animations;
 
 namespace Visitz.Animations.Haptic;
 
@@ -7,7 +7,7 @@ public class ErrorVibrateAnimation : BaseAnimation
     private static readonly double Distance = 10;
     private static readonly uint DurationMs = 10;
 
-    public override async Task Animate(VisualElement view)
+    public override async Task Animate(VisualElement view, CancellationToken token = default)
     {
         double originalX = view.X;
 
@@ -16,6 +16,6 @@ public class ErrorVibrateAnimation : BaseAnimation
         await view.TranslateTo(originalX + Distance, view.Y, DurationMs, Easing.CubicIn);
         await view.TranslateTo(originalX - Distance, view.Y, DurationMs, Easing.Linear);
         await view.TranslateTo(originalX + Distance + Distance, view.Y, DurationMs, Easing.Linear);
-        await view.TranslateTo(originalX, view.Y, DurationMs + DurationMs / 5, Easing.CubicOut);
-    }
+		await view.TranslateTo(originalX, view.Y, DurationMs + DurationMs, Easing.CubicOut);
+	}
 }

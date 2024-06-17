@@ -1,10 +1,12 @@
 using Visitz.Device;
 using Visitz.Pages;
 using Visitz.ViewModels;
+using Visitz.ViewModels.Drafts;
 using Visitz.ViewModels.Entity;
 using Visitz.Views;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
+using Visitz.Views.Drafts;
 using Visitz.Views.Entity;
 using Visitz.Views.Notes;
 
@@ -19,13 +21,22 @@ namespace Visitz.VisitzConfig
 
             builder.Services.AddSingleton<NavRailViewModel>();
 
-            builder.Services.AddSingleton<CaseloadContainerView>();
+			builder.Services.AddTransient<VisitzSnackbar>();
+			builder.Services.AddTransient<VisitzSnackbarViewModel>();
+
+			builder.Services.AddTransient<DataRefreshButton>();
+			builder.Services.AddTransient<DataRefreshViewModel>();
+
+			builder.Services.AddSingleton<CaseloadContainerView>();
             builder.Services.AddSingleton<WatermarkView>();
 
             builder.Services.AddSingleton<CaseloadView>();
             builder.Services.AddSingleton<CaseloadViewModel>();
 
-            builder.Services.AddTransient<DeviceAuthenticator>();
+			builder.Services.AddSingleton<CaseloadDetailView>();
+			builder.Services.AddSingleton<CaseloadDetailViewModel>();
+
+			builder.Services.AddTransient<DeviceAuthenticator>();
             builder.Services.AddTransient<AppLockPage>();
             builder.Services.AddTransient<AppLockViewModel>();
 
@@ -64,7 +75,17 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<SessionPage>();
             builder.Services.AddTransient<SessionViewModel>();
 
-            return builder;
+			builder.Services.AddTransient<CollectionNoticeView>();
+
+			builder.Services.AddSingleton<DraftsContainerView>();
+
+			builder.Services.AddTransient<DraftsMasterList>();
+			builder.Services.AddTransient<DraftsMasterListViewModel>();
+
+			builder.Services.AddTransient<DraftsList>();
+			builder.Services.AddTransient<DraftsListViewModel>();
+
+			return builder;
         }
     }
 }

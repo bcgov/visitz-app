@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
+	xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:models="clr-namespace:Visitz.Models"
+    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:segmentedButtons="clr-namespace:Visitz.Views.SegmentedButtons"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:views="clr-namespace:Visitz.Views"
@@ -51,21 +52,13 @@
                         VerticalOptions="Center" />
                 </HorizontalStackLayout>
 
-                <ImageButton
-                    HorizontalOptions="End"
-                    HeightRequest="32"
-                    WidthRequest="32"
-                    VerticalOptions="Center"
-                    Clicked="ListOptionsButton_Clicked">
-                    <ImageButton.Source>
-                        <FontImageSource 
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                            Glyph="{Static icons:MaterialIcons.Tune}"
-                            Color="{StaticResource BC_TextColor}"
-                            Size="{OnPlatform iOS=64}"/>
-                    </ImageButton.Source>
-
-                </ImageButton>
+				<controls:FontIconButton
+					Style="{StaticResource FontIconButtonLightMode}"
+					HorizontalOptions="End"
+					VerticalOptions="Center"
+					Text="{Static icons:MaterialIcons.Tune}"
+					FontFamily="MaterialIconsRoundedUnfilled"
+					Clicked="ListOptionsButton_Clicked" />
             </Grid>
 
             <SearchBar 
@@ -110,36 +103,24 @@
                         ActivatedTextColor="{StaticResource BC_TextColor}"
                         ActivatedOption="{Binding ActivatedFilterOption}"/>
 
-                    <ImageButton
+                    <controls:FontIconButton
                         Grid.Column="1"
-                        HeightRequest="32"
-                        WidthRequest="32"
                         VerticalOptions="Center"
                         BorderColor="{StaticResource ClearButtonColor}"
                         BorderWidth="1"
                         IsEnabled="{Binding IsFilterActivated}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Text="{Static icons:MaterialIcons.Close}"
+                        TextColor="{StaticResource ClearButtonColor}"
                         Clicked="ClearFilterButton_Clicked">
-
-                        <ImageButton.Source>
-                            <FontImageSource
-                                    x:Name="ClearButtonImageSource"
-                                    FontFamily="MaterialIconsRoundedUnfilled"
-                                    Glyph="{Static icons:MaterialIcons.Close}"
-                                    Color="{StaticResource ClearButtonColor}"
-                                    Size="{OnPlatform iOS=64}"/>
-                        </ImageButton.Source>
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>
                                 <VisualStateGroup x:Name="MoreStates">
-                                    <VisualState x:Name="Normal">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="Disabled">
                                         <VisualState.Setters>
-                                            <Setter Property="BorderWidth" Value="1" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <VisualState.Setters>
-                                            <Setter Property="BorderWidth" Value="0" />
+                                            <Setter Property="BorderColor" Value="Transparent" />
                                             <Setter Property="Opacity" Value="0.3" />
                                         </VisualState.Setters>
                                     </VisualState>
@@ -156,7 +137,7 @@
                                 </VisualStateGroup>
                             </VisualStateGroupList>
                         </VisualStateManager.VisualStateGroups>
-                    </ImageButton>
+                    </controls:FontIconButton>
 
                 </Grid>
             </VerticalStackLayout>
@@ -164,74 +145,52 @@
 
         <AbsoluteLayout VerticalOptions="FillAndExpand">
 
-            <VerticalStackLayout
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds=".5,.5"
-                Spacing="40"
-                IsVisible="{Binding ShowEmptyCaseloadMessage}">
-                <Image>
-                    <Image.Source>
-                        <FontImageSource 
-                        Glyph="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
-                        FontFamily="FluentIconsRegular"
-                        Color="{StaticResource Primary}"
-                        Size="160"/>
-                    </Image.Source>
-                </Image>
+			<views:EmptyCollectionMessage
+				AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
+				AbsoluteLayout.LayoutBounds="0.5,0.5,1,-1"
+				Text="{local:Localize CaseloadIsEmpty}"
+				IsVisible="{Binding ShowEmptyCaseloadMessage}" />
 
-                <Label
-                    FontSize="20"
-                    Text="{local:Localize CaseloadIsEmpty}" />
-            </VerticalStackLayout>
-
-            <RefreshView
+			<RefreshView
                 AbsoluteLayout.LayoutFlags="All"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 Command="{Binding RefreshCaseloadCommand}"
                 IsRefreshing="{Binding IsRefreshing}">
 
-                <!-- 
-                    WORKAROUND (iOS): Wrap CollectionView with ContentView when using it with a RefreshView.
-                    Is a workaround-solution for https://github.com/dotnet/maui/issues/7315#issuecomment-1320706188
-                    This is supposedly fixed in .NET 8, so when we upgrade we can remove this wrapper ContentView.
-                -->
-                <ContentView>
+				<CollectionView
+                    ItemsSource="{Binding Caseload}"
+                    SelectionMode="None"
+                    ItemSizingStrategy="MeasureFirstItem">
+					
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout
+							HorizontalOptions="Fill"
+							Padding="20"
+							Spacing="10">
+                            <Label 
+                                HorizontalOptions="Center"
+								HorizontalTextAlignment="Center"
+                                FontSize="16"
+                                Text="{Binding CollectionViewPrompt}" />
 
-                    <CollectionView
-                        ItemsSource="{Binding Caseload}"
-                        SelectionMode="None"
-                        ItemSizingStrategy="MeasureFirstItem">
-                        <CollectionView.EmptyView>
-                            <VerticalStackLayout HorizontalOptions="Center" Padding="20" Spacing="10">
-                                <Label 
-                                    HorizontalOptions="Center"
-                                    FontSize="16"
-                                    Text="{Binding CollectionViewPrompt}" />
-
-                                <Label 
-                                    HorizontalOptions="Center" 
-                                    FontSize="24"
-                                    Text="↓" />
-                            </VerticalStackLayout>
-                        </CollectionView.EmptyView>
-                        <CollectionView.ItemsLayout>
-                            <!-- 
-                                FIXME: use VerticalItemSpacing. Currently not using it because of a layout issue:
-                                When dynamically changing the ItemsSource binding, the bottom of the CollectionView
-                                has varying amounts of whitespace from the VerticalItemSpacing attribute. Removing
-                                VerticalItemSpacing and dynamically changing the ItemsSource binding operates as 
-                                expected. 
-                            -->
-                            <GridItemsLayout Orientation="Vertical" Span="1" />
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:CaseloadItem">
-                                <views:CaseloadItemView />
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-
-                </ContentView>
+                            <Label 
+                                HorizontalOptions="Center" 
+                                FontSize="24"
+                                Text="↓" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+					
+					<CollectionView.ItemsLayout>
+						<LinearItemsLayout Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+					
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CaseloadItem">
+							<caseload:CaseloadItemView DraftedItems="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=DraftedItems}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+					
+                </CollectionView>
 
             </RefreshView>
 

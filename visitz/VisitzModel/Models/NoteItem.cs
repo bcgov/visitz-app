@@ -1,6 +1,9 @@
-﻿using Realms;
+using Realms;
 using System.Globalization;
 using VisitzApi.Models;
+using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Formats;
+using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models
 {
@@ -9,8 +12,11 @@ namespace VisitzModel.Models
     /// </summary>
     public partial class NoteItem : IRealmObject
     {
-        private static readonly string IcmNotePeriodDateFormat = "MMM yyyy";
-        private static readonly string NoteWrapperTimestampFormat = "yyyy-MMM-dd hh:mm:ss tt";
+		private const string NotePeriodName = "NotePeriod";
+		private const string CreatedDateName = "CreatedDate";
+
+		private static readonly string IcmNotePeriodDateFormat = IcmDateFormats.NotePeriod;
+        private static readonly string NoteWrapperTimestampFormat = IcmDateFormats.BasicTimestamp;
         private static readonly string Separator = "────";
 
         /// <summary>
@@ -37,8 +43,36 @@ namespace VisitzModel.Models
         [Indexed]
         public string IcmId { get; set; }
 
-        public string NotePeriod { get; set; }
-        public string CreatedDate { get; set; }
+		[MapTo(NotePeriodName)]
+		private string NotePeriodField {  get; set; }
+        public string NotePeriod
+		{
+			get => NotePeriodField;
+			set
+			{
+				NotePeriodField = value;
+
+				NotePeriodDateTime = value?.Length > 0
+					? DateTimeOffset.Parse(value)
+					: DateTimeOffset.MinValue;
+			}
+		}
+
+		[MapTo(CreatedDateName)]
+		private string CreatedDateField { get; set; }
+		public string CreatedDate
+		{
+			get => CreatedDateField;
+			set
+			{
+				CreatedDateField = value;
+
+				CreatedDateTime = value?.Length > 0
+					? DateTimeOffset.Parse(value)
+					: DateTimeOffset.MinValue;
+			}
+		}
+
         public string Content { get; set; }
         public int PageNumber { get; set; }
 
@@ -67,12 +101,6 @@ namespace VisitzModel.Models
                 CreatedDate = note.CreatedDate,
                 Content = note.Content,
                 PageNumber = pageNumber,
-                NotePeriodDateTime = note.NotePeriod?.Length > 0
-                    ? DateTimeOffset.Parse(note.NotePeriod)
-                    : DateTimeOffset.MinValue,
-                CreatedDateTime = note.CreatedDate?.Length > 0
-                    ? DateTimeOffset.Parse(note.CreatedDate)
-                    : DateTimeOffset.MinValue,
             };
         }
 
@@ -84,7 +112,42 @@ namespace VisitzModel.Models
                 .Select((note, index) => FromApiEntity(icmId, note, index + 1));
         }
 
-        public static string NotePeriodFrom(DateTime dateTime)
+		public static async Task UpsertNotesAsync(
+			Realm realm,
+			string entityId,
+			string entityType,
+			IEnumerable<NoteItem> newNotes)
+		{
+			if (entityType.ParseEntityType() == EntityType.Case)
+				// Case notes older <= 2012 may have a blank note period.
+				newNotes = SimulateNotePeriods(newNotes);
+
+			var currentNotes = GetNotesByEntityId(realm, entityId);
+			var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
+
+			await realm.WriteAsync(() =>
+			{
+				foreach (var deletedNote in deletedNotes)
+					realm.Remove(deletedNote);
+
+				realm.Add(newNotes, update: true);
+			});
+		}
+
+		static List<NoteItem> SimulateNotePeriods(IEnumerable<NoteItem> notes)
+		{
+			var simulatedPeriodNotes = notes.ToList();
+
+			foreach (var note in simulatedPeriodNotes)
+				if (string.IsNullOrWhiteSpace(note.NotePeriod))
+					note.NotePeriod = NotePeriodFrom(DateTimeOffset.Parse(note.CreatedDate));
+
+			return simulatedPeriodNotes;
+		}
+
+		static string NoteSelector(NoteItem note) => note.FullID;
+
+		public static string NotePeriodFrom(DateTime dateTime)
         {
             return NotePeriodFrom(new DateTimeOffset(dateTime));
         }

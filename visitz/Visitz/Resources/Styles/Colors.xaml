@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -9,6 +9,7 @@
     <Color x:Key="BC_Blue_Disabled">#CDDADF</Color>
     <Color x:Key="BC_Gold">#FCBA19</Color>
     <Color x:Key="BC_TextColor">#313132</Color>
+	<Color x:Key="BC_TextColor_Lighter">#727272</Color>
     <Color x:Key="BC_TextColor_Disabled">#424242</Color>
     <Color x:Key="BC_Hyperlink">#1A5A96</Color>
     <Color x:Key="BC_Background_Dark">#38598A</Color>
@@ -18,6 +19,8 @@
     <Color x:Key="BC_Semantic_Success">#2E8540</Color>
     <Color x:Key="BC_Semantic_Info">#D9EAF7</Color>
     <Color x:Key="BC_Semantic_Warning">#F9F1C6</Color>
+
+	<Color x:Key="Default_Background">White</Color>
 
     <Color x:Key="Semantic_Warning_LargeText">#B38600</Color>
 
@@ -49,7 +52,7 @@
     <!-- Tags Colors -->
     <Color x:Key="EntityCaseTagBackground">#C2E0FF</Color>
     <Color x:Key="EntityCaseTagText">#00478F</Color>
-    <Color x:Key="EntityIncidentTagBackground">#B3FEF1</Color>
+	<Color x:Key="EntityIncidentTagBackground">#34FEDC</Color>
     <Color x:Key="EntityIncidentTagText">#004C3F</Color>
     
     <Color x:Key="ContactRelationshipTagBackground">#E2CCF8</Color>
@@ -67,7 +70,10 @@
     <Color x:Key="EntitySubTypeBackground">#E2CCF8</Color>
     <Color x:Key="EntitySubTypeTagTextBackground">#5702AF</Color>
 
-    <!-- Family Information Colors -->
+	<Color x:Key="EntityUnknownTypeBackground">#c9c9c9</Color>
+	<Color x:Key="EntityUnknownTypeTagText">#383838</Color>
+
+	<!-- Family Information Colors -->
     <Color x:Key="KeyPlayerInfoPurpleBackground">#FBF8FF</Color>
     <Color x:Key="FamilyMemberInfoGrayBorder">#DFDFE1</Color>
 

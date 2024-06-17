@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
+using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
+using VisitzModel.Extensions;
 using VisitzModel.Storage;
 
 namespace Visitz.ViewModels
@@ -33,7 +35,15 @@ namespace Visitz.ViewModels
         [ObservableProperty]
         public bool skipLocalAuth;
 
-        public override void Create()
+		readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
+
+		[ObservableProperty]
+		public DateTime caseloadLastUpdated;
+
+		[ObservableProperty]
+		public DateTime maxDate = DateTimeExtensions.LocalNow;
+
+		public override void Create()
         {
             base.Create();
 
@@ -54,6 +64,8 @@ namespace Visitz.ViewModels
 
             ApiDomain = settings.Api.ApiDomain;
             AuthenticationDomain = settings.Oidc.AuthenticationDomain;
+
+			CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
         }
 
         partial void OnDryFireSubmitNotesChanged(bool value)
@@ -72,33 +84,33 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public void DeleteAccessToken()
+        public static void DeleteAccessToken()
         {
             if (DebugOptions.Enabled)
                 TokenHolder.DeleteAccessToken();
         }
 
         [RelayCommand]
-        public void DeleteRefreshToken()
+        public static void DeleteRefreshToken()
         {
             if (DebugOptions.Enabled)
                 TokenHolder.DeleteRefreshToken();
         }
 
         [RelayCommand]
-        public async void ClearRealmData()
+        public static async Task ClearRealmData()
         {
             await DebugOptions.ClearRealmData();
         }
 
         [RelayCommand]
-        public async void ClearSafetyAssessmentDraft()
+        public static async Task ClearSafetyAssessmentDraft()
         {
             await DebugOptions.ClearSafetyAssessmentDraftsRealm();
         }
 
         [RelayCommand]
-        public async void Load620bData()
+        public static async Task Load620bData()
         {
             try
             {
@@ -111,7 +123,7 @@ namespace Visitz.ViewModels
         }
 
         [RelayCommand]
-        public async void Logout()
+        public static async Task Logout()
         {
             if (DebugOptions.Enabled)
                 await OidcSession.LogoutAsync();
@@ -121,6 +133,12 @@ namespace Visitz.ViewModels
 		public static void ClearFeedbackSurveyPrefs()
 		{
 			new SurveyFeedbackTracker(Preferences.Default).ClearAll();
+		}
+
+		[RelayCommand]
+		public void ApplyCaseloadLastUpdated()
+		{
+			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
 		}
 	}
 }

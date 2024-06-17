@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Visitz.Services.Messages;
 using VisitzApi;
 
@@ -6,7 +6,10 @@ namespace Visitz.Services
 {
     public class GetNotesForRangeService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
     {
-        public static string MakeId()
+		readonly List<string> successIds = [];
+		readonly List<string> erroredIds = [];
+
+		public static string MakeId()
         {
             return nameof(GetNotesForRangeService);
         }
@@ -38,49 +41,42 @@ namespace Visitz.Services
 
         private async Task GetAllNotesAsync()
         {
-            List<string> successIds = [];
-            List<string> erroredIds = [];
-
-            /*
-             * TODO: Improve efficiency of this operation.
-             * 
-             * Previously, GetNotesService was run concurrently but after crashing issues it has been converted to run
-             * sequentially instead.
-             * 
-             * Maybe run network requests concurrently, then Realm I/O sequentially as Tasks complete?
-             */
-            foreach (var (id, entityType) in IdEntityItems)
-            {
-                try
-                {
-                    await ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(id, entityType));
-                    successIds.Add(id);
-                }
-                catch
-                {
-                    erroredIds.Add(id);
-                }
-            }
+			await Parallel.ForEachAsync(IdEntityItems, GetNotesForRecord);
 
             ResultCode = erroredIds.Count <= 0 
                 ? Result.Successful 
                 : throw new PartialErrorException(successIds, erroredIds);
         }
-    }
 
-    public class PartialErrorException(List<string> successIds, List<string> errorIds) 
-        : Exception(MakeMessage(errorIds))
+		private async ValueTask GetNotesForRecord((string id, string entityType) tuple, CancellationToken token)
+		{
+			var (id, entityType) = tuple;
+
+            try
+            {
+                await ServiceHandler.TryRunServiceAsync(GetNotesService.MakeStartMessage(id, entityType));
+                successIds.Add(id);
+            }
+            catch (Exception ex)
+            {
+                erroredIds.Add(id + " -> " + ex.Message);
+            }
+		}
+	}
+
+    public class PartialErrorException(List<string> successIds, List<string> errors) 
+        : Exception(MakeMessage(errors))
     {
         public List<string> SuccessIds { get; set; } = successIds;
 
-        public List<string> ErrorIds { get; set; } = errorIds;
+        public List<string> ErrorIds { get; set; } = errors;
 
-        public static string MakeMessage(List<string> errorIds)
+        public static string MakeMessage(List<string> errors)
         {
-            StringBuilder sb = new($"{nameof(GetNotesForRangeService)} error for IDs:\n\n");
+            StringBuilder sb = new($"{nameof(GetNotesForRangeService)} errors:\n\n");
 
-            foreach (var id in errorIds.Order())
-                sb.AppendLine($"\t{id}");
+            foreach (var error in errors.Order())
+                sb.AppendLine($"• {error}");
 
             return sb.ToString();
         }

@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 using System.Globalization;
 using VisitzApi.Models.SafetyAssess;
 
@@ -101,9 +101,19 @@ public partial class SafetyAssessment : IRealmObject
         await realm.WriteAsync(() => realm.Remove(safetyAssessment));
     }
 
+	public static async Task Save(Realm realm, SafetyAssessment assessment)
+	{
+		if (!assessment.IsManaged)
+		{
+			if (realm.IsInTransaction)
+				realm.Add(assessment);
+			else
+				await realm.WriteAsync(() => realm.Add(assessment));
+		}
+	}
+
     public async Task Save(Realm realm)
     {
-        if (!IsManaged)
-            await realm.WriteAsync(() => realm.Add(this));
+		await Save(realm, this);
     }
 }

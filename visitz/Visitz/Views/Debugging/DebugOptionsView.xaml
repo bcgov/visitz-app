@@ -112,13 +112,33 @@
 				Background="AliceBlue"
 				Text="Preferences" />
 
-			<Grid RowDefinitions="Auto">
+			<Grid RowDefinitions="Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
 					Grid.Column="1"
 					Command="{Binding ClearFeedbackSurveyPrefsCommand}"
 					Text="Clear feedback survey preferences" />
+
+				<Label
+					StyleClass="DebugLayout,DebugLabel"
+					Grid.Row="1"
+					Grid.Column="0"
+					IsEnabled="{Binding BuildingInDebug}"
+					Text="Caseload last updated"/>
+
+				<HorizontalStackLayout
+					Grid.Row="1"
+					Grid.Column="1"
+					Spacing="5">
+					<DatePicker
+						Date="{Binding CaseloadLastUpdated}"
+						MaximumDate="{Binding MaxDate}" />
+
+					<Button
+						Command="{Binding ApplyCaseloadLastUpdatedCommand}"
+						Text="Apply" />
+				</HorizontalStackLayout>
 			</Grid>
 			
             <Label

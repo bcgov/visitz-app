@@ -200,7 +200,7 @@ Logging out won't affect your unpublished notes.</value>
   <data name="LoginSuccessButUnauth" xml:space="preserve">
     <value>You've successfully logged in.
 
-However, you currently aren't authorized to use MCFD Mobility. Use the "Request Access" button below to submit a request. 
+Use the "Request Access" button below to submit a request for authorization to use the app.
 
 If that doesn't work, request access by emailing </value>
   </data>
@@ -612,5 +612,112 @@ If that doesn't work, request access by emailing </value>
   </data>
   <data name="RetryLogin" xml:space="preserve">
     <value>Retry login</value>
+  </data>
+  <data name="LastUpdated" xml:space="preserve">
+    <value>Last updated</value>
+  </data>
+  <data name="NA" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="Birthdate" xml:space="preserve">
+    <value>Birthdate</value>
+  </data>
+  <data name="CellNumber" xml:space="preserve">
+    <value>Cell #</value>
+  </data>
+  <data name="HomeNumber" xml:space="preserve">
+    <value>Home #</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Indigenous" xml:space="preserve">
+    <value>Indigenous</value>
+  </data>
+  <data name="ServiceOffice" xml:space="preserve">
+    <value>Service office</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="DeviceOffline" xml:space="preserve">
+    <value>Device offline</value>
+  </data>
+  <data name="DeviceOfflineDesc" xml:space="preserve">
+    <value>Your device is not connected to the internet right now.
+
+Your caseload and any drafts you've made are still available on this device and you can continue to work on them.
+
+When this device is online again you can refresh your caseload or publish any work to ICM.</value>
+  </data>
+  <data name="MoreInfo" xml:space="preserve">
+    <value>More info</value>
+  </data>
+  <data name="UnableToReachIcmDeviceOffline" xml:space="preserve">
+    <value>Unable to reach ICM (device offline)</value>
+  </data>
+  <data name="CollectionNotice" xml:space="preserve">
+    <value>Collection Notice</value>
+  </data>
+  <data name="CollectionNoticeDesc" xml:space="preserve">
+    <value>Your personal information is being collected to facilitate the delivery of Child, Family and Community Services.
+
+This information is being collected by The Ministry of Children and Family Development under section 26(a) of the Freedom of Information and Protection of Privacy Act and the Child, Family and Community Services Act under section 96(2.1).
+
+If you have any questions about the collection, use, or disclosure of this information please contact your caseworker.</value>
+  </data>
+  <data name="Drafts" xml:space="preserve">
+    <value>Drafts</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="LastModified" xml:space="preserve">
+    <value>Last modified</value>
+  </data>
+  <data name="AllCaughtUpNoDrafts" xml:space="preserve">
+    <value>You're all caught up! No drafts here.</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="SafetyAssessments" xml:space="preserve">
+    <value>Safety assessments</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="ContinueDraft" xml:space="preserve">
+    <value>Continue draft</value>
+  </data>
+  <data name="DiscardDraft" xml:space="preserve">
+    <value>Discard draft</value>
+  </data>
+  <data name="DiscardNoteDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this note draft? You won't be able to recover it.</value>
+  </data>
+  <data name="CancelAndKeepDraft" xml:space="preserve">
+    <value>Cancel and keep draft</value>
+  </data>
+  <data name="DiscardUnlinkedDraft" xml:space="preserve">
+    <value>Discard unlinked draft</value>
+  </data>
+  <data name="DiscardUnlinkedDraftDesc" xml:space="preserve">
+    <value>You are not assigned to {0} '{1}'. To continue working on drafts for this record you must be assigned.
+
+If you select 'Cancel and keep draft', the draft will remain on your device.
+
+Do you want to discard this unlinked draft permanently?</value>
+    <comment>0 = Entity type
+1 = Entity display text if available, otherwise Entity ID number</comment>
+  </data>
+  <data name="DiscardNoteDraft" xml:space="preserve">
+    <value>Discarded note draft</value>
   </data>
 </root>

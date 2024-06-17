@@ -1,14 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
-    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
-    x:Class="Visitz.Views.CaseloadItemView"
+    x:Class="Visitz.Views.Caseload.CaseloadItemView"
     x:DataType="models:CaseloadItem">
 
     <ContentView.GestureRecognizers>
@@ -19,14 +18,27 @@
 
     <VerticalStackLayout>
         <Grid
-            Padding="10"
+            Padding="0,10,10,10"
             RowDefinitions="*"
             RowSpacing="5"
-            ColumnDefinitions="70*,Auto,Auto"
             ColumnSpacing="10">
 
-            <Label 
-                Grid.Column="0"
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
+				<ColumnDefinition Width="70*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<BoxView
+				x:Name="DraftIndicator"
+				Grid.Column="0"
+				Margin="-1,-10,0,-10"
+				Color="{StaticResource BC_Gold}"
+				IsVisible="False" />
+
+			<Label 
+                Grid.Column="1"
                 HorizontalOptions="StartAndExpand"
                 VerticalOptions="Center"
                 Text="{Binding DisplayName}"
@@ -35,19 +47,14 @@
 
             <Label 
                 x:Name="OpenDateLabel"
-                Grid.Column="1"
+                Grid.Column="2"
                 Text="{Binding DisplayDate}"
                 TextColor="{StaticResource BC_InputControlsTextColor}"
                 FontSize="12"
                 FontFamily="BCSansRegular"
                 VerticalOptions="Center" />
 
-            <tagview:TagView
-                x:Name="TagView"
-                Grid.Column="2"
-                Padding="5,0"
-                CornerRadius="4"
-                Text="{Binding TypeInitials}" />
+			<tagview:EntityTypeBadge Grid.Column="3" />
         </Grid>
         
         <BoxView

@@ -1,6 +1,8 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using Oidc;
 using System.Diagnostics;
+using System.Net;
 using Visitz.Controls;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
@@ -9,9 +11,11 @@ namespace Visitz.Pages;
 
 public partial class WebViewPage
 {
+	const string _logoutResponse = "/logout_response";
+
 	readonly Uri _baseRedirectUri = new(new AppSettings().Oidc.RedirectUri);
 
-	string _redirectUri;
+	Func<Task> SessionTask { get; set; }
 
 	partial void Setup()
 	{
@@ -45,10 +49,22 @@ public partial class WebViewPage
 
 		coreWebView.NavigationStarting += (sender, args) =>
 		{
-			if (args.Uri.StartsWith(_baseRedirectUri.Scheme))
+			if (args.Uri.StartsWith(_baseRedirectUri.Scheme, StringComparison.InvariantCultureIgnoreCase))
 			{
-				_redirectUri = args.Uri;
-				sender.NavigationCompleted += CompleteRedirectNavigation;
+				SessionTask = async () => await PerformCustomSchemeRedirect(args.Uri);
+			}
+			else if (args.Uri.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase))
+			{
+				SessionTask = async () => await ForceLogout(sender);
+			}
+		};
+
+		coreWebView.NavigationCompleted += async (sender, args) =>
+		{
+			if (SessionTask != null)
+			{
+				await SessionTask();
+				await Navigator.Navigation.PopModalAsync();
 			}
 		};
 
@@ -64,17 +80,27 @@ public partial class WebViewPage
 		webView.Source = ViewModel.AuthUri;
 	}
 
-	public void CompleteRedirectNavigation(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs _args)
+	private static Task PerformCustomSchemeRedirect(string uri)
 	{
 		Process.Start(new ProcessStartInfo
 		{
-			FileName = _redirectUri,
+			FileName = uri,
 			UseShellExecute = true,
 		});
 
-		_ = Navigator.Navigation.PopModalAsync();
+		return Task.CompletedTask;
+	}
 
-		sender.NavigationCompleted -= CompleteRedirectNavigation;
+	// A workaround implementation to forcibly logout the user on Windows.
+	// This, along with the rest of the Windows OIDC workarounds, may not
+	// be needed once https://github.com/microsoft/WindowsAppSDK/issues/441
+	// is fixed.
+	private async Task ForceLogout(CoreWebView2 coreWebView)
+	{
+		coreWebView.CookieManager.DeleteAllCookies();
+
+		await CancelTokenSource?.CancelAsync();
+		await OidcSession.LocalLogoutAsync();
 	}
 
 	private void CloseButton_Closing(object sender, ClosingEventArgs e)
