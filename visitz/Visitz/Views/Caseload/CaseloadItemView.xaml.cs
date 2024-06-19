@@ -27,7 +27,7 @@ public partial class CaseloadItemView : ContentView
     {
         base.OnBindingContextChanged();
 
-        if (BindingContext is CaseloadItem item)
+        if (BindingContext is CaseloadItem item && item.IsValid)
 			ApplyCaseloadItem(item);
     }
 
