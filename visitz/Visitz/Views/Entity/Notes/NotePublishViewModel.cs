@@ -2,7 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models;
 using VisitzModel.Models;
 

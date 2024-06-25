@@ -1,8 +1,6 @@
 using Visitz.Resources.Localization;
-using Visitz.ViewModels;
-using Visitz.Views.BaseClasses;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.BaseClasses.Publishing;
 
 public partial class PublishPage : VisitzPage
 {

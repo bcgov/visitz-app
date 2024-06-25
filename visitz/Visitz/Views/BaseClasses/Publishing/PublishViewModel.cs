@@ -1,9 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Visitz.Pages;
-using Visitz.Views.BaseClasses;
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.BaseClasses.Publishing;
 
 public abstract partial class PublishViewModel : VisitzViewModel
 {
@@ -212,6 +211,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         await Task.Delay(DismissDuration);
         await Navigator.Navigation.PopAsync();
 
+		// TODO: Decouple this call from ViewModels (calls UI component)
 		await FeedbackSurveyPage.TryOpen();
     }
 
