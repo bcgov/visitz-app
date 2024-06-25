@@ -63,7 +63,8 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
         var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
 
-		(view as ICaseloadItemHolder).CaseloadItem = caseloadItem;
+		if (view is ICaseloadItemHolder itemHolder)
+			itemHolder.CaseloadItem = caseloadItem;
 
 		if (view is IRequestedEntitySection sectionView)
 			sectionView.RequestedSection = subsection ?? navItem.Section;
