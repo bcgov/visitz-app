@@ -3,6 +3,7 @@ using Oidc.Events;
 using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
+using Visitz.Views.AppLock;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
 using Visitz.Views.User;
