@@ -1,5 +1,4 @@
 using Visitz.Device;
-using Visitz.ViewModels;
 using Visitz.Views;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses.Publishing;
