@@ -1,11 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Resources.Styles;
+using Visitz.ViewModels;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
 
-namespace Visitz.ViewModels.Entity;
+namespace Visitz.Views.Entity;
 
 public partial class EntityContainerViewModel : VisitzViewModel, ICaseloadItemHolder
 {
