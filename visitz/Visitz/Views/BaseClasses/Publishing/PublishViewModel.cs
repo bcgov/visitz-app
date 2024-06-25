@@ -10,15 +10,16 @@ public abstract partial class PublishViewModel : VisitzViewModel
 
     public enum State
     {
-        Cancelled,
-        Waiting,
-        Publishing,
-        Published,
-        PublishError,
-        Refreshing,
-        Refreshed,
-        RefreshError,
-        Completed,
+		Unknown = 0,
+        Cancelled = 1,
+		Waiting = 2,
+		Publishing = 3,
+		Published = 4,
+		PublishError = 5,
+		Refreshing = 6,
+		Refreshed = 7,
+		RefreshError = 8,
+		Completed = 9,
     }
 
     public State CurrentState { get; private set; } = State.Waiting;
