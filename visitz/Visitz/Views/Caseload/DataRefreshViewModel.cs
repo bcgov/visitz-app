@@ -3,8 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.ViewModels;
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.Caseload;
 
 internal partial class DataRefreshViewModel : VisitzViewModel
 {
