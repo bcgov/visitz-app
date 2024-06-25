@@ -1,8 +1,7 @@
-using Visitz.ViewModels.Entity;
 using VisitzModel.Models;
 using VisitzModel.Models.Navigation;
 
-namespace Visitz.Views.Entity;
+namespace Visitz.Views.Entity.Navigation;
 
 public partial class EntityNavView : ViewModelContentView, ICaseloadItemHolder
 {

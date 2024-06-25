@@ -6,6 +6,7 @@ using Visitz.FontIcons;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
+using Visitz.ViewModels;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
@@ -14,7 +15,7 @@ using VisitzModel.Models;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.Navigation;
 
 public partial class NavRailViewModel : VisitzViewModel
 {

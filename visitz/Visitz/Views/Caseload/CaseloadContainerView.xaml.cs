@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Views.Entity;
+using Visitz.Views.Entity.Navigation;
 using Visitz.Views.SplitView;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
