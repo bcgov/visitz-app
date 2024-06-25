@@ -6,6 +6,7 @@ using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
 using Visitz.Views.Entity;
+using Visitz.Views.Entity.Attachments;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Navigation;
@@ -65,7 +66,13 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<EntityNotesView>();
             builder.Services.AddTransient<EntityNotesViewModel>();
 
-            builder.Services.AddTransient<EntitySafetyAssessView>();
+			builder.Services.AddTransient<AttachmentsView>();
+			builder.Services.AddTransient<AttachmentsViewModel>();
+
+			builder.Services.AddTransient<AttachmentsList>();
+			builder.Services.AddTransient<AttachmentsListViewModel>();
+
+			builder.Services.AddTransient<EntitySafetyAssessView>();
             builder.Services.AddTransient<EntitySafetyAssessViewModel>();
 
             builder.Services.AddTransient<PublishPage>();

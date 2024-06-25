@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Entity.Attachments;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Notes;
@@ -60,6 +61,13 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 		Section = EntitySection.Notes,
 	};
 
+	private readonly EntityNavItem Attachments = new()
+	{
+		Text = LocalizedStrings.Attachments,
+		ContentViewType = typeof(AttachmentsView),
+		Section = EntitySection.Attachments,
+	};
+
 	private readonly EntityNavItem SafetyAssessment = new()
 	{
 		Text = LocalizedStrings.SafetyAssessment,
@@ -95,6 +103,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 		EntityNavItems.Add(Details);
 		EntityNavItems.Add(FamilyMembers);
 		EntityNavItems.Add(Notes);
+		EntityNavItems.Add(Attachments);
 
         if (ShouldShowSafetyAssessment())
             EntityNavItems.Add(SafetyAssessment);
