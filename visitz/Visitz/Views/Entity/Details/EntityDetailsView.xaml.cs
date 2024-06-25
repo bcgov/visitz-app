@@ -1,7 +1,6 @@
-using Visitz.ViewModels.Entity;
 using VisitzModel.Models;
 
-namespace Visitz.Views.Entity;
+namespace Visitz.Views.Entity.Details;
 
 public partial class EntityDetailsView : ViewModelContentView, ICaseloadItemHolder
 {
