@@ -1,11 +1,9 @@
-using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
-using Visitz.ViewModels.Entity;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 
-namespace Visitz.Views.Entity;
+namespace Visitz.Views.Entity.SafetyAssess;
 
 public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadItemHolder
 {

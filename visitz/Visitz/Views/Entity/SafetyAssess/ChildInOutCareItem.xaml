@@ -2,9 +2,9 @@
 <ContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:safetyAssess="clr-namespace:Visitz.Views.Entity.SafetyAssess"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
-    x:Class="Visitz.Views.Entity.ChildInOutCareItem"
+    x:Class="Visitz.Views.Entity.SafetyAssess.ChildInOutCareItem"
     x:DataType="models:FamilyMember">
 
     <VisualStateManager.VisualStateGroups>
@@ -31,11 +31,11 @@
         RowSpacing="5">
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.CheckBoxGridLength}" />
-            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.LastNameGridLength}" />
-            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.FirstNameGridLength}" />
-            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.DateOfBirthGridLength}" />
-            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.GenderGridLength}" />
+            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.CheckBoxGridLength}" />
+            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.LastNameGridLength}" />
+            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.FirstNameGridLength}" />
+            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.DateOfBirthGridLength}" />
+            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.GenderGridLength}" />
         </Grid.ColumnDefinitions>
         
         <CheckBox 

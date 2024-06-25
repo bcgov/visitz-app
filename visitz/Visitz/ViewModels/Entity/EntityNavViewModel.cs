@@ -7,6 +7,7 @@ using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Entity;
 using Visitz.Views.Entity.Notes;
+using Visitz.Views.Entity.SafetyAssess;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
