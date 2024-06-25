@@ -5,7 +5,7 @@ using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
-using Visitz.Views.Entity;
+using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
