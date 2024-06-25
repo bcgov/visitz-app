@@ -1,9 +1,10 @@
 using Visitz.Device;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
+using Visitz.ViewModels;
 using VisitzModel.Storage;
 
-namespace Visitz.ViewModels
+namespace Visitz.Views.AppLock
 {
     public partial class AppLockViewModel(DeviceAuthenticator authenticator) : VisitzViewModel
     {

@@ -1,6 +1,6 @@
-﻿using Visitz.ViewModels;
+using Visitz.Pages;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.AppLock;
 
 public partial class AppLockPage : VisitzPage
 {

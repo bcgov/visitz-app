@@ -2,6 +2,7 @@ using Oidc;
 using Visitz.Auth;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
+using Visitz.Views.AppLock;
 
 namespace Visitz.Views.User;
 
