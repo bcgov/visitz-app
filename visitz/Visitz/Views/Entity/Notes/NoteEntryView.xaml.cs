@@ -1,5 +1,6 @@
 using Visitz.Animations.Haptic;
 using Visitz.Resources.Localization;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Events;
 using VisitzModel.Models;

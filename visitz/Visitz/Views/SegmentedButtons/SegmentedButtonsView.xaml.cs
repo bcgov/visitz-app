@@ -1,3 +1,4 @@
+using Visitz.Views.BaseClasses;
 using Visitz.Views.TagViews;
 using Visitz.VisualStates;
 

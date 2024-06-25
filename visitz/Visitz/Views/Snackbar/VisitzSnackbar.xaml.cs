@@ -1,3 +1,5 @@
+using Visitz.Views.BaseClasses;
+
 namespace Visitz.Views.Snackbar;
 
 public partial class VisitzSnackbar : ViewModelContentView

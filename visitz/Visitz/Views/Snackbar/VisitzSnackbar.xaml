@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<views:ViewModelContentView
+<baseClasses:ViewModelContentView
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
 	xmlns:snackbar="clr-namespace:Visitz.Views.Snackbar"
-	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Snackbar.VisitzSnackbar"
 	x:DataType="snackbar:VisitzSnackbarViewModel"
 	BackgroundColor="Transparent">
@@ -37,4 +37,4 @@
 				IsVisible="{Binding ActionVisible}" />
 		</HorizontalStackLayout>
 	</Border>
-</views:ViewModelContentView>
+</baseClasses:ViewModelContentView>

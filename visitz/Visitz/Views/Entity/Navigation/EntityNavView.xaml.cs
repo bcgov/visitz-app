@@ -1,3 +1,4 @@
+using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
 using VisitzModel.Models.Navigation;
 

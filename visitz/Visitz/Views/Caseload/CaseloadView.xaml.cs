@@ -5,6 +5,7 @@ using CommunityToolkit.Maui.Core.Platform;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.SegmentedButtons;
 
 namespace Visitz.Views.Caseload;

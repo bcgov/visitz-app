@@ -1,3 +1,5 @@
+using Visitz.Views.BaseClasses;
+
 namespace Visitz.Views.Caseload;
 
 public partial class CaseloadDetailView : ViewModelContentView

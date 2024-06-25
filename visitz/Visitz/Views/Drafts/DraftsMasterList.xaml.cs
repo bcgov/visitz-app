@@ -1,3 +1,5 @@
+using Visitz.Views.BaseClasses;
+
 namespace Visitz.Views.Drafts;
 
 public partial class DraftsMasterList : ViewModelContentView
