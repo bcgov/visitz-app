@@ -1,8 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Visitz.ViewModels;
 using VisitzModel.Models;
 using VisitzModel.Sorting;
 
-namespace Visitz.ViewModels.Entity;
+namespace Visitz.Views.Entity.FamilyMembers;
 
 public partial class EntityContactsViewModel : VisitzViewModel, ICaseloadItemHolder
 {

@@ -3,11 +3,11 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:tag_behaviors="clr-namespace:Visitz.Behaviors.Tags"
+    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
-    x:Class="Visitz.Views.ContactItemView"
+    x:Class="Visitz.Views.Entity.FamilyMembers.ContactItemView"
     x:DataType="models:FamilyMember"
     HorizontalOptions="Start">
 
@@ -31,7 +31,7 @@
 
             <tagview:TagView Padding="8,3">
                 <tagview:TagView.Behaviors>
-                    <tag_behaviors:ContactRelationshipTagBehavior />
+                    <tagBehaviors:ContactRelationshipTagBehavior />
                 </tagview:TagView.Behaviors>
             </tagview:TagView>
         </HorizontalStackLayout>

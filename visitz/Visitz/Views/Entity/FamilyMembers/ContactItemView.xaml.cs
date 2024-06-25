@@ -1,4 +1,4 @@
-namespace Visitz.Views;
+namespace Visitz.Views.Entity.FamilyMembers;
 
 public partial class ContactItemView : ContentView
 {

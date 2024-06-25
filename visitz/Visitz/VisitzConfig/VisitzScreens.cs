@@ -7,6 +7,7 @@ using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
 using Visitz.Views.Entity;
+using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
 
