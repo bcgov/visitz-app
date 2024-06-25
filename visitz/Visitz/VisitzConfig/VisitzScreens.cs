@@ -3,6 +3,7 @@ using Visitz.Pages;
 using Visitz.ViewModels;
 using Visitz.Views;
 using Visitz.Views.AppLock;
+using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
