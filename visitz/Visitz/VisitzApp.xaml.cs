@@ -5,6 +5,7 @@ using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
+using Visitz.Views.User;
 using VisitzModel;
 
 namespace Visitz;

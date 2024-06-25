@@ -10,6 +10,7 @@ using Visitz.Storage;
 using Visitz.ViewModels;
 using Visitz.Views.Debugging;
 using Visitz.Views.SegmentedButtons;
+using Visitz.Views.User;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;

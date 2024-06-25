@@ -1,9 +1,9 @@
 using Oidc;
 using Visitz.Auth;
+using Visitz.Pages;
 using Visitz.Resources.Localization;
-using Visitz.ViewModels;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.User;
 
 public partial class SessionPage : VisitzPage
 {
