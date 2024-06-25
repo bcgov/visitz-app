@@ -6,7 +6,7 @@ using Visitz.FontIcons;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;

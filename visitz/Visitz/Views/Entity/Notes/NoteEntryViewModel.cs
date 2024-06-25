@@ -5,7 +5,7 @@ using Realms;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 using VisitzApi.Models;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
@@ -16,7 +16,7 @@ using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity.Notes
 {
-    public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
+	public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         private static readonly int CharacterLimit = 16000;
 		public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;

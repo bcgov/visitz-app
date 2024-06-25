@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Root;
 

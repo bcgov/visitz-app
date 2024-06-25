@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 

@@ -1,5 +1,5 @@
 using Visitz.Extensions;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 using VisitzModel;
 
 namespace Visitz.Pages;

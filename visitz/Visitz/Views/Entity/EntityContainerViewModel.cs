@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Resources.Styles;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;

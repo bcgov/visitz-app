@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Services;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 using VisitzModel.Events;
 using VisitzModel.Storage;
 
