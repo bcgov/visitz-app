@@ -1,4 +1,4 @@
-using Visitz.Pages;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.AppLock;
 

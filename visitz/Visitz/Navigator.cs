@@ -1,4 +1,4 @@
-using Visitz.Pages;
+using Visitz.Views.BaseClasses;
 using VisitzModel;
 
 namespace Visitz;

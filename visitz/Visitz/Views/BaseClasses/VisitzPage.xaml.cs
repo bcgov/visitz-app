@@ -1,8 +1,7 @@
 using Visitz.Extensions;
-using Visitz.Views.BaseClasses;
 using VisitzModel;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.BaseClasses;
 
 public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage() 
 {
