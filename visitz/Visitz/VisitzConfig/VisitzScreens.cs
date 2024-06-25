@@ -1,5 +1,4 @@
 using Visitz.Device;
-using Visitz.Pages;
 using Visitz.ViewModels;
 using Visitz.Views;
 using Visitz.Views.AppLock;
@@ -17,6 +16,7 @@ using Visitz.Views.Navigation;
 using Visitz.Views.Root;
 using Visitz.Views.Snackbar;
 using Visitz.Views.User;
+using Visitz.Views.WebViewer;
 
 namespace Visitz.VisitzConfig
 {

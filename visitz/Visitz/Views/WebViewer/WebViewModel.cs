@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Views.BaseClasses;
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.WebViewer;
 
 public partial class WebViewModel : VisitzViewModel
 {

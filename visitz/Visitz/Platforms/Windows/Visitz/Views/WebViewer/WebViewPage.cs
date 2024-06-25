@@ -2,12 +2,11 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Oidc;
 using System.Diagnostics;
-using System.Net;
 using Visitz.Controls;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.WebViewer;
 
 public partial class WebViewPage
 {

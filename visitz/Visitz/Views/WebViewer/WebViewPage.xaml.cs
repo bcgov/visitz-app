@@ -1,7 +1,6 @@
-using Visitz.ViewModels;
 using Visitz.Views.BaseClasses;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.WebViewer;
 
 public partial class WebViewPage : VisitzPage
 {
