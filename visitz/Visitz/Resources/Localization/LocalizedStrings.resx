@@ -720,4 +720,10 @@ Do you want to discard this unlinked draft permanently?</value>
   <data name="DiscardNoteDraft" xml:space="preserve">
     <value>Discarded note draft</value>
   </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="AddPhotos" xml:space="preserve">
+    <value>Add photos</value>
+  </data>
 </root>

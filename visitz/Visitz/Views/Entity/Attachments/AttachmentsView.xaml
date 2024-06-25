@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:ViewModelContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+	xmlns:icons="clr-namespace:Visitz.FontIcons"
+	xmlns:local="clr-namespace:Visitz.Localization"
+    x:Class="Visitz.Views.Entity.Attachments.AttachmentsView"
+	x:DataType="attachments:AttachmentsViewModel">
+	
+	<Grid
+		HorizontalOptions="FillAndExpand"
+		VerticalOptions="FillAndExpand"
+		RowDefinitions="*, 0.5, Auto">
+
+		<attachments:AttachmentsList
+			Grid.Row="0" />
+
+		<BoxView
+			Grid.Row="1"
+			Color="{StaticResource SeparatorColor}" />
+
+		<Grid
+			Grid.Row="2"
+			Padding="10"
+			RowDefinitions="Auto"
+			ColumnDefinitions="*,Auto">
+
+			<Button 
+				Grid.Column="1"
+				Text="{local:Localize AddPhotos}">
+				<Button.ImageSource>
+					<FontImageSource 
+						Glyph="{Static icons:MaterialIcons.Add_a_photo}"
+						FontFamily="MaterialIconsRoundedUnfilled"
+						Size="20"/>
+				</Button.ImageSource>
+			</Button>
+		</Grid>
+	</Grid>
+	
+</baseClasses:ViewModelContentView>

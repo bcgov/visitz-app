@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:ViewModelContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    x:Class="Visitz.Views.Entity.Attachments.AttachmentsList"
+	x:DataType="attachments:AttachmentsListViewModel">
+	
+    <CollectionView>
+
+    </CollectionView>
+	
+</baseClasses:ViewModelContentView>
