@@ -1,9 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Services;
+using Visitz.ViewModels;
 using VisitzModel.Events;
 using VisitzModel.Storage;
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.Caseload;
 
 internal partial class CaseloadDetailViewModel : VisitzViewModel
 {
