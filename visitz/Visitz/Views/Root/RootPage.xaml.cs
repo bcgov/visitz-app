@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Animations;
-using Visitz.Pages;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Navigation;

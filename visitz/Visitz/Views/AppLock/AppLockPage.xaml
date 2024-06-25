@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<pages:VisitzPage 
+<baseClasses:VisitzPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:appLock="clr-namespace:Visitz.Views.AppLock"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:pages="clr-namespace:Visitz.Pages"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.AppLock.AppLockPage"
     x:DataType="appLock:AppLockViewModel"
@@ -59,4 +59,4 @@
         
     </AbsoluteLayout>
 
-</pages:VisitzPage>
+</baseClasses:VisitzPage>

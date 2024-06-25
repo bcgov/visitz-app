@@ -1,5 +1,6 @@
 using Visitz.Resources.Localization;
 using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Pages;
 

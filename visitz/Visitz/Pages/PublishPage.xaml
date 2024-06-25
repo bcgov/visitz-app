@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<pages:VisitzPage
+<baseClasses:VisitzPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:pages="clr-namespace:Visitz.Pages"
     xmlns:viewModels="clr-namespace:Visitz.ViewModels"
     x:Class="Visitz.Pages.PublishPage"
     x:DataType="viewModels:PublishViewModel"
@@ -28,7 +28,7 @@
         page using NavigationPage.HasBackButton="False" and NavigationPage.HasNavigationBar="False".
     -->
 
-    <pages:VisitzPage.Resources>        
+    <baseClasses:VisitzPage.Resources>        
         <Style TargetType="Border">
             <Setter Property="Stroke" Value="Transparent" />
             <Setter Property="Padding" Value="{OnPlatform WinUI=8, Default=0}" />
@@ -41,7 +41,7 @@
             <Setter Property="ColumnDefinitions" Value="{OnPlatform WinUI='50,*', Default='40,*'}" />
             <Setter Property="ColumnSpacing" Value="15" />
         </Style>
-    </pages:VisitzPage.Resources>
+    </baseClasses:VisitzPage.Resources>
 
     <Grid
         Padding="32"
@@ -224,4 +224,4 @@
             ProgressColor="White" />
     </Grid>
 
-</pages:VisitzPage>
+</baseClasses:VisitzPage>

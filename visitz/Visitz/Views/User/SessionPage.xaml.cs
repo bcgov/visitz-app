@@ -1,8 +1,8 @@
 using Oidc;
 using Visitz.Auth;
-using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Views.AppLock;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.User;
 
