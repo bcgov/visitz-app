@@ -5,8 +5,8 @@ using Realms;
 using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
+using Visitz.ViewModels;
 using VisitzApi.Models;
-using VisitzModel;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -14,7 +14,7 @@ using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Utilities;
 
-namespace Visitz.ViewModels
+namespace Visitz.Views.Entity.Notes
 {
     public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
     {

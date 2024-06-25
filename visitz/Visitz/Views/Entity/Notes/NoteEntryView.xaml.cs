@@ -1,10 +1,9 @@
 using Visitz.Animations.Haptic;
 using Visitz.Resources.Localization;
-using Visitz.ViewModels;
 using VisitzModel.Events;
 using VisitzModel.Models;
 
-namespace Visitz.Views.Notes;
+namespace Visitz.Views.Entity.Notes;
 
 public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 {

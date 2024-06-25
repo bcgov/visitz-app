@@ -1,12 +1,12 @@
 using CommunityToolkit.Mvvm.Messaging;
-using Oidc;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
+using Visitz.ViewModels;
 using VisitzApi.Models;
 using VisitzModel.Models;
 
-namespace Visitz.ViewModels
+namespace Visitz.Views.Entity.Notes
 {
     public partial class NotePublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
     {
