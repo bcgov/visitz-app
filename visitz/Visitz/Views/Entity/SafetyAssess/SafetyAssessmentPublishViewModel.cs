@@ -1,14 +1,13 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
-using Visitz.ViewModels.Entity;
-using Visitz.Views.Entity;
+using Visitz.ViewModels;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.Entity.SafetyAssess;
 
 internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {

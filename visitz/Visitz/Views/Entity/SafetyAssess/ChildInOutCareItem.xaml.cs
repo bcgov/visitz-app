@@ -1,6 +1,6 @@
 using VisitzModel;
 
-namespace Visitz.Views.Entity;
+namespace Visitz.Views.Entity.SafetyAssess;
 
 public partial class ChildInOutCareItem : ContentView
 {

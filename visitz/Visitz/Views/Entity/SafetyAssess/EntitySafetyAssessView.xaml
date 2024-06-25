@@ -9,11 +9,10 @@
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
-    xmlns:entity="clr-namespace:Visitz.Views.Entity"
-    xmlns:entityModel="clr-namespace:Visitz.ViewModels.Entity"
+    xmlns:safetyAssess="clr-namespace:Visitz.Views.Entity.SafetyAssess"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Class="Visitz.Views.Entity.EntitySafetyAssessView"
-    x:DataType="entityModel:EntitySafetyAssessViewModel">
+    x:Class="Visitz.Views.Entity.SafetyAssess.EntitySafetyAssessView"
+    x:DataType="safetyAssess:EntitySafetyAssessViewModel">
 
     <views:ViewModelContentView.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
@@ -365,22 +364,22 @@
                         <VerticalStackLayout Spacing="10">
                             <VerticalStackLayout 
                                 Spacing="10"
-                                RadioButtonGroup.GroupName="{Static entityModel:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                                RadioButtonGroup.GroupName="{Static safetyAssess:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                 RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionBinding}">
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.Safe}"
                                     IsChecked="{Binding SafeChecked}"
-                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
+                                    GroupName="{Static safetyAssess:EntitySafetyAssessViewModel.SafetyDecisionGroup}" 
                                     Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.SafeWithInterventions}"
                                     IsChecked="{Binding SafeWithInterventionsChecked}"
-                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                                    GroupName="{Static safetyAssess:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                     Text="{local:Localize SafetyDecision2_SafeInterventions}" />
                                 <formctls:FormRadioButton
                                     Value="{Static safetyModels:SafetyDecisionOption.Unsafe}"
                                     IsChecked="{Binding UnsafeChecked}"
-                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
+                                    GroupName="{Static safetyAssess:EntitySafetyAssessViewModel.SafetyDecisionGroup}"
                                     Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
                             </VerticalStackLayout>
 
@@ -388,15 +387,15 @@
                                 IsVisible="{Binding UnsafeChecked}"
                                 Spacing="10"
                                 Margin="30,0,0,0"
-                                RadioButtonGroup.GroupName="{Static entityModel:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                RadioButtonGroup.GroupName="{Static safetyAssess:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                 RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionUnsafeBinding}">
                                 <formctls:FormRadioButton 
-                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                    GroupName="{Static safetyAssess:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                     IsChecked="{Binding AllChildrenPlaced}"
                                     Value="{Static safetyModels:SafetyDecisions.AllChildrenPlaced}"
                                     Text="{local:Localize SafetyDecision_AllYouth}" />
                                 <formctls:FormRadioButton 
-                                    GroupName="{Static entityModel:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
+                                    GroupName="{Static safetyAssess:EntitySafetyAssessViewModel.WhichChildrenPlaced}"
                                     IsChecked="{Binding SomeChildrenPlaced}"
                                     CheckedChanged="SomeChildrenPlaced_CheckedChanged"
                                     Value="{Static safetyModels:SafetyDecisions.SomeChildrenPlaced}"
@@ -448,11 +447,11 @@
                         ColumnSpacing="5">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.CheckBoxGridLength}" />
-                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.LastNameGridLength}" />
-                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.FirstNameGridLength}" />
-                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.DateOfBirthGridLength}" />
-                            <ColumnDefinition Width="{Static entity:ChildInOutCareItem.GenderGridLength}" />
+                            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.CheckBoxGridLength}" />
+                            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.LastNameGridLength}" />
+                            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.FirstNameGridLength}" />
+                            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.DateOfBirthGridLength}" />
+                            <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.GenderGridLength}" />
                         </Grid.ColumnDefinitions>
 
                         <Label
@@ -484,7 +483,7 @@
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:FamilyMember">
-                                <entity:ChildInOutCareItem />
+                                <safetyAssess:ChildInOutCareItem />
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
