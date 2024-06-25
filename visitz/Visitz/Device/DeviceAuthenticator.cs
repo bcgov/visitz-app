@@ -1,4 +1,4 @@
-﻿using Plugin.Fingerprint;
+using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using Visitz.Resources.Localization;
 
@@ -24,9 +24,10 @@ namespace Visitz.Device
 
         public enum Result
         {
-            NotConfigured,
-            Successful,
-            Failure
+			Unknown = 0,
+            NotConfigured = 1,
+            Successful = 2,
+            Failure = 3,
         }
     }
 }
