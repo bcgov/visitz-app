@@ -1,6 +1,4 @@
-using Visitz.Storage;
-
-namespace Visitz.Pages;
+namespace Visitz.Views.Debugging;
 
 public partial class DebugOptionsPage : ContentPage
 {

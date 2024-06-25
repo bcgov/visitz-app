@@ -8,6 +8,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
 using Visitz.ViewModels;
+using Visitz.Views.Debugging;
 using Visitz.Views.SegmentedButtons;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
