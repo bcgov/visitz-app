@@ -7,7 +7,7 @@ using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
 using Visitz.Views.SegmentedButtons;
 using Visitz.Views.User;
@@ -21,10 +21,10 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Caseload
 {
-    /// <summary>
-    /// The business logic for the cases and incidents list rendering goes here.
-    /// </summary>
-    public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
+	/// <summary>
+	/// The business logic for the cases and incidents list rendering goes here.
+	/// </summary>
+	public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
         private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 

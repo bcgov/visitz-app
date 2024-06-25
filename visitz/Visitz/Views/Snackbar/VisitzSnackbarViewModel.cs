@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Snackbar;
 

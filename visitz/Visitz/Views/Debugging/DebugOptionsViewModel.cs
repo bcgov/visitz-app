@@ -3,13 +3,13 @@ using CommunityToolkit.Mvvm.Input;
 using Oidc;
 using Visitz.Services;
 using Visitz.Settings;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Debugging
 {
-    public partial class DebugOptionsViewModel : VisitzViewModel
+	public partial class DebugOptionsViewModel : VisitzViewModel
     {
         [ObservableProperty]
         public bool dryFireSubmitNotes;

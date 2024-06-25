@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Storage;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using VisitzModel.Messaging;
 using VisitzModel.Models;

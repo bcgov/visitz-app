@@ -5,15 +5,13 @@ using Oidc;
 using Oidc.Events;
 using Visitz.Extensions;
 using Visitz.FontIcons;
-using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
-using Visitz.Views;
-using Visitz.ViewModels;
+using Visitz.Views.BaseClasses;
 
 
 #if IOS
