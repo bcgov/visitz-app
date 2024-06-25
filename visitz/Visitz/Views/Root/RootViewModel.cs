@@ -1,6 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Visitz.ViewModels;
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.Root;
 
 internal partial class RootViewModel : VisitzViewModel
 {

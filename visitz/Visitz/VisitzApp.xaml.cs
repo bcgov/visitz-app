@@ -3,6 +3,7 @@ using Oidc.Events;
 using Visitz.Pages;
 using Visitz.Services;
 using Visitz.Storage;
+using Visitz.Views.Root;
 using VisitzModel;
 
 namespace Visitz;
