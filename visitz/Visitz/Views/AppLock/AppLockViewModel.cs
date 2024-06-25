@@ -1,5 +1,4 @@
 using Visitz.Device;
-using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Surveys;
