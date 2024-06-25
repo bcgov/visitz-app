@@ -7,6 +7,7 @@ using Visitz.Pages;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Storage;
+using Visitz.ViewModels;
 using Visitz.Views.SegmentedButtons;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -16,7 +17,7 @@ using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.SafetyAssess;
 
-namespace Visitz.ViewModels
+namespace Visitz.Views.Caseload
 {
     /// <summary>
     /// The business logic for the cases and incidents list rendering goes here.

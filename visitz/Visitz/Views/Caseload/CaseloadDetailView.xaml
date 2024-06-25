@@ -2,10 +2,10 @@
 <views:ViewModelContentView
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
 	xmlns:views="clr-namespace:Visitz.Views"
-	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
     x:Class="Visitz.Views.Caseload.CaseloadDetailView"
-	x:DataType="viewModels:CaseloadDetailViewModel">
+	x:DataType="caseload:CaseloadDetailViewModel">
 
     <AbsoluteLayout>
 		<views:WatermarkView
