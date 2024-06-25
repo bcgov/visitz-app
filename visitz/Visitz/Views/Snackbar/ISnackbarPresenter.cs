@@ -1,4 +1,4 @@
-namespace Visitz.Views;
+namespace Visitz.Views.Snackbar;
 
 internal interface ISnackbarPresenter
 {

@@ -13,6 +13,7 @@ using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
 using Visitz.Views.Navigation;
 using Visitz.Views.Root;
+using Visitz.Views.Snackbar;
 
 namespace Visitz.VisitzConfig
 {

@@ -1,7 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Visitz.ViewModels;
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.Snackbar;
 
 internal partial class VisitzSnackbarViewModel : VisitzViewModel
 {
