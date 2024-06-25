@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     xmlns:pages="clr-namespace:Visitz.Pages"
+    xmlns:root="clr-namespace:Visitz.Views.Root"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-    x:Class="Visitz.Pages.RootPage"
-    x:DataType="viewmodels:RootViewModel"
+    x:Class="Visitz.Views.Root.RootPage"
+    x:DataType="root:RootViewModel"
     NavigationPage.HasNavigationBar="False"
     BackgroundColor="{StaticResource BuildBarBackgroundColor}">
 
@@ -31,7 +31,7 @@
 					specifically reference RootViewModel.
 				-->
 				<nav:VerticalNavRailView IsVisible="{Binding IsLandscape, 
-					Source={RelativeSource AncestorType={x:Type viewmodels:RootViewModel}}}" />
+					Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
 
 				<BoxView 
 					IsVisible="{Binding IsLandscape}"
@@ -56,7 +56,7 @@
 				specifically reference RootViewModel.
 			-->
 			<nav:HorizontalNavRailView IsVisible="{Binding IsPortrait, 
-				Source={RelativeSource AncestorType={x:Type viewmodels:RootViewModel}}}" />
+				Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
 
 		</StackLayout>
 

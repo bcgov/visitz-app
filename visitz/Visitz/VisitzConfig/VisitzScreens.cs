@@ -12,6 +12,7 @@ using Visitz.Views.Entity.Navigation;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
 using Visitz.Views.Navigation;
+using Visitz.Views.Root;
 
 namespace Visitz.VisitzConfig
 {

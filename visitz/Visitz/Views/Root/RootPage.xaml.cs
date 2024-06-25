@@ -1,11 +1,10 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Animations;
-using Visitz.ViewModels;
-using Visitz.Views;
+using Visitz.Pages;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Navigation;
 
-namespace Visitz.Pages;
+namespace Visitz.Views.Root;
 
 public partial class RootPage : VisitzPage, ISnackbarPresenter
 {
