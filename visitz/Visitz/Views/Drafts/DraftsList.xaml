@@ -4,13 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:controls="clr-namespace:Visitz.Controls"
 	xmlns:converters="clr-namespace:Visitz.Converters"
-	xmlns:local="clr-namespace:Visitz.Localization"
 	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
+	xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
+	xmlns:local="clr-namespace:Visitz.Localization"
 	xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
-	xmlns:viewModels="clr-namespace:Visitz.ViewModels.Drafts"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Drafts.DraftsList"
-	x:DataType="viewModels:DraftsListViewModel">
+	x:DataType="drafts:DraftsListViewModel">
 
 	<views:ViewModelContentView.Resources>
 		<Style TargetType="Grid" x:Key="SameWidth">
@@ -54,7 +54,7 @@
 					<ContentView>
 						<ContentView.GestureRecognizers>
 							<TapGestureRecognizer 
-								Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:DraftsListViewModel}}, Path=DraftItemSelectedCommand}"
+								Command="{Binding Source={RelativeSource AncestorType={x:Type drafts:DraftsListViewModel}}, Path=DraftItemSelectedCommand}"
 								CommandParameter="{Binding .}"/>
 						</ContentView.GestureRecognizers>
 						

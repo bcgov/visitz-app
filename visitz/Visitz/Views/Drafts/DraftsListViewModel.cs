@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Storage;
+using Visitz.ViewModels;
 using Visitz.Views.Caseload;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
@@ -11,7 +12,7 @@ using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
-namespace Visitz.ViewModels.Drafts;
+namespace Visitz.Views.Drafts;
 
 internal partial class DraftsListViewModel : VisitzViewModel
 {
