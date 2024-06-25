@@ -7,7 +7,7 @@ using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 #endif
 
-namespace Visitz.Pages;
+namespace Visitz.Views.Surveys;
 
 public partial class FeedbackSurveyPage : ContentPage
 {
