@@ -3,11 +3,11 @@ using CommunityToolkit.Mvvm.Input;
 using Oidc;
 using Visitz.Services;
 using Visitz.Settings;
-using Visitz.Storage;
+using Visitz.ViewModels;
 using VisitzModel.Extensions;
 using VisitzModel.Storage;
 
-namespace Visitz.ViewModels
+namespace Visitz.Views.Debugging
 {
     public partial class DebugOptionsViewModel : VisitzViewModel
     {

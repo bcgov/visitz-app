@@ -3,10 +3,9 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:debug="clr-namespace:Visitz.Views.Debugging"
-    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Debugging.DebugOptionsView"
-    x:DataType="viewmodels:DebugOptionsViewModel"
+    x:DataType="debug:DebugOptionsViewModel"
     BackgroundColor="White">
 
     <views:ViewModelContentView.Resources>

@@ -1,7 +1,8 @@
 using System.Text.Json;
+using Visitz.Storage;
 using VisitzModel.Models;
 
-namespace Visitz.Storage
+namespace Visitz.Views.Debugging
 {
     public class DebugOptions
     {
