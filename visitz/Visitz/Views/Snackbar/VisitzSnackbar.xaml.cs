@@ -1,6 +1,4 @@
-using Visitz.ViewModels;
-
-namespace Visitz.Views;
+namespace Visitz.Views.Snackbar;
 
 public partial class VisitzSnackbar : ViewModelContentView
 {

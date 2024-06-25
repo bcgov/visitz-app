@@ -1,7 +1,6 @@
 using Visitz.Resources.Localization;
-using Visitz.Views;
 
-namespace Visitz;
+namespace Visitz.Views.Snackbar;
 
 internal class SnackbarHandler
 {

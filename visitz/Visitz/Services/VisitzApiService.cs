@@ -3,6 +3,7 @@ using Oidc;
 using Oidc.Exceptions;
 using System.Net;
 using Visitz.Resources.Localization;
+using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
 
