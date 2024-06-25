@@ -12,7 +12,7 @@
 	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
 	xmlns:views="clr-namespace:Visitz.Views"
 	x:Class="Visitz.Views.Navigation.VerticalNavRailView"
-	x:DataType="viewModels:NavRailViewModel"
+	x:DataType="nav:NavRailViewModel"
 	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
 	MaximumWidthRequest="95">
 

@@ -9,8 +9,10 @@ using Visitz.Views.Drafts;
 using Visitz.Views.Entity;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
+using Visitz.Views.Entity.Navigation;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
+using Visitz.Views.Navigation;
 
 namespace Visitz.VisitzConfig
 {

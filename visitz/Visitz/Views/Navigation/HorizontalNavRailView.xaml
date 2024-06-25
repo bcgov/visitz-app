@@ -9,9 +9,8 @@
 	xmlns:nav="clr-namespace:Visitz.Views.Navigation"
 	xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
 	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
 	x:Class="Visitz.Views.Navigation.HorizontalNavRailView"
-	x:DataType="viewModels:NavRailViewModel"
+	x:DataType="nav:NavRailViewModel"
 	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
 	MaximumHeightRequest="72">
 

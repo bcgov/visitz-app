@@ -5,6 +5,7 @@ using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
+using Visitz.ViewModels;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Notes;
@@ -16,7 +17,7 @@ using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
-namespace Visitz.ViewModels.Entity;
+namespace Visitz.Views.Entity.Navigation;
 
 public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
 {
