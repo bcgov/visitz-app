@@ -1,7 +1,6 @@
 using Visitz.Device;
 using Visitz.Pages;
 using Visitz.ViewModels;
-using Visitz.ViewModels.Drafts;
 using Visitz.ViewModels.Entity;
 using Visitz.Views;
 using Visitz.Views.Caseload;

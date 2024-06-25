@@ -1,5 +1,4 @@
 using Visitz.Resources.Localization;
-using Visitz.ViewModels.Drafts;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Drafts;
 

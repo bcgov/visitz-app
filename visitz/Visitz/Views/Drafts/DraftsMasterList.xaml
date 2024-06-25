@@ -7,10 +7,9 @@
 	xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
 	xmlns:local="clr-namespace:Visitz.Localization"
 	xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
-	xmlns:viewModels="clr-namespace:Visitz.ViewModels.Drafts"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Drafts.DraftsMasterList"
-	x:DataType="viewModels:DraftsMasterListViewModel"
+	x:DataType="drafts:DraftsMasterListViewModel"
 	BackgroundColor="{StaticResource Default_Background}">
 
 	<Grid RowDefinitions="Auto,*">

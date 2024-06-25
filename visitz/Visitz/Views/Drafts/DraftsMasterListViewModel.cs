@@ -4,12 +4,13 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
+using Visitz.ViewModels;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.SafetyAssess;
 
-namespace Visitz.ViewModels.Drafts;
+namespace Visitz.Views.Drafts;
 
 internal partial class DraftsMasterListViewModel : VisitzViewModel
 {
