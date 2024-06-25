@@ -6,12 +6,11 @@
 	xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:notes="clr-namespace:Visitz.Views.Notes"
+    xmlns:notes="clr-namespace:Visitz.Views.Entity.Notes"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:views="clr-namespace:Visitz.Views"
-    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-    x:Class="Visitz.Views.Notes.NoteEntryView"
-    x:DataType="viewmodels:NoteEntryViewModel">
+    x:Class="Visitz.Views.Entity.Notes.NoteEntryView"
+    x:DataType="notes:NoteEntryViewModel">
 
 	<views:ViewModelContentView.Behaviors>
 		<behaviors:SoftKbResizeBehavior />
@@ -69,7 +68,7 @@
 					Grid.Column="2"
 					HorizontalOptions="End"
 					VerticalOptions="Center"
-					Text="{Binding RemainingCharacters, StringFormat={Static viewmodels:NoteEntryViewModel.RemainingCharactersString}}"
+					Text="{Binding RemainingCharacters, StringFormat={Static notes:NoteEntryViewModel.RemainingCharactersString}}"
 					Style="{StaticResource LabelSmall}" />
 			</Grid>
 
