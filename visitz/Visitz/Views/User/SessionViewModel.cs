@@ -13,13 +13,14 @@ using Visitz.Settings;
 using Visitz.Storage;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 using Visitz.Views;
+using Visitz.ViewModels;
 
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 #endif
 
-namespace Visitz.ViewModels;
+namespace Visitz.Views.User;
 
 public partial class SessionViewModel : VisitzViewModel
 {

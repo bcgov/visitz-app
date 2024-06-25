@@ -14,6 +14,7 @@ using Visitz.Views.Entity.SafetyAssess;
 using Visitz.Views.Navigation;
 using Visitz.Views.Root;
 using Visitz.Views.Snackbar;
+using Visitz.Views.User;
 
 namespace Visitz.VisitzConfig
 {

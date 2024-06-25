@@ -10,6 +10,7 @@ using Visitz.ViewModels;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
+using Visitz.Views.User;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Navigation;
