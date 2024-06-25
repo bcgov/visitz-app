@@ -1,3 +1,4 @@
+using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.Details;

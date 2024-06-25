@@ -1,4 +1,5 @@
 using Visitz.FontIcons;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 

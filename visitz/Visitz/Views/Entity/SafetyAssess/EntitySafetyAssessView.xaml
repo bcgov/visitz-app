@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<views:ViewModelContentView 
+<baseClasses:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
@@ -14,7 +15,7 @@
     x:Class="Visitz.Views.Entity.SafetyAssess.EntitySafetyAssessView"
     x:DataType="safetyAssess:EntitySafetyAssessViewModel">
 
-    <views:ViewModelContentView.Resources>
+    <baseClasses:ViewModelContentView.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
             <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="VerticalOptions" Value="Center" />
@@ -59,7 +60,7 @@
             <toolkit:DateTimeOffsetConverter x:Key="DateTimeOffsetConverter" />
             <converters:YesNoAnswerToBoolConverter x:Key="YesNoToBool" />
         </ResourceDictionary>
-    </views:ViewModelContentView.Resources>
+    </baseClasses:ViewModelContentView.Resources>
 
     <Grid RowDefinitions="*,0.5,Auto">
         <ScrollView x:Name="MainScrollView" Grid.Row="0">
@@ -541,4 +542,4 @@
                 Command="{Binding PublishCommand}" />
         </Grid>
     </Grid>
-</views:ViewModelContentView>
+</baseClasses:ViewModelContentView>

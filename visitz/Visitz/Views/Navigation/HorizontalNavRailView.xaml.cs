@@ -1,3 +1,5 @@
+using Visitz.Views.BaseClasses;
+
 namespace Visitz.Views.Navigation;
 
 public partial class HorizontalNavRailView : ViewModelContentView

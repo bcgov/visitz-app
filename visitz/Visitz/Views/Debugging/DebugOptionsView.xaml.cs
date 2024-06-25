@@ -1,3 +1,5 @@
+using Visitz.Views.BaseClasses;
+
 namespace Visitz.Views.Debugging;
 
 public partial class DebugOptionsView : ViewModelContentView

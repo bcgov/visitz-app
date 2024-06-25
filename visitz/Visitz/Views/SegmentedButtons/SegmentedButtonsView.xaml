@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentView 
+<baseClasses:BaseContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:segmentedButtons="clr-namespace:Visitz.Views.SegmentedButtons"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
-    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.SegmentedButtons.SegmentedButtonsView"
     x:DataType="segmentedButtons:SegmentedButtonsView"
     x:Name="this">
 
-    <views:BaseContentView.Resources>
+    <baseClasses:BaseContentView.Resources>
         <Style TargetType="tagview:ActivatableTagView">
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
@@ -33,7 +33,7 @@
                 </VisualStateGroupList>
             </Setter>
         </Style>
-    </views:BaseContentView.Resources>
+    </baseClasses:BaseContentView.Resources>
     
     <!-- 
         Adding Windows-specific right/bottom padding & margins because of a rendering issue with borders.
@@ -76,4 +76,4 @@
         </Grid>
     </Border>
     
-</views:BaseContentView>
+</baseClasses:BaseContentView>

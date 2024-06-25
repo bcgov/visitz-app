@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.Entity.Details;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
