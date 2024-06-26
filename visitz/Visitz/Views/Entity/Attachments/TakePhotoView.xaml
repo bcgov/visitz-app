@@ -28,6 +28,13 @@
 			AbsoluteLayout.LayoutFlags="All"
 			AbsoluteLayout.LayoutBounds="0,0,1,1" />
 
+		<BoxView
+			x:Name="SnapshotLayer"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			Color="Black"
+			IsVisible="False"/>
+
 		<HorizontalStackLayout
 			AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
 			AbsoluteLayout.LayoutBounds="0,0,1,-1"
