@@ -979,6 +979,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Currently, attachments cannot be read from ICM. They can only be uploaded..
+        /// </summary>
+        public static string OnlyPublishAttachments {
+            get {
+                return ResourceManager.GetString("OnlyPublishAttachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open date.
         /// </summary>
         public static string OpenDate {
