@@ -6,23 +6,29 @@
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
 	xmlns:icons="clr-namespace:Visitz.FontIcons"
 	xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentsView"
 	x:DataType="attachments:AttachmentsViewModel">
 	
 	<Grid
 		HorizontalOptions="FillAndExpand"
 		VerticalOptions="FillAndExpand"
-		RowDefinitions="*, 0.5, Auto">
+		RowDefinitions="Auto, *, 0.5, Auto">
+
+		<views:InfoBanner
+			Grid.Row="0"
+			Margin="20"
+			Text="{local:Localize OnlyPublishAttachments}" />
 
 		<attachments:AttachmentsList
-			Grid.Row="0" />
+			Grid.Row="1" />
 
 		<BoxView
-			Grid.Row="1"
+			Grid.Row="2"
 			Color="{StaticResource SeparatorColor}" />
 
 		<Grid
-			Grid.Row="2"
+			Grid.Row="3"
 			Padding="{StaticResource DefaultPadding}"
 			RowDefinitions="Auto"
 			ColumnSpacing="{StaticResource DefaultSpacing}"
