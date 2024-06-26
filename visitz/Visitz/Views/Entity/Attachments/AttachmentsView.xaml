@@ -23,18 +23,35 @@
 
 		<Grid
 			Grid.Row="2"
-			Padding="10"
+			Padding="{StaticResource DefaultPadding}"
 			RowDefinitions="Auto"
-			ColumnDefinitions="*,Auto">
+			ColumnSpacing="{StaticResource DefaultSpacing}"
+			ColumnDefinitions="*,Auto,Auto">
 
-			<Button 
+			<Button
+				Style="{StaticResource SecondaryButton}"
 				Grid.Column="1"
+				Text="{local:Localize Browse}"
+				IsVisible="{OnPlatform iOS=False}">
+				<Button.ImageSource>
+					<FontImageSource 
+						Glyph="{Static icons:MaterialIcons.Folder_open}"
+						FontFamily="MaterialIconsRoundedUnfilled"
+						Size="20"
+						Color="{StaticResource Primary}" />
+				</Button.ImageSource>
+			</Button>
+
+			<Button
+				Style="{StaticResource SecondaryButton}"
+				Grid.Column="2"
 				Text="{local:Localize AddPhotos}">
 				<Button.ImageSource>
 					<FontImageSource 
 						Glyph="{Static icons:MaterialIcons.Add_a_photo}"
 						FontFamily="MaterialIconsRoundedUnfilled"
-						Size="20"/>
+						Size="20"
+						Color="{StaticResource Primary}" />
 				</Button.ImageSource>
 			</Button>
 		</Grid>
