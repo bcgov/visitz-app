@@ -51,6 +51,7 @@
 			<Button
 				Style="{StaticResource SecondaryButton}"
 				Grid.Column="2"
+				Clicked="AddPhotos_Clicked"
 				Text="{local:Localize AddPhotos}">
 				<Button.ImageSource>
 					<FontImageSource 
