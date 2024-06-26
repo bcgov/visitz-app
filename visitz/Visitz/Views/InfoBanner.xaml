@@ -14,37 +14,27 @@
         Stroke="Transparent"
         StrokeShape="RoundRectangle 4"
         StrokeThickness="0"
-        BackgroundColor="{StaticResource BC_Semantic_Info}">
+        BackgroundColor="{StaticResource BC_Semantic_Info}"
+		Padding="20">
         
-        <Grid 
+        <Grid
             Padding="8"
             ColumnDefinitions="Auto,*"
             ColumnSpacing="16">
-            
-            <Image
-                Grid.Column="0"
-                VerticalOptions="Start"
-                HeightRequest="{OnPlatform iOS=28, Default=20}"
-                WidthRequest="{OnPlatform iOS=28, Default=20}">
-                <Image.Source>
-                    <FontImageSource 
-                        Glyph="{Static icons:MaterialIcons.Info}"
-                        FontFamily="MaterialIconsRoundedFilled"
-                        Color="{StaticResource BC_TextColor}"
-                        Size="{OnPlatform iOS=56, Default=40}" />
-                </Image.Source>
-            </Image>
 
-            <!--
-                TODO: Remove Label's inherent padding instead of hardcoding an adjustment by a negative margin.
-            -->
+			<Label
+				Grid.Column="0"
+				VerticalOptions="Start"
+				FontFamily="MaterialIconsRoundedFilled"
+				FontSize="24"
+				TextColor="{StaticResource BC_TextColor}"
+				Text="{Static icons:MaterialIcons.Info}" />
+
             <Label 
                 Grid.Column="1"
-                VerticalOptions="Start"
-                HorizontalOptions="Start"
+				Padding="3"
                 FontFamily="BCSansBold"
                 FontSize="{StaticResource BodyLargeFontSize}"
-                Margin="{OnPlatform WinUI='0,-3,0,0', Default='0'}"
                 Text="{Binding Text}" />
         </Grid>
     </Border>
