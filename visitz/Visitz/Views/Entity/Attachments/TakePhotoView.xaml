@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:BaseContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+	xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="Visitz.Views.Entity.Attachments.TakePhotoView"
+	x:DataType="attachments:TakePhotoView"
+	BackgroundColor="Black">
+
+	<baseClasses:BaseContentView.Resources>
+		<x:Double x:Key="ButtonSize">64</x:Double>
+	</baseClasses:BaseContentView.Resources>
+
+	<AbsoluteLayout>
+		<ActivityIndicator
+			AbsoluteLayout.LayoutFlags="PositionProportional"
+			AbsoluteLayout.LayoutBounds="0.5,0.5"
+			HeightRequest="{StaticResource ButtonSize}"
+			WidthRequest="{StaticResource ButtonSize}"
+			Color="{StaticResource BC_Gold}"
+			IsRunning="True" />
+
+		<toolkit:CameraView
+			x:Name="Camera"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1" />
+
+		<HorizontalStackLayout
+			AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
+			AbsoluteLayout.LayoutBounds="0,0,1,-1"
+			BackgroundColor="{StaticResource Black55Scrim}"
+			Padding="{StaticResource DefaultPadding}">
+
+			<controls:CloseButton />
+
+		</HorizontalStackLayout>
+
+		<Border
+			AbsoluteLayout.LayoutFlags="PositionProportional"
+			AbsoluteLayout.LayoutBounds="1,0.5"
+			StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
+			Stroke="White"
+			StrokeThickness="2"
+			Padding="{StaticResource DefaultSpacing}"
+			Margin="20">
+
+			<Grid>
+				<BoxView
+					Color="White"
+					HeightRequest="{StaticResource ButtonSize}"
+					WidthRequest="{StaticResource ButtonSize}"
+					CornerRadius="{StaticResource ButtonSize}"/>
+
+				<Button
+					Style="{StaticResource SecondaryButton}"
+					FontAutoScalingEnabled="False"
+					BorderWidth="0"
+					BackgroundColor="White"
+					HeightRequest="{StaticResource ButtonSize}"
+					WidthRequest="{StaticResource ButtonSize}"
+					CornerRadius="{Binding Source={StaticResource ButtonSize}}"
+					Clicked="TakePictureButton_Clicked">
+				</Button>
+			</Grid>
+		</Border>
+	</AbsoluteLayout>
+
+</baseClasses:BaseContentView>
