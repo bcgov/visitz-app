@@ -26,7 +26,8 @@ public static class MauiProgram
         builder
             .UseMauiApp<VisitzApp>()
             .UseMauiCommunityToolkit()
-            .ConfigureEssentials(essentials =>
+			.UseMauiCommunityToolkitCamera()
+			.ConfigureEssentials(essentials =>
             {
                 essentials.UseVersionTracking();
             })
