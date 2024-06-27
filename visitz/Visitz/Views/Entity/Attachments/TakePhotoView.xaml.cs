@@ -1,22 +1,49 @@
+using CommunityToolkit.Maui.Views;
 using Visitz.Animations;
 using Visitz.Views.BaseClasses;
+using VisitzModel;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class TakePhotoView : BaseContentView
+public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 {
 	readonly VisibilityAnimation SnapshotFade = new(showView: false);
 
-	public TakePhotoView()
+	new TakePhotoViewModel ViewModel => base.ViewModel as TakePhotoViewModel;
+
+	public CaseloadItem CaseloadItem
 	{
-		InitializeComponent();
+		get => ViewModel.CaseloadItem;
+		set => ViewModel.CaseloadItem = value;
 	}
 
-	protected override async void Creating()
+	public TakePhotoView() : base(ServiceProvider.GetService<TakePhotoViewModel>())
+	{
+		InitializeComponent();
+		BindingContext = ViewModel;
+	}
+
+	protected override void Creating()
 	{
 		base.Creating();
 
-		await Camera.StartCameraPreview(CancellationToken.None);
+		Camera.MediaCaptured += Camera_MediaCaptured;
+		Camera.MediaCaptureFailed += Camera_MediaCaptureFailed;
+
+		_ = InitCamera();
+	}
+
+	async Task InitCamera()
+	{
+		try
+		{
+			await Camera.StartCameraPreview(CancellationToken.None);
+		}
+		catch (TaskCanceledException ex)
+		{
+			ConsoleTrace.TraceMethod(this, ex);
+		}
 	}
 
 	protected override void Destroying()
@@ -24,17 +51,38 @@ public partial class TakePhotoView : BaseContentView
 		base.Destroying();
 
 		Camera.StopCameraPreview();
+
+		Camera.MediaCaptured -= Camera_MediaCaptured;
+		Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
 	}
 
 	private void TakePictureButton_Clicked(object sender, EventArgs e)
 	{
-		_ = AnimateSnapshot();
+		_ = AnimateSnapshotAsync();
 	}
 
-	private async Task AnimateSnapshot()
+	private async Task AnimateSnapshotAsync()
 	{
 		SnapshotLayer.IsVisible = true;
 		await Task.Delay(150);
 		await SnapshotFade.Animate(SnapshotLayer, CancellationToken.None);
+	}
+
+	private async void Camera_MediaCaptured(object sender, MediaCapturedEventArgs e)
+	{
+		try
+		{
+			string filepath = await ViewModel.CachePicture(e.Media);
+			CameraRollButton.Source = ImageSource.FromFile(filepath);
+		}
+		catch (Exception ex)
+		{
+			ConsoleTrace.TraceMethod(this, ex);
+		}
+	}
+
+	private void Camera_MediaCaptureFailed(object sender, MediaCaptureFailedEventArgs e)
+	{
+		ConsoleTrace.TraceMethod(this);
 	}
 }

@@ -73,6 +73,7 @@ namespace Visitz.VisitzConfig
 			builder.Services.AddTransient<AttachmentsListViewModel>();
 
 			builder.Services.AddTransient<TakePhotoView>();
+			builder.Services.AddTransient<TakePhotoViewModel>();
 
 			builder.Services.AddTransient<EntitySafetyAssessView>();
             builder.Services.AddTransient<EntitySafetyAssessViewModel>();
