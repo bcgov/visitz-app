@@ -172,6 +172,31 @@
                     Grid.Column="1"
                     IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
             </Grid>
+
+			<Label
+				StyleClass="DebugLayout,DebugLabel"
+				HorizontalOptions="FillAndExpand"
+				FontSize="20"
+				Background="AliceBlue"
+				Text="File system" />
+
+			<Grid
+				RowDefinitions="Auto,Auto"
+				IsEnabled="{OnIdiom Desktop}">
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="0"
+					Grid.Column="1"
+					Command="{Binding OpenAppDataDirectoryCommand}"
+					Text="Open AppDataDirectory" />
+
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="1"
+					Grid.Column="1"
+					Command="{Binding OpenCacheDirectoryCommand}"
+					Text="Open CacheDirectory" />
+			</Grid>
             
             <Label
                 StyleClass="DebugLayout,DebugLabel"

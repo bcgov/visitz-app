@@ -140,5 +140,17 @@ namespace Visitz.Views.Debugging
 		{
 			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
 		}
+
+		[RelayCommand]
+		public static void OpenAppDataDirectory()
+		{
+			DebugOptions.OpenAppDataDirectory();
+		}
+
+		[RelayCommand]
+		public static void OpenCacheDirectory()
+		{
+			DebugOptions.OpenCacheDirectory();
+		}
 	}
 }
