@@ -1,10 +1,13 @@
 using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsView : ViewModelContentView
+public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 {
+	public CaseloadItem CaseloadItem { get; set; }
+
 	public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
 	{
 		InitializeComponent();
@@ -16,8 +19,9 @@ public partial class AttachmentsView : ViewModelContentView
 		_ = OpenTakePhotoView();
 	}
 
-	private static async Task OpenTakePhotoView()
+	private async Task OpenTakePhotoView()
 	{
-		await Navigator.Navigation.PushModalAsync(new TakePhotoView().WrapPageForModal(ViewModalSize.Fullscreen));
+		TakePhotoView photoView = new() { CaseloadItem = CaseloadItem, };
+		await Navigator.Navigation.PushModalAsync(photoView.WrapPageForModal(ViewModalSize.Fullscreen));
 	}
 }

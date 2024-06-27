@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<baseClasses:BaseContentView
+<baseClasses:ViewModelContentView
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
@@ -7,7 +7,7 @@
 	xmlns:controls="clr-namespace:Visitz.Controls"
 	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.Attachments.TakePhotoView"
-	x:DataType="attachments:TakePhotoView"
+	x:DataType="attachments:TakePhotoViewModel"
 	BackgroundColor="Black">
 
 	<baseClasses:BaseContentView.Resources>
@@ -45,34 +45,60 @@
 
 		</HorizontalStackLayout>
 
-		<Border
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="1,0.5"
-			StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
-			Stroke="White"
-			StrokeThickness="2"
-			Padding="{StaticResource DefaultSpacing}"
-			Margin="20">
+		<Grid
+			AbsoluteLayout.LayoutFlags="XProportional,YProportional,HeightProportional"
+			AbsoluteLayout.LayoutBounds="1,0,-1,1"
+			RowDefinitions="*,Auto,*">
 
-			<Grid>
-				<BoxView
-					Color="White"
-					HeightRequest="{StaticResource ButtonSize}"
-					WidthRequest="{StaticResource ButtonSize}"
-					CornerRadius="{StaticResource ButtonSize}"/>
+			<Border
+				Grid.Row="1"
+				StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
+				Stroke="White"
+				StrokeThickness="2"
+				Padding="{StaticResource DefaultSpacing}"
+				Margin="20">
 
-				<Button
-					Style="{StaticResource SecondaryButton}"
-					FontAutoScalingEnabled="False"
-					BorderWidth="0"
-					BackgroundColor="White"
-					HeightRequest="{StaticResource ButtonSize}"
-					WidthRequest="{StaticResource ButtonSize}"
-					CornerRadius="{Binding Source={StaticResource ButtonSize}}"
-					Clicked="TakePictureButton_Clicked">
-				</Button>
-			</Grid>
-		</Border>
+				<Grid>
+					<BoxView
+						Color="White"
+						HeightRequest="{StaticResource ButtonSize}"
+						WidthRequest="{StaticResource ButtonSize}"
+						CornerRadius="{StaticResource ButtonSize}"/>
+
+					<Button
+						Style="{StaticResource SecondaryButton}"
+						FontAutoScalingEnabled="False"
+						BorderWidth="0"
+						BackgroundColor="White"
+						HeightRequest="{StaticResource ButtonSize}"
+						WidthRequest="{StaticResource ButtonSize}"
+						CornerRadius="{Binding Source={StaticResource ButtonSize}}"
+						Clicked="TakePictureButton_Clicked"
+						Command="{Binding CaptureImageCommand, Source={x:Reference Camera}}"
+						CommandParameter="{Binding Token}">
+					</Button>
+				</Grid>
+			</Border>
+
+			<VerticalStackLayout
+				Grid.Row="2"
+				VerticalOptions="Start">
+				<Border
+					HorizontalOptions="Center"
+					Margin="20"
+					Stroke="White"
+					StrokeThickness="2">
+
+					<ImageButton
+						x:Name="CameraRollButton"
+						HeightRequest="48"
+						WidthRequest="48"
+						Aspect="AspectFill" />
+				</Border>
+			</VerticalStackLayout>
+			
+		</Grid>
+
 	</AbsoluteLayout>
 
-</baseClasses:BaseContentView>
+</baseClasses:ViewModelContentView>
