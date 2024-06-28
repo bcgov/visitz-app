@@ -1,5 +1,7 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System.Security;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
 using VisitzModel.Storage.Filesystem;
@@ -18,6 +20,14 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 	public CaseloadItem CaseloadItem { get; set; }
 
+	[ObservableProperty]
+	public IReadOnlyList<CameraInfo> cameras;
+
+	[ObservableProperty]
+	public CameraInfo selectedCamera;
+
+	int selectedCameraIndex;
+
 	public override async void Create()
 	{
 		base.Create();
@@ -25,6 +35,23 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		attachmentFiler = new(AttachmentFiler.PicturesPath, CaseloadItem);
 
 		await cameraProvider.RefreshAvailableCameras(Token);
+		Cameras = cameraProvider.AvailableCameras;
+
+		if (Cameras.Count > 0)
+			SelectedCamera = Cameras[0];
+	}
+
+	[RelayCommand]
+	public void SelectNextCamera()
+	{
+		if (Cameras.Count > 0)
+			SelectedCamera = Cameras[NextCameraIndex()];
+	}
+
+	int NextCameraIndex()
+	{
+		selectedCameraIndex++;
+		return selectedCameraIndex %= Cameras.Count;
 	}
 
 	/// <summary>

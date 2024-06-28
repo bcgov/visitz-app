@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using Visitz.Animations;
+using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using VisitzModel;
 using VisitzModel.Models;
@@ -24,14 +25,14 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 		BindingContext = ViewModel;
 	}
 
-	protected override void Creating()
+	protected override async void Creating()
 	{
 		base.Creating();
 
 		Camera.MediaCaptured += Camera_MediaCaptured;
 		Camera.MediaCaptureFailed += Camera_MediaCaptureFailed;
 
-		_ = InitCamera();
+		await InitCamera();
 	}
 
 	async Task InitCamera()
@@ -43,6 +44,15 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 		catch (TaskCanceledException ex)
 		{
 			ConsoleTrace.TraceMethod(this, ex);
+		}
+		catch (Exception ex)
+		{
+			ConsoleTrace.TraceMethod(this, ex);
+
+			await Navigator.CurrentOpenPage.DisplayAlert(
+				LocalizedStrings.Error,
+				ex.Message + " => " + ex.StackTrace,
+				LocalizedStrings.Ok);
 		}
 	}
 
