@@ -1,21 +1,24 @@
 using Realms;
-using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.Drafts;
 
-public interface IDraftItem : IRealmObject
+public interface IDraftItem : IRealmObject, IRecordInfo
 {
-	string RelatedEntityId { get; set; }
-
 	DateTimeOffset DraftCreated { get; set; }
 
 	DateTimeOffset LastUpdated { get; set; }
 
 	string Preview { get; }
 
-	string DraftLocation { get; set; }
+	string DraftLocation { get; set; }	
+}
 
-	EntityType RelatedEntityType { get; set; }
-
-	EntitySubtype RelatedEntitySubtype { get; set; }
+public static class IDraftItemExtensions
+{
+	public static IDraftItem InitWith(this IDraftItem item, CaseloadItem caseloadItem)
+	{
+		item.DraftLocation = caseloadItem.DisplayName;
+		(item as IRecordInfo).InitWith(caseloadItem);
+		return item;
+	}
 }
