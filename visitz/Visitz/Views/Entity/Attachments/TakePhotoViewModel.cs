@@ -1,10 +1,14 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Security;
+using Microsoft.Maui.Graphics.Platform;
+using Realms;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Storage.Filesystem;
+using IImage = Microsoft.Maui.Graphics.IImage;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -15,6 +19,8 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 	[ObservableProperty]
 	CancellationToken token = CancellationToken.None;
+
+	Realm AttachmentsRealm { get; set; }
 
 	AttachmentFiler attachmentFiler;
 
@@ -32,6 +38,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 	{
 		base.Create();
 
+		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 		attachmentFiler = new(AttachmentFiler.PicturesPath, CaseloadItem);
 
 		await cameraProvider.RefreshAvailableCameras(Token);
@@ -39,6 +46,13 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 		if (Cameras.Count > 0)
 			SelectedCamera = Cameras[0];
+	}
+
+	public override void Destroy()
+	{
+		base.Destroy();
+
+		AttachmentsRealm.Dispose();
 	}
 
 	[RelayCommand]
@@ -54,14 +68,30 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		return selectedCameraIndex %= Cameras.Count;
 	}
 
-	/// <summary>
-	/// Caches a stream to the file system as an image and returns its filepath.
-	/// </summary>
-	/// <param name="stream"></param>
-	/// <returns>Filepath of the cached picture.</returns>
-	public async Task<string> CachePicture(Stream stream)
+	public async Task SavePicture(Stream stream)
 	{
-		using (stream)
-			return await attachmentFiler.CacheFile(stream, PictureFilenamePrepend, PictureFiletype);
+		string fullpath = await attachmentFiler.SaveEncryptFileAsync(stream, PictureFilenamePrepend, PictureFiletype);
+		byte[] thumbnailBytes = await MakeThumbnail(stream, disposeStream: true).AsBytesAsync();
+
+		var draft = AttachmentDraft.Make(fullpath, thumbnailBytes);
+		draft.InitWith(CaseloadItem);
+
+		try
+		{
+			await AttachmentsRealm.WriteAsync(() => AttachmentsRealm.Add(draft));
+		}
+		catch
+		{
+			if (File.Exists(fullpath))
+				File.Delete(fullpath);
+
+			throw;
+		}
+	}
+
+	static IImage MakeThumbnail(Stream stream, bool disposeStream = false)
+	{
+		stream.Seek(0, SeekOrigin.Begin);
+		return PlatformImage.FromStream(stream).Downsize(200, disposeStream);
 	}
 }
