@@ -39,7 +39,7 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 	{
 		try
 		{
-			await Camera.StartCameraPreview(CancellationToken.None);
+			await Camera.StartCameraPreview(ViewModel.Token);
 		}
 		catch (TaskCanceledException ex)
 		{
