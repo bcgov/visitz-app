@@ -384,6 +384,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this attachment draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardAttachmentDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardAttachmentDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discard draft.
         /// </summary>
         public static string DiscardDraft {
@@ -1227,6 +1236,15 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingNotes {
             get {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        public static string Rename {
+            get {
+                return ResourceManager.GetString("Rename", resourceCulture);
             }
         }
         
