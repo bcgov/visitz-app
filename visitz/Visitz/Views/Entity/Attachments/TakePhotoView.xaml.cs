@@ -61,6 +61,7 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 		base.Destroying();
 
 		Camera.StopCameraPreview();
+		Camera.Handler.DisconnectHandler();
 
 		Camera.MediaCaptured -= Camera_MediaCaptured;
 		Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
