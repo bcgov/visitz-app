@@ -732,4 +732,10 @@ Do you want to discard this unlinked draft permanently?</value>
   <data name="OnlyPublishAttachments" xml:space="preserve">
     <value>Currently, attachments cannot be read from ICM. They can only be uploaded.</value>
   </data>
+  <data name="DiscardAttachmentDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this attachment draft? You won't be able to recover it.</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
 </root>
