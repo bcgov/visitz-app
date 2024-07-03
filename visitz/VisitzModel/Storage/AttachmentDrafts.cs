@@ -13,6 +13,7 @@ public partial class AttachmentDrafts(byte[] encryptionKey) : VisitzRealmBase(Na
 	{
 		return new[]
 		{
+			typeof(Attachment),
 			typeof(AttachmentDraft),
 		};
 	}

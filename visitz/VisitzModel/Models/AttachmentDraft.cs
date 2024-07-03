@@ -26,7 +26,9 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-	public string Preview => throw new NotImplementedException();
+	public string Preview => Attachment.Filename;
 
 	public string DraftLocation { get; set; }
+
+	public Attachment Attachment { get; set; }
 }
