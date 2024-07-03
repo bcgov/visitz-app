@@ -70,6 +70,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add photos.
+        /// </summary>
+        public static string AddPhotos {
+            get {
+                return ResourceManager.GetString("AddPhotos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
@@ -106,6 +115,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attachments.
+        /// </summary>
+        public static string Attachments {
+            get {
+                return ResourceManager.GetString("Attachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility Authorization Request.
         /// </summary>
         public static string AuthorizationRequest {
@@ -120,6 +138,15 @@ namespace Visitz.Resources.Localization {
         public static string Birthdate {
             get {
                 return ResourceManager.GetString("Birthdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        public static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
             }
         }
         
@@ -948,6 +975,15 @@ namespace Visitz.Resources.Localization {
         public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currently, attachments cannot be read from ICM. They can only be uploaded..
+        /// </summary>
+        public static string OnlyPublishAttachments {
+            get {
+                return ResourceManager.GetString("OnlyPublishAttachments", resourceCulture);
             }
         }
         
