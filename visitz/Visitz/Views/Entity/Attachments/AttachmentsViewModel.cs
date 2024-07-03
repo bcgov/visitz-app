@@ -1,11 +1,11 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class AttachmentsViewModel : VisitzViewModel
+internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHolder
 {
-	public override void Create()
-	{
-		base.Create();
-	}
+	[ObservableProperty]
+	public CaseloadItem caseloadItem;
 }
