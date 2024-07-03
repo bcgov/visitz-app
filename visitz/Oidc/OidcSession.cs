@@ -38,21 +38,19 @@ namespace Oidc
                 loginResult = await AuthClient.LoginAsync(cancellationToken);
 
                 if (loginResult.IsError)
-                    throw new LoginException(loginResult.Error);
+                    throw new LoginException($"{loginResult.Error}: '{loginResult.ErrorDescription}'");
 
                 await TokenHolder.SaveAsync(loginResult);
             }
             finally
             {
+				bool success = !loginResult?.IsError ?? false;
 #if DEBUG
-                ConsoleTrace.TraceMethod(typeof(OidcSession),
-                    $"loginResult.IsError: '{loginResult?.IsError}', error: '{loginResult?.Error}'");
+				ConsoleTrace.TraceMethod(typeof(OidcSession),
+                    $"Login success: '{success}', Error: {loginResult.Error} -> '{loginResult.ErrorDescription}'");
 #endif
                 var info = await OidcSessionInfo.GetAsync();
-                SessionChanged?.Invoke(info, new LoginChangedEventArgs()
-                {
-                    Success = !loginResult?.IsError ?? false
-                });
+                SessionChanged?.Invoke(info, new LoginChangedEventArgs() { Success = success, });
             }
         }
 

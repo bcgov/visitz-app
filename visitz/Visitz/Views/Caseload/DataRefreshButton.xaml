@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<views:ViewModelContentView
+<baseClasses:ViewModelContentView
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+	xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
 	xmlns:controls="clr-namespace:Visitz.Controls"
 	xmlns:icons="clr-namespace:Visitz.FontIcons"
-	xmlns:viewModels="clr-namespace:Visitz.ViewModels"
-	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Caseload.DataRefreshButton"
-	x:DataType="viewModels:DataRefreshViewModel">
+	x:DataType="caseload:DataRefreshViewModel">
 
 	<StackLayout Orientation="{Binding Orientation}">
 		<Label
@@ -27,4 +27,4 @@
 			Command="{Binding RefreshDataCommand}"
 			Text="{Static icons:MaterialIcons.Download_for_offline}" />
 	</StackLayout>
-</views:ViewModelContentView>
+</baseClasses:ViewModelContentView>

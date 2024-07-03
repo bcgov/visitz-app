@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:publishing="clr-namespace:Visitz.Views.BaseClasses.Publishing"
+    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
+    x:Class="Visitz.Views.BaseClasses.Publishing.PublishPage"
+    x:DataType="publishing:PublishViewModel"
+    Title="{Binding Title}"
+    BackgroundColor="{StaticResource BC_Blue}"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False">
+
+    <!--
+        BUG (iOS, others unconfirmed): There seems to be an issue with Pages opened Modally. Opening another
+        modal dialog atop can "sometimes" cause Pages lower in the navigation stack to fire OnAppearing().
+        This can cause unexpected behaviour. For example, the NoteEntryPage issue that brought this to light:
+
+        Originally we opened this page modally, and the user may potentially be prompted to login. If they 
+        did start the login flow, when the WebView was opened in its own modal dialog, progressing partway 
+        through the login process would cause NoteEntryPage's OnAppearing() function to be called for an
+        unknown reason. In this case, a Keyboard event listener we registered would steal keyboard focus
+        away from the login WebView, completely preventing the user from logging in.
+
+        As a workaround, this page is now not opened modally anymore—even though it is presented as a modal
+        page using NavigationPage.HasBackButton="False" and NavigationPage.HasNavigationBar="False".
+    -->
+
+    <baseClasses:VisitzPage.Resources>        
+        <Style TargetType="Border">
+            <Setter Property="Stroke" Value="Transparent" />
+            <Setter Property="Padding" Value="{OnPlatform WinUI=8, Default=0}" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 64" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+
+        <Style TargetType="Grid" x:Key="StatusGrid">
+            <Setter Property="RowSpacing" Value="15" />
+            <Setter Property="ColumnDefinitions" Value="{OnPlatform WinUI='50,*', Default='40,*'}" />
+            <Setter Property="ColumnSpacing" Value="15" />
+        </Style>
+    </baseClasses:VisitzPage.Resources>
+
+    <Grid
+        Padding="32"
+        RowDefinitions="*,*,50"
+        ColumnDefinitions="*,*"
+        ColumnSpacing="10"
+        MaximumWidthRequest="800">
+
+        <Image 
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Source="note_publish.png"
+            Aspect="Center"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+
+        <VerticalStackLayout
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Spacing="8">
+
+        <Grid Style="{StaticResource StatusGrid}">
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="PublishStatus_Tapped"/>
+            </Grid.GestureRecognizers>
+
+            <ActivityIndicator
+                InputTransparent="True"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                IsVisible="{Binding ShowPublishingIndicator}"
+                IsRunning="true"
+                Color="White" />
+
+            <Border
+                InputTransparent="True"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Background="{StaticResource BC_Semantic_Success}"
+                IsVisible="{Binding ShowPublishSuccessIcon}">
+                <Image
+                    HeightRequest="32"
+                    WidthRequest="32">
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="{Static icons:MaterialIcons.Check}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Size="64" />
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <Border
+                InputTransparent="True"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Background="{StaticResource BC_Semantic_Error}"
+                IsVisible="{Binding ShowPublishErrorIcon}">
+                <Image
+                    HeightRequest="32"
+                    WidthRequest="32">
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="{Static icons:MaterialIcons.Error}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Size="64" />
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <ScrollView
+                InputTransparent="True"
+                Grid.Column="1"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                MaximumHeightRequest="180">
+                <Label
+                    Text="{Binding PublishingStatus}"
+                    TextColor="White"
+                    FontFamily="BCSansBold"
+                    HorizontalOptions="StartAndExpand"
+                    FontSize="28" />
+            </ScrollView>
+        </Grid>
+
+        <Grid Style="{StaticResource StatusGrid}">
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="RefreshStatus_Tapped"/>
+            </Grid.GestureRecognizers>
+            
+            <ActivityIndicator
+                Grid.Column="0"
+                InputTransparent="True"
+                VerticalOptions="Center"
+                IsVisible="{Binding ShowRefreshingIndicator}"
+                IsRunning="true"
+                Color="White" />
+
+            <Border
+                InputTransparent="True"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Background="{StaticResource BC_Semantic_Success}"
+                IsVisible="{Binding ShowRefreshSuccessIcon}">
+                <Image
+                    HeightRequest="32"
+                    WidthRequest="32">
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="{Static icons:MaterialIcons.Check}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Size="64" />
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <Border
+                InputTransparent="True"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Background="{StaticResource BC_Semantic_Error}"
+                IsVisible="{Binding ShowRefreshErrorIcon}">
+                <Image
+                    HeightRequest="32"
+                    WidthRequest="32">
+                    <Image.Source>
+                        <FontImageSource 
+                            Glyph="{Static icons:MaterialIcons.Error}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Size="64" />
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <ScrollView
+                InputTransparent="True"
+                Grid.Column="1"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                MaximumHeightRequest="180">
+                <Label
+                    Text="{Binding RefreshingStatus}"
+                    TextColor="White"
+                    FontFamily="BCSansBold"
+                    HorizontalOptions="StartAndExpand"
+                    FontSize="28" />
+            </ScrollView>
+        </Grid>
+        </VerticalStackLayout>
+
+        <Button
+            Grid.Row="3"
+            Grid.Column="0"
+            Text="{local:Localize Dismiss}"
+            HorizontalOptions="End"
+            Style="{StaticResource SecondaryButtonDark}"
+            Command="{Binding DismissCommand}" 
+            IsVisible="{Binding ShowRetrySection}" />
+
+        <Button 
+            Grid.Row="3"
+            Grid.Column="1"
+            Text="{local:Localize Retry}"
+            HorizontalOptions="Start"
+            Style="{StaticResource PrimaryButtonDark}"
+            Command="{Binding PublishCommand}" 
+            IsEnabled="{Binding AllowRetry}"
+            IsVisible="{Binding ShowRetrySection}" />
+
+        <ProgressBar
+            x:Name="DismissProgressBar"
+            IsVisible="False"
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            WidthRequest="100"
+            ProgressColor="White" />
+    </Grid>
+
+</baseClasses:VisitzPage>

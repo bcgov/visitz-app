@@ -1,5 +1,6 @@
 using Microsoft.Maui.Layouts;
 using Visitz.Resources.Styles;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.SplitView;
 

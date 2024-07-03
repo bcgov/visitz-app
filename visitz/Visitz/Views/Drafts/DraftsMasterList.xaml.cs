@@ -1,4 +1,4 @@
-using Visitz.ViewModels.Drafts;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Drafts;
 

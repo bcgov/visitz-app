@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<views:ViewModelContentView
+<baseClasses:ViewModelContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:debug="clr-namespace:Visitz.Views.Debugging"
-    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Debugging.DebugOptionsView"
-    x:DataType="viewmodels:DebugOptionsViewModel"
+    x:DataType="debug:DebugOptionsViewModel"
     BackgroundColor="White">
 
-    <views:ViewModelContentView.Resources>
+    <baseClasses:ViewModelContentView.Resources>
         <Style TargetType="View" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugLayout">
             <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="VerticalOptions" Value="Center" />
@@ -27,7 +26,7 @@
             <Setter Property="RowSpacing" Value="16" />
             <Setter Property="ColumnDefinitions" Value="1*,2*" />
         </Style>
-    </views:ViewModelContentView.Resources>
+    </baseClasses:ViewModelContentView.Resources>
 
     <ScrollView>
 
@@ -245,4 +244,4 @@
 
     </ScrollView>
 
-</views:ViewModelContentView>
+</baseClasses:ViewModelContentView>
