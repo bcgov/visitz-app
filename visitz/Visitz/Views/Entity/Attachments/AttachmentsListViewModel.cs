@@ -1,7 +1,116 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Realms;
+using System.Collections.ObjectModel;
+using Visitz.Resources.Localization;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class AttachmentsListViewModel : VisitzViewModel
+internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItemHolder
 {
+	[ObservableProperty]
+	public CaseloadItem caseloadItem;
+
+	Realm attachmentsRealm;
+
+	readonly ObservableRealmQueryMap realmQuery = new();
+
+	[ObservableProperty]
+	ObservableCollection<AttachmentDraft> attachmentDrafts = [];
+
+	[ObservableProperty]
+	public bool isLoading = true;
+
+	[ObservableProperty]
+	public bool isEmpty;
+
+	public override async void Create()
+	{
+		base.Create();
+
+		attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+
+		realmQuery.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
+				.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
+
+		realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
+	}
+
+	public override void Destroy()
+	{
+		base.Destroy();
+
+		realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+		realmQuery.Dispose();
+		attachmentsRealm.Dispose();
+	}
+
+	private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+	{
+		IsLoading = false;
+		IsEmpty = !realmQuery[typeof(AttachmentDraft)].Query.Any();
+
+		if (e.Changes == null)
+		{
+			foreach (var item in e.Items)
+				AttachmentDrafts.Add(item as AttachmentDraft);
+		}
+		else
+		{
+			foreach (int deleted in e.Changes.DeletedIndices)
+				AttachmentDrafts.RemoveAt(deleted);
+
+			foreach (int modified in e.Changes.ModifiedIndices)
+				AttachmentDrafts[modified] = e.Items[modified] as AttachmentDraft;
+
+			foreach (int inserted in e.Changes.InsertedIndices)
+				AttachmentDrafts.Insert(inserted, e.Items[inserted] as AttachmentDraft);
+		}
+	}
+
+	[RelayCommand]
+	public void PromptEditFilename(AttachmentDraft draft)
+	{
+		_ = DoPromptEditFilename(draft);
+	}
+
+	static async Task DoPromptEditFilename(AttachmentDraft draft)
+	{
+		string name = draft.Attachment.FilenameBinding;
+		string newName = await Navigator.CurrentOpenPage.DisplayPromptAsync(
+			LocalizedStrings.Rename,
+			null,
+			placeholder: name,
+			initialValue: name);
+
+		if (newName?.Trim() != null)
+			draft.Attachment.FilenameBinding = newName;
+	}
+
+	[RelayCommand]
+	public void DeleteAttachmentDraft(AttachmentDraft draft)
+	{
+		_ = PromptDiscardAttachmentDraft(draft);
+	}
+
+	async Task PromptDiscardAttachmentDraft(AttachmentDraft draft)
+	{
+		bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
+			LocalizedStrings.DiscardDraft,
+			LocalizedStrings.DiscardAttachmentDraftDescription,
+			LocalizedStrings.Discard,
+			LocalizedStrings.Cancel);
+
+		if (shouldDiscard)
+			await attachmentsRealm.WriteAsync(() => attachmentsRealm.Remove(draft));
+	}
+
+	[RelayCommand]
+	public void PublishAttachmentDraft(AttachmentDraft draft)
+	{
+
+	}
 }
