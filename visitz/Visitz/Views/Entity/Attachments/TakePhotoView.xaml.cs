@@ -83,8 +83,7 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 	{
 		try
 		{
-			string filepath = await ViewModel.CachePicture(e.Media);
-			CameraRollButton.Source = ImageSource.FromFile(filepath);
+			await ViewModel.SavePicture(e.Media);
 		}
 		catch (Exception ex)
 		{
