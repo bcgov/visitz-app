@@ -6,7 +6,13 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 {
-	public CaseloadItem CaseloadItem { get; set; }
+	new AttachmentsViewModel ViewModel => base.ViewModel as AttachmentsViewModel;
+
+	public CaseloadItem CaseloadItem
+	{
+		get => ViewModel.CaseloadItem;
+		set => AttachmentsList.CaseloadItem = ViewModel.CaseloadItem = value;
+	}
 
 	public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
 	{
@@ -17,6 +23,13 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 	private void AddPhotos_Clicked(object sender, EventArgs e)
 	{
 		_ = OpenTakePhotoView();
+	}
+
+	protected override void Destroying()
+	{
+		base.Destroying();
+
+		AttachmentsList.Destroy();
 	}
 
 	private async Task OpenTakePhotoView()

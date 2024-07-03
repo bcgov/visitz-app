@@ -21,6 +21,7 @@
 			Text="{local:Localize OnlyPublishAttachments}" />
 
 		<attachments:AttachmentsList
+			x:Name="AttachmentsList"
 			Grid.Row="1" />
 
 		<BoxView
