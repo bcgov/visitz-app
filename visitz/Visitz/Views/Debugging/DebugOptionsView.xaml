@@ -182,7 +182,7 @@
 
 			<Grid
 				RowDefinitions="Auto,Auto"
-				IsEnabled="{OnIdiom Desktop}">
+				IsEnabled="{OnIdiom Desktop=True, Default=False}">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
