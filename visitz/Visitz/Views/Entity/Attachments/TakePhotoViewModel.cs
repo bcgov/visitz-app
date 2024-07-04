@@ -39,7 +39,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		base.Create();
 
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-		attachmentFiler = await VisitzFiles.GetAsync(AttachmentFiler.PicturesPath, CaseloadItem);
+		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
 
 		await cameraProvider.RefreshAvailableCameras(Token);
 		Cameras = cameraProvider.AvailableCameras;
@@ -71,9 +71,12 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 	public async Task SavePicture(Stream stream)
 	{
 		byte[] thumbnailBytes = await MakeThumbnail(stream).AsBytesAsync();
-		string fullpath = await attachmentFiler.SaveFileAsync(stream, PictureFilenamePrepend, PictureFiletype);
 
-		var draft = AttachmentDraft.Make(fullpath, thumbnailBytes);
+		string obfuscatedName = Guid.NewGuid().ToString() + "." + PictureFiletype;
+		string fullpath = await attachmentFiler.SaveFileAsync(stream, obfuscatedName);
+
+		string realFilename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
+		var draft = AttachmentDraft.Make(realFilename, fullpath, thumbnailBytes);
 		draft.InitWith(CaseloadItem);
 
 		try

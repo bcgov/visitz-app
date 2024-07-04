@@ -23,7 +23,7 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 	{
 		base.Create();
 
-		attachmentFiler = await VisitzFiles.GetAsync(AttachmentFiler.PicturesPath, CaseloadItem);
+		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
 
 		DetailImage = ImageSource.FromStream(GetPhoto);
 	}

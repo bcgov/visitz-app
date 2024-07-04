@@ -42,7 +42,6 @@ public partial class Attachment
 		{
 			this.Commit(() => Fullpath = value);
 			RaisePropertyChanged(nameof(FullpathBinding));
-			RaisePropertyChanged(nameof(FilenameBinding));
 		}
 	}
 
@@ -52,7 +51,6 @@ public partial class Attachment
 		set
 		{
 			this.Commit(() => Filename = value);
-			RaisePropertyChanged(nameof(FullpathBinding));
 			RaisePropertyChanged(nameof(FilenameBinding));
 		}
 	}

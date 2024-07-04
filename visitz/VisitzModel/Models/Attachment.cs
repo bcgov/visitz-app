@@ -23,11 +23,13 @@ public partial class Attachment : IRealmObject, IRecordInfo
 
 	public byte[] Thumbnail { get; set; }
 
+	/// <summary>
+	/// Real path to file on file system. File name will be different than <see cref="Filename"/>.
+	/// </summary>
 	public string Fullpath { get; set; }
 
-	public string Filename
-	{
-		get => Path.GetFileName(Fullpath);
-		set => Fullpath = Path.Join(new FileInfo(Fullpath).DirectoryName, value);
-	}
+	/// <summary>
+	/// Virtual name of the attachment as stored in ICM.
+	/// </summary>
+	public string Filename { get; set; }
 }
