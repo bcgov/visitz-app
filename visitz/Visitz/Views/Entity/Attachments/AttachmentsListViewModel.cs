@@ -72,25 +72,6 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 	}
 
 	[RelayCommand]
-	public void PromptEditFilename(AttachmentDraft draft)
-	{
-		_ = DoPromptEditFilename(draft);
-	}
-
-	static async Task DoPromptEditFilename(AttachmentDraft draft)
-	{
-		string name = draft.Attachment.FilenameBinding;
-		string newName = await Navigator.CurrentOpenPage.DisplayPromptAsync(
-			LocalizedStrings.Rename,
-			null,
-			placeholder: name,
-			initialValue: name);
-
-		if (newName?.Trim() != null)
-			draft.Attachment.FilenameBinding = newName;
-	}
-
-	[RelayCommand]
 	public void DeleteAttachmentDraft(AttachmentDraft draft)
 	{
 		_ = PromptDiscardAttachmentDraft(draft);
