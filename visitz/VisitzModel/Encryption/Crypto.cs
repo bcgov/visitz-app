@@ -22,4 +22,18 @@ internal class Crypto(byte[] key)
 
 		await cryptoStream.CopyToAsync(fileStream);
 	}
+
+	public async Task<Stream> DecryptFromFileAsync(string fullpath)
+	{
+		FileStream fileStream = new(fullpath, FileMode.Open);
+
+		using Aes aes = Aes.Create();
+		aes.Key = _key;
+
+		var iv = new byte[aes.IV.Length];
+		await fileStream.ReadAsync(iv);
+		aes.IV = iv;
+
+		return new CryptoStream(fileStream, aes.CreateDecryptor(), CryptoStreamMode.Read);
+	}
 }
