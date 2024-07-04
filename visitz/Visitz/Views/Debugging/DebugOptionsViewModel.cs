@@ -109,7 +109,13 @@ namespace Visitz.Views.Debugging
             await DebugOptions.ClearSafetyAssessmentDraftsRealm();
         }
 
-        [RelayCommand]
+		[RelayCommand]
+		public static async Task ClearAttachmentDraft()
+		{
+			await DebugOptions.ClearAttachmentDraftsRealm();
+		}
+
+		[RelayCommand]
         public static async Task Load620bData()
         {
             try

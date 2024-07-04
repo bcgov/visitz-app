@@ -81,7 +81,7 @@
                 Background="AliceBlue"
                 Text="Database" />
 
-            <Grid RowDefinitions="Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="0"
@@ -96,9 +96,16 @@
                     Command="{Binding ClearSafetyAssessmentDraftCommand}"
                     Text="Clear SafetyAssessmentDraft data" />
 
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="2"
+					Grid.Column="1"
+					Command="{Binding ClearAttachmentDraftCommand}"
+					Text="Clear AttachmentDraft data" />
+
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="1"
                     Command="{Binding Load620bDataCommand}"
                     Text="Load 620b data" />
