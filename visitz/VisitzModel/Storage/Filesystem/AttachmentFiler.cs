@@ -52,4 +52,21 @@ public class AttachmentFiler(string basePath, CaseloadItem caseloadItem, byte[] 
 	{
 		return await WriteEncryptedFile(stream, AppDataPath, prepend, extension);
 	}
+
+	/// <summary>
+	/// Reads and decrypts a file from the requested full filepath.
+	/// </summary>
+	/// <param name="fullpath"></param>
+	/// <param name="token"></param>
+	/// <returns></returns>
+	public async Task<MemoryStream> GetAppDataFileAsync(string fullpath, CancellationToken? token = null)
+	{
+		await using var cryptoStream = await cryptoHandler.DecryptFromFileAsync(fullpath);
+
+		var memoryStream = new MemoryStream();
+		await cryptoStream.CopyToAsync(memoryStream, token ?? CancellationToken.None);
+
+		memoryStream.Seek(0, SeekOrigin.Begin);
+		return memoryStream;
+	}
 }
