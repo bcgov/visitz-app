@@ -32,12 +32,13 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	public Attachment Attachment { get; set; }
 
-	public static AttachmentDraft Make(string fullpath, byte[] thumbnail = null)
+	public static AttachmentDraft Make(string filename, string fullpath, byte[] thumbnail = null)
 	{
 		return new()
 		{
 			Attachment = new()
 			{
+				Filename = filename,
 				Fullpath = fullpath,
 				Thumbnail = thumbnail,
 			},

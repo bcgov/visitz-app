@@ -5,9 +5,9 @@ using VisitzModel.Models;
 
 namespace VisitzModel.Storage.Filesystem;
 
-public class AttachmentFiler(string basePath, CaseloadItem caseloadItem, byte[] key) : ICaseloadItemHolder
+public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadItemHolder
 {
-	public static readonly string PicturesPath = "Pictures";
+	public static readonly string BasePath = "Attachments";
 
 	readonly Crypto cryptoHandler = new(key);
 
@@ -19,23 +19,20 @@ public class AttachmentFiler(string basePath, CaseloadItem caseloadItem, byte[] 
 			? $"{CaseloadItem.KeyPlayer.LastName}_{CaseloadItem.KeyPlayer.FirstName}"
 			: CaseloadItemId;
 
-	string CachePath => Path.Combine(FileSystem.CacheDirectory, basePath, CaseloadItemId);
+	static string AppDataPath => Path.Combine(FileSystem.AppDataDirectory, BasePath);
 
-	string AppDataPath => Path.Combine(FileSystem.AppDataDirectory, basePath, CaseloadItemId);
-
-	static string MakeTimestamp() => DateTimeOffset.Now
+	public static string MakeTimestamp() => DateTimeOffset.Now
 		.ToString(IcmDateFormats.ImageTimestamp, CultureInfo.InvariantCulture);
 
-	string MakeFilename(string prepend, string extension)
+	public string MakeFilename(string prepend, string extension)
 	{
 		return $"{prepend}_{ContextualName}_{MakeTimestamp()}.{extension.Trim('.')}";
 	}
 
-	async Task<string> WriteEncryptedFile(Stream stream, string path, string prepend, string extension)
+	async Task<string> WriteEncryptedFile(Stream stream, string fullpath)
 	{
-		Directory.CreateDirectory(path);
+		Directory.CreateDirectory(new FileInfo(fullpath).DirectoryName);
 
-		string fullpath = Path.Combine(path, MakeFilename(prepend, extension));
 		await cryptoHandler.EncryptToFileAsync(stream, fullpath);
 
 		return fullpath;
@@ -45,12 +42,11 @@ public class AttachmentFiler(string basePath, CaseloadItem caseloadItem, byte[] 
 	/// Takes in a stream, encrypts, and saves it to AppAdata as an encrypted file with the provided extension.
 	/// </summary>
 	/// <param name="stream"></param>
-	/// <param name="prepend"></param>
-	/// <param name="extension"></param>
+	/// <param name="filename"></param>
 	/// <returns>Full path of the encrypted file that was created.</returns>
-	public async Task<string> SaveFileAsync(Stream stream, string prepend, string extension)
+	public async Task<string> SaveFileAsync(Stream stream, string filename)
 	{
-		return await WriteEncryptedFile(stream, AppDataPath, prepend, extension);
+		return await WriteEncryptedFile(stream, Path.Join(AppDataPath, filename));
 	}
 
 	/// <summary>
