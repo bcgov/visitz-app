@@ -97,14 +97,19 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 	}
 
 	[RelayCommand]
-	public static void OpenAttachment(AttachmentDraft draft)
+	public void OpenAttachment(AttachmentDraft draft)
 	{
 		_ = DoOpenAttachment(draft);
 	}
 
-	static async Task DoOpenAttachment(AttachmentDraft draft)
+	async Task DoOpenAttachment(AttachmentDraft draft)
 	{
-		var view = new PhotoDetailsView() { Attachment = draft.Attachment };
-		await Navigator.Navigation.PushModalAsync(view.WrapPageForModal(ViewModalSize.Fullscreen));
+		var view = new PhotoDetailsView()
+		{
+			Attachment = draft.Attachment,
+			CaseloadItem = CaseloadItem,
+		}.WrapPageForModal(ViewModalSize.Fullscreen);
+
+		await Navigator.Navigation.PushModalAsync(view);
 	}
 }
