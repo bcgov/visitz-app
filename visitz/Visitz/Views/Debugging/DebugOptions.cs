@@ -65,7 +65,20 @@ namespace Visitz.Views.Debugging
                 await (await VisitzRealms.GetSafetyAssessmentDraftAsync()).ClearAllData();
         }
 
-        public static async Task Load620bTestingRecords()
+		public static async Task ClearAttachmentDraftsRealm()
+		{
+			if (Enabled)
+			{
+				await (await VisitzRealms.GetAttachmentDraftsAsync()).ClearAllData();
+
+				string attachmentsPath = Path.Join(FileSystem.AppDataDirectory, "Attachments");
+
+				if (Directory.Exists(attachmentsPath))
+					Directory.Delete(attachmentsPath, true);
+			}
+		}
+
+		public static async Task Load620bTestingRecords()
         {
             await using var json = await FileSystem.OpenAppPackageFileAsync(Path.Join("MockIcmData", "620b.json"));
 
