@@ -13,8 +13,8 @@
 		<ActivityIndicator
 			AbsoluteLayout.LayoutFlags="PositionProportional"
 			AbsoluteLayout.LayoutBounds="0.5,0.5"
-			HeightRequest="{StaticResource ButtonSize}"
-			WidthRequest="{StaticResource ButtonSize}"
+			HeightRequest="64"
+			WidthRequest="64"
 			Color="{StaticResource BC_Gold}"
 			IsRunning="True" />
 		
