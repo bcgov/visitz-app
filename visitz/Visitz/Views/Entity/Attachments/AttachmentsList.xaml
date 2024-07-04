@@ -46,6 +46,13 @@
 				<DataTemplate x:DataType="model:AttachmentDraft">
 					<ContentView>
 						<VerticalStackLayout Padding="20,10,20,0">
+							<VerticalStackLayout.GestureRecognizers>
+								<TapGestureRecognizer
+									Command="{Binding OpenAttachmentCommand,
+													Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+									CommandParameter="{Binding .}" />
+							</VerticalStackLayout.GestureRecognizers>
+							
 							<Grid
 								HorizontalOptions="Fill"
 								ColumnDefinitions="Auto, *, Auto, Auto, Auto"
@@ -60,7 +67,8 @@
 										Aspect="AspectFill"
 										HeightRequest="100"
 										WidthRequest="100"
-										Source="{Binding Attachment.ThumbnailBinding, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
+										Source="{Binding Attachment.ThumbnailBinding,
+											Converter={StaticResource ByteArrayToImageSourceConverter}}" />
 								</Border>
 
 								<Label

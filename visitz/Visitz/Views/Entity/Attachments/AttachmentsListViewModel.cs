@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using System.Collections.ObjectModel;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -93,5 +94,17 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 	public void PublishAttachmentDraft(AttachmentDraft draft)
 	{
 
+	}
+
+	[RelayCommand]
+	public static void OpenAttachment(AttachmentDraft draft)
+	{
+		_ = DoOpenAttachment(draft);
+	}
+
+	static async Task DoOpenAttachment(AttachmentDraft draft)
+	{
+		var view = new PhotoDetailsView() { Attachment = draft.Attachment };
+		await Navigator.Navigation.PushModalAsync(view.WrapPageForModal(ViewModalSize.Fullscreen));
 	}
 }
