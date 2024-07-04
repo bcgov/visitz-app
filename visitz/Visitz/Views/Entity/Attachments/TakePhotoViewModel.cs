@@ -39,7 +39,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		base.Create();
 
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-		attachmentFiler = new(AttachmentFiler.PicturesPath, CaseloadItem);
+		attachmentFiler = await VisitzFiles.GetAsync(AttachmentFiler.PicturesPath, CaseloadItem);
 
 		await cameraProvider.RefreshAvailableCameras(Token);
 		Cameras = cameraProvider.AvailableCameras;
