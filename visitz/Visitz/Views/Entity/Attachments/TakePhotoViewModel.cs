@@ -70,8 +70,8 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 	public async Task SavePicture(Stream stream)
 	{
-		string fullpath = await attachmentFiler.SaveEncryptFileAsync(stream, PictureFilenamePrepend, PictureFiletype);
-		byte[] thumbnailBytes = await MakeThumbnail(stream, disposeStream: true).AsBytesAsync();
+		byte[] thumbnailBytes = await MakeThumbnail(stream).AsBytesAsync();
+		string fullpath = await attachmentFiler.SaveFileAsync(stream, PictureFilenamePrepend, PictureFiletype);
 
 		var draft = AttachmentDraft.Make(fullpath, thumbnailBytes);
 		draft.InitWith(CaseloadItem);
