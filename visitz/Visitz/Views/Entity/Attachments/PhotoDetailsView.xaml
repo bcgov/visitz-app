@@ -5,6 +5,7 @@
 	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
 	xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:icons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.Attachments.PhotoDetailsView"
 	x:DataType="attachments:PhotoDetailsViewModel"
 	BackgroundColor="Black">
@@ -29,6 +30,7 @@
 			AbsoluteLayout.LayoutBounds="0,0,1,-1"
 			BackgroundColor="{StaticResource Black55Scrim}"
 			ColumnDefinitions="Auto, *, Auto, Auto, Auto"
+			ColumnSpacing="{StaticResource DefaultSpacing}"
 			Padding="{StaticResource DefaultPadding}">
 
 			<controls:CloseButton
@@ -45,6 +47,26 @@
 				Grid.Column="2"
 				VerticalOptions="Center"
 				Renaming="{Binding Attachment.FilenameBinding}" />
+
+			<controls:FontIconButton
+				Grid.Column="3"
+				VerticalOptions="Center"
+				Text="{Static icons:MaterialIcons.Delete}"
+				TextColor="White"
+				FontFamily="MaterialIconsRoundedUnfilled"
+				Command="{Binding DeleteAttachmentDraftCommand,
+					Source={RelativeSource AncestorType={x:Type attachments:PhotoDetailsViewModel}}}"
+				CommandParameter="{Binding .}" />
+
+			<controls:FontIconButton
+				Grid.Column="4"
+				VerticalOptions="Center"
+				Text="{Static icons:MaterialIcons.Publish}"
+				FontFamily="MaterialIconsRoundedUnfilled"
+				TextColor="{StaticResource White}"
+				Command="{Binding PublishAttachmentDraftCommand,
+					Source={RelativeSource AncestorType={x:Type attachments:PhotoDetailsViewModel}}}"
+				CommandParameter="{Binding .}" />
 
 		</Grid>
 		
