@@ -54,36 +54,26 @@
 				Renaming="{Binding Attachment.FilenameBinding}"
 				TextColor="{StaticResource Gray500}" />
 
-			<Button
-				Style="{StaticResource MinimalButton}"
+			<controls:FontIconButton
 				Grid.Column="3"
 				VerticalOptions="Center"
+				Text="{Static icons:MaterialIcons.Delete}"
+				TextColor="{StaticResource Gray500}"
+				FontFamily="MaterialIconsRoundedUnfilled"
 				Command="{Binding DeleteAttachmentDraftCommand,
 					Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-				CommandParameter="{Binding .}">
-				<Button.ImageSource>
-					<FontImageSource 
-						Glyph="{Static icons:MaterialIcons.Delete}"
-						FontFamily="MaterialIconsRoundedUnfilled"
-						Size="20"
-						Color="{StaticResource Gray500}" />
-				</Button.ImageSource>
-			</Button>
+				CommandParameter="{Binding .}" />
 
-			<Button
+			<controls:FontIconButton
 				Grid.Column="4"
+				Style="{StaticResource PrimaryButtonLight}"
 				VerticalOptions="Center"
+				Text="{Static icons:MaterialIcons.Publish}"
+				FontFamily="MaterialIconsRoundedUnfilled"
+				TextColor="{StaticResource White}"
 				Command="{Binding PublishAttachmentDraftCommand,
 					Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-				CommandParameter="{Binding .}">
-				<Button.ImageSource>
-					<FontImageSource 
-						Glyph="{Static icons:MaterialIcons.Publish}"
-						FontFamily="MaterialIconsRoundedUnfilled"
-						Size="20"
-						Color="{StaticResource White}" />
-				</Button.ImageSource>
-			</Button>
+				CommandParameter="{Binding .}" />
 		</Grid>
 
 		<BoxView
