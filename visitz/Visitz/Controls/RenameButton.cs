@@ -32,7 +32,7 @@ internal class RenameButton : FontIconButton
 			placeholder: Renaming,
 			initialValue: Renaming);
 
-		if (newName != Renaming && newName?.Trim() != null)
+		if (newName != Renaming && newName?.Trim()?.Length > 0)
 			Renaming = newName;
 	}
 }
