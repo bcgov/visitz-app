@@ -50,8 +50,11 @@ public partial class Attachment
 		get => IsValid ? Filename : default;
 		set
 		{
-			this.Commit(() => Filename = value);
-			RaisePropertyChanged(nameof(FilenameBinding));
+			if (Filename != value)
+			{
+				this.Commit(() => Filename = value);
+				RaisePropertyChanged(nameof(FilenameBinding));
+			}
 		}
 	}
 }
