@@ -61,7 +61,11 @@
                         BUG: Using Background instead of BackgroundColor because of an issue:
                         https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
                     -->
-                    <VisualState x:Name="Normal" />
+					<VisualState x:Name="Normal">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="{StaticResource Primary}" />
+						</VisualState.Setters>
+					</VisualState>
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="Opacity" Value="0.3" />
@@ -92,8 +96,12 @@
                         BUG: Using Background instead of BackgroundColor because of an issue:
                         https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
                     -->
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
+					<VisualState x:Name="Normal">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="White" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
@@ -132,8 +140,12 @@
                         BUG: Using Background instead of BackgroundColor because of an issue:
                         https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
                     -->
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
+					<VisualState x:Name="Normal">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="Transparent" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
@@ -165,8 +177,12 @@
                         BUG: Using Background instead of BackgroundColor because of an issue:
                         https://github.com/dotnet/maui/issues/16562#issuecomment-1674953673
                     -->
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
+					<VisualState x:Name="Normal">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="Transparent" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
@@ -195,8 +211,12 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
+					<VisualState x:Name="Normal">
+						<VisualState.Setters>
+							<Setter Property="Background" Value="Transparent" />
+						</VisualState.Setters>
+					</VisualState>
+					<VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
