@@ -46,27 +46,30 @@
 			<controls:RenameButton
 				Grid.Column="2"
 				VerticalOptions="Center"
+				IsVisible="{Binding Attachment.HasDraft}"
 				Renaming="{Binding Attachment.FilenameBinding}" />
 
 			<controls:FontIconButton
 				Grid.Column="3"
 				VerticalOptions="Center"
+				IsVisible="{Binding Attachment.HasDraft}"
 				Text="{Static icons:MaterialIcons.Delete}"
 				TextColor="White"
 				FontFamily="MaterialIconsRoundedUnfilled"
 				Command="{Binding DeleteAttachmentDraftCommand,
 					Source={RelativeSource AncestorType={x:Type attachments:PhotoDetailsViewModel}}}"
-				CommandParameter="{Binding .}" />
+				CommandParameter="{Binding Attachment}" />
 
 			<controls:FontIconButton
 				Grid.Column="4"
 				VerticalOptions="Center"
+				IsVisible="{Binding Attachment.HasDraft}"
 				Text="{Static icons:MaterialIcons.Publish}"
 				FontFamily="MaterialIconsRoundedUnfilled"
 				TextColor="{StaticResource White}"
 				Command="{Binding PublishAttachmentDraftCommand,
 					Source={RelativeSource AncestorType={x:Type attachments:PhotoDetailsViewModel}}}"
-				CommandParameter="{Binding .}" />
+				CommandParameter="{Binding Attachment}" />
 
 		</Grid>
 		

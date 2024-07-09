@@ -1,5 +1,7 @@
 using Realms;
+using VisitzModel.Extensions;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 
 namespace VisitzModel.Models;
 
@@ -32,4 +34,32 @@ public partial class Attachment : IRealmObject, IRecordInfo
 	/// Virtual name of the attachment as stored in ICM.
 	/// </summary>
 	public string Filename { get; set; }
+
+	[Backlink(nameof(AttachmentDraft.Attachment))]
+	public IQueryable<AttachmentDraft> AttachmentDrafts { get; }
+
+#pragma warning disable RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
+	public AttachmentDraft Draft => AttachmentDrafts.FirstOrDefault();
+#pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
+
+	public bool HasDraft => Draft != null;
+
+	public static async Task DeleteAsync(Realm realm, Attachment attachment)
+	{
+		if (File.Exists(attachment.Fullpath))
+			File.Delete(attachment.Fullpath);
+
+		await attachment.CommitAsync(() =>
+		{
+			if (attachment.HasDraft)
+				realm.Remove(attachment.Draft);
+
+			realm.Remove(attachment);
+		});
+	}
+
+	public async Task DeleteAsync()
+	{
+		await DeleteAsync(Realm, this);
+	}
 }
