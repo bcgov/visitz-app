@@ -147,6 +147,7 @@
 					</VisualState>
 					<VisualState x:Name="Disabled">
                         <VisualState.Setters>
+							<Setter Property="Background" Value="Transparent" />
                             <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
                     </VisualState>
@@ -184,6 +185,7 @@
 					</VisualState>
 					<VisualState x:Name="Disabled">
                         <VisualState.Setters>
+							<Setter Property="BackgroundColor" Value="Transparent" />
                             <Setter Property="Opacity" Value="0.3" />
                         </VisualState.Setters>
                     </VisualState>
