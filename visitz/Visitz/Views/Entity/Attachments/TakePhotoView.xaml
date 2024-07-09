@@ -13,6 +13,7 @@
 
 	<baseClasses:BaseContentView.Resources>
 		<x:Double x:Key="ButtonSize">64</x:Double>
+		<x:Double x:Key="HalfButtonSize">32</x:Double>
 	</baseClasses:BaseContentView.Resources>
 
 	<AbsoluteLayout>
@@ -91,7 +92,7 @@
 						BackgroundColor="White"
 						HeightRequest="{StaticResource ButtonSize}"
 						WidthRequest="{StaticResource ButtonSize}"
-						CornerRadius="{Binding Source={StaticResource ButtonSize}}"
+						CornerRadius="{Binding Source={StaticResource HalfButtonSize}}"
 						Clicked="TakePictureButton_Clicked"
 						Command="{Binding CaptureImageCommand, Source={x:Reference Camera}}"
 						CommandParameter="{Binding Token}"
