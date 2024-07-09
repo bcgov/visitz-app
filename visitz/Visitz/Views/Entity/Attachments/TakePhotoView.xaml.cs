@@ -29,10 +29,22 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 	{
 		base.Creating();
 
+		Unloaded += TakePhotoView_Unloaded;
 		Camera.MediaCaptured += Camera_MediaCaptured;
 		Camera.MediaCaptureFailed += Camera_MediaCaptureFailed;
 
 		await InitCamera();
+	}
+
+	private void TakePhotoView_Unloaded(object sender, EventArgs e)
+	{
+		Camera.StopCameraPreview();
+		Camera.Handler.DisconnectHandler();
+
+		Camera.MediaCaptured -= Camera_MediaCaptured;
+		Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
+
+		Unloaded -= TakePhotoView_Unloaded;
 	}
 
 	async Task InitCamera()
@@ -54,17 +66,6 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 				ex.Message + " => " + ex.StackTrace,
 				LocalizedStrings.Ok);
 		}
-	}
-
-	protected override void Destroying()
-	{
-		base.Destroying();
-
-		Camera.StopCameraPreview();
-		Camera.Handler.DisconnectHandler();
-
-		Camera.MediaCaptured -= Camera_MediaCaptured;
-		Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
 	}
 
 	private void TakePictureButton_Clicked(object sender, EventArgs e)
