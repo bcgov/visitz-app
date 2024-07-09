@@ -111,7 +111,8 @@
 						x:Name="CameraRollButton"
 						HeightRequest="48"
 						WidthRequest="48"
-						Aspect="AspectFill" />
+						Aspect="AspectFill"
+						Clicked="CameraRollButton_Clicked"/>
 				</Border>
 			</VerticalStackLayout>
 			
