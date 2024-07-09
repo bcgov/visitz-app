@@ -73,12 +73,12 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 	}
 
 	[RelayCommand]
-	public void DeleteAttachmentDraft(AttachmentDraft draft)
+	public static void DeleteAttachmentDraft(AttachmentDraft draft)
 	{
-		_ = PromptDiscardAttachmentDraft(draft);
+		_ = PromptDiscardAttachmentDraftAsync(draft);
 	}
 
-	async Task PromptDiscardAttachmentDraft(AttachmentDraft draft)
+	static async Task PromptDiscardAttachmentDraftAsync(AttachmentDraft draft)
 	{
 		bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
 			LocalizedStrings.DiscardDraft,
@@ -87,7 +87,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 			LocalizedStrings.Cancel);
 
 		if (shouldDiscard)
-			await attachmentsRealm.WriteAsync(() => attachmentsRealm.Remove(draft));
+			await draft.Attachment.DeleteAsync();
 	}
 
 	[RelayCommand]

@@ -1,4 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
@@ -36,5 +38,30 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 	public override void Destroy()
 	{
 		base.Destroy();
+	}
+
+	[RelayCommand]
+	public static void DeleteAttachmentDraft(Attachment attachment)
+	{
+		if (attachment.HasDraft)
+			_ = PromptDiscardAttachmentAsync(attachment);
+	}
+
+	static async Task PromptDiscardAttachmentAsync(Attachment attachment)
+	{
+		bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
+			LocalizedStrings.DiscardDraft,
+			LocalizedStrings.DiscardAttachmentDraftDescription,
+			LocalizedStrings.Discard,
+			LocalizedStrings.Cancel);
+
+		if (shouldDiscard)
+			await attachment.DeleteAsync();
+	}
+
+	[RelayCommand]
+	public static void PublishAttachmentDraft(Attachment attachment)
+	{
+		// TODO
 	}
 }
