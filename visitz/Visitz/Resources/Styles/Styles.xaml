@@ -225,12 +225,12 @@
                     </VisualState>
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#11000000, Dark=#11000000}" />
+                            <Setter Property="Background" Value="{AppThemeBinding Light=#11000000, Dark=#11000000}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="Pressed">
                         <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#22000000, Dark=#22000000}" />
+                            <Setter Property="Background" Value="{AppThemeBinding Light=#22000000, Dark=#22000000}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
