@@ -34,6 +34,12 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 	int selectedCameraIndex;
 
+	[ObservableProperty]
+	public bool waitingToProcess = true;
+
+	[ObservableProperty]
+	public bool processing;
+
 	public override async void Create()
 	{
 		base.Create();
@@ -70,6 +76,8 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 	public async Task SavePicture(Stream stream)
 	{
+		WaitingToProcess = false;
+
 		byte[] thumbnailBytes = await MakeThumbnail(stream).AsBytesAsync();
 
 		string obfuscatedName = Guid.NewGuid().ToString() + "." + PictureFiletype;
@@ -90,11 +98,20 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 			throw;
 		}
+		finally
+		{
+			WaitingToProcess = true;
+		}
 	}
 
 	static IImage MakeThumbnail(Stream stream, bool disposeStream = false)
 	{
 		stream.Seek(0, SeekOrigin.Begin);
 		return PlatformImage.FromStream(stream).Downsize(200, disposeStream);
+	}
+
+	partial void OnWaitingToProcessChanged(bool value)
+	{
+		Processing = !value;
 	}
 }

@@ -94,8 +94,15 @@
 						CornerRadius="{Binding Source={StaticResource ButtonSize}}"
 						Clicked="TakePictureButton_Clicked"
 						Command="{Binding CaptureImageCommand, Source={x:Reference Camera}}"
-						CommandParameter="{Binding Token}">
-					</Button>
+						CommandParameter="{Binding Token}"
+						IsEnabled="{Binding WaitingToProcess}"/>
+
+					<ActivityIndicator
+						HeightRequest="{StaticResource ButtonSize}"
+						WidthRequest="{StaticResource ButtonSize}"
+						InputTransparent="True"
+						IsRunning="{Binding Processing}"
+						IsVisible="{Binding Processing}" />
 				</Grid>
 			</Border>
 
