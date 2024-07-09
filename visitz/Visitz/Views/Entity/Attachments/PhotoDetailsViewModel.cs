@@ -56,7 +56,10 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 			LocalizedStrings.Cancel);
 
 		if (shouldDiscard)
+		{
 			await attachment.DeleteAsync();
+			await Navigator.Navigation.PopModalAsync();
+		}
 	}
 
 	[RelayCommand]
