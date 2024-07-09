@@ -95,4 +95,9 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 	{
 		ConsoleTrace.TraceMethod(this);
 	}
+
+	private async void CameraRollButton_Clicked(object sender, EventArgs e)
+	{
+		await Navigator.Navigation.PopModalAsync();
+    }
 }
