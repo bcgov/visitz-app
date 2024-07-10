@@ -6,6 +6,9 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 {
+	static readonly IEnumerable<string> AllowedTypes = AttachmentsViewModel.AllowedImageTypes
+		.Concat(AttachmentsViewModel.AllowedDocumentTypes);
+
 	new AttachmentsViewModel ViewModel => base.ViewModel as AttachmentsViewModel;
 
 	public CaseloadItem CaseloadItem
@@ -20,9 +23,23 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 		BindingContext = ViewModel;
 	}
 
-	private void AddPhotos_Clicked(object sender, EventArgs e)
+	private async void AddPhotos_Clicked(object sender, EventArgs e)
 	{
-		_ = OpenTakePhotoView();
+		await OpenTakePhotoView();
+	}
+
+	private async void Browse_Clicked(object sender, EventArgs e)
+	{
+		var result = await FilePicker.Default.PickAsync(new()
+		{
+			FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
+			{
+				{ DevicePlatform.WinUI, AllowedTypes },
+			}),
+		});
+
+		if (result != null)
+			await ViewModel.SaveFile(result);
 	}
 
 	protected override void Destroying()

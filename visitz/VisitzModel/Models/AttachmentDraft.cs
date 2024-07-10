@@ -1,6 +1,7 @@
 using Realms;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models;
 
@@ -32,9 +33,17 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	public Attachment Attachment { get; set; }
 
-	public static AttachmentDraft Make(string filename, string fullpath, byte[] thumbnail = null)
+	public static async Task<AttachmentDraft> SaveNew(
+		AttachmentFiler filer,
+		Realm realm,
+		string filename,
+		Stream stream,
+		byte[] thumbnail = null)
 	{
-		return new()
+		string obfuscatedName = Guid.NewGuid().ToString() + new FileInfo(filename).Extension;
+		string fullpath = await filer.SaveFileAsync(stream, obfuscatedName);
+
+		var draft = new AttachmentDraft()
 		{
 			Attachment = new()
 			{
@@ -43,5 +52,20 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 				Thumbnail = thumbnail,
 			},
 		};
+		draft.InitWith(filer.CaseloadItem);
+
+		try
+		{
+			await realm.WriteAsync(() => realm.Add(draft));
+		}
+		catch
+		{
+			if (File.Exists(fullpath))
+				File.Delete(fullpath);
+
+			throw;
+		}
+
+		return draft;
 	}
 }

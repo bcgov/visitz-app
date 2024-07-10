@@ -1,14 +1,12 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Graphics.Platform;
 using Realms;
+using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
-using VisitzModel.Models.Drafts;
 using VisitzModel.Storage.Filesystem;
-using IImage = Microsoft.Maui.Graphics.IImage;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -75,36 +73,17 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 	{
 		WaitingToProcess = false;
 
-		byte[] thumbnailBytes = await MakeThumbnail(stream).AsBytesAsync();
-
-		string obfuscatedName = Guid.NewGuid().ToString() + "." + PictureFiletype;
-		string fullpath = await attachmentFiler.SaveFileAsync(stream, obfuscatedName);
-
-		string realFilename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
-		var draft = AttachmentDraft.Make(realFilename, fullpath, thumbnailBytes);
-		draft.InitWith(CaseloadItem);
-
 		try
 		{
-			await AttachmentsRealm.WriteAsync(() => AttachmentsRealm.Add(draft));
-		}
-		catch
-		{
-			if (File.Exists(fullpath))
-				File.Delete(fullpath);
+			byte[] thumbnailBytes = await stream.MakeThumbnail(AttachmentsViewModel.ThumbnailSize).AsBytesAsync();
+			string filename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
 
-			throw;
+			await AttachmentDraft.SaveNew(attachmentFiler, AttachmentsRealm, filename, stream, thumbnailBytes);
 		}
 		finally
 		{
 			WaitingToProcess = true;
 		}
-	}
-
-	static IImage MakeThumbnail(Stream stream, bool disposeStream = false)
-	{
-		stream.Seek(0, SeekOrigin.Begin);
-		return PlatformImage.FromStream(stream).Downsize(200, disposeStream);
 	}
 
 	partial void OnWaitingToProcessChanged(bool value)

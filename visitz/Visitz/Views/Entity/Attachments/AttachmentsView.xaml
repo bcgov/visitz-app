@@ -39,6 +39,7 @@
 				Style="{StaticResource SecondaryButton}"
 				Grid.Column="1"
 				Text="{local:Localize Browse}"
+				Clicked="Browse_Clicked"
 				IsVisible="{OnPlatform iOS=False}">
 				<Button.ImageSource>
 					<FontImageSource 
