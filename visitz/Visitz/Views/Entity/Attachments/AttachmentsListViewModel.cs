@@ -6,6 +6,8 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Snackbar;
+using VisitzModel.Extensions;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.Attachments;
@@ -87,7 +89,11 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 			LocalizedStrings.Cancel);
 
 		if (shouldDiscard)
+		{
+			string filename = draft.Attachment.Filename;
 			await draft.Attachment.DeleteAsync();
+			SnackbarHandler.ShowText(LocalizedStrings.FileDeleted.Format(filename));
+		}
 	}
 
 	[RelayCommand]
