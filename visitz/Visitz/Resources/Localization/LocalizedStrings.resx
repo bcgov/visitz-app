@@ -738,8 +738,8 @@ Do you want to discard this unlinked draft permanently?</value>
   <data name="Rename" xml:space="preserve">
     <value>Rename</value>
   </data>
-  <data name="FileDeleted" xml:space="preserve">
-    <value>'{0}' deleted</value>
+  <data name="FileDiscarded" xml:space="preserve">
+    <value>'{0}' discarded</value>
     <comment>0 = Filename</comment>
   </data>
 </root>
