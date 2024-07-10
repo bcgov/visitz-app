@@ -64,7 +64,7 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 			await attachment.DeleteAsync();
 			await Navigator.Navigation.PopModalAsync();
 
-			SnackbarHandler.ShowText(LocalizedStrings.FileDeleted.Format(filename));
+			SnackbarHandler.ShowText(LocalizedStrings.FileDiscarded.Format(filename));
 		}
 	}
 

@@ -92,7 +92,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 		{
 			string filename = draft.Attachment.Filename;
 			await draft.Attachment.DeleteAsync();
-			SnackbarHandler.ShowText(LocalizedStrings.FileDeleted.Format(filename));
+			SnackbarHandler.ShowText(LocalizedStrings.FileDiscarded.Format(filename));
 		}
 	}
 

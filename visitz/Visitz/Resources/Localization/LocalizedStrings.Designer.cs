@@ -640,11 +640,11 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; deleted.
+        ///   Looks up a localized string similar to &apos;{0}&apos; discarded.
         /// </summary>
-        public static string FileDeleted {
+        public static string FileDiscarded {
             get {
-                return ResourceManager.GetString("FileDeleted", resourceCulture);
+                return ResourceManager.GetString("FileDiscarded", resourceCulture);
             }
         }
         
