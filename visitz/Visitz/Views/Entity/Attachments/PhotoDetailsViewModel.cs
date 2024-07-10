@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Snackbar;
+using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Storage.Filesystem;
 
@@ -57,8 +59,12 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 
 		if (shouldDiscard)
 		{
+			string filename = attachment.Filename;
+
 			await attachment.DeleteAsync();
 			await Navigator.Navigation.PopModalAsync();
+
+			SnackbarHandler.ShowText(LocalizedStrings.FileDeleted.Format(filename));
 		}
 	}
 
