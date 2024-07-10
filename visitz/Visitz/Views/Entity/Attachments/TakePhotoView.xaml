@@ -94,8 +94,6 @@
 						WidthRequest="{StaticResource ButtonSize}"
 						CornerRadius="{Binding Source={StaticResource HalfButtonSize}}"
 						Clicked="TakePictureButton_Clicked"
-						Command="{Binding CaptureImageCommand, Source={x:Reference Camera}}"
-						CommandParameter="{Binding Token}"
 						IsEnabled="{Binding WaitingToProcess}"/>
 
 					<ActivityIndicator

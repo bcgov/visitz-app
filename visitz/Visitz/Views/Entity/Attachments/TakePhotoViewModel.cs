@@ -17,9 +17,6 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 	public static readonly string PictureFiletype = "jpg";
 	public static readonly string PictureFilenamePrepend = "Pic";
 
-	[ObservableProperty]
-	CancellationToken token = CancellationToken.None;
-
 	Realm AttachmentsRealm { get; set; }
 
 	AttachmentFiler attachmentFiler;
@@ -47,7 +44,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
 
-		await cameraProvider.RefreshAvailableCameras(Token);
+		await cameraProvider.RefreshAvailableCameras(CancellationToken.None);
 		Cameras = cameraProvider.AvailableCameras;
 
 		if (Cameras.Count > 0)

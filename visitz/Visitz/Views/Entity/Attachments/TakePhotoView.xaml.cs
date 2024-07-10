@@ -51,7 +51,7 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 	{
 		try
 		{
-			await Camera.StartCameraPreview(ViewModel.Token);
+			await Camera.StartCameraPreview(CancellationToken.None);
 		}
 		catch (TaskCanceledException ex)
 		{
@@ -68,9 +68,11 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 		}
 	}
 
-	private void TakePictureButton_Clicked(object sender, EventArgs e)
+	private async void TakePictureButton_Clicked(object sender, EventArgs e)
 	{
 		_ = AnimateSnapshotAsync();
+
+		await Camera.CaptureImage(CancellationToken.None);
 	}
 
 	private async Task AnimateSnapshotAsync()
