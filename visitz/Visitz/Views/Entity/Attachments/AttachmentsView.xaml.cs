@@ -6,8 +6,8 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 {
-	static readonly IEnumerable<string> AllowedTypes = AttachmentsViewModel.AllowedImageTypes
-		.Concat(AttachmentsViewModel.AllowedDocumentTypes);
+	static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes
+		.Concat(Attachment.AllowedDocumentTypes);
 
 	new AttachmentsViewModel ViewModel => base.ViewModel as AttachmentsViewModel;
 

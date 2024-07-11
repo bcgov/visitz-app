@@ -10,8 +10,6 @@ namespace Visitz.Views.Entity.Attachments;
 
 internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHolder
 {
-	public static readonly IEnumerable<string> AllowedImageTypes = [".jpg", ".jpeg"];
-	public static readonly IEnumerable<string> AllowedDocumentTypes = [ ".pdf" ];
 	public static readonly float ThumbnailSize = 100.0f;
 
 	[ObservableProperty]
@@ -35,7 +33,7 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 		await using Stream stream = await fileResult.OpenReadAsync();
 		byte[] thumbnail = null;
 
-		if (AllowedImageTypes.Contains(extension.ToLowerInvariant()))
+		if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
 			thumbnail = await stream.MakeThumbnail(ThumbnailSize).AsBytesAsync(ImageFormat.Jpeg);
 
 		await AttachmentDraft.SaveNew(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream, thumbnail);
