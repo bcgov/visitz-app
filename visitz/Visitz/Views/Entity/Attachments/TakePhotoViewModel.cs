@@ -75,7 +75,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 		try
 		{
-			byte[] thumbnailBytes = await stream.MakeThumbnail(AttachmentsViewModel.ThumbnailSize).AsBytesAsync();
+			byte[] thumbnailBytes = await stream.MakeThumbnail(AttachmentsViewModel.ThumbnailSize).AsBytesAsync(ImageFormat.Jpeg);
 			string filename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
 
 			await AttachmentDraft.SaveNew(attachmentFiler, AttachmentsRealm, filename, stream, thumbnailBytes);
