@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using System.Text;
 using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -16,6 +17,8 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 	public static readonly string PictureFilenamePrepend = "Pic";
 
 	Realm AttachmentsRealm { get; set; }
+
+	readonly ObservableRealmQueryMap queryMap = new();
 
 	AttachmentFiler attachmentFiler;
 
@@ -35,6 +38,9 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 	[ObservableProperty]
 	public bool processing;
 
+	[ObservableProperty]
+	public byte[] rollBytes;
+
 	public override async void Create()
 	{
 		base.Create();
@@ -43,6 +49,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
 
 		await SetupCameras();
+		SetupCameraRoll();
 	}
 
 	public override void Destroy()
@@ -50,6 +57,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		base.Destroy();
 
 		AttachmentsRealm.Dispose();
+		queryMap.Dispose();
 	}
 
 	private async Task SetupCameras()
@@ -72,6 +80,38 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 	{
 		selectedCameraIndex++;
 		return selectedCameraIndex %= Cameras.Count;
+	}
+
+	private void SetupCameraRoll()
+	{
+		queryMap.ItemsChanged += QueryMap_ItemsChanged;
+
+		StringBuilder queryBuilder = new();
+		string name = nameof(AttachmentDraft.Attachment) + "." + nameof(Attachment.Filename);
+
+		foreach (string ext in Attachment.AllowedImageTypes)
+			queryBuilder.Append($" {name} ENDSWITH '{ext}' OR");
+
+		string filetypeQuery = queryBuilder.ToString();
+		filetypeQuery = filetypeQuery[..filetypeQuery.LastIndexOf("OR")];
+
+		queryMap.Subscribe(AttachmentsRealm, AttachmentsRealm
+			.All<AttachmentDraft>()
+			.Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
+			.Filter(filetypeQuery)
+			.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber)
+		);
+	}
+
+	private void QueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+	{
+		if (e.Changes == null)
+		{
+			if (e.Items.Any())
+				RollBytes = (e.Items[0] as AttachmentDraft).Attachment.ThumbnailBinding;
+		}
+		else if (e.Changes.InsertedIndices.Length > 0)
+			RollBytes = (e.Items[e.Changes.InsertedIndices[0]] as AttachmentDraft).Attachment.ThumbnailBinding;
 	}
 
 	public async Task SavePicture(Stream stream)

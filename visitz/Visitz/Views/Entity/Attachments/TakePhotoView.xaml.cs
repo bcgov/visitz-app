@@ -44,6 +44,8 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 		Camera.MediaCaptured -= Camera_MediaCaptured;
 		Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
 
+		ViewModel.Destroy();
+
 		Unloaded -= TakePhotoView_Unloaded;
 	}
 
