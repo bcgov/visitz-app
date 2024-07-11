@@ -1,11 +1,14 @@
 using Realms;
 using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models;
 
 public partial class Attachment : IRealmObject, IRecordInfo
 {
+	public static readonly int MaxFilesize = 5 * Sizes.MB;
+
 	public string RelatedEntityId { get; set; }
 
 	private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
