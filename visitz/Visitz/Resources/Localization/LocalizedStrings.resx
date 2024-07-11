@@ -742,4 +742,10 @@ Do you want to discard this unlinked draft permanently?</value>
     <value>'{0}' discarded</value>
     <comment>0 = Filename</comment>
   </data>
+  <data name="CopyToClipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="CopiedToClipboard" xml:space="preserve">
+    <value>Copied to clipboard</value>
+  </data>
 </root>
