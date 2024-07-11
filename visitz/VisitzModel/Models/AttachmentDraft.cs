@@ -43,16 +43,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		string obfuscatedName = Guid.NewGuid().ToString() + new FileInfo(filename).Extension;
 		string fullpath = await filer.SaveFileAsync(stream, obfuscatedName);
 
-		var draft = new AttachmentDraft()
-		{
-			Attachment = new()
-			{
-				Filename = filename,
-				Fullpath = fullpath,
-				Thumbnail = thumbnail,
-			},
-		};
-		draft.InitWith(filer.CaseloadItem);
+		var draft = MakeDraft(filer, filename, fullpath, thumbnail);
 
 		try
 		{
@@ -65,6 +56,22 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 			throw;
 		}
+
+		return draft;
+	}
+
+	static AttachmentDraft MakeDraft(AttachmentFiler filer, string filename, string fullpath, byte[] thumbnail)
+	{
+		var draft = new AttachmentDraft()
+		{
+			Attachment = new()
+			{
+				Filename = filename,
+				Fullpath = fullpath,
+				Thumbnail = thumbnail,
+			},
+		};
+		draft.InitWith(filer.CaseloadItem);
 
 		return draft;
 	}
