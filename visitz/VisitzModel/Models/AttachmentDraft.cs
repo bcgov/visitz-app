@@ -1,6 +1,9 @@
 using Realms;
+using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Resources.Localization;
 using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models;
@@ -40,6 +43,12 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		Stream stream,
 		byte[] thumbnail = null)
 	{
+		if (stream.Length > Attachment.MaxFilesize)
+		{
+			double tooLargeSize = stream.Length / (double)Sizes.MB;
+			throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
+		}
+
 		string obfuscatedName = Guid.NewGuid().ToString() + new FileInfo(filename).Extension;
 		string fullpath = await filer.SaveFileAsync(stream, obfuscatedName);
 
