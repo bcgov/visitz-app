@@ -12,7 +12,7 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 {
 	public static readonly IEnumerable<string> AllowedImageTypes = [".jpg", ".jpeg"];
 	public static readonly IEnumerable<string> AllowedDocumentTypes = [ ".pdf" ];
-	public static readonly float ThumbnailSize = 200.0f;
+	public static readonly float ThumbnailSize = 100.0f;
 
 	[ObservableProperty]
 	public CaseloadItem caseloadItem;
