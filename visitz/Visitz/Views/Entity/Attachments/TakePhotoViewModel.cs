@@ -42,11 +42,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
 
-		await cameraProvider.RefreshAvailableCameras(CancellationToken.None);
-		Cameras = cameraProvider.AvailableCameras;
-
-		if (Cameras.Count > 0)
-			SelectedCamera = Cameras[0];
+		await SetupCameras();
 	}
 
 	public override void Destroy()
@@ -54,6 +50,15 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		base.Destroy();
 
 		AttachmentsRealm.Dispose();
+	}
+
+	private async Task SetupCameras()
+	{
+		await cameraProvider.RefreshAvailableCameras(CancellationToken.None);
+		Cameras = cameraProvider.AvailableCameras;
+
+		if (Cameras.Count > 0)
+			SelectedCamera = Cameras[0];
 	}
 
 	[RelayCommand]
