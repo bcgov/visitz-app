@@ -38,8 +38,22 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 			}),
 		});
 
-		if (result != null)
+		await SaveFile(result);
+	}
+
+	private async Task SaveFile(FileResult result)
+	{
+		if (result == null)
+			return;
+
+		try
+		{
 			await ViewModel.SaveFile(result);
+		}
+		catch (Exception ex)
+		{
+			await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+		}
 	}
 
 	protected override void Destroying()
