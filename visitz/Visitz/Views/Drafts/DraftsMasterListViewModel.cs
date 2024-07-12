@@ -52,9 +52,9 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 
 		realmCount.CountChanged += RealmCount_CountChanged;
 
+		realmCount.Subscribe<AttachmentDraft>(await VisitzRealms.GetAttachmentDraftsRealmAsync());
 		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
 		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
-		realmCount.Subscribe<AttachmentDraft>(await VisitzRealms.GetAttachmentDraftsRealmAsync());
 	}
 
 	public override void Destroy()
