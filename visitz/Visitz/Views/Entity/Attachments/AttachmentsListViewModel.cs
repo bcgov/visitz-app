@@ -48,7 +48,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 
 		realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
 		realmQuery.Dispose();
-		attachmentsRealm.Dispose();
+		attachmentsRealm?.Dispose();
 	}
 
 	private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
