@@ -103,6 +103,9 @@ namespace Visitz.Views.Caseload
 		public HashSet<(string EntityId, EntityType Type)> draftedAssessments = [];
 
 		[ObservableProperty]
+		public HashSet<(string EntityId, EntityType Type)> draftedAttachments = [];
+
+		[ObservableProperty]
 		public HashSet<(string EntityId, EntityType Type)> draftedItems = [];
 
         private async Task Setup()
@@ -135,6 +138,9 @@ namespace Visitz.Views.Caseload
 
 			var assessmentDraft = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
 			realmQueryMap.Subscribe(assessmentDraft, assessmentDraft.All<AssessmentDraft>());
+
+			var attachmentDraft = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+			realmQueryMap.Subscribe(attachmentDraft, attachmentDraft.All<AttachmentDraft>());
 		}
 
 		private void Teardown()
@@ -315,12 +321,15 @@ namespace Visitz.Views.Caseload
 				DraftedNotes = drafted;
 			else if (e.Type == typeof(AssessmentDraft))
 				DraftedAssessments = drafted;
+			else if (e.Type == typeof(AttachmentDraft))
+				DraftedAttachments = drafted;
 		}
 
 		partial void OnDraftedNotesChanged(HashSet<(string EntityId, EntityType Type)> value)
 		{
 			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
 			newSet.UnionWith(DraftedAssessments);
+			newSet.UnionWith(DraftedAttachments);
 			DraftedItems = newSet;
 		}
 
@@ -328,6 +337,15 @@ namespace Visitz.Views.Caseload
 		{
 			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
 			newSet.UnionWith(DraftedNotes);
+			newSet.UnionWith(DraftedAttachments);
+			DraftedItems = newSet;
+		}
+
+		partial void OnDraftedAttachmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
+		{
+			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
+			newSet.UnionWith(DraftedNotes);
+			newSet.UnionWith(DraftedAssessments);
 			DraftedItems = newSet;
 		}
 	}
