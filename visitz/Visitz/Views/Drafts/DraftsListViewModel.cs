@@ -113,7 +113,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
 	{
 		var realm = draft.Realm;
 
-		await realm.WriteAsync(() =>
+		await realm.WriteAsync(async () =>
 		{
 			if (draft is AssessmentDraft)
 			{
@@ -121,9 +121,13 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
 				if (assessment != null)
 					realm.Remove(assessment);
-			}
 
-			realm.Remove(draft);
+				realm.Remove(draft);
+			}
+			else if (draft is AttachmentDraft attachmentDraft)
+				await attachmentDraft.Attachment.DeleteAsync();
+			else
+				realm.Remove(draft);
 		});
 	}
 }
