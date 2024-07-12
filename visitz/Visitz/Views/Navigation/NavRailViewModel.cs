@@ -105,6 +105,7 @@ public partial class NavRailViewModel : VisitzViewModel
 	{
 		realmCount.CountChanged += RealmCount_CountChanged;
 
+		realmCount.Subscribe<AttachmentDraft>(await VisitzRealms.GetAttachmentDraftsRealmAsync());
 		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
 		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
 	}
