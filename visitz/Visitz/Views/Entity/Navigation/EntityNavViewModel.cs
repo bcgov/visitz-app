@@ -117,6 +117,10 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 		realmQueryMap.Subscribe(noteRealm, noteRealm.All<NoteDraft>()
 			.Where(draft => draft.ParentEntityId == CaseloadItem.CaseIncidentNumber));
 
+		var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+		realmQueryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
+			.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
+
 		if (ShouldShowSafetyAssessment())
 		{
 			var assessmentRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
@@ -131,6 +135,8 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 			Notes.HasDraft = e.Items.Any();
 		else if (e.Type == typeof(AssessmentDraft))
 			SafetyAssessment.HasDraft = e.Items.Any();
+		else if (e.Type == typeof(AttachmentDraft))
+			Attachments.HasDraft = e.Items.Any();
 	}
 
 	public void SetRequestedSection(EntitySection section)
@@ -147,6 +153,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 			EntitySection.Family => FamilyMembers,
 			EntitySection.Notes or EntitySection.NoteEntry => Notes,
 			EntitySection.SafetyAssessment => SafetyAssessment,
+			EntitySection.Attachments => Attachments,
 			_ => Details,
 		};
 	}
