@@ -39,6 +39,13 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 		ItemType = typeof(AssessmentDraft),
 	};
 
+	[ObservableProperty]
+	MasterDraftItem attachmentsDraftItem = new()
+	{
+		Name = LocalizedStrings.Attachments,
+		ItemType = typeof(AttachmentDraft),
+	};
+
 	public override async void Create()
 	{
 		base.Create();
@@ -47,6 +54,7 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 
 		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
 		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
+		realmCount.Subscribe<AttachmentDraft>(await VisitzRealms.GetAttachmentDraftsRealmAsync());
 	}
 
 	public override void Destroy()
@@ -65,6 +73,8 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 			UpdateItem(NoteDraftItem, e.Count);
 		else if (e.Kind == typeof(AssessmentDraft))
 			UpdateItem(AssessmentDraftItem, e.Count);
+		else if (e.Kind == typeof(AttachmentDraft))
+			UpdateItem(AttachmentsDraftItem, e.Count);
 	}
 
 	void UpdateItem(MasterDraftItem item, int count)
