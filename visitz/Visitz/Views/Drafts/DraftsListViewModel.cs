@@ -63,6 +63,11 @@ internal partial class DraftsListViewModel : VisitzViewModel
 			SortAndSubscribe(realm, realm.All<AssessmentDraft>());
 			SectionToOpen = EntitySection.SafetyAssessment;
 		}
+		else if (type == typeof(AttachmentDraft))
+		{
+			SortAndSubscribe(realm, realm.All<AttachmentDraft>());
+			SectionToOpen = EntitySection.Attachments;
+		}
 		else
 			throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
 	}
