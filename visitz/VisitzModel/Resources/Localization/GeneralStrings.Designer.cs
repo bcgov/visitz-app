@@ -61,6 +61,15 @@ namespace VisitzModel.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File too large ({0} MB).
+        /// </summary>
+        internal static string FileTooLarge {
+            get {
+                return ResourceManager.GetString("FileTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Safety assessment.
         /// </summary>
         internal static string SafetyAssessment {

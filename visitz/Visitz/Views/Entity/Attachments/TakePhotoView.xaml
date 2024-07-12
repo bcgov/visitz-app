@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:ViewModelContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+	xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:icons="clr-namespace:Visitz.FontIcons"
+	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="Visitz.Views.Entity.Attachments.TakePhotoView"
+	x:DataType="attachments:TakePhotoViewModel"
+	BackgroundColor="Black">
+
+	<baseClasses:BaseContentView.Resources>
+		<x:Double x:Key="ButtonSize">64</x:Double>
+		<x:Double x:Key="HalfButtonSize">32</x:Double>
+		
+		<ResourceDictionary>
+			<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+		</ResourceDictionary>
+	</baseClasses:BaseContentView.Resources>
+
+	<AbsoluteLayout>
+		<ActivityIndicator
+			AbsoluteLayout.LayoutFlags="PositionProportional"
+			AbsoluteLayout.LayoutBounds="0.5,0.5"
+			HeightRequest="{StaticResource ButtonSize}"
+			WidthRequest="{StaticResource ButtonSize}"
+			Color="{StaticResource BC_Gold}"
+			IsRunning="True" />
+
+		<toolkit:CameraView
+			x:Name="Camera"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			SelectedCamera="{Binding SelectedCamera}" />
+
+		<BoxView
+			x:Name="SnapshotLayer"
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			Color="Black"
+			IsVisible="False"/>
+
+		<HorizontalStackLayout
+			AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
+			AbsoluteLayout.LayoutBounds="0,0,1,-1"
+			BackgroundColor="{StaticResource Black55Scrim}"
+			Padding="{StaticResource DefaultPadding}">
+
+			<controls:CloseButton />
+
+		</HorizontalStackLayout>
+
+		<Grid
+			AbsoluteLayout.LayoutFlags="XProportional,YProportional,HeightProportional"
+			AbsoluteLayout.LayoutBounds="1,0,-1,1"
+			RowDefinitions="*,Auto,*"
+			RowSpacing="{StaticResource DefaultSpacing}">
+
+			<VerticalStackLayout
+				Grid.Row="0"
+				VerticalOptions="End">
+				<Button
+					Style="{StaticResource MinimalButton}"
+					BorderWidth="0"
+					HorizontalOptions="Center"
+					Command="{Binding SelectNextCameraCommand}">
+					<Button.ImageSource>
+						<FontImageSource
+							Glyph="{Static icons:MaterialIcons.Camera_rear}"
+							FontFamily="MaterialIconsRoundedUnfilled" />
+					</Button.ImageSource>
+				</Button>
+			</VerticalStackLayout>
+
+			<Border
+				Grid.Row="1"
+				StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
+				Stroke="White"
+				StrokeThickness="2"
+				Padding="{StaticResource DefaultSpacing}"
+				Margin="20">
+
+				<Grid>
+					<BoxView
+						Color="White"
+						HeightRequest="{StaticResource ButtonSize}"
+						WidthRequest="{StaticResource ButtonSize}"
+						CornerRadius="{StaticResource ButtonSize}"/>
+
+					<Button
+						Style="{StaticResource SecondaryButton}"
+						FontAutoScalingEnabled="False"
+						BorderWidth="0"
+						BackgroundColor="White"
+						HeightRequest="{StaticResource ButtonSize}"
+						WidthRequest="{StaticResource ButtonSize}"
+						CornerRadius="{Binding Source={StaticResource HalfButtonSize}}"
+						Clicked="TakePictureButton_Clicked"
+						IsEnabled="{Binding WaitingToProcess}"/>
+
+					<ActivityIndicator
+						HeightRequest="{StaticResource ButtonSize}"
+						WidthRequest="{StaticResource ButtonSize}"
+						InputTransparent="True"
+						IsRunning="{Binding Processing}"
+						IsVisible="{Binding Processing}" />
+				</Grid>
+			</Border>
+
+			<VerticalStackLayout
+				Grid.Row="2"
+				VerticalOptions="Start">
+				<Border
+					HorizontalOptions="Center"
+					Stroke="White"
+					StrokeThickness="2">
+
+					<ImageButton
+						x:Name="CameraRollButton"
+						HeightRequest="48"
+						WidthRequest="48"
+						Aspect="AspectFill"
+						Clicked="CameraRollButton_Clicked"
+						CornerRadius="0"
+						Source="{Binding RollBytes, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
+				</Border>
+			</VerticalStackLayout>
+			
+		</Grid>
+
+	</AbsoluteLayout>
+
+</baseClasses:ViewModelContentView>

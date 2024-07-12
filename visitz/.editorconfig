@@ -9,3 +9,4 @@ insert_final_newline = true
 
 [*.cs]
 csharp_style_namespace_declarations = file_scoped
+dotnet_diagnostic.SS003.severity = none

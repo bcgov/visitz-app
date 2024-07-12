@@ -308,6 +308,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copied to clipboard.
+        /// </summary>
+        public static string CopiedToClipboard {
+            get {
+                return ResourceManager.GetString("CopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to clipboard.
+        /// </summary>
+        public static string CopyToClipboard {
+            get {
+                return ResourceManager.GetString("CopyToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date of assessment.
         /// </summary>
         public static string DateOfAssessment {
@@ -380,6 +398,15 @@ namespace Visitz.Resources.Localization {
         public static string Discard {
             get {
                 return ResourceManager.GetString("Discard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this attachment draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardAttachmentDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardAttachmentDraftDescription", resourceCulture);
             }
         }
         
@@ -627,6 +654,15 @@ namespace Visitz.Resources.Localization {
         public static string File {
             get {
                 return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; discarded.
+        /// </summary>
+        public static string FileDiscarded {
+            get {
+                return ResourceManager.GetString("FileDiscarded", resourceCulture);
             }
         }
         
@@ -1227,6 +1263,15 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingNotes {
             get {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        public static string Rename {
+            get {
+                return ResourceManager.GetString("Rename", resourceCulture);
             }
         }
         

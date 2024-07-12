@@ -109,7 +109,13 @@ namespace Visitz.Views.Debugging
             await DebugOptions.ClearSafetyAssessmentDraftsRealm();
         }
 
-        [RelayCommand]
+		[RelayCommand]
+		public static async Task ClearAttachmentDraft()
+		{
+			await DebugOptions.ClearAttachmentDraftsRealm();
+		}
+
+		[RelayCommand]
         public static async Task Load620bData()
         {
             try
@@ -139,6 +145,18 @@ namespace Visitz.Views.Debugging
 		public void ApplyCaseloadLastUpdated()
 		{
 			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
+		}
+
+		[RelayCommand]
+		public static void OpenAppDataDirectory()
+		{
+			DebugOptions.OpenAppDataDirectory();
+		}
+
+		[RelayCommand]
+		public static void OpenCacheDirectory()
+		{
+			DebugOptions.OpenCacheDirectory();
 		}
 	}
 }

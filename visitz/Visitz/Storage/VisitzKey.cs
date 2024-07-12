@@ -1,16 +1,16 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 
 namespace VisitzModel.Storage
 {
     public static class VisitzKey
     {
-        private static readonly int KeySize = 64;
+        private static readonly int DefaultKeySize = 64;
 
         private static readonly string EncryptionKeyName = "visitz.encryption.key.";
 
-        private static byte[] NewKey()
+        private static byte[] NewKey(int keySize)
         {
-            var encryptionKey = new byte[KeySize];
+            var encryptionKey = new byte[keySize];
             using var rng = RandomNumberGenerator.Create();
 
             rng.GetBytes(encryptionKey);
@@ -33,13 +33,13 @@ namespace VisitzModel.Storage
                 : null;
         }
 
-        public static async Task<byte[]> GetKey(string keyName)
+        public static async Task<byte[]> GetKey(string keyName, int? keySizeIfNew = null)
         {
             byte[] encryptionKey = await GetKeyFromStorage(keyName);
 
             if (encryptionKey == null)
             {
-                await SetKeyInStorage(keyName, NewKey());
+                await SetKeyInStorage(keyName, NewKey(keySizeIfNew ?? DefaultKeySize));
                 encryptionKey = await GetKeyFromStorage(keyName);
             }
 

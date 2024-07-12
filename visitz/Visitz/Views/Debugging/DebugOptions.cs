@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using Visitz.Storage;
 using VisitzModel.Models;
@@ -64,7 +65,20 @@ namespace Visitz.Views.Debugging
                 await (await VisitzRealms.GetSafetyAssessmentDraftAsync()).ClearAllData();
         }
 
-        public static async Task Load620bTestingRecords()
+		public static async Task ClearAttachmentDraftsRealm()
+		{
+			if (Enabled)
+			{
+				await (await VisitzRealms.GetAttachmentDraftsAsync()).ClearAllData();
+
+				string attachmentsPath = Path.Join(FileSystem.AppDataDirectory, "Attachments");
+
+				if (Directory.Exists(attachmentsPath))
+					Directory.Delete(attachmentsPath, true);
+			}
+		}
+
+		public static async Task Load620bTestingRecords()
         {
             await using var json = await FileSystem.OpenAppPackageFileAsync(Path.Join("MockIcmData", "620b.json"));
 
@@ -79,5 +93,21 @@ namespace Visitz.Views.Debugging
 
             await realm.WriteAsync(() => realm.Add(caseload, update: true));
         }
-    }
+
+		public static void OpenAppDataDirectory()
+		{
+#if WINDOWS || MACCATALYST
+			if (Enabled)
+				Process.Start("explorer.exe", FileSystem.AppDataDirectory);
+#endif
+		}
+
+		public static void OpenCacheDirectory()
+		{
+#if WINDOWS || MACCATALYST
+			if (Enabled)
+				Process.Start("explorer.exe", FileSystem.CacheDirectory);
+#endif
+		}
+	}
 }
