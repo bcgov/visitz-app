@@ -49,9 +49,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 			throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
 		}
 
-		string obfuscatedName = Guid.NewGuid().ToString() + new FileInfo(filename).Extension;
-		string fullpath = await filer.SaveFileAsync(stream, obfuscatedName);
-
+		string fullpath = await filer.SaveFileAsync(stream, new FileInfo(filename).Extension);
 		var draft = MakeDraft(filer, filename, fullpath, thumbnail);
 
 		try

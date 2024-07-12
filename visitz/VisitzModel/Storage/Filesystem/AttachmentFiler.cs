@@ -1,3 +1,4 @@
+using Microsoft.Maui.Storage;
 using System.Globalization;
 using VisitzModel.Encryption;
 using VisitzModel.Formats;
@@ -29,13 +30,14 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 		return $"{prepend}_{ContextualName}_{MakeTimestamp()}.{extension.Trim('.')}";
 	}
 
-	async Task<string> WriteEncryptedFile(Stream stream, string fullpath)
+	async Task<string> WriteEncryptedFile(Stream stream, string path, string extension)
 	{
-		Directory.CreateDirectory(new FileInfo(fullpath).DirectoryName);
+		Directory.CreateDirectory(path);
 
-		await cryptoHandler.EncryptToFileAsync(stream, fullpath);
+		string obfuscatedName = GenerateUniqueName(path, extension);
+		await cryptoHandler.EncryptToFileAsync(stream, Path.Join(path, obfuscatedName));
 
-		return fullpath;
+		return Path.Join(path, obfuscatedName);
 	}
 
 	/// <summary>
@@ -44,9 +46,9 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 	/// <param name="stream"></param>
 	/// <param name="filename"></param>
 	/// <returns>Full path of the encrypted file that was created.</returns>
-	public async Task<string> SaveFileAsync(Stream stream, string filename)
+	public async Task<string> SaveFileAsync(Stream stream, string extension)
 	{
-		return await WriteEncryptedFile(stream, Path.Join(AppDataPath, filename));
+		return await WriteEncryptedFile(stream, AppDataPath, extension);
 	}
 
 	/// <summary>
@@ -64,5 +66,16 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 
 		memoryStream.Seek(0, SeekOrigin.Begin);
 		return memoryStream;
+	}
+
+	static string GenerateUniqueName(string path, string extension)
+	{
+		string uniqueName;
+
+		do
+			uniqueName = Guid.NewGuid().ToString() + extension;
+		while (File.Exists(Path.Join(path, uniqueName)));
+
+		return uniqueName;
 	}
 }
