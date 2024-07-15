@@ -1,10 +1,12 @@
 using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
+public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder, IFocusDraftItem
 {
 	static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes
 		.Concat(Attachment.AllowedDocumentTypes);
@@ -15,6 +17,12 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 	{
 		get => ViewModel.CaseloadItem;
 		set => AttachmentsList.CaseloadItem = ViewModel.CaseloadItem = value;
+	}
+
+	public IDraftItem FocusedDraftItem
+	{
+		get => AttachmentsList.FocusedDraftItem;
+		set => AttachmentsList.FocusedDraftItem = value;
 	}
 
 	public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
