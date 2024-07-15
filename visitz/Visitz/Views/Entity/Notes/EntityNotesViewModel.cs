@@ -36,6 +36,8 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 	[ObservableProperty]
 	public string openNoteEntryText;
 
+	public readonly TaskCompletionSource notesLoadedTcs = new();
+
 	public override async void Create()
     {
         base.Create();
@@ -100,6 +102,8 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 			);
 
 			InitNotesCollection(groups);
+
+			notesLoadedTcs.TrySetResult();
 			return;
 		}
 
