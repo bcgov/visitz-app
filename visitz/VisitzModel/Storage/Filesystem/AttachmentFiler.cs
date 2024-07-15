@@ -19,7 +19,14 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 			? $"{CaseloadItem.KeyPlayer.LastName}_{CaseloadItem.KeyPlayer.FirstName}"
 			: CaseloadItemId;
 
-	static string AppDataPath => Path.Combine(FileSystem.AppDataDirectory, BasePath);
+	static string AppDataPath =>
+#if WINDOWS
+		// Store app data in its container instead of Windows' default path.
+		Path.Combine(FileSystem.AppDataDirectory, BasePath);
+#else
+		// For non-Windows, store in Personal SpecialFolder.
+		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), BasePath);
+#endif
 
 	public static string MakeTimestamp() => DateTimeOffset.Now
 		.ToString(IcmDateFormats.ImageTimestamp, CultureInfo.InvariantCulture);

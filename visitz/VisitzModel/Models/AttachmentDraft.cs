@@ -78,7 +78,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 				Thumbnail = thumbnail,
 			},
 		};
-		draft.InitWith(filer.CaseloadItem);
+		draft.InitDraftWith(filer.CaseloadItem);
 
 		return draft;
 	}

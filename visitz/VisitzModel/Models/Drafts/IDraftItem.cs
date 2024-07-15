@@ -15,7 +15,7 @@ public interface IDraftItem : IRealmObject, IRecordInfo
 
 public static class IDraftItemExtensions
 {
-	public static IDraftItem InitWith(this IDraftItem item, CaseloadItem caseloadItem)
+	public static IDraftItem InitDraftWith(this IDraftItem item, CaseloadItem caseloadItem)
 	{
 		item.DraftLocation = caseloadItem.DisplayName;
 		(item as IRecordInfo).InitWith(caseloadItem);
