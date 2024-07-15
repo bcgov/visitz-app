@@ -53,6 +53,8 @@ public partial class AttachmentsList : ViewModelContentView, ICaseloadItemHolder
 
 		ScrollToDraft(draft);
 		ViewModel.OpenAttachment(draft);
+
+		FocusedDraftItem = null;
 	}
 
 	void ScrollToDraft(AttachmentDraft draft)
