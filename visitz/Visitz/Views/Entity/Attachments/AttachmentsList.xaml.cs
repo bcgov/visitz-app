@@ -36,8 +36,7 @@ public partial class AttachmentsList : ViewModelContentView, ICaseloadItemHolder
 	{
 		base.Creating();
 
-		if (!LoadingTcs.Task.IsCompleted)
-			await LoadingTcs.Task;
+		await Task.WhenAll(LoadingTcs.Task, ViewModel.attachmentsLoadedTcs.Task);
 
 		TryNavigateToFocusDraft();
 	}
