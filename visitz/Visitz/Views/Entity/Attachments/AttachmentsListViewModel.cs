@@ -30,6 +30,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 	[ObservableProperty]
 	public bool isEmpty;
 
+	public readonly TaskCompletionSource attachmentsLoadedTcs = new();
+
 	public override async void Create()
 	{
 		base.Create();
@@ -60,6 +62,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 		{
 			foreach (var item in e.Items)
 				AttachmentDrafts.Add(item as AttachmentDraft);
+
+			attachmentsLoadedTcs.TrySetResult();
 		}
 		else
 		{
