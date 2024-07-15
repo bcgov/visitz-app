@@ -172,6 +172,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		StrongReferenceMessenger.Default.Send(msg);
 
 		RequestedSection = EntitySection.Unknown;
+		FocusedDraftItem = null;
     }
 
     [RelayCommand]
