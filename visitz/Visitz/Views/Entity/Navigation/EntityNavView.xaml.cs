@@ -1,5 +1,6 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.Navigation;
@@ -20,8 +21,8 @@ public partial class EntityNavView : ViewModelContentView, ICaseloadItemHolder
 		BindingContext = ViewModel;
 	}
 
-	public void SetRequestedSection(EntitySection section)
+	public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem)
 	{
-		ViewModel.SetRequestedSection(section);
+		ViewModel.SetRequestedSection(section, focusedDraftItem);
 	}
 }

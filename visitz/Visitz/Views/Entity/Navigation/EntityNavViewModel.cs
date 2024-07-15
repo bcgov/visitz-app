@@ -14,13 +14,17 @@ using Visitz.Views.Entity.SafetyAssess;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.Navigation;
 
-public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
+public partial class EntityNavViewModel : VisitzViewModel,
+	ICaseloadItemHolder,
+	IRequestedEntitySection,
+	IFocusDraftItem
 {
     [ObservableProperty]
     public CaseloadItem caseloadItem;
@@ -37,7 +41,9 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 	[ObservableProperty]
 	public EntitySection requestedSection;
 
-    public EntityNavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
+	public IDraftItem FocusedDraftItem { get; set; }
+
+	public EntityNavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
 
 	private readonly ObservableRealmQueryMap realmQueryMap = new();
 
@@ -139,9 +145,10 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 			Attachments.HasDraft = e.Items.Any();
 	}
 
-	public void SetRequestedSection(EntitySection section)
+	public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
 	{
 		RequestedSection = section;
+		FocusedDraftItem = focusedDraftItem;
 
 		SelectedEntityNavItem = GetMappedNavItem(section);
 	}
@@ -161,7 +168,7 @@ public partial class EntityNavViewModel : VisitzViewModel, ICaseloadItemHolder, 
 	[RelayCommand]
     public void EntityNavSelected()
     {
-		var msg = new EntityNavMessage(SelectedEntityNavItem, CaseloadItem, RequestedSection);
+		var msg = new EntityNavMessage(SelectedEntityNavItem, CaseloadItem, RequestedSection, FocusedDraftItem);
 		StrongReferenceMessenger.Default.Send(msg);
 
 		RequestedSection = EntitySection.Unknown;

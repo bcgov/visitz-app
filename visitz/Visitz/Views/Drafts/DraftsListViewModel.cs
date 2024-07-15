@@ -95,14 +95,14 @@ internal partial class DraftsListViewModel : VisitzViewModel
 			.FirstOrDefault();
 
 		if (caseloadItem != null)
-			NavigateTo(caseloadItem, SectionToOpen);
+			NavigateTo(caseloadItem, SectionToOpen, draftItem);
 		else
 			SelectedItemRelatedMissing?.Invoke(this, draftItem);
 	}
 
-	static void NavigateTo(CaseloadItem caseloadItem, EntitySection section)
+	static void NavigateTo(CaseloadItem caseloadItem, EntitySection section, IDraftItem draftItem)
 	{
-		var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section);
+		var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section, draftItem);
 		StrongReferenceMessenger.Default.Send(caseloadNav);
 
 		var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
