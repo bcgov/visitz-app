@@ -36,18 +36,27 @@ public partial class AttachmentsList : ViewModelContentView, ICaseloadItemHolder
 	{
 		base.Creating();
 
-		if (FocusedDraftItem != null)
-			await ScrollToFocusDraft();
-	}
-
-	async Task ScrollToFocusDraft()
-	{
 		if (!LoadingTcs.Task.IsCompleted)
 			await LoadingTcs.Task;
 
-		var d = ViewModel.AttachmentDrafts.FirstOrDefault(draft =>
-			draft.Preview == FocusedDraftItem.Preview && draft.LastUpdated == FocusedDraftItem.LastUpdated);
+		TryNavigateToFocusDraft();
+	}
 
-		DraftsCollection.ScrollTo(d, position: ScrollToPosition.Center);
+	void TryNavigateToFocusDraft()
+	{
+		if (FocusedDraftItem == null)
+			return;
+
+		var draft = ViewModel.AttachmentDrafts.FirstOrDefault(draftItem =>
+			draftItem.Preview == FocusedDraftItem.Preview
+			&& draftItem.LastUpdated == FocusedDraftItem.LastUpdated);
+
+		ScrollToDraft(draft);
+		ViewModel.OpenAttachment(draft);
+	}
+
+	void ScrollToDraft(AttachmentDraft draft)
+	{
+		DraftsCollection.ScrollTo(draft, position: ScrollToPosition.Center);
 	}
 }
