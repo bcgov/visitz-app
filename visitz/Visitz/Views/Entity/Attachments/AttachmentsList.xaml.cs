@@ -17,7 +17,7 @@ public partial class AttachmentsList : ViewModelContentView, ICaseloadItemHolder
 
 	public IDraftItem FocusedDraftItem { get; set; }
 
-	readonly TaskCompletionSource LoadingTcs = new();
+	readonly TaskCompletionSource loadingTcs = new();
 
 	public AttachmentsList() : base(ServiceProvider.GetService<AttachmentsListViewModel>())
 	{
@@ -29,14 +29,14 @@ public partial class AttachmentsList : ViewModelContentView, ICaseloadItemHolder
 
 	private void AttachmentsList_Loaded(object sender, EventArgs e)
 	{
-		LoadingTcs.TrySetResult();
+		loadingTcs.TrySetResult();
 	}
 
 	protected override async void Creating()
 	{
 		base.Creating();
 
-		await Task.WhenAll(LoadingTcs.Task, ViewModel.attachmentsLoadedTcs.Task);
+		await Task.WhenAll(loadingTcs.Task, ViewModel.attachmentsLoadedTcs.Task);
 
 		TryNavigateToFocusDraft();
 	}
