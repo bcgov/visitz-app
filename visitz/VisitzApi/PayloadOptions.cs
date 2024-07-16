@@ -1,8 +1,8 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace VisitzApi;
 
-public readonly struct PayloadOptions
+public static class PayloadOptions
 {
     public static readonly JsonSerializerOptions Default = new()
     {
