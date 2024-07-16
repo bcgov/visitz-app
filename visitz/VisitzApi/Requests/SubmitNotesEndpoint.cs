@@ -1,10 +1,11 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using VisitzApi.Json;
 using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-    internal class SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit)
+	internal class SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit)
         : VisitzBaseEndpoint<(bool success, string noteId)>(baseUrl, SubmitNotesPath)
     {
         private static readonly string SubmitNotesPath = "/v1/679C";

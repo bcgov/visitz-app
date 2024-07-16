@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
+using VisitzApi.Json;
 
 namespace VisitzApi.ErrorHandling
 {
-    internal class WebMethodsJsonError
+	internal class WebMethodsJsonError
     {
         private static readonly string StatusKey = "status";
         private static readonly string ErrorKey = "error";

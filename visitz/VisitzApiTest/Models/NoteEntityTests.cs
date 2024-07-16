@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using VisitzApi;
+using VisitzApi.Json;
 using VisitzApi.Models;
 
 namespace VisitzApiTest.Models;
