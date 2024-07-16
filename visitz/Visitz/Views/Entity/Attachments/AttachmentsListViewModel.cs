@@ -120,6 +120,6 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 			CaseloadItem = CaseloadItem,
 		}.WrapPageForModal(ViewModalSize.Fullscreen);
 
-		await Navigator.Navigation.PushModalAsync(view);
+		await Navigator.Navigation.PushAsync(view);
 	}
 }
