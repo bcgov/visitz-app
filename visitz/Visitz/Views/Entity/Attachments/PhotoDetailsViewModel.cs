@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
@@ -36,11 +37,6 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 	{
 		return await attachmentFiler.GetAppDataFileAsync(Attachment.Fullpath, token);
 	}
-	
-	public override void Destroy()
-	{
-		base.Destroy();
-	}
 
 	[RelayCommand]
 	public static void DeleteAttachmentDraft(Attachment attachment)
@@ -69,8 +65,18 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 	}
 
 	[RelayCommand]
-	public static void PublishAttachmentDraft(Attachment attachment)
+	public void PublishAttachmentDraft(Attachment attachment)
 	{
-		// TODO
+		if (attachment.HasDraft)
+			_ = DoPublishAttachmentDraft(attachment.Draft);
+	}
+
+	async Task DoPublishAttachmentDraft(AttachmentDraft draft)
+	{
+		var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
+		attachmentPublishVm.AttachmentDraft = draft;
+		attachmentPublishVm.AttachmentFiler = attachmentFiler;
+
+		await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));		
 	}
 }
