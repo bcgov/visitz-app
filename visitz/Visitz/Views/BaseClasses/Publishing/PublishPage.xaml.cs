@@ -1,4 +1,4 @@
-using Visitz.Resources.Localization;
+using Visitz.Extensions;
 using Visitz.Views.Surveys;
 
 namespace Visitz.Views.BaseClasses.Publishing;
@@ -61,12 +61,12 @@ public partial class PublishPage : VisitzPage
     private async void PublishStatus_Tapped(object sender, TappedEventArgs e)
     {
         if (ViewModel.ShowPublishErrorIcon && ViewModel.PublishErrorDetail?.Length > 0)
-            await DisplayAlert(LocalizedStrings.Error, ViewModel.PublishErrorDetail, LocalizedStrings.Ok);
+            await this.DisplayErrorAlert(ViewModel.PublishErrorDetail);
     }
 
     private async void RefreshStatus_Tapped(object sender, TappedEventArgs e)
     {
         if (ViewModel.ShowRefreshErrorIcon && ViewModel.RefreshErrorDetail?.Length > 0)
-            await DisplayAlert(LocalizedStrings.Error, ViewModel.RefreshErrorDetail, LocalizedStrings.Ok);
+            await this.DisplayErrorAlert(ViewModel.RefreshErrorDetail);
     }
 }
