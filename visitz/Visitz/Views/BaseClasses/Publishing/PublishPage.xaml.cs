@@ -31,12 +31,7 @@ public partial class PublishPage : VisitzPage
     {
 		await Task.WhenAll(AnimateCountdown(), Task.Delay(PublishViewModel.DismissDuration));
 
-		var nav = Navigator.Navigation;
-
-		if (nav.NavigationStack.Contains(this))
-			await nav.PopAsync();
-		else if (nav.ModalStack.Contains(this))
-			await nav.PopModalAsync();
+		await TryPopAsync();
 
 		await FeedbackSurveyPage.TryOpen();
 	}
@@ -68,5 +63,20 @@ public partial class PublishPage : VisitzPage
     {
         if (ViewModel.ShowRefreshErrorIcon && ViewModel.RefreshErrorDetail?.Length > 0)
             await this.DisplayErrorAlert(ViewModel.RefreshErrorDetail);
+    }
+
+	async Task TryPopAsync()
+	{
+		var nav = Navigator.Navigation;
+
+		if (nav.NavigationStack.Contains(this))
+			await nav.PopAsync();
+		else if (nav.ModalStack.Contains(this))
+			await nav.PopModalAsync();
+	}
+
+	private async void DismissButton_Clicked(object sender, EventArgs e)
+	{
+		await TryPopAsync();
     }
 }
