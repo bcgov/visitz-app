@@ -1,5 +1,7 @@
 using Realms;
+using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
@@ -81,5 +83,34 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		draft.InitDraftWith(filer.CaseloadItem);
 
 		return draft;
+	}
+
+	public async Task<SubmitAttachmentEntity> ToSubmitAttachmentEntity(
+		AttachmentFiler attachmentFiler,
+		CancellationToken? token = null)
+	{
+		token ??= CancellationToken.None;
+
+		await using var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.Fullpath, token);
+		byte[] attachmentBytes = new byte[attachmentStream.Length];
+
+		await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
+
+		return new()
+		{
+			EntityNumber = RelatedEntityId,
+			EntityType = RelatedEntityType.GetDisplayString(),
+			CaseType = RelatedEntitySubtype.GetDisplayString(),
+			FormName = IcmFormNames.GenericDocument,
+			FileName = Attachment.Filename,
+			FormDescription = "",
+			FormCategory = "",
+			Section13Exists = "",
+			InvestigationResponse = "",
+			Attachment = new()
+			{
+				PdfString = Convert.ToBase64String(attachmentBytes),
+			}
+		};
 	}
 }
