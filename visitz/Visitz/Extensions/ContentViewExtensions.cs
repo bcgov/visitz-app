@@ -3,6 +3,8 @@ using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 #endif
 
+using MauiNavigationPage = Microsoft.Maui.Controls.NavigationPage;
+
 namespace Visitz.Extensions;
 
 public static class ContentViewExtensions
@@ -20,6 +22,10 @@ public static class ContentViewExtensions
             Background = Colors.Transparent,
             Content = contentView,
         };
+
+		MauiNavigationPage.SetHasNavigationBar(page, false);
+		MauiNavigationPage.SetHasBackButton(page, false);
+
 #if IOS
 		var presentationStyle = size switch
 		{
