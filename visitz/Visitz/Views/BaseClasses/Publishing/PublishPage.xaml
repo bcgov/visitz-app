@@ -6,7 +6,6 @@
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
 	xmlns:publishing="clr-namespace:Visitz.Views.BaseClasses.Publishing"
-    xmlns:viewModels="clr-namespace:Visitz.ViewModels"
     x:Class="Visitz.Views.BaseClasses.Publishing.PublishPage"
     x:DataType="publishing:PublishViewModel"
     Title="{Binding Title}"
