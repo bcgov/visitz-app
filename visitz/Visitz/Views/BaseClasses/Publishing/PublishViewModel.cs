@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Views.Surveys;
 
 namespace Visitz.Views.BaseClasses.Publishing;
 
@@ -203,17 +202,11 @@ public abstract partial class PublishViewModel : VisitzViewModel
         RefreshErrorDetail = errorDetails;
     }
 
-    public async Task Complete()
+    public void Complete()
     {
         SetState(State.Completed);
 
         OnCompleted?.Invoke(this, EventArgs.Empty);
-
-        await Task.Delay(DismissDuration);
-        await Navigator.Navigation.PopAsync();
-
-		// TODO: Decouple this call from ViewModels (calls UI component)
-		await FeedbackSurveyPage.TryOpen();
     }
 
     [RelayCommand]

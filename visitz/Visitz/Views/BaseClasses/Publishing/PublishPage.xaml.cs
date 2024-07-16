@@ -1,4 +1,5 @@
 using Visitz.Resources.Localization;
+using Visitz.Views.Surveys;
 
 namespace Visitz.Views.BaseClasses.Publishing;
 
@@ -28,13 +29,28 @@ public partial class PublishPage : VisitzPage
 
     private async void PublishPage_OnCompleted(object sender, EventArgs e)
     {
-        DismissProgressBar.IsVisible = true;
+		await Task.WhenAll(AnimateCountdown(), Task.Delay(PublishViewModel.DismissDuration));
 
-        DismissProgressBar.Progress = 1.0d;
-        await DismissProgressBar.ProgressTo(0.0d, (uint)PublishViewModel.DismissDuration, Easing.Linear);
+		var nav = Navigator.Navigation;
 
-        DismissProgressBar.IsVisible = false;
-    }
+		if (nav.NavigationStack.Contains(this))
+			await nav.PopAsync();
+		else if (nav.ModalStack.Contains(this))
+			await nav.PopModalAsync();
+
+		await FeedbackSurveyPage.TryOpen();
+	}
+
+	async Task AnimateCountdown()
+	{
+		DismissProgressBar.IsVisible = true;
+
+		DismissProgressBar.Progress = 1.0d;
+
+		await DismissProgressBar.ProgressTo(0.0d, (uint)PublishViewModel.DismissDuration, Easing.Linear);
+
+		DismissProgressBar.IsVisible = false;
+	}
 
     protected override bool OnBackButtonPressed()
     {

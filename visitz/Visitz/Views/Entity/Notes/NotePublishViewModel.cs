@@ -61,7 +61,7 @@ namespace Visitz.Views.Entity.Notes
                 if (message.Status == VisitzService.State.Running)
                     Publishing(LocalizedStrings.PublishingNotesToIcm);
                 else if (message.FinishedSuccess)
-                    await Complete();
+                    Complete();
                 else if (message.FinishedError)
                     PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
                 else if (message.FinishedCancelled)
