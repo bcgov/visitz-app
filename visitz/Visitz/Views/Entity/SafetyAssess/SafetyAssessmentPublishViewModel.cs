@@ -26,7 +26,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         }
     }
 
-    public CaseloadItem CaseloadItem {  get; set; }
+    public CaseloadItem CaseloadItem { get; set; }
 
     public override void Create()
     {
