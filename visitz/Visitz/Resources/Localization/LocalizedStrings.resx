@@ -748,4 +748,15 @@ Do you want to discard this unlinked draft permanently?</value>
   <data name="CopiedToClipboard" xml:space="preserve">
     <value>Copied to clipboard</value>
   </data>
+  <data name="AttachmentPublishSuccess" xml:space="preserve">
+    <value>'{0}' published successfully.</value>
+    <comment>0 = Attachment filename</comment>
+  </data>
+  <data name="LoginToSubmitAttachment" xml:space="preserve">
+    <value>Log in to submit attachment</value>
+  </data>
+  <data name="PublishingAttachmentToIcm" xml:space="preserve">
+    <value>Publishing '{0}' to ICM</value>
+    <comment>0 = Attachment filename</comment>
+  </data>
 </root>

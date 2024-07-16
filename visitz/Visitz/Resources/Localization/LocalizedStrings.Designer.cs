@@ -115,6 +115,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
+        /// </summary>
+        public static string AttachmentPublishSuccess {
+            get {
+                return ResourceManager.GetString("AttachmentPublishSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attachments.
         /// </summary>
         public static string Attachments {
@@ -824,6 +833,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log in to submit attachment.
+        /// </summary>
+        public static string LoginToSubmitAttachment {
+            get {
+                return ResourceManager.GetString("LoginToSubmitAttachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in to submit notes.
         /// </summary>
         public static string LoginToSubmitNotes {
@@ -1182,6 +1200,15 @@ namespace Visitz.Resources.Localization {
         public static string ProtectiveCapacity_ParentWillingness {
             get {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentWillingness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publishing &apos;{0}&apos; to ICM.
+        /// </summary>
+        public static string PublishingAttachmentToIcm {
+            get {
+                return ResourceManager.GetString("PublishingAttachmentToIcm", resourceCulture);
             }
         }
         

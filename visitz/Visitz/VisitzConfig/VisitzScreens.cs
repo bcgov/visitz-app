@@ -84,6 +84,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<PublishPage>();
             builder.Services.AddTransient<NotePublishViewModel>();
             builder.Services.AddTransient<SafetyAssessmentPublishViewModel>();
+			builder.Services.AddTransient<AttachmentDraftPublishViewModel>();
 
             builder.Services.AddTransient<NoteEntryView>();
             builder.Services.AddTransient<NoteEntryViewModel>();
