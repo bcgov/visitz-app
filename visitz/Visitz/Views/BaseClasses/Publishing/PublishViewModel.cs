@@ -210,11 +210,5 @@ public abstract partial class PublishViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    public static async Task Dismiss()
-    {
-        await Navigator.Navigation.PopAsync();
-    }
-
-    [RelayCommand]
     public abstract void Publish();
 }
