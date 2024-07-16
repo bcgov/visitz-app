@@ -1,4 +1,5 @@
-﻿using VisitzApi.ErrorHandling;
+using System.Net;
+using VisitzApi.ErrorHandling;
 
 namespace VisitzApi.Requests
 {
@@ -32,16 +33,21 @@ namespace VisitzApi.Requests
                 if (!KongJsonMessage.TryFindMessage(content, out string message))
                     message = content;
 
-                throw new VisitzApiException(response.StatusCode, message);
+                throw new VisitzApiException(response.StatusCode, BuildMessage(response.StatusCode, message));
             }
         }
 
         public virtual void ThrowOnWebMethodsErrors(HttpResponseMessage response, string content)
         {
             if (WebMethodsJsonError.TryFindFirstError(content, out string errorMessage))
-                throw new VisitzApiException(response.StatusCode, errorMessage);
+                throw new VisitzApiException(response.StatusCode, BuildMessage(response.StatusCode, errorMessage));
         }
 
         public abstract ResponseType HandleResponse(string responseContent);
+
+		static string BuildMessage(HttpStatusCode code, string message)
+		{
+			return $"HTTP {(int)code} {code} {message}";
+		}
     }
 }
