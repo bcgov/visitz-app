@@ -6,6 +6,7 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
@@ -103,7 +104,16 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 	[RelayCommand]
 	public void PublishAttachmentDraft(AttachmentDraft draft)
 	{
+		_ = DoPublishAttachmentDraft(draft);
+	}
 
+	async Task DoPublishAttachmentDraft(AttachmentDraft draft)
+	{
+		var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
+		attachmentPublishVm.AttachmentDraft = draft;
+		attachmentPublishVm.AttachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
+
+		await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
 	}
 
 	[RelayCommand]
