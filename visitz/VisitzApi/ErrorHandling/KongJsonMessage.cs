@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace VisitzApi.ErrorHandling
 {
@@ -8,16 +8,24 @@ namespace VisitzApi.ErrorHandling
 
         internal static bool TryFindMessage(string content, out string message)
         {
-            var json = JsonDocument.Parse(content).RootElement;
+			try
+			{
+				var json = JsonDocument.Parse(content).RootElement;
 
-            if (json.TryGetProperty(MessageKey, out var element))
-            {
-                message = element.GetString();
-                return true;
-            }
+				if (json.TryGetProperty(MessageKey, out var element))
+				{
+					message = element.GetString();
+					return true;
+				}
 
-            message = "";
-            return false;
+				message = "";
+				return false;
+			}
+			catch (Exception ex)
+			{
+				message = ex.Message;
+				return false;
+			}
         }
     }
 }
