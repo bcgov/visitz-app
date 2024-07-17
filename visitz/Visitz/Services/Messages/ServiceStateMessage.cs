@@ -1,4 +1,4 @@
-﻿namespace Visitz.Services
+namespace Visitz.Services
 {
     public class ServiceStateMessage : ServiceInfoMessage
     {
@@ -19,5 +19,13 @@
         public bool FinishedCancelled =>
             Status == VisitzService.State.Stopped
             && Result == VisitzService.Result.Cancelled;
-    }
+
+		public override string ToString()
+		{
+			string result = Status == VisitzService.State.Stopped ? Result.ToString() : "";
+			string message = string.IsNullOrWhiteSpace(Message) ? "" : " " + Message;
+
+			return $"{nameof(ServiceStateMessage)} {Status} {result}{Message}";
+		}
+	}
 }
