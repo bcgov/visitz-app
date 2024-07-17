@@ -24,8 +24,6 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 	{
 		InitializeComponent();
 		BindingContext = ViewModel;
-
-		Unloaded += PhotoDetailsView_Unloaded;
 	}
 
 	protected override void Creating()
@@ -41,14 +39,12 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 		}
 	}
 
-	private void PhotoDetailsView_Unloaded(object sender, EventArgs e)
-	{
-		WeakReferenceMessenger.Default.UnregisterAll(this);
-	}
-
 	public void Receive(ServiceStateMessage message)
 	{
 		if (message.FinishedSuccess)
+		{
 			Navigator.Navigation.RemovePage(Navigator.CurrentOpenPage);
+			WeakReferenceMessenger.Default.UnregisterAll(this);
+		}
 	}
 }
