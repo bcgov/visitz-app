@@ -99,6 +99,8 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 	private void Camera_MediaCaptureFailed(object sender, MediaCaptureFailedEventArgs e)
 	{
 		ConsoleTrace.TraceMethod(this);
+		// TODO: Show error when info is added to MediaCaptureFailedEventArgs
+		// await Navigator.CurrentOpenPage.DisplayErrorAlert(e...);
 	}
 
 	private async void CameraRollButton_Clicked(object sender, EventArgs e)

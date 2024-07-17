@@ -26,7 +26,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         }
     }
 
-    public CaseloadItem CaseloadItem {  get; set; }
+    public CaseloadItem CaseloadItem { get; set; }
 
     public override void Create()
     {
@@ -61,7 +61,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
             Published(LocalizedStrings.SAPublishedSuccess);
             await DiscardSentDraft();
             RedirectToDetails();
-            await Complete();
+            Complete();
         }
         else if (message.FinishedCancelled)
             Cancel(LocalizedStrings.LoginToSubmitSA);
