@@ -35,13 +35,13 @@ public partial class Attachment
 		}
 	}
 
-	public string FullpathBinding
+	public string RelativePathBinding
 	{
-		get => IsValid ? Fullpath : default;
+		get => IsValid ? RelativePath : default;
 		set
 		{
-			this.Commit(() => Fullpath = value);
-			RaisePropertyChanged(nameof(FullpathBinding));
+			this.Commit(() => RelativePath = value);
+			RaisePropertyChanged(nameof(RelativePathBinding));
 		}
 	}
 

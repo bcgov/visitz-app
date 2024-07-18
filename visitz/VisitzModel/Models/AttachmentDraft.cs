@@ -69,14 +69,14 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		return draft;
 	}
 
-	static AttachmentDraft MakeDraft(AttachmentFiler filer, string filename, string fullpath, byte[] thumbnail)
+	static AttachmentDraft MakeDraft(AttachmentFiler filer, string filename, string relativePath, byte[] thumbnail)
 	{
 		var draft = new AttachmentDraft()
 		{
 			Attachment = new()
 			{
 				Filename = filename,
-				Fullpath = fullpath,
+				RelativePath = relativePath,
 				Thumbnail = thumbnail,
 			},
 		};
@@ -91,7 +91,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 	{
 		token ??= CancellationToken.None;
 
-		await using var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.Fullpath, token);
+		await using var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
 		byte[] attachmentBytes = new byte[attachmentStream.Length];
 
 		await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
