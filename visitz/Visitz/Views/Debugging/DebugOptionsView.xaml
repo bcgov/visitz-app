@@ -188,12 +188,12 @@
 				Text="File system" />
 
 			<Grid
-				RowDefinitions="Auto,Auto"
-				IsEnabled="{OnIdiom Desktop=True, Default=False}">
+				RowDefinitions="Auto,Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
 					Grid.Column="1"
+					IsEnabled="{OnIdiom Desktop=True, Default=False}"
 					Command="{Binding OpenAppDataDirectoryCommand}"
 					Text="Open AppDataDirectory" />
 
@@ -201,8 +201,16 @@
 					StyleClass="DebugLayout"
 					Grid.Row="1"
 					Grid.Column="1"
+					IsEnabled="{OnIdiom Desktop=True, Default=False}"
 					Command="{Binding OpenCacheDirectoryCommand}"
 					Text="Open CacheDirectory" />
+
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="2"
+					Grid.Column="1"
+					Clicked="ShowDocumentsButton_Clicked"
+					Text="Show Documents' files" />
 			</Grid>
             
             <Label

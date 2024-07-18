@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using System.Text.Json;
 using Visitz.Storage;
 using VisitzModel.Models;
@@ -108,6 +109,35 @@ namespace Visitz.Views.Debugging
 			if (Enabled)
 				Process.Start("explorer.exe", FileSystem.CacheDirectory);
 #endif
+		}
+
+		static string ListFilesRecursively(string path)
+		{
+			string[] files = Directory.GetFileSystemEntries(path, "**", new EnumerationOptions()
+			{
+				RecurseSubdirectories = true,
+			});
+
+			StringBuilder filesOut = new();
+
+			filesOut.AppendLine($"Files in '{path}':");
+			foreach (var file in files)
+				filesOut.AppendLine(file);
+			filesOut.AppendLine("-------");
+
+			return filesOut.ToString();
+		}
+
+		public static string ListDocumentsFiles()
+		{
+#if WINDOWS
+			string path = FileSystem.AppDataDirectory;
+#else
+			string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+#endif
+			return Enabled
+				? ListFilesRecursively(path)
+				: string.Empty;
 		}
 	}
 }
