@@ -36,12 +36,17 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 		return $"{prepend}_{ContextualName}_{MakeTimestamp()}.{extension.Trim('.')}";
 	}
 
-	async Task<string> WriteEncryptedFile(Stream stream, string path, string extension)
+	public static string GetFullPath(string relativePath)
 	{
-		Directory.CreateDirectory(path);
+		return Path.Join(AppDataPath, relativePath);
+	}
 
-		string obfuscatedName = GenerateUniqueName(path, extension);
-		await cryptoHandler.EncryptToFileAsync(stream, Path.Join(path, obfuscatedName));
+	async Task<string> WriteEncryptedFile(Stream stream, string extension)
+	{
+		Directory.CreateDirectory(AppDataPath);
+
+		string obfuscatedName = GenerateUniqueName(AppDataPath, extension);
+		await cryptoHandler.EncryptToFileAsync(stream, Path.Join(AppDataPath, obfuscatedName));
 
 		return obfuscatedName;
 	}
@@ -54,7 +59,7 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 	/// <returns>Relative path of the encrypted file that was created.</returns>
 	public async Task<string> SaveFileAsync(Stream stream, string extension)
 	{
-		return await WriteEncryptedFile(stream, AppDataPath, extension);
+		return await WriteEncryptedFile(stream, extension);
 	}
 
 	/// <summary>
@@ -65,7 +70,7 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 	/// <returns><see cref="MemoryStream"/> of the decrypted file</returns>
 	public async Task<MemoryStream> GetAppDataFileAsync(string relativePath, CancellationToken? token = null)
 	{
-		string fullpath = Path.Join(AppDataPath, relativePath);
+		string fullpath = GetFullPath(relativePath);
 		await using var cryptoStream = await cryptoHandler.DecryptFromFileAsync(fullpath);
 
 		var memoryStream = new MemoryStream();
