@@ -7,7 +7,7 @@ namespace VisitzModel.Storage.Filesystem;
 
 public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadItemHolder
 {
-	public static readonly string BasePath = "Attachments";
+	static readonly string BasePath = "Attachments";
 
 	readonly Crypto cryptoHandler = new(key);
 
@@ -43,28 +43,29 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 		string obfuscatedName = GenerateUniqueName(path, extension);
 		await cryptoHandler.EncryptToFileAsync(stream, Path.Join(path, obfuscatedName));
 
-		return Path.Join(path, obfuscatedName);
+		return obfuscatedName;
 	}
 
 	/// <summary>
-	/// Takes in a stream, encrypts, and saves it to AppAdata as an encrypted file with the provided extension.
+	/// Takes in a stream, encrypts, and saves it to AppData as an encrypted file with the provided extension.
 	/// </summary>
 	/// <param name="stream"></param>
-	/// <param name="filename"></param>
-	/// <returns>Full path of the encrypted file that was created.</returns>
+	/// <param name="extension"></param>
+	/// <returns>Relative path of the encrypted file that was created.</returns>
 	public async Task<string> SaveFileAsync(Stream stream, string extension)
 	{
 		return await WriteEncryptedFile(stream, AppDataPath, extension);
 	}
 
 	/// <summary>
-	/// Reads and decrypts a file from the requested full filepath.
+	/// Reads and decrypts a file from the requested relative filepath.
 	/// </summary>
-	/// <param name="fullpath"></param>
+	/// <param name="relativePath"></param>
 	/// <param name="token"></param>
-	/// <returns></returns>
-	public async Task<MemoryStream> GetAppDataFileAsync(string fullpath, CancellationToken? token = null)
+	/// <returns><see cref="MemoryStream"/> of the decrypted file</returns>
+	public async Task<MemoryStream> GetAppDataFileAsync(string relativePath, CancellationToken? token = null)
 	{
+		string fullpath = Path.Join(AppDataPath, relativePath);
 		await using var cryptoStream = await cryptoHandler.DecryptFromFileAsync(fullpath);
 
 		var memoryStream = new MemoryStream();
