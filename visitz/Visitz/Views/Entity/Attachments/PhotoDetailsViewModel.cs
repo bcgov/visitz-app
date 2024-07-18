@@ -35,7 +35,7 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 
 	async Task<Stream> GetPhoto(CancellationToken token)
 	{
-		return await attachmentFiler.GetAppDataFileAsync(Attachment.Fullpath, token);
+		return await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
 	}
 
 	[RelayCommand]

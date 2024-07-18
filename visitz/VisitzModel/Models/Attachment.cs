@@ -31,9 +31,9 @@ public partial class Attachment : IRealmObject, IRecordInfo
 	public byte[] Thumbnail { get; set; }
 
 	/// <summary>
-	/// Real path to file on file system. File name will be different than <see cref="Filename"/>.
+	/// Relative path to file on virtualized file system. File name will be different than <see cref="Filename"/>.
 	/// </summary>
-	public string Fullpath { get; set; }
+	public string RelativePath { get; set; }
 
 	/// <summary>
 	/// Virtual name of the attachment as stored in ICM.
@@ -51,8 +51,8 @@ public partial class Attachment : IRealmObject, IRecordInfo
 
 	public static async Task DeleteAsync(Realm realm, Attachment attachment)
 	{
-		if (File.Exists(attachment.Fullpath))
-			File.Delete(attachment.Fullpath);
+		if (File.Exists(attachment.RelativePath))
+			File.Delete(attachment.RelativePath);
 
 		await attachment.CommitAsync(() =>
 		{
