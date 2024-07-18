@@ -2,6 +2,7 @@ using Realms;
 using VisitzModel.Extensions;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models;
 
@@ -51,8 +52,10 @@ public partial class Attachment : IRealmObject, IRecordInfo
 
 	public static async Task DeleteAsync(Realm realm, Attachment attachment)
 	{
-		if (File.Exists(attachment.RelativePath))
-			File.Delete(attachment.RelativePath);
+		string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
+
+		if (File.Exists(fullpath))
+			File.Delete(fullpath);
 
 		await attachment.CommitAsync(() =>
 		{
