@@ -3,6 +3,7 @@ using Realms;
 using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Storage.Filesystem;
 
@@ -29,7 +30,7 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 
 	public async Task SaveFile(FileResult fileResult)
 	{
-		string extension = new FileInfo(fileResult.FileName).Extension;
+		string extension = fileResult.FileName.GetFileExtension();
 		await using Stream stream = await fileResult.OpenReadAsync();
 		byte[] thumbnail = null;
 
