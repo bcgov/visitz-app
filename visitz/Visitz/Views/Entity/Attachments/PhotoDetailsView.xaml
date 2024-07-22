@@ -35,7 +35,8 @@
 
 			<controls:CloseButton
 				Grid.Column="0"
-				VerticalOptions="Center" />
+				VerticalOptions="Center"
+				Closing="CloseButton_Closing"/>
 
 			<Label
 				Grid.Column="1"
