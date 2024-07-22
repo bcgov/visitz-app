@@ -51,7 +51,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 			throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
 		}
 
-		string fullpath = await filer.SaveFileAsync(stream, new FileInfo(filename).Extension);
+		string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
 		var draft = MakeDraft(filer, filename, fullpath, thumbnail);
 
 		try
