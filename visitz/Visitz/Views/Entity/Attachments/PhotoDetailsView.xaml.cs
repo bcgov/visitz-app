@@ -24,8 +24,6 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 	{
 		InitializeComponent();
 		BindingContext = ViewModel;
-
-		Unloaded += PhotoDetailsView_Unloaded;
 	}
 
 	protected override void Creating()
@@ -41,7 +39,7 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 		}
 	}
 
-	private void PhotoDetailsView_Unloaded(object sender, EventArgs e)
+	void Unregister()
 	{
 		WeakReferenceMessenger.Default.UnregisterAll(this);
 	}
@@ -51,7 +49,12 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 		if (message.FinishedSuccess)
 		{
 			Navigator.Navigation.RemovePage(Navigator.CurrentOpenPage);
-			WeakReferenceMessenger.Default.UnregisterAll(this);
+			Unregister();
 		}
+	}
+
+	private void CloseButton_Closing(object sender, Controls.ClosingEventArgs e)
+	{
+		Unregister();
 	}
 }
