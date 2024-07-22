@@ -87,14 +87,26 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	public async Task<SubmitAttachmentEntity> ToSubmitAttachmentEntity(
 		AttachmentFiler attachmentFiler,
+		IStreamConverter streamConverter = null,
 		CancellationToken? token = null)
 	{
 		token ??= CancellationToken.None;
 
 		await using var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
-		byte[] attachmentBytes = new byte[attachmentStream.Length];
+		byte[] attachmentBytes;
 
-		await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
+		if (streamConverter != null)
+		{
+			var convertedStream = await streamConverter.ConvertAsync(attachmentStream);
+
+			attachmentBytes = new byte[convertedStream.Length];
+			await convertedStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
+		}
+		else
+		{
+			attachmentBytes = new byte[attachmentStream.Length];
+			await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
+		}
 
 		return new()
 		{
