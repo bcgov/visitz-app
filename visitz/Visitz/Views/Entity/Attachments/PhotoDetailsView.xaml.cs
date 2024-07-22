@@ -24,6 +24,8 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 	{
 		InitializeComponent();
 		BindingContext = ViewModel;
+
+		Unloaded += PhotoDetailsView_Unloaded;
 	}
 
 	protected override void Creating()
@@ -37,6 +39,11 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 			string id = SubmitAttachmentService.MakeId(draft.RelatedEntityId, attachment.Filename);
 			WeakReferenceMessenger.Default.Register(this, id);
 		}
+	}
+
+	private void PhotoDetailsView_Unloaded(object sender, EventArgs e)
+	{
+		WeakReferenceMessenger.Default.UnregisterAll(this);
 	}
 
 	public void Receive(ServiceStateMessage message)
