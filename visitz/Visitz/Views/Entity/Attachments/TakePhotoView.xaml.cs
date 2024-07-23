@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using Visitz.Animations;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using VisitzModel;
@@ -92,6 +93,7 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 		}
 		catch (Exception ex)
 		{
+			await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
 			ConsoleTrace.TraceMethod(this, ex);
 		}
 	}
