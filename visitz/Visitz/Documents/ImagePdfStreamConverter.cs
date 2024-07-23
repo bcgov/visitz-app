@@ -44,6 +44,7 @@ internal class ImagePdfStreamConverter(
 		var outDocument = new PdfDocument();
 
 		outDocument.Info.Title = ContentTitle;
+		outDocument.Options.NoCompression = true;
 
 		return outDocument;
 	}
