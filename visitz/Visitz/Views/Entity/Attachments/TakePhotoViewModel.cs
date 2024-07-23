@@ -87,7 +87,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		queryMap.ItemsChanged += QueryMap_ItemsChanged;
 
 		StringBuilder queryBuilder = new();
-		string name = nameof(AttachmentDraft.Attachment) + "." + nameof(Attachment.Filename);
+		string name = nameof(AttachmentDraft.Attachment) + "." + nameof(Attachment.Extension);
 
 		foreach (string ext in Attachment.AllowedImageTypes)
 			queryBuilder.Append($" {name} ENDSWITH '{ext}' OR");

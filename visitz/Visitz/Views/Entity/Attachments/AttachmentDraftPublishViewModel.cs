@@ -80,9 +80,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
 	static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
 	{
-		string extension = attachmentDraft.Attachment.Filename.GetFileExtension();
-
-		return Attachment.AllowedImageTypes.Contains(extension)
+		return Attachment.AllowedImageTypes.Contains(attachmentDraft.Attachment.Extension)
 			? new ImagePdfStreamConverter(attachmentDraft.Attachment.Filename, DisplayOrientation.Unknown)
 			: null;
 	}
