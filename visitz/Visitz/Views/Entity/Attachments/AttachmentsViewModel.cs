@@ -37,6 +37,6 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 		if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
 			thumbnail = await stream.MakeThumbnail(ThumbnailSize).AsBytesAsync(ImageFormat.Jpeg);
 
-		await AttachmentDraft.SaveNew(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream, thumbnail);
+		await AttachmentDraft.SaveNewFile(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream, thumbnail);
 	}
 }

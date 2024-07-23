@@ -38,7 +38,17 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	public Attachment Attachment { get; set; }
 
-	public static async Task<AttachmentDraft> SaveNew(
+	public static async Task<AttachmentDraft> SaveNewPhoto(
+		AttachmentFiler filer,
+		Realm realm,
+		string filename,
+		Stream stream,
+		byte[] thumbnail = null)
+	{
+		return await SaveNewFile(filer, realm, filename, stream, thumbnail);
+	}
+
+	public static async Task<AttachmentDraft> SaveNewFile(
 		AttachmentFiler filer,
 		Realm realm,
 		string filename,
