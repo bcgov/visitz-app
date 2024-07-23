@@ -51,7 +51,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 			throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
 		}
 
-		string fullpath = await filer.SaveFileAsync(stream, new FileInfo(filename).Extension);
+		string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
 		var draft = MakeDraft(filer, filename, fullpath, thumbnail);
 
 		try
@@ -71,11 +71,14 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	static AttachmentDraft MakeDraft(AttachmentFiler filer, string filename, string relativePath, byte[] thumbnail)
 	{
+		int dotIndex = filename.LastIndexOf('.');
+
 		var draft = new AttachmentDraft()
 		{
 			Attachment = new()
 			{
-				Filename = filename,
+				Filename = dotIndex != -1 ? filename[..dotIndex] : filename,
+				Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
 				RelativePath = relativePath,
 				Thumbnail = thumbnail,
 			},
@@ -87,14 +90,26 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	public async Task<SubmitAttachmentEntity> ToSubmitAttachmentEntity(
 		AttachmentFiler attachmentFiler,
+		IStreamConverter streamConverter = null,
 		CancellationToken? token = null)
 	{
 		token ??= CancellationToken.None;
 
 		await using var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
-		byte[] attachmentBytes = new byte[attachmentStream.Length];
+		byte[] attachmentBytes;
 
-		await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
+		if (streamConverter != null)
+		{
+			var convertedStream = await streamConverter.ConvertAsync(attachmentStream);
+
+			attachmentBytes = new byte[convertedStream.Length];
+			await convertedStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
+		}
+		else
+		{
+			attachmentBytes = new byte[attachmentStream.Length];
+			await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
+		}
 
 		return new()
 		{

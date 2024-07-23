@@ -39,12 +39,22 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 		}
 	}
 
+	void Unregister()
+	{
+		WeakReferenceMessenger.Default.UnregisterAll(this);
+	}
+
 	public void Receive(ServiceStateMessage message)
 	{
 		if (message.FinishedSuccess)
 		{
 			Navigator.Navigation.RemovePage(Navigator.CurrentOpenPage);
-			WeakReferenceMessenger.Default.UnregisterAll(this);
+			Unregister();
 		}
+	}
+
+	private void CloseButton_Closing(object sender, Controls.ClosingEventArgs e)
+	{
+		Unregister();
 	}
 }

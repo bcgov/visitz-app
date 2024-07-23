@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Documents;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Views.BaseClasses.Publishing;
@@ -33,7 +34,9 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 	{
 		base.Create();
 
-		submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler);
+		var converter = TryMakeImageToPdfConverter(attachmentDraft);
+		submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler, converter);
+		
 		WeakReferenceMessenger.Default.Register(this, SubmitAttachmentService.MakeId(submitEntity));
 
 		Wait(LocalizedStrings.LoginToSubmitAttachment);
@@ -73,5 +76,12 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 	async Task DiscardAttachmentDraft()
 	{
 		await attachmentDraft.Attachment.DeleteAsync();
+	}
+
+	static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
+	{
+		return Attachment.AllowedImageTypes.Contains(attachmentDraft.Attachment.Extension)
+			? new ImagePdfStreamConverter(attachmentDraft.Attachment.Filename, DisplayOrientation.Unknown)
+			: null;
 	}
 }

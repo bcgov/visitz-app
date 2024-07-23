@@ -37,9 +37,14 @@ public partial class Attachment : IRealmObject, IRecordInfo
 	public string RelativePath { get; set; }
 
 	/// <summary>
-	/// Virtual name of the attachment as stored in ICM.
+	/// Virtual name of the attachment as stored in ICM, without the file type extension.
 	/// </summary>
 	public string Filename { get; set; }
+
+	/// <summary>
+	/// The file type extension including the dot '.'
+	/// </summary>
+	public string Extension { get; set; }
 
 	[Backlink(nameof(AttachmentDraft.Attachment))]
 	public IQueryable<AttachmentDraft> AttachmentDrafts { get; }
