@@ -71,11 +71,14 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	static AttachmentDraft MakeDraft(AttachmentFiler filer, string filename, string relativePath, byte[] thumbnail)
 	{
+		int dotIndex = filename.LastIndexOf('.');
+
 		var draft = new AttachmentDraft()
 		{
 			Attachment = new()
 			{
-				Filename = filename,
+				Filename = dotIndex != -1 ? filename[..dotIndex] : filename,
+				Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
 				RelativePath = relativePath,
 				Thumbnail = thumbnail,
 			},

@@ -57,4 +57,17 @@ public partial class Attachment
 			}
 		}
 	}
+
+	public string ExtensionBinding
+	{
+		get => IsValid ? Extension : default;
+		set
+		{
+			if (Extension != value)
+			{
+				this.Commit(() => Extension = value);
+				RaisePropertyChanged(nameof(ExtensionBinding));
+			}
+		}
+	}
 }
