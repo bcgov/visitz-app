@@ -46,10 +46,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		byte[] thumbnail = null)
 	{
 		if (stream.Length > Attachment.MaxFilesize)
-		{
-			double tooLargeSize = stream.Length / (double)Sizes.MB;
-			throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
-		}
+			ThrowSizeError(stream);
 
 		string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
 		var draft = MakeDraft(filer, filename, fullpath, thumbnail);
@@ -67,6 +64,12 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		}
 
 		return draft;
+	}
+
+	static void ThrowSizeError(Stream stream)
+	{
+		double tooLargeSize = stream.Length / (double)Sizes.MB;
+		throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
 	}
 
 	static AttachmentDraft MakeDraft(AttachmentFiler filer, string filename, string relativePath, byte[] thumbnail)
