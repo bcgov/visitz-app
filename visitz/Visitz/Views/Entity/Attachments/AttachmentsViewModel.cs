@@ -32,11 +32,13 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 	{
 		string extension = fileResult.FileName.GetFileExtension();
 		await using Stream stream = await fileResult.OpenReadAsync();
-		byte[] thumbnail = null;
 
 		if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
-			thumbnail = await stream.MakeThumbnail(ThumbnailSize).AsBytesAsync(ImageFormat.Jpeg);
-
-		await AttachmentDraft.SaveNewFile(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream, thumbnail);
+		{
+			byte[] thumbnail = await stream.MakeThumbnail(ThumbnailSize).AsBytesAsync(ImageFormat.Jpeg);
+			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream, thumbnail);
+		}
+		else
+			await AttachmentDraft.SaveNewFile(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 	}
 }
