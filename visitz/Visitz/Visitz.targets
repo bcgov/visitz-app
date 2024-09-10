@@ -142,7 +142,6 @@
 		 -->
 
 		<Message Importance="high" Text="Setting AppxManifest version '$(ApplicationDisplayVersion).$(ApplicationVersion)'" />
-
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(ApplicationDisplayVersion).$(ApplicationVersion)"
@@ -150,7 +149,6 @@
 			Namespaces="$(Namespace)" />
 
 		<Message Importance="high" Text="Setting AppxManifest background colors to '$(BuildTypeColor)'" />
-
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(BuildTypeColor)"
