@@ -1,0 +1,40 @@
+# Must be larger number than the previous build
+[int] $buildNumber = <build num here>
+
+# Leave blank for prod builds, or use "beta", "demo", "team"
+[string] $deploymentEnv = "<env here>"
+
+# Certificate thumbprint. May need to open the Safenet client to get this value
+[string] $certificateThumbprint = "<thumbprint>"
+
+# Commas need to be escaped: use %2C
+# e.g. "CN=BCGOV%2C O=SDPR" is equivalent to "CN=BCGOV, O=SDPR"
+[string] $certificateSubject = "<CN=SUBJ%2C O=HERE>"
+
+# Color of the build (prod/demo: "#003366", team: "")
+[string] $buildColor = "<hex color here>"
+
+# Auto enable/disable debug mode based on the deployment env.
+[string] $enableDebug = "false"
+if ($deploymentEnv -eq "team") {
+    $enableDebug = "true"
+}
+
+dotnet publish "..\visitz\Visitz\Visitz.csproj" `
+    --framework net8.0-windows10.0.19041.0 `
+    --configuration Release `
+    -p:ApplicationVersion=$buildNumber `
+    -p:DeploymentEnvironment=$deploymentEnv `
+    -p:PackageCertificateThumbprint=$certificateThumbprint `
+    -p:AppxCertificateSubject=$certificateSubject `
+    -p:BuildTypeColor=$buildColor `
+    -p:RuntimeIdentifierOverride="win10-x64" `
+    -p:UseAppSettings=true `
+    -p:Oidc_AuthenticationDomain="<string>" `
+    -p:Oidc_ClientId="<string>" `
+    -p:Oidc_RedirectUri="<string>" `
+    -p:Api_HttpsApiDomain="<string>" `
+    -p:ContactInfo_MailToAuthorize="<string>" `
+    -p:ContactInfo_AccessRequestFormUrl="<string>" `
+    -p:ContactInfo_FeedbackSurveyUrl="<string>" `
+    -p:Debug_EnableDebugOptions=$enableDebug
