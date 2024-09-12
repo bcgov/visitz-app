@@ -11,8 +11,6 @@ namespace Visitz.Views.Entity.Attachments;
 
 internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHolder
 {
-	public static readonly float ThumbnailSize = 200.0f;
-
 	[ObservableProperty]
 	public CaseloadItem caseloadItem;
 
