@@ -1,15 +1,13 @@
-using Microsoft.Maui.Graphics.Platform;
 using Realms;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
+using VisitzModel.Imaging;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Resources.Localization;
 using VisitzModel.Storage.Filesystem;
-using VisitzModel.Utilities;
-using IImage = Microsoft.Maui.Graphics.IImage;
 
 namespace VisitzModel.Models;
 
@@ -45,14 +43,28 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		AttachmentFiler filer,
 		Realm realm,
 		string filename,
-		Stream stream,
-		byte[] thumbnail = null)
+		Stream stream)
 	{
-		stream = LimitFilesizeByResize(stream, ImageFormat.Jpeg);
-		return await SaveNewFile(filer, realm, filename, stream, thumbnail);
+		var imgProc = new ImageProcessor(stream);
+
+		byte[] thumbnail = await (await imgProc.Downsize(Attachment.ThumbnailSize)).AsBytesAsync();
+
+		if (stream.Length > Attachment.MaxFilesize)
+			stream = await imgProc.DownsizeByFilesize(Attachment.MaxFilesize);
+
+		return await MakeAndSaveDraft(filer, realm, filename, stream, thumbnail);
 	}
 
 	public static async Task<AttachmentDraft> SaveNewFile(
+		AttachmentFiler filer,
+		Realm realm,
+		string filename,
+		Stream stream)
+	{
+		return await MakeAndSaveDraft(filer, realm, filename, stream);
+	}
+
+	static async Task<AttachmentDraft> MakeAndSaveDraft(
 		AttachmentFiler filer,
 		Realm realm,
 		string filename,
@@ -78,40 +90,6 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		}
 
 		return draft;
-	}
-
-	static Stream LimitFilesizeByResize(Stream stream, ImageFormat imageFormat)
-	{
-		if (stream.Length <= Attachment.MaxFilesize)
-			return stream;
-
-		var (image, newWidth, newHeight) = GetNewDimensions(stream, imageFormat);
-
-		var downsizedImage = image.Downsize(Math.Max(newWidth, newHeight));
-
-		var downsizedStream = downsizedImage.AsStream(imageFormat);
-
-		ConsoleTrace.TraceMethod(typeof(AttachmentDraft),
-			$"Original size '{stream.Length}' ||| Resized size '{downsizedStream.Length}'");
-
-		return downsizedStream;
-	}
-
-	static (IImage Image, float NewWidth, float NewHeight) GetNewDimensions(Stream stream, ImageFormat imageFormat)
-	{
-		stream.Seek(0, SeekOrigin.Begin);
-
-		var image = PlatformImage.FromStream(stream, imageFormat);
-
-		var (newWidth, newHeight) = ResizeImageValues.ResizeByFileSize(
-			image.Width,
-			image.Height,
-			Attachment.MaxFilesize);
-
-		ConsoleTrace.TraceMethod(typeof(AttachmentDraft),
-			$"Original w,h ({image.Width},{image.Height}) ||| Resized w,h ({newWidth},{newHeight})");
-
-		return (image, newWidth, newHeight);
 	}
 
 	static void ThrowSizeError(Stream stream)
