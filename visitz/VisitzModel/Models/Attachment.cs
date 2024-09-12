@@ -9,7 +9,7 @@ namespace VisitzModel.Models;
 public partial class Attachment : IRealmObject, IRecordInfo
 {
 	public static readonly int MaxFilesize = 5 * Sizes.MB;
-	public static readonly int ThumbnailSize = 200;
+	public static readonly int ThumbnailSize = 400;
 
 	public static readonly IEnumerable<string> AllowedImageTypes = [".jpg", ".jpeg"];
 	public static readonly IEnumerable<string> AllowedDocumentTypes = [".pdf"];
