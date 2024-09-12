@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Realms;
-using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -32,10 +31,7 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 		await using Stream stream = await fileResult.OpenReadAsync();
 
 		if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
-		{
-			byte[] thumbnail = await stream.MakeThumbnail(ThumbnailSize).AsBytesAsync(ImageFormat.Jpeg);
-			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream, thumbnail);
-		}
+			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 		else
 			await AttachmentDraft.SaveNewFile(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 	}

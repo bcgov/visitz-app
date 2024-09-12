@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using System.Text;
-using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
@@ -120,10 +119,9 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
 		try
 		{
-			byte[] thumbnailBytes = await stream.MakeThumbnail(AttachmentsViewModel.ThumbnailSize).AsBytesAsync(ImageFormat.Jpeg);
 			string filename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
 
-			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, filename, stream, thumbnailBytes);
+			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, filename, stream);
 		}
 		finally
 		{
