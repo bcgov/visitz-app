@@ -3,6 +3,7 @@ using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
+using VisitzModel.Imaging;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Resources.Localization;
@@ -38,7 +39,32 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 	public Attachment Attachment { get; set; }
 
-	public static async Task<AttachmentDraft> SaveNew(
+	public static async Task<AttachmentDraft> SaveNewPhoto(
+		AttachmentFiler filer,
+		Realm realm,
+		string filename,
+		Stream stream)
+	{
+		var imgProc = new ImageProcessor(stream);
+
+		byte[] thumbnail = await (await imgProc.Downsize(Attachment.ThumbnailSize)).AsBytesAsync();
+
+		if (stream.Length > Attachment.MaxFilesize)
+			stream = await imgProc.DownsizeByFilesize(Attachment.MaxFilesize);
+
+		return await MakeAndSaveDraft(filer, realm, filename, stream, thumbnail);
+	}
+
+	public static async Task<AttachmentDraft> SaveNewFile(
+		AttachmentFiler filer,
+		Realm realm,
+		string filename,
+		Stream stream)
+	{
+		return await MakeAndSaveDraft(filer, realm, filename, stream);
+	}
+
+	static async Task<AttachmentDraft> MakeAndSaveDraft(
 		AttachmentFiler filer,
 		Realm realm,
 		string filename,
@@ -46,10 +72,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		byte[] thumbnail = null)
 	{
 		if (stream.Length > Attachment.MaxFilesize)
-		{
-			double tooLargeSize = stream.Length / (double)Sizes.MB;
-			throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
-		}
+			ThrowSizeError(stream);
 
 		string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
 		var draft = MakeDraft(filer, filename, fullpath, thumbnail);
@@ -67,6 +90,12 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		}
 
 		return draft;
+	}
+
+	static void ThrowSizeError(Stream stream)
+	{
+		double tooLargeSize = stream.Length / (double)Sizes.MB;
+		throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
 	}
 
 	static AttachmentDraft MakeDraft(AttachmentFiler filer, string filename, string relativePath, byte[] thumbnail)
