@@ -6,7 +6,7 @@ public partial class ImageProcessor(Stream imageBytes)
 
 	static readonly float InitialFactor = 1.0f;
 
-	static readonly float ReductionFactor = 0.9f;
+	static readonly float ReductionFactor = 0.8f;
 
 	static readonly int FilesizeDownsizeLoopLimit = 25;
 
