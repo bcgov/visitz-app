@@ -24,7 +24,7 @@ public partial class ImageProcessor(Stream imageBytes)
 		do
 		{
 			Task<Stream> task = default;
-			DownsizeByFilesize(ref task, desiredMaxBytes);
+			DownsizeByFilesize(ref task, (int)(desiredMaxBytes * factor));
 			streamOut = await task;
 
 			factor *= ReductionFactor;
