@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
-    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.FormControls.FormEntry"
     x:DataType="formctls:FormEntry"
     x:Name="this">
@@ -25,6 +24,7 @@
             IsVisible="{Binding FieldNameIsVisible}"
             Text="{Binding FieldName}"
             HorizontalOptions="Start" />
+
         <AbsoluteLayout 
             VerticalOptions="FillAndExpand" 
             Grid.Row="1" 
@@ -39,20 +39,18 @@
                 MaxLength="{Binding MaxLength}"
                 Text="{Binding Text}"
                 TextChanged="Editor_TextChanged"/>
-
             <Label
-                    x:Name="EditorError"
-                    AbsoluteLayout.LayoutFlags="PositionProportional"
-                    AbsoluteLayout.LayoutBounds="1,0.5"
-                    IsVisible="False" 
-                    VerticalOptions="Center"
-                    FontFamily="MaterialIconsRoundedFilled"
-                    FontSize="25"
-                    Text="{Static fonticons:MaterialIcons.Error}"
-                    TextColor="{StaticResource BC_Semantic_Error}"
-                    Margin="5"/>
-
-			</AbsoluteLayout>
+                x:Name="EditorError"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="1,0.5"
+                IsVisible="False" 
+                VerticalOptions="Center"
+                FontFamily="MaterialIconsRoundedFilled"
+                FontSize="25"
+                Text="{Static fonticons:MaterialIcons.Error}"
+                TextColor="{StaticResource BC_Semantic_Error}"
+                Margin="5"/>
+        </AbsoluteLayout>
 
         <Label 
             Grid.Row="2"
@@ -61,7 +59,6 @@
             Text="{Binding LeadingSupportingText}"
             Style="{StaticResource LabelSmall}"
             FontFamily="BCSansBold"
-            FontAttributes="Bold"
             TextColor="{StaticResource BC_Semantic_Error}" />
 
         <Label 
