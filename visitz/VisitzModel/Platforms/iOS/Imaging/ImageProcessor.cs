@@ -6,14 +6,6 @@ namespace VisitzModel.Imaging;
 
 public partial class ImageProcessor
 {
-	static readonly string MaxLoopsError = "Reached loop limit ({0}) when downsizing image ({1} bytes)";
-
-	static readonly float InitialFactor = 1.0f;
-
-	static readonly float ReductionFactor = 0.9f;
-
-	static readonly int FilesizeDownsizeLoopLimit = 25;
-
 	partial void DownsizeByFilesize(ref Task<Stream> downsizeImageTask, int bytesLength)
 	{
 		downsizeImageTask = bytesLength >= ImageBytes.Length
@@ -21,29 +13,11 @@ public partial class ImageProcessor
 			: Task.Run(() =>
 			{
 				ImageBytes.Seek(0, SeekOrigin.Begin);
+
 				var image = PlatformImage.FromStream(ImageBytes, ImageFormat.Jpeg);
 				var newMax = ResizeImageValues.MaxNewDimensionByFileSize(image.Width, image.Height, bytesLength);
 
-				Stream streamOut;
-				float factor = InitialFactor;
-				int loopCount = 0;
-
-				do
-				{
-					streamOut = image.Downsize(newMax * factor).AsStream();
-					
-					factor *= ReductionFactor;
-					loopCount++;
-
-					if (loopCount >= FilesizeDownsizeLoopLimit)
-					{
-						var error = MaxLoopsError.Format(FilesizeDownsizeLoopLimit, streamOut.Length);
-						throw new InvalidOperationException(error);
-					}
-
-				} while (streamOut.Length > bytesLength);
-
-				return streamOut;
+				return image.Downsize(newMax).AsStream();
 			});
 	}
 
