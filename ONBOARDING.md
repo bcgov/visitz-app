@@ -12,7 +12,7 @@ Use this guide when setting up VSCode for the first time or updating framework v
  
 ### XCode and its tooling
  
-1. Install version of XCode that the current [MAUI version](https://github.com/dotnet/maui/wiki/Release-Versions) supports
+1. Install the version of XCode that the app's current [MAUI version](https://github.com/dotnet/maui/wiki/Release-Versions) supports.
 
     [Visitz.csproj:81-82](https://github.com/BC-Gov-Social-Sector/mcfd-mobility/blob/794773121a6c77e074efba9e1a51acda13094ca2/visitz/Visitz/Visitz.csproj#L81). Example PackageReferences:
 
