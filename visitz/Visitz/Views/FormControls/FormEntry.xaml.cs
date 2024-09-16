@@ -127,7 +127,6 @@ public partial class FormEntry : ContentView
 
     public async Task ShowSafetyAssessmentEditorError(string text)
     {
-        // await Task.WhenAll(ShowAssessmentErrorText(text), AnimateAssessmentEditorError());
         await Task.WhenAll(ShowSafetyAssessmentErrorText(text));
     }
 
@@ -136,7 +135,6 @@ public partial class FormEntry : ContentView
         if (SafetyAssessmentEditorError.IsVisible)
             return;
 
-        // AssessmentEditorError.Text = text;
         LeadingSupportingText = text;
         SafetyAssessmentEditorError.IsVisible= true;
 
