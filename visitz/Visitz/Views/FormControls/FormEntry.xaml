@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
@@ -7,32 +7,32 @@
     x:Class="Visitz.Views.FormControls.FormEntry"
     x:DataType="formctls:FormEntry"
     x:Name="this">
-    
+
     <Grid
         BindingContext="{Reference this}"
         ColumnDefinitions="*,*">
 
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="FieldNameRow" />
-            <RowDefinition />
-            <RowDefinition x:Name="SubRow" />
+            <RowDefinition x:Name="FieldNameRow"/>
+            <RowDefinition/>
+            <RowDefinition x:Name="SubRow"/>
         </Grid.RowDefinitions>
-        
-        <Label 
+
+        <Label
             Grid.Row="0"
             Grid.ColumnSpan="2"
             IsVisible="{Binding FieldNameIsVisible}"
             Text="{Binding FieldName}"
-            HorizontalOptions="Start" />
+            HorizontalOptions="Start"/>
 
-        <AbsoluteLayout 
-            VerticalOptions="FillAndExpand" 
-            Grid.Row="1" 
+        <AbsoluteLayout
+            VerticalOptions="FillAndExpand"
+            Grid.Row="1"
             Grid.ColumnSpan="2">
             <Editor
                 x:Name="Editor"
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
-			    AbsoluteLayout.LayoutBounds="0,0,1,-1"
+                AbsoluteLayout.LayoutBounds="0,0,1,-1"
                 AutoSize="TextChanges"
                 Placeholder="{Binding Placeholder}"
                 PlaceholderColor="{StaticResource Gray400}"
@@ -43,7 +43,7 @@
                 x:Name="EditorError"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 AbsoluteLayout.LayoutBounds="1,0.5"
-                IsVisible="False" 
+                IsVisible="False"
                 VerticalOptions="Center"
                 FontFamily="MaterialIconsRoundedFilled"
                 FontSize="25"
@@ -52,21 +52,21 @@
                 Margin="5"/>
         </AbsoluteLayout>
 
-        <Label 
+        <Label
             Grid.Row="2"
             Grid.Column="0"
             HorizontalOptions="Start"
             Text="{Binding LeadingSupportingText}"
             Style="{StaticResource LabelSmall}"
             FontFamily="BCSansBold"
-            TextColor="{StaticResource BC_Semantic_Error}" />
+            TextColor="{StaticResource BC_Semantic_Error}"/>
 
-        <Label 
+        <Label
             Grid.Row="2"
             Grid.Column="1"
             HorizontalOptions="End"
             Text="{Binding TrailingSupportingText}"
-            Style="{StaticResource LabelSmall}" />
+            Style="{StaticResource LabelSmall}"/>
     </Grid>
-    
+
 </ContentView>

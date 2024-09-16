@@ -11,7 +11,7 @@ public partial class FormEntry : ContentView
 
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(nameof(Text), typeof(string), typeof(FormEntry),
-            defaultBindingMode: BindingMode.TwoWay, 
+            defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: (boundObj, oldVal, newVal) => (boundObj as FormEntry).UpdateCharacterCount());
 
     public static readonly BindableProperty LeadingSupportingTextProperty =
@@ -21,7 +21,7 @@ public partial class FormEntry : ContentView
         BindableProperty.Create(nameof(TrailingSupportingText), typeof(string), typeof(FormEntry));
 
     public static readonly BindableProperty FieldNameIsVisibleProperty =
-        BindableProperty.Create(nameof(FieldNameIsVisible), typeof(bool), typeof(FormEntry), 
+        BindableProperty.Create(nameof(FieldNameIsVisible), typeof(bool), typeof(FormEntry),
             defaultValue: true,
             propertyChanged: (boundObj, oldVal, newVal) =>
         {
@@ -88,9 +88,9 @@ public partial class FormEntry : ContentView
     }
 
     public FormEntry()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     private void UpdateBottomRowVisibility(int maxLength)
     {
@@ -104,7 +104,7 @@ public partial class FormEntry : ContentView
 
     private void Editor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        
+
         if (ContainEmojis(e))
         {
             CancelTextChangedEvent(sender, e);
@@ -118,7 +118,7 @@ public partial class FormEntry : ContentView
     {
         return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
     }
-    
+
     private void CancelTextChangedEvent(object sender, TextChangedEventArgs e)
     {
         var textBox = sender as Editor;
@@ -136,12 +136,12 @@ public partial class FormEntry : ContentView
             return;
 
         LeadingSupportingText = text;
-        EditorError.IsVisible= true;
+        EditorError.IsVisible = true;
 
         await Task.Delay(2000);
-        
+
         LeadingSupportingText = null;
         EditorError.IsVisible = false;
     }
-    
+
 }
