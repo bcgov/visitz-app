@@ -4,10 +4,13 @@ public partial class ImageProcessor(Stream imageBytes)
 {
 	Stream ImageBytes { get; } = imageBytes;
 
-	public Task<Stream> DownsizeByFilesize(int bytesLength)
+	public Task<Stream> DownsizeByFilesize(int desiredMaxBytes)
 	{
+		if (ImageBytes.Length <= desiredMaxBytes)
+			return Task.FromResult(ImageBytes);
+
 		Task<Stream> task = default;
-		DownsizeByFilesize(ref task, bytesLength);
+		DownsizeByFilesize(ref task, desiredMaxBytes);
 		return task;
 	}
 
