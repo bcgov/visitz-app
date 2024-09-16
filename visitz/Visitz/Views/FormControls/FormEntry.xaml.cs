@@ -1,5 +1,9 @@
 namespace Visitz.Views.FormControls;
 
+using Visitz.Resources.Localization;
+using VisitzModel.Extensions;
+using Visitz.Animations.Haptic;
+
 public partial class FormEntry : ContentView
 {
     public static readonly BindableProperty FieldNameProperty =
@@ -97,4 +101,49 @@ public partial class FormEntry : ContentView
     {
         TrailingSupportingText = $"{Text?.Length ?? 0}/{MaxLength}";
     }
+
+    private void SafetyAssessmentEditor_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        
+        if (SafetyAssessmentContainEmojis(e))
+        {
+            CancelTextChangedEvent(sender, e);
+            var ErrorMessage = LocalizedStrings.InvalidEntry;
+            ShowSafetyAssessmentEditorError(ErrorMessage);
+            return;
+        }
+    }
+
+    private static bool SafetyAssessmentContainEmojis(TextChangedEventArgs e)
+    {
+        return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
+    }
+    
+    private void CancelTextChangedEvent(object sender, TextChangedEventArgs e)
+    {
+        var textBox = sender as Editor;
+        textBox.Text = e.OldTextValue;
+    }
+
+    public async Task ShowSafetyAssessmentEditorError(string text)
+    {
+        // await Task.WhenAll(ShowAssessmentErrorText(text), AnimateAssessmentEditorError());
+        await Task.WhenAll(ShowSafetyAssessmentErrorText(text));
+    }
+
+    private async Task ShowSafetyAssessmentErrorText(string text)
+    {
+        if (SafetyAssessmentEditorError.IsVisible)
+            return;
+
+        // AssessmentEditorError.Text = text;
+        LeadingSupportingText = text;
+        SafetyAssessmentEditorError.IsVisible= true;
+
+        await Task.Delay(2000);
+        
+        LeadingSupportingText = null;
+        SafetyAssessmentEditorError.IsVisible = false;
+    }
+    
 }
