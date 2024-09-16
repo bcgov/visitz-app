@@ -123,7 +123,7 @@ namespace Visitz.Views.Entity.Notes
 			if (length > 0 && !NoteDraft.IsManaged)
 				Realm.Write(() => Realm.Add(NoteDraft));
 
-			if (TextIsInvalid(e))
+			if (ContainEmojis(e))
             {
                 CancelTextChangedEvent(e);
                 DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.InvalidEntry));
@@ -157,7 +157,7 @@ namespace Visitz.Views.Entity.Notes
             return e.NewTextValue?.Length > CharacterLimit;
         }
 
-        private static bool TextIsInvalid(TextChangedEventArgs e)
+        private static bool ContainEmojis(TextChangedEventArgs e)
         {
             return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
         }
