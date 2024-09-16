@@ -17,8 +17,8 @@ Use this guide when setting up VSCode for the first time or updating framework v
     [Visitz.csproj:81-82](https://github.com/BC-Gov-Social-Sector/mcfd-mobility/blob/794773121a6c77e074efba9e1a51acda13094ca2/visitz/Visitz/Visitz.csproj#L81). Example PackageReferences:
 
     ```xml
-    	<PackageReference Include="Microsoft.Maui.Controls" Version="x.y.z" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="x.y.z" />
+	<PackageReference Include="Microsoft.Maui.Controls" Version="x.y.z" />
+	<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="x.y.z" />
     ```
  
 2. Make sure XCode command line tools are installed (XCode > Settings > Locations > Command Line Tools | or do `xcode-select --install` in terminal)
