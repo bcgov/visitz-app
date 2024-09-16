@@ -102,19 +102,19 @@ public partial class FormEntry : ContentView
         TrailingSupportingText = $"{Text?.Length ?? 0}/{MaxLength}";
     }
 
-    private void SafetyAssessmentEditor_TextChanged(object sender, TextChangedEventArgs e)
+    private void Editor_TextChanged(object sender, TextChangedEventArgs e)
     {
         
-        if (SafetyAssessmentContainEmojis(e))
+        if (ContainEmojis(e))
         {
             CancelTextChangedEvent(sender, e);
             var ErrorMessage = LocalizedStrings.InvalidEntry;
-            ShowSafetyAssessmentEditorError(ErrorMessage);
+            ShowEditorError(ErrorMessage);
             return;
         }
     }
 
-    private static bool SafetyAssessmentContainEmojis(TextChangedEventArgs e)
+    private static bool ContainEmojis(TextChangedEventArgs e)
     {
         return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
     }
@@ -125,23 +125,23 @@ public partial class FormEntry : ContentView
         textBox.Text = e.OldTextValue;
     }
 
-    public async Task ShowSafetyAssessmentEditorError(string text)
+    public async Task ShowEditorError(string text)
     {
-        await Task.WhenAll(ShowSafetyAssessmentErrorText(text));
+        await Task.WhenAll(ShowErrorText(text));
     }
 
-    private async Task ShowSafetyAssessmentErrorText(string text)
+    private async Task ShowErrorText(string text)
     {
-        if (SafetyAssessmentEditorError.IsVisible)
+        if (EditorError.IsVisible)
             return;
 
         LeadingSupportingText = text;
-        SafetyAssessmentEditorError.IsVisible= true;
+        EditorError.IsVisible= true;
 
         await Task.Delay(2000);
         
         LeadingSupportingText = null;
-        SafetyAssessmentEditorError.IsVisible = false;
+        EditorError.IsVisible = false;
     }
     
 }

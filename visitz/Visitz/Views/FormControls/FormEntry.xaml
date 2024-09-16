@@ -25,9 +25,12 @@
             IsVisible="{Binding FieldNameIsVisible}"
             Text="{Binding FieldName}"
             HorizontalOptions="Start" />
-        <AbsoluteLayout VerticalOptions="FillAndExpand" Grid.Row="1" Grid.ColumnSpan="2">
+        <AbsoluteLayout 
+            VerticalOptions="FillAndExpand" 
+            Grid.Row="1" 
+            Grid.ColumnSpan="2">
             <Editor
-                x:Name="SafetyAssessmentEditor"
+                x:Name="Editor"
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
 			    AbsoluteLayout.LayoutBounds="0,0,1,-1"
                 AutoSize="TextChanges"
@@ -35,10 +38,10 @@
                 PlaceholderColor="{StaticResource Gray400}"
                 MaxLength="{Binding MaxLength}"
                 Text="{Binding Text}"
-                TextChanged="SafetyAssessmentEditor_TextChanged"/>
+                TextChanged="Editor_TextChanged"/>
 
             <Label
-                    x:Name="SafetyAssessmentEditorError"
+                    x:Name="EditorError"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     AbsoluteLayout.LayoutBounds="1,0.5"
                     IsVisible="False" 
