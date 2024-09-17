@@ -2,6 +2,7 @@ namespace Visitz.Views.FormControls;
 
 using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
+using Visitz.Animations;
 using Visitz.Animations.Haptic;
 
 public partial class FormEntry : ContentView
@@ -109,7 +110,7 @@ public partial class FormEntry : ContentView
         {
             CancelTextChangedEvent(sender, e);
             var ErrorMessage = LocalizedStrings.InvalidEntry;
-            ShowEditorError(ErrorMessage);
+            _ = ShowEditorError(ErrorMessage);
             return;
         }
     }
@@ -127,7 +128,7 @@ public partial class FormEntry : ContentView
 
     public async Task ShowEditorError(string text)
     {
-        await Task.WhenAll(ShowErrorText(text));
+        await Task.WhenAll(ShowErrorText(text), AnimateEditorError());
     }
 
     private async Task ShowErrorText(string text)
@@ -135,13 +136,21 @@ public partial class FormEntry : ContentView
         if (EditorError.IsVisible)
             return;
 
+		var showAnimation = new VisibilityAnimation(true, 1000);
         LeadingSupportingText = text;
-        EditorError.IsVisible = true;
+		await Task.WhenAll(showAnimation.Animate(EditorError), showAnimation.Animate(LeadingSupportingLabel));
 
         await Task.Delay(2000);
 
-        LeadingSupportingText = null;
-        EditorError.IsVisible = false;
+		var hideAnimation = new VisibilityAnimation(false, 1000);
+		await Task.WhenAll(hideAnimation.Animate(EditorError), hideAnimation.Animate(LeadingSupportingLabel));
+    }
+
+	private async Task AnimateEditorError()
+    {
+        var vibrateErrorAnim = new ErrorVibrateAnimation();
+        await vibrateErrorAnim.Animate(Editor);
+
     }
 
 }
