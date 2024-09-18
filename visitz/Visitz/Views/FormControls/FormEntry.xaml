@@ -47,14 +47,14 @@
                 VerticalOptions="Center"
                 FontFamily="MaterialIconsRoundedFilled"
                 FontSize="25"
-				FontAutoScalingEnabled="False"
+                FontAutoScalingEnabled="False"
                 Text="{Static fonticons:MaterialIcons.Error}"
                 TextColor="{StaticResource BC_Semantic_Error}"
                 Margin="5"/>
         </AbsoluteLayout>
 
         <Label
-			x:Name="LeadingSupportingLabel"
+            x:Name="LeadingSupportingLabel"
             Grid.Row="2"
             Grid.Column="0"
             HorizontalOptions="Start"
