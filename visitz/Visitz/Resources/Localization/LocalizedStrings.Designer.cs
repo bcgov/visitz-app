@@ -880,7 +880,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
         ///
-        ///Logging out won&apos;t affect your unpublished notes..
+        ///Logging out won&apos;t affect your unpublished drafts..
         /// </summary>
         public static string LogoutAndClearDataDesc {
             get {
