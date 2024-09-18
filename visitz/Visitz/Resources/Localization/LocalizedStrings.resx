@@ -192,7 +192,7 @@
   <data name="LogoutAndClearDataDesc" xml:space="preserve">
     <value>Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
 
-Logging out won't affect your unpublished notes.</value>
+Logging out won't affect your unpublished drafts.</value>
   </data>
   <data name="YouAreAuthorized" xml:space="preserve">
     <value>You are authorized to use MCFD Mobility.</value>
