@@ -17,6 +17,7 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
         BindingContext = ViewModel;
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
+		HideSoftInputOnTapped = true;
 	}
 
     private void ReceiveAppNavMessage(object recipient, AppNavMessage message)
