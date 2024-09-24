@@ -12,15 +12,14 @@ on:
 
 env:
   PROJPATH: "visitz/Visitz"
-  DOTNET_SDK_VERSION: "8.0.203" # see workflows README
-  MAUI_WORKLOAD_VERSION: "8.0.7" # see workflows README
-  XCODE_VERSION: "15.1"
+  DOTNET_SDK_VERSION: "8.0.402"
+  XCODE_VERSION: "15.4"
 
 jobs:
 
   build-ios-package:
     name: Building, archiving and uploading IPA to GitHub
-    runs-on: macOS-13
+    runs-on: macOS-14
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
     env:
@@ -60,8 +59,7 @@ jobs:
 
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
         run: |
-          dotnet workload install maui maui-ios \
-            --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_WORKLOAD_VERSION }}.json
+          dotnet workload install maui maui-ios
 
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |
