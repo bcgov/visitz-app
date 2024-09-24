@@ -30,6 +30,7 @@
                 FontSize="17"/>
 
             <tagview:TagView Padding="8,3">
+            <tagview:TagView Padding="8,0">
                 <tagview:TagView.Behaviors>
                     <tagBehaviors:ContactRelationshipTagBehavior />
                 </tagview:TagView.Behaviors>
