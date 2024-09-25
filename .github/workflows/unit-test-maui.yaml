@@ -15,7 +15,7 @@ permissions:
 
 env:
   BASE_PROJPATH: "./visitz"
-  DOTNET_SDK_VERSION: "8.0.203"
+  DOTNET_SDK_VERSION: "8.0.402"
 
 jobs:
   run-maui-tests:
