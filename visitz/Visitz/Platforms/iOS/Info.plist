@@ -47,5 +47,7 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera used for taking pictures to add to records as attachments.</string>
+	<key>UIUserInterfaceStyle</key> <!-- For light mode only -->
+	<string>Light</string>
 </dict>
 </plist>
