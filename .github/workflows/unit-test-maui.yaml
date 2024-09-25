@@ -51,13 +51,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workload
+      - name: Install .NET MAUI workload
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
           dotnet workload install maui
       
-      - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} 'ios' and 'maccatalyst' workloads
+      - name: Install .NET MAUI 'ios' and 'maccatalyst' workloads
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
