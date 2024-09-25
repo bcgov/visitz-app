@@ -15,8 +15,7 @@ permissions:
 
 env:
   BASE_PROJPATH: "./visitz"
-  DOTNET_SDK_VERSION: "8.0.203" # see workflows README
-  MAUI_WORKLOAD_VERSION: "8.0.7" # see workflows README
+  DOTNET_SDK_VERSION: "8.0.203"
 
 jobs:
   run-maui-tests:
@@ -56,13 +55,13 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
-          dotnet workload install maui --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_WORKLOAD_VERSION }}.json
+          dotnet workload install maui
       
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} 'ios' and 'maccatalyst' workloads
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
-          dotnet workload install ios maccatalyst --from-rollback-file https://maui.blob.core.windows.net/metadata/rollbacks/${{ env.MAUI_WORKLOAD_VERSION }}.json
+          dotnet workload install ios maccatalyst
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
