@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MetroLog.MicrosoftExtensions;
+using Microsoft.Extensions.Logging;
+using MicrosoftLogLevel = Microsoft.Extensions.Logging.LogLevel;
+using MetroLogLevel = MetroLog.LogLevel;
+using Visitz.Storage;
 
 namespace Visitz.VisitzConfig
 {
@@ -12,7 +16,20 @@ namespace Visitz.VisitzConfig
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            builder.Logging
+            .SetMinimumLevel((MicrosoftLogLevel)MetroLogLevel.Trace)
+            .AddTraceLogger(
+                options =>
+                {
+                    options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
+                })
+            .AddConsoleLogger(
+                options =>
+                {
+                    options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
+                });
 
+            builder.Logging.Services.AddSingleton<ILoggerProvider, RealmAsyncTarget>();
             return builder;
         }
     }

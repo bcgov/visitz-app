@@ -10,9 +10,9 @@ public partial class DraftSavedView : ContentView
 
 	public enum State
 	{
-		None,
-		Saving,
-		Saved,
+		None = 0,
+		Saving = 1,
+		Saved = 2,
 	}
 
 	public State DraftState { get; set; }
@@ -41,6 +41,8 @@ public partial class DraftSavedView : ContentView
             case State.Saved:
                 await AnimateCrossfade(showSaving: false, showSaved: true);
                 break;
+            default:
+                throw new NotImplementedException($"Not implemented: {state}");
         }
 	}
 

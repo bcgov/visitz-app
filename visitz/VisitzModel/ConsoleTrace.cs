@@ -9,6 +9,15 @@ public static class ConsoleTrace
 #endif
 
 	public static void TraceMethod(
+		object caller,
+		Exception ex,
+		string prepend = null,
+		[CallerMemberName] string memberName = "")
+	{
+		TraceMethod(caller.GetType(), ex.Message + " => " + ex.StackTrace, prepend, memberName);
+	}
+
+	public static void TraceMethod(
         object caller,
         string message = null,
         string prepend = null,

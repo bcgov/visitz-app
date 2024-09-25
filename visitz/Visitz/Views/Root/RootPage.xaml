@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:root="clr-namespace:Visitz.Views.Root"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="Visitz.Views.Root.RootPage"
+    x:DataType="root:RootViewModel"
+    NavigationPage.HasNavigationBar="False"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+
+    <baseClasses:VisitzPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarStyle="LightContent" StatusBarColor="{StaticResource BuildBarBackgroundColor}" />
+    </baseClasses:VisitzPage.Behaviors>
+
+	<AbsoluteLayout x:Name="RootAbsoluteLayout">
+		<StackLayout
+			AbsoluteLayout.LayoutFlags="All"
+			AbsoluteLayout.LayoutBounds="0,0,1,1"
+			Orientation="Vertical">
+			
+			<StackLayout 
+				Orientation="Horizontal"
+				HorizontalOptions="FillAndExpand" 
+				VerticalOptions="FillAndExpand">
+
+				<!-- 
+					For some reason it seems that the ContentView's implicit binding context changes, so we need to
+					specifically reference RootViewModel.
+				-->
+				<nav:VerticalNavRailView IsVisible="{Binding IsLandscape, 
+					Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
+
+				<BoxView 
+					IsVisible="{Binding IsLandscape}"
+					WidthRequest="2"
+					Color="{StaticResource BC_Gold}" />
+
+				<StackLayout 
+					x:Name="ContentPane" 
+					Orientation="Horizontal"
+					HorizontalOptions="FillAndExpand" 
+					VerticalOptions="FillAndExpand" />
+
+			</StackLayout>
+
+			<BoxView 
+				IsVisible="{Binding IsPortrait}"
+				HeightRequest="2"
+				Color="{StaticResource BC_Gold}" />
+
+			<!-- 
+				For some reason it seems that the ContentView's implicit binding context changes, so we need to
+				specifically reference RootViewModel.
+			-->
+			<nav:HorizontalNavRailView IsVisible="{Binding IsPortrait, 
+				Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
+
+		</StackLayout>
+
+		<ContentView
+			x:Name="SnackbarContainer"
+			AbsoluteLayout.LayoutFlags="PositionProportional"
+			AbsoluteLayout.LayoutBounds="0.5,1"
+			Margin="48"
+			IsVisible="False" />
+	</AbsoluteLayout>
+    
+</baseClasses:VisitzPage>

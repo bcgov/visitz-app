@@ -16,6 +16,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<SubmitNoteService>();
             builder.Services.AddTransient<SubmitAndGetNotesService>();
             builder.Services.AddTransient<SubmitSafetyAssessmentService>();
+			builder.Services.AddTransient<SubmitAttachmentService>();
 
             return builder;
         }

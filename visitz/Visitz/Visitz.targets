@@ -142,15 +142,20 @@
 		 -->
 
 		<Message Importance="high" Text="Setting AppxManifest version '$(ApplicationDisplayVersion).$(ApplicationVersion)'" />
-
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(ApplicationDisplayVersion).$(ApplicationVersion)"
 			Query="/appx:Package/appx:Identity/@Version"
 			Namespaces="$(Namespace)" />
 
-		<Message Importance="high" Text="Setting AppxManifest background colors to '$(BuildTypeColor)'" />
+		<Message Importance="high" Text="Setting AppxManifest certificate subject ($(AppxCertificateSubject))" />
+		<XmlPoke
+			XmlInputPath="$(AppxManifestPath)"
+			Value="$(AppxCertificateSubject)"
+			Query="/appx:Package/appx:Identity/@Publisher"
+			Namespaces="$(Namespace)" />
 
+		<Message Importance="high" Text="Setting AppxManifest background colors to '$(BuildTypeColor)'" />
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(BuildTypeColor)"

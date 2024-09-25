@@ -1,37 +1,14 @@
-using System.Collections.Concurrent;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
+using VisitzModel.Utilities;
 
 namespace Visitz.Services
 {
 	public class GetNotesService(Vpi vpi) : VisitzApiService(vpi)
 	{
-		static readonly ConcurrentQueue<Task> notesQueue = new();
-		static Task writeFromQueue;
-
-		static Task EnqueueNotesTaskAsync(Action action)
-		{
-			Task task = new(action, TaskCreationOptions.PreferFairness);
-
-			notesQueue.Enqueue(task);
-
-			if (writeFromQueue == null || writeFromQueue.IsCompleted)
-				writeFromQueue = CreateWriteFromQueueTask();
-
-			return task;
-		}
-
-		// Disable warning because we're using Task functionality without 'await'
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-		static async Task CreateWriteFromQueueTask()
-		{
-			while (!notesQueue.IsEmpty)
-				if (notesQueue.TryDequeue(out Task task))
-					task.Start();
-		}
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+		static readonly EagerActionQueue actionQueue = new();
 
         public static string MakeId(string caseIncidentId)
         {
@@ -73,7 +50,7 @@ namespace Visitz.Services
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
             var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
 
-			await EnqueueNotesTaskAsync(async () =>
+			await actionQueue.EnqueueAsync(async () =>
 			{
 				using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 				await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes);

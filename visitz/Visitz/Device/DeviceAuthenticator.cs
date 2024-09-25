@@ -1,4 +1,4 @@
-﻿using Plugin.Fingerprint;
+using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using Visitz.Resources.Localization;
 
@@ -9,25 +9,21 @@ namespace Visitz.Device
     /// </summary>
 	public class DeviceAuthenticator
     {
-        public async Task<Result> Authenticate()
+        public static async Task<FingerprintAuthenticationResult> Authenticate(string title, string reason)
         {
-            var request = new AuthenticationRequestConfiguration(LocalizedStrings.DeviceAuthTitle,
-                LocalizedStrings.DeviceAuthReason)
+            var request = new AuthenticationRequestConfiguration(title, reason)
             {
                 AllowAlternativeAuthentication = true,
             };
 
-            var result = await CrossFingerprint.Current.AuthenticateAsync(request);
-
-            return result.Authenticated ? Result.Successful : Result.Failure;
+            return await CrossFingerprint.Current.AuthenticateAsync(request);
         }
 
-        public enum Result
+        public static async Task<(bool Available, FingerprintAvailability)> GetAvailabilityAsync()
         {
-            NotConfigured,
-            Successful,
-            Failure
+            var result = await CrossFingerprint.Current.GetAvailabilityAsync(true);
+
+            return (result == FingerprintAvailability.Available, result);
         }
     }
 }
-

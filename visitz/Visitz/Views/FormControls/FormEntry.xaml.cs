@@ -1,5 +1,10 @@
 namespace Visitz.Views.FormControls;
 
+using Visitz.Resources.Localization;
+using VisitzModel.Extensions;
+using Visitz.Animations;
+using Visitz.Animations.Haptic;
+
 public partial class FormEntry : ContentView
 {
     public static readonly BindableProperty FieldNameProperty =
@@ -7,7 +12,7 @@ public partial class FormEntry : ContentView
 
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(nameof(Text), typeof(string), typeof(FormEntry),
-            defaultBindingMode: BindingMode.TwoWay, 
+            defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: (boundObj, oldVal, newVal) => (boundObj as FormEntry).UpdateCharacterCount());
 
     public static readonly BindableProperty LeadingSupportingTextProperty =
@@ -17,7 +22,7 @@ public partial class FormEntry : ContentView
         BindableProperty.Create(nameof(TrailingSupportingText), typeof(string), typeof(FormEntry));
 
     public static readonly BindableProperty FieldNameIsVisibleProperty =
-        BindableProperty.Create(nameof(FieldNameIsVisible), typeof(bool), typeof(FormEntry), 
+        BindableProperty.Create(nameof(FieldNameIsVisible), typeof(bool), typeof(FormEntry),
             defaultValue: true,
             propertyChanged: (boundObj, oldVal, newVal) =>
         {
@@ -84,9 +89,9 @@ public partial class FormEntry : ContentView
     }
 
     public FormEntry()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     private void UpdateBottomRowVisibility(int maxLength)
     {
@@ -97,4 +102,55 @@ public partial class FormEntry : ContentView
     {
         TrailingSupportingText = $"{Text?.Length ?? 0}/{MaxLength}";
     }
+
+    private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+        if (ContainEmojis(e))
+        {
+            CancelTextChangedEvent(sender, e);
+            var ErrorMessage = LocalizedStrings.InvalidEntry;
+            _ = ShowEditorError(ErrorMessage);
+            return;
+        }
+    }
+
+    private static bool ContainEmojis(TextChangedEventArgs e)
+    {
+        return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
+    }
+
+    private void CancelTextChangedEvent(object sender, TextChangedEventArgs e)
+    {
+        var textBox = sender as Editor;
+        textBox.Text = e.OldTextValue;
+    }
+
+    public async Task ShowEditorError(string text)
+    {
+        await Task.WhenAll(ShowErrorText(text), AnimateEditorError());
+    }
+
+    private async Task ShowErrorText(string text)
+    {
+        if (EditorError.IsVisible)
+            return;
+
+		var showAnimation = new VisibilityAnimation(true, 1000);
+        LeadingSupportingText = text;
+		await Task.WhenAll(showAnimation.Animate(EditorError), showAnimation.Animate(LeadingSupportingLabel));
+
+        await Task.Delay(2000);
+
+		var hideAnimation = new VisibilityAnimation(false, 1000);
+		await Task.WhenAll(hideAnimation.Animate(EditorError), hideAnimation.Animate(LeadingSupportingLabel));
+    }
+
+	private async Task AnimateEditorError()
+    {
+        var vibrateErrorAnim = new ErrorVibrateAnimation();
+        await vibrateErrorAnim.Animate(Editor);
+
+    }
+
 }

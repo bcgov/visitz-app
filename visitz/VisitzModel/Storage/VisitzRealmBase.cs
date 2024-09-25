@@ -7,23 +7,16 @@ using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
 
 namespace VisitzModel.Storage;
 
-public abstract class VisitzRealmBase
+public abstract class VisitzRealmBase(string realmName, ulong version, byte[] encryptionKey)
 {
     public static readonly ulong Version2_0 = 1;
 	public static readonly ulong Version2_3_3 = 2;
 
-	public string RealmName { get; private set; }
+    public string RealmName { get; private set; } = realmName;
 
-    public ulong Version { get; private set; }
+    public ulong Version { get; private set; } = version;
 
-    public byte[] EncryptionKey { get; private set; }
-
-    protected VisitzRealmBase(string realmName, ulong version, byte[] encryptionKey)
-    {
-        RealmName = realmName;
-        Version = version;
-        EncryptionKey = encryptionKey;
-    }
+    public byte[] EncryptionKey { get; private set; } = encryptionKey;
 
     public static string GetRealmPath(string realmName)
     {
@@ -59,8 +52,8 @@ public abstract class VisitzRealmBase
         try
         {
             realmConfig = MakeRealmConfiguration();
-
-            ConsoleTrace.TraceMethod(typeof(VisitzRealmBase), $"GetAsync('{realmConfig.DatabasePath}')");
+            
+            ConsoleTrace.TraceMethod(typeof(VisitzRealmBase), Path.GetFileName(realmConfig.DatabasePath));
 
             return await Realm.GetInstanceAsync(realmConfig);
         }

@@ -21,6 +21,7 @@ namespace Oidc
                 RedirectUri = options.RedirectUri,
                 Browser = options.Browser,
                 PostLogoutRedirectUri = options.RedirectUri,
+				DisablePushedAuthorization = true,
             });
         }
 
@@ -55,7 +56,7 @@ namespace Oidc
             return await oidcClient.RefreshTokenAsync(refreshToken);
         }
 
-        public struct Options
+        public class Options
         {
             private static readonly string DefaultScope = "openid email profile azureidir";
 

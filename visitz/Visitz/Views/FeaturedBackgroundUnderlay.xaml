@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentView
+<baseClasses:BaseContentView
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.FeaturedBackgroundUnderlay"
 	x:DataType="views:FeaturedBackgroundUnderlay">
@@ -22,4 +23,4 @@
 			Opacity="0.0" />
 		
 	</AbsoluteLayout>
-</views:BaseContentView>
+</baseClasses:BaseContentView>

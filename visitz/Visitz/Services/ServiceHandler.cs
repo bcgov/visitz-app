@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.Concurrent;
 using Visitz.Services.Messages;
+using VisitzModel;
 
 namespace Visitz.Services
 {
@@ -64,7 +65,8 @@ namespace Visitz.Services
 #if DEBUG
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+				ConsoleTrace.TraceMethod(this, ex);
+
                 throw;
             }
 #endif

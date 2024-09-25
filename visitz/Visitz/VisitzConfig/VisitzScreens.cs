@@ -1,14 +1,22 @@
 using Visitz.Device;
-using Visitz.Pages;
-using Visitz.ViewModels;
-using Visitz.ViewModels.Drafts;
-using Visitz.ViewModels.Entity;
 using Visitz.Views;
+using Visitz.Views.AppLock;
+using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
 using Visitz.Views.Entity;
-using Visitz.Views.Notes;
+using Visitz.Views.Entity.Attachments;
+using Visitz.Views.Entity.Details;
+using Visitz.Views.Entity.FamilyMembers;
+using Visitz.Views.Entity.Navigation;
+using Visitz.Views.Entity.Notes;
+using Visitz.Views.Entity.SafetyAssess;
+using Visitz.Views.Navigation;
+using Visitz.Views.Root;
+using Visitz.Views.Snackbar;
+using Visitz.Views.User;
+using Visitz.Views.WebViewer;
 
 namespace Visitz.VisitzConfig
 {
@@ -58,12 +66,25 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<EntityNotesView>();
             builder.Services.AddTransient<EntityNotesViewModel>();
 
-            builder.Services.AddTransient<EntitySafetyAssessView>();
+			builder.Services.AddTransient<AttachmentsView>();
+			builder.Services.AddTransient<AttachmentsViewModel>();
+
+			builder.Services.AddTransient<AttachmentsList>();
+			builder.Services.AddTransient<AttachmentsListViewModel>();
+
+			builder.Services.AddTransient<TakePhotoView>();
+			builder.Services.AddTransient<TakePhotoViewModel>();
+
+			builder.Services.AddTransient<PhotoDetailsView>();
+			builder.Services.AddTransient<PhotoDetailsViewModel>();
+
+			builder.Services.AddTransient<EntitySafetyAssessView>();
             builder.Services.AddTransient<EntitySafetyAssessViewModel>();
 
             builder.Services.AddTransient<PublishPage>();
             builder.Services.AddTransient<NotePublishViewModel>();
             builder.Services.AddTransient<SafetyAssessmentPublishViewModel>();
+			builder.Services.AddTransient<AttachmentDraftPublishViewModel>();
 
             builder.Services.AddTransient<NoteEntryView>();
             builder.Services.AddTransient<NoteEntryViewModel>();

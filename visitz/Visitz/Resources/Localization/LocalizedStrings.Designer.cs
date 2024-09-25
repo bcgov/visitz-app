@@ -70,6 +70,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add photos.
+        /// </summary>
+        public static string AddPhotos {
+            get {
+                return ResourceManager.GetString("AddPhotos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
@@ -106,6 +115,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
+        /// </summary>
+        public static string AttachmentPublishSuccess {
+            get {
+                return ResourceManager.GetString("AttachmentPublishSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attachments.
+        /// </summary>
+        public static string Attachments {
+            get {
+                return ResourceManager.GetString("Attachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility Authorization Request.
         /// </summary>
         public static string AuthorizationRequest {
@@ -120,6 +147,15 @@ namespace Visitz.Resources.Localization {
         public static string Birthdate {
             get {
                 return ResourceManager.GetString("Birthdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        public static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
             }
         }
         
@@ -147,6 +183,26 @@ namespace Visitz.Resources.Localization {
         public static string Caseload {
             get {
                 return ResourceManager.GetString("Caseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caseload refresh error.
+        /// </summary>
+        public static string CaseloadError {
+            get {
+                return ResourceManager.GetString("CaseloadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
+        /// 
+        ///You can view the details of this error or try again later..
+        /// </summary>
+        public static string CaseloadErrorMessage {
+            get {
+                return ResourceManager.GetString("CaseloadErrorMessage", resourceCulture);
             }
         }
         
@@ -281,6 +337,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copied to clipboard.
+        /// </summary>
+        public static string CopiedToClipboard {
+            get {
+                return ResourceManager.GetString("CopiedToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to clipboard.
+        /// </summary>
+        public static string CopyToClipboard {
+            get {
+                return ResourceManager.GetString("CopyToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date of assessment.
         /// </summary>
         public static string DateOfAssessment {
@@ -353,6 +427,15 @@ namespace Visitz.Resources.Localization {
         public static string Discard {
             get {
                 return ResourceManager.GetString("Discard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this attachment draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardAttachmentDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardAttachmentDraftDescription", resourceCulture);
             }
         }
         
@@ -487,6 +570,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To report this error, you can select &apos;copy to clipboard&apos; and paste into an email:.
+        /// </summary>
+        public static string ErrorDialogCopyPrompt {
+            get {
+                return ResourceManager.GetString("ErrorDialogCopyPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Factors influencing child vulnerability.
         /// </summary>
         public static string FactorsInfluencingChildVuln {
@@ -600,6 +692,15 @@ namespace Visitz.Resources.Localization {
         public static string File {
             get {
                 return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; discarded.
+        /// </summary>
+        public static string FileDiscarded {
+            get {
+                return ResourceManager.GetString("FileDiscarded", resourceCulture);
             }
         }
         
@@ -761,6 +862,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log in to submit attachment.
+        /// </summary>
+        public static string LoginToSubmitAttachment {
+            get {
+                return ResourceManager.GetString("LoginToSubmitAttachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in to submit notes.
         /// </summary>
         public static string LoginToSubmitNotes {
@@ -799,7 +909,7 @@ namespace Visitz.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
         ///
-        ///Logging out won&apos;t affect your unpublished notes..
+        ///Logging out won&apos;t affect your unpublished drafts..
         /// </summary>
         public static string LogoutAndClearDataDesc {
             get {
@@ -858,6 +968,24 @@ namespace Visitz.Resources.Localization {
         public static string NarrativeDescription {
             get {
                 return ResourceManager.GetString("NarrativeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility isn&apos;t permitted to use your device&apos;s camera. Enable it in device settings and try again..
+        /// </summary>
+        public static string NoCameraPermissionsDetailMessage {
+            get {
+                return ResourceManager.GetString("NoCameraPermissionsDetailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera permissions disabled.
+        /// </summary>
+        public static string NoCameraPermissionsPrompt {
+            get {
+                return ResourceManager.GetString("NoCameraPermissionsPrompt", resourceCulture);
             }
         }
         
@@ -948,6 +1076,15 @@ namespace Visitz.Resources.Localization {
         public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currently, attachments cannot be read from ICM. They can only be uploaded..
+        /// </summary>
+        public static string OnlyPublishAttachments {
+            get {
+                return ResourceManager.GetString("OnlyPublishAttachments", resourceCulture);
             }
         }
         
@@ -1114,6 +1251,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publishing &apos;{0}&apos; to ICM.
+        /// </summary>
+        public static string PublishingAttachmentToIcm {
+            get {
+                return ResourceManager.GetString("PublishingAttachmentToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Publishing notes to ICM.
         /// </summary>
         public static string PublishingNotesToIcm {
@@ -1177,6 +1323,26 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; unassigned from caseload.
+        /// </summary>
+        public static string RecordRemovedFromCaseload {
+            get {
+                return ResourceManager.GetString("RecordRemovedFromCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;The record {0} &apos;{1}&apos; was unassigned from your caseload and was removed from this device during caseload refresh.
+        ///
+        ///Any drafts for this record are still saved—but won&apos;t be accessible until the record is reassigned.&quot;.
+        /// </summary>
+        public static string RecordRemovedFromCaseloadDetails {
+            get {
+                return ResourceManager.GetString("RecordRemovedFromCaseloadDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {
@@ -1191,6 +1357,15 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingNotes {
             get {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename.
+        /// </summary>
+        public static string Rename {
+            get {
+                return ResourceManager.GetString("Rename", resourceCulture);
             }
         }
         

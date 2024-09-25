@@ -127,4 +127,6 @@
 
     <Color x:Key="ClearButtonColor">#6b6669</Color>
 
+	<Color x:Key="Black55Scrim">#55000000</Color>
+
 </ResourceDictionary>

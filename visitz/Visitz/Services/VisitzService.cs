@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
+using VisitzModel;
 
 namespace Visitz.Services
 {
@@ -6,6 +7,8 @@ namespace Visitz.Services
     {
         public enum State
         {
+            Unknown = 0,
+
             /// <summary>
             /// Service finished (erroneously or otherwise) or was never run.
             /// </summary>
@@ -68,11 +71,7 @@ namespace Visitz.Services
 
             WeakReferenceMessenger.Default.Send(stateMsg, GetId());
 #if DEBUG
-            string result = Status == State.Stopped 
-                ? $" | Result: {ResultCode} | Message: {ResultMessage}"
-                : "";
-
-            Console.WriteLine($"{GetId()} -> {status}" + result);
+            ConsoleTrace.TraceMethod(this, $"{GetId()} -> {stateMsg}");
 #endif
         }
 
