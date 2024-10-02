@@ -19,19 +19,26 @@ internal static class PageExtensions
 		return false;
 	}
 
-	static async Task<bool> DetailedMessagePrompt(Page page, string detailedMessage)
+	static async Task<bool> DetailedMessagePrompt(Page page, string detailedMessage, string title = null)
 	{
+		string prompt = LocalizedStrings.ErrorDialogCopyPrompt + Environment.NewLine + Environment.NewLine;
 		return await page.DisplayAlert(
-			LocalizedStrings.Error,
-			detailedMessage,
+			title,
+			prompt + detailedMessage,
 			LocalizedStrings.CopyToClipboard,
 			LocalizedStrings.Ok);
 	}
 
-	public static async Task DisplayErrorAlert(this Page page, string message, string detailedMessage = null)
+	public static async Task DisplayErrorAlert(
+        this Page page,
+        string message,
+        string detailedMessage = null,
+        string title = null)
 	{
+
+		string displayTitle = !string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error;
 		if (await MessagePrompt(page, message, detailedMessage != null))
-			if (await DetailedMessagePrompt(page, detailedMessage))
+			if (await DetailedMessagePrompt(page, detailedMessage, displayTitle))
 			{
 				await Clipboard.Default.SetTextAsync(detailedMessage);
 				SnackbarHandler.ShowText(LocalizedStrings.CopiedToClipboard);

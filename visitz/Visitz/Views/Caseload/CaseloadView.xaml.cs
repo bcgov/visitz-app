@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core.Platform;
 #endif
 
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Views.BaseClasses;
@@ -68,9 +69,9 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
     public async void Receive(ServiceStateMessage message)
     {
         if (message.FinishedError)
-            await Navigator.CurrentOpenPage.DisplayAlert(
-                LocalizedStrings.Error,
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(
+                LocalizedStrings.CaseloadErrorMessage,
                 message.Message,
-                LocalizedStrings.Ok);
+                LocalizedStrings.CaseloadError);
     }
 }
