@@ -762,4 +762,7 @@ Do you want to discard this unlinked draft permanently?</value>
   <data name="CaseLoadError" xml:space="preserve">
     <value>Caseload refresh error</value>
   </data>
+  <data name="CaseLoadErrorMessage" xml:space="preserve">
+    <value>An error occurred while refreshing your caseload.</value>
+  </data>
 </root>

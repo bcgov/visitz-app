@@ -1940,5 +1940,14 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Caseload refresh error", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
+        /// </summary>
+        public static string CaseLoadErrorMessage {
+            get {
+                return ResourceManager.GetString("An error occurred while refreshing your caseload.", resourceCulture);
+            }
+        }
     }
 }
