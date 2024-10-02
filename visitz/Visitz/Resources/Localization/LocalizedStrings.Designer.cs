@@ -1931,5 +1931,14 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("YouAreAuthorized", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Caseload refresh error.
+        /// </summary>
+        public static string CaseLoadError {
+            get {
+                return ResourceManager.GetString("Caseload refresh error", resourceCulture);
+            }
+        }
     }
 }
