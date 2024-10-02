@@ -570,6 +570,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To report this error, you can select &apos;copy to clipboard&apos; and paste into an email:.
+        /// </summary>
+        public static string ErrorDialogCopyPrompt {
+            get {
+                return ResourceManager.GetString("ErrorDialogCopyPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Factors influencing child vulnerability.
         /// </summary>
         public static string FactorsInfluencingChildVuln {

@@ -767,4 +767,7 @@ Do you want to discard this unlinked draft permanently?</value>
  
 You can view the details of this error or try again later.</value>
   </data>
+  <data name="ErrorDialogCopyPrompt" xml:space="preserve">
+    <value>To report this error, you can select 'copy to clipboard' and paste into an email:</value>
+  </data>
 </root>
