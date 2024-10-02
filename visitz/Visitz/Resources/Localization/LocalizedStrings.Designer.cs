@@ -187,6 +187,26 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caseload refresh error.
+        /// </summary>
+        public static string CaseloadError {
+            get {
+                return ResourceManager.GetString("CaseloadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
+        /// 
+        ///You can view the details of this error or try again later..
+        /// </summary>
+        public static string CaseloadErrorMessage {
+            get {
+                return ResourceManager.GetString("CaseloadErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All clear! Nothing is assigned to you..
         /// </summary>
         public static string CaseloadIsEmpty {
@@ -1929,24 +1949,6 @@ namespace Visitz.Resources.Localization {
         public static string YouAreAuthorized {
             get {
                 return ResourceManager.GetString("YouAreAuthorized", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Caseload refresh error.
-        /// </summary>
-        public static string CaseLoadError {
-            get {
-                return ResourceManager.GetString("Caseload refresh error", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
-        /// </summary>
-        public static string CaseLoadErrorMessage {
-            get {
-                return ResourceManager.GetString("An error occurred while refreshing your caseload.", resourceCulture);
             }
         }
     }
