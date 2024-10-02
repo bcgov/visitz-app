@@ -759,4 +759,7 @@ Do you want to discard this unlinked draft permanently?</value>
     <value>Publishing '{0}' to ICM</value>
     <comment>0 = Attachment filename</comment>
   </data>
+  <data name="CaseLoadError" xml:space="preserve">
+    <value>Caseload refresh error</value>
+  </data>
 </root>
