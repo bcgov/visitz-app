@@ -5,11 +5,11 @@ namespace Visitz.Extensions;
 
 internal static class PageExtensions
 {
-	static async Task<bool> MessagePrompt(Page page, string message, bool promptDetails)
+	static async Task<bool> MessagePrompt(Page page, string message, bool promptDetails, string title = null)
 	{
 		if (promptDetails)
 			return await page.DisplayAlert(
-				LocalizedStrings.Error,
+				!string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error,
 				message,
 				LocalizedStrings.Details,
 				LocalizedStrings.Ok);
@@ -37,7 +37,7 @@ internal static class PageExtensions
 	{
 
 		string displayTitle = !string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error;
-		if (await MessagePrompt(page, message, detailedMessage != null))
+		if (await MessagePrompt(page, message, detailedMessage != null, displayTitle))
 			if (await DetailedMessagePrompt(page, detailedMessage, displayTitle))
 			{
 				await Clipboard.Default.SetTextAsync(detailedMessage);
