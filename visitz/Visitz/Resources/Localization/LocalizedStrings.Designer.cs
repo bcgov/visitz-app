@@ -187,6 +187,26 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caseload refresh error.
+        /// </summary>
+        public static string CaseloadError {
+            get {
+                return ResourceManager.GetString("CaseloadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
+        /// 
+        ///You can view the details of this error or try again later..
+        /// </summary>
+        public static string CaseloadErrorMessage {
+            get {
+                return ResourceManager.GetString("CaseloadErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All clear! Nothing is assigned to you..
         /// </summary>
         public static string CaseloadIsEmpty {
@@ -546,6 +566,15 @@ namespace Visitz.Resources.Localization {
         public static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To report this error, you can select &apos;copy to clipboard&apos; and paste into an email:.
+        /// </summary>
+        public static string ErrorDialogCopyPrompt {
+            get {
+                return ResourceManager.GetString("ErrorDialogCopyPrompt", resourceCulture);
             }
         }
         
