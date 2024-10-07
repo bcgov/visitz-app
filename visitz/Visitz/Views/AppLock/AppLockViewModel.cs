@@ -1,4 +1,6 @@
+using Plugin.Fingerprint.Abstractions;
 using Visitz.Device;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Surveys;
@@ -6,16 +8,14 @@ using VisitzModel.Storage;
 
 namespace Visitz.Views.AppLock
 {
-	public partial class AppLockViewModel(DeviceAuthenticator authenticator) : VisitzViewModel
+	public partial class AppLockViewModel() : VisitzViewModel
     {
-        private DeviceAuthenticator Authenticator { get; } = authenticator;
-
 #if WINDOWS
         public override async void Create()
         {
             base.Create();
 
-			await PromptAuthentication();
+			await TryPromptAuthentication();
 		}
 #endif
 
@@ -24,35 +24,62 @@ namespace Visitz.Views.AppLock
         {
             base.Start();
 
-			await PromptAuthentication();
+			await TryPromptAuthentication();
         }
 #endif
 
-        public async Task PromptAuthentication()
+        public async Task TryPromptAuthentication()
         {
-            DeviceAuthenticator.Result result = await Authenticator.Authenticate();
-            await RouteUsing(result);
+            (bool available, _) = await DeviceAuthenticator.GetAvailabilityAsync();
+
+            if (available)
+                await PromptBiometricAuth();
         }
 
-        public async Task RouteUsing(DeviceAuthenticator.Result result)
+        static async Task PromptBiometricAuth()
         {
-            switch (result)
+            var result = await DeviceAuthenticator.Authenticate(
+                LocalizedStrings.DeviceAuthTitle,
+                LocalizedStrings.DeviceAuthReason);
+
+            await HandleAuthResult(result);
+        }
+
+        public static async Task HandleAuthResult(FingerprintAuthenticationResult result)
+        {
+            switch (result.Status)
             {
-                case DeviceAuthenticator.Result.NotConfigured:
+                case FingerprintAuthenticationResultStatus.Succeeded:
+                    await HandleSuccessfulAuth();
+                    break;
+                case FingerprintAuthenticationResultStatus.NotAvailable:
                     await Navigator.CurrentOpenPage.DisplayAlert(
                         LocalizedStrings.EnableDeviceSecurity,
                         LocalizedStrings.SecureDeviceAndTryAgain,
                         LocalizedStrings.Ok
                     );
                     break;
-                case DeviceAuthenticator.Result.Successful:
-                    await Navigator.Navigation.PopModalAsync();
-
-					new SurveyFeedbackTracker(Preferences.Default).IncrementTimesAppUnlocked();
-					await FeedbackSurveyPage.TryOpen();
+                case FingerprintAuthenticationResultStatus.Canceled:
+                    /* No-op */
                     break;
+                case FingerprintAuthenticationResultStatus.FallbackRequested:
+                case FingerprintAuthenticationResultStatus.TooManyAttempts:
+                case FingerprintAuthenticationResultStatus.Failed:
+                case FingerprintAuthenticationResultStatus.Denied:
+                case FingerprintAuthenticationResultStatus.Unknown:
+                case FingerprintAuthenticationResultStatus.UnknownError:
+                    await Navigator.CurrentOpenPage.DisplayErrorAlert(result.ErrorMessage);
+                    break;
+                default:
+                    throw new ArgumentException($"Unsupported {nameof(FingerprintAuthenticationResult)}");
             }
+        }
+
+        static async Task HandleSuccessfulAuth()
+        {
+            await Navigator.Navigation.PopModalAsync();
+            new SurveyFeedbackTracker(Preferences.Default).IncrementTimesAppUnlocked();
+            await FeedbackSurveyPage.TryOpen();
         }
     }
 }
-
