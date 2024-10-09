@@ -43,6 +43,9 @@ public class BcGovAlbum
         // Currently just hardcoding for a specific picture. 
         // TODO: When time allows, implement some kind of schedule to change the featured picture,
         // with a proper fallback mechanism if the new picture can't be downloaded.
-        return (await GetPictureUris())[17];
+
+        // Temporary override. The server we were downloading from started to deliver pictures in a corrupted way
+        // so it's time to embed them in the app instead.
+        return "bella_coola_river.jpg";
     }
 }
