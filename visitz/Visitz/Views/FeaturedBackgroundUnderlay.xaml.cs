@@ -41,10 +41,6 @@ public partial class FeaturedBackgroundUnderlay : BaseContentView
 	{
 		base.Creating();
 
-		FeatureImage.Source = new UriImageSource()
-		{
-			Uri = new Uri(await BcGovAlbum.GetFeaturedPictureUri()),
-			CacheValidity = TimeSpan.FromDays(ImageCacheValidityDuration),
-		};
-	}
+        FeatureImage.Source = await BcGovAlbum.GetFeaturedPictureUri();
+    }
 }
