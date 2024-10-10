@@ -1,14 +1,14 @@
-﻿namespace Visitz.FontIcons;
+namespace Visitz.FontIcons;
 
 public static partial class MaterialIcons
 {
-    public readonly struct RoundedFilled
+    public static class RoundedFilled
     {
         public static readonly string Filepath = "material_icons_rounded_filled.ttf";
         public static readonly string FontFamily = "MaterialIconsRoundedFilled";
     }
 
-    public readonly struct RoundedUnfilled
+    public static class RoundedUnfilled
     {
         public static readonly string Filepath = "material_icons_rounded_unfilled.ttf";
         public static readonly string FontFamily = "MaterialIconsRoundedUnfilled";
