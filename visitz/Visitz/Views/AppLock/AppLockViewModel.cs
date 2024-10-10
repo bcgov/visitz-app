@@ -17,7 +17,7 @@ namespace Visitz.Views.AppLock
 			await TryPromptAuthentication();
         }
 
-        public async Task TryPromptAuthentication()
+        public async Task PromptAuthentication()
         {
             (bool available, _) = await DeviceAuthenticator.GetAvailabilityAsync();
 

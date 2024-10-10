@@ -33,6 +33,6 @@ public partial class AppLockPage : VisitzPage
 
     private async void Unlock_Clicked(object sender, EventArgs e)
     {
-        await ((AppLockViewModel)ViewModel).TryPromptAuthentication();
+        await ((AppLockViewModel)ViewModel).PromptAuthentication();
     }
 }
