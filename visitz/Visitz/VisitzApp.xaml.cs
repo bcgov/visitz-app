@@ -15,8 +15,6 @@ public partial class VisitzApp : Application
 {
     public ServiceHandler ServiceHandler { get; private set; }
 
-    public event EventHandler<EventArgs> AppResumed;
-
 #if WINDOWS
 	public CancellationTokenSource AuthCancelTokenSource { get; set; }
 #endif
@@ -44,12 +42,6 @@ public partial class VisitzApp : Application
         base.OnStart();
         
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
-    }
-
-    protected override void OnResume()
-	{
-        base.OnResume();
-        AppResumed?.Invoke(this, null);
     }
 
     protected override Window CreateWindow(IActivationState activationState)

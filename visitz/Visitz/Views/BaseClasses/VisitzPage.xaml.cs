@@ -16,23 +16,6 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
         ConsoleTrace.TraceMethod(this);
 
         ViewModel.OnCreate();
-        ViewModel.AttachToLifecycle(CurrentWindow);
-    }
-
-    protected override void OnAppearing()
-    {
-        ConsoleTrace.TraceMethod(this);
-
-        base.OnAppearing();
-        ViewModel.Start();
-    }
-
-    protected override void OnDisappearing()
-    {
-        ConsoleTrace.TraceMethod(this);
-
-        ViewModel.Stop();
-        base.OnDisappearing();
     }
 
     protected virtual void OnDestroyed()
@@ -40,7 +23,6 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
         ConsoleTrace.TraceMethod(this);
 
         Behaviors.Clear();
-        ViewModel.DetachFromLifecycle(CurrentWindow);
         ViewModel.Destroy();
     }
 
