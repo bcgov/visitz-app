@@ -36,10 +36,10 @@ public partial class FeaturedBackgroundUnderlay : BaseContentView
 		InitializeComponent();
 	}
 
-	protected override async void Creating()
+	protected override void Creating()
 	{
 		base.Creating();
 
-        FeatureImage.Source = await BcGovAlbum.GetFeaturedPictureUri();
+        FeatureImage.Source = BcGovAlbum.GetFeaturedPictureUri();
     }
 }

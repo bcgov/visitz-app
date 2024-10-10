@@ -38,7 +38,7 @@ public class BcGovAlbum
 #pragma warning restore SCS0005 // Weak random number generator.
     }
 
-    public static async Task<string> GetFeaturedPictureUri()
+    public static string GetFeaturedPictureUri()
     {
         // Currently just hardcoding for a specific picture. 
         // TODO: When time allows, implement some kind of schedule to change the featured picture,

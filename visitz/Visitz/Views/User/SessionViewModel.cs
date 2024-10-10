@@ -54,7 +54,7 @@ public partial class SessionViewModel : VisitzViewModel
 
         OidcSession.SessionChanged += OidcSession_SessionChanged;
 
-        BackgroundImageUri = await BcGovAlbum.GetFeaturedPictureUri();
+        BackgroundImageUri = BcGovAlbum.GetFeaturedPictureUri();
     }
 
     public override void Destroy()
