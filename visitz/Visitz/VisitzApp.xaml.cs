@@ -2,12 +2,8 @@ using Oidc;
 using Oidc.Events;
 using Visitz.Services;
 using Visitz.Storage;
-using Visitz.Views.AppLock;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
-using Visitz.Views.User;
-using Visitz.Views.WebViewer;
-using VisitzModel;
 
 namespace Visitz;
 
@@ -39,56 +35,22 @@ public partial class VisitzApp : Application
         TryStartDebugSensor();
     }
 
-	protected async override void OnStart()
+	protected override void OnStart()
     {
-        ConsoleTrace.TraceMethod(this);
-
         base.OnStart();
         
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
-
-        await TryModalSecurityChecksAsync();
     }
 
-    protected async override void OnResume()
+    protected override void OnResume()
 	{
-        ConsoleTrace.TraceMethod(this);
-
         base.OnResume();
         AppResumed?.Invoke(this, null);
-
-		await TryModalSecurityChecksAsync();
-    }
-
-    private static async Task TryModalSecurityChecksAsync()
-    {
-        await SessionPage.TryOpenAsync(modal: true, animated: false);
-
-        if (ShouldSkipAppLock())
-            return;
-
-        if (await OidcSession.SessionExistsAsync())
-            await AppLockPage.TryPrompt();
     }
 
     protected override Window CreateWindow(IActivationState activationState)
     {
 		return new VisitzWindow(MainPage);
-    }
-
-    static bool ShouldSkipAppLock()
-    {
-        bool debugSkipActive = false;
-        bool isWindows = false;
-
-#if DEBUG
-        debugSkipActive = DebugOptions.Enabled && DebugOptions.SkipLocalAuth;
-#endif
-#if WINDOWS
-        isWindows = true;
-#endif
-
-        return debugSkipActive || isWindows;
     }
 
 #if WINDOWS
