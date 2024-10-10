@@ -59,8 +59,8 @@ public abstract class VisitzRealmBase
         try
         {
             realmConfig = MakeRealmConfiguration();
-
-            ConsoleTrace.TraceMethod(typeof(VisitzRealmBase), $"GetAsync('{realmConfig.DatabasePath}')");
+            
+            ConsoleTrace.TraceMethod(typeof(VisitzRealmBase), Path.GetFileName(realmConfig.DatabasePath));
 
             return await Realm.GetInstanceAsync(realmConfig);
         }
