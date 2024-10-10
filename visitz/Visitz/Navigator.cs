@@ -1,4 +1,3 @@
-using Visitz.Views.BaseClasses;
 using VisitzModel;
 
 namespace Visitz;
@@ -27,7 +26,6 @@ public class Navigator
 
     public static async Task GoToPage<T>(
         Page fromPage = null,
-        IDictionary<string, object> parameters = null,
         bool modal = false,
         bool animated = true) where T : ContentPage
     {
@@ -36,9 +34,6 @@ public class Navigator
         ConsoleTrace.TraceMethod(typeof(Navigator), $"Navigating from '{fromPage}' to {typeof(T)}");
 
         var newPage = ServiceProvider.Current.GetRequiredService<T>();
-
-        if (newPage is VisitzPage vPage)
-            vPage.Parameters = parameters;
 
         if (modal)
             await fromPage.Navigation.PushModalAsync(newPage, animated);

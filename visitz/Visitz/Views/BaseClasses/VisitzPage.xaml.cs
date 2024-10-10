@@ -9,8 +9,6 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
 
-    public IDictionary<string, object> Parameters { get; set; }
-
     protected virtual void OnCreated() 
     {
         ConsoleTrace.TraceMethod(this);
