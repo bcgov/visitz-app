@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VisitzModel;
 
 namespace Visitz.Views.BaseClasses.Publishing;
 
@@ -112,6 +113,11 @@ public abstract partial class PublishViewModel : VisitzViewModel
                     showRefreshSuccessIcon: ShowRefreshSuccessIcon,
                     showRefreshErrorIcon: ShowRefreshErrorIcon);
                 break;
+            case State.Unknown:
+                ConsoleTrace.TraceMethod(this, $"Reached {nameof(State.Unknown)} enum");
+                break;
+            default:
+                throw new NotImplementedException(nameof(state));
         }
     }
 
