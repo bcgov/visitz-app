@@ -9,26 +9,21 @@ namespace Visitz.Device
     /// </summary>
 	public class DeviceAuthenticator
     {
-        public async Task<Result> Authenticate()
+        public static async Task<FingerprintAuthenticationResult> Authenticate(string title, string reason)
         {
-            var request = new AuthenticationRequestConfiguration(LocalizedStrings.DeviceAuthTitle,
-                LocalizedStrings.DeviceAuthReason)
+            var request = new AuthenticationRequestConfiguration(title, reason)
             {
                 AllowAlternativeAuthentication = true,
             };
 
-            var result = await CrossFingerprint.Current.AuthenticateAsync(request);
-
-            return result.Authenticated ? Result.Successful : Result.Failure;
+            return await CrossFingerprint.Current.AuthenticateAsync(request);
         }
 
-        public enum Result
+        public static async Task<(bool Available, FingerprintAvailability)> GetAvailabilityAsync()
         {
-			Unknown = 0,
-            NotConfigured = 1,
-            Successful = 2,
-            Failure = 3,
+            var result = await CrossFingerprint.Current.GetAvailabilityAsync(true);
+
+            return (result == FingerprintAvailability.Available, result);
         }
     }
 }
-
