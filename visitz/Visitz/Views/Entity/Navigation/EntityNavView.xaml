@@ -24,11 +24,22 @@
             Shadow="{StaticResource RestingLevel2}"
             ZIndex="2">
 
-            <views:BackButtonView
-                Text="{local:Localize Caseload}"
-                Command="{Binding GoBackCommand}" />
+			<Button
+				FontSize="{StaticResource TitleMediumFontSize}"
+				Padding="5,0,5,0"
+				Style="{StaticResource MinimalButton}"
+				Text="{local:Localize Caseload}"
+				Command="{Binding GoBackCommand}">
+				<Button.ImageSource>
+					<FontImageSource
+						Glyph="{Static icons:MaterialIcons.Chevron_left}"
+						FontFamily="MaterialIconsRoundedFilled"
+						Color="{StaticResource BC_TextColor}"
+						Size="{OnPlatform iOS=32}" />
+				</Button.ImageSource>
+			</Button>
 
-        </HorizontalStackLayout>
+		</HorizontalStackLayout>
 
         <selView:SelectionList
             ItemsSource="{Binding EntityNavItems}"
