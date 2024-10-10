@@ -295,7 +295,7 @@ public partial class SessionViewModel
 #endif
     }
 
-    private bool ShouldReopen()
+    private static bool ShouldReopen()
     {
 #if IOS
         return true;
