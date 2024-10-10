@@ -13,7 +13,7 @@ public class FamilyMemberTests
 	[InlineData("2020-05-54")]
 	[InlineData("2020-13-01")]
 	[InlineData("-2020-05-01")]
-	public void AgeNullWhenDateOfBirthIsInvalidValue(string dateOfBirth)
+	public void AgeNullWhenDateOfBirthIsInvalidValue(string? dateOfBirth)
 	{
 		FamilyMember member = new()
 		{
