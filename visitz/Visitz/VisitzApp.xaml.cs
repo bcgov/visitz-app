@@ -57,48 +57,39 @@ public partial class VisitzApp : Application
         base.OnResume();
         AppResumed?.Invoke(this, null);
 
-		if (ShouldTryModalSecurityChecksOnResume())
-			await TryModalSecurityChecksAsync();
+		await TryModalSecurityChecksAsync();
     }
-
-	private static bool ShouldTryModalSecurityChecksOnResume()
-	{
-#if WINDOWS
-		// Application.OnResume is invoked every time the window gains focus, including after a user
-		// correctly enters their credentials in a modal dialog. To prevent an infinite loop of being
-		// prompted to enter credentials on Windows, we'll only issue the auth challenge during
-		// Application.OnStart.
-		return false;
-#else
-		return true;
-#endif
-	}
 
     private static async Task TryModalSecurityChecksAsync()
     {
         await SessionPage.TryOpenAsync(modal: true, animated: false);
 
-#if DEBUG
-        if (DebugOptions.SkipLocalAuth)
+        if (ShouldSkipAppLock())
             return;
-#endif
+
         if (await OidcSession.SessionExistsAsync())
             await AppLockPage.TryPrompt();
     }
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-		var visitzWindow = new VisitzWindow(MainPage);
-
-		visitzWindow.ActivatedWhenInvalid += VisitzWindow_ActivatedWhenInvalid;
-
-		return visitzWindow;
+		return new VisitzWindow(MainPage);
     }
 
-	private async void VisitzWindow_ActivatedWhenInvalid(object sender, EventArgs e)
-	{
-		await TryModalSecurityChecksAsync();
-	}
+    static bool ShouldSkipAppLock()
+    {
+        bool debugSkipActive = false;
+        bool isWindows = false;
+
+#if DEBUG
+        debugSkipActive = DebugOptions.Enabled && DebugOptions.SkipLocalAuth;
+#endif
+#if WINDOWS
+        isWindows = true;
+#endif
+
+        return debugSkipActive || isWindows;
+    }
 
 #if WINDOWS
 	private async void WebAuthenticator_PromptForCredentials(object sender, Oidc.WinWorkaround.InvokingAuthEventArgs e)
