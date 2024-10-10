@@ -12,7 +12,6 @@ public partial class FeaturedBackgroundUnderlay : BaseContentView
 		TextReadable = 2,
 	}
 
-	private static readonly int ImageCacheValidityDuration = 30;
 	private static readonly double ClearOpacity = 0.0;
 	private static readonly double TextReadableOpacity = 0.35;
 
