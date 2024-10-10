@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using MetroLog;
+using Microsoft.Extensions.Logging;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -108,11 +110,19 @@ namespace Visitz.Views.Caseload
 		[ObservableProperty]
 		public HashSet<(string EntityId, EntityType Type)> draftedItems = [];
 
+        private ILogger<CaseloadViewModel> _logger;
+
+        public CaseloadViewModel(ILogger<CaseloadViewModel> logger)
+        {
+            _logger = logger;
+        }
+
+
         private async Task Setup()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-			await SetupRealm();
+            await SetupRealm();
 
             int sortPrefIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
@@ -122,6 +132,33 @@ namespace Visitz.Views.Caseload
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
+            _logger.LogDebug("TESTING LOGGING");
+            var testVar = Path.Combine(FileSystem.CacheDirectory,"MetroLogs");
+            _logger.LogDebug($"fileExists: {Directory.Exists(testVar)}");
+            // _logger.LogDebug($"fileExists: {File.Exists(testVar)}");
+            _logger.LogDebug($"testvar--{testVar}");
+			_logger.LogDebug($"Files in directory: {string.Join(", ", Directory.GetFiles(testVar))}");
+
+			var directoryPath = Path.Combine(FileSystem.CacheDirectory, "MetroLogs");
+
+			if (Directory.Exists(directoryPath))
+			{
+				var files = Directory.GetFiles(directoryPath);
+				
+				if (files.Length > 0)
+				{
+					_logger.LogDebug($"Files in MetroLogs: {string.Join(", ", files)}");
+				}
+				else
+				{
+					_logger.LogDebug("No files found in MetroLogs.");
+				}
+			}
+			else
+			{
+				_logger.LogDebug("MetroLogs directory does not exist.");
+			}
+
         }
 
 		private async Task SetupRealm()
