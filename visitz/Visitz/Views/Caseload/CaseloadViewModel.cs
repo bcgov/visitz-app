@@ -83,13 +83,15 @@ namespace Visitz.Views.Caseload
         public SegmentedOptions activatedFilterOption;
 
         [ObservableProperty]
-        public IList<SegmentedOptions> sortOptions = new List<SegmentedOptions>() { SortKeyPlayer, SortOpenDate, };
+        public IList<SegmentedOptions> sortOptions = [SortKeyPlayer, SortOpenDate,];
 
         [ObservableProperty]
-        public IList<SegmentedOptions> filterOptions = new List<SegmentedOptions>()
-        {
-            FilterChildProtection, FilterChildServices, FilterFamilyServices,
-        };
+        public IList<SegmentedOptions> filterOptions =
+        [
+            FilterChildProtection,
+            FilterChildServices,
+            FilterFamilyServices,
+        ];
 
         [ObservableProperty]
         public bool showAvatarView;
@@ -195,7 +197,7 @@ namespace Visitz.Views.Caseload
 
         private void ApplySorting(ref IEnumerable<CaseloadItem> query)
         {
-            if (query == null || ActivatedSortOption == SegmentedOptions.Empty)
+            if (query == null || ActivatedSortOption == null)
                 return;
 
             if (ActivatedSortOption == SortOpenDate)
@@ -225,7 +227,7 @@ namespace Visitz.Views.Caseload
 
         private void ApplySubtypeFilter(ref IEnumerable<CaseloadItem> query)
         {
-            if (query == null || ActivatedFilterOption == SegmentedOptions.Empty)
+            if (query == null || ActivatedFilterOption == null)
                 return;
 
             string subtype;
@@ -302,7 +304,7 @@ namespace Visitz.Views.Caseload
         partial void OnActivatedFilterOptionChanged(SegmentedOptions value)
         {
             ApplyCaseloadQuery();
-            IsFilterActivated = value != SegmentedOptions.Empty;
+            IsFilterActivated = value != null;
         }
 
         private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
