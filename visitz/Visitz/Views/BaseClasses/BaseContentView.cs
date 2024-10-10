@@ -1,4 +1,5 @@
 using Visitz.Extensions;
+using VisitzModel;
 
 namespace Visitz.Views.BaseClasses;
 
@@ -19,7 +20,13 @@ public abstract class BaseContentView : ContentView
 		Handler = null;
 	}
 
-	protected virtual void Creating() { }
+	protected virtual void Creating()
+    {
+        ConsoleTrace.TraceMethod(this);
+    }
 
-	protected virtual void Destroying() { }
+	protected virtual void Destroying()
+    {
+        ConsoleTrace.TraceMethod(this);
+    }
 }
