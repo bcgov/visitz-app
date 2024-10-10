@@ -1,16 +1,14 @@
-﻿namespace Visitz.Views.SegmentedButtons;
+namespace Visitz.Views.SegmentedButtons;
 
-public readonly struct SegmentedOptions(string id, string text, ImageSource imageSource)
+public class SegmentedOptions(string id, string text, ImageSource imageSource)
 {
-    public static readonly SegmentedOptions Empty = new();
+    public string Id { get; } = id;
 
-    public readonly string Id { get; } = id;
+    public string Text { get; } = text;
 
-    public readonly string Text { get; } = text;
+    public ImageSource ImageSource { get; } = imageSource;
 
-    public readonly ImageSource ImageSource { get; } = imageSource;
-
-    public override readonly bool Equals(object obj)
+    public override bool Equals(object obj)
     {
         return obj is SegmentedOptions opts &&
                Id == opts.Id &&
@@ -18,18 +16,23 @@ public readonly struct SegmentedOptions(string id, string text, ImageSource imag
                EqualityComparer<ImageSource>.Default.Equals(ImageSource, opts.ImageSource);
     }
 
-    public override readonly int GetHashCode()
+    public override int GetHashCode()
     {
         return HashCode.Combine(Id, Text, ImageSource);
     }
 
     public static bool operator ==(SegmentedOptions a, SegmentedOptions b)
     {
-        return a.Equals(b);
+        if (a is null && b is null)
+            return true;
+        else if (a is null ^ b is null)
+            return false;
+        else
+            return a.Equals(b);
     }
 
     public static bool operator !=(SegmentedOptions a, SegmentedOptions b)
     {
-        return !a.Equals(b);
+        return !(a == b);
     }
 }
