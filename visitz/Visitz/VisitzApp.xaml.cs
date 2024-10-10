@@ -71,24 +71,7 @@ public partial class VisitzApp : Application
 
 	private static void TryStartDebugSensor()
     {
-        if (DebugOptions.Enabled)
-            TryStartShakeDetector();
-    }
-
-    private static void TryStartShakeDetector()
-    {
-        if (Accelerometer.Default.IsSupported)
-        {
-            Accelerometer.Default.ShakeDetected += Accelerometer_ShakeDetected;
-            Accelerometer.Default.Start(SensorSpeed.Game);
-        }
-        else
-            Console.WriteLine("Accelerometer not supported");
-    }
-
-    private static async void Accelerometer_ShakeDetected(object sender, EventArgs e)
-    {
-        await DebugOptionsPage.TryOpen();
+        DebugOptions.TryStartShakeDetector(actionOnShake: async () => await DebugOptionsPage.TryOpen());
     }
 
 	private void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)

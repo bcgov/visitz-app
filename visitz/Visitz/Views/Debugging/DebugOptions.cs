@@ -1,8 +1,11 @@
-using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using Visitz.Storage;
 using VisitzModel.Models;
+
+#if WINDOWS || MACCATALYST
+using System.Diagnostics;
+#endif
 
 namespace Visitz.Views.Debugging
 {
@@ -15,6 +18,20 @@ namespace Visitz.Views.Debugging
         public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
         public static bool Enabled => Preferences.Default.Get(EnableOptionsKey, false);
+
+        public static void TryStartShakeDetector(Action actionOnShake)
+        {
+            if (!Enabled)
+                return;
+
+            if (Accelerometer.Default.IsSupported)
+            {
+                Accelerometer.Default.ShakeDetected += (sender, args) => actionOnShake();
+                Accelerometer.Default.Start(SensorSpeed.Game);
+            }
+            else
+                Console.WriteLine("Accelerometer not supported");
+        }
 
         private static T Get<T>(string key, T defaultValue)
         {
