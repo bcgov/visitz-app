@@ -10,23 +10,12 @@ namespace Visitz.Views.AppLock
 {
 	public partial class AppLockViewModel() : VisitzViewModel
     {
-#if WINDOWS
-        public override async void Create()
-        {
-            base.Create();
-
-			await TryPromptAuthentication();
-		}
-#endif
-
-#if !WINDOWS
         public override async void Start()
         {
             base.Start();
 
 			await TryPromptAuthentication();
         }
-#endif
 
         public async Task TryPromptAuthentication()
         {
