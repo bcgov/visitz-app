@@ -26,10 +26,10 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 		InitializeComponent();
 		BindingContext = ViewModel;
 		
-		DelayCanAutoScroll();
+		_ = DelayCanAutoScroll();
 	}
 
-	private async void DelayCanAutoScroll()
+	private async Task DelayCanAutoScroll()
 	{
 		await Task.Delay(1500);
 		canAutoScroll = true;
