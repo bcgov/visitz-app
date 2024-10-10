@@ -9,6 +9,19 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
 
+    protected override void OnParentChanging(ParentChangingEventArgs args)
+    {
+        base.OnParentChanging(args);
+
+        var isCreating = args.AttachingToParent();
+        var isDestroying = args.DetachingFromParent();
+
+        if (isCreating)
+            OnCreated();
+        else if (isDestroying)
+            OnDestroyed();
+    }
+
     protected virtual void OnCreated() 
     {
         ConsoleTrace.TraceMethod(this);
@@ -28,18 +41,5 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
     {
         ConsoleTrace.TraceMethod(this);
         return base.OnBackButtonPressed();
-    }
-
-    protected override void OnParentChanging(ParentChangingEventArgs args)
-    {
-        base.OnParentChanging(args);
-
-        var isCreating = args.AttachingToParent();
-        var isDestroying = args.DetachingFromParent();
-
-        if (isCreating)
-            OnCreated();
-        else if (isDestroying)
-            OnDestroyed();
     }
 }
