@@ -5,6 +5,10 @@ using Visitz.Storage;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
 
+#if WINDOWS
+using Visitz.Views.WebViewer;
+#endif
+
 namespace Visitz;
 
 public partial class VisitzApp : Application
