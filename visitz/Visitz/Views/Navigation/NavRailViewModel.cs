@@ -19,10 +19,13 @@ namespace Visitz.Views.Navigation;
 
 public partial class NavRailViewModel : VisitzViewModel
 {
-	static readonly double IosIconSize = 34;
+#if IOS
+    static readonly double IosIconSize = 34;
+#else
 	static readonly double DefaultIconSize = 24;
+#endif
 
-	[ObservableProperty]
+    [ObservableProperty]
     public ObservableCollection<object> navigationItems = [];
 
     [ObservableProperty]
