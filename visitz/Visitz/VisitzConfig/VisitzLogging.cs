@@ -2,6 +2,7 @@
 using MetroLog.MicrosoftExtensions;
 using MetroLog.Targets;
 using Microsoft.Extensions.Logging;
+using MicrosoftLogLevel = Microsoft.Extensions.Logging.LogLevel;
 using MetroLogLevel = MetroLog.LogLevel;
 
 namespace Visitz.VisitzConfig
@@ -17,20 +18,20 @@ namespace Visitz.VisitzConfig
             builder.Logging.AddDebug();
 #endif
             builder.Logging
-            .SetMinimumLevel((Microsoft.Extensions.Logging.LogLevel)MetroLogLevel.Trace)
+            .SetMinimumLevel((MicrosoftLogLevel)MetroLogLevel.Trace)
             .AddStreamingFileLogger(
                 options =>
                 {
                     var logDirectory = Path.Combine(FileSystem.CacheDirectory, "MetroLogs");
                     options.FolderPath = logDirectory;
-                    options.MaxLevel = (Microsoft.Extensions.Logging.LogLevel?)MetroLogLevel.Fatal;
+                    options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
                     options.RetainDays = 30;
                 }
             )
             .AddTraceLogger(
                 options =>
                 {
-                    options.MaxLevel = (Microsoft.Extensions.Logging.LogLevel?)MetroLogLevel.Fatal;
+                    options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
                 }) // Will write to the Debug Output
             .AddConsoleLogger(
                 options =>
