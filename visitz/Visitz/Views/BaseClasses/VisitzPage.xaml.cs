@@ -9,47 +9,6 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
 
-    public IDictionary<string, object> Parameters { get; set; }
-
-    protected virtual void OnCreated() 
-    {
-        ConsoleTrace.TraceMethod(this);
-
-        ViewModel.OnCreate();
-        ViewModel.AttachToLifecycle(CurrentWindow);
-    }
-
-    protected override void OnAppearing()
-    {
-        ConsoleTrace.TraceMethod(this);
-
-        base.OnAppearing();
-        ViewModel.Start();
-    }
-
-    protected override void OnDisappearing()
-    {
-        ConsoleTrace.TraceMethod(this);
-
-        ViewModel.Stop();
-        base.OnDisappearing();
-    }
-
-    protected virtual void OnDestroyed()
-    {
-        ConsoleTrace.TraceMethod(this);
-
-        Behaviors.Clear();
-        ViewModel.DetachFromLifecycle(CurrentWindow);
-        ViewModel.Destroy();
-    }
-
-    protected override bool OnBackButtonPressed()
-    {
-        ConsoleTrace.TraceMethod(this);
-        return base.OnBackButtonPressed();
-    }
-
     protected override void OnParentChanging(ParentChangingEventArgs args)
     {
         base.OnParentChanging(args);
@@ -63,26 +22,24 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
             OnDestroyed();
     }
 
-    public static async Task NavigateTo<T>(
-        Page fromPage = null,
-        IDictionary<string, object> parameters = null, 
-        bool modal = false,
-        bool animated = true) where T : VisitzPage
+    protected virtual void OnCreated() 
     {
-        ConsoleTrace.TraceMethod(typeof(VisitzPage), $"Navigating to {typeof(T)}");
+        ConsoleTrace.TraceMethod(this);
 
-        fromPage ??= Navigator.CurrentOpenPage ?? Navigator.CurrentOpenModal;
+        ViewModel.OnCreate();
+    }
 
-        var newPage = ServiceProvider.Current.GetRequiredService<T>();
-        newPage.Parameters = parameters;
+    protected virtual void OnDestroyed()
+    {
+        ConsoleTrace.TraceMethod(this);
 
-        if (modal)
-        {
-            await fromPage.Navigation.PushModalAsync(newPage, animated);
-        }
-        else
-        {
-            await fromPage.Navigation.PushAsync(newPage, animated);
-        }
+        Behaviors.Clear();
+        ViewModel.Destroy();
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        ConsoleTrace.TraceMethod(this);
+        return base.OnBackButtonPressed();
     }
 }

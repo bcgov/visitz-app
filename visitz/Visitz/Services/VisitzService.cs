@@ -7,6 +7,8 @@ namespace Visitz.Services
     {
         public enum State
         {
+            Unknown = 0,
+
             /// <summary>
             /// Service finished (erroneously or otherwise) or was never run.
             /// </summary>

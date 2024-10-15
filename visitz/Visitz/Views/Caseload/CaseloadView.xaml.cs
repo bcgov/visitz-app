@@ -63,7 +63,7 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
 
     private void ClearFilterButton_Clicked(object sender, EventArgs e)
     {
-        ViewModel.ActivatedFilterOption = SegmentedOptions.Empty;
+        ViewModel.ActivatedFilterOption = null;
     }
 
     public async void Receive(ServiceStateMessage message)

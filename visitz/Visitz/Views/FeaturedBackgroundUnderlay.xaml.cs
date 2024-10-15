@@ -12,7 +12,6 @@ public partial class FeaturedBackgroundUnderlay : BaseContentView
 		TextReadable = 2,
 	}
 
-	private static readonly int ImageCacheValidityDuration = 30;
 	private static readonly double ClearOpacity = 0.0;
 	private static readonly double TextReadableOpacity = 0.35;
 
@@ -37,10 +36,10 @@ public partial class FeaturedBackgroundUnderlay : BaseContentView
 		InitializeComponent();
 	}
 
-	protected override async void Creating()
+	protected override void Creating()
 	{
 		base.Creating();
 
-        FeatureImage.Source = await BcGovAlbum.GetFeaturedPictureUri();
+        FeatureImage.Source = BcGovAlbum.GetFeaturedPictureUri();
     }
 }

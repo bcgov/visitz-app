@@ -24,9 +24,21 @@
             Shadow="{StaticResource RestingLevel2}"
             ZIndex="2">
 
-            <views:BackButtonView
+            <Button
+                FontSize="{StaticResource TitleMediumFontSize}"
+                ContentLayout="{OnPlatform iOS='Left,-2'}"
+                Padding="{OnPlatform iOS='0,0,5,0', Default='5,0,5,0'}"
+                Style="{StaticResource MinimalButton}"
                 Text="{local:Localize Caseload}"
-                Command="{Binding GoBackCommand}" />
+                Command="{Binding GoBackCommand}">
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static icons:MaterialIcons.Chevron_left}"
+                        FontFamily="MaterialIconsRoundedFilled"
+                        Color="{StaticResource BC_TextColor}"
+                        Size="{OnPlatform iOS=32}" />
+                </Button.ImageSource>
+            </Button>
 
         </HorizontalStackLayout>
 

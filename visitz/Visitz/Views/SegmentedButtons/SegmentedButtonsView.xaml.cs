@@ -33,7 +33,7 @@ public partial class SegmentedButtonsView : BaseContentView
                 var oldOption = (SegmentedOptions)oldVal;
                 var newOption = (SegmentedOptions)newVal;
 
-                if (oldOption != SegmentedOptions.Empty)
+                if (oldOption != null)
                     if (segmentedView.GetPairedTagView(oldOption) is ActivatableTagView oldTagView)
                         oldTagView.IsActive = false;
 
@@ -109,7 +109,7 @@ public partial class SegmentedButtonsView : BaseContentView
         return Options.ElementAt(tagIndex);
     }
 
-    private ActivatableTagView GetPairedTagView(SegmentedOptions? option)
+    private ActivatableTagView GetPairedTagView(SegmentedOptions option)
     {
         if (option == null)
             return null;
@@ -118,7 +118,7 @@ public partial class SegmentedButtonsView : BaseContentView
 
         for (int i = 0; i < Options.Count();  i++)
         {
-            if (Options.ElementAt(i).Equals(option))
+            if (Options.ElementAt(i) == option)
             {
                 optionIndex = i;
                 break;
@@ -143,7 +143,7 @@ public partial class SegmentedButtonsView : BaseContentView
         var activatedOptions = GetPairedOptions(tagView);
 
         if (lastTagActivated?.IsActive ?? false)
-            if (!GetPairedOptions(lastTagActivated).Equals(activatedOptions))
+            if (GetPairedOptions(lastTagActivated) != activatedOptions)
                 lastTagActivated.SetIsActiveSilently(false);
 
         ActivatedOption = activatedOptions;
@@ -158,8 +158,8 @@ public partial class SegmentedButtonsView : BaseContentView
 
         var args = new ItemDeactivatedEventArgs(Options.ElementAt(tagIndex));
 
-        if (ActivatedOption.Equals(pairedOptions))
-            ActivatedOption = SegmentedOptions.Empty;
+        if (ActivatedOption == pairedOptions)
+            ActivatedOption = null;
 
         ItemDeactivated?.Invoke(this, args);
     }
