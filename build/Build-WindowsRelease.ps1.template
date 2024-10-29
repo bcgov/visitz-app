@@ -9,13 +9,20 @@ param(
 
     [string] $BuildColor = "",
 
-    [switch] $SelfContained
+    [switch] $SelfContained,
+
+    [switch] $NoOpenOutputDirectory
 )
 
+$outputName = "MCFD Mobility-Windows-$Environment-build_$BuildNumber"
+
 if ($Environment -eq "prod") {
-    # "prod" only used for command line intention, buildscript uses empty string for prod
+    # "prod" only used for command line intention and build label, buildscript uses empty string for prod
     $Environment = ""
 }
+
+$artifactsDir = "artifacts"
+$outputDir = "output"
 
 # Certificate thumbprint. May need to open the Safenet client to get this value
 [string] $certificateThumbprint = "<thumbprint>"
@@ -49,6 +56,7 @@ if ($SelfContained) {
 }
 
 dotnet publish "..\visitz\Visitz\Visitz.csproj" `
+    --artifacts-path ".\$artifactsDir" `
     --framework net8.0-windows10.0.19041.0 `
     --configuration Release `
     $selfContainedString `
@@ -67,3 +75,22 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     -p:ContactInfo_AccessRequestFormUrl="<string>" `
     -p:ContactInfo_FeedbackSurveyUrl="<string>" `
     -p:Debug_EnableDebugOptions=$enableDebug
+
+if ($?) {
+    $msix = Get-ChildItem $artifactsDir -Recurse -Filter "Visitz*$BuildNumber*.msix"
+    Write-Host "Found '$msix'"
+
+    if (!(Test-Path $outputDir)) {
+        mkdir $outputDir
+    }
+
+    $dest = ".\$outputDir\$outputName.msix"
+    Copy-Item -Path $msix -Destination $dest
+    Write-Host "Copied to '$dest'"
+
+    $openOutputDir = !$NoOpenOutputDirectory
+
+    if ($openOutputDir) {
+        explorer $outputDir
+    }
+}

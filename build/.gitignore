@@ -1,2 +1,5 @@
 # Ignore local convenience script runner
 Build-WindowsRelease.ps1
+
+artifacts/
+output/
