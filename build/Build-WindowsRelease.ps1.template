@@ -2,11 +2,11 @@ param(
     # Leave blank for prod builds, or use "beta", "demo", "team"
     [string] $Environment = "",
 
+    # Must be larger number than the previous build
+    [int] $BuildNumber = -1,
+
     [bool] $SelfContained = $false
 )
-
-# Must be larger number than the previous build
-[int] $buildNumber = <build num here>
 
 # Certificate thumbprint. May need to open the Safenet client to get this value
 [string] $certificateThumbprint = "<thumbprint>"
@@ -33,7 +33,7 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     --framework net8.0-windows10.0.19041.0 `
     --configuration Release `
     $selfContainedString `
-    -p:ApplicationVersion=$buildNumber `
+    -p:ApplicationVersion=$BuildNumber `
     -p:DeploymentEnvironment=$Environment `
     -p:PackageCertificateThumbprint=$certificateThumbprint `
     -p:AppxCertificateSubject=$certificateSubject `
