@@ -9,7 +9,7 @@ param(
 
     [string] $BuildColor = "",
 
-    [bool] $SelfContained = $false
+    [switch] $SelfContained
 )
 
 if ($Environment -eq "prod") {
