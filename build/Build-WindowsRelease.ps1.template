@@ -1,6 +1,8 @@
 param(
     # Leave blank for prod builds, or use "beta", "demo", "team"
-    [string] $Environment = "",
+    [string]
+    [ValidateSet("prod", "beta", "team", "demo")]
+    $Environment = "",
 
     # Must be larger number than the previous build
     [int] $BuildNumber = -1,
@@ -10,6 +12,11 @@ param(
     [bool] $SelfContained = $false
 )
 
+if ($Environment -eq "prod") {
+    # "prod" only used for command line intention, buildscript uses empty string for prod
+    $Environment = ""
+}
+
 # Certificate thumbprint. May need to open the Safenet client to get this value
 [string] $certificateThumbprint = "<thumbprint>"
 
@@ -18,12 +25,11 @@ param(
 [string] $certificateSubject = "<CN=SUBJ%2C O=HERE>"
 
 if ([string]::IsNullOrEmpty($BuildColor)) {
-    $env = $Environment.ToLowerInvariant().Trim()
 
-    if ($env -eq "beta") {
+    if ($Environment -eq "beta") {
         $BuildColor = "#005724"
     }
-    else if (env -eq "team") {
+    elseif ($Environment -eq "team") {
         $BuildColor = "#66004b"
     }
     else {
