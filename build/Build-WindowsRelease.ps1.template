@@ -1,3 +1,7 @@
+param(
+    [bool] $SelfContained = $false
+)
+
 # Must be larger number than the previous build
 [int] $buildNumber = <build num here>
 
@@ -20,9 +24,15 @@ if ($deploymentEnv -eq "team") {
     $enableDebug = "true"
 }
 
+[string] $selfContainedString = ""
+if ($SelfContained) {
+    $selfContainedString = "--self-contained"
+}
+
 dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     --framework net8.0-windows10.0.19041.0 `
     --configuration Release `
+    $selfContainedString `
     -p:ApplicationVersion=$buildNumber `
     -p:DeploymentEnvironment=$deploymentEnv `
     -p:PackageCertificateThumbprint=$certificateThumbprint `
