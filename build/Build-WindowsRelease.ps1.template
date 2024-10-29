@@ -1,12 +1,12 @@
 param(
+    # Leave blank for prod builds, or use "beta", "demo", "team"
+    [string] $Environment = "",
+
     [bool] $SelfContained = $false
 )
 
 # Must be larger number than the previous build
 [int] $buildNumber = <build num here>
-
-# Leave blank for prod builds, or use "beta", "demo", "team"
-[string] $deploymentEnv = "<env here>"
 
 # Certificate thumbprint. May need to open the Safenet client to get this value
 [string] $certificateThumbprint = "<thumbprint>"
@@ -20,7 +20,7 @@ param(
 
 # Auto enable/disable debug mode based on the deployment env.
 [string] $enableDebug = "false"
-if ($deploymentEnv -eq "team") {
+if ($Environment -eq "team") {
     $enableDebug = "true"
 }
 
@@ -34,7 +34,7 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     --configuration Release `
     $selfContainedString `
     -p:ApplicationVersion=$buildNumber `
-    -p:DeploymentEnvironment=$deploymentEnv `
+    -p:DeploymentEnvironment=$Environment `
     -p:PackageCertificateThumbprint=$certificateThumbprint `
     -p:AppxCertificateSubject=$certificateSubject `
     -p:BuildTypeColor=$buildColor `
