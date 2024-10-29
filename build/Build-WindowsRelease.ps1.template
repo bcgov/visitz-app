@@ -5,6 +5,8 @@ param(
     # Must be larger number than the previous build
     [int] $BuildNumber = -1,
 
+    [string] $BuildColor = "",
+
     [bool] $SelfContained = $false
 )
 
@@ -15,8 +17,19 @@ param(
 # e.g. "CN=BCGOV%2C O=SDPR" is equivalent to "CN=BCGOV, O=SDPR"
 [string] $certificateSubject = "<CN=SUBJ%2C O=HERE>"
 
-# Color of the build (prod/demo: "#003366", team: "")
-[string] $buildColor = "<hex color here>"
+if ([string]::IsNullOrEmpty($BuildColor)) {
+    $env = $Environment.ToLowerInvariant().Trim()
+
+    if ($env -eq "beta") {
+        $BuildColor = "#005724"
+    }
+    else if (env -eq "team") {
+        $BuildColor = "#66004b"
+    }
+    else {
+        $BuildColor = "#003366" # prod, demo, etc.
+    }
+}
 
 # Auto enable/disable debug mode based on the deployment env.
 [string] $enableDebug = "false"
@@ -37,7 +50,7 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     -p:DeploymentEnvironment=$Environment `
     -p:PackageCertificateThumbprint=$certificateThumbprint `
     -p:AppxCertificateSubject=$certificateSubject `
-    -p:BuildTypeColor=$buildColor `
+    -p:BuildTypeColor=$BuildColor `
     -p:RuntimeIdentifierOverride="win10-x64" `
     -p:UseAppSettings=true `
     -p:Oidc_AuthenticationDomain="<string>" `
