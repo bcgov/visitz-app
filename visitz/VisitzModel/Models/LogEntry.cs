@@ -14,12 +14,6 @@ namespace VisitzModel.Models
 
         public string Timestamp { get; set; }
 
-        public static string GetTimestamp(DateTime dateTime)
-        {
-            var timestamp = dateTime.ToString(IcmDateFormats.BasicTimestamp, CultureInfo.InvariantCulture);
-            return timestamp;
-        }
-
         public static async Task AddLogEntry(string logType, string logMessage, string logSource, string timeStamp, Realm realm)
         {
             var logEntry = new LogEntry

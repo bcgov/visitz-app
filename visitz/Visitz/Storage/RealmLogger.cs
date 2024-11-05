@@ -2,6 +2,8 @@ using MetroLog;
 using Microsoft.Extensions.Logging;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 using Logger = Microsoft.Extensions.Logging.ILogger;
+using VisitzModel.Formats;
+using System.Globalization;
 
 namespace Visitz.Storage
 {
@@ -9,6 +11,12 @@ namespace Visitz.Storage
     {
         private readonly RealmAsyncTarget _target;
         private readonly string _categoryName;
+
+        public static string GetTimestamp(DateTime dateTime)
+        {
+            var timestamp = dateTime.ToString(IcmDateFormats.BasicTimestamp, CultureInfo.InvariantCulture);
+            return timestamp;
+        }
 
         public RealmLogger(RealmAsyncTarget target, string categoryName)
         {

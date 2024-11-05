@@ -18,7 +18,6 @@ namespace Visitz.Storage
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
 
         public bool IsEnabled(LogLevel logLevel)
@@ -29,7 +28,7 @@ namespace Visitz.Storage
         protected override async Task<LogWriteOperation> WriteAsyncCore(LogWriteContext context, LogEventInfo logEvent)
         {
             var realm = await VisitzRealms.GetLogRealmAsync();
-            var timestamp = LogEntry.GetTimestamp(logEvent.TimeStamp.DateTime);
+            var timestamp = RealmLogger.GetTimestamp(logEvent.TimeStamp.DateTime);
 
             await LogEntry.AddLogEntry(
                 logEvent.Level.ToString(),
