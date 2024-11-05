@@ -28,13 +28,12 @@ namespace Visitz.Storage
         protected override async Task<LogWriteOperation> WriteAsyncCore(LogWriteContext context, LogEventInfo logEvent)
         {
             var realm = await VisitzRealms.GetLogRealmAsync();
-            var timestamp = RealmLogger.GetTimestamp(logEvent.TimeStamp.DateTime);
 
             await LogEntry.AddLogEntry(
                 logEvent.Level.ToString(),
                 logEvent.Message,
                 logEvent.Logger,
-                timestamp,
+                logEvent.TimeStamp,
                 realm
             );
             return new LogWriteOperation();

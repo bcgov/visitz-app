@@ -12,9 +12,9 @@ namespace VisitzModel.Models
 
         public string Source { get; set; }
 
-        public string Timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
 
-        public static async Task AddLogEntry(string logType, string logMessage, string logSource, string timeStamp, Realm realm)
+        public static async Task AddLogEntry(string logType, string logMessage, string logSource, DateTimeOffset timeStamp, Realm realm)
         {
             var logEntry = new LogEntry
             {
@@ -36,6 +36,11 @@ namespace VisitzModel.Models
         public static List<LogEntry> GetLogEntries(Realm realm)
         {
             return realm.All<LogEntry>().ToList();
+        }
+
+        public override string ToString()
+        {
+            return $"[{Timestamp}] {Type}: {Message} (Source: {Source})";
         }
     }
 }

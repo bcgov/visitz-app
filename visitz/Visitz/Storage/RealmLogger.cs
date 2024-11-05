@@ -12,12 +12,6 @@ namespace Visitz.Storage
         private readonly RealmAsyncTarget _target;
         private readonly string _categoryName;
 
-        public static string GetTimestamp(DateTime dateTime)
-        {
-            var timestamp = dateTime.ToString(IcmDateFormats.BasicTimestamp, CultureInfo.InvariantCulture);
-            return timestamp;
-        }
-
         public RealmLogger(RealmAsyncTarget target, string categoryName)
         {
             _target = target;
@@ -35,7 +29,7 @@ namespace Visitz.Storage
                 var message = formatter(state, exception);
                 var logEvent = new LogEventInfo((MetroLog.LogLevel)logLevel, _categoryName, message, exception)
                 {
-                    TimeStamp = DateTimeOffset.Now
+                    TimeStamp = DateTimeOffset.UtcNow
                 };
                 await _target.WriteLogAsync(new LogWriteContext(), logEvent);
             }
