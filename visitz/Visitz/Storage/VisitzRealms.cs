@@ -21,6 +21,9 @@ internal static class VisitzRealms
 	public static async Task<AttachmentDrafts> GetAttachmentDraftsAsync() =>
 		new AttachmentDrafts(await GetKey(AttachmentDrafts.Name));
 
+    public static async Task<LogRealm> GetLogAsync() =>
+        new LogRealm(await GetKey(LogRealm.Name));
+
 
     public static async Task<Realm> GetNoteDraftsRealmAsync() =>
         await (await GetNoteDraftsAsync()).GetAsync();
@@ -33,4 +36,7 @@ internal static class VisitzRealms
 
 	public static async Task<Realm> GetAttachmentDraftsRealmAsync() =>
 		await (await GetAttachmentDraftsAsync()).GetAsync();
+    
+    public static async Task<Realm> GetLogRealmAsync() =>
+		await (await GetLogAsync()).GetAsync();
 }
