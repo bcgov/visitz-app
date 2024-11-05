@@ -27,7 +27,7 @@ namespace Visitz.Storage
 
         protected override async Task<LogWriteOperation> WriteAsyncCore(LogWriteContext context, LogEventInfo logEvent)
         {
-            var realm = await VisitzRealms.GetLogRealmAsync();
+            using var realm = await VisitzRealms.GetLogRealmAsync();
 
             await LogEntry.AddLogEntry(
                 logEvent.Level.ToString(),
