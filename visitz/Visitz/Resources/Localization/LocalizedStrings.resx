@@ -770,4 +770,10 @@ You can view the details of this error or try again later.</value>
   <data name="ErrorDialogCopyPrompt" xml:space="preserve">
     <value>To report this error, you can select 'copy to clipboard' and paste into an email:</value>
   </data>
+  <data name="NoCameraPermissionsDetailMessage" xml:space="preserve">
+    <value>MCFD Mobility isn't permitted to use your device's camera. Enable it in device settings and try again.</value>
+  </data>
+  <data name="NoCameraPermissionsPrompt" xml:space="preserve">
+    <value>Camera permissions disabled</value>
+  </data>
 </root>
