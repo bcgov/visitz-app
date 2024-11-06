@@ -972,6 +972,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility isn&apos;t permitted to use your device&apos;s camera. Enable it in device settings and try again..
+        /// </summary>
+        public static string NoCameraPermissionsDetailMessage {
+            get {
+                return ResourceManager.GetString("NoCameraPermissionsDetailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera permissions disabled.
+        /// </summary>
+        public static string NoCameraPermissionsPrompt {
+            get {
+                return ResourceManager.GetString("NoCameraPermissionsPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No internet available.
         /// </summary>
         public static string NoInternet {
