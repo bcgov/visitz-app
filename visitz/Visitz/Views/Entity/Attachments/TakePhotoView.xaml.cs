@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using Visitz.Animations;
+using Visitz.Device;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
@@ -52,22 +53,33 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 
 	async Task InitCamera()
 	{
-		try
+		var status = await DevicePermissions.PromptEnsureCameraAsync();
+		if (status == PermissionStatus.Granted)
 		{
-			await Camera.StartCameraPreview(CancellationToken.None);
-		}
-		catch (TaskCanceledException ex)
-		{
-			ConsoleTrace.TraceMethod(this, ex);
-		}
-		catch (Exception ex)
-		{
-			ConsoleTrace.TraceMethod(this, ex);
+			try
+			{
+				await Camera.StartCameraPreview(CancellationToken.None);
+			}
+			catch (TaskCanceledException ex)
+			{
+				ConsoleTrace.TraceMethod(this, ex);
+			}
+			catch (Exception ex)
+			{
+				ConsoleTrace.TraceMethod(this, ex);
 
-			await Navigator.CurrentOpenPage.DisplayAlert(
-				LocalizedStrings.Error,
-				ex.Message + " => " + ex.StackTrace,
-				LocalizedStrings.Ok);
+				await Navigator.CurrentOpenPage.DisplayAlert(
+					LocalizedStrings.Error,
+					ex.Message + " => " + ex.StackTrace,
+					LocalizedStrings.Ok);
+			}
+		}
+		else
+		{
+			await Navigator.CurrentOpenPage.DisplayErrorAlert(
+                LocalizedStrings.NoCameraPermissionsPrompt,
+                LocalizedStrings.NoCameraPermissionsPrompt,
+                LocalizedStrings.NoCameraPermissionsDetailMessage);
 		}
 	}
 
