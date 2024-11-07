@@ -5,6 +5,7 @@ using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 using Visitz.Views.Snackbar;
 using Visitz.Resources.Localization;
+using Visitz.Device;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -75,11 +76,7 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 
 	private async Task OpenTakePhotoView()
 	{
-		PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.Camera>();
-		if (status == PermissionStatus.Unknown)
-		{
-			status = await Permissions.RequestAsync<Permissions.Camera>();
-		}
+		var status = await DevicePermissions.PromptEnsureCameraAsync();
 
 		if (status == PermissionStatus.Granted)
 		{
