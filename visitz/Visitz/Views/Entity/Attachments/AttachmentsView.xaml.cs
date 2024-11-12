@@ -3,6 +3,9 @@ using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
+using Visitz.Views.Snackbar;
+using Visitz.Resources.Localization;
+using Visitz.Device;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -73,7 +76,19 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 
 	private async Task OpenTakePhotoView()
 	{
-		TakePhotoView photoView = new() { CaseloadItem = CaseloadItem, };
-		await Navigator.Navigation.PushModalAsync(photoView.WrapPageForModal(ViewModalSize.Fullscreen));
+		var status = await DevicePermissions.PromptEnsureCameraAsync();
+
+		if (status == PermissionStatus.Granted)
+		{
+			TakePhotoView photoView = new() { CaseloadItem = CaseloadItem, };
+			await Navigator.Navigation.PushModalAsync(photoView.WrapPageForModal(ViewModalSize.Fullscreen));
+		}
+		else
+		{
+			SnackbarHandler.ShowTextWithDetails(
+				LocalizedStrings.NoCameraPermissionsPrompt,
+				LocalizedStrings.NoCameraPermissionsPrompt,
+				LocalizedStrings.NoCameraPermissionsDetailMessage);
+		}
 	}
 }
