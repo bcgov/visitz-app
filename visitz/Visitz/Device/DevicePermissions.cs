@@ -1,15 +1,13 @@
-namespace Visitz.Device
+namespace Visitz.Device;
+public static class DevicePermissions
 {
-    public static class DevicePermissions
+    public async static Task<PermissionStatus> PromptEnsureCameraAsync()
     {
-        public async static Task<PermissionStatus> PromptEnsureCameraAsync()
+        PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+        if (status == PermissionStatus.Unknown)
         {
-            PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.Camera>();
-            if (status == PermissionStatus.Unknown)
-            {
-                status = await Permissions.RequestAsync<Permissions.Camera>();
-            }
-            return status;
+            status = await Permissions.RequestAsync<Permissions.Camera>();
         }
+        return status;
     }
 }
