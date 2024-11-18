@@ -4,6 +4,7 @@ using Visitz.Device;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Snackbar;
 using VisitzModel;
 using VisitzModel.Models;
 
@@ -122,10 +123,10 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 		}
 		else
 		{
-			await Navigator.CurrentOpenPage.DisplayErrorAlert(
-                LocalizedStrings.NoCameraPermissionsPrompt,
-                LocalizedStrings.NoCameraPermissionsPrompt,
-                LocalizedStrings.NoCameraPermissionsDetailMessage);
+			SnackbarHandler.ShowTextWithDetails(
+				LocalizedStrings.NoCameraPermissionsPrompt,
+				LocalizedStrings.NoCameraPermissionsPrompt,
+				LocalizedStrings.NoCameraPermissionsDetailMessage);
 		}
     }
 }
