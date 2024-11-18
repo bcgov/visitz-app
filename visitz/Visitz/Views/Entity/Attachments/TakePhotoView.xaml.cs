@@ -53,33 +53,22 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 
 	async Task InitCamera()
 	{
-		var status = await DevicePermissions.PromptEnsureCameraAsync();
-		if (status == PermissionStatus.Granted)
+		try
 		{
-			try
-			{
-				await Camera.StartCameraPreview(CancellationToken.None);
-			}
-			catch (TaskCanceledException ex)
-			{
-				ConsoleTrace.TraceMethod(this, ex);
-			}
-			catch (Exception ex)
-			{
-				ConsoleTrace.TraceMethod(this, ex);
-
-				await Navigator.CurrentOpenPage.DisplayAlert(
-					LocalizedStrings.Error,
-					ex.Message + " => " + ex.StackTrace,
-					LocalizedStrings.Ok);
-			}
+			await Camera.StartCameraPreview(CancellationToken.None);
 		}
-		else
+		catch (TaskCanceledException ex)
 		{
-			await Navigator.CurrentOpenPage.DisplayErrorAlert(
-                LocalizedStrings.NoCameraPermissionsPrompt,
-                LocalizedStrings.NoCameraPermissionsPrompt,
-                LocalizedStrings.NoCameraPermissionsDetailMessage);
+			ConsoleTrace.TraceMethod(this, ex);
+		}
+		catch (Exception ex)
+		{
+			ConsoleTrace.TraceMethod(this, ex);
+
+			await Navigator.CurrentOpenPage.DisplayAlert(
+				LocalizedStrings.Error,
+				ex.Message + " => " + ex.StackTrace,
+				LocalizedStrings.Ok);
 		}
 	}
 
@@ -120,5 +109,23 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
 	private async void CameraRollButton_Clicked(object sender, EventArgs e)
 	{
 		await Navigator.Navigation.PopModalAsync();
+    }
+
+	public static async Task TryOpenWithPermissionsAsync(CaseloadItem CaseloadItem)
+    {
+        var status = await DevicePermissions.PromptEnsureCameraAsync();
+
+		if (status == PermissionStatus.Granted)
+		{
+			TakePhotoView photoView = new() { CaseloadItem = CaseloadItem, };
+			await Navigator.Navigation.PushModalAsync(photoView.WrapPageForModal(ViewModalSize.Fullscreen));
+		}
+		else
+		{
+			await Navigator.CurrentOpenPage.DisplayErrorAlert(
+                LocalizedStrings.NoCameraPermissionsPrompt,
+                LocalizedStrings.NoCameraPermissionsPrompt,
+                LocalizedStrings.NoCameraPermissionsDetailMessage);
+		}
     }
 }
