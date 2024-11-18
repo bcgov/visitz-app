@@ -76,19 +76,6 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 
 	private async Task OpenTakePhotoView()
 	{
-		var status = await DevicePermissions.PromptEnsureCameraAsync();
-
-		if (status == PermissionStatus.Granted)
-		{
-			TakePhotoView photoView = new() { CaseloadItem = CaseloadItem, };
-			await Navigator.Navigation.PushModalAsync(photoView.WrapPageForModal(ViewModalSize.Fullscreen));
-		}
-		else
-		{
-			SnackbarHandler.ShowTextWithDetails(
-				LocalizedStrings.NoCameraPermissionsPrompt,
-				LocalizedStrings.NoCameraPermissionsPrompt,
-				LocalizedStrings.NoCameraPermissionsDetailMessage);
-		}
+		await TakePhotoView.TryOpenWithPermissionsAsync(CaseloadItem);
 	}
 }
