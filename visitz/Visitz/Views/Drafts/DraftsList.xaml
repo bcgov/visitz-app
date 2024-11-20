@@ -6,6 +6,7 @@
 	xmlns:controls="clr-namespace:Visitz.Controls"
 	xmlns:converters="clr-namespace:Visitz.Converters"
 	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
+	xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
 	xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
 	xmlns:local="clr-namespace:Visitz.Localization"
 	xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
@@ -86,7 +87,8 @@
 									Text="{Binding LastUpdated.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"
 									TextColor="{StaticResource BC_TextColor_Lighter}" />
 
-								<tagViews:EntityTypeBadge 
+								<tagViews:EntityTypeBadge
+									x:DataType="models:IRecordInfo"
 									Grid.Column="3"
 									HorizontalOptions="Start"
 									VerticalOptions="Start"
