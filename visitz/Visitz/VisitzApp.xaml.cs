@@ -16,19 +16,19 @@ public partial class VisitzApp : Application
     public ServiceHandler ServiceHandler { get; private set; }
 
 #if WINDOWS
-	public CancellationTokenSource AuthCancelTokenSource { get; set; }
+    public CancellationTokenSource AuthCancelTokenSource { get; set; }
 #endif
 
-	public VisitzApp()
+    public VisitzApp()
     {
 #if WINDOWS
-		if (Oidc.WinWorkaround.WebAuthenticator.CheckOAuthRedirectionActivation())
-			return;
+        if (Oidc.WinWorkaround.WebAuthenticator.CheckOAuthRedirectionActivation())
+            return;
 
-		Oidc.WinWorkaround.WebAuthenticator.PromptAuthentication += WebAuthenticator_PromptForCredentials;
+        Oidc.WinWorkaround.WebAuthenticator.PromptAuthentication += WebAuthenticator_PromptForCredentials;
 #endif
 
-		OidcSession.SessionChanged += OidcSession_SessionChanged;
+        OidcSession.SessionChanged += OidcSession_SessionChanged;
 
         InitializeComponent();
 
@@ -37,74 +37,77 @@ public partial class VisitzApp : Application
         TryStartDebugSensor();
     }
 
-	protected override void OnStart()
+    protected override void OnStart()
     {
         base.OnStart();
-        
+
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
-		_ = ClearLogData();
+        _ = ClearLogData();
     }
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-		return new VisitzWindow(MainPage);
+        return new VisitzWindow(MainPage);
     }
 
 #if WINDOWS
-	private async void WebAuthenticator_PromptForCredentials(object sender, Oidc.WinWorkaround.InvokingAuthEventArgs e)
-	{
-		var webViewPage = ServiceProvider.GetService<WebViewPage>();
+    private async void WebAuthenticator_PromptForCredentials(object sender, Oidc.WinWorkaround.InvokingAuthEventArgs e)
+    {
+        var webViewPage = ServiceProvider.GetService<WebViewPage>();
 
-		webViewPage.AuthUri = e.Uri;
-		webViewPage.CancelTokenSource = AuthCancelTokenSource;
+        webViewPage.AuthUri = e.Uri;
+        webViewPage.CancelTokenSource = AuthCancelTokenSource;
 
-		await Navigator.Navigation.PushModalAsync(webViewPage);
-	}
+        await Navigator.Navigation.PushModalAsync(webViewPage);
+    }
 #endif
 
-	private static void TryStartDebugSensor()
+    private static void TryStartDebugSensor()
     {
         DebugOptions.TryStartShakeDetector(actionOnShake: async () => await DebugOptionsPage.TryOpen());
     }
 
-	private void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
-	{
-		if (e is LogoutChangedEventArgs args && args.Success)
-			_ = ClearIcmData();
-	}
+    private void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
+    {
+        if (e is LogoutChangedEventArgs args && args.Success)
+            _ = ClearIcmData();
+    }
 
-	private static async Task ClearIcmData()
-	{
-		await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
-	}
-	
-	private static async Task ClearLogData()
-	{
-		using var logRealm = await VisitzRealms.GetLogRealmAsync();
-		
+    private static async Task ClearIcmData()
+    {
+        await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
+    }
+
+    private static async Task ClearLogData()
+    {
+        using var logRealm = await VisitzRealms.GetLogRealmAsync();
+
         await logRealm.WriteAsync(() =>
         {
-            var allLogs = logRealm.All<VisitzModel.Models.LogEntry>().OrderByDescending(log => log.Timestamp).ToList();
+            var allLogs = logRealm
+                .All<VisitzModel.Models.LogEntry>()
+                .OrderByDescending(log => log.Timestamp)
+                .ToList();
             var logsToDelete = allLogs.Skip(1000).ToList();
-			if (logsToDelete.Count > 0)
+            if (logsToDelete.Count > 0)
             {
-				foreach (var log in logsToDelete)
-				{
-					logRealm.Remove(log);
-				}
-			}
-		
-			var twoWeeksAgo = DateTimeOffset.UtcNow.AddDays(-14);
-			var twoWeeksOldLog = allLogs.Where(log => log.Timestamp <= twoWeeksAgo).ToList();
-			if (twoWeeksOldLog.Count > 0)
-			{
-				foreach (var log in twoWeeksOldLog)
-				{
-					logRealm.Remove(log);
-				}
-			}
-        });
-	}
+                foreach (var log in logsToDelete)
+                {
+                    logRealm.Remove(log);
+                }
+            }
 
-	
+            var twoWeeksAgo = DateTimeOffset.UtcNow.AddDays(-14);
+            var twoWeeksOldLog = allLogs.Where(log => log.Timestamp <= twoWeeksAgo).ToList();
+            if (twoWeeksOldLog.Count > 0)
+            {
+                foreach (var log in twoWeeksOldLog)
+                {
+                    logRealm.Remove(log);
+                }
+            }
+        });
+    }
+
+
 }
