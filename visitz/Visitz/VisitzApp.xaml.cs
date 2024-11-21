@@ -4,6 +4,7 @@ using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
+using VisitzModel.Storage;
 
 #if WINDOWS
 using Visitz.Views.WebViewer;
@@ -42,7 +43,7 @@ public partial class VisitzApp : Application
         base.OnStart();
 
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
-        _ = ClearLogData();
+        _ = ClearRealmLogs.ClearLogData();
     }
 
     protected override Window CreateWindow(IActivationState activationState)
@@ -77,37 +78,4 @@ public partial class VisitzApp : Application
     {
         await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
     }
-
-    private static async Task ClearLogData()
-    {
-        using var logRealm = await VisitzRealms.GetLogRealmAsync();
-
-        await logRealm.WriteAsync(() =>
-        {
-            var allLogs = logRealm
-                .All<VisitzModel.Models.LogEntry>()
-                .OrderByDescending(log => log.Timestamp)
-                .ToList();
-            var logsToDelete = allLogs.Skip(1000).ToList();
-            if (logsToDelete.Count > 0)
-            {
-                foreach (var log in logsToDelete)
-                {
-                    logRealm.Remove(log);
-                }
-            }
-
-            var twoWeeksAgo = DateTimeOffset.UtcNow.AddDays(-14);
-            var twoWeeksOldLog = allLogs.Where(log => log.Timestamp <= twoWeeksAgo).ToList();
-            if (twoWeeksOldLog.Count > 0)
-            {
-                foreach (var log in twoWeeksOldLog)
-                {
-                    logRealm.Remove(log);
-                }
-            }
-        });
-    }
-
-
 }
