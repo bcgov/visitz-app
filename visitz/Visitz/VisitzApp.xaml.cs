@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
 using Visitz.Services;
@@ -20,7 +21,8 @@ public partial class VisitzApp : Application
     public CancellationTokenSource AuthCancelTokenSource { get; set; }
 #endif
 
-    public VisitzApp()
+    private readonly ILogger<VisitzApp> _logger;
+    public VisitzApp(ILogger<VisitzApp> logger)
     {
 #if WINDOWS
         if (Oidc.WinWorkaround.WebAuthenticator.CheckOAuthRedirectionActivation())
@@ -28,6 +30,7 @@ public partial class VisitzApp : Application
 
         Oidc.WinWorkaround.WebAuthenticator.PromptAuthentication += WebAuthenticator_PromptForCredentials;
 #endif
+        _logger = logger;
 
         OidcSession.SessionChanged += OidcSession_SessionChanged;
 
@@ -43,7 +46,14 @@ public partial class VisitzApp : Application
         base.OnStart();
 
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
-        _ = ClearRealmLogs.ClearLogData();
+        try
+        {
+            _ = ClearRealmLogs.ClearLogData();
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+        }
     }
 
     protected override Window CreateWindow(IActivationState activationState)
