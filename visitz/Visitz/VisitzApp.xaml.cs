@@ -5,7 +5,6 @@ using Visitz.Services;
 using Visitz.Storage;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
-using VisitzModel.Storage;
 
 #if WINDOWS
 using Visitz.Views.WebViewer;
@@ -50,7 +49,7 @@ public partial class VisitzApp : Application
         {
             _ = ClearRealmLogs.ClearLogData();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex.ToString());
         }
