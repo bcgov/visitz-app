@@ -142,7 +142,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 		return new()
 		{
-			AttachmentId = Attachment.AttachmentId,
+			AttachmentId = Attachment.Id,
 			EntityNumber = RelatedEntityId,
 			EntityType = RelatedEntityType.GetDisplayString(),
 			CaseType = RelatedEntitySubtype.GetDisplayString(),

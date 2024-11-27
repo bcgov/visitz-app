@@ -14,7 +14,8 @@ public partial class Attachment : IRealmObject, IRecordInfo
 	public static readonly IEnumerable<string> AllowedImageTypes = [".jpg", ".jpeg"];
 	public static readonly IEnumerable<string> AllowedDocumentTypes = [".pdf"];
 
-	public string AttachmentId {get; set;} = Guid.NewGuid().ToString();
+	[PrimaryKey]
+	public string Id {get; set;} = Guid.NewGuid().ToString();
 
 	public string RelatedEntityId { get; set; }
 
