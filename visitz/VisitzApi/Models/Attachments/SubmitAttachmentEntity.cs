@@ -4,6 +4,7 @@ namespace VisitzApi.Models.Attachments;
 
 public class SubmitAttachmentEntity
 {
+	public string AttachmentId { get; set; }
 	public string EntityNumber { get; set; }
 	public string EntityType { get; set; }
 	public string CaseType { get; set; }
@@ -16,7 +17,6 @@ public class SubmitAttachmentEntity
 	public Section13Payload Section13 { get; set; }
 	public CfaDetailsPayload CfaDetails { get; set; }
 	public AttachmentBlock Attachment { get; set; }
-	public string AttachmentId { get; set; }
 
 	public class AttachmentBlock
 	{
