@@ -142,12 +142,12 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
 		return new()
 		{
+			AttachmentId = Attachment.AttachmentId,
 			EntityNumber = RelatedEntityId,
 			EntityType = RelatedEntityType.GetDisplayString(),
 			CaseType = RelatedEntitySubtype.GetDisplayString(),
 			FormName = IcmFormNames.GenericDocument,
 			FileName = Attachment.Filename,
-			AttachmentId = Attachment.AttachmentId,
 			FormDescription = "",
 			FormCategory = "",
 			Section13Exists = "",
