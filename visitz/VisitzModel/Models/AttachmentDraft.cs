@@ -147,6 +147,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 			CaseType = RelatedEntitySubtype.GetDisplayString(),
 			FormName = IcmFormNames.GenericDocument,
 			FileName = Attachment.Filename,
+			AttachmentId = Attachment.AttachmentId,
 			FormDescription = "",
 			FormCategory = "",
 			Section13Exists = "",

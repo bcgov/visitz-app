@@ -16,6 +16,7 @@ public class SubmitAttachmentEntity
 	public Section13Payload Section13 { get; set; }
 	public CfaDetailsPayload CfaDetails { get; set; }
 	public AttachmentBlock Attachment { get; set; }
+	public string AttachmentId { get; set; }
 
 	public class AttachmentBlock
 	{

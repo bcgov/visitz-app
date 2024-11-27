@@ -34,7 +34,7 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 
 		if (attachment.Draft is AttachmentDraft draft)
 		{
-			string id = SubmitAttachmentService.MakeId(draft.RelatedEntityId, attachment.Filename);
+			string id = SubmitAttachmentService.MakeId(draft.RelatedEntityId, attachment.AttachmentId);
 			WeakReferenceMessenger.Default.Register(this, id);
 		}
 	}

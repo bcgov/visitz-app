@@ -8,12 +8,12 @@ internal class SubmitAttachmentService(Vpi vpi) : VisitzApiService(vpi)
 {
 	public static string MakeId(SubmitAttachmentEntity entity)
 	{
-		return MakeId(entity.EntityNumber, entity.FileName);
+		return MakeId(entity.EntityNumber, entity.AttachmentId);
 	}
 
-	public static string MakeId(string entityNumber, string attachmentName)
+	public static string MakeId(string entityNumber, string attachmentId)
 	{
-		return $"{nameof(SubmitAttachmentService)}-{entityNumber}-{attachmentName}";
+		return $"{nameof(SubmitAttachmentService)}-{entityNumber}-{attachmentId}";
 	}
 
 	public static StartServiceMessage MakeStartMessage(SubmitAttachmentEntity submitEntity)
@@ -21,7 +21,7 @@ internal class SubmitAttachmentService(Vpi vpi) : VisitzApiService(vpi)
 		return new()
 		{
 			Payload = submitEntity,
-			ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.FileName),
+			ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.AttachmentId),
 			ServiceType = typeof(SubmitAttachmentService),
 		};
 	}
