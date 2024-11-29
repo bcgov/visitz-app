@@ -92,6 +92,10 @@
 		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
 	</ItemGroup>
 
+	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
+		<PackageReference Include="CommunityToolkit.Maui.Camera" Version="1.0.5" />
+	</ItemGroup>
+
 	<ItemGroup>
 	  <ProjectReference Include="..\Oidc\Oidc.csproj" />
 	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
