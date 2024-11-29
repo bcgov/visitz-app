@@ -84,7 +84,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiPackageVersion)" />
 		<PackageReference Include="PDFsharp" Version="6.1.1" />
 		<PackageReference Include="Plugin.Fingerprint" Version="3.0.0-beta.1" />
-		<PackageReference Include="Realm" Version="12.2.0" />
+		<PackageReference Include="Realm" Version="$(RealmVersion)" />
 		<PackageReference Include="SecurityCodeScan.VS2019" Version="5.6.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

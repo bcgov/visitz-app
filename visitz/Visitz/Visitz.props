@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<CommunityToolkitMvvmVersion>8.2.2</CommunityToolkitMvvmVersion>
 		<MauiPackageVersion>8.0.100</MauiPackageVersion>
+		<RealmVersion>12.2.0</RealmVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
