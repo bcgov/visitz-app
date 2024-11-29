@@ -79,7 +79,11 @@ jobs:
       # when running a build in Release mode.)
       - name: Run tests
         working-directory: ${{ env.BASE_PROJPATH }}
-        run: dotnet test --logger "trx;LogFilePrefix=${{ env.TEST_RESULTS }}" --no-build
+        run: |
+          dotnet test `
+            --framework net8.0 `
+            --logger "trx;LogFilePrefix=${{ env.TEST_RESULTS }}" `
+            --no-build
 
       - name: Report tests
         uses: dorny/test-reporter@v1.8.0
