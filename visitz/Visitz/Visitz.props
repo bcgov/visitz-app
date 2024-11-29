@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<CommunityToolkitMvvmVersion>8.2.2</CommunityToolkitMvvmVersion>
 		<MauiPackageVersion>8.0.100</MauiPackageVersion>
+		<NETTestSdkVersion>17.10.0</NETTestSdkVersion>
 		<RealmVersion>12.2.0</RealmVersion>
 	</PropertyGroup>
 
