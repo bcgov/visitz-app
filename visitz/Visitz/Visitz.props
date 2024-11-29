@@ -6,6 +6,7 @@
 		<MauiPackageVersion>8.0.100</MauiPackageVersion>
 		<NETTestSdkVersion>17.10.0</NETTestSdkVersion>
 		<RealmVersion>12.2.0</RealmVersion>
+		<SecurityCodeScanVersion>5.6.7</SecurityCodeScanVersion>
 		<XUnitRunnerVsVersion>2.8.2</XUnitRunnerVsVersion>
 		<XUnitVersion>2.9.0</XUnitVersion>
 	</PropertyGroup>
