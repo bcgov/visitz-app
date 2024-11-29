@@ -9,9 +9,11 @@
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 
+	<Import Project="..\Visitz\Visitz.props" />
+
   <ItemGroup>
-	<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
-	<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
+	<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiPackageVersion)" />
+	<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiPackageVersion)" />
 	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
 	<PackageReference Include="xunit" Version="2.9.0" />
 	<PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">

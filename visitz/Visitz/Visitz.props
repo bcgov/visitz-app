@@ -1,5 +1,9 @@
 <Project>
 
+	<PropertyGroup>
+		<MauiPackageVersion>8.0.100</MauiPackageVersion>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
 		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
 		<ArchiveOnBuild>true</ArchiveOnBuild>
