@@ -5,6 +5,7 @@
 		<MauiPackageVersion>8.0.100</MauiPackageVersion>
 		<NETTestSdkVersion>17.10.0</NETTestSdkVersion>
 		<RealmVersion>12.2.0</RealmVersion>
+		<XUnitVersion>2.9.0</XUnitVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
