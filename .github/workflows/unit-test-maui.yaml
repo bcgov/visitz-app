@@ -66,7 +66,7 @@ jobs:
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
-        run: dotnet build
+        run: dotnet build --framework net8.0
 
       # Running with --no-build to work around an MSBuild targets issue.
       # (Details: build throws an error about a missing "Visitz.appSettings.json" file. That file should only exist
