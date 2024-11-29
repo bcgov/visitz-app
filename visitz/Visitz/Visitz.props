@@ -1,6 +1,7 @@
 <Project>
 
 	<PropertyGroup>
+		<CommunityToolkitMvvmVersion>8.2.2</CommunityToolkitMvvmVersion>
 		<MauiPackageVersion>8.0.100</MauiPackageVersion>
 	</PropertyGroup>
 
