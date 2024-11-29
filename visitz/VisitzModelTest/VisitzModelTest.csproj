@@ -16,7 +16,7 @@
 	<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiPackageVersion)" />
 	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NETTestSdkVersion)" />
 	<PackageReference Include="xunit" Version="$(XUnitVersion)" />
-	<PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+	<PackageReference Include="xunit.runner.visualstudio" Version="$(XUnitRunnerVsVersion)">
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		<PrivateAssets>all</PrivateAssets>
 	</PackageReference>
