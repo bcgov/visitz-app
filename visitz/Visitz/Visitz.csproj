@@ -89,7 +89,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="SharpSource" Version="1.24.0" PrivateAssets="All" />
+		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup>
