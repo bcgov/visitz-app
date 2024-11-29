@@ -63,12 +63,6 @@ jobs:
         run: |
           dotnet --version
           dotnet workload install maui
-      
-      - name: Install .NET MAUI 'ios' and 'maccatalyst' workloads
-        working-directory: ${{ env.BASE_PROJPATH }}
-        run: |
-          dotnet --version
-          dotnet workload install ios maccatalyst
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
