@@ -117,9 +117,10 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="$(TargetFramework.Contains('-ios')) or $(TargetFramework.Contains('-maccatalyst'))">
 		<Reference Include="CommunityToolkit.Maui.Camera">
 			<HintPath>..\lib\CommunityToolkit.Maui.Camera.dll</HintPath>
 		</Reference>
 	</ItemGroup>
+
 </Project>
