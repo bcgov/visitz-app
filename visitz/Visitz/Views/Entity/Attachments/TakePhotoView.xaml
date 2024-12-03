@@ -97,7 +97,8 @@
 						HeightRequest="{StaticResource ButtonSize}"
 						WidthRequest="{StaticResource ButtonSize}"
 						CornerRadius="{Binding Source={StaticResource HalfButtonSize}}"
-						Clicked="TakePictureButton_Clicked"
+						Command="{Binding TakePictureCommand,
+						Source={RelativeSource AncestorType={x:Type attachments:TakePhotoView}}}"
 						IsEnabled="{Binding WaitingToProcess}"/>
 
 					<ActivityIndicator

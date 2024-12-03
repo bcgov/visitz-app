@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.Input;
 using Visitz.Animations;
 using Visitz.Device;
 using Visitz.Extensions;
@@ -73,10 +74,8 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
         }
     }
 
-    private async void TakePictureButton_Clicked(object sender, EventArgs e)
+    private async Task CaptureImageAsync()
     {
-        _ = AnimateSnapshotAsync();
-
         await Camera.CaptureImage(CancellationToken.None);
     }
 
@@ -127,6 +126,27 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
                 LocalizedStrings.NoCameraPermissionsPrompt,
                 LocalizedStrings.NoCameraPermissionsPrompt,
                 LocalizedStrings.NoCameraPermissionsDetailMessage);
+        }
+    }
+
+    [RelayCommand]
+    public async Task TakePicture()
+    {
+        try
+        {
+            _ = AnimateSnapshotAsync();
+            CameraRollButton.IsEnabled = false;
+            var captureTask = CaptureImageAsync();
+            await captureTask;
+        }
+        catch (Exception ex)
+        {
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+            ConsoleTrace.TraceMethod(this, ex);
+        }
+        finally
+        {
+            CameraRollButton.IsEnabled = true;
         }
     }
 }
