@@ -74,11 +74,6 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
         }
     }
 
-    private async Task CaptureImageAsync()
-    {
-        await Camera.CaptureImage(CancellationToken.None);
-    }
-
     private async Task AnimateSnapshotAsync()
     {
         SnapshotLayer.IsVisible = true;
@@ -136,8 +131,7 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
         {
             _ = AnimateSnapshotAsync();
             CameraRollButton.IsEnabled = false;
-            var captureTask = CaptureImageAsync();
-            await captureTask;
+            await Camera.CaptureImage(CancellationToken.None);
         }
         catch (Exception ex)
         {
