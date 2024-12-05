@@ -1,0 +1,198 @@
+<baseClasses:VisitzPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+	xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:user="clr-namespace:Visitz.Views.User"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.User.SessionPage"
+    x:DataType="user:SessionViewModel"
+    Title="Session"
+    BackgroundColor="Black"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    ios:Page.UseSafeArea="False"
+    ios:Page.ModalPresentationStyle="{Binding PresentationStyle}">
+
+	<AbsoluteLayout IgnoreSafeArea="True">
+		<views:FeaturedBackgroundUnderlay
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            ImageDisplayOptions="{Binding BgDisplayOptions}" />
+
+		<Grid
+            IgnoreSafeArea="False"
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            RowDefinitions="Auto,*,Auto">
+
+			<controls:CloseButton
+                Grid.Row="0"
+                Margin="16"
+                HorizontalOptions="Start"
+                IsVisible="{Binding IsAuthorized}"
+                IsEnabled="{Binding IsAuthorized}" />
+                
+            <Label 
+                Grid.Row="0"
+                Margin="16"
+                HorizontalOptions="Center"
+                Text="{Binding DisplayName, StringFormat='Hello, {0}.'}"
+                IsVisible="{Binding ShowAuthStatusLayout}"
+                FontSize="30"
+                TextColor="White" />
+
+            <Grid
+                Grid.Row="1"
+                Padding="16"
+                RowDefinitions="*,2*,Auto">
+                    
+                <Button
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    StyleClass="FeatureButton,GoldBorderButton"
+                    Text="{local:Localize Login}"
+                    Command="{Binding LoginCommand}"
+                    IsVisible="{Binding ShowLoginLayout}" />
+
+                <Button 
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    StyleClass="FeatureButton,GoldBorderButton"
+                    Text="{local:Localize Logout}"
+                    Command="{Binding TryLogoutCommand}"
+                    IsVisible="{Binding IsAuthorized}" />
+
+				<ContentView
+					Grid.Row="0"
+					IsVisible="{Binding IsUnauthorized}"
+					VerticalOptions="Center"
+					HorizontalOptions="Center">
+					<Image>
+						<Image.Source>
+							<FontImageSource 
+								Glyph="{Binding AuthIcon}"
+								FontFamily="MaterialIconsRoundedFilled"
+								Size="200"
+								Color="{Binding AuthColor}" />
+						</Image.Source>
+					</Image>
+				</ContentView>
+
+                <Label 
+                    Grid.Row="1"
+                    FontSize="20"
+                    TextColor="White"
+                    WidthRequest="600"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    IsVisible="{Binding IsUnauthorized}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span 
+                                FontFamily="BCSansBold"
+                                Text="{Binding AuthStatus}" />
+                            <Span 
+                                FontFamily="BCSansBold"
+                                TextDecorations="Underline"
+                                Text="{Binding MailToUrl}" />
+                            <Span 
+                                FontFamily="BCSansBold"
+                                Text="." />
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <HorizontalStackLayout 
+                    Grid.Row="2"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsUnauthorized}"
+                    Spacing="20">
+
+                    <Button 
+                        Text="{local:Localize Logout}"
+                        Style="{StaticResource SecondaryButtonDark}"
+                        StyleClass="FeatureButton"
+                        Command="{Binding TryLogoutCommand}"
+                        IsVisible="{Binding IsUnauthorized}" />
+
+					<Button
+						Style="{StaticResource SecondaryButtonDark}"
+						StyleClass="FeatureButton"
+						Command="{Binding LoginCommand}"
+						Text="{local:Localize RetryLogin}"
+						IsVisible="{Binding IsUnauthorized}">
+						<Button.ImageSource>
+							<FontImageSource
+								Glyph="{Static fonticons:MaterialIcons.Refresh}" 
+								FontFamily="MaterialIconsRoundedFilled"
+								Color="White"/>
+						</Button.ImageSource>
+					</Button>
+
+                    <Button 
+                        StyleClass="FeatureButton,GoldBorderButton"
+                        Text="{local:Localize Request Access}"
+                        Command="{Binding RequestAccessCommand}"
+                        IsVisible="{Binding IsUnauthorized}" />
+
+                </HorizontalStackLayout>
+
+            </Grid>
+
+			<Label
+				Grid.Row="2"
+				HorizontalOptions="Start"
+				Padding="5,20,5,5"
+				Text="{local:Localize CollectionNotice}"
+				TextColor="White"
+				TextDecorations="Underline"
+				IsVisible="{Binding IsAuthorized}">
+				<Label.GestureRecognizers>
+					<TapGestureRecognizer Command="{Binding OpenCollectionNoticeCommand}" />
+				</Label.GestureRecognizers>
+			</Label>
+
+			<HorizontalStackLayout
+                Grid.Row="2"
+                HorizontalOptions="Center"
+				VerticalOptions="End"
+                Spacing="30"
+                Margin="5">
+                <Label 
+                    Text="{Binding BuildNumber, StringFormat='Build #{0}'}" 
+                    TextColor="White" />
+
+                <Label 
+                    Text="{Binding AppVersion, StringFormat='Version {0}'}" 
+                    TextColor="White" />
+            </HorizontalStackLayout>
+
+			<Label
+				Grid.Row="2"
+				HorizontalOptions="End"
+				VerticalOptions="End"
+				Padding="5,20,5,5"
+				Text="{local:Localize FeedbackUrlPrompt}"
+				TextColor="White"
+				TextDecorations="Underline"
+				IsVisible="{Binding ShowFeedbackUrl}">
+				<Label.GestureRecognizers>
+					<TapGestureRecognizer
+						Command="{Binding OpenFeedbackUrlCommand}"
+						CommandParameter="{Binding FeedbackUrl}" />
+				</Label.GestureRecognizers>
+			</Label>
+		</Grid>
+
+    </AbsoluteLayout>
+    
+</baseClasses:VisitzPage>

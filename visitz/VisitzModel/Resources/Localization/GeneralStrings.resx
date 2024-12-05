@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FileTooLarge" xml:space="preserve">
+    <value>File too large ({0} MB)</value>
+    <comment>0 = Size in MB</comment>
+  </data>
   <data name="SafetyAssessment" xml:space="preserve">
     <value>Safety assessment</value>
   </data>

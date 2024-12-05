@@ -1,50 +1,36 @@
+using Visitz.Views.AppLock;
+using Visitz.Views.User;
+
 namespace Visitz;
 
 public partial class VisitzWindow : Window
 {
-	private static readonly double ValidityTimeoutMinutes = 5.0d;
-
-	private DateTime? LastDeactivated { get; set; }
-
-	public event EventHandler ActivatedWhenInvalid;
-
 	public VisitzWindow() { }
 
 	public VisitzWindow(Page page) : base(page) { }
 
-	protected override void OnCreated()
+	protected async override void OnCreated()
 	{
 		base.OnCreated();
 
 #if WINDOWS
 		ApplyDefaultWindowLayout(this);
 #endif
+
+		await SessionPage.TryOpenAsync(modal: true, animated: false);
+
+		await AppLockPage.TryPrompt(promptOnAppearing: true);
 	}
+
+    protected async override void OnStopped()
+    {
+        base.OnStopped();
+
+        await AppLockPage.TryPrompt(promptOnAppearing: false);
+    }
 
 #if WINDOWS
 	private static partial Window ApplyDefaultWindowLayout(Window window);
 #endif
 
-	protected override void OnActivated()
-	{
-		base.OnActivated();
-
-		if (LastDeactivated is DateTime last)
-		{
-			var validUntil = last.AddMinutes(ValidityTimeoutMinutes);
-			var isValid = DateTime.UtcNow <= validUntil;
-
-			if (!isValid)
-				ActivatedWhenInvalid?.Invoke(this, EventArgs.Empty);
-
-			LastDeactivated = null;
-		}
-	}
-
-	protected override void OnDeactivated()
-	{
-		base.OnDeactivated();
-
-		LastDeactivated = DateTime.UtcNow;
-	}
 }

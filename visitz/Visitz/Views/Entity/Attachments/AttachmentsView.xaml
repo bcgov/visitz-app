@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:ViewModelContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+	xmlns:icons="clr-namespace:Visitz.FontIcons"
+	xmlns:local="clr-namespace:Visitz.Localization"
+	xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Entity.Attachments.AttachmentsView"
+	x:DataType="attachments:AttachmentsViewModel">
+	
+	<Grid
+		HorizontalOptions="FillAndExpand"
+		VerticalOptions="FillAndExpand"
+		RowDefinitions="Auto, *, 0.5, Auto">
+
+		<views:InfoBanner
+			Grid.Row="0"
+			Margin="20"
+			Text="{local:Localize OnlyPublishAttachments}" />
+
+		<attachments:AttachmentsList
+			x:Name="AttachmentsList"
+			Grid.Row="1" />
+
+		<BoxView
+			Grid.Row="2"
+			Color="{StaticResource SeparatorColor}" />
+
+		<Grid
+			Grid.Row="3"
+			Padding="{StaticResource DefaultPadding}"
+			RowDefinitions="Auto"
+			ColumnSpacing="{StaticResource DefaultSpacing}"
+			ColumnDefinitions="*,Auto,Auto">
+
+			<Button
+				Style="{StaticResource SecondaryButton}"
+				Grid.Column="1"
+				Text="{local:Localize Browse}"
+				Clicked="Browse_Clicked"
+				IsVisible="{OnPlatform iOS=False}">
+				<Button.ImageSource>
+					<FontImageSource 
+						Glyph="{Static icons:MaterialIcons.Folder_open}"
+						FontFamily="MaterialIconsRoundedUnfilled"
+						Size="20"
+						Color="{StaticResource Primary}" />
+				</Button.ImageSource>
+			</Button>
+
+			<Button
+				Style="{StaticResource SecondaryButton}"
+				Grid.Column="2"
+				Clicked="AddPhotos_Clicked"
+				Text="{local:Localize AddPhotos}">
+				<Button.ImageSource>
+					<FontImageSource 
+						Glyph="{Static icons:MaterialIcons.Add_a_photo}"
+						FontFamily="MaterialIconsRoundedUnfilled"
+						Size="20"
+						Color="{StaticResource Primary}" />
+				</Button.ImageSource>
+			</Button>
+		</Grid>
+	</Grid>
+	
+</baseClasses:ViewModelContentView>

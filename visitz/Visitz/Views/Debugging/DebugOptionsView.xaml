@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<views:ViewModelContentView
+<baseClasses:ViewModelContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:debug="clr-namespace:Visitz.Views.Debugging"
-    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
-    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Debugging.DebugOptionsView"
-    x:DataType="viewmodels:DebugOptionsViewModel"
+    x:DataType="debug:DebugOptionsViewModel"
     BackgroundColor="White">
 
-    <views:ViewModelContentView.Resources>
+    <baseClasses:ViewModelContentView.Resources>
         <Style TargetType="View" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugLayout">
             <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="VerticalOptions" Value="Center" />
@@ -27,7 +26,7 @@
             <Setter Property="RowSpacing" Value="16" />
             <Setter Property="ColumnDefinitions" Value="1*,2*" />
         </Style>
-    </views:ViewModelContentView.Resources>
+    </baseClasses:ViewModelContentView.Resources>
 
     <ScrollView>
 
@@ -82,7 +81,7 @@
                 Background="AliceBlue"
                 Text="Database" />
 
-            <Grid RowDefinitions="Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="0"
@@ -97,9 +96,16 @@
                     Command="{Binding ClearSafetyAssessmentDraftCommand}"
                     Text="Clear SafetyAssessmentDraft data" />
 
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="2"
+					Grid.Column="1"
+					Command="{Binding ClearAttachmentDraftCommand}"
+					Text="Clear AttachmentDraft data" />
+
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="1"
                     Command="{Binding Load620bDataCommand}"
                     Text="Load 620b data" />
@@ -173,6 +179,39 @@
                     Grid.Column="1"
                     IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
             </Grid>
+
+			<Label
+				StyleClass="DebugLayout,DebugLabel"
+				HorizontalOptions="FillAndExpand"
+				FontSize="20"
+				Background="AliceBlue"
+				Text="File system" />
+
+			<Grid
+				RowDefinitions="Auto,Auto,Auto">
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="0"
+					Grid.Column="1"
+					IsEnabled="{OnIdiom Desktop=True, Default=False}"
+					Command="{Binding OpenAppDataDirectoryCommand}"
+					Text="Open AppDataDirectory" />
+
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="1"
+					Grid.Column="1"
+					IsEnabled="{OnIdiom Desktop=True, Default=False}"
+					Command="{Binding OpenCacheDirectoryCommand}"
+					Text="Open CacheDirectory" />
+
+				<Button
+					StyleClass="DebugLayout"
+					Grid.Row="2"
+					Grid.Column="1"
+					Clicked="ShowDocumentsButton_Clicked"
+					Text="Show Documents' files" />
+			</Grid>
             
             <Label
                 StyleClass="DebugLayout,DebugLabel"
@@ -245,4 +284,4 @@
 
     </ScrollView>
 
-</views:ViewModelContentView>
+</baseClasses:ViewModelContentView>

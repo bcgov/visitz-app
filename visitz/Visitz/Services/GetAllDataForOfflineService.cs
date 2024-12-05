@@ -1,4 +1,4 @@
-﻿using Oidc;
+using Oidc;
 using Realms;
 using Visitz.Services.Messages;
 using Visitz.Storage;
@@ -55,7 +55,7 @@ namespace Visitz.Services
             var allIdEntities = realm
                 .All<CaseloadItem>()
                 .Freeze()
-                .ToList()
+                .AsEnumerable()
                 .Select(item => (item.CaseIncidentNumber, item.EntityType));
 
             var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);

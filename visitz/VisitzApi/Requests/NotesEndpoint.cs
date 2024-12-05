@@ -1,10 +1,11 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using VisitzApi.Json;
 using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-    internal class NotesEndpoint(string baseUrl, string entityNumber, string entityType) 
+	internal class NotesEndpoint(string baseUrl, string entityNumber, string entityType) 
         : VisitzBaseEndpoint<IEnumerable<NoteEntity>>(baseUrl, GetNotesPath)
     {
         private static readonly string GetNotesPath = "/v1/678";

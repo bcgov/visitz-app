@@ -192,7 +192,7 @@
   <data name="LogoutAndClearDataDesc" xml:space="preserve">
     <value>Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
 
-Logging out won't affect your unpublished notes.</value>
+Logging out won't affect your unpublished drafts.</value>
   </data>
   <data name="YouAreAuthorized" xml:space="preserve">
     <value>You are authorized to use MCFD Mobility.</value>
@@ -719,5 +719,61 @@ Do you want to discard this unlinked draft permanently?</value>
   </data>
   <data name="DiscardNoteDraft" xml:space="preserve">
     <value>Discarded note draft</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
+  <data name="AddPhotos" xml:space="preserve">
+    <value>Add photos</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="OnlyPublishAttachments" xml:space="preserve">
+    <value>Currently, attachments cannot be read from ICM. They can only be uploaded.</value>
+  </data>
+  <data name="DiscardAttachmentDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this attachment draft? You won't be able to recover it.</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="FileDiscarded" xml:space="preserve">
+    <value>'{0}' discarded</value>
+    <comment>0 = Filename</comment>
+  </data>
+  <data name="CopyToClipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="CopiedToClipboard" xml:space="preserve">
+    <value>Copied to clipboard</value>
+  </data>
+  <data name="AttachmentPublishSuccess" xml:space="preserve">
+    <value>'{0}' published successfully.</value>
+    <comment>0 = Attachment filename</comment>
+  </data>
+  <data name="LoginToSubmitAttachment" xml:space="preserve">
+    <value>Log in to submit attachment</value>
+  </data>
+  <data name="PublishingAttachmentToIcm" xml:space="preserve">
+    <value>Publishing '{0}' to ICM</value>
+    <comment>0 = Attachment filename</comment>
+  </data>
+  <data name="CaseloadError" xml:space="preserve">
+    <value>Caseload refresh error</value>
+  </data>
+  <data name="CaseloadErrorMessage" xml:space="preserve">
+    <value>An error occurred while refreshing your caseload.
+ 
+You can view the details of this error or try again later.</value>
+  </data>
+  <data name="ErrorDialogCopyPrompt" xml:space="preserve">
+    <value>To report this error, you can select 'copy to clipboard' and paste into an email:</value>
+  </data>
+  <data name="NoCameraPermissionsDetailMessage" xml:space="preserve">
+    <value>MCFD Mobility isn't permitted to use your device's camera. Enable it in device settings and try again.</value>
+  </data>
+  <data name="NoCameraPermissionsPrompt" xml:space="preserve">
+    <value>Camera permissions disabled</value>
   </data>
 </root>

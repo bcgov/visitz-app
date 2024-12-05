@@ -5,14 +5,14 @@
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
-    xmlns:viewmodels="clr-namespace:Visitz.ViewModels"
+    xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Caseload.CaseloadItemView"
     x:DataType="models:CaseloadItem">
 
     <ContentView.GestureRecognizers>
         <TapGestureRecognizer 
-            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaseloadViewModel}}, Path=CaseloadItemSelectedCommand}"
+            Command="{Binding Source={RelativeSource AncestorType={x:Type caseload:CaseloadViewModel}}, Path=CaseloadItemSelectedCommand}"
             CommandParameter="{Binding .}"/>
     </ContentView.GestureRecognizers>
 
