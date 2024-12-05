@@ -1,10 +1,28 @@
 # Releasing the app
 
+1. Create CAB request.
+
+1. Ensure any required database migrations are implemented and functioning correctly.
+
+	To test, you can:
+
+	1. Look for the testing release candidate build for the previous released version
+
+	1. Generate and save enough data into the DBs (make drafts)
+	
+	1. Directly upgrade the app ***(do not uninstall current version)*** to the current release's release candidate build
+	
+	1. Ensure everything works correctly.
+
+	If the app crashes, or you encounter unexpected behaviour, you'll need to implement migrations.
+
 1. Make sure all working branches that we want to release have been merged into the desired `dev/` branch.
 
 1. Make sure all unit tests pass in the desired `dev/` branch.
 
 1. Make and complete a Pull Request to merge `dev/` into `test/`.
+
+1. Ensure that the app's configurable "Debug mode" is disabled when making production release builds.
 
 1. Create a regression build from the `test/` branch and ensure the build passes all regression tests.
 
