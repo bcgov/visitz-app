@@ -776,4 +776,14 @@ You can view the details of this error or try again later.</value>
   <data name="NoCameraPermissionsPrompt" xml:space="preserve">
     <value>Camera permissions disabled</value>
   </data>
+  <data name="RecordRemovedFromCaseload" xml:space="preserve">
+    <value>{0} '{1}' unassigned from caseload</value>
+    <comment>0 = Entity type, 1 = Key player name</comment>
+  </data>
+  <data name="RecordRemovedFromCaseloadDetails" xml:space="preserve">
+    <value>"The record {0} '{1}' was unassigned from your caseload and was removed from this device during caseload refresh.
+
+Any drafts for this record are still saved—but won't be accessible until the record is reassigned."</value>
+    <comment>0 = Entity type, 1 = Key player name</comment>
+  </data>
 </root>
