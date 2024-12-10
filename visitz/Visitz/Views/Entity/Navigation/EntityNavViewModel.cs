@@ -21,6 +21,13 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.Navigation;
 
+public static class DeletedCaseloadType
+{
+	public const string Incident = "Incident";
+	public const string ChildServices = "Child Services";
+	public const string FamilyServices = "Family Services";
+}
+
 public partial class EntityNavViewModel : VisitzViewModel,
 	ICaseloadItemHolder,
 	IRequestedEntitySection,
@@ -80,6 +87,8 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		ContentViewType = typeof(EntitySafetyAssessView),
 		Section = EntitySection.SafetyAssessment,
 	};
+	public static string SaveDeletedCaseloadUserName;
+	public static string SaveDeletedCaseloadType;
 
 	public override async void Create()
     {
@@ -126,6 +135,24 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 		realmQueryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
 			.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
+		
+		var caseloadRealm = await VisitzRealms.GetIcmDataRealmAsync();
+		var query = caseloadRealm.All<CaseloadItem>()
+			.Where(item => item.CaseIncidentNumber == CaseloadItem.CaseIncidentNumber);
+
+		var caseloadObj = query.FirstOrDefault();
+		if (caseloadObj != null)
+		{
+			SaveDeletedCaseloadUserName = caseloadObj.DisplayName;
+			if (DeletedCaseloadType.ChildServices == caseloadObj.CaseIncidentType)
+				SaveDeletedCaseloadType = caseloadObj.CaseIncidentType;
+			else if (DeletedCaseloadType.FamilyServices == caseloadObj.CaseIncidentType)
+				SaveDeletedCaseloadType = caseloadObj.CaseIncidentType;
+			else if (DeletedCaseloadType.Incident == caseloadObj.CaseIncidentType)
+				SaveDeletedCaseloadType = caseloadObj.CaseIncidentType;
+		}
+
+		realmQueryMap.Subscribe(caseloadRealm, query);
 
 		if (ShouldShowSafetyAssessment())
 		{
@@ -135,7 +162,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		}
 	}
 
-	private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+	private async void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
 	{
 		if (e.Type == typeof(NoteDraft))
 			Notes.HasDraft = e.Items.Any();
@@ -143,6 +170,19 @@ public partial class EntityNavViewModel : VisitzViewModel,
 			SafetyAssessment.HasDraft = e.Items.Any();
 		else if (e.Type == typeof(AttachmentDraft))
 			Attachments.HasDraft = e.Items.Any();
+		else if (e.Type == typeof(CaseloadItem))
+		{
+			if (e.Changes != null && e.Changes.DeletedIndices.Any())
+			{
+				StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
+				await Navigator.CurrentOpenPage.DisplayAlert(
+				string.Format(
+					LocalizedStrings.RecordRemovedFromCaseload, SaveDeletedCaseloadType, SaveDeletedCaseloadUserName),
+				string.Format(
+					LocalizedStrings.RecordRemovedFromCaseloadDetails, SaveDeletedCaseloadType, SaveDeletedCaseloadUserName),
+				LocalizedStrings.Ok);
+			}
+		}
 	}
 
 	public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
