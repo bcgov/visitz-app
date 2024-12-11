@@ -21,12 +21,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.Navigation;
 
-public static class DeletedCaseloadType
-{
-	public const string Incident = "Incident";
-	public const string ChildServices = "Child Services";
-	public const string FamilyServices = "Family Services";
-}
 
 public partial class EntityNavViewModel : VisitzViewModel,
 	ICaseloadItemHolder,
@@ -87,8 +81,8 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		ContentViewType = typeof(EntitySafetyAssessView),
 		Section = EntitySection.SafetyAssessment,
 	};
-	public static string SaveDeletedCaseloadUserName;
-	public static string SaveDeletedCaseloadType;
+	public static string CacheDeletedKeyplayer;
+	public static string CacheDeletedEntityType;
 
 	public override async void Create()
     {
@@ -97,6 +91,9 @@ public partial class EntityNavViewModel : VisitzViewModel,
         BuildNavList();
 
         SelectedEntityNavItem ??= DefaultNavItem;
+
+		CacheDeletedKeyplayer = CaseloadItem.DisplayName;
+		CacheDeletedEntityType = CaseloadItem.EntityType;
 
 		await SetupDraftsObserver();
 
@@ -137,22 +134,8 @@ public partial class EntityNavViewModel : VisitzViewModel,
 			.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
 		
 		var caseloadRealm = await VisitzRealms.GetIcmDataRealmAsync();
-		var query = caseloadRealm.All<CaseloadItem>()
-			.Where(item => item.CaseIncidentNumber == CaseloadItem.CaseIncidentNumber);
-
-		var caseloadObj = query.FirstOrDefault();
-		if (caseloadObj != null)
-		{
-			SaveDeletedCaseloadUserName = caseloadObj.DisplayName;
-			if (DeletedCaseloadType.ChildServices == caseloadObj.CaseIncidentType)
-				SaveDeletedCaseloadType = caseloadObj.CaseIncidentType;
-			else if (DeletedCaseloadType.FamilyServices == caseloadObj.CaseIncidentType)
-				SaveDeletedCaseloadType = caseloadObj.CaseIncidentType;
-			else if (DeletedCaseloadType.Incident == caseloadObj.CaseIncidentType)
-				SaveDeletedCaseloadType = caseloadObj.CaseIncidentType;
-		}
-
-		realmQueryMap.Subscribe(caseloadRealm, query);
+		realmQueryMap.Subscribe(caseloadRealm, caseloadRealm.All<CaseloadItem>()
+			.Where(item => item.CaseIncidentNumber == CaseloadItem.CaseIncidentNumber));
 
 		if (ShouldShowSafetyAssessment())
 		{
@@ -172,15 +155,20 @@ public partial class EntityNavViewModel : VisitzViewModel,
 			Attachments.HasDraft = e.Items.Any();
 		else if (e.Type == typeof(CaseloadItem))
 		{
-			if (e.Changes != null && e.Changes.DeletedIndices.Any())
+			if ((e.Type == typeof(CaseloadItem)) && (e.Changes?.DeletedIndices?.Length > 0))
 			{
 				StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
 				await Navigator.CurrentOpenPage.DisplayAlert(
-				string.Format(
-					LocalizedStrings.RecordRemovedFromCaseload, SaveDeletedCaseloadType, SaveDeletedCaseloadUserName),
-				string.Format(
-					LocalizedStrings.RecordRemovedFromCaseloadDetails, SaveDeletedCaseloadType, SaveDeletedCaseloadUserName),
-				LocalizedStrings.Ok);
+					string.Format(
+						LocalizedStrings.RecordRemovedFromCaseload, 
+						CacheDeletedEntityType, 
+						CacheDeletedKeyplayer),
+					string.Format(
+						LocalizedStrings.RecordRemovedFromCaseloadDetails, 
+						CacheDeletedEntityType, 
+						CacheDeletedKeyplayer),
+					LocalizedStrings.Ok
+				);
 			}
 		}
 	}
