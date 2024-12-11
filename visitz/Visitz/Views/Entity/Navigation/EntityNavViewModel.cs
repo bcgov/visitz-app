@@ -21,7 +21,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.Navigation;
 
-
 public partial class EntityNavViewModel : VisitzViewModel,
 	ICaseloadItemHolder,
 	IRequestedEntitySection,
