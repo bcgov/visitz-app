@@ -152,9 +152,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
 			SafetyAssessment.HasDraft = e.Items.Any();
 		else if (e.Type == typeof(AttachmentDraft))
 			Attachments.HasDraft = e.Items.Any();
-		else if (e.Type == typeof(CaseloadItem))
-		{
-			if ((e.Type == typeof(CaseloadItem)) && (e.Changes?.DeletedIndices?.Length > 0))
+		else if ((e.Type == typeof(CaseloadItem)) && (e.Changes?.DeletedIndices?.Length > 0))
 			{
 				StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
 				await Navigator.CurrentOpenPage.DisplayAlert(
@@ -169,7 +167,6 @@ public partial class EntityNavViewModel : VisitzViewModel,
 					LocalizedStrings.Ok
 				);
 			}
-		}
 	}
 
 	public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
