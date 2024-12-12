@@ -1323,6 +1323,26 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; unassigned from caseload.
+        /// </summary>
+        public static string RecordRemovedFromCaseload {
+            get {
+                return ResourceManager.GetString("RecordRemovedFromCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;The record {0} &apos;{1}&apos; was unassigned from your caseload and was removed from this device during caseload refresh.
+        ///
+        ///Any drafts for this record are still saved—but won&apos;t be accessible until the record is reassigned.&quot;.
+        /// </summary>
+        public static string RecordRemovedFromCaseloadDetails {
+            get {
+                return ResourceManager.GetString("RecordRemovedFromCaseloadDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {

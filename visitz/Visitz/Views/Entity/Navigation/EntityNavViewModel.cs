@@ -80,6 +80,8 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		ContentViewType = typeof(EntitySafetyAssessView),
 		Section = EntitySection.SafetyAssessment,
 	};
+	public static string CacheDeletedKeyplayer;
+	public static string CacheDeletedEntityType;
 
 	public override async void Create()
     {
@@ -88,6 +90,9 @@ public partial class EntityNavViewModel : VisitzViewModel,
         BuildNavList();
 
         SelectedEntityNavItem ??= DefaultNavItem;
+
+		CacheDeletedKeyplayer = CaseloadItem.DisplayName;
+		CacheDeletedEntityType = CaseloadItem.EntityType;
 
 		await SetupDraftsObserver();
 
@@ -126,6 +131,10 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 		realmQueryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
 			.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
+		
+		var caseloadRealm = await VisitzRealms.GetIcmDataRealmAsync();
+		realmQueryMap.Subscribe(caseloadRealm, caseloadRealm.All<CaseloadItem>()
+			.Where(item => item.CaseIncidentNumber == CaseloadItem.CaseIncidentNumber));
 
 		if (ShouldShowSafetyAssessment())
 		{
@@ -143,6 +152,8 @@ public partial class EntityNavViewModel : VisitzViewModel,
 			SafetyAssessment.HasDraft = e.Items.Any();
 		else if (e.Type == typeof(AttachmentDraft))
 			Attachments.HasDraft = e.Items.Any();
+		else if (e.Type == typeof(CaseloadItem) && e.Changes?.DeletedIndices?.Length > 0)
+			_ = EntityUnassignedGoBack();
 	}
 
 	public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
@@ -180,6 +191,22 @@ public partial class EntityNavViewModel : VisitzViewModel,
     {
         StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
     }
+
+	private static async Task EntityUnassignedGoBack()
+	{
+		GoBack();
+		await Navigator.CurrentOpenPage.DisplayAlert(
+			string.Format(
+				LocalizedStrings.RecordRemovedFromCaseload,
+				CacheDeletedEntityType,
+				CacheDeletedKeyplayer),
+			string.Format(
+				LocalizedStrings.RecordRemovedFromCaseloadDetails,
+				CacheDeletedEntityType,
+				CacheDeletedKeyplayer),
+			LocalizedStrings.Ok
+		);
+	}
 
 	private bool ShouldShowSafetyAssessment()
 	{
