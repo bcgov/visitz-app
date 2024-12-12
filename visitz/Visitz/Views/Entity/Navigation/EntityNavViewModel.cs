@@ -144,7 +144,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		}
 	}
 
-	private async void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+	private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
 	{
 		if (e.Type == typeof(NoteDraft))
 			Notes.HasDraft = e.Items.Any();
@@ -153,20 +153,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
 		else if (e.Type == typeof(AttachmentDraft))
 			Attachments.HasDraft = e.Items.Any();
 		else if (e.Type == typeof(CaseloadItem) && e.Changes?.DeletedIndices?.Length > 0)
-			{
-				StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
-				await Navigator.CurrentOpenPage.DisplayAlert(
-					string.Format(
-						LocalizedStrings.RecordRemovedFromCaseload, 
-						CacheDeletedEntityType, 
-						CacheDeletedKeyplayer),
-					string.Format(
-						LocalizedStrings.RecordRemovedFromCaseloadDetails, 
-						CacheDeletedEntityType, 
-						CacheDeletedKeyplayer),
-					LocalizedStrings.Ok
-				);
-			}
+			_ = EntityUnassignedGoBack();
 	}
 
 	public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
@@ -204,6 +191,22 @@ public partial class EntityNavViewModel : VisitzViewModel,
     {
         StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
     }
+
+	private static async Task EntityUnassignedGoBack()
+	{
+		GoBack();
+		await Navigator.CurrentOpenPage.DisplayAlert(
+			string.Format(
+				LocalizedStrings.RecordRemovedFromCaseload,
+				CacheDeletedEntityType,
+				CacheDeletedKeyplayer),
+			string.Format(
+				LocalizedStrings.RecordRemovedFromCaseloadDetails,
+				CacheDeletedEntityType,
+				CacheDeletedKeyplayer),
+			LocalizedStrings.Ok
+		);
+	}
 
 	private bool ShouldShowSafetyAssessment()
 	{
