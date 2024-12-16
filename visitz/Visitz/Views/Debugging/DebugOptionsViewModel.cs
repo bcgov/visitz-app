@@ -7,33 +7,33 @@ using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Storage;
 
-namespace Visitz.Views.Debugging
-{
+namespace Visitz.Views.Debugging;
+
 	public partial class DebugOptionsViewModel : VisitzViewModel
-    {
-        [ObservableProperty]
-        public bool dryFireSubmitNotes;
+{
+    [ObservableProperty]
+    public bool dryFireSubmitNotes;
 
-        [ObservableProperty]
-        public bool dryFireSubmitNotesSimulateSuccess;
+    [ObservableProperty]
+    public bool dryFireSubmitNotesSimulateSuccess;
 
-        [ObservableProperty]
-        public string appId;
+    [ObservableProperty]
+    public string appId;
 
-        [ObservableProperty]
-        public string dotnetVersion;
+    [ObservableProperty]
+    public string dotnetVersion;
 
-        [ObservableProperty]
-        public string apiDomain;
+    [ObservableProperty]
+    public string apiDomain;
 
-        [ObservableProperty]
-        public string authenticationDomain;
+    [ObservableProperty]
+    public string authenticationDomain;
 
-        [ObservableProperty]
-        public bool buildingInDebug;
+    [ObservableProperty]
+    public bool buildingInDebug;
 
-        [ObservableProperty]
-        public bool skipLocalAuth;
+    [ObservableProperty]
+    public bool skipLocalAuth;
 
 		readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
@@ -44,70 +44,70 @@ namespace Visitz.Views.Debugging
 		public DateTime maxDate = DateTimeExtensions.LocalNow;
 
 		public override void Create()
-        {
-            base.Create();
+    {
+        base.Create();
 
-            DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
-            DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
+        DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
+        DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
 
-            AppId = AppInfo.Current.PackageName;
-            DotnetVersion = Environment.Version.ToString();
+        AppId = AppInfo.Current.PackageName;
+        DotnetVersion = Environment.Version.ToString();
 
 #if DEBUG
-            BuildingInDebug = true;
+        BuildingInDebug = true;
 #else
-            BuildingInDebug = false;
+        BuildingInDebug = false;
 #endif
-            SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
+        SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
 
-            var settings = new AppSettings();
+        var settings = new AppSettings();
 
-            ApiDomain = settings.Api.ApiDomain;
-            AuthenticationDomain = settings.Oidc.AuthenticationDomain;
+        ApiDomain = settings.Api.ApiDomain;
+        AuthenticationDomain = settings.Oidc.AuthenticationDomain;
 
 			CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
-        }
+    }
 
-        partial void OnDryFireSubmitNotesChanged(bool value)
-        {
-            DebugOptions.DryFireSubmitNotes = value;
-        }
+    partial void OnDryFireSubmitNotesChanged(bool value)
+    {
+        DebugOptions.DryFireSubmitNotes = value;
+    }
 
-        partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
-        {
-            DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
-        }
+    partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
+    {
+        DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
+    }
 
-        partial void OnSkipLocalAuthChanged(bool value)
-        {
-            DebugOptions.SkipLocalAuth = value;
-        }
+    partial void OnSkipLocalAuthChanged(bool value)
+    {
+        DebugOptions.SkipLocalAuth = value;
+    }
 
-        [RelayCommand]
-        public static void DeleteAccessToken()
-        {
-            if (DebugOptions.Enabled)
-                TokenHolder.DeleteAccessToken();
-        }
+    [RelayCommand]
+    public static void DeleteAccessToken()
+    {
+        if (DebugOptions.Enabled)
+            TokenHolder.DeleteAccessToken();
+    }
 
-        [RelayCommand]
-        public static void DeleteRefreshToken()
-        {
-            if (DebugOptions.Enabled)
-                TokenHolder.DeleteRefreshToken();
-        }
+    [RelayCommand]
+    public static void DeleteRefreshToken()
+    {
+        if (DebugOptions.Enabled)
+            TokenHolder.DeleteRefreshToken();
+    }
 
-        [RelayCommand]
-        public static async Task ClearRealmData()
-        {
-            await DebugOptions.ClearRealmData();
-        }
+    [RelayCommand]
+    public static async Task ClearRealmData()
+    {
+        await DebugOptions.ClearRealmData();
+    }
 
-        [RelayCommand]
-        public static async Task ClearSafetyAssessmentDraft()
-        {
-            await DebugOptions.ClearSafetyAssessmentDraftsRealm();
-        }
+    [RelayCommand]
+    public static async Task ClearSafetyAssessmentDraft()
+    {
+        await DebugOptions.ClearSafetyAssessmentDraftsRealm();
+    }
 
 		[RelayCommand]
 		public static async Task ClearAttachmentDraft()
@@ -116,24 +116,24 @@ namespace Visitz.Views.Debugging
 		}
 
 		[RelayCommand]
-        public static async Task Load620bData()
+    public static async Task Load620bData()
+    {
+        try
         {
-            try
-            {
-                await DebugOptions.Load620bTestingRecords();
-            }
-            catch (Exception ex)
-            {
-                await Navigator.CurrentOpenPage.DisplayAlert("Error", ex.Message, "OK");
-            }
+            await DebugOptions.Load620bTestingRecords();
         }
+        catch (Exception ex)
+        {
+            await Navigator.CurrentOpenPage.DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
 
-        [RelayCommand]
-        public static async Task Logout()
-        {
-            if (DebugOptions.Enabled)
-                await OidcSession.LogoutAsync();
-        }
+    [RelayCommand]
+    public static async Task Logout()
+    {
+        if (DebugOptions.Enabled)
+            await OidcSession.LogoutAsync();
+    }
 
 		[RelayCommand]
 		public static void ClearFeedbackSurveyPrefs()
@@ -159,10 +159,9 @@ namespace Visitz.Views.Debugging
 			DebugOptions.OpenCacheDirectory();
 		}
 
-        [RelayCommand]
-        public static void ClearSecureStorage()
-        {
-            DebugOptions.ClearSecureStorage();
-        }
+    [RelayCommand]
+    public static void ClearSecureStorage()
+    {
+        DebugOptions.ClearSecureStorage();
     }
 }
