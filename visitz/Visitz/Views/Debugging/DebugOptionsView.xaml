@@ -118,7 +118,7 @@
 				Background="AliceBlue"
 				Text="Preferences" />
 
-			<Grid RowDefinitions="Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
@@ -145,7 +145,14 @@
 						Command="{Binding ApplyCaseloadLastUpdatedCommand}"
 						Text="Apply" />
 				</HorizontalStackLayout>
-			</Grid>
+
+                <Button
+				    StyleClass="DebugLayout"
+				    Grid.Row="2"
+				    Grid.Column="1"
+				    Command="{Binding ClearSecureStorageCommand}"
+				    Text="Clear secure storage" />
+            </Grid>
 			
             <Label
                 StyleClass="DebugLayout,DebugLabel"

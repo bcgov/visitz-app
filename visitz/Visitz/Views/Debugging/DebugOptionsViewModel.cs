@@ -158,5 +158,11 @@ namespace Visitz.Views.Debugging
 		{
 			DebugOptions.OpenCacheDirectory();
 		}
-	}
+
+        [RelayCommand]
+        public static void ClearSecureStorage()
+        {
+            DebugOptions.ClearSecureStorage();
+        }
+    }
 }

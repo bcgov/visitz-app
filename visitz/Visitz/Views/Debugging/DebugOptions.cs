@@ -156,5 +156,11 @@ namespace Visitz.Views.Debugging
 				? ListFilesRecursively(path)
 				: string.Empty;
 		}
+
+        public static void ClearSecureStorage()
+        {
+            if (Enabled)
+                SecureStorage.Default.RemoveAll();
+        }
 	}
 }
