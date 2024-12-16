@@ -5,8 +5,7 @@ namespace Visitz.Storage;
 
 internal static class VisitzRealms
 {
-    private static async Task<byte[]> GetKey(string name) =>
-        await VisitzKey.GetKey(Path.GetFileName(VisitzRealmBase.GetRealmPath(name)));
+    private static async Task<byte[]> GetKey(string name) => await VisitzKey.GetKey(name);
 
 
     public static async Task<IcmData> GetIcmDataAsync() => 
