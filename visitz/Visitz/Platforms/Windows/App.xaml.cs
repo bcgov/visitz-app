@@ -1,6 +1,9 @@
 ﻿// To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
+using Microsoft.Extensions.Logging;
+using VisitzModel.Platforms.Windows.Logging;
+
 namespace Visitz.WinUI;
 
 /// <summary>
@@ -15,9 +18,13 @@ public partial class App : MauiWinUIApplication
 	public App()
 	{
 		this.InitializeComponent();
+        UnhandledException += App_UnhandledException;
 	}
 
 	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+		EventLogWriter.WriteEntry(LogLevel.Error, e.Exception.Message, GetType().FullName, exception: e.Exception);
+    }
 }
-
-
