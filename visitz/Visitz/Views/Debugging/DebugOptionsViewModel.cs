@@ -9,7 +9,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Views.Debugging;
 
-	public partial class DebugOptionsViewModel : VisitzViewModel
+public partial class DebugOptionsViewModel : VisitzViewModel
 {
     [ObservableProperty]
     public bool dryFireSubmitNotes;
@@ -35,15 +35,15 @@ namespace Visitz.Views.Debugging;
     [ObservableProperty]
     public bool skipLocalAuth;
 
-		readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
+	readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
-		[ObservableProperty]
-		public DateTime caseloadLastUpdated;
+	[ObservableProperty]
+	public DateTime caseloadLastUpdated;
 
-		[ObservableProperty]
-		public DateTime maxDate = DateTimeExtensions.LocalNow;
+	[ObservableProperty]
+	public DateTime maxDate = DateTimeExtensions.LocalNow;
 
-		public override void Create()
+	public override void Create()
     {
         base.Create();
 
@@ -65,7 +65,7 @@ namespace Visitz.Views.Debugging;
         ApiDomain = settings.Api.ApiDomain;
         AuthenticationDomain = settings.Oidc.AuthenticationDomain;
 
-			CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
+		CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
     }
 
     partial void OnDryFireSubmitNotesChanged(bool value)
@@ -109,13 +109,13 @@ namespace Visitz.Views.Debugging;
         await DebugOptions.ClearSafetyAssessmentDraftsRealm();
     }
 
-		[RelayCommand]
-		public static async Task ClearAttachmentDraft()
-		{
-			await DebugOptions.ClearAttachmentDraftsRealm();
-		}
+	[RelayCommand]
+	public static async Task ClearAttachmentDraft()
+	{
+		await DebugOptions.ClearAttachmentDraftsRealm();
+	}
 
-		[RelayCommand]
+	[RelayCommand]
     public static async Task Load620bData()
     {
         try
@@ -135,29 +135,29 @@ namespace Visitz.Views.Debugging;
             await OidcSession.LogoutAsync();
     }
 
-		[RelayCommand]
-		public static void ClearFeedbackSurveyPrefs()
-		{
-			new SurveyFeedbackTracker(Preferences.Default).ClearAll();
-		}
+	[RelayCommand]
+	public static void ClearFeedbackSurveyPrefs()
+	{
+		new SurveyFeedbackTracker(Preferences.Default).ClearAll();
+	}
 
-		[RelayCommand]
-		public void ApplyCaseloadLastUpdated()
-		{
-			lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
-		}
+	[RelayCommand]
+	public void ApplyCaseloadLastUpdated()
+	{
+		lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
+	}
 
-		[RelayCommand]
-		public static void OpenAppDataDirectory()
-		{
-			DebugOptions.OpenAppDataDirectory();
-		}
+	[RelayCommand]
+	public static void OpenAppDataDirectory()
+	{
+		DebugOptions.OpenAppDataDirectory();
+	}
 
-		[RelayCommand]
-		public static void OpenCacheDirectory()
-		{
-			DebugOptions.OpenCacheDirectory();
-		}
+	[RelayCommand]
+	public static void OpenCacheDirectory()
+	{
+		DebugOptions.OpenCacheDirectory();
+	}
 
     [RelayCommand]
     public static void ClearSecureStorage()
