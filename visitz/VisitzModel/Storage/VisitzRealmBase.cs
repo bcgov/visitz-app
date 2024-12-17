@@ -1,7 +1,9 @@
+using Microsoft.Extensions.Logging;
 using Realms;
 using Realms.Schema;
 
 #if WINDOWS
+using VisitzModel.Platforms.Windows.Logging;
 using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
 #endif
 
@@ -17,6 +19,8 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
     public ulong Version { get; private set; } = version;
 
     public byte[] EncryptionKey { get; private set; } = encryptionKey;
+
+    protected bool ShouldUseLoggerInGetAsync = true;
 
     public static string GetRealmPath(string realmName)
     {
@@ -45,7 +49,7 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         };
     }
 
-    public async Task<Realm> GetAsync()
+    public async Task<Realm> GetAsync(ILogger logger = null)
     {
         RealmConfiguration realmConfig;
 
@@ -59,7 +63,17 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"{ex.GetType()}: Unable to open Realm '{RealmName}/{Version}'", ex);
+            string message = $"{ex.GetType()}: Unable to open Realm '{RealmName}/{Version}'";
+            var invalidOpExeption = new InvalidOperationException(message, ex);
+
+            if (ShouldUseLoggerInGetAsync)
+                logger?.LogError(invalidOpExeption, message);
+#if WINDOWS
+            else
+                EventLogWriter.WriteEntry(LogLevel.Error, message, GetType().FullName, exception: invalidOpExeption);
+#endif
+
+            throw invalidOpExeption;
         }
     }
 

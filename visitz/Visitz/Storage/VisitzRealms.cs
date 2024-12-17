@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Realms;
 using VisitzModel.Storage;
 
@@ -25,17 +26,17 @@ internal static class VisitzRealms
 
 
     public static async Task<Realm> GetNoteDraftsRealmAsync() =>
-        await (await GetNoteDraftsAsync()).GetAsync();
+        await (await GetNoteDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<NoteDrafts>>());
 
     public static async Task<Realm> GetIcmDataRealmAsync() =>
-        await (await GetIcmDataAsync()).GetAsync();
+        await (await GetIcmDataAsync()).GetAsync(ServiceProvider.GetService<ILogger<IcmData>>());
 
     public static async Task<Realm> GetSafetyAssessmentDraftRealmAsync() =>
-        await (await GetSafetyAssessmentDraftAsync()).GetAsync();
+        await (await GetSafetyAssessmentDraftAsync()).GetAsync(ServiceProvider.GetService<ILogger<SafetyAssessmentDrafts>>());
 
 	public static async Task<Realm> GetAttachmentDraftsRealmAsync() =>
-		await (await GetAttachmentDraftsAsync()).GetAsync();
+		await (await GetAttachmentDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<AttachmentDrafts>>());
     
     public static async Task<Realm> GetLogRealmAsync() =>
-		await (await GetLogAsync()).GetAsync();
+		await (await GetLogAsync()).GetAsync(ServiceProvider.GetService<ILogger<LogRealm>>());
 }
