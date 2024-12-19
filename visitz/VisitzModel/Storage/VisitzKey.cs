@@ -4,9 +4,9 @@ namespace VisitzModel.Storage
 {
     public static class VisitzKey
     {
-        private static readonly int DefaultKeySize = 64;
+        private static readonly int _defaultKeySize = 64;
 
-        private static readonly string EncryptionKeyName = "visitz.encryption.key.";
+        private static readonly string _encryptionKeyName = "visitz.encryption.key.";
 
         private static readonly SemaphoreSlim _semaphore = new(1);
 
@@ -22,14 +22,14 @@ namespace VisitzModel.Storage
         private static async Task SetKeyInStorage(string keyName, byte[] encryptionKey)
         {
             var encodedKey = Convert.ToBase64String(encryptionKey);
-            var namespacedKey = EncryptionKeyName + keyName;
+            var namespacedKey = _encryptionKeyName + keyName;
 
             await SecureStorage.Default.SetAsync(namespacedKey, encodedKey);
         }
 
         private static async Task<byte[]> GetKeyFromStorage(string keyName)
         {
-            var namespacedKey = EncryptionKeyName + keyName;
+            var namespacedKey = _encryptionKeyName + keyName;
             var encodedKey = await SecureStorage.Default.GetAsync(namespacedKey);
 
             return encodedKey != null
@@ -61,7 +61,7 @@ namespace VisitzModel.Storage
 
             if (encryptionKey == null)
             {
-                await SetKeyInStorage(keyName, NewKey(keySizeIfNew ?? DefaultKeySize));
+                await SetKeyInStorage(keyName, NewKey(keySizeIfNew ?? _defaultKeySize));
                 encryptionKey = await GetKeyFromStorage(keyName);
             }
 
@@ -70,7 +70,7 @@ namespace VisitzModel.Storage
 
         public static void RemoveKey(string keyName)
         {
-            SecureStorage.Default.Remove(EncryptionKeyName + keyName);
+            SecureStorage.Default.Remove(_encryptionKeyName + keyName);
         }
     }
 }
