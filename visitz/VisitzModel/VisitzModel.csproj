@@ -9,6 +9,7 @@
 		
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
 		<Version>$(VisitzVersion)</Version>
 
