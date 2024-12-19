@@ -20,13 +20,15 @@ namespace VisitzModel.Storage
         private static async Task SetKeyInStorage(string keyName, byte[] encryptionKey)
         {
             var encodedKey = Convert.ToBase64String(encryptionKey);
+            var namespacedKey = EncryptionKeyName + keyName;
 
-            await SecureStorage.Default.SetAsync(EncryptionKeyName + keyName, encodedKey);
+            await SecureStorage.Default.SetAsync(namespacedKey, encodedKey);
         }
 
         private static async Task<byte[]> GetKeyFromStorage(string keyName)
         {
-            var encodedKey = await SecureStorage.Default.GetAsync(EncryptionKeyName + keyName);
+            var namespacedKey = EncryptionKeyName + keyName;
+            var encodedKey = await SecureStorage.Default.GetAsync(namespacedKey);
 
             return encodedKey != null
                 ? Convert.FromBase64String(encodedKey)
