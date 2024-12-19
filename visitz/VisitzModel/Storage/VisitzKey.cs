@@ -8,6 +8,8 @@ namespace VisitzModel.Storage
 
         private static readonly string EncryptionKeyName = "visitz.encryption.key.";
 
+        private static SemaphoreSlim _semaphore = new(1);
+
         private static byte[] NewKey(int keySize)
         {
             var encryptionKey = new byte[keySize];
@@ -36,6 +38,24 @@ namespace VisitzModel.Storage
         }
 
         public static async Task<byte[]> GetKey(string keyName, int? keySizeIfNew = null)
+        {
+            await _semaphore.WaitAsync();
+
+            try
+            {
+                return await DoGetKey(keyName, keySizeIfNew);
+            }
+            finally
+            {
+                try
+                {
+                    _semaphore.Release();
+                }
+                catch {}
+            }
+        }
+
+        static async Task<byte[]> DoGetKey(string keyName, int? keySizeIfNew = null)
         {
             byte[] encryptionKey = await GetKeyFromStorage(keyName);
 
