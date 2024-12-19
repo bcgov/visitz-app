@@ -51,7 +51,7 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
 
     public async Task<Realm> GetAsync(ILogger logger = null)
     {
-        RealmConfiguration realmConfig;
+        RealmConfiguration realmConfig = null;
 
         try
         {
@@ -63,7 +63,8 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         }
         catch (Exception ex)
         {
-            string message = $"{ex.GetType()}: Unable to open Realm '{RealmName}/{Version}'";
+            string message = $"{ex.GetType()}: Unable to open Realm '{RealmName}/{Version}' from path '{realmConfig?.DatabasePath ?? "<path not available>"}'";
+
             var invalidOpExeption = new InvalidOperationException(message, ex);
 
             if (ShouldUseLoggerInGetAsync)
