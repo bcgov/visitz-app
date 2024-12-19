@@ -3,6 +3,10 @@ using System.Text.Json;
 using Visitz.Storage;
 using VisitzModel.Models;
 
+#if WINDOWS
+using Windows.Storage;
+#endif
+
 #if WINDOWS || MACCATALYST
 using System.Diagnostics;
 #endif
@@ -162,4 +166,33 @@ public class DebugOptions
         if (Enabled)
             SecureStorage.Default.RemoveAll();
     }
+
+#if WINDOWS
+    public static Dictionary<string, string> GetAllValuesFromLocalSettings()
+    {
+        if (!Enabled)
+            return default;
+
+        return GetAllValuesFrom(ApplicationData.Current.LocalSettings);
+    }
+#endif
+
+#if WINDOWS
+    static Dictionary<string, string> GetAllValuesFrom(ApplicationDataContainer container)
+    {
+        Dictionary<string, string> result = [];
+        
+        foreach (var key in container.Values.Keys)
+            result[$"({container.Name}), Key '{key}'"] = container.Values[key]?.ToString();
+
+        foreach (var subContainer in container.Containers)
+            foreach (var valuesResult in GetAllValuesFrom(subContainer.Value))
+                if (result.ContainsKey(valuesResult.Key))
+                    result[subContainer.Key + " > " + valuesResult.Key + "+"] = valuesResult.Value;
+                else
+                    result[subContainer.Key + " > " + valuesResult.Key] = valuesResult.Value;
+
+        return result;
+    }
+#endif
 }
