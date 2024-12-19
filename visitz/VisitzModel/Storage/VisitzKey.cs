@@ -8,7 +8,7 @@ namespace VisitzModel.Storage
 
         private static readonly string EncryptionKeyName = "visitz.encryption.key.";
 
-        private static SemaphoreSlim _semaphore = new(1);
+        private static readonly SemaphoreSlim _semaphore = new(1);
 
         private static byte[] NewKey(int keySize)
         {
