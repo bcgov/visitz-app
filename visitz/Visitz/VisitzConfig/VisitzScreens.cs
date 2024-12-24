@@ -7,6 +7,7 @@ using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
 using Visitz.Views.Entity;
 using Visitz.Views.Entity.Attachments;
+using Visitz.Views.Entity.ChildYouthVisits;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Navigation;
@@ -80,6 +81,9 @@ namespace Visitz.VisitzConfig
 
 			builder.Services.AddTransient<EntitySafetyAssessView>();
             builder.Services.AddTransient<EntitySafetyAssessViewModel>();
+
+            builder.Services.AddTransient<ChildYouthVisitListView>();
+            builder.Services.AddTransient<ChildYouthVisitListViewModel>();
 
             builder.Services.AddTransient<PublishPage>();
             builder.Services.AddTransient<NotePublishViewModel>();
