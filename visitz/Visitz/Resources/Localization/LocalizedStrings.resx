@@ -786,4 +786,7 @@ You can view the details of this error or try again later.</value>
 Any drafts for this record are still saved—but won't be accessible until the record is reassigned."</value>
     <comment>0 = Entity type, 1 = Key player name</comment>
   </data>
+  <data name="ChildYouthVisits" xml:space="preserve">
+    <value>Child/youth visits</value>
+  </data>
 </root>
