@@ -195,4 +195,14 @@ public class DebugOptions
         return result;
     }
 #endif
+
+    public static async Task LoadPersonVisitsMockData(string parentId)
+    {
+        if (!Enabled)
+            return;
+
+        using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
+
+        await icmData.WriteAsync(() => icmData.Add(SimpleMockData.MockPersonVisits(parentId), update: true));
+    }
 }

@@ -43,7 +43,10 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 	[ObservableProperty]
 	public DateTime maxDate = DateTimeExtensions.LocalNow;
 
-	public override void Create()
+    [ObservableProperty]
+    public string mockPersonVisitsParentId;
+
+    public override void Create()
     {
         base.Create();
 
@@ -163,5 +166,11 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public static void ClearSecureStorage()
     {
         DebugOptions.ClearSecureStorage();
+    }
+
+    [RelayCommand]
+    public async Task LoadMockPersonVisits()
+    {
+        await DebugOptions.LoadPersonVisitsMockData(MockPersonVisitsParentId);
     }
 }
