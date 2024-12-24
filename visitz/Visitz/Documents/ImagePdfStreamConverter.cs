@@ -1,6 +1,9 @@
+using MetadataExtractor;
+using MetadataExtractor.Formats.Exif;
 using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using SixLabors.ImageSharp.Metadata.Profiles.Exif;
 using VisitzModel.Models;
 
 namespace Visitz.Documents;
@@ -11,14 +14,12 @@ namespace Visitz.Documents;
 /// (portrait/landscape).</para>
 /// </summary>
 /// <param name="contentTitle"></param>
-/// <param name="orientation"></param>
-internal class ImagePdfStreamConverter(
-	string contentTitle,
-	DisplayOrientation orientation = DisplayOrientation.Unknown) : IStreamConverter
+internal class ImagePdfStreamConverter(string contentTitle) : IStreamConverter
+// internal class ImagePdfStreamConverter(
+// 	string contentTitle,
+// 	DisplayOrientation orientation = DisplayOrientation.Unknown) : IStreamConverter
 {
 	string ContentTitle { get; set; } = contentTitle;
-
-	DisplayOrientation Orientation { get; set; } = orientation;
 
 	public Task<Stream> ConvertAsync(Stream imageStream)
 	{
@@ -58,7 +59,14 @@ internal class ImagePdfStreamConverter(
 		double imageWidth = image.PixelWidth;
 		double imageHeight = image.PixelHeight;
 
-		page.Orientation = GetPageOrientation(imageWidth, imageHeight);
+		var metadata = ImageMetadataReader.ReadMetadata(imageStream);
+    	int orientation = GetImageOrientation(metadata);
+		if (orientation == 6)
+		{
+			imageWidth = image.PixelHeight;
+			imageHeight = image.PixelWidth;
+		}
+
 		double pageWidth = page.Width.Point;
 		double pageHeight = page.Height.Point;
 
@@ -67,19 +75,34 @@ internal class ImagePdfStreamConverter(
 		double centeredX = pageWidth / 2 - imageWidth / 2;
 		double centeredY = pageHeight / 2 - imageHeight / 2;
 
+		// if (orientation == 6 && imageHeight > imageWidth)
+		if (orientation == 6)
+		{
+			// gfx.RotateAtTransform(90, new XPoint(centeredX, centeredY));
+			var x = centeredX + imageHeight / 2;
+			var y = (centeredY + imageWidth) / 2;
+			gfx.RotateAtTransform(90, new XPoint(x+150, imageHeight));
+			centeredX = pageWidth / 2 - imageHeight / 2; // Adjust X position after rotation
+			centeredY = pageHeight / 2 - imageWidth / 2;
+		}
+
 		gfx.DrawImage(image, centeredX, centeredY, imageWidth, imageHeight);
 	}
 
-	PageOrientation GetPageOrientation(double width, double height)
+	int GetImageOrientation(IReadOnlyList<MetadataExtractor.Directory> metadata)
 	{
-		if (Orientation == DisplayOrientation.Unknown)
-			return width > height
-				? PageOrientation.Landscape
-				: PageOrientation.Portrait;
-		else
-			return Orientation == DisplayOrientation.Portrait
-				? PageOrientation.Portrait
-				: PageOrientation.Landscape;
+		foreach (var directory in metadata)
+		{
+			if (directory is ExifIfd0Directory exifIfd0Directory)
+			{
+				// Look for the orientation tag (key 0x0112)
+				if (exifIfd0Directory.ContainsTag((int)ExifTag.Orientation))
+				{
+					return exifIfd0Directory.GetInt16((int)ExifTag.Orientation);
+				}
+			}
+		}
+		return 1; // Default orientation (no rotation needed)
 	}
 
 	static void TryScaleDimensions(ref double imageWidth, ref double imageHeight, double pageWidth, double pageHeight)
@@ -97,5 +120,10 @@ internal class ImagePdfStreamConverter(
 			imageWidth *= scaleFactor;
 			imageHeight *= scaleFactor;
 		}
+		// if (scaleFactor < 1)
+		// {
+		// 	imageWidth *= scaleFactor;
+		// 	imageHeight *= scaleFactor;
+		// }
 	}
 }
