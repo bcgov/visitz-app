@@ -58,6 +58,11 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>GeneralStrings.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Resources\Localization\PersonVisitDetails.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>PersonVisitDetails.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -72,6 +77,10 @@
 	  <EmbeddedResource Update="Resources\Localization\GeneralStrings.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>GeneralStrings.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Localization\PersonVisitDetails.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>PersonVisitDetails.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
 </Project>
