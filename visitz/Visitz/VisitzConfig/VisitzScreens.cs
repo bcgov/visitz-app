@@ -19,98 +19,97 @@ using Visitz.Views.Snackbar;
 using Visitz.Views.User;
 using Visitz.Views.WebViewer;
 
-namespace Visitz.VisitzConfig
+namespace Visitz.VisitzConfig;
+
+public static class VisitzScreens
 {
-    public static class VisitzScreens
+    public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
     {
-        public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
-        {
-            builder.Services.AddSingleton<RootPage>();
-            builder.Services.AddSingleton<RootViewModel>();
+        builder.Services.AddSingleton<RootPage>();
+        builder.Services.AddSingleton<RootViewModel>();
 
-            builder.Services.AddSingleton<NavRailViewModel>();
+        builder.Services.AddSingleton<NavRailViewModel>();
 
-            builder.Services.AddTransient<VisitzSnackbar>();
-            builder.Services.AddTransient<VisitzSnackbarViewModel>();
+        builder.Services.AddTransient<VisitzSnackbar>();
+        builder.Services.AddTransient<VisitzSnackbarViewModel>();
 
-            builder.Services.AddTransient<DataRefreshButton>();
-            builder.Services.AddTransient<DataRefreshViewModel>();
+        builder.Services.AddTransient<DataRefreshButton>();
+        builder.Services.AddTransient<DataRefreshViewModel>();
 
-            builder.Services.AddSingleton<CaseloadContainerView>();
-            builder.Services.AddSingleton<WatermarkView>();
+        builder.Services.AddSingleton<CaseloadContainerView>();
+        builder.Services.AddSingleton<WatermarkView>();
 
-            builder.Services.AddSingleton<CaseloadView>();
-            builder.Services.AddSingleton<CaseloadViewModel>();
+        builder.Services.AddSingleton<CaseloadView>();
+        builder.Services.AddSingleton<CaseloadViewModel>();
 
-            builder.Services.AddSingleton<CaseloadDetailView>();
-            builder.Services.AddSingleton<CaseloadDetailViewModel>();
+        builder.Services.AddSingleton<CaseloadDetailView>();
+        builder.Services.AddSingleton<CaseloadDetailViewModel>();
 
-            builder.Services.AddTransient<DeviceAuthenticator>();
-            builder.Services.AddTransient<AppLockPage>();
-            builder.Services.AddTransient<AppLockViewModel>();
+        builder.Services.AddTransient<DeviceAuthenticator>();
+        builder.Services.AddTransient<AppLockPage>();
+        builder.Services.AddTransient<AppLockViewModel>();
 
-            builder.Services.AddTransient<WebViewPage>();
-            builder.Services.AddTransient<WebViewModel>();
+        builder.Services.AddTransient<WebViewPage>();
+        builder.Services.AddTransient<WebViewModel>();
 
-            builder.Services.AddTransient<EntityNavView>();
-            builder.Services.AddTransient<EntityNavViewModel>();
+        builder.Services.AddTransient<EntityNavView>();
+        builder.Services.AddTransient<EntityNavViewModel>();
 
-            builder.Services.AddTransient<EntityContainerView>();
-            builder.Services.AddTransient<EntityContainerViewModel>();
+        builder.Services.AddTransient<EntityContainerView>();
+        builder.Services.AddTransient<EntityContainerViewModel>();
 
-            builder.Services.AddTransient<EntityDetailsView>();
-            builder.Services.AddTransient<EntityDetailsViewModel>();
+        builder.Services.AddTransient<EntityDetailsView>();
+        builder.Services.AddTransient<EntityDetailsViewModel>();
 
-            builder.Services.AddTransient<EntityContactsView>();
-            builder.Services.AddTransient<EntityContactsViewModel>();
+        builder.Services.AddTransient<EntityContactsView>();
+        builder.Services.AddTransient<EntityContactsViewModel>();
 
-            builder.Services.AddTransient<EntityNotesView>();
-            builder.Services.AddTransient<EntityNotesViewModel>();
+        builder.Services.AddTransient<EntityNotesView>();
+        builder.Services.AddTransient<EntityNotesViewModel>();
 
-            builder.Services.AddTransient<AttachmentsView>();
-            builder.Services.AddTransient<AttachmentsViewModel>();
+        builder.Services.AddTransient<AttachmentsView>();
+        builder.Services.AddTransient<AttachmentsViewModel>();
 
-            builder.Services.AddTransient<AttachmentsList>();
-            builder.Services.AddTransient<AttachmentsListViewModel>();
+        builder.Services.AddTransient<AttachmentsList>();
+        builder.Services.AddTransient<AttachmentsListViewModel>();
 
-            builder.Services.AddTransient<TakePhotoView>();
-            builder.Services.AddTransient<TakePhotoViewModel>();
+        builder.Services.AddTransient<TakePhotoView>();
+        builder.Services.AddTransient<TakePhotoViewModel>();
 
-            builder.Services.AddTransient<PhotoDetailsView>();
-            builder.Services.AddTransient<PhotoDetailsViewModel>();
+        builder.Services.AddTransient<PhotoDetailsView>();
+        builder.Services.AddTransient<PhotoDetailsViewModel>();
 
-            builder.Services.AddTransient<EntitySafetyAssessView>();
-            builder.Services.AddTransient<EntitySafetyAssessViewModel>();
+        builder.Services.AddTransient<EntitySafetyAssessView>();
+        builder.Services.AddTransient<EntitySafetyAssessViewModel>();
 
-            builder.Services.AddTransient<ChildYouthVisitListView>();
-            builder.Services.AddTransient<ChildYouthVisitListViewModel>();
+        builder.Services.AddTransient<ChildYouthVisitListView>();
+        builder.Services.AddTransient<ChildYouthVisitListViewModel>();
 
-            builder.Services.AddTransient<PublishPage>();
-            builder.Services.AddTransient<NotePublishViewModel>();
-            builder.Services.AddTransient<SafetyAssessmentPublishViewModel>();
-            builder.Services.AddTransient<AttachmentDraftPublishViewModel>();
+        builder.Services.AddTransient<PublishPage>();
+        builder.Services.AddTransient<NotePublishViewModel>();
+        builder.Services.AddTransient<SafetyAssessmentPublishViewModel>();
+        builder.Services.AddTransient<AttachmentDraftPublishViewModel>();
 
-            builder.Services.AddTransient<NoteEntryView>();
-            builder.Services.AddTransient<NoteEntryViewModel>();
+        builder.Services.AddTransient<NoteEntryView>();
+        builder.Services.AddTransient<NoteEntryViewModel>();
 
-            builder.Services.AddTransient<DebugOptionsPage>();
-            builder.Services.AddTransient<DebugOptionsView>();
-            builder.Services.AddTransient<DebugOptionsViewModel>();
+        builder.Services.AddTransient<DebugOptionsPage>();
+        builder.Services.AddTransient<DebugOptionsView>();
+        builder.Services.AddTransient<DebugOptionsViewModel>();
 
-            builder.Services.AddTransient<SessionPage>();
-            builder.Services.AddTransient<SessionViewModel>();
+        builder.Services.AddTransient<SessionPage>();
+        builder.Services.AddTransient<SessionViewModel>();
 
-            builder.Services.AddTransient<CollectionNoticeView>();
+        builder.Services.AddTransient<CollectionNoticeView>();
 
-            builder.Services.AddSingleton<DraftsContainerView>();
+        builder.Services.AddSingleton<DraftsContainerView>();
 
-            builder.Services.AddTransient<DraftsMasterList>();
-            builder.Services.AddTransient<DraftsMasterListViewModel>();
+        builder.Services.AddTransient<DraftsMasterList>();
+        builder.Services.AddTransient<DraftsMasterListViewModel>();
 
-            builder.Services.AddTransient<DraftsList>();
-            builder.Services.AddTransient<DraftsListViewModel>();
+        builder.Services.AddTransient<DraftsList>();
+        builder.Services.AddTransient<DraftsListViewModel>();
 
-            return builder;
-        }
+        return builder;
     }
 }
