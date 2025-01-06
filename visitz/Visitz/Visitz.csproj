@@ -108,6 +108,9 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>LocalizedStrings.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml.cs">
+	    <DependentUpon>ChildYouthVisitListView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -121,6 +124,12 @@
 		<Reference Include="CommunityToolkit.Maui.Camera">
 			<HintPath>..\lib\CommunityToolkit.Maui.Camera.dll</HintPath>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

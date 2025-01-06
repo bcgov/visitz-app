@@ -279,6 +279,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Child/youth visits.
+        /// </summary>
+        public static string ChildYouthVisits {
+            get {
+                return ResourceManager.GetString("ChildYouthVisits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Collection Notice.
         /// </summary>
         public static string CollectionNotice {
