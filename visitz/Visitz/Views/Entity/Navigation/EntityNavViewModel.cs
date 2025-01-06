@@ -231,7 +231,6 @@ public partial class EntityNavViewModel : VisitzViewModel,
             && CaseloadItem.CaseIncidentType.ParseEntitySubtype() == EntitySubtype.ChildServices;
     }
 
-
     private void ReceiveEntityNavMessage(object recipient, EntityNavMessage message)
 	{
 		if (SelectedEntityNavItem != message.Value.Item1)
