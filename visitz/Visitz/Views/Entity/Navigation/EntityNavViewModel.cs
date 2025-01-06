@@ -89,8 +89,8 @@ public partial class EntityNavViewModel : VisitzViewModel,
         Section = EntitySection.ChildYouthVisits,
     };
 
-	public static string CacheDeletedKeyplayer;
-	public static string CacheDeletedEntityType;
+	private string CacheDeletedKeyplayer;
+	private string CacheDeletedEntityType;
 
 	public override async void Create()
     {
@@ -204,7 +204,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
         StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
     }
 
-	private static async Task EntityUnassignedGoBack()
+	private async Task EntityUnassignedGoBack()
 	{
 		GoBack();
 		await Navigator.CurrentOpenPage.DisplayAlert(
