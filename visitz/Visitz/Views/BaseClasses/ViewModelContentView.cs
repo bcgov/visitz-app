@@ -4,19 +4,19 @@ public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseCont
 {
     private bool _disposedValue;
 
-	protected VisitzViewModel ViewModel { get; set; } = viewModel;
+    protected VisitzViewModel ViewModel { get; set; } = viewModel;
 
     [Obsolete("Use InitAsync instead")]
-	protected override void Creating()
-	{
-		ViewModel.OnCreate();
-	}
+    protected override void Creating()
+    {
+        ViewModel.OnCreate();
+    }
 
     [Obsolete("Use Dispose instead")]
-	protected override void Destroying()
-	{
-		ViewModel.Dispose();
-	}
+    protected override void Destroying()
+    {
+        ViewModel.Dispose();
+    }
 
     protected override async Task InitAsync()
     {
