@@ -11,6 +11,9 @@ namespace Visitz.Views.BaseClasses
 		bool created;
         bool _disposedValue;
 
+        public Task InitTask { get; private set; }
+
+        [Obsolete("Use InitAsync instead")]
         public void OnCreate()
 		{
 			if (!created)
@@ -20,10 +23,24 @@ namespace Visitz.Views.BaseClasses
 			}
 		}
 
+        [Obsolete("Use InitAsync instead")]
 		public virtual void Create()
 		{
 			ConsoleTrace.TraceMethod(this);
 		}
+
+        public virtual Task StartInitAsync()
+        {
+            InitTask = InitAsync();
+            return InitTask;
+        }
+
+        protected virtual Task InitAsync()
+        {
+            ConsoleTrace.TraceMethod(this);
+
+            return Task.CompletedTask;
+        }
 
         [Obsolete("Use Dispose instead")]
 		public virtual void Destroy()
