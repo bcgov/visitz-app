@@ -44,7 +44,7 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
         if (ContainerDetails.Content is BaseContentView baseView)
         {
-            baseView.Destroy();
+            baseView.Dispose();
             ContainerDetails.Content = null;
         }
 
@@ -62,7 +62,7 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
             if (baseView.GetType().Equals(navItem.ContentViewType.GetType()))
                 return;
 
-            baseView.Destroy();
+            baseView.Dispose();
             ContainerDetails.Content = null;
         }
 
