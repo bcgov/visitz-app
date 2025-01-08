@@ -28,6 +28,7 @@ public abstract class BaseContentView : ContentView, IDisposable
         ConsoleTrace.TraceMethod(this);
     }
 
+    [Obsolete("Use Dispose instead")]
 	protected virtual void Destroying()
     {
         ConsoleTrace.TraceMethod(this);
@@ -39,7 +40,10 @@ public abstract class BaseContentView : ContentView, IDisposable
             return;
 
         if (disposing)
+        {
+            ConsoleTrace.TraceMethod(this);
             Handler = null;
+        }
 
         _disposedValue = true;
     }
