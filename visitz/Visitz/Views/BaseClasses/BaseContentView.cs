@@ -15,11 +15,16 @@ public abstract class BaseContentView : ContentView, IDisposable
 
         if (args.AttachingToHandler())
         {
-            Creating();
+#pragma warning disable CS0618 // Type or member is obsolete
+            Creating(); // Used until all other references are removed
+#pragma warning restore CS0618 // Type or member is obsolete
+
             InitTask = InitAsync();
         }
         else if (args.DetachingFromHandler())
-            Destroying();
+#pragma warning disable CS0618 // Type or member is obsolete
+            Destroying(); // Used until all other references are removed
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 
     public void Dispose()
