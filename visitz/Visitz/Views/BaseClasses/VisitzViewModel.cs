@@ -31,7 +31,8 @@ namespace Visitz.Views.BaseClasses
 
         public virtual Task StartInitAsync()
         {
-            InitTask = InitAsync();
+            InitTask ??= InitAsync();
+
             return InitTask;
         }
 
