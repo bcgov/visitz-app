@@ -6,11 +6,13 @@ public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseCont
 
 	protected VisitzViewModel ViewModel { get; set; } = viewModel;
 
+    [Obsolete("Use InitAsync instead")]
 	protected override void Creating()
 	{
 		ViewModel.OnCreate();
 	}
 
+    [Obsolete("Use Dispose instead")]
 	protected override void Destroying()
 	{
 		ViewModel.Dispose();
@@ -28,7 +30,9 @@ public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseCont
         if (!_disposedValue)
         {
             if (disposing)
-                Destroying();
+#pragma warning disable CS0618 // Type or member is obsolete
+                Destroying(); // Used until all other references are removed
+#pragma warning restore CS0618 // Type or member is obsolete
 
             _disposedValue = true;
         }
