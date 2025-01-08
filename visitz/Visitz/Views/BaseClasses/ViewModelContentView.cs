@@ -16,6 +16,13 @@ public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseCont
 		ViewModel.Dispose();
 	}
 
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
+
+        _ = ViewModel.StartInitAsync();
+    }
+
     protected override void Dispose(bool disposing)
     {
         if (!_disposedValue)
