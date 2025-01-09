@@ -11,6 +11,7 @@ namespace Visitz.Views.WebViewer;
 
 public partial class WebViewPage
 {
+    const string _logoutPath = "/logout";
 	const string _logoutResponse = "/logout_response";
 
     Uri _baseRedirectUri;
@@ -83,12 +84,29 @@ public partial class WebViewPage
 			await Navigator.Navigation.PopModalAsync();
 		};
 
-		webView.Source = ViewModel.AuthUri;
+#if WINDOWS
+        // WORKAROUND Windows does not reliably logout currently
+        // so we'll forcibly dump our local session and cookies.
+        if (IsLogoutRequest(ViewModel.AuthUri))
+        {
+            await ForceLogout(coreWebView);
+            await Navigator.Navigation.PopModalAsync();
+            return;
+        }
+#endif
+        webView.Source = ViewModel.AuthUri;
 	}
 
     private bool IsLocalRedirect(string url)
     {
         return url.StartsWith(_baseRedirectUri.Scheme, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private static bool IsLogoutRequest(Uri uri)
+    {
+        return uri.IsAbsoluteUri
+            ? uri.AbsolutePath.EndsWith(_logoutPath, StringComparison.InvariantCultureIgnoreCase)
+            : uri.LocalPath.EndsWith(_logoutPath, StringComparison.InvariantCultureIgnoreCase);
     }
 
     private bool IsLogoutRedirect(string url)
