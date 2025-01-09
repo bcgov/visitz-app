@@ -27,6 +27,7 @@ public partial class InfoBanner : ContentView
 
     private static void LevelChanged(BindableObject boundObj, object oldVal, object newVal)
     {
+        InfoBanner banner = (InfoBanner)boundObj;
         AlertLevel newLevel = (AlertLevel)newVal;
 
         switch (newLevel)
