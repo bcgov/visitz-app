@@ -2,9 +2,11 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Oidc;
 using System.Diagnostics;
+using System.Globalization;
 using Visitz.Controls;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
+using VisitzModel;
 
 namespace Visitz.Views.WebViewer;
 
@@ -12,13 +14,19 @@ public partial class WebViewPage
 {
 	const string _logoutResponse = "/logout_response";
 
-	readonly Uri _baseRedirectUri = new(new AppSettings().Oidc.RedirectUri);
+    Uri _baseRedirectUri;
+    Uri _authDomain;
 
 	Func<Task> SessionTask { get; set; }
 
-	partial void Setup()
+    partial void Setup()
 	{
-		MainWebView.Loaded += MainWebView_Loaded;
+        var settings = new AppSettings();
+
+        _baseRedirectUri = new(settings.Oidc.RedirectUri);
+        _authDomain = new(settings.Oidc.AuthenticationDomain);
+
+        MainWebView.Loaded += MainWebView_Loaded;
 		CloseButton.Closing += CloseButton_Closing;
 	}
 
@@ -48,11 +56,11 @@ public partial class WebViewPage
 
 		coreWebView.NavigationStarting += (sender, args) =>
 		{
-			if (args.Uri.StartsWith(_baseRedirectUri.Scheme, StringComparison.InvariantCultureIgnoreCase))
+			if (IsLocalRedirect(args.Uri))
 			{
 				SessionTask = async () => await PerformCustomSchemeRedirect(args.Uri);
 			}
-			else if (args.Uri.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase))
+			else if (IsLogoutRedirect(args.Uri))
 			{
 				SessionTask = async () => await ForceLogout(sender);
 			}
@@ -78,6 +86,17 @@ public partial class WebViewPage
 
 		webView.Source = ViewModel.AuthUri;
 	}
+
+    private bool IsLocalRedirect(string url)
+    {
+        return url.StartsWith(_baseRedirectUri.Scheme, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private bool IsLogoutRedirect(string url)
+    {
+        return url.StartsWith(_authDomain.ToString(), true, CultureInfo.InvariantCulture)
+            && url.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase);
+    }
 
 	private static Task PerformCustomSchemeRedirect(string uri)
 	{
