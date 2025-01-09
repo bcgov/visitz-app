@@ -10,6 +10,7 @@
     x:Name="this">
 
     <Border
+		x:Name="Border"
         BindingContext="{Reference this}"
         HorizontalOptions="Fill"
         Stroke="Transparent"
@@ -24,6 +25,7 @@
             ColumnSpacing="16">
 
 			<Label
+				x:Name="IconLabel"
 				Grid.Column="0"
 				VerticalOptions="Start"
 				FontFamily="MaterialIconsRoundedFilled"
@@ -31,7 +33,7 @@
 				TextColor="{StaticResource BC_TextColor}"
 				Text="{Static icons:MaterialIcons.Info}" />
 
-            <Label 
+            <Label
                 Grid.Column="1"
 				Padding="3"
                 FontFamily="BCSansBold"
