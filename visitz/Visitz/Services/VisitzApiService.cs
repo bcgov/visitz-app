@@ -1,6 +1,4 @@
-using IdentityModel.OidcClient.Browser;
 using Oidc;
-using Oidc.Exceptions;
 using System.Net;
 using Visitz.Resources.Localization;
 using Visitz.Views.Snackbar;
@@ -38,14 +36,9 @@ namespace Visitz.Services
 
                 await RunApiServiceAsync();
             }
-            catch (LoginException ex)
+            catch (OperationCanceledException)
             {
-                if (ex.Message.Equals(BrowserResultType.UserCancel.ToString()))
-                {
-                    ResultCode = Result.Cancelled;
-                    throw new OperationCanceledException(BrowserResultType.UserCancel.ToString(), ex);
-                }
-
+                ResultCode = Result.Cancelled;
                 throw;
             }
             catch (VisitzApiException ex)
