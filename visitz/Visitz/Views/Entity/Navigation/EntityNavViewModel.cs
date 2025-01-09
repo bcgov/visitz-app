@@ -227,8 +227,12 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
     private bool ShouldShowChildYouthVisits()
     {
+#if DEBUG
         return CaseloadItem.EntityType.ParseEntityType() == EntityType.Case
             && CaseloadItem.CaseIncidentType.ParseEntitySubtype() == EntitySubtype.ChildServices;
+#else
+        return false; // TODO: Remove this after next release
+#endif
     }
 
     private void ReceiveEntityNavMessage(object recipient, EntityNavMessage message)
