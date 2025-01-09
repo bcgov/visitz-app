@@ -981,6 +981,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next in-person visit due by {0}..
+        /// </summary>
+        public static string NextVisitDueBy {
+            get {
+                return ResourceManager.GetString("NextVisitDueBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility isn&apos;t permitted to use your device&apos;s camera. Enable it in device settings and try again..
         /// </summary>
         public static string NoCameraPermissionsDetailMessage {
@@ -1112,6 +1121,15 @@ namespace Visitz.Resources.Localization {
         public static string Other {
             get {
                 return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In-person visit was due on {0}..
+        /// </summary>
+        public static string OverdueVisitOn {
+            get {
+                return ResourceManager.GetString("OverdueVisitOn", resourceCulture);
             }
         }
         
@@ -1978,6 +1996,15 @@ namespace Visitz.Resources.Localization {
         public static string UserCancelledAuth {
             get {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In-person visit due by {0}..
+        /// </summary>
+        public static string VisitDueBy {
+            get {
+                return ResourceManager.GetString("VisitDueBy", resourceCulture);
             }
         }
         

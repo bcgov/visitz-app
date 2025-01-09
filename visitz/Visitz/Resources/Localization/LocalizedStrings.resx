@@ -789,4 +789,16 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="ChildYouthVisits" xml:space="preserve">
     <value>Child/youth visits</value>
   </data>
+  <data name="NextVisitDueBy" xml:space="preserve">
+    <value>Next in-person visit due by {0}.</value>
+    <comment>0 = Date in format "Month Day, Year"</comment>
+  </data>
+  <data name="OverdueVisitOn" xml:space="preserve">
+    <value>In-person visit was due on {0}.</value>
+    <comment>0 = Date in format "Month Day, Year"</comment>
+  </data>
+  <data name="VisitDueBy" xml:space="preserve">
+    <value>In-person visit due by {0}.</value>
+    <comment>0 = Date in format "Month Day, Year"</comment>
+  </data>
 </root>
