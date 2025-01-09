@@ -134,7 +134,9 @@ public partial class WebViewPage
 	{
 		coreWebView.CookieManager.DeleteAllCookies();
 
-		await CancelTokenSource?.CancelAsync();
+        if (CancelTokenSource != null)
+		    await CancelTokenSource.CancelAsync();
+
 		await OidcSession.LocalLogoutAsync();
 	}
 
