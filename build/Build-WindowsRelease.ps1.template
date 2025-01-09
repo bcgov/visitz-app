@@ -13,8 +13,66 @@ param(
 
     [switch] $NoOpenOutputDirectory,
 
-    [string] $RuntimeIdentifierOverride = "win-x64" #Can also be "win10-x64"
+    [string] $RuntimeIdentifierOverride = "win-x64", # Can also be "win10-x64"
+
+    [string] 
+    [ValidateSet("Process", "User", "Machine")]
+    $EnvScope = "User"
 )
+
+Set-Variable CertificateThumbprintName -Option Constant -Value "Visitz_WinCertThumbprint"
+Set-Variable CertificateSubjectName -Option Constant -Value "Visitz_WinCertSubject"
+Set-Variable Oidc_AuthenticationDomainName -Option Constant -Value "Oidc_AuthenticationDomain"
+Set-Variable Oidc_ClientIdName -Option Constant -Value "Oidc_ClientId"
+Set-Variable Oidc_RedirectUriName -Option Constant -Value "Oidc_RedirectUri"
+Set-Variable Api_HttpsApiDomainName -Option Constant -Value "Api_HttpsApiDomain"
+Set-Variable ContactInfo_MailToAuthorizeName -Option Constant -Value "ContactInfo_MailToAuthorize"
+Set-Variable ContactInfo_AccessRequestFormUrlName -Option Constant -Value "ContactInfo_AccessRequestFormUrl"
+Set-Variable ContactInfo_FeedbackSurveyUrlName -Option Constant -Value "ContactInfo_FeedbackSurveyUrl"
+
+function Set-Env {
+    param($Name, $Value, $Scope)
+    [System.Environment]::SetEnvironmentVariable($Name, $Value, $Scope)
+}
+
+function Get-Env {
+    param($Name, $Scope)
+    [System.Environment]::GetEnvironmentVariable($Name, $Scope)
+}
+
+function Ensure-Env {
+    param($Name, $Scope)
+
+    $envValue = Get-Env -Name $Name -Scope $Scope
+
+    if (-not $envValue) {
+        $val = Read-Host "Provide value for '$Name'"
+
+        if ([string]::IsNullOrEmpty($val)) {
+            throw "Value for '$Name' must not be empty"
+        }
+
+        Set-Env -Name $Name -Value $val -Scope $Scope
+        $envValue = $val
+    }
+
+    return $envValue
+}
+
+# Certificate thumbprint. May need to open the Safenet client to get this value
+[string] $CertificateThumbprint = Ensure-Env -Name $CertificateThumbprintName -Scope $EnvScope
+
+# Commas need to be escaped: use %2C
+# e.g. "CN=BCGOV%2C O=SDPR" is equivalent to "CN=BCGOV, O=SDPR"
+[string] $CertificateSubject = Ensure-Env -Name $CertificateSubjectName -Scope $EnvScope
+
+[string] $Oidc_AuthenticationDomain = Ensure-Env -Name $Oidc_AuthenticationDomainName -Scope $EnvScope
+[string] $Oidc_ClientId = Ensure-Env -Name $Oidc_ClientIdName -Scope $EnvScope
+[string] $Oidc_RedirectUri = Ensure-Env -Name $Oidc_RedirectUriName -Scope $EnvScope
+[string] $Api_HttpsApiDomain = Ensure-Env -Name $Api_HttpsApiDomainName -Scope $EnvScope
+[string] $ContactInfo_MailToAuthorize = Ensure-Env -Name $ContactInfo_MailToAuthorizeName -Scope $EnvScope
+[string] $ContactInfo_AccessRequestFormUrl = Ensure-Env -Name $ContactInfo_AccessRequestFormUrlName -Scope $EnvScope
+[string] $ContactInfo_FeedbackSurveyUrl = Ensure-Env -Name $ContactInfo_FeedbackSurveyUrlName -Scope $EnvScope
 
 $env = $Environment
 $outputName = "MCFD Mobility-Windows-$env-build_$BuildNumber"
@@ -26,13 +84,6 @@ if ($Environment -eq "prod") {
 
 $artifactsDir = "artifacts"
 $outputDir = "output"
-
-# Certificate thumbprint. May need to open the Safenet client to get this value
-[string] $certificateThumbprint = "<thumbprint>"
-
-# Commas need to be escaped: use %2C
-# e.g. "CN=BCGOV%2C O=SDPR" is equivalent to "CN=BCGOV, O=SDPR"
-[string] $certificateSubject = "<CN=SUBJ%2C O=HERE>"
 
 if ([string]::IsNullOrEmpty($BuildColor)) {
 
@@ -65,18 +116,18 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     $selfContainedString `
     -p:ApplicationVersion=$BuildNumber `
     -p:DeploymentEnvironment=$env `
-    -p:PackageCertificateThumbprint=$certificateThumbprint `
-    -p:AppxCertificateSubject=$certificateSubject `
+    -p:PackageCertificateThumbprint=$CertificateThumbprint `
+    -p:AppxCertificateSubject=$CertificateSubject `
     -p:BuildTypeColor=$BuildColor `
     -p:RuntimeIdentifierOverride="$RuntimeIdentifierOverride" `
     -p:UseAppSettings=true `
-    -p:Oidc_AuthenticationDomain="<string>" `
-    -p:Oidc_ClientId="<string>" `
-    -p:Oidc_RedirectUri="<string>" `
-    -p:Api_HttpsApiDomain="<string>" `
-    -p:ContactInfo_MailToAuthorize="<string>" `
-    -p:ContactInfo_AccessRequestFormUrl="<string>" `
-    -p:ContactInfo_FeedbackSurveyUrl="<string>" `
+    -p:Oidc_AuthenticationDomain="$Oidc_AuthenticationDomain" `
+    -p:Oidc_ClientId="$Oidc_ClientId" `
+    -p:Oidc_RedirectUri="$Oidc_RedirectUri" `
+    -p:Api_HttpsApiDomain="$Api_HttpsApiDomain" `
+    -p:ContactInfo_MailToAuthorize="$ContactInfo_MailToAuthorize" `
+    -p:ContactInfo_AccessRequestFormUrl="$ContactInfo_AccessRequestFormUrl" `
+    -p:ContactInfo_FeedbackSurveyUrl="$ContactInfo_FeedbackSurveyUrl" `
     -p:Debug_EnableDebugOptions=$enableDebug
 
 if ($?) {
