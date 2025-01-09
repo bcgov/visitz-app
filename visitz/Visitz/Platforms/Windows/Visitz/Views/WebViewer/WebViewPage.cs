@@ -6,7 +6,6 @@ using System.Globalization;
 using Visitz.Controls;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
-using VisitzModel;
 
 namespace Visitz.Views.WebViewer;
 
