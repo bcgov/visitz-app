@@ -84,7 +84,6 @@ public partial class WebViewPage
 			await Navigator.Navigation.PopModalAsync();
 		};
 
-#if WINDOWS
         // WORKAROUND Windows does not reliably logout currently
         // so we'll forcibly dump our local session and cookies.
         if (IsLogoutRequest(ViewModel.AuthUri))
@@ -93,7 +92,7 @@ public partial class WebViewPage
             await Navigator.Navigation.PopModalAsync();
             return;
         }
-#endif
+
         webView.Source = ViewModel.AuthUri;
 	}
 
