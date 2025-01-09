@@ -11,7 +11,9 @@ param(
 
     [switch] $SelfContained,
 
-    [switch] $NoOpenOutputDirectory
+    [switch] $NoOpenOutputDirectory,
+
+    [string] $RuntimeIdentifierOverride = "win-x64" #Can also be "win10-x64"
 )
 
 $env = $Environment
@@ -66,7 +68,7 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     -p:PackageCertificateThumbprint=$certificateThumbprint `
     -p:AppxCertificateSubject=$certificateSubject `
     -p:BuildTypeColor=$BuildColor `
-    -p:RuntimeIdentifierOverride="win10-x64" `
+    -p:RuntimeIdentifierOverride="$RuntimeIdentifierOverride" `
     -p:UseAppSettings=true `
     -p:Oidc_AuthenticationDomain="<string>" `
     -p:Oidc_ClientId="<string>" `
