@@ -14,11 +14,12 @@ param(
     [switch] $NoOpenOutputDirectory
 )
 
-$outputName = "MCFD Mobility-Windows-$Environment-build_$BuildNumber"
+$env = $Environment
+$outputName = "MCFD Mobility-Windows-$env-build_$BuildNumber"
 
 if ($Environment -eq "prod") {
     # "prod" only used for command line intention and build label, buildscript uses empty string for prod
-    $Environment = ""
+    $env = ""
 }
 
 $artifactsDir = "artifacts"
@@ -33,10 +34,10 @@ $outputDir = "output"
 
 if ([string]::IsNullOrEmpty($BuildColor)) {
 
-    if ($Environment -eq "beta") {
+    if ($env -eq "beta") {
         $BuildColor = "#005724"
     }
-    elseif ($Environment -eq "team") {
+    elseif ($env -eq "team") {
         $BuildColor = "#66004b"
     }
     else {
@@ -46,7 +47,7 @@ if ([string]::IsNullOrEmpty($BuildColor)) {
 
 # Auto enable/disable debug mode based on the deployment env.
 [string] $enableDebug = "false"
-if ($Environment -eq "team") {
+if ($env -eq "team") {
     $enableDebug = "true"
 }
 
@@ -61,7 +62,7 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     --configuration Release `
     $selfContainedString `
     -p:ApplicationVersion=$BuildNumber `
-    -p:DeploymentEnvironment=$Environment `
+    -p:DeploymentEnvironment=$env `
     -p:PackageCertificateThumbprint=$certificateThumbprint `
     -p:AppxCertificateSubject=$certificateSubject `
     -p:BuildTypeColor=$BuildColor `
