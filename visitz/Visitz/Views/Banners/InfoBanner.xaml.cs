@@ -1,4 +1,4 @@
-namespace Visitz.Views;
+namespace Visitz.Views.Banners;
 
 public partial class InfoBanner : ContentView
 {

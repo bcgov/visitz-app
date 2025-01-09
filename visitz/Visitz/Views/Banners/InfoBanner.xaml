@@ -2,10 +2,11 @@
 <ContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:banners="clr-namespace:Visitz.Views.Banners"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:views="clr-namespace:Visitz.Views"
-    x:Class="Visitz.Views.InfoBanner"
-    x:DataType="views:InfoBanner"
+    x:Class="Visitz.Views.Banners.InfoBanner"
+    x:DataType="banners:InfoBanner"
     x:Name="this">
 
     <Border

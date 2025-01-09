@@ -2,11 +2,11 @@
 <baseClasses:ViewModelContentView
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:banners="clr-namespace:Visitz.Views.Banners"
 	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
 	xmlns:icons="clr-namespace:Visitz.FontIcons"
 	xmlns:local="clr-namespace:Visitz.Localization"
-	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentsView"
 	x:DataType="attachments:AttachmentsViewModel">
 	
@@ -15,7 +15,7 @@
 		VerticalOptions="FillAndExpand"
 		RowDefinitions="Auto, *, 0.5, Auto">
 
-		<views:InfoBanner
+		<banners:InfoBanner
 			Grid.Row="0"
 			Margin="20"
 			Text="{local:Localize OnlyPublishAttachments}" />
