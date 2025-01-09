@@ -12,7 +12,7 @@ using Visitz.Settings;
 using Visitz.Storage;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 using Visitz.Views.BaseClasses;
-
+using Microsoft.Extensions.Logging;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -35,6 +35,13 @@ public partial class SessionViewModel : VisitzViewModel
     public DisplayOptions bgDisplayOptions = DisplayOptions.Clear;
 
     private OidcSessionInfo SessionInfo;
+
+    private ILogger<SessionViewModel> Logger { get; }
+
+    public SessionViewModel(ILogger<SessionViewModel> logger)
+    {
+        Logger = logger;
+    }
 
     public static async Task<string> GetDisplayNamePrompt(OidcSessionInfo info = null)
     {
@@ -71,7 +78,6 @@ public partial class SessionViewModel : VisitzViewModel
 
 		if (e is LogoutChangedEventArgs && ShouldReopen())
 			_ = ReopenSessionPage();
-
 	}
 
     private async Task ApplyLayout()
@@ -122,9 +128,10 @@ public partial class SessionViewModel
                 WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // TODO: log or show error
+            if (ex is not OperationCanceledException)
+                Logger.LogError(ex, ex.Message);
         }
     }
 }
