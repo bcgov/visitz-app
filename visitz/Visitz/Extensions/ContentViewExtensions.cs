@@ -1,32 +1,37 @@
+using MauiNavigationPage = Microsoft.Maui.Controls.NavigationPage;
+
 #if IOS || MACCATALYST
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 #endif
 
-using MauiNavigationPage = Microsoft.Maui.Controls.NavigationPage;
+#if WINDOWS
+using Microsoft.Maui.Layouts;
+#endif
 
 namespace Visitz.Extensions;
 
 public static class ContentViewExtensions
 {
-    public static readonly double DefaultHeight = 700;
+#if WINDOWS
+    public static readonly double DefaultHeight = 0.90;
 
-	public static readonly double Unset = -1;
-	public static readonly double MediumWidth = 600;
-	public static readonly double WideWidth = 850;
+	public static readonly double Fullscreen = 1.0;
+	public static readonly double MediumWidth = 0.50;
+	public static readonly double WideWidth = 0.72;
+#endif
 
     public static ContentPage WrapPageForModal(this ContentView contentView, ViewModalSize size = ViewModalSize.Wide)
     {
         var page = new ContentPage()
         {
             Background = Colors.Transparent,
-            Content = contentView,
         };
 
 		MauiNavigationPage.SetHasNavigationBar(page, false);
 		MauiNavigationPage.SetHasBackButton(page, false);
 
-#if IOS
+#if IOS || MACCATALYST
 		var presentationStyle = size switch
 		{
 			ViewModalSize.Medium => UIModalPresentationStyle.FormSheet,
@@ -34,18 +39,29 @@ public static class ContentViewExtensions
 			_ => UIModalPresentationStyle.PageSheet,
 		};
 
+        page.Content = contentView;
 		page.On<iOS>().SetModalPresentationStyle(presentationStyle);
-#else
-		page.HeightRequest = size == ViewModalSize.Fullscreen ? Unset : DefaultHeight ;
+#elif WINDOWS
+        var wrapper = new AbsoluteLayout { contentView };
 
-		page.WidthRequest = size switch
-		{
-			ViewModalSize.Medium => MediumWidth,
-			ViewModalSize.Fullscreen => Unset,
-			_ => WideWidth,
-		};
+        page.Content = wrapper;
+
+        contentView.HorizontalOptions = LayoutOptions.Fill;
+        contentView.VerticalOptions = LayoutOptions.Fill;
+        AbsoluteLayout.SetLayoutFlags(contentView, AbsoluteLayoutFlags.All);
+
+        double middle = 0.5;
+        double width = size switch
+        {
+            ViewModalSize.Medium => MediumWidth,
+            ViewModalSize.Fullscreen => Fullscreen,
+            _ => WideWidth,
+        };
+        double height = size == ViewModalSize.Fullscreen ? Fullscreen : DefaultHeight;
+
+        AbsoluteLayout.SetLayoutBounds(contentView, new Rect(middle, middle, width, height));
 #endif
 
-		return page;
+        return page;
     }
 }
