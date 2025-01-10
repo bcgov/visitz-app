@@ -17,9 +17,9 @@ public static class ContentViewExtensions
 #if WINDOWS
     public static readonly double DefaultHeight = 0.90;
 
-	public static readonly double Fullscreen = 1.0;
-	public static readonly double MediumWidth = 0.50;
-	public static readonly double WideWidth = 0.72;
+    public static readonly double Fullscreen = 1.0;
+    public static readonly double MediumWidth = 0.50;
+    public static readonly double WideWidth = 0.72;
 #endif
 
     public static ContentPage WrapPageForModal(this ContentView contentView, ViewModalSize size = ViewModalSize.Wide)
@@ -29,19 +29,19 @@ public static class ContentViewExtensions
             Background = Colors.Transparent,
         };
 
-		MauiNavigationPage.SetHasNavigationBar(page, false);
-		MauiNavigationPage.SetHasBackButton(page, false);
+        MauiNavigationPage.SetHasNavigationBar(page, false);
+        MauiNavigationPage.SetHasBackButton(page, false);
 
 #if IOS || MACCATALYST
-		var presentationStyle = size switch
-		{
-			ViewModalSize.Medium => UIModalPresentationStyle.FormSheet,
-			ViewModalSize.Fullscreen => UIModalPresentationStyle.FullScreen,
-			_ => UIModalPresentationStyle.PageSheet,
-		};
+        var presentationStyle = size switch
+        {
+            ViewModalSize.Medium => UIModalPresentationStyle.FormSheet,
+            ViewModalSize.Fullscreen => UIModalPresentationStyle.FullScreen,
+            _ => UIModalPresentationStyle.PageSheet,
+        };
 
         page.Content = contentView;
-		page.On<iOS>().SetModalPresentationStyle(presentationStyle);
+        page.On<iOS>().SetModalPresentationStyle(presentationStyle);
 #elif WINDOWS
         var wrapper = new AbsoluteLayout { contentView };
 
