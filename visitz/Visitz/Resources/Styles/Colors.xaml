@@ -85,6 +85,16 @@
     <Color x:Key="LightGrayBackground">#F9F9F9</Color>
     <Color x:Key="SkyBlueText">#005CB8</Color>
 
+	<!-- Alert banner colors -->
+	<Color x:Key="AlertBannerInfoPrimary">#053662</Color>
+	<Color x:Key="AlertBannerInfoBackground">#F7F9FC</Color>
+	<Color x:Key="AlertBannerWarningPrimary">#F8BB47</Color>
+	<Color x:Key="AlertBannerWarningBackground">#FEF1D8</Color>
+	<Color x:Key="AlertBannerDangerPrimary">#CE3E39</Color>
+	<Color x:Key="AlertBannerDangerBackground">#F4E1E2</Color>
+	<Color x:Key="AlertBannerCriticalPrimary">#CE3E39</Color>
+	<Color x:Key="AlertBannerCriticalBackground">#F4E1E2</Color>
+
     <!-- References Gray200 -->
     <Color x:Key="SeparatorColor">#C8C8C8</Color>
 
