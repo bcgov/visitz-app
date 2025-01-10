@@ -58,6 +58,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      - name: Cache .NET workloads
+        uses: actions/cache@v4.0.2
+        if: always()
+        with:
+          path: ~/.dotnet
+          key: ${{ runner.os }}-dotnet-workloads-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-workloads-
+
       - name: Install .NET MAUI workload
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
