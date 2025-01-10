@@ -137,7 +137,6 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         var noteEntryView = ServiceProvider.GetService<NoteEntryView>();
         noteEntryView.CaseloadItem = CaseloadItem;
 
-        var noteEntryPage = noteEntryView.WrapPageForModal();
-        await Navigator.Navigation.PushModalAsync(noteEntryPage);
+        await Navigator.Navigation.PushModalAsync(noteEntryView, ViewModalSize.Wide);
     }
 }
