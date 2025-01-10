@@ -62,7 +62,7 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
-          dotnet workload install maui ios maccatalyst maui-ios maui-windows
+          dotnet workload install maui ios maccatalyst maui-ios maui-windows --version ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
