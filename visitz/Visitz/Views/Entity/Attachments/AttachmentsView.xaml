@@ -18,6 +18,7 @@
 		<banners:InfoBanner
 			Grid.Row="0"
 			Margin="20"
+			Level="Info"
 			Text="{local:Localize OnlyPublishAttachments}" />
 
 		<attachments:AttachmentsList

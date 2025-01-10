@@ -1,3 +1,6 @@
+using Visitz.FontIcons;
+using Visitz.Resources.Styles;
+
 namespace Visitz.Views.Banners;
 
 public partial class InfoBanner : ContentView
@@ -33,13 +36,32 @@ public partial class InfoBanner : ContentView
         switch (newLevel)
         {
             case AlertLevel.Info:
-                // TODO ...
+                banner.BackgroundColor = VisitzColors.AlertBannerInfoBackground;
+                banner.IconLabel.Text = MaterialIcons.Info;
+                banner.IconLabel.TextColor = VisitzColors.AlertBannerInfoPrimary;
+                banner.Border.StrokeThickness = 2;
+                banner.Border.Stroke = VisitzColors.AlertBannerInfoPrimary;
                 break;
             case AlertLevel.Warning:
+                banner.BackgroundColor = VisitzColors.AlertBannerWarningBackground;
+                banner.IconLabel.Text = MaterialIcons.Error;
+                banner.IconLabel.TextColor = VisitzColors.AlertBannerWarningPrimary;
+                banner.Border.StrokeThickness = 2;
+                banner.Border.Stroke = VisitzColors.AlertBannerWarningPrimary;
                 break;
             case AlertLevel.Danger:
+                banner.BackgroundColor = VisitzColors.AlertBannerDangerBackground;
+                banner.IconLabel.Text = MaterialIcons.Error;
+                banner.IconLabel.TextColor = VisitzColors.AlertBannerDangerPrimary;
+                banner.Border.StrokeThickness = 2;
+                banner.Border.Stroke = VisitzColors.AlertBannerDangerPrimary;
                 break;
             case AlertLevel.Critical:
+                banner.BackgroundColor = VisitzColors.AlertBannerCriticalBackground;
+                banner.IconLabel.Text = MaterialIcons.Error;
+                banner.IconLabel.TextColor = VisitzColors.AlertBannerCriticalPrimary;
+                banner.Border.StrokeThickness = 2;
+                banner.Border.Stroke = VisitzColors.AlertBannerCriticalPrimary;
                 break;
             case AlertLevel.Unknown:
             case AlertLevel.Success:

@@ -71,6 +71,7 @@
 
                 <banners:InfoBanner 
                     Margin="0,0,0,16"
+                    Level="Info"
                     Text="{local:Localize SafetyAssessmentValidationRulesInfo}" />
 
                 <VerticalStackLayout Style="{StaticResource FormVsl}">

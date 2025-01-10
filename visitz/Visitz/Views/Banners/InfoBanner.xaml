@@ -13,10 +13,7 @@
 		x:Name="Border"
         BindingContext="{Reference this}"
         HorizontalOptions="Fill"
-        Stroke="Transparent"
         StrokeShape="RoundRectangle 4"
-        StrokeThickness="0"
-        BackgroundColor="{StaticResource BC_Semantic_Info}"
 		Padding="20">
         
         <Grid
@@ -29,9 +26,7 @@
 				Grid.Column="0"
 				VerticalOptions="Start"
 				FontFamily="MaterialIconsRoundedFilled"
-				FontSize="24"
-				TextColor="{StaticResource BC_TextColor}"
-				Text="{Static icons:MaterialIcons.Info}" />
+				FontSize="24"/>
 
             <Label
                 Grid.Column="1"
