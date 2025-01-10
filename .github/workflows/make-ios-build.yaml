@@ -69,6 +69,24 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
+      - name: Cache .NET dependencies
+        uses: actions/cache@v4.0.2
+        if: always()
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Cache .NET workloads
+        uses: actions/cache@v4.0.2
+        if: always()
+        with:
+          path: ~/.dotnet
+          key: ${{ runner.os }}-dotnet-workloads-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-workloads-
+
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
         run: |
           dotnet workload install maui maui-ios
