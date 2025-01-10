@@ -15,7 +15,7 @@ permissions:
 
 env:
   BASE_PROJPATH: "./visitz"
-  DOTNET_SDK_VERSION: "8.0.402"
+  DOTNET_SDK_VERSION: "8.0.404"
   GLOBAL_JSON_PATH: "visitz/global.json"
 
 jobs:
