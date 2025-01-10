@@ -1,8 +1,20 @@
-﻿namespace Oidc.Network;
+namespace Oidc.Network;
+
+#if WINDOWS
+using Windows.Networking.Connectivity;
+#endif
 
 public static class NetworkHelper
 {
-    public static bool InternetAvailable => Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+    public static bool InternetAvailable =>
+#if WINDOWS
+        // WORKAROUND https://github.com/dotnet/maui/issues/22228#issuecomment-2118235512
+        // NetworkAccess reported incorrectly on Windows on VPN
+        NetworkInformation.GetInternetConnectionProfile().GetNetworkConnectivityLevel()
+        == NetworkConnectivityLevel.InternetAccess;
+#else
+        Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+#endif
 
     public static void AssertInternetAvailable(string messageIfUnavailable)
     {
