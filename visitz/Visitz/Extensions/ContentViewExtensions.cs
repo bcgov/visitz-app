@@ -6,6 +6,7 @@ using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 #endif
 
 #if WINDOWS
+using Visitz.Resources.Styles;
 using Microsoft.Maui.Layouts;
 #endif
 
@@ -49,6 +50,9 @@ public static class ContentViewExtensions
         contentView.HorizontalOptions = LayoutOptions.Fill;
         contentView.VerticalOptions = LayoutOptions.Fill;
         AbsoluteLayout.SetLayoutFlags(contentView, AbsoluteLayoutFlags.All);
+
+        if (size != ViewModalSize.Fullscreen)
+            contentView.Shadow = VisitzShadows.Level5;
 
         double middle = 0.5;
         double width = size switch
