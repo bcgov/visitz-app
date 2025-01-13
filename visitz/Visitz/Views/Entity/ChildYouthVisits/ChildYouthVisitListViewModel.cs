@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Banners;
@@ -12,11 +13,15 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 {
     private bool _disposed;
 
-    [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    Realm icmDataRealm;
+
+    readonly ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
-    public ObservableCollection<PersonVisit> inPersonVisitList;
+    ObservableCollection<PersonVisit> personVisits = [];
+
+    [ObservableProperty]
+    public CaseloadItem caseloadItem;
 
     [ObservableProperty]
     public DateTimeOffset dateOfVisit;
@@ -45,7 +50,13 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-        await LoadInPersonVisitData();
+        icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
+
+        realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
+                .Where(person => person.ParentId == CaseloadItem.CaseIncidentNumber)
+                .OrderByDescending(person => person.DateOfVisit));
+
     }
 
     protected override void Dispose(bool disposing)
@@ -53,64 +64,79 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         if (!_disposed && disposing)
         {
             // TODO
+            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+            realmQuery.Dispose();
             _disposed = true;
         }
 
         base.Dispose(disposing);
     }
 
-    private async Task LoadInPersonVisitData()
+    private void UpdatePersonVisitRelatedInfo(ObservableCollection<PersonVisit> personVisits)
     {
-        var icmData = await VisitzRealms.GetIcmDataRealmAsync();
-        var persons = icmData.All<PersonVisit>()
-                      .Where(person => person.ParentId == CaseloadItem.CaseIncidentNumber)
-                      .OrderByDescending(person => person.DateOfVisit)
-                      .ToList();
-        InPersonVisitList = new ObservableCollection<PersonVisit>(persons);
-        if (persons.Count != 0)
+        HasVisitData = personVisits.Count > 0;
+        ShowEmptyIcon = !HasVisitData;
+        if (HasVisitData)
         {
-            var lastVisit = persons.FirstOrDefault();
+            var lastVisit = personVisits.FirstOrDefault();
             if (lastVisit != null)
             {
-                DateTimeOffset currentDate = DateTimeOffset.Now;
+                DateTimeOffset currentDate = DateTimeOffset.UtcNow;
                 DateTimeOffset nextVisitDate = lastVisit.DateOfVisit.AddDays(90);
                 string dueDate = nextVisitDate.ToString("MMMM d, yyyy");
                 var dateDifference = nextVisitDate - currentDate;
                 SetBannerInfo(dateDifference.Days, dueDate);
             }
         }
-        else
-        {
-            HasVisitData = false;
-            ShowEmptyIcon = true;
-        }
     }
 
     private void SetBannerInfo(int daysDifference, string dateInBanner)
     {
-        if (daysDifference > 30 && daysDifference <= 90)
+        if (daysDifference > 30)
         {
             BannerLevel = AlertLevel.Info;
             BannerText = string.Format(
                 LocalizedStrings.NextVisitDueBy, dateInBanner);
         }
-        else if (daysDifference <= 30 && daysDifference > 5)
+        else if (daysDifference > 5)
         {
             BannerLevel = AlertLevel.Warning;
             BannerText = string.Format(
                 LocalizedStrings.VisitDueBy, dateInBanner);
         }
-        else if (daysDifference <= 5 && daysDifference >= 0)
+        else if (daysDifference >= 0)
         {
             BannerLevel = AlertLevel.Danger;
             BannerText = string.Format(
                 LocalizedStrings.VisitDueBy, dateInBanner);
         }
-        else if (daysDifference < 0)
+        else
         {
             BannerLevel = AlertLevel.Critical;
             BannerText = string.Format(
                 LocalizedStrings.OverdueVisitOn, dateInBanner);
         }
+    }
+
+    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    {
+        if (e.Changes == null)
+        {
+            foreach (var item in e.Items)
+                PersonVisits.Add(item as PersonVisit);
+
+        }
+        else
+        {
+            foreach (int deleted in e.Changes.DeletedIndices)
+                PersonVisits.RemoveAt(deleted);
+
+            foreach (int modified in e.Changes.ModifiedIndices)
+                PersonVisits[modified] = e.Items[modified] as PersonVisit;
+
+            foreach (int inserted in e.Changes.InsertedIndices)
+                PersonVisits.Insert(inserted, e.Items[inserted] as PersonVisit);
+        }
+        UpdatePersonVisitRelatedInfo(PersonVisits);
     }
 }

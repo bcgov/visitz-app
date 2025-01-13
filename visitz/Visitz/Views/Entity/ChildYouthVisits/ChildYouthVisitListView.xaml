@@ -67,7 +67,7 @@
         <CollectionView
             Grid.Row="3"
             IsVisible="{Binding HasVisitData}"
-            ItemsSource="{Binding InPersonVisitList}"
+            ItemsSource="{Binding PersonVisits}"
             Margin="{StaticResource DefaultMargin}"
             VerticalOptions="FillAndExpand"
             SelectionMode="None">
