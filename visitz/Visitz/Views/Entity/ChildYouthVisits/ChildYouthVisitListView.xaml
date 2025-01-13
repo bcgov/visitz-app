@@ -15,7 +15,7 @@
     <Grid
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand"
-        RowDefinitions="Auto, Auto, *, Auto">
+        RowDefinitions="Auto, Auto, 0.5, *">
 
         <banners:InfoBanner
             Grid.Row="0"
@@ -59,9 +59,13 @@
                    TextColor="{StaticResource BC_TextColor_Lighter}"
                    FontFamily="BCSansBold"/>
         </Grid>
+        <BoxView
+            Grid.Row="2"
+            HeightRequest="0.5"
+            Color="{StaticResource SeparatorColor}"/>
 
         <CollectionView
-            Grid.Row="2"
+            Grid.Row="3"
             IsVisible="{Binding HasVisitData}"
             ItemsSource="{Binding InPersonVisitList}"
             Margin="{StaticResource DefaultMargin}"
@@ -105,7 +109,7 @@
         </CollectionView>
 
         <Label
-            Grid.Row="2"
+            Grid.Row="3"
             HorizontalOptions="Center"
             VerticalOptions="Center"
             FontSize="200"
