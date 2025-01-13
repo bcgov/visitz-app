@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:banners="clr-namespace:Visitz.Views.Banners"
+    xmlns:banners="clr-namespace:Visitz.Views.Banners"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Banners.InfoBanner"
@@ -10,30 +10,30 @@
     x:Name="this">
 
     <Border
-		x:Name="Border"
+        x:Name="Border"
         BindingContext="{Reference this}"
         HorizontalOptions="Fill"
         StrokeShape="RoundRectangle 4"
-		Padding="20">
-        
+        Padding="20">
+
         <Grid
             Padding="8"
             ColumnDefinitions="Auto,*"
             ColumnSpacing="16">
 
-			<Label
-				x:Name="IconLabel"
-				Grid.Column="0"
-				VerticalOptions="Start"
-				FontFamily="MaterialIconsRoundedFilled"
-				FontSize="24"/>
+            <Label
+                x:Name="IconLabel"
+                Grid.Column="0"
+                VerticalOptions="Start"
+                FontFamily="MaterialIconsRoundedFilled"
+                FontSize="24"/>
 
             <Label
                 Grid.Column="1"
-				Padding="3"
+                Padding="3"
                 FontFamily="BCSansBold"
                 FontSize="{StaticResource BodyLargeFontSize}"
-                Text="{Binding Text}" />
+                Text="{Binding Text}"/>
         </Grid>
     </Border>
 </ContentView>

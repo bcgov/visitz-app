@@ -5,17 +5,17 @@ namespace Visitz.Views.Banners;
 
 public partial class InfoBanner : ContentView
 {
-	public static readonly BindableProperty TextProperty =
-		BindableProperty.Create(nameof(Text), typeof(string), typeof(InfoBanner));
+    public static readonly BindableProperty TextProperty =
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(InfoBanner));
 
     public static readonly BindableProperty LevelProperty =
         BindableProperty.Create(nameof(Level), typeof(AlertLevel), typeof(InfoBanner), propertyChanged: LevelChanged);
 
-	public string Text
-	{
-		get => (string)GetValue(TextProperty);
-		set => SetValue(TextProperty, value);
-	}
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
 
     public AlertLevel Level
     {
@@ -23,10 +23,10 @@ public partial class InfoBanner : ContentView
         set => SetValue(LevelProperty, value);
     }
 
-	public InfoBanner()
-	{
-		InitializeComponent();
-	}
+    public InfoBanner()
+    {
+        InitializeComponent();
+    }
 
     private static void LevelChanged(BindableObject boundObj, object oldVal, object newVal)
     {

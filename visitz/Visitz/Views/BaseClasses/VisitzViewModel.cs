@@ -3,31 +3,31 @@ using VisitzModel;
 
 namespace Visitz.Views.BaseClasses
 {
-	/// <summary>
-	/// The base class for all the view models. Common functionality can be defined here.
-	/// </summary>
-	public partial class VisitzViewModel : ObservableObject, IDisposable
-	{
-		bool created;
+    /// <summary>
+    /// The base class for all the view models. Common functionality can be defined here.
+    /// </summary>
+    public partial class VisitzViewModel : ObservableObject, IDisposable
+    {
+        bool created;
         bool _disposedValue;
 
         public Task InitTask { get; private set; }
 
         [Obsolete("Use InitAsync instead")]
         public void OnCreate()
-		{
-			if (!created)
-			{
-				Create();
-				created = true;
-			}
-		}
+        {
+            if (!created)
+            {
+                Create();
+                created = true;
+            }
+        }
 
         [Obsolete("Use InitAsync instead")]
-		public virtual void Create()
-		{
-			ConsoleTrace.TraceMethod(this);
-		}
+        public virtual void Create()
+        {
+            ConsoleTrace.TraceMethod(this);
+        }
 
         public virtual Task StartInitAsync()
         {
@@ -44,10 +44,10 @@ namespace Visitz.Views.BaseClasses
         }
 
         [Obsolete("Use Dispose instead")]
-		public virtual void Destroy()
-		{
-			ConsoleTrace.TraceMethod(this);
-		}
+        public virtual void Destroy()
+        {
+            ConsoleTrace.TraceMethod(this);
+        }
 
         protected virtual void Dispose(bool disposing)
         {
