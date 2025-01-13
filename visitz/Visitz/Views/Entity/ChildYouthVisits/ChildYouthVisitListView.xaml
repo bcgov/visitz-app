@@ -19,13 +19,14 @@
 
         <banners:InfoBanner
             Grid.Row="0"
-            Margin="{StaticResource InPersonBannerMargin}"
+            Margin="{StaticResource DoubleDefaultMargin}"
             IsVisible="{Binding HasVisitData}"
             Level="{Binding BannerLevel}"
             Text="{Binding BannerText}"/>
 
         <Grid
             Grid.Row="1"
+            Margin="{StaticResource DoubleDefaultMargin}"
             IsVisible="{Binding HasVisitData}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -35,23 +36,27 @@
             </Grid.ColumnDefinitions>
 
             <Label Text="{local:Localize Date}"
-                   HorizontalTextAlignment="Center"
+                   HorizontalTextAlignment="Start"
                    VerticalTextAlignment="Center"
+                   TextColor="{StaticResource BC_TextColor_Lighter}"
                    FontFamily="BCSansBold"/>
             <Label Text="{local:Localize Details}"
-                   HorizontalTextAlignment="Center"
+                   HorizontalTextAlignment="Start"
                    VerticalTextAlignment="Center"
                    Grid.Column="1"
+                   TextColor="{StaticResource BC_TextColor_Lighter}"
                    FontFamily="BCSansBold"/>
             <Label Text="{local:Localize Description}"
-                   HorizontalTextAlignment="Center"
+                   HorizontalTextAlignment="Start"
                    VerticalTextAlignment="Center"
                    Grid.Column="2"
+                   TextColor="{StaticResource BC_TextColor_Lighter}"
                    FontFamily="BCSansBold"/>
             <Label Text="{local:Localize CreatedBy}"
-                   HorizontalTextAlignment="Center"
+                   HorizontalTextAlignment="Start"
                    VerticalTextAlignment="Center"
                    Grid.Column="3"
+                   TextColor="{StaticResource BC_TextColor_Lighter}"
                    FontFamily="BCSansBold"/>
         </Grid>
 
