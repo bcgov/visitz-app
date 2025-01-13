@@ -19,14 +19,14 @@
 
         <banners:InfoBanner
             Grid.Row="0"
-            Margin="{StaticResource DoubleDefaultMargin}"
+            Margin="{StaticResource DefaultMargin}"
             IsVisible="{Binding HasVisitData}"
             Level="{Binding BannerLevel}"
             Text="{Binding BannerText}"/>
 
         <Grid
             Grid.Row="1"
-            Margin="{StaticResource DoubleDefaultMargin}"
+            Margin="{StaticResource DefaultMargin}"
             IsVisible="{Binding HasVisitData}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
