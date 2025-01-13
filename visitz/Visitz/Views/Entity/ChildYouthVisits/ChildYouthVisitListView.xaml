@@ -19,7 +19,7 @@
 
         <banners:InfoBanner
             Grid.Row="0"
-            Margin="20"
+            Margin="{StaticResource InPersonBannerMargin}"
             IsVisible="{Binding HasVisitData}"
             Level="{Binding BannerLevel}"
             Text="{Binding BannerText}"/>
@@ -34,21 +34,21 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Text="Date"
+            <Label Text="{local:Localize Date}"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"
                    FontFamily="BCSansBold"/>
-            <Label Text="Details"
+            <Label Text="{local:Localize Details}"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"
                    Grid.Column="1"
                    FontFamily="BCSansBold"/>
-            <Label Text="Description"
+            <Label Text="{local:Localize Description}"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"
                    Grid.Column="2"
                    FontFamily="BCSansBold"/>
-            <Label Text="Created By"
+            <Label Text="{local:Localize CreatedBy}"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"
                    Grid.Column="3"
@@ -59,7 +59,7 @@
             Grid.Row="2"
             IsVisible="{Binding HasVisitData}"
             ItemsSource="{Binding InPersonVisitList}"
-            Margin="10"
+            Margin="{StaticResource DefaultMargin}"
             VerticalOptions="FillAndExpand"
             SelectionMode="None">
 
@@ -77,14 +77,18 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label Text="{Binding DateOfVisit, StringFormat='{0:MMMM dd, yyyy}'}"
-                                       Grid.Column="0"/>
-                                <Label Text="{Binding Type}"
-                                       Grid.Column="1"/>
-                                <Label Text="{Binding VisitDescription}"
-                                       Grid.Column="2"/>
-                                <Label Text="{Binding CreatedBy}"
-                                       Grid.Column="3"/>
+                                <Label
+                                    Text="{Binding DateOfVisit, StringFormat='{0:MMMM dd, yyyy}'}"
+                                    Grid.Column="0"/>
+                                <Label
+                                    Text="{Binding Type}"
+                                    Grid.Column="1"/>
+                                <Label
+                                    Text="{Binding VisitDescription}"
+                                    Grid.Column="2"/>
+                                <Label
+                                    Text="{Binding CreatedBy}"
+                                    Grid.Column="3"/>
                             </Grid>
                             <BoxView
                                 Color="{StaticResource Gray200}"
