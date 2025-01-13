@@ -11,6 +11,10 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 
 internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseloadItemHolder
 {
+    private static readonly int InfoDayRange = 90;
+    private static readonly int WarningDayRange = 30;
+    private static readonly int DangerDayRange = 5;
+    private static readonly int CriticalDayRange = 0;
     private bool _disposed;
 
     Realm icmDataRealm;
@@ -82,7 +86,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
             if (lastVisit != null)
             {
                 DateTimeOffset currentDate = DateTimeOffset.UtcNow;
-                DateTimeOffset nextVisitDate = lastVisit.DateOfVisit.AddDays(90);
+                DateTimeOffset nextVisitDate = lastVisit.DateOfVisit.AddDays(InfoDayRange);
                 string dueDate = nextVisitDate.ToString("MMMM d, yyyy");
                 var dateDifference = nextVisitDate - currentDate;
                 SetBannerInfo(dateDifference.Days, dueDate);
@@ -92,19 +96,19 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 
     private void SetBannerInfo(int daysDifference, string dateInBanner)
     {
-        if (daysDifference > 30)
+        if (daysDifference > WarningDayRange)
         {
             BannerLevel = AlertLevel.Info;
             BannerText = string.Format(
                 LocalizedStrings.NextVisitDueBy, dateInBanner);
         }
-        else if (daysDifference > 5)
+        else if (daysDifference > DangerDayRange)
         {
             BannerLevel = AlertLevel.Warning;
             BannerText = string.Format(
                 LocalizedStrings.VisitDueBy, dateInBanner);
         }
-        else if (daysDifference >= 0)
+        else if (daysDifference >= CriticalDayRange)
         {
             BannerLevel = AlertLevel.Danger;
             BannerText = string.Format(
