@@ -66,25 +66,30 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <ContentView>
-                        <Grid
-                            ColumnSpacing="{StaticResource DefaultSpacing}"
-                            Padding="{StaticResource DefaultPadding}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                        <VerticalStackLayout>
+                            <Grid
+                                ColumnSpacing="{StaticResource DefaultSpacing}"
+                                Padding="{StaticResource DefaultPadding}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Label Text="{Binding DateOfVisit, StringFormat='{0:MMMM dd, yyyy}'}"
-                                    Grid.Column="0"/>
-                            <Label Text="{Binding Type}"
-                                    Grid.Column="1"/>
-                            <Label Text="{Binding VisitDescription}"
-                                    Grid.Column="2"/>
-                            <Label Text="{Binding CreatedBy}"
-                                    Grid.Column="3"/>
-                        </Grid>
+                                <Label Text="{Binding DateOfVisit, StringFormat='{0:MMMM dd, yyyy}'}"
+                                       Grid.Column="0"/>
+                                <Label Text="{Binding Type}"
+                                       Grid.Column="1"/>
+                                <Label Text="{Binding VisitDescription}"
+                                       Grid.Column="2"/>
+                                <Label Text="{Binding CreatedBy}"
+                                       Grid.Column="3"/>
+                            </Grid>
+                            <BoxView
+                                Color="{StaticResource Gray200}"
+                                HeightRequest="0.5"/>
+                        </VerticalStackLayout>
                     </ContentView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
