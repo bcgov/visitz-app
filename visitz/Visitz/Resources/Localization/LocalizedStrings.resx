@@ -801,4 +801,13 @@ Any drafts for this record are still saved—but won't be accessible until the r
     <value>In-person visit due by {0}.</value>
     <comment>0 = Date in format "Month Day, Year"</comment>
   </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created by</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
 </root>
