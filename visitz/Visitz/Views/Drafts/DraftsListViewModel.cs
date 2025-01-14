@@ -16,6 +16,8 @@ namespace Visitz.Views.Drafts;
 
 internal partial class DraftsListViewModel : VisitzViewModel
 {
+    bool _disposed;
+
 	[ObservableProperty]
 	public ObservableCollection<object> draftItems = [];
 
@@ -27,24 +29,30 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
 	public event EventHandler<IDraftItem> SelectedItemRelatedMissing;
 
-	public override async void Create()
+	protected override async Task InitAsync()
 	{
-		base.Create();
+		await base.InitAsync();
 
-		DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
 		queryMap.ItemsChanged += QueryMap_ItemsChanged;
 
 		StrongReferenceMessenger.Default.Register<DraftMasterSelectedMessage>(this, DraftMasterSelected);
 	}
 
-	public override void Destroy()
+	protected override void Dispose(bool disposing)
 	{
-		base.Destroy();
+        if (!_disposed && disposing)
+        {
+		    StrongReferenceMessenger.Default.UnregisterAll(this);
 
-		StrongReferenceMessenger.Default.UnregisterAll(this);
+		    queryMap.ItemsChanged -= QueryMap_ItemsChanged;
+            queryMap.Dispose();
 
-		queryMap.ItemsChanged -= QueryMap_ItemsChanged;
+            _disposed = true;
+        }
+
+		base.Dispose(disposing);
 	}
 
 	private void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
