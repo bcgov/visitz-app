@@ -33,11 +33,11 @@ internal partial class DraftsListViewModel : VisitzViewModel
 	{
 		await base.InitAsync();
 
+		StrongReferenceMessenger.Default.Register<DraftMasterSelectedMessage>(this, DraftMasterSelected);
+
         DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
 		queryMap.ItemsChanged += QueryMap_ItemsChanged;
-
-		StrongReferenceMessenger.Default.Register<DraftMasterSelectedMessage>(this, DraftMasterSelected);
 	}
 
 	protected override void Dispose(bool disposing)
