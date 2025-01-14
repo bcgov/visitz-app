@@ -88,6 +88,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add visit.
+        /// </summary>
+        public static string AddVisit {
+            get {
+                return ResourceManager.GetString("AddVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Age.
         /// </summary>
         public static string Age {
@@ -396,6 +405,15 @@ namespace Visitz.Resources.Localization {
         public static string DateOfBirth {
             get {
                 return ResourceManager.GetString("DateOfBirth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of visit.
+        /// </summary>
+        public static string DateOfVisit {
+            get {
+                return ResourceManager.GetString("DateOfVisit", resourceCulture);
             }
         }
         
@@ -2027,11 +2045,38 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Visit description.
+        /// </summary>
+        public static string VisitDescription {
+            get {
+                return ResourceManager.GetString("VisitDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit details.
+        /// </summary>
+        public static string VisitDetails {
+            get {
+                return ResourceManager.GetString("VisitDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In-person visit due by {0}..
         /// </summary>
         public static string VisitDueBy {
             get {
                 return ResourceManager.GetString("VisitDueBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit type.
+        /// </summary>
+        public static string VisitType {
+            get {
+                return ResourceManager.GetString("VisitType", resourceCulture);
             }
         }
         

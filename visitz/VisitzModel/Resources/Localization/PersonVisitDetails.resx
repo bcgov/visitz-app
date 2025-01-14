@@ -117,34 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExemptionChildDeclined" xml:space="preserve">
+  <data name="Api_ExemptionChildDeclined" xml:space="preserve">
     <value>Exemption to private visit - Child declined to meet</value>
   </data>
-  <data name="ExemptionOther" xml:space="preserve">
+  <data name="Api_ExemptionOther" xml:space="preserve">
     <value>Exemption to private visit - Other</value>
   </data>
-  <data name="NotPrivateInHome" xml:space="preserve">
+  <data name="Api_NotPrivateInHome" xml:space="preserve">
     <value>Not private - Visit in the home</value>
   </data>
-  <data name="NotPrivatePlanning" xml:space="preserve">
+  <data name="Api_NotPrivatePlanning" xml:space="preserve">
     <value>Not private - Planning meeting</value>
   </data>
-  <data name="NotPrivateRelational" xml:space="preserve">
+  <data name="Api_NotPrivateRelational" xml:space="preserve">
     <value>Not private - Relational visit</value>
   </data>
-  <data name="NotPrivateWithCaregiver" xml:space="preserve">
+  <data name="Api_NotPrivateWithCaregiver" xml:space="preserve">
     <value>Not private - Visit with caregiver</value>
   </data>
-  <data name="PrivateAge0_5" xml:space="preserve">
+  <data name="Api_PrivateAge0_5" xml:space="preserve">
     <value>Private visit age 0-5</value>
   </data>
-  <data name="PrivateInHome" xml:space="preserve">
+  <data name="Api_PrivateInHome" xml:space="preserve">
     <value>Private visit in home</value>
   </data>
-  <data name="PrivateMedicalSupportNeeds" xml:space="preserve">
+  <data name="Api_PrivateMedicalSupportNeeds" xml:space="preserve">
     <value>Private visit medical or support needs</value>
   </data>
-  <data name="PrivateNotInHome" xml:space="preserve">
+  <data name="Api_PrivateNotInHome" xml:space="preserve">
     <value>Private visit not in home</value>
+  </data>
+  <data name="Details_ChildDeclinedToMeet" xml:space="preserve">
+    <value>Child declined to meet</value>
+  </data>
+  <data name="Details_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Details_PlanningMeeting" xml:space="preserve">
+    <value>Planning meeting</value>
+  </data>
+  <data name="Details_RelationalVisit" xml:space="preserve">
+    <value>Relational visit</value>
+  </data>
+  <data name="Details_VisitAge0To5" xml:space="preserve">
+    <value>Visit age 0 to 5</value>
+  </data>
+  <data name="Details_VisitInHome" xml:space="preserve">
+    <value>Visit in home</value>
+  </data>
+  <data name="Details_VisitInTheHome" xml:space="preserve">
+    <value>Visit in the home</value>
+  </data>
+  <data name="Details_VisitMedicalOrSupportNeeds" xml:space="preserve">
+    <value>Visit medical or support needs</value>
+  </data>
+  <data name="Details_VisitNotInHome" xml:space="preserve">
+    <value>Visit not in home</value>
+  </data>
+  <data name="Details_VisitWithCaregiver" xml:space="preserve">
+    <value>Visit with caregiver</value>
+  </data>
+  <data name="Type_ExemptionToPrivateVisit" xml:space="preserve">
+    <value>Exemption to private visit</value>
+  </data>
+  <data name="Type_NotPrivate" xml:space="preserve">
+    <value>Not private</value>
+  </data>
+  <data name="Type_Private" xml:space="preserve">
+    <value>Private</value>
   </data>
 </root>
