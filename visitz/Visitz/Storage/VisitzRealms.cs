@@ -24,6 +24,9 @@ internal static class VisitzRealms
     public static async Task<LogRealm> GetLogAsync() =>
         new LogRealm(await GetKey(LogRealm.Name));
 
+    public static async Task<PersonVisitDrafts> GetPersonVisitDraftsAsync() =>
+        new PersonVisitDrafts(await GetKey(PersonVisitDrafts.Name));
+
 
     public static async Task<Realm> GetNoteDraftsRealmAsync() =>
         await (await GetNoteDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<NoteDrafts>>());
@@ -39,4 +42,7 @@ internal static class VisitzRealms
     
     public static async Task<Realm> GetLogRealmAsync() =>
 		await (await GetLogAsync()).GetAsync(ServiceProvider.GetService<ILogger<LogRealm>>());
+
+	public static async Task<Realm> GetPersonVisitDraftsRealmAsync() =>
+		await (await GetPersonVisitDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<PersonVisitDrafts>>());
 }
