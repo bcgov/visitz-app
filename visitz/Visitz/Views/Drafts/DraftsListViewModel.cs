@@ -55,8 +55,10 @@ internal partial class DraftsListViewModel : VisitzViewModel
 		base.Dispose(disposing);
 	}
 
-	private async void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
-	{
+#pragma warning disable SS001 // Async methods should return a Task to make them awaitable
+    // Ignoring SS001 because this function is used like an EventHandler
+    private async void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
+    {
         await InitTask;
 
         queryMap.UnsubscribeAll();
@@ -81,6 +83,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
 		else
 			throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
 	}
+#pragma warning restore SS001 // Async methods should return a Task to make them awaitable
 
 	private void SortAndSubscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
 	{
