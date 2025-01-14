@@ -16,7 +16,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     private static readonly int DangerDayRange = 5;
     private static readonly int CriticalDayRange = 0;
     private bool _disposed;
-    ObservableRealmQueryMap realmQuery = new();
+    readonly ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
     ObservableCollection<PersonVisit> personVisits = [];
@@ -68,7 +68,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
             {
                 realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
                 realmQuery.Dispose();
-                realmQuery = null;
             }
             _disposed = true;
         }
