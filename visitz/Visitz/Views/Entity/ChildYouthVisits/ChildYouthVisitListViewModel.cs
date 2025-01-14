@@ -64,11 +64,8 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     {
         if (!_disposed && disposing)
         {
-            if (realmQuery != null)
-            {
-                realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
-                realmQuery.Dispose();
-            }
+            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+            realmQuery.Dispose();
             _disposed = true;
         }
 
