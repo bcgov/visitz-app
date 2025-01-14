@@ -16,9 +16,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     private static readonly int DangerDayRange = 5;
     private static readonly int CriticalDayRange = 0;
     private bool _disposed;
-
-    Realm icmDataRealm;
-
     ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
@@ -54,7 +51,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-        icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
         realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
