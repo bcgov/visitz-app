@@ -16,118 +16,131 @@ namespace Visitz.Views.Drafts;
 
 internal partial class DraftsListViewModel : VisitzViewModel
 {
-	[ObservableProperty]
-	public ObservableCollection<object> draftItems = [];
+    bool _disposed;
 
-	readonly ObservableRealmQueryMap queryMap = new();
+    [ObservableProperty]
+    public ObservableCollection<object> draftItems = [];
 
-	Realm DataRealm { get; set; }
+    readonly ObservableRealmQueryMap queryMap = new();
 
-	EntitySection SectionToOpen { get; set; }
+    Realm DataRealm { get; set; }
 
-	public event EventHandler<IDraftItem> SelectedItemRelatedMissing;
+    EntitySection SectionToOpen { get; set; }
 
-	public override async void Create()
-	{
-		base.Create();
+    public event EventHandler<IDraftItem> SelectedItemRelatedMissing;
 
-		DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
 
-		queryMap.ItemsChanged += QueryMap_ItemsChanged;
+        StrongReferenceMessenger.Default.Register<DraftMasterSelectedMessage>(this, DraftMasterSelected);
 
-		StrongReferenceMessenger.Default.Register<DraftMasterSelectedMessage>(this, DraftMasterSelected);
-	}
+        DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
-	public override void Destroy()
-	{
-		base.Destroy();
+        queryMap.ItemsChanged += QueryMap_ItemsChanged;
+    }
 
-		StrongReferenceMessenger.Default.UnregisterAll(this);
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            StrongReferenceMessenger.Default.UnregisterAll(this);
 
-		queryMap.ItemsChanged -= QueryMap_ItemsChanged;
-	}
+            queryMap.ItemsChanged -= QueryMap_ItemsChanged;
+            queryMap.Dispose();
 
-	private void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
-	{
-		queryMap.UnsubscribeAll();
+            _disposed = true;
+        }
 
-		var (type, realm) = message.Value;
+        base.Dispose(disposing);
+    }
 
-		if (type == typeof(NoteDraft))
-		{
-			SortAndSubscribe(realm, realm.All<NoteDraft>());
-			SectionToOpen = EntitySection.NoteEntry;
-		}
-		else if (type == typeof(AssessmentDraft))
-		{
-			SortAndSubscribe(realm, realm.All<AssessmentDraft>());
-			SectionToOpen = EntitySection.SafetyAssessment;
-		}
-		else if (type == typeof(AttachmentDraft))
-		{
-			SortAndSubscribe(realm, realm.All<AttachmentDraft>());
-			SectionToOpen = EntitySection.Attachments;
-		}
-		else
-			throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
-	}
+#pragma warning disable SS001 // Async methods should return a Task to make them awaitable
+    // Ignoring SS001 because this function is used like an EventHandler
+    private async void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
+    {
+        await InitTask;
 
-	private void SortAndSubscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
-	{
-		var sortedQuery = query.Filter($"TRUEPREDICATE SORT({nameof(IDraftItem.LastUpdated)} DESC)");
-		queryMap.Subscribe(realm, sortedQuery);
-	}
+        queryMap.UnsubscribeAll();
 
-	private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
-	{
-		DraftItems.Clear();
+        var (type, realm) = message.Value;
 
-		foreach (var item in e.Items)
-			DraftItems.Add(item);
-	}
+        if (type == typeof(NoteDraft))
+        {
+            SortAndSubscribe(realm, realm.All<NoteDraft>());
+            SectionToOpen = EntitySection.NoteEntry;
+        }
+        else if (type == typeof(AssessmentDraft))
+        {
+            SortAndSubscribe(realm, realm.All<AssessmentDraft>());
+            SectionToOpen = EntitySection.SafetyAssessment;
+        }
+        else if (type == typeof(AttachmentDraft))
+        {
+            SortAndSubscribe(realm, realm.All<AttachmentDraft>());
+            SectionToOpen = EntitySection.Attachments;
+        }
+        else
+            throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
+    }
+#pragma warning restore SS001 // Async methods should return a Task to make them awaitable
 
-	[RelayCommand]
-	private void DraftItemSelected(IDraftItem draftItem)
-	{
-		var caseloadItem = DataRealm
-			.All<CaseloadItem>()
-			.Where(item => item.CaseIncidentNumber == draftItem.RelatedEntityId)
-			.FirstOrDefault();
+    private void SortAndSubscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
+    {
+        var sortedQuery = query.Filter($"TRUEPREDICATE SORT({nameof(IDraftItem.LastUpdated)} DESC)");
+        queryMap.Subscribe(realm, sortedQuery);
+    }
 
-		if (caseloadItem != null)
-			NavigateTo(caseloadItem, SectionToOpen, draftItem);
-		else
-			SelectedItemRelatedMissing?.Invoke(this, draftItem);
-	}
+    private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    {
+        DraftItems.Clear();
 
-	static void NavigateTo(CaseloadItem caseloadItem, EntitySection section, IDraftItem draftItem)
-	{
-		var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section, draftItem);
-		StrongReferenceMessenger.Default.Send(caseloadNav);
+        foreach (var item in e.Items)
+            DraftItems.Add(item);
+    }
 
-		var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
-		StrongReferenceMessenger.Default.Send(appNav);
-	}
+    [RelayCommand]
+    private void DraftItemSelected(IDraftItem draftItem)
+    {
+        var caseloadItem = DataRealm
+            .All<CaseloadItem>()
+            .Where(item => item.CaseIncidentNumber == draftItem.RelatedEntityId)
+            .FirstOrDefault();
 
-	public static async Task DeleteDraft(IDraftItem draft)
-	{
-		var realm = draft.Realm;
+        if (caseloadItem != null)
+            NavigateTo(caseloadItem, SectionToOpen, draftItem);
+        else
+            SelectedItemRelatedMissing?.Invoke(this, draftItem);
+    }
 
-		await realm.WriteAsync(async () =>
-		{
-			if (draft is AssessmentDraft)
-			{
-				var assessment = SafetyAssessment.FindByIncidentNumber(realm, draft.RelatedEntityId);
+    static void NavigateTo(CaseloadItem caseloadItem, EntitySection section, IDraftItem draftItem)
+    {
+        var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section, draftItem);
+        StrongReferenceMessenger.Default.Send(caseloadNav);
 
-				if (assessment != null)
-					realm.Remove(assessment);
+        var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
+        StrongReferenceMessenger.Default.Send(appNav);
+    }
 
-				realm.Remove(draft);
-			}
-			else if (draft is AttachmentDraft attachmentDraft)
-				await attachmentDraft.Attachment.DeleteAsync();
-			else
-				realm.Remove(draft);
-		});
-	}
+    public static async Task DeleteDraft(IDraftItem draft)
+    {
+        var realm = draft.Realm;
+
+        await realm.WriteAsync(async () =>
+        {
+            if (draft is AssessmentDraft)
+            {
+                var assessment = SafetyAssessment.FindByIncidentNumber(realm, draft.RelatedEntityId);
+
+                if (assessment != null)
+                    realm.Remove(assessment);
+
+                realm.Remove(draft);
+            }
+            else if (draft is AttachmentDraft attachmentDraft)
+                await attachmentDraft.Attachment.DeleteAsync();
+            else
+                realm.Remove(draft);
+        });
+    }
 }
