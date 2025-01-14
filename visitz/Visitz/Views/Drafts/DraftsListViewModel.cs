@@ -55,9 +55,11 @@ internal partial class DraftsListViewModel : VisitzViewModel
 		base.Dispose(disposing);
 	}
 
-	private void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
+	private async void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
 	{
-		queryMap.UnsubscribeAll();
+        await InitTask;
+
+        queryMap.UnsubscribeAll();
 
 		var (type, realm) = message.Value;
 
