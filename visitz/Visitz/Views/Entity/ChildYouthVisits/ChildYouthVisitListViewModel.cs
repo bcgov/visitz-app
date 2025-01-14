@@ -19,7 +19,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 
     Realm icmDataRealm;
 
-    readonly ObservableRealmQueryMap realmQuery = new();
+    ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
     ObservableCollection<PersonVisit> personVisits = [];
@@ -67,9 +67,12 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     {
         if (!_disposed && disposing)
         {
-            // TODO
-            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
-            realmQuery.Dispose();
+            if (realmQuery != null)
+            {
+                realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+                realmQuery.Dispose();
+                realmQuery = null;
+            }
             _disposed = true;
         }
 
