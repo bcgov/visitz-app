@@ -35,29 +35,33 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Text="{local:Localize Date}"
-                   HorizontalTextAlignment="Start"
-                   VerticalTextAlignment="Center"
-                   TextColor="{StaticResource BC_TextColor_Lighter}"
-                   FontFamily="BCSansBold"/>
-            <Label Text="{local:Localize Details}"
-                   HorizontalTextAlignment="Start"
-                   VerticalTextAlignment="Center"
-                   Grid.Column="1"
-                   TextColor="{StaticResource BC_TextColor_Lighter}"
-                   FontFamily="BCSansBold"/>
-            <Label Text="{local:Localize Description}"
-                   HorizontalTextAlignment="Start"
-                   VerticalTextAlignment="Center"
-                   Grid.Column="2"
-                   TextColor="{StaticResource BC_TextColor_Lighter}"
-                   FontFamily="BCSansBold"/>
-            <Label Text="{local:Localize CreatedBy}"
-                   HorizontalTextAlignment="Start"
-                   VerticalTextAlignment="Center"
-                   Grid.Column="3"
-                   TextColor="{StaticResource BC_TextColor_Lighter}"
-                   FontFamily="BCSansBold"/>
+            <Label
+                Text="{local:Localize Date}"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Center"
+                TextColor="{StaticResource BC_TextColor_Lighter}"
+                FontFamily="BCSansBold"/>
+            <Label
+                Text="{local:Localize Details}"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Center"
+                Grid.Column="1"
+                TextColor="{StaticResource BC_TextColor_Lighter}"
+                FontFamily="BCSansBold"/>
+            <Label
+                Text="{local:Localize Description}"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Center"
+                Grid.Column="2"
+                TextColor="{StaticResource BC_TextColor_Lighter}"
+                FontFamily="BCSansBold"/>
+            <Label
+                Text="{local:Localize CreatedBy}"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Center"
+                Grid.Column="3"
+                TextColor="{StaticResource BC_TextColor_Lighter}"
+                FontFamily="BCSansBold"/>
         </Grid>
         <BoxView
             Grid.Row="2"
