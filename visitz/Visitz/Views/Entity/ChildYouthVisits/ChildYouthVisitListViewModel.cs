@@ -83,17 +83,13 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     {
         HasVisitData = personVisits.Count > 0;
         ShowEmptyIcon = !HasVisitData;
-        if (HasVisitData)
+        if (personVisits.FirstOrDefault() is PersonVisit lastVisit)
         {
-            var lastVisit = personVisits.FirstOrDefault();
-            if (lastVisit != null)
-            {
-                DateTimeOffset currentDate = DateTimeOffset.UtcNow;
-                DateTimeOffset nextVisitDate = lastVisit.DateOfVisit.AddDays(InfoDayRange);
-                string dueDate = nextVisitDate.ToString("MMMM d, yyyy");
-                var dateDifference = nextVisitDate - currentDate;
-                SetBannerInfo(dateDifference.Days, dueDate);
-            }
+            DateTimeOffset currentDate = DateTimeOffset.UtcNow;
+            DateTimeOffset nextVisitDate = lastVisit.DateOfVisit.AddDays(InfoDayRange);
+            string dueDate = nextVisitDate.ToString("MMMM d, yyyy");
+            var dateDifference = nextVisitDate - currentDate;
+            SetBannerInfo(dateDifference.Days, dueDate);
         }
     }
 
@@ -131,7 +127,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         {
             foreach (var item in e.Items)
                 PersonVisits.Add(item as PersonVisit);
-
         }
         else
         {
