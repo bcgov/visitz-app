@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+	xmlns:banners="clr-namespace:Visitz.Views.Banners"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
@@ -68,8 +69,9 @@
             <VerticalStackLayout Style="{StaticResource FormVsl}"
                 MaximumWidthRequest="800">
 
-                <views:InfoBanner 
+                <banners:InfoBanner 
                     Margin="0,0,0,16"
+                    Level="Info"
                     Text="{local:Localize SafetyAssessmentValidationRulesInfo}" />
 
                 <VerticalStackLayout Style="{StaticResource FormVsl}">

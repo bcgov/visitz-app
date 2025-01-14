@@ -71,7 +71,7 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 	{
 		base.Destroying();
 
-		AttachmentsList.Destroy();
+		AttachmentsList.Dispose();
 	}
 
 	private async Task OpenTakePhotoView()
