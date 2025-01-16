@@ -40,7 +40,10 @@ public abstract partial class PublishViewModel : VisitzViewModel
     public string refreshingStatus;
 
     [ObservableProperty]
-    public bool showRetrySection;
+    public bool showRetryButton;
+
+    [ObservableProperty]
+    public bool showDismissButton;
 
     [ObservableProperty]
     public bool showPublishSuccessIcon;
@@ -72,7 +75,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
         switch (state)
         {
             case State.Cancelled:
-                SetFlags(showRetrySection: true);
+                SetFlags(showRetryButton: true, showDismissButton: true);
                 break;
             case State.Waiting:
                 SetFlags();
@@ -84,7 +87,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 SetFlags(showPublishSuccessIcon: true);
                 break;
             case State.PublishError:
-                SetFlags(showPublishErrorIcon: true, showRetrySection: true);
+                SetFlags(showPublishErrorIcon: true, showRetryButton: true, showDismissButton: true);
                 break;
             case State.Refreshing:
                 SetFlags(
@@ -103,7 +106,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
                     showPublishSuccessIcon: ShowPublishSuccessIcon,
                     showPublishErrorIcon: ShowPublishErrorIcon,
                     showRefreshErrorIcon: true,
-                    showRetrySection: true,
+                    showRetryButton: true,
                     allowRetry: false);
                 break;
             case State.Completed:
@@ -111,7 +114,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
                     showPublishSuccessIcon: ShowPublishSuccessIcon,
                     showPublishErrorIcon: ShowPublishErrorIcon,
                     showRefreshSuccessIcon: ShowRefreshSuccessIcon,
-                    showRefreshErrorIcon: ShowRefreshErrorIcon);
+                    showRefreshErrorIcon: ShowRefreshErrorIcon,
+                    showDismissButton: true);
                 break;
             case State.Unknown:
                 ConsoleTrace.TraceMethod(this, $"Reached {nameof(State.Unknown)} enum");
@@ -124,7 +128,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
     private void SetFlags(
         bool showPublishingIndicator = false,
         bool showRefreshingIndicator = false,
-        bool showRetrySection = false,
+        bool showRetryButton = false,
+        bool showDismissButton = false,
         bool showPublishSuccessIcon = false,
         bool showPublishErrorIcon = false,
         bool showRefreshSuccessIcon = false,
@@ -135,7 +140,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
         ShowRefreshingIndicator = showRefreshingIndicator;
         ShowPublishSuccessIcon = showPublishSuccessIcon;
         ShowPublishErrorIcon = showPublishErrorIcon;
-        ShowRetrySection = showRetrySection;
+        ShowRetryButton = showRetryButton;
+        ShowDismissButton = showDismissButton;
         ShowRefreshSuccessIcon = showRefreshSuccessIcon;
         ShowRefreshErrorIcon = showRefreshErrorIcon;
         AllowRetry = allowRetry;

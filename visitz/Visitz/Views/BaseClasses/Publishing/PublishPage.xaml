@@ -203,7 +203,7 @@
             HorizontalOptions="End"
             Style="{StaticResource SecondaryButtonDark}"
             Clicked="DismissButton_Clicked"
-            IsVisible="{Binding ShowRetrySection}" />
+            IsVisible="{Binding ShowDismissButton}" />
 
         <Button 
             Grid.Row="3"
@@ -213,7 +213,7 @@
             Style="{StaticResource PrimaryButtonDark}"
             Command="{Binding PublishCommand}" 
             IsEnabled="{Binding AllowRetry}"
-            IsVisible="{Binding ShowRetrySection}" />
+            IsVisible="{Binding ShowRetryButton}" />
 
         <ProgressBar
             x:Name="DismissProgressBar"
