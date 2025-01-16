@@ -8,11 +8,11 @@ public partial class PublishPage : VisitzPage
 {
     public new PublishViewModel ViewModel => base.ViewModel as PublishViewModel;
 
-	public PublishPage(PublishViewModel publishViewModel) : base(publishViewModel)
-	{
-		InitializeComponent();
-		BindingContext = ViewModel;
-	}
+    public PublishPage(PublishViewModel publishViewModel) : base(publishViewModel)
+    {
+        InitializeComponent();
+        BindingContext = ViewModel;
+    }
 
     protected override void OnCreated()
     {
@@ -51,23 +51,23 @@ public partial class PublishPage : VisitzPage
 
     private async void PublishPage_OnCompleted(object sender, EventArgs e)
     {
-		await Task.WhenAll(AnimateCountdown(), Task.Delay(PublishViewModel.DismissDuration));
+        await Task.WhenAll(AnimateCountdown(), Task.Delay(PublishViewModel.DismissDuration));
 
-		await TryPopAsync();
+        await TryPopAsync();
 
-		await FeedbackSurveyPage.TryOpen();
-	}
+        await FeedbackSurveyPage.TryOpen();
+    }
 
-	async Task AnimateCountdown()
-	{
-		DismissProgressBar.IsVisible = true;
+    async Task AnimateCountdown()
+    {
+        DismissProgressBar.IsVisible = true;
 
-		DismissProgressBar.Progress = 1.0d;
+        DismissProgressBar.Progress = 1.0d;
 
-		await DismissProgressBar.ProgressTo(0.0d, (uint)PublishViewModel.DismissDuration, Easing.Linear);
+        await DismissProgressBar.ProgressTo(0.0d, (uint)PublishViewModel.DismissDuration, Easing.Linear);
 
-		DismissProgressBar.IsVisible = false;
-	}
+        DismissProgressBar.IsVisible = false;
+    }
 
     protected override bool OnBackButtonPressed()
     {
@@ -87,18 +87,18 @@ public partial class PublishPage : VisitzPage
             await this.DisplayErrorAlert(ViewModel.RefreshErrorDetail);
     }
 
-	async Task TryPopAsync()
-	{
-		var nav = Navigator.Navigation;
+    async Task TryPopAsync()
+    {
+        var nav = Navigator.Navigation;
 
-		if (nav.NavigationStack.Contains(this))
-			await nav.PopAsync();
-		else if (nav.ModalStack.Contains(this))
-			await nav.PopModalAsync();
-	}
+        if (nav.NavigationStack.Contains(this))
+            await nav.PopAsync();
+        else if (nav.ModalStack.Contains(this))
+            await nav.PopModalAsync();
+    }
 
-	private async void DismissButton_Clicked(object sender, EventArgs e)
-	{
-		await TryPopAsync();
+    private async void DismissButton_Clicked(object sender, EventArgs e)
+    {
+        await TryPopAsync();
     }
 }

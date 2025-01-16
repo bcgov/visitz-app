@@ -5,7 +5,7 @@
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
-	xmlns:publishing="clr-namespace:Visitz.Views.BaseClasses.Publishing"
+    xmlns:publishing="clr-namespace:Visitz.Views.BaseClasses.Publishing"
     x:Class="Visitz.Views.BaseClasses.Publishing.PublishPage"
     x:DataType="publishing:PublishViewModel"
     Title="{Binding Title}"
@@ -44,10 +44,10 @@
     </baseClasses:VisitzPage.Resources>
 
     <Grid
-		x:Name="MainGrid"
+        x:Name="MainGrid"
         Padding="32"
         RowDefinitions="*,*,50,Auto"
-		RowSpacing="10"
+        RowSpacing="10"
         ColumnDefinitions="*,*"
         ColumnSpacing="10"
         MaximumWidthRequest="800">
@@ -199,7 +199,7 @@
         </VerticalStackLayout>
 
         <Button
-			x:Name="DismissButton"
+            x:Name="DismissButton"
             Grid.Row="2"
             Grid.Column="0"
             Text="{local:Localize Dismiss}"
