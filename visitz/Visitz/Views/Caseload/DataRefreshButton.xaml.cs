@@ -6,39 +6,39 @@ namespace Visitz.Views.Caseload;
 
 public partial class DataRefreshButton : ViewModelContentView
 {
-	new DataRefreshViewModel ViewModel => base.ViewModel as DataRefreshViewModel;
+    new DataRefreshViewModel ViewModel => base.ViewModel as DataRefreshViewModel;
 
-	public StackOrientation Orientation
-	{
-		get => ViewModel.Orientation;
-		set => ViewModel.Orientation = value;
-	}
+    public StackOrientation Orientation
+    {
+        get => ViewModel.Orientation;
+        set => ViewModel.Orientation = value;
+    }
 
-	public DataRefreshButton() : base(ServiceProvider.GetService<DataRefreshViewModel>())
-	{
-		InitializeComponent();
-		BindingContext = ViewModel;
+    public DataRefreshButton() : base(ServiceProvider.GetService<DataRefreshViewModel>())
+    {
+        InitializeComponent();
+        BindingContext = ViewModel;
 
-		SetIconByNetworkAccess();
-		Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
-	}
+        SetIconByNetworkAccess();
+        Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+    }
 
-	protected override void Destroying()
-	{
-		Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+    protected override void Destroying()
+    {
+        Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
 
-		base.Destroying();
-	}
+        base.Destroying();
+    }
 
-	private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
-	{
-		SetIconByNetworkAccess();
-	}
+    private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+    {
+        SetIconByNetworkAccess();
+    }
 
-	private void SetIconByNetworkAccess()
-	{
-		RefreshButton.Text = NetworkHelper.InternetAvailable
-			? MaterialIcons.Download_for_offline
-			: MaterialIcons.File_download_off;
-	}
+    private void SetIconByNetworkAccess()
+    {
+        RefreshButton.Text = NetworkHelper.InternetAvailable
+            ? MaterialIcons.Download_for_offline
+            : MaterialIcons.File_download_off;
+    }
 }

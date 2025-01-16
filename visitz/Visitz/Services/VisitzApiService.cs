@@ -14,26 +14,26 @@ namespace Visitz.Services
 
         protected override sealed async Task RunServiceAsync()
         {
-			if (!NetworkHelper.InternetAvailable)
-			{
-				SnackbarHandler.ShowTextWithDetails(
-					LocalizedStrings.UnableToReachIcmDeviceOffline,
-					LocalizedStrings.DeviceOffline,
-					LocalizedStrings.DeviceOfflineDesc);
+            if (!NetworkHelper.InternetAvailable)
+            {
+                SnackbarHandler.ShowTextWithDetails(
+                    LocalizedStrings.UnableToReachIcmDeviceOffline,
+                    LocalizedStrings.DeviceOffline,
+                    LocalizedStrings.DeviceOfflineDesc);
 
-				ResultCode = Result.Cancelled;
-				return;
-			}
+                ResultCode = Result.Cancelled;
+                return;
+            }
 
             try
             {
-				var cancelTokenSource = new CancellationTokenSource();
+                var cancelTokenSource = new CancellationTokenSource();
 #if WINDOWS
-				(Application.Current as VisitzApp).AuthCancelTokenSource = cancelTokenSource;
+                (Application.Current as VisitzApp).AuthCancelTokenSource = cancelTokenSource;
 #endif
-				await OidcSession.AssertValidSessionAsync(
-					messageIfUnavailable: LocalizedStrings.NoInternet,
-					cancelTokenSource.Token);
+                await OidcSession.AssertValidSessionAsync(
+                    messageIfUnavailable: LocalizedStrings.NoInternet,
+                    cancelTokenSource.Token);
 
                 await RunApiServiceAsync();
             }

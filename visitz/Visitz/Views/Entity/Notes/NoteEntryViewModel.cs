@@ -17,10 +17,10 @@ using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity.Notes
 {
-	public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
+    public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
     {
         private static readonly int CharacterLimit = 16000;
-		public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
+        public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
 
         public CaseloadItem CaseloadItem { get; set; }
 
@@ -32,11 +32,11 @@ namespace Visitz.Views.Entity.Notes
         [ObservableProperty]
         public bool allowPublish;
 
-		[ObservableProperty]
-		public bool allowDiscard;
+        [ObservableProperty]
+        public bool allowDiscard;
 
-		[ObservableProperty]
-		public int remainingCharacters = CharacterLimit;
+        [ObservableProperty]
+        public int remainingCharacters = CharacterLimit;
 
         [ObservableProperty]
         private bool internetAvailable = NetworkHelper.InternetAvailable;
@@ -45,9 +45,9 @@ namespace Visitz.Views.Entity.Notes
 
         public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
 
-		private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
+        private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
 
-		Realm Realm { get; set; }
+        Realm Realm { get; set; }
 
         public override async void Create()
         {
@@ -62,29 +62,29 @@ namespace Visitz.Views.Entity.Notes
         private async Task InitNoteDraft()
         {
             Realm = await VisitzRealms.GetNoteDraftsRealmAsync();
-			NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? CreateNoteDraft();
+            NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? CreateNoteDraft();
         }
 
-		private NoteDraft CreateNoteDraft()
-		{
-			return new NoteDraft()
-			{
-				ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
-			};
-		}
+        private NoteDraft CreateNoteDraft()
+        {
+            return new NoteDraft()
+            {
+                ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
+            };
+        }
 
         public override void Destroy()
         {
             Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
 
-			Realm.Dispose();
+            Realm.Dispose();
 
             base.Destroy();
         }
 
         [RelayCommand]
-		public async Task PublishNotes()
-		{
+        public async Task PublishNotes()
+        {
             if (UpdateAllowPublish())
             {
                 await Navigator.Navigation.PopModalAsync();
@@ -92,18 +92,18 @@ namespace Visitz.Views.Entity.Notes
                 var notePublishVm = ServiceProvider.GetService<NotePublishViewModel>();
 
 #pragma warning disable SS002 // DateTime.Now was referenced
-				var now = DateTime.Now; // API system does not use UTC times
+                var now = DateTime.Now; // API system does not use UTC times
 #pragma warning restore SS002 // DateTime.Now was referenced
 
-				var info = await OidcSessionInfo.GetAsync();
-				var submitNoteEntity = new SubmitNoteEntity
-				{
-					EntityNumber = CaseloadItem.CaseIncidentNumber,
-					EntityType = CaseloadItem.EntityType,
-					NotePeriod = NoteItem.NotePeriodFrom(now),
-					Content = NoteItem.WrapContent(info.Idir, now, DraftOutput),
-					CreatedBy = info.Idir,
-				};
+                var info = await OidcSessionInfo.GetAsync();
+                var submitNoteEntity = new SubmitNoteEntity
+                {
+                    EntityNumber = CaseloadItem.CaseIncidentNumber,
+                    EntityType = CaseloadItem.EntityType,
+                    NotePeriod = NoteItem.NotePeriodFrom(now),
+                    Content = NoteItem.WrapContent(info.Idir, now, DraftOutput),
+                    CreatedBy = info.Idir,
+                };
 
                 notePublishVm.Init(CaseloadItem, submitNoteEntity);
                 await Navigator.Navigation.PushAsync(new PublishPage(notePublishVm));
@@ -113,18 +113,18 @@ namespace Visitz.Views.Entity.Notes
         public async Task EditorTextChanged(TextChangedEventArgs e)
         {
             if (string.Equals(e.OldTextValue, e.NewTextValue))
-				// Early return required to prevent infinite loops due to "cancelling" events
-				// by reassigning its previous value
-				return;
+                // Early return required to prevent infinite loops due to "cancelling" events
+                // by reassigning its previous value
+                return;
 
-			SetDraftInfo();
+            SetDraftInfo();
 
-			int length = e.NewTextValue?.Length ?? 0;
+            int length = e.NewTextValue?.Length ?? 0;
 
-			if (length > 0 && !NoteDraft.IsManaged)
-				Realm.Write(() => Realm.Add(NoteDraft));
+            if (length > 0 && !NoteDraft.IsManaged)
+                Realm.Write(() => Realm.Add(NoteDraft));
 
-			if (ContainEmojis(e))
+            if (ContainEmojis(e))
             {
                 CancelTextChangedEvent(e);
                 DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.InvalidEntry));
@@ -137,20 +137,20 @@ namespace Visitz.Views.Entity.Notes
                 return;
             }
 
-			RemainingCharacters = CharacterLimit - length;
-			AllowDiscard = NoteDraft.IsManaged;
+            RemainingCharacters = CharacterLimit - length;
+            AllowDiscard = NoteDraft.IsManaged;
             UpdateAllowPublish(e.NewTextValue);
 
-			if (NoteDraft.IsManaged)
-			{
-				ShowSavingDraftMessage();
-				await debouncer.Debounce(ShowDraftSavedMessage);
-			}
-			else
-			{
-				debouncer.Cancel();
-				ClearDraftMessages();
-			}
+            if (NoteDraft.IsManaged)
+            {
+                ShowSavingDraftMessage();
+                await debouncer.Debounce(ShowDraftSavedMessage);
+            }
+            else
+            {
+                debouncer.Cancel();
+                ClearDraftMessages();
+            }
         }
 
         private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
@@ -163,17 +163,17 @@ namespace Visitz.Views.Entity.Notes
             return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
         }
 
-		private void SetDraftInfo()
-		{
-			if (string.IsNullOrWhiteSpace(NoteDraft.DraftLocationBinding))
-				NoteDraft.DraftLocationBinding = CaseloadItem.DisplayName;
+        private void SetDraftInfo()
+        {
+            if (string.IsNullOrWhiteSpace(NoteDraft.DraftLocationBinding))
+                NoteDraft.DraftLocationBinding = CaseloadItem.DisplayName;
 
-			if (NoteDraft.RelatedEntityTypeBinding == EntityType.Unknown)
-				NoteDraft.RelatedEntityTypeBinding = CaseloadItem.EntityType.ParseEntityType();
+            if (NoteDraft.RelatedEntityTypeBinding == EntityType.Unknown)
+                NoteDraft.RelatedEntityTypeBinding = CaseloadItem.EntityType.ParseEntityType();
 
-			if (NoteDraft.RelatedEntitySubtypeBinding == EntitySubtype.Unknown)
-				NoteDraft.RelatedEntitySubtypeBinding = CaseloadItem.CaseIncidentType.ParseEntitySubtype();
-		}
+            if (NoteDraft.RelatedEntitySubtypeBinding == EntitySubtype.Unknown)
+                NoteDraft.RelatedEntitySubtypeBinding = CaseloadItem.CaseIncidentType.ParseEntitySubtype();
+        }
 
         private void CancelTextChangedEvent(TextChangedEventArgs e)
         {
@@ -217,13 +217,13 @@ namespace Visitz.Views.Entity.Notes
             InternetAvailable = NetworkHelper.InternetAvailable;
         }
 
-		public async Task ResetDraftAsync()
-		{
-			if (!NoteDraft.IsManaged)
-				return;
+        public async Task ResetDraftAsync()
+        {
+            if (!NoteDraft.IsManaged)
+                return;
 
-			await Realm.WriteAsync(() => Realm.Remove(NoteDraft));
-			NoteDraft = CreateNoteDraft();
-		}
-	}
+            await Realm.WriteAsync(() => Realm.Remove(NoteDraft));
+            NoteDraft = CreateNoteDraft();
+        }
+    }
 }

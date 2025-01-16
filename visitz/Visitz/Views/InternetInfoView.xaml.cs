@@ -45,10 +45,10 @@ public partial class InternetInfoView : ContentView
     }
 
     public InternetInfoView()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         BindingContext = this;
-	}
+    }
 
     protected override void OnBindingContextChanged()
     {
