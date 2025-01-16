@@ -1,4 +1,5 @@
 using Oidc;
+using Oidc.Network;
 using System.Net;
 using Visitz.Resources.Localization;
 using Visitz.Views.Snackbar;
@@ -13,7 +14,7 @@ namespace Visitz.Services
 
         protected override sealed async Task RunServiceAsync()
         {
-			if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+			if (!NetworkHelper.InternetAvailable)
 			{
 				SnackbarHandler.ShowTextWithDetails(
 					LocalizedStrings.UnableToReachIcmDeviceOffline,

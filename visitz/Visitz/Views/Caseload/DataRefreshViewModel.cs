@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Oidc.Network;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Views.BaseClasses;
@@ -22,7 +23,7 @@ internal partial class DataRefreshViewModel : VisitzViewModel
 	{
 		base.Create();
 
-		SetConnectivityMessage(Connectivity.Current.NetworkAccess);
+		SetConnectivityMessage();
 		Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 	}
 
@@ -35,12 +36,12 @@ internal partial class DataRefreshViewModel : VisitzViewModel
 
 	private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
 	{
-		SetConnectivityMessage(e.NetworkAccess);
+		SetConnectivityMessage();
 	}
 
-	private void SetConnectivityMessage(NetworkAccess access)
+	private void SetConnectivityMessage()
 	{
-		SuperMessage = access == NetworkAccess.Internet ? "" : LocalizedStrings.Offline;
+		SuperMessage = NetworkHelper.InternetAvailable ? "" : LocalizedStrings.Offline;
 	}
 
 	[RelayCommand]

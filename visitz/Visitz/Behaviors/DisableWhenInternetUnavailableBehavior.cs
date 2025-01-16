@@ -1,3 +1,5 @@
+using Oidc.Network;
+
 namespace Visitz.Behaviors;
 
 public partial class DisableWhenInternetUnavailableBehavior : Behavior<View>
@@ -23,16 +25,16 @@ public partial class DisableWhenInternetUnavailableBehavior : Behavior<View>
 
     private void Bindable_BindingContextChanged(object sender, EventArgs e)
     {
-        ApplyNetworkStyles(Connectivity.Current.NetworkAccess);
+        ApplyNetworkStyles();
     }
 
     private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
     {
-        ApplyNetworkStyles(e.NetworkAccess);
+        ApplyNetworkStyles();
     }
 
-    private void ApplyNetworkStyles(NetworkAccess networkAccess)
+    private void ApplyNetworkStyles()
     {
-        View.IsEnabled = networkAccess == NetworkAccess.Internet;
+        View.IsEnabled = NetworkHelper.InternetAvailable;
     }
 }

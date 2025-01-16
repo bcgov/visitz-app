@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
+using Oidc.Network;
 using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -38,7 +39,7 @@ namespace Visitz.Views.Entity.Notes
 		public int remainingCharacters = CharacterLimit;
 
         [ObservableProperty]
-        private NetworkAccess networkAccess = Connectivity.Current.NetworkAccess;
+        private bool internetAvailable = NetworkHelper.InternetAvailable;
 
         public event EventHandler<DraftErrorEventArgs> DraftError;
 
@@ -199,7 +200,7 @@ namespace Visitz.Views.Entity.Notes
             DraftSaveStateChanged?.Invoke(this, new DraftSaveStatusEventArgs(draftSaved, savingDraft));
         }
 
-        partial void OnNetworkAccessChanged(NetworkAccess value)
+        partial void OnInternetAvailableChanged(bool value)
         {
             UpdateAllowPublish();
         }
@@ -207,13 +208,13 @@ namespace Visitz.Views.Entity.Notes
         private bool UpdateAllowPublish(string draftText = null)
         {
             draftText ??= DraftOutput;
-            AllowPublish = NetworkAccess == NetworkAccess.Internet && draftText?.Length > 0;
+            AllowPublish = InternetAvailable && draftText?.Length > 0;
             return AllowPublish;
         }
 
         private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
-            NetworkAccess = e.NetworkAccess;
+            InternetAvailable = NetworkHelper.InternetAvailable;
         }
 
 		public async Task ResetDraftAsync()

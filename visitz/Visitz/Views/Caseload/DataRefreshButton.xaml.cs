@@ -1,3 +1,4 @@
+using Oidc.Network;
 using Visitz.FontIcons;
 using Visitz.Views.BaseClasses;
 
@@ -18,7 +19,7 @@ public partial class DataRefreshButton : ViewModelContentView
 		InitializeComponent();
 		BindingContext = ViewModel;
 
-		SetIconByNetworkAccess(Connectivity.Current.NetworkAccess);
+		SetIconByNetworkAccess();
 		Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 	}
 
@@ -31,12 +32,12 @@ public partial class DataRefreshButton : ViewModelContentView
 
 	private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
 	{
-		SetIconByNetworkAccess(e.NetworkAccess);
+		SetIconByNetworkAccess();
 	}
 
-	private void SetIconByNetworkAccess(NetworkAccess networkAccess)
+	private void SetIconByNetworkAccess()
 	{
-		RefreshButton.Text = networkAccess == NetworkAccess.Internet
+		RefreshButton.Text = NetworkHelper.InternetAvailable
 			? MaterialIcons.Download_for_offline
 			: MaterialIcons.File_download_off;
 	}
