@@ -1,6 +1,6 @@
-﻿namespace Visitz.Behaviors;
+namespace Visitz.Behaviors;
 
-public class DisableWhenInternetUnavailableBehavior : Behavior<View>
+public partial class DisableWhenInternetUnavailableBehavior : Behavior<View>
 {
     private View View { get; set; }
 
