@@ -11,7 +11,7 @@ public static class NetworkHelper
         // WORKAROUND https://github.com/dotnet/maui/issues/22228#issuecomment-2118235512
         // NetworkAccess reported incorrectly on Windows on VPN
         NetworkInformation.GetInternetConnectionProfile().GetNetworkConnectivityLevel()
-        == NetworkConnectivityLevel.InternetAccess;
+            == NetworkConnectivityLevel.InternetAccess;
 #else
         Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
 #endif
