@@ -15,7 +15,7 @@
     <Grid
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand"
-        RowDefinitions="Auto, Auto, 0.5, *">
+        RowDefinitions="Auto, Auto, 0.5, *, 0.5, Auto">
 
         <banners:InfoBanner
             Grid.Row="0"
@@ -67,6 +67,7 @@
         <BoxView
             Grid.Row="2"
             HeightRequest="0.5"
+            IsVisible="{Binding HasVisitData}"
             Color="{StaticResource SeparatorColor}"/>
 
         <CollectionView
@@ -92,6 +93,7 @@
 
                                 <Label
                                     Text="{Binding DateOfVisit, StringFormat='{0:MMMM dd, yyyy}'}"
+                                    FontFamily="BCSansBold"
                                     Grid.Column="0"/>
                                 <Label
                                     Text="{Binding Type}"
@@ -121,6 +123,40 @@
             Text="{Static icons:MaterialIcons.Note_stack}"
             FontFamily="MaterialIconsRoundedUnfilled"
             IsVisible="{Binding ShowEmptyIcon}"/>
+        <BoxView
+            Grid.Row="4"
+            HeightRequest="0.5"
+            IsVisible="{Binding HasVisitData}"
+            Color="{StaticResource SeparatorColor}"/>
+
+        <Grid
+            Grid.Row="5"
+            IsVisible="{Binding HasVisitData}"
+            Padding="{StaticResource DefaultPadding}"
+            RowDefinitions="Auto"
+            ColumnSpacing="{StaticResource DefaultSpacing}"
+            ColumnDefinitions="Auto,*,Auto">
+
+            <Button
+                IsVisible="False"
+                Grid.Column="0"
+                Style="{StaticResource MinimalButton}"
+                FontSize="20"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                Text="{Static icons:MaterialIcons.Search}"/>
+
+            <Button
+                Grid.Column="2"
+                Text="{Binding OpenAddVisitText, TargetNullValue={local:Localize AddVisit}}"
+                Command="{Binding AddVisitCommand}">
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static icons:MaterialIcons.Edit}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Size="20"/>
+                </Button.ImageSource>
+            </Button>
+        </Grid>
 
     </Grid>
 </base:ViewModelContentView>

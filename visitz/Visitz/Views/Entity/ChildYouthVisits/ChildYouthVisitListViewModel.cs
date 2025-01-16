@@ -1,11 +1,14 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Realms;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
@@ -48,6 +51,9 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     [ObservableProperty]
     public bool showEmptyIcon = false;
 
+    [ObservableProperty]
+	public string openAddVisitText;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -57,7 +63,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
                 .Where(person => person.ParentId == CaseloadItem.CaseIncidentNumber)
                 .OrderByDescending(person => person.DateOfVisit));
-
     }
 
     protected override void Dispose(bool disposing)
@@ -68,7 +73,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
             realmQuery.Dispose();
             _disposed = true;
         }
-
         base.Dispose(disposing);
     }
 
@@ -133,5 +137,26 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
                 PersonVisits.Insert(inserted, e.Items[inserted] as PersonVisit);
         }
         UpdatePersonVisitRelatedInfo(PersonVisits);
+        if (e.Type == typeof(PersonVisitDrafts))
+            UpdateOpenAddVisitText(e.Items.Any());
+    }
+
+    private void UpdateOpenAddVisitText(bool draftAvailable)
+	{
+		OpenAddVisitText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddVisit;
+	}
+
+    [RelayCommand]
+	public async Task AddVisit()
+    {
+        await OpenVisitEntry();
+    }
+
+    private async Task OpenVisitEntry()
+    {
+        var visitEntryView = ServiceProvider.GetService<ChildYouthVisitView>();
+        visitEntryView.CaseloadItem = CaseloadItem;
+
+        await Navigator.Navigation.PushModalAsync(visitEntryView, ViewModalSize.Wide);
     }
 }
