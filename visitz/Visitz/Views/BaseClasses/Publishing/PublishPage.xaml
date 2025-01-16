@@ -44,8 +44,10 @@
     </baseClasses:VisitzPage.Resources>
 
     <Grid
+		x:Name="MainGrid"
         Padding="32"
-        RowDefinitions="*,*,50"
+        RowDefinitions="*,*,50,Auto"
+		RowSpacing="10"
         ColumnDefinitions="*,*"
         ColumnSpacing="10"
         MaximumWidthRequest="800">
@@ -197,16 +199,16 @@
         </VerticalStackLayout>
 
         <Button
-            Grid.Row="3"
+			x:Name="DismissButton"
+            Grid.Row="2"
             Grid.Column="0"
             Text="{local:Localize Dismiss}"
-            HorizontalOptions="End"
             Style="{StaticResource SecondaryButtonDark}"
             Clicked="DismissButton_Clicked"
             IsVisible="{Binding ShowDismissButton}" />
 
         <Button 
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="1"
             Text="{local:Localize Retry}"
             HorizontalOptions="Start"
@@ -218,7 +220,7 @@
         <ProgressBar
             x:Name="DismissProgressBar"
             IsVisible="False"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.ColumnSpan="2"
             WidthRequest="100"
             ProgressColor="White" />

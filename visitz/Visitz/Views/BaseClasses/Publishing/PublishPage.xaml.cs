@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Visitz.Extensions;
 using Visitz.Views.Surveys;
 
@@ -18,10 +19,31 @@ public partial class PublishPage : VisitzPage
         base.OnCreated();
 
         ViewModel.OnCompleted += PublishPage_OnCompleted;
+        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+    }
+
+    private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        string name = e.PropertyName;
+
+        if (name == nameof(ViewModel.ShowDismissButton) || name == nameof(ViewModel.ShowRetryButton))
+            AdjustDismissButtonStyles();
+    }
+
+    private void AdjustDismissButtonStyles()
+    {
+        bool onlyDismiss = ViewModel.ShowDismissButton && !ViewModel.ShowRetryButton;
+
+        DismissButton.HorizontalOptions = onlyDismiss ? LayoutOptions.Center : LayoutOptions.End;
+
+        int fullSpan = MainGrid.ColumnDefinitions.Count;
+        int singleColumn = 1;
+        Grid.SetColumnSpan(DismissButton, onlyDismiss ? fullSpan : singleColumn);
     }
 
     protected override void OnDestroyed()
     {
+        ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
         ViewModel.OnCompleted -= PublishPage_OnCompleted;
 
         base.OnDestroyed();
