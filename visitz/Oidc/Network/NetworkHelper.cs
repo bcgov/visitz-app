@@ -65,6 +65,8 @@ public static class NetworkHelper
 
     public static void AssertInternetAvailable(string messageIfUnavailable)
     {
+        // TODO: Review if this MainThread.BeginInvokeOnMainThread call is necessary since InternetAvailable
+        // now uses it on its own. Need to test across platforms since it's shared code.
         MainThread.BeginInvokeOnMainThread(delegate
         {
             // Forcing Internet check on main thread to avoid issue on Windows:
