@@ -31,9 +31,13 @@ public static class NetworkHelper
 
     static NetworkConnectivityLevel GetConnectivityLevel()
     {
+        // Using TaskCompletionSource here instead of reworking this whole thing into an async function.
+        // This way we don't need to go back and rework everywhere the InternetAvailable property is used.
         TaskCompletionSource src = new();
         NetworkConnectivityLevel level = NetworkConnectivityLevel.None;
 
+        // Forcing Internet check on main thread to avoid issue on Windows:
+        // https://github.com/dotnet/maui/issues/9972
         MainThread.BeginInvokeOnMainThread(delegate
         {
             try
@@ -51,6 +55,7 @@ public static class NetworkHelper
             }
         });
 
+        // *Shouldn't* deadlock MainThread since SetResult or TrySetException would've already been called.
         src.Task.Wait();
         return level;
     }
