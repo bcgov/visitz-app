@@ -77,7 +77,10 @@ function Ensure-Env {
 [string] $ContactInfo_FeedbackSurveyUrl = Ensure-Env -Name $ContactInfo_FeedbackSurveyUrlName -Scope $EnvScope
 
 $env = $Environment
-$outputName = "MCFD Mobility-Windows-$env-build_$BuildNumber"
+
+[xml]$props = Get-Content "..\visitz\Visitz\Visitz.props"
+$version = (Select-Xml -Xml $props -XPath "//PropertyGroup/VisitzVersion").ToString()
+$outputName = "MCFD Mobility-Windows-$env-$Version.$BuildNumber"
 
 if ($Environment -eq "prod") {
     # "prod" only used for command line intention and build label, buildscript uses empty string for prod
