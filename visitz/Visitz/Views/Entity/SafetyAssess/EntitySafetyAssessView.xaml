@@ -48,7 +48,7 @@
             <Setter Property="Spacing" Value="5" />
         </Style>
 
-        <Style TargetType="Border">
+        <Style x:Key="AssessmentBorder" TargetType="Border">
             <Setter Property="Margin" Value="10" />
             <Setter Property="Padding" Value="10" />
             <Setter Property="Stroke" Value="{StaticResource BC_TextColor}" />
@@ -147,7 +147,7 @@
                         Answer="{Binding Factors.PhysicalHarmBinding, Converter={StaticResource YesNoToBool}}"
                         AnswerContext="{Binding Factors.CmtClarificationBinding}">
 
-                        <Border>
+						<Border Style="{StaticResource AssessmentBorder}">
                             <VerticalStackLayout>
                             
                                 <formctls:FormCheckBox
@@ -363,7 +363,7 @@
 
                     <Label Text="{local:Localize SafetyDecision_Prompt}" />
 
-                    <Border>
+					<Border Style="{StaticResource AssessmentBorder}">
                         <VerticalStackLayout Spacing="10">
                             <VerticalStackLayout 
                                 Spacing="10"
