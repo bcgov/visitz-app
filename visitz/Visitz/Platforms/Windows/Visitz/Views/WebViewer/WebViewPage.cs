@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Oidc;
 using System.Diagnostics;
+using System.Globalization;
 using Visitz.Controls;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
@@ -10,15 +11,22 @@ namespace Visitz.Views.WebViewer;
 
 public partial class WebViewPage
 {
+    const string _logoutPath = "/logout";
 	const string _logoutResponse = "/logout_response";
 
-	readonly Uri _baseRedirectUri = new(new AppSettings().Oidc.RedirectUri);
+    Uri _baseRedirectUri;
+    Uri _authDomain;
 
 	Func<Task> SessionTask { get; set; }
 
-	partial void Setup()
+    partial void Setup()
 	{
-		MainWebView.Loaded += MainWebView_Loaded;
+        var settings = new AppSettings();
+
+        _baseRedirectUri = new(settings.Oidc.RedirectUri);
+        _authDomain = new(settings.Oidc.AuthenticationDomain);
+
+        MainWebView.Loaded += MainWebView_Loaded;
 		CloseButton.Closing += CloseButton_Closing;
 	}
 
@@ -48,11 +56,11 @@ public partial class WebViewPage
 
 		coreWebView.NavigationStarting += (sender, args) =>
 		{
-			if (args.Uri.StartsWith(_baseRedirectUri.Scheme, StringComparison.InvariantCultureIgnoreCase))
+			if (IsLocalRedirect(args.Uri))
 			{
 				SessionTask = async () => await PerformCustomSchemeRedirect(args.Uri);
 			}
-			else if (args.Uri.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase))
+			else if (IsLogoutRedirect(args.Uri))
 			{
 				SessionTask = async () => await ForceLogout(sender);
 			}
@@ -76,8 +84,35 @@ public partial class WebViewPage
 			await Navigator.Navigation.PopModalAsync();
 		};
 
-		webView.Source = ViewModel.AuthUri;
+        // WORKAROUND Windows does not reliably logout currently
+        // so we'll forcibly dump our local session and cookies.
+        if (IsLogoutRequest(ViewModel.AuthUri))
+        {
+            await ForceLogout(coreWebView);
+            await Navigator.Navigation.PopModalAsync();
+            return;
+        }
+
+        webView.Source = ViewModel.AuthUri;
 	}
+
+    private bool IsLocalRedirect(string url)
+    {
+        return url.StartsWith(_baseRedirectUri.Scheme, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private static bool IsLogoutRequest(Uri uri)
+    {
+        return uri.IsAbsoluteUri
+            ? uri.AbsolutePath.EndsWith(_logoutPath, StringComparison.InvariantCultureIgnoreCase)
+            : uri.LocalPath.EndsWith(_logoutPath, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private bool IsLogoutRedirect(string url)
+    {
+        return url.StartsWith(_authDomain.ToString(), true, CultureInfo.InvariantCulture)
+            && url.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase);
+    }
 
 	private static Task PerformCustomSchemeRedirect(string uri)
 	{
@@ -98,7 +133,9 @@ public partial class WebViewPage
 	{
 		coreWebView.CookieManager.DeleteAllCookies();
 
-		await CancelTokenSource?.CancelAsync();
+        if (CancelTokenSource != null)
+		    await CancelTokenSource.CancelAsync();
+
 		await OidcSession.LocalLogoutAsync();
 	}
 

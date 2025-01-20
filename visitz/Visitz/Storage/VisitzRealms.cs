@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Realms;
 using VisitzModel.Storage;
 
@@ -5,8 +6,7 @@ namespace Visitz.Storage;
 
 internal static class VisitzRealms
 {
-    private static async Task<byte[]> GetKey(string name) => 
-        await VisitzKey.GetKey(VisitzRealmBase.GetRealmPath(name));
+    private static async Task<byte[]> GetKey(string name) => await VisitzKey.GetKey(name);
 
 
     public static async Task<IcmData> GetIcmDataAsync() => 
@@ -24,19 +24,25 @@ internal static class VisitzRealms
     public static async Task<LogRealm> GetLogAsync() =>
         new LogRealm(await GetKey(LogRealm.Name));
 
+    public static async Task<PersonVisitDrafts> GetPersonVisitDraftsAsync() =>
+        new PersonVisitDrafts(await GetKey(PersonVisitDrafts.Name));
+
 
     public static async Task<Realm> GetNoteDraftsRealmAsync() =>
-        await (await GetNoteDraftsAsync()).GetAsync();
+        await (await GetNoteDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<NoteDrafts>>());
 
     public static async Task<Realm> GetIcmDataRealmAsync() =>
-        await (await GetIcmDataAsync()).GetAsync();
+        await (await GetIcmDataAsync()).GetAsync(ServiceProvider.GetService<ILogger<IcmData>>());
 
     public static async Task<Realm> GetSafetyAssessmentDraftRealmAsync() =>
-        await (await GetSafetyAssessmentDraftAsync()).GetAsync();
+        await (await GetSafetyAssessmentDraftAsync()).GetAsync(ServiceProvider.GetService<ILogger<SafetyAssessmentDrafts>>());
 
 	public static async Task<Realm> GetAttachmentDraftsRealmAsync() =>
-		await (await GetAttachmentDraftsAsync()).GetAsync();
+		await (await GetAttachmentDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<AttachmentDrafts>>());
     
     public static async Task<Realm> GetLogRealmAsync() =>
-		await (await GetLogAsync()).GetAsync();
+		await (await GetLogAsync()).GetAsync(ServiceProvider.GetService<ILogger<LogRealm>>());
+
+	public static async Task<Realm> GetPersonVisitDraftsRealmAsync() =>
+		await (await GetPersonVisitDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<PersonVisitDrafts>>());
 }

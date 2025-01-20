@@ -776,4 +776,38 @@ You can view the details of this error or try again later.</value>
   <data name="NoCameraPermissionsPrompt" xml:space="preserve">
     <value>Camera permissions disabled</value>
   </data>
+  <data name="RecordRemovedFromCaseload" xml:space="preserve">
+    <value>{0} '{1}' unassigned from caseload</value>
+    <comment>0 = Entity type, 1 = Key player name</comment>
+  </data>
+  <data name="RecordRemovedFromCaseloadDetails" xml:space="preserve">
+    <value>"The record {0} '{1}' was unassigned from your caseload and was removed from this device during caseload refresh.
+
+Any drafts for this record are still saved—but won't be accessible until the record is reassigned."</value>
+    <comment>0 = Entity type, 1 = Key player name</comment>
+  </data>
+  <data name="ChildYouthVisits" xml:space="preserve">
+    <value>Child/youth visits</value>
+  </data>
+  <data name="NextVisitDueBy" xml:space="preserve">
+    <value>Next in-person visit due by {0}.</value>
+    <comment>0 = Date in format "Month Day, Year"</comment>
+  </data>
+  <data name="OverdueVisitOn" xml:space="preserve">
+    <value>In-person visit was due on {0}.</value>
+    <comment>0 = Date in format "Month Day, Year"</comment>
+  </data>
+  <data name="VisitDueBy" xml:space="preserve">
+    <value>In-person visit due by {0}.</value>
+    <comment>0 = Date in format "Month Day, Year"</comment>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created by</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
 </root>
