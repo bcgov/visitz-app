@@ -53,18 +53,21 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
 
     public void SetSnackbar(VisitzSnackbar snackbar)
     {
-        if (Snackbar != null)
-            Snackbar.ShouldClose -= Snackbar_ShouldClose;
-
-        Snackbar = snackbar;
-        SnackbarContainer.Content = Snackbar;
-        SnackbarContainer.IsVisible = Snackbar != null;
-
-        if (Snackbar != null)
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            Snackbar.ShouldClose += Snackbar_ShouldClose;
-            _ = new VisibilityAnimation(showView: true, 150).Animate(Snackbar);
-        }
+            if (Snackbar != null)
+                Snackbar.ShouldClose -= Snackbar_ShouldClose;
+
+            Snackbar = snackbar;
+            SnackbarContainer.Content = Snackbar;
+            SnackbarContainer.IsVisible = Snackbar != null;
+
+            if (Snackbar != null)
+            {
+                Snackbar.ShouldClose += Snackbar_ShouldClose;
+                _ = new VisibilityAnimation(showView: true, 150).Animate(Snackbar);
+            }
+        });
     }
 
     public void Snackbar_ShouldClose(object sender, EventArgs e)

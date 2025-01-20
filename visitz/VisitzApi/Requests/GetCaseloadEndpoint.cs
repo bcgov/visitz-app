@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using VisitzApi.ErrorHandling;
 using VisitzApi.Json;
@@ -6,10 +6,10 @@ using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-	internal class GetCaseloadEndpoint(string baseUrl, params string[] workerIds) 
-        : VisitzBaseEndpoint<IEnumerable<CaseloadEntity>>(baseUrl, CaseloadPath)
+	internal class GetCaseloadEndpoint(string baseUrl, params string[] workerIds)
+        : VisitzBaseEndpoint<IEnumerable<CaseloadEntity>>(baseUrl, Vpi.V1, CaseloadPath)
     {
-        private static readonly string CaseloadPath = "/v1/620b";
+        private static readonly string CaseloadPath = "/620b";
 
         private static readonly string WorkerIdsListKey = "workerIds";
         private static readonly string WorkerIdKey = "workerId";
@@ -70,7 +70,7 @@ namespace VisitzApi.Requests
             }
         }
 
-        public override IEnumerable<CaseloadEntity> HandleResponse(string responseContent)
+        public override IEnumerable<CaseloadEntity> HandleResponse(HttpResponseMessage _, string responseContent)
         {
             if (WebMethodsJsonError.TryFindFirstError(responseContent, out string errorMessage))
                 if (errorMessage == NoRecordsFoundError)

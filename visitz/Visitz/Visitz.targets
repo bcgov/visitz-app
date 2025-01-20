@@ -141,6 +141,13 @@
 
 		 -->
 
+		<Message Importance="high" Text="Setting AppxManifest ID '$(ApplicationId)'" />
+		<XmlPoke
+			XmlInputPath="$(AppxManifestPath)"
+			Value="$(ApplicationId)"
+			Query="/appx:Package/appx:Identity/@Name"
+			Namespaces="$(Namespace)" />
+
 		<Message Importance="high" Text="Setting AppxManifest version '$(ApplicationDisplayVersion).$(ApplicationVersion)'" />
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"

@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 
 namespace VisitzModel.Extensions;
 
@@ -18,5 +18,25 @@ public static class RealmExtensions
             action.Invoke();
         else
             await realmObject.Realm.WriteAsync(action);
+    }
+
+    public static async Task CommitAsync(Realm realm, Action action)
+    {
+        if (realm.IsInTransaction)
+            action.Invoke();
+        else
+            await realm.WriteAsync(action);
+    }
+
+    public static void Upsert<T>(this Realm realm, IEnumerable<T> enumerable) where T : IRealmObject
+    {
+        foreach (var item in enumerable)
+            realm.Add(item, update: true);
+    }
+
+    public static void DeleteByIds<T>(this Realm realm, IEnumerable<string> ids) where T : IRealmObject
+    {
+        foreach (var id in ids)
+            realm.Remove(realm.Find<T>(id));
     }
 }
