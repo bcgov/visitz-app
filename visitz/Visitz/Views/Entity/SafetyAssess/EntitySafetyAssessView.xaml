@@ -70,7 +70,7 @@
                 MaximumWidthRequest="800">
 
                 <banners:InfoBanner 
-                    Margin="0,0,0,16"
+                    Margin="10"
                     Level="Info"
                     Text="{local:Localize SafetyAssessmentValidationRulesInfo}" />
 
@@ -527,7 +527,6 @@
             <views:DraftSavedView 
                 x:Name="DraftSavedIndicator"
                 Grid.Column="0"
-                TagPadding="-5"
                 VerticalOptions="Center"/>
 
             <Button
