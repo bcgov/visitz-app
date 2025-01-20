@@ -2,8 +2,8 @@
 <baseClasses:ViewModelContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:banners="clr-namespace:Visitz.Views.Banners"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:banners="clr-namespace:Visitz.Views.Banners"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
@@ -48,7 +48,7 @@
             <Setter Property="Spacing" Value="5" />
         </Style>
 
-        <Style TargetType="Border">
+        <Style x:Key="AssessmentBorder" TargetType="Border">
             <Setter Property="Margin" Value="10" />
             <Setter Property="Padding" Value="10" />
             <Setter Property="Stroke" Value="{StaticResource BC_TextColor}" />
@@ -70,7 +70,7 @@
                 MaximumWidthRequest="800">
 
                 <banners:InfoBanner 
-                    Margin="0,0,0,16"
+                    Margin="10"
                     Level="Info"
                     Text="{local:Localize SafetyAssessmentValidationRulesInfo}" />
 
@@ -147,7 +147,7 @@
                         Answer="{Binding Factors.PhysicalHarmBinding, Converter={StaticResource YesNoToBool}}"
                         AnswerContext="{Binding Factors.CmtClarificationBinding}">
 
-                        <Border>
+                        <Border Style="{StaticResource AssessmentBorder}">
                             <VerticalStackLayout>
                             
                                 <formctls:FormCheckBox
@@ -363,7 +363,7 @@
 
                     <Label Text="{local:Localize SafetyDecision_Prompt}" />
 
-                    <Border>
+                    <Border Style="{StaticResource AssessmentBorder}">
                         <VerticalStackLayout Spacing="10">
                             <VerticalStackLayout 
                                 Spacing="10"
@@ -527,7 +527,6 @@
             <views:DraftSavedView 
                 x:Name="DraftSavedIndicator"
                 Grid.Column="0"
-                TagPadding="-5"
                 VerticalOptions="Center"/>
 
             <Button
@@ -535,7 +534,7 @@
                 Text="{local:Localize DiscardDraft}"
                 Style="{StaticResource SecondaryButtonLight}"
                 Clicked="DiscardButton_Clicked"
-				IsEnabled="{Binding CanDiscard}" />
+                IsEnabled="{Binding CanDiscard}" />
 
             <Button
                 Grid.Column="2"
