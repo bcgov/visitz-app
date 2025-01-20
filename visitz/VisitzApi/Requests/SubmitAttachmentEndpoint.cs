@@ -6,9 +6,9 @@ using VisitzApi.Models.Attachments;
 namespace VisitzApi.Requests;
 
 internal class SubmitAttachmentEndpoint(string baseUrl, SubmitAttachmentEntity payload)
-	: VisitzBaseEndpoint<(bool success, string attachmentId)>(baseUrl, SubmitAttachmentsPath)
+	: VisitzBaseEndpoint<(bool success, string attachmentId)>(baseUrl, Vpi.V1, SubmitAttachmentsPath)
 {
-	static readonly string SubmitAttachmentsPath = "/v1/680";
+	static readonly string SubmitAttachmentsPath = "/680";
 
 	static readonly string RequestFormAttachmentKey = "requestFormAttachment";
 	static readonly string ResponseFormAttachmentKey = "responseFormAttachment";

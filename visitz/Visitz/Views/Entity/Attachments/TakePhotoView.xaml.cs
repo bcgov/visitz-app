@@ -113,7 +113,7 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
         if (status == PermissionStatus.Granted)
         {
             TakePhotoView photoView = new() { CaseloadItem = CaseloadItem, };
-            await Navigator.Navigation.PushModalAsync(photoView.WrapPageForModal(ViewModalSize.Fullscreen));
+            await Navigator.Navigation.PushModalAsync(photoView, ViewModalSize.Fullscreen);
         }
         else
         {

@@ -1,5 +1,18 @@
 <Project>
 
+	<PropertyGroup>
+		<CommunityToolkitMvvmVersion>8.2.2</CommunityToolkitMvvmVersion>
+		<CoverletCollectorVersion>6.0.2</CoverletCollectorVersion>
+		<MauiPackageVersion>8.0.100</MauiPackageVersion>
+		<NETTestSdkVersion>17.10.0</NETTestSdkVersion>
+		<RealmVersion>12.4.1</RealmVersion>
+		<SecurityCodeScanVersion>5.6.7</SecurityCodeScanVersion>
+		<SharpSourceVersion>1.24.0</SharpSourceVersion>
+		<VisitzVersion>2.6.0</VisitzVersion>
+		<XUnitRunnerVsVersion>2.8.2</XUnitRunnerVsVersion>
+		<XUnitVersion>2.9.0</XUnitVersion>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
 		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
 		<ArchiveOnBuild>true</ArchiveOnBuild>

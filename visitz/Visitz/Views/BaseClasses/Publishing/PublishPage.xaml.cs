@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Visitz.Extensions;
 using Visitz.Views.Surveys;
 
@@ -7,21 +8,42 @@ public partial class PublishPage : VisitzPage
 {
     public new PublishViewModel ViewModel => base.ViewModel as PublishViewModel;
 
-	public PublishPage(PublishViewModel publishViewModel) : base(publishViewModel)
-	{
-		InitializeComponent();
-		BindingContext = ViewModel;
-	}
+    public PublishPage(PublishViewModel publishViewModel) : base(publishViewModel)
+    {
+        InitializeComponent();
+        BindingContext = ViewModel;
+    }
 
     protected override void OnCreated()
     {
         base.OnCreated();
 
         ViewModel.OnCompleted += PublishPage_OnCompleted;
+        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+    }
+
+    private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        string name = e.PropertyName;
+
+        if (name == nameof(ViewModel.ShowDismissButton) || name == nameof(ViewModel.ShowRetryButton))
+            AdjustDismissButtonStyles();
+    }
+
+    private void AdjustDismissButtonStyles()
+    {
+        bool onlyDismiss = ViewModel.ShowDismissButton && !ViewModel.ShowRetryButton;
+
+        DismissButton.HorizontalOptions = onlyDismiss ? LayoutOptions.Center : LayoutOptions.End;
+
+        int fullSpan = MainGrid.ColumnDefinitions.Count;
+        int singleColumn = 1;
+        Grid.SetColumnSpan(DismissButton, onlyDismiss ? fullSpan : singleColumn);
     }
 
     protected override void OnDestroyed()
     {
+        ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
         ViewModel.OnCompleted -= PublishPage_OnCompleted;
 
         base.OnDestroyed();
@@ -29,23 +51,23 @@ public partial class PublishPage : VisitzPage
 
     private async void PublishPage_OnCompleted(object sender, EventArgs e)
     {
-		await Task.WhenAll(AnimateCountdown(), Task.Delay(PublishViewModel.DismissDuration));
+        await Task.WhenAll(AnimateCountdown(), Task.Delay(PublishViewModel.DismissDuration));
 
-		await TryPopAsync();
+        await TryPopAsync();
 
-		await FeedbackSurveyPage.TryOpen();
-	}
+        await FeedbackSurveyPage.TryOpen();
+    }
 
-	async Task AnimateCountdown()
-	{
-		DismissProgressBar.IsVisible = true;
+    async Task AnimateCountdown()
+    {
+        DismissProgressBar.IsVisible = true;
 
-		DismissProgressBar.Progress = 1.0d;
+        DismissProgressBar.Progress = 1.0d;
 
-		await DismissProgressBar.ProgressTo(0.0d, (uint)PublishViewModel.DismissDuration, Easing.Linear);
+        await DismissProgressBar.ProgressTo(0.0d, (uint)PublishViewModel.DismissDuration, Easing.Linear);
 
-		DismissProgressBar.IsVisible = false;
-	}
+        DismissProgressBar.IsVisible = false;
+    }
 
     protected override bool OnBackButtonPressed()
     {
@@ -65,18 +87,18 @@ public partial class PublishPage : VisitzPage
             await this.DisplayErrorAlert(ViewModel.RefreshErrorDetail);
     }
 
-	async Task TryPopAsync()
-	{
-		var nav = Navigator.Navigation;
+    async Task TryPopAsync()
+    {
+        var nav = Navigator.Navigation;
 
-		if (nav.NavigationStack.Contains(this))
-			await nav.PopAsync();
-		else if (nav.ModalStack.Contains(this))
-			await nav.PopModalAsync();
-	}
+        if (nav.NavigationStack.Contains(this))
+            await nav.PopAsync();
+        else if (nav.ModalStack.Contains(this))
+            await nav.PopModalAsync();
+    }
 
-	private async void DismissButton_Clicked(object sender, EventArgs e)
-	{
-		await TryPopAsync();
+    private async void DismissButton_Clicked(object sender, EventArgs e)
+    {
+        await TryPopAsync();
     }
 }

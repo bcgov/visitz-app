@@ -5,10 +5,10 @@ using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-	internal class NotesEndpoint(string baseUrl, string entityNumber, string entityType) 
-        : VisitzBaseEndpoint<IEnumerable<NoteEntity>>(baseUrl, GetNotesPath)
+	internal class NotesEndpoint(string baseUrl, string entityNumber, string entityType)
+        : VisitzBaseEndpoint<IEnumerable<NoteEntity>>(baseUrl, Vpi.V1, GetNotesPath)
     {
-        private static readonly string GetNotesPath = "/v1/678";
+        private static readonly string GetNotesPath = "/678";
 
         private static readonly string RequestGetNotesKey = "requestGetNotes";
         private static readonly string ResponseGetNotesKey = "responseGetNotes";

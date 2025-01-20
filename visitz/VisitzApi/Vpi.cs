@@ -1,5 +1,6 @@
 using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
+using VisitzApi.Models.Caseload;
 using VisitzApi.Models.SafetyAssess;
 using VisitzApi.Requests;
 
@@ -10,8 +11,16 @@ namespace VisitzApi
     /// </summary>
     public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     {
+        internal static readonly string V1 = "v1";
+        internal static readonly string V2 = "v2";
+
         private HttpClient HttpClient { get; } = httpClient;
         private string BaseVisitzApiUrl { get; } = baseVisitzApiUrl;
+
+        private bool IsV1Endpoint<T>(VisitzBaseEndpoint<T> endpoint)
+        {
+            return endpoint.RequestUrl.StartsWith(BaseVisitzApiUrl.Trim('/') + "/" + V1);
+        }
 
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {
@@ -19,14 +28,21 @@ namespace VisitzApi
             string content = await response.Content.ReadAsStringAsync();
 
             endpoint.ThrowOnHttpErrors(response, content);
-            endpoint.ThrowOnWebMethodsErrors(response, content);
+
+            if (IsV1Endpoint(endpoint))
+                endpoint.ThrowOnWebMethodsErrors(response, content);
 
             return endpoint.HandleResponse(content);
         }
 
-        public async Task<IEnumerable<CaseloadEntity>> GetCaseloadAsync(params string[] workerIds)
+        public async Task<IEnumerable<CaseloadEntity>> GetCaseloadV1Async(params string[] workerIds)
         {
             return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, workerIds));
+        }
+
+        public async Task<CaseloadJson> GetCaseloadV2Async(DateTimeOffset? after = null)
+        {
+            return await CallApi(new Endpoints.GetCaseloadEndpoint(BaseVisitzApiUrl, after));
         }
 
         public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
