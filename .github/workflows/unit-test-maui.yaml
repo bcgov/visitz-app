@@ -74,7 +74,7 @@ jobs:
           $oldWorkloadConfig = dotnet workload config --update-mode
           dotnet workload config --update-mode workload-set
           Write-Host "Forced workload config as 'workload-set' (previously '$oldWorkloadConfig')"
-          dotnet workload install maui android ios maccatalyst maui-ios maui-windows --version ${{ env.DOTNET_SDK_VERSION }}
+          dotnet workload install maui ios maccatalyst maui-ios maui-windows --version ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
