@@ -1,4 +1,5 @@
 using IdentityModel.OidcClient;
+using IdentityModel.OidcClient.Browser;
 using IdentityModel.OidcClient.Results;
 using Oidc.Events;
 using Oidc.Exceptions;
@@ -38,7 +39,13 @@ namespace Oidc
                 loginResult = await AuthClient.LoginAsync(cancellationToken);
 
                 if (loginResult.IsError)
-                    throw new LoginException($"{loginResult.Error}: '{loginResult.ErrorDescription}'");
+                {
+                    if (loginResult.Error == BrowserResultType.UserCancel.ToString())
+                        // WORKAROUND String compare to BrowserResultType is a limitation of the library
+                        throw new OperationCanceledException();
+                    else
+                        throw new LoginException($"{loginResult.Error}: '{loginResult.ErrorDescription}'");
+                }
 
                 await TokenHolder.SaveAsync(loginResult);
             }

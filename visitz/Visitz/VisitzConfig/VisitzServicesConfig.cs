@@ -1,4 +1,5 @@
 using Visitz.Services;
+using Visitz.Services.Visits;
 using VisitzModel.Storage;
 
 namespace Visitz.VisitzConfig
@@ -17,6 +18,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<SubmitAndGetNotesService>();
             builder.Services.AddTransient<SubmitSafetyAssessmentService>();
 			builder.Services.AddTransient<SubmitAttachmentService>();
+            builder.Services.AddTransient<GetVisitsService>();
+            builder.Services.AddTransient<GetVisitsByRangeService>();
 
             return builder;
         }

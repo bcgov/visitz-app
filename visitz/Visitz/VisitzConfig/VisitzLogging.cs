@@ -4,6 +4,10 @@ using MicrosoftLogLevel = Microsoft.Extensions.Logging.LogLevel;
 using MetroLogLevel = MetroLog.LogLevel;
 using Visitz.Storage;
 
+#if WINDOWS
+using Visitz.Platforms.Windows.Visitz.Storage;
+#endif
+
 namespace Visitz.VisitzConfig
 {
     public static class VisitzLogging
@@ -30,6 +34,10 @@ namespace Visitz.VisitzConfig
                 });
 
             builder.Logging.Services.AddSingleton<ILoggerProvider, RealmAsyncTarget>();
+
+#if WINDOWS
+            builder.Logging.Services.AddSingleton<ILoggerProvider, EventViewerLoggingProvider>();
+#endif
             return builder;
         }
     }
