@@ -1,3 +1,4 @@
+using Oidc.Network;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
@@ -44,16 +45,16 @@ public partial class InternetInfoView : ContentView
     }
 
     public InternetInfoView()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         BindingContext = this;
-	}
+    }
 
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
 
-        ApplyConnectivityStyles(Connectivity.Current.NetworkAccess);
+        ApplyConnectivityStyles();
     }
 
     protected override void OnParentChanging(ParentChangingEventArgs args)
@@ -69,12 +70,12 @@ public partial class InternetInfoView : ContentView
 
     private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
     {
-        ApplyConnectivityStyles(e.NetworkAccess);
+        ApplyConnectivityStyles();
     }
 
-    private void ApplyConnectivityStyles(NetworkAccess networkAccess)
+    private void ApplyConnectivityStyles()
     {
-        ShouldShowView = networkAccess != NetworkAccess.Internet;
+        ShouldShowView = !NetworkHelper.InternetAvailable;
 
         Message = LocalizedStrings.NoInternet;
         Color = Colors.Red;

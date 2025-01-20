@@ -15,7 +15,7 @@ public static class EventLogWriter
         var assembly = Assembly.GetEntryAssembly();
 
         string outputMessage =
-@$"{assembly.GetName().Name} {assembly.GetName().Version}
+@$"{assembly.GetName().Name} {AppInfo.Current.VersionString}
 Level: {level}
 Category: {categoryName}
 Message: {message}";
