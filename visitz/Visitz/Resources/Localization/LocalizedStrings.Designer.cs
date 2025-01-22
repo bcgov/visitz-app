@@ -570,6 +570,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this in-person visit draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardVisitDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardVisitDraftDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dismiss.
         /// </summary>
         public static string Dismiss {

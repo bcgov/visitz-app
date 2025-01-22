@@ -825,4 +825,7 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="VisitType" xml:space="preserve">
     <value>Visit type</value>
   </data>
+  <data name="DiscardVisitDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this in-person visit draft? You won't be able to recover it.</value>
+  </data>
 </root>
