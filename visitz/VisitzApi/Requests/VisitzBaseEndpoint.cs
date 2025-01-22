@@ -3,7 +3,7 @@ using VisitzApi.ErrorHandling;
 
 namespace VisitzApi.Requests
 {
-    internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string requestPath)
+    internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string version, string requestPath)
     {
         protected static KeyValuePair<string, string> FormDataPair(string key, string value)
         {
@@ -19,9 +19,12 @@ namespace VisitzApi.Requests
         }
 
         public string BaseUrl { get; } = baseUrl;
+        public string Version { get; } = version;
         public string RequestPath { get; } = requestPath;
 
-        public string RequestUrl => BaseUrl.TrimEnd('/') + "/" + RequestPath.TrimStart('/');
+        public string RequestUrl => BaseUrl.TrimEnd('/')
+            + "/" + Version.Trim('/')
+            + "/" + RequestPath.TrimStart('/');
         public Uri RequestUri => new(RequestUrl);
 
         public abstract HttpRequestMessage MakeRequest();
