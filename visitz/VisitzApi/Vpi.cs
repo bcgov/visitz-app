@@ -10,6 +10,9 @@ namespace VisitzApi
     /// </summary>
     public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     {
+        internal static readonly string V1 = "v1";
+        internal static readonly string V2 = "v2";
+
         private HttpClient HttpClient { get; } = httpClient;
         private string BaseVisitzApiUrl { get; } = baseVisitzApiUrl;
 

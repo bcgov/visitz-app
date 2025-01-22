@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using VisitzApi.Json;
 using VisitzApi.Models.SafetyAssess;
@@ -6,9 +6,9 @@ using VisitzApi.Models.SafetyAssess;
 namespace VisitzApi.Requests;
 
 internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SafetyAssessmentEntity safetyAssessment)
-    : VisitzBaseEndpoint<(bool success, string status)>(baseUrl, SubmitSafetyAssessmentPath)
+    : VisitzBaseEndpoint<(bool success, string status)>(baseUrl, Vpi.V1, SubmitSafetyAssessmentPath)
 {
-    public static readonly string SubmitSafetyAssessmentPath = "/v1/622";
+    public static readonly string SubmitSafetyAssessmentPath = "/622";
 
     public static readonly string SafetyAssessmentKey = "safetyAssessment";
 
