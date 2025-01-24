@@ -1,6 +1,7 @@
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
@@ -32,10 +33,14 @@ namespace Visitz.Services
 
         protected override async Task RunApiServiceAsync()
         {
-            await GetCaseloadAsync();
+            await GetCaseloadV1Async();
+            await DownloadAndSaveCaseloadV2Async();
+
+            ResultCode = Result.Successful;
+			await MainThread.InvokeOnMainThreadAsync(() => LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow));
         }
 
-        private async Task GetCaseloadAsync()
+        private async Task GetCaseloadV1Async()
         {
             var caseloadFromApi = await Vpi.GetCaseloadV1Async(Idir);
             var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
@@ -44,9 +49,11 @@ namespace Visitz.Services
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
             await CaseloadItem.ReplaceCaseloadWithAsync(realm, caseloadContent);
+        }
 
-            ResultCode = Result.Successful;
-			await MainThread.InvokeOnMainThreadAsync(() => LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow));
+        private async Task DownloadAndSaveCaseloadV2Async()
+        {
+            CaseloadJson caseloadFromApi = await Vpi.GetCaseloadV2Async(after: null);
         }
 
         public override string GetId()
