@@ -83,6 +83,7 @@ public class CaseJsonTests
     [InlineData(closeReason, nameof(CaseJson.CloseReason))]
     [InlineData(createdBy, nameof(CaseJson.CreatedBy))]
     [InlineData(createdById, nameof(CaseJson.CreatedById))]
+    [InlineData(createdDate, nameof(CaseJson.CreatedDate))]
     [InlineData(earlyOpenReason, nameof(CaseJson.EarlyOpenReason))]
     [InlineData(integrationState, nameof(CaseJson.IntegrationState))]
     [InlineData(legacyFileNumber, nameof(CaseJson.LegacyFileNumber))]
@@ -92,6 +93,8 @@ public class CaseJsonTests
     [InlineData(officeName, nameof(CaseJson.OfficeName))]
     [InlineData(organization, nameof(CaseJson.Organization))]
     [InlineData(regionName, nameof(CaseJson.RegionName))]
+    [InlineData(renewReviewDate, nameof(CaseJson.RenewReviewDate))]
+    [InlineData(reopenedDate, nameof(CaseJson.ReopenedDate))]
     [InlineData(restrictedFlag, nameof(CaseJson.RestrictedFlag))]
     [InlineData(status, nameof(CaseJson.Status))]
     [InlineData(subjectContactFirstName, nameof(CaseJson.SubjectContactFirstName))]
@@ -99,6 +102,7 @@ public class CaseJsonTests
     [InlineData(type, nameof(CaseJson.Type))]
     [InlineData(updatedBy, nameof(CaseJson.UpdatedBy))]
     [InlineData(updatedById, nameof(CaseJson.UpdatedById))]
+    [InlineData(updatedDate, nameof(CaseJson.UpdatedDate))]
     [InlineData(workQueue, nameof(CaseJson.WorkQueue))]
     public void ParsesStringFieldsCorrectly(string expectedValue, string propertyName)
     {
@@ -107,20 +111,5 @@ public class CaseJsonTests
         string actual = (string)@case.GetType().GetProperty(propertyName)!.GetValue(@case)!;
 
         Assert.Equal(expectedValue, actual);
-    }
-
-    [Theory]
-    [InlineData(createdDate, nameof(CaseJson.CreatedDate))]
-    [InlineData(renewReviewDate, nameof(CaseJson.RenewReviewDate))]
-    [InlineData(reopenedDate, nameof(CaseJson.ReopenedDate))]
-    [InlineData(updatedDate, nameof(CaseJson.UpdatedDate))]
-    public void ParsesDateTimeOffsetFieldsCorrectly(string expectedValue, string propertyName)
-    {
-        CaseJson @case = JsonSerializer.Deserialize<CaseJson>(json, PayloadOptions.SiebelGet)!;
-
-        DateTimeOffset expected = DateTimeOffset.Parse(expectedValue);
-        DateTimeOffset actual = (DateTimeOffset)@case.GetType().GetProperty(propertyName)!.GetValue(@case)!;
-
-        Assert.Equal(expected, actual);
     }
 }

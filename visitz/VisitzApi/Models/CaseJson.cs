@@ -31,9 +31,9 @@ public class CaseJson : BaseRecordJson
 
     public string RegionName { get; set; }
 
-    public DateTimeOffset RenewReviewDate { get; set; }
+    public string RenewReviewDate { get; set; }
 
-    public DateTimeOffset ReopenedDate { get; set; }
+    public string ReopenedDate { get; set; }
 
     public string RestrictedFlag { get; set; }
 

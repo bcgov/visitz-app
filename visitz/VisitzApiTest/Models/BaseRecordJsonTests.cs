@@ -68,6 +68,8 @@ public partial class BaseRecordJsonTests
     [InlineData(OtherNameId, nameof(BaseRecordJson.CreatedById))]
     [InlineData(SomeName, nameof(BaseRecordJson.UpdatedBy))]
     [InlineData(SomeNameId, nameof(BaseRecordJson.UpdatedById))]
+    [InlineData(CreatedDateValue, nameof(BaseRecordJson.CreatedDate))]
+    [InlineData(UpdatedDateValue, nameof(BaseRecordJson.UpdatedDate))]
     public void ParsesStringFieldsCorrectly(string expectedValue, string propertyName)
     {
         BaseRecordJson baseRecord = JsonSerializer.Deserialize<BaseRecordJson>(
@@ -76,20 +78,6 @@ public partial class BaseRecordJsonTests
         string actual = (string)baseRecord.GetType().GetProperty(propertyName)!.GetValue(baseRecord)!;
 
         Assert.Equal(expectedValue, actual);
-    }
-
-    [Theory]
-    [InlineData(CreatedDateValue, nameof(BaseRecordJson.CreatedDate))]
-    [InlineData(UpdatedDateValue, nameof(BaseRecordJson.UpdatedDate))]
-    public void ParsesDateTimeOffsetFieldsCorrectly(string expectedValue, string propertyName)
-    {
-        BaseRecordJson baseRecord = JsonSerializer.Deserialize<BaseRecordJson>(
-            availableData, PayloadOptions.SiebelGet)!;
-
-        DateTimeOffset expected = DateTimeOffset.Parse(expectedValue);
-        DateTimeOffset actual = (DateTimeOffset)baseRecord.GetType().GetProperty(propertyName)!.GetValue(baseRecord)!;
-
-        Assert.Equal(expected, actual);
     }
 
     [Theory]

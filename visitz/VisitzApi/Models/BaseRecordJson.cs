@@ -29,8 +29,8 @@ public class BaseRecordJson
     public string UpdatedById { get; set; }
 
     [JsonRequired]
-    public DateTimeOffset CreatedDate { get; set; }
+    public string CreatedDate { get; set; }
 
     [JsonRequired]
-    public DateTimeOffset UpdatedDate { get; set; }
+    public string UpdatedDate { get; set; }
 }
