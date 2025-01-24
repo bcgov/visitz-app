@@ -9,7 +9,7 @@ namespace VisitzApiTest.Models.Caseload;
 public class SectionJsonTests
 {
     const string successCode = "200";
-    const string sectionJsonSuccess =
+    internal const string sectionJsonSuccess =
 $@"{{
     ""assignedIds"": [
         ""//assignedId//""
@@ -30,7 +30,7 @@ $@"{{
     }}
 }}";
 
-    static string Interpolate(string jsonTemplate, string assignedId, string jsonObject)
+    internal static string Interpolate(string jsonTemplate, string assignedId, string jsonObject)
     {
         string json = jsonTemplate.Replace("//assignedId//", assignedId);
         return json.Replace("//item//", jsonObject);
