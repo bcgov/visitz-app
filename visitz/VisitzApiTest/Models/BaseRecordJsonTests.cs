@@ -59,22 +59,37 @@ public partial class BaseRecordJsonTests
 	"Updated By Id": "{SomeNameId}",
 """ + "}";
 
-    [Fact]
-    public void ParsesAvailableDataCorrectly()
+    [Theory]
+    [InlineData(ArbitraryId, nameof(BaseRecordJson.Id))]
+    [InlineData(ArbitraryId, nameof(BaseRecordJson.RowId))]
+    [InlineData(SomeName, nameof(BaseRecordJson.AssignedTo))]
+    [InlineData(SomeNameId, nameof(BaseRecordJson.AssignedToId))]
+    [InlineData(OtherName, nameof(BaseRecordJson.CreatedBy))]
+    [InlineData(OtherNameId, nameof(BaseRecordJson.CreatedById))]
+    [InlineData(SomeName, nameof(BaseRecordJson.UpdatedBy))]
+    [InlineData(SomeNameId, nameof(BaseRecordJson.UpdatedById))]
+    public void ParsesStringFieldsCorrectly(string expectedValue, string propertyName)
     {
         BaseRecordJson baseRecord = JsonSerializer.Deserialize<BaseRecordJson>(
-            availableData, PayloadOptions.SiebelGet);
+            availableData, PayloadOptions.SiebelGet)!;
 
-        Assert.Equal(ArbitraryId, baseRecord.Id);
-        Assert.Equal(ArbitraryId, baseRecord.RowId);
-        Assert.Equal(SomeName, baseRecord.AssignedTo);
-        Assert.Equal(SomeNameId, baseRecord.AssignedToId);
-        Assert.Equal(OtherName, baseRecord.CreatedBy);
-        Assert.Equal(OtherNameId, baseRecord.CreatedById);
-        Assert.Equal(DateTimeOffset.Parse(CreatedDateValue), baseRecord.CreatedDate);
-        Assert.Equal(SomeName, baseRecord.UpdatedBy);
-        Assert.Equal(SomeNameId, baseRecord.UpdatedById);
-        Assert.Equal(DateTimeOffset.Parse(UpdatedDateValue), baseRecord.UpdatedDate);
+        string actual = (string)baseRecord.GetType().GetProperty(propertyName)!.GetValue(baseRecord)!;
+
+        Assert.Equal(expectedValue, actual);
+    }
+
+    [Theory]
+    [InlineData(CreatedDateValue, nameof(BaseRecordJson.CreatedDate))]
+    [InlineData(UpdatedDateValue, nameof(BaseRecordJson.UpdatedDate))]
+    public void ParsesDateTimeOffsetFieldsCorrectly(string expectedValue, string propertyName)
+    {
+        BaseRecordJson baseRecord = JsonSerializer.Deserialize<BaseRecordJson>(
+            availableData, PayloadOptions.SiebelGet)!;
+
+        DateTimeOffset expected = DateTimeOffset.Parse(expectedValue);
+        DateTimeOffset actual = (DateTimeOffset)baseRecord.GetType().GetProperty(propertyName)!.GetValue(baseRecord)!;
+
+        Assert.Equal(expected, actual);
     }
 
     [Theory]
