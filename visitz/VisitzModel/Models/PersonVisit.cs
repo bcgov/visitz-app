@@ -21,6 +21,8 @@ public partial class PersonVisit : IRealmObject
 
     public string VisitDetailsValue { get; set; }
 
+    public string VisitDetailsGroup { get; set; }
+
     public string LoginName { get; set; }
 
     public DateTimeOffset Created { get; set; }
