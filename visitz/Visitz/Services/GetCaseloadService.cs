@@ -37,7 +37,7 @@ namespace Visitz.Services
 
         private async Task GetCaseloadAsync()
         {
-            var caseloadFromApi = await Vpi.GetCaseloadAsync(Idir);
+            var caseloadFromApi = await Vpi.GetCaseloadV1Async(Idir);
             var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
 
             caseloadContent = FilterNonCasesAndIncidents(caseloadContent);

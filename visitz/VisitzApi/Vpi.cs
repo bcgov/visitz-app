@@ -27,7 +27,7 @@ namespace VisitzApi
             return endpoint.HandleResponse(content);
         }
 
-        public async Task<IEnumerable<CaseloadEntity>> GetCaseloadAsync(params string[] workerIds)
+        public async Task<IEnumerable<CaseloadEntity>> GetCaseloadV1Async(params string[] workerIds)
         {
             return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, workerIds));
         }
