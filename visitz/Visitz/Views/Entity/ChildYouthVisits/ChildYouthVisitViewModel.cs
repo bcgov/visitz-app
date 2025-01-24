@@ -1,16 +1,22 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Resources.Localization;
+using VisitzModel.Messaging;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
 public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHolder
 {
     public static readonly string VisitTypeGroup = "VisitTypeGroup";
+    public static readonly string PrivateVisitDetailGroup = "PrivateVisitDetailGroup";
+    public static readonly string ExcemptPrivateVisitDetailGroup = "ExcemptPrivateVisitDetailGroup";
+    public static readonly string NotPrivateVisitDetailGroup = "NotPrivateVisitDetailGroup";
     private static readonly int CharacterLimit = 4000;
     public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
     private bool _disposed;
@@ -70,7 +76,22 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public bool showNotPrivateTypeVisitDetails = false;
 
     [ObservableProperty]
-    public string visitsDescription;
+    public string visitDescription;
+
+    [ObservableProperty]
+    public DateTimeOffset dateOfVisit;
+
+    [ObservableProperty]
+    public bool isUpdatingEnabled = true;
+
+    [ObservableProperty]
+    public string selectedPrivateVisitDetailGroup;
+
+    [ObservableProperty]
+    public string selectedNotPrivateVisitDetailGroup;
+
+    [ObservableProperty]
+    public string selectedExcemptPrivateVisitDetailGroup;
 
     [ObservableProperty]
     public bool allowDiscard = true;
@@ -81,7 +102,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public CaseloadItem CaseloadItem { get; set; }
 
     [ObservableProperty]
-    public PersonVisit personVisit;
+    public PersonVisit personVisitItem;
 
     protected override async Task InitAsync()
     {
@@ -103,5 +124,13 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     {
         Realm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
         // PersonVisit = PersonVisit.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? CreateNoteDraft();
+    }
+
+    partial void OnPersonVisitItemChanged(PersonVisit value)
+    {
+        if (value != null)
+        {
+            SelectedVisitType = value.VisitDetailsValue;
+        }
     }
 }
