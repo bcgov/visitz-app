@@ -17,13 +17,20 @@ namespace VisitzApi
         private HttpClient HttpClient { get; } = httpClient;
         private string BaseVisitzApiUrl { get; } = baseVisitzApiUrl;
 
+        private bool IsV1Endpoint<T>(VisitzBaseEndpoint<T> endpoint)
+        {
+            return endpoint.RequestUrl.StartsWith(BaseVisitzApiUrl.Trim('/') + "/" + V1);
+        }
+
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {
             var response = await HttpClient.SendAsync(endpoint.MakeRequest());
             string content = await response.Content.ReadAsStringAsync();
 
             endpoint.ThrowOnHttpErrors(response, content);
-            endpoint.ThrowOnWebMethodsErrors(response, content);
+
+            if (IsV1Endpoint(endpoint))
+                endpoint.ThrowOnWebMethodsErrors(response, content);
 
             return endpoint.HandleResponse(content);
         }
