@@ -6,38 +6,38 @@ namespace VisitzApiTest.Models;
 
 public class CaseJsonTests
 {
-    const string id = "1-123ABC5";
-    const string assignedTo = "USER1";
-    const string assignedToId = "1-1234567";
-    const string caseload = "123";
-    const string caseNum = "1-11111111111";
-    const string closedDate = "11/18/2024 23:14:30";
-    const string closeReason = "it closed";
-    const string createdBy = "CREATEDBYUSER";
-    const string createdById = "1-9876543";
-    const string createdDate = "03/06/2018 03:35:39";
-    const string earlyOpenReason = "some reason";
-    const string integrationState = "Error";
-    const string legacyFileNumber = "1-22222222222";
-    const string middleName = "middle";
-    const string myFSFlag = "Y";
-    const string name = "ABCDEFCHILD, PERSON";
-    const string officeName = "an office code";
-    const string organization = "some organization";
-    const string regionName = "Region - Large Region";
-    const string renewReviewDate = "12/19/2024 23:14:30";
-    const string reopenedDate = "12/19/2024 23:14:31";
-    const string restrictedFlag = "N";
-    const string status = "a status";
-    const string subjectContactFirstName = "person";
-    const string subjectContactLastName = "abcdefperson";
-    const string type = "Person Services";
-    const string updatedBy = "UPDATEDBYUSER";
-    const string updatedById = "1-3219875";
-    const string updatedDate = "12/19/2024 23:14:30";
-    const string workQueue = "queue text";
+    internal const string id = "1-123ABC5";
+    internal const string assignedTo = "USER1";
+    internal const string assignedToId = "1-1234567";
+    internal const string caseload = "123";
+    internal const string caseNum = "1-11111111111";
+    internal const string closedDate = "11/18/2024 23:14:30";
+    internal const string closeReason = "it closed";
+    internal const string createdBy = "CREATEDBYUSER";
+    internal const string createdById = "1-9876543";
+    internal const string createdDate = "03/06/2018 03:35:39";
+    internal const string earlyOpenReason = "some reason";
+    internal const string integrationState = "Error";
+    internal const string legacyFileNumber = "1-22222222222";
+    internal const string middleName = "middle";
+    internal const string myFSFlag = "Y";
+    internal const string name = "ABCDEFCHILD, PERSON";
+    internal const string officeName = "an office code";
+    internal const string organization = "some organization";
+    internal const string regionName = "Region - Large Region";
+    internal const string renewReviewDate = "12/19/2024 23:14:30";
+    internal const string reopenedDate = "12/19/2024 23:14:31";
+    internal const string restrictedFlag = "N";
+    internal const string status = "a status";
+    internal const string subjectContactFirstName = "person";
+    internal const string subjectContactLastName = "abcdefperson";
+    internal const string type = "Person Services";
+    internal const string updatedBy = "UPDATEDBYUSER";
+    internal const string updatedById = "1-3219875";
+    internal const string updatedDate = "12/19/2024 23:14:30";
+    internal const string workQueue = "queue text";
 
-    const string json =
+    internal const string json =
 @$"{{
 	""Id"": ""{id}"",
 	""Row Id"": ""{id}"",
