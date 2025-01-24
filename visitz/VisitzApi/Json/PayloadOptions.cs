@@ -11,6 +11,7 @@ public static class PayloadOptions
 
     static readonly JsonSerializerOptions _siebelGet = new()
     {
+        PropertyNamingPolicy = new PascalWhitespaceNamingPolicy(),
     };
 
     static readonly DateTimeOffsetParseConverter _parseConverter = new(SiebelFormats.SiebelDateFormat);
