@@ -5,6 +5,7 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
@@ -54,6 +55,10 @@ namespace Visitz.Services
         private async Task DownloadAndSaveCaseloadV2Async()
         {
             CaseloadJson caseloadFromApi = await Vpi.GetCaseloadV2Async(after: null);
+            List<CaseRecord> cases = CaseRecord.FromCasesJson(caseloadFromApi.Cases.Items);
+
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            await CaseRecord.SaveCases(realm, cases);
         }
 
         public override string GetId()
