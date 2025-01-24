@@ -1,5 +1,3 @@
-#nullable disable
-
 using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models;
