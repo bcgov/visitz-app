@@ -10,8 +10,8 @@
     xmlns:banners="clr-namespace:Visitz.Views.Banners"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
-    xmlns:visits="clr-namespace:Visitz.Views.Entity.ChildYouthVisits"
     x:DataType="childYouthVisit:ChildYouthVisitListViewModel">
+    
     <Grid
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand"
@@ -78,8 +78,13 @@
             SelectionMode="None">
 
             <CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="models:PersonVisit">
                     <ContentView>
+                        <ContentView.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Path=OpenVisitEntryCommand, Source={RelativeSource AncestorType={x:Type childYouthVisit:ChildYouthVisitListViewModel}}}"
+                                CommandParameter="{Binding .}"/>
+                        </ContentView.GestureRecognizers>
                         <VerticalStackLayout>
                             <Grid
                                 ColumnSpacing="{StaticResource DefaultSpacing}"
@@ -148,7 +153,7 @@
             <Button
                 Grid.Column="2"
                 Text="{Binding OpenAddVisitText, TargetNullValue={local:Localize AddVisit}}"
-                Command="{Binding AddVisitCommand}">
+                Command="{Binding OpenVisitEntryCommand}">
                 <Button.ImageSource>
                     <FontImageSource
                         Glyph="{Static icons:MaterialIcons.Edit}"

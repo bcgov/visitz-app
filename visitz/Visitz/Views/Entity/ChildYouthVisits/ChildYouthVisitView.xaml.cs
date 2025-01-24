@@ -7,10 +7,11 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 
 public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHolder
 {
+    public new ChildYouthVisitViewModel ViewModel => base.ViewModel as ChildYouthVisitViewModel;
     public CaseloadItem CaseloadItem
     {
-        get => (ViewModel as ChildYouthVisitViewModel).CaseloadItem;
-        set => (ViewModel as ChildYouthVisitViewModel).CaseloadItem = value;
+        get => ViewModel.CaseloadItem;
+        set => ViewModel.CaseloadItem = value;
     }
 
     public ChildYouthVisitView() : base(ServiceProvider.GetService<ChildYouthVisitViewModel>())

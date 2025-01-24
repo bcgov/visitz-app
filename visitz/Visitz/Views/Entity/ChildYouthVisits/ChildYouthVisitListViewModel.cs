@@ -1,12 +1,14 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Storage;
 
@@ -23,6 +25,12 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 
     [ObservableProperty]
     ObservableCollection<PersonVisit> personVisits = [];
+
+    [ObservableProperty]
+    public PersonVisit personVisitItem;
+
+    // [ObservableProperty]
+    // public string selectedVisitType;
 
     [ObservableProperty]
     public CaseloadItem caseloadItem;
@@ -147,15 +155,15 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 	}
 
     [RelayCommand]
-	public async Task AddVisit()
-    {
-        await OpenVisitEntry();
-    }
-
-    private async Task OpenVisitEntry()
+    public async Task OpenVisitEntry(PersonVisit personVisitObj = null)
     {
         var visitEntryView = ServiceProvider.GetService<ChildYouthVisitView>();
         visitEntryView.CaseloadItem = CaseloadItem;
+        visitEntryView.ViewModel.PersonVisitItem = personVisitObj;
+        if (personVisitObj != null)
+            visitEntryView.ViewModel.IsUpdatingEnabled = false;
+        else
+            visitEntryView.ViewModel.IsUpdatingEnabled = true;
 
         await Navigator.Navigation.PushModalAsync(visitEntryView, ViewModalSize.Wide);
     }
