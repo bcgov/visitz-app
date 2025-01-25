@@ -152,7 +152,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata
         return outList;
     }
 
-    public static async Task SyncCases(Realm realm, SectionJson<CaseJson> casesSection)
+    public static async Task SynchronizeCasesAsync(Realm realm, SectionJson<CaseJson> casesSection)
     {
         var currentAssignedIds = realm.All<CaseRecord>().AsEnumerable().Select(@case => @case.Id);
         var unassignedIds = currentAssignedIds.Except(casesSection.AssignedIds);
