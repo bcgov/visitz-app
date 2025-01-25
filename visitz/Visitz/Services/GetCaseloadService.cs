@@ -55,7 +55,6 @@ namespace Visitz.Services
         private async Task DownloadAndSaveCaseloadV2Async()
         {
             CaseloadJson caseloadFromApi = await Vpi.GetCaseloadV2Async(after: null);
-            List<CaseRecord> cases = CaseRecord.FromCasesJson(caseloadFromApi.Cases.Items);
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
             await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases);
