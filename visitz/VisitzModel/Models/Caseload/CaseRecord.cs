@@ -1,5 +1,6 @@
 using Realms;
 using VisitzApi.Models;
+using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Utilities;
 
@@ -151,12 +152,15 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata
         return outList;
     }
 
-    public static async Task SaveCases(Realm realm, IEnumerable<CaseRecord> cases)
+    public static async Task SyncCases(Realm realm, SectionJson<CaseJson> casesSection)
     {
-        await realm.WriteAsync(() =>
+        var currentAssignedIds = realm.All<CaseRecord>().AsEnumerable().Select(@case => @case.Id);
+        var unassignedIds = currentAssignedIds.Except(casesSection.AssignedIds);
+
+        await RealmExtensions.CommitAsync(realm, () =>
         {
-            foreach (var @case in cases)
-                realm.Add(@case, update: true);
+            realm.DeleteByIds<CaseRecord>(unassignedIds);
+            realm.Upsert(FromCasesJson(casesSection.Items));
         });
     }
 }

@@ -58,7 +58,7 @@ namespace Visitz.Services
             List<CaseRecord> cases = CaseRecord.FromCasesJson(caseloadFromApi.Cases.Items);
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            await CaseRecord.SaveCases(realm, cases);
+            await CaseRecord.SyncCases(realm, caseloadFromApi.Cases);
         }
 
         public override string GetId()
