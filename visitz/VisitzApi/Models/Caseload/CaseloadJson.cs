@@ -8,5 +8,7 @@ public class CaseloadJson
     [JsonPropertyName("cases")]
     public SectionJson<CaseJson> Cases { get; set; }
 
-    // TODO: Incidents, Memos, SRs
+    [JsonRequired]
+    [JsonPropertyName("incidents")]
+    public SectionJson<IncidentJson> Incidents { get; set; }
 }
