@@ -1,6 +1,9 @@
+using Microsoft.Extensions.Logging;
+using System.Net;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Models.Base;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -57,7 +60,29 @@ namespace Visitz.Services
             CaseloadJson caseloadFromApi = await Vpi.GetCaseloadV2Async(after: null);
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases);
+
+            if (IsSuccess(caseloadFromApi.Cases))
+                await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases);
+            else
+                throw new InvalidOperationException(caseloadFromApi.Cases.GetFirstMessage() +
+                    " -> " + caseloadFromApi.Cases.GetFirstError());
+
+            if (IsSuccess(caseloadFromApi.Incidents))
+                await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents);
+            else
+            {
+                string msg = caseloadFromApi.Incidents.GetFirstMessage()
+                    + " -> " + caseloadFromApi.Incidents.GetFirstError();
+                ServiceProvider.GetService<ILogger<GetCaseloadService>>().LogError(msg);
+
+                // TODO: proper partial error handling when incidents are available
+            }
+        }
+
+        private static bool IsSuccess<T>(SectionJson<T> section) where T : AssignableRecordJson
+        {
+            HttpStatusCode status = (HttpStatusCode)section.Status;
+            return status == HttpStatusCode.OK || status == HttpStatusCode.NoContent;
         }
 
         public override string GetId()
