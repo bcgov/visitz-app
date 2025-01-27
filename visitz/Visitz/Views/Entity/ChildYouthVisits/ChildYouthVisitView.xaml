@@ -228,28 +228,31 @@
                     ColumnDefinitions="*"
                     VerticalOptions="Fill"
                     HorizontalOptions="Fill"
-                    RowDefinitions="Auto, *, Auto"
+                    RowDefinitions="Auto, *"
                     ColumnSpacing="10">
 
                     <Label
                         Grid.Row="0"
                         Grid.Column="0"
                         Text="{local:Localize VisitDescription}"/>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Text="{Binding RemainingCharacters, StringFormat={Static childYouthVisit:ChildYouthVisitViewModel.RemainingCharactersString}}"
+                        Style="{StaticResource LabelSmall}"/>
                     <Editor
                         Grid.Row="1"
                         Text="{Binding PersonVisitItem.VisitDescription}"
                         TextColor="{StaticResource BlackishText}"
                         FontFamily="BCSansRegular"
                         IsEnabled="{Binding IsUpdatingEnabled}"
+                        TextChanged="VisitsEditor_TextChanged"
                         VerticalOptions="Fill"
                         HorizontalOptions="Fill"
                         FontSize="17"/>
-                    <Label
-                        Grid.Row="2"
-                        HorizontalOptions="End"
-                        VerticalOptions="Center"
-                        Text="{Binding RemainingCharacters, StringFormat={Static childYouthVisit:ChildYouthVisitViewModel.RemainingCharactersString}}"
-                        Style="{StaticResource LabelSmall}"/>
+                    
                 </Grid>
             </Grid>
         </Grid>

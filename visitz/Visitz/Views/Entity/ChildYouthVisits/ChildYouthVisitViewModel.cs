@@ -135,4 +135,15 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             SelectedVisitDetail = value.VisitDetailsGroup;
         }
     }
+
+    public async Task EditorTextChanged(TextChangedEventArgs e)
+    {
+        if (string.Equals(e.OldTextValue, e.NewTextValue))
+            // Early return required to prevent infinite loops due to "cancelling" events
+            // by reassigning its previous value
+            return;
+        
+        int length = e.NewTextValue?.Length ?? 0;
+        RemainingCharacters = CharacterLimit - length;
+    }
 }

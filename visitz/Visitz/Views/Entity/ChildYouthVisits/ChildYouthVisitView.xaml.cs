@@ -34,6 +34,11 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         }
     }
 
+    async void VisitsEditor_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        await ViewModel.EditorTextChanged(e);
+    }
+
     private static async Task<bool> PromptDiscard()
 	{
 		return await Navigator.CurrentOpenPage.DisplayAlert(
