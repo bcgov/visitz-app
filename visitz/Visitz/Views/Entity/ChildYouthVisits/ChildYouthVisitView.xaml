@@ -151,27 +151,27 @@
                         Grid.Column="1"
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding PrivateChecked}"
-                        RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.PrivateVisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding SelectedPrivateVisitDetailGroup}">
+                        RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
+                        RadioButtonGroup.SelectedValue="{Binding SelectedVisitDetail}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_VisitAge0To5}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_VisitAge0To5}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.PrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding VisitAge0To5Checked}"/>
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_VisitInHome}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_VisitInHome}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.PrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding VisitInHomeChecked}"/>
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_VisitMedicalOrSupportNeeds}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_VisitMedicalOrSupportNeeds}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.PrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding VisitMedicalOrSupportNeedsChecked}"/>
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_VisitNotInHome}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_VisitNotInHome}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.PrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding VisitNotInHomeChecked}"/>
                     </VerticalStackLayout>
                     <VerticalStackLayout
@@ -179,17 +179,17 @@
                         Grid.Column="1"
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding ExemptionToPrivateVisitChecked}"
-                        RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.ExcemptPrivateVisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding SelectedExcemptPrivateVisitDetailGroup}">
+                        RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
+                        RadioButtonGroup.SelectedValue="{Binding SelectedVisitDetail}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_ChildDeclinedToMeet}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_ChildDeclinedToMeet}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.ExcemptPrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding ChildDeclinedToMeetChecked}"/>
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_Other}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_Other}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.ExcemptPrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding OtherChecked}"/>
                     </VerticalStackLayout>
                     <VerticalStackLayout
@@ -197,27 +197,27 @@
                         Grid.Column="1"
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding NotPrivateChecked}"
-                        RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.NotPrivateVisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding SelectedNotPrivateVisitDetailGroup}">
+                        RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
+                        RadioButtonGroup.SelectedValue="{Binding SelectedVisitDetail}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_PlanningMeeting}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_PlanningMeeting}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.NotPrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding PlanningMeetingChecked}"/>
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_RelationalVisit}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_RelationalVisit}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.NotPrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding RelationalVisitChecked}"/>
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_VisitInTheHome}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_VisitInTheHome}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.NotPrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding VisitInTheHomeChecked}"/>
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_VisitWithCaregiver}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_VisitWithCaregiver}"
-                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.NotPrivateVisitDetailGroup}"
+                            GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
                             IsChecked="{Binding VisitWithCaregiverChecked}"/>
                     </VerticalStackLayout>
                 </Grid>

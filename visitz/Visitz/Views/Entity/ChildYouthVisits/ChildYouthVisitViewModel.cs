@@ -14,9 +14,7 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHolder
 {
     public static readonly string VisitTypeGroup = "VisitTypeGroup";
-    public static readonly string PrivateVisitDetailGroup = "PrivateVisitDetailGroup";
-    public static readonly string ExcemptPrivateVisitDetailGroup = "ExcemptPrivateVisitDetailGroup";
-    public static readonly string NotPrivateVisitDetailGroup = "NotPrivateVisitDetailGroup";
+    public static readonly string VisitDetailGroup = "VisitDetailGroup";
     private static readonly int CharacterLimit = 4000;
     public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
     private bool _disposed;
@@ -65,6 +63,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     [ObservableProperty]
     public string selectedVisitType;
+
+    [ObservableProperty]
+    public string selectedVisitDetail;
 
     [ObservableProperty]
     public bool showPrivateTypeVisitDetails = false;
@@ -131,12 +132,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         if (value != null)
         {
             SelectedVisitType = value.VisitDetailsValue;
-            if (value.VisitDetailsValue == PersonVisitDetails.Type_Private)
-                SelectedPrivateVisitDetailGroup = value.VisitDetailsGroup;
-            else if (value.VisitDetailsValue == PersonVisitDetails.Type_NotPrivate)
-                SelectedNotPrivateVisitDetailGroup = value.VisitDetailsGroup;
-            else if (value.VisitDetailsValue == PersonVisitDetails.Type_ExemptionToPrivateVisit)
-                SelectedExcemptPrivateVisitDetailGroup = value.VisitDetailsGroup;
+            SelectedVisitDetail = value.VisitDetailsGroup;
         }
     }
 }
