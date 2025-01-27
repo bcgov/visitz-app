@@ -39,8 +39,7 @@
             <Grid
                 Grid.Row="0"
                 ColumnDefinitions="Auto,*,Auto"
-                RowDefinitions="Auto,Auto"
-                RowSpacing="5">
+                RowDefinitions="Auto,Auto">
 
                 <controls:CloseButton
                     Grid.Row="0"
@@ -76,8 +75,7 @@
 
             <Grid 
                 Grid.Row="1"
-                Margin="20"
-                Padding="10"
+                RowSpacing="15"
                 RowDefinitions="Auto, Auto, *">
 
                 <!-- First Row: Date Picker -->
