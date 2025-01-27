@@ -5,20 +5,18 @@ using VisitzApi.Models.Base;
 namespace VisitzApiTest.Models.Base;
 public partial class BaseRecordJsonTests
 {
-    const string ArbitraryId = "1-1A2B3C4";
-    const string SomeName = "SOMENAME";
-    const string SomeNameId = "1-18F52X5";
-    const string OtherName = "OTHERNAME";
-    const string OtherNameId = "1-ASDUH2A";
-    const string CreatedDateValue = "03/06/2018 03:35:39";
-    const string UpdatedDateValue = "12/19/2024 23:14:30";
+    internal const string ArbitraryId = "1-1A2B3C4";
+    internal const string SomeName = "SOMENAME";
+    internal const string SomeNameId = "1-18F52X5";
+    internal const string OtherName = "OTHERNAME";
+    internal const string OtherNameId = "1-ASDUH2A";
+    internal const string CreatedDateValue = "03/06/2018 03:35:39";
+    internal const string UpdatedDateValue = "12/19/2024 23:14:30";
 
     const string availableData =
 "{" + $"""
     "Id": "{ArbitraryId}",
 	"Row Id": "{ArbitraryId}",
-	"Assigned To": "{SomeName}",
-	"Assigned To Id": "{SomeNameId}",
 	"Created By": "{OtherName}",
 	"Created By Id": "{OtherNameId}",
 	"Created Date": "{CreatedDateValue}",
@@ -29,7 +27,6 @@ public partial class BaseRecordJsonTests
 
     const string missingIdFields =
 "{" + $"""
-	"Assigned To": "{SomeName}",
 	"Created By": "{OtherName}",
 	"Created Date": "{CreatedDateValue}",
 	"Updated By": "{SomeName}",
@@ -40,7 +37,6 @@ public partial class BaseRecordJsonTests
 "{" + $"""
     "Id": "{ArbitraryId}",
 	"Row Id": "{ArbitraryId}",
-	"Assigned To Id": "{SomeNameId}",
 	"Created By Id": "{OtherNameId}",
 	"Created Date": "{CreatedDateValue}",
 	"Updated By Id": "{SomeNameId}",
@@ -51,8 +47,6 @@ public partial class BaseRecordJsonTests
 "{" + $"""
     "Id": "{ArbitraryId}",
 	"Row Id": "{ArbitraryId}",
-	"Assigned To": "{SomeName}",
-	"Assigned To Id": "{SomeNameId}",
 	"Created By": "{OtherName}",
 	"Created By Id": "{OtherNameId}",
 	"Updated By": "{SomeName}",
@@ -62,8 +56,6 @@ public partial class BaseRecordJsonTests
     [Theory]
     [InlineData(ArbitraryId, nameof(BaseRecordJson.Id))]
     [InlineData(ArbitraryId, nameof(BaseRecordJson.RowId))]
-    [InlineData(SomeName, nameof(BaseRecordJson.AssignedTo))]
-    [InlineData(SomeNameId, nameof(BaseRecordJson.AssignedToId))]
     [InlineData(OtherName, nameof(BaseRecordJson.CreatedBy))]
     [InlineData(OtherNameId, nameof(BaseRecordJson.CreatedById))]
     [InlineData(SomeName, nameof(BaseRecordJson.UpdatedBy))]

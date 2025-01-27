@@ -3,7 +3,7 @@ using VisitzApi.Models.Base;
 
 namespace VisitzApi.Models.Caseload;
 
-public class CaseJson : BaseRecordJson
+public class CaseJson : AssignableRecordJson
 {
     public string Caseload { get; set; }
 

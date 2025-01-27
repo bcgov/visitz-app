@@ -3,7 +3,7 @@ using VisitzApi.Models.Base;
 
 namespace VisitzApi.Models.Caseload;
 
-public class IncidentJson : BaseRecordJson
+public class IncidentJson : AssignableRecordJson
 {
     public string ActivityUID { get; set; }
 

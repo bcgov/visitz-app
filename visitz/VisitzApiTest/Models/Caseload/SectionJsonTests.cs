@@ -44,7 +44,7 @@ $@"{{
         object section = JsonSerializer.Deserialize(json, sectionType, PayloadOptions.SiebelGet)!;
 
         List<string> ids = (List<string>)section.GetType()
-            .GetProperty(nameof(SectionJson<BaseRecordJson>.AssignedIds))!
+            .GetProperty(nameof(SectionJson<AssignableRecordJson>.AssignedIds))!
             .GetValue(section)!;
 
         Assert.Contains(CaseJsonTests.assignedToId, ids);
@@ -58,7 +58,7 @@ $@"{{
         object section = JsonSerializer.Deserialize(json, sectionType, PayloadOptions.SiebelGet)!;
 
         int statusCode = (int)section.GetType()
-            .GetProperty(nameof(SectionJson<BaseRecordJson>.Status))!
+            .GetProperty(nameof(SectionJson<AssignableRecordJson>.Status))!
             .GetValue(section)!;
 
         Assert.Equal(int.Parse(successCode), statusCode);
@@ -71,8 +71,8 @@ $@"{{
         string json = Interpolate(sectionJsonSuccess, assignedId, itemJson);
         object section = JsonSerializer.Deserialize(json, sectionType, PayloadOptions.SiebelGet)!;
 
-        var items = (IEnumerable<BaseRecordJson>)section.GetType()
-            .GetProperty(nameof(SectionJson<BaseRecordJson>.Items))!
+        var items = (IEnumerable<AssignableRecordJson>)section.GetType()
+            .GetProperty(nameof(SectionJson<AssignableRecordJson>.Items))!
             .GetValue(section)!;
 
         Assert.NotNull(items.FirstOrDefault());
@@ -85,7 +85,7 @@ $@"{{
         object section = JsonSerializer.Deserialize(sectionJsonError, sectionType, PayloadOptions.SiebelGet)!;
 
         JsonObject message = (JsonObject)section.GetType()
-            .GetProperty(nameof(SectionJson<BaseRecordJson>.Message))!
+            .GetProperty(nameof(SectionJson<AssignableRecordJson>.Message))!
             .GetValue(section)!;
 
         Assert.NotNull(message);
@@ -99,15 +99,15 @@ $@"{{
         object section = JsonSerializer.Deserialize(json, sectionType, PayloadOptions.SiebelGet)!;
 
         var assignedIds = (List<string>)section.GetType()
-            .GetProperty(nameof(SectionJson<BaseRecordJson>.AssignedIds))!
+            .GetProperty(nameof(SectionJson<AssignableRecordJson>.AssignedIds))!
             .GetValue(section)!;
 
-        var items = (IEnumerable<BaseRecordJson>)section.GetType()
-            .GetProperty(nameof(SectionJson<BaseRecordJson>.Items))!
+        var items = (IEnumerable<AssignableRecordJson>)section.GetType()
+            .GetProperty(nameof(SectionJson<AssignableRecordJson>.Items))!
             .GetValue(section)!;
 
         string firstId = assignedIds.First();
-        BaseRecordJson firstRecord = items.First();
+        AssignableRecordJson firstRecord = items.First();
 
         Assert.Equal(firstId, firstRecord.AssignedToId);
     }

@@ -11,12 +11,6 @@ public class BaseRecordJson
     public string RowId { get; set; }
 
     [JsonRequired]
-    public string AssignedTo { get; set; }
-
-    [JsonRequired]
-    public string AssignedToId { get; set; }
-
-    [JsonRequired]
     public string CreatedBy { get; set; }
 
     [JsonRequired]
