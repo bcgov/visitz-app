@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using VisitzApi.Models.Base;
 
 namespace VisitzApi.Models.Caseload;
 

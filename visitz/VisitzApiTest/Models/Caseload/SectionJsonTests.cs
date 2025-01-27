@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using VisitzApi.Json;
-using VisitzApi.Models;
+using VisitzApi.Models.Base;
 using VisitzApi.Models.Caseload;
 
 namespace VisitzApiTest.Models.Caseload;
