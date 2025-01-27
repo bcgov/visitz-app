@@ -8,6 +8,7 @@ namespace VisitzApiTest.Models.Caseload;
 
 public class SectionJsonTests
 {
+    const string empty = "";
     const string successCode = "200";
     internal const string sectionJsonSuccess =
 $@"{{
@@ -21,12 +22,36 @@ $@"{{
 }}";
 
     const string errorCode = "500";
-    const string sectionJsonError =
+    const string aMessage = "Here's a message!";
+    const string errorMessage = "a more detailed error";
+
+    const string sectionJsonNestedMessage =
 $@"{{
     ""assignedIds"": [],
     ""status"": {errorCode},
     ""message"": {{
-        ""message"": ""An error happened!""
+        ""message"": ""{aMessage}""
+    }}
+}}";
+
+    const string sectionJsonNestedErrorWithMessage =
+$@"{{
+    ""assignedIds"": [],
+    ""status"": {errorCode},
+    ""message"": {{
+        ""message"": ""{aMessage}"",
+        ""somekey"": {{
+            ""ERROR"": ""{errorMessage}""
+        }}
+    }}
+}}";
+
+    const string sectionJsonShallowError =
+$@"{{
+    ""assignedIds"": [],
+    ""status"": {errorCode},
+    ""message"": {{
+        ""ERROR"": ""{errorMessage}""
     }}
 }}";
 
@@ -79,16 +104,27 @@ $@"{{
     }
 
     [Theory]
-    [InlineData(typeof(SectionJson<CaseJson>))]
-    public void ParsesMessage(Type sectionType)
+    [InlineData(aMessage, sectionJsonNestedMessage)]
+    [InlineData(aMessage, sectionJsonNestedErrorWithMessage)]
+    [InlineData(empty, sectionJsonShallowError)]
+    public void ParsesFirstMessage(string expected, string json)
     {
-        object section = JsonSerializer.Deserialize(sectionJsonError, sectionType, PayloadOptions.SiebelGet)!;
+        var section = JsonSerializer.Deserialize<SectionJson<AssignableRecordJson>>
+            (json, PayloadOptions.SiebelGet)!;
 
-        JsonObject message = (JsonObject)section.GetType()
-            .GetProperty(nameof(SectionJson<AssignableRecordJson>.Message))!
-            .GetValue(section)!;
+        Assert.Equal(expected, section.GetFirstMessage());
+    }
 
-        Assert.NotNull(message);
+    [Theory]
+    [InlineData(errorMessage, sectionJsonShallowError)]
+    [InlineData(errorMessage, sectionJsonNestedErrorWithMessage)]
+    [InlineData(empty, sectionJsonNestedMessage)]
+    public void ParsesFirstError(string expected, string json)
+    {
+        var section = JsonSerializer.Deserialize<SectionJson<AssignableRecordJson>>
+            (json, PayloadOptions.SiebelGet)!;
+
+        Assert.Equal(expected, section.GetFirstError());
     }
 
     [Theory]
