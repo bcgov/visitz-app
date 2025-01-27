@@ -10,7 +10,7 @@ public class IncidentJsonTests
     const string activityUID = "Id Here";
     const string afterHoursFlag = "N";
     const string assignedTo = "USER1";
-    const string assignedToId = "1-1234567";
+    internal const string assignedToId = "1-1234567";
     const string contactFirstName = "First Name";
     const string contactLastName = "Last Name";
     const string contactMiddleName = "contactMiddleName";
@@ -59,7 +59,7 @@ public class IncidentJsonTests
     const string updatedById = "1-3219875";
     const string updatedDate = "12/19/2024 23:14:30";
 
-    const string json =
+    internal const string json =
 $@"{{
     ""Id"": ""{id}"",
     ""Row Id"": ""{id}"",
