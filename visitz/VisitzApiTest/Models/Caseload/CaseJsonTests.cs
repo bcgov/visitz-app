@@ -2,7 +2,7 @@ using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Caseload;
 
-namespace VisitzApiTest.Models;
+namespace VisitzApiTest.Models.Caseload;
 
 public class CaseJsonTests
 {
