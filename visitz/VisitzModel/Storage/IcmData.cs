@@ -1,6 +1,7 @@
 using Realms;
 using Realms.Schema;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Storage.Migrations;
 
 namespace VisitzModel.Storage;
@@ -18,6 +19,8 @@ public class IcmData(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersio
             typeof(FamilyMember),
             typeof(NoteItem),
             typeof(PersonVisit),
+            typeof(CaseRecord),
+            typeof(IncidentRecord),
         };
     }
 
