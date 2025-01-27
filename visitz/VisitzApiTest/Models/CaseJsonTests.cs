@@ -1,6 +1,6 @@
 using System.Text.Json;
 using VisitzApi.Json;
-using VisitzApi.Models;
+using VisitzApi.Models.Caseload;
 
 namespace VisitzApiTest.Models;
 

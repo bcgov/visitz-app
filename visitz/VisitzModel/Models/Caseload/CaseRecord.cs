@@ -1,5 +1,4 @@
 using Realms;
-using VisitzApi.Models;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Utilities;
