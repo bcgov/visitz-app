@@ -20,6 +20,9 @@
             <toolkit:DateTimeOffsetConverter x:Key="DateTimeOffsetConverter"/>
         </ResourceDictionary>
     </baseClasses:ViewModelContentView.Resources>
+    <baseClasses:ViewModelContentView.Behaviors>
+		<behaviors:SoftKbResizeBehavior />
+	</baseClasses:ViewModelContentView.Behaviors>
     <Border
         Background="White"
         Padding="-5"
