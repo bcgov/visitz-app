@@ -5,7 +5,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata
+public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata, IApiJson<CaseJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -104,7 +104,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata
         WorkQueue = caseJson.WorkQueue;
     }
 
-    public CaseJson ToCaseJson(string dateFormat = "s")
+    public CaseJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
@@ -141,7 +141,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata
         };
     }
 
-    public static List<CaseRecord> FromCasesJson(IEnumerable<CaseJson> casesJson)
+    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> casesJson)
     {
         List<CaseRecord> outList = [];
 
@@ -159,7 +159,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata
         await RealmExtensions.CommitAsync(realm, () =>
         {
             realm.DeleteByIds<CaseRecord>(unassignedIds);
-            realm.Upsert(FromCasesJson(casesSection.Items));
+            realm.Upsert(FromApiJsonArray(casesSection.Items));
         });
     }
 }
