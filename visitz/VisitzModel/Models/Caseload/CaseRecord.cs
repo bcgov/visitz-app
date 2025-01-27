@@ -141,25 +141,25 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
         };
     }
 
-    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> casesJson)
+    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> jsonArray)
     {
         List<CaseRecord> outList = [];
 
-        foreach (var caseJson in casesJson)
-            outList.Add(new CaseRecord(caseJson));
+        foreach (var jsonItem in jsonArray)
+            outList.Add(new CaseRecord(jsonItem));
 
         return outList;
     }
 
-    public static async Task SynchronizeCasesAsync(Realm realm, SectionJson<CaseJson> casesSection)
+    public static async Task SynchronizeCasesAsync(Realm realm, SectionJson<CaseJson> section)
     {
         var currentAssignedIds = realm.All<CaseRecord>().AsEnumerable().Select(@case => @case.Id);
-        var unassignedIds = currentAssignedIds.Except(casesSection.AssignedIds);
+        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
             realm.DeleteByIds<CaseRecord>(unassignedIds);
-            realm.Upsert(FromApiJsonArray(casesSection.Items));
+            realm.Upsert(FromApiJsonArray(section.Items));
         });
     }
 }
