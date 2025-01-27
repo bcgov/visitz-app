@@ -131,6 +131,12 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         if (value != null)
         {
             SelectedVisitType = value.VisitDetailsValue;
+            if (value.VisitDetailsValue == PersonVisitDetails.Type_Private)
+                SelectedPrivateVisitDetailGroup = value.VisitDetailsGroup;
+            else if (value.VisitDetailsValue == PersonVisitDetails.Type_NotPrivate)
+                SelectedNotPrivateVisitDetailGroup = value.VisitDetailsGroup;
+            else if (value.VisitDetailsValue == PersonVisitDetails.Type_ExemptionToPrivateVisit)
+                SelectedExcemptPrivateVisitDetailGroup = value.VisitDetailsGroup;
         }
     }
 }
