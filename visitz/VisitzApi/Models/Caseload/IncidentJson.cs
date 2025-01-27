@@ -29,10 +29,8 @@ public class IncidentJson : AssignableRecordJson
 
     public string Display { get; set; }
 
-    [JsonPropertyName("ICM Service Region")]
     public string ICMServiceRegion { get; set; }
 
-    [JsonPropertyName("ICM Service Region Code")]
     public string ICMServiceRegionCode { get; set; }
 
     public string IncidentCity { get; set; }
