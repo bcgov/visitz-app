@@ -1,8 +1,6 @@
-using System.Globalization;
 using Realms;
-using VisitzModel.Formats;
 
-namespace VisitzModel.Models
+namespace VisitzModel.Models.Logging
 {
     public partial class LogEntry : IRealmObject
     {

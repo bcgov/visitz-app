@@ -1,7 +1,7 @@
 using MetroLog;
 using MetroLog.Targets;
 using Microsoft.Extensions.Logging;
-using VisitzModel.Models;
+using VisitzModel.Models.Logging;
 using Logger = Microsoft.Extensions.Logging.ILogger;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
