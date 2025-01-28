@@ -8,9 +8,6 @@ public class BaseRecordJson
     public string Id { get; set; }
 
     [JsonRequired]
-    public string RowId { get; set; }
-
-    [JsonRequired]
     public string CreatedBy { get; set; }
 
     [JsonRequired]

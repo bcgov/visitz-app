@@ -62,7 +62,6 @@ public class IncidentJsonTests
     internal const string json =
 $@"{{
     ""Id"": ""{id}"",
-    ""Row Id"": ""{id}"",
     ""Activity UID"": ""{activityUID}"",
     ""After Hours Flag"": ""{afterHoursFlag}"",
     ""Assigned To Id"": ""{assignedToId}"",
@@ -136,7 +135,6 @@ $@"{{
     [InlineData(display, nameof(IncidentJson.Display))]
     [InlineData(iCMServiceRegion, nameof(IncidentJson.ICMServiceRegion))]
     [InlineData(iCMServiceRegionCode, nameof(IncidentJson.ICMServiceRegionCode))]
-    [InlineData(id, nameof(IncidentJson.RowId))]
     [InlineData(incidentCity, nameof(IncidentJson.IncidentCity))]
     [InlineData(incidentLocation, nameof(IncidentJson.IncidentLocation))]
     [InlineData(incidentPostalCode, nameof(IncidentJson.IncidentPostalCode))]
