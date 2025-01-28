@@ -20,16 +20,12 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         BindingContext = ViewModel;
     }
 
-    public ChildYouthVisitView(VisitzViewModel viewModel) : base(viewModel)
-    {
-    }
-
     private async void Discard_Clicked(object sender, EventArgs e)
     {
         if (await PromptDiscard())
         {
             await Navigator.Navigation.PopModalAsync();
-            SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
+            SnackbarHandler.ShowText(LocalizedStrings.DiscardedVisitDraft);
         }
     }
 
