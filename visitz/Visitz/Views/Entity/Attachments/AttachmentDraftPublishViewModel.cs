@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Documents;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Services.Attachments;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;

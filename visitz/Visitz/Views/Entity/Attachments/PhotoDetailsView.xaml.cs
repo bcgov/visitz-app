@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Services;
+using Visitz.Services.Attachments;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
 
