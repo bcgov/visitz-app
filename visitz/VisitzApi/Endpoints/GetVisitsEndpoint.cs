@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Visits;
@@ -26,8 +27,11 @@ internal class GetVisitsEndpoint(string baseUrl, string caseId, DateTimeOffset? 
         };
     }
 
-    public override IEnumerable<VisitJson> HandleResponse(string responseContent)
+    public override IEnumerable<VisitJson> HandleResponse(HttpResponseMessage response, string responseContent)
     {
+        if (response.StatusCode == HttpStatusCode.NoContent)
+            return [];
+
         JsonElement items = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty("items");
