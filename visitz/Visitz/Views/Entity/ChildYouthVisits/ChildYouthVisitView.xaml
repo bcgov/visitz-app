@@ -121,7 +121,7 @@
                         Spacing="10"
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitTypeGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding SelectedVisitType}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsValue}">
                         <formctls:FormRadioButton
                             Value="{Static visitStrings:PersonVisitDetails.Type_Private}"
                             IsChecked="{Binding PrivateChecked}"
@@ -154,7 +154,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding PrivateChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding SelectedVisitDetail}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroup}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_VisitAge0To5}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_VisitAge0To5}"
@@ -182,7 +182,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding ExemptionToPrivateVisitChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding SelectedVisitDetail}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroup}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_ChildDeclinedToMeet}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_ChildDeclinedToMeet}"
@@ -200,7 +200,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding NotPrivateChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding SelectedVisitDetail}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroup}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_PlanningMeeting}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_PlanningMeeting}"
@@ -245,16 +245,28 @@
                         IsVisible="{Binding HideElements}"
                         Text="{Binding RemainingCharacters, StringFormat={Static childYouthVisit:ChildYouthVisitViewModel.RemainingCharactersString}}"
                         Style="{StaticResource LabelSmall}"/>
-                    <Editor
+                    <AbsoluteLayout
                         Grid.Row="1"
-                        Text="{Binding PersonVisitItem.VisitDescription}"
-                        TextColor="{StaticResource BlackishText}"
-                        FontFamily="BCSansRegular"
-                        IsEnabled="{Binding IsUpdatingEnabled}"
-                        TextChanged="VisitsEditor_TextChanged"
-                        VerticalOptions="Fill"
-                        HorizontalOptions="Fill"
-                        FontSize="17"/>
+                        VerticalOptions="FillAndExpand">
+                        <Editor
+                            x:Name="VisitsEditor"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            Text="{Binding PersonVisitItem.VisitDescription}"
+                            TextColor="{StaticResource BlackishText}"
+                            FontFamily="BCSansRegular"
+                            IsEnabled="{Binding IsUpdatingEnabled}"
+                            TextChanged="VisitsEditor_TextChanged"
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill"
+                            FontSize="17"/>
+
+                        <views:ErrorTooltip
+                            x:Name="EditorError"
+                            AbsoluteLayout.LayoutFlags="PositionProportional"
+                            AbsoluteLayout.LayoutBounds="0.5,-.08"
+                            IsVisible="False"/>
+                    </AbsoluteLayout>
 
                 </Grid>
             </Grid>

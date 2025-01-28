@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc.Network;
 using Realms;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
 
@@ -66,12 +68,6 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public bool visitWithCaregiverChecked;
 
     [ObservableProperty]
-    public string selectedVisitType;
-
-    [ObservableProperty]
-    public string selectedVisitDetail;
-
-    [ObservableProperty]
     public string visitDescription;
 
     [ObservableProperty]
@@ -98,45 +94,35 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     [ObservableProperty]
     public PersonVisit personVisitItem;
 
+    public event EventHandler<DraftErrorEventArgs> DraftError;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-        await InitVisitDraft();
+        PersonVisitItem ??= new();
     }
 
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
         {
-
             _disposed = true;
         }
         base.Dispose(disposing);
     }
-
-    private async Task InitVisitDraft()
+    partial void OnPersonVisitItemChanged(PersonVisit oldValue, PersonVisit newValue)
     {
-        Realm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-    }
-
-    partial void OnSelectedVisitTypeChanged(string value)
-    {
-        IsVisitTypeSelected = !string.IsNullOrWhiteSpace(value);
+        if (oldValue != null)
+            oldValue.PropertyChanged -= PersonVisitItem_PropertyChanged;
+        
+        if (newValue != null)
+            newValue.PropertyChanged += PersonVisitItem_PropertyChanged;
     }
 
     private void PersonVisitItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
+        IsVisitTypeSelected = !string.IsNullOrWhiteSpace(PersonVisitItem.VisitDetailsValue);
         UpdateAllowPublish();
-        var x =0;
-    }
-
-    partial void OnPersonVisitItemChanged(PersonVisit value)
-    {
-        if (value != null)
-        {
-            SelectedVisitType = value.VisitDetailsValue;
-            SelectedVisitDetail = value.VisitDetailsGroup;
-        }
     }
 
     [RelayCommand]
@@ -146,13 +132,23 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     private void UpdateAllowPublish()
     {
-        AllowPublish = NetworkHelper.InternetAvailable 
-            && SelectedVisitDetail != null 
-            && SelectedVisitType != null 
-            && VisitDescription.Length > 0;
+        AllowPublish = NetworkHelper.InternetAvailable
+            && PersonVisitItem.VisitDetailsGroup != null
+            && PersonVisitItem.VisitDetailsValue != null
+            && PersonVisitItem.VisitDescription?.Length > 0;
     }
 
-    public async Task EditorTextChanged(TextChangedEventArgs e)
+    private static bool ContainEmojis(TextChangedEventArgs e)
+    {
+        return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
+    }
+
+    private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
+    {
+        return e.NewTextValue?.Length > CharacterLimit;
+    }
+
+    public void EditorTextChanged(TextChangedEventArgs e)
     {
         if (string.Equals(e.OldTextValue, e.NewTextValue))
             // Early return required to prevent infinite loops due to "cancelling" events
@@ -160,6 +156,24 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             return;
 
         int length = e.NewTextValue?.Length ?? 0;
+        if (ContainEmojis(e))
+        {
+            CancelTextChangedEvent(e);
+            DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.InvalidEntry));
+            return;
+        }
+        else if (ExceedsCharacterLimit(e))
+        {
+            CancelTextChangedEvent(e);
+            DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.CharacterLimitReached));
+            return;
+        }
         RemainingCharacters = CharacterLimit - length;
+
+    }
+
+    private void CancelTextChangedEvent(TextChangedEventArgs e)
+    {
+        PersonVisitItem.VisitDescription = e.OldTextValue;
     }
 }

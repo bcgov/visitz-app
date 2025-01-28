@@ -1,6 +1,8 @@
+using Visitz.Animations.Haptic;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
+using VisitzModel.Events;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
@@ -18,6 +20,35 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     {
         InitializeComponent();
         BindingContext = ViewModel;
+        ViewModel.DraftError += AddVisit_DraftError;
+    }
+    private async void AddVisit_DraftError(object sender, DraftErrorEventArgs e)
+    {
+        await ShowEditorError(e.ErrorMessage);
+    }
+
+    public async Task ShowEditorError(string text)
+    {
+        await Task.WhenAll(ShowErrorText(text), AnimateEditorError());
+    }
+
+    private async Task ShowErrorText(string text)
+    {
+        if (EditorError.IsVisible)
+            return;
+
+        EditorError.Text = text;
+        EditorError.Show = true;
+
+        await Task.Delay(2000);
+
+        EditorError.Show = false;
+    }
+
+    private async Task AnimateEditorError()
+    {
+        var vibrateErrorAnim = new ErrorVibrateAnimation();
+        await vibrateErrorAnim.Animate(VisitsEditor);
     }
 
     private async void Discard_Clicked(object sender, EventArgs e)
@@ -29,9 +60,9 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         }
     }
 
-    async void VisitsEditor_TextChanged(object sender, TextChangedEventArgs e)
+    void VisitsEditor_TextChanged(object sender, TextChangedEventArgs e)
     {
-        await ViewModel.EditorTextChanged(e);
+        ViewModel.EditorTextChanged(e);
     }
 
     private static async Task<bool> PromptDiscard()
