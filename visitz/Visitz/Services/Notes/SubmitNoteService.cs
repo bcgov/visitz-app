@@ -7,7 +7,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes
 {
-    public class SubmitNoteService(Vpi vpi) : VisitzApiService(vpi)
+    public class SubmitNoteService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
     {
         public static string MakeId(string entityNumber, string notePeriod)
         {

@@ -3,10 +3,11 @@ using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes
 {
-    public class GetNotesService(Vpi vpi) : VisitzApiService(vpi)
+    public class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
     {
         public static string MakeId(string caseIncidentId)
         {

@@ -8,7 +8,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.SafetyAssessments;
 
-public class SubmitSafetyAssessmentService(Vpi vpi) : VisitzApiService(vpi)
+public class SubmitSafetyAssessmentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     public static string MakeId(string entityId)
     {

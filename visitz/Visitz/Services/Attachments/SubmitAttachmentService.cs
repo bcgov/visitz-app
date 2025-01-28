@@ -2,10 +2,11 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models.Attachments;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
-internal class SubmitAttachmentService(Vpi vpi) : VisitzApiService(vpi)
+internal class SubmitAttachmentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     public static string MakeId(SubmitAttachmentEntity entity)
     {

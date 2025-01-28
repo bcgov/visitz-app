@@ -1,4 +1,5 @@
 using VisitzModel.Events;
+using VisitzModel.Extensions;
 
 namespace VisitzModel.Storage;
 
@@ -17,6 +18,11 @@ public class LastUpdatedPrefs(IPreferences prefs)
 		Preferences.Set(fullKey, value);
 		LastUpdatedChanged?.Invoke(this, new LastUpdatedChangedEventArgs(key, value));
 	}
+
+    public void SetLocalNow(string key)
+    {
+        Set(key, DateTimeExtensions.LocalNow);
+    }
 
 	public DateTime? Get(string key)
 	{

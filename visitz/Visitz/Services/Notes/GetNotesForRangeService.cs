@@ -1,10 +1,12 @@
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes
 {
-    public class GetNotesForRangeService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
+    public class GetNotesForRangeService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
+        : VisitzApiService(vpi, prefs)
     {
         readonly List<string> successIds = [];
         readonly List<string> erroredIds = [];

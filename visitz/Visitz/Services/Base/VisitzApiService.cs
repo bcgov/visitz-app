@@ -5,12 +5,15 @@ using Visitz.Resources.Localization;
 using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Base
 {
-    public abstract class VisitzApiService(Vpi vpi) : VisitzService
+    public abstract class VisitzApiService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzService
     {
-        protected Vpi Vpi { get; set; } = vpi;
+        protected Vpi Vpi { get; } = vpi;
+
+        protected LastUpdatedPrefs LastUpdatedPrefs { get; } = prefs;
 
         protected override sealed async Task RunServiceAsync()
         {
@@ -36,6 +39,8 @@ namespace Visitz.Services.Base
                     cancelTokenSource.Token);
 
                 await RunApiServiceAsync();
+
+                await TrySetLastUpdated();
             }
             catch (OperationCanceledException)
             {
@@ -66,6 +71,13 @@ namespace Visitz.Services.Base
         private static bool IsSessionException(HttpStatusCode code)
         {
             return code == HttpStatusCode.Unauthorized || code == HttpStatusCode.Forbidden;
+        }
+
+        private async Task TrySetLastUpdated()
+        {
+            if (ResultCode == Result.Successful)
+                await MainThread.InvokeOnMainThreadAsync(
+                    () => LastUpdatedPrefs.SetLocalNow(GetId()));
         }
     }
 }

@@ -8,10 +8,12 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
+    public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
+        : VisitzApiService(vpi, prefs)
     {
         public static string MakeId()
         {

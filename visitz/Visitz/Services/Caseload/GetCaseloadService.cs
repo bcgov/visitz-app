@@ -6,7 +6,6 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models.Base;
 using VisitzApi.Models.Caseload;
-using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
@@ -15,10 +14,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    public class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi)
+    public class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
     {
-        LastUpdatedPrefs LastUpdated { get; set; } = prefs;
-
         public static string MakeId()
         {
             return nameof(GetCaseloadService);
@@ -42,7 +39,6 @@ namespace Visitz.Services.Caseload
             await DownloadAndSaveCaseloadV2Async();
 
             ResultCode = Result.Successful;
-            await MainThread.InvokeOnMainThreadAsync(() => LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow));
         }
 
         private async Task GetCaseloadV1Async()
