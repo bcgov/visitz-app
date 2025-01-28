@@ -39,7 +39,7 @@ internal class GetVisitsByRangeService(Vpi vpi, ServiceHandler serviceHandler) :
 
         ResultCode = erroredIds.Count <= 0
             ? Result.Successful
-            : throw new PartialErrorException(nameof(GetVisitsByRangeService), successIds, erroredIds);
+            : throw new PartialRangeErrorException(nameof(GetVisitsByRangeService), successIds, erroredIds);
     }
 
     async ValueTask GetVisitsForCase(string caseId, CancellationToken token)
