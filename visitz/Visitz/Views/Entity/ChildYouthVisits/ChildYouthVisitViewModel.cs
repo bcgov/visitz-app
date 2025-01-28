@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Oidc.Network;
 using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -82,6 +84,12 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public bool allowDiscard = true;
 
     [ObservableProperty]
+    public bool allowPublish;
+
+    [ObservableProperty]
+    private NetworkAccess networkAccess = Connectivity.Current.NetworkAccess;
+
+    [ObservableProperty]
     public int remainingCharacters = CharacterLimit;
 
     [ObservableProperty]
@@ -110,7 +118,13 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     partial void OnSelectedVisitTypeChanged(string value)
     {
-        IsVisitTypeSelected = !string.IsNullOrEmpty(value);
+        IsVisitTypeSelected = !string.IsNullOrWhiteSpace(value);
+    }
+
+    private void PersonVisitItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        UpdateAllowPublish();
+        var x =0;
     }
 
     partial void OnPersonVisitItemChanged(PersonVisit value)
@@ -124,7 +138,16 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     [RelayCommand]
     public async Task PublishInPersonVisit()
-    { }
+    {
+    }
+
+    private void UpdateAllowPublish()
+    {
+        AllowPublish = NetworkHelper.InternetAvailable 
+            && SelectedVisitDetail != null 
+            && SelectedVisitType != null 
+            && VisitDescription.Length > 0;
+    }
 
     public async Task EditorTextChanged(TextChangedEventArgs e)
     {

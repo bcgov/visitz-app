@@ -68,7 +68,7 @@
 
                     <Button
                         Text="{local:Localize PublishToIcm}"
-                        Command=" PublishInPersonVisitCommand"
+                        Command="{Binding PublishInPersonVisitCommand}"
                         IsEnabled="{Binding AllowPublish}"/>
                 </HorizontalStackLayout>
             </Grid>
@@ -97,7 +97,7 @@
                         Format="MMMM dd, yyyy"
                         MaximumDate="{Binding MaxDate}"
                         IsEnabled="{Binding IsUpdatingEnabled}"
-                        Date="{Binding PersonVisitItem.DateOfVisit, StringFormat='{0:MMMM dd, yyyy}'}"/>
+                        Date="{Binding PersonVisitItem.DateOfVisit, Converter={StaticResource DateTimeOffsetConverter}}"/>
                 </Grid>
 
                 <!-- Second Row: RadioButton and Checkbox -->
