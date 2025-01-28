@@ -14,6 +14,8 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     private static readonly int CharacterLimit = 4000;
     public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
     private bool _disposed;
+    Realm Realm { get; set; }
+    public CaseloadItem CaseloadItem { get; set; }
 
     [ObservableProperty]
     public bool isVisitTypeSelected;
@@ -67,15 +69,6 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public string selectedVisitDetail;
 
     [ObservableProperty]
-    public bool showPrivateTypeVisitDetails = false;
-
-    [ObservableProperty]
-    public bool showExemptionTypeVisitDetails = false;
-
-    [ObservableProperty]
-    public bool showNotPrivateTypeVisitDetails = false;
-
-    [ObservableProperty]
     public string visitDescription;
 
     [ObservableProperty]
@@ -85,21 +78,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public bool isUpdatingEnabled = true;
 
     [ObservableProperty]
-    public string selectedPrivateVisitDetailGroup;
-
-    [ObservableProperty]
-    public string selectedNotPrivateVisitDetailGroup;
-
-    [ObservableProperty]
-    public string selectedExcemptPrivateVisitDetailGroup;
-
-    [ObservableProperty]
     public bool allowDiscard = true;
 
     [ObservableProperty]
     public int remainingCharacters = CharacterLimit;
-    Realm Realm { get; set; }
-    public CaseloadItem CaseloadItem { get; set; }
 
     [ObservableProperty]
     public PersonVisit personVisitItem;
