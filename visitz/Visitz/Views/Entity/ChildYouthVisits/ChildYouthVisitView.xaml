@@ -143,6 +143,7 @@
                         Grid.Row="0"
                         Grid.Column="1"
                         Text="{local:Localize VisitDetails}"
+                        IsVisible="{Binding IsVisitTypeSelected}"
                         HorizontalTextAlignment="Start"
                         VerticalTextAlignment="Center"/>
 

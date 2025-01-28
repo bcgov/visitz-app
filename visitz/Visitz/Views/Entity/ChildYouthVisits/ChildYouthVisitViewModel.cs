@@ -18,6 +18,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     private static readonly int CharacterLimit = 4000;
     public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
     private bool _disposed;
+
+    [ObservableProperty]
+    public bool isVisitTypeSelected;
     
     [ObservableProperty]
     public DateTime maxDate = DateTimeExtensions.LocalNow;
@@ -125,6 +128,11 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     {
         Realm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
         // PersonVisit = PersonVisit.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? CreateNoteDraft();
+    }
+
+    partial void OnSelectedVisitTypeChanged(string value)
+    {
+        IsVisitTypeSelected = !string.IsNullOrEmpty(value);
     }
 
     partial void OnPersonVisitItemChanged(PersonVisit value)
