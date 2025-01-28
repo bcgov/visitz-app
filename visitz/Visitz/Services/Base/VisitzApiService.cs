@@ -6,7 +6,7 @@ using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
 
-namespace Visitz.Services
+namespace Visitz.Services.Base
 {
     public abstract class VisitzApiService(Vpi vpi) : VisitzService
     {
@@ -45,7 +45,7 @@ namespace Visitz.Services
             catch (VisitzApiException ex)
             {
 #if DEBUG
-                Console.WriteLine(nameof(VisitzApiException) 
+                Console.WriteLine(nameof(VisitzApiException)
                     + $" {ex.HttpStatusCode} -> {ex.Message}:\n{ex.StackTrace}");
 #endif
                 if (IsSessionException(ex.HttpStatusCode))

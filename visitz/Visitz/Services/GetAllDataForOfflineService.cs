@@ -1,5 +1,6 @@
 using Oidc;
 using Realms;
+using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.Visits;

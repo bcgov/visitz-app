@@ -5,6 +5,7 @@ using Realms;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Services.Base;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
@@ -20,10 +21,10 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Caseload
 {
-	/// <summary>
-	/// The business logic for the cases and incidents list rendering goes here.
-	/// </summary>
-	public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
+    /// <summary>
+    /// The business logic for the cases and incidents list rendering goes here.
+    /// </summary>
+    public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
         private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 

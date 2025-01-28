@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using VisitzModel;
 
-namespace Visitz.Services
+namespace Visitz.Services.Base
 {
     public abstract class VisitzService
     {
