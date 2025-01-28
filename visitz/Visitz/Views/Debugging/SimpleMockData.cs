@@ -1,4 +1,5 @@
 using VisitzModel.Models;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Resources.Localization;
 
 namespace Visitz.Views.Debugging;

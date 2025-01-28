@@ -10,6 +10,7 @@ using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.InPersonVisits;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 

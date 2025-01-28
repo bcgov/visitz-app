@@ -2,7 +2,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzModel.Models;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;

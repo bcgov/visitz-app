@@ -3,7 +3,7 @@ using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 
-namespace VisitzModel.Models;
+namespace VisitzModel.Models.InPersonVisits;
 
 public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>
 {
