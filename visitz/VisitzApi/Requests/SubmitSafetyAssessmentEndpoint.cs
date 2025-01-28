@@ -40,7 +40,7 @@ internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SafetyAssessmentEn
         };
     }
 
-    public override (bool success, string status) HandleResponse(string responseContent)
+    public override (bool success, string status) HandleResponse(HttpResponseMessage _, string responseContent)
     {
         var payload = JsonDocument.Parse(responseContent)
                 .RootElement

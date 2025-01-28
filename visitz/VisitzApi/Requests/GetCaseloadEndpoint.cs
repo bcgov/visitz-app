@@ -70,7 +70,7 @@ namespace VisitzApi.Requests
             }
         }
 
-        public override IEnumerable<CaseloadEntity> HandleResponse(string responseContent)
+        public override IEnumerable<CaseloadEntity> HandleResponse(HttpResponseMessage _, string responseContent)
         {
             if (WebMethodsJsonError.TryFindFirstError(responseContent, out string errorMessage))
                 if (errorMessage == NoRecordsFoundError)

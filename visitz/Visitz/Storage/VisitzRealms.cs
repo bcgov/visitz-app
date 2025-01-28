@@ -1,11 +1,14 @@
 using Microsoft.Extensions.Logging;
 using Realms;
 using VisitzModel.Storage;
+using VisitzModel.Utilities;
 
 namespace Visitz.Storage;
 
 internal static class VisitzRealms
 {
+    private static readonly EagerActionQueue icmDataQueue = new();
+
     private static async Task<byte[]> GetKey(string name) => await VisitzKey.GetKey(name);
 
 
@@ -45,4 +48,13 @@ internal static class VisitzRealms
 
 	public static async Task<Realm> GetPersonVisitDraftsRealmAsync() =>
 		await (await GetPersonVisitDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<PersonVisitDrafts>>());
+
+    public static async Task EnqueueIcmDataActionAsync(Action<Realm> action)
+    {
+        await icmDataQueue.EnqueueAsync(async () =>
+        {
+            using var realm = await GetIcmDataRealmAsync();
+            action(realm);
+        });
+    }
 }

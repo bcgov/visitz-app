@@ -26,7 +26,7 @@ internal class GetCaseloadEndpoint(string baseUrl, DateTimeOffset? after = null)
         };
     }
 
-    public override CaseloadJson HandleResponse(string responseContent)
+    public override CaseloadJson HandleResponse(HttpResponseMessage _, string responseContent)
     {
         return JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet);
     }    

@@ -48,7 +48,7 @@ namespace VisitzApi.Requests
             };
         }
 
-        public override IEnumerable<NoteEntity> HandleResponse(string responseContent)
+        public override IEnumerable<NoteEntity> HandleResponse(HttpResponseMessage _, string responseContent)
         {
             var notesJson = JsonDocument.Parse(responseContent)
                 .RootElement

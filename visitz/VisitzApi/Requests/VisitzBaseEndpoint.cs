@@ -46,11 +46,16 @@ namespace VisitzApi.Requests
                 throw new VisitzApiException(response.StatusCode, BuildMessage(response.StatusCode, errorMessage));
         }
 
-        public abstract ResponseType HandleResponse(string responseContent);
+        public abstract ResponseType HandleResponse(HttpResponseMessage response, string responseContent);
 
 		static string BuildMessage(HttpStatusCode code, string message)
 		{
 			return $"HTTP {(int)code} {code} {message}";
 		}
+
+        protected static string AfterParam(DateTimeOffset afterTimestamp, string format = "s")
+        {
+            return $"?&{ParamNames.Since}={afterTimestamp.ToString(format)}";
+        }
     }
 }

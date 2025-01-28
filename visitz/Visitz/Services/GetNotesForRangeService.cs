@@ -45,7 +45,7 @@ namespace Visitz.Services
 
             ResultCode = erroredIds.Count <= 0 
                 ? Result.Successful 
-                : throw new PartialErrorException(successIds, erroredIds);
+                : throw new PartialRangeErrorException(nameof(GetNotesForRangeService), successIds, erroredIds);
         }
 
 		private async ValueTask GetNotesForRecord((string id, string entityType) tuple, CancellationToken token)
@@ -63,22 +63,4 @@ namespace Visitz.Services
             }
 		}
 	}
-
-    public class PartialErrorException(List<string> successIds, List<string> errors) 
-        : Exception(MakeMessage(errors))
-    {
-        public List<string> SuccessIds { get; set; } = successIds;
-
-        public List<string> ErrorIds { get; set; } = errors;
-
-        public static string MakeMessage(List<string> errors)
-        {
-            StringBuilder sb = new($"{nameof(GetNotesForRangeService)} errors:\n\n");
-
-            foreach (var error in errors.Order())
-                sb.AppendLine($"• {error}");
-
-            return sb.ToString();
-        }
-    }
 }
