@@ -7,7 +7,7 @@ namespace VisitzApi.Endpoints;
 internal class GetVisitsEndpoint(string baseUrl, string caseId, DateTimeOffset? after = null)
     : VisitzBaseEndpoint<IEnumerable<VisitJson>>(baseUrl, Vpi.V2, string.Format(VisitsPath, caseId))
 {
-    static readonly string VisitsPath = "/{0}/visits";
+    static readonly string VisitsPath = "/case/{0}/visits";
 
     readonly DateTimeOffset? After = after;
 
