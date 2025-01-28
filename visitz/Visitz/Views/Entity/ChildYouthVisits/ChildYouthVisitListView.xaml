@@ -11,7 +11,7 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     x:DataType="childYouthVisit:ChildYouthVisitListViewModel">
-    
+
     <Grid
         HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand"
@@ -81,7 +81,7 @@
                 <DataTemplate x:DataType="models:PersonVisit">
                     <ContentView>
                         <ContentView.GestureRecognizers>
-                            <TapGestureRecognizer 
+                            <TapGestureRecognizer
                                 Command="{Binding Path=OpenVisitEntryCommand, Source={RelativeSource AncestorType={x:Type childYouthVisit:ChildYouthVisitListViewModel}}}"
                                 CommandParameter="{Binding .}"/>
                         </ContentView.GestureRecognizers>

@@ -21,8 +21,8 @@
         </ResourceDictionary>
     </baseClasses:ViewModelContentView.Resources>
     <baseClasses:ViewModelContentView.Behaviors>
-		<behaviors:SoftKbResizeBehavior />
-	</baseClasses:ViewModelContentView.Behaviors>
+        <behaviors:SoftKbResizeBehavior/>
+    </baseClasses:ViewModelContentView.Behaviors>
     <Border
         Background="White"
         Padding="-5"
@@ -73,7 +73,7 @@
                 </HorizontalStackLayout>
             </Grid>
 
-            <Grid 
+            <Grid
                 Grid.Row="1"
                 RowSpacing="15"
                 RowDefinitions="Auto, Auto, *">
@@ -253,7 +253,7 @@
                         VerticalOptions="Fill"
                         HorizontalOptions="Fill"
                         FontSize="17"/>
-                    
+
                 </Grid>
             </Grid>
         </Grid>

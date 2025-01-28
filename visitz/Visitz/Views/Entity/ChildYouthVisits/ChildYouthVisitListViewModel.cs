@@ -55,7 +55,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     public bool showEmptyIcon = false;
 
     [ObservableProperty]
-	public string openAddVisitText;
+    public string openAddVisitText;
 
     protected override async Task InitAsync()
     {
@@ -145,9 +145,9 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     }
 
     private void UpdateOpenAddVisitText(bool draftAvailable)
-	{
-		OpenAddVisitText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddVisit;
-	}
+    {
+        OpenAddVisitText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddVisit;
+    }
 
     [RelayCommand]
     public async Task OpenVisitEntry(PersonVisit personVisitObj = null)

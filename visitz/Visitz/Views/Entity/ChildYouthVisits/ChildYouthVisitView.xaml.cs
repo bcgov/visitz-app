@@ -28,9 +28,8 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     {
         if (await PromptDiscard())
         {
-        	// await ViewModel.ResetDraftAsync();
-        	await Navigator.Navigation.PopModalAsync();
-        	SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
+            await Navigator.Navigation.PopModalAsync();
+            SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
         }
     }
 
@@ -40,11 +39,11 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     }
 
     private static async Task<bool> PromptDiscard()
-	{
-		return await Navigator.CurrentOpenPage.DisplayAlert(
-			LocalizedStrings.DiscardDraftQuestion,
-			LocalizedStrings.DiscardVisitDraftDescription,
-			LocalizedStrings.Discard,
-			LocalizedStrings.Cancel);
-	}
+    {
+        return await Navigator.CurrentOpenPage.DisplayAlert(
+            LocalizedStrings.DiscardDraftQuestion,
+            LocalizedStrings.DiscardVisitDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel);
+    }
 }

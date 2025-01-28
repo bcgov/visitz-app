@@ -17,7 +17,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     [ObservableProperty]
     public bool isVisitTypeSelected;
-    
+
     [ObservableProperty]
     public DateTime maxDate = DateTimeExtensions.LocalNow;
 
@@ -146,7 +146,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             // Early return required to prevent infinite loops due to "cancelling" events
             // by reassigning its previous value
             return;
-        
+
         int length = e.NewTextValue?.Length ?? 0;
         RemainingCharacters = CharacterLimit - length;
     }
