@@ -8,6 +8,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;

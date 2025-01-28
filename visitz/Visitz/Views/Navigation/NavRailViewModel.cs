@@ -12,6 +12,7 @@ using Visitz.Views.Drafts;
 using Visitz.Views.User;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;

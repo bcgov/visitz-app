@@ -7,6 +7,7 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;

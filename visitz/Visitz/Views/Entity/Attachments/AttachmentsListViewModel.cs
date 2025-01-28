@@ -10,6 +10,7 @@ using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 
 namespace Visitz.Views.Entity.Attachments;
 

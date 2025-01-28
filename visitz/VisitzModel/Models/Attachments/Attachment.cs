@@ -4,7 +4,7 @@ using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage.Filesystem;
 
-namespace VisitzModel.Models;
+namespace VisitzModel.Models.Attachments;
 
 public partial class Attachment : IRealmObject, IRecordInfo
 {

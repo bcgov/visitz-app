@@ -3,6 +3,7 @@ using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 
 namespace Visitz.Views.Entity.Attachments;
 

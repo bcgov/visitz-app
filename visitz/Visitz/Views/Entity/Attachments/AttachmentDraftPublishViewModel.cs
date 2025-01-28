@@ -7,7 +7,7 @@ using Visitz.Services.Base;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
-using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;

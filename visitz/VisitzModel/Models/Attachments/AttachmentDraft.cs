@@ -9,7 +9,7 @@ using VisitzModel.Models.EntityTypes;
 using VisitzModel.Resources.Localization;
 using VisitzModel.Storage.Filesystem;
 
-namespace VisitzModel.Models;
+namespace VisitzModel.Models.Attachments;
 
 public partial class AttachmentDraft : IRealmObject, IDraftItem
 {
