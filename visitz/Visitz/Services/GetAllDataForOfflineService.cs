@@ -1,9 +1,11 @@
 using Oidc;
 using Realms;
 using Visitz.Services.Messages;
+using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Services
 {
@@ -36,7 +38,9 @@ namespace Visitz.Services
             await Task.Run(async () =>
             {
                 await GetCaseload();
-                await GetAllNotes();
+
+                using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+                await Task.WhenAll(GetAllNotes(realm), GetAllVisits(realm));
             });
 
             ResultCode = Result.Successful;
@@ -48,10 +52,8 @@ namespace Visitz.Services
             await ServiceHandler.TryRunServiceAsync(GetCaseloadService.MakeStartMessage(info.Idir));
         }
 
-        private async Task GetAllNotes()
+        private async Task GetAllNotes(Realm realm)
         {
-            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-
             var allIdEntities = realm
                 .All<CaseloadItem>()
                 .Freeze()
@@ -59,6 +61,18 @@ namespace Visitz.Services
                 .Select(item => (item.CaseIncidentNumber, item.EntityType));
 
             var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetAllVisits(Realm realm)
+        {
+            var allCaseIds = realm
+                .All<CaseRecord>()
+                .Freeze()
+                .AsEnumerable()
+                .Select(@case => @case.Id);
+
+            var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
     }
