@@ -110,6 +110,9 @@ public static class VisitzScreens
         builder.Services.AddTransient<DraftsList>();
         builder.Services.AddTransient<DraftsListViewModel>();
 
+        builder.Services.AddTransient<ChildYouthVisitView>();
+        builder.Services.AddTransient<ChildYouthVisitViewModel>();
+
         return builder;
     }
 }

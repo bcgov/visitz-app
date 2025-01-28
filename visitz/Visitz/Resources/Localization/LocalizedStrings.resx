@@ -810,4 +810,25 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="AddVisit" xml:space="preserve">
+    <value>Add visit</value>
+  </data>
+  <data name="DateOfVisit" xml:space="preserve">
+    <value>Date of visit</value>
+  </data>
+  <data name="VisitDescription" xml:space="preserve">
+    <value>Visit description</value>
+  </data>
+  <data name="VisitDetails" xml:space="preserve">
+    <value>Visit details</value>
+  </data>
+  <data name="VisitType" xml:space="preserve">
+    <value>Visit type</value>
+  </data>
+  <data name="DiscardVisitDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this in-person visit draft? You won't be able to recover it.</value>
+  </data>
+  <data name="DiscardedVisitDraft" xml:space="preserve">
+    <value>Discarded visit draft</value>
+  </data>
 </root>

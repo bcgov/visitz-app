@@ -88,6 +88,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add visit.
+        /// </summary>
+        public static string AddVisit {
+            get {
+                return ResourceManager.GetString("AddVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Age.
         /// </summary>
         public static string Age {
@@ -400,6 +409,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date of visit.
+        /// </summary>
+        public static string DateOfVisit {
+            get {
+                return ResourceManager.GetString("DateOfVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -503,6 +521,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discarded visit draft.
+        /// </summary>
+        public static string DiscardedVisitDraft {
+            get {
+                return ResourceManager.GetString("DiscardedVisitDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discarded note draft.
         /// </summary>
         public static string DiscardNoteDraft {
@@ -548,6 +575,15 @@ namespace Visitz.Resources.Localization {
         public static string DiscardUnlinkedDraftDesc {
             get {
                 return ResourceManager.GetString("DiscardUnlinkedDraftDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this in-person visit draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardVisitDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardVisitDraftDescription", resourceCulture);
             }
         }
         
@@ -2027,11 +2063,38 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Visit description.
+        /// </summary>
+        public static string VisitDescription {
+            get {
+                return ResourceManager.GetString("VisitDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit details.
+        /// </summary>
+        public static string VisitDetails {
+            get {
+                return ResourceManager.GetString("VisitDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In-person visit due by {0}..
         /// </summary>
         public static string VisitDueBy {
             get {
                 return ResourceManager.GetString("VisitDueBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit type.
+        /// </summary>
+        public static string VisitType {
+            get {
+                return ResourceManager.GetString("VisitType", resourceCulture);
             }
         }
         
