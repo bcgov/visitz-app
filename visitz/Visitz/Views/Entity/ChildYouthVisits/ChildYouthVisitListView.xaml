@@ -143,14 +143,6 @@
             ColumnDefinitions="Auto,*,Auto">
 
             <Button
-                IsVisible="False"
-                Grid.Column="0"
-                Style="{StaticResource MinimalButton}"
-                FontSize="20"
-                FontFamily="MaterialIconsRoundedUnfilled"
-                Text="{Static icons:MaterialIcons.Search}"/>
-
-            <Button
                 Grid.Column="2"
                 Text="{Binding OpenAddVisitText, TargetNullValue={local:Localize AddVisit}}"
                 Command="{Binding OpenVisitEntryCommand}">
