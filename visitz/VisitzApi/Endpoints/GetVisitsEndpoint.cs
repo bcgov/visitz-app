@@ -15,15 +15,10 @@ internal class GetVisitsEndpoint(string baseUrl, string caseId, DateTimeOffset? 
 
     public override HttpRequestMessage MakeRequest()
     {
-        Uri uri = RequestUri;
-
-        if (After is DateTimeOffset after)
-            uri = new Uri(uri, AfterParam(after));
-
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = uri
+            RequestUri = WithQueryParams(after: After),
         };
     }
 

@@ -1,4 +1,5 @@
 using System.Net;
+using System.Web;
 using VisitzApi.ErrorHandling;
 
 namespace VisitzApi.Requests
@@ -53,9 +54,31 @@ namespace VisitzApi.Requests
 			return $"HTTP {(int)code} {code} {message}";
 		}
 
-        protected static string AfterParam(DateTimeOffset afterTimestamp, string format = "s")
+        protected Uri WithQueryParams(
+            int? rowOffset = null,
+            int? pageSize = null,
+            bool? getRemainingCount = null,
+            DateTimeOffset? after = null,
+            string format = "s")
         {
-            return $"?&{ParamNames.Since}={afterTimestamp.ToString(format)}";
+            var query = HttpUtility.ParseQueryString(RequestUri.Query);
+
+            if (rowOffset is int offset)
+                query[ParamNames.StartRowNum] = offset.ToString();
+
+            if (pageSize is int size)
+                query[ParamNames.PageSize] = size.ToString();
+
+            if (getRemainingCount is bool getCount)
+                query[ParamNames.RecordCountNeeded] = getCount.ToString();
+
+            if (after is DateTimeOffset timestamp)
+                query[ParamNames.Since] = timestamp.ToString(format);
+
+            var urlWithoutQuery = RequestUri.ToString().Split('?')[0];
+            string queryString = query.ToString();
+
+            return new Uri(urlWithoutQuery + "?" + queryString);
         }
     }
 }
