@@ -1,5 +1,5 @@
 using Realms;
-using VisitzModel.Models;
+using VisitzModel.Models.Logging;
 
 namespace Visitz.Storage;
 

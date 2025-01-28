@@ -1,4 +1,6 @@
-﻿namespace VisitzModel.Models.Comparers;
+using VisitzModel.Models.Notes;
+
+namespace VisitzModel.Models.Comparers;
 
 public class NoteItemComparer : IComparer<NoteItem>
 {

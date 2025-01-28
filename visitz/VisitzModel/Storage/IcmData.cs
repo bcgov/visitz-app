@@ -2,6 +2,9 @@ using Realms;
 using Realms.Schema;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Notes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage.Migrations;
 
 namespace VisitzModel.Storage;

@@ -3,7 +3,9 @@ using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;

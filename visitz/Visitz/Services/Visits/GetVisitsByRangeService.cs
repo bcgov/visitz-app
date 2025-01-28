@@ -1,9 +1,12 @@
+using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;
 
-internal class GetVisitsByRangeService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
+internal class GetVisitsByRangeService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
+    : VisitzApiService(vpi, prefs)
 {
     public static string MakeId(IEnumerable<string> caseIds)
     {

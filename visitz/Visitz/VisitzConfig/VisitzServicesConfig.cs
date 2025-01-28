@@ -1,4 +1,8 @@
 using Visitz.Services;
+using Visitz.Services.Attachments;
+using Visitz.Services.Caseload;
+using Visitz.Services.Notes;
+using Visitz.Services.SafetyAssessments;
 using Visitz.Services.Visits;
 using VisitzModel.Storage;
 

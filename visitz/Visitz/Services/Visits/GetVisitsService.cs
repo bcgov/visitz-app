@@ -1,11 +1,13 @@
+using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzModel.Models;
+using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;
 
-internal class GetVisitsService(Vpi vpi) : VisitzApiService(vpi)
+internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     public static string MakeId(string caseId)
     {

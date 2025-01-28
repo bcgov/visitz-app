@@ -1,4 +1,5 @@
 using Visitz.Views.BaseClasses;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;

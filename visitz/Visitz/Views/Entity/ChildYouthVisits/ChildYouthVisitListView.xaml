@@ -9,7 +9,7 @@
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:banners="clr-namespace:Visitz.Views.Banners"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
+    xmlns:models="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
     x:DataType="childYouthVisit:ChildYouthVisitListViewModel">
 
     <Grid

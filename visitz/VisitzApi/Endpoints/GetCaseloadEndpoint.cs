@@ -14,15 +14,10 @@ internal class GetCaseloadEndpoint(string baseUrl, DateTimeOffset? after = null)
 
     public override HttpRequestMessage MakeRequest()
     {
-        Uri uri = RequestUri;
-
-        if (After is DateTimeOffset after)
-            uri = new Uri(uri, $"?{ParamNames.Since}=" + after.ToString("s"));
-
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = uri
+            RequestUri = WithQueryParams(after: After),
         };
     }
 

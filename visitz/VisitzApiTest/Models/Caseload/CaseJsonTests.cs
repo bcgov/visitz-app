@@ -40,7 +40,6 @@ public class CaseJsonTests
     internal const string json =
 @$"{{
 	""Id"": ""{id}"",
-	""Row Id"": ""{id}"",
     ""Assigned To Id"": ""{assignedToId}"",
     ""Assigned To"": ""{assignedTo}"",
     ""Case Num"": ""{caseNum}"",
@@ -74,7 +73,6 @@ public class CaseJsonTests
 
     [Theory]
     [InlineData(id, nameof(CaseJson.Id))]
-    [InlineData(id, nameof(CaseJson.RowId))]
     [InlineData(assignedTo, nameof(CaseJson.AssignedTo))]
     [InlineData(assignedToId, nameof(CaseJson.AssignedToId))]
     [InlineData(caseload, nameof(CaseJson.Caseload))]

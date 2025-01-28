@@ -7,8 +7,10 @@ using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;

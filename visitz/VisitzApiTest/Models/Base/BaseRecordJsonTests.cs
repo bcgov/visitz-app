@@ -16,7 +16,6 @@ public partial class BaseRecordJsonTests
     const string availableData =
 "{" + $"""
     "Id": "{ArbitraryId}",
-	"Row Id": "{ArbitraryId}",
 	"Created By": "{OtherName}",
 	"Created By Id": "{OtherNameId}",
 	"Created Date": "{CreatedDateValue}",
@@ -36,7 +35,6 @@ public partial class BaseRecordJsonTests
     const string missingNameFields =
 "{" + $"""
     "Id": "{ArbitraryId}",
-	"Row Id": "{ArbitraryId}",
 	"Created By Id": "{OtherNameId}",
 	"Created Date": "{CreatedDateValue}",
 	"Updated By Id": "{SomeNameId}",
@@ -46,7 +44,6 @@ public partial class BaseRecordJsonTests
     const string missingDateFields =
 "{" + $"""
     "Id": "{ArbitraryId}",
-	"Row Id": "{ArbitraryId}",
 	"Created By": "{OtherName}",
 	"Created By Id": "{OtherNameId}",
 	"Updated By": "{SomeName}",
@@ -55,7 +52,6 @@ public partial class BaseRecordJsonTests
 
     [Theory]
     [InlineData(ArbitraryId, nameof(BaseRecordJson.Id))]
-    [InlineData(ArbitraryId, nameof(BaseRecordJson.RowId))]
     [InlineData(OtherName, nameof(BaseRecordJson.CreatedBy))]
     [InlineData(OtherNameId, nameof(BaseRecordJson.CreatedById))]
     [InlineData(SomeName, nameof(BaseRecordJson.UpdatedBy))]

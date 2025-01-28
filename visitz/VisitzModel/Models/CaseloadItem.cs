@@ -2,7 +2,11 @@ using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Models.Notes;
+using VisitzModel.Models.People;
 
+// TODO Delete this class after we fully switch to new Models.Caseload models
+// Don't bother moving this class to the new namespace
 namespace VisitzModel.Models
 {
     public partial class CaseloadItem : IRealmObject

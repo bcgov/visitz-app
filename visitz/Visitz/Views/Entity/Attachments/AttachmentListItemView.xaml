@@ -5,7 +5,7 @@
 	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
 	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:model="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
+	xmlns:model="clr-namespace:VisitzModel.Models.Attachments;assembly=VisitzModel"
 	xmlns:icons="clr-namespace:Visitz.FontIcons"
 	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentListItemView"

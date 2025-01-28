@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
-using Visitz.Services;
+using Visitz.Services.Caseload;
 using Visitz.Settings;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;

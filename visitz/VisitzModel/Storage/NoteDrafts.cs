@@ -1,6 +1,6 @@
 using Realms;
 using Realms.Schema;
-using VisitzModel.Models;
+using VisitzModel.Models.Notes;
 using VisitzModel.Storage.Migrations;
 
 namespace VisitzModel.Storage;
