@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -105,7 +106,6 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     private async Task InitVisitDraft()
     {
         Realm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-        // PersonVisit = PersonVisit.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? CreateNoteDraft();
     }
 
     partial void OnSelectedVisitTypeChanged(string value)
@@ -121,6 +121,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             SelectedVisitDetail = value.VisitDetailsGroup;
         }
     }
+
+    [RelayCommand]
+    public async Task PublishInPersonVisit()
+    { }
 
     public async Task EditorTextChanged(TextChangedEventArgs e)
     {
