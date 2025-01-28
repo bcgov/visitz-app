@@ -6,7 +6,7 @@ using VisitzModel.Models;
 using VisitzModel.Models.SafetyAssess;
 using VisitzModel.Storage;
 
-namespace Visitz.Services;
+namespace Visitz.Services.SafetyAssessments;
 
 public class SubmitSafetyAssessmentService(Vpi vpi) : VisitzApiService(vpi)
 {
@@ -48,7 +48,7 @@ public class SubmitSafetyAssessmentService(Vpi vpi) : VisitzApiService(vpi)
 
         ResultCode = success ? Result.Successful : Result.Error;
 
-		if (ResultCode.Equals(Result.Successful))
-			new SurveyFeedbackTracker(Preferences.Default).SetHasPublishedAnything();
-	}
+        if (ResultCode.Equals(Result.Successful))
+            new SurveyFeedbackTracker(Preferences.Default).SetHasPublishedAnything();
+    }
 }

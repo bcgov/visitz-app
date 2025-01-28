@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Services.SafetyAssessments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
