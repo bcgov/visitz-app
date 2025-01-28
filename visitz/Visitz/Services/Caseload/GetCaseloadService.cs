@@ -13,11 +13,11 @@ using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
-namespace Visitz.Services
+namespace Visitz.Services.Caseload
 {
     public class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi)
     {
-		LastUpdatedPrefs LastUpdated { get; set; } = prefs;
+        LastUpdatedPrefs LastUpdated { get; set; } = prefs;
 
         public static string MakeId()
         {
@@ -42,7 +42,7 @@ namespace Visitz.Services
             await DownloadAndSaveCaseloadV2Async();
 
             ResultCode = Result.Successful;
-			await MainThread.InvokeOnMainThreadAsync(() => LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow));
+            await MainThread.InvokeOnMainThreadAsync(() => LastUpdated.Set(GetId(), DateTimeExtensions.LocalNow));
         }
 
         private async Task GetCaseloadV1Async()
@@ -100,10 +100,10 @@ namespace Visitz.Services
         private IEnumerable<CaseloadItem> FilterNonCasesAndIncidents(IEnumerable<CaseloadItem> caseloadItems)
         {
             return caseloadItems.Where(item =>
-			{
-				EntityType type = item.EntityType.ParseEntityType();
-				return type == EntityType.Case || type == EntityType.Incident;
-			});
+            {
+                EntityType type = item.EntityType.ParseEntityType();
+                return type == EntityType.Case || type == EntityType.Incident;
+            });
         }
     }
 }

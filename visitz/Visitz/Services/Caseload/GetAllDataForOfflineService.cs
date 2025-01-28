@@ -9,7 +9,7 @@ using VisitzApi;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
 
-namespace Visitz.Services
+namespace Visitz.Services.Caseload
 {
     public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
     {

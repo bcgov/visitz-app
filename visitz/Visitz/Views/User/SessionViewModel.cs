@@ -7,12 +7,13 @@ using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
-using Visitz.Services;
 using Visitz.Settings;
 using Visitz.Storage;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 using Visitz.Views.BaseClasses;
+
 using Microsoft.Extensions.Logging;
+using Visitz.Services.Caseload;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
