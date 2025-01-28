@@ -44,7 +44,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>
         Name = json.Name;
         VisitDescription = json.VisitDescription;
         Type = json.Type;
-        DateOfVisit = DateTimeOffset.Parse(json.Dateofvisit);
+        DateOfVisit = DateTimeOffset.Parse(json.DateOfVisit);
         VisitDetailsValue = json.VisitDetailsValue;
         LoginName = json.LoginName;
         Created = DateTimeOffset.Parse(json.Created);
@@ -62,7 +62,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>
             Name = Name,
             VisitDescription = VisitDescription,
             Type = Type,
-            Dateofvisit = DateOfVisit.ToString(dateFormat),
+            DateOfVisit = DateOfVisit.ToString(dateFormat),
             VisitDetailsValue = VisitDetailsValue,
             LoginName = LoginName,
             Created = Created.ToString(dateFormat),

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace VisitzApi.Models.Visits;
 
@@ -13,7 +14,8 @@ public class VisitJson
 
     public string CreatedBy { get; set; }
 
-    public string Dateofvisit { get; set; }
+    [JsonPropertyName("Date of visit")]
+    public string DateOfVisit { get; set; }
 
     public string LoginName { get; set; }
 
