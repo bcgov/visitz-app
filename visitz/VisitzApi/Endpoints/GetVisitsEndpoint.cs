@@ -1,4 +1,5 @@
 using System.Text.Json;
+using VisitzApi.Json;
 using VisitzApi.Models.Visits;
 using VisitzApi.Requests;
 
@@ -31,6 +32,6 @@ internal class GetVisitsEndpoint(string baseUrl, string caseId, DateTimeOffset? 
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<VisitJson>>(items);
+        return JsonSerializer.Deserialize<IEnumerable<VisitJson>>(items, PayloadOptions.SiebelGet);
     }
 }
