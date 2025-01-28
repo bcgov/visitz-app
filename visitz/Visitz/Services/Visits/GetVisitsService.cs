@@ -3,7 +3,7 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
 
-namespace Visitz.Services;
+namespace Visitz.Services.Visits;
 
 internal class GetVisitsService(Vpi vpi) : VisitzApiService(vpi)
 {
