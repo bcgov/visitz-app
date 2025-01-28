@@ -52,5 +52,10 @@ namespace VisitzApi.Requests
 		{
 			return $"HTTP {(int)code} {code} {message}";
 		}
+
+        protected static string AfterParam(DateTimeOffset afterTimestamp, string format = "s")
+        {
+            return $"?&{ParamNames.Since}={afterTimestamp.ToString(format)}";
+        }
     }
 }

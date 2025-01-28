@@ -1,7 +1,9 @@
+using VisitzApi.Endpoints;
 using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.Caseload;
 using VisitzApi.Models.SafetyAssess;
+using VisitzApi.Models.Visits;
 using VisitzApi.Requests;
 
 namespace VisitzApi
@@ -37,7 +39,7 @@ namespace VisitzApi
 
         public async Task<IEnumerable<CaseloadEntity>> GetCaseloadV1Async(params string[] workerIds)
         {
-            return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, workerIds));
+            return await CallApi(new Requests.GetCaseloadEndpoint(BaseVisitzApiUrl, workerIds));
         }
 
         public async Task<CaseloadJson> GetCaseloadV2Async(DateTimeOffset? after = null)
@@ -64,5 +66,10 @@ namespace VisitzApi
 		{
 			return await CallApi(new SubmitAttachmentEndpoint(BaseVisitzApiUrl, attachment));
 		}
+
+        public async Task<IEnumerable<VisitJson>> GetVisitsAsync(string caseId, DateTimeOffset? after = null)
+        {
+            return await CallApi(new GetVisitsEndpoint(BaseVisitzApiUrl, caseId, after));
+        }
     }
 }
