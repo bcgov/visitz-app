@@ -1,14 +1,12 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Storage;
 

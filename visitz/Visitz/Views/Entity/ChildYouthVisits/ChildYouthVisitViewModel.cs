@@ -1,13 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Models;
-using VisitzModel.Resources.Localization;
-using VisitzModel.Messaging;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
