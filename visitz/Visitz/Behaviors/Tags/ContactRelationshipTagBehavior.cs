@@ -1,6 +1,6 @@
-﻿using Visitz.Resources.Styles;
+using Visitz.Resources.Styles;
 using Visitz.Views.TagViews;
-using VisitzModel.Models;
+using VisitzModel.Models.People;
 
 namespace Visitz.Behaviors.Tags;
 

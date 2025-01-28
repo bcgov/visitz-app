@@ -17,6 +17,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 using VisitzModel.Utilities;
 

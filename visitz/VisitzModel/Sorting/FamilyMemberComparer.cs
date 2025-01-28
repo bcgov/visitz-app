@@ -1,5 +1,4 @@
-using System.Runtime.CompilerServices;
-using VisitzModel.Models;
+using VisitzModel.Models.People;
 
 namespace VisitzModel.Sorting;
 

@@ -3,7 +3,7 @@ using VisitzApi.Models;
 using VisitzModel.Extensions;
 using VisitzModel.Utilities;
 
-namespace VisitzModel.Models
+namespace VisitzModel.Models.People
 {
     public partial class FamilyMember : IEmbeddedObject
     {
