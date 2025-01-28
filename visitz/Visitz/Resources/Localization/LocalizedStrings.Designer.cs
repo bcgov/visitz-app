@@ -521,6 +521,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discarded visit draft.
+        /// </summary>
+        public static string DiscardedVisitDraft {
+            get {
+                return ResourceManager.GetString("DiscardedVisitDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discarded note draft.
         /// </summary>
         public static string DiscardNoteDraft {
