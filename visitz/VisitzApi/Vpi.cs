@@ -34,7 +34,7 @@ namespace VisitzApi
             if (IsV1Endpoint(endpoint))
                 endpoint.ThrowOnWebMethodsErrors(response, content);
 
-            return endpoint.HandleResponse(content);
+            return endpoint.HandleResponse(response, content);
         }
 
         public async Task<IEnumerable<CaseloadEntity>> GetCaseloadV1Async(params string[] workerIds)

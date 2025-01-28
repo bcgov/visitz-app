@@ -40,8 +40,8 @@ internal class SubmitAttachmentEndpoint(string baseUrl, SubmitAttachmentEntity p
 		};
 	}
 
-	public override (bool success, string attachmentId) HandleResponse(string responseContent)
-	{
+	public override (bool success, string attachmentId) HandleResponse(HttpResponseMessage _, string responseContent)
+    {
 		var rJson = JsonDocument.Parse(responseContent)
 			.RootElement
 			.GetProperty(ResponseFormAttachmentKey)

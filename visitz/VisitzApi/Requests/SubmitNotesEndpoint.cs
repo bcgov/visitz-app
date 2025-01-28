@@ -41,7 +41,7 @@ namespace VisitzApi.Requests
             };
         }
 
-        public override (bool success, string noteId) HandleResponse(string responseContent)
+        public override (bool success, string noteId) HandleResponse(HttpResponseMessage _, string responseContent)
         {
             var rJson = JsonDocument.Parse(responseContent)
                 .RootElement
