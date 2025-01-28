@@ -18,6 +18,7 @@ using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Caseload

@@ -7,6 +7,7 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models;
 using VisitzModel.Models;
+using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes
 {

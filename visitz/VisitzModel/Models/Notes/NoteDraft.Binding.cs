@@ -1,7 +1,7 @@
 using VisitzModel.Extensions;
 using VisitzModel.Models.EntityTypes;
 
-namespace VisitzModel.Models;
+namespace VisitzModel.Models.Notes;
 
 public partial class NoteDraft
 {

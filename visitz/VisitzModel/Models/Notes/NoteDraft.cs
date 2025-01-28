@@ -2,7 +2,7 @@ using Realms;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 
-namespace VisitzModel.Models
+namespace VisitzModel.Models.Notes
 {
     public partial class NoteDraft : IRealmObject, IDraftItem
     {

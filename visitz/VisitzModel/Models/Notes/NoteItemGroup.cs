@@ -4,7 +4,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Models.Comparers;
 using VisitzModel.Models.EntityTypes;
 
-namespace VisitzModel.Models;
+namespace VisitzModel.Models.Notes;
 
 public class NoteItemGroup : ObservableCollection<NoteItem>
 {
@@ -75,7 +75,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         return new NoteItemGroup(notesForPeriod, EntityType.Case, string.Empty);
     }
 
-    private static NoteItemGroup GetNotesGroupByPage(int pageNumber, IQueryable<NoteItem> entityNotesQuery, 
+    private static NoteItemGroup GetNotesGroupByPage(int pageNumber, IQueryable<NoteItem> entityNotesQuery,
         string notePageNumberHeaderTemplate)
     {
         var notesForPage = entityNotesQuery
@@ -88,7 +88,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         return new NoteItemGroup(notesForPage, EntityType.Incident, notePageNumberHeaderTemplate);
     }
 
-    public static List<NoteItemGroup> GetGroupsFromNotesQuery(EntityType icmEntityType, 
+    public static List<NoteItemGroup> GetGroupsFromNotesQuery(EntityType icmEntityType,
         IQueryable<NoteItem> entityNotesQuery, string notePageNumberHeaderTemplate)
     {
         var groups = new List<NoteItemGroup>();
@@ -107,7 +107,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         return groups;
     }
 
-    private static NoteItemGroup GetLastTargetGroup(IList<NoteItemGroup> groups, NoteItem note, EntityType entityType, 
+    private static NoteItemGroup GetLastTargetGroup(IList<NoteItemGroup> groups, NoteItem note, EntityType entityType,
         string notePageNumberHeaderTemplate = "")
     {
         return entityType == EntityType.Case
@@ -115,7 +115,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
             : groups.LastOrDefault(group => group.Name == MakePageNumberHeader(notePageNumberHeaderTemplate, note.PageNumber));
     }
 
-    public static void InsertInSortedGroups(ObservableCollection<NoteItemGroup> groups, NoteItem note, EntityType entityType, 
+    public static void InsertInSortedGroups(ObservableCollection<NoteItemGroup> groups, NoteItem note, EntityType entityType,
         string notePageNumberHeaderTemplate)
     {
         var targetGroup = GetLastTargetGroup(groups, note, entityType);

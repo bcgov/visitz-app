@@ -5,7 +5,7 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 
-namespace VisitzModel.Models
+namespace VisitzModel.Models.Notes
 {
     /// <summary>
     /// The business object that would be used by the app source.
