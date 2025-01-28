@@ -1,6 +1,8 @@
 using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
+using VisitzModel.Models.Interfaces;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;

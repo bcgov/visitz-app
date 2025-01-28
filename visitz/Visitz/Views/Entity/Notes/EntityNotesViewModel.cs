@@ -8,6 +8,7 @@ using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;

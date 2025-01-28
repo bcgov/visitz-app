@@ -5,6 +5,7 @@ using Realms;
 using System.Text;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Storage.Filesystem;

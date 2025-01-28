@@ -14,6 +14,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.SafetyAssess;

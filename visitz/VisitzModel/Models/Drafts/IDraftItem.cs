@@ -1,4 +1,5 @@
 using Realms;
+using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.Drafts;
 

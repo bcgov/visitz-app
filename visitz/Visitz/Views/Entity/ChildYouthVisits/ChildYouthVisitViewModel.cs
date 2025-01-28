@@ -8,6 +8,7 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;

@@ -13,6 +13,7 @@ using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;

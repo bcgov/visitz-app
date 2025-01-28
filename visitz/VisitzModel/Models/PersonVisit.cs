@@ -1,6 +1,7 @@
 using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models;
 

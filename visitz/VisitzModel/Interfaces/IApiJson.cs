@@ -1,4 +1,4 @@
-namespace VisitzModel.Models;
+namespace VisitzModel.Interfaces;
 
 public interface IApiJson<JsonType>
 {

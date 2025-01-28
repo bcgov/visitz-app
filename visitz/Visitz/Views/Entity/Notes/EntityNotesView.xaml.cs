@@ -1,4 +1,5 @@
 using Visitz.Views.BaseClasses;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;

@@ -2,6 +2,7 @@ using Realms;
 using VisitzModel.Extensions;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Interfaces;
 using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models.Attachments;

@@ -1,7 +1,7 @@
 using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
-using VisitzModel.Models;
+using VisitzModel.Interfaces;
 
 namespace Visitz.Documents;
 

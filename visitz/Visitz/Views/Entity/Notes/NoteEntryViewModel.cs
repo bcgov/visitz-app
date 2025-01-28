@@ -11,6 +11,7 @@ using VisitzApi.Models;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
