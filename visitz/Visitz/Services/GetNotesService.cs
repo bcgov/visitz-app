@@ -2,14 +2,11 @@ using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
-using VisitzModel.Utilities;
 
 namespace Visitz.Services
 {
 	public class GetNotesService(Vpi vpi) : VisitzApiService(vpi)
 	{
-		static readonly EagerActionQueue actionQueue = new();
-
         public static string MakeId(string caseIncidentId)
         {
             return nameof(GetNotesService) + caseIncidentId;
@@ -50,11 +47,8 @@ namespace Visitz.Services
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
             var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
 
-			await actionQueue.EnqueueAsync(async () =>
-			{
-				using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-				await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes);
-			});
+            await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+                await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes));
 
 			ResultCode = Result.Successful;
         }

@@ -39,8 +39,8 @@ internal class GetVisitsService(Vpi vpi) : VisitzApiService(vpi)
     async Task GetVisitsAsync()
     {
         var visits = await Vpi.GetVisitsAsync(CaseId, after: null);
-        using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        await PersonVisit.SaveVisitsAsync(realm, visits);
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await PersonVisit.SaveVisitsAsync(realm, visits));
     }
 }
