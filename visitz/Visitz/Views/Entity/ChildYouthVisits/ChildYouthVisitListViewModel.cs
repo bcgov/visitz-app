@@ -153,6 +153,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         visitEntryView.CaseloadItem = CaseloadItem;
         visitEntryView.ViewModel.PersonVisitItem = personVisitObj;
         visitEntryView.ViewModel.IsUpdatingEnabled = personVisitObj == null;
+        visitEntryView.ViewModel.HideElements = personVisitObj == null;
 
         await Navigator.Navigation.PushModalAsync(visitEntryView, ViewModalSize.Wide);
     }

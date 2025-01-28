@@ -81,6 +81,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public bool isUpdatingEnabled = true;
 
     [ObservableProperty]
+    public bool hideElements = true;
+
+    [ObservableProperty]
     public bool allowDiscard = true;
 
     [ObservableProperty]

@@ -56,6 +56,7 @@
                 <HorizontalStackLayout
                     Grid.Row="0"
                     Grid.Column="2"
+                    IsVisible="{Binding HideElements}"
                     Spacing="10">
 
                     <!-- <views:InternetInfoView /> -->
@@ -241,6 +242,7 @@
                         Grid.Column="1"
                         HorizontalOptions="End"
                         VerticalOptions="Center"
+                        IsVisible="{Binding HideElements}"
                         Text="{Binding RemainingCharacters, StringFormat={Static childYouthVisit:ChildYouthVisitViewModel.RemainingCharactersString}}"
                         Style="{StaticResource LabelSmall}"/>
                     <Editor
