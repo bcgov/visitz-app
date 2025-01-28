@@ -1,15 +1,14 @@
-using System.Text;
 using Visitz.Services.Messages;
 using VisitzApi;
 
-namespace Visitz.Services
+namespace Visitz.Services.Notes
 {
     public class GetNotesForRangeService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
     {
-		readonly List<string> successIds = [];
-		readonly List<string> erroredIds = [];
+        readonly List<string> successIds = [];
+        readonly List<string> erroredIds = [];
 
-		public static string MakeId()
+        public static string MakeId()
         {
             return nameof(GetNotesForRangeService);
         }
@@ -26,7 +25,7 @@ namespace Visitz.Services
 
         private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
-        private IEnumerable<ValueTuple<string,string>> IdEntityItems => 
+        private IEnumerable<ValueTuple<string, string>> IdEntityItems =>
             (IEnumerable<ValueTuple<string, string>>)Payload;
 
         public override string GetId()
@@ -41,16 +40,16 @@ namespace Visitz.Services
 
         private async Task GetAllNotesAsync()
         {
-			await Parallel.ForEachAsync(IdEntityItems, GetNotesForRecord);
+            await Parallel.ForEachAsync(IdEntityItems, GetNotesForRecord);
 
-            ResultCode = erroredIds.Count <= 0 
-                ? Result.Successful 
+            ResultCode = erroredIds.Count <= 0
+                ? Result.Successful
                 : throw new PartialRangeErrorException(nameof(GetNotesForRangeService), successIds, erroredIds);
         }
 
-		private async ValueTask GetNotesForRecord((string id, string entityType) tuple, CancellationToken token)
-		{
-			var (id, entityType) = tuple;
+        private async ValueTask GetNotesForRecord((string id, string entityType) tuple, CancellationToken token)
+        {
+            var (id, entityType) = tuple;
 
             try
             {
@@ -61,6 +60,6 @@ namespace Visitz.Services
             {
                 erroredIds.Add(id + " -> " + ex.Message);
             }
-		}
-	}
+        }
+    }
 }

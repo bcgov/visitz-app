@@ -1,4 +1,5 @@
 using Visitz.Services;
+using Visitz.Services.Notes;
 using Visitz.Services.Visits;
 using VisitzModel.Storage;
 

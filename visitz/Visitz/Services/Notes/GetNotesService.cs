@@ -3,10 +3,10 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
 
-namespace Visitz.Services
+namespace Visitz.Services.Notes
 {
-	public class GetNotesService(Vpi vpi) : VisitzApiService(vpi)
-	{
+    public class GetNotesService(Vpi vpi) : VisitzApiService(vpi)
+    {
         public static string MakeId(string caseIncidentId)
         {
             return nameof(GetNotesService) + caseIncidentId;
@@ -50,7 +50,7 @@ namespace Visitz.Services
             await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
                 await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes));
 
-			ResultCode = Result.Successful;
+            ResultCode = Result.Successful;
         }
-	}
+    }
 }

@@ -4,7 +4,7 @@ using VisitzApi;
 using VisitzApi.Models;
 using VisitzModel.Storage;
 
-namespace Visitz.Services
+namespace Visitz.Services.Notes
 {
     public class SubmitNoteService(Vpi vpi) : VisitzApiService(vpi)
     {
@@ -47,8 +47,8 @@ namespace Visitz.Services
 
             ResultCode = status ? Result.Successful : Result.Error;
 
-			if (ResultCode.Equals(Result.Successful))
-				new SurveyFeedbackTracker(Preferences.Default).SetHasPublishedAnything();
+            if (ResultCode.Equals(Result.Successful))
+                new SurveyFeedbackTracker(Preferences.Default).SetHasPublishedAnything();
         }
     }
 }

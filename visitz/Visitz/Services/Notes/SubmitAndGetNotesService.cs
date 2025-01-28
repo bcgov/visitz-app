@@ -1,8 +1,8 @@
-﻿using Visitz.Services.Messages;
+using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models;
 
-namespace Visitz.Services
+namespace Visitz.Services.Notes
 {
     public class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler) : VisitzApiService(vpi)
     {

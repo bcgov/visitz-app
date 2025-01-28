@@ -1,6 +1,7 @@
 using Oidc;
 using Realms;
 using Visitz.Services.Messages;
+using Visitz.Services.Notes;
 using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
