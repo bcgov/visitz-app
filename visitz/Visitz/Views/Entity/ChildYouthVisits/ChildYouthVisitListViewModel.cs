@@ -155,10 +155,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         var visitEntryView = ServiceProvider.GetService<ChildYouthVisitView>();
         visitEntryView.CaseloadItem = CaseloadItem;
         visitEntryView.ViewModel.PersonVisitItem = personVisitObj;
-        if (personVisitObj != null)
-            visitEntryView.ViewModel.IsUpdatingEnabled = false;
-        else
-            visitEntryView.ViewModel.IsUpdatingEnabled = true;
+        visitEntryView.ViewModel.IsUpdatingEnabled = personVisitObj == null;
 
         await Navigator.Navigation.PushModalAsync(visitEntryView, ViewModalSize.Wide);
     }
