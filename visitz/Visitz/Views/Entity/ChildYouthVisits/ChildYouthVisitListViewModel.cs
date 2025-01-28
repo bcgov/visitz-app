@@ -8,6 +8,7 @@ using Visitz.Storage;
 using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
@@ -60,9 +61,21 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
+        string caseId = GetCaseRecordId(icmDataRealm);
+
         realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
-                .Where(person => person.ParentId == CaseloadItem.CaseIncidentNumber)
+                .Where(person => person.ParentId == caseId)
                 .OrderByDescending(person => person.DateOfVisit));
+    }
+
+    // TODO: Remove this workaround when we aren't reliant on V1 caseload anymore
+    string GetCaseRecordId(Realm realm)
+    {
+        return realm
+            .All<CaseRecord>()
+            .Where(rec => rec.CaseNum == CaseloadItem.CaseIncidentNumber)
+            .First()
+            .Id;
     }
 
     protected override void Dispose(bool disposing)
