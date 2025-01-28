@@ -25,9 +25,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     ObservableCollection<PersonVisit> personVisits = [];
 
     [ObservableProperty]
-    public PersonVisit personVisitItem;
-
-    [ObservableProperty]
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
