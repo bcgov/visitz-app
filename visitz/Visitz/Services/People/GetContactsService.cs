@@ -11,14 +11,14 @@ namespace Visitz.Services.People;
 internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
     : VisitzApiService(vpi, prefs)
 {
-    ContactServiceInfo Info => (ContactServiceInfo)Payload;
+    RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
     public static string MakeId(EntityType type, string id)
     {
         return nameof(GetContactsService) + $"|{type}|{id}";
     }
 
-    public static StartServiceMessage MakeStartMessage(ContactServiceInfo info)
+    public static StartServiceMessage MakeStartMessage(RecordServiceInfo info)
     {
         return new()
         {

@@ -92,7 +92,7 @@ namespace Visitz.Services.Caseload
                 .All<CaseRecord>()
                 .Freeze()
                 .AsEnumerable()
-                .Select(@case => new ContactServiceInfo()
+                .Select(@case => new RecordServiceInfo()
                 {
                     Type = EntityType.Case,
                     Id = @case.Id,
@@ -103,7 +103,7 @@ namespace Visitz.Services.Caseload
                 .All<IncidentRecord>()
                 .Freeze()
                 .AsEnumerable()
-                .Select(incident => new ContactServiceInfo()
+                .Select(incident => new RecordServiceInfo()
                 {
                     Type = EntityType.Case,
                     Id = incident.Id,

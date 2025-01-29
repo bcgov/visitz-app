@@ -1,8 +1,8 @@
 using VisitzModel.Models.EntityTypes;
 
-namespace Visitz.Services.People;
+namespace Visitz.Services;
 
-internal class ContactServiceInfo
+internal class RecordServiceInfo
 {
     public EntityType Type { get; set; }
 

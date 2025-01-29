@@ -11,7 +11,7 @@ internal class GetContactsByRangeService(
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler,
     ILogger<GetContactsByRangeService> logger)
-    : VisitzApiRangeService<ContactServiceInfo>(vpi, prefs, serviceHandler, logger)
+    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler, logger)
 {
     ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
@@ -20,7 +20,7 @@ internal class GetContactsByRangeService(
         return nameof(GetContactsByRangeService);
     }
 
-    public static StartServiceMessage MakeStartMessage(IEnumerable<ContactServiceInfo> entityIds)
+    public static StartServiceMessage MakeStartMessage(IEnumerable<RecordServiceInfo> entityIds)
     {
         return new StartServiceMessage()
         {
@@ -35,12 +35,12 @@ internal class GetContactsByRangeService(
         return MakeId();
     }
 
-    protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, ContactServiceInfo item)
+    protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
     {
         await ServiceHandler.TryRunServiceAsync(GetContactsService.MakeStartMessage(item));
     }
 
-    protected override Exception MakePartialException(List<ApiRangeItemException<ContactServiceInfo>> exceptions)
+    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
     {
         var outString = exceptions.Select(ex =>
         {
