@@ -9,6 +9,9 @@ namespace VisitzModel.Models.People;
 
 public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJson>, IParentRecord
 {
+    [PrimaryKey]
+    public string LocalId {  get; set; }
+
     public string Id { get; set; }
 
     public string CreatedBy { get; set; }
@@ -81,6 +84,7 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
 
     public IcmContact(ContactJson json, string parentId, EntityType type)
     {
+        LocalId = MakeLocalId(json.Id, parentId);
         Id = json.Id;
         CreatedBy = json.CreatedBy;
         CreatedById = json.CreatedById;
@@ -112,7 +116,11 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         LegalStatus = json.LegalStatus;
         Sex = json.Sex;
         SsaPrimaryField = json.SSAPrimaryField;
+    }
 
+    static string MakeLocalId(string contactId, string parentId)
+    {
+        return $"{contactId}|{parentId}";
     }
 
     public ContactJson ToApiJson(string dateFormat = "s")
