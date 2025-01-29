@@ -10,7 +10,7 @@ namespace VisitzModel.Models.People;
 public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJson>, IParentRecord
 {
     [PrimaryKey]
-    public string LocalId {  get; set; }
+    public string LocalId { get; set; }
 
     public string Id { get; set; }
 
