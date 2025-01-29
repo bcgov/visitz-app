@@ -23,7 +23,7 @@ internal class GetContactsEndpoint(string baseUrl, ApiRecordType type, string ro
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After),
+            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
         };
     }
 
