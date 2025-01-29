@@ -42,11 +42,6 @@ internal class GetContactsByRangeService(
 
     protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
     {
-        var outString = exceptions.Select(ex =>
-        {
-            return $"• {ex.Item.Type} {ex.Item.Label} -> {ex.Message}";
-        }).Aggregate((accum, item) => accum + Environment.NewLine + item);
-
-        return new Exception(outString);
+        return exceptions.CombineIntoException();
     }
 }
