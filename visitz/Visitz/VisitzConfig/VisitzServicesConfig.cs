@@ -28,6 +28,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetVisitsByRangeService>();
             builder.Services.AddTransient<GetContactsService>();
             builder.Services.AddTransient<GetContactsByRangeService>();
+            builder.Services.AddTransient<GetSupportNetworkService>();
+            builder.Services.AddTransient<GetSupportNetworkByRangeService>();
 
             return builder;
         }
