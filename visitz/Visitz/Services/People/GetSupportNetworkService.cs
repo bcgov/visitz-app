@@ -44,6 +44,6 @@ internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : Visit
         var supportNetwork = await Vpi.GetSupportNetworkAsync((ApiRecordType)Info.Type, Info.Id, after: null);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await SupportNetworkItem.SaveSupportNetworkItemsAsync(realm, supportNetwork));
+            await SupportNetworkItem.SaveSupportNetworkItemsAsync(realm, supportNetwork, Info.Id, Info.Type));
     }
 }
