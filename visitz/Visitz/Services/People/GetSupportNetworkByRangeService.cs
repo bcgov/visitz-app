@@ -10,7 +10,7 @@ internal class GetSupportNetworkByRangeService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler,
-    ILogger logger)
+    ILogger<GetSupportNetworkByRangeService> logger)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler, logger)
 {
 
