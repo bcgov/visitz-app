@@ -64,16 +64,16 @@ namespace VisitzApi.Requests
             var query = HttpUtility.ParseQueryString(RequestUri.Query);
 
             if (rowOffset is int offset)
-                query[ParamNames.StartRowNum] = offset.ToString();
+                query[RequestParam.StartRowNum] = offset.ToString();
 
             if (pageSize is int size)
-                query[ParamNames.PageSize] = size.ToString();
+                query[RequestParam.PageSize] = size.ToString();
 
             if (getRemainingCount is bool getCount)
-                query[ParamNames.RecordCountNeeded] = getCount.ToString();
+                query[RequestParam.RecordCountNeeded] = getCount.ToString();
 
             if (after is DateTimeOffset timestamp)
-                query[ParamNames.Since] = timestamp.ToString(format);
+                query[RequestParam.Since] = timestamp.ToString(format);
 
             var urlWithoutQuery = RequestUri.ToString().Split('?')[0];
             string queryString = query.ToString();

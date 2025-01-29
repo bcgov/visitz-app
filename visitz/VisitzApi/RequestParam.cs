@@ -1,6 +1,6 @@
 namespace VisitzApi;
 
-internal static class ParamNames
+internal static class RequestParam
 {
     public static readonly string Since = "since";
 
