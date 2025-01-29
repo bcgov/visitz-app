@@ -1,5 +1,4 @@
-using VisitzModel.Models;
-using VisitzModel.Sorting;
+using VisitzModel.Models.People;
 
 namespace VisitzModelTest.Models;
 

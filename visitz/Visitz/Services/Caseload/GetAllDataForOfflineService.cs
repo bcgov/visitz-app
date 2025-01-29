@@ -3,11 +3,13 @@ using Realms;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
+using Visitz.Services.People;
 using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
@@ -44,7 +46,11 @@ namespace Visitz.Services.Caseload
                 await GetCaseload();
 
                 using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-                await Task.WhenAll(GetAllNotes(realm), GetAllVisits(realm));
+                await Task.WhenAll(
+                    GetAllNotes(realm),
+                    GetAllVisits(realm),
+                    GetAllContacts(realm)
+                );
             });
 
             ResultCode = Result.Successful;
@@ -77,6 +83,38 @@ namespace Visitz.Services.Caseload
                 .Select(@case => @case.Id);
 
             var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetAllContacts(Realm realm)
+        {
+            var cases = realm
+                .All<CaseRecord>()
+                .Freeze()
+                .AsEnumerable()
+                .Select(@case => new RecordServiceInfo()
+                {
+                    Type = EntityType.Case,
+                    Id = @case.Id,
+                    Label = @case.Name,
+                });
+
+            var incidents = realm
+                .All<IncidentRecord>()
+                .Freeze()
+                .AsEnumerable()
+                .Select(incident => new RecordServiceInfo()
+                {
+                    Type = EntityType.Case,
+                    Id = incident.Id,
+                    Label = incident.Name,
+                });
+
+            // TODO: Memos, SRs
+
+            var all = cases.Concat(incidents);
+
+            var startMessage = GetContactsByRangeService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
     }
