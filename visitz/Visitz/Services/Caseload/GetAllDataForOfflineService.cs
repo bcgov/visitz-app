@@ -9,7 +9,6 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
@@ -44,13 +43,7 @@ namespace Visitz.Services.Caseload
             await Task.Run(async () =>
             {
                 await GetCaseload();
-
-                using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-                await Task.WhenAll(
-                    GetAllNotes(realm),
-                    GetAllVisits(realm),
-                    GetAllContacts(realm)
-                );
+                await MultiGetSubData();
             });
 
             ResultCode = Result.Successful;
@@ -60,6 +53,32 @@ namespace Visitz.Services.Caseload
         {
             var info = await OidcSessionInfo.GetAsync();
             await ServiceHandler.TryRunServiceAsync(GetCaseloadService.MakeStartMessage(info.Idir));
+        }
+
+        private async Task MultiGetSubData()
+        {
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+
+            var cases = realm
+                .All<CaseRecord>()
+                .Freeze()
+                .AsEnumerable()
+                .Select(@case => new RecordServiceInfo(@case));
+
+            var incidents = realm
+                .All<IncidentRecord>()
+                .Freeze()
+                .AsEnumerable()
+                .Select(incident => new RecordServiceInfo(incident));
+
+            // TODO: Memos, SRs
+
+            await Task.WhenAll(
+                GetAllNotes(realm),
+                GetAllVisits(realm),
+                GetAllContacts(cases, incidents),
+                GetAllSupportNetworkItems(cases, incidents)
+            );
         }
 
         private async Task GetAllNotes(Realm realm)
@@ -86,35 +105,23 @@ namespace Visitz.Services.Caseload
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
 
-        private async Task GetAllContacts(Realm realm)
+        private async Task GetAllContacts(
+            IEnumerable<RecordServiceInfo> cases,
+            IEnumerable<RecordServiceInfo> incidents)
         {
-            var cases = realm
-                .All<CaseRecord>()
-                .Freeze()
-                .AsEnumerable()
-                .Select(@case => new RecordServiceInfo()
-                {
-                    Type = EntityType.Case,
-                    Id = @case.Id,
-                    Label = @case.Name,
-                });
-
-            var incidents = realm
-                .All<IncidentRecord>()
-                .Freeze()
-                .AsEnumerable()
-                .Select(incident => new RecordServiceInfo()
-                {
-                    Type = EntityType.Case,
-                    Id = incident.Id,
-                    Label = incident.Name,
-                });
-
-            // TODO: Memos, SRs
-
             var all = cases.Concat(incidents);
 
             var startMessage = GetContactsByRangeService.MakeStartMessage(all);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetAllSupportNetworkItems(
+            IEnumerable<RecordServiceInfo> cases,
+            IEnumerable<RecordServiceInfo> incidents)
+        {
+            var all = cases.Concat(incidents);
+
+            var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
     }
