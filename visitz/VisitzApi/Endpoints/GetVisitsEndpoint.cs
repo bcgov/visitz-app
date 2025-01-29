@@ -18,7 +18,7 @@ internal class GetVisitsEndpoint(string baseUrl, string caseId, DateTimeOffset? 
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After),
+            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
         };
     }
 

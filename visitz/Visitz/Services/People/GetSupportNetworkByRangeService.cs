@@ -6,27 +6,26 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
-internal class GetContactsByRangeService(
+internal class GetSupportNetworkByRangeService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler,
-    ILogger<GetContactsByRangeService> logger)
+    ILogger<GetSupportNetworkByRangeService> logger)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler, logger)
 {
-    ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
     public static string MakeId()
     {
-        return nameof(GetContactsByRangeService);
+        return nameof(GetSupportNetworkByRangeService);
     }
 
-    public static StartServiceMessage MakeStartMessage(IEnumerable<RecordServiceInfo> entityIds)
+    public static StartServiceMessage MakeStartMessage(IEnumerable<RecordServiceInfo> items)
     {
-        return new StartServiceMessage()
+        return new()
         {
             ServiceId = MakeId(),
-            ServiceType = typeof(GetContactsByRangeService),
-            Payload = entityIds,
+            ServiceType = typeof(GetSupportNetworkByRangeService),
+            Payload = items,
         };
     }
 
@@ -37,7 +36,7 @@ internal class GetContactsByRangeService(
 
     protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
     {
-        await ServiceHandler.TryRunServiceAsync(GetContactsService.MakeStartMessage(item));
+        await serviceHandler.TryRunServiceAsync(GetSupportNetworkService.MakeStartMessage(item));
     }
 
     protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)

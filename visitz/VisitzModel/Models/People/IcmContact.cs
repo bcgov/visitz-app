@@ -2,12 +2,16 @@ using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.People;
 
-public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJson>
+public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJson>, IParentRecord
 {
+    [PrimaryKey]
+    public string LocalId { get; set; }
+
     public string Id { get; set; }
 
     public string CreatedBy { get; set; }
@@ -21,6 +25,16 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
     public DateTimeOffset CreatedDate { get; set; }
 
     public DateTimeOffset UpdatedDate { get; set; }
+
+    public string ParentId { get; set; }
+
+    private int ParentTypeInt { get; set; }
+
+    public EntityType ParentType
+    {
+        get => (EntityType)ParentTypeInt;
+        set => ParentTypeInt = (int)value;
+    }
 
     public string AboriginalCalc { get; set; }
 
@@ -68,8 +82,9 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
 
     public IcmContact() { }
 
-    public IcmContact(ContactJson json)
+    public IcmContact(ContactJson json, string parentId, EntityType type)
     {
+        LocalId = MakeLocalId(json.Id, parentId);
         Id = json.Id;
         CreatedBy = json.CreatedBy;
         CreatedById = json.CreatedById;
@@ -77,6 +92,8 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         UpdatedById = json.UpdatedById;
         CreatedDate = DateTimeOffset.Parse(json.CreatedDate);
         UpdatedDate = DateTimeOffset.Parse(json.UpdatedDate);
+        ParentId = parentId;
+        ParentType = type;
         AboriginalCalc = json.AboriginalCalc;
         Age = int.Parse(json.Age);
         CaseConEndDt = json.CaseConEndDt;
@@ -99,7 +116,11 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         LegalStatus = json.LegalStatus;
         Sex = json.Sex;
         SsaPrimaryField = json.SSAPrimaryField;
+    }
 
+    static string MakeLocalId(string contactId, string parentId)
+    {
+        return $"{contactId}|{parentId}";
     }
 
     public ContactJson ToApiJson(string dateFormat = "s")
@@ -138,18 +159,25 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         };
     }
 
-    public static IEnumerable<IcmContact> FromApiArray(IEnumerable<ContactJson> contacts)
+    public static IEnumerable<IcmContact> FromApiArray(
+        IEnumerable<ContactJson> contacts,
+        string parentId,
+        EntityType type)
     {
         List<IcmContact> outList = [];
 
         foreach (var contactJson in contacts)
-            outList.Add(new IcmContact(contactJson));
+            outList.Add(new IcmContact(contactJson, parentId, type));
 
         return outList;
     }
 
-    public static async Task SaveContactsAsync(Realm realm, IEnumerable<ContactJson> contacts)
+    public static async Task SaveContactsAsync(
+        Realm realm,
+        IEnumerable<ContactJson> contacts,
+        string parentId,
+        EntityType type)
     {
-        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(contacts)));
+        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(contacts, parentId, type)));
     }
 }

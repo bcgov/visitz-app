@@ -80,5 +80,13 @@ namespace VisitzApi
         {
             return await CallApi(new GetContactsEndpoint(BaseVisitzApiUrl, type, id, after));
         }
+
+        public async Task<IEnumerable<SupportNetworkJson>> GetSupportNetworkAsync(
+            ApiRecordType type,
+            string id,
+            DateTimeOffset? after = null)
+        {
+            return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, after));
+        }
     }
 }
