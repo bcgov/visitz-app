@@ -2,10 +2,12 @@ using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.InPersonVisits;
 
-public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>
+public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRecord
 {
     static readonly string _defaultType = "In Person Child Youth";
 
@@ -13,6 +15,14 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>
     public string Id { get; set; }
 
     public string ParentId { get; set; }
+
+    private int ParentTypeInt { get; set; } = (int)EntityType.Case;
+
+    public EntityType ParentType
+    {
+        get => (EntityType)ParentTypeInt;
+        set => ParentTypeInt = (int)value;
+    }
 
     public string Name { get; set; }
 
