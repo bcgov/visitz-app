@@ -30,7 +30,8 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     CaseRecord Case { get; set; }
 
-    PersonVisitDraft Draft { get; set; }
+    [ObservableProperty]
+    PersonVisitDraft draft;
 
     public CaseloadItem CaseloadItem { get; set; }
 
@@ -92,7 +93,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public bool hideElements = true;
 
     [ObservableProperty]
-    public bool allowDiscard = true;
+    public bool allowDiscard;
 
     [ObservableProperty]
     public bool allowPublish;
@@ -114,10 +115,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         Case = Realm.All<CaseRecord>().Where(@case => @case.CaseNum == CaseloadItem.CaseIncidentNumber).First();
 
         if (PersonVisitItem == null && IsUpdatingEnabled)
-        {
-            Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id);
-            PersonVisitItem = Draft?.Visit ?? new(Case);
-        }
+            Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
     }
 
     protected override void Dispose(bool disposing)
@@ -142,7 +140,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             oldValue.PropertyChanged -= PersonVisitItem_PropertyChanged;
         
         if (newValue != null)
+        {
             newValue.PropertyChanged += PersonVisitItem_PropertyChanged;
+            UpdateAllowPublish();
+        }
     }
 
     private async void PersonVisitItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -152,11 +153,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         if (!IsUpdatingEnabled)
             return;
 
-        if (!PersonVisitItem.IsManaged)
-            Draft = await PersonVisitDraft.Upsert(DraftRealm, PersonVisitItem, CaseloadItem.DisplayName);
-        else if (Draft?.IsValid ?? false)
-            Draft.LastUpdatedBinding = DateTimeOffset.Now;
-
+        await HandleDraft();
         UpdateAllowPublish();
     }
 
@@ -177,6 +174,22 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             && PersonVisitItem.VisitDetailsGroup != null
             && PersonVisitItem.VisitDetailsValue != null
             && PersonVisitItem.VisitDescription?.Length > 0;
+    }
+
+    TaskCompletionSource DraftInitTcs;
+    private async Task HandleDraft()
+    {
+        if (DraftInitTcs != null)
+            await DraftInitTcs.Task;
+
+        if (!PersonVisitItem.IsManaged)
+        {
+            DraftInitTcs = new();
+            Draft = await PersonVisitDraft.Upsert(DraftRealm, PersonVisitItem, CaseloadItem.DisplayName);
+            DraftInitTcs.TrySetResult();
+        }
+        else if (Draft?.IsValid ?? false)
+            Draft.LastUpdatedBinding = DateTimeOffset.Now;
     }
 
     private static bool ContainEmojis(TextChangedEventArgs e)
@@ -216,5 +229,11 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     private void CancelTextChangedEvent(TextChangedEventArgs e)
     {
         PersonVisitItem.VisitDescription = e.OldTextValue;
+    }
+
+    partial void OnDraftChanged(PersonVisitDraft value)
+    {
+        PersonVisitItem = value?.Visit ?? new(Case);
+        AllowDiscard = value?.IsManaged ?? false;
     }
 }
