@@ -14,6 +14,7 @@ public partial class PersonVisitDrafts(byte[] encryptionKey) : VisitzRealmBase(N
 		return new[]
 		{
 			typeof(PersonVisit),
+			typeof(PersonVisitDraft),
 		};
 	}
 
