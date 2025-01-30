@@ -28,6 +28,11 @@ public static class RealmExtensions
             await realm.WriteAsync(action);
     }
 
+    public static void Upsert<T>(this Realm realm, T item) where T : IRealmObject
+    {
+        realm.Add(item, update: true);
+    }
+
     public static void Upsert<T>(this Realm realm, IEnumerable<T> enumerable) where T : IRealmObject
     {
         foreach (var item in enumerable)
