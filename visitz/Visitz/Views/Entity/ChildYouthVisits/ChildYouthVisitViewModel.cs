@@ -20,8 +20,11 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public static readonly string VisitDetailGroup = "VisitDetailGroup";
     private static readonly int CharacterLimit = 4000;
     public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
+
     private bool _disposed;
+
     Realm Realm { get; set; }
+
     public CaseloadItem CaseloadItem { get; set; }
 
     [ObservableProperty]
@@ -86,9 +89,6 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     [ObservableProperty]
     public bool allowPublish;
-
-    [ObservableProperty]
-    private NetworkAccess networkAccess = Connectivity.Current.NetworkAccess;
 
     [ObservableProperty]
     public int remainingCharacters = CharacterLimit;
@@ -170,8 +170,8 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.CharacterLimitReached));
             return;
         }
-        RemainingCharacters = CharacterLimit - length;
 
+        RemainingCharacters = CharacterLimit - length;
     }
 
     private void CancelTextChangedEvent(TextChangedEventArgs e)
