@@ -10,6 +10,7 @@ using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
@@ -24,6 +25,12 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     private bool _disposed;
 
     Realm Realm { get; set; }
+
+    Realm DraftRealm { get; set; }
+
+    CaseRecord Case { get; set; }
+
+    PersonVisitDraft Draft { get; set; }
 
     public CaseloadItem CaseloadItem { get; set; }
 
@@ -101,17 +108,34 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-        PersonVisitItem ??= new();
+
+        Realm = await VisitzRealms.GetIcmDataRealmAsync();
+        DraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+        Case = Realm.All<CaseRecord>().Where(@case => @case.CaseNum == CaseloadItem.CaseIncidentNumber).First();
+
+        if (PersonVisitItem == null && IsUpdatingEnabled)
+        {
+            Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id);
+            PersonVisitItem = Draft?.Visit ?? new(Case);
+        }
     }
 
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
         {
+            DraftRealm?.Dispose();
+            DraftRealm = null;
+
+            Realm?.Dispose();
+            Realm = null;
+
             _disposed = true;
         }
+
         base.Dispose(disposing);
     }
+
     partial void OnPersonVisitItemChanged(PersonVisit oldValue, PersonVisit newValue)
     {
         if (oldValue != null)
@@ -121,9 +145,18 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             newValue.PropertyChanged += PersonVisitItem_PropertyChanged;
     }
 
-    private void PersonVisitItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private async void PersonVisitItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         IsVisitTypeSelected = !string.IsNullOrWhiteSpace(PersonVisitItem.VisitDetailsValue);
+
+        if (!IsUpdatingEnabled)
+            return;
+
+        if (!PersonVisitItem.IsManaged)
+            Draft = await PersonVisitDraft.Upsert(DraftRealm, PersonVisitItem, CaseloadItem.DisplayName);
+        else if (Draft?.IsValid ?? false)
+            Draft.LastUpdatedBinding = DateTimeOffset.Now;
+
         UpdateAllowPublish();
     }
 
