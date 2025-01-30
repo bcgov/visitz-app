@@ -1,5 +1,6 @@
 using Realms;
 using VisitzModel.Extensions;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 
@@ -35,6 +36,14 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
     public PersonVisit Visit { get; set; } = new();
+
+    public PersonVisitDraft() { }
+
+    public PersonVisitDraft(CaseRecord @case)
+    {
+        RelatedEntityId = @case.Id;
+        DraftLocation = @case.Name;
+    }
 
     public static PersonVisitDraft GetDraft(Realm realm, string caseId)
     {
