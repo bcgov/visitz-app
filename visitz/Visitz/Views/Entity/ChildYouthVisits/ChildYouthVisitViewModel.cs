@@ -165,6 +165,12 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     {
     }
 
+    public void DiscardDraft()
+    {
+        Draft.Delete();
+        Draft = null;
+    }
+
     private void UpdateAllowPublish()
     {
         AllowPublish = NetworkHelper.InternetAvailable

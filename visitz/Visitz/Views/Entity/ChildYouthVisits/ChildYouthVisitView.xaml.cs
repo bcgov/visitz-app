@@ -56,6 +56,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     {
         if (await PromptDiscard())
         {
+            ViewModel.DiscardDraft();
             await Navigator.Navigation.PopModalAsync();
             SnackbarHandler.ShowText(LocalizedStrings.DiscardedVisitDraft);
         }
