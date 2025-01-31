@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc.Network;
 using Realms;
+using UIKit;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -109,12 +110,13 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     [ObservableProperty]
     public PersonVisit personVisitItem;
 
+    public event EventHandler<DraftErrorEventArgs> DraftError;
+
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-
         Realm = await VisitzRealms.GetIcmDataRealmAsync();
         DraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
         Case = Realm.All<CaseRecord>().Where(@case => @case.CaseNum == CaseloadItem.CaseIncidentNumber).First();
@@ -123,6 +125,35 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
             Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
 
         SaveStateHandler.Clear();
+
+        DeviceDisplay.MainDisplayInfoChanged += OnDisplayInfoChanged;
+        UIKeyboard.Notifications.ObserveWillShow(OnKeyboardWillShow);
+        UIKeyboard.Notifications.ObserveWillHide(OnKeyboardWillHide);
+        UpdateHideForLandscapeKeyboard();
+    }
+    private void OnDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    {
+        // Whenever display info changes, update visibility
+        UpdateHideForLandscapeKeyboard();
+    }
+
+    private void OnKeyboardWillShow(object sender, UIKeyboardEventArgs e)
+    {
+        _isKeyboardVisible = true;
+        UpdateHideForLandscapeKeyboard();
+    }
+
+    private void OnKeyboardWillHide(object sender, UIKeyboardEventArgs e)
+    {
+        _isKeyboardVisible = false;
+        UpdateHideForLandscapeKeyboard();
+    }
+
+    private void UpdateHideForLandscapeKeyboard()
+    {
+        // Check if the keyboard is visible and if the device is in landscape orientation
+        var isLandscape = DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape;
+        HideForLandscapeKeyboard = !(_isKeyboardVisible && isLandscape);
     }
 
     protected override void Dispose(bool disposing)
@@ -150,7 +181,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     {
         if (oldValue != null)
             oldValue.PropertyChanged -= PersonVisitItem_PropertyChanged;
-        
+
         if (newValue != null)
         {
             newValue.PropertyChanged += PersonVisitItem_PropertyChanged;

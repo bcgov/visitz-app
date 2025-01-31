@@ -104,6 +104,7 @@
                 <!-- Second Row: RadioButton and Checkbox -->
                 <Grid
                     Grid.Row="1"
+                    IsVisible="{Binding HideForLandscapeKeyboard}"
                     ColumnDefinitions="*,*,*"
                     RowDefinitions="Auto, Auto"
                     ColumnSpacing="10">
