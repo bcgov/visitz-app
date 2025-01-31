@@ -110,6 +110,14 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     [ObservableProperty]
     public PersonVisit personVisitItem;
 
+    private bool _hideForLandscapeKeyboardPrivate;
+    private bool _isKeyboardVisible;
+    public bool HideForLandscapeKeyboard
+    {
+        get => _hideForLandscapeKeyboardPrivate;
+        set => SetProperty(ref _hideForLandscapeKeyboardPrivate, value);
+    }
+
     public event EventHandler<DraftErrorEventArgs> DraftError;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
@@ -262,4 +270,6 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         PersonVisitItem = value?.Visit;
         AllowDiscard = value?.IsManaged ?? false;
     }
+
+
 }
