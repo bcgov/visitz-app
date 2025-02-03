@@ -128,15 +128,14 @@
             Text="{Static icons:MaterialIcons.Note_stack}"
             FontFamily="MaterialIconsRoundedUnfilled"
             IsVisible="{Binding ShowEmptyIcon}"/>
+		
         <BoxView
             Grid.Row="4"
             HeightRequest="0.5"
-            IsVisible="{Binding HasVisitData}"
             Color="{StaticResource SeparatorColor}"/>
 
         <Grid
             Grid.Row="5"
-            IsVisible="{Binding HasVisitData}"
             Padding="{StaticResource DefaultPadding}"
             RowDefinitions="Auto"
             ColumnSpacing="{StaticResource DefaultSpacing}"
