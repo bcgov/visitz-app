@@ -3,6 +3,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.InPersonVisits;
 
@@ -27,7 +28,7 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         set => RelatedEntitySubtypeInt = (int)value;
     }
 
-    public string Preview => Visit.DateOfVisit.ToString();
+    public string Preview => string.Format(GeneralStrings.VisitDate, Visit.DateOfVisit.ToString("D"));
 
     public string DraftLocation { get; set; }
 

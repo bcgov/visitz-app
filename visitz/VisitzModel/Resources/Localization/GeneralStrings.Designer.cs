@@ -77,5 +77,14 @@ namespace VisitzModel.Resources.Localization {
                 return ResourceManager.GetString("SafetyAssessment", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit date: {0}.
+        /// </summary>
+        internal static string VisitDate {
+            get {
+                return ResourceManager.GetString("VisitDate", resourceCulture);
+            }
+        }
     }
 }
