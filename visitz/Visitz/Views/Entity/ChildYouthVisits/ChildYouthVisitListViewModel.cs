@@ -62,22 +62,12 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         await base.InitAsync();
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
-
-        string caseId = GetCaseRecordId(icmDataRealm);
+        
+        string caseId = CaseloadItem.GetV2CaseId(icmDataRealm);
 
         realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
                 .Where(person => person.ParentId == caseId)
                 .OrderByDescending(person => person.DateOfVisit));
-    }
-
-    // TODO: Remove this workaround when we aren't reliant on V1 caseload anymore
-    string GetCaseRecordId(Realm realm)
-    {
-        return realm
-            .All<CaseRecord>()
-            .Where(rec => rec.CaseNum == CaseloadItem.CaseIncidentNumber)
-            .First()
-            .Id;
     }
 
     protected override void Dispose(bool disposing)
