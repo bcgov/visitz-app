@@ -164,8 +164,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     public void DiscardDraft()
     {
-        Draft.Delete();
+        string id = Draft.RelatedEntityId;
         Draft = null;
+
+        DraftRealm.Write(() => DraftRealm.DeleteByIds<PersonVisitDraft>([id]));
     }
 
     private void UpdateAllowPublish()
@@ -179,6 +181,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     TaskCompletionSource DraftInitTcs;
     private async Task HandleDraft()
     {
+        if (Draft == null)
+            return;
+
         if (DraftInitTcs != null)
             await DraftInitTcs.Task;
 
@@ -233,7 +238,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     partial void OnDraftChanged(PersonVisitDraft value)
     {
-        PersonVisitItem = value?.Visit ?? new(Case);
+        PersonVisitItem = value?.Visit;
         AllowDiscard = value?.IsManaged ?? false;
     }
 }
