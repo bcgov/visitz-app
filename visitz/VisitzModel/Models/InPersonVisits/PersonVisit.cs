@@ -31,7 +31,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRec
 
     public string Type { get; set; } = _defaultType;
 
-    public DateTimeOffset DateOfVisit { get; set; }
+    public DateTimeOffset DateOfVisit { get; set; } = DateTimeOffset.Now;
 
     public string VisitDetailsValue { get; set; }
 
