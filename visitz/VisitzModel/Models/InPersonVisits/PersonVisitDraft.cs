@@ -50,11 +50,15 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         return realm.Find<PersonVisitDraft>(caseId);
     }
 
-    public static async Task<PersonVisitDraft> Upsert(Realm realm, PersonVisit visit, string draftLocation)
+    public static async Task<PersonVisitDraft> Upsert(
+        Realm realm,
+        string caseId,
+        PersonVisit visit,
+        string draftLocation)
     {
         var draft = realm.Find<PersonVisitDraft>(visit.ParentId) ?? new()
         {
-            RelatedEntityId = visit.ParentId,
+            RelatedEntityId = caseId,
             DraftLocation = draftLocation,
             Visit = visit ?? new() { ParentId = visit.ParentId }
         };

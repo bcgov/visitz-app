@@ -190,7 +190,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         if (!PersonVisitItem.IsManaged)
         {
             DraftInitTcs = new();
-            Draft = await PersonVisitDraft.Upsert(DraftRealm, PersonVisitItem, CaseloadItem.DisplayName);
+            Draft = await PersonVisitDraft.Upsert(DraftRealm, Case.Id, PersonVisitItem, CaseloadItem.DisplayName);
             DraftInitTcs.TrySetResult();
         }
         else if (Draft?.IsValid ?? false)
