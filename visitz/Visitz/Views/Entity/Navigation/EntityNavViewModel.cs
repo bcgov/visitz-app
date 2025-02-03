@@ -161,11 +161,9 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
         if (ShouldShowChildYouthVisits())
         {
-            string caseId = CaseloadItem.GetV2CaseId(caseloadRealm);
-
             var visitsRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
             realmQueryMap.Subscribe(visitsRealm, visitsRealm.All<PersonVisitDraft>()
-                .Where(draft => draft.RelatedEntityId == caseId));
+                .Where(draft => draft.RelatedEntityId == CaseloadItem.RowId));
         }
     }
 

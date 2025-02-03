@@ -66,11 +66,9 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         await base.InitAsync();
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
-        
-        string caseId = CaseloadItem.GetV2CaseId(icmDataRealm);
 
         realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
-                .Where(person => person.ParentId == caseId)
+                .Where(person => person.ParentId == CaseloadItem.RowId)
                 .OrderByDescending(person => person.DateOfVisit));
 
         if (RequestedSection == EntitySection.ChildYouthVisitsEntry)
