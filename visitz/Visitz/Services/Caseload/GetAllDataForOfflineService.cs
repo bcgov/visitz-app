@@ -9,6 +9,7 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
@@ -99,6 +100,7 @@ namespace Visitz.Services.Caseload
                 .All<CaseRecord>()
                 .Freeze()
                 .AsEnumerable()
+                .Where(@case => @case.Type == EntitySubtype.ChildServices)
                 .Select(@case => @case.Id);
 
             var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);
