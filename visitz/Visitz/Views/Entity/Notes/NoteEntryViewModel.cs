@@ -46,9 +46,7 @@ namespace Visitz.Views.Entity.Notes
 
         public event EventHandler<DraftErrorEventArgs> DraftError;
 
-        public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
-
-        private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
+        public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
         Realm Realm { get; set; }
 
@@ -59,7 +57,7 @@ namespace Visitz.Views.Entity.Notes
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
             await InitNoteDraft();
-            NotifySaveState(DraftSaveState.None);
+            SaveStateHandler.Clear();
         }
 
         private async Task InitNoteDraft()
@@ -145,16 +143,9 @@ namespace Visitz.Views.Entity.Notes
             UpdateAllowPublish(e.NewTextValue);
 
             if (NoteDraft.IsManaged)
-            {
-                NotifySaveState(DraftSaveState.Saving);
-
-                await debouncer.Debounce(() => NotifySaveState(DraftSaveState.Saved));
-            }
+                await SaveStateHandler.Saving();
             else
-            {
-                debouncer.Cancel();
-                NotifySaveState(DraftSaveState.None);
-            }
+                SaveStateHandler.Clear();
         }
 
         private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
@@ -182,11 +173,6 @@ namespace Visitz.Views.Entity.Notes
         private void CancelTextChangedEvent(TextChangedEventArgs e)
         {
             NoteDraft.DraftBinding = e.OldTextValue;
-        }
-
-        private void NotifySaveState(DraftSaveState state)
-        {
-            DraftSaveStateChanged?.Invoke(this, new DraftSaveStatusEventArgs(state));
         }
 
         partial void OnInternetAvailableChanged(bool value)

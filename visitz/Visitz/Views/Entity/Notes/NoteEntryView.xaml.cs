@@ -24,12 +24,12 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 		BindingContext = ViewModel;
 
         ViewModel.DraftError += NoteEntryView_DraftError;
-        ViewModel.DraftSaveStateChanged += NoteEntryView_DraftSaveStateChanged;
+        ViewModel.SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
 	}
 
     protected override void Destroying()
     {
-        ViewModel.DraftSaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
+        ViewModel.SaveStateHandler.SaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
         ViewModel.DraftError -= NoteEntryView_DraftError;
 
         base.Destroying();
