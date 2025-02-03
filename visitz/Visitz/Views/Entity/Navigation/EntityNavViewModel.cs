@@ -19,6 +19,7 @@ using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
@@ -157,19 +158,30 @@ public partial class EntityNavViewModel : VisitzViewModel,
 			realmQueryMap.Subscribe(assessmentRealm, assessmentRealm.All<AssessmentDraft>()
 				.Where(draft => draft.DraftEntityId == CaseloadItem.CaseIncidentNumber));
 		}
+
+        if (ShouldShowChildYouthVisits())
+        {
+            string caseId = CaseloadItem.GetV2CaseId(caseloadRealm);
+
+            var visitsRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+            realmQueryMap.Subscribe(visitsRealm, visitsRealm.All<PersonVisitDraft>()
+                .Where(draft => draft.RelatedEntityId == caseId));
+        }
 	}
 
 	private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
 	{
-		if (e.Type == typeof(NoteDraft))
-			Notes.HasDraft = e.Items.Any();
-		else if (e.Type == typeof(AssessmentDraft))
-			SafetyAssessment.HasDraft = e.Items.Any();
-		else if (e.Type == typeof(AttachmentDraft))
-			Attachments.HasDraft = e.Items.Any();
-		else if (e.Type == typeof(CaseloadItem) && e.Changes?.DeletedIndices?.Length > 0)
-			_ = EntityUnassignedGoBack();
-	}
+        if (e.Type == typeof(NoteDraft))
+            Notes.HasDraft = e.Items.Any();
+        else if (e.Type == typeof(AssessmentDraft))
+            SafetyAssessment.HasDraft = e.Items.Any();
+        else if (e.Type == typeof(AttachmentDraft))
+            Attachments.HasDraft = e.Items.Any();
+        else if (e.Type == typeof(CaseloadItem) && e.Changes?.DeletedIndices?.Length > 0)
+            _ = EntityUnassignedGoBack();
+        else if (e.Type == typeof(PersonVisitDraft))
+            ChildYouthVisits.HasDraft = e.Items.Any();
+    }
 
 	public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
 	{
@@ -187,6 +199,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
 			EntitySection.Notes or EntitySection.NoteEntry => Notes,
 			EntitySection.SafetyAssessment => SafetyAssessment,
 			EntitySection.Attachments => Attachments,
+            EntitySection.ChildYouthVisits or EntitySection.ChildYouthVisitsEntry => ChildYouthVisits,
 			_ => Details,
 		};
 	}
@@ -230,12 +243,8 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
     private bool ShouldShowChildYouthVisits()
     {
-#if DEBUG
         return CaseloadItem.EntityType.ParseEntityType() == EntityType.Case
             && CaseloadItem.CaseIncidentType.ParseEntitySubtype() == EntitySubtype.ChildServices;
-#else
-        return false; // TODO: Remove this after next release
-#endif
     }
 
     private void ReceiveEntityNavMessage(object recipient, EntityNavMessage message)
