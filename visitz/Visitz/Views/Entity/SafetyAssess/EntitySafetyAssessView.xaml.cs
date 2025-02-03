@@ -5,6 +5,7 @@ using Visitz.Views.Snackbar;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
@@ -40,7 +41,7 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
     {
         base.Creating();
 
-		StrongReferenceMessenger.Default.Register<DraftSavedMessage<DraftSavedView.State>>(this, ReceiveAppNavMessage);
+		StrongReferenceMessenger.Default.Register<DraftSavedMessage<DraftSaveState>>(this, ReceiveAppNavMessage);
     }
 
     protected override void Destroying()
@@ -50,7 +51,7 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
         base.Destroying();
     }
 
-    private void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSavedView.State> message)
+    private void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSaveState> message)
 	{
 		var thiz = (EntitySafetyAssessView)recipient;
 

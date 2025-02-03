@@ -42,16 +42,7 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     private async void NoteEntryView_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
     {
-		DraftSavedView.State state;
-
-		if (e.DraftSaved)
-			state = DraftSavedView.State.Saved;
-		else if (e.SavingDraft)
-			state = DraftSavedView.State.Saving;
-		else
-			state = DraftSavedView.State.None;
-
-        await DraftSavedIndicator.SetState(state);
+        await DraftSavedIndicator.SetState(e.State);
     }
 
     async void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)

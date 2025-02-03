@@ -17,6 +17,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 using VisitzModel.Utilities;
@@ -144,7 +145,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        _ = TrySendSavedMessage(DraftSavedView.State.Saving);
+        _ = TrySendSavedMessage(DraftSaveState.Saving);
 
 		if (!Assessment.IsManaged)
 			DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
@@ -265,7 +266,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 		UnsubscribeFromAssessment();
 		await AssessmentDraft.TryDeleteAsync(Assessment);
 
-        await TrySendSavedMessage(DraftSavedView.State.None);
+        await TrySendSavedMessage(DraftSaveState.None);
 
         await SetupAssessment();
         SelectedChildren?.Clear();
@@ -311,29 +312,29 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             else if (e.Action == NotifyCollectionChangedAction.Reset)
                 Assessment.ChildsInOutCare.Clear();
 
-            _ = TrySendSavedMessage(DraftSavedView.State.Saving);
+            _ = TrySendSavedMessage(DraftSaveState.Saving);
         });
 
         UpdateCanPublish();
     }
 
-    private async Task TrySendSavedMessage(DraftSavedView.State state)
+    private async Task TrySendSavedMessage(DraftSaveState state)
     {
-        if (state.Equals(DraftSavedView.State.None))
+        if (state.Equals(DraftSaveState.None))
         {
             debouncer.Cancel();
             SendSavedMessage(state);
         }
-        else if (state.Equals(DraftSavedView.State.Saving) && Assessment.IsManaged)
+        else if (state.Equals(DraftSaveState.Saving) && Assessment.IsManaged)
         {
             SendSavedMessage(state);
-            await debouncer.Debounce(() => SendSavedMessage(DraftSavedView.State.Saved));
+            await debouncer.Debounce(() => SendSavedMessage(DraftSaveState.Saved));
         }
     }
 
-    private static void SendSavedMessage(DraftSavedView.State state)
+    private static void SendSavedMessage(DraftSaveState state)
     {
-        var msg = new DraftSavedMessage<DraftSavedView.State>(state);
+        var msg = new DraftSavedMessage<DraftSaveState>(state);
         StrongReferenceMessenger.Default.Send(msg);
     }
 

@@ -13,6 +13,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 using VisitzModel.Utilities;
@@ -58,7 +59,7 @@ namespace Visitz.Views.Entity.Notes
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
             await InitNoteDraft();
-            ClearDraftMessages();
+            NotifySaveState(DraftSaveState.None);
         }
 
         private async Task InitNoteDraft()
@@ -145,13 +146,14 @@ namespace Visitz.Views.Entity.Notes
 
             if (NoteDraft.IsManaged)
             {
-                ShowSavingDraftMessage();
-                await debouncer.Debounce(ShowDraftSavedMessage);
+                NotifySaveState(DraftSaveState.Saving);
+
+                await debouncer.Debounce(() => NotifySaveState(DraftSaveState.Saved));
             }
             else
             {
                 debouncer.Cancel();
-                ClearDraftMessages();
+                NotifySaveState(DraftSaveState.None);
             }
         }
 
@@ -182,24 +184,9 @@ namespace Visitz.Views.Entity.Notes
             NoteDraft.DraftBinding = e.OldTextValue;
         }
 
-        private void ShowSavingDraftMessage()
+        private void NotifySaveState(DraftSaveState state)
         {
-            SetDraftMessageVisible(false, true);
-        }
-
-        private void ShowDraftSavedMessage()
-        {
-            SetDraftMessageVisible(true, false);
-        }
-
-        private void ClearDraftMessages()
-        {
-            SetDraftMessageVisible(false, false);
-        }
-
-        private void SetDraftMessageVisible(bool draftSaved, bool savingDraft)
-        {
-            DraftSaveStateChanged?.Invoke(this, new DraftSaveStatusEventArgs(draftSaved, savingDraft));
+            DraftSaveStateChanged?.Invoke(this, new DraftSaveStatusEventArgs(state));
         }
 
         partial void OnInternetAvailableChanged(bool value)
