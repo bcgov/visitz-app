@@ -12,6 +12,8 @@ namespace VisitzModel.Models
 {
     public partial class CaseloadItem : IRealmObject
     {
+        public string RowId { get; set; }
+
         [PrimaryKey]
         public string CaseIncidentNumber { get; set; }
 

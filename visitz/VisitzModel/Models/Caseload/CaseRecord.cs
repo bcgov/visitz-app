@@ -165,10 +165,20 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
         var currentAssignedIds = realm.All<CaseRecord>().AsEnumerable().Select(@case => @case.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
 
+        string type = EntityType.Case.ToString();
+
+        var v2Cases = FromApiJsonArray(section.Items);
+        var v1Cases = realm
+            .All<CaseloadItem>()
+            .Where(@case => @case.EntityType == type);
+
         await RealmExtensions.CommitAsync(realm, () =>
         {
             realm.DeleteByIds<CaseRecord>(unassignedIds);
-            realm.Upsert(FromApiJsonArray(section.Items));
+            realm.Upsert(v2Cases);
+
+            foreach (var v1Case in v1Cases)
+                v1Case.RowId = v2Cases.FirstOrDefault(v2Case => v2Case.CaseNum == v1Case.CaseIncidentNumber)?.Id;
         });
     }
 }
