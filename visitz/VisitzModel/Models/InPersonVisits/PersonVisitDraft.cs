@@ -67,9 +67,4 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
 
         return draft;
     }
-
-    public void Delete()
-    {
-        this.Commit(() => Realm.Remove(this));
-    }
 }
