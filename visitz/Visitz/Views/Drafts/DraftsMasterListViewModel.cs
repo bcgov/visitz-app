@@ -17,37 +17,37 @@ namespace Visitz.Views.Drafts;
 
 internal partial class DraftsMasterListViewModel : VisitzViewModel
 {
-	[ObservableProperty]
-	public ObservableCollection<object> masterDraftItems = [];
+    [ObservableProperty]
+    public ObservableCollection<object> masterDraftItems = [];
 
-	[ObservableProperty]
-	public MasterDraftItem selectedItem;
+    [ObservableProperty]
+    public MasterDraftItem selectedItem;
 
-	[ObservableProperty]
-	public bool showEmptyView;
+    [ObservableProperty]
+    public bool showEmptyView;
 
-	readonly ObservableRealmCount realmCount = new();
+    readonly ObservableRealmCount realmCount = new();
 
-	[ObservableProperty]
-	MasterDraftItem noteDraftItem = new()
-	{
-		Name = LocalizedStrings.Notes,
-		ItemType = typeof(NoteDraft),
-	};
+    [ObservableProperty]
+    MasterDraftItem noteDraftItem = new()
+    {
+        Name = LocalizedStrings.Notes,
+        ItemType = typeof(NoteDraft),
+    };
 
-	[ObservableProperty]
-	MasterDraftItem assessmentDraftItem = new()
-	{
-		Name = LocalizedStrings.SafetyAssessments,
-		ItemType = typeof(AssessmentDraft),
-	};
+    [ObservableProperty]
+    MasterDraftItem assessmentDraftItem = new()
+    {
+        Name = LocalizedStrings.SafetyAssessments,
+        ItemType = typeof(AssessmentDraft),
+    };
 
-	[ObservableProperty]
-	MasterDraftItem attachmentsDraftItem = new()
-	{
-		Name = LocalizedStrings.Attachments,
-		ItemType = typeof(AttachmentDraft),
-	};
+    [ObservableProperty]
+    MasterDraftItem attachmentsDraftItem = new()
+    {
+        Name = LocalizedStrings.Attachments,
+        ItemType = typeof(AttachmentDraft),
+    };
 
     [ObservableProperty]
     MasterDraftItem visitsDraftItem = new()
@@ -56,29 +56,29 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
         ItemType = typeof(PersonVisitDraft),
     };
 
-	public override async void Create()
-	{
-		base.Create();
+    public override async void Create()
+    {
+        base.Create();
 
-		realmCount.CountChanged += RealmCount_CountChanged;
+        realmCount.CountChanged += RealmCount_CountChanged;
 
-		realmCount.Subscribe<AttachmentDraft>(await VisitzRealms.GetAttachmentDraftsRealmAsync());
-		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
-		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
+        realmCount.Subscribe<AttachmentDraft>(await VisitzRealms.GetAttachmentDraftsRealmAsync());
+        realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
+        realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
         realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
-	}
+    }
 
-	public override void Destroy()
-	{
-		base.Destroy();
+    public override void Destroy()
+    {
+        base.Destroy();
 
-		realmCount.CountChanged -= RealmCount_CountChanged;
-		realmCount.Dispose();
-	}
+        realmCount.CountChanged -= RealmCount_CountChanged;
+        realmCount.Dispose();
+    }
 
-	private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
-	{
-		ShowEmptyView = (sender as ObservableRealmCount).Total <= 0;
+    private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
+    {
+        ShowEmptyView = (sender as ObservableRealmCount).Total <= 0;
 
         if (e.Kind == typeof(NoteDraft))
             UpdateItem(NoteDraftItem, e.Count);
@@ -88,39 +88,39 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
             UpdateItem(AttachmentsDraftItem, e.Count);
         else if (e.Kind == typeof(PersonVisitDraft))
             UpdateItem(VisitsDraftItem, e.Count);
-	}
+    }
 
-	void UpdateItem(MasterDraftItem item, int count)
-	{
-		item.Count = count;
+    void UpdateItem(MasterDraftItem item, int count)
+    {
+        item.Count = count;
 
-		if (count <= 0)
-			MasterDraftItems.Remove(item);
-		else if (!MasterDraftItems.Contains(item))
-			InsertSortedAsc(MasterDraftItems, item);
-	}
+        if (count <= 0)
+            MasterDraftItems.Remove(item);
+        else if (!MasterDraftItems.Contains(item))
+            InsertSortedAsc(MasterDraftItems, item);
+    }
 
-	[RelayCommand]
-	public void MasterDraftItemSelected()
-	{
-		var kind = SelectedItem.ItemType;
-		var msg = new DraftMasterSelectedMessage(kind, realmCount[kind].Realm);
-		StrongReferenceMessenger.Default.Send(msg);
-	}
+    [RelayCommand]
+    public void MasterDraftItemSelected()
+    {
+        var kind = SelectedItem.ItemType;
+        var msg = new DraftMasterSelectedMessage(kind, realmCount[kind].Realm);
+        StrongReferenceMessenger.Default.Send(msg);
+    }
 
-	// TODO: Use the IList<T>.InsertSortedAsc once MAUI fixes ObservableCollection<object> issues.
-	// https://github.com/dotnet/maui/issues/8435#issuecomment-1365586648
-	static void InsertSortedAsc(ObservableCollection<object> collection, MasterDraftItem newDraft)
-	{
-		if (collection.Count == 0)
-			collection.Add(newDraft);
-		else
-		{
-			var find = collection.FirstOrDefault(obj => (obj as MasterDraftItem).CompareTo(newDraft) >= 0);
-			if (find != null)
-				collection.Insert(collection.IndexOf(find), newDraft);
-			else
-				collection.Add(newDraft);
-		}
-	}
+    // TODO: Use the IList<T>.InsertSortedAsc once MAUI fixes ObservableCollection<object> issues.
+    // https://github.com/dotnet/maui/issues/8435#issuecomment-1365586648
+    static void InsertSortedAsc(ObservableCollection<object> collection, MasterDraftItem newDraft)
+    {
+        if (collection.Count == 0)
+            collection.Add(newDraft);
+        else
+        {
+            var find = collection.FirstOrDefault(obj => (obj as MasterDraftItem).CompareTo(newDraft) >= 0);
+            if (find != null)
+                collection.Insert(collection.IndexOf(find), newDraft);
+            else
+                collection.Add(newDraft);
+        }
+    }
 }
