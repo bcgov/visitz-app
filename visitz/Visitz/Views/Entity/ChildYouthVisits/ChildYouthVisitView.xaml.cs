@@ -25,6 +25,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         InitializeComponent();
         BindingContext = ViewModel;
         ViewModel.DraftError += AddVisit_DraftError;
+        ViewModel.SaveStateHandler.SaveStateChanged += ViewModel_DraftSaveStateChanged;
     }
 
     protected override void Dispose(bool disposing)
@@ -32,6 +33,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         if (!_disposed && disposing)
         {
             ViewModel.DraftError -= AddVisit_DraftError;
+            ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
 
             _disposed = true;
         }
@@ -42,6 +44,11 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     private async void AddVisit_DraftError(object sender, DraftErrorEventArgs e)
     {
         await ShowEditorError(e.ErrorMessage);
+    }
+
+    private async void ViewModel_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
+    {
+        await DraftSavedIndicator.SetState(e.State);
     }
 
     public async Task ShowEditorError(string text)

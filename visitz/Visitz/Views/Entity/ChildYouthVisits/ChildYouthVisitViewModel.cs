@@ -11,7 +11,9 @@ using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
@@ -106,6 +108,8 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     public event EventHandler<DraftErrorEventArgs> DraftError;
 
+    public DraftSaveStateHandler SaveStateHandler { get; } = new();
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -116,6 +120,8 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
         if (PersonVisitItem == null && IsUpdatingEnabled)
             Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
+
+        SaveStateHandler.Clear();
     }
 
     protected override void Dispose(bool disposing)
@@ -195,6 +201,8 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         }
         else if (Draft?.IsValid ?? false)
             Draft.LastUpdatedBinding = DateTimeOffset.Now;
+
+        await SaveStateHandler.Saving();
     }
 
     private static bool ContainEmojis(TextChangedEventArgs e)
