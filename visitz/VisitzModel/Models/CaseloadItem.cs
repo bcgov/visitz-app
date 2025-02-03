@@ -2,6 +2,7 @@ using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 
@@ -190,4 +191,16 @@ namespace VisitzModel.Models
 
 		static string CaseloadSelector(CaseloadItem caseloadItem) => caseloadItem.CaseIncidentNumber;
 	}
+
+    public static class CaseloadItemExtensions
+    {
+        public static string GetV2CaseId(this CaseloadItem caseloadItem, Realm realm)
+        {
+            return realm
+                .All<CaseRecord>()
+                .Where(@case => @case.CaseNum == caseloadItem.CaseIncidentNumber)
+                .FirstOrDefault()
+                ?.Id;
+        }
+    }
 }
