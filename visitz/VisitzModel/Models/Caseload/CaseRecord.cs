@@ -1,7 +1,9 @@
 using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Utilities;
 
@@ -66,7 +68,12 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
 
     public string SubjectContactLastName { get; set; }
 
-    public string Type { get; set; }
+    int TypeInt { get; set; }
+    public EntitySubtype Type
+    {
+        get => (EntitySubtype)TypeInt;
+        set => TypeInt = (int)value;
+    }
 
     public string WorkQueue { get; set; }
 
@@ -102,7 +109,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
         Status = caseJson.Status;
         SubjectContactFirstName = caseJson.SubjectContactFirstName;
         SubjectContactLastName = caseJson.SubjectContactLastName;
-        Type = caseJson.Type;
+        Type = caseJson.Type.ParseEntitySubtype();
         WorkQueue = caseJson.WorkQueue;
     }
 
@@ -138,7 +145,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
             Status = Status,
             SubjectContactFirstName = SubjectContactFirstName,
             SubjectContactLastName = SubjectContactLastName,
-            Type = Type,
+            Type = Type.GetDisplayString(),
             WorkQueue = WorkQueue,
         };
     }
