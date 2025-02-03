@@ -10,7 +10,10 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 
 public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHolder
 {
+    private bool _disposed;
+
     public new ChildYouthVisitViewModel ViewModel => base.ViewModel as ChildYouthVisitViewModel;
+
     public CaseloadItem CaseloadItem
     {
         get => ViewModel.CaseloadItem;
@@ -23,6 +26,19 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         BindingContext = ViewModel;
         ViewModel.DraftError += AddVisit_DraftError;
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            ViewModel.DraftError -= AddVisit_DraftError;
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
     private async void AddVisit_DraftError(object sender, DraftErrorEventArgs e)
     {
         await ShowEditorError(e.ErrorMessage);
