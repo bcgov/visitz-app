@@ -9,11 +9,11 @@ public partial class ChildYouthVisitListView : ViewModelContentView, ICaseloadIt
 {
     new ChildYouthVisitListViewModel ViewModel => base.ViewModel as ChildYouthVisitListViewModel;
 
-	public CaseloadItem CaseloadItem
-	{
-		get => ViewModel.CaseloadItem;
-		set => ViewModel.CaseloadItem = value;
-	}
+    public CaseloadItem CaseloadItem
+    {
+        get => ViewModel.CaseloadItem;
+        set => ViewModel.CaseloadItem = value;
+    }
 
     public EntitySection RequestedSection
     {
@@ -22,8 +22,8 @@ public partial class ChildYouthVisitListView : ViewModelContentView, ICaseloadIt
     }
 
     public ChildYouthVisitListView() : base(ServiceProvider.GetService<ChildYouthVisitListViewModel>())
-	{
-		InitializeComponent();
-		BindingContext = ViewModel;
-	}
+    {
+        InitializeComponent();
+        BindingContext = ViewModel;
+    }
 }
