@@ -13,6 +13,7 @@ using Visitz.Views.User;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
@@ -113,6 +114,7 @@ public partial class NavRailViewModel : VisitzViewModel
 		realmCount.Subscribe<AttachmentDraft>(await VisitzRealms.GetAttachmentDraftsRealmAsync());
 		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
 		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
+        realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
 	}
 
     partial void OnSelectedNavItemChanged(NavItem value)
