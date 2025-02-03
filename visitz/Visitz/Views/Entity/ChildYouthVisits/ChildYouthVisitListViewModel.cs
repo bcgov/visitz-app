@@ -9,20 +9,23 @@ using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Navigation;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
 {
     private static readonly int InfoDayRange = 90;
     private static readonly int WarningDayRange = 30;
     private static readonly int DangerDayRange = 5;
     private static readonly int CriticalDayRange = 0;
     private bool _disposed;
+
     readonly ObservableRealmQueryMap realmQuery = new();
+
+    public EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
     ObservableCollection<PersonVisit> personVisits = [];
@@ -57,6 +60,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     [ObservableProperty]
     public string openAddVisitText;
 
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -68,6 +72,9 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
                 .Where(person => person.ParentId == caseId)
                 .OrderByDescending(person => person.DateOfVisit));
+
+        if (RequestedSection == EntitySection.ChildYouthVisitsEntry)
+            await OpenVisitEntry();
     }
 
     protected override void Dispose(bool disposing)
