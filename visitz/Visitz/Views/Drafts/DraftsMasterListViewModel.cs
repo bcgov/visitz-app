@@ -9,6 +9,7 @@ using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
 
@@ -48,6 +49,13 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 		ItemType = typeof(AttachmentDraft),
 	};
 
+    [ObservableProperty]
+    MasterDraftItem visitsDraftItem = new()
+    {
+        Name = LocalizedStrings.ChildYouthVisits,
+        ItemType = typeof(PersonVisitDraft),
+    };
+
 	public override async void Create()
 	{
 		base.Create();
@@ -57,6 +65,7 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 		realmCount.Subscribe<AttachmentDraft>(await VisitzRealms.GetAttachmentDraftsRealmAsync());
 		realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
 		realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
+        realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
 	}
 
 	public override void Destroy()
@@ -71,12 +80,14 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
 	{
 		ShowEmptyView = (sender as ObservableRealmCount).Total <= 0;
 
-		if (e.Kind == typeof(NoteDraft))
-			UpdateItem(NoteDraftItem, e.Count);
-		else if (e.Kind == typeof(AssessmentDraft))
-			UpdateItem(AssessmentDraftItem, e.Count);
-		else if (e.Kind == typeof(AttachmentDraft))
-			UpdateItem(AttachmentsDraftItem, e.Count);
+        if (e.Kind == typeof(NoteDraft))
+            UpdateItem(NoteDraftItem, e.Count);
+        else if (e.Kind == typeof(AssessmentDraft))
+            UpdateItem(AssessmentDraftItem, e.Count);
+        else if (e.Kind == typeof(AttachmentDraft))
+            UpdateItem(AttachmentsDraftItem, e.Count);
+        else if (e.Kind == typeof(PersonVisitDraft))
+            UpdateItem(VisitsDraftItem, e.Count);
 	}
 
 	void UpdateItem(MasterDraftItem item, int count)
