@@ -257,8 +257,6 @@
                             FontFamily="BCSansRegular"
                             IsEnabled="{Binding IsUpdatingEnabled}"
                             TextChanged="VisitsEditor_TextChanged"
-                            VerticalOptions="Fill"
-                            HorizontalOptions="Fill"
                             FontSize="17"/>
 
                         <views:ErrorTooltip
