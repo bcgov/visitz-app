@@ -96,8 +96,6 @@ namespace Visitz.Views.Entity.Notes
         {
             if (UpdateAllowPublish())
             {
-                await Navigator.Navigation.PopModalAsync();
-
                 var notePublishVm = ServiceProvider.GetService<NotePublishViewModel>();
 
 #pragma warning disable SS002 // DateTime.Now was referenced
@@ -115,6 +113,8 @@ namespace Visitz.Views.Entity.Notes
                 };
 
                 notePublishVm.Init(CaseloadItem, submitNoteEntity);
+
+                await Navigator.Navigation.PopModalAsync();
                 await Navigator.Navigation.PushAsync(new PublishPage(notePublishVm));
             }
         }
