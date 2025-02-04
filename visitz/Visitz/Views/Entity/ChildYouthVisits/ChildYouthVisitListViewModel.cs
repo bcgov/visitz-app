@@ -154,9 +154,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
             foreach (int deleted in changes.DeletedIndices)
                 PersonVisits.RemoveAt(deleted);
 
-            foreach (int modified in changes.ModifiedIndices)
-                PersonVisits[modified] = items[modified] as PersonVisit;
-
             foreach (int inserted in changes.InsertedIndices)
                 PersonVisits.Insert(inserted, items[inserted] as PersonVisit);
         }
