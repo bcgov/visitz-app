@@ -3,7 +3,7 @@ using VisitzModel;
 
 namespace Visitz.Views.BaseClasses;
 
-public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage() 
+public partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage()
 {
     protected VisitzViewModel ViewModel { get; set; } = visitzViewModel;
 
@@ -26,7 +26,7 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
     {
         ConsoleTrace.TraceMethod(this);
 
-        ViewModel.OnCreate();
+        ViewModel?.OnCreate();
     }
 
     protected virtual void OnDestroyed()
@@ -34,7 +34,8 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
         ConsoleTrace.TraceMethod(this);
 
         Behaviors.Clear();
-        ViewModel.Destroy();
+
+        ViewModel?.Destroy();
     }
 
     protected override bool OnBackButtonPressed()
