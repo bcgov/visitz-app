@@ -31,6 +31,7 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
     {
         ViewModel.SaveStateHandler.SaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
         ViewModel.DraftError -= NoteEntryView_DraftError;
+            ViewModel.SaveStateHandler.Dispose();
 
         base.Destroying();
     }

@@ -3,9 +3,10 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Drafts;
 
-public class DraftSaveStateHandler(TimeSpan? delay = null)
+public class DraftSaveStateHandler(TimeSpan? delay = null) : IDisposable
 {
-    readonly Debouncer _debouncer = new(delay ?? Debouncer.AvgStoppedTypingDelay);
+    Debouncer _debouncer = new(delay ?? Debouncer.AvgStoppedTypingDelay);
+    bool _disposed;
 
     public event EventHandler<DraftSaveStatusEventArgs> SaveStateChanged;
 
@@ -32,5 +33,25 @@ public class DraftSaveStateHandler(TimeSpan? delay = null)
     {
         _debouncer.Cancel();
         UpdateState(DraftSaveState.Saved);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                _debouncer?.Dispose();
+                _debouncer = null;
+            }
+
+            _disposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

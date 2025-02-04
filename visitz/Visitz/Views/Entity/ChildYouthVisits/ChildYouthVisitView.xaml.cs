@@ -34,6 +34,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         {
             ViewModel.DraftError -= AddVisit_DraftError;
             ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
+            ViewModel.SaveStateHandler.Dispose();
 
             _disposed = true;
         }

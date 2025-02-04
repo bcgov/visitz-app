@@ -78,6 +78,7 @@ namespace Visitz.Views.Entity.Notes
         {
             Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
 
+            SaveStateHandler.Dispose();
             Realm.Dispose();
 
             base.Destroy();
