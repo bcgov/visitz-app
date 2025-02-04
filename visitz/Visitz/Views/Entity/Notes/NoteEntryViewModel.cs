@@ -16,7 +16,6 @@ using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
-using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity.Notes
 {
@@ -31,6 +30,8 @@ namespace Visitz.Views.Entity.Notes
         public NoteDraft noteDraft;
 
         private string DraftOutput => NoteDraft?.Draft?.Trim();
+
+        private bool _disposed;
 
         [ObservableProperty]
         public bool allowPublish;
@@ -60,6 +61,22 @@ namespace Visitz.Views.Entity.Notes
             SaveStateHandler.Clear();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposed && disposing)
+            {
+                Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+
+                SaveStateHandler.Dispose();
+
+                Realm?.Dispose();
+                Realm = null;
+
+                _disposed = true;
+            }
+            base.Dispose(disposing);
+        }
+
         private async Task InitNoteDraft()
         {
             Realm = await VisitzRealms.GetNoteDraftsRealmAsync();
@@ -72,16 +89,6 @@ namespace Visitz.Views.Entity.Notes
             {
                 ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
             };
-        }
-
-        public override void Destroy()
-        {
-            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
-
-            SaveStateHandler.Dispose();
-            Realm.Dispose();
-
-            base.Destroy();
         }
 
         [RelayCommand]

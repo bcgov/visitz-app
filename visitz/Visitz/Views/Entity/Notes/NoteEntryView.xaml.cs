@@ -10,6 +10,8 @@ namespace Visitz.Views.Entity.Notes;
 
 public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 {
+    bool _disposed;
+
 	new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
 
     public CaseloadItem CaseloadItem
@@ -27,13 +29,18 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         ViewModel.SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
 	}
 
-    protected override void Destroying()
+    protected override void Dispose(bool disposing)
     {
-        ViewModel.SaveStateHandler.SaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
-        ViewModel.DraftError -= NoteEntryView_DraftError;
+        if (!_disposed && disposing)
+        {
+            ViewModel.SaveStateHandler.SaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
             ViewModel.SaveStateHandler.Dispose();
+            ViewModel.DraftError -= NoteEntryView_DraftError;
 
-        base.Destroying();
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 
     private async void NoteEntryView_DraftError(object sender, DraftErrorEventArgs e)
