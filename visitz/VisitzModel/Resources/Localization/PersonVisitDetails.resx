@@ -135,20 +135,32 @@
   <data name="Api_NotPrivateWithCaregiver" xml:space="preserve">
     <value>Not private - Visit with caregiver</value>
   </data>
-  <data name="Api_PrivateAge0_5" xml:space="preserve">
+  <data name="Api_PrivateVisitAge0_5" xml:space="preserve">
     <value>Private visit age 0-5</value>
   </data>
-  <data name="Api_PrivateInHome" xml:space="preserve">
+  <data name="Api_PrivateVisitInHome" xml:space="preserve">
     <value>Private visit in home</value>
   </data>
-  <data name="Api_PrivateMedicalSupportNeeds" xml:space="preserve">
+  <data name="Api_PrivateVisitMedicalSupportNeeds" xml:space="preserve">
     <value>Private visit medical or support needs</value>
   </data>
-  <data name="Api_PrivateNotInHome" xml:space="preserve">
+  <data name="Api_PrivateVisitNotInHome" xml:space="preserve">
     <value>Private visit not in home</value>
+  </data>
+  <data name="Details_Age0To5" xml:space="preserve">
+    <value>age 0-5</value>
   </data>
   <data name="Details_ChildDeclinedToMeet" xml:space="preserve">
     <value>Child declined to meet</value>
+  </data>
+  <data name="Details_InHome" xml:space="preserve">
+    <value>in home</value>
+  </data>
+  <data name="Details_MedicalOrSupportNeeds" xml:space="preserve">
+    <value>medical or support needs</value>
+  </data>
+  <data name="Details_NotInHome" xml:space="preserve">
+    <value>not in home</value>
   </data>
   <data name="Details_Other" xml:space="preserve">
     <value>Other</value>
@@ -159,20 +171,8 @@
   <data name="Details_RelationalVisit" xml:space="preserve">
     <value>Relational visit</value>
   </data>
-  <data name="Details_VisitAge0To5" xml:space="preserve">
-    <value>Visit age 0 to 5</value>
-  </data>
-  <data name="Details_VisitInHome" xml:space="preserve">
-    <value>Visit in home</value>
-  </data>
   <data name="Details_VisitInTheHome" xml:space="preserve">
     <value>Visit in the home</value>
-  </data>
-  <data name="Details_VisitMedicalOrSupportNeeds" xml:space="preserve">
-    <value>Visit medical or support needs</value>
-  </data>
-  <data name="Details_VisitNotInHome" xml:space="preserve">
-    <value>Visit not in home</value>
   </data>
   <data name="Details_VisitWithCaregiver" xml:space="preserve">
     <value>Visit with caregiver</value>
@@ -183,7 +183,7 @@
   <data name="Type_NotPrivate" xml:space="preserve">
     <value>Not private</value>
   </data>
-  <data name="Type_Private" xml:space="preserve">
-    <value>Private</value>
+  <data name="Type_PrivateVisit" xml:space="preserve">
+    <value>Private visit</value>
   </data>
 </root>
