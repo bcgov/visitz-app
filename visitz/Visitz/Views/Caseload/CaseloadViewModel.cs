@@ -323,7 +323,6 @@ namespace Visitz.Views.Caseload
             ShowAvatarView = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
-        Type[] v2Types = [typeof(PersonVisitDraft)];
 		private void RealmQueryMap_DraftsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
 		{
 			HashSet<(string EntityId, EntityType Type)> drafted = [];
