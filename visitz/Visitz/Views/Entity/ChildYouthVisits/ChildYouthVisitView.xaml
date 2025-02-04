@@ -121,7 +121,7 @@
                         Spacing="10"
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitTypeGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsValueBinding}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroupBinding}">
                         <formctls:FormRadioButton
                             Value="{Static visitStrings:PersonVisitDetails.Type_PrivateVisit}"
                             IsChecked="{Binding PrivateChecked}"
@@ -154,7 +154,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding PrivateChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroupBinding}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsValueBinding}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_Age0To5}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_Age0To5}"
@@ -182,7 +182,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding ExemptionToPrivateVisitChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroupBinding}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsValueBinding}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_ChildDeclinedToMeet}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_ChildDeclinedToMeet}"
@@ -200,7 +200,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding NotPrivateChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroupBinding}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsValueBinding}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_PlanningMeeting}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_PlanningMeeting}"
