@@ -15,12 +15,10 @@ using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
-using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
@@ -88,7 +86,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private Realm Realm;
 
-    private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
+    public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
 	[ObservableProperty]
 	private AssessmentDraft draftItem;
@@ -184,7 +182,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     public override void Destroy()
     {
-        debouncer?.Dispose();
+        SaveStateHandler.Dispose();
         WeakReferenceMessenger.Default.UnregisterAll(this);
 
         SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
@@ -320,22 +318,10 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
     private async Task TrySendSavedMessage(DraftSaveState state)
     {
-        if (state.Equals(DraftSaveState.None))
-        {
-            debouncer.Cancel();
-            SendSavedMessage(state);
-        }
-        else if (state.Equals(DraftSaveState.Saving) && Assessment.IsManaged)
-        {
-            SendSavedMessage(state);
-            await debouncer.Debounce(() => SendSavedMessage(DraftSaveState.Saved));
-        }
-    }
-
-    private static void SendSavedMessage(DraftSaveState state)
-    {
-        var msg = new DraftSavedMessage<DraftSaveState>(state);
-        StrongReferenceMessenger.Default.Send(msg);
+        if (state == DraftSaveState.None)
+            SaveStateHandler.Clear();
+        else if (state == DraftSaveState.Saving && Assessment.IsManaged)
+            await SaveStateHandler.Saving();
     }
 
     private void ClearDecisionBools()
