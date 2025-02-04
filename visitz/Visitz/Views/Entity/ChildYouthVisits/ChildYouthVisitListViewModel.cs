@@ -9,20 +9,22 @@ using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
-using VisitzModel.Storage;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
 {
     private static readonly int InfoDayRange = 90;
     private static readonly int WarningDayRange = 30;
     private static readonly int DangerDayRange = 5;
     private static readonly int CriticalDayRange = 0;
     private bool _disposed;
+
     readonly ObservableRealmQueryMap realmQuery = new();
+
+    public EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
     ObservableCollection<PersonVisit> personVisits = [];
@@ -60,24 +62,21 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     protected override async Task InitAsync()
     {
         await base.InitAsync();
+
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        Realm visitDraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-        string caseId = GetCaseRecordId(icmDataRealm);
-
         realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
-                .Where(person => person.ParentId == caseId)
+                .Where(person => person.ParentId == CaseloadItem.RowId)
                 .OrderByDescending(person => person.DateOfVisit));
-    }
 
-    // TODO: Remove this workaround when we aren't reliant on V1 caseload anymore
-    string GetCaseRecordId(Realm realm)
-    {
-        return realm
-            .All<CaseRecord>()
-            .Where(rec => rec.CaseNum == CaseloadItem.CaseIncidentNumber)
-            .First()
-            .Id;
+        realmQuery.Subscribe(visitDraftRealm, visitDraftRealm.All<PersonVisitDraft>()
+            .Where(visit => visit.RelatedEntityId == CaseloadItem.RowId));
+
+        if (RequestedSection == EntitySection.ChildYouthVisitsEntry)
+            await OpenVisitEntry();
     }
 
     protected override void Dispose(bool disposing)
@@ -135,25 +134,32 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 
     private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
-        if (e.Changes == null)
+        if (e.Type == typeof(PersonVisit))
+            UpdateVisitsList(e.Items, e.Changes);
+        else if (e.Type == typeof(PersonVisitDraft))
+            UpdateOpenAddVisitText(e.Items.Any());
+
+        UpdatePersonVisitRelatedInfo(PersonVisits);
+    }
+
+    private void UpdateVisitsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    {
+        if (changes == null)
         {
-            foreach (var item in e.Items)
+            foreach (var item in items)
                 PersonVisits.Add(item as PersonVisit);
         }
         else
         {
-            foreach (int deleted in e.Changes.DeletedIndices)
+            foreach (int deleted in changes.DeletedIndices)
                 PersonVisits.RemoveAt(deleted);
 
-            foreach (int modified in e.Changes.ModifiedIndices)
-                PersonVisits[modified] = e.Items[modified] as PersonVisit;
+            foreach (int modified in changes.ModifiedIndices)
+                PersonVisits[modified] = items[modified] as PersonVisit;
 
-            foreach (int inserted in e.Changes.InsertedIndices)
-                PersonVisits.Insert(inserted, e.Items[inserted] as PersonVisit);
+            foreach (int inserted in changes.InsertedIndices)
+                PersonVisits.Insert(inserted, items[inserted] as PersonVisit);
         }
-        UpdatePersonVisitRelatedInfo(PersonVisits);
-        if (e.Type == typeof(PersonVisitDrafts))
-            UpdateOpenAddVisitText(e.Items.Any());
     }
 
     private void UpdateOpenAddVisitText(bool draftAvailable)

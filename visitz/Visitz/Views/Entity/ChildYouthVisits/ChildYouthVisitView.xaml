@@ -98,7 +98,7 @@
                         Format="MMMM dd, yyyy"
                         MaximumDate="{Binding MaxDate}"
                         IsEnabled="{Binding IsUpdatingEnabled}"
-                        Date="{Binding PersonVisitItem.DateOfVisit, Converter={StaticResource DateTimeOffsetConverter}}"/>
+                        Date="{Binding PersonVisitItem.DateOfVisitBinding, Converter={StaticResource DateTimeOffsetConverter}}"/>
                 </Grid>
 
                 <!-- Second Row: RadioButton and Checkbox -->
@@ -121,7 +121,7 @@
                         Spacing="10"
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitTypeGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsValue}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsValueBinding}">
                         <formctls:FormRadioButton
                             Value="{Static visitStrings:PersonVisitDetails.Type_Private}"
                             IsChecked="{Binding PrivateChecked}"
@@ -154,7 +154,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding PrivateChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroup}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroupBinding}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_VisitAge0To5}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_VisitAge0To5}"
@@ -182,7 +182,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding ExemptionToPrivateVisitChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroup}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroupBinding}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_ChildDeclinedToMeet}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_ChildDeclinedToMeet}"
@@ -200,7 +200,7 @@
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         IsVisible="{Binding NotPrivateChecked}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitDetailGroup}"
-                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroup}">
+                        RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroupBinding}">
                         <formctls:FormRadioButton
                             Text="{Static visitStrings:PersonVisitDetails.Details_PlanningMeeting}"
                             Value="{Static visitStrings:PersonVisitDetails.Details_PlanningMeeting}"
@@ -252,13 +252,11 @@
                             x:Name="VisitsEditor"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
-                            Text="{Binding PersonVisitItem.VisitDescription}"
+                            Text="{Binding PersonVisitItem.VisitDescriptionBinding}"
                             TextColor="{StaticResource BlackishText}"
                             FontFamily="BCSansRegular"
                             IsEnabled="{Binding IsUpdatingEnabled}"
                             TextChanged="VisitsEditor_TextChanged"
-                            VerticalOptions="Fill"
-                            HorizontalOptions="Fill"
                             FontSize="17"/>
 
                         <views:ErrorTooltip

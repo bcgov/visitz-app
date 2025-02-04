@@ -2,6 +2,7 @@ using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 
@@ -30,7 +31,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRec
 
     public string Type { get; set; } = _defaultType;
 
-    public DateTimeOffset DateOfVisit { get; set; }
+    public DateTimeOffset DateOfVisit { get; set; } = DateTimeOffset.Now;
 
     public string VisitDetailsValue { get; set; }
 
@@ -47,6 +48,11 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRec
     public string UpdatedBy { get; set; }
 
     public PersonVisit() { }
+
+    public PersonVisit(CaseRecord @case)
+    {
+        ParentId = @case.Id;
+    }
 
     public PersonVisit(VisitJson json)
     {

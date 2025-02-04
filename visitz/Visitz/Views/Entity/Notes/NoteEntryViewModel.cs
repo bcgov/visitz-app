@@ -13,9 +13,9 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
-using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity.Notes
 {
@@ -31,6 +31,8 @@ namespace Visitz.Views.Entity.Notes
 
         private string DraftOutput => NoteDraft?.Draft?.Trim();
 
+        private bool _disposed;
+
         [ObservableProperty]
         public bool allowPublish;
 
@@ -45,9 +47,7 @@ namespace Visitz.Views.Entity.Notes
 
         public event EventHandler<DraftErrorEventArgs> DraftError;
 
-        public event EventHandler<DraftSaveStatusEventArgs> DraftSaveStateChanged;
-
-        private readonly Debouncer debouncer = new(Debouncer.AvgStoppedTypingDelay);
+        public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
         Realm Realm { get; set; }
 
@@ -58,7 +58,23 @@ namespace Visitz.Views.Entity.Notes
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
             await InitNoteDraft();
-            ClearDraftMessages();
+            SaveStateHandler.Clear();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposed && disposing)
+            {
+                Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+
+                SaveStateHandler.Dispose();
+
+                Realm?.Dispose();
+                Realm = null;
+
+                _disposed = true;
+            }
+            base.Dispose(disposing);
         }
 
         private async Task InitNoteDraft()
@@ -73,15 +89,6 @@ namespace Visitz.Views.Entity.Notes
             {
                 ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
             };
-        }
-
-        public override void Destroy()
-        {
-            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
-
-            Realm.Dispose();
-
-            base.Destroy();
         }
 
         [RelayCommand]
@@ -144,15 +151,9 @@ namespace Visitz.Views.Entity.Notes
             UpdateAllowPublish(e.NewTextValue);
 
             if (NoteDraft.IsManaged)
-            {
-                ShowSavingDraftMessage();
-                await debouncer.Debounce(ShowDraftSavedMessage);
-            }
+                await SaveStateHandler.Saving();
             else
-            {
-                debouncer.Cancel();
-                ClearDraftMessages();
-            }
+                SaveStateHandler.Clear();
         }
 
         private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
@@ -180,26 +181,6 @@ namespace Visitz.Views.Entity.Notes
         private void CancelTextChangedEvent(TextChangedEventArgs e)
         {
             NoteDraft.DraftBinding = e.OldTextValue;
-        }
-
-        private void ShowSavingDraftMessage()
-        {
-            SetDraftMessageVisible(false, true);
-        }
-
-        private void ShowDraftSavedMessage()
-        {
-            SetDraftMessageVisible(true, false);
-        }
-
-        private void ClearDraftMessages()
-        {
-            SetDraftMessageVisible(false, false);
-        }
-
-        private void SetDraftMessageVisible(bool draftSaved, bool savingDraft)
-        {
-            DraftSaveStateChanged?.Invoke(this, new DraftSaveStatusEventArgs(draftSaved, savingDraft));
         }
 
         partial void OnInternetAvailableChanged(bool value)

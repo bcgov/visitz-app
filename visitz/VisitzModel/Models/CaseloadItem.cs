@@ -2,6 +2,7 @@ using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 
@@ -11,12 +12,14 @@ namespace VisitzModel.Models
 {
     public partial class CaseloadItem : IRealmObject
     {
+        public string RowId { get; set; }
+
         [PrimaryKey]
         public string CaseIncidentNumber { get; set; }
 
-		// TODO: Convert EntityType from string to VisitzModel.Extensions.EntityTypes.EntityType.
-		// Will need to workaround RLM024 (Realm does not support enums).
-		public string EntityType { get; set; }
+        // TODO: Convert EntityType from string to VisitzModel.Extensions.EntityTypes.EntityType.
+        // Will need to workaround RLM024 (Realm does not support enums).
+        public string EntityType { get; set; }
         public string CaseIncidentType { get; set; }
         public string WorkerId { get; set; }
         public string WorkerFullName { get; set; }
@@ -51,12 +54,12 @@ namespace VisitzModel.Models
             .FirstOrDefault();
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
-		public string DisplayDate => EntityType.ParseEntityType() switch
-		{
-			EntityTypes.EntityType.Incident => DateReported,
-			EntityTypes.EntityType.Memo => MemoCallDate,
-			_ => CreatedDate, // Case, etc...
-		};
+        public string DisplayDate => EntityType.ParseEntityType() switch
+        {
+            EntityTypes.EntityType.Incident => DateReported,
+            EntityTypes.EntityType.Memo => MemoCallDate,
+            _ => CreatedDate, // Case, etc...
+        };
 
         public string DisplayName
         {
@@ -159,35 +162,35 @@ namespace VisitzModel.Models
                 .Filter($"TRUEPREDICATE DISTINCT({subtype}) SORT({subtype} {sortDirection})");
         }
 
-		/// <summary>
-		/// Adds new CaseloadItems to the Realm and cascade-deletes any pre-existing CaseloadItems not found in the incoming list.
-		/// The cascade deletion only extends to objects within this Realm—it does not affect any drafts the user may have.
-		/// </summary>
-		/// <param name="realm"></param>
-		/// <param name="newCaseloadItems"></param>
-		/// <returns></returns>
-		public static async Task ReplaceCaseloadWithAsync(Realm realm, IEnumerable<CaseloadItem> newCaseloadItems)
-		{
-			var currentCaseload = realm.All<CaseloadItem>();
-			var itemsToDelete = currentCaseload.ExceptBy(newCaseloadItems.Select(CaseloadSelector), CaseloadSelector);
+        /// <summary>
+        /// Adds new CaseloadItems to the Realm and cascade-deletes any pre-existing CaseloadItems not found in the incoming list.
+        /// The cascade deletion only extends to objects within this Realm—it does not affect any drafts the user may have.
+        /// </summary>
+        /// <param name="realm"></param>
+        /// <param name="newCaseloadItems"></param>
+        /// <returns></returns>
+        public static async Task ReplaceCaseloadWithAsync(Realm realm, IEnumerable<CaseloadItem> newCaseloadItems)
+        {
+            var currentCaseload = realm.All<CaseloadItem>();
+            var itemsToDelete = currentCaseload.ExceptBy(newCaseloadItems.Select(CaseloadSelector), CaseloadSelector);
 
-			await realm.WriteAsync(() =>
-			{
-				foreach (var itemToDelete in itemsToDelete)
-					CascadeDelete(realm, itemToDelete);
+            await realm.WriteAsync(() =>
+            {
+                foreach (var itemToDelete in itemsToDelete)
+                    CascadeDelete(realm, itemToDelete);
 
-				realm.Add(newCaseloadItems, update: true);
-			});
-		}
+                realm.Add(newCaseloadItems, update: true);
+            });
+        }
 
-		static void CascadeDelete(Realm realm, CaseloadItem itemToDelete)
-		{
-			foreach (var note in NoteItem.GetNotesByEntityId(realm, itemToDelete.CaseIncidentNumber))
-				realm.Remove(note);
+        static void CascadeDelete(Realm realm, CaseloadItem itemToDelete)
+        {
+            foreach (var note in NoteItem.GetNotesByEntityId(realm, itemToDelete.CaseIncidentNumber))
+                realm.Remove(note);
 
-			realm.Remove(itemToDelete);
-		}
+            realm.Remove(itemToDelete);
+        }
 
-		static string CaseloadSelector(CaseloadItem caseloadItem) => caseloadItem.CaseIncidentNumber;
-	}
+        static string CaseloadSelector(CaseloadItem caseloadItem) => caseloadItem.CaseIncidentNumber;
+    }
 }

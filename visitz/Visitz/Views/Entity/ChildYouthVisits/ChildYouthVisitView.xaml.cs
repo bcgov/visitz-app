@@ -10,7 +10,10 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 
 public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHolder
 {
+    private bool _disposed;
+
     public new ChildYouthVisitViewModel ViewModel => base.ViewModel as ChildYouthVisitViewModel;
+
     public CaseloadItem CaseloadItem
     {
         get => ViewModel.CaseloadItem;
@@ -22,10 +25,31 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         InitializeComponent();
         BindingContext = ViewModel;
         ViewModel.DraftError += AddVisit_DraftError;
+        ViewModel.SaveStateHandler.SaveStateChanged += ViewModel_DraftSaveStateChanged;
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            ViewModel.DraftError -= AddVisit_DraftError;
+            ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
+            ViewModel.SaveStateHandler.Dispose();
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
     private async void AddVisit_DraftError(object sender, DraftErrorEventArgs e)
     {
         await ShowEditorError(e.ErrorMessage);
+    }
+
+    private async void ViewModel_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
+    {
+        await DraftSavedIndicator.SetState(e.State);
     }
 
     public async Task ShowEditorError(string text)
@@ -56,6 +80,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     {
         if (await PromptDiscard())
         {
+            ViewModel.DiscardDraft();
             await Navigator.Navigation.PopModalAsync();
             SnackbarHandler.ShowText(LocalizedStrings.DiscardedVisitDraft);
         }

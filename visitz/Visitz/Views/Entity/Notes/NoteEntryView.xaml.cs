@@ -10,6 +10,8 @@ namespace Visitz.Views.Entity.Notes;
 
 public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 {
+    bool _disposed;
+
 	new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
 
     public CaseloadItem CaseloadItem
@@ -24,15 +26,21 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 		BindingContext = ViewModel;
 
         ViewModel.DraftError += NoteEntryView_DraftError;
-        ViewModel.DraftSaveStateChanged += NoteEntryView_DraftSaveStateChanged;
+        ViewModel.SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
 	}
 
-    protected override void Destroying()
+    protected override void Dispose(bool disposing)
     {
-        ViewModel.DraftSaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
-        ViewModel.DraftError -= NoteEntryView_DraftError;
+        if (!_disposed && disposing)
+        {
+            ViewModel.SaveStateHandler.SaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
+            ViewModel.SaveStateHandler.Dispose();
+            ViewModel.DraftError -= NoteEntryView_DraftError;
 
-        base.Destroying();
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 
     private async void NoteEntryView_DraftError(object sender, DraftErrorEventArgs e)
@@ -42,16 +50,7 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 
     private async void NoteEntryView_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
     {
-		DraftSavedView.State state;
-
-		if (e.DraftSaved)
-			state = DraftSavedView.State.Saved;
-		else if (e.SavingDraft)
-			state = DraftSavedView.State.Saving;
-		else
-			state = DraftSavedView.State.None;
-
-        await DraftSavedIndicator.SetState(state);
+        await DraftSavedIndicator.SetState(e.State);
     }
 
     async void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
