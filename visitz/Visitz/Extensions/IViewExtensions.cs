@@ -18,4 +18,19 @@ public static class IViewExtensions
 
         return disposables;
     }
+
+    public static IDisposable FindFirstDisposable(this IView view)
+    {
+        if (view is IDisposable disposable)
+            return disposable;
+
+        if (view is Layout layout)
+            foreach (var child in layout.Children)
+                if (child is IDisposable disposableChild)
+                    return disposableChild;
+                else
+                    return FindFirstDisposable(child);
+
+        return null;
+    }
 }

@@ -43,7 +43,7 @@ public partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage()
         ViewModel?.Destroy();
         ViewModel?.Dispose();
 
-        foreach (var disposable in Content.FindDisposables())
+        if (Content.FindFirstDisposable() is IDisposable disposable)
             disposable.Dispose();
     }
 
