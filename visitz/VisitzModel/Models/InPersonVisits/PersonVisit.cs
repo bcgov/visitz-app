@@ -9,7 +9,7 @@ using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.InPersonVisits;
 
-public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRecord
+public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
 {
     static readonly string _defaultType = "In Person Child Youth";
     static readonly char DetailsDelimiter = '-';
@@ -77,21 +77,12 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRec
         UpdatedBy = json.UpdatedBy;
     }
 
-    public VisitJson ToApiJson(string dateFormat = "s")
+    public PostVisitJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
-            Id = Id,
-            ParentId = ParentId,
-            Name = Name,
+            DateOfVisit = DateOfVisit,
             VisitDescription = VisitDescription,
-            Type = Type,
-            DateOfVisit = DateOfVisit.ToString(dateFormat),
-            LoginName = LoginName,
-            Created = Created.ToString(dateFormat),
-            Updated = Updated.ToString(dateFormat),
-            CreatedBy = CreatedBy,
-            UpdatedBy = UpdatedBy,
             VisitDetailsValue = MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue),
         };
     }
