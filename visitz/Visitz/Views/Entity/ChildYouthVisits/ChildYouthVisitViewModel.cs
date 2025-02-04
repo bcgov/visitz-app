@@ -6,6 +6,7 @@ using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -168,6 +169,17 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     [RelayCommand]
     public async Task PublishInPersonVisit()
     {
+        if (!AllowPublish)
+            return;
+
+        await Navigator.Navigation.PopModalAsync();
+
+        var publishVm = ServiceProvider.GetService<ChildYouthVisitPublishViewModel>();
+
+        publishVm.CaseloadItem = CaseloadItem;
+        publishVm.Visit = Draft.Visit;
+
+        await Navigator.Navigation.PushAsync(new PublishPage(publishVm));
     }
 
     public void DiscardDraft()

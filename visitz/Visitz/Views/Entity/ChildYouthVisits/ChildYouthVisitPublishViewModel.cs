@@ -1,0 +1,132 @@
+using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Resources.Localization;
+using Visitz.Services;
+using Visitz.Services.Visits;
+using Visitz.Storage;
+using Visitz.Views.BaseClasses.Publishing;
+using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
+using VisitzModel.Models;
+using VisitzModel.Models.InPersonVisits;
+using ServiceState = Visitz.Services.Base.VisitzService.State;
+
+namespace Visitz.Views.Entity.ChildYouthVisits;
+
+internal partial class ChildYouthVisitPublishViewModel
+    : PublishViewModel, IRecipient<ServiceStateMessage>, ICaseloadItemHolder
+{
+    bool _disposed;
+
+    private CaseloadItem _caseloadItem;
+    public CaseloadItem CaseloadItem
+    {
+        get => _caseloadItem;
+        set
+        {
+            _caseloadItem = value;
+            Title = _caseloadItem.DisplayName;
+        }
+    }
+
+    private PersonVisit _visit;
+
+    public PersonVisit Visit
+    {
+        get => _visit;
+        set
+        {
+            if (_visit != null)
+                WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            _visit = value;
+
+            if (value != null)
+            {
+                _getVisitsId = GetVisitsService.MakeId(value.ParentId);
+                WeakReferenceMessenger.Default.Register(this, _getVisitsId);
+
+                _postVisitId = PostVisitService.MakeId(value);
+                WeakReferenceMessenger.Default.Register(this, _postVisitId);
+
+                _postAndRefreshId = PostAndRefreshVisitService.MakeId(value);
+                WeakReferenceMessenger.Default.Register(this, _postAndRefreshId);
+            }
+            else
+                WeakReferenceMessenger.Default.UnregisterAll(this);
+        }
+    }
+
+    string _getVisitsId;
+    string _postVisitId;
+    string _postAndRefreshId;
+
+    public ChildYouthVisitPublishViewModel()
+    {
+        Wait(LocalizedStrings.LoginToSubmitVisit);
+    }
+
+    public override void Create()
+    {
+        base.Create();
+
+        Publish();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
+    public override void Publish()
+    {
+        WeakReferenceMessenger.Default.Send(PostAndRefreshVisitService.MakeStartMessage(Visit));
+    }
+
+    public async void Receive(ServiceStateMessage message)
+    {
+        if (message.ServiceId == _postAndRefreshId)
+        {
+            if (message.Status == ServiceState.Running)
+                Publishing(LocalizedStrings.PublishingVisit);
+            else if (message.FinishedSuccess)
+                Complete();
+            else if (message.FinishedError)
+                PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
+            else if (message.FinishedCancelled)
+                Cancel(LocalizedStrings.LoginToSubmitVisit);
+        }
+        else if (message.ServiceId == _postVisitId)
+        {
+            if (message.FinishedSuccess)
+            {
+                Published(LocalizedStrings.VisitPublishedToIcm);
+                await DiscardPublishedDraft();
+            }
+            else if (message.FinishedError)
+                PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
+        }
+        else if (message.ServiceId == _getVisitsId)
+        {
+            if (message.Status == ServiceState.Running)
+                Refreshing(LocalizedStrings.RefreshingVisits);
+            else if (message.FinishedSuccess)
+                Refreshed(LocalizedStrings.RefreshedVisitsOnDevice);
+            else if (message.FinishedError)
+                RefreshError(LocalizedStrings.FailedToRefreshVisits, message.Message);
+        }
+    }
+
+    async Task DiscardPublishedDraft()
+    {
+        using var realm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+
+        await realm.WriteAsync(() => realm.DeleteByIds<PersonVisitDraft>([Visit.ParentId]));
+    }
+}
