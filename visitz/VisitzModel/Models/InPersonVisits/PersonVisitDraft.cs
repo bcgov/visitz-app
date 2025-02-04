@@ -57,12 +57,14 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         PersonVisit visit,
         string draftLocation)
     {
-        var draft = realm.Find<PersonVisitDraft>(visit.ParentId) ?? new()
+        var draft = realm.Find<PersonVisitDraft>(caseId) ?? new()
         {
             RelatedEntityId = caseId,
             DraftLocation = draftLocation,
-            Visit = visit ?? new() { ParentId = visit.ParentId }
+            Visit = visit ?? new(),
         };
+
+        draft.Visit.ParentId = caseId;
 
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(draft));
 
