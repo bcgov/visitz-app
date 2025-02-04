@@ -14,7 +14,6 @@ using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
-using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
@@ -175,9 +174,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         await Navigator.Navigation.PopModalAsync();
 
         var publishVm = ServiceProvider.GetService<ChildYouthVisitPublishViewModel>();
-
         publishVm.CaseloadItem = CaseloadItem;
-        publishVm.Visit = Draft.Visit;
 
         await Navigator.Navigation.PushAsync(new PublishPage(publishVm));
     }

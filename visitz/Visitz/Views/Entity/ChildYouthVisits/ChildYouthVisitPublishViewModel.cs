@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Visits;
@@ -60,14 +61,19 @@ internal partial class ChildYouthVisitPublishViewModel
     string _postVisitId;
     string _postAndRefreshId;
 
+    Realm VisitDraftRealm { get; set; }
+
     public ChildYouthVisitPublishViewModel()
     {
         Wait(LocalizedStrings.LoginToSubmitVisit);
     }
 
-    public override void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
+
+        VisitDraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+        Visit = VisitDraftRealm.Find<PersonVisitDraft>(CaseloadItem.RowId).Visit;
 
         Publish();
     }
@@ -76,6 +82,9 @@ internal partial class ChildYouthVisitPublishViewModel
     {
         if (!_disposed && disposing)
         {
+            VisitDraftRealm?.Dispose();
+            VisitDraftRealm = null;
+
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
             _disposed = true;
