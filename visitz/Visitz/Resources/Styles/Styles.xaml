@@ -365,7 +365,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Editor">
+    <Style TargetType="Editor" ApplyToDerivedTypes="True">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_InputControlsTextColor}, Dark={StaticResource BC_InputControlsTextColor}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BC_Background_Light}, Dark={StaticResource BC_Background_Light}}" />
         <Setter Property="FontFamily" Value="BCSansRegular"/>
