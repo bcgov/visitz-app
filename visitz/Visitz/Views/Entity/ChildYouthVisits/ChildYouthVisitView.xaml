@@ -248,15 +248,19 @@
                     <AbsoluteLayout
                         Grid.Row="1"
                         VerticalOptions="FillAndExpand">
-                        <Editor
+                        
+                        <controls:EditorEx
                             x:Name="VisitsEditor"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            CharacterCount="{Binding CharacterCount}"
+                            EmojiEntered="VisitsEditor_EmojiEntered"
+                            SuggestedMaxLength="{Static childYouthVisit:ChildYouthVisitViewModel.CharacterLimit}"
+                            SuggestedMaxLengthExceeded="VisitsEditor_SuggestedMaxLengthExceeded"
                             Text="{Binding PersonVisitItem.VisitDescriptionBinding}"
                             TextColor="{StaticResource BlackishText}"
                             FontFamily="BCSansRegular"
                             IsEnabled="{Binding IsUpdatingEnabled}"
-                            TextChanged="VisitsEditor_TextChanged"
                             FontSize="17"/>
 
                         <views:ErrorTooltip

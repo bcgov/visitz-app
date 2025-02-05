@@ -24,7 +24,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     {
         InitializeComponent();
         BindingContext = ViewModel;
-        ViewModel.DraftError += AddVisit_DraftError;
         ViewModel.SaveStateHandler.SaveStateChanged += ViewModel_DraftSaveStateChanged;
     }
 
@@ -32,7 +31,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     {
         if (!_disposed && disposing)
         {
-            ViewModel.DraftError -= AddVisit_DraftError;
             ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
             ViewModel.SaveStateHandler.Dispose();
 
@@ -40,11 +38,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         }
 
         base.Dispose(disposing);
-    }
-
-    private async void AddVisit_DraftError(object sender, DraftErrorEventArgs e)
-    {
-        await ShowEditorError(e.ErrorMessage);
     }
 
     private async void ViewModel_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
@@ -86,11 +79,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         }
     }
 
-    void VisitsEditor_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        ViewModel.EditorTextChanged(e);
-    }
-
     private static async Task<bool> PromptDiscard()
     {
         return await Navigator.CurrentOpenPage.DisplayAlert(
@@ -98,5 +86,15 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
             LocalizedStrings.DiscardVisitDraftDescription,
             LocalizedStrings.Discard,
             LocalizedStrings.Cancel);
+    }
+
+    private async void VisitsEditor_EmojiEntered(object sender, EventArgs e)
+    {
+        await ShowEditorError(LocalizedStrings.InvalidEntry);
+    }
+
+    private async void VisitsEditor_SuggestedMaxLengthExceeded(object sender, EventArgs e)
+    {
+        await ShowEditorError(LocalizedStrings.CharacterLimitReached);
     }
 }
