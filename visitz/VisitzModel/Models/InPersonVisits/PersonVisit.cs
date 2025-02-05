@@ -100,11 +100,11 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         string privateVisit = PersonVisitDetails.Type_PrivateVisit;
 
         if (detailsValue.StartsWith(privateVisit))
-            return (privateVisit, detailsValue[privateVisit.Length..].Trim());
+            return (privateVisit.Trim(), detailsValue[privateVisit.Length..].Trim());
         else
         {
             string[] split = detailsValue.Split(DetailsDelimiter);
-            return (split[0], split[1]);
+            return (split[0].Trim(), split[1].Trim());
         }
     }
 
