@@ -223,7 +223,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     partial void OnCharacterCountChanged(int value)
     {
-      RemainingCharacters = CharacterLimit - value;
+        RemainingCharacters = CharacterLimit - value;
     }
 
     partial void OnDraftChanged(PersonVisitDraft value)
