@@ -17,7 +17,7 @@ public class DraftSaveStateHandler(TimeSpan? delay = null) : IDisposable
 
     public void Clear()
     {
-        _debouncer.Cancel();
+        _debouncer?.Cancel();
         UpdateState(DraftSaveState.None);
     }
 
@@ -31,7 +31,7 @@ public class DraftSaveStateHandler(TimeSpan? delay = null) : IDisposable
 
     public void Saved()
     {
-        _debouncer.Cancel();
+        _debouncer?.Cancel();
         UpdateState(DraftSaveState.Saved);
     }
 
