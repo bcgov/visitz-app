@@ -21,7 +21,6 @@ internal class PostVisitEndpoint(string baseUrl, string caseId, PostVisitJson vi
 
     public override HttpRequestMessage MakeRequest()
     {
-        var test = JsonSerializer.Serialize(VisitToSend, PayloadOptions.MiddlewarePost);
         return new()
         {
             Content = JsonContent.Create(VisitToSend, options: PayloadOptions.MiddlewarePost),
