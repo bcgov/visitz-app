@@ -5,6 +5,7 @@ using Oidc.Network;
 using Realms;
 using UIKit;
 using Visitz.Resources.Localization;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel.Events;
