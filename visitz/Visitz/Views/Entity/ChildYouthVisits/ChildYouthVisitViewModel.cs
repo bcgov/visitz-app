@@ -128,6 +128,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     {
         if (!_disposed && disposing)
         {
+            Draft = null;
+            PersonVisitItem = null;
+
             SaveStateHandler.Dispose();
 
             DraftRealm?.Dispose();
