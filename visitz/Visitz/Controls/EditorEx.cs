@@ -42,10 +42,7 @@ internal partial class EditorEx : Editor
             EmojiEntered?.Invoke(this, EventArgs.Empty);
         }
         else if (AllowedToUpdate(oldValue))
-        {
-            Text = newValue;
             DoTextChanged(oldValue, newValue);
-        }
     }
 
     static bool ShouldRestoreText(string newValue)
