@@ -235,6 +235,4 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         PersonVisitItem = value?.Visit;
         AllowDiscard = value?.IsManaged ?? false;
     }
-
-
 }
