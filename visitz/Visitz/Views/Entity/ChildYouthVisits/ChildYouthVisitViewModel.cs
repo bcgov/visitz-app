@@ -193,9 +193,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     private void UpdateAllowPublish()
     {
         AllowPublish = NetworkHelper.InternetAvailable
-            && PersonVisitItem.VisitDetailsGroup != null
-            && PersonVisitItem.VisitDetailsValue != null
-            && PersonVisitItem.VisitDescription?.Length > 0;
+            && PersonVisitItem?.VisitDetailsGroup != null
+            && PersonVisitItem?.VisitDetailsValue != null
+            && PersonVisitItem?.VisitDescription?.Length > 0;
     }
 
     TaskCompletionSource DraftInitTcs;
