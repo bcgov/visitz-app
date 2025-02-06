@@ -134,8 +134,7 @@ internal partial class ChildYouthVisitPublishViewModel
 
     async Task DiscardPublishedDraft()
     {
-        using var realm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-
-        await realm.WriteAsync(() => realm.DeleteByIds<PersonVisitDraft>([Visit.ParentId]));
+        await VisitDraftRealm.WriteAsync(() =>
+            VisitDraftRealm.DeleteByIds<PersonVisitDraft>([Visit.ParentId]));
     }
 }
