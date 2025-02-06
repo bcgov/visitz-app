@@ -82,6 +82,7 @@
                 <!-- First Row: Date Picker -->
                 <Grid
                     Grid.Row="0"
+                    IsVisible="{Binding ResizeForLandscapeKeyboard}"
                     ColumnDefinitions="*,*"
                     RowDefinitions="Auto, Auto"
                     ColumnSpacing="10">
