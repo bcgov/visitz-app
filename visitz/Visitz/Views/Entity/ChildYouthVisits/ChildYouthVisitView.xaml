@@ -142,6 +142,7 @@
                         Grid.Row="1"
                         Grid.Column="0"
                         Spacing="10"
+                        HeightRequest="180"
                         IsEnabled="{Binding IsUpdatingEnabled}"
                         RadioButtonGroup.GroupName="{Static childYouthVisit:ChildYouthVisitViewModel.VisitTypeGroup}"
                         RadioButtonGroup.SelectedValue="{Binding PersonVisitItem.VisitDetailsGroupBinding}">
