@@ -91,7 +91,6 @@
                 RowSpacing="15"
                 RowDefinitions="Auto, Auto, *">
 
-                <!-- First Row: Date Picker -->
                 <Grid
                     Grid.Row="0"
                     IsVisible="{Binding ShowFullForm}"
@@ -123,7 +122,6 @@
                     </DatePicker>
                 </Grid>
 
-                <!-- Second Row: RadioButton and Checkbox -->
                 <Grid
                     Grid.Row="1"
                     IsVisible="{Binding ShowFullForm}"
@@ -163,7 +161,6 @@
                             Text="{Static visitStrings:PersonVisitDetails.Type_NotPrivate}"/>
                     </VerticalStackLayout>
 
-                    <!-- Checkbox shown only if the RadioButton is selected -->
                     <Label
                         Grid.Row="0"
                         Grid.Column="1"
@@ -248,7 +245,6 @@
                     </VerticalStackLayout>
                 </Grid>
 
-                <!-- Third Row: Description TextField -->
                 <Grid
                     Grid.Row="2"
                     ColumnDefinitions="*"
