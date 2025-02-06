@@ -12,6 +12,7 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHolder
 {
     private bool _disposed;
+    private bool _isKeyboardOpen;
 
     private SoftKeyboardOpenHandler _keyboardOpenHandler;
 
@@ -31,11 +32,55 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
 
         _keyboardOpenHandler = new SoftKeyboardOpenHandler();
         _keyboardOpenHandler.KeyboardStateChanged += OnKeyboardStateChanged;
+        DeviceDisplay.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
     }
 
     private void OnKeyboardStateChanged(object sender, KeyboardStateChangedEventArgs e)
     {
-        ViewModel.ResizeForLandscapeKeyboard = !e.IsKeyboardOpen;
+        _isKeyboardOpen = e.IsKeyboardOpen;
+        if (e.IsKeyboardOpen)
+            HideRadioButtons();
+        else
+            ShowRadioButtons();
+        CheckAndApplyOrientation();
+    }
+
+    private void OnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    {
+        CheckAndApplyOrientation();
+    }
+    private void CheckAndApplyOrientation()
+    {
+        var currentOrientation = DeviceDisplay.MainDisplayInfo.Orientation;
+        var isPortrait = currentOrientation == DisplayOrientation.Portrait;
+
+        if (isPortrait)
+            HandlePortraitLayout();
+        else
+            HandleLandscapeLayout();
+    }
+
+    private void HandleLandscapeLayout()
+    {
+        if (_isKeyboardOpen)
+            HideRadioButtons();
+        else
+            ShowRadioButtons();
+    }
+
+    private void HandlePortraitLayout()
+    {
+        ShowRadioButtons();
+    }
+
+    private void ShowRadioButtons()
+    {
+        ViewModel.ResizeForLandscapeKeyboard = true;
+    }
+
+    private void HideRadioButtons()
+    {
+        ViewModel.ResizeForLandscapeKeyboard = false;
     }
 
     protected override void Dispose(bool disposing)
@@ -45,6 +90,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
             ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
             ViewModel.SaveStateHandler.Dispose();
             _keyboardOpenHandler.Dispose();
+            DeviceDisplay.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
 
             _disposed = true;
         }
