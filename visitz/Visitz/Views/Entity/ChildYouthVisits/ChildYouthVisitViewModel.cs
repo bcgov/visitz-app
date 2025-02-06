@@ -3,8 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc.Network;
 using Realms;
-using UIKit;
-using Visitz.Resources.Localization;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel.Events;
@@ -130,18 +129,6 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
     }
 
-    // public void SetHideForLandscapeKeyboard(bool isKeyboardOpen)
-    // {
-    //     HideForLandscapeKeyboard = isKeyboardOpen;
-    // }
-
-    // partial void OnHideForLandscapeKeyboardChanged(bool oldValue, bool newValue)
-    // {
-    //     // Logic for controlling the visibility of radio buttons
-    //     HideForLandscapeKeyboard = oldValue;
-    // }
-
-
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
@@ -181,7 +168,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
         if (!IsUpdatingEnabled)
             return;
-        
+
         await HandleDraft();
         UpdateAllowPublish();
     }
