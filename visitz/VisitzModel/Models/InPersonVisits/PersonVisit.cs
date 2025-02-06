@@ -49,6 +49,8 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string UpdatedBy { get; set; }
 
+    public string CombinedVisitDetails => MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue);
+
     public PersonVisit() { }
 
     public PersonVisit(CaseRecord @case)
