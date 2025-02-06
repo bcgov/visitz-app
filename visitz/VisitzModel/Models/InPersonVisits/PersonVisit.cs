@@ -124,4 +124,11 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     {
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(visits)));
     }
+
+    public static IQueryable<PersonVisit> GetVisitsByCaseId(Realm realm, string caseId)
+    {
+        return realm.All<PersonVisit>()
+            .Where(person => person.ParentId == caseId)
+            .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)");
+    }
 }
