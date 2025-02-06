@@ -1,4 +1,5 @@
 using Visitz.Animations.Haptic;
+using Visitz.Device;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
@@ -11,6 +12,8 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHolder
 {
     private bool _disposed;
+
+    private SoftKeyboardOpenHandler _keyboardOpenHandler;
 
     public new ChildYouthVisitViewModel ViewModel => base.ViewModel as ChildYouthVisitViewModel;
 
@@ -25,6 +28,14 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         InitializeComponent();
         BindingContext = ViewModel;
         ViewModel.SaveStateHandler.SaveStateChanged += ViewModel_DraftSaveStateChanged;
+
+        _keyboardOpenHandler = new SoftKeyboardOpenHandler();
+        _keyboardOpenHandler.KeyboardStateChanged += OnKeyboardStateChanged;
+    }
+
+    private void OnKeyboardStateChanged(object sender, KeyboardStateChangedEventArgs e)
+    {
+        ViewModel.ResizeForLandscapeKeyboard = !e.IsKeyboardOpen;
     }
 
     protected override void Dispose(bool disposing)
@@ -33,6 +44,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         {
             ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
             ViewModel.SaveStateHandler.Dispose();
+            _keyboardOpenHandler.Dispose();
 
             _disposed = true;
         }
