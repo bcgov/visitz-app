@@ -5,12 +5,14 @@ using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.InPersonVisits;
 
-public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRecord
+public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
 {
     static readonly string _defaultType = "In Person Child Youth";
+    static readonly char DetailsDelimiter = '-';
 
     [PrimaryKey]
     public string Id { get; set; }
@@ -63,6 +65,11 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRec
         Type = json.Type;
         DateOfVisit = DateTimeOffset.Parse(json.DateOfVisit);
         VisitDetailsValue = json.VisitDetailsValue;
+
+        var (group, value) = SplitDetailsValue(VisitDetailsValue);
+        VisitDetailsGroup = group;
+        VisitDetailsValue = value;
+
         LoginName = json.LoginName;
         Created = DateTimeOffset.Parse(json.Created);
         Updated = DateTimeOffset.Parse(json.Updated);
@@ -70,23 +77,35 @@ public partial class PersonVisit : IRealmObject, IApiJson<VisitJson>, IParentRec
         UpdatedBy = json.UpdatedBy;
     }
 
-    public VisitJson ToApiJson(string dateFormat = "s")
+    public PostVisitJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
-            Id = Id,
-            ParentId = ParentId,
-            Name = Name,
+            DateOfVisit = DateOfVisit,
             VisitDescription = VisitDescription,
-            Type = Type,
-            DateOfVisit = DateOfVisit.ToString(dateFormat),
-            VisitDetailsValue = VisitDetailsValue,
-            LoginName = LoginName,
-            Created = Created.ToString(dateFormat),
-            Updated = Updated.ToString(dateFormat),
-            CreatedBy = CreatedBy,
-            UpdatedBy = UpdatedBy,
+            VisitDetailsValue = MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue),
         };
+    }
+
+    static string MakeDetailsValue(string group, string value)
+    {
+        if (group.StartsWith(PersonVisitDetails.Type_PrivateVisit))
+            return $"{group} {value}";
+        else
+            return $"{group} {DetailsDelimiter} {value}";
+    }
+
+    static (string Group, string Value) SplitDetailsValue(string detailsValue)
+    {
+        string privateVisit = PersonVisitDetails.Type_PrivateVisit;
+
+        if (detailsValue.StartsWith(privateVisit))
+            return (privateVisit.Trim(), detailsValue[privateVisit.Length..].Trim());
+        else
+        {
+            string[] split = detailsValue.Split(DetailsDelimiter);
+            return (split[0].Trim(), split[1].Trim());
+        }
     }
 
     public static IEnumerable<PersonVisit> FromApiArray(IEnumerable<VisitJson> visits)

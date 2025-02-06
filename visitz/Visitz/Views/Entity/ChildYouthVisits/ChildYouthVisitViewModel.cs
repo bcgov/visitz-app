@@ -6,6 +6,7 @@ using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -13,7 +14,6 @@ using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
-using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
@@ -21,7 +21,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 {
     public static readonly string VisitTypeGroup = "VisitTypeGroup";
     public static readonly string VisitDetailGroup = "VisitDetailGroup";
-    private static readonly int CharacterLimit = 4000;
+    public static readonly int CharacterLimit = 4000;
     public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
 
     private bool _disposed;
@@ -104,9 +104,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public int remainingCharacters = CharacterLimit;
 
     [ObservableProperty]
-    public PersonVisit personVisitItem;
+    public int characterCount;
 
-    public event EventHandler<DraftErrorEventArgs> DraftError;
+    [ObservableProperty]
+    public PersonVisit personVisitItem;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
@@ -128,6 +129,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     {
         if (!_disposed && disposing)
         {
+            Draft = null;
+            PersonVisitItem = null;
+
             SaveStateHandler.Dispose();
 
             DraftRealm?.Dispose();
@@ -160,7 +164,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
         if (!IsUpdatingEnabled)
             return;
-
+        
         await HandleDraft();
         UpdateAllowPublish();
     }
@@ -168,6 +172,15 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     [RelayCommand]
     public async Task PublishInPersonVisit()
     {
+        if (!AllowPublish)
+            return;
+
+        await Navigator.Navigation.PopModalAsync();
+
+        var publishVm = ServiceProvider.GetService<ChildYouthVisitPublishViewModel>();
+        publishVm.CaseloadItem = CaseloadItem;
+
+        await Navigator.Navigation.PushAsync(new PublishPage(publishVm));
     }
 
     public void DiscardDraft()
@@ -181,9 +194,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     private void UpdateAllowPublish()
     {
         AllowPublish = NetworkHelper.InternetAvailable
-            && PersonVisitItem.VisitDetailsGroup != null
-            && PersonVisitItem.VisitDetailsValue != null
-            && PersonVisitItem.VisitDescription?.Length > 0;
+            && PersonVisitItem?.VisitDetailsGroup != null
+            && PersonVisitItem?.VisitDetailsValue != null
+            && PersonVisitItem?.VisitDescription?.Length > 0
+            && CharacterCount <= CharacterLimit;
     }
 
     TaskCompletionSource DraftInitTcs;
@@ -207,43 +221,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         await SaveStateHandler.Saving();
     }
 
-    private static bool ContainEmojis(TextChangedEventArgs e)
+    partial void OnCharacterCountChanged(int value)
     {
-        return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
-    }
-
-    private static bool ExceedsCharacterLimit(TextChangedEventArgs e)
-    {
-        return e.NewTextValue?.Length > CharacterLimit;
-    }
-
-    public void EditorTextChanged(TextChangedEventArgs e)
-    {
-        if (string.Equals(e.OldTextValue, e.NewTextValue))
-            // Early return required to prevent infinite loops due to "cancelling" events
-            // by reassigning its previous value
-            return;
-
-        int length = e.NewTextValue?.Length ?? 0;
-        if (ContainEmojis(e))
-        {
-            CancelTextChangedEvent(e);
-            DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.InvalidEntry));
-            return;
-        }
-        else if (ExceedsCharacterLimit(e))
-        {
-            CancelTextChangedEvent(e);
-            DraftError?.Invoke(this, new DraftErrorEventArgs(LocalizedStrings.CharacterLimitReached));
-            return;
-        }
-
-        RemainingCharacters = CharacterLimit - length;
-    }
-
-    private void CancelTextChangedEvent(TextChangedEventArgs e)
-    {
-        PersonVisitItem.VisitDescription = e.OldTextValue;
+        RemainingCharacters = CharacterLimit - value;
     }
 
     partial void OnDraftChanged(PersonVisitDraft value)

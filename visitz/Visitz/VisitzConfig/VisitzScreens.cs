@@ -89,6 +89,7 @@ public static class VisitzScreens
         builder.Services.AddTransient<NotePublishViewModel>();
         builder.Services.AddTransient<SafetyAssessmentPublishViewModel>();
         builder.Services.AddTransient<AttachmentDraftPublishViewModel>();
+        builder.Services.AddTransient<ChildYouthVisitPublishViewModel>();
 
         builder.Services.AddTransient<NoteEntryView>();
         builder.Services.AddTransient<NoteEntryViewModel>();

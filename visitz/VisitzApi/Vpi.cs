@@ -1,4 +1,5 @@
 using VisitzApi.Endpoints;
+using VisitzApi.Endpoints.Visits;
 using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.Caseload;
@@ -71,6 +72,11 @@ namespace VisitzApi
         public async Task<IEnumerable<VisitJson>> GetVisitsAsync(string caseId, DateTimeOffset? after = null)
         {
             return await CallApi(new GetVisitsEndpoint(BaseVisitzApiUrl, caseId, after));
+        }
+
+        public async Task<bool> PostVisitAsync(string caseId, PostVisitJson visitJsonToSend)
+        {
+            return await CallApi(new PostVisitEndpoint(BaseVisitzApiUrl, caseId, visitJsonToSend));
         }
 
         public async Task<IEnumerable<ContactJson>> GetContactsAsync(

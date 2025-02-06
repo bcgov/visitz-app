@@ -117,36 +117,45 @@ namespace VisitzModel.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Private visit age 0-5.
         /// </summary>
-        public static string Api_PrivateAge0_5 {
+        public static string Api_PrivateVisitAge0_5 {
             get {
-                return ResourceManager.GetString("Api_PrivateAge0_5", resourceCulture);
+                return ResourceManager.GetString("Api_PrivateVisitAge0_5", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Private visit in home.
         /// </summary>
-        public static string Api_PrivateInHome {
+        public static string Api_PrivateVisitInHome {
             get {
-                return ResourceManager.GetString("Api_PrivateInHome", resourceCulture);
+                return ResourceManager.GetString("Api_PrivateVisitInHome", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Private visit medical or support needs.
         /// </summary>
-        public static string Api_PrivateMedicalSupportNeeds {
+        public static string Api_PrivateVisitMedicalSupportNeeds {
             get {
-                return ResourceManager.GetString("Api_PrivateMedicalSupportNeeds", resourceCulture);
+                return ResourceManager.GetString("Api_PrivateVisitMedicalSupportNeeds", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Private visit not in home.
         /// </summary>
-        public static string Api_PrivateNotInHome {
+        public static string Api_PrivateVisitNotInHome {
             get {
-                return ResourceManager.GetString("Api_PrivateNotInHome", resourceCulture);
+                return ResourceManager.GetString("Api_PrivateVisitNotInHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to age 0-5.
+        /// </summary>
+        public static string Details_Age0To5 {
+            get {
+                return ResourceManager.GetString("Details_Age0To5", resourceCulture);
             }
         }
         
@@ -156,6 +165,33 @@ namespace VisitzModel.Resources.Localization {
         public static string Details_ChildDeclinedToMeet {
             get {
                 return ResourceManager.GetString("Details_ChildDeclinedToMeet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to in home.
+        /// </summary>
+        public static string Details_InHome {
+            get {
+                return ResourceManager.GetString("Details_InHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to medical or support needs.
+        /// </summary>
+        public static string Details_MedicalOrSupportNeeds {
+            get {
+                return ResourceManager.GetString("Details_MedicalOrSupportNeeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not in home.
+        /// </summary>
+        public static string Details_NotInHome {
+            get {
+                return ResourceManager.GetString("Details_NotInHome", resourceCulture);
             }
         }
         
@@ -187,47 +223,11 @@ namespace VisitzModel.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Visit age 0 to 5.
-        /// </summary>
-        public static string Details_VisitAge0To5 {
-            get {
-                return ResourceManager.GetString("Details_VisitAge0To5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Visit in home.
-        /// </summary>
-        public static string Details_VisitInHome {
-            get {
-                return ResourceManager.GetString("Details_VisitInHome", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Visit in the home.
         /// </summary>
         public static string Details_VisitInTheHome {
             get {
                 return ResourceManager.GetString("Details_VisitInTheHome", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Visit medical or support needs.
-        /// </summary>
-        public static string Details_VisitMedicalOrSupportNeeds {
-            get {
-                return ResourceManager.GetString("Details_VisitMedicalOrSupportNeeds", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Visit not in home.
-        /// </summary>
-        public static string Details_VisitNotInHome {
-            get {
-                return ResourceManager.GetString("Details_VisitNotInHome", resourceCulture);
             }
         }
         
@@ -259,11 +259,11 @@ namespace VisitzModel.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Private.
+        ///   Looks up a localized string similar to Private visit.
         /// </summary>
-        public static string Type_Private {
+        public static string Type_PrivateVisit {
             get {
-                return ResourceManager.GetString("Type_Private", resourceCulture);
+                return ResourceManager.GetString("Type_PrivateVisit", resourceCulture);
             }
         }
     }

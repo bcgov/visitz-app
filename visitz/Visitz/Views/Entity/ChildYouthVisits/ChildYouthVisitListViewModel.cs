@@ -70,7 +70,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 
         realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
                 .Where(person => person.ParentId == CaseloadItem.RowId)
-                .OrderByDescending(person => person.DateOfVisit));
+                .OrderByDescending(person => person.Created));
 
         realmQuery.Subscribe(visitDraftRealm, visitDraftRealm.All<PersonVisitDraft>()
             .Where(visit => visit.RelatedEntityId == CaseloadItem.RowId));
@@ -153,9 +153,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         {
             foreach (int deleted in changes.DeletedIndices)
                 PersonVisits.RemoveAt(deleted);
-
-            foreach (int modified in changes.ModifiedIndices)
-                PersonVisits[modified] = items[modified] as PersonVisit;
 
             foreach (int inserted in changes.InsertedIndices)
                 PersonVisits.Insert(inserted, items[inserted] as PersonVisit);

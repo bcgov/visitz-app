@@ -15,4 +15,11 @@ public static class PayloadOptions
     };
 
     public static JsonSerializerOptions SiebelGet => _siebelGet;
+
+    static readonly JsonSerializerOptions _middlewarePost = new()
+    {
+        PropertyNamingPolicy = new PascalWhitespaceNamingPolicy(),
+    };
+
+    public static JsonSerializerOptions MiddlewarePost => _middlewarePost;
 }

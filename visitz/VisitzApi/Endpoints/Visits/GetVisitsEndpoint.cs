@@ -4,7 +4,7 @@ using VisitzApi.Json;
 using VisitzApi.Models.Visits;
 using VisitzApi.Requests;
 
-namespace VisitzApi.Endpoints;
+namespace VisitzApi.Endpoints.Visits;
 
 internal class GetVisitsEndpoint(string baseUrl, string caseId, DateTimeOffset? after = null)
     : VisitzBaseEndpoint<IEnumerable<VisitJson>>(baseUrl, Vpi.V2, string.Format(VisitsPath, caseId))
@@ -31,6 +31,6 @@ internal class GetVisitsEndpoint(string baseUrl, string caseId, DateTimeOffset? 
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<VisitJson>>(items, PayloadOptions.SiebelGet);
+        return items.Deserialize<IEnumerable<VisitJson>>(PayloadOptions.SiebelGet);
     }
 }
