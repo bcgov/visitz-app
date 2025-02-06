@@ -6,6 +6,19 @@
     x:Class="Visitz.Views.FormControls.FormRadioButton"
     x:DataType="formctls:FormRadioButton"
     x:Name="this">
+
+	<ContentView.Resources>
+		<Style TargetType="Label" Class="ReadableDisabled">
+			<Setter Property="VisualStateManager.VisualStateGroups">
+				<VisualStateGroupList>
+					<VisualStateGroup x:Name="CommonStates">
+						<VisualState x:Name="Normal" />
+						<VisualState x:Name="Disabled" />
+					</VisualStateGroup>
+				</VisualStateGroupList>
+			</Setter>
+		</Style>
+	</ContentView.Resources>
     
     <Grid ColumnDefinitions="Auto,*" BindingContext="{Reference this}">
         <RadioButton 
@@ -18,6 +31,7 @@
 
         <Label 
             Grid.Column="1"
+			StyleClass="ReadableDisabled"
             Text="{Binding Text}"
             VerticalOptions="Fill"
             VerticalTextAlignment="Center">

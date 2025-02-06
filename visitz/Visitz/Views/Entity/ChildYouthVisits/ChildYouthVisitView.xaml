@@ -5,6 +5,7 @@
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:controls="clr-namespace:Visitz.Controls"
+	xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:visitStrings="clr-namespace:VisitzModel.Resources.Localization;assembly=VisitzModel"
@@ -18,12 +19,16 @@
     <baseClasses:ViewModelContentView.Resources>
         <ResourceDictionary>
             <toolkit:DateTimeOffsetConverter x:Key="DateTimeOffsetConverter"/>
-        </ResourceDictionary>
+			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+		</ResourceDictionary>
+		
     </baseClasses:ViewModelContentView.Resources>
-    <baseClasses:ViewModelContentView.Behaviors>
-        <behaviors:SoftKbResizeBehavior/>
-    </baseClasses:ViewModelContentView.Behaviors>
-    <Border
+	
+	<baseClasses:ViewModelContentView.Behaviors>
+		<behaviors:SoftKbResizeBehavior/>
+	</baseClasses:ViewModelContentView.Behaviors>
+
+	<Border
         Background="White"
         Padding="-5"
         StrokeShape="RoundRectangle 10"
@@ -56,22 +61,29 @@
                 <HorizontalStackLayout
                     Grid.Row="0"
                     Grid.Column="2"
-                    IsVisible="{Binding HideElements}"
                     Spacing="10">
 
-                    <!-- <views:InternetInfoView /> -->
+					<views:InternetInfoView /> 
 
                     <Button
                         Style="{StaticResource SecondaryButtonLight}"
                         Text="{local:Localize DiscardDraft}"
                         Clicked="Discard_Clicked"
-                        IsEnabled="{Binding AllowDiscard}"/>
+                        IsEnabled="{Binding AllowDiscard}"
+						IsVisible="{Binding HideElements}" />
 
                     <Button
                         Text="{local:Localize PublishToIcm}"
                         Command="{Binding PublishInPersonVisitCommand}"
-                        IsEnabled="{Binding AllowPublish}"/>
-                </HorizontalStackLayout>
+                        IsEnabled="{Binding AllowPublish}"
+						IsVisible="{Binding HideElements}" />
+
+					<Label
+						Text="Read-only"
+						FontFamily="BCSansItalic"
+						VerticalOptions="Center"
+						IsVisible="{Binding IsUpdatingEnabled, Converter={StaticResource BoolNegationConverter}}" />
+				</HorizontalStackLayout>
             </Grid>
 
             <Grid
@@ -92,14 +104,23 @@
                         Grid.Column="0"
                         Text="{local:Localize DateOfVisit}"/>
 
-                    <DatePicker
+					<DatePicker
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="0,0"
                         Format="MMMM dd, yyyy"
                         MaximumDate="{Binding MaxDate}"
                         IsEnabled="{Binding IsUpdatingEnabled}"
-                        Date="{Binding PersonVisitItem.DateOfVisitBinding, Converter={StaticResource DateTimeOffsetConverter}}"/>
+                        Date="{Binding PersonVisitItem.DateOfVisitBinding, Converter={StaticResource DateTimeOffsetConverter}}">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroupList>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="Disabled" />
+								</VisualStateGroup>
+							</VisualStateGroupList>
+						</VisualStateManager.VisualStateGroups>
+					</DatePicker>
                 </Grid>
 
                 <!-- Second Row: RadioButton and Checkbox -->
@@ -250,8 +271,8 @@
                     <AbsoluteLayout
                         Grid.Row="1"
                         VerticalOptions="FillAndExpand">
-                        
-                        <controls:EditorEx
+
+						<controls:EditorEx
                             x:Name="VisitsEditor"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -263,7 +284,16 @@
                             TextColor="{StaticResource BlackishText}"
                             FontFamily="BCSansRegular"
                             IsEnabled="{Binding IsUpdatingEnabled}"
-                            FontSize="17"/>
+                            FontSize="17">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroupList>
+									<VisualStateGroup x:Name="CommonStates">
+										<VisualState x:Name="Normal" />
+										<VisualState x:Name="Disabled" />
+									</VisualStateGroup>
+								</VisualStateGroupList>
+							</VisualStateManager.VisualStateGroups>
+						</controls:EditorEx>
 
                         <views:ErrorTooltip
                             x:Name="EditorError"
