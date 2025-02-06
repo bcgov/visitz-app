@@ -17,10 +17,9 @@ namespace Visitz.Device
         private bool disposedValue;
 
         NSObject ObserveWillShowToken { get; set; }
-    	NSObject ObserveWillHideToken { get; set; }
+        NSObject ObserveWillHideToken { get; set; }
 
-        
-        // You can handle the keyboard events based on platform-specific code
+
         public SoftKeyboardOpenHandler()
         {
             // You can use the UIKeyboard notifications for iOS or platform-specific equivalents for other platforms
@@ -30,7 +29,7 @@ namespace Visitz.Device
 
         private void OnKeyboardWillShow(object sender, UIKeyboardEventArgs e)
         {
-            if (!_isKeyboardOpen)
+            if (!_isKeyboardOpen && IsLandscape())
             {
                 _isKeyboardOpen = true;
                 OnKeyboardStateChanged(true);
@@ -39,17 +38,22 @@ namespace Visitz.Device
 
         private void OnKeyboardWillHide(object sender, UIKeyboardEventArgs e)
         {
-            if (_isKeyboardOpen)
+            if (_isKeyboardOpen && IsLandscape())
             {
                 _isKeyboardOpen = false;
                 OnKeyboardStateChanged(false);
             }
         }
 
-        // Method to raise the KeyboardStateChanged event
         protected virtual void OnKeyboardStateChanged(bool isKeyboardOpen)
         {
             KeyboardStateChanged?.Invoke(this, new KeyboardStateChangedEventArgs(isKeyboardOpen));
+        }
+
+        private bool IsLandscape()
+        {
+            var orientation = UIDevice.CurrentDevice.Orientation;
+            return orientation == UIDeviceOrientation.LandscapeLeft || orientation == UIDeviceOrientation.LandscapeRight;
         }
 
         protected virtual void Dispose(bool disposing)
