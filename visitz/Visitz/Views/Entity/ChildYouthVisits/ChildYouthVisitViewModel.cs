@@ -109,13 +109,8 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     [ObservableProperty]
     public PersonVisit personVisitItem;
 
-    private bool _hideForLandscapeKeyboardPrivate;
-    private bool _isKeyboardVisible;
-    public bool HideForLandscapeKeyboard
-    {
-        get => _hideForLandscapeKeyboardPrivate;
-        set => SetProperty(ref _hideForLandscapeKeyboardPrivate, value);
-    }
+    [ObservableProperty]
+    public bool hideForLandscapeKeyboard = true;
 
     public event EventHandler<DraftErrorEventArgs> DraftError;
 
@@ -133,35 +128,19 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
         SaveStateHandler.Clear();
 
-        DeviceDisplay.MainDisplayInfoChanged += OnDisplayInfoChanged;
-        UIKeyboard.Notifications.ObserveWillShow(OnKeyboardWillShow);
-        UIKeyboard.Notifications.ObserveWillHide(OnKeyboardWillHide);
-        UpdateHideForLandscapeKeyboard();
-    }
-    private void OnDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
-    {
-        // Whenever display info changes, update visibility
-        UpdateHideForLandscapeKeyboard();
     }
 
-    private void OnKeyboardWillShow(object sender, UIKeyboardEventArgs e)
-    {
-        _isKeyboardVisible = true;
-        UpdateHideForLandscapeKeyboard();
-    }
+    // public void SetHideForLandscapeKeyboard(bool isKeyboardOpen)
+    // {
+    //     HideForLandscapeKeyboard = isKeyboardOpen;
+    // }
 
-    private void OnKeyboardWillHide(object sender, UIKeyboardEventArgs e)
-    {
-        _isKeyboardVisible = false;
-        UpdateHideForLandscapeKeyboard();
-    }
+    // partial void OnHideForLandscapeKeyboardChanged(bool oldValue, bool newValue)
+    // {
+    //     // Logic for controlling the visibility of radio buttons
+    //     HideForLandscapeKeyboard = oldValue;
+    // }
 
-    private void UpdateHideForLandscapeKeyboard()
-    {
-        // Check if the keyboard is visible and if the device is in landscape orientation
-        var isLandscape = DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape;
-        HideForLandscapeKeyboard = !(_isKeyboardVisible && isLandscape);
-    }
 
     protected override void Dispose(bool disposing)
     {
