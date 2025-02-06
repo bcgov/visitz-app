@@ -283,16 +283,9 @@
                             Text="{Binding PersonVisitItem.VisitDescriptionBinding}"
                             TextColor="{StaticResource BlackishText}"
                             FontFamily="BCSansRegular"
-                            IsEnabled="{Binding IsUpdatingEnabled}"
+                            IsReadOnly="{Binding IsUpdatingEnabled, Converter={StaticResource BoolNegationConverter}}"
                             FontSize="17">
-							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroupList>
-									<VisualStateGroup x:Name="CommonStates">
-										<VisualState x:Name="Normal" />
-										<VisualState x:Name="Disabled" />
-									</VisualStateGroup>
-								</VisualStateGroupList>
-							</VisualStateManager.VisualStateGroups>
+							
 						</controls:EditorEx>
 
                         <views:ErrorTooltip
