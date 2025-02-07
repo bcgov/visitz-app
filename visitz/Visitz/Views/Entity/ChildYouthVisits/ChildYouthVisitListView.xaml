@@ -130,7 +130,7 @@
             Text="{Static icons:MaterialIcons.Note_stack}"
             FontFamily="MaterialIconsRoundedUnfilled"
             IsVisible="{Binding ShowEmptyIcon}"/>
-        
+
         <BoxView
             Grid.Row="4"
             HeightRequest="0.5"
