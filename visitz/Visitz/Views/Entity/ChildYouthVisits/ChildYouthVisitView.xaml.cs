@@ -52,21 +52,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
             DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait || !isKeyboardOpen;
     }
 
-    protected override void Dispose(bool disposing)
-    {
-        if (!_disposed && disposing)
-        {
-            ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
-            ViewModel.SaveStateHandler.Dispose();
-            _keyboardOpenHandler.Dispose();
-            DeviceDisplay.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
-
-            _disposed = true;
-        }
-
-        base.Dispose(disposing);
-    }
-
     private async void ViewModel_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
     {
         await DraftSavedIndicator.SetState(e.State);
@@ -123,5 +108,20 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     private async void VisitsEditor_SuggestedMaxLengthExceeded(object sender, EventArgs e)
     {
         await ShowEditorError(LocalizedStrings.CharacterLimitReached);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
+            ViewModel.SaveStateHandler.Dispose();
+            _keyboardOpenHandler.Dispose();
+            DeviceDisplay.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
+
+            _disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 }
