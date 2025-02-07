@@ -38,37 +38,18 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     private void OnKeyboardStateChanged(object sender, KeyboardStateChangedEventArgs e)
     {
         _isKeyboardOpen = e.IsKeyboardOpen;
-        CheckAndApplyOrientation();
+        CheckAndApplyOrientation(_isKeyboardOpen);
     }
 
     private void OnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
     {
-        CheckAndApplyOrientation();
-    }
-    private void CheckAndApplyOrientation()
-    {
-        var currentOrientation = DeviceDisplay.MainDisplayInfo.Orientation;
-        var isPortrait = currentOrientation == DisplayOrientation.Portrait;
-
-        if (isPortrait)
-            HandlePortraitLayout();
-        else
-            HandleLandscapeLayout();
+        CheckAndApplyOrientation(_isKeyboardOpen);
     }
 
-    private void HandleLandscapeLayout()
+    private void CheckAndApplyOrientation(bool isKeyboardOpen)
     {
-        SetRadioButtons(!_isKeyboardOpen);
-    }
-
-    private void HandlePortraitLayout()
-    {
-        SetRadioButtons(true);
-    }
-
-    private void SetRadioButtons(bool isVisible)
-    {
-        ViewModel.ResizeForLandscapeKeyboard = isVisible;
+        ViewModel.ResizeForLandscapeKeyboard =
+            DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait || !isKeyboardOpen;
     }
 
     protected override void Dispose(bool disposing)
