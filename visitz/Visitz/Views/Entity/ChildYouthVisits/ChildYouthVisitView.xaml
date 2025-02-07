@@ -82,6 +82,7 @@
                 <!-- First Row: Date Picker -->
                 <Grid
                     Grid.Row="0"
+                    IsVisible="{Binding ShowFullForm}"
                     ColumnDefinitions="*,*"
                     RowDefinitions="Auto, Auto"
                     ColumnSpacing="10">
@@ -104,6 +105,7 @@
                 <!-- Second Row: RadioButton and Checkbox -->
                 <Grid
                     Grid.Row="1"
+                    IsVisible="{Binding ShowFullForm}"
                     ColumnDefinitions="*,*,*"
                     RowDefinitions="Auto, Auto"
                     ColumnSpacing="10">

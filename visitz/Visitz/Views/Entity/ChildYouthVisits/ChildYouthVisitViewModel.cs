@@ -3,11 +3,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc.Network;
 using Realms;
-using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
-using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
@@ -109,6 +107,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     [ObservableProperty]
     public PersonVisit personVisitItem;
 
+    [ObservableProperty]
+    public bool showFullForm = true;
+
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
     protected override async Task InitAsync()
@@ -150,7 +151,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     {
         if (oldValue != null)
             oldValue.PropertyChanged -= PersonVisitItem_PropertyChanged;
-        
+
         if (newValue != null)
         {
             newValue.PropertyChanged += PersonVisitItem_PropertyChanged;
@@ -164,7 +165,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
         if (!IsUpdatingEnabled)
             return;
-        
+
         await HandleDraft();
         UpdateAllowPublish();
     }

@@ -1,4 +1,5 @@
 using Visitz.Animations.Haptic;
+using Visitz.Device;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
@@ -11,6 +12,9 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHolder
 {
     private bool _disposed;
+    private bool _isKeyboardOpen;
+
+    private SoftKeyboardOpenHandler _keyboardOpenHandler;
 
     public new ChildYouthVisitViewModel ViewModel => base.ViewModel as ChildYouthVisitViewModel;
 
@@ -25,6 +29,27 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         InitializeComponent();
         BindingContext = ViewModel;
         ViewModel.SaveStateHandler.SaveStateChanged += ViewModel_DraftSaveStateChanged;
+
+        _keyboardOpenHandler = new SoftKeyboardOpenHandler();
+        _keyboardOpenHandler.KeyboardStateChanged += OnKeyboardStateChanged;
+        DeviceDisplay.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
+    }
+
+    private void OnKeyboardStateChanged(object sender, KeyboardStateChangedEventArgs e)
+    {
+        _isKeyboardOpen = e.IsKeyboardOpen;
+        CheckAndApplyOrientation(_isKeyboardOpen);
+    }
+
+    private void OnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    {
+        CheckAndApplyOrientation(_isKeyboardOpen);
+    }
+
+    private void CheckAndApplyOrientation(bool isKeyboardOpen)
+    {
+        ViewModel.ShowFullForm =
+            DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait || !isKeyboardOpen;
     }
 
     protected override void Dispose(bool disposing)
@@ -33,6 +58,8 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         {
             ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
             ViewModel.SaveStateHandler.Dispose();
+            _keyboardOpenHandler.Dispose();
+            DeviceDisplay.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
 
             _disposed = true;
         }
