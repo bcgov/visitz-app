@@ -1,6 +1,3 @@
-using Foundation;
-using UIKit;
-
 namespace Visitz.Device
 {
     public class KeyboardStateChangedEventArgs(bool isKeyboardOpen) : EventArgs
@@ -13,9 +10,6 @@ namespace Visitz.Device
 
         private bool _isKeyboardOpen;
         private bool disposedValue;
-
-        protected NSObject KeyboardShowToken { get; set; }
-        protected NSObject KeyboardHideToken { get; set; }
 
         public SoftKeyboardOpenHandler()
         {
