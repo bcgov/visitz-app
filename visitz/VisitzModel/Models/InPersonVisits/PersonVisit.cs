@@ -49,6 +49,8 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string UpdatedBy { get; set; }
 
+    public string CombinedVisitDetails => MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue);
+
     public PersonVisit() { }
 
     public PersonVisit(CaseRecord @case)
@@ -121,5 +123,12 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     public static async Task SaveVisitsAsync(Realm realm, IEnumerable<VisitJson> visits)
     {
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(visits)));
+    }
+
+    public static IQueryable<PersonVisit> GetVisitsByCaseId(Realm realm, string caseId)
+    {
+        return realm.All<PersonVisit>()
+            .Where(person => person.ParentId == caseId)
+            .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)");
     }
 }
