@@ -38,10 +38,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
     private void OnKeyboardStateChanged(object sender, KeyboardStateChangedEventArgs e)
     {
         _isKeyboardOpen = e.IsKeyboardOpen;
-        if (e.IsKeyboardOpen)
-            HideRadioButtons();
-        else
-            ShowRadioButtons();
         CheckAndApplyOrientation();
     }
 
@@ -62,25 +58,17 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
 
     private void HandleLandscapeLayout()
     {
-        if (_isKeyboardOpen)
-            HideRadioButtons();
-        else
-            ShowRadioButtons();
+        SetRadioButtons(!_isKeyboardOpen);
     }
 
     private void HandlePortraitLayout()
     {
-        ShowRadioButtons();
+        SetRadioButtons(true);
     }
 
-    private void ShowRadioButtons()
+    private void SetRadioButtons(bool isVisible)
     {
-        ViewModel.ResizeForLandscapeKeyboard = true;
-    }
-
-    private void HideRadioButtons()
-    {
-        ViewModel.ResizeForLandscapeKeyboard = false;
+        ViewModel.ResizeForLandscapeKeyboard = isVisible;
     }
 
     protected override void Dispose(bool disposing)
