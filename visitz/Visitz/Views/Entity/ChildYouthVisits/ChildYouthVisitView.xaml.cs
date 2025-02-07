@@ -48,9 +48,11 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
 
     private void CheckAndApplyOrientation(bool isKeyboardOpen)
     {
-        if (VisitsEditor.IsFocused)
-            ViewModel.ShowFullForm =
-                DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait || !isKeyboardOpen;
+        bool hideForm = VisitsEditor.IsFocused
+            && DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape
+            && isKeyboardOpen;
+
+        ViewModel.ShowFullForm = !hideForm;
     }
 
     private async void ViewModel_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
