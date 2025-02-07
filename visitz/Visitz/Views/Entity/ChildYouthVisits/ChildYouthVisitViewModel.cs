@@ -108,7 +108,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     public PersonVisit personVisitItem;
 
     [ObservableProperty]
-    public bool resizeForLandscapeKeyboard = true;
+    public bool showFullForm = true;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 

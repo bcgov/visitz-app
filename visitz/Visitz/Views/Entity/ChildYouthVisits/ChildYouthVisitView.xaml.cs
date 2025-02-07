@@ -48,7 +48,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
 
     private void CheckAndApplyOrientation(bool isKeyboardOpen)
     {
-        ViewModel.ResizeForLandscapeKeyboard =
+        ViewModel.ShowFullForm =
             DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait || !isKeyboardOpen;
     }
 
