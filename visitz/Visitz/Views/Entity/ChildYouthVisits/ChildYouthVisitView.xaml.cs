@@ -13,7 +13,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
 {
     private bool _disposed;
     private bool _isKeyboardOpen;
-    private bool _isEditorFocused;
 
     private SoftKeyboardOpenHandler _keyboardOpenHandler;
 
@@ -34,19 +33,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
         _keyboardOpenHandler = new SoftKeyboardOpenHandler();
         _keyboardOpenHandler.KeyboardStateChanged += OnKeyboardStateChanged;
         DeviceDisplay.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
-
-        VisitsEditor.Focused += OnEditorFocused;
-        VisitsEditor.Unfocused += OnEditorUnfocused;
-    }
-
-    private void OnEditorFocused(object sender, FocusEventArgs e)
-    {
-        _isEditorFocused = true;
-    }
-
-    private void OnEditorUnfocused(object sender, FocusEventArgs e)
-    {
-        _isEditorFocused = false;
     }
 
     private void OnKeyboardStateChanged(object sender, KeyboardStateChangedEventArgs e)
@@ -62,7 +48,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
 
     private void CheckAndApplyOrientation(bool isKeyboardOpen)
     {
-        if (_isEditorFocused)
+        if (VisitsEditor.IsFocused)
             ViewModel.ShowFullForm =
                 DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Portrait || !isKeyboardOpen;
     }
@@ -133,8 +119,6 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
             ViewModel.SaveStateHandler.Dispose();
             _keyboardOpenHandler.Dispose();
             DeviceDisplay.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
-            VisitsEditor.Focused -= OnEditorFocused;
-            VisitsEditor.Unfocused -= OnEditorUnfocused;
 
             _disposed = true;
         }
