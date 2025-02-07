@@ -17,8 +17,8 @@ namespace Visitz.Device
         }
 
         partial void SubscribeToKeyboardEvents();
-        partial void UnsubscribeFromKeyboardEvents();
 
+        partial void UnsubscribeFromKeyboardEvents();
 
         private void OnKeyboardStateChanged(bool isKeyboardOpen)
         {
