@@ -17,6 +17,8 @@ namespace Visitz.Device
         }
 
         partial void SubscribeToKeyboardEvents();
+        partial void UnsubscribeFromKeyboardEvents();
+
 
         private void OnKeyboardStateChanged(bool isKeyboardOpen)
         {
@@ -41,6 +43,5 @@ namespace Visitz.Device
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-        partial void UnsubscribeFromKeyboardEvents();
     }
 }
