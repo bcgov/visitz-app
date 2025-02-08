@@ -172,7 +172,7 @@
 				HorizontalOptions="FillAndExpand"
 				FontSize="20"
 				Background="AliceBlue"
-				Text="Entity" />
+				Text="Notes" />
 
 			<Grid RowDefinitions="Auto,Auto">
 				<Label
@@ -198,6 +198,39 @@
 					Grid.Row="1"
 					Grid.Column="1"
 					IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
+			</Grid>
+
+			<Label
+				StyleClass="DebugLayout,DebugLabel"
+				HorizontalOptions="FillAndExpand"
+				FontSize="20"
+				Background="AliceBlue"
+				Text="Child/youth visits" />
+
+			<Grid RowDefinitions="Auto,Auto">
+				<Label
+					StyleClass="DebugLayout,DebugLabel"
+					Grid.Row="0"
+					Grid.Column="0"
+					Text="Dry-fire PostVisitService"/>
+
+				<Switch
+					StyleClass="DebugLayout"
+					Grid.Row="0"
+					Grid.Column="1"
+					IsToggled="{Binding DryFirePostVisitService}"/>
+
+				<Label
+					StyleClass="DebugLayout,DebugLabel"
+					Grid.Row="1"
+					Grid.Column="0"
+					Text="Dry-fire PostVisitService: simulate success"/>
+
+				<Switch
+					StyleClass="DebugLayout"
+					Grid.Row="1"
+					Grid.Column="1"
+					IsToggled="{Binding DryFirePostVisitServiceSimulateSuccess}"/>
 			</Grid>
 
 			<Label

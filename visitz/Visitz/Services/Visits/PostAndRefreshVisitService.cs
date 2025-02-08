@@ -13,9 +13,14 @@ internal class PostAndRefreshVisitService(Vpi vpi, LastUpdatedPrefs prefs, Servi
 
     PersonVisit Visit => (PersonVisit)Payload;
 
+    public static string MakeId(string caseId)
+    {
+        return $"{nameof(PostAndRefreshVisitService)}|{caseId}";
+    }
+
     public static string MakeId(PersonVisit visit)
     {
-        return $"{nameof(PostAndRefreshVisitService)}|{visit.ParentId}";
+        return MakeId(visit.ParentId);
     }
 
     public static StartServiceMessage MakeStartMessage(PersonVisit visitToSend)
