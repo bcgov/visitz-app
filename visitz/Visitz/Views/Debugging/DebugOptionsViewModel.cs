@@ -59,6 +59,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
         DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
 
+        DryFirePostVisitService = DebugOptions.DryFirePostVisitService;
+        DryFirePostVisitServiceSimulateSuccess = DebugOptions.DryFirePostVisitServiceSimulateSuccess;
+
         AppId = AppInfo.Current.PackageName;
         DotnetVersion = Environment.Version.ToString();
 
