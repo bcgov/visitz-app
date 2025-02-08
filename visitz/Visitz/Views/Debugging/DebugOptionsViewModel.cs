@@ -18,6 +18,12 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public bool dryFireSubmitNotesSimulateSuccess;
 
     [ObservableProperty]
+    public bool dryFirePostVisitService;
+
+    [ObservableProperty]
+    public bool dryFirePostVisitServiceSimulateSuccess;
+
+    [ObservableProperty]
     public string appId;
 
     [ObservableProperty]
@@ -79,6 +85,16 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
     {
         DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
+    }
+
+    partial void OnDryFirePostVisitServiceChanged(bool value)
+    {
+        DebugOptions.DryFirePostVisitService = value;
+    }
+
+    partial void OnDryFirePostVisitServiceSimulateSuccessChanged(bool value)
+    {
+        DebugOptions.DryFirePostVisitServiceSimulateSuccess = value;
     }
 
     partial void OnSkipLocalAuthChanged(bool value)

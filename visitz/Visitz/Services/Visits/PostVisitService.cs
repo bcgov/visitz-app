@@ -32,7 +32,13 @@ internal class PostVisitService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiServ
 
     protected override async Task RunApiServiceAsync()
     {
-        await PostVisitAsync();
+        if (DebugOptions.DryFirePostVisitService)
+        {
+            await Task.Delay(2000); // Simulate network activity
+            ResultCode = DebugOptions.DryFirePostVisitServiceSimulateSuccess ? Result.Successful : Result.Error;
+        }
+        else
+            await PostVisitAsync();
 
         ResultCode = Result.Successful;
     }
