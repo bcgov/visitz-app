@@ -1,5 +1,6 @@
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
+using Visitz.Views.Debugging;
 using VisitzApi;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
@@ -10,9 +11,14 @@ internal class PostVisitService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiServ
 {
     PersonVisit Visit => (PersonVisit)Payload;
 
+    public static string MakeId(string caseId)
+    {
+        return $"{nameof(PostVisitService)}|{caseId}";
+    }
+
     public static string MakeId(PersonVisit visit)
     {
-        return $"{nameof(PostVisitService)}|{visit.ParentId}";
+        return MakeId(visit.ParentId);
     }
 
     public static StartServiceMessage MakeStartMessage(PersonVisit visitToSend)
