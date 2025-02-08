@@ -71,6 +71,7 @@
             Color="{StaticResource SeparatorColor}"/>
 
         <CollectionView
+            x:Name="VisitsCollectionView"
             Grid.Row="3"
             IsVisible="{Binding HasVisitData}"
             ItemsSource="{Binding PersonVisits}"
