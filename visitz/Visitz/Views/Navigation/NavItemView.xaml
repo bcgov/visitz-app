@@ -30,7 +30,7 @@
 		HorizontalOptions="Fill" 
 		VerticalOptions="Center"
 		Orientation="{Binding Orientation, Source={RelativeSource AncestorType={x:Type nav:NavItemView}}}"
-		Spacing="2">
+		Spacing="8">
 		
 		<Grid
 			HorizontalOptions="Center"
