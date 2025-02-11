@@ -43,27 +43,34 @@
 				WidthRequest="{Binding IconSize}"
 				HorizontalOptions="Center"
 				VerticalOptions="Center" />
-
 			<Border
-				Margin="{OnPlatform iOS='-8,-4', Default='-16,-4'}"
-				VerticalOptions="StartAndExpand"
+				Padding="{OnPlatform iOS='7,4,7,4'}"
+				Margin="{OnPlatform iOS='0,-6,-5,0'}"
+				VerticalOptions="Start"
 				HorizontalOptions="EndAndExpand"
-				BackgroundColor="{StaticResource BC_Gold}"
 				StrokeShape="RoundRectangle 20"
 				StrokeThickness="0"
-				IsVisible="{Binding ShowBadge}">
-
-				<Label
-					Padding="{OnPlatform WinUI=2}"
-					MinimumHeightRequest="20"
-					MinimumWidthRequest="20"
-					VerticalOptions="Center"
-					HorizontalOptions="Center"
-					FontSize="11"
-					Text="{Binding BadgeCount}"
-					HorizontalTextAlignment="Center"
-					VerticalTextAlignment="Center"/>
-
+				IsVisible="{Binding ShowBadge}"
+				BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+				<Border
+					Margin="{OnPlatform iOS='-8,-4', Default='-16,-4'}"
+					VerticalOptions="StartAndExpand"
+					HorizontalOptions="EndAndExpand"
+					BackgroundColor="{StaticResource BC_Gold}"
+					StrokeShape="RoundRectangle 20"
+					StrokeThickness="0"
+					IsVisible="{Binding ShowBadge}">
+					<Label
+						Padding="{OnPlatform WinUI=2}"
+						MinimumHeightRequest="20"
+						MinimumWidthRequest="20"
+						VerticalOptions="Center"
+						HorizontalOptions="Center"
+						FontSize="8"
+						Text="{Binding BadgeCount}"
+						HorizontalTextAlignment="Center"
+						VerticalTextAlignment="Center"/>
+				</Border>
 			</Border>
 		</Grid>
 		
