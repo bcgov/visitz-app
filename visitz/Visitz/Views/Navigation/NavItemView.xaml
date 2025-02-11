@@ -1,96 +1,96 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView 
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:navModels="clr-namespace:VisitzModel.Models.Navigation;assembly=VisitzModel"
-	xmlns:nav="clr-namespace:Visitz.Views.Navigation"
-	x:Class="Visitz.Views.Navigation.NavItemView"
-	x:DataType="navModels:NavItem"
-	Padding="8">
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:navModels="clr-namespace:VisitzModel.Models.Navigation;assembly=VisitzModel"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    x:Class="Visitz.Views.Navigation.NavItemView"
+    x:DataType="navModels:NavItem"
+    Padding="8">
 
-	<VisualStateManager.VisualStateGroups>
-		<VisualStateGroup x:Name="CommonStates">
-			<VisualState x:Name="Normal">
-				<VisualState.Setters>
-					<Setter TargetName="IconImage" Property="Image.Source" Value="{Binding UnselectedImageSource}" />
-					<Setter TargetName="SpacerBorder" Property="Border.BackgroundColor" Value="Transparent" />
-					<Setter Property="BackgroundColor" Value="Transparent" />
-				</VisualState.Setters>
-			</VisualState>
-			<VisualState x:Name="Selected">
-				<VisualState.Setters>
-					<Setter TargetName="IconImage" Property="Image.Source" Value="{Binding SelectedImageSource}" />
-					<Setter TargetName="SpacerBorder" Property="Border.BackgroundColor" Value="#33ffffff" />
-					<Setter Property="BackgroundColor" Value="#33ffffff" />
-				</VisualState.Setters>
-			</VisualState>
-		</VisualStateGroup>
-	</VisualStateManager.VisualStateGroups>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="CommonStates">
+            <VisualState x:Name="Normal">
+                <VisualState.Setters>
+                    <Setter TargetName="IconImage" Property="Image.Source" Value="{Binding UnselectedImageSource}" />
+                    <Setter TargetName="SpacerBorder" Property="Border.BackgroundColor" Value="Transparent" />
+                    <Setter Property="BackgroundColor" Value="Transparent" />
+                </VisualState.Setters>
+            </VisualState>
+            <VisualState x:Name="Selected">
+                <VisualState.Setters>
+                    <Setter TargetName="IconImage" Property="Image.Source" Value="{Binding SelectedImageSource}" />
+                    <Setter TargetName="SpacerBorder" Property="Border.BackgroundColor" Value="#33ffffff" />
+                    <Setter Property="BackgroundColor" Value="#33ffffff" />
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
 
-	<StackLayout
-		x:Name="MainStack"
-		HorizontalOptions="Fill" 
-		VerticalOptions="Center"
-		Orientation="{Binding Orientation, Source={RelativeSource AncestorType={x:Type nav:NavItemView}}}"
-		Spacing="8">
+    <StackLayout
+        x:Name="MainStack"
+        HorizontalOptions="Fill" 
+        VerticalOptions="Center"
+        Orientation="{Binding Orientation, Source={RelativeSource AncestorType={x:Type nav:NavItemView}}}"
+        Spacing="8">
 
-		<AbsoluteLayout
-			HorizontalOptions="Center"
-			VerticalOptions="FillAndExpand">
-			
-			<Image 
-				x:Name="IconImage"
-				AbsoluteLayout.LayoutFlags="PositionProportional"
-				AbsoluteLayout.LayoutBounds="0.5,0.5"
-				Source="{Binding UnselectedImageSource}" 
-				HeightRequest="{Binding IconSize}" 
-				WidthRequest="{Binding IconSize}"
-				HorizontalOptions="Center"
-				VerticalOptions="Center" />
-			
-			<Border
-				AbsoluteLayout.LayoutFlags="PositionProportional"
-				AbsoluteLayout.LayoutBounds="4,-4.5"
-				StrokeShape="RoundRectangle 20"
-				StrokeThickness="0"
-				IsVisible="{Binding ShowBadge}"
-				BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+        <AbsoluteLayout
+            HorizontalOptions="Center"
+            VerticalOptions="FillAndExpand">
+            
+            <Image 
+                x:Name="IconImage"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0.5,0.5"
+                Source="{Binding UnselectedImageSource}" 
+                HeightRequest="{Binding IconSize}" 
+                WidthRequest="{Binding IconSize}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center" />
+            
+            <Border
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="4,-4.5"
+                StrokeShape="RoundRectangle 20"
+                StrokeThickness="0"
+                IsVisible="{Binding ShowBadge}"
+                BackgroundColor="{StaticResource BuildBarBackgroundColor}">
 
-				<Border
-					x:Name="SpacerBorder"
-					StrokeThickness="0"
-					StrokeShape="RoundRectangle 20">
-					
-					<Border
-						Margin="2"
-						VerticalOptions="Fill"
-						HorizontalOptions="Fill"
-						BackgroundColor="{StaticResource BC_Gold}"
-						StrokeShape="RoundRectangle 20"
-						StrokeThickness="0"
-						IsVisible="{Binding ShowBadge}">
-					
-						<Label
-							Margin="1"
-							MinimumHeightRequest="16"
-							MinimumWidthRequest="16"
-							FontSize="{StaticResource LabelMediumFontSize}"
-							VerticalOptions="Center"
-							HorizontalOptions="Center"
-							Text="{Binding BadgeCount}"
-							HorizontalTextAlignment="Center"
-							VerticalTextAlignment="Center"/>
-					</Border>
-				</Border>
-				
-			</Border>
-		</AbsoluteLayout>
+                <Border
+                    x:Name="SpacerBorder"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20">
+                    
+                    <Border
+                        Margin="2"
+                        VerticalOptions="Fill"
+                        HorizontalOptions="Fill"
+                        BackgroundColor="{StaticResource BC_Gold}"
+                        StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
+                        IsVisible="{Binding ShowBadge}">
+                    
+                        <Label
+                            Margin="1"
+                            MinimumHeightRequest="16"
+                            MinimumWidthRequest="16"
+                            FontSize="{StaticResource LabelMediumFontSize}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Text="{Binding BadgeCount}"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"/>
+                    </Border>
+                </Border>
+                
+            </Border>
+        </AbsoluteLayout>
 
-		<Label 
-			Text="{Binding Text}"
-			TextColor="{Binding Color}"
-			HorizontalOptions="Center"
-			VerticalOptions="Center" />
-	</StackLayout>
+        <Label 
+            Text="{Binding Text}"
+            TextColor="{Binding Color}"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+    </StackLayout>
 
 </ContentView>
