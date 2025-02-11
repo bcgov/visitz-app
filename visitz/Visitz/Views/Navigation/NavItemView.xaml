@@ -13,12 +13,14 @@
 			<VisualState x:Name="Normal">
 				<VisualState.Setters>
 					<Setter TargetName="IconImage" Property="Image.Source" Value="{Binding UnselectedImageSource}" />
+					<Setter TargetName="SpacerBorder" Property="Border.BackgroundColor" Value="Transparent" />
 					<Setter Property="BackgroundColor" Value="Transparent" />
 				</VisualState.Setters>
 			</VisualState>
 			<VisualState x:Name="Selected">
 				<VisualState.Setters>
 					<Setter TargetName="IconImage" Property="Image.Source" Value="{Binding SelectedImageSource}" />
+					<Setter TargetName="SpacerBorder" Property="Border.BackgroundColor" Value="#33ffffff" />
 					<Setter Property="BackgroundColor" Value="#33ffffff" />
 				</VisualState.Setters>
 			</VisualState>
@@ -31,49 +33,59 @@
 		VerticalOptions="Center"
 		Orientation="{Binding Orientation, Source={RelativeSource AncestorType={x:Type nav:NavItemView}}}"
 		Spacing="8">
-		
-		<Grid
+
+		<AbsoluteLayout
 			HorizontalOptions="Center"
 			VerticalOptions="FillAndExpand">
 			
 			<Image 
 				x:Name="IconImage"
+				AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="0.5,0.5"
 				Source="{Binding UnselectedImageSource}" 
 				HeightRequest="{Binding IconSize}" 
 				WidthRequest="{Binding IconSize}"
 				HorizontalOptions="Center"
 				VerticalOptions="Center" />
+			
 			<Border
-				Padding="{OnPlatform iOS='7,4,7,4'}"
-				Margin="{OnPlatform iOS='0,-6,-5,0'}"
-				VerticalOptions="Start"
-				HorizontalOptions="EndAndExpand"
+				AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="4,-4.5"
 				StrokeShape="RoundRectangle 20"
 				StrokeThickness="0"
 				IsVisible="{Binding ShowBadge}"
 				BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+
 				<Border
-					Margin="{OnPlatform iOS='-8,-4', Default='-16,-4'}"
-					VerticalOptions="StartAndExpand"
-					HorizontalOptions="EndAndExpand"
-					BackgroundColor="{StaticResource BC_Gold}"
-					StrokeShape="RoundRectangle 20"
+					x:Name="SpacerBorder"
 					StrokeThickness="0"
-					IsVisible="{Binding ShowBadge}">
-					<Label
-						Padding="{OnPlatform WinUI=2}"
-						MinimumHeightRequest="20"
-						MinimumWidthRequest="20"
-						VerticalOptions="Center"
-						HorizontalOptions="Center"
-						FontSize="8"
-						Text="{Binding BadgeCount}"
-						HorizontalTextAlignment="Center"
-						VerticalTextAlignment="Center"/>
+					StrokeShape="RoundRectangle 20">
+					
+					<Border
+						Margin="2"
+						VerticalOptions="Fill"
+						HorizontalOptions="Fill"
+						BackgroundColor="{StaticResource BC_Gold}"
+						StrokeShape="RoundRectangle 20"
+						StrokeThickness="0"
+						IsVisible="{Binding ShowBadge}">
+					
+						<Label
+							Margin="1"
+							MinimumHeightRequest="16"
+							MinimumWidthRequest="16"
+							FontSize="{StaticResource LabelMediumFontSize}"
+							VerticalOptions="Center"
+							HorizontalOptions="Center"
+							Text="{Binding BadgeCount}"
+							HorizontalTextAlignment="Center"
+							VerticalTextAlignment="Center"/>
+					</Border>
 				</Border>
+				
 			</Border>
-		</Grid>
-		
+		</AbsoluteLayout>
+
 		<Label 
 			Text="{Binding Text}"
 			TextColor="{Binding Color}"
