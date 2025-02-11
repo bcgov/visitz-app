@@ -60,7 +60,7 @@
 
             <Border
                 AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="4,-4.5"
+                AbsoluteLayout.LayoutBounds="{OnPlatform iOS='1.75,-1', Default='4,-4.5'}"
                 StrokeShape="RoundRectangle 20"
                 StrokeThickness="0"
                 IsVisible="{Binding ShowBadge}"
@@ -84,7 +84,7 @@
                             Margin="1"
                             MinimumHeightRequest="16"
                             MinimumWidthRequest="16"
-                            FontSize="{StaticResource LabelMediumFontSize}"
+                            FontSize="{OnPlatform iOS={StaticResource LabelSmallFontSize}, Default={StaticResource LabelMediumFontSize}}"
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
                             Text="{Binding BadgeCount}"
