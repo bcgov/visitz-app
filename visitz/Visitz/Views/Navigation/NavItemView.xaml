@@ -83,7 +83,7 @@
                         <Label
                             Margin="1"
                             MinimumHeightRequest="16"
-                            MinimumWidthRequest="20"
+                            MinimumWidthRequest="{OnPlatform iOS=20, Default=16}"
                             FontSize="{OnPlatform iOS={StaticResource LabelSmallFontSize}, Default={StaticResource LabelMediumFontSize}}"
                             VerticalOptions="Center"
                             HorizontalOptions="Center"
