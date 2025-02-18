@@ -12,6 +12,7 @@ using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
+using Visitz.Views.Entity.SupportNetwork;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
@@ -93,6 +94,13 @@ public partial class EntityNavViewModel : VisitzViewModel,
         Section = EntitySection.ChildYouthVisits,
     };
 
+    private readonly EntityNavItem SupportNetwork = new()
+    {
+        Text = LocalizedStrings.SupportNetwork,
+        ContentViewType = typeof(SupportNetworkListView),
+        Section = EntitySection.SupportNetwork,
+    };
+
     private string CacheDeletedKeyplayer;
     private string CacheDeletedEntityType;
 
@@ -134,6 +142,9 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
         if (ShouldShowChildYouthVisits())
             EntityNavItems.Add(ChildYouthVisits);
+
+        if (ShouldShowSupportNetwork())
+            EntityNavItems.Add(SupportNetwork);
     }
 
     private async Task SetupDraftsObserver()
@@ -147,7 +158,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
         var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
         realmQueryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
             .Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
-        
+
         var caseloadRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQueryMap.Subscribe(caseloadRealm, caseloadRealm.All<CaseloadItem>()
             .Where(item => item.CaseIncidentNumber == CaseloadItem.CaseIncidentNumber));
@@ -249,5 +260,10 @@ public partial class EntityNavViewModel : VisitzViewModel,
     {
         if (SelectedEntityNavItem != message.Value.Item1)
             SelectedEntityNavItem = GetMappedNavItem(message.Value.Item3);
+    }
+
+    private bool ShouldShowSupportNetwork()
+    {
+        return CaseloadItem.EntityType.ParseEntityType() != EntityType.Memo;
     }
 }
