@@ -142,6 +142,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authentication required.
+        /// </summary>
+        public static string AuthenticationRequired {
+            get {
+                return ResourceManager.GetString("AuthenticationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility Authorization Request.
         /// </summary>
         public static string AuthorizationRequest {
