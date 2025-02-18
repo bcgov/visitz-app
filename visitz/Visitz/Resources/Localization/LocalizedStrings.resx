@@ -849,4 +849,7 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="VisitPublishedToIcm" xml:space="preserve">
     <value>Visit published to ICM</value>
   </data>
+  <data name="SupportNetwork" xml:space="preserve">
+    <value>Support network</value>
+  </data>
 </root>
