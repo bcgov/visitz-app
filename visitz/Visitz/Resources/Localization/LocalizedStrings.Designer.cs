@@ -2054,6 +2054,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Support network.
+        /// </summary>
+        public static string SupportNetwork {
+            get {
+                return ResourceManager.GetString("SupportNetwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to select.
         /// </summary>
         public static string TapToSelect {
