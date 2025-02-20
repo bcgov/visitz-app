@@ -138,4 +138,11 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
     {
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
     }
+
+    public static IQueryable<SupportNetworkItem> GetSupportNetworkByCaseId(Realm realm, string caseId)
+    {
+        return realm.All<SupportNetworkItem>()
+            .Where(item => item.EntityId == caseId)
+            .Filter($"TRUEPREDICATE SORT({nameof(CreatedDate)} DESC)");
+    }
 }
