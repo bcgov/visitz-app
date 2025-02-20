@@ -3,13 +3,55 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
+    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:supportNetwork="clr-namespace:Visitz.Views.Entity.SupportNetwork"
     x:Class="Visitz.Views.Entity.SupportNetwork.SupportNetworkListView"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:DataType="supportNetwork:SupportNetworkListViewModel">
-    <VerticalStackLayout>
-        <Label 
-            Text="Support network list view"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand"
+        RowDefinitions="*">
+        <CollectionView
+            Grid.Row="0"
+            x:Name="SupportNetworksCollectionView"
+            ItemsSource="{Binding SupportNetworksList}"
+            VerticalOptions="FillAndExpand"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:SupportNetworkItem">
+                    <ContentView>
+                        <!-- <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding Path=OpenVisitEntryCommand, Source={RelativeSource AncestorType={x:Type childYouthVisit:ChildYouthVisitListViewModel}}}"
+                            CommandParameter="{Binding .}"/>
+                    </ContentView.GestureRecognizers> -->
+                        <VerticalStackLayout>
+                            <Grid
+                                ColumnSpacing="{StaticResource DefaultSpacing}"
+                                Padding="{StaticResource DefaultPadding}"
+                                ColumnDefinitions="*,*,*,*">
+                                <HorizontalStackLayout
+                                    Grid.ColumnSpan="2"
+                                    Grid.Row="0">
+                                    <Label
+                                        Text="{Binding Name}"
+                                        FontFamily="BCSansBold"
+                                        FontSize="17"/>
+
+                                </HorizontalStackLayout>
+
+                            </Grid>
+                            <BoxView
+                                Color="{StaticResource Gray200}"
+                                HeightRequest="0.5"/>
+                        </VerticalStackLayout>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </base:ViewModelContentView>
