@@ -10,7 +10,7 @@ public class SupportNetworkRelationshipTagBehavior : TagStyleBehavior
     {
         if (tag.BindingContext is not SupportNetworkItem item)
             return;
-        if (item != null)
+        if (!string.IsNullOrWhiteSpace(item?.Relationship))
         {
             tag.Text = item.Relationship;
             tag.BackgroundColor = VisitzColors.BC_Gold;
