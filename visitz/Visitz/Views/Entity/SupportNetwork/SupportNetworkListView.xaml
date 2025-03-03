@@ -83,43 +83,43 @@
                                         Spacing="5">
                                         <Label
                                             Grid.Column="0"
-                                            FontSize="12"
+                                            FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
                                             HorizontalOptions="End"
                                             Text="{local:Localize Active}"/>
                                         <Label
                                             Grid.Column="1"
-                                            FontSize="12"
+                                            FontSize="{DynamicResource BodySmallFontSize}"
                                             HorizontalOptions="Start"
-                                            Text="{Binding supportNetwork.Active}"/>
+                                            Text="{Binding SupportNetwork.Active}"/>
                                     </HorizontalStackLayout>
                                     <HorizontalStackLayout
                                         Spacing="5">
                                         <Label
                                             Grid.Column="2"
-                                            FontSize="12"
+                                            FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
                                             HorizontalOptions="End"
                                             Text="{local:Localize HomeNumber}"/>
                                         <Label
                                             Grid.Column="3"
-                                            FontSize="12"
+                                            FontSize="{DynamicResource BodySmallFontSize}"
                                             HorizontalOptions="Start"
-                                            Text="{Binding supportNetwork.PhoneNumber}"/>
+                                            Text="{Binding SupportNetwork.PhoneNumber}"/>
                                     </HorizontalStackLayout>
                                     <HorizontalStackLayout
                                         Spacing="5">
                                         <Label
                                             Grid.Column="4"
-                                            FontSize="12"
+                                            FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
                                             HorizontalOptions="End"
                                             Text="{local:Localize CellNumber}"/>
                                         <Label
                                             Grid.Column="5"
-                                            FontSize="12"
+                                            FontSize="{DynamicResource BodySmallFontSize}"
                                             HorizontalOptions="Start"
-                                            Text="{Binding supportNetwork.CellPhoneNumber}"/>
+                                            Text="{Binding SupportNetwork.CellPhoneNumber}"/>
                                     </HorizontalStackLayout>
                                 </HorizontalStackLayout>
                             </Grid>
@@ -135,16 +135,16 @@
                                     Grid.Row="0">
                                     <Label
                                         Grid.Column="0"
-                                        FontSize="12"
+                                        FontSize="{DynamicResource BodySmallFontSize}"
                                         Text="{local:Localize Agency}"
                                         HorizontalOptions="End"
                                         FontFamily="BCSansBold"/>
                                     <Label
                                         Grid.Column="1"
                                         Grid.ColumnSpan="3"
-                                        FontSize="12"
+                                        FontSize="{DynamicResource BodySmallFontSize}"
                                         HorizontalOptions="Start"
-                                        Text="{Binding supportNetwork.AgencyName}"/>
+                                        Text="{Binding SupportNetwork.AgencyName}"/>
 
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout
@@ -152,23 +152,23 @@
                                     Grid.Row="1">
                                     <Label
                                         Grid.Column="0"
-                                        FontSize="12"
+                                        FontSize="{DynamicResource BodySmallFontSize}"
                                         HorizontalOptions="End"
                                         Text="{local:Localize Address}"
                                         FontFamily="BCSansBold"/>
                                     <Label
                                         Grid.Column="1"
                                         Grid.ColumnSpan="3"
-                                        FontSize="12"
+                                        FontSize="{DynamicResource BodySmallFontSize}"
                                         HorizontalOptions="Start"
-                                        Text="{Binding supportNetwork.Address}"/>
+                                        Text="{Binding SupportNetwork.Address}"/>
 
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout
                                     Spacing="5"
                                     Grid.Row="2">
                                     <Label
-                                        FontSize="12"
+                                        FontSize="{DynamicResource BodySmallFontSize}"
                                         Grid.Column="0"
                                         Text="{local:Localize Comments}"
                                         HorizontalOptions="End"
@@ -176,9 +176,9 @@
                                     <Label
                                         Grid.Column="1"
                                         Grid.ColumnSpan="3"
-                                        FontSize="12"
+                                        FontSize="{DynamicResource BodySmallFontSize}"
                                         HorizontalOptions="Start"
-                                        Text="{Binding supportNetwork.Comments}"/>
+                                        Text="{Binding SupportNetwork.Comments}"/>
                                 </HorizontalStackLayout>
 
                             </Grid>
