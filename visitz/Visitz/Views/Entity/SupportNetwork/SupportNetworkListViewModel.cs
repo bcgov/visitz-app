@@ -25,12 +25,6 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 
-    [ObservableProperty]
-    public string name;
-
-    [ObservableProperty]
-    public string relationship;
-
     protected override async Task InitAsync()
     {
         await base.InitAsync();
