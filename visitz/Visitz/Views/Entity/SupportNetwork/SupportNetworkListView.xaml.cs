@@ -5,7 +5,7 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
-public partial class SupportNetworkListView : ViewModelContentView, ICaseloadItemHolder, IRequestedEntitySection
+public partial class SupportNetworkListView : ViewModelContentView, ICaseloadItemHolder
 {
     new SupportNetworkListViewModel ViewModel => base.ViewModel as SupportNetworkListViewModel;
     public CaseloadItem CaseloadItem
@@ -14,11 +14,6 @@ public partial class SupportNetworkListView : ViewModelContentView, ICaseloadIte
         set => ViewModel.CaseloadItem = value;
     }
 
-    public EntitySection RequestedSection
-    {
-        get => ViewModel.RequestedSection;
-        set => ViewModel.RequestedSection = value;
-    }
 	public SupportNetworkListView() : base(ServiceProvider.GetService<SupportNetworkListViewModel>())
 	{
 		InitializeComponent();
