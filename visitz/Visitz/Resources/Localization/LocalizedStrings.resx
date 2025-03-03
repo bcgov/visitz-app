@@ -855,4 +855,10 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="SupportNetwork" xml:space="preserve">
     <value>Support network</value>
   </data>
+  <data name="Agency" xml:space="preserve">
+    <value>Agency</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
 </root>
