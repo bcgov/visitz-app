@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -19,7 +20,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     public EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
-    ObservableCollection<SupportNetworkItem> supportNetworksList = [];
+    public ObservableCollection<SupportNetworkItemUi> supportNetworksList = [];
 
     [ObservableProperty]
     public CaseloadItem caseloadItem;
@@ -51,7 +52,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
         if (changes == null)
         {
             foreach (var item in items)
-                SupportNetworksList.Add(item as SupportNetworkItem);
+                SupportNetworksList.Add(new SupportNetworkItemUi(item as SupportNetworkItem));
         }
         else
         {
@@ -59,8 +60,15 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
                 SupportNetworksList.RemoveAt(deleted);
 
             foreach (int inserted in changes.InsertedIndices)
-                SupportNetworksList.Insert(inserted, items[inserted] as SupportNetworkItem);
+                SupportNetworksList.Insert(inserted, new SupportNetworkItemUi(items[inserted] as SupportNetworkItem));
         }
+    }
+
+    [RelayCommand]
+     public void SelectedSupportNetworkItem(SupportNetworkItemUi tappedItem)
+    {
+        // Toggle the visibility of the tapped item
+        tappedItem.IsExpanded = !tappedItem.IsExpanded;
     }
 
     protected override void Dispose(bool disposing)
