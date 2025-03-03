@@ -16,7 +16,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     private bool _disposed;
 
     readonly ObservableRealmQueryMap realmQuery = new();
-    
+
     public EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
@@ -59,7 +59,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     }
 
     [RelayCommand]
-     public void SelectedSupportNetworkItem(SupportNetworkItemUi tappedItem)
+    public void SelectedSupportNetworkItem(SupportNetworkItemUi tappedItem)
     {
         // Toggle the visibility of the tapped item
         tappedItem.IsExpanded = !tappedItem.IsExpanded;
