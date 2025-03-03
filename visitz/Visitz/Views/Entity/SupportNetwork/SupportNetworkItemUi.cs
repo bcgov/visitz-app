@@ -9,9 +9,9 @@ public partial class SupportNetworkItemUi : ObservableObject
     bool isExpanded;
 
     [ObservableProperty]
-    SupportNetworkItem supportNetworkObj;
+    SupportNetworkItem supportNetwork;
 
     public SupportNetworkItemUi(SupportNetworkItem item){
-        supportNetworkObj = item;
+        supportNetwork = item;
     }
 }
