@@ -11,13 +11,11 @@ using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
-internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
+internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadItemHolder
 {
     private bool _disposed;
 
     readonly ObservableRealmQueryMap realmQuery = new();
-
-    public EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
     public ObservableCollection<SupportNetworkItemUi> supportNetworksList = [];
