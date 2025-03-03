@@ -59,7 +59,6 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     [RelayCommand]
     public void SelectedSupportNetworkItem(SupportNetworkItemUi tappedItem)
     {
-        // Toggle the visibility of the tapped item
         tappedItem.IsExpanded = !tappedItem.IsExpanded;
     }
 
