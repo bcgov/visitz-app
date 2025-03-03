@@ -10,7 +10,7 @@ public class SupportNetworkRelationshipTagBehavior : TagStyleBehavior
     {
         if (tag.BindingContext is not SupportNetworkItemUi itemUi)
             return;
-        var item = itemUi.SupportNetworkObj;
+        var item = itemUi.SupportNetwork;
         if (!string.IsNullOrWhiteSpace(item?.Relationship))
         {
             tag.Text = item.Relationship;
