@@ -86,7 +86,7 @@
                                             FontSize="12"
                                             FontFamily="BCSansBold"
                                             HorizontalOptions="End"
-                                            Text="Active"/>
+                                            Text="{local:Localize Active}"/>
                                         <Label
                                             Grid.Column="1"
                                             FontSize="12"
@@ -136,7 +136,7 @@
                                     <Label
                                         Grid.Column="0"
                                         FontSize="12"
-                                        Text="Agency"
+                                        Text="{local:Localize Agency}"
                                         HorizontalOptions="End"
                                         FontFamily="BCSansBold"/>
                                     <Label
@@ -170,7 +170,7 @@
                                     <Label
                                         FontSize="12"
                                         Grid.Column="0"
-                                        Text="Comments"
+                                        Text="{local:Localize Comments}"
                                         HorizontalOptions="End"
                                         FontFamily="BCSansBold"/>
                                     <Label
