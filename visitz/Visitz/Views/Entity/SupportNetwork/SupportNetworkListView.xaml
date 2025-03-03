@@ -83,13 +83,11 @@
                                     <HorizontalStackLayout
                                         Spacing="5">
                                         <Label
-                                            Grid.Column="0"
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
                                             HorizontalOptions="End"
                                             Text="{local:Localize Active}"/>
                                         <Label
-                                            Grid.Column="1"
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             HorizontalOptions="Start"
                                             Text="{Binding SupportNetwork.Active}"/>
@@ -97,13 +95,11 @@
                                     <HorizontalStackLayout
                                         Spacing="5">
                                         <Label
-                                            Grid.Column="2"
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
                                             HorizontalOptions="End"
                                             Text="{local:Localize HomeNumber}"/>
                                         <Label
-                                            Grid.Column="3"
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             HorizontalOptions="Start"
                                             Text="{Binding SupportNetwork.PhoneNumber}"/>
@@ -111,13 +107,11 @@
                                     <HorizontalStackLayout
                                         Spacing="5">
                                         <Label
-                                            Grid.Column="4"
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
                                             HorizontalOptions="End"
                                             Text="{local:Localize CellNumber}"/>
                                         <Label
-                                            Grid.Column="5"
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             HorizontalOptions="Start"
                                             Text="{Binding SupportNetwork.CellPhoneNumber}"/>
@@ -135,14 +129,11 @@
                                     Spacing="5"
                                     Grid.Row="0">
                                     <Label
-                                        Grid.Column="0"
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         Text="{local:Localize Agency}"
                                         HorizontalOptions="End"
                                         FontFamily="BCSansBold"/>
                                     <Label
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="3"
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         HorizontalOptions="Start"
                                         Text="{Binding SupportNetwork.AgencyName}"/>
@@ -152,14 +143,11 @@
                                     Spacing="5"
                                     Grid.Row="1">
                                     <Label
-                                        Grid.Column="0"
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         HorizontalOptions="End"
                                         Text="{local:Localize Address}"
                                         FontFamily="BCSansBold"/>
                                     <Label
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="3"
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         HorizontalOptions="Start"
                                         Text="{Binding SupportNetwork.Address}"/>
@@ -170,13 +158,10 @@
                                     Grid.Row="2">
                                     <Label
                                         FontSize="{DynamicResource BodySmallFontSize}"
-                                        Grid.Column="0"
                                         Text="{local:Localize Comments}"
                                         HorizontalOptions="End"
                                         FontFamily="BCSansBold"/>
                                     <Label
-                                        Grid.Column="1"
-                                        Grid.ColumnSpan="3"
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         HorizontalOptions="Start"
                                         Text="{Binding SupportNetwork.Comments}"/>
