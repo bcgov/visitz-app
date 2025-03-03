@@ -11,7 +11,8 @@ public partial class SupportNetworkItemUi : ObservableObject
     [ObservableProperty]
     SupportNetworkItem supportNetwork;
 
-    public SupportNetworkItemUi(SupportNetworkItem item){
+    public SupportNetworkItemUi(SupportNetworkItem item)
+    {
         supportNetwork = item;
     }
 }
