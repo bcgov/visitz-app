@@ -63,6 +63,7 @@
                                     Grid.Row="0"
                                     Grid.Column="7"
                                     Grid.RowSpan="2"
+                                    VerticalOptions="Center"
                                     Spacing="5">
                                     <Label
                                         IsVisible="{Binding IsExpanded, Converter={StaticResource BoolNegationConverter}}"
