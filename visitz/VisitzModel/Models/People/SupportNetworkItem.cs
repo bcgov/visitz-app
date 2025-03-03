@@ -143,6 +143,6 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
     {
         return realm.All<SupportNetworkItem>()
             .Where(item => item.EntityId == caseId)
-            .Filter($"TRUEPREDICATE SORT({nameof(CreatedDate)} DESC)");
+            .Filter($"TRUEPREDICATE SORT({nameof(Name)} DESC)");
     }
 }
