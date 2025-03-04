@@ -41,10 +41,10 @@
                                 ColumnSpacing="{StaticResource DefaultSpacing}"
                                 Margin="10,5,10,0"
                                 RowDefinitions="Auto,Auto"
-                                ColumnDefinitions="*,*,*,*,*,*,*">
+                                ColumnDefinitions="*,*,*,*,*,*,Auto">
                                 <HorizontalStackLayout
                                     Spacing="25"
-                                    Grid.ColumnSpan="4"
+                                    Grid.ColumnSpan="6"
                                     Grid.Row="0">
                                     <Label
                                         Text="{Binding SupportNetwork.Name}"
@@ -63,6 +63,7 @@
                                     Grid.Column="7"
                                     Grid.RowSpan="2"
                                     VerticalOptions="Center"
+                                    HorizontalOptions="End"
                                     Spacing="5">
                                     <Label
                                         IsVisible="{Binding IsExpanded, Converter={StaticResource BoolNegationConverter}}"
@@ -78,6 +79,7 @@
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout
                                     Spacing="25"
+                                    Grid.ColumnSpan="6"
                                     Grid.Row="1">
                                     <HorizontalStackLayout
                                         Spacing="5">
@@ -117,7 +119,7 @@
                                 Margin="10,5"
                                 IsVisible="{Binding IsExpanded}"
                                 RowDefinitions="Auto,Auto,Auto"
-                                ColumnDefinitions="*">
+                                ColumnDefinitions="*,Auto">
                                 <HorizontalStackLayout
                                     Spacing="5"
                                     Grid.Row="0">
@@ -152,6 +154,14 @@
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         Text="{Binding SupportNetwork.Comments}"/>
                                 </HorizontalStackLayout>
+
+                                <Label
+                                    Grid.RowSpan="3"
+                                    Grid.Column="1"
+                                    IsVisible="False"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    FontSize="30"
+                                    Text="{Static fonticons:MaterialIcons.Keyboard_arrow_up}"/>
                             </Grid>
                             <BoxView
                                 Color="{StaticResource Gray200}"
