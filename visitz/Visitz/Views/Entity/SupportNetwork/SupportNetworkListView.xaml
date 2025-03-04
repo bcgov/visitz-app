@@ -20,14 +20,12 @@
     </base:ViewModelContentView.Resources>
 
     <Grid
-        HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand"
+        VerticalOptions="Fill"
         RowDefinitions="*">
         <CollectionView
             Grid.Row="0"
             x:Name="SupportNetworksCollectionView"
             ItemsSource="{Binding SupportNetworksList}"
-            VerticalOptions="FillAndExpand"
             SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="supportNetwork:SupportNetworkItemUi">
