@@ -86,11 +86,9 @@
                                         <Label
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
-                                            HorizontalOptions="End"
                                             Text="{local:Localize Active}"/>
                                         <Label
                                             FontSize="{DynamicResource BodySmallFontSize}"
-                                            HorizontalOptions="Start"
                                             Text="{Binding SupportNetwork.Active}"/>
                                     </HorizontalStackLayout>
                                     <HorizontalStackLayout
@@ -98,11 +96,9 @@
                                         <Label
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
-                                            HorizontalOptions="End"
                                             Text="{local:Localize HomeNumber}"/>
                                         <Label
                                             FontSize="{DynamicResource BodySmallFontSize}"
-                                            HorizontalOptions="Start"
                                             Text="{Binding SupportNetwork.PhoneNumber}"/>
                                     </HorizontalStackLayout>
                                     <HorizontalStackLayout
@@ -110,11 +106,9 @@
                                         <Label
                                             FontSize="{DynamicResource BodySmallFontSize}"
                                             FontFamily="BCSansBold"
-                                            HorizontalOptions="End"
                                             Text="{local:Localize CellNumber}"/>
                                         <Label
                                             FontSize="{DynamicResource BodySmallFontSize}"
-                                            HorizontalOptions="Start"
                                             Text="{Binding SupportNetwork.CellPhoneNumber}"/>
                                     </HorizontalStackLayout>
                                 </HorizontalStackLayout>
@@ -132,11 +126,9 @@
                                     <Label
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         Text="{local:Localize Agency}"
-                                        HorizontalOptions="End"
                                         FontFamily="BCSansBold"/>
                                     <Label
                                         FontSize="{DynamicResource BodySmallFontSize}"
-                                        HorizontalOptions="Start"
                                         Text="{Binding SupportNetwork.AgencyName}"/>
 
                                 </HorizontalStackLayout>
@@ -145,14 +137,11 @@
                                     Grid.Row="1">
                                     <Label
                                         FontSize="{DynamicResource BodySmallFontSize}"
-                                        HorizontalOptions="End"
                                         Text="{local:Localize Address}"
                                         FontFamily="BCSansBold"/>
                                     <Label
                                         FontSize="{DynamicResource BodySmallFontSize}"
-                                        HorizontalOptions="Start"
                                         Text="{Binding SupportNetwork.Address}"/>
-
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout
                                     Spacing="5"
@@ -160,14 +149,11 @@
                                     <Label
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         Text="{local:Localize Comments}"
-                                        HorizontalOptions="End"
                                         FontFamily="BCSansBold"/>
                                     <Label
                                         FontSize="{DynamicResource BodySmallFontSize}"
-                                        HorizontalOptions="Start"
                                         Text="{Binding SupportNetwork.Comments}"/>
                                 </HorizontalStackLayout>
-
                             </Grid>
                             <BoxView
                                 Color="{StaticResource Gray200}"
