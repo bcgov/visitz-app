@@ -52,13 +52,13 @@
                                         Text="{Binding SupportNetwork.Name}"
                                         FontFamily="BCSansBold"
                                         FontSize="17"/>
-                                    <tagview:TagView Padding="8,0"
+                                    <tagview:TagView
+                                        Padding="8,0"
                                         Text="{Binding SupportNetwork.Relationship}"
                                         BackgroundColor="{StaticResource BC_Gold}"
                                         TextColor="{StaticResource BC_TextColor}"
                                         FontSize="12"
                                         IsVisible="{Binding ShowRelationshipTag}"/>
-
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout
                                     Grid.Row="0"
