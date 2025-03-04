@@ -24,7 +24,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     public CaseloadItem caseloadItem;
 
     [ObservableProperty]
-    public bool showEmptyIcon = false;
+    public bool showEmptyIcon;
 
     protected override async Task InitAsync()
     {
