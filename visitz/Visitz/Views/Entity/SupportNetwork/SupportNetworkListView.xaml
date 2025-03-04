@@ -43,7 +43,7 @@
                                 RowDefinitions="Auto,Auto"
                                 ColumnDefinitions="*,*,*,*,*,*,Auto">
                                 <HorizontalStackLayout
-                                    Spacing="25"
+                                    Spacing="5"
                                     Grid.ColumnSpan="6"
                                     Grid.Row="0">
                                     <Label
