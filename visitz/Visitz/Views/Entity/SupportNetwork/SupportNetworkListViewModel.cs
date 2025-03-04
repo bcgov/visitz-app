@@ -23,6 +23,9 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 
+    [ObservableProperty]
+    public bool showEmptyIcon = false;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -54,6 +57,8 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
             foreach (int inserted in changes.InsertedIndices)
                 SupportNetworksList.Insert(inserted, new SupportNetworkItemUi(items[inserted] as SupportNetworkItem));
         }
+
+        ShowEmptyIcon = SupportNetworksList.Count <= 0;
     }
 
     [RelayCommand]

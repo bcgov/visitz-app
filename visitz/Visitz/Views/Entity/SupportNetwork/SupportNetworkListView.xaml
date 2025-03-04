@@ -176,5 +176,14 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Label
+            Grid.Row="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            FontSize="200"
+            TextColor="#919197"
+            Text="{Static fonticons:MaterialIcons.Note_stack}"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            IsVisible="{Binding ShowEmptyIcon}"/>
     </Grid>
 </base:ViewModelContentView>
