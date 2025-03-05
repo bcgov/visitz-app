@@ -12,3 +12,7 @@ indent_style = space
 indent_size = 4
 csharp_style_namespace_declarations = file_scoped
 dotnet_diagnostic.SS003.severity = none
+
+[*.xaml]
+indent_style = space
+indent_size = 4
