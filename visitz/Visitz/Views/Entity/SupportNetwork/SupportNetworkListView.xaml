@@ -39,7 +39,7 @@
                             <Grid
                                 RowSpacing="{StaticResource DefaultSpacing}"
                                 ColumnSpacing="{StaticResource DefaultSpacing}"
-                                Margin="10,5,10,0"
+                                Margin="10,10,10,0"
                                 RowDefinitions="Auto,Auto"
                                 ColumnDefinitions="*,*,*,*,*,*,Auto">
                                 <HorizontalStackLayout
@@ -164,6 +164,7 @@
                                     Text="{Static fonticons:MaterialIcons.Keyboard_arrow_up}"/>
                             </Grid>
                             <BoxView
+                                Margin="10"
                                 Color="{StaticResource Gray200}"
                                 HeightRequest="0.5"/>
                         </VerticalStackLayout>
