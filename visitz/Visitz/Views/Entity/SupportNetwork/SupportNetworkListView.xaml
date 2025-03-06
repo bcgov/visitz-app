@@ -53,8 +53,8 @@
                                     <tagview:TagView
                                         Padding="8,0"
                                         Text="{Binding SupportNetwork.Relationship}"
-                                        BackgroundColor="{StaticResource BC_Gold}"
-                                        TextColor="{StaticResource BC_TextColor}"
+                                        BackgroundColor="{StaticResource ContactRelationshipTagBackground}"
+                                        TextColor="{StaticResource ContactRelationshipTagText}"
                                         FontSize="{DynamicResource BodySmallFontSize}"
                                         IsVisible="{Binding ShowRelationshipTag}"/>
                                 </HorizontalStackLayout>
