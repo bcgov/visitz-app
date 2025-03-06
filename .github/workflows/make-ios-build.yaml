@@ -11,14 +11,11 @@ on:
         required: true
 
 env:
-  BUILD_NUM: 0
   BUILD_NUM_OFFSET: 246 # Final run number from previous repo before migration
   RUN_NUMBER: ${{ github.run_number }}
   PROJPATH: "visitz/Visitz"
   DOTNET_SDK_VERSION: "8.0.402"
   GLOBAL_JSON_PATH: "visitz/global.json"
-  IOS_BUILD_CERTIFICATE_NAME: ""
-  IOS_CODE_SIGN_PROVISION_PROFILE_NAME: ""
   XCODE_VERSION: "16.1.0"
 
 jobs:
@@ -28,8 +25,6 @@ jobs:
     runs-on: macOS-14
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
-    env:
-      OUTPUT_NAME: ""
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
