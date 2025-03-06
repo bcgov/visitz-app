@@ -11,6 +11,9 @@ on:
         required: true
 
 env:
+  BUILD_NUM: 0
+  BUILD_NUM_OFFSET: 246 # Final run number from previous repo before migration
+  RUN_NUMBER: ${{ github.run_number }}
   PROJPATH: "visitz/Visitz"
   DOTNET_SDK_VERSION: "8.0.402"
   GLOBAL_JSON_PATH: "visitz/global.json"
@@ -26,11 +29,17 @@ jobs:
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
     env:
-      # TODO: read "MCFD Mobility" app name from MSBuild instead
-      OUTPUT_NAME: "MCFD Mobility-iOS-${{ github.event.inputs.environment }}-build_${{ github.run_number }}"
+      OUTPUT_NAME: ""
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
+
+      - name: Set build name
+        run: |
+          BUILD_NUM=$(($BUILD_NUM_OFFSET + $RUN_NUMBER))
+          
+          # TODO: read "MCFD Mobility" app name from MSBuild instead
+          OUTPUT_NAME="MCFD Mobility-iOS-${{ github.event.inputs.environment }}-build_$BUILD_NUM"
 
       - name: Setup Xcode version
         uses: maxim-lobanov/setup-xcode@v1.6.0
@@ -118,7 +127,7 @@ jobs:
           dotnet publish $PROJPATH \
             --framework net8.0-ios \
             --configuration Release \
-            -p:ApplicationVersion=${{ github.run_number }} \
+            -p:ApplicationVersion=$BUILD_NUM \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
             -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} \
             -p:CodesignKey=${{ secrets.IOS_BUILD_CERTIFICATE_NAME }} \
