@@ -39,18 +39,18 @@ jobs:
       - name: Import code-signing certificates
         uses: Apple-Actions/import-codesign-certs@v3
         with: 
-          p12-file-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
-          p12-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          p12-file-base64: ${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64 }}
+          p12-password: ${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_PASSWORD }}
 
       - name: Retrieve certificate name
         env:
-          IOS_BUILD_CERTIFICATE_BASE64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64: ${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64 }}
           TEMP_CERT_PATH: "temp-cert.p12"
         run: |
-          echo -n "$IOS_BUILD_CERTIFICATE_BASE64" | base64 --decode -o $TEMP_CERT_PATH
+          echo -n "$APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64" | base64 --decode -o $TEMP_CERT_PATH
 
           SUBJECT=$(openssl pkcs12 -in "$TEMP_CERT_PATH" \
-            -password pass:"${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}" \
+            -password pass:"${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_PASSWORD }}" \
             -nodes -nokeys \
             | openssl x509 -noout -subject)
 
