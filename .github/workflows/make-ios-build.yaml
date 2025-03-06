@@ -15,6 +15,7 @@ env:
   DOTNET_SDK_VERSION: "8.0.402"
   GLOBAL_JSON_PATH: "visitz/global.json"
   IOS_BUILD_CERTIFICATE_NAME: ""
+  IOS_CODE_SIGN_PROVISION_PROFILE_NAME: ""
   XCODE_VERSION: "16.1.0"
 
 jobs:
@@ -59,7 +60,7 @@ jobs:
 
           rm $TEMP_CERT_PATH
 
-      - name: Install provisioning profile
+      - name: Install provisioning profile and retrieve name
         env:
           IOS_BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_BUILD_PROVISION_PROFILE_BASE64 }}
         run: |
@@ -67,9 +68,12 @@ jobs:
 
           echo -n "$IOS_BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
 
-          # apply provisioning profile
+          # Apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+          # Retrieve profile name
+          IOS_CODE_SIGN_PROVISION_PROFILE_NAME=$(/usr/libexec/PlistBuddy -c "Print Name" /dev/stdin <<< $(security cms -D -i $PP_PATH))
 
       - name: Inflate ${{ env.GLOBAL_JSON_PATH }}
         run: |
