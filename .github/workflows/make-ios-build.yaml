@@ -122,7 +122,7 @@ jobs:
           dotnet publish $PROJPATH \
             --framework net8.0-ios \
             --configuration Release \
-            -p:ApplicationVersion=${{ env.BUILD_NUM) }} \
+            -p:ApplicationVersion=${{ env.BUILD_NUM }} \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
             -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} \
             -p:CodesignKey="${{ env.IOS_BUILD_CERTIFICATE_NAME }}" \
