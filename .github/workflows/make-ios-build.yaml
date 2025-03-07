@@ -63,7 +63,8 @@ jobs:
             | openssl x509 -noout -subject)
 
           COMMONNAME=$(echo ${SUBJECT##*CN=})
-          echo "IOS_BUILD_CERTIFICATE_NAME=$(echo {COMMONNAME%%/*})" >> "$GITHUB_ENV"
+          COMMONNAME=$(echo {COMMONNAME%%/*})
+          echo "IOS_BUILD_CERTIFICATE_NAME=$COMMONNAME" >> "$GITHUB_ENV"
 
           rm $TEMP_CERT_PATH
 
