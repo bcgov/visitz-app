@@ -125,8 +125,8 @@ jobs:
             -p:ApplicationVersion=$BUILD_NUM \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
             -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} \
-            -p:CodesignKey=${{ secrets.IOS_BUILD_CERTIFICATE_NAME }} \
-            -p:CodesignProvision=${{ secrets.IOS_CODE_SIGN_PROVISION_PROFILE_NAME }} \
+            -p:CodesignKey="$IOS_BUILD_CERTIFICATE_NAME" \
+            -p:CodesignProvision="$IOS_CODE_SIGN_PROVISION_PROFILE_NAME" \
             -p:UseAppSettings=true \
             -p:Oidc_AuthenticationDomain=${{ vars.AUTHENTICATION_DOMAIN }} \
             -p:Oidc_ClientId=${{ vars.KEYCLOAK_CLIENT_ID }} \
