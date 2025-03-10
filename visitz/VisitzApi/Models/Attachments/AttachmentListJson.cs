@@ -1,7 +1,9 @@
 using System.Text.Json.Serialization;
+using VisitzApi.Models.Base;
+
 namespace VisitzApi.Models.Attachments;
 
-public class AttachmentListJson
+public class AttachmentListJson : BaseRecordJson
 {
     public string ApplicationNo { get; set; }
     public string Categorie { get; set; }
@@ -47,10 +49,8 @@ public class AttachmentListJson
     [JsonPropertyName("MemoNumber")]
     public string MemoNumber { get; set; }
     public string SRId { get; set; }
-    public string Id { get; set; }
     [JsonPropertyName("CreatedByName")]
     public string CreatedByName { get; set; }
-    public string CreatedDate { get; set; }
     [JsonPropertyName("UpdatedByName")]
     public string UpdatedByName { get; set; }
     public string LastUpdatedDate { get; set; }
