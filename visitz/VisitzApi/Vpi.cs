@@ -95,7 +95,7 @@ namespace VisitzApi
             return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, after));
         }
 
-        public async Task<IEnumerable<ContactJson>> GetAttachmentsAsync(
+        public async Task<IEnumerable<AttachmentListJson>> GetAttachmentsAsync(
             ApiRecordType type,
             string id,
             DateTimeOffset? after = null)
