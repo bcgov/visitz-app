@@ -52,7 +52,7 @@
                                         FontSize="{DynamicResource TitleMediumFontSize}"/>
                                     <tagview:TagView
                                         Padding="8,0"
-                                        Text="{Binding SupportNetwork.Relationship}"
+                                        Text="{Binding CapitalizedRelationship}"
                                         BackgroundColor="{StaticResource ContactRelationshipTagBackground}"
                                         TextColor="{StaticResource ContactRelationshipTagText}"
                                         FontSize="{DynamicResource BodySmallFontSize}"

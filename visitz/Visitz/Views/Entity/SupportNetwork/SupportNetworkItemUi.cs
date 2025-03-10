@@ -13,6 +13,20 @@ public partial class SupportNetworkItemUi : ObservableObject
 
     [ObservableProperty]
     public bool showRelationshipTag;
+    public string CapitalizedRelationship
+{
+    get
+    {
+        if (string.IsNullOrEmpty(SupportNetwork?.Relationship))
+            return string.Empty;
+        var words = SupportNetwork.Relationship.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        for (int i = 0; i < words.Length; i++)
+        {
+            words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1).ToLower();
+        }
+        return string.Join(" ", words);
+    }
+}
 
     public SupportNetworkItemUi(SupportNetworkItem item)
     {
