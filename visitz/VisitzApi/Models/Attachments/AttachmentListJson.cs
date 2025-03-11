@@ -54,4 +54,5 @@ public class AttachmentListJson : BaseRecordJson
     [JsonPropertyName("UpdatedByName")]
     public string UpdatedByName { get; set; }
     public string LastUpdatedDate { get; set; }
+    public string AttachmentId { get; set; }
 }
