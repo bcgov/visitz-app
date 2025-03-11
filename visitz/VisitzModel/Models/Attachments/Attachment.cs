@@ -7,7 +7,7 @@ using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models.Attachments;
 
-public partial class Attachment : IRealmObject, IRecordInfo
+public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentListJson>
 {
 	public static readonly int MaxFilesize = 5 * Sizes.MB;
 	public static readonly int ThumbnailSize = 400;
@@ -33,6 +33,43 @@ public partial class Attachment : IRealmObject, IRecordInfo
 		get => (EntitySubtype)RelatedEntitySubtypeInt;
 		set => RelatedEntitySubtypeInt = (int)value;
 	}
+
+    public string ApplicationNo { get; set; }
+    public string Categorie { get; set; }
+    public string Category { get; set; }
+    public string ClientFlag { get; set; }
+    public string EndDate { get; set; }
+    public string FinalFlag { get; set; }
+    public string FormDescription { get; set; }
+    public string IncidentId { get; set; }
+    public string IncidentNo { get; set; }
+    public string Internal { get; set; }
+    public string NoIntervention { get; set; }
+    public string PortalVisible { get; set; }
+    public string ShowOnContact { get; set; }
+    public string Status { get; set; }
+    public string SubCategory { get; set; }
+    public string Template { get; set; }
+    public string TemplateType { get; set; }
+    public string CaseId { get; set; }
+    public string Comments { get; set; }
+    public string FileAutoUpdFlg { get; set; }
+    public string FileDate { get; set; }
+    public string FileDeferFlg { get; set; }
+    public string FileDockReqFlg { get; set; }
+    public string FileDockStatFlg { get; set; }
+    public string FileSize { get; set; }
+    public string FileSrcPath { get; set; }
+    public string FileSrcType { get; set; }
+    public string MemoId { get; set; }
+    public string MemoNumber { get; set; }
+    public string SRId { get; set; }
+    public string CreatedByName { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; }
+    public string UpdatedByName { get; set; }
+    public string LastUpdatedDate { get; set; }
+    public string AttachmentId { get; set; }
 
 	public byte[] Thumbnail { get; set; }
 
@@ -80,4 +117,70 @@ public partial class Attachment : IRealmObject, IRecordInfo
 	{
 		await DeleteAsync(Realm, this);
 	}
+
+    public Attachment() { }
+
+    public Attachment(AttachmentListJson json, string parentId, EntityType type)
+    {
+        Id = json.Id;
+        ApplicationNo = json.ApplicationNo;
+        Categorie = json.Categorie;
+        Category = json.Category;
+        ClientFlag = json.ClientFlag;
+        EndDate = json.EndDate;
+        FinalFlag = json.FinalFlag;
+        FormDescription = json.FormDescription;
+        IncidentId = json.IncidentId;
+        IncidentNo = json.IncidentNo;
+        Internal = json.Internal;
+        NoIntervention = json.NoIntervention;
+        PortalVisible = json.PortalVisible;
+        ShowOnContact = json.ShowOnContact;
+        Status = json.Status;
+        SubCategory = json.SubCategory;
+        Template = json.Template;
+        TemplateType = json.TemplateType;
+        CaseId = json.CaseId;
+        Comments = json.Comments;
+        FileAutoUpdFlg = json.FileAutoUpdFlg;
+        FileDate = json.FileDate;
+        FileDeferFlg = json.FileDeferFlg;
+        FileDockReqFlg = json.FileDockReqFlg;
+        FileDockStatFlg = json.FileDockStatFlg;
+        Extension = json.FileExt;
+        FileSize = json.FileSize;
+        FileSrcPath = json.FileSrcPath;
+        FileSrcType = json.FileSrcType;
+        Filename = json.FileName;
+        MemoId = json.MemoId;
+        MemoNumber = json.MemoNumber;
+        SRId = json.SRId;
+        CreatedByName = json.CreatedByName;
+        UpdatedByName = json.UpdatedByName;
+        CreatedDate = DateTimeOffset.Parse(json.CreatedDate);
+        LastUpdatedDate = DateTimeOffset.Parse(json.LastUpdatedDate);
+        AttachmentId = json.AttachmentId;
+    }
+
+    public static IEnumerable<Attachment> FromApiArray(
+        IEnumerable<AttachmentListJson> items,
+        string parentId,
+        EntityType type)
+    {
+        List<Attachment> outList = [];
+
+        foreach (var AttachmentListJson in items)
+            outList.Add(new Attachment(AttachmentListJson, parentId, type));
+
+        return outList;
+    }
+
+    public static async Task SaveAttachmentsAsync(
+        Realm realm,
+        IEnumerable<AttachmentListJson> items,
+        string parentId,
+        EntityType type)
+    {
+        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
+    }
 }
