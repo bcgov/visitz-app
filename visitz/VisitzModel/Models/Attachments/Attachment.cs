@@ -36,7 +36,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 		set => RelatedEntitySubtypeInt = (int)value;
 	}
 
-    public string ApplicationNo { get; set; }
+    public string ServiceRequestNumber { get; set; }
     public string Categorie { get; set; }
     public string Category { get; set; }
     public string ClientFlag { get; set; }
@@ -46,7 +46,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public string IncidentId { get; set; }
     public string IncidentNo { get; set; }
     public string Internal { get; set; }
-    public string NoIntervention { get; set; }
+    public string CaseNumber { get; set; }
     public string PortalVisible { get; set; }
     public string ShowOnContact { get; set; }
     public string Status { get; set; }
@@ -65,12 +65,11 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public string FileSrcType { get; set; }
     public string MemoId { get; set; }
     public string MemoNumber { get; set; }
-    public string SRId { get; set; }
-    public string CreatedByName { get; set; }
+    public string ServiceRequestId { get; set; }
+    public string CreatedBy { get; set; }
     public DateTimeOffset CreatedDate { get; set; }
-    public DateTimeOffset LastUpdatedDate { get; set; }
-    public string UpdatedByName { get; set; }
-    public string AttachmentId { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; }
+    public string UpdatedBy { get; set; }
 
 	public byte[] Thumbnail { get; set; }
 
@@ -124,7 +123,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public Attachment(AttachmentJson json, string parentId, EntityType type)
     {
         Id = json.Id;
-        ApplicationNo = json.ApplicationNo;
+        ServiceRequestNumber = json.ApplicationNo;
         Categorie = json.Categorie;
         Category = json.Category;
         ClientFlag = json.ClientFlag;
@@ -134,7 +133,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         IncidentId = json.IncidentId;
         IncidentNo = json.IncidentNo;
         Internal = json.Internal;
-        NoIntervention = json.NoIntervention;
+        CaseNumber = json.NoIntervention;
         PortalVisible = json.PortalVisible;
         ShowOnContact = json.ShowOnContact;
         Status = json.Status;
@@ -155,12 +154,11 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         Filename = json.FileName;
         MemoId = json.MemoId;
         MemoNumber = json.MemoNumber;
-        SRId = json.SRId;
-        CreatedByName = json.CreatedByName;
-        UpdatedByName = json.UpdatedByName;
+        ServiceRequestId = json.SrId;
+        CreatedBy = json.CreatedByName;
+        UpdatedBy = json.UpdatedByName;
         CreatedDate = DateTimeOffset.Parse(json.CreatedDate);
-        LastUpdatedDate = DateTimeOffset.Parse(json.LastUpdatedDate);
-        AttachmentId = json.AttachmentId;
+        UpdatedDate = DateTimeOffset.Parse(json.LastUpdatedDate);
     }
 
     public AttachmentJson ToApiJson(string dateFormat = "s")
@@ -168,7 +166,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         return new()
         {
             Id = Id,
-            ApplicationNo = ApplicationNo,
+            ApplicationNo = ServiceRequestNumber,
             Categorie = Categorie,
             Category = Category,
             ClientFlag = ClientFlag,
@@ -178,7 +176,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             IncidentId = IncidentId,
             IncidentNo = IncidentNo,
             Internal = Internal,
-            NoIntervention = NoIntervention,
+            NoIntervention = CaseNumber,
             PortalVisible = PortalVisible,
             ShowOnContact = ShowOnContact,
             Status = Status,
@@ -199,12 +197,11 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             FileName = Filename,
             MemoId = MemoId,
             MemoNumber = MemoNumber,
-            SRId = SRId,
-            CreatedByName = CreatedByName,
-            UpdatedByName = UpdatedByName,
+            SrId = ServiceRequestId,
+            CreatedByName = CreatedBy,
+            UpdatedByName = UpdatedBy,
             CreatedDate = CreatedDate.ToString(dateFormat),
-            LastUpdatedDate = LastUpdatedDate.ToString(dateFormat),
-            AttachmentId = AttachmentId,
+            LastUpdatedDate = UpdatedDate.ToString(dateFormat),
         };
     }
 
