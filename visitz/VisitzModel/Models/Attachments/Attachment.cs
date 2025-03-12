@@ -1,6 +1,8 @@
 using Realms;
+using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
 using VisitzModel.Formats;
+using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Storage.Filesystem;
@@ -66,9 +68,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public string SRId { get; set; }
     public string CreatedByName { get; set; }
     public DateTimeOffset CreatedDate { get; set; }
-    public DateTimeOffset UpdatedDate { get; set; }
+    public DateTimeOffset LastUpdatedDate { get; set; }
     public string UpdatedByName { get; set; }
-    public string LastUpdatedDate { get; set; }
     public string AttachmentId { get; set; }
 
 	public byte[] Thumbnail { get; set; }
@@ -160,6 +161,51 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         CreatedDate = DateTimeOffset.Parse(json.CreatedDate);
         LastUpdatedDate = DateTimeOffset.Parse(json.LastUpdatedDate);
         AttachmentId = json.AttachmentId;
+    }
+
+    public AttachmentListJson ToApiJson(string dateFormat = "s")
+    {
+        return new()
+        {
+            Id = Id,
+            ApplicationNo = ApplicationNo,
+            Categorie = Categorie,
+            Category = Category,
+            ClientFlag = ClientFlag,
+            EndDate = EndDate,
+            FinalFlag = FinalFlag,
+            FormDescription = FormDescription,
+            IncidentId = IncidentId,
+            IncidentNo = IncidentNo,
+            Internal = Internal,
+            NoIntervention = NoIntervention,
+            PortalVisible = PortalVisible,
+            ShowOnContact = ShowOnContact,
+            Status = Status,
+            SubCategory = SubCategory,
+            Template = Template,
+            TemplateType = TemplateType,
+            CaseId = CaseId,
+            Comments = Comments,
+            FileAutoUpdFlg = FileAutoUpdFlg,
+            FileDate = FileDate,
+            FileDeferFlg = FileDeferFlg,
+            FileDockReqFlg = FileDockReqFlg,
+            FileDockStatFlg = FileDockStatFlg,
+            FileExt = Extension,
+            FileSize = FileSize,
+            FileSrcPath = FileSrcPath,
+            FileSrcType = FileSrcType,
+            FileName = Filename,
+            MemoId = MemoId,
+            MemoNumber = MemoNumber,
+            SRId = SRId,
+            CreatedByName = CreatedByName,
+            UpdatedByName = UpdatedByName,
+            CreatedDate = CreatedDate.ToString(dateFormat),
+            LastUpdatedDate = LastUpdatedDate.ToString(dateFormat),
+            AttachmentId = AttachmentId,
+        };
     }
 
     public static IEnumerable<Attachment> FromApiArray(
