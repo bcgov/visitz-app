@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:ViewModelContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
+    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
+    xmlns:supportNetwork="clr-namespace:Visitz.Views.Entity.SupportNetwork"
+    x:Class="Visitz.Views.Entity.SupportNetwork.SupportNetworkListView"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    x:DataType="supportNetwork:SupportNetworkListViewModel">
+
+    <base:ViewModelContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
+        </ResourceDictionary>
+    </base:ViewModelContentView.Resources>
+
+    <Grid
+        VerticalOptions="Fill"
+        RowDefinitions="*">
+        <CollectionView
+            Grid.Row="0"
+            x:Name="SupportNetworksCollectionView"
+            ItemsSource="{Binding SupportNetworksList}"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="supportNetwork:SupportNetworkItemUi">
+                    <ContentView>
+                        <ContentView.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Path=SelectedSupportNetworkItemCommand, Source={RelativeSource AncestorType={x:Type supportNetwork:SupportNetworkListViewModel}}}"
+                                CommandParameter="{Binding .}"/>
+                        </ContentView.GestureRecognizers>
+                        <VerticalStackLayout>
+                            <Grid
+                                RowSpacing="{StaticResource DefaultSpacing}"
+                                ColumnSpacing="{StaticResource DefaultSpacing}"
+                                Margin="10,10,10,0"
+                                RowDefinitions="Auto,Auto"
+                                ColumnDefinitions="*,*,*,*,*,*,Auto">
+                                <HorizontalStackLayout
+                                    Spacing="5"
+                                    Grid.ColumnSpan="6"
+                                    Grid.Row="0">
+                                    <Label
+                                        Text="{Binding SupportNetwork.Name}"
+                                        FontFamily="BCSansBold"
+                                        FontSize="17"/>
+                                    <tagview:TagView
+                                        Padding="8,0"
+                                        Text="{Binding CapitalizedRelationship}"
+                                        BackgroundColor="{StaticResource ContactRelationshipTagBackground}"
+                                        TextColor="{StaticResource ContactRelationshipTagText}"
+                                        IsVisible="{Binding ShowRelationshipTag}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout
+                                    Grid.Row="0"
+                                    Grid.Column="7"
+                                    Grid.RowSpan="2"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Spacing="5">
+                                    <Label
+                                        IsVisible="{Binding IsExpanded, Converter={StaticResource BoolNegationConverter}}"
+                                        FontFamily="MaterialIconsRoundedUnfilled"
+                                        FontSize="30"
+                                        Text="{Static fonticons:MaterialIcons.Keyboard_arrow_down}"/>
+                                    <Label
+                                        IsVisible="{Binding IsExpanded}"
+                                        FontFamily="MaterialIconsRoundedUnfilled"
+                                        FontSize="30"
+                                        Text="{Static fonticons:MaterialIcons.Keyboard_arrow_up}"/>
+
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout
+                                    Spacing="25"
+                                    Grid.ColumnSpan="6"
+                                    Grid.Row="1">
+                                    <HorizontalStackLayout
+                                        Spacing="5">
+                                        <Label
+                                            FontFamily="BCSansBold"
+                                            Text="{local:Localize Active}"/>
+                                        <Label
+                                            Text="{Binding SupportNetwork.Active}"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout
+                                        Spacing="5">
+                                        <Label
+                                            FontFamily="BCSansBold"
+                                            Text="{local:Localize HomeNumber}"/>
+                                        <Label
+                                            Text="{Binding SupportNetwork.PhoneNumber}"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout
+                                        Spacing="5">
+                                        <Label
+                                            FontFamily="BCSansBold"
+                                            Text="{local:Localize CellNumber}"/>
+                                        <Label
+                                            Text="{Binding SupportNetwork.CellPhoneNumber}"/>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+                            </Grid>
+                            <Grid
+                                RowSpacing="{StaticResource DefaultSpacing}"
+                                ColumnSpacing="{StaticResource DefaultSpacing}"
+                                Margin="10,5"
+                                IsVisible="{Binding IsExpanded}"
+                                RowDefinitions="Auto,Auto,Auto"
+                                ColumnDefinitions="*,Auto">
+                                <HorizontalStackLayout
+                                    Spacing="5"
+                                    Grid.Row="0">
+                                    <Label
+                                        Text="{local:Localize Agency}"
+                                        FontFamily="BCSansBold"/>
+                                    <Label
+                                        Text="{Binding SupportNetwork.AgencyName}"/>
+
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout
+                                    Spacing="5"
+                                    Grid.Row="1">
+                                    <Label
+                                        Text="{local:Localize Address}"
+                                        FontFamily="BCSansBold"/>
+                                    <Label
+                                        Text="{Binding SupportNetwork.Address}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout
+                                    Spacing="5"
+                                    Grid.Row="2">
+                                    <Label
+                                        Text="{local:Localize Comments}"
+                                        FontFamily="BCSansBold"/>
+                                    <Label
+                                        Text="{Binding SupportNetwork.Comments}"/>
+                                </HorizontalStackLayout>
+
+                                <Label
+                                    Grid.RowSpan="3"
+                                    Grid.Column="1"
+                                    IsVisible="False"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    FontSize="30"
+                                    Text="{Static fonticons:MaterialIcons.Keyboard_arrow_up}"/>
+                            </Grid>
+                            <BoxView
+                                Margin="10"
+                                Color="{StaticResource Gray200}"
+                                HeightRequest="0.5"/>
+                        </VerticalStackLayout>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label
+            Grid.Row="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            FontSize="200"
+            TextColor="#919197"
+            Text="{Static fonticons:MaterialIcons.Note_stack}"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            IsVisible="{Binding ShowEmptyIcon}"/>
+    </Grid>
+</base:ViewModelContentView>

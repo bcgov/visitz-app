@@ -61,6 +61,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add notes.
         /// </summary>
         public static string AddNotes {
@@ -106,6 +115,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agency.
+        /// </summary>
+        public static string Agency {
+            get {
+                return ResourceManager.GetString("Agency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -138,6 +156,15 @@ namespace Visitz.Resources.Localization {
         public static string Attachments {
             get {
                 return ResourceManager.GetString("Attachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authentication required.
+        /// </summary>
+        public static string AuthenticationRequired {
+            get {
+                return ResourceManager.GetString("AuthenticationRequired", resourceCulture);
             }
         }
         
@@ -2050,6 +2077,15 @@ namespace Visitz.Resources.Localization {
         public static string Subtype_FamilyServicesInitials {
             get {
                 return ResourceManager.GetString("Subtype_FamilyServicesInitials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Support network.
+        /// </summary>
+        public static string SupportNetwork {
+            get {
+                return ResourceManager.GetString("SupportNetwork", resourceCulture);
             }
         }
         
