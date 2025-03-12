@@ -3,7 +3,7 @@ using VisitzApi.Models.Base;
 
 namespace VisitzApi.Models.Attachments;
 
-public class AttachmentJson : BaseRecordJson
+public class AttachmentJson
 {
     public string ApplicationNo { get; set; }
     public string Categorie { get; set; }
@@ -48,9 +48,11 @@ public class AttachmentJson : BaseRecordJson
     public string MemoId { get; set; }
     [JsonPropertyName("MemoNumber")]
     public string MemoNumber { get; set; }
-    public string SRId { get; set; }
+    [JsonPropertyName("SRId")]
+    public string SrId { get; set; }
     [JsonPropertyName("CreatedByName")]
     public string CreatedByName { get; set; }
+    public string CreatedDate { get; set; }
     [JsonPropertyName("UpdatedByName")]
     public string UpdatedByName { get; set; }
     public string LastUpdatedDate { get; set; }
