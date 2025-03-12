@@ -12,6 +12,11 @@ internal static class VisitzFiles
 	public static async Task<AttachmentFiler> GetAsync(CaseloadItem caseloadItem, string keyName = null)
 	{
 		keyName ??= DefaultFilesKeyName;
-		return new AttachmentFiler(caseloadItem, await VisitzKey.GetKey(keyName, Aes256KeySize));
+		return new AttachmentFiler(
+			caseloadItem.EntityType,
+			caseloadItem.CaseIncidentNumber,
+			caseloadItem.KeyPlayer.FirstName,
+			caseloadItem.KeyPlayer.LastName,
+			await VisitzKey.GetKey(keyName, Aes256KeySize));
 	}
 }

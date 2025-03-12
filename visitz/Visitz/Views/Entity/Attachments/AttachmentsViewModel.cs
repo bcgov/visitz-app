@@ -33,8 +33,8 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 		await using Stream stream = await fileResult.OpenReadAsync();
 
 		if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
-			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+			await AttachmentDraft.SaveNewPhoto(CaseloadItem, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 		else
-			await AttachmentDraft.SaveNewFile(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+			await AttachmentDraft.SaveNewFile(CaseloadItem, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 	}
 }

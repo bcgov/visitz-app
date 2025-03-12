@@ -123,7 +123,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		{
 			string filename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
 
-			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, filename, stream);
+			await AttachmentDraft.SaveNewPhoto(CaseloadItem, attachmentFiler, AttachmentsRealm, filename, stream);
 		}
 		finally
 		{

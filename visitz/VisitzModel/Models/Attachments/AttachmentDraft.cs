@@ -41,6 +41,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 	public Attachment Attachment { get; set; }
 
 	public static async Task<AttachmentDraft> SaveNewPhoto(
+		CaseloadItem caseloadItem,
 		AttachmentFiler filer,
 		Realm realm,
 		string filename,
@@ -53,19 +54,21 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		if (stream.Length > Attachment.MaxFilesize)
 			stream = await imgProc.DownsizeByFilesize(Attachment.MaxFilesize);
 
-		return await MakeAndSaveDraft(filer, realm, filename, stream, thumbnail);
+		return await MakeAndSaveDraft(caseloadItem, filer, realm, filename, stream, thumbnail);
 	}
 
 	public static async Task<AttachmentDraft> SaveNewFile(
+		CaseloadItem caseloadItem,
 		AttachmentFiler filer,
 		Realm realm,
 		string filename,
 		Stream stream)
 	{
-		return await MakeAndSaveDraft(filer, realm, filename, stream);
+		return await MakeAndSaveDraft(caseloadItem, filer, realm, filename, stream);
 	}
 
 	static async Task<AttachmentDraft> MakeAndSaveDraft(
+		CaseloadItem caseloadItem,
 		AttachmentFiler filer,
 		Realm realm,
 		string filename,
@@ -76,7 +79,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 			ThrowSizeError(stream);
 
 		string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
-		var draft = MakeDraft(filer, filename, fullpath, thumbnail);
+		var draft = MakeDraft(caseloadItem, filer, filename, fullpath, thumbnail);
 
 		try
 		{
@@ -99,7 +102,12 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 		throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
 	}
 
-	static AttachmentDraft MakeDraft(AttachmentFiler filer, string filename, string relativePath, byte[] thumbnail)
+	static AttachmentDraft MakeDraft(
+		CaseloadItem caseloadItem,
+		AttachmentFiler filer,
+		string filename,
+		string relativePath,
+		byte[] thumbnail)
 	{
 		int dotIndex = filename.LastIndexOf('.');
 
@@ -113,7 +121,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 				Thumbnail = thumbnail,
 			},
 		};
-		draft.InitDraftWith(filer.CaseloadItem);
+		draft.InitDraftWith(caseloadItem);
 
 		return draft;
 	}
