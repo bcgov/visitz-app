@@ -95,7 +95,7 @@ namespace VisitzApi
             return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, after));
         }
 
-        public async Task<IEnumerable<AttachmentListJson>> GetAttachmentsAsync(
+        public async Task<IEnumerable<AttachmentJson>> GetAttachmentsAsync(
             ApiRecordType type,
             string id,
             DateTimeOffset? after = null)
@@ -103,7 +103,7 @@ namespace VisitzApi
             return await CallApi(new GetAttachmentsEndpoint(BaseVisitzApiUrl, type, id, after));
         }
 
-        public async Task<IEnumerable<AttachmentListJson>> GetAttachmentDetailsAsync(
+        public async Task<IEnumerable<AttachmentJson>> GetAttachmentDetailsAsync(
             ApiRecordType type,
             string id,
             DateTimeOffset? after = null)

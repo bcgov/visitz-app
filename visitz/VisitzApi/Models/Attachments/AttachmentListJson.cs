@@ -3,7 +3,7 @@ using VisitzApi.Models.Base;
 
 namespace VisitzApi.Models.Attachments;
 
-public class AttachmentListJson : BaseRecordJson
+public class AttachmentJson : BaseRecordJson
 {
     public string ApplicationNo { get; set; }
     public string Categorie { get; set; }

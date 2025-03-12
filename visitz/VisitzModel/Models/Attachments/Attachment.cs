@@ -9,7 +9,7 @@ using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models.Attachments;
 
-public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentListJson>
+public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentJson>
 {
 	public static readonly int MaxFilesize = 5 * Sizes.MB;
 	public static readonly int ThumbnailSize = 400;
@@ -121,7 +121,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
     public Attachment() { }
 
-    public Attachment(AttachmentListJson json, string parentId, EntityType type)
+    public Attachment(AttachmentJson json, string parentId, EntityType type)
     {
         Id = json.Id;
         ApplicationNo = json.ApplicationNo;
@@ -163,7 +163,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         AttachmentId = json.AttachmentId;
     }
 
-    public AttachmentListJson ToApiJson(string dateFormat = "s")
+    public AttachmentJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
@@ -209,21 +209,21 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     }
 
     public static IEnumerable<Attachment> FromApiArray(
-        IEnumerable<AttachmentListJson> items,
+        IEnumerable<AttachmentJson> items,
         string parentId,
         EntityType type)
     {
         List<Attachment> outList = [];
 
-        foreach (var AttachmentListJson in items)
-            outList.Add(new Attachment(AttachmentListJson, parentId, type));
+        foreach (var AttachmentJson in items)
+            outList.Add(new Attachment(AttachmentJson, parentId, type));
 
         return outList;
     }
 
     public static async Task SaveAttachmentsAsync(
         Realm realm,
-        IEnumerable<AttachmentListJson> items,
+        IEnumerable<AttachmentJson> items,
         string parentId,
         EntityType type)
     {
