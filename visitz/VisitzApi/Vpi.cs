@@ -105,11 +105,11 @@ namespace VisitzApi
 
         public async Task<AttachmentJson> GetAttachmentDetailsAsync(
             ApiRecordType type,
-            string id,
+            string recordId,
             string attachmentId,
             DateTimeOffset? after = null)
         {
-            return await CallApi(new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, id, attachmentId, after));
+            return await CallApi(new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, recordId, attachmentId, after));
         }
     }
 }
