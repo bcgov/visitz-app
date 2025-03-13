@@ -12,7 +12,7 @@ public class AttachmentFiler(string EntityType, string CaseIncidentNumber, strin
 
 	string CaseloadItemId => $"{EntityType}_{CaseIncidentNumber}";
 
-	string ContextualName => string.IsNullOrEmpty(FirstName) && string.IsNullOrEmpty(LastName)
+	string ContextualName => string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName)
 			? CaseloadItemId
 			: $"{LastName}_{FirstName}";
 
