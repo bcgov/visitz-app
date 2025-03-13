@@ -8,7 +8,7 @@ using VisitzApi.Requests;
 namespace VisitzApi.Endpoints;
 
 internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, string rowId, string attachmentId, DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<IEnumerable<AttachmentJson>>(baseUrl, Vpi.V2, MakePath(type, rowId, attachmentId))
+    : VisitzBaseEndpoint<AttachmentJson>(baseUrl, Vpi.V2, MakePath(type, rowId, attachmentId))
 {
     static readonly string AttachmentsPath = "/{0}/{1}/attachment-details/{2}";
 
@@ -28,15 +28,8 @@ internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, 
         };
     }
 
-    public override IEnumerable<AttachmentJson> HandleResponse(HttpResponseMessage response, string responseContent)
+    public override AttachmentJson HandleResponse(HttpResponseMessage response, string responseContent)
     {
-        if (response.StatusCode == HttpStatusCode.NoContent)
-            return [];
-
-        JsonElement items = JsonDocument.Parse(responseContent)
-                .RootElement
-                .GetProperty("items");
-
-        return JsonSerializer.Deserialize<IEnumerable<AttachmentJson>>(items, PayloadOptions.SiebelGet);
+        return JsonSerializer.Deserialize<AttachmentJson>(responseContent, PayloadOptions.SiebelGet);
     }
 }
