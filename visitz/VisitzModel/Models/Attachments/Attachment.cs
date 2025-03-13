@@ -123,8 +123,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public Attachment(AttachmentJson json, string parentId, EntityType type)
     {
         Id = json.Id;
-        parentId = RelatedEntityId;
-        type = RelatedEntityType;
+        RelatedEntityId = parentId;
+        RelatedEntityType = type;
         ServiceRequestNumber = json.ApplicationNo;
         Categorie = json.Categorie;
         Category = json.Category;
