@@ -94,5 +94,22 @@ namespace VisitzApi
         {
             return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, after));
         }
+
+        public async Task<IEnumerable<AttachmentJson>> GetAttachmentsAsync(
+            ApiRecordType type,
+            string id,
+            DateTimeOffset? after = null)
+        {
+            return await CallApi(new GetAttachmentsEndpoint(BaseVisitzApiUrl, type, id, after));
+        }
+
+        public async Task<AttachmentJson> GetAttachmentDetailsAsync(
+            ApiRecordType type,
+            string recordId,
+            string attachmentId,
+            DateTimeOffset? after = null)
+        {
+            return await CallApi(new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, recordId, attachmentId, after));
+        }
     }
 }
