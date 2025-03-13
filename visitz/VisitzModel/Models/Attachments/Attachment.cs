@@ -149,7 +149,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         FileDeferFlg = json.FileDeferFlg;
         FileDockReqFlg = json.FileDockReqFlg;
         FileDockStatFlg = json.FileDockStatFlg;
-        Extension = "." + json.FileExt.TrimStart('.');
+        Extension = "." + json.FileExt.Trim('.');
         FileSize = json.FileSize;
         FileSrcPath = json.FileSrcPath;
         FileSrcType = json.FileSrcType;
@@ -192,7 +192,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             FileDeferFlg = FileDeferFlg,
             FileDockReqFlg = FileDockReqFlg,
             FileDockStatFlg = FileDockStatFlg,
-            FileExt = Extension.TrimEnd('.'),
+            FileExt = Extension.Trim('.'),
             FileSize = FileSize,
             FileSrcPath = FileSrcPath,
             FileSrcType = FileSrcType,
