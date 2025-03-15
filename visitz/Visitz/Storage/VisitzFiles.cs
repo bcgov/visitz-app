@@ -1,3 +1,4 @@
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
 using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
@@ -13,7 +14,7 @@ internal static class VisitzFiles
 	{
 		keyName ??= DefaultFilesKeyName;
 		return new AttachmentFiler(
-			caseloadItem.EntityType,
+			caseloadItem.EntityType.ParseEntityType(),
 			caseloadItem.CaseIncidentNumber,
 			caseloadItem.KeyPlayer.FirstName,
 			caseloadItem.KeyPlayer.LastName,

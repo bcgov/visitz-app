@@ -1,20 +1,21 @@
 using System.Globalization;
 using VisitzModel.Encryption;
 using VisitzModel.Formats;
+using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Storage.Filesystem;
 
-public class AttachmentFiler(string EntityType, string CaseIncidentNumber, string FirstName, string LastName, byte[] key)
+public class AttachmentFiler(EntityType entityType, string fileNumber, string firstName, string lastName, byte[] key)
 {
 	static readonly string BasePath = "Attachments";
 
 	readonly Crypto cryptoHandler = new(key);
 
-	string CaseloadItemId => $"{EntityType}_{CaseIncidentNumber}";
+	string CaseloadItemId => $"{entityType}_{fileNumber}";
 
-	string ContextualName => string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName)
+	string ContextualName => string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName)
 			? CaseloadItemId
-			: $"{LastName}_{FirstName}";
+			: $"{lastName}_{firstName}";
 
 	static string AppDataPath =>
 #if WINDOWS
