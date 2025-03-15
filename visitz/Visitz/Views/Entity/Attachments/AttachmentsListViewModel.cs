@@ -9,6 +9,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -113,7 +114,11 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 	{
 		var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
 		attachmentPublishVm.AttachmentDraft = draft;
-		attachmentPublishVm.AttachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
+		attachmentPublishVm.AttachmentFiler = await VisitzFiles.GetAsync(
+			CaseloadItem.EntityType.ParseEntityType(),
+			CaseloadItem.CaseIncidentNumber,
+			CaseloadItem.KeyPlayer.FirstName,
+			CaseloadItem.KeyPlayer.LastName);
 
 		await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
 	}

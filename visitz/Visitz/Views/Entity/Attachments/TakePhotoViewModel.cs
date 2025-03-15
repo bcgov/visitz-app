@@ -5,6 +5,7 @@ using Realms;
 using System.Text;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -47,7 +48,11 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		base.Create();
 
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
+		attachmentFiler = await VisitzFiles.GetAsync(
+			CaseloadItem.EntityType.ParseEntityType(),
+			CaseloadItem.CaseIncidentNumber,
+			CaseloadItem.KeyPlayer.FirstName,
+			CaseloadItem.KeyPlayer.LastName);
 
 		await SetupCameras();
 		SetupCameraRoll();

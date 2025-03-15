@@ -6,6 +6,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -30,7 +31,11 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 	{
 		base.Create();
 
-		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
+		attachmentFiler = await VisitzFiles.GetAsync(
+			CaseloadItem.EntityType.ParseEntityType(),
+			CaseloadItem.CaseIncidentNumber,
+			CaseloadItem.KeyPlayer.FirstName,
+			CaseloadItem.KeyPlayer.LastName);
 
 		DetailImage = ImageSource.FromStream(GetPhoto);
 	}
