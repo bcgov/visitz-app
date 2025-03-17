@@ -228,4 +228,12 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     {
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
     }
+
+    public static IEnumerable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)
+    {
+        var attachments = realm.All<Attachment>()
+                        .Where(item => item.RelatedEntityType == type && item.RelatedEntityId == recordId)
+                        .OrderByDescending(item => item.CreatedDate);
+        return attachments;
+    }
 }
