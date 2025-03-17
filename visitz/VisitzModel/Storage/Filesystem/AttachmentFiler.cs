@@ -1,6 +1,9 @@
 using System.Globalization;
+using Realms;
+using VisitzApi.Models.Attachments;
 using VisitzModel.Encryption;
 using VisitzModel.Formats;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Storage.Filesystem;
@@ -58,6 +61,20 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
 	public async Task<string> SaveFileAsync(Stream stream, string extension)
 	{
 		return await WriteEncryptedFile(stream, extension);
+	}
+
+	public async Task<string> SaveFileAsync(string base64, string extension)
+	{
+		var memoryStream = new MemoryStream(Convert.FromBase64String(base64));
+		return await SaveFileAsync(memoryStream, extension);
+	}
+
+	public async Task SaveAttachmentDetailsAsync(Realm realm, AttachmentJson item, EntityType entityType, string entityId)
+	{
+		Attachment attachment = new(item, entityId, entityType);
+		string relativePath = await SaveFileAsync(item.AttachmentId, item.FileExt);
+		attachment.RelativePath = relativePath;
+		await realm.WriteAsync(() => realm.Add(attachment, update: true));
 	}
 
 	/// <summary>
