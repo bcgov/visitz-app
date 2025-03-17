@@ -1,6 +1,7 @@
 using Realms;
 using Realms.Schema;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachment
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Notes;
@@ -26,6 +27,8 @@ public class IcmData(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersio
             typeof(IncidentRecord),
             typeof(IcmContact),
             typeof(SupportNetworkItem),
+            typeof(Attachment),
+            typeof(AttachmentDraft),
         };
     }
 

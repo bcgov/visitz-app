@@ -3,6 +3,7 @@ using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -24,7 +25,11 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 		base.Create();
 
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
+		attachmentFiler = await VisitzFiles.GetAsync(
+			CaseloadItem.EntityType.ParseEntityType(),
+			CaseloadItem.CaseIncidentNumber,
+			CaseloadItem.KeyPlayer.FirstName,
+			CaseloadItem.KeyPlayer.LastName);
 	}
 
 	public async Task SaveFile(FileResult fileResult)
@@ -33,8 +38,8 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 		await using Stream stream = await fileResult.OpenReadAsync();
 
 		if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
-			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+			await AttachmentDraft.SaveNewPhoto(CaseloadItem, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 		else
-			await AttachmentDraft.SaveNewFile(attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+			await AttachmentDraft.SaveNewFile(CaseloadItem, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 	}
 }

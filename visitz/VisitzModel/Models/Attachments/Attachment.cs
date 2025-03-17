@@ -149,7 +149,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         FileDeferFlg = json.FileDeferFlg;
         FileDockReqFlg = json.FileDockReqFlg;
         FileDockStatFlg = json.FileDockStatFlg;
-        Extension = "." + json.FileExt.Trim('.');
+        Extension = "." + json.FileExt?.Trim('.');
         FileSize = json.FileSize;
         FileSrcPath = json.FileSrcPath;
         FileSrcType = json.FileSrcType;
@@ -192,7 +192,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             FileDeferFlg = FileDeferFlg,
             FileDockReqFlg = FileDockReqFlg,
             FileDockStatFlg = FileDockStatFlg,
-            FileExt = Extension.Trim('.'),
+            FileExt = Extension?.Trim('.'),
             FileSize = FileSize,
             FileSrcPath = FileSrcPath,
             FileSrcType = FileSrcType,
@@ -227,5 +227,13 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         EntityType type)
     {
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
+    }
+
+    public static IEnumerable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)
+    {
+        var attachments = realm.All<Attachment>()
+            .Where(item => item.RelatedEntityTypeInt == (int)type && item.RelatedEntityId == recordId)
+            .OrderByDescending(item => item.CreatedDate);
+        return attachments;
     }
 }
