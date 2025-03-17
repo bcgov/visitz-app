@@ -232,8 +232,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public static IEnumerable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)
     {
         var attachments = realm.All<Attachment>()
-                        .Where(item => item.RelatedEntityType == type && item.RelatedEntityId == recordId)
-                        .OrderByDescending(item => item.CreatedDate);
+            .Where(item => item.RelatedEntityType == type && item.RelatedEntityId == recordId)
+            .OrderByDescending(item => item.CreatedDate);
         return attachments;
     }
 }
