@@ -39,6 +39,7 @@ public partial class ImageProcessor
 
 	static async Task<Image> ConvertToImageAsync(Stream imageBytes, CancellationToken? token = null)
 	{
+		imageBytes.Seek(0, SeekOrigin.Begin);
 		return await Image.LoadAsync(imageBytes, token ?? CancellationToken.None);
 	}
 
