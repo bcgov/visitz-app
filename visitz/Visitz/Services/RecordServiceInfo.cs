@@ -26,6 +26,16 @@ internal class RecordServiceInfo
     {
         Type = EntityType.Incident;
     }
+
+    public RecordServiceInfo(MemoRecord memo) : this(memo.Id, memo.LastName)
+    {
+        Type = EntityType.Memo;
+    }
+
+    public RecordServiceInfo(ServiceRequestRecord sr) : this(sr.Id, sr.LastName)
+    {
+        Type = EntityType.ServiceRequest;
+    }
 }
 
 internal static class RecordServiceInfoExtensions
