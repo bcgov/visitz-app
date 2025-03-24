@@ -20,17 +20,17 @@ namespace Visitz.Services.Caseload
             return nameof(GetCaseloadService);
         }
 
-        public static StartServiceMessage MakeStartMessage(string idir)
+        public static StartServiceMessage MakeStartMessage(string idir, bool forceDownload)
         {
             return new StartServiceMessage
             {
                 ServiceId = MakeId(),
                 ServiceType = typeof(GetCaseloadService),
-                Payload = idir
+                Payload = (idir, forceDownload),
             };
         }
 
-        public string Idir => (string)Payload;
+        public new (string Idir, bool Force) Payload => ((string, bool))base.Payload;
 
         protected override async Task RunApiServiceAsync()
         {
@@ -42,7 +42,7 @@ namespace Visitz.Services.Caseload
 
         private async Task GetCaseloadV1Async()
         {
-            var caseloadFromApi = await Vpi.GetCaseloadV1Async(Idir);
+            var caseloadFromApi = await Vpi.GetCaseloadV1Async(Payload.Idir);
             var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
 
             caseloadContent = FilterNonCasesAndIncidents(caseloadContent);
@@ -53,7 +53,9 @@ namespace Visitz.Services.Caseload
 
         private async Task DownloadAndSaveCaseloadV2Async()
         {
-            CaseloadJson caseloadFromApi = await Vpi.GetCaseloadV2Async(after: null);
+            DateTimeOffset? after = Payload.Force ? null : (DateTimeOffset)LastUpdatedPrefs.Get(GetId());
+
+            CaseloadJson caseloadFromApi = await Vpi.GetCaseloadV2Async(after: after);
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
