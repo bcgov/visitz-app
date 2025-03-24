@@ -1,11 +1,9 @@
 using Realms;
-using System.Text.Json.Nodes;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Utilities;
-using static System.Collections.Specialized.BitVector32;
 
 namespace VisitzModel.Models.Caseload;
 
