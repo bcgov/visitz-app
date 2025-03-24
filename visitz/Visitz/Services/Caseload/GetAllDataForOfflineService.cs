@@ -22,17 +22,19 @@ namespace Visitz.Services.Caseload
             return nameof(GetAllDataForOfflineService);
         }
 
-        public static StartServiceMessage MakeStartMessage()
+        public static StartServiceMessage MakeStartMessage(bool forceDownload = false)
         {
             return new StartServiceMessage()
             {
                 ServiceId = MakeId(),
                 ServiceType = typeof(GetAllDataForOfflineService),
-                Payload = null,
+                Payload = forceDownload,
             };
         }
 
         private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
+
+        private bool ShouldForceDownload => (bool)Payload;
 
         public override string GetId()
         {
@@ -53,7 +55,9 @@ namespace Visitz.Services.Caseload
         private async Task GetCaseload()
         {
             var info = await OidcSessionInfo.GetAsync();
-            await ServiceHandler.TryRunServiceAsync(GetCaseloadService.MakeStartMessage(info.Idir));
+
+            var caseloadMessage = GetCaseloadService.MakeStartMessage(info.Idir, ShouldForceDownload);
+            await ServiceHandler.TryRunServiceAsync(caseloadMessage);
         }
 
         private async Task MultiGetSubData()
