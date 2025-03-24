@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using System.Net;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
@@ -58,28 +57,46 @@ namespace Visitz.Services.Caseload
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            if (IsSuccess(caseloadFromApi.Cases))
+            List<InvalidOperationException> invalidOps = [];
+
+            if (CanSynchronize(caseloadFromApi.Cases, invalidOps))
                 await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases);
-            else
-                throw new InvalidOperationException(caseloadFromApi.Cases.GetFirstMessage() +
-                    " -> " + caseloadFromApi.Cases.GetFirstError());
 
-            if (IsSuccess(caseloadFromApi.Incidents))
+            if (CanSynchronize(caseloadFromApi.Incidents, invalidOps))
                 await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents);
-            else
-            {
-                string msg = caseloadFromApi.Incidents.GetFirstMessage()
-                    + " -> " + caseloadFromApi.Incidents.GetFirstError();
-                ServiceProvider.GetService<ILogger<GetCaseloadService>>().LogError(msg);
 
-                // TODO: proper partial error handling when incidents are available
-            }
+            if (CanSynchronize(caseloadFromApi.Memos, invalidOps))
+                await MemoRecord.SynchronizeAsync(realm, caseloadFromApi.Memos);
+
+            if (CanSynchronize(caseloadFromApi.ServiceRequests, invalidOps))
+                await ServiceRequestRecord.SynchronizeAsync(realm, caseloadFromApi.ServiceRequests);
+
+            if (invalidOps.Count > 0)
+                throw new AggregateException(invalidOps);
         }
 
         private static bool IsSuccess<T>(SectionJson<T> section) where T : AssignableRecordJson
         {
             HttpStatusCode status = (HttpStatusCode)section.Status;
             return status == HttpStatusCode.OK || status == HttpStatusCode.NoContent;
+        }
+
+        private static bool CanSynchronize<T>(SectionJson<T> section, List<InvalidOperationException> invalidOps)
+            where T : AssignableRecordJson
+        {
+            if (IsSuccess(section))
+                return true;
+            else
+            {
+                invalidOps.Add(MakeException(section));
+                return false;
+            }
+        }
+
+        private static InvalidOperationException MakeException<T>(SectionJson<T> section)
+            where T : AssignableRecordJson
+        {
+            return new(section.GetFirstMessage() + " -> " + section.GetFirstError());
         }
 
         public override string GetId()
