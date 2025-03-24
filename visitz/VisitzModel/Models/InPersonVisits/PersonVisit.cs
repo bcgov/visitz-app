@@ -99,6 +99,9 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     static (string Group, string Value) SplitDetailsValue(string detailsValue)
     {
+        if (string.IsNullOrWhiteSpace(detailsValue))
+            return ("", "");
+
         string privateVisit = PersonVisitDetails.Type_PrivateVisit;
 
         if (detailsValue.StartsWith(privateVisit))
