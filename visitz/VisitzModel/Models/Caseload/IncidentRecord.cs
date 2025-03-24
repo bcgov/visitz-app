@@ -1,7 +1,9 @@
 using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Utilities;
 
@@ -28,85 +30,76 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
 
     public string AssignedToId { get; set; }
 
-    public string ActivityUid { get; set; }
+    public string AddressComments { get; set; }
 
-    public bool AfterHoursFlag { get; set; }
+    public string Address { get; set; }
 
-    public string ContactFirstName { get; set; }
+    public string AreAnyOfTheFamilyMembersIndigenous { get; set; }
 
-    public string ContactLastName { get; set; }
+    public string CallerAddress { get; set; }
 
-    public string ContactMiddleName { get; set; }
+    public string CallerEmail { get; set; }
 
-    public DateTimeOffset? DateClosed { get; set; }
+    public string CallerName { get; set; }
 
-    public DateTimeOffset? DateCreated { get; set; } // TODO: not necessary since we have CreatedDate?
+    public string CallerPhone { get; set; }
 
-    public DateTimeOffset? DateOccurred { get; set; }
+    public string Caseload { get; set; }
+
+    public string CellPhone { get; set; }
+
+    public DateTimeOffset? ClosedDate { get; set; }
+
+    public string CreatedByOffice { get; set; }
 
     public DateTimeOffset? DateReported { get; set; }
 
-    public string DaysOpen { get; set; }
+    public string GivenNames { get; set; }
 
-    public string Description { get; set; }
+    public string HomePhone { get; set; }
 
-    public string Display { get; set; }
+    public string IncidentNumber { get; set; }
 
-    public string IcmServiceRegion { get; set; }
+    public string LastName { get; set; }
 
-    public string IcmServiceRegionCode { get; set; }
+    public string MedicalExamRequired { get; set; }
 
-    public string IncidentCity { get; set; }
+    public string Method { get; set; }
 
-    public string IncidentLocation { get; set; }
+    public string NatureOfCall { get; set; }
 
-    public string IncidentPostalCode { get; set; }
+    public string PccSummary { get; set; }
 
-    public string IncidentSubType { get; set; }
+    public string PoliceForce { get; set; }
 
-    public string IncidentType { get; set; }
+    public string PoliceInvestigation { get; set; }
 
-    public string IntegrationErrorDescription { get; set; }
+    public DateTimeOffset? PoliceNotifiedDate { get; set; }
 
-    public string IntegrationState { get; set; }
+    public string PoliceReportNumber { get; set; }
 
-    public string Location { get; set; }
+    public string PreferredContactMethod { get; set; }
 
-    public string Name { get; set; }
-
-    public string Organization { get; set; }
-
-    public string OwnedBy { get; set; }
-
-    public string Planned { get; set; }
-
-    public string PrimarySuspectId { get; set; }
-
-    public string Priority { get; set; }
+    public string ProtectionResponse { get; set; }
 
     public string Resolution { get; set; }
 
-    public string ResponseTime { get; set; }
+    public string ResponsePriority { get; set; }
 
     public bool RestrictedFlag { get; set; }
 
-    public string RowStatusOld { get; set; }
-
     public string ServiceOffice { get; set; }
-
-    public string SourceId { get; set; }
 
     public string Status { get; set; }
 
-    public string SubStatus { get; set; }
+    private int TypeInt { get; set; }
+    public EntitySubtype Type
+    {
+        get => (EntitySubtype)TypeInt;
+        set => TypeInt = (int)value;
+    }
 
-    public string SubSubType { get; set; }
-
-    public string SuppressCalendar { get; set; }
-
-    public string SystemAsgnFlag { get; set; }
-
-    public string TemplateFlag { get; set; }
+    public string TypeOfCaller { get; set; }
 
     public IncidentRecord() { }
 
@@ -121,46 +114,39 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
         UpdatedDate = DateTimeOffset.Parse(json.UpdatedDate);
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
-        ActivityUid = json.ActivityUID;
-        AfterHoursFlag = json.AfterHoursFlag.ParseWordTruthiness();
-        ContactFirstName = json.ContactFirstName;
-        ContactLastName = json.ContactLastName;
-        ContactMiddleName = json.ContactMiddleName;
-        DateClosed = Timestamp.ParseDateTimeOffsetNullable(json.DateClosed);
-        DateCreated = Timestamp.ParseDateTimeOffsetNullable(json.DateCreated);
-        DateOccurred = Timestamp.ParseDateTimeOffsetNullable(json.DateOccurred);
+        AddressComments = json.AddressComments;
+        Address = json.Address;
+        AreAnyOfTheFamilyMembersIndigenous = json.AreAnyOfTheFamilyMembersIndigenous;
+        CallerAddress = json.CallerAddress;
+        CallerEmail = json.CallerEmail;
+        CallerName = json.CallerName;
+        CallerPhone = json.CallerPhone;
+        Caseload = json.Caseload;
+        CellPhone = json.CellPhone;
+        ClosedDate = Timestamp.ParseDateTimeOffsetNullable(json.ClosedDate);
+        CreatedByOffice = json.CreatedByOffice;
         DateReported = Timestamp.ParseDateTimeOffsetNullable(json.DateReported);
-        DaysOpen = json.DaysOpen;
-        Description = json.Description;
-        Display = json.Display;
-        IcmServiceRegion = json.ICMServiceRegion;
-        IcmServiceRegionCode = json.ICMServiceRegionCode;
-        IncidentCity = json.IncidentCity;
-        IncidentLocation = json.IncidentLocation;
-        IncidentPostalCode = json.IncidentPostalCode;
-        IncidentSubType = json.IncidentSubType;
-        IncidentType = json.IncidentType;
-        IntegrationErrorDescription = json.IntegrationErrorDescription;
-        IntegrationState = json.IntegrationState;
-        Location = json.Location;
-        Name = json.Name;
-        Organization = json.Organization;
-        OwnedBy = json.OwnedBy;
-        Planned = json.Planned;
-        PrimarySuspectId = json.PrimarySuspectId;
-        Priority = json.Priority;
+        GivenNames = json.GivenNames;
+        HomePhone = json.HomePhone;
+        IncidentNumber = json.IncidentNumber;
+        LastName = json.LastName;
+        MedicalExamRequired = json.MedicalExamRequired;
+        Method = json.Method;
+        NatureOfCall = json.NatureOfCall;
+        PccSummary = json.PccSummary;
+        PoliceForce = json.PoliceForce;
+        PoliceInvestigation = json.PoliceInvestigation;
+        PoliceNotifiedDate = Timestamp.ParseDateTimeOffsetNullable(json.PoliceNotifiedDate);
+        PoliceReportNumber = json.PoliceReportNumber;
+        PreferredContactMethod = json.PreferredContactMethod;
+        ProtectionResponse = json.ProtectionResponse;
         Resolution = json.Resolution;
-        ResponseTime = json.ResponseTime;
+        ResponsePriority = json.ResponsePriority;
         RestrictedFlag = json.RestrictedFlag.ParseWordTruthiness();
-        RowStatusOld = json.RowStatusOld;
         ServiceOffice = json.ServiceOffice;
-        SourceId = json.SourceId;
         Status = json.Status;
-        SubStatus = json.SubStatus;
-        SubSubType = json.SubSubType;
-        SuppressCalendar = json.SuppressCalendar;
-        SystemAsgnFlag = json.SystemAsgnFlag;
-        TemplateFlag = json.TemplateFlag;
+        Type = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
+        TypeOfCaller = json.TypeOfCaller;
     }
 
     public IncidentJson ToApiJson(string dateFormat = "s")
@@ -176,46 +162,39 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
             UpdatedDate = UpdatedDate.ToString(dateFormat),
             AssignedTo = AssignedTo,
             AssignedToId = AssignedToId,
-            ActivityUID = ActivityUid,
-            AfterHoursFlag = AfterHoursFlag.AsTruthyChar(),
-            ContactFirstName = ContactFirstName,
-            ContactLastName = ContactLastName,
-            ContactMiddleName = ContactMiddleName,
-            DateClosed = Timestamp.WriteDateTimeOffset(DateClosed, dateFormat),
-            DateCreated = Timestamp.WriteDateTimeOffset(DateCreated, dateFormat),
-            DateOccurred = Timestamp.WriteDateTimeOffset(DateOccurred, dateFormat),
-            DateReported = Timestamp.WriteDateTimeOffset(DateReported, dateFormat),
-            DaysOpen = DaysOpen,
-            Description = Description,
-            Display = Display,
-            ICMServiceRegion = IcmServiceRegion,
-            ICMServiceRegionCode = IcmServiceRegionCode,
-            IncidentCity = IncidentCity,
-            IncidentLocation = IncidentLocation,
-            IncidentPostalCode = IncidentPostalCode,
-            IncidentSubType = IncidentSubType,
-            IncidentType = IncidentType,
-            IntegrationErrorDescription = IntegrationErrorDescription,
-            IntegrationState = IntegrationState,
-            Location = Location,
-            Name = Name,
-            Organization = Organization,
-            OwnedBy = OwnedBy,
-            Planned = Planned,
-            PrimarySuspectId = PrimarySuspectId,
-            Priority = Priority,
+            AddressComments = AddressComments,
+            Address = Address,
+            AreAnyOfTheFamilyMembersIndigenous = AreAnyOfTheFamilyMembersIndigenous,
+            CallerAddress = CallerAddress,
+            CallerEmail = CallerEmail,
+            CallerName = CallerName,
+            CallerPhone = CallerPhone,
+            Caseload = Caseload,
+            CellPhone = CellPhone,
+            ClosedDate = ClosedDate?.ToString(dateFormat),
+            CreatedByOffice = CreatedByOffice,
+            DateReported = DateReported?.ToString(dateFormat),
+            GivenNames = GivenNames,
+            HomePhone = HomePhone,
+            IncidentNumber = IncidentNumber,
+            LastName = LastName,
+            MedicalExamRequired = MedicalExamRequired,
+            Method = Method,
+            NatureOfCall = NatureOfCall,
+            PccSummary = PccSummary,
+            PoliceForce = PoliceForce,
+            PoliceInvestigation = PoliceInvestigation,
+            PoliceNotifiedDate = PoliceNotifiedDate?.ToString(dateFormat),
+            PoliceReportNumber = PoliceReportNumber,
+            PreferredContactMethod = PreferredContactMethod,
+            ProtectionResponse = ProtectionResponse,
             Resolution = Resolution,
-            ResponseTime = ResponseTime,
+            ResponsePriority = ResponsePriority,
             RestrictedFlag = RestrictedFlag.AsTruthyChar(),
-            RowStatusOld = RowStatusOld,
             ServiceOffice = ServiceOffice,
-            SourceId = SourceId,
             Status = Status,
-            SubStatus = SubStatus,
-            SubSubType = SubSubType,
-            SuppressCalendar = SuppressCalendar,
-            SystemAsgnFlag = SystemAsgnFlag,
-            TemplateFlag = TemplateFlag,
+            Type = Type.GetDisplayString(),
+            TypeOfCaller = TypeOfCaller,
         };
     }
 
