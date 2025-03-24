@@ -212,11 +212,12 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
     {
         var currentAssignedIds = realm.All<IncidentRecord>().AsEnumerable().Select(incident => incident.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
+        var incidents = FromApiJsonArray(section.Items ?? []);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
             realm.DeleteByIds<IncidentRecord>(unassignedIds);
-            realm.Upsert(FromApiJsonArray(section.Items));
+            realm.Upsert(incidents);
         });
     }
 }

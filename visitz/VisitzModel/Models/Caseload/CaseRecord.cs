@@ -167,7 +167,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
 
         string type = EntityType.Case.ToString();
 
-        var v2Cases = FromApiJsonArray(section.Items);
+        var v2Cases = FromApiJsonArray(section.Items ?? []);
         var v1Cases = realm
             .All<CaseloadItem>()
             .Where(@case => @case.EntityType == type);
