@@ -72,13 +72,23 @@ namespace Visitz.Services.Caseload
                 .AsEnumerable()
                 .Select(incident => new RecordServiceInfo(incident));
 
-            // TODO: Memos, SRs
+            var memos = realm
+                .All<MemoRecord>()
+                .Freeze()
+                .AsEnumerable()
+                .Select(memo => new RecordServiceInfo(memo));
+
+            var srs = realm
+                .All<ServiceRequestRecord>()
+                .Freeze()
+                .AsEnumerable()
+                .Select(sr => new RecordServiceInfo(sr));
 
             await Task.WhenAll(
                 GetAllNotes(realm),
                 GetAllVisits(realm),
-                GetAllContacts(cases, incidents),
-                GetAllSupportNetworkItems(cases, incidents)
+                GetAllContacts(cases, incidents, memos, srs),
+                GetAllSupportNetworkItems(cases, incidents, srs)
             );
         }
 
@@ -109,9 +119,11 @@ namespace Visitz.Services.Caseload
 
         private async Task GetAllContacts(
             IEnumerable<RecordServiceInfo> cases,
-            IEnumerable<RecordServiceInfo> incidents)
+            IEnumerable<RecordServiceInfo> incidents,
+            IEnumerable<RecordServiceInfo> memos,
+            IEnumerable<RecordServiceInfo> srs)
         {
-            var all = cases.Concat(incidents);
+            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
 
             var startMessage = GetContactsByRangeService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
@@ -119,9 +131,10 @@ namespace Visitz.Services.Caseload
 
         private async Task GetAllSupportNetworkItems(
             IEnumerable<RecordServiceInfo> cases,
-            IEnumerable<RecordServiceInfo> incidents)
+            IEnumerable<RecordServiceInfo> incidents,
+            IEnumerable<RecordServiceInfo> srs)
         {
-            var all = cases.Concat(incidents);
+            var all = cases.Concat(incidents).Concat(srs);
 
             var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
