@@ -147,7 +147,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
                 .All<CaseRecord>()
                 .Where(@case => @case.Id == draft.RelatedEntityId)
                 .First()
-                .CaseNum;
+                .FileNumber;
         else
             throw new InvalidOperationException($"{nameof(EntityType)} '{draft.RelatedEntityType}' not supported");
 

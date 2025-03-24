@@ -9,7 +9,12 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class MemoRecord : IRealmObject, IRowMetadata, IAssignedMetadata, IApiJson<MemoJson>
+public partial class MemoRecord :
+    IRealmObject,
+    IRowMetadata,
+    IBusinessObject,
+    IAssignedMetadata,
+    IApiJson<MemoJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -25,6 +30,12 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
     public DateTimeOffset CreatedDate { get; set; }
 
     public DateTimeOffset UpdatedDate { get; set; }
+
+    public string FileNumber { get; set; }
+
+    public string GivenNames { get; set; }
+
+    public string LastName { get; set; }
 
     public string AssignedTo { get; set; }
 
@@ -54,15 +65,9 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
 
     public string CreatedByOffice { get; set; }
 
-    public string GivenNames { get; set; }
-
     public string HomePhone { get; set; }
 
-    public string LastName { get; set; }
-
     public string MedicalExamRequired { get; set; }
-
-    public string MemoNumber { get; set; }
 
     public string MemoType { get; set; }
 
@@ -107,6 +112,9 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
         UpdatedById = json.UpdatedById;
         CreatedDate = DateTimeOffset.Parse(json.CreatedDate);
         UpdatedDate = DateTimeOffset.Parse(json.UpdatedDate);
+        FileNumber = json.MemoNumber;
+        GivenNames = json.GivenNames;
+        LastName = json.LastName;
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
         Address = json.Address;
@@ -121,11 +129,8 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
         CellPhone = json.CellPhone;
         ClosedDate = Timestamp.ParseDateTimeOffsetNullable(json.ClosedDate);
         CreatedByOffice = json.CreatedByOffice;
-        GivenNames = json.GivenNames;
         HomePhone = json.HomePhone;
-        LastName = json.LastName;
         MedicalExamRequired = json.MedicalExamRequired;
-        MemoNumber = json.MemoNumber;
         MemoType = json.MemoType;
         Method = json.Method;
         NatureOfCall = json.NatureOfCall;
@@ -178,6 +183,9 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
             UpdatedById = UpdatedById,
             CreatedDate = CreatedDate.ToString(dateFormat),
             UpdatedDate = UpdatedDate.ToString(dateFormat),
+            MemoNumber = FileNumber,
+            GivenNames = GivenNames,
+            LastName = LastName,
             AssignedTo = AssignedTo,
             AssignedToId = AssignedToId,
             Address = Address,
@@ -192,11 +200,8 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
             CellPhone = CellPhone,
             ClosedDate = ClosedDate?.ToString(dateFormat),
             CreatedByOffice = CreatedByOffice,
-            GivenNames = GivenNames,
             HomePhone = HomePhone,
-            LastName = LastName,
             MedicalExamRequired = MedicalExamRequired,
-            MemoNumber = MemoNumber,
             MemoType = MemoType,
             Method = Method,
             NatureOfCall = NatureOfCall,

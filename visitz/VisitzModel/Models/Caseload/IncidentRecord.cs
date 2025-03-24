@@ -9,7 +9,12 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetadata, IApiJson<IncidentJson>
+public partial class IncidentRecord :
+    IRealmObject,
+    IRowMetadata,
+    IBusinessObject,
+    IAssignedMetadata,
+    IApiJson<IncidentJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -25,6 +30,12 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
     public DateTimeOffset CreatedDate { get; set; }
 
     public DateTimeOffset UpdatedDate { get; set; }
+
+    public string FileNumber { get; set; }
+
+    public string GivenNames { get; set; }
+
+    public string LastName { get; set; }
 
     public string AssignedTo { get; set; }
 
@@ -54,13 +65,7 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
 
     public DateTimeOffset? DateReported { get; set; }
 
-    public string GivenNames { get; set; }
-
     public string HomePhone { get; set; }
-
-    public string IncidentNumber { get; set; }
-
-    public string LastName { get; set; }
 
     public string MedicalExamRequired { get; set; }
 
@@ -112,6 +117,9 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
         UpdatedById = json.UpdatedById;
         CreatedDate = DateTimeOffset.Parse(json.CreatedDate);
         UpdatedDate = DateTimeOffset.Parse(json.UpdatedDate);
+        FileNumber = json.IncidentNumber;
+        GivenNames = json.GivenNames;
+        LastName = json.LastName;
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
         AddressComments = json.AddressComments;
@@ -126,10 +134,7 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
         ClosedDate = Timestamp.ParseDateTimeOffsetNullable(json.ClosedDate);
         CreatedByOffice = json.CreatedByOffice;
         DateReported = Timestamp.ParseDateTimeOffsetNullable(json.DateReported);
-        GivenNames = json.GivenNames;
         HomePhone = json.HomePhone;
-        IncidentNumber = json.IncidentNumber;
-        LastName = json.LastName;
         MedicalExamRequired = json.MedicalExamRequired;
         Method = json.Method;
         NatureOfCall = json.NatureOfCall;
@@ -160,6 +165,9 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
             UpdatedById = UpdatedById,
             CreatedDate = CreatedDate.ToString(dateFormat),
             UpdatedDate = UpdatedDate.ToString(dateFormat),
+            IncidentNumber = FileNumber,
+            GivenNames = GivenNames,
+            LastName = LastName,
             AssignedTo = AssignedTo,
             AssignedToId = AssignedToId,
             AddressComments = AddressComments,
@@ -174,10 +182,7 @@ public partial class IncidentRecord : IRealmObject, IRowMetadata, IAssignedMetad
             ClosedDate = ClosedDate?.ToString(dateFormat),
             CreatedByOffice = CreatedByOffice,
             DateReported = DateReported?.ToString(dateFormat),
-            GivenNames = GivenNames,
             HomePhone = HomePhone,
-            IncidentNumber = IncidentNumber,
-            LastName = LastName,
             MedicalExamRequired = MedicalExamRequired,
             Method = Method,
             NatureOfCall = NatureOfCall,

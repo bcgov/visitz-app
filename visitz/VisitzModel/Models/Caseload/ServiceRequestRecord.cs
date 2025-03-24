@@ -9,7 +9,12 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssignedMetadata, IApiJson<ServiceRequestJson>
+public partial class ServiceRequestRecord :
+    IRealmObject,
+    IRowMetadata,
+    IBusinessObject,
+    IAssignedMetadata,
+    IApiJson<ServiceRequestJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -25,6 +30,12 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
     public DateTimeOffset CreatedDate { get; set; }
 
     public DateTimeOffset UpdatedDate { get; set; }
+
+    public string FileNumber { get; set; }
+
+    public string GivenNames { get; set; }
+
+    public string LastName { get; set; }
 
     public string AssignedTo { get; set; }
 
@@ -52,13 +63,9 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
 
     public string CreatedByOffice { get; set; }
 
-    public string GivenNames { get; set; }
-
     public string HomePhone { get; set; }
 
     public string IntegrationId { get; set; }
-
-    public string LastName { get; set; }
 
     public string Method { get; set; }
 
@@ -77,8 +84,6 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
     public string RowId { get; set; }
 
     public string ServiceOffice { get; set; }
-
-    public string ServiceRequestNumber { get; set; }
 
     public string Status { get; set; }
 
@@ -102,6 +107,9 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
         UpdatedById = json.UpdatedById;
         CreatedDate = DateTimeOffset.Parse(json.CreatedDate);
         UpdatedDate = DateTimeOffset.Parse(json.UpdatedDate);
+        FileNumber = json.ServiceRequestNumber;
+        GivenNames = json.GivenNames;
+        LastName = json.LastName;
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
         Address = json.Address;
@@ -115,10 +123,8 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
         CellPhone = json.CellPhone;
         ClosedDate = Timestamp.ParseDateTimeOffsetNullable(json.ClosedDate);
         CreatedByOffice = json.CreatedByOffice;
-        GivenNames = json.GivenNames;
         HomePhone = json.HomePhone;
         IntegrationId = json.IntegrationId;
-        LastName = json.LastName;
         Method = json.Method;
         NatureOfCall = json.NatureOfCall;
         PccSummary = json.PccSummary;
@@ -128,7 +134,6 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
         RestrictedFlag = json.RestrictedFlag.ParseWordTruthiness();
         RowId = json.RowId;
         ServiceOffice = json.ServiceOffice;
-        ServiceRequestNumber = json.ServiceRequestNumber;
         Status = json.Status;
         Type = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
@@ -168,6 +173,9 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
             UpdatedById = UpdatedById,
             CreatedDate = CreatedDate.ToString(dateFormat),
             UpdatedDate = UpdatedDate.ToString(dateFormat),
+            ServiceRequestNumber = FileNumber,
+            GivenNames = GivenNames,
+            LastName = LastName,
             AssignedTo = AssignedTo,
             AssignedToId = AssignedToId,
             Address = Address,
@@ -181,10 +189,8 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
             CellPhone = CellPhone,
             ClosedDate = ClosedDate?.ToString(dateFormat),
             CreatedByOffice = CreatedByOffice,
-            GivenNames = GivenNames,
             HomePhone = HomePhone,
             IntegrationId = IntegrationId,
-            LastName = LastName,
             Method = Method,
             NatureOfCall = NatureOfCall,
             PccSummary = PccSummary,
@@ -194,7 +200,6 @@ public partial class ServiceRequestRecord : IRealmObject, IRowMetadata, IAssigne
             RestrictedFlag = RestrictedFlag.AsTruthyChar(),
             RowId = RowId,
             ServiceOffice = ServiceOffice,
-            ServiceRequestNumber = ServiceRequestNumber,
             Status = Status,
             Type = Type.GetDisplayString(),
             TypeOfCaller = TypeOfCaller,

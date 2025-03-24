@@ -9,7 +9,12 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata, IApiJson<CaseJson>
+public partial class CaseRecord :
+    IRealmObject,
+    IRowMetadata,
+    IBusinessObject,
+    IAssignedMetadata,
+    IApiJson<CaseJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -26,13 +31,17 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
 
     public DateTimeOffset UpdatedDate { get; set; }
 
+    public string FileNumber { get; set; }
+
+    public string GivenNames { get; set; }
+
+    public string LastName { get; set; }
+
     public string AssignedTo { get; set; }
 
     public string AssignedToId { get; set; }
 
     public string Caseload { get; set; }
-
-    public string CaseNum { get; set; }
 
     public DateTimeOffset? ClosedDate { get; set; }
 
@@ -64,10 +73,6 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
 
     public string Status { get; set; }
 
-    public string SubjectContactFirstName { get; set; }
-
-    public string SubjectContactLastName { get; set; }
-
     int TypeInt { get; set; }
     public EntitySubtype Type
     {
@@ -88,10 +93,12 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
         UpdatedById = caseJson.UpdatedById;
         CreatedDate = DateTimeOffset.Parse(caseJson.CreatedDate);
         UpdatedDate = DateTimeOffset.Parse(caseJson.UpdatedDate);
+        FileNumber = caseJson.CaseNum;
+        GivenNames = caseJson.SubjectContactFirstName;
+        LastName = caseJson.SubjectContactLastName;
         AssignedTo = caseJson.AssignedTo;
         AssignedToId = caseJson.AssignedToId;
         Caseload = caseJson.Caseload;
-        CaseNum = caseJson.CaseNum;
         ClosedDate = Timestamp.ParseDateTimeOffsetNullable(caseJson.ClosedDate);
         CloseReason = caseJson.CloseReason;
         EarlyOpenReason = caseJson.EarlyOpenReason;
@@ -107,8 +114,6 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
         ReopenedDate = Timestamp.ParseDateTimeOffsetNullable(caseJson.ReopenedDate);
         RestrictedFlag = caseJson.RestrictedFlag.ParseWordTruthiness();
         Status = caseJson.Status;
-        SubjectContactFirstName = caseJson.SubjectContactFirstName;
-        SubjectContactLastName = caseJson.SubjectContactLastName;
         Type = caseJson.Type.ParseEntitySubtype();
         WorkQueue = caseJson.WorkQueue;
     }
@@ -124,10 +129,12 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
             UpdatedById = UpdatedById,
             CreatedDate = CreatedDate.ToString(dateFormat),
             UpdatedDate = UpdatedDate.ToString(dateFormat),
+            CaseNum = FileNumber,
+            SubjectContactFirstName = GivenNames,
+            SubjectContactLastName = LastName,
             AssignedTo = AssignedTo,
             AssignedToId = AssignedToId,
             Caseload = Caseload,
-            CaseNum = CaseNum,
             ClosedDate = Timestamp.WriteDateTimeOffset(ClosedDate, dateFormat),
             CloseReason = CloseReason,
             EarlyOpenReason = EarlyOpenReason,
@@ -143,8 +150,6 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
             ReopenedDate = Timestamp.WriteDateTimeOffset(ReopenedDate, dateFormat),
             RestrictedFlag = RestrictedFlag.AsTruthyChar(),
             Status = Status,
-            SubjectContactFirstName = SubjectContactFirstName,
-            SubjectContactLastName = SubjectContactLastName,
             Type = Type.GetDisplayString(),
             WorkQueue = WorkQueue,
         };
@@ -178,7 +183,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IAssignedMetadata,
             realm.Upsert(v2Cases);
 
             foreach (var v1Case in v1Cases)
-                v1Case.RowId = v2Cases.FirstOrDefault(v2Case => v2Case.CaseNum == v1Case.CaseIncidentNumber)?.Id;
+                v1Case.RowId = v2Cases.FirstOrDefault(v2Case => v2Case.FileNumber == v1Case.CaseIncidentNumber)?.Id;
         });
     }
 }
