@@ -60,28 +60,16 @@ namespace Visitz.Services.Caseload
         {
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            var cases = realm
-                .All<CaseRecord>()
-                .Freeze()
-                .AsEnumerable()
+            var cases = realm.All<CaseRecord>().Freeze().AsEnumerable()
                 .Select(@case => new RecordServiceInfo(@case));
 
-            var incidents = realm
-                .All<IncidentRecord>()
-                .Freeze()
-                .AsEnumerable()
+            var incidents = realm.All<IncidentRecord>().Freeze().AsEnumerable()
                 .Select(incident => new RecordServiceInfo(incident));
 
-            var memos = realm
-                .All<MemoRecord>()
-                .Freeze()
-                .AsEnumerable()
+            var memos = realm.All<MemoRecord>().Freeze().AsEnumerable()
                 .Select(memo => new RecordServiceInfo(memo));
 
-            var srs = realm
-                .All<ServiceRequestRecord>()
-                .Freeze()
-                .AsEnumerable()
+            var srs = realm.All<ServiceRequestRecord>().Freeze().AsEnumerable()
                 .Select(sr => new RecordServiceInfo(sr));
 
             await Task.WhenAll(
