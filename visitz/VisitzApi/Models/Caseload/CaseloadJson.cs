@@ -11,4 +11,12 @@ public class CaseloadJson
     [JsonRequired]
     [JsonPropertyName("incidents")]
     public SectionJson<IncidentJson> Incidents { get; set; }
+
+    [JsonRequired]
+    [JsonPropertyName("srs")]
+    public SectionJson<ServiceRequestJson> ServiceRequests { get; set; }
+
+    [JsonRequired]
+    [JsonPropertyName("memos")]
+    public SectionJson<MemoJson> Memos { get; set; }
 }
