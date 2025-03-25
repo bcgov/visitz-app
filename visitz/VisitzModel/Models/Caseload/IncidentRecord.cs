@@ -217,12 +217,27 @@ public partial class IncidentRecord :
     {
         var currentAssignedIds = realm.All<IncidentRecord>().AsEnumerable().Select(incident => incident.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
-        var incidents = FromApiJsonArray(section.Items ?? []);
+
+        string type = EntityType.Incident.ToString();
+        var v2Incidents = FromApiJsonArray(section.Items ?? []);
+        var v1Incidents = realm.All<CaseloadItem>().Where(item => item.EntityType == type);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
             realm.DeleteByIds<IncidentRecord>(unassignedIds);
-            realm.Upsert(incidents);
+            realm.Upsert(v2Incidents);
+
+            MapCaseloadItemRowIds(v2Incidents, v1Incidents);
         });
+    }
+
+    // TODO: Remove this once we've fully removed V1 CaseloadItems
+    static void MapCaseloadItemRowIds(
+        IEnumerable<IncidentRecord> v2Incidents,
+        IEnumerable<CaseloadItem> v1Incidents)
+    {
+        foreach (var v1Incident in v1Incidents)
+            v1Incident.RowId = v2Incidents.FirstOrDefault(v2Incident =>
+                v2Incident.FileNumber == v1Incident.CaseIncidentNumber)?.Id;
     }
 }
