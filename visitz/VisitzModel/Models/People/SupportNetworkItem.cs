@@ -77,16 +77,13 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
         ParentType = type;
         Active = json.Active;
         Address = json.Address;
-        AgencyName = json.AgencyName;
-        CellPhoneNumber = json.CellPhoneNumber;
+        AgencyName = json.Agency;
+        CellPhoneNumber = json.Cell;
         Comments = json.Comments;
-        EmergencyContact = json.EmergencyContact;
         EntityId = json.EntityId;
         EntityName = json.EntityName;
-        IcmSncCaseConFlag = json.ICMSNCCaseConFlag;
-        IcmSncSrConFlag = json.ICMSNCSRConFlag;
         Name = json.Name;
-        PhoneNumber = json.PhoneNumber;
+        PhoneNumber = json.Phone;
         Relationship = json.Relationship;
     }
 
@@ -103,16 +100,13 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
             UpdatedDate = UpdatedDate.ToString(dateFormat),
             Active = Active,
             Address = Address,
-            AgencyName = AgencyName,
-            CellPhoneNumber = CellPhoneNumber,
+            Agency = AgencyName,
+            Cell = CellPhoneNumber,
             Comments = Comments,
-            EmergencyContact = EmergencyContact,
             EntityId = EntityId,
             EntityName = EntityName,
-            ICMSNCCaseConFlag = IcmSncCaseConFlag,
-            ICMSNCSRConFlag = IcmSncSrConFlag,
             Name = Name,
-            PhoneNumber = PhoneNumber,
+            Phone = PhoneNumber,
             Relationship = Relationship,
         };
     }

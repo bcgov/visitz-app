@@ -1,20 +1,18 @@
 using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class IncidentRecord :
+public partial class MemoRecord :
     IRealmObject,
     IRowMetadata,
     IBusinessObject,
     IAssignedMetadata,
-    IApiJson<IncidentJson>
+    IApiJson<MemoJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -41,11 +39,15 @@ public partial class IncidentRecord :
 
     public string AssignedToId { get; set; }
 
-    public string AddressComments { get; set; }
-
     public string Address { get; set; }
 
+    public string AddressComments { get; set; }
+
     public string AreAnyOfTheFamilyMembersIndigenous { get; set; }
+
+    public DateTimeOffset? CallDate { get; set; }
+
+    public DateTimeOffset? CallTime { get; set; }
 
     public string CallerAddress { get; set; }
 
@@ -55,19 +57,17 @@ public partial class IncidentRecord :
 
     public string CallerPhone { get; set; }
 
-    public string Caseload { get; set; }
-
     public string CellPhone { get; set; }
 
     public DateTimeOffset? ClosedDate { get; set; }
 
     public string CreatedByOffice { get; set; }
 
-    public DateTimeOffset? DateReported { get; set; }
-
     public string HomePhone { get; set; }
 
     public string MedicalExamRequired { get; set; }
+
+    public string MemoType { get; set; }
 
     public string Method { get; set; }
 
@@ -85,11 +85,9 @@ public partial class IncidentRecord :
 
     public string PreferredContactMethod { get; set; }
 
-    public string ProtectionResponse { get; set; }
+    public string RecordedBy { get; set; }
 
     public string Resolution { get; set; }
-
-    public string ResponsePriority { get; set; }
 
     public bool RestrictedFlag { get; set; }
 
@@ -97,18 +95,13 @@ public partial class IncidentRecord :
 
     public string Status { get; set; }
 
-    private int TypeInt { get; set; }
-    public EntitySubtype Type
-    {
-        get => (EntitySubtype)TypeInt;
-        set => TypeInt = (int)value;
-    }
-
     public string TypeOfCaller { get; set; }
 
-    public IncidentRecord() { }
+    public string Urgent { get; set; }
 
-    public IncidentRecord(IncidentJson json)
+    public MemoRecord() { }
+
+    public MemoRecord(MemoJson json)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -117,25 +110,26 @@ public partial class IncidentRecord :
         UpdatedById = json.UpdatedById;
         CreatedDate = DateTimeOffset.Parse(json.CreatedDate);
         UpdatedDate = DateTimeOffset.Parse(json.UpdatedDate);
-        FileNumber = json.IncidentNumber;
+        FileNumber = json.MemoNumber;
         GivenNames = json.GivenNames;
         LastName = json.LastName;
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
-        AddressComments = json.AddressComments;
         Address = json.Address;
+        AddressComments = json.AddressComments;
         AreAnyOfTheFamilyMembersIndigenous = json.AreAnyOfTheFamilyMembersIndigenous;
+        CallDate = Timestamp.ParseDateTimeOffsetNullable(json.CallDate);
+        CallTime = Timestamp.ParseDateTimeOffsetNullable(json.CallTime);
         CallerAddress = json.CallerAddress;
         CallerEmail = json.CallerEmail;
         CallerName = json.CallerName;
         CallerPhone = json.CallerPhone;
-        Caseload = json.Caseload;
         CellPhone = json.CellPhone;
         ClosedDate = Timestamp.ParseDateTimeOffsetNullable(json.ClosedDate);
         CreatedByOffice = json.CreatedByOffice;
-        DateReported = Timestamp.ParseDateTimeOffsetNullable(json.DateReported);
         HomePhone = json.HomePhone;
         MedicalExamRequired = json.MedicalExamRequired;
+        MemoType = json.MemoType;
         Method = json.Method;
         NatureOfCall = json.NatureOfCall;
         PccSummary = json.PccSummary;
@@ -144,17 +138,39 @@ public partial class IncidentRecord :
         PoliceNotifiedDate = Timestamp.ParseDateTimeOffsetNullable(json.PoliceNotifiedDate);
         PoliceReportNumber = json.PoliceReportNumber;
         PreferredContactMethod = json.PreferredContactMethod;
-        ProtectionResponse = json.ProtectionResponse;
+        RecordedBy = json.RecordedBy;
         Resolution = json.Resolution;
-        ResponsePriority = json.ResponsePriority;
         RestrictedFlag = json.RestrictedFlag.ParseWordTruthiness();
         ServiceOffice = json.ServiceOffice;
         Status = json.Status;
-        Type = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
+        Urgent = json.Urgent;
     }
 
-    public IncidentJson ToApiJson(string dateFormat = "s")
+    public static List<MemoRecord> FromApiArray(IEnumerable<MemoJson> jsonArray)
+    {
+        List<MemoRecord> outList = [];
+        
+        foreach (var jsonItem in jsonArray)
+            outList.Add(new MemoRecord(jsonItem));
+
+        return outList;
+    }
+
+    public static async Task SynchronizeAsync(Realm realm, SectionJson<MemoJson> section)
+    {
+        var currentAssignedIds = realm.All<MemoRecord>().AsEnumerable().Select(memo => memo.Id);
+        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
+        var memos = FromApiArray(section.Items ?? []);
+
+        await RealmExtensions.CommitAsync(realm, () =>
+        {
+            realm.DeleteByIds<MemoRecord>(currentAssignedIds);
+            realm.Upsert(memos);
+        });
+    }
+
+    public MemoJson ToApiJson(string dateFormat = "s")
     {
         return new()
         {
@@ -165,25 +181,26 @@ public partial class IncidentRecord :
             UpdatedById = UpdatedById,
             CreatedDate = CreatedDate.ToString(dateFormat),
             UpdatedDate = UpdatedDate.ToString(dateFormat),
-            IncidentNumber = FileNumber,
+            MemoNumber = FileNumber,
             GivenNames = GivenNames,
             LastName = LastName,
             AssignedTo = AssignedTo,
             AssignedToId = AssignedToId,
-            AddressComments = AddressComments,
             Address = Address,
+            AddressComments = AddressComments,
             AreAnyOfTheFamilyMembersIndigenous = AreAnyOfTheFamilyMembersIndigenous,
+            CallDate = CallDate?.ToString(dateFormat),
+            CallTime = CallTime?.ToString(dateFormat),
             CallerAddress = CallerAddress,
             CallerEmail = CallerEmail,
             CallerName = CallerName,
             CallerPhone = CallerPhone,
-            Caseload = Caseload,
             CellPhone = CellPhone,
             ClosedDate = ClosedDate?.ToString(dateFormat),
             CreatedByOffice = CreatedByOffice,
-            DateReported = DateReported?.ToString(dateFormat),
             HomePhone = HomePhone,
             MedicalExamRequired = MedicalExamRequired,
+            MemoType = MemoType,
             Method = Method,
             NatureOfCall = NatureOfCall,
             PccSummary = PccSummary,
@@ -192,52 +209,13 @@ public partial class IncidentRecord :
             PoliceNotifiedDate = PoliceNotifiedDate?.ToString(dateFormat),
             PoliceReportNumber = PoliceReportNumber,
             PreferredContactMethod = PreferredContactMethod,
-            ProtectionResponse = ProtectionResponse,
+            RecordedBy = RecordedBy,
             Resolution = Resolution,
-            ResponsePriority = ResponsePriority,
             RestrictedFlag = RestrictedFlag.AsTruthyChar(),
             ServiceOffice = ServiceOffice,
             Status = Status,
-            Type = Type.GetDisplayString(),
             TypeOfCaller = TypeOfCaller,
+            Urgent = Urgent,
         };
-    }
-
-    public static List<IncidentRecord> FromApiJsonArray(IEnumerable<IncidentJson> jsonArray)
-    {
-        List<IncidentRecord> outList = [];
-
-        foreach (var jsonItem in jsonArray)
-            outList.Add(new IncidentRecord(jsonItem));
-
-        return outList;
-    }
-
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<IncidentJson> section)
-    {
-        var currentAssignedIds = realm.All<IncidentRecord>().AsEnumerable().Select(incident => incident.Id);
-        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
-
-        string type = EntityType.Incident.ToString();
-        var v2Incidents = FromApiJsonArray(section.Items ?? []);
-        var v1Incidents = realm.All<CaseloadItem>().Where(item => item.EntityType == type);
-
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            realm.DeleteByIds<IncidentRecord>(unassignedIds);
-            realm.Upsert(v2Incidents);
-
-            MapCaseloadItemRowIds(v2Incidents, v1Incidents);
-        });
-    }
-
-    // TODO: Remove this once we've fully removed V1 CaseloadItems
-    static void MapCaseloadItemRowIds(
-        IEnumerable<IncidentRecord> v2Incidents,
-        IEnumerable<CaseloadItem> v1Incidents)
-    {
-        foreach (var v1Incident in v1Incidents)
-            v1Incident.RowId = v2Incidents.FirstOrDefault(v2Incident =>
-                v2Incident.FileNumber == v1Incident.CaseIncidentNumber)?.Id;
     }
 }

@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
-using VisitzModel;
+using Microsoft.Extensions.Logging;
 
 namespace Visitz.Services.Base
 {
@@ -52,6 +52,10 @@ namespace Visitz.Services.Base
 
         public object Payload { get; set; }
 
+        protected ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<VisitzService>>();
+
+        static readonly string LoggerTemplate = "{id} -> {stateMessage}";
+
         private void PublishCurrentState(State status)
         {
             Status = status;
@@ -71,7 +75,7 @@ namespace Visitz.Services.Base
 
             WeakReferenceMessenger.Default.Send(stateMsg, GetId());
 #if DEBUG
-            ConsoleTrace.TraceMethod(this, $"{GetId()} -> {stateMsg}");
+            Logger.LogDebug(LoggerTemplate, GetId(), stateMsg);
 #endif
         }
 
@@ -91,6 +95,9 @@ namespace Visitz.Services.Base
                     ? Result.Cancelled
                     : Result.Error;
                 ResultMessage = ex.Message;
+
+                if (ResultCode == Result.Error)
+                    Logger.LogError(LoggerTemplate, GetId(), ResultMessage);
 
                 throw;
             }

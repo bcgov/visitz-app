@@ -140,6 +140,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
         return caseloadItem;
     }
 
+    // TODO: Remove this when fully switched to V2 API
     private string GetV2RecordNumber(IDraftItem draft)
     {
         if (draft.RelatedEntityType == EntityType.Case)
@@ -147,11 +148,15 @@ internal partial class DraftsListViewModel : VisitzViewModel
                 .All<CaseRecord>()
                 .Where(@case => @case.Id == draft.RelatedEntityId)
                 .First()
-                .CaseNum;
+                .FileNumber;
+        else if (draft.RelatedEntityType == EntityType.Incident)
+            return DataRealm
+                .All<IncidentRecord>()
+                .Where(incident => incident.Id == draft.RelatedEntityId)
+                .First()
+                .FileNumber;
         else
             throw new InvalidOperationException($"{nameof(EntityType)} '{draft.RelatedEntityType}' not supported");
-
-        // TODO: Incidents. Need to wait for Incident's file number field to be available.
     }
 
     static void NavigateTo(CaseloadItem caseloadItem, EntitySection section, IDraftItem draftItem)

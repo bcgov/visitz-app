@@ -118,7 +118,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
         Realm = await VisitzRealms.GetIcmDataRealmAsync();
         DraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-        Case = Realm.All<CaseRecord>().Where(@case => @case.CaseNum == CaseloadItem.CaseIncidentNumber).First();
+        Case = Realm.All<CaseRecord>().Where(@case => @case.FileNumber == CaseloadItem.CaseIncidentNumber).First();
 
         if (PersonVisitItem == null && IsUpdatingEnabled)
             Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
