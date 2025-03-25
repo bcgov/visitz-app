@@ -10,13 +10,16 @@ namespace VisitzApi.Endpoints;
 internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, string rowId, string attachmentId, DateTimeOffset? after = null)
     : VisitzBaseEndpoint<AttachmentJson>(baseUrl, Vpi.V2, MakePath(type, rowId, attachmentId))
 {
-    static readonly string AttachmentsPath = "/{0}/{1}/attachment-details/{2}";
+    static readonly string AttachmentsPath = "/{0}/{1}/attachments/{2}";
 
     readonly DateTimeOffset? After = after;
 
     static string MakePath(ApiRecordType recordType, string rowId, string attachmentId)
     {
-        return string.Format(AttachmentsPath, recordType.ToString().ToLowerInvariant(), rowId, attachmentId);
+        var abc = string.Format(AttachmentsPath, recordType.ToString().ToLowerInvariant(), rowId, attachmentId);
+        Console.WriteLine(abc);
+        return abc;
+
     }
 
     public override HttpRequestMessage MakeRequest()

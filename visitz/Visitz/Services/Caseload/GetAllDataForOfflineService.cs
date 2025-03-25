@@ -1,5 +1,6 @@
 using Oidc;
 using Realms;
+using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
@@ -8,6 +9,7 @@ using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
@@ -80,7 +82,9 @@ namespace Visitz.Services.Caseload
                 GetAllNotes(realm),
                 GetAllVisits(realm),
                 GetAllContacts(cases, incidents, memos, srs),
-                GetAllSupportNetworkItems(cases, incidents, srs)
+                GetAllSupportNetworkItems(cases, incidents, srs),
+                GetAllAttachments(cases, incidents, srs),
+                GetPartialAttachments(cases, incidents, srs)
             );
         }
 
@@ -129,6 +133,32 @@ namespace Visitz.Services.Caseload
             var all = cases.Concat(incidents).Concat(srs);
 
             var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(all);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetAllAttachments(
+            IEnumerable<RecordServiceInfo> cases,
+            IEnumerable<RecordServiceInfo> incidents,
+            IEnumerable<RecordServiceInfo> srs)
+        {
+            var all = cases.Concat(incidents).Concat(srs);
+            // foreach (var item in all)
+            // {
+            //     Console.WriteLine(item.ToString());
+            // }
+
+            var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetPartialAttachments(
+            IEnumerable<RecordServiceInfo> cases,
+            IEnumerable<RecordServiceInfo> incidents,
+            IEnumerable<RecordServiceInfo> srs)
+        {
+            var all = cases.Concat(incidents).Concat(srs);
+
+            var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
     }
