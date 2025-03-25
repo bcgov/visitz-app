@@ -182,6 +182,7 @@ public partial class CaseRecord :
             realm.DeleteByIds<CaseRecord>(unassignedIds);
             realm.Upsert(v2Cases);
 
+            // TODO: Remove this once we've fully removed V1 CaseloadItems
             foreach (var v1Case in v1Cases)
                 v1Case.RowId = v2Cases.FirstOrDefault(v2Case => v2Case.FileNumber == v1Case.CaseIncidentNumber)?.Id;
         });
