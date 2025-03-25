@@ -49,12 +49,12 @@ internal static class VisitzRealms
 	public static async Task<Realm> GetPersonVisitDraftsRealmAsync() =>
 		await (await GetPersonVisitDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<PersonVisitDrafts>>());
 
-    public static async Task EnqueueIcmDataActionAsync(Action<Realm> action)
+    public static Task EnqueueIcmDataActionAsync(Func<Realm, Task> task)
     {
-        await icmDataQueue.EnqueueAsync(async () =>
+        return icmDataQueue.EnqueueAsync(async () =>
         {
             using var realm = await GetIcmDataRealmAsync();
-            action(realm);
+            await task(realm);
         });
     }
 }
