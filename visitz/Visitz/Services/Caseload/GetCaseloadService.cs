@@ -53,7 +53,7 @@ namespace Visitz.Services.Caseload
 
         private async Task DownloadAndSaveCaseloadV2Async()
         {
-            DateTimeOffset? after = Payload.Force ? null : (DateTimeOffset)LastUpdatedPrefs.Get(GetId());
+            DateTimeOffset? after = Payload.Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
 
             CaseloadJson caseloadFromApi = await Vpi.GetCaseloadV2Async(after: after);
 
