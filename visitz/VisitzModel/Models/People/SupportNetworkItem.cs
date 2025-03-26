@@ -139,4 +139,12 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
             .Where(item => item.EntityId == caseId)
             .Filter($"TRUEPREDICATE SORT({nameof(Name)} ASC)");
     }
+
+    public static void RemoveByParent(Realm realm, EntityType type, string parentId)
+    {
+        var networkItems = realm.All<SupportNetworkItem>()
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+
+        realm.RemoveRange(networkItems);
+    }
 }

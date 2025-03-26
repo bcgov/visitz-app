@@ -134,4 +134,12 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
             .Where(person => person.ParentId == caseId)
             .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)");
     }
+
+    public static void RemoveByParent(Realm realm, EntityType type, string parentId)
+    {
+        var visitItems = realm.All<PersonVisit>()
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+
+        realm.RemoveRange(visitItems);
+    }
 }

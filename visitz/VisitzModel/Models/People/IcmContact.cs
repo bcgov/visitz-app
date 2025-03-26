@@ -79,7 +79,7 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
 
     public string Cysn { get; set; }
 
-    public DateTimeOffset DateOfBirth { get; set; }
+    public DateTimeOffset? DateOfBirth { get; set; }
 
     public DateTimeOffset? CitizenUpdatedDate { get; set; }
 
@@ -213,7 +213,7 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         CountryOfBirth = json.CountryofBirth;
         CurrentStartDate = Timestamp.ParseDateTimeOffsetNullable(json.CurrentStartDate);
         Cysn = json.CYSN;
-        DateOfBirth = DateTimeOffset.Parse(json.DateofBirth);
+        DateOfBirth = Timestamp.ParseDateTimeOffsetNullable(json.DateofBirth);
         CitizenUpdatedDate = Timestamp.ParseDateTimeOffsetNullable(json.DateUpdated_CitizenUpdatedDate);
         CitizenshipUpdatedDate = Timestamp.ParseDateTimeOffsetNullable(json.DateUpdated_CitizenshipUpdatedDate);
         Deceased = json.Deceased;
@@ -313,7 +313,7 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
             CountryofBirth = CountryOfBirth,
             CurrentStartDate = CurrentStartDate?.ToString(dateFormat),
             CYSN = Cysn,
-            DateofBirth = DateOfBirth.ToString(dateFormat),
+            DateofBirth = DateOfBirth?.ToString(dateFormat),
             DateUpdated_CitizenUpdatedDate = CitizenUpdatedDate?.ToString(dateFormat),
             DateUpdated_CitizenshipUpdatedDate = CitizenshipUpdatedDate?.ToString(dateFormat),
             Deceased = Deceased,
@@ -386,5 +386,13 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         EntityType type)
     {
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(contacts, parentId, type)));
+    }
+
+    public static void RemoveByParent(Realm realm, EntityType type, string parentId)
+    {
+        var contacts = realm.All<IcmContact>()
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+
+        realm.RemoveRange(contacts);
     }
 }

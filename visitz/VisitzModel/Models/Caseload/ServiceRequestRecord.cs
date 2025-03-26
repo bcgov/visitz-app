@@ -5,6 +5,7 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.People;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -157,9 +158,22 @@ public partial class ServiceRequestRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            realm.DeleteByIds<ServiceRequestRecord>(currentAssignedIds);
+            CascadeDelete(realm, unassignedIds);
             realm.Upsert(serviceRequests);
         });
+    }
+
+    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds)
+    {
+        foreach (var id in unassignedIds)
+        {
+            realm.Remove(realm.Find<ServiceRequestRecord>(id));
+
+            // TODO: Remove notes here once we remove V1 CaseloadItem
+            IcmContact.RemoveByParent(realm, EntityType.ServiceRequest, id);
+            SupportNetworkItem.RemoveByParent(realm, EntityType.ServiceRequest, id);
+            // TODO: Remove Attachments
+        }
     }
 
     public ServiceRequestJson ToApiJson(string dateFormat = "s")
