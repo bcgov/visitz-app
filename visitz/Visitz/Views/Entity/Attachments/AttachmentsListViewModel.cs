@@ -71,7 +71,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 		}
 		else
 		{
-			foreach (int deleted in e.Changes.DeletedIndices)
+			foreach (int deleted in e.Changes.DeletedIndices.Reverse())
 				AttachmentDrafts.RemoveAt(deleted);
 
 			foreach (int modified in e.Changes.ModifiedIndices)

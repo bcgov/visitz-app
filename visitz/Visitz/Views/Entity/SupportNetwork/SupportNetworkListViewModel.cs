@@ -51,7 +51,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
         }
         else
         {
-            foreach (int deleted in changes.DeletedIndices)
+            foreach (int deleted in changes.DeletedIndices.Reverse())
                 SupportNetworksList.RemoveAt(deleted);
 
             foreach (int inserted in changes.InsertedIndices)
