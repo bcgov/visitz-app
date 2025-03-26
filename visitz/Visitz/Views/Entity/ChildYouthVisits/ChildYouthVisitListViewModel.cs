@@ -149,7 +149,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         }
         else
         {
-            foreach (int deleted in changes.DeletedIndices)
+            foreach (int deleted in changes.DeletedIndices.Reverse())
                 PersonVisits.RemoveAt(deleted);
 
             foreach (int inserted in changes.InsertedIndices)
