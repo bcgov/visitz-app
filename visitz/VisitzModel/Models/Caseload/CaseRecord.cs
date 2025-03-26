@@ -190,9 +190,9 @@ public partial class CaseRecord :
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> caseIds)
+    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds)
     {
-        foreach (var id in caseIds)
+        foreach (var id in unassignedIds)
         {
             realm.Remove(realm.Find<CaseRecord>(id));
 
