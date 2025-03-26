@@ -4,7 +4,9 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.People;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -179,12 +181,26 @@ public partial class CaseRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            realm.DeleteByIds<CaseRecord>(unassignedIds);
+            CascadeDelete(realm, unassignedIds);
             realm.Upsert(v2Cases);
 
-            // TODO: Remove this once we've fully removed V1 CaseloadItems
+            // TODO: Remove this foreach loop once we've fully removed V1 CaseloadItems
             foreach (var v1Case in v1Cases)
                 v1Case.RowId = v2Cases.FirstOrDefault(v2Case => v2Case.FileNumber == v1Case.CaseIncidentNumber)?.Id;
         });
+    }
+
+    static void CascadeDelete(Realm realm, IEnumerable<string> caseIds)
+    {
+        foreach (var id in caseIds)
+        {
+            realm.Remove(realm.Find<CaseRecord>(id));
+
+            // TODO: Remove notes here once we remove V1 CaseloadItem
+            PersonVisit.RemoveByParent(realm, EntityType.Case, id);
+            IcmContact.RemoveByParent(realm, EntityType.Case, id);
+            SupportNetworkItem.RemoveByParent(realm, EntityType.Case, id);
+            // TODO: Remove Attachments
+        }
     }
 }

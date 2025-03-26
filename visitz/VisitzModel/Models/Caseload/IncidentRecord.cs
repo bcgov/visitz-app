@@ -5,6 +5,7 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.People;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -224,20 +225,26 @@ public partial class IncidentRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            realm.DeleteByIds<IncidentRecord>(unassignedIds);
+            CascadeDelete(realm, unassignedIds);
             realm.Upsert(v2Incidents);
 
-            MapCaseloadItemRowIds(v2Incidents, v1Incidents);
+            // TODO: Remove this foreach loop once we've fully removed V1 CaseloadItems
+            foreach (var v1Incident in v1Incidents)
+                v1Incident.RowId = v2Incidents.FirstOrDefault(v2Incident =>
+                    v2Incident.FileNumber == v1Incident.CaseIncidentNumber)?.Id;
         });
     }
 
-    // TODO: Remove this once we've fully removed V1 CaseloadItems
-    static void MapCaseloadItemRowIds(
-        IEnumerable<IncidentRecord> v2Incidents,
-        IEnumerable<CaseloadItem> v1Incidents)
+    static void CascadeDelete(Realm realm, IEnumerable<string> deleteIds)
     {
-        foreach (var v1Incident in v1Incidents)
-            v1Incident.RowId = v2Incidents.FirstOrDefault(v2Incident =>
-                v2Incident.FileNumber == v1Incident.CaseIncidentNumber)?.Id;
+        foreach (var id in deleteIds)
+        {
+            realm.Remove(realm.Find<IncidentRecord>(id));
+
+            // TODO: Remove notes here once we remove V1 CaseloadItem
+            IcmContact.RemoveByParent(realm, EntityType.Incident, id);
+            SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, id);
+            // TODO: Remove Attachments
+        }
     }
 }

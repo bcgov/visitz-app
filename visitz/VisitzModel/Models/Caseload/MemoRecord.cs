@@ -2,7 +2,9 @@ using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.People;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -165,9 +167,20 @@ public partial class MemoRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            realm.DeleteByIds<MemoRecord>(currentAssignedIds);
+            CascadeDelete(realm, unassignedIds);
             realm.Upsert(memos);
         });
+    }
+
+    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds)
+    {
+        foreach (var id in unassignedIds)
+        {
+            realm.Remove(realm.Find<MemoRecord>(id));
+
+            IcmContact.RemoveByParent(realm, EntityType.Memo, id);
+            // TODO: Remove Attachments
+        }
     }
 
     public MemoJson ToApiJson(string dateFormat = "s")
