@@ -387,4 +387,12 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
     {
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(contacts, parentId, type)));
     }
+
+    public static void RemoveByParent(Realm realm, EntityType type, string parentId)
+    {
+        var contacts = realm.All<IcmContact>()
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+
+        realm.RemoveRange(contacts);
+    }
 }
