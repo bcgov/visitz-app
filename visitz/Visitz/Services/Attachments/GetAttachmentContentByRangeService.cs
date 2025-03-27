@@ -17,7 +17,7 @@ internal class GetAttachmentContentByRangeService(
         prefs,
         serviceHandler,
         logger,
-        new ParallelOptions{MaxDegreeOfParallelism = 1})
+        new ParallelOptions{MaxDegreeOfParallelism = 2})
 {
     private IEnumerable<(EntityType, string, string, bool, string, string)> AttachmentContentItems =>
             (IEnumerable<(EntityType, string, string, bool, string, string)>)Payload;
