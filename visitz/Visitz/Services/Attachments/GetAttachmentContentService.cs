@@ -11,8 +11,8 @@ namespace Visitz.Services.Attachments;
 
 internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
-    private ValueTuple<EntityType, string, string, bool, string, string> AttachmentDetailsItem =>
-            (ValueTuple<EntityType, string, string, bool, string, string>)Payload;
+    private (EntityType, string, string, bool, string, string) AttachmentDetailsItem =>
+            ((EntityType, string, string, bool, string, string))Payload;
 
     public static string MakeId(EntityType type, string id, string attachmentId)
     {
@@ -46,17 +46,12 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
         var (entityType, recordId, attachmentId, force, firstName, lastName) = tuple;
         var attachmentFiler = await VisitzFiles.GetAsync(entityType, recordId, firstName, lastName);
         var after = force ? null : prefs.Get(MakeId(tuple.entityType, tuple.id, tuple.attachmentId));
-        try
-        {
-            var attachment = await Vpi.GetAttachmentDetailsAsync((ApiRecordType)entityType, recordId, attachmentId, after);
+        var attachment = await Vpi.GetAttachmentDetailsAsync((ApiRecordType)entityType, recordId, attachmentId, after);
 
-            await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-                await Attachment.SaveAttachmentAndDetailsAsync(realm, attachment, recordId, entityType, attachmentFiler));
-        }
-        catch(Exception exception)
+        await VisitzRealms.EnqueueIcmDataActionAsync(async() =>
         {
-            Debug.WriteLine(exception);
-        }
-
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            await Attachment.SaveAttachmentAndDetailsAsync(realm, attachment, recordId, entityType, attachmentFiler);
+        });
     }
 }

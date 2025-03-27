@@ -16,19 +16,19 @@ internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, 
 
     static string MakePath(ApiRecordType recordType, string rowId, string attachmentId)
     {
-        var abc = string.Format(AttachmentsPath, recordType.ToString().ToLowerInvariant(), rowId, attachmentId);
-        Console.WriteLine(abc);
-        return abc;
-
+        return string.Format(AttachmentsPath, recordType.ToString().ToLowerInvariant(), rowId, attachmentId);
     }
 
     public override HttpRequestMessage MakeRequest()
     {
-        return new HttpRequestMessage()
+        var request =  new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
+            RequestUri = WithQueryParams(after: After),
         };
+
+        request.Headers.Add("Accept", "*/*");
+        return request;
     }
 
     public override AttachmentJson HandleResponse(HttpResponseMessage response, string responseContent)

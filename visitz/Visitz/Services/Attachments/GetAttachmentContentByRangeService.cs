@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
@@ -6,11 +7,20 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Services.Attachments;
 
-internal class GetAttachmentContentByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
-    : VisitzApiService(vpi, prefs)
+internal class GetAttachmentContentByRangeService(
+    Vpi vpi,
+    LastUpdatedPrefs prefs,
+    ServiceHandler serviceHandler,
+    ILogger<GetAttachmentContentByRangeService> logger)
+    : VisitzApiRangeService<(EntityType, string, string, bool, string, string)>(
+        vpi,
+        prefs,
+        serviceHandler,
+        logger,
+        new ParallelOptions{MaxDegreeOfParallelism = 1})
 {
-    private IEnumerable<ValueTuple<EntityType, string, string, bool, string, string>> AttachmentContentItems =>
-            (IEnumerable<ValueTuple<EntityType, string, string, bool, string, string>>)Payload;
+    private IEnumerable<(EntityType, string, string, bool, string, string)> AttachmentContentItems =>
+            (IEnumerable<(EntityType, string, string, bool, string, string)>)Payload;
 
     private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
@@ -19,7 +29,7 @@ internal class GetAttachmentContentByRangeService(Vpi vpi, LastUpdatedPrefs pref
         return nameof(GetAttachmentContentByRangeService);
     }
 
-    public static StartServiceMessage MakeStartMessage(IEnumerable<ValueTuple<EntityType, string, string, bool, string, string>> AttachmentContentItems)
+    public static StartServiceMessage MakeStartMessage(IEnumerable<(EntityType, string, string, bool, string, string)> AttachmentContentItems)
     {
         return new()
         {
@@ -34,23 +44,15 @@ internal class GetAttachmentContentByRangeService(Vpi vpi, LastUpdatedPrefs pref
         return MakeId();
     }
 
-    protected override async Task RunApiServiceAsync()
+    protected override async Task RunInParallelAsync(
+        ServiceHandler serviceHandler, (EntityType, string, string, bool, string, string) tuple)
     {
-        await GetAllAttachmentContentsAsync();
+        await ServiceHandler.TryRunServiceAsync(GetAttachmentContentService.MakeStartMessage(tuple));
     }
 
-    private async Task GetAllAttachmentContentsAsync()
+    protected override Exception MakePartialException(List<ApiRangeItemException<(EntityType, string, string, bool, string, string)>> exceptions)
     {
-        var options = new ParallelOptions
-        {
-            MaxDegreeOfParallelism = 2
-        };
-
-        await Parallel.ForEachAsync(AttachmentContentItems, options, GetAttachmentContentRecord);
-    }
-
-    private async ValueTask GetAttachmentContentRecord((EntityType entityType, string id, string attachmentId, bool force, string firstName, string lastName) tuple, CancellationToken token)
-    {
-        _ = await ServiceHandler.TryRunServiceAsync(GetAttachmentContentService.MakeStartMessage(tuple));
+        // return exceptions.CombineIntoException();
+        return new AggregateException(exceptions);
     }
 }

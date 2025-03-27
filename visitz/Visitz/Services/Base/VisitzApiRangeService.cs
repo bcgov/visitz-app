@@ -8,7 +8,8 @@ internal abstract class VisitzApiRangeService<Item>(
     Vpi vpi,
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler,
-    ILogger logger)
+    ILogger logger,
+    ParallelOptions options = null)
     : VisitzApiService(vpi, prefs)
 {
     ServiceHandler ServiceHandler => serviceHandler;
@@ -21,7 +22,10 @@ internal abstract class VisitzApiRangeService<Item>(
 
     protected override sealed async Task RunApiServiceAsync()
     {
-        await Parallel.ForEachAsync(Items, RunForItemParallelAsync);
+        if (options == null)
+            await Parallel.ForEachAsync(Items, RunForItemParallelAsync);
+        else
+            await Parallel.ForEachAsync(Items, options, RunForItemParallelAsync);
 
         ResultCode = Exceptions.Count <= 0
             ? Result.Successful
