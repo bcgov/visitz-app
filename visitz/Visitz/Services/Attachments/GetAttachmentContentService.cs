@@ -1,6 +1,7 @@
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
+using Visitz.Views.Debugging;
 using VisitzApi;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
@@ -75,8 +76,9 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
         Attachment attachment = new(json, recordId, entityType);
         var attachmentFiler = await VisitzFiles.GetAsync(entityType, recordId, firstName, lastName);
 
-        await VisitzFiles.EnqueueAsync(async () => attachment.RelativePath =
-            await attachmentFiler.SaveFileAsync(json.AttachmentId, json.FileExt));
+        if (DebugOptions.RequireAttachmentFileContent || !string.IsNullOrWhiteSpace(json.AttachmentId))
+            await VisitzFiles.EnqueueAsync(async () => attachment.RelativePath =
+                await attachmentFiler.SaveFileAsync(json.AttachmentId, json.FileExt));
 
         return attachment;
     }

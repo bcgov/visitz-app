@@ -41,7 +41,10 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public bool skipLocalAuth;
 
-	readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
+    [ObservableProperty]
+    public bool requireAttachmentFileContent;
+
+    readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
 	[ObservableProperty]
 	public DateTime caseloadLastUpdated;
@@ -71,6 +74,8 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         BuildingInDebug = false;
 #endif
         SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
+
+        RequireAttachmentFileContent = DebugOptions.RequireAttachmentFileContent;
 
         var settings = new AppSettings();
 
@@ -103,6 +108,11 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     partial void OnSkipLocalAuthChanged(bool value)
     {
         DebugOptions.SkipLocalAuth = value;
+    }
+
+    partial void OnRequireAttachmentFileContentChanged(bool value)
+    {
+        DebugOptions.RequireAttachmentFileContent = value;
     }
 
     [RelayCommand]
