@@ -54,9 +54,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         var filteredAttachments = FilterAndTransformAttachments(allAttachments, recordInfo);
 
         if (filteredAttachments.Any())
-        {
             await FetchAttachmentContents(serviceHandler, filteredAttachments);
-        }
     }
 
     private static async Task<IEnumerable<Attachment>> FetchAllAttachments(RecordServiceInfo recordInfo)
