@@ -57,9 +57,4 @@ internal static class VisitzRealms
             await task(realm);
         });
     }
-
-    public static Task EnqueueIcmDataActionAsync(Func<Task> task)
-    {
-        return icmDataQueue.EnqueueAsync(task);
-    }
 }
