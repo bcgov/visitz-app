@@ -1,8 +1,6 @@
-using System.Net;
 using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Attachments;
-using VisitzApi.Models.People;
 using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
@@ -21,7 +19,7 @@ internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, 
 
     public override HttpRequestMessage MakeRequest()
     {
-        var request =  new HttpRequestMessage()
+        var request = new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
             RequestUri = WithQueryParams(after: After),

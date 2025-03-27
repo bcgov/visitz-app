@@ -17,7 +17,7 @@ internal class GetAttachmentContentByRangeService(
         prefs,
         serviceHandler,
         logger,
-        new ParallelOptions{MaxDegreeOfParallelism = 2})
+        new ParallelOptions { MaxDegreeOfParallelism = 2 })
 {
     private IEnumerable<(EntityType, string, string, bool, string, string)> AttachmentContentItems =>
             (IEnumerable<(EntityType, string, string, bool, string, string)>)Payload;
@@ -29,7 +29,8 @@ internal class GetAttachmentContentByRangeService(
         return nameof(GetAttachmentContentByRangeService);
     }
 
-    public static StartServiceMessage MakeStartMessage(IEnumerable<(EntityType, string, string, bool, string, string)> AttachmentContentItems)
+    public static StartServiceMessage MakeStartMessage(
+        IEnumerable<(EntityType, string, string, bool, string, string)> AttachmentContentItems)
     {
         return new()
         {
@@ -50,9 +51,9 @@ internal class GetAttachmentContentByRangeService(
         await ServiceHandler.TryRunServiceAsync(GetAttachmentContentService.MakeStartMessage(tuple));
     }
 
-    protected override Exception MakePartialException(List<ApiRangeItemException<(EntityType, string, string, bool, string, string)>> exceptions)
+    protected override Exception MakePartialException(
+        List<ApiRangeItemException<(EntityType, string, string, bool, string, string)>> exceptions)
     {
-        // return exceptions.CombineIntoException();
         return new AggregateException(exceptions);
     }
 }

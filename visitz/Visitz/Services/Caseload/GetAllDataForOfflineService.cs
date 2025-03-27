@@ -9,7 +9,6 @@ using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models;
-using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
@@ -83,7 +82,7 @@ namespace Visitz.Services.Caseload
                 GetAllVisits(realm),
                 GetAllContacts(cases, incidents, memos, srs),
                 GetAllSupportNetworkItems(cases, incidents, srs),
-                GetAllAttachments(cases, incidents, srs),
+                GetAllAttachments(cases, incidents, memos, srs),
                 GetPartialAttachments(cases, incidents, srs)
             );
         }
@@ -139,13 +138,10 @@ namespace Visitz.Services.Caseload
         private async Task GetAllAttachments(
             IEnumerable<RecordServiceInfo> cases,
             IEnumerable<RecordServiceInfo> incidents,
+            IEnumerable<RecordServiceInfo> memos,
             IEnumerable<RecordServiceInfo> srs)
         {
-            var all = cases.Concat(incidents).Concat(srs);
-            // foreach (var item in all)
-            // {
-            //     Console.WriteLine(item.ToString());
-            // }
+            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
 
             var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);

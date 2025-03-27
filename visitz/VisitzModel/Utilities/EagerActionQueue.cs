@@ -12,7 +12,7 @@ public class EagerActionQueue(CancellationToken? cancellationToken = null)
 
 	public Task EnqueueAsync(Func<Task> task)
 	{
-        TaskCompletionSource tcs = new();
+		TaskCompletionSource tcs = new();
 
 		taskQueue.Enqueue((tcs, task));
 
@@ -30,17 +30,17 @@ public class EagerActionQueue(CancellationToken? cancellationToken = null)
 
 			if (taskQueue.TryDequeue(out (TaskCompletionSource, Func<Task>) tuple))
 			{
-                var (tcs, task) = tuple;
+				var (tcs, task) = tuple;
 
-                try
-                {
-                    await task();
-                    tcs.TrySetResult();
-                }
-                catch (Exception ex)
-                {
-                    tcs.TrySetException(ex);
-                }
+				try
+				{
+					await task();
+					tcs.TrySetResult();
+				}
+				catch (Exception ex)
+				{
+					tcs.TrySetException(ex);
+				}
 			}
 		}
 	}

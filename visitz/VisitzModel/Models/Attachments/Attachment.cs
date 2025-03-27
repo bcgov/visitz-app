@@ -221,14 +221,6 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         return outList;
     }
 
-    public static Attachment FromApiArray(
-        AttachmentJson item,
-        string parentId,
-        EntityType type)
-    {
-        return new Attachment(item, parentId, type);
-    }
-
     public static async Task SaveAttachmentsAsync(
         Realm realm,
         IEnumerable<AttachmentJson> items,
@@ -236,22 +228,6 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         EntityType type)
     {
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
-    }
-
-        public static async Task SaveAttachmentAndDetailsAsync(
-        Realm realm,
-        AttachmentJson item,
-        string parentId,
-        EntityType type,
-        AttachmentFiler filer)
-    {
-        // if (string.IsNullOrWhiteSpace(item.AttachmentId))
-        //     throw new InvalidDataException("Expected attachment content is null");
-        if (!string.IsNullOrWhiteSpace(item.AttachmentId))
-        {
-            string fullpath = await filer.SaveFileAsync(item.AttachmentId, item.FileExt);
-            await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(item, parentId, type)));
-        }
     }
 
     public static IEnumerable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)

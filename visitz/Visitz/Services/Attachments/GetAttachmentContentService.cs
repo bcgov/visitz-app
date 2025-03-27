@@ -21,7 +21,13 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
         return $"{nameof(GetAttachmentContentService)}|{type}|{id}|{attachmentId}";
     }
 
-    public static StartServiceMessage MakeStartMessage((EntityType entityType, string id, string attachmentId, bool force, string firstName, string lastName) tuple)
+    public static StartServiceMessage MakeStartMessage(
+        (EntityType entityType,
+        string id,
+        string attachmentId,
+        bool force,
+        string firstName,
+        string lastName) tuple)
     {
         return new()
         {

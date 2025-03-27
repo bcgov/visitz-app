@@ -28,7 +28,8 @@ internal class RecordServiceInfo
         Type = EntityType.Case;
     }
 
-    public RecordServiceInfo(IncidentRecord incident) : this(incident.Id, incident.LastName, incident.GivenNames, incident.LastName)
+    public RecordServiceInfo(IncidentRecord incident) : this(
+        incident.Id, incident.LastName, incident.GivenNames, incident.LastName)
     {
         Type = EntityType.Incident;
     }

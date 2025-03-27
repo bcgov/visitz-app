@@ -19,7 +19,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         prefs,
         serviceHandler,
         logger,
-        new ParallelOptions{MaxDegreeOfParallelism = 1})
+        new ParallelOptions { MaxDegreeOfParallelism = 1 })
 {
     static readonly int DefaultLimit = 10;
 
@@ -47,18 +47,6 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     {
         await ProcessAttachmentsAsync(serviceHandler, item);
     }
-    // protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
-    // {
-    //     var options = new ParallelOptions
-    //     {
-    //         MaxDegreeOfParallelism = 1
-    //     };
-
-    //     await Parallel.ForEachAsync([item], options, async (recordInfo, token) =>
-    //     {
-    //         await ProcessAttachmentsAsync(serviceHandler, recordInfo);
-    //     });
-    // }
 
     private static async Task ProcessAttachmentsAsync(ServiceHandler serviceHandler, RecordServiceInfo recordInfo)
     {
@@ -74,20 +62,22 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     private static async Task<IEnumerable<Attachment>> FetchAllAttachments(RecordServiceInfo recordInfo)
     {
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-        var attachments = realm
-        .All<Attachment>()
-        .Freeze()
-        .AsEnumerable()
-        .Where(item => item.RelatedEntityType == recordInfo.Type
-            && item.RelatedEntityId == recordInfo.Id)
-        .ToList();
+        var attachments = realm.All<Attachment>().Freeze().AsEnumerable()
+            .Where(item => item.RelatedEntityType == recordInfo.Type
+                && item.RelatedEntityId == recordInfo.Id)
+            .ToList();
 
         return attachments;
     }
 
-    private static IEnumerable<(EntityType entityType, string id, string attachmentId, bool force, string firstName, string lastName)> FilterAndTransformAttachments(
-        IEnumerable<Attachment> attachments,
-        RecordServiceInfo recordInfo)
+    private static IEnumerable<
+        (EntityType entityType,
+        string id,
+        string attachmentId,
+        bool force,
+        string firstName,
+        string lastName)
+    > FilterAndTransformAttachments(IEnumerable<Attachment> attachments, RecordServiceInfo recordInfo)
     {
         var currentDate = DateTime.Now;
 
@@ -105,10 +95,11 @@ internal class GetPartialAttachmentsByRangeDownloadService(
             .ToList();
     }
 
-    private static async Task FetchAttachmentContents(ServiceHandler serviceHandler, IEnumerable<(EntityType, string, string, bool, string, string)> filteredAttachments)
+    private static async Task FetchAttachmentContents(
+        ServiceHandler serviceHandler,
+        IEnumerable<(EntityType, string, string, bool, string, string)> filteredAttachments)
     {
         var getAttachmentContentServiceMessage = GetAttachmentContentByRangeService.MakeStartMessage(filteredAttachments);
-
         await serviceHandler.TryRunServiceAsync(getAttachmentContentServiceMessage);
     }
 
