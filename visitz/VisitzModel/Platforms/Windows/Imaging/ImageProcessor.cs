@@ -13,7 +13,7 @@ public partial class ImageProcessor
 			? Task.FromResult(ImageBytes)
 			: Task.Run(async () =>
 			{
-				var image = await ConvertToImageAsync(ImageBytes);
+				using var image = await ConvertToImageAsync(ImageBytes);
 				var newMax = ResizeImageValues.MaxNewDimensionByFileSize(image.Width, image.Height, bytesLength);
 
 				ResizeImage(image, (int)newMax);
@@ -25,7 +25,7 @@ public partial class ImageProcessor
 	{
 		downsizeImageTask = Task.Run(async () =>
 		{
-			var image = await ConvertToImageAsync(ImageBytes);
+			using var image = await ConvertToImageAsync(ImageBytes);
 
 			if (Math.Max(image.Width, image.Height) > maxWidthOrHeight)
 			{
@@ -39,6 +39,7 @@ public partial class ImageProcessor
 
 	static async Task<Image> ConvertToImageAsync(Stream imageBytes, CancellationToken? token = null)
 	{
+		imageBytes.Seek(0, SeekOrigin.Begin);
 		return await Image.LoadAsync(imageBytes, token ?? CancellationToken.None);
 	}
 

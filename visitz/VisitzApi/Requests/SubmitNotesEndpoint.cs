@@ -6,9 +6,9 @@ using VisitzApi.Models;
 namespace VisitzApi.Requests
 {
 	internal class SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit)
-        : VisitzBaseEndpoint<(bool success, string noteId)>(baseUrl, SubmitNotesPath)
+        : VisitzBaseEndpoint<(bool success, string noteId)>(baseUrl, Vpi.V1, SubmitNotesPath)
     {
-        private static readonly string SubmitNotesPath = "/v1/679C";
+        private static readonly string SubmitNotesPath = "/679C";
 
         private static readonly string RequestSubmitNotesKey = "requestSubmitNotes";
         private static readonly string ResponseSubmitNotesKey = "responseSubmitNotes";
@@ -41,7 +41,7 @@ namespace VisitzApi.Requests
             };
         }
 
-        public override (bool success, string noteId) HandleResponse(string responseContent)
+        public override (bool success, string noteId) HandleResponse(HttpResponseMessage _, string responseContent)
         {
             var rJson = JsonDocument.Parse(responseContent)
                 .RootElement

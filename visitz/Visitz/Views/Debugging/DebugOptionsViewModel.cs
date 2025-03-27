@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
-using Visitz.Services;
+using Visitz.Services.Caseload;
 using Visitz.Settings;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -16,6 +16,12 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 
     [ObservableProperty]
     public bool dryFireSubmitNotesSimulateSuccess;
+
+    [ObservableProperty]
+    public bool dryFirePostVisitService;
+
+    [ObservableProperty]
+    public bool dryFirePostVisitServiceSimulateSuccess;
 
     [ObservableProperty]
     public string appId;
@@ -53,6 +59,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
         DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
 
+        DryFirePostVisitService = DebugOptions.DryFirePostVisitService;
+        DryFirePostVisitServiceSimulateSuccess = DebugOptions.DryFirePostVisitServiceSimulateSuccess;
+
         AppId = AppInfo.Current.PackageName;
         DotnetVersion = Environment.Version.ToString();
 
@@ -79,6 +88,16 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
     {
         DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
+    }
+
+    partial void OnDryFirePostVisitServiceChanged(bool value)
+    {
+        DebugOptions.DryFirePostVisitService = value;
+    }
+
+    partial void OnDryFirePostVisitServiceSimulateSuccessChanged(bool value)
+    {
+        DebugOptions.DryFirePostVisitServiceSimulateSuccess = value;
     }
 
     partial void OnSkipLocalAuthChanged(bool value)

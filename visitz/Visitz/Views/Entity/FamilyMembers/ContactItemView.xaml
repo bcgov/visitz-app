@@ -5,7 +5,7 @@
 	xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
-    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
+    xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.FamilyMembers.ContactItemView"
     x:DataType="models:FamilyMember"

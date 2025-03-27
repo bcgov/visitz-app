@@ -63,90 +63,207 @@ namespace VisitzModel.Resources.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Exemption to private visit - Child declined to meet.
         /// </summary>
-        public static string ExemptionChildDeclined {
+        public static string Api_ExemptionChildDeclined {
             get {
-                return ResourceManager.GetString("ExemptionChildDeclined", resourceCulture);
+                return ResourceManager.GetString("Api_ExemptionChildDeclined", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Exemption to private visit - Other.
         /// </summary>
-        public static string ExemptionOther {
+        public static string Api_ExemptionOther {
             get {
-                return ResourceManager.GetString("ExemptionOther", resourceCulture);
+                return ResourceManager.GetString("Api_ExemptionOther", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Not private - Visit in the home.
         /// </summary>
-        public static string NotPrivateInHome {
+        public static string Api_NotPrivateInHome {
             get {
-                return ResourceManager.GetString("NotPrivateInHome", resourceCulture);
+                return ResourceManager.GetString("Api_NotPrivateInHome", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Not private - Planning meeting.
         /// </summary>
-        public static string NotPrivatePlanning {
+        public static string Api_NotPrivatePlanning {
             get {
-                return ResourceManager.GetString("NotPrivatePlanning", resourceCulture);
+                return ResourceManager.GetString("Api_NotPrivatePlanning", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Not private - Relational visit.
         /// </summary>
-        public static string NotPrivateRelational {
+        public static string Api_NotPrivateRelational {
             get {
-                return ResourceManager.GetString("NotPrivateRelational", resourceCulture);
+                return ResourceManager.GetString("Api_NotPrivateRelational", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Not private - Visit with caregiver.
         /// </summary>
-        public static string NotPrivateWithCaregiver {
+        public static string Api_NotPrivateWithCaregiver {
             get {
-                return ResourceManager.GetString("NotPrivateWithCaregiver", resourceCulture);
+                return ResourceManager.GetString("Api_NotPrivateWithCaregiver", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Private visit age 0-5.
         /// </summary>
-        public static string PrivateAge0_5 {
+        public static string Api_PrivateVisitAge0_5 {
             get {
-                return ResourceManager.GetString("PrivateAge0_5", resourceCulture);
+                return ResourceManager.GetString("Api_PrivateVisitAge0_5", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Private visit in home.
         /// </summary>
-        public static string PrivateInHome {
+        public static string Api_PrivateVisitInHome {
             get {
-                return ResourceManager.GetString("PrivateInHome", resourceCulture);
+                return ResourceManager.GetString("Api_PrivateVisitInHome", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Private visit medical or support needs.
         /// </summary>
-        public static string PrivateMedicalSupportNeeds {
+        public static string Api_PrivateVisitMedicalSupportNeeds {
             get {
-                return ResourceManager.GetString("PrivateMedicalSupportNeeds", resourceCulture);
+                return ResourceManager.GetString("Api_PrivateVisitMedicalSupportNeeds", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Private visit not in home.
         /// </summary>
-        public static string PrivateNotInHome {
+        public static string Api_PrivateVisitNotInHome {
             get {
-                return ResourceManager.GetString("PrivateNotInHome", resourceCulture);
+                return ResourceManager.GetString("Api_PrivateVisitNotInHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to age 0-5.
+        /// </summary>
+        public static string Details_Age0To5 {
+            get {
+                return ResourceManager.GetString("Details_Age0To5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Child declined to meet.
+        /// </summary>
+        public static string Details_ChildDeclinedToMeet {
+            get {
+                return ResourceManager.GetString("Details_ChildDeclinedToMeet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to in home.
+        /// </summary>
+        public static string Details_InHome {
+            get {
+                return ResourceManager.GetString("Details_InHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to medical or support needs.
+        /// </summary>
+        public static string Details_MedicalOrSupportNeeds {
+            get {
+                return ResourceManager.GetString("Details_MedicalOrSupportNeeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not in home.
+        /// </summary>
+        public static string Details_NotInHome {
+            get {
+                return ResourceManager.GetString("Details_NotInHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Details_Other {
+            get {
+                return ResourceManager.GetString("Details_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Planning meeting.
+        /// </summary>
+        public static string Details_PlanningMeeting {
+            get {
+                return ResourceManager.GetString("Details_PlanningMeeting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relational visit.
+        /// </summary>
+        public static string Details_RelationalVisit {
+            get {
+                return ResourceManager.GetString("Details_RelationalVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit in the home.
+        /// </summary>
+        public static string Details_VisitInTheHome {
+            get {
+                return ResourceManager.GetString("Details_VisitInTheHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit with caregiver.
+        /// </summary>
+        public static string Details_VisitWithCaregiver {
+            get {
+                return ResourceManager.GetString("Details_VisitWithCaregiver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exemption to private visit.
+        /// </summary>
+        public static string Type_ExemptionToPrivateVisit {
+            get {
+                return ResourceManager.GetString("Type_ExemptionToPrivateVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not private.
+        /// </summary>
+        public static string Type_NotPrivate {
+            get {
+                return ResourceManager.GetString("Type_NotPrivate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private visit.
+        /// </summary>
+        public static string Type_PrivateVisit {
+            get {
+                return ResourceManager.GetString("Type_PrivateVisit", resourceCulture);
             }
         }
     }

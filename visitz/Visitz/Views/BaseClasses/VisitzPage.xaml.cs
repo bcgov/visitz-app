@@ -3,9 +3,13 @@ using VisitzModel;
 
 namespace Visitz.Views.BaseClasses;
 
-public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage() 
+public partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage(), IDisposable
 {
+    private bool _disposed;
+
     protected VisitzViewModel ViewModel { get; set; } = visitzViewModel;
+
+    protected Task ViewModelInit { get; private set; }
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
 
@@ -19,14 +23,15 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
         if (isCreating)
             OnCreated();
         else if (isDestroying)
-            OnDestroyed();
+            Dispose();
     }
 
     protected virtual void OnCreated() 
     {
         ConsoleTrace.TraceMethod(this);
 
-        ViewModel.OnCreate();
+        ViewModel?.OnCreate();
+        ViewModelInit = ViewModel?.StartInitAsync();
     }
 
     protected virtual void OnDestroyed()
@@ -34,12 +39,37 @@ public abstract partial class VisitzPage(VisitzViewModel visitzViewModel) : Cont
         ConsoleTrace.TraceMethod(this);
 
         Behaviors.Clear();
-        ViewModel.Destroy();
+
+        ViewModel?.Destroy();
+        ViewModel?.Dispose();
+
+        if (Content.FindFirstDisposable() is IDisposable disposable)
+            disposable.Dispose();
     }
 
     protected override bool OnBackButtonPressed()
     {
         ConsoleTrace.TraceMethod(this);
         return base.OnBackButtonPressed();
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                OnDestroyed();
+            }
+
+            _disposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

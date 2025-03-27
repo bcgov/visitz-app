@@ -12,20 +12,25 @@ using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
+using Visitz.Views.Entity.SupportNetwork;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.Navigation;
 
 public partial class EntityNavViewModel : VisitzViewModel,
-	ICaseloadItemHolder,
-	IRequestedEntitySection,
-	IFocusDraftItem
+    ICaseloadItemHolder,
+    IRequestedEntitySection,
+    IFocusDraftItem
 {
     [ObservableProperty]
     public CaseloadItem caseloadItem;
@@ -39,48 +44,48 @@ public partial class EntityNavViewModel : VisitzViewModel,
     [ObservableProperty]
     public EntityNavItem selectedEntityNavItem;
 
-	[ObservableProperty]
-	public EntitySection requestedSection;
+    [ObservableProperty]
+    public EntitySection requestedSection;
 
-	public IDraftItem FocusedDraftItem { get; set; }
+    public IDraftItem FocusedDraftItem { get; set; }
 
-	public EntityNavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
+    public EntityNavItem DefaultNavItem => EntityNavItems?.FirstOrDefault();
 
-	private readonly ObservableRealmQueryMap realmQueryMap = new();
+    private readonly ObservableRealmQueryMap realmQueryMap = new();
 
-	private readonly EntityNavItem Details = new()
-	{
-		Text = LocalizedStrings.Details,
-		ContentViewType = typeof(EntityDetailsView)
-	};
+    private readonly EntityNavItem Details = new()
+    {
+        Text = LocalizedStrings.Details,
+        ContentViewType = typeof(EntityDetailsView)
+    };
 
-	private readonly EntityNavItem FamilyMembers = new()
-	{
-		Text = LocalizedStrings.FamilyMembers,
-		ContentViewType = typeof(EntityContactsView),
-		Section = EntitySection.Family,
-	};
+    private readonly EntityNavItem FamilyMembers = new()
+    {
+        Text = LocalizedStrings.FamilyMembers,
+        ContentViewType = typeof(EntityContactsView),
+        Section = EntitySection.Family,
+    };
 
-	private readonly EntityNavItem Notes = new()
-	{
-		Text = LocalizedStrings.Notes,
-		ContentViewType = typeof(EntityNotesView),
-		Section = EntitySection.Notes,
-	};
+    private readonly EntityNavItem Notes = new()
+    {
+        Text = LocalizedStrings.Notes,
+        ContentViewType = typeof(EntityNotesView),
+        Section = EntitySection.Notes,
+    };
 
-	private readonly EntityNavItem Attachments = new()
-	{
-		Text = LocalizedStrings.Attachments,
-		ContentViewType = typeof(AttachmentsView),
-		Section = EntitySection.Attachments,
-	};
+    private readonly EntityNavItem Attachments = new()
+    {
+        Text = LocalizedStrings.Attachments,
+        ContentViewType = typeof(AttachmentsView),
+        Section = EntitySection.Attachments,
+    };
 
-	private readonly EntityNavItem SafetyAssessment = new()
-	{
-		Text = LocalizedStrings.SafetyAssessment,
-		ContentViewType = typeof(EntitySafetyAssessView),
-		Section = EntitySection.SafetyAssessment,
-	};
+    private readonly EntityNavItem SafetyAssessment = new()
+    {
+        Text = LocalizedStrings.SafetyAssessment,
+        ContentViewType = typeof(EntitySafetyAssessView),
+        Section = EntitySection.SafetyAssessment,
+    };
 
     private readonly EntityNavItem ChildYouthVisits = new()
     {
@@ -89,10 +94,17 @@ public partial class EntityNavViewModel : VisitzViewModel,
         Section = EntitySection.ChildYouthVisits,
     };
 
-	private string CacheDeletedKeyplayer;
-	private string CacheDeletedEntityType;
+    private readonly EntityNavItem SupportNetwork = new()
+    {
+        Text = LocalizedStrings.SupportNetwork,
+        ContentViewType = typeof(SupportNetworkListView),
+        Section = EntitySection.SupportNetwork,
+    };
 
-	public override async void Create()
+    private string CacheDeletedKeyplayer;
+    private string CacheDeletedEntityType;
+
+    public override async void Create()
     {
         base.Create();
 
@@ -100,18 +112,18 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
         SelectedEntityNavItem ??= DefaultNavItem;
 
-		CacheDeletedKeyplayer = CaseloadItem.DisplayName;
-		CacheDeletedEntityType = CaseloadItem.EntityType;
+        CacheDeletedKeyplayer = CaseloadItem.DisplayName;
+        CacheDeletedEntityType = CaseloadItem.EntityType;
 
-		await SetupDraftsObserver();
+        await SetupDraftsObserver();
 
-		StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, ReceiveEntityNavMessage);
+        StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, ReceiveEntityNavMessage);
     }
 
-	public override void Destroy()
+    public override void Destroy()
     {
-		realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
-		realmQueryMap.Dispose();
+        realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
+        realmQueryMap.Dispose();
 
         StrongReferenceMessenger.Default.UnregisterAll(this);
 
@@ -120,82 +132,95 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
     private void BuildNavList()
     {
-		EntityNavItems.Add(Details);
-		EntityNavItems.Add(FamilyMembers);
-		EntityNavItems.Add(Notes);
-		EntityNavItems.Add(Attachments);
+        EntityNavItems.Add(Details);
+        EntityNavItems.Add(FamilyMembers);
+        EntityNavItems.Add(Notes);
+        EntityNavItems.Add(Attachments);
 
         if (ShouldShowSafetyAssessment())
             EntityNavItems.Add(SafetyAssessment);
 
         if (ShouldShowChildYouthVisits())
             EntityNavItems.Add(ChildYouthVisits);
+
+        if (ShouldShowSupportNetwork())
+            EntityNavItems.Add(SupportNetwork);
     }
 
-	private async Task SetupDraftsObserver()
-	{
-		realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
+    private async Task SetupDraftsObserver()
+    {
+        realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
 
-		var noteRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
-		realmQueryMap.Subscribe(noteRealm, noteRealm.All<NoteDraft>()
-			.Where(draft => draft.ParentEntityId == CaseloadItem.CaseIncidentNumber));
+        var noteRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
+        realmQueryMap.Subscribe(noteRealm, noteRealm.All<NoteDraft>()
+            .Where(draft => draft.ParentEntityId == CaseloadItem.CaseIncidentNumber));
 
-		var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-		realmQueryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
-			.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
-		
-		var caseloadRealm = await VisitzRealms.GetIcmDataRealmAsync();
-		realmQueryMap.Subscribe(caseloadRealm, caseloadRealm.All<CaseloadItem>()
-			.Where(item => item.CaseIncidentNumber == CaseloadItem.CaseIncidentNumber));
+        var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+        realmQueryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
+            .Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
 
-		if (ShouldShowSafetyAssessment())
-		{
-			var assessmentRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
-			realmQueryMap.Subscribe(assessmentRealm, assessmentRealm.All<AssessmentDraft>()
-				.Where(draft => draft.DraftEntityId == CaseloadItem.CaseIncidentNumber));
-		}
-	}
+        var caseloadRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        realmQueryMap.Subscribe(caseloadRealm, caseloadRealm.All<CaseloadItem>()
+            .Where(item => item.CaseIncidentNumber == CaseloadItem.CaseIncidentNumber));
 
-	private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
-	{
-		if (e.Type == typeof(NoteDraft))
-			Notes.HasDraft = e.Items.Any();
-		else if (e.Type == typeof(AssessmentDraft))
-			SafetyAssessment.HasDraft = e.Items.Any();
-		else if (e.Type == typeof(AttachmentDraft))
-			Attachments.HasDraft = e.Items.Any();
-		else if (e.Type == typeof(CaseloadItem) && e.Changes?.DeletedIndices?.Length > 0)
-			_ = EntityUnassignedGoBack();
-	}
+        if (ShouldShowSafetyAssessment())
+        {
+            var assessmentRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+            realmQueryMap.Subscribe(assessmentRealm, assessmentRealm.All<AssessmentDraft>()
+                .Where(draft => draft.DraftEntityId == CaseloadItem.CaseIncidentNumber));
+        }
 
-	public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
-	{
-		RequestedSection = section;
-		FocusedDraftItem = focusedDraftItem;
+        if (ShouldShowChildYouthVisits())
+        {
+            var visitsRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+            realmQueryMap.Subscribe(visitsRealm, visitsRealm.All<PersonVisitDraft>()
+                .Where(draft => draft.RelatedEntityId == CaseloadItem.RowId));
+        }
+    }
 
-		SelectedEntityNavItem = GetMappedNavItem(section);
-	}
+    private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    {
+        if (e.Type == typeof(NoteDraft))
+            Notes.HasDraft = e.Items.Any();
+        else if (e.Type == typeof(AssessmentDraft))
+            SafetyAssessment.HasDraft = e.Items.Any();
+        else if (e.Type == typeof(AttachmentDraft))
+            Attachments.HasDraft = e.Items.Any();
+        else if (e.Type == typeof(CaseloadItem) && e.Changes?.DeletedIndices?.Length > 0)
+            _ = EntityUnassignedGoBack();
+        else if (e.Type == typeof(PersonVisitDraft))
+            ChildYouthVisits.HasDraft = e.Items.Any();
+    }
 
-	private EntityNavItem GetMappedNavItem(EntitySection? section)
-	{
-		return section switch
-		{
-			EntitySection.Family => FamilyMembers,
-			EntitySection.Notes or EntitySection.NoteEntry => Notes,
-			EntitySection.SafetyAssessment => SafetyAssessment,
-			EntitySection.Attachments => Attachments,
-			_ => Details,
-		};
-	}
+    public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
+    {
+        RequestedSection = section;
+        FocusedDraftItem = focusedDraftItem;
 
-	[RelayCommand]
+        SelectedEntityNavItem = GetMappedNavItem(section);
+    }
+
+    private EntityNavItem GetMappedNavItem(EntitySection? section)
+    {
+        return section switch
+        {
+            EntitySection.Family => FamilyMembers,
+            EntitySection.Notes or EntitySection.NoteEntry => Notes,
+            EntitySection.SafetyAssessment => SafetyAssessment,
+            EntitySection.Attachments => Attachments,
+            EntitySection.ChildYouthVisits or EntitySection.ChildYouthVisitsEntry => ChildYouthVisits,
+            _ => Details,
+        };
+    }
+
+    [RelayCommand]
     public void EntityNavSelected()
     {
-		var msg = new EntityNavMessage(SelectedEntityNavItem, CaseloadItem, RequestedSection, FocusedDraftItem);
-		StrongReferenceMessenger.Default.Send(msg);
+        var msg = new EntityNavMessage(SelectedEntityNavItem, CaseloadItem, RequestedSection, FocusedDraftItem);
+        StrongReferenceMessenger.Default.Send(msg);
 
-		RequestedSection = EntitySection.Unknown;
-		FocusedDraftItem = null;
+        RequestedSection = EntitySection.Unknown;
+        FocusedDraftItem = null;
     }
 
     [RelayCommand]
@@ -204,40 +229,41 @@ public partial class EntityNavViewModel : VisitzViewModel,
         StrongReferenceMessenger.Default.Send(new EntityNavBackMessage());
     }
 
-	private async Task EntityUnassignedGoBack()
-	{
-		GoBack();
-		await Navigator.CurrentOpenPage.DisplayAlert(
-			string.Format(
-				LocalizedStrings.RecordRemovedFromCaseload,
-				CacheDeletedEntityType,
-				CacheDeletedKeyplayer),
-			string.Format(
-				LocalizedStrings.RecordRemovedFromCaseloadDetails,
-				CacheDeletedEntityType,
-				CacheDeletedKeyplayer),
-			LocalizedStrings.Ok
-		);
-	}
+    private async Task EntityUnassignedGoBack()
+    {
+        GoBack();
+        await Navigator.CurrentOpenPage.DisplayAlert(
+            string.Format(
+                LocalizedStrings.RecordRemovedFromCaseload,
+                CacheDeletedEntityType,
+                CacheDeletedKeyplayer),
+            string.Format(
+                LocalizedStrings.RecordRemovedFromCaseloadDetails,
+                CacheDeletedEntityType,
+                CacheDeletedKeyplayer),
+            LocalizedStrings.Ok
+        );
+    }
 
-	private bool ShouldShowSafetyAssessment()
-	{
-		return CaseloadItem.EntityType.ParseEntityType() == EntityType.Incident;
-	}
+    private bool ShouldShowSafetyAssessment()
+    {
+        return CaseloadItem.EntityType.ParseEntityType() == EntityType.Incident;
+    }
 
     private bool ShouldShowChildYouthVisits()
     {
-#if DEBUG
         return CaseloadItem.EntityType.ParseEntityType() == EntityType.Case
             && CaseloadItem.CaseIncidentType.ParseEntitySubtype() == EntitySubtype.ChildServices;
-#else
-        return false; // TODO: Remove this after next release
-#endif
     }
 
     private void ReceiveEntityNavMessage(object recipient, EntityNavMessage message)
-	{
-		if (SelectedEntityNavItem != message.Value.Item1)
-			SelectedEntityNavItem = GetMappedNavItem(message.Value.Item3);
-	}
+    {
+        if (SelectedEntityNavItem != message.Value.Item1)
+            SelectedEntityNavItem = GetMappedNavItem(message.Value.Item3);
+    }
+
+    private bool ShouldShowSupportNetwork()
+    {
+        return CaseloadItem.EntityType.ParseEntityType() != EntityType.Memo;
+    }
 }

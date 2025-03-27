@@ -1,8 +1,8 @@
-﻿namespace VisitzModel.Events;
+using VisitzModel.Models.Drafts;
 
-public class DraftSaveStatusEventArgs(bool draftSaved, bool savingDraft) : EventArgs
+namespace VisitzModel.Events;
+
+public class DraftSaveStatusEventArgs(DraftSaveState state) : EventArgs
 {
-    public bool DraftSaved { get; set; } = draftSaved;
-
-    public bool SavingDraft { get; set; } = savingDraft;
+    public DraftSaveState State { get; } = state;
 }

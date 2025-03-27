@@ -3,6 +3,7 @@ using Visitz.Resources.Styles;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
 

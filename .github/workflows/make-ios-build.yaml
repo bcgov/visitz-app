@@ -11,6 +11,8 @@ on:
         required: true
 
 env:
+  BUILD_NUM_OFFSET: 246 # Final run number from previous repo before migration
+  RUN_NUMBER: ${{ github.run_number }}
   PROJPATH: "visitz/Visitz"
   DOTNET_SDK_VERSION: "8.0.402"
   GLOBAL_JSON_PATH: "visitz/global.json"
@@ -23,12 +25,19 @@ jobs:
     runs-on: macOS-14
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
-    env:
-      # TODO: read "MCFD Mobility" app name from MSBuild instead
-      OUTPUT_NAME: "MCFD Mobility-iOS-${{ github.event.inputs.environment }}-build_${{ github.run_number }}"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.2
+
+      - name: Set build name
+        run: |
+          BUILD_NUM=$(($BUILD_NUM_OFFSET + $RUN_NUMBER))
+          echo "BUILD_NUM=$BUILD_NUM" >> "$GITHUB_ENV"
+          
+          # TODO: read "MCFD Mobility" app name from MSBuild instead
+
+          OUTPUT_NAME="MCFD Mobility-iOS-${{ github.event.inputs.environment }}-build_$BUILD_NUM"
+          echo "OUTPUT_NAME=$OUTPUT_NAME" >> "$GITHUB_ENV"
 
       - name: Setup Xcode version
         uses: maxim-lobanov/setup-xcode@v1.6.0
@@ -38,10 +47,27 @@ jobs:
       - name: Import code-signing certificates
         uses: Apple-Actions/import-codesign-certs@v3
         with: 
-          p12-file-base64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
-          p12-password: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          p12-file-base64: ${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64 }}
+          p12-password: ${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_PASSWORD }}
 
-      - name: Install provisioning profile
+      - name: Retrieve certificate name
+        env:
+          APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64: ${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64 }}
+          TEMP_CERT_PATH: "temp-cert.p12"
+        run: |
+          echo -n "$APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64" | base64 --decode -o $TEMP_CERT_PATH
+
+          SUBJECT=$(openssl pkcs12 -in "$TEMP_CERT_PATH" \
+            -password pass:"${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_PASSWORD }}" \
+            -nodes -nokeys \
+            | openssl x509 -noout -subject)
+
+          COMMON_NAME=$(./.github/scripts/get_common_name.sh "$SUBJECT")
+          echo "IOS_BUILD_CERTIFICATE_NAME=$COMMON_NAME" >> "$GITHUB_ENV"
+
+          rm $TEMP_CERT_PATH
+
+      - name: Install provisioning profile and retrieve name
         env:
           IOS_BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_BUILD_PROVISION_PROFILE_BASE64 }}
         run: |
@@ -49,9 +75,14 @@ jobs:
 
           echo -n "$IOS_BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
 
-          # apply provisioning profile
+          # Apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+          # Retrieve profile name
+          echo "IOS_CODE_SIGN_PROVISION_PROFILE_NAME=$(/usr/libexec/PlistBuddy \
+            -c 'Print Name' /dev/stdin \
+            <<< $(security cms -D -i $PP_PATH))" >> "$GITHUB_ENV"
 
       - name: Inflate ${{ env.GLOBAL_JSON_PATH }}
         run: |
@@ -65,12 +96,12 @@ jobs:
           value: ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4.0.1
+        uses: actions/setup-dotnet@v4.3.0
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Cache .NET dependencies
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.2.2
         if: always()
         with:
           path: ~/.nuget/packages
@@ -79,7 +110,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Cache .NET workloads
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.2.2
         if: always()
         with:
           path: ~/.dotnet
@@ -96,17 +127,17 @@ jobs:
           dotnet publish $PROJPATH \
             --framework net8.0-ios \
             --configuration Release \
-            -p:ApplicationVersion=${{ github.run_number }} \
+            -p:ApplicationVersion=${{ env.BUILD_NUM }} \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
             -p:BuildTypeColor=${{ vars.BUILD_TYPE_COLOR }} \
-            -p:CodesignKey=${{ secrets.IOS_BUILD_CERTIFICATE_NAME }} \
-            -p:CodesignProvision=${{ secrets.IOS_CODE_SIGN_PROVISION_PROFILE_NAME }} \
+            -p:CodesignKey="${{ env.IOS_BUILD_CERTIFICATE_NAME }}" \
+            -p:CodesignProvision="${{ env.IOS_CODE_SIGN_PROVISION_PROFILE_NAME }}" \
             -p:UseAppSettings=true \
-            -p:Oidc_AuthenticationDomain=${{ vars.AUTHENTICATION_DOMAIN }} \
-            -p:Oidc_ClientId=${{ vars.KEYCLOAK_CLIENT_ID }} \
-            -p:Oidc_RedirectUri=${{ vars.REDIRECT_URI }} \
-            -p:Api_HttpsApiDomain=${{ vars.API_BASE_URL }} \
-            -p:ContactInfo_MailToAuthorize=${{ secrets.MAILTO_AUTHORIZE }} \
+            -p:Oidc_AuthenticationDomain="${{ vars.AUTHENTICATION_DOMAIN }}" \
+            -p:Oidc_ClientId="${{ vars.KEYCLOAK_CLIENT_ID }}" \
+            -p:Oidc_RedirectUri="${{ vars.REDIRECT_URI }}" \
+            -p:Api_HttpsApiDomain="${{ vars.API_BASE_URL }}" \
+            -p:ContactInfo_MailToAuthorize="${{ secrets.MAILTO_AUTHORIZE }}" \
             -p:ContactInfo_AccessRequestFormUrl="${{ vars.ACCESS_REQUEST_FORM_URL }}" \
             -p:ContactInfo_FeedbackSurveyUrl="${{ vars.FEEDBACK_SURVEY_URL }}" \
             -p:Debug_EnableDebugOptions=${{ vars.DEBUG_OPTIONS }}
@@ -117,7 +148,7 @@ jobs:
           mv "MCFD Mobility.ipa" "$OUTPUT_NAME.ipa"
 
       - name: Upload IPA archive (${{ inputs.environment }})
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.6.1
         with:
           name: ${{ env.OUTPUT_NAME }}
           path: ${{ env.PROJPATH }}/bin/Release/net8.0-ios/ios-arm64/publish/*.ipa

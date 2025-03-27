@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.Concurrent;
+using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzModel;
 

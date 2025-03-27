@@ -1,4 +1,5 @@
 using Visitz.Animations;
+using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views;
 
@@ -7,15 +8,6 @@ public partial class DraftSavedView : ContentView
     public static readonly BindableProperty TagPaddingProperty =
         BindableProperty.Create(nameof(TagPadding), typeof(Thickness), typeof(DraftSavedView),
             defaultValue: new Thickness(5.0d));
-
-	public enum State
-	{
-		None = 0,
-		Saving = 1,
-		Saved = 2,
-	}
-
-	public State DraftState { get; set; }
 
     public Thickness TagPadding
     {
@@ -28,17 +20,17 @@ public partial class DraftSavedView : ContentView
 		InitializeComponent();
 	}
 
-	public async Task SetState(State state)
+	public async Task SetState(DraftSaveState state)
 	{
         switch (state)
         {
-            case State.None:
+            case DraftSaveState.None:
                 await AnimateCrossfade(showSaving: false, showSaved: false);
                 break;
-            case State.Saving:
+            case DraftSaveState.Saving:
                 await AnimateCrossfade(showSaving: true, showSaved: false);
                 break;
-            case State.Saved:
+            case DraftSaveState.Saved:
                 await AnimateCrossfade(showSaving: false, showSaved: true);
                 break;
             default:

@@ -1,8 +1,8 @@
-using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
-using VisitzModel.Messaging;
+using VisitzModel.Events;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.SafetyAssess;
@@ -15,6 +15,8 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 	// be unreliable--so we'll use a time-delayed bool.
 	private bool canAutoScroll;
 
+    private bool disposed;
+
     public CaseloadItem CaseloadItem 
 	{
 		get => ViewModel.CaseloadItem;
@@ -25,36 +27,33 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 	{
 		InitializeComponent();
 		BindingContext = ViewModel;
+
+        ViewModel.SaveStateHandler.SaveStateChanged += SaveStateHandler_SaveStateChanged;
 		
 		_ = DelayCanAutoScroll();
 	}
 
-	private async Task DelayCanAutoScroll()
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            ViewModel.SaveStateHandler.SaveStateChanged -= SaveStateHandler_SaveStateChanged;
+            ViewModel.SaveStateHandler?.Dispose();
+            disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
+    private async Task DelayCanAutoScroll()
 	{
 		await Task.Delay(1500);
 		canAutoScroll = true;
 	}
 
-    protected override void Creating()
+    private async void SaveStateHandler_SaveStateChanged(object sender, DraftSaveStatusEventArgs e)
     {
-        base.Creating();
-
-		StrongReferenceMessenger.Default.Register<DraftSavedMessage<DraftSavedView.State>>(this, ReceiveAppNavMessage);
+        await DraftSavedIndicator.SetState(e.State);
     }
-
-    protected override void Destroying()
-    {
-        StrongReferenceMessenger.Default.UnregisterAll(this);
-
-        base.Destroying();
-    }
-
-    private void ReceiveAppNavMessage(object recipient, DraftSavedMessage<DraftSavedView.State> message)
-	{
-		var thiz = (EntitySafetyAssessView)recipient;
-
-		_ = thiz.DraftSavedIndicator.SetState(message.Value);
-	}
 
     private async void DiscardButton_Clicked(object sender, EventArgs e)
     {

@@ -1,4 +1,5 @@
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Notes;
 
 namespace VisitzModel.Models.Comparers;
 

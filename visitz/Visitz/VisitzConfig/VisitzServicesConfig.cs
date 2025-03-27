@@ -1,4 +1,10 @@
 using Visitz.Services;
+using Visitz.Services.Attachments;
+using Visitz.Services.Caseload;
+using Visitz.Services.Notes;
+using Visitz.Services.People;
+using Visitz.Services.SafetyAssessments;
+using Visitz.Services.Visits;
 using VisitzModel.Storage;
 
 namespace Visitz.VisitzConfig
@@ -17,6 +23,14 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<SubmitAndGetNotesService>();
             builder.Services.AddTransient<SubmitSafetyAssessmentService>();
 			builder.Services.AddTransient<SubmitAttachmentService>();
+            builder.Services.AddTransient<GetVisitsService>();
+            builder.Services.AddTransient<GetVisitsByRangeService>();
+            builder.Services.AddTransient<PostVisitService>();
+            builder.Services.AddTransient<PostAndRefreshVisitService>();
+            builder.Services.AddTransient<GetContactsService>();
+            builder.Services.AddTransient<GetContactsByRangeService>();
+            builder.Services.AddTransient<GetSupportNetworkService>();
+            builder.Services.AddTransient<GetSupportNetworkByRangeService>();
 
             return builder;
         }

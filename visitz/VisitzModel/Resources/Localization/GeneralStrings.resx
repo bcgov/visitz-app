@@ -124,4 +124,8 @@
   <data name="SafetyAssessment" xml:space="preserve">
     <value>Safety assessment</value>
   </data>
+  <data name="VisitDate" xml:space="preserve">
+    <value>Visit date: {0}</value>
+    <comment>0 = Date of visit</comment>
+  </data>
 </root>

@@ -17,6 +17,8 @@ public class DebugOptions
 {
     private static readonly string DryFireSubmitNotesKey = "DryFireSubmitNotes";
     private static readonly string DryFireSubmitNotesSimulateSuccessKey = "DryFireSubmitNotesSimulateSuccess";
+    private static readonly string DryFirePostVisitServiceKey = "DryFirePostVisitService";
+    private static readonly string DryFirePostVisitServiceSimulateSuccessKey = "DryFirePostVisitServiceSimulateSuccess";
     private static readonly string SkipLocalAuthKey = "SkipLocalAuth";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
@@ -60,6 +62,18 @@ public class DebugOptions
     {
         get => DryFireSubmitNotes && Get(DryFireSubmitNotesSimulateSuccessKey, false);
         set => Set(DryFireSubmitNotesSimulateSuccessKey, value);
+    }
+
+    public static bool DryFirePostVisitService
+    {
+        get => Get(DryFirePostVisitServiceKey, false);
+        set => Set(DryFirePostVisitServiceKey, value);
+    }
+
+    public static bool DryFirePostVisitServiceSimulateSuccess
+    {
+        get => DryFirePostVisitService && Get(DryFirePostVisitServiceSimulateSuccessKey, false);
+        set => Set(DryFirePostVisitServiceSimulateSuccessKey, value);
     }
 
     public static bool SkipLocalAuth

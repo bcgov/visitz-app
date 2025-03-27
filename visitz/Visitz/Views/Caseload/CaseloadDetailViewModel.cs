@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Visitz.Services;
+using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Events;
 using VisitzModel.Storage;

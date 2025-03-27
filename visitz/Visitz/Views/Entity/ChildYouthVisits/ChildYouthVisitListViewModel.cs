@@ -1,22 +1,30 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Realms;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
 {
     private static readonly int InfoDayRange = 90;
     private static readonly int WarningDayRange = 30;
     private static readonly int DangerDayRange = 5;
     private static readonly int CriticalDayRange = 0;
     private bool _disposed;
+
     readonly ObservableRealmQueryMap realmQuery = new();
+
+    public EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
     ObservableCollection<PersonVisit> personVisits = [];
@@ -48,16 +56,25 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     [ObservableProperty]
     public bool showEmptyIcon = false;
 
+    [ObservableProperty]
+    public string openAddVisitText;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
+
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        Realm visitDraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-        realmQuery.Subscribe(icmDataRealm, icmDataRealm.All<PersonVisit>()
-                .Where(person => person.ParentId == CaseloadItem.CaseIncidentNumber)
-                .OrderByDescending(person => person.DateOfVisit));
+        realmQuery.Subscribe(icmDataRealm, PersonVisit.GetVisitsByCaseId(icmDataRealm, CaseloadItem.RowId));
 
+        realmQuery.Subscribe(visitDraftRealm, visitDraftRealm.All<PersonVisitDraft>()
+            .Where(visit => visit.RelatedEntityId == CaseloadItem.RowId));
+
+        if (RequestedSection == EntitySection.ChildYouthVisitsEntry)
+            await OpenVisitEntry();
     }
 
     protected override void Dispose(bool disposing)
@@ -68,7 +85,6 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
             realmQuery.Dispose();
             _disposed = true;
         }
-
         base.Dispose(disposing);
     }
 
@@ -116,22 +132,45 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 
     private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
-        if (e.Changes == null)
+        if (e.Type == typeof(PersonVisit))
+            UpdateVisitsList(e.Items, e.Changes);
+        else if (e.Type == typeof(PersonVisitDraft))
+            UpdateOpenAddVisitText(e.Items.Any());
+
+        UpdatePersonVisitRelatedInfo(PersonVisits);
+    }
+
+    private void UpdateVisitsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    {
+        if (changes == null)
         {
-            foreach (var item in e.Items)
+            foreach (var item in items)
                 PersonVisits.Add(item as PersonVisit);
         }
         else
         {
-            foreach (int deleted in e.Changes.DeletedIndices)
+            foreach (int deleted in changes.DeletedIndices.Reverse())
                 PersonVisits.RemoveAt(deleted);
 
-            foreach (int modified in e.Changes.ModifiedIndices)
-                PersonVisits[modified] = e.Items[modified] as PersonVisit;
-
-            foreach (int inserted in e.Changes.InsertedIndices)
-                PersonVisits.Insert(inserted, e.Items[inserted] as PersonVisit);
+            foreach (int inserted in changes.InsertedIndices)
+                PersonVisits.Insert(inserted, items[inserted] as PersonVisit);
         }
-        UpdatePersonVisitRelatedInfo(PersonVisits);
+    }
+
+    private void UpdateOpenAddVisitText(bool draftAvailable)
+    {
+        OpenAddVisitText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddVisit;
+    }
+
+    [RelayCommand]
+    public async Task OpenVisitEntry(PersonVisit personVisitObj = null)
+    {
+        var visitEntryView = ServiceProvider.GetService<ChildYouthVisitView>();
+        visitEntryView.CaseloadItem = CaseloadItem;
+        visitEntryView.ViewModel.PersonVisitItem = personVisitObj;
+        visitEntryView.ViewModel.IsUpdatingEnabled = personVisitObj == null;
+        visitEntryView.ViewModel.HideElements = personVisitObj == null;
+
+        await Navigator.Navigation.PushModalAsync(visitEntryView, ViewModalSize.Wide);
     }
 }

@@ -1,3 +1,5 @@
+using Visitz.Services.Base;
+
 namespace Visitz.Services
 {
     public class ServiceStateMessage : ServiceInfoMessage

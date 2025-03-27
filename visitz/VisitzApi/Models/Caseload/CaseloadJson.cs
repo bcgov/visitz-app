@@ -1,0 +1,22 @@
+using System.Text.Json.Serialization;
+
+namespace VisitzApi.Models.Caseload;
+
+public class CaseloadJson
+{
+    [JsonRequired]
+    [JsonPropertyName("cases")]
+    public SectionJson<CaseJson> Cases { get; set; }
+
+    [JsonRequired]
+    [JsonPropertyName("incidents")]
+    public SectionJson<IncidentJson> Incidents { get; set; }
+
+    [JsonRequired]
+    [JsonPropertyName("srs")]
+    public SectionJson<ServiceRequestJson> ServiceRequests { get; set; }
+
+    [JsonRequired]
+    [JsonPropertyName("memos")]
+    public SectionJson<MemoJson> Memos { get; set; }
+}

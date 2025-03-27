@@ -1,11 +1,10 @@
 using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
-using Visitz.Views.Snackbar;
-using Visitz.Resources.Localization;
-using Visitz.Device;
 
 namespace Visitz.Views.Entity.Attachments;
 

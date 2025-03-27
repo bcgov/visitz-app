@@ -1,23 +1,24 @@
 using System.Globalization;
+using Realms;
+using VisitzApi.Models.Attachments;
 using VisitzModel.Encryption;
 using VisitzModel.Formats;
-using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
+using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Storage.Filesystem;
 
-public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadItemHolder
+public class AttachmentFiler(EntityType entityType, string fileNumber, string firstName, string lastName, byte[] key)
 {
 	static readonly string BasePath = "Attachments";
 
 	readonly Crypto cryptoHandler = new(key);
 
-	public CaseloadItem CaseloadItem { get; set; } = caseloadItem;
+	string CaseloadItemId => $"{entityType}_{fileNumber}";
 
-	string CaseloadItemId => $"{CaseloadItem.EntityType}_{CaseloadItem.CaseIncidentNumber}";
-
-	string ContextualName => CaseloadItem.KeyPlayer != null
-			? $"{CaseloadItem.KeyPlayer.LastName}_{CaseloadItem.KeyPlayer.FirstName}"
-			: CaseloadItemId;
+	string ContextualName => string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName)
+			? CaseloadItemId
+			: $"{lastName}_{firstName}";
 
 	static string AppDataPath =>
 #if WINDOWS
@@ -60,6 +61,20 @@ public class AttachmentFiler(CaseloadItem caseloadItem, byte[] key) : ICaseloadI
 	public async Task<string> SaveFileAsync(Stream stream, string extension)
 	{
 		return await WriteEncryptedFile(stream, extension);
+	}
+
+	public async Task<string> SaveFileAsync(string base64, string extension)
+	{
+		var memoryStream = new MemoryStream(Convert.FromBase64String(base64));
+		return await SaveFileAsync(memoryStream, extension);
+	}
+
+	public async Task SaveAttachmentDetailsAsync(Realm realm, AttachmentJson item, EntityType entityType, string entityId)
+	{
+		Attachment attachment = new(item, entityId, entityType);
+		string relativePath = await SaveFileAsync(item.AttachmentId, item.FileExt);
+		attachment.RelativePath = relativePath;
+		await realm.WriteAsync(() => realm.Add(attachment, update: true));
 	}
 
 	/// <summary>

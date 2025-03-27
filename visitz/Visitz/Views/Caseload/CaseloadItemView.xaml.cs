@@ -37,8 +37,10 @@ public partial class CaseloadItemView : ContentView
 
 		if (DraftedItems != null)
 		{
-			var tuple = (item.CaseIncidentNumber, item.EntityType.ParseEntityType());
-			DraftIndicator.IsVisible = DraftedItems.Contains(tuple);
+			var v1Tuple = (item.CaseIncidentNumber, item.EntityType.ParseEntityType()); // TODO Remove when fully on V2
+            var v2Tuple = (item.RowId, item.EntityType.ParseEntityType());
+
+            DraftIndicator.IsVisible = DraftedItems.Contains(v1Tuple) || DraftedItems.Contains(v2Tuple);
 		}
 	}
 }

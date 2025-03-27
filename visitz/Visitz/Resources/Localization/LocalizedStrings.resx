@@ -810,4 +810,55 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="AddVisit" xml:space="preserve">
+    <value>Add visit</value>
+  </data>
+  <data name="DateOfVisit" xml:space="preserve">
+    <value>Date of visit</value>
+  </data>
+  <data name="VisitDescription" xml:space="preserve">
+    <value>Visit description</value>
+  </data>
+  <data name="VisitDetails" xml:space="preserve">
+    <value>Visit details</value>
+  </data>
+  <data name="VisitType" xml:space="preserve">
+    <value>Visit type</value>
+  </data>
+  <data name="DiscardVisitDraftDescription" xml:space="preserve">
+    <value>Are you sure you want to discard this in-person visit draft? You won't be able to recover it.</value>
+  </data>
+  <data name="DiscardedVisitDraft" xml:space="preserve">
+    <value>Discarded visit draft</value>
+  </data>
+  <data name="LoginToSubmitVisit" xml:space="preserve">
+    <value>Login to submit child/youth visit</value>
+  </data>
+  <data name="FailedToRefreshVisits" xml:space="preserve">
+    <value>Refreshing visits on device failed</value>
+  </data>
+  <data name="PublishingVisit" xml:space="preserve">
+    <value>Publishing visit to ICM</value>
+  </data>
+  <data name="RefreshedVisitsOnDevice" xml:space="preserve">
+    <value>Refreshed visits on device</value>
+  </data>
+  <data name="RefreshingVisits" xml:space="preserve">
+    <value>Refreshing visits</value>
+  </data>
+  <data name="VisitPublishedToIcm" xml:space="preserve">
+    <value>Visit published to ICM</value>
+  </data>
+  <data name="AuthenticationRequired" xml:space="preserve">
+    <value>Authentication required</value>
+  </data>
+  <data name="SupportNetwork" xml:space="preserve">
+    <value>Support network</value>
+  </data>
+  <data name="Agency" xml:space="preserve">
+    <value>Agency</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
 </root>

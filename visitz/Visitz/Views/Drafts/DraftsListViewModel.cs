@@ -8,8 +8,13 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
+using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
@@ -80,6 +85,11 @@ internal partial class DraftsListViewModel : VisitzViewModel
             SortAndSubscribe(realm, realm.All<AttachmentDraft>());
             SectionToOpen = EntitySection.Attachments;
         }
+        else if (type == typeof(PersonVisitDraft))
+        {
+            SortAndSubscribe(realm, realm.All<PersonVisitDraft>());
+            SectionToOpen = EntitySection.ChildYouthVisitsEntry;
+        }
         else
             throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
     }
@@ -102,15 +112,51 @@ internal partial class DraftsListViewModel : VisitzViewModel
     [RelayCommand]
     private void DraftItemSelected(IDraftItem draftItem)
     {
-        var caseloadItem = DataRealm
-            .All<CaseloadItem>()
-            .Where(item => item.CaseIncidentNumber == draftItem.RelatedEntityId)
-            .FirstOrDefault();
+        var caseloadItem = GetRelatedCaseloadItem(draftItem);
 
         if (caseloadItem != null)
             NavigateTo(caseloadItem, SectionToOpen, draftItem);
         else
             SelectedItemRelatedMissing?.Invoke(this, draftItem);
+    }
+
+    private CaseloadItem GetRelatedCaseloadItem(IDraftItem draft)
+    {
+        var caseloadItem = DataRealm
+            .All<CaseloadItem>()
+            .Where(item => item.CaseIncidentNumber == draft.RelatedEntityId)
+            .FirstOrDefault();
+
+        if (caseloadItem == null)
+        {
+            // TODO: Remove this when fully switched to V2 API
+            string number = GetV2RecordNumber(draft);
+            caseloadItem = DataRealm
+                .All<CaseloadItem>()
+                .Where(item => item.CaseIncidentNumber == number)
+                .FirstOrDefault();
+        }
+
+        return caseloadItem;
+    }
+
+    // TODO: Remove this when fully switched to V2 API
+    private string GetV2RecordNumber(IDraftItem draft)
+    {
+        if (draft.RelatedEntityType == EntityType.Case)
+            return DataRealm
+                .All<CaseRecord>()
+                .Where(@case => @case.Id == draft.RelatedEntityId)
+                .First()
+                .FileNumber;
+        else if (draft.RelatedEntityType == EntityType.Incident)
+            return DataRealm
+                .All<IncidentRecord>()
+                .Where(incident => incident.Id == draft.RelatedEntityId)
+                .First()
+                .FileNumber;
+        else
+            throw new InvalidOperationException($"{nameof(EntityType)} '{draft.RelatedEntityType}' not supported");
     }
 
     static void NavigateTo(CaseloadItem caseloadItem, EntitySection section, IDraftItem draftItem)

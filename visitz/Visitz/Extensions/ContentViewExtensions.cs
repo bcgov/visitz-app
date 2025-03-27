@@ -1,4 +1,6 @@
 using MauiNavigationPage = Microsoft.Maui.Controls.NavigationPage;
+using Visitz.Views.BaseClasses;
+
 
 #if IOS || MACCATALYST
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -24,7 +26,7 @@ public static class ContentViewExtensions
 
     public static ContentPage WrapPageForModal(this ContentView contentView, ViewModalSize size = ViewModalSize.Wide)
     {
-        var page = new ContentPage()
+        var page = new VisitzPage(null)
         {
             Background = Colors.Transparent,
         };

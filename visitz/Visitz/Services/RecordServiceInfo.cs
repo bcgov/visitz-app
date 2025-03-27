@@ -1,0 +1,52 @@
+using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
+
+namespace Visitz.Services;
+
+internal class RecordServiceInfo
+{
+    public EntityType Type { get; set; }
+
+    public string Id { get; set; }
+
+    public string Label { get; set; }
+
+    RecordServiceInfo(string id, string label)
+    {
+        Id = id;
+        Label = label;
+    }
+
+    public RecordServiceInfo(CaseRecord @case) : this(@case.Id, @case.Name)
+    {
+        Type = EntityType.Case;
+    }
+
+    public RecordServiceInfo(IncidentRecord incident) : this(incident.Id, incident.LastName)
+    {
+        Type = EntityType.Incident;
+    }
+
+    public RecordServiceInfo(MemoRecord memo) : this(memo.Id, memo.LastName)
+    {
+        Type = EntityType.Memo;
+    }
+
+    public RecordServiceInfo(ServiceRequestRecord sr) : this(sr.Id, sr.LastName)
+    {
+        Type = EntityType.ServiceRequest;
+    }
+}
+
+internal static class RecordServiceInfoExtensions
+{
+    public static Exception CombineIntoException(this List<ApiRangeItemException<RecordServiceInfo>> list)
+    {
+        var outString = list.Select(ex =>
+        {
+            return $"• {ex.Item.Type} {ex.Item.Label} -> {ex.Message}";
+        }).Aggregate((accum, item) => accum + Environment.NewLine + item);
+
+        return new Exception(outString);
+    }
+}

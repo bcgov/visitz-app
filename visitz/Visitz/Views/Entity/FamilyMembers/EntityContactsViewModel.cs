@@ -1,7 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Sorting;
+using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;
 

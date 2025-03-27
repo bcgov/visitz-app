@@ -7,6 +7,7 @@ using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Entity.Attachments;

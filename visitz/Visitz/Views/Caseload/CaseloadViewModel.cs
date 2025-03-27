@@ -5,6 +5,8 @@ using Realms;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Services.Base;
+using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
@@ -14,16 +16,19 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Caseload
 {
-	/// <summary>
-	/// The business logic for the cases and incidents list rendering goes here.
-	/// </summary>
-	public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
+    /// <summary>
+    /// The business logic for the cases and incidents list rendering goes here.
+    /// </summary>
+    public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
         private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 
@@ -110,6 +115,9 @@ namespace Visitz.Views.Caseload
 		[ObservableProperty]
 		public HashSet<(string EntityId, EntityType Type)> draftedItems = [];
 
+        [ObservableProperty]
+        public HashSet<(string EntityId, EntityType Type)> draftedVisits = [];
+
         private async Task Setup()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
@@ -143,6 +151,9 @@ namespace Visitz.Views.Caseload
 
 			var attachmentDraft = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 			realmQueryMap.Subscribe(attachmentDraft, attachmentDraft.All<AttachmentDraft>());
+
+            var visitDraft = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+            realmQueryMap.Subscribe(visitDraft, visitDraft.All<PersonVisitDraft>());
 		}
 
 		private void Teardown()
@@ -319,12 +330,14 @@ namespace Visitz.Views.Caseload
 			foreach (var item in e.Items.Cast<IDraftItem>())
 				drafted.Add((item.RelatedEntityId, item.RelatedEntityType));
 
-			if (e.Type == typeof(NoteDraft))
-				DraftedNotes = drafted;
-			else if (e.Type == typeof(AssessmentDraft))
-				DraftedAssessments = drafted;
-			else if (e.Type == typeof(AttachmentDraft))
-				DraftedAttachments = drafted;
+            if (e.Type == typeof(NoteDraft))
+                DraftedNotes = drafted;
+            else if (e.Type == typeof(AssessmentDraft))
+                DraftedAssessments = drafted;
+            else if (e.Type == typeof(AttachmentDraft))
+                DraftedAttachments = drafted;
+            else if (e.Type == typeof(PersonVisitDraft))
+                DraftedVisits = drafted;
 		}
 
 		partial void OnDraftedNotesChanged(HashSet<(string EntityId, EntityType Type)> value)
@@ -332,6 +345,7 @@ namespace Visitz.Views.Caseload
 			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
 			newSet.UnionWith(DraftedAssessments);
 			newSet.UnionWith(DraftedAttachments);
+            newSet.UnionWith(DraftedVisits);
 			DraftedItems = newSet;
 		}
 
@@ -340,7 +354,8 @@ namespace Visitz.Views.Caseload
 			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
 			newSet.UnionWith(DraftedNotes);
 			newSet.UnionWith(DraftedAttachments);
-			DraftedItems = newSet;
+            newSet.UnionWith(DraftedVisits);
+            DraftedItems = newSet;
 		}
 
 		partial void OnDraftedAttachmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
@@ -348,7 +363,17 @@ namespace Visitz.Views.Caseload
 			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
 			newSet.UnionWith(DraftedNotes);
 			newSet.UnionWith(DraftedAssessments);
-			DraftedItems = newSet;
+            newSet.UnionWith(DraftedVisits);
+            DraftedItems = newSet;
 		}
-	}
+
+        partial void OnDraftedVisitsChanged(HashSet<(string EntityId, EntityType Type)> value)
+        {
+            var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
+            newSet.UnionWith(DraftedAssessments);
+            newSet.UnionWith(DraftedAttachments);
+            newSet.UnionWith(DraftedNotes);
+            DraftedItems = newSet;
+        }
+    }
 }

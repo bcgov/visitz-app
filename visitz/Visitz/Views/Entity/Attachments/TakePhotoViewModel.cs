@@ -5,7 +5,10 @@ using Realms;
 using System.Text;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
@@ -45,7 +48,11 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		base.Create();
 
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-		attachmentFiler = await VisitzFiles.GetAsync(CaseloadItem);
+		attachmentFiler = await VisitzFiles.GetAsync(
+			CaseloadItem.EntityType.ParseEntityType(),
+			CaseloadItem.CaseIncidentNumber,
+			CaseloadItem.KeyPlayer.FirstName,
+			CaseloadItem.KeyPlayer.LastName);
 
 		await SetupCameras();
 		SetupCameraRoll();
@@ -121,7 +128,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 		{
 			string filename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
 
-			await AttachmentDraft.SaveNewPhoto(attachmentFiler, AttachmentsRealm, filename, stream);
+			await AttachmentDraft.SaveNewPhoto(CaseloadItem, attachmentFiler, AttachmentsRealm, filename, stream);
 		}
 		finally
 		{

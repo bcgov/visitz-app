@@ -61,6 +61,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add notes.
         /// </summary>
         public static string AddNotes {
@@ -88,11 +97,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add visit.
+        /// </summary>
+        public static string AddVisit {
+            get {
+                return ResourceManager.GetString("AddVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Age.
         /// </summary>
         public static string Age {
             get {
                 return ResourceManager.GetString("Age", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agency.
+        /// </summary>
+        public static string Agency {
+            get {
+                return ResourceManager.GetString("Agency", resourceCulture);
             }
         }
         
@@ -129,6 +156,15 @@ namespace Visitz.Resources.Localization {
         public static string Attachments {
             get {
                 return ResourceManager.GetString("Attachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authentication required.
+        /// </summary>
+        public static string AuthenticationRequired {
+            get {
+                return ResourceManager.GetString("AuthenticationRequired", resourceCulture);
             }
         }
         
@@ -400,6 +436,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date of visit.
+        /// </summary>
+        public static string DateOfVisit {
+            get {
+                return ResourceManager.GetString("DateOfVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -503,6 +548,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discarded visit draft.
+        /// </summary>
+        public static string DiscardedVisitDraft {
+            get {
+                return ResourceManager.GetString("DiscardedVisitDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discarded note draft.
         /// </summary>
         public static string DiscardNoteDraft {
@@ -548,6 +602,15 @@ namespace Visitz.Resources.Localization {
         public static string DiscardUnlinkedDraftDesc {
             get {
                 return ResourceManager.GetString("DiscardUnlinkedDraftDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to discard this in-person visit draft? You won&apos;t be able to recover it..
+        /// </summary>
+        public static string DiscardVisitDraftDescription {
+            get {
+                return ResourceManager.GetString("DiscardVisitDraftDescription", resourceCulture);
             }
         }
         
@@ -683,6 +746,15 @@ namespace Visitz.Resources.Localization {
         public static string FailedToRefreshNotes {
             get {
                 return ResourceManager.GetString("FailedToRefreshNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing visits on device failed.
+        /// </summary>
+        public static string FailedToRefreshVisits {
+            get {
+                return ResourceManager.GetString("FailedToRefreshVisits", resourceCulture);
             }
         }
         
@@ -921,6 +993,15 @@ namespace Visitz.Resources.Localization {
         public static string LoginToSubmitSA {
             get {
                 return ResourceManager.GetString("LoginToSubmitSA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login to submit child/youth visit.
+        /// </summary>
+        public static string LoginToSubmitVisit {
+            get {
+                return ResourceManager.GetString("LoginToSubmitVisit", resourceCulture);
             }
         }
         
@@ -1332,6 +1413,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Publishing visit to ICM.
+        /// </summary>
+        public static string PublishingVisit {
+            get {
+                return ResourceManager.GetString("PublishingVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} - Safety Assessment {1}.
         /// </summary>
         public static string PublishSATitle {
@@ -1406,11 +1496,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshed visits on device.
+        /// </summary>
+        public static string RefreshedVisitsOnDevice {
+            get {
+                return ResourceManager.GetString("RefreshedVisitsOnDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshing notes.
         /// </summary>
         public static string RefreshingNotes {
             get {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing visits.
+        /// </summary>
+        public static string RefreshingVisits {
+            get {
+                return ResourceManager.GetString("RefreshingVisits", resourceCulture);
             }
         }
         
@@ -1973,6 +2081,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Support network.
+        /// </summary>
+        public static string SupportNetwork {
+            get {
+                return ResourceManager.GetString("SupportNetwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to select.
         /// </summary>
         public static string TapToSelect {
@@ -2027,11 +2144,47 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Visit description.
+        /// </summary>
+        public static string VisitDescription {
+            get {
+                return ResourceManager.GetString("VisitDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit details.
+        /// </summary>
+        public static string VisitDetails {
+            get {
+                return ResourceManager.GetString("VisitDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In-person visit due by {0}..
         /// </summary>
         public static string VisitDueBy {
             get {
                 return ResourceManager.GetString("VisitDueBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit published to ICM.
+        /// </summary>
+        public static string VisitPublishedToIcm {
+            get {
+                return ResourceManager.GetString("VisitPublishedToIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit type.
+        /// </summary>
+        public static string VisitType {
+            get {
+                return ResourceManager.GetString("VisitType", resourceCulture);
             }
         }
         

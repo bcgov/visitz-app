@@ -13,6 +13,7 @@ using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Navigation;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
+using Visitz.Views.Entity.SupportNetwork;
 using Visitz.Views.Navigation;
 using Visitz.Views.Root;
 using Visitz.Views.Snackbar;
@@ -89,6 +90,7 @@ public static class VisitzScreens
         builder.Services.AddTransient<NotePublishViewModel>();
         builder.Services.AddTransient<SafetyAssessmentPublishViewModel>();
         builder.Services.AddTransient<AttachmentDraftPublishViewModel>();
+        builder.Services.AddTransient<ChildYouthVisitPublishViewModel>();
 
         builder.Services.AddTransient<NoteEntryView>();
         builder.Services.AddTransient<NoteEntryViewModel>();
@@ -109,6 +111,12 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<DraftsList>();
         builder.Services.AddTransient<DraftsListViewModel>();
+
+        builder.Services.AddTransient<ChildYouthVisitView>();
+        builder.Services.AddTransient<ChildYouthVisitViewModel>();
+
+        builder.Services.AddTransient<SupportNetworkListView>();
+        builder.Services.AddTransient<SupportNetworkListViewModel>();
 
         return builder;
     }

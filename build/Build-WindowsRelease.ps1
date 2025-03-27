@@ -13,6 +13,8 @@ param(
 
     [switch] $NoOpenOutputDirectory,
 
+    [switch] $AppxPackageSigningEnabled = $true,
+
     [string] $RuntimeIdentifierOverride = "win-x64", # Can also be "win10-x64"
 
     [string] 
@@ -75,7 +77,10 @@ function Ensure-Env {
 [string] $ContactInfo_FeedbackSurveyUrl = Ensure-Env -Name $ContactInfo_FeedbackSurveyUrlName -Scope $EnvScope
 
 $env = $Environment
-$outputName = "MCFD Mobility-Windows-$env-build_$BuildNumber"
+
+[xml]$props = Get-Content "..\visitz\Visitz\Visitz.props"
+$version = (Select-Xml -Xml $props -XPath "//PropertyGroup/VisitzVersion").ToString()
+$outputName = "MCFD Mobility-Windows-$env-$Version.$BuildNumber"
 
 if ($Environment -eq "prod") {
     # "prod" only used for command line intention and build label, buildscript uses empty string for prod
@@ -109,6 +114,8 @@ if ($SelfContained) {
     $selfContainedString = "--self-contained"
 }
 
+$appxEnabledString = $AppxPackageSigningEnabled.ToString().ToLowerInvariant()
+
 dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     --artifacts-path ".\$artifactsDir" `
     --framework net8.0-windows10.0.19041.0 `
@@ -116,6 +123,7 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     $selfContainedString `
     -p:ApplicationVersion=$BuildNumber `
     -p:DeploymentEnvironment=$env `
+    -p:AppxPackageSigningEnabled=$appxEnabledString `
     -p:PackageCertificateThumbprint=$CertificateThumbprint `
     -p:AppxCertificateSubject=$CertificateSubject `
     -p:BuildTypeColor=$BuildColor `
