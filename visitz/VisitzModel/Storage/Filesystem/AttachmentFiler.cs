@@ -65,6 +65,9 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
 
 	public async Task<string> SaveFileAsync(string base64, string extension)
 	{
+        if (string.IsNullOrWhiteSpace(base64))
+            throw new ArgumentException("File content missing", nameof(base64));
+
 		var memoryStream = new MemoryStream(Convert.FromBase64String(base64));
 		return await SaveFileAsync(memoryStream, extension);
 	}
