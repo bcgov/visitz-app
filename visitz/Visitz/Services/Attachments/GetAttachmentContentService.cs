@@ -1,8 +1,9 @@
-using System.Diagnostics;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Models.Attachments;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
@@ -31,7 +32,7 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
 
     public override string GetId()
     {
-        var (entityType, recordId, attachmentId, force, firstName, lastName) = AttachmentDetailsItem;
+        var (entityType, recordId, attachmentId, _, _, _) = AttachmentDetailsItem;
         return MakeId(entityType, recordId, attachmentId);
     }
 
@@ -41,17 +42,42 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
         ResultCode = Result.Successful;
     }
 
-    private async Task DownloadAndSaveAttachmentDetailAsync((EntityType entityType, string id, string attachmentId, bool force, string firstName, string lastName) tuple)
+    private async Task DownloadAndSaveAttachmentDetailAsync(
+        (EntityType entityType,
+        string id,
+        string attachmentId,
+        bool force,
+        string firstName,
+        string lastName) tuple)
     {
         var (entityType, recordId, attachmentId, force, firstName, lastName) = tuple;
-        var attachmentFiler = await VisitzFiles.GetAsync(entityType, recordId, firstName, lastName);
         var after = force ? null : prefs.Get(MakeId(tuple.entityType, tuple.id, tuple.attachmentId));
-        var attachment = await Vpi.GetAttachmentDetailsAsync((ApiRecordType)entityType, recordId, attachmentId, after);
 
-        await VisitzRealms.EnqueueIcmDataActionAsync(async() =>
-        {
-            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            await Attachment.SaveAttachmentAndDetailsAsync(realm, attachment, recordId, entityType, attachmentFiler);
-        });
+        var attachmentJson = await Vpi.GetAttachmentDetailsAsync(
+            (ApiRecordType)entityType,
+            recordId,
+            attachmentId,
+            after);
+
+        var attachment = await SaveFile(attachmentJson, recordId, entityType, firstName, lastName);
+
+        await VisitzRealms.EnqueueIcmDataActionAsync(async (realm) =>
+            await realm.WriteAsync(() => realm.Upsert(attachment)));
+    }
+
+    private static async Task<Attachment> SaveFile(
+        AttachmentJson json,
+        string recordId,
+        EntityType entityType,
+        string firstName,
+        string lastName)
+    {
+        Attachment attachment = new(json, recordId, entityType);
+        var attachmentFiler = await VisitzFiles.GetAsync(entityType, recordId, firstName, lastName);
+
+        await VisitzFiles.EnqueueAsync(async () => attachment.RelativePath =
+            await attachmentFiler.SaveFileAsync(json.AttachmentId, json.FileExt));
+
+        return attachment;
     }
 }
