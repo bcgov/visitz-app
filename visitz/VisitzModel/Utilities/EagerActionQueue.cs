@@ -5,21 +5,21 @@ namespace VisitzModel.Utilities;
 public class EagerActionQueue(CancellationToken? cancellationToken = null)
 {
 	readonly CancellationToken cancelToken = cancellationToken ?? CancellationToken.None;
-	readonly ConcurrentQueue<Task> taskQueue = new();
+	readonly ConcurrentQueue<(TaskCompletionSource, Func<Task>)> taskQueue = new();
 	Task writeFromQueue;
 
 	public bool HasCompleted => writeFromQueue?.IsCompleted ?? true;
 
-	public Task EnqueueAsync(Action action)
+	public Task EnqueueAsync(Func<Task> task)
 	{
-		Task task = new(action, TaskCreationOptions.PreferFairness);
+        TaskCompletionSource tcs = new();
 
-		taskQueue.Enqueue(task);
+		taskQueue.Enqueue((tcs, task));
 
 		if (HasCompleted)
 			writeFromQueue = CreateWriteFromQueueTaskAsync();
 
-		return task;
+		return tcs.Task;
 	}
 
 	async Task CreateWriteFromQueueTaskAsync()
@@ -28,10 +28,19 @@ public class EagerActionQueue(CancellationToken? cancellationToken = null)
 		{
 			cancelToken.ThrowIfCancellationRequested();
 
-			if (taskQueue.TryDequeue(out Task task))
+			if (taskQueue.TryDequeue(out (TaskCompletionSource, Func<Task>) tuple))
 			{
-				task.Start();
-				await task.WaitAsync(cancelToken);
+                var (tcs, task) = tuple;
+
+                try
+                {
+                    await task();
+                    tcs.TrySetResult();
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
 			}
 		}
 	}
