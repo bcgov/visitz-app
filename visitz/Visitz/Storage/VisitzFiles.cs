@@ -1,8 +1,7 @@
-using VisitzModel.Extensions.EntityTypes;
-using VisitzModel.Models;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
+using VisitzModel.Utilities;
 
 namespace Visitz.Storage;
 
@@ -10,6 +9,8 @@ internal static class VisitzFiles
 {
 	static readonly string DefaultFilesKeyName = "DefaultFilesKey";
 	static readonly int Aes256KeySize = 32;
+
+    static readonly EagerActionQueue eagerFilesQueue = new();
 
     public static async Task<AttachmentFiler> GetAsync(
         EntityType entityType,
@@ -26,4 +27,9 @@ internal static class VisitzFiles
 			lastName,
 			await VisitzKey.GetKey(keyName, Aes256KeySize));
 	}
+
+    public static Task EnqueueAsync(Func<Task> task)
+    {
+        return eagerFilesQueue.EnqueueAsync(task);
+    }
 }
