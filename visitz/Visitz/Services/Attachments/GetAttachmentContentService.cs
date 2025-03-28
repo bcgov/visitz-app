@@ -13,8 +13,8 @@ namespace Visitz.Services.Attachments;
 
 internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
-    private (EntityType, string, string, bool, string, string) AttachmentDetailsItem =>
-            ((EntityType, string, string, bool, string, string))Payload;
+    private (RecordServiceInfo, string, bool) AttachmentDetailsItem =>
+            ((RecordServiceInfo, string, bool))Payload;
 
     public static string MakeId(EntityType type, string id, string attachmentId)
     {
@@ -22,16 +22,11 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
     }
 
     public static StartServiceMessage MakeStartMessage(
-        (EntityType entityType,
-        string id,
-        string attachmentId,
-        bool force,
-        string firstName,
-        string lastName) tuple)
+        (RecordServiceInfo recordServiceInfo, string attachmentId, bool force) tuple)
     {
         return new()
         {
-            ServiceId = MakeId(tuple.entityType, tuple.id, tuple.attachmentId),
+            ServiceId = MakeId(tuple.recordServiceInfo.Type, tuple.recordServiceInfo.Id, tuple.attachmentId),
             ServiceType = typeof(GetAttachmentContentService),
             Payload = tuple,
         };
@@ -39,8 +34,8 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
 
     public override string GetId()
     {
-        var (entityType, recordId, attachmentId, _, _, _) = AttachmentDetailsItem;
-        return MakeId(entityType, recordId, attachmentId);
+        var (recordServiceInfo, attachmentId, _) = AttachmentDetailsItem;
+        return MakeId(recordServiceInfo.Type, recordServiceInfo.Id, attachmentId);
     }
 
     protected override async Task RunApiServiceAsync()
@@ -50,37 +45,31 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
     }
 
     private async Task DownloadAndSaveAttachmentDetailAsync(
-        (EntityType entityType,
-        string id,
-        string attachmentId,
-        bool force,
-        string firstName,
-        string lastName) tuple)
+        (RecordServiceInfo recordServiceInfo, string attachmentId, bool force) tuple)
     {
-        var (entityType, recordId, attachmentId, force, firstName, lastName) = tuple;
-        var after = force ? null : prefs.Get(MakeId(tuple.entityType, tuple.id, tuple.attachmentId));
+        var (recordServiceInfo, attachmentId, force) = tuple;
+        var after = force ? null : prefs.Get(MakeId(recordServiceInfo.Type, recordServiceInfo.Id, attachmentId));
 
         var attachmentJson = await Vpi.GetAttachmentDetailsAsync(
-            (ApiRecordType)entityType,
-            recordId,
+            (ApiRecordType)recordServiceInfo.Type,
+            recordServiceInfo.Id,
             attachmentId,
             after);
 
-        var attachment = await SaveFile(attachmentJson, recordId, entityType, firstName, lastName);
+        var attachment = await SaveFile(attachmentJson, recordServiceInfo);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async (realm) =>
             await realm.WriteAsync(() => realm.Upsert(attachment)));
     }
 
-    private static async Task<Attachment> SaveFile(
-        AttachmentJson json,
-        string recordId,
-        EntityType entityType,
-        string firstName,
-        string lastName)
+    private static async Task<Attachment> SaveFile(AttachmentJson json, RecordServiceInfo recordServiceInfo)
     {
-        Attachment attachment = new(json, recordId, entityType);
-        var attachmentFiler = await VisitzFiles.GetAsync(entityType, recordId, firstName, lastName);
+        Attachment attachment = new(json, recordServiceInfo.Id, recordServiceInfo.Type);
+        var attachmentFiler = await VisitzFiles.GetAsync(
+            recordServiceInfo.Type,
+            recordServiceInfo.Id,
+            recordServiceInfo.FirstName,
+            recordServiceInfo.LastName);
 
         if (DebugOptions.RequireAttachmentFileContent || !string.IsNullOrWhiteSpace(json.AttachmentId))
             await VisitzFiles.EnqueueAsync(async () => attachment.RelativePath =

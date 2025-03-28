@@ -66,32 +66,24 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         return attachments;
     }
 
-    private static IEnumerable<
-        (EntityType entityType,
-        string id,
-        string attachmentId,
-        bool force,
-        string firstName,
-        string lastName)
-    > FilterAndTransformAttachments(IEnumerable<Attachment> attachments, RecordServiceInfo recordInfo)
+    private static IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)> FilterAndTransformAttachments(
+        IEnumerable<Attachment> attachments,
+        RecordServiceInfo recordInfo)
     {
         return attachments
             .Where(att => att.UpdatedDate > DateTimeOffset.Now.AddMonths(-DefaultMonthLimit))
             .Take(DefaultLimit)
             .Select(att => (
-                att.RelatedEntityType,
-                att.RelatedEntityId,
+                recordInfo,
                 att.Id,
-                false,
-                recordInfo.FirstName,
-                recordInfo.LastName
+                false
             ))
             .ToList();
     }
 
     private static async Task FetchAttachmentContents(
         ServiceHandler serviceHandler,
-        IEnumerable<(EntityType, string, string, bool, string, string)> filteredAttachments)
+        IEnumerable<(RecordServiceInfo, string, bool)> filteredAttachments)
     {
         var getAttachmentContentServiceMessage = GetAttachmentContentByRangeService.MakeStartMessage(filteredAttachments);
         await serviceHandler.TryRunServiceAsync(getAttachmentContentServiceMessage);

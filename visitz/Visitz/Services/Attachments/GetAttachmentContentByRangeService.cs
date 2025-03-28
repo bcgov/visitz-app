@@ -3,7 +3,6 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzModel.Storage;
-using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Services.Attachments;
 
@@ -12,15 +11,15 @@ internal class GetAttachmentContentByRangeService(
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler,
     ILogger<GetAttachmentContentByRangeService> logger)
-    : VisitzApiRangeService<(EntityType, string, string, bool, string, string)>(
+    : VisitzApiRangeService<(RecordServiceInfo, string, bool)>(
         vpi,
         prefs,
         serviceHandler,
         logger,
         new ParallelOptions { MaxDegreeOfParallelism = 2 })
 {
-    private IEnumerable<(EntityType, string, string, bool, string, string)> AttachmentContentItems =>
-            (IEnumerable<(EntityType, string, string, bool, string, string)>)Payload;
+    private IEnumerable<(RecordServiceInfo, string, bool)> AttachmentContentItems =>
+            (IEnumerable<(RecordServiceInfo, string, bool)>)Payload;
 
     private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
@@ -30,7 +29,7 @@ internal class GetAttachmentContentByRangeService(
     }
 
     public static StartServiceMessage MakeStartMessage(
-        IEnumerable<(EntityType, string, string, bool, string, string)> AttachmentContentItems)
+        IEnumerable<(RecordServiceInfo, string, bool)> AttachmentContentItems)
     {
         return new()
         {
@@ -46,13 +45,13 @@ internal class GetAttachmentContentByRangeService(
     }
 
     protected override async Task RunInParallelAsync(
-        ServiceHandler serviceHandler, (EntityType, string, string, bool, string, string) tuple)
+        ServiceHandler serviceHandler, (RecordServiceInfo, string, bool) tuple)
     {
         await ServiceHandler.TryRunServiceAsync(GetAttachmentContentService.MakeStartMessage(tuple));
     }
 
     protected override Exception MakePartialException(
-        List<ApiRangeItemException<(EntityType, string, string, bool, string, string)>> exceptions)
+        List<ApiRangeItemException<(RecordServiceInfo, string, bool)>> exceptions)
     {
         return new AggregateException(exceptions);
     }
