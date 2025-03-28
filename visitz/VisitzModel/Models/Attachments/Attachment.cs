@@ -1,4 +1,3 @@
-using System.Data;
 using Realms;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
