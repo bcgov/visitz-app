@@ -83,7 +83,7 @@ namespace Visitz.Services.Caseload
                 GetAllContacts(cases, incidents, memos, srs),
                 GetAllSupportNetworkItems(cases, incidents, srs),
                 GetAllAttachments(cases, incidents, memos, srs),
-                GetPartialAttachments(cases, incidents, srs)
+                GetPartialAttachments(cases, incidents, memos, srs)
             );
         }
 
@@ -150,9 +150,10 @@ namespace Visitz.Services.Caseload
         private async Task GetPartialAttachments(
             IEnumerable<RecordServiceInfo> cases,
             IEnumerable<RecordServiceInfo> incidents,
+            IEnumerable<RecordServiceInfo> memos,
             IEnumerable<RecordServiceInfo> srs)
         {
-            var all = cases.Concat(incidents).Concat(srs);
+            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
 
             var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);

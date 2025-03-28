@@ -19,14 +19,11 @@ internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, 
 
     public override HttpRequestMessage MakeRequest()
     {
-        var request = new HttpRequestMessage()
+        return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
             RequestUri = WithQueryParams(after: After),
         };
-
-        request.Headers.Add("Accept", "*/*");
-        return request;
     }
 
     public override AttachmentJson HandleResponse(HttpResponseMessage response, string responseContent)
