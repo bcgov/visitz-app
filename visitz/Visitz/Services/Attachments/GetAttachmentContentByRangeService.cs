@@ -53,6 +53,10 @@ internal class GetAttachmentContentByRangeService(
     protected override Exception MakePartialException(
         List<ApiRangeItemException<(RecordServiceInfo, string, bool)>> exceptions)
     {
-        return new AggregateException(exceptions);
+        var recordServiceInfoExceptions = exceptions
+        .Select(ex => new ApiRangeItemException<RecordServiceInfo>(ex.Item.Item1, ex.InnerException))
+        .ToList();
+
+        return recordServiceInfoExceptions.CombineIntoException();
     }
 }
