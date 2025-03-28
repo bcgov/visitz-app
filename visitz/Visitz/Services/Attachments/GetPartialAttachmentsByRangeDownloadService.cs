@@ -3,7 +3,6 @@ using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzModel.Storage;
 using VisitzModel.Models.EntityTypes;
-using Microsoft.Extensions.Logging;
 using VisitzModel.Models.Attachments;
 using Visitz.Storage;
 using Realms;
@@ -12,16 +11,12 @@ namespace Visitz.Services.Attachments;
 internal class GetPartialAttachmentsByRangeDownloadService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler,
-    ILogger<GetPartialAttachmentsByRangeDownloadService> logger)
-    : VisitzApiRangeService<RecordServiceInfo>(
-        vpi,
-        prefs,
-        serviceHandler,
-        logger,
-        new ParallelOptions { MaxDegreeOfParallelism = 1 })
+    ServiceHandler serviceHandler)
+    : VisitzApiService(vpi, prefs)
 {
     static readonly int DefaultLimit = 10;
+
+    static readonly int DefaultMonthLimit = 3;
 
     public static string MakeId()
     {
@@ -43,10 +38,13 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         return MakeId();
     }
 
-    protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
-    {
-        await ProcessAttachmentsAsync(serviceHandler, item);
-    }
+    IEnumerable<RecordServiceInfo> Items => (IEnumerable<RecordServiceInfo>)Payload;
+
+    protected override async Task RunApiServiceAsync()
+        {
+            foreach (var item in Items)
+                await ProcessAttachmentsAsync(serviceHandler, item);
+        }
 
     private static async Task ProcessAttachmentsAsync(ServiceHandler serviceHandler, RecordServiceInfo recordInfo)
     {
@@ -77,10 +75,8 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         string lastName)
     > FilterAndTransformAttachments(IEnumerable<Attachment> attachments, RecordServiceInfo recordInfo)
     {
-        var currentDate = DateTime.Now;
-
         return attachments
-            .Where(att => att.UpdatedDate > DateTimeOffset.Now.AddMonths(-3))
+            .Where(att => att.UpdatedDate > DateTimeOffset.Now.AddMonths(-DefaultMonthLimit))
             .Take(DefaultLimit)
             .Select(att => (
                 att.RelatedEntityType,
@@ -99,11 +95,6 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     {
         var getAttachmentContentServiceMessage = GetAttachmentContentByRangeService.MakeStartMessage(filteredAttachments);
         await serviceHandler.TryRunServiceAsync(getAttachmentContentServiceMessage);
-    }
-
-    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
     }
 }
 
