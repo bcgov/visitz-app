@@ -52,7 +52,7 @@
 			</Button>
 
 			<Button
-				Style="{StaticResource PrimaryButton}"
+				Style="{OnPlatform WinUI={StaticResource SecondaryButton}, Default={StaticResource PrimaryButton}}"
 				Grid.Column="2"
 				Clicked="AddPhotos_Clicked"
 				Text="{local:Localize AddPhotos}">
@@ -61,7 +61,7 @@
 						Glyph="{Static icons:MaterialIcons.Add_a_photo}"
 						FontFamily="MaterialIconsRoundedUnfilled"
 						Size="20"
-						Color="{StaticResource Secondary}" />
+						Color="{OnPlatform WinUI={StaticResource Primary}, Default={StaticResource Secondary}}" />
 				</Button.ImageSource>
 			</Button>
 		</Grid>
