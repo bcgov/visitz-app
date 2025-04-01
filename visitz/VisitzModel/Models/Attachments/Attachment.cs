@@ -229,11 +229,15 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
     }
 
-    public static IEnumerable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)
+    public static IQueryable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)
     {
-        var attachments = realm.All<Attachment>()
-            .Where(item => item.RelatedEntityTypeInt == (int)type && item.RelatedEntityId == recordId)
+        return realm.All<Attachment>()
+            .Where(item => item.RelatedEntityTypeInt == (int)type && item.RelatedEntityId == recordId);
+    }
+
+    public static IOrderedQueryable<Attachment> GetOrderedAttachments(Realm realm, EntityType type, string recordId)
+    {
+        return GetAttachments(realm, type, recordId)
             .OrderByDescending(item => item.CreatedDate);
-        return attachments;
     }
 }
