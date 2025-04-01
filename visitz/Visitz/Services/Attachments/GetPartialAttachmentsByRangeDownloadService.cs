@@ -89,7 +89,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         ServiceHandler serviceHandler,
         IEnumerable<(RecordServiceInfo, string, bool)> filteredAttachments)
     {
-        var getAttachmentContentServiceMessage = GetAttachmentContentByRangeService.MakeStartMessage(filteredAttachments);
-        await serviceHandler.TryRunServiceAsync(getAttachmentContentServiceMessage);
+        var startMessage = GetAttachmentContentByRangeService.MakeStartMessage(filteredAttachments);
+        await serviceHandler.TryRunServiceAsync(startMessage);
     }
 }
