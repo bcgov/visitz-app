@@ -54,8 +54,10 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         }
     }
 
-    private static async Task<IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)>> ProcessAttachmentsAsync(
-        ServiceHandler serviceHandler, RecordServiceInfo recordInfo)
+    private static async Task<IEnumerable<
+        (RecordServiceInfo recordInfo,
+        string attachmentId,
+        bool force)>> ProcessAttachmentsAsync(ServiceHandler serviceHandler, RecordServiceInfo recordInfo)
     {
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
@@ -65,9 +67,10 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         return filteredAttachments;
     }
 
-    private static IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)> FilterAndTransformAttachments(
-        IQueryable<Attachment> attachments,
-        RecordServiceInfo recordInfo)
+    private static IEnumerable<
+        (RecordServiceInfo recordInfo,
+        string attachmentId,
+        bool force)> FilterAndTransformAttachments(IQueryable<Attachment> attachments, RecordServiceInfo recordInfo)
     {
         var monthThreshold = DateTimeOffset.Now.AddMonths(-DefaultMonthLimit);
 
