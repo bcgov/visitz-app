@@ -2,7 +2,6 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzModel.Storage;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Attachments;
 using Visitz.Storage;
 using Realms;
@@ -15,7 +14,6 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     : VisitzApiService(vpi, prefs)
 {
     static readonly int DefaultLimit = 10;
-
     static readonly int DefaultMonthLimit = 3;
 
     public static string MakeId()
@@ -41,29 +39,37 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     IEnumerable<RecordServiceInfo> Items => (IEnumerable<RecordServiceInfo>)Payload;
 
     protected override async Task RunApiServiceAsync()
+    {
+        var allFilteredAttachments = new List<(RecordServiceInfo, string, bool)>();
+
+        foreach (var item in Items)
         {
-            foreach (var item in Items)
-                await ProcessAttachmentsAsync(serviceHandler, item);
+            IEnumerable<(RecordServiceInfo, string, bool)> filteredAttachments = await ProcessAttachmentsAsync(serviceHandler, item);
+            allFilteredAttachments = allFilteredAttachments.Concat(filteredAttachments).ToList();
         }
 
-    private static async Task ProcessAttachmentsAsync(ServiceHandler serviceHandler, RecordServiceInfo recordInfo)
+        if (allFilteredAttachments.Count != 0)
+        {
+            await FetchAttachmentContents(serviceHandler, allFilteredAttachments);
+        }
+    }
+
+    private static async Task<IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)>> ProcessAttachmentsAsync(
+        ServiceHandler serviceHandler, RecordServiceInfo recordInfo)
     {
         var allAttachments = await FetchAllAttachments(recordInfo);
         var filteredAttachments = FilterAndTransformAttachments(allAttachments, recordInfo);
 
-        if (filteredAttachments.Any())
-            await FetchAttachmentContents(serviceHandler, filteredAttachments);
+        return filteredAttachments;
     }
 
     private static async Task<IEnumerable<Attachment>> FetchAllAttachments(RecordServiceInfo recordInfo)
     {
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-        var attachments = realm.All<Attachment>().Freeze().AsEnumerable()
+        return realm.All<Attachment>().Freeze().AsEnumerable()
             .Where(item => item.RelatedEntityType == recordInfo.Type
                 && item.RelatedEntityId == recordInfo.Id)
             .ToList();
-
-        return attachments;
     }
 
     private static IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)> FilterAndTransformAttachments(
@@ -89,5 +95,3 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         await serviceHandler.TryRunServiceAsync(getAttachmentContentServiceMessage);
     }
 }
-
-
