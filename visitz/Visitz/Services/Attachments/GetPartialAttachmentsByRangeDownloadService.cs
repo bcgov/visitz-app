@@ -48,7 +48,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
             allFilteredAttachments = allFilteredAttachments.Concat(filteredAttachments).ToList();
         }
 
-        if (allFilteredAttachments.Count != 0)
+        if (allFilteredAttachments.Count > 0)
         {
             await FetchAttachmentContents(serviceHandler, allFilteredAttachments);
         }
