@@ -1,8 +1,6 @@
-using System.Net;
 using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Attachments;
-using VisitzApi.Models.People;
 using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
@@ -10,7 +8,7 @@ namespace VisitzApi.Endpoints;
 internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, string rowId, string attachmentId, DateTimeOffset? after = null)
     : VisitzBaseEndpoint<AttachmentJson>(baseUrl, Vpi.V2, MakePath(type, rowId, attachmentId))
 {
-    static readonly string AttachmentsPath = "/{0}/{1}/attachment-details/{2}";
+    static readonly string AttachmentsPath = "/{0}/{1}/attachments/{2}";
 
     readonly DateTimeOffset? After = after;
 
@@ -24,7 +22,7 @@ internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, 
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
+            RequestUri = WithQueryParams(after: After),
         };
     }
 

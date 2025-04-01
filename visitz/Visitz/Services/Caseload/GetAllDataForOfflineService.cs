@@ -1,5 +1,6 @@
 using Oidc;
 using Realms;
+using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
@@ -80,7 +81,9 @@ namespace Visitz.Services.Caseload
                 GetAllNotes(realm),
                 GetAllVisits(realm),
                 GetAllContacts(cases, incidents, memos, srs),
-                GetAllSupportNetworkItems(cases, incidents, srs)
+                GetAllSupportNetworkItems(cases, incidents, srs),
+                GetAllAttachments(cases, incidents, memos, srs),
+                GetPartialAttachments(cases, incidents, memos, srs)
             );
         }
 
@@ -129,6 +132,30 @@ namespace Visitz.Services.Caseload
             var all = cases.Concat(incidents).Concat(srs);
 
             var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(all);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetAllAttachments(
+            IEnumerable<RecordServiceInfo> cases,
+            IEnumerable<RecordServiceInfo> incidents,
+            IEnumerable<RecordServiceInfo> memos,
+            IEnumerable<RecordServiceInfo> srs)
+        {
+            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
+
+            var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetPartialAttachments(
+            IEnumerable<RecordServiceInfo> cases,
+            IEnumerable<RecordServiceInfo> incidents,
+            IEnumerable<RecordServiceInfo> memos,
+            IEnumerable<RecordServiceInfo> srs)
+        {
+            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
+
+            var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
     }

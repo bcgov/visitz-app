@@ -12,7 +12,7 @@ internal static class VisitzRealms
     private static async Task<byte[]> GetKey(string name) => await VisitzKey.GetKey(name);
 
 
-    public static async Task<IcmData> GetIcmDataAsync() => 
+    public static async Task<IcmData> GetIcmDataAsync() =>
         new IcmData(await GetKey(IcmData.Name));
 
     public static async Task<NoteDrafts> GetNoteDraftsAsync() =>
@@ -42,7 +42,7 @@ internal static class VisitzRealms
 
 	public static async Task<Realm> GetAttachmentDraftsRealmAsync() =>
 		await (await GetAttachmentDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<AttachmentDrafts>>());
-    
+
     public static async Task<Realm> GetLogRealmAsync() =>
 		await (await GetLogAsync()).GetAsync(ServiceProvider.GetService<ILogger<LogRealm>>());
 

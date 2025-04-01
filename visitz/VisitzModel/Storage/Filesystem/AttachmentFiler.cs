@@ -63,8 +63,19 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
 		return await WriteEncryptedFile(stream, extension);
 	}
 
+	/// <summary>
+	/// Takes in a base64 string containing an encoded file, encrypts, and
+	/// saves it to AppData as an encrypted file with the provided extension.
+	/// </summary>
+	/// <param name="base64"></param>
+	/// <param name="extension"></param>
+	/// <returns>Relative path of the encrypted file that was created.</returns>
+	/// <exception cref="ArgumentException">Throws is base64 is null or whitespace</exception>
 	public async Task<string> SaveFileAsync(string base64, string extension)
 	{
+		if (string.IsNullOrWhiteSpace(base64))
+			throw new ArgumentException("File content missing", nameof(base64));
+
 		var memoryStream = new MemoryStream(Convert.FromBase64String(base64));
 		return await SaveFileAsync(memoryStream, extension);
 	}

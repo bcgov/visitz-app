@@ -11,28 +11,37 @@ internal class RecordServiceInfo
 
     public string Label { get; set; }
 
-    RecordServiceInfo(string id, string label)
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+
+    RecordServiceInfo(string id, string label, string firstName, string lastName)
     {
         Id = id;
         Label = label;
+        FirstName = firstName;
+        LastName = lastName;
     }
 
-    public RecordServiceInfo(CaseRecord @case) : this(@case.Id, @case.Name)
+    RecordServiceInfo(
+        string id, IBusinessObject record) : this(id, record.FileNumber, record.GivenNames, record.LastName) { }
+
+    public RecordServiceInfo(CaseRecord @case) : this(@case.Id, @case)
     {
         Type = EntityType.Case;
     }
 
-    public RecordServiceInfo(IncidentRecord incident) : this(incident.Id, incident.LastName)
+    public RecordServiceInfo(IncidentRecord incident) : this(incident.Id, incident)
     {
         Type = EntityType.Incident;
     }
 
-    public RecordServiceInfo(MemoRecord memo) : this(memo.Id, memo.LastName)
+    public RecordServiceInfo(MemoRecord memo) : this(memo.Id, memo)
     {
         Type = EntityType.Memo;
     }
 
-    public RecordServiceInfo(ServiceRequestRecord sr) : this(sr.Id, sr.LastName)
+    public RecordServiceInfo(ServiceRequestRecord sr) : this(sr.Id, sr)
     {
         Type = EntityType.ServiceRequest;
     }

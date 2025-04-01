@@ -31,6 +31,11 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetContactsByRangeService>();
             builder.Services.AddTransient<GetSupportNetworkService>();
             builder.Services.AddTransient<GetSupportNetworkByRangeService>();
+            builder.Services.AddTransient<GetAttachmentsService>();
+            builder.Services.AddTransient<GetAttachmentsByRangeService>();
+            builder.Services.AddTransient<GetAttachmentContentService>();
+            builder.Services.AddTransient<GetAttachmentContentByRangeService>();
+            builder.Services.AddTransient<GetPartialAttachmentsByRangeDownloadService>();
 
             return builder;
         }

@@ -1,6 +1,6 @@
 namespace VisitzModel.Models.Caseload;
 
-internal interface IBusinessObject
+public interface IBusinessObject
 {
     public string FileNumber { get; set; }
 

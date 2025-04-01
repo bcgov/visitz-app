@@ -172,6 +172,27 @@
 				HorizontalOptions="FillAndExpand"
 				FontSize="20"
 				Background="AliceBlue"
+				Text="Attachments" />
+
+			<Grid RowDefinitions="Auto,Auto">
+				<Label
+					StyleClass="DebugLayout,DebugLabel"
+					Grid.Row="0"
+					Grid.Column="0"
+					Text="Require file content to exist on download and throw errors if not"/>
+
+				<Switch
+					StyleClass="DebugLayout"
+					Grid.Row="0"
+					Grid.Column="1"
+					IsToggled="{Binding RequireAttachmentFileContent}"/>
+			</Grid>
+
+			<Label
+				StyleClass="DebugLayout,DebugLabel"
+				HorizontalOptions="FillAndExpand"
+				FontSize="20"
+				Background="AliceBlue"
 				Text="Notes" />
 
 			<Grid RowDefinitions="Auto,Auto">
@@ -265,7 +286,7 @@
 					Clicked="ShowDocumentsButton_Clicked"
 					Text="Show Documents' files" />
 			</Grid>
-			
+
 			<Label
 				StyleClass="DebugLayout,DebugLabel"
 				HorizontalOptions="FillAndExpand"
@@ -307,7 +328,7 @@
 				Text="Compile-time settings" />
 
 			<Grid RowDefinitions="Auto,Auto">
-				
+
 				<Label
 					StyleClass="DebugLayout,DebugLabel"
 					Grid.Row="0"
