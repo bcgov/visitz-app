@@ -61,7 +61,7 @@
 						Glyph="{Static icons:MaterialIcons.Add_a_photo}"
 						FontFamily="MaterialIconsRoundedUnfilled"
 						Size="20"
-						Color="{OnPlatform WinUI={StaticResource Primary}, Default={StaticResource Secondary}}" />
+						Color="{OnPlatform WinUI={StaticResource Primary}, Default={StaticResource White}}" />
 				</Button.ImageSource>
 			</Button>
 		</Grid>
