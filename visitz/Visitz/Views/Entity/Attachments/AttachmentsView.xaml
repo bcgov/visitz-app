@@ -9,7 +9,7 @@
 	xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentsView"
 	x:DataType="attachments:AttachmentsViewModel">
-	
+
 	<Grid
 		HorizontalOptions="FillAndExpand"
 		VerticalOptions="FillAndExpand"
@@ -43,7 +43,7 @@
 				Clicked="Browse_Clicked"
 				IsVisible="{OnPlatform iOS=False}">
 				<Button.ImageSource>
-					<FontImageSource 
+					<FontImageSource
 						Glyph="{Static icons:MaterialIcons.Folder_open}"
 						FontFamily="MaterialIconsRoundedUnfilled"
 						Size="20"
@@ -52,19 +52,19 @@
 			</Button>
 
 			<Button
-				Style="{StaticResource SecondaryButton}"
+				Style="{OnPlatform WinUI={StaticResource SecondaryButton}, Default={StaticResource PrimaryButton}}"
 				Grid.Column="2"
 				Clicked="AddPhotos_Clicked"
 				Text="{local:Localize AddPhotos}">
 				<Button.ImageSource>
-					<FontImageSource 
+					<FontImageSource
 						Glyph="{Static icons:MaterialIcons.Add_a_photo}"
 						FontFamily="MaterialIconsRoundedUnfilled"
 						Size="20"
-						Color="{StaticResource Primary}" />
+						Color="{OnPlatform WinUI={StaticResource Primary}, Default={StaticResource White}}" />
 				</Button.ImageSource>
 			</Button>
 		</Grid>
 	</Grid>
-	
+
 </baseClasses:ViewModelContentView>
