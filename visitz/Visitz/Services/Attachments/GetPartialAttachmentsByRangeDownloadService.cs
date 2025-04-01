@@ -68,8 +68,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
         return realm.All<Attachment>().Freeze().AsEnumerable()
             .Where(item => item.RelatedEntityType == recordInfo.Type
-                && item.RelatedEntityId == recordInfo.Id)
-            .ToList();
+                && item.RelatedEntityId == recordInfo.Id);
     }
 
     private static IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)> FilterAndTransformAttachments(
