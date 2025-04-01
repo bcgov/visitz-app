@@ -16,6 +16,8 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     static readonly int DefaultLimit = 10;
     static readonly int DefaultMonthLimit = 3;
 
+    ServiceHandler ServiceHandler { get; set; } = serviceHandler;
+
     public static string MakeId()
     {
         return nameof(GetPartialAttachmentsByRangeDownloadService);
@@ -44,20 +46,20 @@ internal class GetPartialAttachmentsByRangeDownloadService(
 
         foreach (var item in Items)
         {
-            var filteredAttachments = await ProcessAttachmentsAsync(serviceHandler, item);
+            var filteredAttachments = await ProcessAttachmentsAsync(item);
             allFilteredAttachments = allFilteredAttachments.Concat(filteredAttachments);
         }
 
         if (allFilteredAttachments.Any())
         {
-            await FetchAttachmentContents(serviceHandler, allFilteredAttachments);
+            await FetchAttachmentContents(allFilteredAttachments);
         }
     }
 
     private static async Task<IEnumerable<
         (RecordServiceInfo recordInfo,
         string attachmentId,
-        bool force)>> ProcessAttachmentsAsync(ServiceHandler serviceHandler, RecordServiceInfo recordInfo)
+        bool force)>> ProcessAttachmentsAsync(RecordServiceInfo recordInfo)
     {
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
@@ -85,11 +87,9 @@ internal class GetPartialAttachmentsByRangeDownloadService(
             ));
     }
 
-    private static async Task FetchAttachmentContents(
-        ServiceHandler serviceHandler,
-        IEnumerable<(RecordServiceInfo, string, bool)> filteredAttachments)
+    private async Task FetchAttachmentContents(IEnumerable<(RecordServiceInfo, string, bool)> filteredAttachments)
     {
         var startMessage = GetAttachmentContentByRangeService.MakeStartMessage(filteredAttachments);
-        await serviceHandler.TryRunServiceAsync(startMessage);
+        await ServiceHandler.TryRunServiceAsync(startMessage);
     }
 }
