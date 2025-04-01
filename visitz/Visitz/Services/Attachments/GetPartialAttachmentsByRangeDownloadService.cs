@@ -40,15 +40,15 @@ internal class GetPartialAttachmentsByRangeDownloadService(
 
     protected override async Task RunApiServiceAsync()
     {
-        var allFilteredAttachments = new List<(RecordServiceInfo, string, bool)>();
+        IEnumerable<(RecordServiceInfo, string, bool)> allFilteredAttachments = [];
 
         foreach (var item in Items)
         {
-            IEnumerable<(RecordServiceInfo, string, bool)> filteredAttachments = await ProcessAttachmentsAsync(serviceHandler, item);
-            allFilteredAttachments = allFilteredAttachments.Concat(filteredAttachments).ToList();
+            var filteredAttachments = await ProcessAttachmentsAsync(serviceHandler, item);
+            allFilteredAttachments = allFilteredAttachments.Concat(filteredAttachments);
         }
 
-        if (allFilteredAttachments.Count > 0)
+        if (allFilteredAttachments.Any())
         {
             await FetchAttachmentContents(serviceHandler, allFilteredAttachments);
         }
@@ -57,33 +57,29 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     private static async Task<IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)>> ProcessAttachmentsAsync(
         ServiceHandler serviceHandler, RecordServiceInfo recordInfo)
     {
-        var allAttachments = await FetchAllAttachments(recordInfo);
+        using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+
+        var allAttachments = Attachment.GetAttachments(realm, recordInfo.Type, recordInfo.Id).Freeze();
         var filteredAttachments = FilterAndTransformAttachments(allAttachments, recordInfo);
 
         return filteredAttachments;
     }
 
-    private static async Task<IEnumerable<Attachment>> FetchAllAttachments(RecordServiceInfo recordInfo)
-    {
-        using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-        return realm.All<Attachment>().Freeze().AsEnumerable()
-            .Where(item => item.RelatedEntityType == recordInfo.Type
-                && item.RelatedEntityId == recordInfo.Id);
-    }
-
     private static IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)> FilterAndTransformAttachments(
-        IEnumerable<Attachment> attachments,
+        IQueryable<Attachment> attachments,
         RecordServiceInfo recordInfo)
     {
+        var monthThreshold = DateTimeOffset.Now.AddMonths(-DefaultMonthLimit);
+
         return attachments
-            .Where(att => att.UpdatedDate > DateTimeOffset.Now.AddMonths(-DefaultMonthLimit))
+            .Where(att => att.UpdatedDate > monthThreshold)
+            .AsEnumerable()
             .Take(DefaultLimit)
             .Select(att => (
                 recordInfo,
                 att.Id,
                 false
-            ))
-            .ToList();
+            ));
     }
 
     private static async Task FetchAttachmentContents(
