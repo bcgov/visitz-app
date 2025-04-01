@@ -54,8 +54,8 @@ internal class GetAttachmentContentByRangeService(
         List<ApiRangeItemException<(RecordServiceInfo, string, bool)>> exceptions)
     {
         var recordServiceInfoExceptions = exceptions
-        .Select(ex => new ApiRangeItemException<RecordServiceInfo>(ex.Item.Item1, ex.InnerException))
-        .ToList();
+            .Select(ex => new ApiRangeItemException<RecordServiceInfo>(ex.Item.Item1, ex.InnerException))
+            .ToList();
 
         return recordServiceInfoExceptions.CombineIntoException();
     }
