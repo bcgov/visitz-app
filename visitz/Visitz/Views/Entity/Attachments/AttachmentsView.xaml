@@ -21,8 +21,8 @@
 			Level="Info"
 			Text="{local:Localize OnlyPublishAttachments}" />
 
-		<attachments:AttachmentsList
-			x:Name="AttachmentsList"
+		<attachments:AttachmentDraftsListView
+			x:Name="AttachmentDraftsListView"
 			Grid.Row="1" />
 
 		<BoxView
