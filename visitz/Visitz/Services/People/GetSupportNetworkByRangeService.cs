@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
