@@ -32,7 +32,7 @@ public partial class SafetyAssessment : IRealmObject
 
     public IList<string> ChildsInOutCare { get; }
 
-    public static SafetyAssessment FromApiEntity(SafetyAssessmentEntity entity)
+    public static SafetyAssessment FromApiEntity(SubmitSafetyAssessmentJson entity)
     {
         var safetyAssessment = new SafetyAssessment()
         {
@@ -54,9 +54,9 @@ public partial class SafetyAssessment : IRealmObject
         return safetyAssessment;
     }
 
-    public SafetyAssessmentEntity ToApiEntity()
+    public SubmitSafetyAssessmentJson ToApiEntity()
     {
-        var safetyAssessmentEntity = new SafetyAssessmentEntity()
+        var safetyAssessmentEntity = new SubmitSafetyAssessmentJson()
         {
             IncidentNumber = IncidentNumber,
             WorkerId = WorkerId,

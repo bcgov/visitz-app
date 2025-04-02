@@ -30,7 +30,7 @@ public class SubmitSafetyAssessmentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
         };
     }
 
-    private new SafetyAssessmentEntity Payload => (SafetyAssessmentEntity)base.Payload;
+    private new SubmitSafetyAssessmentJson Payload => (SubmitSafetyAssessmentJson)base.Payload;
 
     public override string GetId()
     {

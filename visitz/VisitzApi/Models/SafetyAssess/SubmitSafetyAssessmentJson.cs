@@ -1,6 +1,6 @@
-﻿namespace VisitzApi.Models.SafetyAssess;
+namespace VisitzApi.Models.SafetyAssess;
 
-public class SafetyAssessmentEntity
+public class SubmitSafetyAssessmentJson
 {
     public string IncidentNumber { get; set; }
 
@@ -12,15 +12,15 @@ public class SafetyAssessmentEntity
 
     public string Operation { get; set; }
 
-    public FactorInfluenceEntity FactorInfluence { get; set; }
+    public SubmitFactorInfluenceJson FactorInfluence { get; set; }
 
-    public SafetyFactorsEntity SafetyFactors { get; set; }
+    public SubmitSafetyFactorsJson SafetyFactors { get; set; }
 
-    public ProtectiveCapacityEntity ProtectiveCapacity { get; set; }
+    public SubmitProtectiveCapacityJson ProtectiveCapacity { get; set; }
 
-    public SafetyInterventionsEntity SafetyInterventions { get; set; }
+    public SubmitSafetyInterventionsJson SafetyInterventions { get; set; }
 
-    public SafetyDecisionsEntity SafetyDecisions { get; set; }
+    public SubmitSafetyDecisionsJson SafetyDecisions { get; set; }
 
     public IList<ChildId> ChildsInOutCare { get; set; } = new List<ChildId>();
 

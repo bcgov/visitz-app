@@ -1,6 +1,6 @@
-﻿namespace VisitzApi.Models.SafetyAssess;
+namespace VisitzApi.Models.SafetyAssess;
 
-public class SafetyFactorsEntity
+public class SubmitSafetyFactorsJson
 {
     public string PhysicalHarm { get; set; }
 

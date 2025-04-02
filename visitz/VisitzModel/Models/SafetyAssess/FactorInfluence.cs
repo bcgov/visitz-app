@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
 
@@ -16,7 +16,7 @@ public partial class FactorInfluence : IRealmObject
 	
 	public bool DiminishedPhysical { get; set; }
 
-    public static FactorInfluence FromApiEntity(FactorInfluenceEntity entity)
+    public static FactorInfluence FromApiEntity(SubmitFactorInfluenceJson entity)
 	{
 		return new FactorInfluence()
 		{
@@ -28,9 +28,9 @@ public partial class FactorInfluence : IRealmObject
 		};
 	}
 
-	public FactorInfluenceEntity ToApiEntity()
+	public SubmitFactorInfluenceJson ToApiEntity()
 	{
-		return new FactorInfluenceEntity()
+		return new SubmitFactorInfluenceJson()
 		{
             AgeUptoFive = AgeUptoFive.AsTruthyChar(),
             MedicalMentalDisorder = MedicalMentalDisorder.AsTruthyChar(),

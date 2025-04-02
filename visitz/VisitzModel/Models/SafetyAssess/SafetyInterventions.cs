@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
 
@@ -28,7 +28,7 @@ public partial class SafetyInterventions : IRealmObject
     
     public bool ChildRemoved { get; set; }
 
-    public static SafetyInterventions FromApiEntity(SafetyInterventionsEntity entity)
+    public static SafetyInterventions FromApiEntity(SubmitSafetyInterventionsJson entity)
     {
         return new SafetyInterventions()
         {
@@ -46,9 +46,9 @@ public partial class SafetyInterventions : IRealmObject
         };
     }
 
-    public SafetyInterventionsEntity ToApiEntity()
+    public SubmitSafetyInterventionsJson ToApiEntity()
     {
-        return new SafetyInterventionsEntity()
+        return new SubmitSafetyInterventionsJson()
         {
             DirectIntervention = DirectIntervention.AsTruthyChar(),
             UseOfIndividuals = UseOfIndividuals.AsTruthyChar(),

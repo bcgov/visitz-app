@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 using System.Globalization;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
@@ -88,7 +88,7 @@ public partial class SafetyDecisions : IRealmObject
         ? DecisionUnsafe?.Length > 0 
         : Decision != null;
 
-    public static SafetyDecisions FromApiEntity(SafetyDecisionsEntity entity)
+    public static SafetyDecisions FromApiEntity(SubmitSafetyDecisionsJson entity)
     {
         return new SafetyDecisions()
         {
@@ -103,13 +103,13 @@ public partial class SafetyDecisions : IRealmObject
         };
     }
 
-    public SafetyDecisionsEntity ToApiEntity()
+    public SubmitSafetyDecisionsJson ToApiEntity()
     {
         var finalizeDate = ReadyFinalize
             ? ReadyFinalizeDate.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture)
             : "";
 
-        return new SafetyDecisionsEntity()
+        return new SubmitSafetyDecisionsJson()
         {
             NoSafetyFactors = NoSafetyFactors.AsTruthyChar(),
             SafeInterventions = SafeInterventions.AsTruthyChar(),

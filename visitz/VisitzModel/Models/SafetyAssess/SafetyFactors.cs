@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
 
@@ -107,7 +107,7 @@ public partial class SafetyFactors : IRealmObject
         && ChildFearful != null
         && OtherFactors != null;
 
-    public static SafetyFactors FromApiEntity(SafetyFactorsEntity entity)
+    public static SafetyFactors FromApiEntity(SubmitSafetyFactorsJson entity)
     {
         return new SafetyFactors()
         {
@@ -148,9 +148,9 @@ public partial class SafetyFactors : IRealmObject
         };
     }
 
-    public SafetyFactorsEntity ToApiEntity()
+    public SubmitSafetyFactorsJson ToApiEntity()
     {
-        return new SafetyFactorsEntity()
+        return new SubmitSafetyFactorsJson()
         {
             PhysicalHarm = PhysicalHarm?.AsTruthyWord(),
             SeriousInjuryAbuse = SeriousInjuryAbuse.AsTruthyChar(),

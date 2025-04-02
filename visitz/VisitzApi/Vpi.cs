@@ -59,7 +59,7 @@ namespace VisitzApi
             return await CallApi(new SubmitNotesEndpoint(BaseVisitzApiUrl, noteToSubmit));
         }
 
-        public async Task<(bool success, string status)> SubmitSafetyAssessmentAsync(SafetyAssessmentEntity safetyAssessment)
+        public async Task<(bool success, string status)> SubmitSafetyAssessmentAsync(SubmitSafetyAssessmentJson safetyAssessment)
         {
             return await CallApi(new SubmitSafetyAssessmentEndpoint(BaseVisitzApiUrl, safetyAssessment));
         }

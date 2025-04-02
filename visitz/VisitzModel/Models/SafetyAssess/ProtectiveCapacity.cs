@@ -1,4 +1,4 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
 
@@ -34,7 +34,7 @@ public partial class ProtectiveCapacity : IRealmObject
     
     public string CmtProtectiveCapacity02 { get; set; } = string.Empty;
 
-    public static ProtectiveCapacity FromApiEntity(ProtectiveCapacityEntity entity)
+    public static ProtectiveCapacity FromApiEntity(SubmitProtectiveCapacityJson entity)
     {
         return new ProtectiveCapacity()
         {
@@ -55,9 +55,9 @@ public partial class ProtectiveCapacity : IRealmObject
         };
     }
 
-    public ProtectiveCapacityEntity ToApiEntity()
+    public SubmitProtectiveCapacityJson ToApiEntity()
     {
-        return new ProtectiveCapacityEntity()
+        return new SubmitProtectiveCapacityJson()
         {
             ChildCognitive = ChildCognitive.AsTruthyChar(),
             ParentCognitive = ParentCognitive.AsTruthyChar(),
