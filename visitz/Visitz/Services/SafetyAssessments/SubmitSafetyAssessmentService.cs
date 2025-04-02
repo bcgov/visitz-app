@@ -24,7 +24,7 @@ public class SubmitSafetyAssessmentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
     {
         return new StartServiceMessage()
         {
-            Payload = safetyAssessment.ToApiEntity(),
+            Payload = safetyAssessment.ToApiJson(),
             ServiceId = MakeId(safetyAssessment.IncidentNumber),
             ServiceType = typeof(SubmitSafetyAssessmentService),
         };

@@ -1,10 +1,11 @@
 using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class SafetyInterventions : IRealmObject
+public partial class SafetyInterventions : IRealmObject, IApiJson<SubmitSafetyInterventionsJson>
 {
     public bool DirectIntervention { get; set; }
     
@@ -46,7 +47,7 @@ public partial class SafetyInterventions : IRealmObject
         };
     }
 
-    public SubmitSafetyInterventionsJson ToApiEntity()
+    public SubmitSafetyInterventionsJson ToApiJson(string _ = "s")
     {
         return new SubmitSafetyInterventionsJson()
         {

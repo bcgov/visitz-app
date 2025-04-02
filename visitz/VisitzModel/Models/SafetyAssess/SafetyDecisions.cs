@@ -2,10 +2,11 @@ using Realms;
 using System.Globalization;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class SafetyDecisions : IRealmObject
+public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisionsJson>
 {
     public static readonly string AllChildrenPlaced = "All children placed";
     public static readonly string SomeChildrenPlaced = "Some children placed";
@@ -103,7 +104,7 @@ public partial class SafetyDecisions : IRealmObject
         };
     }
 
-    public SubmitSafetyDecisionsJson ToApiEntity()
+    public SubmitSafetyDecisionsJson ToApiJson(string _ = "s")
     {
         var finalizeDate = ReadyFinalize
             ? ReadyFinalizeDate.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture)

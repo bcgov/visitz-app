@@ -1,10 +1,11 @@
 using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class SafetyFactors : IRealmObject
+public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJson>
 {
     public bool? PhysicalHarm { get; set; }
         
@@ -148,7 +149,7 @@ public partial class SafetyFactors : IRealmObject
         };
     }
 
-    public SubmitSafetyFactorsJson ToApiEntity()
+    public SubmitSafetyFactorsJson ToApiJson(string _ = "s")
     {
         return new SubmitSafetyFactorsJson()
         {

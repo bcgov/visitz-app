@@ -1,10 +1,11 @@
 using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class ProtectiveCapacity : IRealmObject
+public partial class ProtectiveCapacity : IRealmObject, IApiJson<SubmitProtectiveCapacityJson>
 {
 	public bool ChildCognitive { get; set; }
 	
@@ -55,7 +56,7 @@ public partial class ProtectiveCapacity : IRealmObject
         };
     }
 
-    public SubmitProtectiveCapacityJson ToApiEntity()
+    public SubmitProtectiveCapacityJson ToApiJson(string _ = "s")
     {
         return new SubmitProtectiveCapacityJson()
         {

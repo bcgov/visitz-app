@@ -1,10 +1,11 @@
 using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class FactorInfluence : IRealmObject
+public partial class FactorInfluence : IRealmObject, IApiJson<SubmitFactorInfluenceJson>
 {
 	public bool AgeUptoFive { get; set; }
 	
@@ -28,7 +29,7 @@ public partial class FactorInfluence : IRealmObject
 		};
 	}
 
-	public SubmitFactorInfluenceJson ToApiEntity()
+	public SubmitFactorInfluenceJson ToApiJson(string _ = "s")
 	{
 		return new SubmitFactorInfluenceJson()
 		{

@@ -1,10 +1,11 @@
 using Realms;
 using System.Globalization;
 using VisitzApi.Models.SafetyAssess;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class SafetyAssessment : IRealmObject
+public partial class SafetyAssessment : IRealmObject, IApiJson<SubmitSafetyAssessmentJson>
 {
     public static readonly string DateFormat = "dd/MM/yyyy";
     public static readonly int CommentsMaxLength = 1000;
@@ -54,7 +55,7 @@ public partial class SafetyAssessment : IRealmObject
         return safetyAssessment;
     }
 
-    public SubmitSafetyAssessmentJson ToApiEntity()
+    public SubmitSafetyAssessmentJson ToApiJson(string dateFormat = "s")
     {
         var safetyAssessmentEntity = new SubmitSafetyAssessmentJson()
         {
@@ -63,11 +64,11 @@ public partial class SafetyAssessment : IRealmObject
             FamilyName = FamilyName,
             DateOfAssessment = DateOfAssessment.ToString(DateFormat, CultureInfo.InvariantCulture),
             Operation = Operation,
-            FactorInfluence = FactorInfluence.ToApiEntity(),
-            SafetyFactors = SafetyFactors.ToApiEntity(),
-            ProtectiveCapacity = ProtectiveCapacity.ToApiEntity(),
-            SafetyInterventions = SafetyInterventions.ToApiEntity(),
-            SafetyDecisions = SafetyDecisions.ToApiEntity(),
+            FactorInfluence = FactorInfluence.ToApiJson(dateFormat),
+            SafetyFactors = SafetyFactors.ToApiJson(dateFormat),
+            ProtectiveCapacity = ProtectiveCapacity.ToApiJson(dateFormat),
+            SafetyInterventions = SafetyInterventions.ToApiJson(dateFormat),
+            SafetyDecisions = SafetyDecisions.ToApiJson(dateFormat),
         };
 
         if (ChildsInOutCare.Count == 0)

@@ -273,7 +273,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 #if DEBUG
     private void WriteSafetyAssessmentJson()
     {
-        var entity = Assessment.ToApiEntity();
+        var entity = Assessment.ToApiJson();
 
 #pragma warning disable CA1869 // Cache and reuse 'JsonSerializerOptions' instances
         var json = System.Text.Json.JsonSerializer.Serialize(entity, new System.Text.Json.JsonSerializerOptions
