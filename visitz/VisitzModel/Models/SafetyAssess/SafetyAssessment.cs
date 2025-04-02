@@ -33,26 +33,33 @@ public partial class SafetyAssessment : IRealmObject, IApiJson<SubmitSafetyAsses
 
     public IList<string> ChildsInOutCare { get; }
 
-    public static SafetyAssessment FromApiEntity(SubmitSafetyAssessmentJson entity)
+    public static SafetyAssessment FromApiJson(string fileNumber, SafetyAsessmentJson json)
     {
         var safetyAssessment = new SafetyAssessment()
         {
-            IncidentNumber = entity.IncidentNumber,
-            WorkerId = entity.WorkerId,
-            FamilyName = entity.FamilyName,
-            DateOfAssessment = DateTimeOffset.Parse(entity.DateOfAssessment),
-            Operation = entity.Operation,
-            FactorInfluence = FactorInfluence.FromApiEntity(entity.FactorInfluence),
-            SafetyFactors = SafetyFactors.FromApiEntity(entity.SafetyFactors),
-            ProtectiveCapacity = ProtectiveCapacity.FromApiEntity(entity.ProtectiveCapacity),
-            SafetyInterventions = SafetyInterventions.FromApiEntity(entity.SafetyInterventions),
-            SafetyDecisions = SafetyDecisions.FromApiEntity(entity.SafetyDecisions),
+            IncidentNumber = fileNumber,
+            WorkerId = json.CreatedBy,
+            FamilyName = json.FamilyName,
+            DateOfAssessment = DateTimeOffset.Parse(json.DateOfAssessment),
+            Operation = "",
+            FactorInfluence = FactorInfluence.FromApiJson(json),
+            SafetyFactors = SafetyFactors.FromApiJson(json),
+            ProtectiveCapacity = ProtectiveCapacity.FromApiJson(json),
+            SafetyInterventions = SafetyInterventions.FromApiJson(json),
+            SafetyDecisions = SafetyDecisions.FromApiJson(json),
         };
 
-        foreach (var childId in entity.ChildsInOutCare)
-            safetyAssessment.ChildsInOutCare.Add(childId.ChildContactId);
+        foreach (var contact in json.ContactsInOutCare)
+            safetyAssessment.ChildsInOutCare.Add(contact.Id);
 
         return safetyAssessment;
+    }
+
+    public static IEnumerable<SafetyAssessment> FromApiJson(
+        string incidentId,
+        IEnumerable<SafetyAsessmentJson> json)
+    {
+        return json.Select(j => FromApiJson(incidentId, j));
     }
 
     public SubmitSafetyAssessmentJson ToApiJson(string dateFormat = "s")

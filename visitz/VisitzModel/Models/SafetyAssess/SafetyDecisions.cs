@@ -89,18 +89,18 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
         ? DecisionUnsafe?.Length > 0 
         : Decision != null;
 
-    public static SafetyDecisions FromApiEntity(SubmitSafetyDecisionsJson entity)
+    public static SafetyDecisions FromApiJson(SafetyAsessmentJson entity)
     {
         return new SafetyDecisions()
         {
-            NoSafetyFactors = entity.NoSafetyFactors.ParseWordTruthiness(),
-            SafeInterventions = entity.SafeInterventions.ParseWordTruthiness(),
-            UnsafeSafetyFactors = entity.UnsafeSafetyFactors.ParseWordTruthiness(),
-            DecisionUnsafe = entity.DecisionUnsafe,
-            Comments = entity.Comments,
-            Narrative = entity.Narrative,
-            ReadyFinalize = entity.ReadyFinalize.ParseWordTruthiness(),
-            ReadyFinalizeDate = DateTimeOffset.Parse(entity.ReadyFinalizeDate),
+            NoSafetyFactors = entity.SafetyDecisionSafe.ParseWordTruthiness(),
+            SafeInterventions = entity.SafetyDecisionIntervention.ParseWordTruthiness(),
+            UnsafeSafetyFactors = entity.SafetyDecisionUnsafe.ParseWordTruthiness(),
+            DecisionUnsafe = entity.SafetyDecisionUnsafeChoice,
+            Comments = entity.SafetyDecisionSafetyPlan,
+            Narrative = entity.SafetyDecisionNarrative,
+            ReadyFinalize = entity.ReadyToFinalize.ParseWordTruthiness(),
+            ReadyFinalizeDate = DateTimeOffset.Parse(entity.ReadyToFinalizeDate),
         };
     }
 

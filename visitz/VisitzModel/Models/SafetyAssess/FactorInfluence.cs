@@ -17,15 +17,15 @@ public partial class FactorInfluence : IRealmObject, IApiJson<SubmitFactorInflue
 	
 	public bool DiminishedPhysical { get; set; }
 
-    public static FactorInfluence FromApiEntity(SubmitFactorInfluenceJson entity)
+    public static FactorInfluence FromApiJson(SafetyAsessmentJson entity)
 	{
 		return new FactorInfluence()
 		{
-			AgeUptoFive = entity.AgeUptoFive.ParseWordTruthiness(),
-			MedicalMentalDisorder = entity.MedicalMentalDisorder.ParseWordTruthiness(),
-			NotReadilyAccessible = entity.NotReadilyAccessible.ParseWordTruthiness(),
-			DiminishedMental = entity.DiminishedMental.ParseWordTruthiness(),
-			DiminishedPhysical = entity.DiminishedPhysical.ParseWordTruthiness(),
+			AgeUptoFive = entity.FactorInfluence1.ParseWordTruthiness(),
+			MedicalMentalDisorder = entity.FactorInfluence2.ParseWordTruthiness(),
+			NotReadilyAccessible = entity.FactorInfluence3.ParseWordTruthiness(),
+			DiminishedMental = entity.FactorInfluence4.ParseWordTruthiness(),
+			DiminishedPhysical = entity.FactorInfluence5.ParseWordTruthiness(),
 		};
 	}
 

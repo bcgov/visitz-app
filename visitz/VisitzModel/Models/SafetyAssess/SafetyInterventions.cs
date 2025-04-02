@@ -29,21 +29,21 @@ public partial class SafetyInterventions : IRealmObject, IApiJson<SubmitSafetyIn
     
     public bool ChildRemoved { get; set; }
 
-    public static SafetyInterventions FromApiEntity(SubmitSafetyInterventionsJson entity)
+    public static SafetyInterventions FromApiJson(SafetyAsessmentJson json)
     {
         return new SafetyInterventions()
         {
-            DirectIntervention = entity.DirectIntervention.ParseWordTruthiness(),
-            UseOfIndividuals = entity.UseOfIndividuals.ParseWordTruthiness(),
-            UseCommAgencies = entity.UseCommAgencies.ParseWordTruthiness(),
-            ProtectVictim = entity.ProtectVictim.ParseWordTruthiness(),
-            LeaveHome = entity.LeaveHome.ParseWordTruthiness(),
-            NonOffendingParent = entity.NonOffendingParent.ParseWordTruthiness(),
-            LegalIntPlanned = entity.LegalIntPlanned.ParseWordTruthiness(),
-            OtherSafetyInterventions = entity.OtherSafetyInterventions.ParseWordTruthiness(),
-            CmtSafetyInterventions = entity.CmtSafetyInterventions,
-            ChildOutsideHome = entity.ChildOutsideHome.ParseWordTruthiness(),
-            ChildRemoved = entity.ChildRemoved.ParseWordTruthiness(),
+            DirectIntervention = json.SafetyIntervention01.ParseWordTruthiness(),
+            UseOfIndividuals = json.SafetyIntervention02.ParseWordTruthiness(),
+            UseCommAgencies = json.SafetyIntervention03.ParseWordTruthiness(),
+            ProtectVictim = json.SafetyIntervention04.ParseWordTruthiness(),
+            LeaveHome = json.SafetyIntervention05.ParseWordTruthiness(),
+            NonOffendingParent = json.SafetyIntervention06.ParseWordTruthiness(),
+            LegalIntPlanned = json.SafetyIntervention07.ParseWordTruthiness(),
+            OtherSafetyInterventions = json.SafetyIntervention08.ParseWordTruthiness(),
+            CmtSafetyInterventions = json.SafetyIntervention08Other,
+            ChildOutsideHome = json.SafetyIntervention09.ParseWordTruthiness(),
+            ChildRemoved = json.SafetyIntervention10.ParseWordTruthiness(),
         };
     }
 
