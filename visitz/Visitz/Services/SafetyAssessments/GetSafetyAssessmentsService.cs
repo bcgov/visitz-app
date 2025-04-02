@@ -42,6 +42,6 @@ internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs)
     {
         var assessmentJson = await Vpi.GetSafetyAssessments(Info.Id, after: null);
 
-        var assessments = SafetyAssessment.FromApiJson(Info.Label, assessmentJson);
+        var assessments = SafetyAssessment.FromApiJson(Info.FileNumber, assessmentJson);
     }
 }
