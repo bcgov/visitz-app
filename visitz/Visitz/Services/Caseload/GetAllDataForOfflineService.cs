@@ -5,6 +5,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
+using Visitz.Services.SafetyAssessments;
 using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
@@ -83,7 +84,8 @@ namespace Visitz.Services.Caseload
                 GetAllContacts(cases, incidents, memos, srs),
                 GetAllSupportNetworkItems(cases, incidents, srs),
                 GetAllAttachments(cases, incidents, memos, srs),
-                GetPartialAttachments(cases, incidents, memos, srs)
+                GetPartialAttachments(cases, incidents, memos, srs),
+                GetAllSafetyAssessments(incidents)
             );
         }
 
@@ -156,6 +158,12 @@ namespace Visitz.Services.Caseload
             var all = cases.Concat(incidents).Concat(memos).Concat(srs);
 
             var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage(all);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetAllSafetyAssessments(IEnumerable<RecordServiceInfo> incidents)
+        {
+            var startMessage = GetSafetyAssessmentsByRangeService.MakeStartMessage(incidents);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
     }

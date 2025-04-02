@@ -36,6 +36,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetAttachmentContentService>();
             builder.Services.AddTransient<GetAttachmentContentByRangeService>();
             builder.Services.AddTransient<GetPartialAttachmentsByRangeDownloadService>();
+            builder.Services.AddTransient<GetSafetyAssessmentsService>();
+            builder.Services.AddTransient<GetSafetyAssessmentsByRangeService>();
 
             return builder;
         }
