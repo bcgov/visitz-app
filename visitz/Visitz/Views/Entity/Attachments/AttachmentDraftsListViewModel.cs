@@ -16,7 +16,7 @@ using VisitzModel.Models.Attachments;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloadItemHolder
 {
 	[ObservableProperty]
 	public CaseloadItem caseloadItem;
