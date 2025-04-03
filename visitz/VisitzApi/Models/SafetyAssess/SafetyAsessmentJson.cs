@@ -22,7 +22,7 @@ public class SafetyAsessmentJson : BaseRecordJson
 
     public string ChildContactId { get; set; }
 
-    public IList<ChildContacts> ContactsInOutCare { get; set; }
+    public IList<ChildContacts> ContactsInOutCare { get; set; } = [];
 
     public string DataStewardRole { get; set; }
 
