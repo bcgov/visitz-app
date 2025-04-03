@@ -3,6 +3,7 @@ using System.Globalization;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.SafetyAssess;
 
@@ -77,13 +78,15 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
 
     public string DecisionUnsafe { get; set; } = string.Empty; // Max length 255
 
+    public string DecisionUnsafeDescription { get; set; } = string.Empty;
+
     public string Comments { get; set; } = string.Empty; // Max length 8000
 
     public string Narrative { get; set; }  = string.Empty; // Max length 2000
 
     public bool ReadyFinalize { get; set; }
 
-    public DateTimeOffset ReadyFinalizeDate { get; set; } = DateTimeOffset.Now; // Only date, no time
+    public DateTimeOffset? ReadyFinalizeDate { get; set; } = DateTimeOffset.Now; // Only date, no time
 
     public bool IsAnswered => Decision == SafetyDecisionOption.Unsafe 
         ? DecisionUnsafe?.Length > 0 
@@ -97,17 +100,18 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
             SafeInterventions = entity.SafetyDecisionIntervention.ParseWordTruthiness(),
             UnsafeSafetyFactors = entity.SafetyDecisionUnsafe.ParseWordTruthiness(),
             DecisionUnsafe = entity.SafetyDecisionUnsafeChoice,
+            DecisionUnsafeDescription = entity.SafetyDecisionUnsafeChoiceDescription,
             Comments = entity.SafetyDecisionSafetyPlan,
             Narrative = entity.SafetyDecisionNarrative,
             ReadyFinalize = entity.ReadyToFinalize.ParseWordTruthiness(),
-            ReadyFinalizeDate = DateTimeOffset.Parse(entity.ReadyToFinalizeDate),
+            ReadyFinalizeDate = Timestamp.ParseDateTimeOffsetNullable(entity.ReadyToFinalizeDate),
         };
     }
 
     public SubmitSafetyDecisionsJson ToApiJson(string _ = "s")
     {
-        var finalizeDate = ReadyFinalize
-            ? ReadyFinalizeDate.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture)
+        var finalizeDate = ReadyFinalize && ReadyFinalizeDate is DateTimeOffset finalize
+            ? finalize.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture)
             : "";
 
         return new SubmitSafetyDecisionsJson()
