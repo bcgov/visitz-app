@@ -86,7 +86,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
 
     public bool ReadyFinalize { get; set; }
 
-    public DateTimeOffset? ReadyFinalizeDate { get; set; } = DateTimeOffset.Now; // Only date, no time
+    public DateTimeOffset? ReadyFinalizeDate { get; set; } // Only date, no time
 
     public bool IsAnswered => Decision == SafetyDecisionOption.Unsafe 
         ? DecisionUnsafe?.Length > 0 
