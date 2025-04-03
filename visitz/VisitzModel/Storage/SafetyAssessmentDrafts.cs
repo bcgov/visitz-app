@@ -8,8 +8,7 @@ namespace VisitzModel.Storage;
 public class SafetyAssessmentDrafts(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersion, encryptionKey)
 {
     public static readonly string Name = "safetyAssessmentRealmPath.realm";
-    public static readonly ulong CurrentVersion = Version2_3_3;
-
+    public static readonly ulong CurrentVersion = Version2_7_0;
 
 	protected override RealmSchema MakeRealmSchema()
     {
