@@ -4,6 +4,7 @@ using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.SafetyAssessments;
 using Visitz.Views.BaseClasses.Publishing;
+using Visitz.Views.Debugging;
 using Visitz.Views.Entity.Details;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
@@ -73,6 +74,9 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
     private async Task DiscardSentDraft()
     {
+        if (DebugOptions.KeepSafetyAssessmentDraftOnPublish)
+            return;
+
         await AssessmentDraft.TryDeleteAsync(Assessment);
     }
 

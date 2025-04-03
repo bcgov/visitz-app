@@ -254,7 +254,28 @@
 					IsToggled="{Binding DryFirePostVisitServiceSimulateSuccess}"/>
 			</Grid>
 
-			<Label
+            <Label
+	            StyleClass="DebugLayout,DebugLabel"
+	            HorizontalOptions="FillAndExpand"
+	            FontSize="20"
+	            Background="AliceBlue"
+	            Text="Safety assessment" />
+
+            <Grid RowDefinitions="Auto,Auto">
+                <Label
+				    StyleClass="DebugLayout,DebugLabel"
+				    Grid.Row="0"
+				    Grid.Column="0"
+				    Text="Keep safety assessment draft after successful publish"/>
+
+                <Switch
+				    StyleClass="DebugLayout"
+				    Grid.Row="0"
+				    Grid.Column="1"
+				    IsToggled="{Binding KeepSafetyAssessmentDraftOnPublish}"/>
+            </Grid>
+
+            <Label
 				StyleClass="DebugLayout,DebugLabel"
 				HorizontalOptions="FillAndExpand"
 				FontSize="20"
