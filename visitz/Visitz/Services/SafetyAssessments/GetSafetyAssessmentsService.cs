@@ -1,5 +1,6 @@
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
+using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models.SafetyAssess;
 using VisitzModel.Storage;
@@ -41,7 +42,9 @@ internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs)
     async Task DownloadAndSynchronizeSafetyAssessments()
     {
         var assessmentJson = await Vpi.GetSafetyAssessments(Info.Id, after: null);
-
         var assessments = SafetyAssessment.FromApiJson(Info.FileNumber, assessmentJson);
+
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await SafetyAssessment.SynchronizeAsync(realm, Info.FileNumber, assessments));
     }
 }

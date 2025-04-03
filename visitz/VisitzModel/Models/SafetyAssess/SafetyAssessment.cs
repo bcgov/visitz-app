@@ -200,7 +200,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 		}
 	}
 
-    public static async Task Save(Realm realm, string fileNumber, IEnumerable<SafetyAssessment> assessments)
+    public static async Task SynchronizeAsync(Realm realm, string fileNumber, IEnumerable<SafetyAssessment> assessments)
     {
         var newIds = assessments.Select(a => a.Id);
 
