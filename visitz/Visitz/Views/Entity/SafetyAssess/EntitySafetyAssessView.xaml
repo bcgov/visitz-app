@@ -511,7 +511,7 @@
 
                     <DatePicker 
                         IsVisible="False"
-                        Date="{Binding Decisions.ReadyFinalizeDateBinding, Converter={StaticResource DateTimeOffsetConverter}}" />
+                        Date="{Binding Decisions.ReadyFinalizeDateBindingDateTimeWrapper}" />
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
