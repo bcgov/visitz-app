@@ -62,6 +62,9 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
 
 	public static async Task TryDeleteAsync(SafetyAssessment assessment)
 	{
+        if (assessment?.Realm == null)
+            return;
+
 		var realm = assessment.Realm;
 
 		await realm.WriteAsync(() =>
