@@ -127,6 +127,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\Drafts\EditDraftAppBar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
