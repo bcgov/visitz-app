@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Attachments;
@@ -28,6 +29,8 @@ internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, 
 
     public override AttachmentJson HandleResponse(HttpResponseMessage response, string responseContent)
     {
-        return JsonSerializer.Deserialize<AttachmentJson>(responseContent, PayloadOptions.SiebelGet);
+        return response.StatusCode == HttpStatusCode.NoContent
+            ? default
+            : JsonSerializer.Deserialize<AttachmentJson>(responseContent, PayloadOptions.SiebelGet);
     }
 }
