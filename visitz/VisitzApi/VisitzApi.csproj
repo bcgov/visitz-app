@@ -16,8 +16,4 @@
 		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Models\SafetyAssess\" />
-	</ItemGroup>
-
 </Project>

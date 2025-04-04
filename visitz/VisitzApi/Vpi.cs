@@ -1,4 +1,5 @@
 using VisitzApi.Endpoints;
+using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
 using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
@@ -59,7 +60,7 @@ namespace VisitzApi
             return await CallApi(new SubmitNotesEndpoint(BaseVisitzApiUrl, noteToSubmit));
         }
 
-        public async Task<(bool success, string status)> SubmitSafetyAssessmentAsync(SafetyAssessmentEntity safetyAssessment)
+        public async Task<(bool success, string status)> SubmitSafetyAssessmentAsync(SubmitSafetyAssessmentJson safetyAssessment)
         {
             return await CallApi(new SubmitSafetyAssessmentEndpoint(BaseVisitzApiUrl, safetyAssessment));
         }
@@ -110,6 +111,13 @@ namespace VisitzApi
             DateTimeOffset? after = null)
         {
             return await CallApi(new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, recordId, attachmentId, after));
+        }
+
+        public async Task<IEnumerable<SafetyAsessmentJson>> GetSafetyAssessments(
+            string incidentId,
+            DateTimeOffset? after = null)
+        {
+            return await CallApi(new GetSafetyAssessmentsEndpoint(BaseVisitzApiUrl, incidentId, after));
         }
     }
 }

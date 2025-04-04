@@ -56,10 +56,13 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
             attachmentId,
             after);
 
-        var attachment = await SaveFile(attachmentJson, recordServiceInfo);
+        if (attachmentJson != null)
+        {
+            var attachment = await SaveFile(attachmentJson, recordServiceInfo);
 
-        await VisitzRealms.EnqueueIcmDataActionAsync(async (realm) =>
-            await realm.WriteAsync(() => realm.Upsert(attachment)));
+            await VisitzRealms.EnqueueIcmDataActionAsync(async (realm) =>
+                await realm.WriteAsync(() => realm.Upsert(attachment)));
+        }
     }
 
     private static async Task<Attachment> SaveFile(AttachmentJson json, RecordServiceInfo recordServiceInfo)

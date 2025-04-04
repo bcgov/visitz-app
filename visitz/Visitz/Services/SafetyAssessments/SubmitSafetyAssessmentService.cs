@@ -24,13 +24,13 @@ public class SubmitSafetyAssessmentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
     {
         return new StartServiceMessage()
         {
-            Payload = safetyAssessment.ToApiEntity(),
+            Payload = safetyAssessment.ToApiJson(),
             ServiceId = MakeId(safetyAssessment.IncidentNumber),
             ServiceType = typeof(SubmitSafetyAssessmentService),
         };
     }
 
-    private new SafetyAssessmentEntity Payload => (SafetyAssessmentEntity)base.Payload;
+    private new SubmitSafetyAssessmentJson Payload => (SubmitSafetyAssessmentJson)base.Payload;
 
     public override string GetId()
     {

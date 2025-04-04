@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
@@ -9,19 +8,15 @@ namespace Visitz.Services.Attachments;
 internal class GetAttachmentContentByRangeService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler,
-    ILogger<GetAttachmentContentByRangeService> logger)
+    ServiceHandler serviceHandler)
     : VisitzApiRangeService<(RecordServiceInfo, string, bool)>(
         vpi,
         prefs,
         serviceHandler,
-        logger,
         new ParallelOptions { MaxDegreeOfParallelism = 2 })
 {
     private IEnumerable<(RecordServiceInfo, string, bool)> AttachmentContentItems =>
             (IEnumerable<(RecordServiceInfo, string, bool)>)Payload;
-
-    private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
     public static string MakeId()
     {

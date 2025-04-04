@@ -20,7 +20,8 @@ public class DebugOptions
     private static readonly string DryFirePostVisitServiceKey = "DryFirePostVisitService";
     private static readonly string DryFirePostVisitServiceSimulateSuccessKey = "DryFirePostVisitServiceSimulateSuccess";
     private static readonly string SkipLocalAuthKey = "SkipLocalAuth";
-    private static readonly string ShouldExpectFileContentKey = "IgnoreFileContentMissing";
+    private static readonly string ShouldExpectFileContentKey = "ShouldExpectFileContent";
+    private static readonly string KeepSafetyAssessmentDraftOnPublishKey = "KeepSafetyAssessmentDraftOnPublish";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -94,6 +95,12 @@ public class DebugOptions
     {
         get => Get(ShouldExpectFileContentKey, true);
         set => Set(ShouldExpectFileContentKey, value);
+    }
+
+    public static bool KeepSafetyAssessmentDraftOnPublish
+    {
+        get => Get(KeepSafetyAssessmentDraftOnPublishKey, false);
+        set => Set(KeepSafetyAssessmentDraftOnPublishKey, value);
     }
 
     public static async Task ClearRealmData()

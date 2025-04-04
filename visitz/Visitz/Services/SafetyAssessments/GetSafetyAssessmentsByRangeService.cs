@@ -3,27 +3,30 @@ using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzModel.Storage;
 
-namespace Visitz.Services.People;
+namespace Visitz.Services.SafetyAssessments;
 
-internal class GetContactsByRangeService(
+internal class GetSafetyAssessmentsByRangeService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler)
-    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
+    : VisitzApiRangeService<RecordServiceInfo>(
+        vpi,
+        prefs,
+        serviceHandler)
 {
-    public static string MakeId()
-    {
-        return nameof(GetContactsByRangeService);
-    }
-
-    public static StartServiceMessage MakeStartMessage(IEnumerable<RecordServiceInfo> entityIds)
+    public static StartServiceMessage MakeStartMessage(IEnumerable<RecordServiceInfo> records)
     {
         return new StartServiceMessage()
         {
             ServiceId = MakeId(),
-            ServiceType = typeof(GetContactsByRangeService),
-            Payload = entityIds,
+            ServiceType = typeof(GetSafetyAssessmentsByRangeService),
+            Payload = records,
         };
+    }
+
+    public static string MakeId()
+    {
+        return nameof(GetSafetyAssessmentsByRangeService);
     }
 
     public override string GetId()
@@ -33,7 +36,8 @@ internal class GetContactsByRangeService(
 
     protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
     {
-        await ServiceHandler.TryRunServiceAsync(GetContactsService.MakeStartMessage(item));
+        var msg = GetSafetyAssessmentsService.MakeStartMessage(item);
+        await ServiceHandler.TryRunServiceAsync(msg);
     }
 
     protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)

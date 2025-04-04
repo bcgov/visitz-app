@@ -9,16 +9,16 @@ internal class RecordServiceInfo
 
     public string Id { get; set; }
 
-    public string Label { get; set; }
+    public string FileNumber { get; set; }
 
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
 
-    RecordServiceInfo(string id, string label, string firstName, string lastName)
+    RecordServiceInfo(string id, string fileNumber, string firstName, string lastName)
     {
         Id = id;
-        Label = label;
+        FileNumber = fileNumber;
         FirstName = firstName;
         LastName = lastName;
     }
@@ -53,7 +53,7 @@ internal static class RecordServiceInfoExtensions
     {
         var outString = list.Select(ex =>
         {
-            return $"• {ex.Item.Type} {ex.Item.Label} -> {ex.Message}";
+            return $"• {ex.Item.Type} {ex.Item.FileNumber} -> {ex.Message}";
         }).Aggregate((accum, item) => accum + Environment.NewLine + item);
 
         return new Exception(outString);

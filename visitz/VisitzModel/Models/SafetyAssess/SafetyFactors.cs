@@ -1,10 +1,11 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class SafetyFactors : IRealmObject
+public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJson>
 {
     public bool? PhysicalHarm { get; set; }
         
@@ -107,50 +108,50 @@ public partial class SafetyFactors : IRealmObject
         && ChildFearful != null
         && OtherFactors != null;
 
-    public static SafetyFactors FromApiEntity(SafetyFactorsEntity entity)
+    public static SafetyFactors FromApiJson(SafetyAsessmentJson json)
     {
         return new SafetyFactors()
         {
-            PhysicalHarm = entity.PhysicalHarm.ParseWordTruthiness(),
-            SeriousInjuryAbuse = entity.SeriousInjuryAbuse.ParseWordTruthiness(),
-            FearsMaltreatChild = entity.FearsMaltreatChild.ParseWordTruthiness(),
-            ThreatAgainstChild = entity.ThreatAgainstChild.ParseWordTruthiness(),
-            ExcessiveForce = entity.ExcessiveForce.ParseWordTruthiness(),
-            SubsExposedInfant = entity.SubsExposedInfant.ParseWordTruthiness(),
-            CmtClarification = entity.CmtClarification,
-            CurrentCircumstances = entity.CurrentCircumstances.ParseWordTruthiness(),
-            CmtCircumstances = entity.CmtCircumstances,
-            SexAbuse = entity.SexAbuse.ParseWordTruthiness(),
-            CmtAbuse = entity.CmtAbuse,
-            UnableToProtect = entity.UnableToProtect.ParseWordTruthiness(),
-            CmtProtect = entity.CmtProtect,
-            InjuryExplanation = entity.InjuryExplanation.ParseWordTruthiness(),
-            CmtExplanation = entity.CmtExplanation,
-            RefuseAccess = entity.RefuseAccess.ParseWordTruthiness(),
-            CmtAccess = entity.CmtAccess,
-            ImmediateNeeds = entity.ImmediateNeeds.ParseWordTruthiness(),
-            CmtNeeds = entity.CmtNeeds,
-            PhysicalCondition = entity.PhysicalCondition.ParseWordTruthiness(),
-            CmtCondition = entity.CmtCondition,
-            CurrentAbuse = entity.CurrentAbuse.ParseWordTruthiness(),
-            CmtCurrent = entity.CmtCurrent,
-            PartnerViolence = entity.PartnerViolence.ParseWordTruthiness(),
-            CmtViolence = entity.CmtViolence,
-            PredominantlyNegative = entity.PredominantlyNegative.ParseWordTruthiness(),
-            CmtNegative = entity.CmtNegative,
-            EmotionalStability = entity.EmotionalStability.ParseWordTruthiness(),
-            CmtEmotional = entity.CmtEmotional,
-            ChildFearful = entity.ChildFearful.ParseWordTruthiness(),
-            CmtFearful = entity.CmtFearful,
-            OtherFactors = entity.OtherFactors.ParseWordTruthiness(),
-            CmtOtherFactors = entity.CmtOtherFactors,
-            CurretAbuse = entity.CurretAbuse.ParseWordTruthiness(),
+            PhysicalHarm = json.SafetyFactor01.ParseWordTruthiness(),
+            SeriousInjuryAbuse = json.SafetyFactor01A.ParseWordTruthiness(),
+            FearsMaltreatChild = json.SafetyFactor01B.ParseWordTruthiness(),
+            ThreatAgainstChild = json.SafetyFactor01C.ParseWordTruthiness(),
+            ExcessiveForce = json.SafetyFactor01D.ParseWordTruthiness(),
+            SubsExposedInfant = json.SafetyFactor01E.ParseWordTruthiness(),
+            CmtClarification = json.SafetyFactor01Comment,
+            CurrentCircumstances = json.SafetyFactor02.ParseWordTruthiness(),
+            CmtCircumstances = json.SafetyFactor02Comment,
+            SexAbuse = json.SafetyFactor03.ParseWordTruthiness(),
+            CmtAbuse = json.SafetyFactor03Comment,
+            UnableToProtect = json.SafetyFactor04.ParseWordTruthiness(),
+            CmtProtect = json.SafetyFactor04Comment,
+            InjuryExplanation = json.SafetyFactor05.ParseWordTruthiness(),
+            CmtExplanation = json.SafetyFactor05Comment,
+            RefuseAccess = json.SafetyFactor06.ParseWordTruthiness(),
+            CmtAccess = json.SafetyFactor06Comment,
+            ImmediateNeeds = json.SafetyFactor07.ParseWordTruthiness(),
+            CmtNeeds = json.SafetyFactor07Comment,
+            PhysicalCondition = json.SafetyFactor08.ParseWordTruthiness(),
+            CmtCondition = json.SafetyFactor08Comment,
+            CurrentAbuse = json.SafetyFactor09.ParseWordTruthiness(),
+            CmtCurrent = json.SafetyFactor09Comment,
+            PartnerViolence = json.SafetyFactor10.ParseWordTruthiness(),
+            CmtViolence = json.SafetyFactor10Comment,
+            PredominantlyNegative = json.SafetyFactor11.ParseWordTruthiness(),
+            CmtNegative = json.SafetyFactor11Comment,
+            EmotionalStability = json.SafetyFactor12.ParseWordTruthiness(),
+            CmtEmotional = json.SafetyFactor12Comment,
+            ChildFearful = json.SafetyFactor13.ParseWordTruthiness(),
+            CmtFearful = json.SafetyFactor13Comment,
+            OtherFactors = json.SafetyFactor14.ParseWordTruthiness(),
+            CmtOtherFactors = json.SafetyFactor14Comment,
+            CurretAbuse = null,
         };
     }
 
-    public SafetyFactorsEntity ToApiEntity()
+    public SubmitSafetyFactorsJson ToApiJson(string _ = "s")
     {
-        return new SafetyFactorsEntity()
+        return new SubmitSafetyFactorsJson()
         {
             PhysicalHarm = PhysicalHarm?.AsTruthyWord(),
             SeriousInjuryAbuse = SeriousInjuryAbuse.AsTruthyChar(),

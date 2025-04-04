@@ -1,6 +1,6 @@
-﻿namespace VisitzApi.Models.SafetyAssess;
+namespace VisitzApi.Models.SafetyAssess;
 
-public class SafetyDecisionsEntity
+public class SubmitSafetyDecisionsJson
 {
     public string NoSafetyFactors { get; set; }
 

@@ -1,6 +1,6 @@
-﻿namespace VisitzApi.Models.SafetyAssess;
+namespace VisitzApi.Models.SafetyAssess;
 
-public class ProtectiveCapacityEntity
+public class SubmitProtectiveCapacityJson
 {
     public string ChildCognitive { get; set; }
 

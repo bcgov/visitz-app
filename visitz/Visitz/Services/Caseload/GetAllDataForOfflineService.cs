@@ -5,6 +5,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
+using Visitz.Services.SafetyAssessments;
 using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
@@ -77,13 +78,17 @@ namespace Visitz.Services.Caseload
             var srs = realm.All<ServiceRequestRecord>().Freeze().AsEnumerable()
                 .Select(sr => new RecordServiceInfo(sr));
 
+            var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
+            var all = casesIncidentsSrs.Concat(memos);
+
             await Task.WhenAll(
                 GetAllNotes(realm),
                 GetAllVisits(realm),
-                GetAllContacts(cases, incidents, memos, srs),
-                GetAllSupportNetworkItems(cases, incidents, srs),
-                GetAllAttachments(cases, incidents, memos, srs),
-                GetPartialAttachments(cases, incidents, memos, srs)
+                GetAllContacts(all),
+                GetAllSupportNetworkItems(casesIncidentsSrs),
+                GetAllAttachments(all),
+                GetPartialAttachments(all),
+                GetAllSafetyAssessments(incidents)
             );
         }
 
@@ -112,50 +117,33 @@ namespace Visitz.Services.Caseload
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
 
-        private async Task GetAllContacts(
-            IEnumerable<RecordServiceInfo> cases,
-            IEnumerable<RecordServiceInfo> incidents,
-            IEnumerable<RecordServiceInfo> memos,
-            IEnumerable<RecordServiceInfo> srs)
+        private async Task GetAllContacts(IEnumerable<RecordServiceInfo> all)
         {
-            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
-
             var startMessage = GetContactsByRangeService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
 
-        private async Task GetAllSupportNetworkItems(
-            IEnumerable<RecordServiceInfo> cases,
-            IEnumerable<RecordServiceInfo> incidents,
-            IEnumerable<RecordServiceInfo> srs)
+        private async Task GetAllSupportNetworkItems(IEnumerable<RecordServiceInfo> casesIncidentsSrs)
         {
-            var all = cases.Concat(incidents).Concat(srs);
-
-            var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(all);
+            var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(casesIncidentsSrs);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
 
-        private async Task GetAllAttachments(
-            IEnumerable<RecordServiceInfo> cases,
-            IEnumerable<RecordServiceInfo> incidents,
-            IEnumerable<RecordServiceInfo> memos,
-            IEnumerable<RecordServiceInfo> srs)
+        private async Task GetAllAttachments(IEnumerable<RecordServiceInfo> all)
         {
-            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
-
             var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
 
-        private async Task GetPartialAttachments(
-            IEnumerable<RecordServiceInfo> cases,
-            IEnumerable<RecordServiceInfo> incidents,
-            IEnumerable<RecordServiceInfo> memos,
-            IEnumerable<RecordServiceInfo> srs)
+        private async Task GetPartialAttachments(IEnumerable<RecordServiceInfo> all)
         {
-            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
-
             var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage(all);
+            await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+
+        private async Task GetAllSafetyAssessments(IEnumerable<RecordServiceInfo> incidents)
+        {
+            var startMessage = GetSafetyAssessmentsByRangeService.MakeStartMessage(incidents);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
     }

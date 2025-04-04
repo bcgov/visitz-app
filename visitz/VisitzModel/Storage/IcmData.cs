@@ -6,6 +6,7 @@ using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
+using VisitzModel.Models.SafetyAssess;
 using VisitzModel.Storage.Migrations;
 
 namespace VisitzModel.Storage;
@@ -31,6 +32,13 @@ public class IcmData(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersio
             typeof(SupportNetworkItem),
             typeof(Attachment),
             typeof(AttachmentDraft),
+
+            typeof(SafetyAssessment),
+            typeof(FactorInfluence),
+            typeof(ProtectiveCapacity),
+            typeof(SafetyDecisions),
+            typeof(SafetyFactors),
+            typeof(SafetyInterventions),
         };
     }
 

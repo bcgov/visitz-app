@@ -44,6 +44,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public bool requireAttachmentFileContent;
 
+    [ObservableProperty]
+    public bool keepSafetyAssessmentDraftOnPublish;
+
     readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
 	[ObservableProperty]
@@ -76,6 +79,7 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
 
         RequireAttachmentFileContent = DebugOptions.RequireAttachmentFileContent;
+        KeepSafetyAssessmentDraftOnPublish = DebugOptions.KeepSafetyAssessmentDraftOnPublish;
 
         var settings = new AppSettings();
 
@@ -113,6 +117,11 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     partial void OnRequireAttachmentFileContentChanged(bool value)
     {
         DebugOptions.RequireAttachmentFileContent = value;
+    }
+
+    partial void OnKeepSafetyAssessmentDraftOnPublishChanged(bool value)
+    {
+        DebugOptions.KeepSafetyAssessmentDraftOnPublish = value;
     }
 
     [RelayCommand]
