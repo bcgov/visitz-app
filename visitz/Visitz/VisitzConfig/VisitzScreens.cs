@@ -80,6 +80,8 @@ public static class VisitzScreens
         builder.Services.AddTransient<PhotoDetailsView>();
         builder.Services.AddTransient<PhotoDetailsViewModel>();
 
+        builder.Services.AddTransient<SafetyAssessmentListView>();
+        builder.Services.AddTransient<SafetyAssessmentListViewModel>();
         builder.Services.AddTransient<EntitySafetyAssessView>();
         builder.Services.AddTransient<EntitySafetyAssessViewModel>();
 

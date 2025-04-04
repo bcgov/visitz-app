@@ -83,7 +83,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
     private readonly EntityNavItem SafetyAssessment = new()
     {
         Text = LocalizedStrings.SafetyAssessment,
-        ContentViewType = typeof(EntitySafetyAssessView),
+        ContentViewType = typeof(SafetyAssessmentListView),
         Section = EntitySection.SafetyAssessment,
     };
 
