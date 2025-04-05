@@ -264,6 +264,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
 
         var saPublish = new PublishPage(saPublishVm);
         await Navigator.Navigation.PushAsync(saPublish);
+        await Navigator.Navigation.PopModalAsync();
     }
 
     [RelayCommand]
