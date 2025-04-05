@@ -45,9 +45,10 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
 			DraftEntityId = assessment.IncidentNumber,
 		};
 
-		await realm.WriteAsync(async () =>
+		await realm.WriteAsync(() =>
 		{
-			await SafetyAssessment.Save(realm, assessment);
+            if (!assessment.IsManaged)
+                realm.Add(assessment);
 
 			draft.DraftLocation = draftLocation;
 			draft.RelatedEntityType = type;
