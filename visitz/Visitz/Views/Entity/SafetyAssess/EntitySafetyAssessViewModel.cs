@@ -82,6 +82,9 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public bool canDiscard;
 
+    [ObservableProperty]
+    public bool isReadOnly;
+
     private Realm Realm;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
@@ -96,7 +99,11 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
-        await SetupAssessment();
+
+        if (Assessment == null)
+            await SetupAssessmentDraft();
+        else
+            IsReadOnly = true;
 
         SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
     }
@@ -135,7 +142,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         };
     }
 
-    private async Task SetupAssessment()
+    private async Task SetupAssessmentDraft()
     {
         DraftItem = null;
         Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) 
@@ -267,7 +274,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
         await TrySendSavedMessage(DraftSaveState.None);
 
-        await SetupAssessment();
+        await SetupAssessmentDraft();
         SelectedChildren?.Clear();
     }
 
