@@ -532,7 +532,7 @@ If that doesn't work, request access by emailing </value>
     <value>Discard draft?</value>
   </data>
   <data name="DiscardedSafetyAssessmentDraft" xml:space="preserve">
-    <value>Discarded safety assessment draft.</value>
+    <value>Discarded safety assessment draft</value>
   </data>
   <data name="DiscardSafetyAssessmentDraftDescription" xml:space="preserve">
     <value>Are you sure you want to discard this safety assessment draft? You won't be able to recover any progress you've made.</value>

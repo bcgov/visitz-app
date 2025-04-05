@@ -548,7 +548,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discarded safety assessment draft..
+        ///   Looks up a localized string similar to Discarded safety assessment draft.
         /// </summary>
         public static string DiscardedSafetyAssessmentDraft {
             get {
