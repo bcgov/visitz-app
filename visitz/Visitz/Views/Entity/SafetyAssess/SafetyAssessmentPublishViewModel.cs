@@ -63,7 +63,6 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         {
             Published(LocalizedStrings.SAPublishedSuccess);
             await DiscardSentDraft();
-            RedirectToDetails();
             Complete();
         }
         else if (message.FinishedCancelled)
@@ -78,11 +77,5 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
             return;
 
         await AssessmentDraft.TryDeleteAsync(Assessment);
-    }
-
-    private void RedirectToDetails()
-    {
-		var detailsNav = new EntityNavItem() { ContentViewType = typeof(EntityDetailsView) };
-        StrongReferenceMessenger.Default.Send(new EntityNavMessage(detailsNav, CaseloadItem));
     }
 }
