@@ -861,4 +861,7 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Add new</value>
+  </data>
 </root>

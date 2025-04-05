@@ -33,6 +33,11 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
 		set => RelatedEntitySubtypeInt = (int)value;
 	}
 
+    public static IQueryable<AssessmentDraft> GetAllByFileNumber(Realm realm, string fileNumber)
+    {
+        return realm.All<AssessmentDraft>().Where(d => d.DraftEntityId == fileNumber);
+    }
+
 	public static async Task<AssessmentDraft> Upsert(
 		Realm realm,
 		SafetyAssessment assessment,

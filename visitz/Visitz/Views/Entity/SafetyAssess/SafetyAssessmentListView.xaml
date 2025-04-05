@@ -19,7 +19,7 @@
 
             <Button
                 Grid.Column="2"
-                Text="{local:Localize AddNotes}"
+                Text="{Binding EditViewButtonText, TargetNullValue={local:Localize AddNew}}"
                 Command="{Binding OpenSafetyAssessmentViewCommand}" />
         </Grid>
     </Grid>
