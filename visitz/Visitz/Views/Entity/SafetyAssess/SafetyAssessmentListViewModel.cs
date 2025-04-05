@@ -18,6 +18,19 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
         await base.InitAsync();
     }
 
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            // TODO: diposal
+
+            disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
+
     [RelayCommand]
     public async Task OpenSafetyAssessmentView(SafetyAssessment assessment = null)
     {
@@ -27,10 +40,5 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
         view.Assessment = assessment;
 
         await Navigator.Navigation.PushModalAsync(view);
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
     }
 }
