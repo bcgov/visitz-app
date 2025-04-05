@@ -36,8 +36,13 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
         BindingContext = ViewModel;
 
         ViewModel.SaveStateHandler.SaveStateChanged += SaveStateHandler_SaveStateChanged;
-        
-        _ = DelayCanAutoScroll();
+    }
+
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
+
+        await DelayCanAutoScroll();
     }
 
     protected override void Dispose(bool disposing)
