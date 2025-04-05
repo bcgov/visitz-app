@@ -7,8 +7,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Visitz.Resources.Localization;
-using Visitz.Services;
-using Visitz.Services.SafetyAssessments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
@@ -22,7 +20,7 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadItemHolder, IRecipient<ServiceStateMessage>
+public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadItemHolder
 {
     public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
@@ -94,9 +92,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-
-        var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
-        WeakReferenceMessenger.Default.Register(this, id);
 
         Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
         SetupFamilyNamePicker();
@@ -293,11 +288,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         ConsoleTrace.TraceMethod(this, json);
     }
 #endif
-
-    public void Receive(ServiceStateMessage message)
-    {
-        // TODO: Tasks upon API completion
-    }
 
     private void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
