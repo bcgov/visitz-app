@@ -20,7 +20,7 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadItemHolder
 {
     public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";

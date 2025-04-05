@@ -21,7 +21,7 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
     [RelayCommand]
     public async Task OpenSafetyAssessmentView(SafetyAssessment assessment = null)
     {
-        var view = ServiceProvider.GetService<EntitySafetyAssessView>();
+        var view = ServiceProvider.GetService<SafetyAssessmentEditView>();
 
         view.CaseloadItem = CaseloadItem;
         view.Assessment = assessment;

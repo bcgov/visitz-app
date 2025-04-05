@@ -82,8 +82,8 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<SafetyAssessmentListView>();
         builder.Services.AddTransient<SafetyAssessmentListViewModel>();
-        builder.Services.AddTransient<EntitySafetyAssessView>();
-        builder.Services.AddTransient<EntitySafetyAssessViewModel>();
+        builder.Services.AddTransient<SafetyAssessmentEditView>();
+        builder.Services.AddTransient<SafetyAssessmentEditViewModel>();
 
         builder.Services.AddTransient<ChildYouthVisitListView>();
         builder.Services.AddTransient<ChildYouthVisitListViewModel>();

@@ -8,9 +8,9 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadItemHolder
+public partial class SafetyAssessmentEditView : ViewModelContentView, ICaseloadItemHolder
 {
-    protected new EntitySafetyAssessViewModel ViewModel => (EntitySafetyAssessViewModel)base.ViewModel;
+    protected new SafetyAssessmentEditViewModel ViewModel => (SafetyAssessmentEditViewModel)base.ViewModel;
 
     // It's preferable to use lifecycle methods to determine when auto-scrolling is allowed, but MAUI's lifecycles can
     // be unreliable--so we'll use a time-delayed bool.
@@ -32,7 +32,7 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
         set => ViewModel.Assessment = value;
     }
 
-    public EntitySafetyAssessView() : base(ServiceProvider.GetService<EntitySafetyAssessViewModel>())
+    public SafetyAssessmentEditView() : base(ServiceProvider.GetService<SafetyAssessmentEditViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
