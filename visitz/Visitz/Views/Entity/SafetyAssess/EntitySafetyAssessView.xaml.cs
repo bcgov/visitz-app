@@ -14,6 +14,8 @@ public partial class EntitySafetyAssessView : ViewModelContentView, ICaseloadIte
 
     // It's preferable to use lifecycle methods to determine when auto-scrolling is allowed, but MAUI's lifecycles can
     // be unreliable--so we'll use a time-delayed bool.
+    // TODO: Rework this so we don't allow a scroll until we guarantee all data
+    // has been loaded rather than using delays
     private bool canAutoScroll;
 
     private bool disposed;
