@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Extensions;
+using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -18,6 +19,9 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
 
     [ObservableProperty]
     public string editViewButtonText;
+
+    [ObservableProperty]
+    public string editViewButtonGlyph;
 
     readonly ObservableRealmQueryMap realmQueryMap = new();
 
@@ -56,6 +60,7 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
     void UpdateEditViewButtonText(bool draftAvailable)
     {
         EditViewButtonText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddNew;
+        EditViewButtonGlyph = draftAvailable ? MaterialIcons.Assignment : MaterialIcons.Assignment_add;
     }
 
     [RelayCommand]

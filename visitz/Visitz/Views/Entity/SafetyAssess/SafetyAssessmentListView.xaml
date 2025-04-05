@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:safety="clr-namespace:Visitz.Views.Entity.SafetyAssess"
     x:Class="Visitz.Views.Entity.SafetyAssess.SafetyAssessmentListView"
@@ -20,7 +21,14 @@
             <Button
                 Grid.Column="2"
                 Text="{Binding EditViewButtonText, TargetNullValue={local:Localize AddNew}}"
-                Command="{Binding OpenSafetyAssessmentViewCommand}" />
+                Command="{Binding OpenSafetyAssessmentViewCommand}">
+                <Button.ImageSource>
+                    <FontImageSource 
+                        Glyph="{Binding EditViewButtonGlyph, TargetNullValue={Static icons:MaterialIcons.Assignment_add}}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Size="20"/>
+                </Button.ImageSource>
+            </Button>
         </Grid>
     </Grid>
 </base:ViewModelContentView>
