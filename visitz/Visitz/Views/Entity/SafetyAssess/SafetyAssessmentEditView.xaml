@@ -78,7 +78,8 @@
                 AllowDiscard="{Binding CanDiscard}"
                 DiscardClicked="DiscardButton_Clicked"
                 AllowPublish="{Binding CanPublish, Mode=TwoWay}"
-                PublishCommand="{Binding PublishCommand}" />
+                PublishCommand="{Binding PublishCommand}"
+                IsReadOnly="{Binding IsReadOnly}" />
 
             <ScrollView x:Name="MainScrollView" Grid.Row="1">
 

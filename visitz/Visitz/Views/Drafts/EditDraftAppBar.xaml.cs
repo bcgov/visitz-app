@@ -11,6 +11,9 @@ public partial class EditDraftAppBar : ContentView
     public static readonly BindableProperty AllowPublishProperty =
         BindableProperty.Create(nameof(AllowPublish), typeof(bool), typeof(EditDraftAppBar));
 
+    public static readonly BindableProperty IsReadOnlyProperty =
+        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(EditDraftAppBar));
+
     public static readonly BindableProperty DiscardCommandProperty =
         BindableProperty.Create(nameof(DiscardCommand), typeof(IAsyncRelayCommand), typeof(EditDraftAppBar));
 
@@ -27,6 +30,12 @@ public partial class EditDraftAppBar : ContentView
     {
         get => (bool)GetValue(AllowPublishProperty);
         set => SetValue(AllowPublishProperty, value);
+    }
+
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
     }
 
     public IAsyncRelayCommand DiscardCommand
