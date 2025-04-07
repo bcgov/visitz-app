@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
@@ -23,6 +24,9 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
     [ObservableProperty]
     public string editViewButtonGlyph;
 
+    [ObservableProperty]
+    public ObservableCollection<SafetyAssessment> assessments = [];
+
     readonly ObservableRealmQueryMap realmQueryMap = new();
 
     protected override async Task InitAsync()
@@ -32,8 +36,12 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
 
         var draftRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
-        var query = AssessmentDraft.GetAllByFileNumber(draftRealm, CaseloadItem.CaseIncidentNumber);
-        realmQueryMap.Subscribe(draftRealm, query);
+        var draftQuery = AssessmentDraft.GetAllByFileNumber(draftRealm, CaseloadItem.CaseIncidentNumber);
+        realmQueryMap.Subscribe(draftRealm, draftQuery);
+
+        var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        var dataQuery = SafetyAssessment.GetAllByFileNumber(dataRealm, CaseloadItem.CaseIncidentNumber);
+        realmQueryMap.Subscribe(dataRealm, dataQuery);
     }
 
     bool disposed;
@@ -53,8 +61,27 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
         object sender,
         (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
+        if (e.Type == typeof(SafetyAssessment))
+            UpdateSafetyAssessmentsList(e.Items, e.Changes);
         if (e.Type == typeof(AssessmentDraft))
             UpdateEditViewButtonText(e.Items.Any());
+    }
+
+    void UpdateSafetyAssessmentsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    {
+        if (changes == null)
+        {
+            foreach (var item in items)
+                Assessments.Add((SafetyAssessment)item);
+        }
+        else
+        {
+            foreach (var i in changes.DeletedIndices.Reverse())
+                Assessments.RemoveAt(i);
+
+            foreach (var i in changes.InsertedIndices)
+                Assessments.Add(items.ElementAt(i) as SafetyAssessment);
+        }
     }
 
     void UpdateEditViewButtonText(bool draftAvailable)
