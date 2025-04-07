@@ -37,11 +37,21 @@
 
         <Style TargetType="formctls:FormPromptAnswerField">
             <Setter Property="AnswerContextExplanation" Value="{local:Localize CommentsClarificationPrompt}" />
+            <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
         </Style>
 
         <Style TargetType="formctls:FormEntry">
             <Setter Property="MaxLength" Value="{Static safetyModels:SafetyAssessment.CommentsMaxLength}" />
             <Setter Property="Placeholder" Value="{local:Localize Comments}" />
+            <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
+        </Style>
+
+        <Style TargetType="formctls:FormCheckBox">
+            <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
+        </Style>
+
+        <Style TargetType="formctls:FormRadioButton">
+            <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
         </Style>
 
         <Style x:Key="FormVsl" TargetType="VerticalStackLayout">
@@ -61,6 +71,7 @@
         <ResourceDictionary>
             <toolkit:DateTimeOffsetConverter x:Key="DateTimeOffsetConverter" />
             <converters:YesNoAnswerToBoolConverter x:Key="YesNoToBool" />
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>
     </baseClasses:ViewModelContentView.Resources>
 
@@ -108,7 +119,8 @@
                                 Margin="0,0"
                                 Format="MMMM dd, yyyy"
                                 MaximumDate="{Binding MaxDate}"
-                                Date="{Binding Assessment.DateOfAssessmentBinding, Converter={StaticResource DateTimeOffsetConverter}}"/>
+                                Date="{Binding Assessment.DateOfAssessmentBinding, Converter={StaticResource DateTimeOffsetConverter}}"
+                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
 
                             <Label 
                                 Grid.Row="0"
@@ -119,7 +131,8 @@
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 SelectedItem="{Binding Assessment.FamilyNameBinding}"
-                                ItemsSource="{Binding FamilyNames}" />
+                                ItemsSource="{Binding FamilyNames}"
+                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
                         </Grid>
 
                     </VerticalStackLayout>
@@ -499,7 +512,8 @@
                         <CollectionView
                             ItemsSource="{Binding AvailableChildrenInOutCare}"
                             SelectionMode="Multiple"
-                            SelectedItems="{Binding SelectedChildren}">
+                            SelectedItems="{Binding SelectedChildren}"
+                            IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}">
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:FamilyMember">
