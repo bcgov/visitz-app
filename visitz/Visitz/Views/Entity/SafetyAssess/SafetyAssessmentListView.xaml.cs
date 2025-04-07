@@ -22,10 +22,10 @@ public partial class SafetyAssessmentListView :
 
     public SafetyAssessmentListView()
         : base(ServiceProvider.GetService<SafetyAssessmentListViewModel>())
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         BindingContext = ViewModel;
-	}
+    }
 
     protected override async Task InitAsync()
     {
