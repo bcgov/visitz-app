@@ -873,4 +873,7 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="ApprovedBy" xml:space="preserve">
     <value>Approved by</value>
   </data>
+  <data name="ReadOnly" xml:space="preserve">
+    <value>Read-only</value>
+  </data>
 </root>
