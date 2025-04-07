@@ -7,8 +7,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Visitz.Resources.Localization;
-using Visitz.Services;
-using Visitz.Services.SafetyAssessments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
@@ -22,7 +20,7 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadItemHolder, IRecipient<ServiceStateMessage>
+public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadItemHolder
 {
     public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
@@ -81,15 +79,51 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     [ObservableProperty]
     public bool canPublish;
 
-	[ObservableProperty]
-	public bool canDiscard;
+    [ObservableProperty]
+    public bool canDiscard;
+
+    [ObservableProperty]
+    public bool isReadOnly;
 
     private Realm Realm;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
-	[ObservableProperty]
-	private AssessmentDraft draftItem;
+    [ObservableProperty]
+    private AssessmentDraft draftItem;
+
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
+
+        Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+        SetupFamilyNamePicker();
+        SetupChildrenInOutCare();
+
+        if (Assessment == null)
+            await SetupAssessmentDraft();
+        else
+            IsReadOnly = true;
+
+        SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
+    }
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            SaveStateHandler.Dispose();
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
+            UnsubscribeFromAssessment();
+
+            disposed = true;
+        }
+
+        base.Dispose(disposing);
+    }
 
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
@@ -108,50 +142,35 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         };
     }
 
-    public override async void Create()
+    private async Task SetupAssessmentDraft()
     {
-        base.Create();
-
-        var id = SubmitSafetyAssessmentService.MakeId(CaseloadItem);
-        WeakReferenceMessenger.Default.Register(this, id);
-
-        Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
-        SetupFamilyNamePicker();
-        SetupChildrenInOutCare();
-        await SetupAssessment();
-
-        SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
-    }
-
-    private async Task SetupAssessment()
-    {
-		DraftItem = null;
+        DraftItem = null;
         Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) 
             ?? await MakeNewSafetyAssessment();
 
-		await TryAssociateDraftItem();
+        await TryAssociateDraftItem();
 
-		UpdateCanPublish();
-		SubscribeToAssessment();
-	}
+        UpdateCanPublish();
+        SubscribeToAssessment();
+    }
 
-	private async Task TryAssociateDraftItem()
-	{
-		if (Assessment.IsManaged)
-			DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
-	}
+    private async Task TryAssociateDraftItem()
+    {
+        if (Assessment.IsManaged)
+            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
+    }
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         _ = TrySendSavedMessage(DraftSaveState.Saving);
 
-		if (!Assessment.IsManaged)
-			DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
-		else if (DraftItem?.IsValid ?? false)
-			DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
+        if (!Assessment.IsManaged)
+            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
+        else if (DraftItem?.IsValid ?? false)
+            DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
-		CanDiscard = Assessment.IsManaged;
-		UpdateCanPublish();
+        CanDiscard = Assessment.IsManaged;
+        UpdateCanPublish();
     }
 
     private void UpdateCanPublish()
@@ -180,17 +199,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         AvailableChildrenInOutCare = CaseloadItem.FamilyMembers;
     }
 
-    public override void Destroy()
-    {
-        SaveStateHandler.Dispose();
-        WeakReferenceMessenger.Default.UnregisterAll(this);
-
-        SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
-        UnsubscribeFromAssessment();
-
-        base.Destroy();
-    }
-
     partial void OnAssessmentChanged(SafetyAssessment value)
     {
         if (FamilyNames.Count > 0 && !value.IsManaged)
@@ -206,7 +214,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
             if (value.ChildsInOutCare.Contains(child.ContactId))
                 SelectedChildren.Add(child);
 
-		CanDiscard = value.IsManaged;
+        CanDiscard = value.IsManaged;
     }
 
     private void SubscribeToAssessment()
@@ -245,7 +253,7 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
     }
 
     [RelayCommand]
-	public async Task Publish()
+    public async Task Publish()
     {
 #if DEBUG
         WriteSafetyAssessmentJson();
@@ -256,17 +264,18 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
 
         var saPublish = new PublishPage(saPublishVm);
         await Navigator.Navigation.PushAsync(saPublish);
+        await Navigator.Navigation.PopModalAsync();
     }
 
     [RelayCommand]
-	public async Task Reset()
+    public async Task Reset()
     {
-		UnsubscribeFromAssessment();
-		await AssessmentDraft.TryDeleteAsync(Assessment);
+        UnsubscribeFromAssessment();
+        await AssessmentDraft.TryDeleteAsync(Assessment);
 
         await TrySendSavedMessage(DraftSaveState.None);
 
-        await SetupAssessment();
+        await SetupAssessmentDraft();
         SelectedChildren?.Clear();
     }
 
@@ -287,11 +296,6 @@ public partial class EntitySafetyAssessViewModel : VisitzViewModel, ICaseloadIte
         ConsoleTrace.TraceMethod(this, json);
     }
 #endif
-
-    public void Receive(ServiceStateMessage message)
-    {
-        // TODO: Tasks upon API completion
-    }
 
     private void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {

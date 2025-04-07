@@ -13,7 +13,6 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
     public static readonly string DateFormat = "dd/MM/yyyy";
     public static readonly int CommentsMaxLength = 1000;
 
-    [PrimaryKey]
     public string Id { get; set; }
 
     public string CreatedBy { get; set; }
@@ -189,17 +188,6 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
         await realm.WriteAsync(() => realm.Remove(safetyAssessment));
     }
 
-	public static async Task Save(Realm realm, SafetyAssessment assessment)
-	{
-		if (!assessment.IsManaged)
-		{
-			if (realm.IsInTransaction)
-				realm.Add(assessment);
-			else
-				await realm.WriteAsync(() => realm.Add(assessment));
-		}
-	}
-
     public static async Task SynchronizeAsync(Realm realm, string fileNumber, IEnumerable<SafetyAssessment> assessments)
     {
         var newIds = assessments.Select(a => a.Id);
@@ -214,10 +202,5 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             realm.DeleteByIds<SafetyAssessment>(idsToRemove);
             realm.Upsert(assessments);
         });
-    }
-
-    public async Task Save(Realm realm)
-    {
-		await Save(realm, this);
     }
 }

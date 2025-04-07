@@ -78,7 +78,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
         else if (type == typeof(AssessmentDraft))
         {
             SortAndSubscribe(realm, realm.All<AssessmentDraft>());
-            SectionToOpen = EntitySection.SafetyAssessment;
+            SectionToOpen = EntitySection.SafetyAssessmentEntry;
         }
         else if (type == typeof(AttachmentDraft))
         {

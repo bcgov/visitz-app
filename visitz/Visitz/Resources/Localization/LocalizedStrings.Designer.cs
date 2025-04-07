@@ -70,6 +70,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new.
+        /// </summary>
+        public static string AddNew {
+            get {
+                return ResourceManager.GetString("AddNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add notes.
         /// </summary>
         public static string AddNotes {
@@ -539,7 +548,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discarded safety assessment draft..
+        ///   Looks up a localized string similar to Discarded safety assessment draft.
         /// </summary>
         public static string DiscardedSafetyAssessmentDraft {
             get {

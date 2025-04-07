@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:ViewModelContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:safety="clr-namespace:Visitz.Views.Entity.SafetyAssess"
+    x:Class="Visitz.Views.Entity.SafetyAssess.SafetyAssessmentListView"
+    x:DataType="safety:SafetyAssessmentListViewModel">
+    
+    <Grid RowDefinitions="*,0.5,Auto">
+        <BoxView Grid.Row="1" Color="{StaticResource SeparatorColor}" />
+
+        <Grid
+            Grid.Row="2"
+            ColumnDefinitions="*,Auto"
+            ColumnSpacing="10"
+            Padding="10">
+
+            <Button
+                Grid.Column="2"
+                Text="{Binding EditViewButtonText, TargetNullValue={local:Localize AddNew}}"
+                Command="{Binding OpenSafetyAssessmentViewCommand}">
+                <Button.ImageSource>
+                    <FontImageSource 
+                        Glyph="{Binding EditViewButtonGlyph, TargetNullValue={Static icons:MaterialIcons.Assignment_add}}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Size="20"/>
+                </Button.ImageSource>
+            </Button>
+        </Grid>
+    </Grid>
+</base:ViewModelContentView>

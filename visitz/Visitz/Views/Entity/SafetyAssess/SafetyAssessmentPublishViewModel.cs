@@ -5,10 +5,7 @@ using Visitz.Services.Base;
 using Visitz.Services.SafetyAssessments;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Debugging;
-using Visitz.Views.Entity.Details;
-using VisitzModel.Messaging;
 using VisitzModel.Models;
-using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
@@ -63,7 +60,6 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         {
             Published(LocalizedStrings.SAPublishedSuccess);
             await DiscardSentDraft();
-            RedirectToDetails();
             Complete();
         }
         else if (message.FinishedCancelled)
@@ -78,11 +74,5 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
             return;
 
         await AssessmentDraft.TryDeleteAsync(Assessment);
-    }
-
-    private void RedirectToDetails()
-    {
-		var detailsNav = new EntityNavItem() { ContentViewType = typeof(EntityDetailsView) };
-        StrongReferenceMessenger.Default.Send(new EntityNavMessage(detailsNav, CaseloadItem));
     }
 }
