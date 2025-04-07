@@ -9,6 +9,9 @@ public partial class FormCheckBox : ContentView
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(nameof(Text), typeof(string), typeof(FormCheckBox));
 
+    public static readonly BindableProperty IsReadOnlyProperty =
+        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
+
     public bool IsChecked
 	{
 		get => (bool)GetValue(IsCheckedProperty);
@@ -21,6 +24,12 @@ public partial class FormCheckBox : ContentView
         set => SetValue(TextProperty, value);
     }
 
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+
     public FormCheckBox()
 	{
 		InitializeComponent();
@@ -28,6 +37,7 @@ public partial class FormCheckBox : ContentView
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-		IsChecked = !IsChecked;
+        if (!IsReadOnly)
+		    IsChecked = !IsChecked;
     }
 }

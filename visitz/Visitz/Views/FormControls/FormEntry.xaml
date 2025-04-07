@@ -38,7 +38,8 @@
                 PlaceholderColor="{StaticResource Gray400}"
                 MaxLength="{Binding MaxLength}"
                 Text="{Binding Text}"
-                TextChanged="Editor_TextChanged"/>
+                TextChanged="Editor_TextChanged"
+                IsReadOnly="{Binding IsReadOnly}" />
             <Label
                 x:Name="EditorError"
                 AbsoluteLayout.LayoutFlags="PositionProportional"

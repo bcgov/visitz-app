@@ -2,11 +2,16 @@
 <ContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     x:Class="Visitz.Views.FormControls.FormCheckBox"
     x:DataType="formctls:FormCheckBox"
     x:Name="this">
-    
+
+    <ContentView.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+    </ContentView.Resources>
+
     <Grid 
         ColumnDefinitions="Auto,*"
         BindingContext="{Reference this}"
@@ -16,7 +21,8 @@
             Grid.Column="0"
             x:Name="CheckBox"
             VerticalOptions="Center"
-            IsChecked="{Binding IsChecked}" />
+            IsChecked="{Binding IsChecked}"
+            IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
 
         <Label
             Grid.Column="1"

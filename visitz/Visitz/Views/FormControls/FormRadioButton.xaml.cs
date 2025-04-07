@@ -15,6 +15,9 @@ public partial class FormRadioButton : ContentView
         BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(FormRadioButton),
             defaultBindingMode: BindingMode.TwoWay);
 
+    public static readonly BindableProperty IsReadOnlyProperty =
+        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
+
     public event EventHandler<CheckedChangedEventArgs> CheckedChanged;
 
     public string Text
@@ -41,6 +44,12 @@ public partial class FormRadioButton : ContentView
         set => SetValue(IsCheckedProperty, value);
     }
 
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+
     public FormRadioButton()
 	{
 		InitializeComponent();
@@ -55,6 +64,7 @@ public partial class FormRadioButton : ContentView
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        IsChecked = true;
+        if (!IsReadOnly)
+            IsChecked = true;
     }
 }

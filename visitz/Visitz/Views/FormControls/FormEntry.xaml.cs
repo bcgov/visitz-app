@@ -46,6 +46,9 @@ public partial class FormEntry : ContentView
                 formEntry.UpdateCharacterCount();
             });
 
+    public static readonly BindableProperty IsReadOnlyProperty =
+        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
+
     public string FieldName
     {
         get => (string)GetValue(FieldNameProperty);
@@ -86,6 +89,12 @@ public partial class FormEntry : ContentView
     {
         get => (int)GetValue(MaxLengthProperty);
         set => SetValue(MaxLengthProperty, value);
+    }
+
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
     }
 
     public FormEntry()
