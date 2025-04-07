@@ -130,18 +130,11 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
         var info = await OidcSessionInfo.GetAsync();
-        return new SafetyAssessment()
-        {
-            IncidentNumber = CaseloadItem.CaseIncidentNumber,
-            WorkerId = info.Idir,
-            FamilyName = CaseloadItem.KeyPlayerLastName,
-            Operation = LocalizedStrings.Insert,
-            FactorInfluence = new FactorInfluence(),
-            SafetyFactors = new SafetyFactors(),
-            ProtectiveCapacity = new ProtectiveCapacity(),
-            SafetyInterventions = new SafetyInterventions(),
-            SafetyDecisions = new SafetyDecisions(),
-        };
+        return SafetyAssessment.Make(
+            CaseloadItem.CaseIncidentNumber,
+            info.Idir,
+            CaseloadItem.KeyPlayerLastName
+        );
     }
 
     private async Task SetupAssessmentDraft()

@@ -14,7 +14,9 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public static readonly string DateFormat = "dd/MM/yyyy";
     public static readonly int CommentsMaxLength = 1000;
+    public static readonly string DefaultOperation = "INSERT";
 
+    [PrimaryKey]
     public string Id { get; set; }
 
     public string CreatedBy { get; set; }
@@ -86,7 +88,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
     {
         var safetyAssessment = new SafetyAssessment()
         {
-            Id = json.Id,
+            Id = GetOrMakeId(fileNumber, json),
             CreatedBy = json.CreatedBy,
             CreatedById = json.CreatedById,
             CreatedDate = DateTimeOffset.Parse(json.CreatedDate),
@@ -124,6 +126,23 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             safetyAssessment.ChildsInOutCare.Add(contact.Id);
 
         return safetyAssessment;
+    }
+
+    public static SafetyAssessment Make(string fileNumber, string workerId, string familyName)
+    {
+        return new SafetyAssessment()
+        {
+            Id = GetOrMakeId(fileNumber, workerId),
+            IncidentNumber = fileNumber,
+            WorkerId = workerId,
+            FamilyName = familyName,
+            Operation = DefaultOperation,
+            FactorInfluence = new FactorInfluence(),
+            SafetyFactors = new SafetyFactors(),
+            ProtectiveCapacity = new ProtectiveCapacity(),
+            SafetyInterventions = new SafetyInterventions(),
+            SafetyDecisions = new SafetyDecisions(),
+        };
     }
 
     static string GetOrMakeId(string fileNumber, SafetyAsessmentJson json)
