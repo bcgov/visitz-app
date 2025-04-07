@@ -182,7 +182,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             WorkerId = WorkerId,
             FamilyName = FamilyName,
             DateOfAssessment = DateOfAssessment.ToString(DateFormat, CultureInfo.InvariantCulture),
-            Operation = Operation,
+            Operation = DefaultOperation,
             FactorInfluence = FactorInfluence.ToApiJson(dateFormat),
             SafetyFactors = SafetyFactors.ToApiJson(dateFormat),
             ProtectiveCapacity = ProtectiveCapacity.ToApiJson(dateFormat),
