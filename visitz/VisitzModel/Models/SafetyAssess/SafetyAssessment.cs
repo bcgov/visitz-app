@@ -14,7 +14,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public static readonly string DateFormat = "dd/MM/yyyy";
     public static readonly int CommentsMaxLength = 1000;
-    public static readonly string DefaultOperation = "INSERT";
+    public static readonly string DefaultOperation = "Insert";
 
     [PrimaryKey]
     public string Id { get; set; }
