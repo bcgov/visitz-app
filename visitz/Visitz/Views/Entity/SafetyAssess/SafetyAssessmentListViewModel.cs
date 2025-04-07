@@ -43,7 +43,8 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
         realmQueryMap.Subscribe(draftRealm, draftQuery);
 
         var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        var dataQuery = SafetyAssessment.GetAllByFileNumber(dataRealm, CaseloadItem.CaseIncidentNumber);
+        var dataQuery = SafetyAssessment.GetAllByFileNumber(dataRealm, CaseloadItem.CaseIncidentNumber)
+            .OrderByDescending(sa => sa.CreatedDate);
         realmQueryMap.Subscribe(dataRealm, dataQuery);
     }
 
