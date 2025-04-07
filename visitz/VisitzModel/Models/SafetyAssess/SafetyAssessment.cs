@@ -10,6 +10,8 @@ namespace VisitzModel.Models.SafetyAssess;
 
 public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<SubmitSafetyAssessmentJson>
 {
+    static readonly string IdString = "{0}|{1}|{2}|LOCALONLY";
+
     public static readonly string DateFormat = "dd/MM/yyyy";
     public static readonly int CommentsMaxLength = 1000;
 
@@ -122,6 +124,23 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             safetyAssessment.ChildsInOutCare.Add(contact.Id);
 
         return safetyAssessment;
+    }
+
+    static string GetOrMakeId(string fileNumber, SafetyAsessmentJson json)
+    {
+        return GetOrMakeId(fileNumber, json.CreatedDate, json.CreatedBy, json.Id);
+    }
+
+    static string GetOrMakeId(string fileNumber, string createdBy)
+    {
+        return GetOrMakeId(fileNumber, DateTimeOffset.Now.ToString(), createdBy);
+    }
+
+    static string GetOrMakeId(string fileNumber, string createdDate, string createdBy, string id = null)
+    {
+        return string.IsNullOrWhiteSpace(id)
+            ? string.Format(IdString, fileNumber, createdDate, createdBy)
+            : id;
     }
 
     public static IEnumerable<SafetyAssessment> FromApiJson(
