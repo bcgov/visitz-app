@@ -206,7 +206,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
         {
             EntitySection.Family => FamilyMembers,
             EntitySection.Notes or EntitySection.NoteEntry => Notes,
-            EntitySection.SafetyAssessment => SafetyAssessment,
+            EntitySection.SafetyAssessment or EntitySection.SafetyAssessmentEntry => SafetyAssessment,
             EntitySection.Attachments => Attachments,
             EntitySection.ChildYouthVisits or EntitySection.ChildYouthVisitsEntry => ChildYouthVisits,
             _ => Details,
