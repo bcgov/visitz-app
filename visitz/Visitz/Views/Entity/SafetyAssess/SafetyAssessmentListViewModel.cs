@@ -29,6 +29,9 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
 
     readonly ObservableRealmQueryMap realmQueryMap = new();
 
+    [ObservableProperty]
+    public bool isEmpty;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -82,6 +85,8 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
             foreach (var i in changes.InsertedIndices)
                 Assessments.Add(items.ElementAt(i) as SafetyAssessment);
         }
+
+        IsEmpty = !Assessments.Any();
     }
 
     void UpdateEditViewButtonText(bool draftAvailable)

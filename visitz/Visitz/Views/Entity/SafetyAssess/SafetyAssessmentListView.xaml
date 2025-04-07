@@ -13,11 +13,12 @@
 
     <base:ViewModelContentView.Resources>
         <converters:DateTimeOffsetShortTimestampConverter x:Key="ShortTimestampConverter" />
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </base:ViewModelContentView.Resources>
 
     <Grid RowDefinitions="*,0.5,Auto">
 
-        <VerticalStackLayout>
+        <VerticalStackLayout IsVisible="{Binding IsEmpty, Converter={StaticResource BoolNegationConverter}}">
             <Grid
                 ColumnDefinitions="*,*,*,*"
                 Padding="{StaticResource DefaultPadding}">
@@ -96,6 +97,15 @@
             
             </CollectionView>
         </VerticalStackLayout>
+
+        <Label
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            FontSize="200"
+            TextColor="#919197"
+            Text="{Static icons:MaterialIcons.Note_stack}"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            IsVisible="{Binding IsEmpty}" />
         
         <BoxView Grid.Row="1" Color="{StaticResource SeparatorColor}" />
 
