@@ -52,6 +52,15 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="safetyModels:SafetyAssessment">
                         <ContentView>
+
+                            <ContentView.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding OpenSafetyAssessmentViewCommand,
+                                        Source={RelativeSource
+                                            AncestorType={x:Type safety:SafetyAssessmentListViewModel}}}"
+                                    CommandParameter="{Binding .}"/>
+                            </ContentView.GestureRecognizers>
+
                             <VerticalStackLayout>
                                 <Grid
                                     ColumnDefinitions="*,*,*,*"
