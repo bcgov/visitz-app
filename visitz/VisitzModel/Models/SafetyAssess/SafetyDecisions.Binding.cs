@@ -65,14 +65,4 @@ public partial class SafetyDecisions
         get => IsValid ? ReadyFinalizeDate : default;
         set => this.Commit(() => ReadyFinalizeDate = value);
     }
-
-    public DateTime? ReadyFinalizeDateBindingDateTimeWrapper
-    {
-        get => IsValid ? ReadyFinalizeDate?.DateTime : default;
-        set
-        {
-            if (value is DateTime dt)
-                this.Commit(() => ReadyFinalizeDate = new DateTimeOffset(dt));
-        }
-    }
 }

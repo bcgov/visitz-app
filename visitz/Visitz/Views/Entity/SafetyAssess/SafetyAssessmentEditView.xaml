@@ -525,10 +525,6 @@
                             FieldName="{local:Localize SocialWorkerName}"
                             Text="{Binding Assessment.WorkerIdBinding}" />
 
-                        <!--<DatePicker 
-                            IsVisible="False"
-                            Date="{Binding Decisions.ReadyFinalizeDateBindingDateTimeWrapper}" />-->
-
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </ScrollView>
