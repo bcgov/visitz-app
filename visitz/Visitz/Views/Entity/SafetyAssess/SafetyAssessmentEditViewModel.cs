@@ -201,7 +201,12 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
 
     partial void OnAssessmentChanged(SafetyAssessment value)
     {
-        if (FamilyNames.Count > 0 && !value.IsManaged)
+        SetupBindings(value);
+    }
+
+    private void SetupBindings(SafetyAssessment value)
+    {
+        if (FamilyNames?.Count > 0 && !value.IsManaged)
             value.FamilyName = FamilyNames[0];
 
         Influence = value.FactorInfluence;
@@ -210,9 +215,10 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         Factors = value.SafetyFactors;
         Interventions = value.SafetyInterventions;
 
-        foreach (var child in AvailableChildrenInOutCare)
-            if (value.ChildsInOutCare.Contains(child.ContactId))
-                SelectedChildren.Add(child);
+        if (AvailableChildrenInOutCare is not null)
+            foreach (var child in AvailableChildrenInOutCare)
+                if (value.ChildsInOutCare.Contains(child.ContactId))
+                    SelectedChildren.Add(child);
 
         CanDiscard = value.IsManaged;
     }
