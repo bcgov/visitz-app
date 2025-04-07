@@ -5,10 +5,7 @@ using Visitz.Services.Base;
 using Visitz.Services.SafetyAssessments;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Debugging;
-using Visitz.Views.Entity.Details;
-using VisitzModel.Messaging;
 using VisitzModel.Models;
-using VisitzModel.Models.Navigation;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
