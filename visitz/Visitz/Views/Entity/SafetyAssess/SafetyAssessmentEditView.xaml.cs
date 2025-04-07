@@ -94,6 +94,6 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, ICaseloadI
     public void ViewAssessment(SafetyAssessment assessment)
     {
         ViewModel.IsReadOnly = true;
-        ViewModel.Assessment = assessment;
+        ViewModel.ViewAssessment = assessment;
     }
 }

@@ -34,6 +34,8 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     [ObservableProperty]
     public SafetyAssessment assessment;
 
+    public SafetyAssessment ViewAssessment { get; set; }
+
     [ObservableProperty]
     public FactorInfluence influence;
 
@@ -101,7 +103,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         SetupChildrenInOutCare();
 
         if (IsReadOnly)
-            SetupBindings(Assessment);
+            Assessment = ViewAssessment;
         else
             await SetupAssessmentDraft();
 
