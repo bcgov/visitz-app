@@ -100,7 +100,8 @@
                     <banners:InfoBanner 
                         Margin="10"
                         Level="Info"
-                        Text="{local:Localize SafetyAssessmentValidationRulesInfo}" />
+                        Text="{local:Localize SafetyAssessmentValidationRulesInfo}"
+                        IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
 
                     <VerticalStackLayout Style="{StaticResource FormVsl}">
 
