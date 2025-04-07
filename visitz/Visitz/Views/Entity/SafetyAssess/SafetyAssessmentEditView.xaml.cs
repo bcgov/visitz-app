@@ -20,16 +20,10 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, ICaseloadI
 
     private bool disposed;
 
-    public CaseloadItem CaseloadItem 
+    public CaseloadItem CaseloadItem
     {
         get => ViewModel.CaseloadItem;
         set => ViewModel.CaseloadItem = value;
-    }
-
-    public SafetyAssessment Assessment
-    {
-        get => ViewModel.Assessment;
-        set => ViewModel.Assessment = value;
     }
 
     public SafetyAssessmentEditView() : base(ServiceProvider.GetService<SafetyAssessmentEditViewModel>())
@@ -95,5 +89,11 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, ICaseloadI
             await Task.Delay(100);
             await MainScrollView.ScrollToAsync(ChildrenInCareSection.X, ChildrenInCareSection.Y, true);
         }
+    }
+
+    public void ViewAssessment(SafetyAssessment assessment)
+    {
+        ViewModel.IsReadOnly = true;
+        ViewModel.Assessment = assessment;
     }
 }

@@ -96,7 +96,9 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
         var view = ServiceProvider.GetService<SafetyAssessmentEditView>();
 
         view.CaseloadItem = CaseloadItem;
-        view.Assessment = assessment;
+
+        if (assessment != null)
+            view.ViewAssessment(assessment);
 
         await Navigator.Navigation.PushModalAsync(view);
     }

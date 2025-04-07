@@ -100,10 +100,10 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
 
-        if (Assessment == null)
-            await SetupAssessmentDraft();
+        if (IsReadOnly)
+            SetupBindings(Assessment);
         else
-            IsReadOnly = true;
+            await SetupAssessmentDraft();
 
         SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
     }
