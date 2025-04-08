@@ -9,7 +9,13 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentDraftsListView : ViewModelContentView, ICaseloadItemHolder, IFocusDraftItem
 {
-	new AttachmentDraftsListViewModel ViewModel => base.ViewModel as AttachmentDraftsListViewModel;
+    public static readonly BindableProperty CaseloadItemProperty =
+        BindableProperty.Create(nameof(CaseloadItem), typeof(CaseloadItem), typeof(AttachmentDraftsListView));
+
+    public static readonly BindableProperty FocusedDraftItemProperty =
+        BindableProperty.Create(nameof(FocusedDraftItem), typeof(IDraftItem), typeof(AttachmentDraftsListView));
+
+    new AttachmentDraftsListViewModel ViewModel => base.ViewModel as AttachmentDraftsListViewModel;
 
 	public CaseloadItem CaseloadItem
 	{
