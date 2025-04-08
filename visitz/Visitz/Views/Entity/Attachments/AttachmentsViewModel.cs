@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Realms;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -7,16 +9,26 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
 internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHolder
 {
+    [ObservableProperty]
+    public string[] tabs = { LocalizedStrings.InIcm, LocalizedStrings.OnMyDevice };
+
+    [ObservableProperty]
+    public string selectedTab;
+
 	[ObservableProperty]
 	public CaseloadItem caseloadItem;
 
-	Realm AttachmentsRealm { get; set; }
+    [ObservableProperty]
+    public IDraftItem focusedDraftItem;
+
+    Realm AttachmentsRealm { get; set; }
 
 	AttachmentFiler attachmentFiler;
 
@@ -42,4 +54,10 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 		else
 			await AttachmentDraft.SaveNewFile(CaseloadItem, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 	}
+
+    [RelayCommand]
+    public void TabChanged()
+    {
+
+    }
 }

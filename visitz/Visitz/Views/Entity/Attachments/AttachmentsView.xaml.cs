@@ -18,13 +18,13 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 	public CaseloadItem CaseloadItem
 	{
 		get => ViewModel.CaseloadItem;
-		set => AttachmentDraftsListView.CaseloadItem = ViewModel.CaseloadItem = value;
+		set => ViewModel.CaseloadItem = value;
 	}
 
 	public IDraftItem FocusedDraftItem
 	{
-		get => AttachmentDraftsListView.FocusedDraftItem;
-		set => AttachmentDraftsListView.FocusedDraftItem = value;
+		get => ViewModel.FocusedDraftItem;
+		set => ViewModel.FocusedDraftItem = value;
 	}
 
 	public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
@@ -64,13 +64,6 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 		{
 			await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
 		}
-	}
-
-	protected override void Destroying()
-	{
-		base.Destroying();
-
-		AttachmentDraftsListView.Dispose();
 	}
 
 	private async Task OpenTakePhotoView()

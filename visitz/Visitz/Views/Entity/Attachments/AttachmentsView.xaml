@@ -10,34 +10,33 @@
     x:Class="Visitz.Views.Entity.Attachments.AttachmentsView"
 	x:DataType="attachments:AttachmentsViewModel">
 
-	<Grid
+    <Grid
 		HorizontalOptions="FillAndExpand"
 		VerticalOptions="FillAndExpand"
 		RowDefinitions="Auto, *, 0.5, Auto">
 
-		<banners:InfoBanner
-			Grid.Row="0"
-			Margin="20"
-			Level="Info"
-			Text="{local:Localize OnlyPublishAttachments}" />
-        <!-- <CollectionView ItemsLayout="HorizontalList">
-            <CollectionView.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>In ICM</x:String>
-                    <x:String>On my device</x:String>
-                </x:Array>
-            </CollectionView.ItemsSource>
+        <CollectionView
+            Grid.Row="0"
+            ItemsSource="{Binding Tabs}"
+            ItemsLayout="HorizontalList"
+            SelectionChangedCommand="{Binding TabChangedCommand}"
+            SelectedItem="{Binding SelectedTab}">
 
-        </CollectionView> -->
+        </CollectionView>
 
-		<attachments:AttachmentDraftsListView
-			x:Name="AttachmentDraftsListView"
-            IsVisible="False"
-			Grid.Row="1" />
+        <ScrollView Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal">
+                <attachments:AttachmentDraftsListView
+                    CaseloadItem="{Binding CaseloadItem}"
+                    FocusedDraftItem="{Binding FocusedDraftItem}"
+                    IsVisible="False"
+			        Grid.Row="1" />
 
-		<attachments:AttachmentsListView
-			x:Name="AttachmentsListView"
-			Grid.Row="1" />
+		        <attachments:AttachmentsListView
+                    CaseloadItem="{Binding CaseloadItem}"
+			        Grid.Row="1" />
+            </StackLayout>
+        </ScrollView>
 
 		<BoxView
 			Grid.Row="2"
