@@ -20,9 +20,23 @@
 			Margin="20"
 			Level="Info"
 			Text="{local:Localize OnlyPublishAttachments}" />
+        <!-- <CollectionView ItemsLayout="HorizontalList">
+            <CollectionView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>In ICM</x:String>
+                    <x:String>On my device</x:String>
+                </x:Array>
+            </CollectionView.ItemsSource>
+
+        </CollectionView> -->
 
 		<attachments:AttachmentDraftsListView
 			x:Name="AttachmentDraftsListView"
+            IsVisible="False"
+			Grid.Row="1" />
+
+		<attachments:AttachmentsListView
+			x:Name="AttachmentsListView"
 			Grid.Row="1" />
 
 		<BoxView

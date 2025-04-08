@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:ViewModelContentView
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+	xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Entity.Attachments.AttachmentsListView"
+    xmlns:model="clr-namespace:VisitzModel.Models.Attachments;assembly=VisitzModel"
+	x:DataType="attachments:AttachmentsListViewModel">
+
+    <Grid
+        VerticalOptions="Fill"
+        RowDefinitions="*">
+        <CollectionView
+            Grid.Row="0"
+            x:Name="AttachmentsCollectionView"
+            ItemsSource="{Binding AttachmentsList}"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Attachment">
+                    <ContentView>
+                        <VerticalStackLayout>
+                            <Grid
+                                RowSpacing="{StaticResource DefaultSpacing}"
+                                ColumnSpacing="{StaticResource DefaultSpacing}"
+                                Margin="10,10,10,0"
+                                RowDefinitions="Auto,Auto,Auto"
+                                ColumnDefinitions="*,*,*,*,Auto">
+                                <!-- <HorizontalStackLayout
+                                    Grid.Row="0"
+                                    Grid.Column="5"
+                                    Grid.RowSpan="2"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Spacing="5">
+                                    <Label
+                                        FontFamily="MaterialIconsRoundedUnfilled"
+                                        FontSize="30"
+                                        Text="{Static fonticons:MaterialIcons.Keyboard_arrow_down}"/>
+
+                                </HorizontalStackLayout> -->
+                                <HorizontalStackLayout
+                                    Spacing="5"
+                                    Grid.ColumnSpan="5"
+                                    Grid.Row="1">
+                                    <Label
+                                        Text="{Binding FormDescription}"
+                                        FontFamily="BCSansBold"
+                                        FontSize="17"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout
+                                    Spacing="25"
+                                    Grid.ColumnSpan="5"
+                                    Grid.Row="2">
+                                    <HorizontalStackLayout
+                                        Spacing="5">
+                                        <Label
+                                            Text="{Binding Status}"/>
+                                        <Label
+                                            Text="{Binding SubCategory}"/>
+                                        <Label
+                                            Text="{Binding CreatedDate}"/>
+                                        <Label
+                                            Text="{Binding CreatedBy}"/>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+                            </Grid>
+                            <BoxView
+                                Margin="10"
+                                Color="{StaticResource Gray200}"
+                                HeightRequest="0.5"/>
+                        </VerticalStackLayout>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!-- <Label
+            Grid.Row="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            FontSize="200"
+            TextColor="#919197"
+            Text="{Static fonticons:MaterialIcons.Note_stack}"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            IsVisible="{Binding ShowEmptyIcon}"/> -->
+    </Grid>
+</baseClasses:ViewModelContentView>
