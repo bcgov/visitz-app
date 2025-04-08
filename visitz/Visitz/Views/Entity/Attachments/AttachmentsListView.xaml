@@ -8,10 +8,10 @@
 	xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentsListView"
     xmlns:model="clr-namespace:VisitzModel.Models.Attachments;assembly=VisitzModel"
-	x:DataType="attachments:AttachmentsListViewModel">
+	x:DataType="attachments:AttachmentsListViewModel"
+    VerticalOptions="FillAndExpand">
 
     <Grid
-        VerticalOptions="Fill"
         RowDefinitions="*">
         <CollectionView
             Grid.Row="0"
