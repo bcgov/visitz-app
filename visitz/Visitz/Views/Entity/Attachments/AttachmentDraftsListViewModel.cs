@@ -36,9 +36,9 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
 
 	public readonly TaskCompletionSource attachmentsLoadedTcs = new();
 
-	public override async void Create()
-	{
-		base.Create();
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
 
 		attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 
@@ -46,18 +46,23 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
 				.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
 
 		realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
-	}
+    }
 
-	public override void Destroy()
-	{
-		base.Destroy();
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+		    realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+		    realmQuery.Dispose();
+		    attachmentsRealm?.Dispose();
 
-		realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
-		realmQuery.Dispose();
-		attachmentsRealm?.Dispose();
-	}
+            disposed = true;
+        }
+        base.Dispose(disposing);
+    }
 
-	private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
 	{
 		IsLoading = false;
 		IsEmpty = !realmQuery[typeof(AttachmentDraft)].Query.Any();
