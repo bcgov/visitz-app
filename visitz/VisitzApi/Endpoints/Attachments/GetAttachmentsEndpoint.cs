@@ -5,7 +5,7 @@ using VisitzApi.Json;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
 
-namespace VisitzApi.Endpoints;
+namespace VisitzApi.Endpoints.Attachments;
 
 #nullable enable
 
