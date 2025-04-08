@@ -921,6 +921,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In ICM.
+        /// </summary>
+        public static string InIcm {
+            get {
+                return ResourceManager.GetString("InIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert.
         /// </summary>
         public static string Insert {
@@ -1247,6 +1256,15 @@ namespace Visitz.Resources.Localization {
         public static string OnlyPublishAttachments {
             get {
                 return ResourceManager.GetString("OnlyPublishAttachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On my device.
+        /// </summary>
+        public static string OnMyDevice {
+            get {
+                return ResourceManager.GetString("OnMyDevice", resourceCulture);
             }
         }
         
