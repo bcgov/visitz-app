@@ -20,23 +20,61 @@
             ItemsSource="{Binding Tabs}"
             ItemsLayout="HorizontalList"
             SelectionChangedCommand="{Binding TabChangedCommand}"
-            SelectedItem="{Binding SelectedTab}">
+            SelectedItem="{Binding SelectedTab}"
+            SelectionMode="Single">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView
+                        Padding="{Thickness
+                            Left={StaticResource DefaultMargin},
+                            Right={StaticResource DefaultMargin}}">
+                        
+                        <AbsoluteLayout>
+                            <Label
+                                x:Name="TabName"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                AbsoluteLayout.LayoutBounds="0.5,0.5"
+                                Padding="{StaticResource DefaultPadding}"
+                                Text="{Binding .}" />
+
+                            <BoxView
+                                x:Name="Indicator"
+                                AbsoluteLayout.LayoutFlags="PositionProportional,WidthProportional"
+                                AbsoluteLayout.LayoutBounds="0.5,1,1,-1"
+                                HeightRequest="5"
+                                Color="{StaticResource Primary}" />
+                        </AbsoluteLayout>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="TabName" Property="Label.FontFamily" Value="BCSansRegular" />
+                                        <Setter TargetName="TabName" Property="Label.TextColor" Value="{StaticResource BC_TextColor}" />
+                                        <Setter TargetName="Indicator" Property="BoxView.IsVisible" Value="False" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="TabName" Property="Label.FontFamily" Value="BCSansBold" />
+                                        <Setter TargetName="TabName" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                        <Setter TargetName="Indicator" Property="BoxView.IsVisible" Value="True" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
 
         </CollectionView>
 
-        <ScrollView Orientation="Horizontal">
-            <StackLayout Orientation="Horizontal">
-                <attachments:AttachmentDraftsListView
-                    CaseloadItem="{Binding CaseloadItem}"
-                    FocusedDraftItem="{Binding FocusedDraftItem}"
-                    IsVisible="False"
-			        Grid.Row="1" />
-
-		        <attachments:AttachmentsListView
-                    CaseloadItem="{Binding CaseloadItem}"
-			        Grid.Row="1" />
-            </StackLayout>
-        </ScrollView>
+        <ContentView
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            Grid.Row="1"
+            Content="{Binding SelectedView}" />
 
 		<BoxView
 			Grid.Row="2"

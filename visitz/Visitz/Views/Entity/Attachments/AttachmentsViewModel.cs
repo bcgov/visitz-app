@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Controls;
 using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -19,8 +20,13 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
     [ObservableProperty]
     public string[] tabs = { LocalizedStrings.InIcm, LocalizedStrings.OnMyDevice };
 
+    public Dictionary<string, ViewModelContentView> Views { get; private set; } = [];
+
     [ObservableProperty]
     public string selectedTab;
+
+    [ObservableProperty]
+    public View selectedView;
 
 	[ObservableProperty]
 	public CaseloadItem caseloadItem;
@@ -32,9 +38,9 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 
 	AttachmentFiler attachmentFiler;
 
-	public override async void Create()
+	protected override async Task InitAsync()
 	{
-		base.Create();
+		await base.InitAsync();
 
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 		attachmentFiler = await VisitzFiles.GetAsync(
@@ -42,7 +48,34 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 			CaseloadItem.CaseIncidentNumber,
 			CaseloadItem.KeyPlayer.FirstName,
 			CaseloadItem.KeyPlayer.LastName);
+
+        InitViews();
 	}
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            AttachmentsRealm?.Dispose();
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
+    void InitViews()
+    {
+        var listView = ServiceProvider.GetService<AttachmentsListView>();
+        listView.CaseloadItem = CaseloadItem;
+        Views[Tabs[0]] = listView;
+
+        var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
+        draftsView.CaseloadItem = CaseloadItem;
+        Views[Tabs[1]] = draftsView;
+
+        SelectedTab = Tabs[0];
+    }
 
 	public async Task SaveFile(FileResult fileResult)
 	{
@@ -58,6 +91,6 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
     [RelayCommand]
     public void TabChanged()
     {
-
+        SelectedView = Views[SelectedTab];
     }
 }
