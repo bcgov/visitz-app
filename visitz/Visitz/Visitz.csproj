@@ -55,7 +55,7 @@
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splashicon.svg" Color="$(BuildTypeColor)" BaseSize="352,328" Resize="true" />
-		
+
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 
@@ -134,6 +134,10 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Entity\SafetyAssess\SafetyAssessmentListView.xaml">
+	  <MauiXaml Update="Views\Navigation\TabItemView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Navigation\TabView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

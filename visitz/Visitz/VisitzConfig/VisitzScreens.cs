@@ -123,6 +123,10 @@ public static class VisitzScreens
         builder.Services.AddTransient<SupportNetworkListView>();
         builder.Services.AddTransient<SupportNetworkListViewModel>();
 
+        builder.Services.AddTransient<TabView>();
+        builder.Services.AddTransient<TabViewModel>();
+        builder.Services.AddTransient<TabItemView>();
+
         return builder;
     }
 }
