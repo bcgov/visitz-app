@@ -4,7 +4,7 @@ namespace VisitzApi.Models.Attachments;
 
 #nullable enable
 
-public class AttachmentFormData
+public class AttachmentFormData : IDisposable
 {
     static readonly string ContentName = "Attachment Id";
     static readonly string CategoryName = "Category";
@@ -71,5 +71,23 @@ public class AttachmentFormData
             { new StringContent(Status), StatusName },
             { new StringContent(Template), TemplateName },
         };
+    }
+
+    bool disposedValue;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+                FileContent?.Dispose();
+
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }
