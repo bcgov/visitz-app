@@ -1,4 +1,3 @@
-using System.Net;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
 
@@ -15,7 +14,10 @@ internal class PostAttachmentEndpoint(
 
     static string MakePath(ApiRecordType type, string recordId)
     {
-        return string.Format(GetAttachmentsEndpoint.AttachmentsPath, type, recordId);
+        return string.Format(
+            GetAttachmentsEndpoint.AttachmentsPath,
+            type.ToString().ToLowerInvariant(),
+            recordId);
     }
 
     public override HttpRequestMessage MakeRequest()
