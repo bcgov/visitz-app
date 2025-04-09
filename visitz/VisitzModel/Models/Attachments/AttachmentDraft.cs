@@ -143,7 +143,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             token);
 
         return new AttachmentFormData(
-            Attachment.Filename,
+            Attachment.Filename + Attachment.Extension,
             attachmentStream,
             category,
             description,
