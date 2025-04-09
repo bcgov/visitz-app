@@ -19,7 +19,7 @@ internal class GetAttachmentsEndpoint(
         Vpi.V2,
         MakePath(type, rowId))
 {
-    static readonly string AttachmentsPath = "/{0}/{1}/attachments";
+    public static readonly string AttachmentsPath = "/{0}/{1}/attachments";
 
     readonly Pagination? Pagination = pagination;
 
