@@ -6,7 +6,6 @@ using Realms;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
@@ -33,6 +32,8 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
 
     [ObservableProperty]
     public SafetyAssessment assessment;
+
+    public SafetyAssessment ViewAssessment { get; set; }
 
     [ObservableProperty]
     public FactorInfluence influence;
@@ -100,10 +101,10 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
 
-        if (Assessment == null)
-            await SetupAssessmentDraft();
+        if (IsReadOnly)
+            Assessment = ViewAssessment;
         else
-            IsReadOnly = true;
+            await SetupAssessmentDraft();
 
         SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
     }
@@ -128,18 +129,11 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
         var info = await OidcSessionInfo.GetAsync();
-        return new SafetyAssessment()
-        {
-            IncidentNumber = CaseloadItem.CaseIncidentNumber,
-            WorkerId = info.Idir,
-            FamilyName = CaseloadItem.KeyPlayerLastName,
-            Operation = LocalizedStrings.Insert,
-            FactorInfluence = new FactorInfluence(),
-            SafetyFactors = new SafetyFactors(),
-            ProtectiveCapacity = new ProtectiveCapacity(),
-            SafetyInterventions = new SafetyInterventions(),
-            SafetyDecisions = new SafetyDecisions(),
-        };
+        return SafetyAssessment.Make(
+            CaseloadItem.CaseIncidentNumber,
+            info.Idir,
+            CaseloadItem.KeyPlayerLastName
+        );
     }
 
     private async Task SetupAssessmentDraft()
@@ -201,7 +195,12 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
 
     partial void OnAssessmentChanged(SafetyAssessment value)
     {
-        if (FamilyNames.Count > 0 && !value.IsManaged)
+        SetupBindings(value);
+    }
+
+    private void SetupBindings(SafetyAssessment value)
+    {
+        if (FamilyNames?.Count > 0 && !value.IsManaged)
             value.FamilyName = FamilyNames[0];
 
         Influence = value.FactorInfluence;
@@ -210,9 +209,10 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         Factors = value.SafetyFactors;
         Interventions = value.SafetyInterventions;
 
-        foreach (var child in AvailableChildrenInOutCare)
-            if (value.ChildsInOutCare.Contains(child.ContactId))
-                SelectedChildren.Add(child);
+        if (AvailableChildrenInOutCare is not null)
+            foreach (var child in AvailableChildrenInOutCare)
+                if (value.ChildsInOutCare.Contains(child.ContactId))
+                    SelectedChildren.Add(child);
 
         CanDiscard = value.IsManaged;
     }

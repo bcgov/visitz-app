@@ -2,6 +2,7 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -14,6 +15,13 @@
         Left={StaticResource DefaultPaddingDouble},
         Right={StaticResource DefaultPaddingDouble},
         Bottom={StaticResource DefaultPadding}}">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+
+    </ContentView.Resources>
 
     <Grid
         BindingContext="{Reference this}"
@@ -44,13 +52,21 @@
                 Style="{StaticResource SecondaryButtonLight}"
                 Text="{local:Localize DiscardDraft}"
                 Command="{Binding DiscardCommand}"
-                IsEnabled="{Binding AllowDiscard}" />
+                IsEnabled="{Binding AllowDiscard}"
+                IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
 
             <Button
                 x:Name="PublishButton"
                 Text="{local:Localize PublishToIcm}"
                 Command="{Binding PublishCommand}"
-                IsEnabled="{Binding AllowPublish}" />
+                IsEnabled="{Binding AllowPublish}"
+                IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
+
+            <Label
+                Text="{local:Localize ReadOnly}"
+                FontFamily="BCSansItalic"
+                VerticalOptions="Center"
+                IsVisible="{Binding IsReadOnly}" />
         </HorizontalStackLayout>
     </Grid>
 </ContentView>

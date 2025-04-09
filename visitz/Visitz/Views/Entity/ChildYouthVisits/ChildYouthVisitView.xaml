@@ -79,7 +79,7 @@
                         IsVisible="{Binding HideElements}" />
 
                     <Label
-                        Text="Read-only"
+                        Text="{local:Localize ReadOnly}"
                         FontFamily="BCSansItalic"
                         VerticalOptions="Center"
                         IsVisible="{Binding IsUpdatingEnabled, Converter={StaticResource BoolNegationConverter}}" />

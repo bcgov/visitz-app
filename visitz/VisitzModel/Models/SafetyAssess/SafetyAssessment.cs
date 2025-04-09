@@ -10,9 +10,13 @@ namespace VisitzModel.Models.SafetyAssess;
 
 public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<SubmitSafetyAssessmentJson>
 {
+    static readonly string IdString = "{0}|{1}|{2}|LOCALONLY";
+
     public static readonly string DateFormat = "dd/MM/yyyy";
     public static readonly int CommentsMaxLength = 1000;
+    public static readonly string DefaultOperation = "Insert";
 
+    [PrimaryKey]
     public string Id { get; set; }
 
     public string CreatedBy { get; set; }
@@ -84,7 +88,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
     {
         var safetyAssessment = new SafetyAssessment()
         {
-            Id = json.Id,
+            Id = GetOrMakeId(fileNumber, json),
             CreatedBy = json.CreatedBy,
             CreatedById = json.CreatedById,
             CreatedDate = DateTimeOffset.Parse(json.CreatedDate),
@@ -124,6 +128,40 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
         return safetyAssessment;
     }
 
+    public static SafetyAssessment Make(string fileNumber, string workerId, string familyName)
+    {
+        return new SafetyAssessment()
+        {
+            Id = GetOrMakeId(fileNumber, workerId),
+            IncidentNumber = fileNumber,
+            WorkerId = workerId,
+            FamilyName = familyName,
+            Operation = DefaultOperation,
+            FactorInfluence = new FactorInfluence(),
+            SafetyFactors = new SafetyFactors(),
+            ProtectiveCapacity = new ProtectiveCapacity(),
+            SafetyInterventions = new SafetyInterventions(),
+            SafetyDecisions = new SafetyDecisions(),
+        };
+    }
+
+    static string GetOrMakeId(string fileNumber, SafetyAsessmentJson json)
+    {
+        return GetOrMakeId(fileNumber, json.CreatedDate, json.CreatedBy, json.Id);
+    }
+
+    static string GetOrMakeId(string fileNumber, string createdBy)
+    {
+        return GetOrMakeId(fileNumber, DateTimeOffset.Now.ToString(), createdBy);
+    }
+
+    static string GetOrMakeId(string fileNumber, string createdDate, string createdBy, string id = null)
+    {
+        return string.IsNullOrWhiteSpace(id)
+            ? string.Format(IdString, fileNumber, createdDate, createdBy)
+            : id;
+    }
+
     public static IEnumerable<SafetyAssessment> FromApiJson(
         string incidentId,
         IEnumerable<SafetyAsessmentJson> json)
@@ -144,7 +182,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             WorkerId = WorkerId,
             FamilyName = FamilyName,
             DateOfAssessment = DateOfAssessment.ToString(DateFormat, CultureInfo.InvariantCulture),
-            Operation = Operation,
+            Operation = DefaultOperation,
             FactorInfluence = FactorInfluence.ToApiJson(dateFormat),
             SafetyFactors = SafetyFactors.ToApiJson(dateFormat),
             ProtectiveCapacity = ProtectiveCapacity.ToApiJson(dateFormat),

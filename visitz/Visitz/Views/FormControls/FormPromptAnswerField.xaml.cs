@@ -47,6 +47,9 @@ public partial class FormPromptAnswerField : ContentView
         BindableProperty.Create(nameof(NoChecked), typeof(bool), typeof(FormPromptAnswerField),
             defaultBindingMode: BindingMode.TwoWay);
 
+    public static readonly BindableProperty IsReadOnlyProperty =
+        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
+
     public string RadioButtonGroupName
     {
         get => (string)GetValue(RadioButtonGroupNameProperty);
@@ -93,6 +96,12 @@ public partial class FormPromptAnswerField : ContentView
     {
         get => (bool)GetValue(NoCheckedProperty);
         set => SetValue(NoCheckedProperty, value);
+    }
+
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
     }
 
     public FormPromptAnswerField()

@@ -2,12 +2,15 @@
 <ContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     x:Class="Visitz.Views.FormControls.FormRadioButton"
     x:DataType="formctls:FormRadioButton"
     x:Name="this">
 
     <ContentView.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        
         <Style TargetType="Label" Class="ReadableDisabled">
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
@@ -27,7 +30,8 @@
             VerticalOptions="Center"
             IsChecked="{Binding IsChecked}"
             GroupName="{Binding GroupName}"
-            Value="{Binding Value}" />
+            Value="{Binding Value}"
+            IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
 
         <Label 
             Grid.Column="1"

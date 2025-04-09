@@ -151,6 +151,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Approved by.
+        /// </summary>
+        public static string ApprovedBy {
+            get {
+                return ResourceManager.GetString("ApprovedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved date.
+        /// </summary>
+        public static string ApprovedDate {
+            get {
+                return ResourceManager.GetString("ApprovedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
         /// </summary>
         public static string AttachmentPublishSuccess {
@@ -414,6 +432,15 @@ namespace Visitz.Resources.Localization {
         public static string CreatedBy {
             get {
                 return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created date.
+        /// </summary>
+        public static string CreatedDate {
+            get {
+                return ResourceManager.GetString("CreatedDate", resourceCulture);
             }
         }
         
@@ -1454,6 +1481,15 @@ namespace Visitz.Resources.Localization {
         public static string PullToRefreshCaseload {
             get {
                 return ResourceManager.GetString("PullToRefreshCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read-only.
+        /// </summary>
+        public static string ReadOnly {
+            get {
+                return ResourceManager.GetString("ReadOnly", resourceCulture);
             }
         }
         
