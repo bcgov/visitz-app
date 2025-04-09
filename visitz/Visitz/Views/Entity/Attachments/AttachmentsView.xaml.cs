@@ -1,4 +1,5 @@
 using Visitz.Extensions;
+using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
@@ -30,10 +31,32 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 	public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
 	{
 		InitializeComponent();
-		BindingContext = ViewModel;
-	}
+        BindingContext = ViewModel;
+    }
 
-	private async void AddPhotos_Clicked(object sender, EventArgs e)
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
+
+        AttachmentsTabs.PairedDisplayView = TabDisplayView;
+        AttachmentsTabs.Tabs =
+        [
+            new(LocalizedStrings.InIcm, () =>
+            {
+                var listView = ServiceProvider.GetService<AttachmentsListView>();
+                listView.CaseloadItem = CaseloadItem;
+                return listView;
+            }),
+            new(LocalizedStrings.OnMyDevice, () =>
+            {
+                var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
+                draftsView.CaseloadItem = CaseloadItem;
+                return draftsView;
+            }),
+        ];
+    }
+
+    private async void AddPhotos_Clicked(object sender, EventArgs e)
 	{
 		await OpenTakePhotoView();
 	}

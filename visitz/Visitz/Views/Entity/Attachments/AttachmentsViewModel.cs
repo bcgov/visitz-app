@@ -1,8 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls;
 using Realms;
-using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -17,17 +14,6 @@ namespace Visitz.Views.Entity.Attachments;
 
 internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHolder
 {
-    [ObservableProperty]
-    public string[] tabs = { LocalizedStrings.InIcm, LocalizedStrings.OnMyDevice };
-
-    public Dictionary<string, ViewModelContentView> Views { get; private set; } = [];
-
-    [ObservableProperty]
-    public string selectedTab;
-
-    [ObservableProperty]
-    public View selectedView;
-
 	[ObservableProperty]
 	public CaseloadItem caseloadItem;
 
@@ -48,8 +34,6 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 			CaseloadItem.CaseIncidentNumber,
 			CaseloadItem.KeyPlayer.FirstName,
 			CaseloadItem.KeyPlayer.LastName);
-
-        InitViews();
 	}
 
     bool disposed;
@@ -64,19 +48,6 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
         base.Dispose(disposing);
     }
 
-    void InitViews()
-    {
-        var listView = ServiceProvider.GetService<AttachmentsListView>();
-        listView.CaseloadItem = CaseloadItem;
-        Views[Tabs[0]] = listView;
-
-        var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
-        draftsView.CaseloadItem = CaseloadItem;
-        Views[Tabs[1]] = draftsView;
-
-        SelectedTab = Tabs[0];
-    }
-
 	public async Task SaveFile(FileResult fileResult)
 	{
 		string extension = fileResult.FileName.GetFileExtension();
@@ -87,10 +58,4 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 		else
 			await AttachmentDraft.SaveNewFile(CaseloadItem, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
 	}
-
-    [RelayCommand]
-    public void TabChanged()
-    {
-        SelectedView = Views[SelectedTab];
-    }
 }
