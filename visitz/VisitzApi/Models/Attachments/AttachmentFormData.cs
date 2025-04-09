@@ -29,7 +29,16 @@ public class AttachmentFormData : IDisposable
 
     public string Template { get; set; } = DefaultTemplate;
 
-
+    /// <summary>
+    /// Creates an instance using optional default values.
+    /// </summary>
+    /// <param name="filename">The name of the file to upload. Must include file extension.</param>
+    /// <param name="contentStream">A Stream containing the file to upload.</param>
+    /// <param name="contentType">MIME type of the file. Leave null to auto-detect.</param>
+    /// <param name="category"></param>
+    /// <param name="description"></param>
+    /// <param name="status">Status of the file. Leave null to use default status.</param>
+    /// <param name="template">File template name. Leave null to use default template.</param>
     public AttachmentFormData(
         string filename,
         Stream contentStream,
