@@ -46,7 +46,7 @@
                                     Grid.ColumnSpan="5"
                                     Grid.Row="1">
                                     <Label
-                                        Text="{Binding FormDescription}"
+                                        Text="{Binding Filename}"
                                         FontFamily="BCSansBold"
                                         FontSize="17"/>
                                 </HorizontalStackLayout>
@@ -61,7 +61,7 @@
                                         <Label
                                             Text="{Binding SubCategory}"/>
                                         <Label
-                                            Text="{Binding CreatedDate}"/>
+                                            Text="{Binding CreatedDate, StringFormat='{0:MMMM dd, yyyy}'}"/>
                                         <Label
                                             Text="{Binding CreatedBy}"/>
                                     </HorizontalStackLayout>
