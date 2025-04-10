@@ -134,6 +134,8 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Entity\SafetyAssess\SafetyAssessmentListView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Navigation\TabItemView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
