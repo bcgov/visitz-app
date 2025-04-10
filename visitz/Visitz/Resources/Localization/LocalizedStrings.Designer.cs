@@ -1595,6 +1595,17 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The attachment will be removed from your device and you won&apos;t be able to view it until it is downloaded again.
+        ///
+        ///This does not affect attachments in ICM..
+        /// </summary>
+        public static string RemoveAttachmentDescription {
+            get {
+                return ResourceManager.GetString("RemoveAttachmentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove attachment from device.
         /// </summary>
         public static string RemoveAttachmentFromDevice {

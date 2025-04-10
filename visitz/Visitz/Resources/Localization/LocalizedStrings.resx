@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -887,5 +887,10 @@ Any drafts for this record are still saved—but won't be accessible until the r
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
+  </data>
+  <data name="RemoveAttachmentDescription" xml:space="preserve">
+    <value>The attachment will be removed from your device and you won't be able to view it until it is downloaded again.
+
+This does not affect attachments in ICM.</value>
   </data>
 </root>
