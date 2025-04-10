@@ -1615,6 +1615,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removed &apos;{0}&apos; from device.
+        /// </summary>
+        public static string RemovedAttachmentFromDevice {
+            get {
+                return ResourceManager.GetString("RemovedAttachmentFromDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename.
         /// </summary>
         public static string Rename {

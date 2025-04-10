@@ -893,4 +893,8 @@ Any drafts for this record are still saved—but won't be accessible until the r
 
 This does not affect attachments in ICM.</value>
   </data>
+  <data name="RemovedAttachmentFromDevice" xml:space="preserve">
+    <value>Removed '{0}' from device</value>
+    <comment>0 = filename of attachment</comment>
+  </data>
 </root>
