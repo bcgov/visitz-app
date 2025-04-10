@@ -12,6 +12,8 @@ public class AttachmentFormData : IDisposable
     static readonly string StatusName = "Status";
     static readonly string TemplateName = "Template";
 
+    public static readonly string DefaultCategory = "Documentation";
+    public static readonly string DefaultDescription = "Document via portal/app";
     public static readonly string DefaultStatus = "Complete";
     public static readonly string DefaultTemplate = "GENERICDOCUMENT";
 
@@ -21,9 +23,9 @@ public class AttachmentFormData : IDisposable
 
     public string ContentType { get; set; } = "";
 
-    public string Category { get; set; } = "";
+    public string Category { get; set; } = DefaultCategory;
 
-    public string Description { get; set; } = "";
+    public string Description { get; set; } = DefaultDescription;
 
     public string Status { get; set; } = DefaultStatus;
 
