@@ -93,6 +93,12 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     [ObservableProperty]
     private AssessmentDraft draftItem;
 
+    // FIXME This is used to workaround DatePickers not being able to use null values.
+    // https://github.com/dotnet/maui/issues/1100, https://github.com/dotnet/maui/pull/27921
+    // We can revisit this after upgrading to MAUI 10.
+    [ObservableProperty]
+    public bool showDateOfAssessment;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -106,6 +112,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         else
             await SetupAssessmentDraft();
 
+        SetDatePickerVisibility();
         SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
     }
 
@@ -124,6 +131,12 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         }
 
         base.Dispose(disposing);
+    }
+
+    private void SetDatePickerVisibility()
+    {
+        bool IsEditable = !IsReadOnly;
+        ShowDateOfAssessment = IsEditable || Assessment.DateOfAssessmentBinding != null;
     }
 
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()

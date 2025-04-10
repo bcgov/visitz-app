@@ -120,8 +120,16 @@
                                 Margin="0,0"
                                 Format="MMMM dd, yyyy"
                                 MaximumDate="{Binding MaxDate}"
-                                Date="{Binding Assessment.DateOfAssessmentBinding, Converter={StaticResource DateTimeOffsetConverter}}"
-                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
+                                Date="{Binding Assessment.DateOfAssessmentBindingDateTimeWrapper}"
+                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+                                IsVisible="{Binding ShowDateOfAssessment}" />
+
+                            <Entry
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                IsReadOnly="True"
+                                IsEnabled="False"
+                                IsVisible="{Binding ShowDateOfAssessment, Converter={StaticResource BoolNegationConverter}}" />
 
                             <Label 
                                 Grid.Row="0"
