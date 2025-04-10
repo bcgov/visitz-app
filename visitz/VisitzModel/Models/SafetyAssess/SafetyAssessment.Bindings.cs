@@ -42,6 +42,18 @@ public partial class SafetyAssessment
         set => this.Commit(() => DateOfAssessment = value);
     }
 
+    public DateTime? DateOfAssessmentBindingDateTimeWrapper
+    {
+        get => DateOfAssessmentBinding?.DateTime;
+        set
+        {
+            if (value is DateTime dateTime)
+                DateOfAssessmentBinding = new DateTimeOffset(dateTime);
+            else
+                DateOfAssessmentBinding = null;
+        }
+    }
+
     public string OperationBinding
     {
         get => IsValid ? Operation : default;
