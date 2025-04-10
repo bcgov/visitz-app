@@ -240,4 +240,10 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         return GetAttachments(realm, type, recordId)
             .OrderByDescending(item => item.CreatedDate);
     }
+
+    public void RemoveFileFromDevice()
+    {
+        AttachmentFiler.DeleteFileFromDevice(RelativePath);
+        RelativePathBinding = string.Empty;
+    }
 }
