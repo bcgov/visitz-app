@@ -147,14 +147,14 @@ internal partial class DraftsListViewModel : VisitzViewModel
             return DataRealm
                 .All<CaseRecord>()
                 .Where(@case => @case.Id == draft.RelatedEntityId)
-                .First()
-                .FileNumber;
+                .FirstOrDefault()
+                ?.FileNumber;
         else if (draft.RelatedEntityType == EntityType.Incident)
             return DataRealm
                 .All<IncidentRecord>()
                 .Where(incident => incident.Id == draft.RelatedEntityId)
-                .First()
-                .FileNumber;
+                .FirstOrDefault()
+                ?.FileNumber;
         else
             throw new InvalidOperationException($"{nameof(EntityType)} '{draft.RelatedEntityType}' not supported");
     }
