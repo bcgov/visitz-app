@@ -882,4 +882,10 @@ Any drafts for this record are still saved—but won't be accessible until the r
   <data name="OnMyDevice" xml:space="preserve">
     <value>On my device</value>
   </data>
+  <data name="RemoveAttachmentFromDevice" xml:space="preserve">
+    <value>Remove attachment from device</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
 </root>

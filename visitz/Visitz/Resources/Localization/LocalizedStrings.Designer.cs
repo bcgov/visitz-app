@@ -260,7 +260,7 @@ namespace Visitz.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
-        /// 
+        ///
         ///You can view the details of this error or try again later..
         /// </summary>
         public static string CaseloadErrorMessage {
@@ -1582,6 +1582,24 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingVisits {
             get {
                 return ResourceManager.GetString("RefreshingVisits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove attachment from device.
+        /// </summary>
+        public static string RemoveAttachmentFromDevice {
+            get {
+                return ResourceManager.GetString("RemoveAttachmentFromDevice", resourceCulture);
             }
         }
         
