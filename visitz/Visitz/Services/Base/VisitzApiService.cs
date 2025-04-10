@@ -1,7 +1,9 @@
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Network;
 using System.Net;
 using Visitz.Resources.Localization;
+using Visitz.Storage;
 using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
@@ -55,7 +57,8 @@ namespace Visitz.Services.Base
 #endif
                 if (IsSessionException(ex.HttpStatusCode))
                 {
-                    await OidcSession.InvalidateSessionAsync();
+                    await ClearIcmDataRealm();
+
                     throw new UnauthorizedAccessException(LocalizedStrings.UnauthorizedForApi, ex);
 
                     // No need for different messages for 401 vs. 403, since 401 would've been handled by the
@@ -78,6 +81,19 @@ namespace Visitz.Services.Base
             if (ResultCode == Result.Successful)
                 await MainThread.InvokeOnMainThreadAsync(
                     () => LastUpdatedPrefs.SetLocalNow(GetId()));
+        }
+
+        private async Task ClearIcmDataRealm()
+        {
+            try
+            {
+                using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
+                await icmData.WriteAsync(icmData.RemoveAll);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+            }
         }
     }
 }
