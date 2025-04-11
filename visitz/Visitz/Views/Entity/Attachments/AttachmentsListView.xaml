@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -13,6 +14,9 @@
     VerticalOptions="FillAndExpand">
 
     <Grid RowDefinitions="*">
+        <Grid.Resources>
+            <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter"/>
+        </Grid.Resources>
         <CollectionView
             Grid.Row="0"
             x:Name="AttachmentsCollectionView"
@@ -29,13 +33,20 @@
                                 RowDefinitions="Auto,Auto,Auto"
                                 ColumnDefinitions="*,*,*,*,Auto">
                                 <HorizontalStackLayout
+                                    Spacing="5"
+                                    Grid.ColumnSpan="4"
+                                    Grid.Row="0">
+                                    <Label
+                                        TextColor="{Binding ToDownloadTextColor}"
+                                        Text="{Binding Attachment.Filename}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout
                                     Grid.Row="0"
                                     Grid.Column="5"
                                     Grid.RowSpan="2"
                                     VerticalOptions="Center"
                                     HorizontalOptions="End"
                                     Spacing="5">
-
                                     <Label
                                         FontFamily="FluentIconsRegular"
                                         FontSize="30"
@@ -53,6 +64,12 @@
                                         FontSize="30"
                                         IsVisible="{Binding ShowDownloadButton}"
                                         Text="{Static fonticons:MaterialIcons.Download}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding DownloadAttachmentForDeviceCommand,
+                                                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                                                CommandParameter="{Binding .}"/>
+                                        </Label.GestureRecognizers>
                                     </Label>
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout
@@ -60,7 +77,8 @@
                                     Grid.ColumnSpan="5"
                                     Grid.Row="1">
                                     <Label
-                                        Text="{Binding Attachment.Filename}"
+                                        Text="{Binding Attachment.FormDescription}"
+                                        TextColor="{Binding ToDownloadTextColor}"
                                         FontFamily="BCSansBold"
                                         FontSize="17"/>
                                 </HorizontalStackLayout>
@@ -69,14 +87,18 @@
                                     Grid.ColumnSpan="5"
                                     Grid.Row="2">
                                     <HorizontalStackLayout
-                                        Spacing="5">
+                                        Spacing="30">
                                         <Label
+                                            TextColor="{Binding ToDownloadTextColor}"
                                             Text="{Binding Attachment.Status}"/>
                                         <Label
-                                            Text="{Binding Attachment.SubCategory}"/>
+                                            TextColor="{Binding ToDownloadTextColor}"
+                                            Text="{Binding Attachment.Category}"/>
                                         <Label
-                                            Text="{Binding Attachment.CreatedDate, StringFormat='{0:MMMM dd, yyyy}'}"/>
+                                            TextColor="{Binding ToDownloadTextColor}"
+                                            Text="{Binding Attachment.CreatedDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"/>
                                         <Label
+                                            TextColor="{Binding ToDownloadTextColor}"
                                             Text="{Binding Attachment.CreatedBy}"/>
                                     </HorizontalStackLayout>
                                 </HorizontalStackLayout>

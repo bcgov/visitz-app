@@ -10,7 +10,9 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Storage.Filesystem;
+using Visitz.Services.Attachments;
+using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Services;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -85,6 +87,21 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
                 LocalizedStrings.RemoveAttachmentFromDevice,
                 removedText);
         }
+    }
+
+    [RelayCommand]
+    public void DownloadAttachmentForDevice(AttachmentsListItemUi item)
+    {
+        var recordServiceInfo = new RecordServiceInfo(
+            CaseloadItem.RowId,
+            CaseloadItem.CaseIncidentNumber,
+            CaseloadItem.KeyPlayer.FirstName,
+            CaseloadItem.KeyPlayer.LastName);
+        var attachmentId = item.Attachment.Id;
+        var force = false;
+
+        var tuple = (recordServiceInfo, attachmentId, force);
+        WeakReferenceMessenger.Default.Send(GetAttachmentContentService.MakeStartMessage(tuple));
     }
 
     protected override void Dispose(bool disposing)

@@ -15,7 +15,7 @@ internal class RecordServiceInfo
 
     public string LastName { get; set; }
 
-    RecordServiceInfo(string id, string fileNumber, string firstName, string lastName)
+    public RecordServiceInfo(string id, string fileNumber, string firstName, string lastName)
     {
         Id = id;
         FileNumber = fileNumber;
