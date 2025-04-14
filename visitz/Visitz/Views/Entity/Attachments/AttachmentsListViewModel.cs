@@ -94,10 +94,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         {
             item.Attachment.RemoveFileFromDevice();
             string removedText = string.Format(LocalizedStrings.RemovedAttachmentFromDevice, item.Attachment.Filename);
-            SnackbarHandler.ShowTextWithDetails(
-                LocalizedStrings.RemoveAttachmentFromDevice,
-                LocalizedStrings.RemoveAttachmentFromDevice,
-                removedText);
+            SnackbarHandler.ShowText(removedText);
         }
     }
 
