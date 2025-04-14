@@ -39,36 +39,6 @@
                                     TextColor="{Binding ToDownloadTextColor}"
                                     Text="{Binding Attachment.Filename}"/>
 
-                                <controls:FontIconButton
-                                    Grid.Row="0"
-                                    Grid.Column="5"
-                                    Grid.RowSpan="3"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End"
-                                    Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
-                                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    FontFamily="FluentIconsRegular"
-                                    FontSize="30"
-                                    IsVisible="{Binding ShowDeleteButton}"
-                                    Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
-                                    TextColor="{StaticResource Gray500}" />
-
-                                <controls:FontIconButton
-                                    Grid.Row="0"
-                                    Grid.Column="5"
-                                    Grid.RowSpan="3"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End"
-                                    Command="{Binding DownloadAttachmentForDeviceCommand,
-                                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    FontFamily="MaterialIconsRoundedUnfilled"
-                                    FontSize="30"
-                                    IsVisible="{Binding ShowDownloadButton}"
-                                    Text="{Static fonticons:MaterialIcons.Download}"
-                                    TextColor="{StaticResource Gray500}" />
-
                                 <Label
                                     Grid.Row="1"
                                     Text="{Binding Attachment.FormDescription}"
@@ -92,6 +62,36 @@
                                         TextColor="{Binding ToDownloadTextColor}"
                                         Text="{Binding Attachment.CreatedBy}"/>
                                 </HorizontalStackLayout>
+                                
+                                <controls:FontIconButton
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Grid.RowSpan="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
+                                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    FontFamily="FluentIconsRegular"
+                                    FontSize="30"
+                                    IsVisible="{Binding ShowDeleteButton}"
+                                    Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
+                                    TextColor="{StaticResource Gray500}" />
+
+                                <controls:FontIconButton
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Grid.RowSpan="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Command="{Binding DownloadAttachmentForDeviceCommand,
+                                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    FontSize="30"
+                                    IsVisible="{Binding ShowDownloadButton}"
+                                    Text="{Static fonticons:MaterialIcons.Download}"
+                                    TextColor="{StaticResource Gray500}" />
                             </Grid>
                             <BoxView
                                 Margin="10"
