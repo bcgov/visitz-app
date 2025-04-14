@@ -7,9 +7,9 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsList : ViewModelContentView, ICaseloadItemHolder, IFocusDraftItem
+public partial class AttachmentDraftsListView : ViewModelContentView, ICaseloadItemHolder, IFocusDraftItem
 {
-	new AttachmentsListViewModel ViewModel => base.ViewModel as AttachmentsListViewModel;
+    new AttachmentDraftsListViewModel ViewModel => base.ViewModel as AttachmentDraftsListViewModel;
 
 	public CaseloadItem CaseloadItem
 	{
@@ -21,15 +21,15 @@ public partial class AttachmentsList : ViewModelContentView, ICaseloadItemHolder
 
 	readonly TaskCompletionSource loadingTcs = new();
 
-	public AttachmentsList() : base(ServiceProvider.GetService<AttachmentsListViewModel>())
+	public AttachmentDraftsListView() : base(ServiceProvider.GetService<AttachmentDraftsListViewModel>())
 	{
 		InitializeComponent();
 		BindingContext = ViewModel;
 
-		Loaded += AttachmentsList_Loaded;
+		Loaded += AttachmentDraftsListView_Loaded;
 	}
 
-	private void AttachmentsList_Loaded(object sender, EventArgs e)
+	private void AttachmentDraftsListView_Loaded(object sender, EventArgs e)
 	{
 		loadingTcs.TrySetResult();
 	}

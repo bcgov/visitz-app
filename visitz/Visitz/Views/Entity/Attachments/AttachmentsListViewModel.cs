@@ -2,141 +2,133 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using System.Collections.ObjectModel;
-using Visitz.Extensions;
-using Visitz.Resources.Localization;
 using Visitz.Storage;
-using Visitz.Views.BaseClasses;
-using Visitz.Views.BaseClasses.Publishing;
-using Visitz.Views.Snackbar;
-using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using Visitz.Resources.Localization;
+using Visitz.Views.BaseClasses;
+using Visitz.Views.Snackbar;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Attachments;
+using Visitz.Services.Attachments;
+using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Services;
 
 namespace Visitz.Views.Entity.Attachments;
 
 internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItemHolder
 {
-	[ObservableProperty]
-	public CaseloadItem caseloadItem;
+    private bool _disposed;
 
-	Realm attachmentsRealm;
+    readonly ObservableRealmQueryMap realmQuery = new();
 
-	readonly ObservableRealmQueryMap realmQuery = new();
+    [ObservableProperty]
+    public ObservableCollection<AttachmentsListItemUi> attachmentsList = [];
 
-	[ObservableProperty]
-	ObservableCollection<AttachmentDraft> attachmentDrafts = [];
+    [ObservableProperty]
+    public CaseloadItem caseloadItem;
 
-	[ObservableProperty]
-	public bool isLoading = true;
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
 
-	[ObservableProperty]
-	public bool isEmpty;
+        Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-	public readonly TaskCompletionSource attachmentsLoadedTcs = new();
+        realmQuery.Subscribe(icmDataRealm, Attachment.GetOrderedAttachments(icmDataRealm, CaseloadItem.EntityType.ParseEntityType(), CaseloadItem.RowId));
+    }
 
-	public override async void Create()
-	{
-		base.Create();
+    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    {
+        if (e.Type == typeof(Attachment))
+            UpdateAttachmentsList(e.Items, e.Changes);
+    }
 
-		attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+    private void UpdateAttachmentsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    {
+        if (changes == null)
+        {
+            foreach (var item in items)
+                AttachmentsList.Add(new AttachmentsListItemUi(
+                    CaseloadItem.EntityType.ParseEntityType(),
+                    CaseloadItem.RowId,
+                    item as Attachment));
+        }
+        else
+        {
+            foreach (int deleted in changes.DeletedIndices.Reverse())
+            {
+                AttachmentsList.ElementAt(deleted).Dispose();
+                AttachmentsList.RemoveAt(deleted);
+            }
 
-		realmQuery.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
-				.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
+            foreach (int modified in changes.ModifiedIndices)
+                AttachmentsList[modified] = new AttachmentsListItemUi(
+                    CaseloadItem.EntityType.ParseEntityType(),
+                    CaseloadItem.RowId,
+                    items[modified] as Attachment);
 
-		realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
-	}
+            foreach (int inserted in changes.InsertedIndices)
+                AttachmentsList.Insert(inserted, new AttachmentsListItemUi(
+                    CaseloadItem.EntityType.ParseEntityType(),
+                    CaseloadItem.RowId,
+                    items[inserted] as Attachment));
+        }
+    }
 
-	public override void Destroy()
-	{
-		base.Destroy();
+    [RelayCommand]
+    public static void DeleteDownloadedAttachmentFromDevice(AttachmentsListItemUi item)
+    {
+        _ = PromptRemoveAttachmentAsync(item);
+    }
 
-		realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
-		realmQuery.Dispose();
-		attachmentsRealm?.Dispose();
-	}
+    static async Task PromptRemoveAttachmentAsync(AttachmentsListItemUi item)
+    {
+        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
+            LocalizedStrings.RemoveAttachmentFromDevice,
+            LocalizedStrings.RemoveAttachmentDescription,
+            LocalizedStrings.Remove,
+            LocalizedStrings.Cancel);
 
-	private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
-	{
-		IsLoading = false;
-		IsEmpty = !realmQuery[typeof(AttachmentDraft)].Query.Any();
+        if (shouldRemove)
+        {
+            item.Attachment.RemoveFileFromDevice();
+            string removedText = string.Format(LocalizedStrings.RemovedAttachmentFromDevice, item.Attachment.Filename);
+            SnackbarHandler.ShowTextWithDetails(
+                LocalizedStrings.RemoveAttachmentFromDevice,
+                LocalizedStrings.RemoveAttachmentFromDevice,
+                removedText);
+        }
+    }
 
-		if (e.Changes == null)
-		{
-			foreach (var item in e.Items)
-				AttachmentDrafts.Add(item as AttachmentDraft);
+    [RelayCommand]
+    public void DownloadAttachmentForDevice(AttachmentsListItemUi item)
+    {
+        var recordServiceInfo = new RecordServiceInfo(
+            CaseloadItem.EntityType.ParseEntityType(),
+            CaseloadItem.RowId,
+            CaseloadItem.CaseIncidentNumber,
+            CaseloadItem.KeyPlayer.FirstName,
+            CaseloadItem.KeyPlayer.LastName);
+        var attachmentId = item.Attachment.Id;
+        var force = true;
 
-			attachmentsLoadedTcs.TrySetResult();
-		}
-		else
-		{
-			foreach (int deleted in e.Changes.DeletedIndices.Reverse())
-				AttachmentDrafts.RemoveAt(deleted);
+        var tuple = (recordServiceInfo, attachmentId, force);
+        WeakReferenceMessenger.Default.Send(GetAttachmentContentService.MakeStartMessage(tuple));
+    }
 
-			foreach (int modified in e.Changes.ModifiedIndices)
-				AttachmentDrafts[modified] = e.Items[modified] as AttachmentDraft;
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+            realmQuery.Dispose();
 
-			foreach (int inserted in e.Changes.InsertedIndices)
-				AttachmentDrafts.Insert(inserted, e.Items[inserted] as AttachmentDraft);
-		}
-	}
+            foreach (var item in AttachmentsList)
+                item.Dispose();
 
-	[RelayCommand]
-	public static void DeleteAttachmentDraft(AttachmentDraft draft)
-	{
-		_ = PromptDiscardAttachmentDraftAsync(draft);
-	}
-
-	static async Task PromptDiscardAttachmentDraftAsync(AttachmentDraft draft)
-	{
-		bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
-			LocalizedStrings.DiscardDraft,
-			LocalizedStrings.DiscardAttachmentDraftDescription,
-			LocalizedStrings.Discard,
-			LocalizedStrings.Cancel);
-
-		if (shouldDiscard)
-		{
-			string filename = draft.Attachment.Filename;
-			await draft.Attachment.DeleteAsync();
-			SnackbarHandler.ShowText(LocalizedStrings.FileDiscarded.Format(filename));
-		}
-	}
-
-	[RelayCommand]
-	public void PublishAttachmentDraft(AttachmentDraft draft)
-	{
-		_ = DoPublishAttachmentDraft(draft);
-	}
-
-	async Task DoPublishAttachmentDraft(AttachmentDraft draft)
-	{
-		var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
-		attachmentPublishVm.AttachmentDraft = draft;
-		attachmentPublishVm.AttachmentFiler = await VisitzFiles.GetAsync(
-			CaseloadItem.EntityType.ParseEntityType(),
-			CaseloadItem.CaseIncidentNumber,
-			CaseloadItem.KeyPlayer.FirstName,
-			CaseloadItem.KeyPlayer.LastName);
-
-		await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
-	}
-
-	[RelayCommand]
-	public void OpenAttachment(AttachmentDraft draft)
-	{
-		_ = DoOpenAttachment(draft);
-	}
-
-	async Task DoOpenAttachment(AttachmentDraft draft)
-	{
-		var view = new PhotoDetailsView()
-		{
-			Attachment = draft.Attachment,
-			CaseloadItem = CaseloadItem,
-		}.WrapPageForModal(ViewModalSize.Fullscreen);
-
-		await Navigator.Navigation.PushAsync(view);
-	}
+            _disposed = true;
+        }
+        base.Dispose(disposing);
+    }
 }

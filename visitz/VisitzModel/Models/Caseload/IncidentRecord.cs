@@ -34,6 +34,8 @@ public partial class IncidentRecord :
 
     public string FileNumber { get; set; }
 
+    public EntityType EntityType => EntityType.Incident;
+
     public string GivenNames { get; set; }
 
     public string LastName { get; set; }

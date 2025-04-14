@@ -260,7 +260,7 @@ namespace Visitz.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
-        /// 
+        ///
         ///You can view the details of this error or try again later..
         /// </summary>
         public static string CaseloadErrorMessage {
@@ -921,6 +921,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In ICM.
+        /// </summary>
+        public static string InIcm {
+            get {
+                return ResourceManager.GetString("InIcm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert.
         /// </summary>
         public static string Insert {
@@ -1251,6 +1260,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On my device.
+        /// </summary>
+        public static string OnMyDevice {
+            get {
+                return ResourceManager.GetString("OnMyDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open date.
         /// </summary>
         public static string OpenDate {
@@ -1564,6 +1582,44 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingVisits {
             get {
                 return ResourceManager.GetString("RefreshingVisits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The attachment will be removed from your device and you won&apos;t be able to view it until it is downloaded again.
+        ///
+        ///This does not affect attachments in ICM..
+        /// </summary>
+        public static string RemoveAttachmentDescription {
+            get {
+                return ResourceManager.GetString("RemoveAttachmentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove attachment from device.
+        /// </summary>
+        public static string RemoveAttachmentFromDevice {
+            get {
+                return ResourceManager.GetString("RemoveAttachmentFromDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removed &apos;{0}&apos; from device.
+        /// </summary>
+        public static string RemovedAttachmentFromDevice {
+            get {
+                return ResourceManager.GetString("RemovedAttachmentFromDevice", resourceCulture);
             }
         }
         

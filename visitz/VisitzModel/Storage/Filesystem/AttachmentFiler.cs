@@ -116,4 +116,13 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
 
 		return uniqueName;
 	}
+
+    public static void DeleteFileFromDevice(string relativePath)
+    {
+        if (string.IsNullOrWhiteSpace(relativePath))
+            throw new ArgumentException("File name is required", nameof(relativePath));
+
+        string filePath = GetFullPath(relativePath);
+        File.Delete(filePath);
+    }
 }

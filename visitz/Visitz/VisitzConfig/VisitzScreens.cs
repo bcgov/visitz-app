@@ -71,7 +71,10 @@ public static class VisitzScreens
         builder.Services.AddTransient<AttachmentsView>();
         builder.Services.AddTransient<AttachmentsViewModel>();
 
-        builder.Services.AddTransient<AttachmentsList>();
+        builder.Services.AddTransient<AttachmentDraftsListView>();
+        builder.Services.AddTransient<AttachmentDraftsListViewModel>();
+
+        builder.Services.AddTransient<AttachmentsListView>();
         builder.Services.AddTransient<AttachmentsListViewModel>();
 
         builder.Services.AddTransient<TakePhotoView>();
@@ -119,6 +122,10 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<SupportNetworkListView>();
         builder.Services.AddTransient<SupportNetworkListViewModel>();
+
+        builder.Services.AddTransient<TabView>();
+        builder.Services.AddTransient<TabViewModel>();
+        builder.Services.AddTransient<TabItemView>();
 
         return builder;
     }

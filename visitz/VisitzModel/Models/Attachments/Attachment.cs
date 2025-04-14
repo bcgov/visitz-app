@@ -88,6 +88,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     /// </summary>
     public string Extension { get; set; }
 
+    public bool FileExistsLocally => RelativePath?.Trim().Length > 0;
+
     [Backlink(nameof(AttachmentDraft.Attachment))]
     public IQueryable<AttachmentDraft> AttachmentDrafts { get; }
 
@@ -239,5 +241,11 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     {
         return GetAttachments(realm, type, recordId)
             .OrderByDescending(item => item.CreatedDate);
+    }
+
+    public void RemoveFileFromDevice()
+    {
+        AttachmentFiler.DeleteFileFromDevice(RelativePath);
+        RelativePathBinding = string.Empty;
     }
 }

@@ -7,6 +7,7 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
@@ -16,13 +17,16 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 	[ObservableProperty]
 	public CaseloadItem caseloadItem;
 
-	Realm AttachmentsRealm { get; set; }
+    [ObservableProperty]
+    public IDraftItem focusedDraftItem;
+
+    Realm AttachmentsRealm { get; set; }
 
 	AttachmentFiler attachmentFiler;
 
-	public override async void Create()
+	protected override async Task InitAsync()
 	{
-		base.Create();
+		await base.InitAsync();
 
 		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 		attachmentFiler = await VisitzFiles.GetAsync(
@@ -31,6 +35,18 @@ internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHold
 			CaseloadItem.KeyPlayer.FirstName,
 			CaseloadItem.KeyPlayer.LastName);
 	}
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            AttachmentsRealm?.Dispose();
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
+    }
 
 	public async Task SaveFile(FileResult fileResult)
 	{
