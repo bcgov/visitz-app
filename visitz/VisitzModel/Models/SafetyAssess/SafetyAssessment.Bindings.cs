@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Partial class implementation of a Realm + compiled bindings workaround.
 
 	https://github.com/realm/realm-dotnet/issues/2270#issuecomment-786720318
@@ -36,10 +36,22 @@ public partial class SafetyAssessment
         set => this.Commit(() => FamilyName = value);
     }
 
-    public DateTimeOffset DateOfAssessmentBinding
+    public DateTimeOffset? DateOfAssessmentBinding
     {
         get => IsValid ? DateOfAssessment : default;
         set => this.Commit(() => DateOfAssessment = value);
+    }
+
+    public DateTime? DateOfAssessmentBindingDateTimeWrapper
+    {
+        get => DateOfAssessmentBinding?.DateTime;
+        set
+        {
+            if (value is DateTime dateTime)
+                DateOfAssessmentBinding = new DateTimeOffset(dateTime);
+            else
+                DateOfAssessmentBinding = null;
+        }
     }
 
     public string OperationBinding

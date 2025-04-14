@@ -38,7 +38,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public string FamilyName { get; set; }
 
-    public DateTimeOffset DateOfAssessment { get; set; } = DateTimeOffset.Now;
+    public DateTimeOffset? DateOfAssessment { get; set; }
 
     public string Operation { get; set; }
 
@@ -98,7 +98,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             IncidentNumber = fileNumber,
             WorkerId = json.CreatedBy,
             FamilyName = json.FamilyName,
-            DateOfAssessment = DateTimeOffset.Parse(json.DateOfAssessment),
+            DateOfAssessment = Timestamp.ParseDateTimeOffsetNullable(json.DateOfAssessment),
             Operation = "",
             ApprovedBy = json.ApprovedBy,
             ApprovedDate = json.ApprovedDate,
@@ -181,7 +181,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             IncidentNumber = IncidentNumber,
             WorkerId = WorkerId,
             FamilyName = FamilyName,
-            DateOfAssessment = DateOfAssessment.ToString(DateFormat, CultureInfo.InvariantCulture),
+            DateOfAssessment = DateOfAssessment?.ToString(DateFormat, CultureInfo.InvariantCulture),
             Operation = DefaultOperation,
             FactorInfluence = FactorInfluence.ToApiJson(dateFormat),
             SafetyFactors = SafetyFactors.ToApiJson(dateFormat),
