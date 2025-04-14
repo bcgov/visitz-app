@@ -49,7 +49,10 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         if (changes == null)
         {
             foreach (var item in items)
-                AttachmentsList.Add(new AttachmentsListItemUi(item as Attachment));
+                AttachmentsList.Add(new AttachmentsListItemUi(
+                    CaseloadItem.EntityType.ParseEntityType(),
+                    CaseloadItem.RowId,
+                    item as Attachment));
         }
         else
         {
@@ -57,10 +60,16 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
                 AttachmentsList.RemoveAt(deleted);
 
             foreach (int modified in changes.ModifiedIndices)
-                AttachmentsList[modified] = new AttachmentsListItemUi(items[modified] as Attachment);
+                AttachmentsList[modified] = new AttachmentsListItemUi(
+                    CaseloadItem.EntityType.ParseEntityType(),
+                    CaseloadItem.RowId,
+                    items[modified] as Attachment);
 
             foreach (int inserted in changes.InsertedIndices)
-                AttachmentsList.Insert(inserted, new AttachmentsListItemUi(items[inserted] as Attachment));
+                AttachmentsList.Insert(inserted, new AttachmentsListItemUi(
+                    CaseloadItem.EntityType.ParseEntityType(),
+                    CaseloadItem.RowId,
+                    items[inserted] as Attachment));
         }
     }
 

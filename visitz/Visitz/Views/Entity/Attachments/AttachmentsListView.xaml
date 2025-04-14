@@ -79,6 +79,14 @@
                                     Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
                                     TextColor="{StaticResource Gray500}" />
 
+                                <ActivityIndicator
+                                    Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    IsRunning="{Binding IsDownloading}"
+                                    IsVisible="{Binding IsDownloading}" />
+
                                 <controls:FontIconButton
                                     Grid.Row="0"
                                     Grid.Column="1"
