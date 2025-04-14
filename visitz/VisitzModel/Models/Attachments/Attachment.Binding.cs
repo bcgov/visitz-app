@@ -42,7 +42,7 @@ public partial class Attachment
 		{
 			this.Commit(() => RelativePath = value);
 			RaisePropertyChanged(nameof(RelativePathBinding));
-            RaisePropertyChanged(nameof(FileExistsLocally));
+			RaisePropertyChanged(nameof(FileExistsLocally));
 		}
 	}
 
