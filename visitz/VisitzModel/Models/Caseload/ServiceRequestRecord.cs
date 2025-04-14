@@ -34,6 +34,8 @@ public partial class ServiceRequestRecord :
 
     public string FileNumber { get; set; }
 
+    public EntityType EntityType => EntityType.ServiceRequest;
+
     public string GivenNames { get; set; }
 
     public string LastName { get; set; }

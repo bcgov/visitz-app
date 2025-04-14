@@ -35,6 +35,8 @@ public partial class CaseRecord :
 
     public string FileNumber { get; set; }
 
+    public EntityType EntityType => EntityType.Case;
+
     public string GivenNames { get; set; }
 
     public string LastName { get; set; }

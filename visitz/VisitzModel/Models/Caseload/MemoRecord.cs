@@ -33,6 +33,8 @@ public partial class MemoRecord :
 
     public string FileNumber { get; set; }
 
+    public EntityType EntityType => EntityType.Memo;
+
     public string GivenNames { get; set; }
 
     public string LastName { get; set; }

@@ -1,3 +1,5 @@
+using VisitzModel.Models.EntityTypes;
+
 namespace VisitzModel.Models.Caseload;
 
 public interface IBusinessObject
@@ -7,4 +9,6 @@ public interface IBusinessObject
     public string GivenNames { get; set; }
 
     public string LastName { get; set; }
+
+    public EntityType EntityType { get; }
 }
