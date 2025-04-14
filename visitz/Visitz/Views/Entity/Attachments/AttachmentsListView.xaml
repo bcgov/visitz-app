@@ -22,7 +22,8 @@
             Grid.Row="0"
             x:Name="AttachmentsCollectionView"
             ItemsSource="{Binding AttachmentsList}"
-            SelectionMode="None">
+            SelectionMode="None"
+            ItemsUpdatingScrollMode="KeepScrollOffset">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="attachments:AttachmentsListItemUi">
                     <ContentView>
