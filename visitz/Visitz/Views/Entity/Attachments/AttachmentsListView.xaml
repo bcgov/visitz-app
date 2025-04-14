@@ -32,72 +32,65 @@
                                 ColumnSpacing="{StaticResource DefaultSpacing}"
                                 Margin="10,10,10,0"
                                 RowDefinitions="Auto,Auto,Auto"
-                                ColumnDefinitions="*,*,*,*,Auto">
-                                <HorizontalStackLayout
-                                    Spacing="5"
-                                    Grid.ColumnSpan="4"
-                                    Grid.Row="0">
-                                    <Label
-                                        TextColor="{Binding ToDownloadTextColor}"
-                                        Text="{Binding Attachment.Filename}"/>
-                                </HorizontalStackLayout>
-                                <HorizontalStackLayout
+                                ColumnDefinitions="*,Auto">
+
+                                <Label
+                                    Grid.Row="0"
+                                    TextColor="{Binding ToDownloadTextColor}"
+                                    Text="{Binding Attachment.Filename}"/>
+
+                                <controls:FontIconButton
                                     Grid.Row="0"
                                     Grid.Column="5"
-                                    Grid.RowSpan="2"
+                                    Grid.RowSpan="3"
                                     VerticalOptions="Center"
                                     HorizontalOptions="End"
-                                    Spacing="5">
+                                    Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
+                                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    FontFamily="FluentIconsRegular"
+                                    FontSize="30"
+                                    IsVisible="{Binding ShowDeleteButton}"
+                                    Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
+                                    TextColor="{StaticResource Gray500}" />
 
-                                    <controls:FontIconButton
-                                        Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
-                                            Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                                        CommandParameter="{Binding .}"
-                                        FontFamily="FluentIconsRegular"
-                                        FontSize="30"
-                                        IsVisible="{Binding ShowDeleteButton}"
-                                        Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
-                                        TextColor="{StaticResource Gray500}" />
+                                <controls:FontIconButton
+                                    Grid.Row="0"
+                                    Grid.Column="5"
+                                    Grid.RowSpan="3"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Command="{Binding DownloadAttachmentForDeviceCommand,
+                                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                                    CommandParameter="{Binding .}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    FontSize="30"
+                                    IsVisible="{Binding ShowDownloadButton}"
+                                    Text="{Static fonticons:MaterialIcons.Download}"
+                                    TextColor="{StaticResource Gray500}" />
 
-                                    <controls:FontIconButton
-                                        Command="{Binding DownloadAttachmentForDeviceCommand,
-                                            Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                                        CommandParameter="{Binding .}"
-                                        FontFamily="MaterialIconsRoundedUnfilled"
-                                        FontSize="30"
-                                        IsVisible="{Binding ShowDownloadButton}"
-                                        Text="{Static fonticons:MaterialIcons.Download}"
-                                        TextColor="{StaticResource Gray500}" />
-                                </HorizontalStackLayout>
+                                <Label
+                                    Grid.Row="1"
+                                    Text="{Binding Attachment.FormDescription}"
+                                    TextColor="{Binding ToDownloadTextColor}"
+                                    FontFamily="BCSansBold"
+                                    FontSize="17"/>
+
                                 <HorizontalStackLayout
-                                    Spacing="5"
-                                    Grid.ColumnSpan="5"
-                                    Grid.Row="1">
-                                    <Label
-                                        Text="{Binding Attachment.FormDescription}"
-                                        TextColor="{Binding ToDownloadTextColor}"
-                                        FontFamily="BCSansBold"
-                                        FontSize="17"/>
-                                </HorizontalStackLayout>
-                                <HorizontalStackLayout
-                                    Spacing="25"
-                                    Grid.ColumnSpan="5"
+                                    Spacing="30"
                                     Grid.Row="2">
-                                    <HorizontalStackLayout
-                                        Spacing="30">
-                                        <Label
-                                            TextColor="{Binding ToDownloadTextColor}"
-                                            Text="{Binding Attachment.Status}"/>
-                                        <Label
-                                            TextColor="{Binding ToDownloadTextColor}"
-                                            Text="{Binding Attachment.Category}"/>
-                                        <Label
-                                            TextColor="{Binding ToDownloadTextColor}"
-                                            Text="{Binding Attachment.CreatedDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"/>
-                                        <Label
-                                            TextColor="{Binding ToDownloadTextColor}"
-                                            Text="{Binding Attachment.CreatedBy}"/>
-                                    </HorizontalStackLayout>
+                                    <Label
+                                        TextColor="{Binding ToDownloadTextColor}"
+                                        Text="{Binding Attachment.Status}"/>
+                                    <Label
+                                        TextColor="{Binding ToDownloadTextColor}"
+                                        Text="{Binding Attachment.Category}"/>
+                                    <Label
+                                        TextColor="{Binding ToDownloadTextColor}"
+                                        Text="{Binding Attachment.CreatedDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"/>
+                                    <Label
+                                        TextColor="{Binding ToDownloadTextColor}"
+                                        Text="{Binding Attachment.CreatedBy}"/>
                                 </HorizontalStackLayout>
                             </Grid>
                             <BoxView
