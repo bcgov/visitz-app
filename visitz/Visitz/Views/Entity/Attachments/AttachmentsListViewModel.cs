@@ -93,6 +93,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     public void DownloadAttachmentForDevice(AttachmentsListItemUi item)
     {
         var recordServiceInfo = new RecordServiceInfo(
+            CaseloadItem.EntityType.ParseEntityType(),
             CaseloadItem.RowId,
             CaseloadItem.CaseIncidentNumber,
             CaseloadItem.KeyPlayer.FirstName,

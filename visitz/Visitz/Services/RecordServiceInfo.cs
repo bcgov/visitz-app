@@ -15,8 +15,14 @@ internal class RecordServiceInfo
 
     public string LastName { get; set; }
 
-    public RecordServiceInfo(string id, string fileNumber, string firstName, string lastName)
+    public RecordServiceInfo(
+        EntityType type,
+        string id,
+        string fileNumber,
+        string firstName,
+        string lastName)
     {
+        Type = type;
         Id = id;
         FileNumber = fileNumber;
         FirstName = firstName;
@@ -24,27 +30,20 @@ internal class RecordServiceInfo
     }
 
     RecordServiceInfo(
-        string id, IBusinessObject record) : this(id, record.FileNumber, record.GivenNames, record.LastName) { }
+        string id, EntityType type, IBusinessObject record) : this(
+            type,
+            id,
+            record.FileNumber,
+            record.GivenNames,
+            record.LastName) { }
 
-    public RecordServiceInfo(CaseRecord @case) : this(@case.Id, @case)
-    {
-        Type = EntityType.Case;
-    }
+    public RecordServiceInfo(CaseRecord @case) : this(@case.Id, @case.EntityType, @case) { }
 
-    public RecordServiceInfo(IncidentRecord incident) : this(incident.Id, incident)
-    {
-        Type = EntityType.Incident;
-    }
+    public RecordServiceInfo(IncidentRecord incident) : this(incident.Id, incident.EntityType, incident) { }
 
-    public RecordServiceInfo(MemoRecord memo) : this(memo.Id, memo)
-    {
-        Type = EntityType.Memo;
-    }
+    public RecordServiceInfo(MemoRecord memo) : this(memo.Id, memo.EntityType, memo) { }
 
-    public RecordServiceInfo(ServiceRequestRecord sr) : this(sr.Id, sr)
-    {
-        Type = EntityType.ServiceRequest;
-    }
+    public RecordServiceInfo(ServiceRequestRecord sr) : this(sr.Id, sr.EntityType, sr) { }
 }
 
 internal static class RecordServiceInfoExtensions
