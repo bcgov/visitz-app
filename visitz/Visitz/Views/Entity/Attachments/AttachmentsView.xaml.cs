@@ -11,26 +11,26 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder, IFocusDraftItem
 {
-	static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes
-		.Concat(Attachment.AllowedDocumentTypes);
+    static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes
+        .Concat(Attachment.AllowedDocumentTypes);
 
-	new AttachmentsViewModel ViewModel => base.ViewModel as AttachmentsViewModel;
+    new AttachmentsViewModel ViewModel => base.ViewModel as AttachmentsViewModel;
 
-	public CaseloadItem CaseloadItem
-	{
-		get => ViewModel.CaseloadItem;
-		set => ViewModel.CaseloadItem = value;
-	}
+    public CaseloadItem CaseloadItem
+    {
+        get => ViewModel.CaseloadItem;
+        set => ViewModel.CaseloadItem = value;
+    }
 
-	public IDraftItem FocusedDraftItem
-	{
-		get => ViewModel.FocusedDraftItem;
-		set => ViewModel.FocusedDraftItem = value;
-	}
+    public IDraftItem FocusedDraftItem
+    {
+        get => ViewModel.FocusedDraftItem;
+        set => ViewModel.FocusedDraftItem = value;
+    }
 
-	public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
-	{
-		InitializeComponent();
+    public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
+    {
+        InitializeComponent();
         BindingContext = ViewModel;
     }
 
@@ -57,40 +57,40 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
     }
 
     private async void AddPhotos_Clicked(object sender, EventArgs e)
-	{
-		await OpenTakePhotoView();
-	}
+    {
+        await OpenTakePhotoView();
+    }
 
-	private async void Browse_Clicked(object sender, EventArgs e)
-	{
-		var result = await FilePicker.Default.PickAsync(new()
-		{
-			FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
-			{
-				{ DevicePlatform.WinUI, AllowedTypes },
-			}),
-		});
+    private async void Browse_Clicked(object sender, EventArgs e)
+    {
+        var result = await FilePicker.Default.PickAsync(new()
+        {
+            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
+            {
+                { DevicePlatform.WinUI, AllowedTypes },
+            }),
+        });
 
-		await SaveFile(result);
-	}
+        await SaveFile(result);
+    }
 
-	private async Task SaveFile(FileResult result)
-	{
-		if (result == null)
-			return;
+    private async Task SaveFile(FileResult result)
+    {
+        if (result == null)
+            return;
 
-		try
-		{
-			await ViewModel.SaveFile(result);
-		}
-		catch (Exception ex)
-		{
-			await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
-		}
-	}
+        try
+        {
+            await ViewModel.SaveFile(result);
+        }
+        catch (Exception ex)
+        {
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
+    }
 
-	private async Task OpenTakePhotoView()
-	{
-		await TakePhotoView.TryOpenWithPermissionsAsync(CaseloadItem);
-	}
+    private async Task OpenTakePhotoView()
+    {
+        await TakePhotoView.TryOpenWithPermissionsAsync(CaseloadItem);
+    }
 }
