@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <baseClasses:ViewModelContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-	xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentDraftsListView"
-	x:DataType="attachments:AttachmentDraftsListViewModel"
+    x:DataType="attachments:AttachmentDraftsListViewModel"
     VerticalOptions="FillAndExpand">
 
-	<AbsoluteLayout>
-		<ActivityIndicator
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="0.5,0.5"
-			HorizontalOptions="Center"
-			VerticalOptions="Center"
-			IsRunning="{Binding IsLoading}" />
+    <AbsoluteLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsRunning="{Binding IsLoading}" />
 
-		<views:EmptyCollectionMessage
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="0.5,0.5"
-			Text="No attachment drafts found for this record."
-			IsVisible="{Binding IsEmpty}"/>
+        <views:EmptyCollectionMessage
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            Text="No attachment drafts found for this record."
+            IsVisible="{Binding IsEmpty}"/>
 
-		<CollectionView
-			x:Name="DraftsCollection"
-			AbsoluteLayout.LayoutFlags="All"
-			AbsoluteLayout.LayoutBounds="0,0,1,1"
-			ItemsSource="{Binding AttachmentDrafts}"
-			ItemsUpdatingScrollMode="KeepScrollOffset">
+        <CollectionView
+            x:Name="DraftsCollection"
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            ItemsSource="{Binding AttachmentDrafts}"
+            ItemsUpdatingScrollMode="KeepScrollOffset">
 
-			<CollectionView.ItemsLayout>
-				<LinearItemsLayout Orientation="Vertical" />
-			</CollectionView.ItemsLayout>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
 
-			<CollectionView.ItemTemplate>
-				<DataTemplate>
-					<attachments:AttachmentListItemView />
-				</DataTemplate>
-			</CollectionView.ItemTemplate>
-		</CollectionView>
-	</AbsoluteLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <attachments:AttachmentListItemView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </AbsoluteLayout>
 </baseClasses:ViewModelContentView>
