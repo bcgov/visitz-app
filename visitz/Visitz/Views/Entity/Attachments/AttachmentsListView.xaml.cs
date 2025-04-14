@@ -6,9 +6,6 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentsListView : ViewModelContentView, ICaseloadItemHolder
 {
-    public static readonly BindableProperty CaseloadItemProperty =
-        BindableProperty.Create(nameof(CaseloadItem), typeof(CaseloadItem), typeof(AttachmentsListView));
-
     new AttachmentsListViewModel ViewModel => base.ViewModel as AttachmentsListViewModel;
 
     public CaseloadItem CaseloadItem
