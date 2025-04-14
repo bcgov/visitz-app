@@ -57,7 +57,10 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         else
         {
             foreach (int deleted in changes.DeletedIndices.Reverse())
+            {
+                AttachmentsList.ElementAt(deleted).Dispose();
                 AttachmentsList.RemoveAt(deleted);
+            }
 
             foreach (int modified in changes.ModifiedIndices)
                 AttachmentsList[modified] = new AttachmentsListItemUi(
@@ -120,6 +123,10 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         {
             realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
             realmQuery.Dispose();
+
+            foreach (var item in AttachmentsList)
+                item.Dispose();
+
             _disposed = true;
         }
         base.Dispose(disposing);

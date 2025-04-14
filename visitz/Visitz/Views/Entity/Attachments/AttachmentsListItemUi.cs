@@ -9,7 +9,10 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsListItemUi : ObservableObject, IRecipient<ServiceStateMessage>
+public partial class AttachmentsListItemUi :
+    ObservableObject,
+    IRecipient<ServiceStateMessage>,
+    IDisposable
 {
     [ObservableProperty]
     Attachment attachment;
@@ -25,6 +28,8 @@ public partial class AttachmentsListItemUi : ObservableObject, IRecipient<Servic
 
     [ObservableProperty]
     public Color toDownloadTextColor;
+
+    private bool disposedValue;
 
     EntityType EntityType { get; set; }
 
@@ -77,5 +82,25 @@ public partial class AttachmentsListItemUi : ObservableObject, IRecipient<Servic
             IsDownloading = false;
             ShowDownloadButton = !ShowDeleteButton;
         }
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                WeakReferenceMessenger.Default.UnregisterAll(this);
+            }
+
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }
