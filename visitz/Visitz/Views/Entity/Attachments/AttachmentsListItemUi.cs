@@ -37,14 +37,12 @@ public partial class AttachmentsListItemUi :
 
     string ServiceId { get; set; }
 
-    bool FileExists => Attachment?.RelativePath is not null && Attachment.RelativePath.Trim() != "";
-
     ServiceHandler ServiceHandler { get; set; } = ServiceProvider.GetService<ServiceHandler>();
 
     public AttachmentsListItemUi(EntityType type, string recordId, Attachment item)
     {
         attachment = item;
-        ShowDeleteButton = FileExists;
+        ShowDeleteButton = Attachment.FileExistsLocally;
         ShowDownloadButton = !ShowDeleteButton;
         if (ShowDeleteButton)
             ToDownloadTextColor = VisitzColors.BC_TextColor;
@@ -78,7 +76,7 @@ public partial class AttachmentsListItemUi :
         }
         else if (state == VisitzService.State.Stopped)
         {
-            ShowDeleteButton = FileExists;
+            ShowDeleteButton = Attachment.FileExistsLocally;
             IsDownloading = false;
             ShowDownloadButton = !ShowDeleteButton;
         }

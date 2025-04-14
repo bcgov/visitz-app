@@ -88,6 +88,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     /// </summary>
     public string Extension { get; set; }
 
+    public bool FileExistsLocally => RelativePath?.Trim().Length > 0;
+
     [Backlink(nameof(AttachmentDraft.Attachment))]
     public IQueryable<AttachmentDraft> AttachmentDrafts { get; }
 
