@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
@@ -47,30 +48,26 @@
                                     VerticalOptions="Center"
                                     HorizontalOptions="End"
                                     Spacing="5">
-                                    <Label
+
+                                    <controls:FontIconButton
+                                        Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
+                                            Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                                        CommandParameter="{Binding .}"
                                         FontFamily="FluentIconsRegular"
                                         FontSize="30"
                                         IsVisible="{Binding ShowDeleteButton}"
-                                        Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
-                                                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                                                CommandParameter="{Binding .}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                    <Label
+                                        Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
+                                        TextColor="{StaticResource Gray500}" />
+
+                                    <controls:FontIconButton
+                                        Command="{Binding DownloadAttachmentForDeviceCommand,
+                                            Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                                        CommandParameter="{Binding .}"
                                         FontFamily="MaterialIconsRoundedUnfilled"
                                         FontSize="30"
                                         IsVisible="{Binding ShowDownloadButton}"
-                                        Text="{Static fonticons:MaterialIcons.Download}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding DownloadAttachmentForDeviceCommand,
-                                                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                                                CommandParameter="{Binding .}"/>
-                                        </Label.GestureRecognizers>
-                                    </Label>
+                                        Text="{Static fonticons:MaterialIcons.Download}"
+                                        TextColor="{StaticResource Gray500}" />
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout
                                     Spacing="5"
