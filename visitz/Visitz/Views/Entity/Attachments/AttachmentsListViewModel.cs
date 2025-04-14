@@ -99,7 +99,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
             CaseloadItem.KeyPlayer.FirstName,
             CaseloadItem.KeyPlayer.LastName);
         var attachmentId = item.Attachment.Id;
-        var force = false;
+        var force = true;
 
         var tuple = (recordServiceInfo, attachmentId, force);
         WeakReferenceMessenger.Default.Send(GetAttachmentContentService.MakeStartMessage(tuple));
