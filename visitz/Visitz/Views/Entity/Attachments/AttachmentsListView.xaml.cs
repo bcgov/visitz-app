@@ -14,9 +14,9 @@ public partial class AttachmentsListView : ViewModelContentView, ICaseloadItemHo
         set => ViewModel.CaseloadItem = value;
     }
 
-	public AttachmentsListView() : base(ServiceProvider.GetService<AttachmentsListViewModel>())
-	{
-		InitializeComponent();
+    public AttachmentsListView() : base(ServiceProvider.GetService<AttachmentsListViewModel>())
+    {
+        InitializeComponent();
         BindingContext = ViewModel;
-	}
+    }
 }
