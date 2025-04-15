@@ -3,31 +3,22 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Services;
 
-internal class RecordServiceInfo
+internal class RecordServiceInfo(
+    EntityType type,
+    string id,
+    string fileNumber,
+    string firstName,
+    string lastName)
 {
-    public EntityType Type { get; set; }
+    public EntityType Type { get; set; } = type;
 
-    public string Id { get; set; }
+    public string Id { get; set; } = id;
 
-    public string FileNumber { get; set; }
+    public string FileNumber { get; set; } = fileNumber;
 
-    public string FirstName { get; set; }
+    public string FirstName { get; set; } = firstName;
 
-    public string LastName { get; set; }
-
-    public RecordServiceInfo(
-        EntityType type,
-        string id,
-        string fileNumber,
-        string firstName,
-        string lastName)
-    {
-        Type = type;
-        Id = id;
-        FileNumber = fileNumber;
-        FirstName = firstName;
-        LastName = lastName;
-    }
+    public string LastName { get; set; } = lastName;
 
     RecordServiceInfo(
         string id, EntityType type, IBusinessObject record) : this(
