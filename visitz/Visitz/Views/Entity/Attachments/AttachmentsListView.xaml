@@ -9,18 +9,14 @@
     x:DataType="attachments:AttachmentsListViewModel"
     VerticalOptions="FillAndExpand">
 
-    <Grid RowDefinitions="*">
-        <CollectionView
-            Grid.Row="0"
-            x:Name="AttachmentsCollectionView"
-            ItemsSource="{Binding AttachmentsList}"
-            SelectionMode="None"
-            ItemsUpdatingScrollMode="KeepScrollOffset">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="attachments:AttachmentsListItemUi">
-                    <attachments:AttachmentsListItemView />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Grid>
+    <CollectionView
+        ItemsSource="{Binding AttachmentsList}"
+        SelectionMode="None"
+        ItemsUpdatingScrollMode="KeepScrollOffset">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="attachments:AttachmentsListItemUi">
+                <attachments:AttachmentsListItemView />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </baseClasses:ViewModelContentView>
