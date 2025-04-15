@@ -10,4 +10,13 @@ public static class INavigationExtensions
     {
         await navigation.PushModalAsync(contentView.WrapPageForModal(size), animated);
     }
+
+    public static async Task PushAsync(
+        this INavigation navigation,
+        ContentView contentView,
+        ViewModalSize size = ViewModalSize.Fullscreen,
+        bool animated = true)
+    {
+        await navigation.PushAsync(contentView.WrapPageForModal(size), animated);
+    }
 }
