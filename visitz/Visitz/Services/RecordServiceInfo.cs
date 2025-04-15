@@ -35,7 +35,8 @@ internal class RecordServiceInfo
             id,
             record.FileNumber,
             record.GivenNames,
-            record.LastName) { }
+            record.LastName)
+    { }
 
     public RecordServiceInfo(CaseRecord @case) : this(@case.Id, @case.EntityType, @case) { }
 
