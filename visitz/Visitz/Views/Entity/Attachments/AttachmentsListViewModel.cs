@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using System.Collections.ObjectModel;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Attachments;
@@ -151,6 +152,12 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     [RelayCommand]
     public async Task OpenAttachment(AttachmentsListItemUi listItem)
     {
+        var view = new PhotoDetailsView()
+        {
+            Attachment = listItem.Attachment,
+            CaseloadItem = CaseloadItem,
+        };
 
+        await Navigator.Navigation.PushAsync(view);
     }
 }
