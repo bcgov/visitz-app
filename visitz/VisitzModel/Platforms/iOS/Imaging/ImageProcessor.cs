@@ -1,5 +1,4 @@
 using Microsoft.Maui.Graphics.Platform;
-using VisitzModel.Extensions;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Imaging;

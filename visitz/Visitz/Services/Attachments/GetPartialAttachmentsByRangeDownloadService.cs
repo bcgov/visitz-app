@@ -1,10 +1,10 @@
+using Realms;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
-using VisitzApi;
-using VisitzModel.Storage;
-using VisitzModel.Models.Attachments;
 using Visitz.Storage;
-using Realms;
+using VisitzApi;
+using VisitzModel.Models.Attachments;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 internal class GetPartialAttachmentsByRangeDownloadService(

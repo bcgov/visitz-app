@@ -1,7 +1,6 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 

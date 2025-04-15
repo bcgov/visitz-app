@@ -1,5 +1,5 @@
-using System.Globalization;
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Encryption;
 using VisitzModel.Formats;

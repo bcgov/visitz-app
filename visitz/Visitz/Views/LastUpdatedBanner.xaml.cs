@@ -1,8 +1,6 @@
 using System.Globalization;
 using Visitz.Resources.Localization;
-using VisitzModel.Extensions;
 using VisitzModel.Formats;
-using VisitzModel.Utilities;
 
 namespace Visitz.Views;
 

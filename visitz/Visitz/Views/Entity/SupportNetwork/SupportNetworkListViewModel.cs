@@ -1,12 +1,11 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using System.Collections.ObjectModel;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Navigation;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;

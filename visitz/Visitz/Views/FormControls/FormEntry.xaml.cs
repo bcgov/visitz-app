@@ -1,9 +1,9 @@
 namespace Visitz.Views.FormControls;
 
-using Visitz.Resources.Localization;
-using VisitzModel.Extensions;
 using Visitz.Animations;
 using Visitz.Animations.Haptic;
+using Visitz.Resources.Localization;
+using VisitzModel.Extensions;
 
 public partial class FormEntry : ContentView
 {

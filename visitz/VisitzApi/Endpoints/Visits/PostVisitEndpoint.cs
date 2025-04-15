@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Http.Json;
-using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Visits;
 using VisitzApi.Requests;

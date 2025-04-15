@@ -1,10 +1,10 @@
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
-using VisitzApi;
-using VisitzModel.Storage;
-using VisitzModel.Models.EntityTypes;
 using Visitz.Storage;
+using VisitzApi;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 

@@ -1,14 +1,7 @@
 #nullable enable
 using Microsoft.Windows.AppLifecycle;
-using Oidc.WinWorkaround;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
 using System.Text.Json.Nodes;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;

@@ -1,6 +1,6 @@
-using VisitzModel.Utilities;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using VisitzModel.Utilities;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace VisitzModel.Imaging;

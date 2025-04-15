@@ -1,19 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
+using Visitz.Services.Caseload;
 using Visitz.Settings;
 using Visitz.Storage;
-using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 using Visitz.Views.BaseClasses;
-
-using Microsoft.Extensions.Logging;
-using Visitz.Services.Caseload;
+using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;

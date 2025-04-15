@@ -1,4 +1,3 @@
-using Visitz.Resources.Styles;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models;
