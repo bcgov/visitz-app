@@ -152,6 +152,9 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     [RelayCommand]
     public async Task OpenAttachment(AttachmentsListItemUi listItem)
     {
+        if (!listItem.Attachment.FileExistsLocally)
+            return;
+
         var view = new PhotoDetailsView()
         {
             Attachment = listItem.Attachment,
