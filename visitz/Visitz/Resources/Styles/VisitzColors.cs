@@ -14,16 +14,16 @@ public static class VisitzColors
 {
     public static Color TryGetColor(string name)
     {
-        return Application.Current.Resources.TryGetColor(name, null) 
-            ?? 
+        return Application.Current.Resources.TryGetColor(name, null)
+            ??
             throw new InvalidOperationException($"Color '{name}' not found in resources");
     }
 
     public static readonly Color BC_Blue = TryGetColor(nameof(BC_Blue));
     public static readonly Color BC_Gold = TryGetColor(nameof(BC_Gold));
     public static readonly Color BC_TextColor = TryGetColor(nameof(BC_TextColor));
-	public static readonly Color BC_TextColor_Lighter = TryGetColor(nameof(BC_TextColor_Lighter));
-	public static readonly Color BC_Hyperlink = TryGetColor(nameof(BC_Hyperlink));
+    public static readonly Color BC_TextColor_Lighter = TryGetColor(nameof(BC_TextColor_Lighter));
+    public static readonly Color BC_Hyperlink = TryGetColor(nameof(BC_Hyperlink));
     public static readonly Color BC_Background_Dark = TryGetColor(nameof(BC_Background_Dark));
     public static readonly Color BC_Background_Light = TryGetColor(nameof(BC_Background_Light));
     public static readonly Color BC_InputControlsTextColor = TryGetColor(nameof(BC_InputControlsTextColor));
@@ -32,13 +32,13 @@ public static class VisitzColors
     public static readonly Color BC_Semantic_Info = TryGetColor(nameof(BC_Semantic_Info));
     public static readonly Color BC_Semantic_Warning = TryGetColor(nameof(BC_Semantic_Warning));
 
-	public static readonly Color Default_Background = TryGetColor(nameof(Default_Background));
+    public static readonly Color Default_Background = TryGetColor(nameof(Default_Background));
 
-	public static readonly Color Semantic_Warning_LargeText = TryGetColor(nameof(Semantic_Warning_LargeText));
+    public static readonly Color Semantic_Warning_LargeText = TryGetColor(nameof(Semantic_Warning_LargeText));
 
     // Primary uses color 'BC_Blue'
     public static readonly Color Primary = TryGetColor(nameof(Primary));
-    
+
     // Secondary uses color 'BC_Background_Light'
     public static readonly Color Secondary = TryGetColor(nameof(Secondary));
 
@@ -52,7 +52,7 @@ public static class VisitzColors
     public static readonly Color BetaBuildColor = TryGetColor(nameof(BetaBuildColor));
     public static readonly Color TeamBuildColor = TryGetColor(nameof(TeamBuildColor));
     public static readonly Color DeveloperBuildColor = TryGetColor(nameof(DeveloperBuildColor));
-    
+
     // BuildBarBackgroundColor uses one of the <build> colors
     public static readonly Color BuildBarBackgroundColor = TryGetColor(nameof(BuildBarBackgroundColor));
 
@@ -66,7 +66,7 @@ public static class VisitzColors
     public static readonly Color EntityCaseTagText = TryGetColor(nameof(EntityCaseTagText));
     public static readonly Color EntityIncidentTagBackground = TryGetColor(nameof(EntityIncidentTagBackground));
     public static readonly Color EntityIncidentTagText = TryGetColor(nameof(EntityIncidentTagText));
-    
+
     public static readonly Color ContactRelationshipTagBackground = TryGetColor(nameof(ContactRelationshipTagBackground));
     public static readonly Color ContactRelationshipTagText = TryGetColor(nameof(ContactRelationshipTagText));
 
@@ -82,11 +82,11 @@ public static class VisitzColors
     public static readonly Color EntitySubTypeBackground = TryGetColor(nameof(EntitySubTypeBackground));
     public static readonly Color EntitySubTypeTagTextBackground = TryGetColor(nameof(EntitySubTypeTagTextBackground));
 
-	public static readonly Color EntityUnknownTypeBackground = TryGetColor(nameof(EntityUnknownTypeBackground));
-	public static readonly Color EntityUnknownTypeTagText = TryGetColor(nameof(EntityUnknownTypeTagText));
+    public static readonly Color EntityUnknownTypeBackground = TryGetColor(nameof(EntityUnknownTypeBackground));
+    public static readonly Color EntityUnknownTypeTagText = TryGetColor(nameof(EntityUnknownTypeTagText));
 
-	// Family Information Colors
-	public static readonly Color KeyPlayerInfoPurpleBackground = TryGetColor(nameof(KeyPlayerInfoPurpleBackground));
+    // Family Information Colors
+    public static readonly Color KeyPlayerInfoPurpleBackground = TryGetColor(nameof(KeyPlayerInfoPurpleBackground));
     public static readonly Color FamilyMemberInfoGrayBorder = TryGetColor(nameof(FamilyMemberInfoGrayBorder));
 
     public static readonly Color LightGrayText = TryGetColor(nameof(LightGrayText));

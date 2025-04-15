@@ -6,7 +6,7 @@ using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-	internal class GetCaseloadEndpoint(string baseUrl, params string[] workerIds)
+    internal class GetCaseloadEndpoint(string baseUrl, params string[] workerIds)
         : VisitzBaseEndpoint<IEnumerable<CaseloadEntity>>(baseUrl, Vpi.V1, CaseloadPath)
     {
         private static readonly string CaseloadPath = "/620b";

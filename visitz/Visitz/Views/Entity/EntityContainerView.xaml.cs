@@ -11,19 +11,19 @@ namespace Visitz.Views.Entity;
 
 public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHolder
 {
-    public CaseloadItem CaseloadItem 
-	{
-		get => (ViewModel as EntityContainerViewModel).CaseloadItem;
-		set => (ViewModel as EntityContainerViewModel).CaseloadItem = value;
+    public CaseloadItem CaseloadItem
+    {
+        get => (ViewModel as EntityContainerViewModel).CaseloadItem;
+        set => (ViewModel as EntityContainerViewModel).CaseloadItem = value;
     }
 
-	public EntityContainerView() : base(ServiceProvider.GetService<EntityContainerViewModel>())
-	{
-		InitializeComponent();
+    public EntityContainerView() : base(ServiceProvider.GetService<EntityContainerViewModel>())
+    {
+        InitializeComponent();
 
-		BindingContext = ViewModel;
+        BindingContext = ViewModel;
 
-		ContainerDetails.Content = ServiceProvider.GetService<EntityDetailsView>();
+        ContainerDetails.Content = ServiceProvider.GetService<EntityDetailsView>();
     }
 
     protected override void Creating()
@@ -53,10 +53,10 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
     }
 
     private void OpenEntitySection(
-		EntityNavItem navItem,
-		CaseloadItem caseloadItem,
-		EntitySection? subsection,
-		IDraftItem focusedDraftItem)
+        EntityNavItem navItem,
+        CaseloadItem caseloadItem,
+        EntitySection? subsection,
+        IDraftItem focusedDraftItem)
     {
         if (ContainerDetails.Content is BaseContentView baseView)
         {
@@ -69,14 +69,14 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
         var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
 
-		if (view is ICaseloadItemHolder itemHolder)
-			itemHolder.CaseloadItem = caseloadItem;
+        if (view is ICaseloadItemHolder itemHolder)
+            itemHolder.CaseloadItem = caseloadItem;
 
-		if (view is IRequestedEntitySection sectionView)
-			sectionView.RequestedSection = subsection ?? navItem.Section;
+        if (view is IRequestedEntitySection sectionView)
+            sectionView.RequestedSection = subsection ?? navItem.Section;
 
-		if (view is IFocusDraftItem focusDraftView)
-			focusDraftView.FocusedDraftItem = focusedDraftItem;
+        if (view is IFocusDraftItem focusDraftView)
+            focusDraftView.FocusedDraftItem = focusedDraftItem;
 
         ContainerDetails.Content = (View)view;
     }

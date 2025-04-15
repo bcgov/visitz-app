@@ -10,8 +10,8 @@ namespace Visitz.Services
 
         public string Message { get; set; }
 
-        public bool FinishedSuccess => 
-            Status == VisitzService.State.Stopped 
+        public bool FinishedSuccess =>
+            Status == VisitzService.State.Stopped
             && Result == VisitzService.Result.Successful;
 
         public bool FinishedError =>
@@ -22,12 +22,12 @@ namespace Visitz.Services
             Status == VisitzService.State.Stopped
             && Result == VisitzService.Result.Cancelled;
 
-		public override string ToString()
-		{
-			string result = Status == VisitzService.State.Stopped ? Result.ToString() : "";
-			string message = string.IsNullOrWhiteSpace(Message) ? "" : " " + Message;
+        public override string ToString()
+        {
+            string result = Status == VisitzService.State.Stopped ? Result.ToString() : "";
+            string message = string.IsNullOrWhiteSpace(Message) ? "" : " " + Message;
 
-			return $"{nameof(ServiceStateMessage)} {Status} {result}{Message}";
-		}
-	}
+            return $"{nameof(ServiceStateMessage)} {Status} {result}{Message}";
+        }
+    }
 }

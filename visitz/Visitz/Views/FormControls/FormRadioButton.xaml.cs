@@ -2,14 +2,14 @@ namespace Visitz.Views.FormControls;
 
 public partial class FormRadioButton : ContentView
 {
-	public static readonly BindableProperty TextProperty =
-		BindableProperty.Create(nameof(Text), typeof(string), typeof(FormRadioButton));
+    public static readonly BindableProperty TextProperty =
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(FormRadioButton));
 
-	public static readonly BindableProperty GroupNameProperty =
-		BindableProperty.Create(nameof(GroupName), typeof(string), typeof(FormRadioButton));
+    public static readonly BindableProperty GroupNameProperty =
+        BindableProperty.Create(nameof(GroupName), typeof(string), typeof(FormRadioButton));
 
-	public static readonly BindableProperty ValueProperty =
-		BindableProperty.Create(nameof(Value), typeof(object), typeof(FormRadioButton));
+    public static readonly BindableProperty ValueProperty =
+        BindableProperty.Create(nameof(Value), typeof(object), typeof(FormRadioButton));
 
     public static readonly BindableProperty IsCheckedProperty =
         BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(FormRadioButton),
@@ -26,11 +26,11 @@ public partial class FormRadioButton : ContentView
         set => SetValue(TextProperty, value);
     }
 
-	public string GroupName
-	{
-		get => (string)GetValue(GroupNameProperty);
-		set => SetValue(GroupNameProperty, value);
-	}
+    public string GroupName
+    {
+        get => (string)GetValue(GroupNameProperty);
+        set => SetValue(GroupNameProperty, value);
+    }
 
     public object Value
     {
@@ -51,11 +51,11 @@ public partial class FormRadioButton : ContentView
     }
 
     public FormRadioButton()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         RadioButton.CheckedChanged += RadioButton_CheckedChanged;
-	}
+    }
 
     private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {

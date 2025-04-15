@@ -4,7 +4,7 @@ namespace Visitz.Views.TagViews;
 
 public partial class TagView : ContentView
 {
-    static readonly BindableProperty.BindingPropertyChangedDelegate TagPropertyChanged = 
+    static readonly BindableProperty.BindingPropertyChangedDelegate TagPropertyChanged =
         (boundObj, oldValue, newValue) =>
         {
             (boundObj as TagView).UpdateUI();
@@ -34,7 +34,7 @@ public partial class TagView : ContentView
         BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(TagView));
 
     public static readonly BindableProperty TextColorProperty =
-        BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TagView), 
+        BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TagView),
             propertyChanged: (boundObj, oldVal, newVal) =>
         {
             var tag = (TagView)boundObj;
@@ -57,9 +57,9 @@ public partial class TagView : ContentView
             });
 
     public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(TagView), 
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(TagView),
             propertyChanged: TagPropertyChanged);
-    
+
     public static readonly BindableProperty BorderColorProperty =
         BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(TagView),
             propertyChanged: SetBorderThickness);
@@ -78,8 +78,8 @@ public partial class TagView : ContentView
     public static readonly BindableProperty FontSizeProperty =
         BindableProperty.Create(nameof(FontSize), typeof(double), typeof(TagView), defaultValue: 14.0d);
 
-    public static readonly BindableProperty FontFamilyProperty = 
-        BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(TagView), 
+    public static readonly BindableProperty FontFamilyProperty =
+        BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(TagView),
             defaultValue: VisitzFonts.BcSansRegularAlias);
 
     public static readonly BindableProperty CornerRadiusProperty =

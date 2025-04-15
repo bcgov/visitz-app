@@ -41,9 +41,9 @@ public class Navigator
             await fromPage.Navigation.PushAsync(newPage, animated);
     }
 
-	public static async Task PopAllModalsAsync(bool animated)
-	{
-		while (Navigation.ModalStack.Count > 0)
-			await Navigation.PopModalAsync(animated);
-	}
+    public static async Task PopAllModalsAsync(bool animated)
+    {
+        while (Navigation.ModalStack.Count > 0)
+            await Navigation.PopModalAsync(animated);
+    }
 }

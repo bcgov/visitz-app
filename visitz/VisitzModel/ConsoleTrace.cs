@@ -5,19 +5,19 @@ namespace VisitzModel;
 public static class ConsoleTrace
 {
 #if DEBUG
-	private static int traceCount = 0;
+    private static int traceCount = 0;
 #endif
 
-	public static void TraceMethod(
-		object caller,
-		Exception ex,
-		string prepend = null,
-		[CallerMemberName] string memberName = "")
-	{
-		TraceMethod(caller.GetType(), ex.Message + " => " + ex.StackTrace, prepend, memberName);
-	}
+    public static void TraceMethod(
+        object caller,
+        Exception ex,
+        string prepend = null,
+        [CallerMemberName] string memberName = "")
+    {
+        TraceMethod(caller.GetType(), ex.Message + " => " + ex.StackTrace, prepend, memberName);
+    }
 
-	public static void TraceMethod(
+    public static void TraceMethod(
         object caller,
         string message = null,
         string prepend = null,
@@ -44,7 +44,7 @@ public static class ConsoleTrace
     }
 
 #if DEBUG
-	private static void WriteLine(string line)
+    private static void WriteLine(string line)
     {
 #if WINDOWS
         System.Diagnostics.Debug.WriteLine(line);

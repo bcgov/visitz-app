@@ -13,9 +13,9 @@ public partial class SupportNetworkListView : ViewModelContentView, ICaseloadIte
         set => ViewModel.CaseloadItem = value;
     }
 
-	public SupportNetworkListView() : base(ServiceProvider.GetService<SupportNetworkListViewModel>())
-	{
-		InitializeComponent();
+    public SupportNetworkListView() : base(ServiceProvider.GetService<SupportNetworkListViewModel>())
+    {
+        InitializeComponent();
         BindingContext = ViewModel;
-	}
+    }
 }

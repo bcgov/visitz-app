@@ -17,8 +17,8 @@ public partial class SelectionList : BaseContentView
             defaultBindingMode: BindingMode.TwoWay, propertyChanged: SelectedItemViewChanged);
 
     public static readonly BindableProperty ItemsSourceProperty =
-		BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(SelectionList),
-			propertyChanged: ItemsSourceChanged);
+        BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(SelectionList),
+            propertyChanged: ItemsSourceChanged);
 
     public static readonly BindableProperty ItemTemplateProperty =
         BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(SelectionList));
@@ -33,28 +33,28 @@ public partial class SelectionList : BaseContentView
     public static readonly BindableProperty OrientationProperty =
         BindableProperty.Create(nameof(Orientation), typeof(StackOrientation), typeof(SelectionList));
 
-	public static readonly BindableProperty AutoSelectDefaultProperty =
-		BindableProperty.Create(nameof(AutoSelectDefault), typeof(bool), typeof(SelectionList));
+    public static readonly BindableProperty AutoSelectDefaultProperty =
+        BindableProperty.Create(nameof(AutoSelectDefault), typeof(bool), typeof(SelectionList));
 
-	private ISelectedState SelectedItemView
+    private ISelectedState SelectedItemView
     {
         get => (ISelectedState)GetValue(SelectedItemViewProperty);
         set => SetValue(SelectedItemViewProperty, value);
     }
 
-    public IList ItemsSource 
-	{
-		get => (IList)GetValue(ItemsSourceProperty);
-		set => SetValue(ItemsSourceProperty, value);
-	}
+    public IList ItemsSource
+    {
+        get => (IList)GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
+    }
 
-	public DataTemplate ItemTemplate
+    public DataTemplate ItemTemplate
     {
         get => (DataTemplate)GetValue(ItemTemplateProperty);
         set => SetValue(ItemTemplateProperty, value);
     }
 
-	public object SelectedItem
+    public object SelectedItem
     {
         get => GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
@@ -72,58 +72,58 @@ public partial class SelectionList : BaseContentView
         set => SetValue(OrientationProperty, value);
     }
 
-	public bool AutoSelectDefault
-	{
-		get => (bool)GetValue(AutoSelectDefaultProperty);
-		set => SetValue(AutoSelectDefaultProperty, value);
-	}
+    public bool AutoSelectDefault
+    {
+        get => (bool)GetValue(AutoSelectDefaultProperty);
+        set => SetValue(AutoSelectDefaultProperty, value);
+    }
 
     public SelectionList()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
-	private static void ItemsSourceChanged(BindableObject boundObj, object oldValue, object newValue)
-	{
-		var thiz = (SelectionList)boundObj;
-		var oldSource = (IList)oldValue;
-		var newSource = (IList)newValue;
+    private static void ItemsSourceChanged(BindableObject boundObj, object oldValue, object newValue)
+    {
+        var thiz = (SelectionList)boundObj;
+        var oldSource = (IList)oldValue;
+        var newSource = (IList)newValue;
 
-		if (thiz.AutoSelectDefault)
-			HandleItemsSourceAutoUpdate(thiz, oldSource, newSource);
-	}
+        if (thiz.AutoSelectDefault)
+            HandleItemsSourceAutoUpdate(thiz, oldSource, newSource);
+    }
 
-	private static void HandleItemsSourceAutoUpdate(SelectionList selectionList, IList oldSource, IList newSource)
-	{
-		if (newSource != null)
-		{
-			if (newSource.Count > 0)
-				selectionList.SelectedItem = newSource[0];
+    private static void HandleItemsSourceAutoUpdate(SelectionList selectionList, IList oldSource, IList newSource)
+    {
+        if (newSource != null)
+        {
+            if (newSource.Count > 0)
+                selectionList.SelectedItem = newSource[0];
 
-			if (newSource is INotifyCollectionChanged newCollection)
-				newCollection.CollectionChanged += selectionList.ItemsSource_CollectionChanged;
-		}
+            if (newSource is INotifyCollectionChanged newCollection)
+                newCollection.CollectionChanged += selectionList.ItemsSource_CollectionChanged;
+        }
 
-		if (oldSource is INotifyCollectionChanged oldCollection)
-			oldCollection.CollectionChanged -= selectionList.ItemsSource_CollectionChanged;
-	}
+        if (oldSource is INotifyCollectionChanged oldCollection)
+            oldCollection.CollectionChanged -= selectionList.ItemsSource_CollectionChanged;
+    }
 
-	private void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-	{
-		if (e.Action == NotifyCollectionChangedAction.Add)
-			SelectedItem ??= e.NewItems[0];
-		else if (e.Action == NotifyCollectionChangedAction.Remove)
-		{
-			if (ItemsSource.Count <= 0)
-				SelectedItem = null;
-			else if (ItemsSource.IndexOf(SelectedItem) == -1)
-				SelectedItem = ItemsSource[0];
-		}
-		else if (e.Action == NotifyCollectionChangedAction.Reset)
-			SelectedItem = null;
-	}
+    private void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add)
+            SelectedItem ??= e.NewItems[0];
+        else if (e.Action == NotifyCollectionChangedAction.Remove)
+        {
+            if (ItemsSource.Count <= 0)
+                SelectedItem = null;
+            else if (ItemsSource.IndexOf(SelectedItem) == -1)
+                SelectedItem = ItemsSource[0];
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Reset)
+            SelectedItem = null;
+    }
 
-	private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
+    private static void SelectedItemViewChanged(BindableObject boundObj, object oldValue, object newValue)
     {
         if (oldValue is ISelectedState oldSelected)
             oldSelected.IsSelected = false;
@@ -143,33 +143,33 @@ public partial class SelectionList : BaseContentView
         }
     }
 
-	private void Point_PointerReleased(object sender, PointerEventArgs e)
-	{
-		var selectableItem = (ISelectedState)sender;
+    private void Point_PointerReleased(object sender, PointerEventArgs e)
+    {
+        var selectableItem = (ISelectedState)sender;
 
-		if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
-			return;
+        if (SelectedItemView?.Equals(selectableItem) ?? false && selectableItem.IsSelected)
+            return;
 
-		selectableItem.IsSelected = !selectableItem.IsSelected;
+        selectableItem.IsSelected = !selectableItem.IsSelected;
 
-		if (selectableItem.IsSelected && selectableItem is BindableObject bindable)
-			SelectedItem = bindable.BindingContext;
-	}
+        if (selectableItem.IsSelected && selectableItem is BindableObject bindable)
+            SelectedItem = bindable.BindingContext;
+    }
 
-	private void MainStack_ChildAdded(object sender, ElementEventArgs e)
+    private void MainStack_ChildAdded(object sender, ElementEventArgs e)
     {
         if (e.Element is View view)
         {
-			PointerGestureRecognizer point = new();
-			point.PointerReleased += Point_PointerReleased;
-			view.GestureRecognizers.Add(point);
+            PointerGestureRecognizer point = new();
+            point.PointerReleased += Point_PointerReleased;
+            view.GestureRecognizers.Add(point);
 
-			if (view is ISelectedState selectable && view.BindingContext == SelectedItem)
-				SelectedItemView = selectable;
-		}
+            if (view is ISelectedState selectable && view.BindingContext == SelectedItem)
+                SelectedItemView = selectable;
+        }
     }
 
-	private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
+    private void MainStack_ChildRemoved(object sender, ElementEventArgs e)
     {
         if (e.Element is View view)
             foreach (var g in view.GestureRecognizers)

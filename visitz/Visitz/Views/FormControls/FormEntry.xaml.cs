@@ -145,17 +145,17 @@ public partial class FormEntry : ContentView
         if (EditorError.IsVisible)
             return;
 
-		var showAnimation = new VisibilityAnimation(true, 1000);
+        var showAnimation = new VisibilityAnimation(true, 1000);
         LeadingSupportingText = text;
-		await Task.WhenAll(showAnimation.Animate(EditorError), showAnimation.Animate(LeadingSupportingLabel));
+        await Task.WhenAll(showAnimation.Animate(EditorError), showAnimation.Animate(LeadingSupportingLabel));
 
         await Task.Delay(2000);
 
-		var hideAnimation = new VisibilityAnimation(false, 1000);
-		await Task.WhenAll(hideAnimation.Animate(EditorError), hideAnimation.Animate(LeadingSupportingLabel));
+        var hideAnimation = new VisibilityAnimation(false, 1000);
+        await Task.WhenAll(hideAnimation.Animate(EditorError), hideAnimation.Animate(LeadingSupportingLabel));
     }
 
-	private async Task AnimateEditorError()
+    private async Task AnimateEditorError()
     {
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(Editor);

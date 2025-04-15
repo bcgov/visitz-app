@@ -5,7 +5,7 @@ using VisitzApi.Models;
 
 namespace VisitzApi.Requests
 {
-	internal class SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit)
+    internal class SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit)
         : VisitzBaseEndpoint<(bool success, string noteId)>(baseUrl, Vpi.V1, SubmitNotesPath)
     {
         private static readonly string SubmitNotesPath = "/679C";

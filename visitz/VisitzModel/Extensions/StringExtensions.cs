@@ -18,15 +18,15 @@ public static class StringExtensions
             .Select(split => char.ToUpper(split[0])));
     }
 
-	public static string GetInitialsOrTruncate(this string text)
-	{
-		if (text.Contains(' '))
-			return GetInitials(text);
-		else if (text.Length >= 2)
-			return text[..2].ToUpperInvariant();
-		else
-			return text.ToUpperInvariant();
-	}
+    public static string GetInitialsOrTruncate(this string text)
+    {
+        if (text.Contains(' '))
+            return GetInitials(text);
+        else if (text.Length >= 2)
+            return text[..2].ToUpperInvariant();
+        else
+            return text.ToUpperInvariant();
+    }
 
     public static string FormatAddressPart(this string addressPart, string separator)
     {
@@ -43,11 +43,11 @@ public static class StringExtensions
         return text != null && text.Trim().StartsWith("Y", StringComparison.CurrentCultureIgnoreCase);
     }
 
-	public static bool? ParseEmptyWordTruthiness(this string text)
-	{
-		if (text == null || text.Trim().Length == 0)
-			return null;
-		else
-			return ParseWordTruthiness(text);
-	}
+    public static bool? ParseEmptyWordTruthiness(this string text)
+    {
+        if (text == null || text.Trim().Length == 0)
+            return null;
+        else
+            return ParseWordTruthiness(text);
+    }
 }

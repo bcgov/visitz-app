@@ -10,7 +10,7 @@ namespace Visitz.Animations
 
         public uint Duration { get; } = DefaultDuration;
 
-        public VisibilityAnimation(bool showView, uint duration = DefaultDuration, Easing easing = null) 
+        public VisibilityAnimation(bool showView, uint duration = DefaultDuration, Easing easing = null)
             : base(DefaultDuration)
         {
             ShowView = showView;
@@ -23,7 +23,7 @@ namespace Visitz.Animations
             if (ShowView)
             {
                 view.IsVisible = ShowView;
-                
+
                 view.Opacity = 0.0;
                 await view.FadeTo(1.0, Duration, Easing);
             }

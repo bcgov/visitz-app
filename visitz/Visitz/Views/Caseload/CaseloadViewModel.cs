@@ -43,18 +43,18 @@ namespace Visitz.Views.Caseload
             MaterialIcons.Calendar_month.GetUnfilledMaterialIcon());
 
         private static readonly SegmentedOptions FilterChildProtection = new(
-            nameof(EntitySubtype.ChildProtection), 
-            LocalizedStrings.Subtype_ChildProtectionIncidentInitials, 
+            nameof(EntitySubtype.ChildProtection),
+            LocalizedStrings.Subtype_ChildProtectionIncidentInitials,
             MaterialIcons.Description.GetUnfilledMaterialIcon());
-        
+
         private static readonly SegmentedOptions FilterChildServices = new(
-            nameof(EntitySubtype.ChildServices), 
-            LocalizedStrings.Subtype_ChildServicesInitials, 
+            nameof(EntitySubtype.ChildServices),
+            LocalizedStrings.Subtype_ChildServicesInitials,
             MaterialIcons.Folder.GetUnfilledMaterialIcon());
-        
+
         private static readonly SegmentedOptions FilterFamilyServices = new(
-            nameof(EntitySubtype.FamilyServices), 
-            LocalizedStrings.Subtype_FamilyServicesInitials, 
+            nameof(EntitySubtype.FamilyServices),
+            LocalizedStrings.Subtype_FamilyServicesInitials,
             MaterialIcons.Folder.GetUnfilledMaterialIcon());
 
         [ObservableProperty]
@@ -101,19 +101,19 @@ namespace Visitz.Views.Caseload
         [ObservableProperty]
         public bool showAvatarView;
 
-		private readonly ObservableRealmQueryMap realmQueryMap = new();
+        private readonly ObservableRealmQueryMap realmQueryMap = new();
 
-		[ObservableProperty]
-		public HashSet<(string EntityId, EntityType Type)> draftedNotes = [];
+        [ObservableProperty]
+        public HashSet<(string EntityId, EntityType Type)> draftedNotes = [];
 
-		[ObservableProperty]
-		public HashSet<(string EntityId, EntityType Type)> draftedAssessments = [];
+        [ObservableProperty]
+        public HashSet<(string EntityId, EntityType Type)> draftedAssessments = [];
 
-		[ObservableProperty]
-		public HashSet<(string EntityId, EntityType Type)> draftedAttachments = [];
+        [ObservableProperty]
+        public HashSet<(string EntityId, EntityType Type)> draftedAttachments = [];
 
-		[ObservableProperty]
-		public HashSet<(string EntityId, EntityType Type)> draftedItems = [];
+        [ObservableProperty]
+        public HashSet<(string EntityId, EntityType Type)> draftedItems = [];
 
         [ObservableProperty]
         public HashSet<(string EntityId, EntityType Type)> draftedVisits = [];
@@ -122,7 +122,7 @@ namespace Visitz.Views.Caseload
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-			await SetupRealm();
+            await SetupRealm();
 
             int sortPrefIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
@@ -134,35 +134,35 @@ namespace Visitz.Views.Caseload
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
-		private async Task SetupRealm()
-		{
-			Realm = await VisitzRealms.GetIcmDataRealmAsync();
+        private async Task SetupRealm()
+        {
+            Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-			CaseloadQuery = Realm.All<CaseloadItem>();
-			CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
+            CaseloadQuery = Realm.All<CaseloadItem>();
+            CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
 
-			realmQueryMap.ItemsChanged += RealmQueryMap_DraftsChanged;
+            realmQueryMap.ItemsChanged += RealmQueryMap_DraftsChanged;
 
-			var noteDraft = await VisitzRealms.GetNoteDraftsRealmAsync();
-			realmQueryMap.Subscribe(noteDraft, noteDraft.All<NoteDraft>());
+            var noteDraft = await VisitzRealms.GetNoteDraftsRealmAsync();
+            realmQueryMap.Subscribe(noteDraft, noteDraft.All<NoteDraft>());
 
-			var assessmentDraft = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
-			realmQueryMap.Subscribe(assessmentDraft, assessmentDraft.All<AssessmentDraft>());
+            var assessmentDraft = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+            realmQueryMap.Subscribe(assessmentDraft, assessmentDraft.All<AssessmentDraft>());
 
-			var attachmentDraft = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-			realmQueryMap.Subscribe(attachmentDraft, attachmentDraft.All<AttachmentDraft>());
+            var attachmentDraft = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+            realmQueryMap.Subscribe(attachmentDraft, attachmentDraft.All<AttachmentDraft>());
 
             var visitDraft = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
             realmQueryMap.Subscribe(visitDraft, visitDraft.All<PersonVisitDraft>());
-		}
+        }
 
-		private void Teardown()
+        private void Teardown()
         {
             DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
-			realmQueryMap.Dispose();
+            realmQueryMap.Dispose();
 
             CaseloadQueryToken?.Dispose();
             CaseloadQueryToken = null;
@@ -252,7 +252,7 @@ namespace Visitz.Views.Caseload
             else
                 return;
 
-			subtype = subtype.ToLowerInvariant();
+            subtype = subtype.ToLowerInvariant();
             query = query.Where(item => item.CaseIncidentType.ToLowerInvariant().Equals(subtype));
         }
 
@@ -323,12 +323,12 @@ namespace Visitz.Views.Caseload
             ShowAvatarView = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
-		private void RealmQueryMap_DraftsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
-		{
-			HashSet<(string EntityId, EntityType Type)> drafted = [];
+        private void RealmQueryMap_DraftsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+        {
+            HashSet<(string EntityId, EntityType Type)> drafted = [];
 
-			foreach (var item in e.Items.Cast<IDraftItem>())
-				drafted.Add((item.RelatedEntityId, item.RelatedEntityType));
+            foreach (var item in e.Items.Cast<IDraftItem>())
+                drafted.Add((item.RelatedEntityId, item.RelatedEntityType));
 
             if (e.Type == typeof(NoteDraft))
                 DraftedNotes = drafted;
@@ -338,34 +338,34 @@ namespace Visitz.Views.Caseload
                 DraftedAttachments = drafted;
             else if (e.Type == typeof(PersonVisitDraft))
                 DraftedVisits = drafted;
-		}
+        }
 
-		partial void OnDraftedNotesChanged(HashSet<(string EntityId, EntityType Type)> value)
-		{
-			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
-			newSet.UnionWith(DraftedAssessments);
-			newSet.UnionWith(DraftedAttachments);
-            newSet.UnionWith(DraftedVisits);
-			DraftedItems = newSet;
-		}
-
-		partial void OnDraftedAssessmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
-		{
-			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
-			newSet.UnionWith(DraftedNotes);
-			newSet.UnionWith(DraftedAttachments);
+        partial void OnDraftedNotesChanged(HashSet<(string EntityId, EntityType Type)> value)
+        {
+            var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
+            newSet.UnionWith(DraftedAssessments);
+            newSet.UnionWith(DraftedAttachments);
             newSet.UnionWith(DraftedVisits);
             DraftedItems = newSet;
-		}
+        }
 
-		partial void OnDraftedAttachmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
-		{
-			var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
-			newSet.UnionWith(DraftedNotes);
-			newSet.UnionWith(DraftedAssessments);
+        partial void OnDraftedAssessmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
+        {
+            var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
+            newSet.UnionWith(DraftedNotes);
+            newSet.UnionWith(DraftedAttachments);
             newSet.UnionWith(DraftedVisits);
             DraftedItems = newSet;
-		}
+        }
+
+        partial void OnDraftedAttachmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
+        {
+            var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
+            newSet.UnionWith(DraftedNotes);
+            newSet.UnionWith(DraftedAssessments);
+            newSet.UnionWith(DraftedVisits);
+            DraftedItems = newSet;
+        }
 
         partial void OnDraftedVisitsChanged(HashSet<(string EntityId, EntityType Type)> value)
         {

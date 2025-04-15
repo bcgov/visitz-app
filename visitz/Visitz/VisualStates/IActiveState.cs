@@ -6,7 +6,7 @@ public interface IActiveState : IVisualStateBase
 
     event EventHandler<ActiveChangedEventArgs> ActiveStateChanged;
 
-    bool IsActive {  get; set; }
+    bool IsActive { get; set; }
 
     string GetActiveState() => IsActive ? ActiveStateName : NormalStateName;
 

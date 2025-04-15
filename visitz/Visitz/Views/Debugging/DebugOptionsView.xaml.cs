@@ -5,29 +5,29 @@ namespace Visitz.Views.Debugging;
 
 public partial class DebugOptionsView : ViewModelContentView
 {
-	public DebugOptionsView() : base(ServiceProvider.GetService<DebugOptionsViewModel>())
-	{
-		InitializeComponent();
-		BindingContext = ViewModel;
-	}
+    public DebugOptionsView() : base(ServiceProvider.GetService<DebugOptionsViewModel>())
+    {
+        InitializeComponent();
+        BindingContext = ViewModel;
+    }
 
-	private async void ShowDocumentsButton_Clicked(object sender, EventArgs e)
-	{
-		var popup = new Popup()
-		{
-			VerticalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Fill,
-			HorizontalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Fill,
-			Content = new ScrollView()
-			{
-				Orientation = ScrollOrientation.Both,
-				Content = new Label()
-				{
-					HorizontalOptions = LayoutOptions.Start,
-					Text = DebugOptions.ListDocumentsFiles(),
-				}
-			}
-		};
+    private async void ShowDocumentsButton_Clicked(object sender, EventArgs e)
+    {
+        var popup = new Popup()
+        {
+            VerticalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Fill,
+            HorizontalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Fill,
+            Content = new ScrollView()
+            {
+                Orientation = ScrollOrientation.Both,
+                Content = new Label()
+                {
+                    HorizontalOptions = LayoutOptions.Start,
+                    Text = DebugOptions.ListDocumentsFiles(),
+                }
+            }
+        };
 
-		await Navigator.CurrentOpenPage.ShowPopupAsync(popup);
+        await Navigator.CurrentOpenPage.ShowPopupAsync(popup);
     }
 }

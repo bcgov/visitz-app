@@ -18,7 +18,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public static readonly IEnumerable<string> AllowedDocumentTypes = [".pdf"];
 
     [PrimaryKey]
-    public string Id {get; set;} = Guid.NewGuid().ToString();
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
     public string RelatedEntityId { get; set; }
 

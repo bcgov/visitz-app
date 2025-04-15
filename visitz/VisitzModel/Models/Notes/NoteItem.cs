@@ -12,10 +12,10 @@ namespace VisitzModel.Models.Notes
     /// </summary>
     public partial class NoteItem : IRealmObject
     {
-		private const string NotePeriodName = "NotePeriod";
-		private const string CreatedDateName = "CreatedDate";
+        private const string NotePeriodName = "NotePeriod";
+        private const string CreatedDateName = "CreatedDate";
 
-		private static readonly string IcmNotePeriodDateFormat = IcmDateFormats.NotePeriod;
+        private static readonly string IcmNotePeriodDateFormat = IcmDateFormats.NotePeriod;
         private static readonly string NoteWrapperTimestampFormat = IcmDateFormats.BasicTimestamp;
         private static readonly string Separator = "────";
 
@@ -43,35 +43,35 @@ namespace VisitzModel.Models.Notes
         [Indexed]
         public string IcmId { get; set; }
 
-		[MapTo(NotePeriodName)]
-		private string NotePeriodField {  get; set; }
+        [MapTo(NotePeriodName)]
+        private string NotePeriodField { get; set; }
         public string NotePeriod
-		{
-			get => NotePeriodField;
-			set
-			{
-				NotePeriodField = value;
+        {
+            get => NotePeriodField;
+            set
+            {
+                NotePeriodField = value;
 
-				NotePeriodDateTime = value?.Length > 0
-					? DateTimeOffset.Parse(value)
-					: DateTimeOffset.MinValue;
-			}
-		}
+                NotePeriodDateTime = value?.Length > 0
+                    ? DateTimeOffset.Parse(value)
+                    : DateTimeOffset.MinValue;
+            }
+        }
 
-		[MapTo(CreatedDateName)]
-		private string CreatedDateField { get; set; }
-		public string CreatedDate
-		{
-			get => CreatedDateField;
-			set
-			{
-				CreatedDateField = value;
+        [MapTo(CreatedDateName)]
+        private string CreatedDateField { get; set; }
+        public string CreatedDate
+        {
+            get => CreatedDateField;
+            set
+            {
+                CreatedDateField = value;
 
-				CreatedDateTime = value?.Length > 0
-					? DateTimeOffset.Parse(value)
-					: DateTimeOffset.MinValue;
-			}
-		}
+                CreatedDateTime = value?.Length > 0
+                    ? DateTimeOffset.Parse(value)
+                    : DateTimeOffset.MinValue;
+            }
+        }
 
         public string Content { get; set; }
         public int PageNumber { get; set; }
@@ -112,42 +112,42 @@ namespace VisitzModel.Models.Notes
                 .Select((note, index) => FromApiEntity(icmId, note, index + 1));
         }
 
-		public static async Task UpsertNotesAsync(
-			Realm realm,
-			string entityId,
-			string entityType,
-			IEnumerable<NoteItem> newNotes)
-		{
-			if (entityType.ParseEntityType() == EntityType.Case)
-				// Case notes older <= 2012 may have a blank note period.
-				newNotes = SimulateNotePeriods(newNotes);
+        public static async Task UpsertNotesAsync(
+            Realm realm,
+            string entityId,
+            string entityType,
+            IEnumerable<NoteItem> newNotes)
+        {
+            if (entityType.ParseEntityType() == EntityType.Case)
+                // Case notes older <= 2012 may have a blank note period.
+                newNotes = SimulateNotePeriods(newNotes);
 
-			var currentNotes = GetNotesByEntityId(realm, entityId);
-			var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
+            var currentNotes = GetNotesByEntityId(realm, entityId);
+            var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
 
-			await realm.WriteAsync(() =>
-			{
-				foreach (var deletedNote in deletedNotes)
-					realm.Remove(deletedNote);
+            await realm.WriteAsync(() =>
+            {
+                foreach (var deletedNote in deletedNotes)
+                    realm.Remove(deletedNote);
 
-				realm.Add(newNotes, update: true);
-			});
-		}
+                realm.Add(newNotes, update: true);
+            });
+        }
 
-		static List<NoteItem> SimulateNotePeriods(IEnumerable<NoteItem> notes)
-		{
-			var simulatedPeriodNotes = notes.ToList();
+        static List<NoteItem> SimulateNotePeriods(IEnumerable<NoteItem> notes)
+        {
+            var simulatedPeriodNotes = notes.ToList();
 
-			foreach (var note in simulatedPeriodNotes)
-				if (string.IsNullOrWhiteSpace(note.NotePeriod))
-					note.NotePeriod = NotePeriodFrom(DateTimeOffset.Parse(note.CreatedDate));
+            foreach (var note in simulatedPeriodNotes)
+                if (string.IsNullOrWhiteSpace(note.NotePeriod))
+                    note.NotePeriod = NotePeriodFrom(DateTimeOffset.Parse(note.CreatedDate));
 
-			return simulatedPeriodNotes;
-		}
+            return simulatedPeriodNotes;
+        }
 
-		static string NoteSelector(NoteItem note) => note.FullID;
+        static string NoteSelector(NoteItem note) => note.FullID;
 
-		public static string NotePeriodFrom(DateTime dateTime)
+        public static string NotePeriodFrom(DateTime dateTime)
         {
             return NotePeriodFrom(new DateTimeOffset(dateTime));
         }

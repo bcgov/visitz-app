@@ -154,7 +154,7 @@ public partial class MemoRecord :
     public static List<MemoRecord> FromApiArray(IEnumerable<MemoJson> jsonArray)
     {
         List<MemoRecord> outList = [];
-        
+
         foreach (var jsonItem in jsonArray)
             outList.Add(new MemoRecord(jsonItem));
 

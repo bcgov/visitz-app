@@ -14,7 +14,7 @@ public partial class EntityContactsView : ViewModelContentView, ICaseloadItemHol
 
     public EntityContactsView() : base(ServiceProvider.GetService<EntityContactsViewModel>())
     {
-		InitializeComponent();
+        InitializeComponent();
         BindingContext = ViewModel;
-	}
+    }
 }

@@ -21,77 +21,77 @@ public partial class SafetyInterventions
     public bool DirectInterventionBinding
     {
         get => IsValid && DirectIntervention;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             DirectIntervention = value;
             if (value) SetChildRemoved(false);
         });
     }
-    
+
     public bool UseOfIndividualsBinding
     {
         get => IsValid && UseOfIndividuals;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             UseOfIndividuals = value;
             if (value) SetChildRemoved(false);
         });
     }
-    
+
     public bool UseCommAgenciesBinding
     {
         get => IsValid && UseCommAgencies;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             UseCommAgencies = value;
             if (value) SetChildRemoved(false);
         });
     }
-    
+
     public bool ProtectVictimBinding
     {
         get => IsValid && ProtectVictim;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             ProtectVictim = value;
             if (value) SetChildRemoved(false);
         });
     }
-    
+
     public bool LeaveHomeBinding
     {
         get => IsValid && LeaveHome;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             LeaveHome = value;
             if (value) SetChildRemoved(false);
         });
     }
-    
+
     public bool NonOffendingParentBinding
     {
         get => IsValid && NonOffendingParent;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             NonOffendingParent = value;
             if (value) SetChildRemoved(false);
         });
     }
-    
+
     public bool LegalIntPlannedBinding
     {
         get => IsValid && LegalIntPlanned;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             LegalIntPlanned = value;
             if (value) SetChildRemoved(false);
         });
     }
-    
+
     public bool OtherSafetyInterventionsBinding
     {
         get => IsValid && OtherSafetyInterventions;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             OtherSafetyInterventions = value;
             if (value) SetChildRemoved(false);
@@ -103,17 +103,17 @@ public partial class SafetyInterventions
         get => IsValid ? CmtSafetyInterventions : default;
         set => this.Commit(() => CmtSafetyInterventions = value);
     }
-    
+
     public bool ChildOutsideHomeBinding
     {
         get => IsValid && ChildOutsideHome;
-        set => this.Commit(() => 
+        set => this.Commit(() =>
         {
             ChildOutsideHome = value;
             if (value) SetChildRemoved(false);
         });
     }
-    
+
     public bool ChildRemovedBinding
     {
         get => IsValid && ChildRemoved;

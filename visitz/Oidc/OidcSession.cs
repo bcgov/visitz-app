@@ -51,9 +51,9 @@ namespace Oidc
             }
             finally
             {
-				bool success = !loginResult?.IsError ?? false;
+                bool success = !loginResult?.IsError ?? false;
 #if DEBUG
-				ConsoleTrace.TraceMethod(typeof(OidcSession),
+                ConsoleTrace.TraceMethod(typeof(OidcSession),
                     $"Login success: '{success}', Error: {loginResult.Error} -> '{loginResult.ErrorDescription}'");
 #endif
                 var info = await OidcSessionInfo.GetAsync();
@@ -108,16 +108,16 @@ namespace Oidc
             return logoutSuccess;
         }
 
-		public static async Task LocalLogoutAsync()
-		{
+        public static async Task LocalLogoutAsync()
+        {
 #if DEBUG
-			ConsoleTrace.TraceMethod(typeof(OidcSession), $"Local logout initiated");
+            ConsoleTrace.TraceMethod(typeof(OidcSession), $"Local logout initiated");
 #endif
-			await InvalidateSessionAsync();
+            await InvalidateSessionAsync();
 
-			var info = await OidcSessionInfo.GetAsync();
-			SessionChanged?.Invoke(info, new LogoutChangedEventArgs() { Success = true });
-		}
+            var info = await OidcSessionInfo.GetAsync();
+            SessionChanged?.Invoke(info, new LogoutChangedEventArgs() { Success = true });
+        }
 
         public static async Task<OidcSessionInfo> GetInfoAsync()
         {

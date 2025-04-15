@@ -26,7 +26,7 @@ public partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage()
             Dispose();
     }
 
-    protected virtual void OnCreated() 
+    protected virtual void OnCreated()
     {
         ConsoleTrace.TraceMethod(this);
 

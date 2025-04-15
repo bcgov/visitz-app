@@ -7,7 +7,7 @@ internal static class SimpleMockData
 {
     public static List<PersonVisit> MockPersonVisits(string parentId = "1-0000000")
     {
-        
+
         return [
             new()
             {

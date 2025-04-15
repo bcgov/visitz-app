@@ -49,10 +49,10 @@ namespace VisitzApi.Requests
 
         public abstract ResponseType HandleResponse(HttpResponseMessage response, string responseContent);
 
-		static string BuildMessage(HttpStatusCode code, string message)
-		{
-			return $"HTTP {(int)code} {code} {message}";
-		}
+        static string BuildMessage(HttpStatusCode code, string message)
+        {
+            return $"HTTP {(int)code} {code} {message}";
+        }
 
         protected Uri WithQueryParams(
             int? rowOffset = null,

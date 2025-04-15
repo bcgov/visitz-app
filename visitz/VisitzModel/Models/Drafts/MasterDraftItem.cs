@@ -4,21 +4,21 @@ namespace VisitzModel.Models.Drafts;
 
 public partial class MasterDraftItem : ObservableObject, IComparable<MasterDraftItem>
 {
-	[ObservableProperty]
-	public string name;
+    [ObservableProperty]
+    public string name;
 
-	[ObservableProperty]
-	public int count;
+    [ObservableProperty]
+    public int count;
 
-	public Type ItemType { get; set; }
+    public Type ItemType { get; set; }
 
-	public int CompareTo(MasterDraftItem other)
-	{
-		int nameComparison = Name.CompareTo(other.Name);
+    public int CompareTo(MasterDraftItem other)
+    {
+        int nameComparison = Name.CompareTo(other.Name);
 
-		if (nameComparison == 0)
-			return Count.CompareTo(other.Count);
-		else
-			return nameComparison;
-	}
+        if (nameComparison == 0)
+            return Count.CompareTo(other.Count);
+        else
+            return nameComparison;
+    }
 }

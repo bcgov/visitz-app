@@ -6,41 +6,41 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadItemView : ContentView
 {
-	public static readonly BindableProperty DraftedItemsProperty = BindableProperty.Create(
-		nameof(DraftedItems), typeof(HashSet<(string, EntityType)>), typeof(CaseloadItemView), propertyChanged: (boundObj, oldVal, newVal) =>
-		{
-			(boundObj as CaseloadItemView).OnBindingContextChanged();
-		});
+    public static readonly BindableProperty DraftedItemsProperty = BindableProperty.Create(
+        nameof(DraftedItems), typeof(HashSet<(string, EntityType)>), typeof(CaseloadItemView), propertyChanged: (boundObj, oldVal, newVal) =>
+        {
+            (boundObj as CaseloadItemView).OnBindingContextChanged();
+        });
 
-	public HashSet<(string, EntityType)> DraftedItems
-	{
-		get => (HashSet<(string, EntityType)>)GetValue(DraftedItemsProperty);
-		set => SetValue(DraftedItemsProperty, value);
-	}
+    public HashSet<(string, EntityType)> DraftedItems
+    {
+        get => (HashSet<(string, EntityType)>)GetValue(DraftedItemsProperty);
+        set => SetValue(DraftedItemsProperty, value);
+    }
 
-	public CaseloadItemView()
-	{
-		InitializeComponent();
-	}
+    public CaseloadItemView()
+    {
+        InitializeComponent();
+    }
 
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
 
         if (BindingContext is CaseloadItem item && item.IsValid)
-			ApplyCaseloadItem(item);
+            ApplyCaseloadItem(item);
     }
 
-	private void ApplyCaseloadItem(CaseloadItem item)
-	{
-		OpenDateLabel.IsVisible = item.DisplayDate?.Length > 0;
+    private void ApplyCaseloadItem(CaseloadItem item)
+    {
+        OpenDateLabel.IsVisible = item.DisplayDate?.Length > 0;
 
-		if (DraftedItems != null)
-		{
-			var v1Tuple = (item.CaseIncidentNumber, item.EntityType.ParseEntityType()); // TODO Remove when fully on V2
+        if (DraftedItems != null)
+        {
+            var v1Tuple = (item.CaseIncidentNumber, item.EntityType.ParseEntityType()); // TODO Remove when fully on V2
             var v2Tuple = (item.RowId, item.EntityType.ParseEntityType());
 
             DraftIndicator.IsVisible = DraftedItems.Contains(v1Tuple) || DraftedItems.Contains(v2Tuple);
-		}
-	}
+        }
+    }
 }

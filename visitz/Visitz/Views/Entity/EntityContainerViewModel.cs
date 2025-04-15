@@ -14,14 +14,14 @@ public partial class EntityContainerViewModel : VisitzViewModel, ICaseloadItemHo
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 
-	[ObservableProperty]
-	public Color entityTypeTextColor;
+    [ObservableProperty]
+    public Color entityTypeTextColor;
 
-	partial void OnCaseloadItemChanged(CaseloadItem oldValue, CaseloadItem newValue)
-	{
-		if (newValue != null && newValue.EntityType.TryParseEntityType(out EntityType type))
-			EntityTypeTextColor = type.GetTextColor();
-		else
-			EntityTypeTextColor = VisitzColors.BC_TextColor;
-	}
+    partial void OnCaseloadItemChanged(CaseloadItem oldValue, CaseloadItem newValue)
+    {
+        if (newValue != null && newValue.EntityType.TryParseEntityType(out EntityType type))
+            EntityTypeTextColor = type.GetTextColor();
+        else
+            EntityTypeTextColor = VisitzColors.BC_TextColor;
+    }
 }

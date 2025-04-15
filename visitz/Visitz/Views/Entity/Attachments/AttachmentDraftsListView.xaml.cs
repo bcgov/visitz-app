@@ -11,55 +11,55 @@ public partial class AttachmentDraftsListView : ViewModelContentView, ICaseloadI
 {
     new AttachmentDraftsListViewModel ViewModel => base.ViewModel as AttachmentDraftsListViewModel;
 
-	public CaseloadItem CaseloadItem
-	{
-		get => ViewModel.CaseloadItem;
-		set => ViewModel.CaseloadItem = value;
-	}
+    public CaseloadItem CaseloadItem
+    {
+        get => ViewModel.CaseloadItem;
+        set => ViewModel.CaseloadItem = value;
+    }
 
-	public IDraftItem FocusedDraftItem { get; set; }
+    public IDraftItem FocusedDraftItem { get; set; }
 
-	readonly TaskCompletionSource loadingTcs = new();
+    readonly TaskCompletionSource loadingTcs = new();
 
-	public AttachmentDraftsListView() : base(ServiceProvider.GetService<AttachmentDraftsListViewModel>())
-	{
-		InitializeComponent();
-		BindingContext = ViewModel;
+    public AttachmentDraftsListView() : base(ServiceProvider.GetService<AttachmentDraftsListViewModel>())
+    {
+        InitializeComponent();
+        BindingContext = ViewModel;
 
-		Loaded += AttachmentDraftsListView_Loaded;
-	}
+        Loaded += AttachmentDraftsListView_Loaded;
+    }
 
-	private void AttachmentDraftsListView_Loaded(object sender, EventArgs e)
-	{
-		loadingTcs.TrySetResult();
-	}
+    private void AttachmentDraftsListView_Loaded(object sender, EventArgs e)
+    {
+        loadingTcs.TrySetResult();
+    }
 
-	protected override async void Creating()
-	{
-		base.Creating();
+    protected override async void Creating()
+    {
+        base.Creating();
 
-		await Task.WhenAll(loadingTcs.Task, ViewModel.attachmentsLoadedTcs.Task);
+        await Task.WhenAll(loadingTcs.Task, ViewModel.attachmentsLoadedTcs.Task);
 
-		TryNavigateToFocusDraft();
-	}
+        TryNavigateToFocusDraft();
+    }
 
-	void TryNavigateToFocusDraft()
-	{
-		if (FocusedDraftItem == null)
-			return;
+    void TryNavigateToFocusDraft()
+    {
+        if (FocusedDraftItem == null)
+            return;
 
-		var draft = ViewModel.AttachmentDrafts.FirstOrDefault(draftItem =>
-			draftItem.Preview == FocusedDraftItem.Preview
-			&& draftItem.LastUpdated == FocusedDraftItem.LastUpdated);
+        var draft = ViewModel.AttachmentDrafts.FirstOrDefault(draftItem =>
+            draftItem.Preview == FocusedDraftItem.Preview
+            && draftItem.LastUpdated == FocusedDraftItem.LastUpdated);
 
-		ScrollToDraft(draft);
-		ViewModel.OpenAttachment(draft);
+        ScrollToDraft(draft);
+        ViewModel.OpenAttachment(draft);
 
-		FocusedDraftItem = null;
-	}
+        FocusedDraftItem = null;
+    }
 
-	void ScrollToDraft(AttachmentDraft draft)
-	{
-		DraftsCollection.ScrollTo(draft, position: ScrollToPosition.Center);
-	}
+    void ScrollToDraft(AttachmentDraft draft)
+    {
+        DraftsCollection.ScrollTo(draft, position: ScrollToPosition.Center);
+    }
 }

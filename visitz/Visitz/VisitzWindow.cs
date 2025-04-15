@@ -5,22 +5,22 @@ namespace Visitz;
 
 public partial class VisitzWindow : Window
 {
-	public VisitzWindow() { }
+    public VisitzWindow() { }
 
-	public VisitzWindow(Page page) : base(page) { }
+    public VisitzWindow(Page page) : base(page) { }
 
-	protected async override void OnCreated()
-	{
-		base.OnCreated();
+    protected async override void OnCreated()
+    {
+        base.OnCreated();
 
 #if WINDOWS
-		ApplyDefaultWindowLayout(this);
+        ApplyDefaultWindowLayout(this);
 #endif
 
-		await SessionPage.TryOpenAsync(modal: true, animated: false);
+        await SessionPage.TryOpenAsync(modal: true, animated: false);
 
-		await AppLockPage.TryPrompt(promptOnAppearing: true);
-	}
+        await AppLockPage.TryPrompt(promptOnAppearing: true);
+    }
 
     protected async override void OnStopped()
     {
@@ -30,7 +30,7 @@ public partial class VisitzWindow : Window
     }
 
 #if WINDOWS
-	private static partial Window ApplyDefaultWindowLayout(Window window);
+    private static partial Window ApplyDefaultWindowLayout(Window window);
 #endif
 
 }

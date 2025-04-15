@@ -6,5 +6,5 @@ public class ContactInfoSettings
 
     public string AccessRequestFormUrl { get; set; }
 
-	public string FeedbackSurveyUrl { get; set; }
+    public string FeedbackSurveyUrl { get; set; }
 }

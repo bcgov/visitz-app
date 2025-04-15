@@ -14,76 +14,76 @@ namespace Visitz.Views.Entity.Attachments;
 
 internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
-	AttachmentDraft attachmentDraft;
+    AttachmentDraft attachmentDraft;
 
-	public AttachmentDraft AttachmentDraft
-	{
-		set
-		{
-			attachmentDraft = value;
+    public AttachmentDraft AttachmentDraft
+    {
+        set
+        {
+            attachmentDraft = value;
 
-			Title = AttachmentName;
-		}
-	}
+            Title = AttachmentName;
+        }
+    }
 
-	SubmitAttachmentEntity submitEntity;
+    SubmitAttachmentEntity submitEntity;
 
-	string AttachmentName => attachmentDraft.Attachment.Filename;
+    string AttachmentName => attachmentDraft.Attachment.Filename;
 
-	public AttachmentFiler AttachmentFiler { get; set; }
+    public AttachmentFiler AttachmentFiler { get; set; }
 
-	public override async void Create()
-	{
-		base.Create();
+    public override async void Create()
+    {
+        base.Create();
 
-		var converter = TryMakeImageToPdfConverter(attachmentDraft);
-		submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler, converter);
-		
-		WeakReferenceMessenger.Default.Register(this, SubmitAttachmentService.MakeId(submitEntity));
+        var converter = TryMakeImageToPdfConverter(attachmentDraft);
+        submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler, converter);
 
-		Wait(LocalizedStrings.LoginToSubmitAttachment);
+        WeakReferenceMessenger.Default.Register(this, SubmitAttachmentService.MakeId(submitEntity));
 
-		Publish();
-	}
+        Wait(LocalizedStrings.LoginToSubmitAttachment);
 
-	public override void Destroy()
-	{
-		base.Destroy();
+        Publish();
+    }
 
-		WeakReferenceMessenger.Default.UnregisterAll(this);
-	}
+    public override void Destroy()
+    {
+        base.Destroy();
 
-	public override void Publish()
-	{
-		var startMessage = SubmitAttachmentService.MakeStartMessage(submitEntity);
-		WeakReferenceMessenger.Default.Send(startMessage);
-	}
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+    }
 
-	public async void Receive(ServiceStateMessage message)
-	{
-		if (message.Status == VisitzService.State.Running)
-			Publishing(LocalizedStrings.PublishingAttachmentToIcm.Format(AttachmentName));
-		else if (message.FinishedSuccess)
-		{
-			Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
-			await DiscardAttachmentDraft();
-			Complete();
-		}
-		else if (message.FinishedCancelled)
-			Cancel(LocalizedStrings.LoginToSubmitAttachment);
-		else if (message.FinishedError)
-			PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
-	}
+    public override void Publish()
+    {
+        var startMessage = SubmitAttachmentService.MakeStartMessage(submitEntity);
+        WeakReferenceMessenger.Default.Send(startMessage);
+    }
 
-	async Task DiscardAttachmentDraft()
-	{
-		await attachmentDraft.Attachment.DeleteAsync();
-	}
+    public async void Receive(ServiceStateMessage message)
+    {
+        if (message.Status == VisitzService.State.Running)
+            Publishing(LocalizedStrings.PublishingAttachmentToIcm.Format(AttachmentName));
+        else if (message.FinishedSuccess)
+        {
+            Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
+            await DiscardAttachmentDraft();
+            Complete();
+        }
+        else if (message.FinishedCancelled)
+            Cancel(LocalizedStrings.LoginToSubmitAttachment);
+        else if (message.FinishedError)
+            PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
+    }
 
-	static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
-	{
-		return Attachment.AllowedImageTypes.Contains(attachmentDraft.Attachment.Extension)
-			? new ImagePdfStreamConverter(attachmentDraft.Attachment.Filename, DisplayOrientation.Unknown)
-			: null;
-	}
+    async Task DiscardAttachmentDraft()
+    {
+        await attachmentDraft.Attachment.DeleteAsync();
+    }
+
+    static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
+    {
+        return Attachment.AllowedImageTypes.Contains(attachmentDraft.Attachment.Extension)
+            ? new ImagePdfStreamConverter(attachmentDraft.Attachment.Filename, DisplayOrientation.Unknown)
+            : null;
+    }
 }

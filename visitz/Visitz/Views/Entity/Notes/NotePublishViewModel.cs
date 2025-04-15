@@ -22,7 +22,7 @@ namespace Visitz.Views.Entity.Notes
         public void Init(CaseloadItem caseloadItem, SubmitNoteEntity submitNote)
         {
             Title = caseloadItem.DisplayName;
-			submitNoteEntity = submitNote;
+            submitNoteEntity = submitNote;
 
             var id = caseloadItem.CaseIncidentNumber;
             var notePeriod = submitNoteEntity.NotePeriod;
