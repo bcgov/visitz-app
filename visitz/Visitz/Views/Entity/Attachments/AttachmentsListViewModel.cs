@@ -147,4 +147,10 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         else
             throw new InvalidOperationException(nameof(CaseloadItem));
     }
+
+    [RelayCommand]
+    public async Task OpenAttachment(AttachmentsListItemUi listItem)
+    {
+
+    }
 }
