@@ -13,8 +13,11 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.Entity.Attachments;
+
+#nullable enable
 
 internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItemHolder
 {
@@ -26,7 +29,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     public ObservableCollection<AttachmentsListItemUi> attachmentsList = [];
 
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public CaseloadItem? caseloadItem;
 
     protected override async Task InitAsync()
     {
@@ -35,7 +38,13 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-        realmQuery.Subscribe(icmDataRealm, Attachment.GetOrderedAttachments(icmDataRealm, CaseloadItem.EntityType.ParseEntityType(), CaseloadItem.RowId));
+        if (CaseloadItem == null)
+            throw new InvalidOperationException(nameof(CaseloadItem));
+
+        realmQuery.Subscribe(icmDataRealm, Attachment.GetOrderedAttachments(
+            icmDataRealm,
+            CaseloadItem.EntityType.ParseEntityType(),
+            CaseloadItem.RowId));
     }
 
     protected override void Dispose(bool disposing)
@@ -53,7 +62,10 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         base.Dispose(disposing);
     }
 
-    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(object? sender,
+        (Type Type,
+        IRealmCollection<IRealmObject> Items,
+        ChangeSet Changes) e)
     {
         if (e.Type == typeof(Attachment))
             UpdateAttachmentsList(e.Items, e.Changes);
@@ -64,10 +76,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         if (changes == null)
         {
             foreach (var item in items)
-                AttachmentsList.Add(new AttachmentsListItemUi(
-                    CaseloadItem.EntityType.ParseEntityType(),
-                    CaseloadItem.RowId,
-                    item as Attachment));
+                AttachmentsList.Add(MakeItemUi(item as Attachment));
         }
         else
         {
@@ -78,17 +87,19 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
             }
 
             foreach (int modified in changes.ModifiedIndices)
-                AttachmentsList[modified] = new AttachmentsListItemUi(
-                    CaseloadItem.EntityType.ParseEntityType(),
-                    CaseloadItem.RowId,
-                    items[modified] as Attachment);
+                AttachmentsList[modified] = MakeItemUi(items[modified] as Attachment);
 
             foreach (int inserted in changes.InsertedIndices)
-                AttachmentsList.Insert(inserted, new AttachmentsListItemUi(
-                    CaseloadItem.EntityType.ParseEntityType(),
-                    CaseloadItem.RowId,
-                    items[inserted] as Attachment));
+                AttachmentsList.Insert(inserted, MakeItemUi(items[inserted] as Attachment));
         }
+    }
+
+    AttachmentsListItemUi MakeItemUi(Attachment? attachment)
+    {
+        return new AttachmentsListItemUi(
+            CaseloadItem?.EntityType.ParseEntityType() ?? EntityType.Unknown,
+            CaseloadItem?.RowId,
+            attachment);
     }
 
     [RelayCommand]
@@ -108,24 +119,32 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         if (shouldRemove)
         {
             item.Attachment.RemoveFileFromDevice();
-            string removedText = string.Format(LocalizedStrings.RemovedAttachmentFromDevice, item.Attachment.Filename);
+            string removedText = string.Format(
+                LocalizedStrings.RemovedAttachmentFromDevice,
+                item.Attachment.Filename);
             SnackbarHandler.ShowText(removedText);
         }
     }
 
     [RelayCommand]
-    public void DownloadAttachmentForDevice(AttachmentsListItemUi item)
+    public void DownloadAttachmentForDevice(AttachmentsListItemUi listItem)
     {
-        var recordServiceInfo = new RecordServiceInfo(
-            CaseloadItem.EntityType.ParseEntityType(),
-            CaseloadItem.RowId,
-            CaseloadItem.CaseIncidentNumber,
-            CaseloadItem.KeyPlayer.FirstName,
-            CaseloadItem.KeyPlayer.LastName);
-        var attachmentId = item.Attachment.Id;
-        var force = true;
+        if (CaseloadItem is CaseloadItem item)
+        {
+            var recordServiceInfo = new RecordServiceInfo(
+                item.EntityType.ParseEntityType(),
+                item.RowId,
+                item.CaseIncidentNumber,
+                item.KeyPlayer.FirstName,
+                item.KeyPlayer.LastName);
+            var attachmentId = listItem.Attachment.Id;
+            var force = true;
 
-        var tuple = (recordServiceInfo, attachmentId, force);
-        WeakReferenceMessenger.Default.Send(GetAttachmentContentService.MakeStartMessage(tuple));
+            var tuple = (recordServiceInfo, attachmentId, force);
+            var msg = GetAttachmentContentService.MakeStartMessage(tuple);
+            WeakReferenceMessenger.Default.Send(msg);
+        }
+        else
+            throw new InvalidOperationException(nameof(CaseloadItem));
     }
 }
