@@ -27,9 +27,9 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
 
     AttachmentFiler attachmentFiler;
 
-    public override async void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
         attachmentFiler = await VisitzFiles.GetAsync(
             CaseloadItem.EntityType.ParseEntityType(),
