@@ -4,22 +4,22 @@ namespace Visitz;
 
 public class Program
 {
-	// This is the main entry point of the application.
-	static void Main(string[] args)
-	{
-		// if you want to use a different Application Delegate class from "AppDelegate"
-		// you can specify it here.
-		try
-		{
-			UIApplication.Main(args, null, typeof(AppDelegate));
-		}
-		catch (Exception ex)
-		{
+    // This is the main entry point of the application.
+    static void Main(string[] args)
+    {
+        // if you want to use a different Application Delegate class from "AppDelegate"
+        // you can specify it here.
+        try
+        {
+            UIApplication.Main(args, null, typeof(AppDelegate));
+        }
+        catch (Exception ex)
+        {
 #if DEBUG
-			Console.WriteLine(ex.StackTrace);
+            Console.WriteLine(ex.StackTrace);
 #endif
-			throw;
-		}
-	}
+            throw;
+        }
+    }
 }
 

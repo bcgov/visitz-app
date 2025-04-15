@@ -33,6 +33,6 @@ public class SubmitSafetyAssessmentJson
 
     public void AddChildContactId(string childContactid)
     {
-        ChildsInOutCare.Add(new ChildId {  ChildContactId = childContactid });
+        ChildsInOutCare.Add(new ChildId { ChildContactId = childContactid });
     }
 }

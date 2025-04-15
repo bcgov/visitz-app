@@ -2,7 +2,6 @@ using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 

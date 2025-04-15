@@ -17,7 +17,7 @@ public partial class AppLockPage : VisitzPage
 
     static bool ShouldSkipAppLock
     {
-        get 
+        get
         {
             bool debugSkipActive = false;
             bool isWindows = false;

@@ -23,10 +23,10 @@ namespace Visitz.Services
         private VisitzService MakeAndTrackService(StartServiceMessage startMessage)
         {
             var service = (VisitzService)ServiceProvider.Current.GetRequiredService(startMessage.ServiceType);
-            
+
             Services[startMessage.ServiceId] = service;
             service.Payload = startMessage.Payload;
-            
+
             return service;
         }
 
@@ -66,7 +66,7 @@ namespace Visitz.Services
 #if DEBUG
             catch (Exception ex)
             {
-				ConsoleTrace.TraceMethod(this, ex);
+                ConsoleTrace.TraceMethod(this, ex);
 
                 throw;
             }
@@ -79,8 +79,8 @@ namespace Visitz.Services
 
         public VisitzService.State GetServiceState(string serviceId)
         {
-            return Services.TryGetValue(serviceId, out VisitzService service) 
-                ? service.Status 
+            return Services.TryGetValue(serviceId, out VisitzService service)
+                ? service.Status
                 : VisitzService.State.Stopped;
         }
     }

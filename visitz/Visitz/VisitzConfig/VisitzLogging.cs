@@ -1,8 +1,8 @@
 ﻿using MetroLog.MicrosoftExtensions;
 using Microsoft.Extensions.Logging;
-using MicrosoftLogLevel = Microsoft.Extensions.Logging.LogLevel;
-using MetroLogLevel = MetroLog.LogLevel;
 using Visitz.Storage;
+using MetroLogLevel = MetroLog.LogLevel;
+using MicrosoftLogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 #if WINDOWS
 using Visitz.Platforms.Windows.Visitz.Storage;

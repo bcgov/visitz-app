@@ -82,7 +82,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public string TeamLeaderLoginName { get; set; } = string.Empty;
 
-    public string Type {  get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty;
 
     public static SafetyAssessment FromApiJson(string fileNumber, SafetyAsessmentJson json)
     {

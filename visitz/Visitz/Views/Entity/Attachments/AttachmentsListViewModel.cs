@@ -1,18 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using System.Collections.ObjectModel;
-using Visitz.Storage;
-using VisitzModel.Interfaces;
-using VisitzModel.Models;
 using Visitz.Resources.Localization;
+using Visitz.Services;
+using Visitz.Services.Attachments;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Interfaces;
+using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
-using Visitz.Services.Attachments;
-using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Services;
 
 namespace Visitz.Views.Entity.Attachments;
 

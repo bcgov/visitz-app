@@ -11,13 +11,13 @@ public class PascalWhitespaceNamingPolicyTests
 
         public string APascalName { get; set; } = string.Empty;
 
-        public string ABC {  get; set; } = string.Empty;
+        public string ABC { get; set; } = string.Empty;
 
         public string PascalInfix123Numbers { get; set; } = string.Empty;
 
-        public string PascalInFIXInitialism {  get; set; } = string.Empty;
+        public string PascalInFIXInitialism { get; set; } = string.Empty;
 
-        public string Word {  get; set; } = string.Empty;
+        public string Word { get; set; } = string.Empty;
     }
 
     const string someString = "some String";

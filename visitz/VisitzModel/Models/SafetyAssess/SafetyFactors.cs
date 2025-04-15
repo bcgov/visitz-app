@@ -8,15 +8,15 @@ namespace VisitzModel.Models.SafetyAssess;
 public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJson>
 {
     public bool? PhysicalHarm { get; set; }
-        
+
     public bool SeriousInjuryAbuse { get; set; }
-        
+
     public bool FearsMaltreatChild { get; set; }
-        
+
     public bool ThreatAgainstChild { get; set; }
-        
+
     public bool ExcessiveForce { get; set; }
-        
+
     public bool SubsExposedInfant { get; set; }
 
     public string CmtClarification { get; set; } = string.Empty;

@@ -6,8 +6,8 @@ namespace Visitz.Views.SegmentedButtons;
 
 public partial class SegmentedButtonsView : BaseContentView
 {
-	public static readonly BindableProperty OptionsProperty = 
-		BindableProperty.Create(nameof(Options), typeof(IEnumerable<SegmentedOptions>), typeof(SegmentedButtonsView));
+    public static readonly BindableProperty OptionsProperty =
+        BindableProperty.Create(nameof(Options), typeof(IEnumerable<SegmentedOptions>), typeof(SegmentedButtonsView));
 
     public static readonly BindableProperty ColorProperty =
         BindableProperty.Create(nameof(Color), typeof(Color), typeof(SegmentedButtonsView));
@@ -26,7 +26,7 @@ public partial class SegmentedButtonsView : BaseContentView
         BindableProperty.Create(nameof(TapGestureCannotDeactivateItem), typeof(bool), typeof(SegmentedButtonsView));
 
     public static readonly BindableProperty ActivatedOptionProperty =
-        BindableProperty.Create(nameof(ActivatedOption), typeof(SegmentedOptions), typeof(SegmentedButtonsView), 
+        BindableProperty.Create(nameof(ActivatedOption), typeof(SegmentedOptions), typeof(SegmentedButtonsView),
             defaultBindingMode: BindingMode.TwoWay, propertyChanged: (bound, oldVal, newVal) =>
             {
                 var segmentedView = (SegmentedButtonsView)bound;
@@ -45,16 +45,16 @@ public partial class SegmentedButtonsView : BaseContentView
         BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(SegmentedButtonsView));
 
     public IEnumerable<SegmentedOptions> Options
-	{
-		get => (IEnumerable<SegmentedOptions>)GetValue(OptionsProperty);
-		set => SetValue(OptionsProperty, value);
-	}
+    {
+        get => (IEnumerable<SegmentedOptions>)GetValue(OptionsProperty);
+        set => SetValue(OptionsProperty, value);
+    }
 
-	public Color Color
-	{
-		get => (Color)GetValue(ColorProperty);
-		set => SetValue(ColorProperty, value);
-	}
+    public Color Color
+    {
+        get => (Color)GetValue(ColorProperty);
+        set => SetValue(ColorProperty, value);
+    }
 
     public Color ActivatedBackgroundColor
     {
@@ -99,9 +99,9 @@ public partial class SegmentedButtonsView : BaseContentView
     private ActivatableTagView lastTagActivated;
 
     public SegmentedButtonsView()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     private SegmentedOptions GetPairedOptions(ActivatableTagView tagView)
     {
@@ -116,7 +116,7 @@ public partial class SegmentedButtonsView : BaseContentView
 
         int optionIndex = -1;
 
-        for (int i = 0; i < Options.Count();  i++)
+        for (int i = 0; i < Options.Count(); i++)
         {
             if (Options.ElementAt(i) == option)
             {
@@ -125,8 +125,8 @@ public partial class SegmentedButtonsView : BaseContentView
             }
         }
 
-        return optionIndex == -1 
-            ? null 
+        return optionIndex == -1
+            ? null
             : (ActivatableTagView)Items.Children[optionIndex];
     }
 

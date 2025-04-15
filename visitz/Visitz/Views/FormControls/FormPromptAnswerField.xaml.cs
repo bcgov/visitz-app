@@ -3,7 +3,7 @@ namespace Visitz.Views.FormControls;
 public partial class FormPromptAnswerField : ContentView
 {
     public static readonly BindableProperty RadioButtonGroupNameProperty =
-        BindableProperty.Create(nameof(RadioButtonGroupName), typeof(string), typeof(FormPromptAnswerField)); 
+        BindableProperty.Create(nameof(RadioButtonGroupName), typeof(string), typeof(FormPromptAnswerField));
 
     public static readonly BindableProperty QuestionPromptProperty =
         BindableProperty.Create(nameof(QuestionPrompt), typeof(string), typeof(FormPromptAnswerField));
@@ -105,11 +105,11 @@ public partial class FormPromptAnswerField : ContentView
     }
 
     public FormPromptAnswerField()
-	{
+    {
         RadioButtonGroupName = $"G{Guid.NewGuid():N}";
 
-		InitializeComponent();
-	}
+        InitializeComponent();
+    }
 
     private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {

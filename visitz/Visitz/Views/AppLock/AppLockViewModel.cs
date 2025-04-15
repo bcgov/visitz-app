@@ -8,7 +8,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Views.AppLock
 {
-	public partial class AppLockViewModel() : VisitzViewModel
+    public partial class AppLockViewModel() : VisitzViewModel
     {
         public static async Task PromptAuthentication()
         {

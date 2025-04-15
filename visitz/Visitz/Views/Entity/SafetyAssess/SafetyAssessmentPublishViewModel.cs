@@ -14,7 +14,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 {
     private SafetyAssessment assessment;
 
-    public SafetyAssessment Assessment 
+    public SafetyAssessment Assessment
     {
         get => assessment;
         set

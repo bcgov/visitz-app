@@ -115,24 +115,24 @@ public class DebugOptions
             await (await VisitzRealms.GetSafetyAssessmentDraftAsync()).ClearAllData();
     }
 
-	public static async Task ClearAttachmentDraftsRealm()
-	{
-		if (Enabled)
-		{
-			await (await VisitzRealms.GetAttachmentDraftsAsync()).ClearAllData();
+    public static async Task ClearAttachmentDraftsRealm()
+    {
+        if (Enabled)
+        {
+            await (await VisitzRealms.GetAttachmentDraftsAsync()).ClearAllData();
 
-			string attachmentsPath = Path.Join(FileSystem.AppDataDirectory, "Attachments");
+            string attachmentsPath = Path.Join(FileSystem.AppDataDirectory, "Attachments");
 
-			if (Directory.Exists(attachmentsPath))
-				Directory.Delete(attachmentsPath, true);
-		}
-	}
+            if (Directory.Exists(attachmentsPath))
+                Directory.Delete(attachmentsPath, true);
+        }
+    }
 
-	public static async Task Load620bTestingRecords()
+    public static async Task Load620bTestingRecords()
     {
         await using var json = await FileSystem.OpenAppPackageFileAsync(Path.Join("MockIcmData", "620b.json"));
 
-        var opts = new JsonSerializerOptions() 
+        var opts = new JsonSerializerOptions()
         {
             PropertyNameCaseInsensitive = true,
             PreferredObjectCreationHandling = System.Text.Json.Serialization.JsonObjectCreationHandling.Populate
@@ -144,50 +144,50 @@ public class DebugOptions
         await realm.WriteAsync(() => realm.Add(caseload, update: true));
     }
 
-	public static void OpenAppDataDirectory()
-	{
+    public static void OpenAppDataDirectory()
+    {
 #if WINDOWS || MACCATALYST
-		if (Enabled)
-			Process.Start("explorer.exe", FileSystem.AppDataDirectory);
+        if (Enabled)
+            Process.Start("explorer.exe", FileSystem.AppDataDirectory);
 #endif
-	}
+    }
 
-	public static void OpenCacheDirectory()
-	{
+    public static void OpenCacheDirectory()
+    {
 #if WINDOWS || MACCATALYST
-		if (Enabled)
-			Process.Start("explorer.exe", FileSystem.CacheDirectory);
+        if (Enabled)
+            Process.Start("explorer.exe", FileSystem.CacheDirectory);
 #endif
-	}
+    }
 
-	static string ListFilesRecursively(string path)
-	{
-		string[] files = Directory.GetFileSystemEntries(path, "**", new EnumerationOptions()
-		{
-			RecurseSubdirectories = true,
-		});
+    static string ListFilesRecursively(string path)
+    {
+        string[] files = Directory.GetFileSystemEntries(path, "**", new EnumerationOptions()
+        {
+            RecurseSubdirectories = true,
+        });
 
-		StringBuilder filesOut = new();
+        StringBuilder filesOut = new();
 
-		filesOut.AppendLine($"Files in '{path}':");
-		foreach (var file in files)
-			filesOut.AppendLine(file);
-		filesOut.AppendLine("-------");
+        filesOut.AppendLine($"Files in '{path}':");
+        foreach (var file in files)
+            filesOut.AppendLine(file);
+        filesOut.AppendLine("-------");
 
-		return filesOut.ToString();
-	}
+        return filesOut.ToString();
+    }
 
-	public static string ListDocumentsFiles()
-	{
+    public static string ListDocumentsFiles()
+    {
 #if WINDOWS
-		string path = FileSystem.AppDataDirectory;
+        string path = FileSystem.AppDataDirectory;
 #else
-		string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 #endif
-		return Enabled
-			? ListFilesRecursively(path)
-			: string.Empty;
-	}
+        return Enabled
+            ? ListFilesRecursively(path)
+            : string.Empty;
+    }
 
     public static void ClearSecureStorage()
     {
@@ -209,7 +209,7 @@ public class DebugOptions
     static Dictionary<string, string> GetAllValuesFrom(ApplicationDataContainer container)
     {
         Dictionary<string, string> result = [];
-        
+
         foreach (var key in container.Values.Keys)
             result[$"({container.Name}), Key '{key}'"] = container.Values[key]?.ToString();
 

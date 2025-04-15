@@ -26,8 +26,8 @@ public static class MauiProgram
         builder
             .UseMauiApp<VisitzApp>()
             .UseMauiCommunityToolkit()
-			.UseMauiCommunityToolkitCamera()
-			.ConfigureEssentials(essentials =>
+            .UseMauiCommunityToolkitCamera()
+            .ConfigureEssentials(essentials =>
             {
                 essentials.UseVersionTracking();
             })
@@ -41,7 +41,7 @@ public static class MauiProgram
             .ConfigureVisitzLogging()
             .ConfigureVisitzScreens()
             .ConfigureVisitzApiServices()
-			.ConfigureVisitzUtilities();
+            .ConfigureVisitzUtilities();
 
         VisitzDebugOptions.ConfigureVisitzDebugOptions();
 

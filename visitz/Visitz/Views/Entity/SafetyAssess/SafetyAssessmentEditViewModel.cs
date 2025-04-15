@@ -152,7 +152,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     private async Task SetupAssessmentDraft()
     {
         DraftItem = null;
-        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber) 
+        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber)
             ?? await MakeNewSafetyAssessment();
 
         await TryAssociateDraftItem();
@@ -187,8 +187,8 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
 
     private bool IsSelectedChildrenValid()
     {
-        return Decisions.Decision != SafetyDecisionOption.Unsafe 
-            || Decisions.DecisionUnsafe != SafetyDecisions.SomeChildrenPlaced 
+        return Decisions.Decision != SafetyDecisionOption.Unsafe
+            || Decisions.DecisionUnsafe != SafetyDecisions.SomeChildrenPlaced
             || Assessment.ChildsInOutCare.Any();
     }
 

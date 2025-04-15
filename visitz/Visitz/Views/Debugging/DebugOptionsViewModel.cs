@@ -49,11 +49,11 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 
     readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
-	[ObservableProperty]
-	public DateTime caseloadLastUpdated;
+    [ObservableProperty]
+    public DateTime caseloadLastUpdated;
 
-	[ObservableProperty]
-	public DateTime maxDate = DateTimeExtensions.LocalNow;
+    [ObservableProperty]
+    public DateTime maxDate = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
     public string mockPersonVisitsParentId;
@@ -86,7 +86,7 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         ApiDomain = settings.Api.ApiDomain;
         AuthenticationDomain = settings.Oidc.AuthenticationDomain;
 
-		CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
+        CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
     }
 
     partial void OnDryFireSubmitNotesChanged(bool value)
@@ -150,13 +150,13 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         await DebugOptions.ClearSafetyAssessmentDraftsRealm();
     }
 
-	[RelayCommand]
-	public static async Task ClearAttachmentDraft()
-	{
-		await DebugOptions.ClearAttachmentDraftsRealm();
-	}
+    [RelayCommand]
+    public static async Task ClearAttachmentDraft()
+    {
+        await DebugOptions.ClearAttachmentDraftsRealm();
+    }
 
-	[RelayCommand]
+    [RelayCommand]
     public static async Task Load620bData()
     {
         try
@@ -176,29 +176,29 @@ public partial class DebugOptionsViewModel : VisitzViewModel
             await OidcSession.LogoutAsync();
     }
 
-	[RelayCommand]
-	public static void ClearFeedbackSurveyPrefs()
-	{
-		new SurveyFeedbackTracker(Preferences.Default).ClearAll();
-	}
+    [RelayCommand]
+    public static void ClearFeedbackSurveyPrefs()
+    {
+        new SurveyFeedbackTracker(Preferences.Default).ClearAll();
+    }
 
-	[RelayCommand]
-	public void ApplyCaseloadLastUpdated()
-	{
-		lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
-	}
+    [RelayCommand]
+    public void ApplyCaseloadLastUpdated()
+    {
+        lastUpdatedPrefs.Set(GetCaseloadService.MakeId(), CaseloadLastUpdated);
+    }
 
-	[RelayCommand]
-	public static void OpenAppDataDirectory()
-	{
-		DebugOptions.OpenAppDataDirectory();
-	}
+    [RelayCommand]
+    public static void OpenAppDataDirectory()
+    {
+        DebugOptions.OpenAppDataDirectory();
+    }
 
-	[RelayCommand]
-	public static void OpenCacheDirectory()
-	{
-		DebugOptions.OpenCacheDirectory();
-	}
+    [RelayCommand]
+    public static void OpenCacheDirectory()
+    {
+        DebugOptions.OpenCacheDirectory();
+    }
 
     [RelayCommand]
     public static void ClearSecureStorage()

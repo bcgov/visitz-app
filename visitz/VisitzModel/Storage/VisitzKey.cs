@@ -51,7 +51,7 @@ public static class VisitzKey
             {
                 _semaphore.Release();
             }
-            catch {}
+            catch { }
         }
     }
 

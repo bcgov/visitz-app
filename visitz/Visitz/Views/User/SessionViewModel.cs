@@ -1,19 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
+using Visitz.Services.Caseload;
 using Visitz.Settings;
 using Visitz.Storage;
-using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 using Visitz.Views.BaseClasses;
-
-using Microsoft.Extensions.Logging;
-using Visitz.Services.Caseload;
+using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -77,9 +76,9 @@ public partial class SessionViewModel : VisitzViewModel
         SessionInfo = sender as OidcSessionInfo;
         await ApplyLayout();
 
-		if (e is LogoutChangedEventArgs && ShouldReopen())
-			_ = ReopenSessionPage();
-	}
+        if (e is LogoutChangedEventArgs && ShouldReopen())
+            _ = ReopenSessionPage();
+    }
 
     private async Task ApplyLayout()
     {
@@ -106,26 +105,26 @@ public partial class SessionViewModel
         ApplyModalStyles(false);
     }
 
-	[RelayCommand]
-	public void Login()
-	{
-		_ = LoginAsync();
-	}
+    [RelayCommand]
+    public void Login()
+    {
+        _ = LoginAsync();
+    }
 
 
-	public async Task LoginAsync()
+    public async Task LoginAsync()
     {
         try
         {
-			var cancelToken = new CancellationTokenSource();
+            var cancelToken = new CancellationTokenSource();
 #if WINDOWS
-			(Application.Current as VisitzApp).AuthCancelTokenSource = cancelToken;
+            (Application.Current as VisitzApp).AuthCancelTokenSource = cancelToken;
 #endif
-			await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
+            await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
 
             if (SessionInfo.HasBasicAccessRole())
             {
-				await Navigator.PopAllModalsAsync(true);
+                await Navigator.PopAllModalsAsync(true);
                 WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
             }
         }
@@ -163,11 +162,11 @@ public partial class SessionViewModel
     [ObservableProperty]
     public string mailToUrl;
 
-	[ObservableProperty]
-	public bool showFeedbackUrl;
+    [ObservableProperty]
+    public bool showFeedbackUrl;
 
-	[ObservableProperty]
-	public string feedbackUrl;
+    [ObservableProperty]
+    public string feedbackUrl;
 
     private void ApplyAuthStatusLayout()
     {
@@ -176,11 +175,11 @@ public partial class SessionViewModel
         DisplayName = SessionInfo.GivenName;
         IsAuthorized = SessionInfo.HasBasicAccessRole();
         IsUnauthorized = !IsAuthorized;
-		ShowFeedbackUrl = IsAuthorized;
+        ShowFeedbackUrl = IsAuthorized;
 
-		var contactInfo = new AppSettings().ContactInfo;
-		MailToUrl = contactInfo.MailToAuthorize;
-		FeedbackUrl = contactInfo.FeedbackSurveyUrl;
+        var contactInfo = new AppSettings().ContactInfo;
+        MailToUrl = contactInfo.MailToAuthorize;
+        FeedbackUrl = contactInfo.FeedbackSurveyUrl;
 
         if (IsUnauthorized)
         {
@@ -202,16 +201,16 @@ public partial class SessionViewModel
     }
 
     [RelayCommand]
-	public static void TryLogout()
+    public static void TryLogout()
     {
-		_ = PromptAndLogoutAsync();
+        _ = PromptAndLogoutAsync();
     }
 
-	private static async Task PromptAndLogoutAsync()
-	{
+    private static async Task PromptAndLogoutAsync()
+    {
         if (await PromptLogout())
             await DoLogoutAsync();
-	}
+    }
 
     private static async Task<bool> PromptLogout()
     {
@@ -227,20 +226,20 @@ public partial class SessionViewModel
         await OidcSession.LogoutAsync();
     }
 
-	private static async Task ReopenSessionPage(bool modal = true)
-	{
-		await Navigator.PopAllModalsAsync(true);
-		await Navigator.GoToPage<SessionPage>(modal: modal);
-	}
+    private static async Task ReopenSessionPage(bool modal = true)
+    {
+        await Navigator.PopAllModalsAsync(true);
+        await Navigator.GoToPage<SessionPage>(modal: modal);
+    }
 
     [RelayCommand]
     private static void RequestAccess()
     {
-		_ = DoRequestAccessAsync();
+        _ = DoRequestAccessAsync();
     }
 
-	private static async Task DoRequestAccessAsync()
-	{
+    private static async Task DoRequestAccessAsync()
+    {
         var formUrl = new AppSettings().ContactInfo.AccessRequestFormUrl;
 
         await Browser.Default.OpenAsync(formUrl, new BrowserLaunchOptions
@@ -249,37 +248,37 @@ public partial class SessionViewModel
             TitleMode = BrowserTitleMode.Hide,
             Flags = BrowserLaunchFlags.PresentAsFormSheet,
         });
-	}
+    }
 
-	[RelayCommand]
-	static void OpenCollectionNotice()
-	{
-		_ = DoOpenFeedbackUrl();
-	}
+    [RelayCommand]
+    static void OpenCollectionNotice()
+    {
+        _ = DoOpenFeedbackUrl();
+    }
 
-	static async Task DoOpenFeedbackUrl()
-	{
-		await Navigator.Navigation.PopModalAsync(animated: false);
+    static async Task DoOpenFeedbackUrl()
+    {
+        await Navigator.Navigation.PopModalAsync(animated: false);
 
-		var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
-		await Navigator.Navigation.PushModalAsync(noticeView, ViewModalSize.Fullscreen);
-	}
+        var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
+        await Navigator.Navigation.PushModalAsync(noticeView, ViewModalSize.Fullscreen);
+    }
 
-	[RelayCommand]
-	static void OpenFeedbackUrl(string feedbackUrl)
-	{
-		_ = DoOpenFeedbackUrl(feedbackUrl);
-	}
+    [RelayCommand]
+    static void OpenFeedbackUrl(string feedbackUrl)
+    {
+        _ = DoOpenFeedbackUrl(feedbackUrl);
+    }
 
-	static async Task DoOpenFeedbackUrl(string feedbackUrl)
-	{
-		await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
-		{
-			LaunchMode = BrowserLaunchMode.SystemPreferred,
-			TitleMode = BrowserTitleMode.Hide,
-			Flags = BrowserLaunchFlags.PresentAsPageSheet,
-		});
-	}
+    static async Task DoOpenFeedbackUrl(string feedbackUrl)
+    {
+        await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
+        {
+            LaunchMode = BrowserLaunchMode.SystemPreferred,
+            TitleMode = BrowserTitleMode.Hide,
+            Flags = BrowserLaunchFlags.PresentAsPageSheet,
+        });
+    }
 }
 
 public partial class SessionViewModel

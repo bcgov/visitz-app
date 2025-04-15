@@ -12,7 +12,7 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
 {
     bool _disposed;
 
-	new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
+    new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
 
     public CaseloadItem CaseloadItem
     {
@@ -21,13 +21,13 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
     }
 
     public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())
-	{
-		InitializeComponent();
-		BindingContext = ViewModel;
+    {
+        InitializeComponent();
+        BindingContext = ViewModel;
 
         ViewModel.DraftError += NoteEntryView_DraftError;
         ViewModel.SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
-	}
+    }
 
     protected override void Dispose(bool disposing)
     {
@@ -72,7 +72,7 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         EditorError.Show = true;
 
         await Task.Delay(2000);
-        
+
         EditorError.Show = false;
     }
 
@@ -82,22 +82,22 @@ public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
         await vibrateErrorAnim.Animate(NotesEditor);
     }
 
-	private async void Discard_Clicked(object sender, EventArgs e)
-	{
-		if (await PromptDiscard())
-		{
-			await ViewModel.ResetDraftAsync();
-			await Navigator.Navigation.PopModalAsync();
-			SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
-		}
-	}
+    private async void Discard_Clicked(object sender, EventArgs e)
+    {
+        if (await PromptDiscard())
+        {
+            await ViewModel.ResetDraftAsync();
+            await Navigator.Navigation.PopModalAsync();
+            SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
+        }
+    }
 
-	private static async Task<bool> PromptDiscard()
-	{
-		return await Navigator.CurrentOpenPage.DisplayAlert(
-			LocalizedStrings.DiscardDraftQuestion,
-			LocalizedStrings.DiscardNoteDraftDescription,
-			LocalizedStrings.Discard,
-			LocalizedStrings.Cancel);
-	}
+    private static async Task<bool> PromptDiscard()
+    {
+        return await Navigator.CurrentOpenPage.DisplayAlert(
+            LocalizedStrings.DiscardDraftQuestion,
+            LocalizedStrings.DiscardNoteDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel);
+    }
 }

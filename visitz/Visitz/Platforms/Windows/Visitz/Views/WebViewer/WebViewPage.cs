@@ -12,77 +12,77 @@ namespace Visitz.Views.WebViewer;
 public partial class WebViewPage
 {
     const string _logoutPath = "/logout";
-	const string _logoutResponse = "/logout_response";
+    const string _logoutResponse = "/logout_response";
 
     Uri _baseRedirectUri;
     Uri _authDomain;
 
-	Func<Task> SessionTask { get; set; }
+    Func<Task> SessionTask { get; set; }
 
     partial void Setup()
-	{
+    {
         var settings = new AppSettings();
 
         _baseRedirectUri = new(settings.Oidc.RedirectUri);
         _authDomain = new(settings.Oidc.AuthenticationDomain);
 
         MainWebView.Loaded += MainWebView_Loaded;
-		CloseButton.Closing += CloseButton_Closing;
-	}
+        CloseButton.Closing += CloseButton_Closing;
+    }
 
-	private static async Task<CoreWebView2> GetCoreWebView(WebView webView)
-	{
-		var winWebView = webView.Handler.PlatformView as WebView2;
+    private static async Task<CoreWebView2> GetCoreWebView(WebView webView)
+    {
+        var winWebView = webView.Handler.PlatformView as WebView2;
 
-		await winWebView.EnsureCoreWebView2Async();
+        await winWebView.EnsureCoreWebView2Async();
 
-		if (winWebView.CoreWebView2.Settings is CoreWebView2Settings settings)
-		{
-			settings.IsZoomControlEnabled = false;
+        if (winWebView.CoreWebView2.Settings is CoreWebView2Settings settings)
+        {
+            settings.IsZoomControlEnabled = false;
 #if DEBUG
-			settings.AreDevToolsEnabled = true;
+            settings.AreDevToolsEnabled = true;
 #else
 			settings.AreDevToolsEnabled = false;
 #endif
-		}
+        }
 
-		return winWebView.CoreWebView2;
-	}
+        return winWebView.CoreWebView2;
+    }
 
-	private async void MainWebView_Loaded(object sender, EventArgs e)
-	{
-		var webView = sender as WebView;
-		var coreWebView = await GetCoreWebView(webView);
+    private async void MainWebView_Loaded(object sender, EventArgs e)
+    {
+        var webView = sender as WebView;
+        var coreWebView = await GetCoreWebView(webView);
 
-		coreWebView.NavigationStarting += (sender, args) =>
-		{
-			if (IsLocalRedirect(args.Uri))
-			{
-				SessionTask = async () => await PerformCustomSchemeRedirect(args.Uri);
-			}
-			else if (IsLogoutRedirect(args.Uri))
-			{
-				SessionTask = async () => await ForceLogout(sender);
-			}
-		};
+        coreWebView.NavigationStarting += (sender, args) =>
+        {
+            if (IsLocalRedirect(args.Uri))
+            {
+                SessionTask = async () => await PerformCustomSchemeRedirect(args.Uri);
+            }
+            else if (IsLogoutRedirect(args.Uri))
+            {
+                SessionTask = async () => await ForceLogout(sender);
+            }
+        };
 
-		coreWebView.NavigationCompleted += async (sender, args) =>
-		{
-			if (SessionTask != null)
-			{
-				await SessionTask();
-				await Navigator.Navigation.PopModalAsync();
-			}
-		};
+        coreWebView.NavigationCompleted += async (sender, args) =>
+        {
+            if (SessionTask != null)
+            {
+                await SessionTask();
+                await Navigator.Navigation.PopModalAsync();
+            }
+        };
 
-		coreWebView.ProcessFailed += async (_, args) =>
-		{
-			await DisplayAlert(LocalizedStrings.Error,
-				args.Reason + "\n\n" + args.ProcessDescription,
-				LocalizedStrings.Ok);
+        coreWebView.ProcessFailed += async (_, args) =>
+        {
+            await DisplayAlert(LocalizedStrings.Error,
+                args.Reason + "\n\n" + args.ProcessDescription,
+                LocalizedStrings.Ok);
 
-			await Navigator.Navigation.PopModalAsync();
-		};
+            await Navigator.Navigation.PopModalAsync();
+        };
 
         // WORKAROUND Windows does not reliably logout currently
         // so we'll forcibly dump our local session and cookies.
@@ -94,7 +94,7 @@ public partial class WebViewPage
         }
 
         webView.Source = ViewModel.AuthUri;
-	}
+    }
 
     private bool IsLocalRedirect(string url)
     {
@@ -114,33 +114,33 @@ public partial class WebViewPage
             && url.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase);
     }
 
-	private static Task PerformCustomSchemeRedirect(string uri)
-	{
-		Process.Start(new ProcessStartInfo
-		{
-			FileName = uri,
-			UseShellExecute = true,
-		});
+    private static Task PerformCustomSchemeRedirect(string uri)
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = uri,
+            UseShellExecute = true,
+        });
 
-		return Task.CompletedTask;
-	}
+        return Task.CompletedTask;
+    }
 
-	// A workaround implementation to forcibly logout the user on Windows.
-	// This, along with the rest of the Windows OIDC workarounds, may not
-	// be needed once https://github.com/microsoft/WindowsAppSDK/issues/441
-	// is fixed.
-	private async Task ForceLogout(CoreWebView2 coreWebView)
-	{
-		coreWebView.CookieManager.DeleteAllCookies();
+    // A workaround implementation to forcibly logout the user on Windows.
+    // This, along with the rest of the Windows OIDC workarounds, may not
+    // be needed once https://github.com/microsoft/WindowsAppSDK/issues/441
+    // is fixed.
+    private async Task ForceLogout(CoreWebView2 coreWebView)
+    {
+        coreWebView.CookieManager.DeleteAllCookies();
 
         if (CancelTokenSource != null)
-		    await CancelTokenSource.CancelAsync();
+            await CancelTokenSource.CancelAsync();
 
-		await OidcSession.LocalLogoutAsync();
-	}
+        await OidcSession.LocalLogoutAsync();
+    }
 
-	private void CloseButton_Closing(object sender, ClosingEventArgs e)
-	{
-		CancelTokenSource?.Cancel();
-	}
+    private void CloseButton_Closing(object sender, ClosingEventArgs e)
+    {
+        CancelTokenSource?.Cancel();
+    }
 }

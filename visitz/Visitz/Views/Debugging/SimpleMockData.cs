@@ -1,4 +1,3 @@
-using VisitzModel.Models;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Resources.Localization;
 
@@ -8,7 +7,7 @@ internal static class SimpleMockData
 {
     public static List<PersonVisit> MockPersonVisits(string parentId = "1-0000000")
     {
-        
+
         return [
             new()
             {

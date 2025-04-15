@@ -15,13 +15,13 @@ public partial class DraftSavedView : ContentView
         set => SetValue(TagPaddingProperty, value);
     }
 
-	public DraftSavedView()
-	{
-		InitializeComponent();
-	}
+    public DraftSavedView()
+    {
+        InitializeComponent();
+    }
 
-	public async Task SetState(DraftSaveState state)
-	{
+    public async Task SetState(DraftSaveState state)
+    {
         switch (state)
         {
             case DraftSaveState.None:
@@ -36,7 +36,7 @@ public partial class DraftSavedView : ContentView
             default:
                 throw new NotImplementedException($"Not implemented: {state}");
         }
-	}
+    }
 
     private async Task AnimateCrossfade(bool showSaving, bool showSaved)
     {

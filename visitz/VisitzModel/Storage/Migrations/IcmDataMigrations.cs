@@ -1,6 +1,5 @@
 using Realms;
 using System.Reflection;
-using VisitzModel.Models;
 using VisitzModel.Models.Notes;
 
 namespace VisitzModel.Storage.Migrations;
@@ -13,43 +12,43 @@ public static class IcmDataMigrations
         MigrateNoteItems(migration, oldSchemaVersion);
     }
 
-	private static void MigrateCaseloadItems(Migration migration, ulong oldSchemaVersion)
-	{
-		const string CaseloadItemName = "CaseloadItem";
+    private static void MigrateCaseloadItems(Migration migration, ulong oldSchemaVersion)
+    {
+        const string CaseloadItemName = "CaseloadItem";
 
-		var oldItems = migration.OldRealm.DynamicApi.All(CaseloadItemName);
-		var newItems = migration.NewRealm.DynamicApi.All(CaseloadItemName);
+        var oldItems = migration.OldRealm.DynamicApi.All(CaseloadItemName);
+        var newItems = migration.NewRealm.DynamicApi.All(CaseloadItemName);
 
-		for (int i = 0; i < newItems.Count(); i++)
-			//TODO: Migrate CaseloadItems
-			MigrateItemFamilyMembers(oldSchemaVersion, oldItems.ElementAt(i), newItems.ElementAt(i));
-	}
+        for (int i = 0; i < newItems.Count(); i++)
+            //TODO: Migrate CaseloadItems
+            MigrateItemFamilyMembers(oldSchemaVersion, oldItems.ElementAt(i), newItems.ElementAt(i));
+    }
 
-	private static void MigrateItemFamilyMembers(ulong oldSchemaVersion, IRealmObject _, IRealmObject newItem)
-	{
-		if (oldSchemaVersion < VisitzRealmBase.Version2_3_3)
-		{
-			const string SubjectFlag = "SubjectFlag";
-			const string ParentCaregiver = "ParentCaregiver";
-			const string SubjectChild = "SubjectChild";
-			
-			var newFamily = newItem.DynamicApi.GetList<IRealmObjectBase>("FamilyMembers");
+    private static void MigrateItemFamilyMembers(ulong oldSchemaVersion, IRealmObject _, IRealmObject newItem)
+    {
+        if (oldSchemaVersion < VisitzRealmBase.Version2_3_3)
+        {
+            const string SubjectFlag = "SubjectFlag";
+            const string ParentCaregiver = "ParentCaregiver";
+            const string SubjectChild = "SubjectChild";
 
-			foreach (var member in newFamily)
-			{
-				var type = member.GetType();
+            var newFamily = newItem.DynamicApi.GetList<IRealmObjectBase>("FamilyMembers");
 
-				if (type.GetProperty(SubjectFlag) is PropertyInfo subjectFlag)
-					subjectFlag.SetValue(member, null, null);
+            foreach (var member in newFamily)
+            {
+                var type = member.GetType();
 
-				if (type.GetProperty(ParentCaregiver) is PropertyInfo parentCaregiver)
-					parentCaregiver.SetValue(member, null, null);
+                if (type.GetProperty(SubjectFlag) is PropertyInfo subjectFlag)
+                    subjectFlag.SetValue(member, null, null);
 
-				if (type.GetProperty(SubjectChild) is PropertyInfo subjectChild)
-					subjectChild.SetValue(member, null, null);
-			}
-		}
-	}
+                if (type.GetProperty(ParentCaregiver) is PropertyInfo parentCaregiver)
+                    parentCaregiver.SetValue(member, null, null);
+
+                if (type.GetProperty(SubjectChild) is PropertyInfo subjectChild)
+                    subjectChild.SetValue(member, null, null);
+            }
+        }
+    }
 
     private static void MigrateNoteItems(Migration migration, ulong oldSchemaVersion)
     {

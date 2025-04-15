@@ -58,7 +58,7 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         try
         {
             realmConfig = MakeRealmConfiguration();
-            
+
             ConsoleTrace.TraceMethod(typeof(VisitzRealmBase), Path.GetFileName(realmConfig.DatabasePath));
 
             return await Realm.GetInstanceAsync(realmConfig);

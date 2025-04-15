@@ -10,11 +10,11 @@ public class SafetyAssessmentDrafts(byte[] encryptionKey) : VisitzRealmBase(Name
     public static readonly string Name = "safetyAssessmentRealmPath.realm";
     public static readonly ulong CurrentVersion = Version2_7_0;
 
-	protected override RealmSchema MakeRealmSchema()
+    protected override RealmSchema MakeRealmSchema()
     {
         return new[]
         {
-			typeof(AssessmentDraft),
+            typeof(AssessmentDraft),
             typeof(SafetyAssessment),
             typeof(FactorInfluence),
             typeof(ProtectiveCapacity),

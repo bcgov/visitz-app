@@ -16,13 +16,13 @@ namespace Visitz.VisitzConfig
             builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<AppendTokenHandler>();
             builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<AppendAcceptLanguageHandler>();
 
-            builder.Services.AddSingleton(sp => 
+            builder.Services.AddSingleton(sp =>
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));
 
             // TODO: Get AppSettings working correctly with DI
             var apiConfig = new AppSettings().Api.ApiDomain;
 
-            builder.Services.AddSingleton(sp => 
+            builder.Services.AddSingleton(sp =>
                 new Vpi(sp.GetService<HttpClient>(), apiConfig));
 
             return builder;

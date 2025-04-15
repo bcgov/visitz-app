@@ -11,12 +11,12 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadContainerView : SplitLayoutView
 {
-	static IView CaseloadView;
-	static IView CaseloadDetailView;
+    static IView CaseloadView;
+    static IView CaseloadDetailView;
 
     public CaseloadContainerView()
     {
-		InitializeComponent();
+        InitializeComponent();
     }
 
     protected override void Creating()
@@ -28,10 +28,10 @@ public partial class CaseloadContainerView : SplitLayoutView
 
         RegisterReceivers();
 
-		CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
-		CaseloadDetailView ??= ServiceProvider.GetService<CaseloadDetailView>();
+        CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
+        CaseloadDetailView ??= ServiceProvider.GetService<CaseloadDetailView>();
 
-		NavigateBack();
+        NavigateBack();
     }
 
     protected override void Destroying()
@@ -56,17 +56,17 @@ public partial class CaseloadContainerView : SplitLayoutView
 
     private void OpenCaseloadItem(CaseloadItemSelectedMessage message)
     {
-		CaseloadItem item = message.Value;
-		EntitySection section = message.Section;
-		IDraftItem draftItem = message.DraftItem;
+        CaseloadItem item = message.Value;
+        EntitySection section = message.Section;
+        IDraftItem draftItem = message.DraftItem;
 
-		var containerView = ServiceProvider.GetService<EntityContainerView>();
+        var containerView = ServiceProvider.GetService<EntityContainerView>();
         containerView.CaseloadItem = item;
         SetEndPane(containerView);
 
         var entityNav = ServiceProvider.GetService<EntityNavView>();
         entityNav.CaseloadItem = item;
-		entityNav.SetRequestedSection(section, draftItem);
+        entityNav.SetRequestedSection(section, draftItem);
         SetStartPane(entityNav);
 
         StartPaneColumnWidth = GridLength.Auto;
@@ -74,9 +74,9 @@ public partial class CaseloadContainerView : SplitLayoutView
 
     private void NavigateBack()
     {
-		SetStartPane(CaseloadView);
-		SetEndPane(CaseloadDetailView);
+        SetStartPane(CaseloadView);
+        SetEndPane(CaseloadDetailView);
 
-		StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
+        StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
     }
 }

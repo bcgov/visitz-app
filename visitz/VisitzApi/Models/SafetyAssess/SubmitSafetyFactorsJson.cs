@@ -14,7 +14,7 @@ public class SubmitSafetyFactorsJson
 
     public string SubsExposedInfant { get; set; }
 
-    public string CmtClarification  { get; set; }
+    public string CmtClarification { get; set; }
 
     public string CurrentCircumstances { get; set; }
 

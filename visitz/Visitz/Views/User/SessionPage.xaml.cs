@@ -12,22 +12,22 @@ public partial class SessionPage : VisitzPage
         .Any(page => page.GetType() == typeof(SessionPage));
 
     public SessionPage(SessionViewModel viewModel) : base(viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+    }
 
-	public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
-	{
+    public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
+    {
         if (IsOpen || await OidcSession.HasRole(VisitzRoles.BasicAccess))
             return;
 
         await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);
-	}
+    }
 
     protected override bool OnBackButtonPressed()
     {
-		return AppLockPage.BackButtonEnabled;
+        return AppLockPage.BackButtonEnabled;
     }
 
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)

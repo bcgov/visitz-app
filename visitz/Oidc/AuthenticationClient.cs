@@ -21,7 +21,7 @@ namespace Oidc
                 RedirectUri = options.RedirectUri,
                 Browser = options.Browser,
                 PostLogoutRedirectUri = options.RedirectUri,
-				DisablePushedAuthorization = true,
+                DisablePushedAuthorization = true,
             });
         }
 

@@ -1,7 +1,6 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
@@ -14,9 +13,9 @@ public partial class SupportNetworkListView : ViewModelContentView, ICaseloadIte
         set => ViewModel.CaseloadItem = value;
     }
 
-	public SupportNetworkListView() : base(ServiceProvider.GetService<SupportNetworkListViewModel>())
-	{
-		InitializeComponent();
+    public SupportNetworkListView() : base(ServiceProvider.GetService<SupportNetworkListViewModel>())
+    {
+        InitializeComponent();
         BindingContext = ViewModel;
-	}
+    }
 }

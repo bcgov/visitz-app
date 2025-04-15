@@ -16,7 +16,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
     public static readonly int NarrativeMaxLength = 2000;
 
     private bool NoSafetyFactors { get; set; }
-    private bool Safe 
+    private bool Safe
     {
         get => NoSafetyFactors;
         set
@@ -82,14 +82,14 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
 
     public string Comments { get; set; } = string.Empty; // Max length 8000
 
-    public string Narrative { get; set; }  = string.Empty; // Max length 2000
+    public string Narrative { get; set; } = string.Empty; // Max length 2000
 
     public bool ReadyFinalize { get; set; }
 
     public DateTimeOffset? ReadyFinalizeDate { get; set; } // Only date, no time
 
-    public bool IsAnswered => Decision == SafetyDecisionOption.Unsafe 
-        ? DecisionUnsafe?.Length > 0 
+    public bool IsAnswered => Decision == SafetyDecisionOption.Unsafe
+        ? DecisionUnsafe?.Length > 0
         : Decision != null;
 
     public static SafetyDecisions FromApiJson(SafetyAsessmentJson entity)

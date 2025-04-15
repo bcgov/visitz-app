@@ -16,6 +16,6 @@ public class ErrorVibrateAnimation : BaseAnimation
         await view.TranslateTo(originalX + Distance, view.Y, DurationMs, Easing.CubicIn);
         await view.TranslateTo(originalX - Distance, view.Y, DurationMs, Easing.Linear);
         await view.TranslateTo(originalX + Distance + Distance, view.Y, DurationMs, Easing.Linear);
-		await view.TranslateTo(originalX, view.Y, DurationMs + DurationMs, Easing.CubicOut);
-	}
+        await view.TranslateTo(originalX, view.Y, DurationMs + DurationMs, Easing.CubicOut);
+    }
 }

@@ -1,5 +1,4 @@
 using VisitzModel.Extensions;
-using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.InPersonVisits;
 

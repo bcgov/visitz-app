@@ -39,9 +39,9 @@ public partial class NavRailViewModel : VisitzViewModel
         get
         {
 #if IOS
-        return IosIconSize;
+            return IosIconSize;
 #else
-        return DefaultIconSize;
+            return DefaultIconSize;
 #endif
         }
     }

@@ -22,7 +22,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<SubmitNoteService>();
             builder.Services.AddTransient<SubmitAndGetNotesService>();
             builder.Services.AddTransient<SubmitSafetyAssessmentService>();
-			builder.Services.AddTransient<SubmitAttachmentService>();
+            builder.Services.AddTransient<SubmitAttachmentService>();
             builder.Services.AddTransient<GetVisitsService>();
             builder.Services.AddTransient<GetVisitsByRangeService>();
             builder.Services.AddTransient<PostVisitService>();
@@ -42,11 +42,11 @@ namespace Visitz.VisitzConfig
             return builder;
         }
 
-		public static MauiAppBuilder ConfigureVisitzUtilities(this MauiAppBuilder builder)
-		{
-			builder.Services.AddSingleton(_ => new LastUpdatedPrefs(Preferences.Default));
+        public static MauiAppBuilder ConfigureVisitzUtilities(this MauiAppBuilder builder)
+        {
+            builder.Services.AddSingleton(_ => new LastUpdatedPrefs(Preferences.Default));
 
-			return builder;
-		}
+            return builder;
+        }
     }
 }
