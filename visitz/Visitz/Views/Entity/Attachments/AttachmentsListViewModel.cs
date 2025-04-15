@@ -38,6 +38,21 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         realmQuery.Subscribe(icmDataRealm, Attachment.GetOrderedAttachments(icmDataRealm, CaseloadItem.EntityType.ParseEntityType(), CaseloadItem.RowId));
     }
 
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+            realmQuery.Dispose();
+
+            foreach (var item in AttachmentsList)
+                item.Dispose();
+
+            _disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
     private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
         if (e.Type == typeof(Attachment))
@@ -112,20 +127,5 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 
         var tuple = (recordServiceInfo, attachmentId, force);
         WeakReferenceMessenger.Default.Send(GetAttachmentContentService.MakeStartMessage(tuple));
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        if (!_disposed && disposing)
-        {
-            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
-            realmQuery.Dispose();
-
-            foreach (var item in AttachmentsList)
-                item.Dispose();
-
-            _disposed = true;
-        }
-        base.Dispose(disposing);
     }
 }
