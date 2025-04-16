@@ -98,6 +98,15 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
     public bool HasDraft => Draft != null;
+    
+    public string FileNumber => RelatedEntityType switch
+    {
+        EntityType.Case => CaseNumber,
+        EntityType.Incident => IncidentNo,
+        EntityType.Memo => MemoNumber,
+        EntityType.ServiceRequest => ServiceRequestNumber,
+        _ => throw new NotImplementedException($"{RelatedEntityType} not implemented")
+    };
 
     public static async Task DeleteAsync(Realm realm, Attachment attachment)
     {
