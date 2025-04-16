@@ -31,7 +31,6 @@
 
         <WebView
             Grid.Row="1"
-            Background="Coral"
             Source="{Binding Source}"
             Navigated="WebView_Navigated">
         </WebView>
