@@ -1305,6 +1305,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PDF content missing.
+        /// </summary>
+        public static string PdfContentMissing {
+            get {
+                return ResourceManager.GetString("PdfContentMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preview.
         /// </summary>
         public static string Preview {
@@ -2214,6 +2223,15 @@ namespace Visitz.Resources.Localization {
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to load PDF.
+        /// </summary>
+        public static string UnableToLoadPdf {
+            get {
+                return ResourceManager.GetString("UnableToLoadPdf", resourceCulture);
             }
         }
         

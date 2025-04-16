@@ -1,0 +1,47 @@
+using Visitz.Resources.Localization;
+using Visitz.Views.BaseClasses;
+
+namespace Visitz.Views.Pdfs;
+
+#nullable enable
+
+public partial class PdfDetailsView : ViewModelContentView
+{
+    static readonly string LoadPdfFromBase64Js = "loadPdfFromBase64('{0}')";
+
+    new PdfDetailsViewModel ViewModel => base.ViewModel as PdfDetailsViewModel
+        ?? throw new InvalidOperationException("ViewModel is null");
+
+    public Stream? PdfStream
+    {
+        get => ViewModel.PdfStream;
+        set => ViewModel.PdfStream = value;
+    }
+
+    public PdfDetailsView() : base(ServiceProvider.GetService<PdfDetailsViewModel>())
+    {
+        InitializeComponent();
+        BindingContext = ViewModel;
+    }
+
+    async void WebView_Navigated(object sender, WebNavigatedEventArgs e)
+    {
+        ViewModel.ShowActivityIndicator = false;
+
+        if (sender is WebView wv && ViewModel.PdfStream is not null)
+            await TryLoadPdf(wv, await ViewModel.MakeBase64Pdf());
+    }
+
+    async Task TryLoadPdf(WebView webView, string? base64)
+    {
+        if (base64 != null)
+        {
+            string script = string.Format(LoadPdfFromBase64Js, base64);
+            await webView.EvaluateJavaScriptAsync(script);
+        }
+        else
+        {
+            ViewModel.ErrorText = LocalizedStrings.PdfContentMissing;
+        }
+    }
+}
