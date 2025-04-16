@@ -14,8 +14,10 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public static readonly int MaxFilesize = 5 * Sizes.MB;
     public static readonly int ThumbnailSize = 400;
 
+    public static readonly string Pdf = ".pdf";
+
     public static readonly IEnumerable<string> AllowedImageTypes = [".jpg", ".jpeg"];
-    public static readonly IEnumerable<string> AllowedDocumentTypes = [".pdf"];
+    public static readonly IEnumerable<string> AllowedDocumentTypes = [Pdf];
 
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();

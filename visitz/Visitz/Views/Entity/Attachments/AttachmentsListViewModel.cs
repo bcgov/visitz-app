@@ -9,12 +9,14 @@ using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Pdfs;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -155,13 +157,38 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         if (!listItem.Attachment.FileExistsLocally)
             return;
 
-        var view = new PhotoDetailsView()
+        string path = listItem.Attachment.RelativePath.Trim();
+
+        ContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
+            ? await MakePdfDetailsView(listItem.Attachment)
+            : MakePhotoDetailsView(listItem.Attachment);
+
+        await Navigator.Navigation.PushAsync(view);
+    }
+
+    PhotoDetailsView MakePhotoDetailsView(Attachment attachment)
+    {
+        return new()
         {
-            Attachment = listItem.Attachment,
+            Attachment = attachment,
             CaseloadItem = CaseloadItem,
             IsDownloadedAttachment = true,
         };
+    }
 
-        await Navigator.Navigation.PushAsync(view);
+    async Task<PdfDetailsView> MakePdfDetailsView(Attachment attachment)
+    {
+        if (CaseloadItem == null)
+            throw new InvalidOperationException(nameof(CaseloadItem));
+
+        AttachmentFiler filer = await VisitzFiles.GetAsync(
+            attachment,
+            CaseloadItem.KeyPlayer.FirstName,
+            CaseloadItem.KeyPlayer.LastName);
+
+        return new()
+        {
+            PdfStream = await attachment.GetFile(filer),
+        };
     }
 }
