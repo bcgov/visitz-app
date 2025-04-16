@@ -2,7 +2,7 @@ namespace VisitzApi;
 
 internal static class RequestParam
 {
-    public static readonly string Since = "since";
+    public static readonly string After = "after";
 
     public static readonly string StartRowNum = "StartRowNum";
 

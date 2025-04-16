@@ -52,9 +52,11 @@ public class AttachmentJson
     public string SrId { get; set; }
     [JsonPropertyName("CreatedByName")]
     public string CreatedByName { get; set; }
+    public string CreatedBy { get; set; }
     public string CreatedDate { get; set; }
     [JsonPropertyName("UpdatedByName")]
     public string UpdatedByName { get; set; }
+    public string UpdatedBy { get; set; }
     public string LastUpdatedDate { get; set; }
     public string AttachmentId { get; set; }
 }

@@ -73,7 +73,7 @@ namespace VisitzApi.Requests
                 query[RequestParam.RecordCountNeeded] = getCount.ToString();
 
             if (after is DateTimeOffset timestamp)
-                query[RequestParam.Since] = timestamp.ToString(format);
+                query[RequestParam.After] = timestamp.ToString(format);
 
             var urlWithoutQuery = RequestUri.ToString().Split('?')[0];
             string queryString = query.ToString();
