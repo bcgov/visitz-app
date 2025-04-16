@@ -25,11 +25,25 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
     [ObservableProperty]
     public CaseloadItem caseloadItem;
 
+    [ObservableProperty]
+    public bool showDraftButtons;
+
+    [ObservableProperty]
+    public bool isRemovable;
+
+    public bool IsDownloadedAttachment { get; set; }
+
     AttachmentFiler attachmentFiler;
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
+
+        ShowDraftButtons = Attachment.FileExistsLocally
+            && !IsDownloadedAttachment
+            && Attachment.HasDraft;
+
+        IsRemovable = Attachment.FileExistsLocally && IsDownloadedAttachment;
 
         attachmentFiler = await VisitzFiles.GetAsync(
             CaseloadItem.EntityType.ParseEntityType(),
@@ -85,5 +99,27 @@ internal partial class PhotoDetailsViewModel : VisitzViewModel, ICaseloadItemHol
         attachmentPublishVm.AttachmentFiler = attachmentFiler;
 
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
+    }
+
+    [RelayCommand]
+    static async Task PromptRemoveFromDevice(Attachment attachment)
+    {
+        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
+            LocalizedStrings.RemoveAttachmentFromDevice,
+            LocalizedStrings.RemoveAttachmentDescription,
+            LocalizedStrings.Remove,
+            LocalizedStrings.Cancel);
+
+        if (shouldRemove)
+        {
+            attachment.RemoveFileFromDevice();
+
+            string removedText = string.Format(
+                LocalizedStrings.RemovedAttachmentFromDevice,
+                attachment.Filename);
+
+            await Navigator.Navigation.PopAsync();
+            SnackbarHandler.ShowText(removedText);
+        }
     }
 }

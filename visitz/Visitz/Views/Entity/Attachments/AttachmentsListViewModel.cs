@@ -159,6 +159,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         {
             Attachment = listItem.Attachment,
             CaseloadItem = CaseloadItem,
+            IsDownloadedAttachment = true,
         };
 
         await Navigator.Navigation.PushAsync(view);

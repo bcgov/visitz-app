@@ -17,10 +17,17 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
         get => ViewModel.Attachment;
         set => ViewModel.Attachment = value;
     }
+
     public CaseloadItem CaseloadItem
     {
         get => ViewModel.CaseloadItem;
         set => ViewModel.CaseloadItem = value;
+    }
+
+    public bool IsDownloadedAttachment
+    {
+        get => ViewModel.IsDownloadedAttachment;
+        set => ViewModel.IsDownloadedAttachment = value;
     }
 
     public PhotoDetailsView() : base(ServiceProvider.GetService<PhotoDetailsViewModel>())
