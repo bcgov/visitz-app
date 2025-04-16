@@ -120,6 +120,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         if (shouldRemove)
         {
             item.Attachment.RemoveFileFromDevice();
+            item.Attachment.UserIgnoredContentBinding = true;
             string removedText = string.Format(
                 LocalizedStrings.RemovedAttachmentFromDevice,
                 item.Attachment.Filename);

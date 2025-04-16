@@ -92,6 +92,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
     public bool FileExistsLocally => RelativePath?.Trim().Length > 0;
 
+    public bool UserIgnoredContent { get; set; }
+
     [Backlink(nameof(AttachmentDraft.Attachment))]
     public IQueryable<AttachmentDraft> AttachmentDrafts { get; }
 

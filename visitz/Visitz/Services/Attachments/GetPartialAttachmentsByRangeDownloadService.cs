@@ -76,15 +76,13 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     {
         var monthThreshold = DateTimeOffset.Now.AddMonths(-DefaultMonthLimit);
 
-        return attachments
+        var limitedAttachments = attachments
             .Where(att => att.UpdatedDate > monthThreshold)
             .AsEnumerable()
-            .Take(DefaultLimit)
-            .Select(att => (
-                recordInfo,
-                att.Id,
-                false
-            ));
+            .Take(DefaultLimit);
+        return limitedAttachments
+            .Where(att => !att.UserIgnoredContent)
+            .Select(att => (recordInfo, att.Id, false));
     }
 
     private async Task FetchAttachmentContents(IEnumerable<(RecordServiceInfo, string, bool)> filteredAttachments)
