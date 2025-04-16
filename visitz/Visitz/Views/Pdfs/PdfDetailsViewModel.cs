@@ -11,7 +11,7 @@ namespace Visitz.Views.Pdfs;
 
 internal partial class PdfDetailsViewModel : VisitzViewModel
 {
-    static readonly string EmbedHtmlPath = "PDF\\pdf-embed.html";
+    static readonly string EmbedHtmlPath = Path.Join("PDF", "pdf-embed.html");
 
     [ObservableProperty]
     public WebViewSource? source;
