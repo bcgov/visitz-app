@@ -218,6 +218,11 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         };
     }
 
+    public async Task<MemoryStream> GetFile(AttachmentFiler filer, CancellationToken? token = null)
+    {
+        return await filer.GetAppDataFileAsync(RelativePath, token);
+    }
+
     public static IEnumerable<Attachment> FromApiArray(
         IEnumerable<AttachmentJson> items,
         string parentId,
