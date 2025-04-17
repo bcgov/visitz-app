@@ -9,7 +9,8 @@
     x:Class="Visitz.Views.Entity.Attachments.PhotoDetailsView"
 	x:DataType="attachments:PhotoDetailsViewModel"
 	BackgroundColor="Black">
-    <AbsoluteLayout>
+    
+    <AbsoluteLayout IsClippedToBounds="True">
 
 		<ActivityIndicator
 			AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -18,12 +19,14 @@
 			WidthRequest="64"
 			Color="{StaticResource BC_Gold}"
 			IsRunning="True" />
-		
-        <Image
-			AbsoluteLayout.LayoutFlags="All"
-			AbsoluteLayout.LayoutBounds="0,0,1,1"
-			Aspect="AspectFit"
-			Source="{Binding DetailImage}" />
+
+        <controls:PanPinchContainer
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1">
+            <Image    
+			    Aspect="AspectFit"
+			    Source="{Binding DetailImage}" />
+        </controls:PanPinchContainer>
 
 		<Grid
 			AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
