@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <baseClasses:ViewModelContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.Attachments.PhotoDetailsView"
-	x:DataType="attachments:PhotoDetailsViewModel"
-	BackgroundColor="Black">
+    x:DataType="attachments:PhotoDetailsViewModel"
+    BackgroundColor="Black">
     
     <AbsoluteLayout IsClippedToBounds="True">
 
-		<ActivityIndicator
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="0.5,0.5"
-			HeightRequest="64"
-			WidthRequest="64"
-			Color="{StaticResource BC_Gold}"
-			IsRunning="True" />
+        <ActivityIndicator
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            HeightRequest="64"
+            WidthRequest="64"
+            Color="{StaticResource BC_Gold}"
+            IsRunning="True" />
 
         <controls:PanPinchContainer
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1">
             <Image    
-			    Aspect="AspectFit"
-			    Source="{Binding DetailImage}" />
+                Aspect="AspectFit"
+                Source="{Binding DetailImage}" />
         </controls:PanPinchContainer>
 
-		<Grid
-			AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
-			AbsoluteLayout.LayoutBounds="0,0,1,-1"
-			BackgroundColor="{StaticResource Black55Scrim}"
-			ColumnDefinitions="Auto, *, Auto, Auto, Auto"
-			ColumnSpacing="{StaticResource DefaultSpacing}"
-			Padding="{StaticResource DefaultPadding}">
+        <Grid
+            AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
+            AbsoluteLayout.LayoutBounds="0,0,1,-1"
+            BackgroundColor="{StaticResource Black55Scrim}"
+            ColumnDefinitions="Auto, *, Auto, Auto, Auto"
+            ColumnSpacing="{StaticResource DefaultSpacing}"
+            Padding="{StaticResource DefaultPadding}">
 
-			<controls:CloseButton
-				Grid.Column="0"
-				VerticalOptions="Center"
-				Closing="CloseButton_Closing"/>
+            <controls:CloseButton
+                Grid.Column="0"
+                VerticalOptions="Center"
+                Closing="CloseButton_Closing"/>
 
-			<Label
-				Grid.Column="1"
-				VerticalOptions="Center"
-				Text="{Binding Attachment.FilenameBinding}"
-				TextColor="White" />
+            <Label
+                Grid.Column="1"
+                VerticalOptions="Center"
+                Text="{Binding Attachment.FilenameBinding}"
+                TextColor="White" />
 
-			<controls:RenameButton
-				Grid.Column="2"
-				VerticalOptions="Center"
-				IsVisible="{Binding Attachment.HasDraft}"
-				Renaming="{Binding Attachment.FilenameBinding}" />
-
-			<controls:FontIconButton
-				Grid.Column="3"
-				VerticalOptions="Center"
-				IsVisible="{Binding Attachment.HasDraft}"
-				Text="{Static icons:MaterialIcons.Delete}"
-				TextColor="White"
-				FontFamily="MaterialIconsRoundedUnfilled"
-				Command="{Binding DeleteAttachmentDraftCommand}"
-				CommandParameter="{Binding Attachment}" />
-
-			<controls:FontIconButton
-				Grid.Column="4"
-				VerticalOptions="Center"
-				IsVisible="{Binding Attachment.HasDraft}"
-				Text="{Static icons:MaterialIcons.Publish}"
-				FontFamily="MaterialIconsRoundedUnfilled"
-				TextColor="{StaticResource White}"
-				Command="{Binding PublishAttachmentDraftCommand}"
-				CommandParameter="{Binding Attachment}" />
+            <controls:RenameButton
+                Grid.Column="2"
+                VerticalOptions="Center"
+                IsVisible="{Binding Attachment.HasDraft}"
+                Renaming="{Binding Attachment.FilenameBinding}" />
 
             <controls:FontIconButton
-	            Grid.Column="4"
-	            VerticalOptions="Center"
-	            IsVisible="{Binding IsRemovable}"
-	            Text="{Static icons:FluentIcons.Subtract_circle_20_regular}"
-	            FontFamily="FluentIconsRegular"
-	            TextColor="{StaticResource White}"
-	            Command="{Binding PromptRemoveFromDeviceCommand}"
-	            CommandParameter="{Binding Attachment}" />
+                Grid.Column="3"
+                VerticalOptions="Center"
+                IsVisible="{Binding Attachment.HasDraft}"
+                Text="{Static icons:MaterialIcons.Delete}"
+                TextColor="White"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                Command="{Binding DeleteAttachmentDraftCommand}"
+                CommandParameter="{Binding Attachment}" />
 
-		</Grid>
-		
+            <controls:FontIconButton
+                Grid.Column="4"
+                VerticalOptions="Center"
+                IsVisible="{Binding Attachment.HasDraft}"
+                Text="{Static icons:MaterialIcons.Publish}"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                TextColor="{StaticResource White}"
+                Command="{Binding PublishAttachmentDraftCommand}"
+                CommandParameter="{Binding Attachment}" />
+
+            <controls:FontIconButton
+                Grid.Column="4"
+                VerticalOptions="Center"
+                IsVisible="{Binding IsRemovable}"
+                Text="{Static icons:FluentIcons.Subtract_circle_20_regular}"
+                FontFamily="FluentIconsRegular"
+                TextColor="{StaticResource White}"
+                Command="{Binding PromptRemoveFromDeviceCommand}"
+                CommandParameter="{Binding Attachment}" />
+
+        </Grid>
+        
     </AbsoluteLayout>
 </baseClasses:ViewModelContentView>
