@@ -11,7 +11,7 @@
         }
 
         /* less than 100vh/vw because of layout issues with scrollbars */
-        iframe {
+        embed {
             min-height: 97vh;
             width: 99vw;
         }
@@ -32,10 +32,11 @@
         function loadPdfFromBase64(base64) {
             const blob = base64ToBlob(base64, 'application/pdf');
             const url = URL.createObjectURL(blob);
-            document.write("<iframe width='100%' height='100%' src='" + url + "'></iframe>");
+            document.getElementById('pdf-embed').src = url;
         }
     </script>
 </head>
 <body>
+    <embed id="pdf-embed" type='application/pdf' />
 </body>
 </html>
