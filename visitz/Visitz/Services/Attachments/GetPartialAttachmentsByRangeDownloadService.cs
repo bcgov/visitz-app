@@ -63,7 +63,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     {
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var allAttachments = Attachment.GetAttachments(realm, recordInfo.Type, recordInfo.Id).Freeze();
+        var allAttachments = Attachment.GetOrderedAttachments(realm, recordInfo.Type, recordInfo.Id).Freeze();
         var filteredAttachments = FilterAndTransformAttachments(allAttachments, recordInfo);
 
         return filteredAttachments;
