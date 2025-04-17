@@ -87,7 +87,6 @@ namespace Visitz.Services.Caseload
                 GetAllContacts(all),
                 GetAllSupportNetworkItems(casesIncidentsSrs),
                 GetAllAttachments(all),
-                GetPartialAttachments(all),
                 GetAllSafetyAssessments(incidents)
             );
         }
@@ -133,6 +132,8 @@ namespace Visitz.Services.Caseload
         {
             var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
             await ServiceHandler.TryRunServiceAsync(startMessage);
+
+            await GetPartialAttachments(all);
         }
 
         private async Task GetPartialAttachments(IEnumerable<RecordServiceInfo> all)
