@@ -48,6 +48,11 @@ internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolde
             return;
         }
 
+        Filer = await VisitzFiles.GetAsync(
+            Attachment,
+            CaseloadItem.KeyPlayer.FirstName,
+            CaseloadItem.KeyPlayer.LastName);
+
         if (Assembly.GetEntryAssembly() is Assembly entry)
             Source = GetEmbedPath(entry);
         else
@@ -59,11 +64,6 @@ internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolde
 
             return;
         }
-
-        Filer = await VisitzFiles.GetAsync(
-            Attachment,
-            CaseloadItem.KeyPlayer.FirstName,
-            CaseloadItem.KeyPlayer.LastName);
     }
 
     static string? GetEmbedPath(Assembly entry)
