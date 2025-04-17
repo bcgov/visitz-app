@@ -12,7 +12,7 @@ using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Storage.Filesystem;
 
-namespace Visitz.Views.Pdfs;
+namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 

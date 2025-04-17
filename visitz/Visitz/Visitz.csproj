@@ -148,7 +148,7 @@
 	  <MauiXaml Update="Views\Navigation\TabView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Pdfs\PdfDetailsView.xaml">
+	  <MauiXaml Update="Views\Entity\Attachments\PdfDetailsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

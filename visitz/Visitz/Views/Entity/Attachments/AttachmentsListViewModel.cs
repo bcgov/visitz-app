@@ -9,7 +9,6 @@ using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Pdfs;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;

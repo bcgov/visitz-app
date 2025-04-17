@@ -2,13 +2,13 @@
 <base:ViewModelContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
-    xmlns:pdfs="clr-namespace:Visitz.Views.Pdfs"
-    x:Class="Visitz.Views.Pdfs.PdfDetailsView"
-    x:DataType="pdfs:PdfDetailsViewModel"
+    x:Class="Visitz.Views.Entity.Attachments.PdfDetailsView"
+    x:DataType="attachments:PdfDetailsViewModel"
     Background="White">
 
     <Grid

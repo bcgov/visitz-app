@@ -15,7 +15,6 @@ using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
 using Visitz.Views.Entity.SupportNetwork;
 using Visitz.Views.Navigation;
-using Visitz.Views.Pdfs;
 using Visitz.Views.Root;
 using Visitz.Views.Snackbar;
 using Visitz.Views.User;

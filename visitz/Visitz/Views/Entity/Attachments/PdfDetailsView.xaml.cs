@@ -4,7 +4,7 @@ using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 
-namespace Visitz.Views.Pdfs;
+namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 
