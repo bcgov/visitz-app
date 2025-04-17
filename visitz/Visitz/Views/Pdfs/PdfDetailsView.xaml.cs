@@ -1,21 +1,30 @@
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Interfaces;
+using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 
 namespace Visitz.Views.Pdfs;
 
 #nullable enable
 
-public partial class PdfDetailsView : ViewModelContentView
+public partial class PdfDetailsView : ViewModelContentView, ICaseloadItemHolder
 {
     static readonly string LoadPdfFromBase64Js = "loadPdfFromBase64('{0}')";
 
     new PdfDetailsViewModel ViewModel => base.ViewModel as PdfDetailsViewModel
         ?? throw new InvalidOperationException("ViewModel is null");
 
-    public Stream? PdfStream
+    public CaseloadItem? CaseloadItem
     {
-        get => ViewModel.PdfStream;
-        set => ViewModel.PdfStream = value;
+        get => ViewModel.CaseloadItem;
+        set => ViewModel.CaseloadItem = value;
+    }
+
+    public Attachment? Attachment
+    {
+        get => ViewModel.Attachment;
+        set => ViewModel.Attachment = value;
     }
 
     public PdfDetailsView() : base(ServiceProvider.GetService<PdfDetailsViewModel>())
@@ -28,7 +37,7 @@ public partial class PdfDetailsView : ViewModelContentView
     {
         ViewModel.ShowActivityIndicator = false;
 
-        if (sender is WebView wv && ViewModel.PdfStream is not null)
+        if (sender is WebView wv)
             await TryLoadPdf(wv, await ViewModel.MakeBase64Pdf());
     }
 
