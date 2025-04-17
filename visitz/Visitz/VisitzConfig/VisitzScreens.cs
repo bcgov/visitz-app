@@ -52,6 +52,8 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<WebViewPage>();
         builder.Services.AddTransient<WebViewModel>();
+        builder.Services.AddTransient<PdfDetailsView>();
+        builder.Services.AddTransient<PdfDetailsViewModel>();
 
         builder.Services.AddTransient<EntityNavView>();
         builder.Services.AddTransient<EntityNavViewModel>();

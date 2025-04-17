@@ -14,8 +14,10 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public static readonly int MaxFilesize = 5 * Sizes.MB;
     public static readonly int ThumbnailSize = 400;
 
+    public static readonly string Pdf = ".pdf";
+
     public static readonly IEnumerable<string> AllowedImageTypes = [".jpg", ".jpeg"];
-    public static readonly IEnumerable<string> AllowedDocumentTypes = [".pdf"];
+    public static readonly IEnumerable<string> AllowedDocumentTypes = [Pdf];
 
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -98,6 +100,15 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
     public bool HasDraft => Draft != null;
+    
+    public string FileNumber => RelatedEntityType switch
+    {
+        EntityType.Case => CaseNumber,
+        EntityType.Incident => IncidentNo,
+        EntityType.Memo => MemoNumber,
+        EntityType.ServiceRequest => ServiceRequestNumber,
+        _ => throw new NotImplementedException($"{RelatedEntityType} not implemented")
+    };
 
     public static async Task DeleteAsync(Realm realm, Attachment attachment)
     {
@@ -207,6 +218,11 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             CreatedDate = CreatedDate.ToString(dateFormat),
             LastUpdatedDate = UpdatedDate.ToString(dateFormat),
         };
+    }
+
+    public async Task<MemoryStream> GetFile(AttachmentFiler filer, CancellationToken? token = null)
+    {
+        return await filer.GetAppDataFileAsync(RelativePath, token);
     }
 
     public static IEnumerable<Attachment> FromApiArray(

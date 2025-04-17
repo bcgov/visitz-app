@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    x:Class="Visitz.Views.Entity.Attachments.AttachmentsListItemView"
+    x:DataType="attachments:AttachmentsListItemUi">
+
+    <base:BaseContentView.GestureRecognizers>
+        <TapGestureRecognizer
+            Command="{Binding OpenAttachmentCommand,
+                Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+            CommandParameter="{Binding .}" />
+    </base:BaseContentView.GestureRecognizers>
+    
+    <VerticalStackLayout>
+        <Grid
+            RowSpacing="{StaticResource DefaultSpacing}"
+            ColumnSpacing="{StaticResource DefaultSpacing}"
+            Margin="10,10,10,0"
+            RowDefinitions="Auto,Auto,Auto"
+            ColumnDefinitions="*,Auto">
+
+            <Grid.Resources>
+                <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter"/>
+            </Grid.Resources>
+
+            <Label
+                Grid.Row="0"
+                TextColor="{Binding ToDownloadTextColor}"
+                Text="{Binding Attachment.Filename}"/>
+
+            <Label
+                Grid.Row="1"
+                Text="{Binding Attachment.FormDescription}"
+                TextColor="{Binding ToDownloadTextColor}"
+                FontFamily="BCSansBold"
+                FontSize="17"/>
+
+            <HorizontalStackLayout
+                Spacing="30"
+                Grid.Row="2">
+                <Label
+                    TextColor="{Binding ToDownloadTextColor}"
+                    Text="{Binding Attachment.Status}"/>
+                <Label
+                    TextColor="{Binding ToDownloadTextColor}"
+                    Text="{Binding Attachment.Category}"/>
+                <Label
+                    TextColor="{Binding ToDownloadTextColor}"
+                    Text="{Binding Attachment.CreatedDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"/>
+                <Label
+                    TextColor="{Binding ToDownloadTextColor}"
+                    Text="{Binding Attachment.CreatedBy}"/>
+            </HorizontalStackLayout>
+
+            <controls:FontIconButton
+                Grid.Row="0"
+                Grid.Column="1"
+                Grid.RowSpan="3"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
+                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                CommandParameter="{Binding .}"
+                FontFamily="FluentIconsRegular"
+                FontSize="30"
+                IsVisible="{Binding ShowDeleteButton}"
+                Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
+                TextColor="{StaticResource Gray500}" />
+
+            <ActivityIndicator
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                IsRunning="{Binding IsDownloading}"
+                IsVisible="{Binding IsDownloading}" />
+
+            <controls:FontIconButton
+                Grid.Row="0"
+                Grid.Column="1"
+                Grid.RowSpan="3"
+                VerticalOptions="Center"
+                HorizontalOptions="End"
+                Command="{Binding DownloadAttachmentForDeviceCommand,
+                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                CommandParameter="{Binding .}"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                FontSize="30"
+                IsVisible="{Binding ShowDownloadButton}"
+                Text="{Static fonticons:MaterialIcons.Download}"
+                TextColor="{StaticResource Gray500}" />
+        </Grid>
+        <BoxView
+            Margin="10"
+            Color="{StaticResource Gray200}"
+            HeightRequest="0.5"/>
+    </VerticalStackLayout>
+</base:BaseContentView>

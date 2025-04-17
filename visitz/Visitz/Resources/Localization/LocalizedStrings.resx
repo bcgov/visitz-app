@@ -897,4 +897,10 @@ This does not affect attachments in ICM.</value>
     <value>Removed '{0}' from device</value>
     <comment>0 = filename of attachment</comment>
   </data>
+  <data name="PdfContentMissing" xml:space="preserve">
+    <value>PDF content missing</value>
+  </data>
+  <data name="UnableToLoadPdf" xml:space="preserve">
+    <value>Unable to load PDF</value>
+  </data>
 </root>

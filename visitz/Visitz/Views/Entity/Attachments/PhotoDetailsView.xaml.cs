@@ -17,10 +17,17 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
         get => ViewModel.Attachment;
         set => ViewModel.Attachment = value;
     }
+
     public CaseloadItem CaseloadItem
     {
         get => ViewModel.CaseloadItem;
         set => ViewModel.CaseloadItem = value;
+    }
+
+    public bool IsDownloadedAttachment
+    {
+        get => ViewModel.IsDownloadedAttachment;
+        set => ViewModel.IsDownloadedAttachment = value;
     }
 
     public PhotoDetailsView() : base(ServiceProvider.GetService<PhotoDetailsViewModel>())
@@ -29,9 +36,9 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
         BindingContext = ViewModel;
     }
 
-    protected override void Creating()
+    protected override Task InitAsync()
     {
-        base.Creating();
+        var task = base.InitAsync();
 
         var attachment = ViewModel.Attachment;
 
@@ -40,7 +47,21 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
             string id = SubmitAttachmentService.MakeId(draft.RelatedEntityId, attachment.Id);
             WeakReferenceMessenger.Default.Register(this, id);
         }
+
+        return task;
     }
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            Unregister();
+            disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
 
     void Unregister()
     {

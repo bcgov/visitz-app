@@ -37,7 +37,7 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <attachments:AttachmentListItemView />
+                    <attachments:AttachmentDraftsListItemView />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

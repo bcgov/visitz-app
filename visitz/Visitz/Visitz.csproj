@@ -108,6 +108,9 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>LocalizedStrings.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Entity\Attachments\AttachmentDraftsListItemView.xaml.cs">
+	    <DependentUpon>AttachmentDraftsListItemView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml.cs">
 	    <DependentUpon>ChildYouthVisitListView.xaml</DependentUpon>
 	  </Compile>
@@ -130,6 +133,9 @@
 	  <MauiXaml Update="Views\Drafts\EditDraftAppBar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Entity\Attachments\AttachmentsListItemView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -140,6 +146,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Navigation\TabView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Entity\Attachments\PdfDetailsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

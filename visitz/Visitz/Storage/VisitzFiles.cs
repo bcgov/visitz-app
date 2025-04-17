@@ -1,3 +1,4 @@
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
@@ -26,6 +27,20 @@ internal static class VisitzFiles
             firstName,
             lastName,
             await VisitzKey.GetKey(keyName, Aes256KeySize));
+    }
+
+    public static Task<AttachmentFiler> GetAsync(
+        Attachment attachment,
+        string firstName,
+        string lastName,
+        string keyname = null)
+    {
+        return GetAsync(
+            attachment.RelatedEntityType,
+            attachment.FileNumber,
+            firstName,
+            lastName,
+            keyname);
     }
 
     public static Task EnqueueAsync(Func<Task> task)

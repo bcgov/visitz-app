@@ -2,114 +2,21 @@
 <baseClasses:ViewModelContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
-    xmlns:controls="clr-namespace:Visitz.Controls"
-    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentsListView"
-    xmlns:model="clr-namespace:VisitzModel.Models.Attachments;assembly=VisitzModel"
     x:DataType="attachments:AttachmentsListViewModel"
     VerticalOptions="FillAndExpand">
 
-    <Grid RowDefinitions="*">
-        <Grid.Resources>
-            <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter"/>
-        </Grid.Resources>
-        <CollectionView
-            Grid.Row="0"
-            x:Name="AttachmentsCollectionView"
-            ItemsSource="{Binding AttachmentsList}"
-            SelectionMode="None"
-            ItemsUpdatingScrollMode="KeepScrollOffset">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="attachments:AttachmentsListItemUi">
-                    <ContentView>
-                        <VerticalStackLayout>
-                            <Grid
-                                RowSpacing="{StaticResource DefaultSpacing}"
-                                ColumnSpacing="{StaticResource DefaultSpacing}"
-                                Margin="10,10,10,0"
-                                RowDefinitions="Auto,Auto,Auto"
-                                ColumnDefinitions="*,Auto">
-
-                                <Label
-                                    Grid.Row="0"
-                                    TextColor="{Binding ToDownloadTextColor}"
-                                    Text="{Binding Attachment.Filename}"/>
-
-                                <Label
-                                    Grid.Row="1"
-                                    Text="{Binding Attachment.FormDescription}"
-                                    TextColor="{Binding ToDownloadTextColor}"
-                                    FontFamily="BCSansBold"
-                                    FontSize="17"/>
-
-                                <HorizontalStackLayout
-                                    Spacing="30"
-                                    Grid.Row="2">
-                                    <Label
-                                        TextColor="{Binding ToDownloadTextColor}"
-                                        Text="{Binding Attachment.Status}"/>
-                                    <Label
-                                        TextColor="{Binding ToDownloadTextColor}"
-                                        Text="{Binding Attachment.Category}"/>
-                                    <Label
-                                        TextColor="{Binding ToDownloadTextColor}"
-                                        Text="{Binding Attachment.CreatedDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"/>
-                                    <Label
-                                        TextColor="{Binding ToDownloadTextColor}"
-                                        Text="{Binding Attachment.CreatedBy}"/>
-                                </HorizontalStackLayout>
-                                
-                                <controls:FontIconButton
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Grid.RowSpan="3"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End"
-                                    Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
-                                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    FontFamily="FluentIconsRegular"
-                                    FontSize="30"
-                                    IsVisible="{Binding ShowDeleteButton}"
-                                    Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
-                                    TextColor="{StaticResource Gray500}" />
-
-                                <ActivityIndicator
-                                    Grid.Row="0"
-                                    Grid.RowSpan="3"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End"
-                                    IsRunning="{Binding IsDownloading}"
-                                    IsVisible="{Binding IsDownloading}" />
-
-                                <controls:FontIconButton
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Grid.RowSpan="3"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End"
-                                    Command="{Binding DownloadAttachmentForDeviceCommand,
-                                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    FontFamily="MaterialIconsRoundedUnfilled"
-                                    FontSize="30"
-                                    IsVisible="{Binding ShowDownloadButton}"
-                                    Text="{Static fonticons:MaterialIcons.Download}"
-                                    TextColor="{StaticResource Gray500}" />
-                            </Grid>
-                            <BoxView
-                                Margin="10"
-                                Color="{StaticResource Gray200}"
-                                HeightRequest="0.5"/>
-                        </VerticalStackLayout>
-                    </ContentView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Grid>
+    <CollectionView
+        ItemsSource="{Binding AttachmentsList}"
+        SelectionMode="None"
+        ItemsUpdatingScrollMode="KeepScrollOffset">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="attachments:AttachmentsListItemUi">
+                <attachments:AttachmentsListItemView />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </baseClasses:ViewModelContentView>
