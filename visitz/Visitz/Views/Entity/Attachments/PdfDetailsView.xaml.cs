@@ -37,7 +37,9 @@ public partial class PdfDetailsView : ViewModelContentView, ICaseloadItemHolder
     {
         ViewModel.ShowActivityIndicator = false;
 
-        if (sender is WebView wv)
+        if (!e.Url.StartsWith("file:"))
+            return;
+        else if (sender is WebView wv)
             await TryLoadPdf(wv, await ViewModel.MakeBase64Pdf());
     }
 
