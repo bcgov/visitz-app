@@ -13,8 +13,12 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    public class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+    public class GetCaseloadService(
+        Vpi vpi,
+        LastUpdatedPrefs prefs,
+        UserIgnoredContentPrefs userIgnoredContentPrefs) : VisitzApiService(vpi, prefs)
     {
+        UserIgnoredContentPrefs UserIgnoredPrefs { get; } = userIgnoredContentPrefs;
         public static string MakeId()
         {
             return nameof(GetCaseloadService);
@@ -62,7 +66,7 @@ namespace Visitz.Services.Caseload
             List<InvalidOperationException> invalidOps = [];
 
             if (CanSynchronize(caseloadFromApi.Cases, invalidOps))
-                await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases);
+                await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases, UserIgnoredPrefs);
 
             if (CanSynchronize(caseloadFromApi.Incidents, invalidOps))
                 await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents);
@@ -107,7 +111,7 @@ namespace Visitz.Services.Caseload
         }
 
         /// <summary>
-        /// As of v1.0, it is currently a business decision to only allow users to interact with Cases and Incidents 
+        /// As of v1.0, it is currently a business decision to only allow users to interact with Cases and Incidents
         /// from their caseload.
         /// </summary>
         /// <param name="caseloadItems"></param>

@@ -3,10 +3,12 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -169,7 +171,7 @@ public partial class CaseRecord :
         return outList;
     }
 
-    public static async Task SynchronizeCasesAsync(Realm realm, SectionJson<CaseJson> section)
+    public static async Task SynchronizeCasesAsync(Realm realm, SectionJson<CaseJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         var currentAssignedIds = realm.All<CaseRecord>().AsEnumerable().Select(@case => @case.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
@@ -183,7 +185,7 @@ public partial class CaseRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds);
+            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
             realm.Upsert(v2Cases);
 
             // TODO: Remove this foreach loop once we've fully removed V1 CaseloadItems
@@ -192,7 +194,7 @@ public partial class CaseRecord :
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds)
+    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in unassignedIds)
         {
@@ -202,7 +204,7 @@ public partial class CaseRecord :
             PersonVisit.RemoveByParent(realm, EntityType.Case, id);
             IcmContact.RemoveByParent(realm, EntityType.Case, id);
             SupportNetworkItem.RemoveByParent(realm, EntityType.Case, id);
-            // TODO: Remove Attachments
+            Attachment.RemoveByParent(realm, EntityType.Case, id, userIgnoredPrefs);
         }
     }
 }

@@ -18,5 +18,11 @@ public class UserIgnoredContentPrefs(IPreferences prefs)
         var fullKey = IgnoredContentKeyPrefix + key;
         return Preferences.ContainsKey(fullKey) ? Preferences.Get(fullKey, false) : null;
     }
+
+    public void RemoveUserIgnoredContent(string key)
+    {
+        var fullKey = IgnoredContentKeyPrefix + key;
+        Preferences.Remove(fullKey);
+    }
 }
 
