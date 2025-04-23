@@ -48,17 +48,17 @@ public partial class AttachmentDraftsListView : ViewModelContentView, ICaseloadI
         if (FocusedDraftItem == null)
             return;
 
-        var draft = ViewModel.AttachmentDrafts.FirstOrDefault(draftItem =>
-            draftItem.Preview == FocusedDraftItem.Preview
-            && draftItem.LastUpdated == FocusedDraftItem.LastUpdated);
+        var draftItem = ViewModel.AttachmentDrafts.FirstOrDefault(draftItem =>
+            draftItem.Attachment.Draft.Preview == FocusedDraftItem.Preview
+            && draftItem.Attachment.Draft.LastUpdated == FocusedDraftItem.LastUpdated);
 
-        ScrollToDraft(draft);
-        ViewModel.OpenAttachment(draft);
+        ScrollToDraft(draftItem);
+        ViewModel.OpenAttachment(draftItem.Attachment.Draft);
 
         FocusedDraftItem = null;
     }
 
-    void ScrollToDraft(AttachmentDraft draft)
+    void ScrollToDraft(AttachmentDraftListItemUi draft)
     {
         DraftsCollection.ScrollTo(draft, position: ScrollToPosition.Center);
     }
