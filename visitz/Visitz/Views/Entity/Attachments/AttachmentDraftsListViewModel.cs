@@ -136,12 +136,33 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
 
     async Task DoOpenAttachment(AttachmentDraft draft)
     {
-        var view = new PhotoDetailsView()
-        {
-            Attachment = draft.Attachment,
-            CaseloadItem = CaseloadItem,
-        }.WrapPageForModal(ViewModalSize.Fullscreen);
+        if (!draft.Attachment.FileExistsLocally)
+            return;
+
+        string path = draft.Attachment.RelativePath.Trim();
+
+        ContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
+            ? MakePdfDetailsView(draft.Attachment)
+            : MakePhotoDetailsView(draft.Attachment);
 
         await Navigator.Navigation.PushAsync(view);
+    }
+
+    PhotoDetailsView MakePhotoDetailsView(Attachment attachment)
+    {
+        return new()
+        {
+            Attachment = attachment,
+            CaseloadItem = CaseloadItem,
+        };
+    }
+
+    PdfDetailsView MakePdfDetailsView(Attachment attachment)
+    {
+        return new()
+        {
+            Attachment = attachment,
+            CaseloadItem = CaseloadItem,
+        };
     }
 }
