@@ -7,6 +7,7 @@ using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
@@ -83,6 +84,9 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
 
         if (shouldRemove)
         {
+            var prefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
+            prefs.SetUserIgnoredContent(Attachment.Id, true);
+
             Attachment.RemoveFileFromDevice();
 
             string removedText = string.Format(
