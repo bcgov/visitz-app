@@ -71,14 +71,4 @@ public partial class Attachment
             }
         }
     }
-
-    public bool UserIgnoredContentBinding
-    {
-        get => IsValid ? UserIgnoredContent : default;
-        set
-        {
-            this.Commit(() => UserIgnoredContent = value);
-            RaisePropertyChanged(nameof(UserIgnoredContentBinding));
-        }
-    }
 }

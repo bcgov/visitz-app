@@ -92,8 +92,6 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
     public bool FileExistsLocally => RelativePath?.Trim().Length > 0;
 
-    public bool UserIgnoredContent { get; set; }
-
     [Backlink(nameof(AttachmentDraft.Attachment))]
     public IQueryable<AttachmentDraft> AttachmentDrafts { get; }
 
@@ -102,7 +100,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
     public bool HasDraft => Draft != null;
-    
+
     public string FileNumber => RelatedEntityType switch
     {
         EntityType.Case => CaseNumber,

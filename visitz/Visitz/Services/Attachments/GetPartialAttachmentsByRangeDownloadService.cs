@@ -10,13 +10,13 @@ namespace Visitz.Services.Attachments;
 internal class GetPartialAttachmentsByRangeDownloadService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
-    : VisitzApiService(vpi, prefs)
+    ServiceHandler serviceHandler,
+    UserIgnoredContentPrefs userIgnoredContentPrefs) : VisitzApiService(vpi, prefs)
 {
     static readonly int DefaultLimit = 10;
     static readonly int DefaultMonthLimit = 3;
-
     ServiceHandler ServiceHandler { get; set; } = serviceHandler;
+    UserIgnoredContentPrefs UserIgnoredPrefs { get; } = userIgnoredContentPrefs;
 
     public static string MakeId()
     {
@@ -56,7 +56,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         }
     }
 
-    private static async Task<IEnumerable<
+    private async Task<IEnumerable<
         (RecordServiceInfo recordInfo,
         string attachmentId,
         bool force)>> ProcessAttachmentsAsync(RecordServiceInfo recordInfo)
@@ -69,7 +69,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         return filteredAttachments;
     }
 
-    private static IEnumerable<
+    private IEnumerable<
         (RecordServiceInfo recordInfo,
         string attachmentId,
         bool force)> FilterAndTransformAttachments(IQueryable<Attachment> attachments, RecordServiceInfo recordInfo)
@@ -81,7 +81,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
             .AsEnumerable()
             .Take(DefaultLimit);
         return limitedAttachments
-            .Where(att => !att.UserIgnoredContent)
+            .Where(att => UserIgnoredPrefs?.GetUserIgnoredContent(att.Id) != true)
             .Select(att => (recordInfo, att.Id, false));
     }
 
