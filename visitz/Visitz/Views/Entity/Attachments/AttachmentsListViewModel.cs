@@ -15,6 +15,7 @@ using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -31,6 +32,13 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
 
     [ObservableProperty]
     public CaseloadItem? caseloadItem;
+
+    public UserIgnoredContentPrefs? UserIgnoredContentPrefs { get; set; }
+
+    public AttachmentsListViewModel()
+    {
+        UserIgnoredContentPrefs = new UserIgnoredContentPrefs(Preferences.Default);
+    }
 
     protected override async Task InitAsync()
     {
@@ -104,12 +112,12 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     }
 
     [RelayCommand]
-    public static void DeleteDownloadedAttachmentFromDevice(AttachmentsListItemUi item)
+    public void DeleteDownloadedAttachmentFromDevice(AttachmentsListItemUi item)
     {
         _ = PromptRemoveAttachmentAsync(item);
     }
 
-    static async Task PromptRemoveAttachmentAsync(AttachmentsListItemUi item)
+    public async Task PromptRemoveAttachmentAsync(AttachmentsListItemUi item)
     {
         bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
             LocalizedStrings.RemoveAttachmentFromDevice,
@@ -120,6 +128,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         if (shouldRemove)
         {
             item.Attachment.RemoveFileFromDevice();
+            UserIgnoredContentPrefs?.SetUserIgnoredContent(item.Attachment.Id, true);
             string removedText = string.Format(
                 LocalizedStrings.RemovedAttachmentFromDevice,
                 item.Attachment.Filename);
@@ -144,6 +153,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
             var tuple = (recordServiceInfo, attachmentId, force);
             var msg = GetAttachmentContentService.MakeStartMessage(tuple);
             WeakReferenceMessenger.Default.Send(msg);
+            UserIgnoredContentPrefs?.SetUserIgnoredContent(attachmentId, false);
         }
         else
             throw new InvalidOperationException(nameof(CaseloadItem));

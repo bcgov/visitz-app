@@ -100,7 +100,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
     public bool HasDraft => Draft != null;
-    
+
     public string FileNumber => RelatedEntityType switch
     {
         EntityType.Case => CaseNumber,

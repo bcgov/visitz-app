@@ -45,6 +45,7 @@ namespace Visitz.VisitzConfig
         public static MauiAppBuilder ConfigureVisitzUtilities(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton(_ => new LastUpdatedPrefs(Preferences.Default));
+            builder.Services.AddSingleton(_ => new UserIgnoredContentPrefs(Preferences.Default));
 
             return builder;
         }
