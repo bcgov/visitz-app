@@ -99,7 +99,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    async Task PromptDiscardAttachmentAsync()
+    async Task PromptDiscardAttachmentDraftAsync()
     {
         if (Attachment == null || !Attachment.HasDraft)
             return;

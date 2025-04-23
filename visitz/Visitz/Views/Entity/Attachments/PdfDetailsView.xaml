@@ -41,7 +41,7 @@
             Text="{Static icons:MaterialIcons.Delete}"
             TextColor="{StaticResource BC_TextColor}"
             FontFamily="MaterialIconsRoundedUnfilled"
-            Command="{Binding PromptDiscardAttachmentCommand}" />
+            Command="{Binding PromptDiscardAttachmentDraftCommand}" />
 
         <controls:FontIconButton
             Grid.Column="4"
