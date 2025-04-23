@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:notes="clr-namespace:Visitz.Views.Entity.Notes"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -24,12 +25,7 @@
                         CommandParameter="{Binding .}"/>
                 </VerticalStackLayout.GestureRecognizers>
 
-                <Label 
-                    HorizontalOptions="Center"
-                    FontSize="200"
-                    TextColor="#919197"
-                    Text="{Static icons:MaterialIcons.Note_stack}"
-                    FontFamily="MaterialIconsRoundedUnfilled" />
+                <controls:EmptyIcon />
 
                 <!-- TapGestureRecognizer isn't working in this instance, so hide the prompt for now.
                     TODO: Get taps working here so we can show this prompt. -->

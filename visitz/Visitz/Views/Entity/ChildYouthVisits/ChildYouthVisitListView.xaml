@@ -5,6 +5,7 @@
     xmlns:banners="clr-namespace:Visitz.Views.Banners"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthVisit="clr-namespace:Visitz.Views.Entity.ChildYouthVisits"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
@@ -122,14 +123,8 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Label
+        <controls:EmptyIcon
             Grid.Row="3"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            FontSize="200"
-            TextColor="#919197"
-            Text="{Static icons:MaterialIcons.Note_stack}"
-            FontFamily="MaterialIconsRoundedUnfilled"
             IsVisible="{Binding ShowEmptyIcon}"/>
 
         <BoxView
