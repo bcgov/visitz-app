@@ -293,7 +293,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
         foreach (var item in attachmentItems)
         {
-            if(!string.IsNullOrWhiteSpace(item.RelativePath))
+            if(item.FileExistsLocally)
                 item.RemoveFileFromDevice();
             userIgnoredPrefs.RemoveUserIgnoredContent(item.Id);
             realm.Remove(item);
