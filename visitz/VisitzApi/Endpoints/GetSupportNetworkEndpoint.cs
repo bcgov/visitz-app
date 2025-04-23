@@ -11,7 +11,10 @@ internal class GetSupportNetworkEndpoint(
     ApiRecordType type,
     string id,
     DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<IEnumerable<SupportNetworkJson>>(baseUrl, Vpi.V2, MakePath(type, id))
+    : VisitzBaseEndpoint<IEnumerable<SupportNetworkJson>>(
+        baseUrl,
+        Vpi.V2,
+        MakePath(type, id))
 {
     static readonly string SupportNetworkPath = "/{0}/{1}/support-network";
 

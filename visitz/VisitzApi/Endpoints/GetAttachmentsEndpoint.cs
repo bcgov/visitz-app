@@ -6,8 +6,15 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
-internal class GetAttachmentsEndpoint(string baseUrl, ApiRecordType type, string rowId, DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<IEnumerable<AttachmentJson>>(baseUrl, Vpi.V2, MakePath(type, rowId))
+internal class GetAttachmentsEndpoint(
+    string baseUrl,
+    ApiRecordType type,
+    string rowId,
+    DateTimeOffset? after = null)
+    : VisitzBaseEndpoint<IEnumerable<AttachmentJson>>(
+        baseUrl,
+        Vpi.V2,
+        MakePath(type, rowId))
 {
     static readonly string AttachmentsPath = "/{0}/{1}/attachments";
 

@@ -6,8 +6,15 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
-internal class GetContactsEndpoint(string baseUrl, ApiRecordType type, string rowId, DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<IEnumerable<ContactJson>>(baseUrl, Vpi.V2, MakePath(type, rowId))
+internal class GetContactsEndpoint(
+    string baseUrl,
+    ApiRecordType type,
+    string rowId,
+    DateTimeOffset? after = null)
+    : VisitzBaseEndpoint<IEnumerable<ContactJson>>(
+        baseUrl,
+        Vpi.V2,
+        MakePath(type, rowId))
 {
     static readonly string ContactsPath = "/{0}/{1}/contacts";
 

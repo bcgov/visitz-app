@@ -6,8 +6,14 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.Visits;
 
-internal class GetVisitsEndpoint(string baseUrl, string caseId, DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<IEnumerable<VisitJson>>(baseUrl, Vpi.V2, string.Format(VisitsPath, caseId))
+internal class GetVisitsEndpoint(
+    string baseUrl,
+    string caseId,
+    DateTimeOffset? after = null)
+    : VisitzBaseEndpoint<IEnumerable<VisitJson>>(
+        baseUrl,
+        Vpi.V2,
+        string.Format(VisitsPath, caseId))
 {
     static readonly string VisitsPath = "/case/{0}/visits";
 

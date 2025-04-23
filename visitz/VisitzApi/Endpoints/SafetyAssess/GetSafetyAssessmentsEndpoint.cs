@@ -6,8 +6,14 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.SafetyAssess;
 
-internal class GetSafetyAssessmentsEndpoint(string baseUrl, string incidentId, DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<IEnumerable<SafetyAsessmentJson>>(baseUrl, Vpi.V2, MakePath(incidentId))
+internal class GetSafetyAssessmentsEndpoint(
+    string baseUrl,
+    string incidentId,
+    DateTimeOffset? after = null)
+    : VisitzBaseEndpoint<IEnumerable<SafetyAsessmentJson>>(
+        baseUrl,
+        Vpi.V2,
+        MakePath(incidentId))
 {
     static readonly string AssessmentsPath = "/incident/{0}/safety-assessments";
 
