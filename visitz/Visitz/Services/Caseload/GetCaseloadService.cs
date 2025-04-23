@@ -75,7 +75,7 @@ namespace Visitz.Services.Caseload
                 await MemoRecord.SynchronizeAsync(realm, caseloadFromApi.Memos, UserIgnoredPrefs);
 
             if (CanSynchronize(caseloadFromApi.ServiceRequests, invalidOps))
-                await ServiceRequestRecord.SynchronizeAsync(realm, caseloadFromApi.ServiceRequests);
+                await ServiceRequestRecord.SynchronizeAsync(realm, caseloadFromApi.ServiceRequests, UserIgnoredPrefs);
 
             if (invalidOps.Count > 0)
                 throw new AggregateException(invalidOps);
