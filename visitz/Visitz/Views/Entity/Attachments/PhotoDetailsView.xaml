@@ -60,7 +60,7 @@
                 Text="{Static icons:MaterialIcons.Delete}"
                 TextColor="White"
                 FontFamily="MaterialIconsRoundedUnfilled"
-                Command="{Binding DeleteAttachmentDraftCommand}"
+                Command="{Binding PromptDiscardAttachmentCommand}"
                 CommandParameter="{Binding Attachment}" />
 
             <controls:FontIconButton
