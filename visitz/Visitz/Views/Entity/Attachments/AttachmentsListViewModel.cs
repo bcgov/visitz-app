@@ -33,6 +33,9 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     [ObservableProperty]
     public CaseloadItem? caseloadItem;
 
+    [ObservableProperty]
+    public bool isEmpty;
+
     public UserIgnoredContentPrefs? UserIgnoredContentPrefs { get; set; }
 
     public AttachmentsListViewModel()
@@ -101,6 +104,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
             foreach (int inserted in changes.InsertedIndices)
                 AttachmentsList.Insert(inserted, MakeItemUi(items[inserted] as Attachment));
         }
+
+        IsEmpty = !AttachmentsList.Any();
     }
 
     AttachmentsListItemUi MakeItemUi(Attachment? attachment)
