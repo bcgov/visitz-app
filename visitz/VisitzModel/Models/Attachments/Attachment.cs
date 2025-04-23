@@ -101,14 +101,33 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
     public bool HasDraft => Draft != null;
 
-    public string FileNumber => RelatedEntityType switch
+    public string FileNumber
     {
-        EntityType.Case => CaseNumber,
-        EntityType.Incident => IncidentNo,
-        EntityType.Memo => MemoNumber,
-        EntityType.ServiceRequest => ServiceRequestNumber,
-        _ => throw new NotImplementedException($"{RelatedEntityType} not implemented")
-    };
+        get
+        {
+            return RelatedEntityType switch
+            {
+                EntityType.Case => CaseNumber,
+                EntityType.Incident => IncidentNo,
+                EntityType.Memo => MemoNumber,
+                EntityType.ServiceRequest => ServiceRequestNumber,
+                _ => throw new NotImplementedException($"'{RelatedEntityType}' not implemented")
+            };
+        }
+        set
+        {
+            if (RelatedEntityType == EntityType.Case)
+                CaseNumber = value;
+            else if (RelatedEntityType == EntityType.Incident)
+                IncidentNo = value;
+            else if (RelatedEntityType == EntityType.Memo)
+                MemoNumber = value;
+            else if (RelatedEntityType == EntityType.ServiceRequest)
+                ServiceRequestNumber = value;
+            else
+                throw new NotImplementedException($"'{RelatedEntityType}' not implemented");
+        }
+    }
 
     public static async Task DeleteAsync(Realm realm, Attachment attachment)
     {
