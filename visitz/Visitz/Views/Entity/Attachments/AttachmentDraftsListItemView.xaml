@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </baseClasses:BaseContentView.Resources>
 
-    <VerticalStackLayout Padding="20,10,20,0">
+    <VerticalStackLayout Padding="10,10,10,0">
         <VerticalStackLayout.GestureRecognizers>
             <TapGestureRecognizer
                 Command="{Binding OpenAttachmentCommand,

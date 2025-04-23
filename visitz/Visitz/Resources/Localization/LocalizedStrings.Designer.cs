@@ -894,6 +894,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image content missing.
+        /// </summary>
+        public static string ImageContentMissing {
+            get {
+                return ResourceManager.GetString("ImageContentMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conditions resulting in a child&apos;s inability to protect self. Mark all that apply to ANY child:.
         /// </summary>
         public static string InabilityProtectSelfMarkAll {

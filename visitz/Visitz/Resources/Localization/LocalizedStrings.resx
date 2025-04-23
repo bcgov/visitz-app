@@ -903,4 +903,7 @@ This does not affect attachments in ICM.</value>
   <data name="UnableToLoadPdf" xml:space="preserve">
     <value>Unable to load PDF</value>
   </data>
+  <data name="ImageContentMissing" xml:space="preserve">
+    <value>Image content missing</value>
+  </data>
 </root>

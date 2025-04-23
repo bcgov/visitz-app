@@ -32,11 +32,11 @@
             <Label
                 Grid.Row="0"
                 TextColor="{Binding ToDownloadTextColor}"
-                Text="{Binding Attachment.Filename}"/>
+                Text="{Binding Attachment.FormDescription}"/>
 
             <Label
                 Grid.Row="1"
-                Text="{Binding Attachment.FormDescription}"
+                Text="{Binding Attachment.Filename}"
                 TextColor="{Binding ToDownloadTextColor}"
                 FontFamily="BCSansBold"
                 FontSize="17"/>

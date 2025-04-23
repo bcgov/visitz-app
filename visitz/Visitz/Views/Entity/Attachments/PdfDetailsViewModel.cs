@@ -1,57 +1,27 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using Visitz.Resources.Localization;
-using Visitz.Storage;
-using Visitz.Views.BaseClasses;
-using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 
-internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class PdfDetailsViewModel : AttachmentDetailsViewModel, ICaseloadItemHolder
 {
     static readonly string EmbedHtmlPath = Path.Join("PDF", "pdf-embed.html");
 
     [ObservableProperty]
     public WebViewSource? source;
 
-    [ObservableProperty]
-    public bool showActivityIndicator = true;
-
-    [ObservableProperty]
-    public string? errorText;
-
-    [ObservableProperty]
-    public bool hasError;
-
-    public Attachment? Attachment {  get; set; }
-
-    public CaseloadItem? CaseloadItem { get; set; }
-
-    AttachmentFiler? Filer { get; set; }
+    protected override string LoadErrorText => LocalizedStrings.PdfContentMissing;
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-
-        if (Attachment == null || CaseloadItem == null)
-        {
-            ErrorText = LocalizedStrings.PdfContentMissing;
-            return;
-        }
-
-        Filer = await VisitzFiles.GetAsync(
-            Attachment,
-            CaseloadItem.KeyPlayer.FirstName,
-            CaseloadItem.KeyPlayer.LastName);
 
         if (Assembly.GetEntryAssembly() is Assembly entry)
             Source = GetEmbedPath(entry);
@@ -71,11 +41,6 @@ internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolde
         return Path.Join(Path.GetDirectoryName(entry.Location), EmbedHtmlPath);
     }
 
-    partial void OnErrorTextChanged(string? value)
-    {
-        HasError = value?.Length > 0;
-    }
-
     public async Task<string> MakeBase64Pdf()
     {
         if (Attachment != null && Filer != null)
@@ -85,30 +50,5 @@ internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolde
         }
         else
             return "";
-    }
-
-    [RelayCommand]
-    async Task PromptRemoveFromDevice()
-    {
-        if (Attachment == null)
-            return;
-
-        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
-            LocalizedStrings.RemoveAttachmentFromDevice,
-            LocalizedStrings.RemoveAttachmentDescription,
-            LocalizedStrings.Remove,
-            LocalizedStrings.Cancel);
-
-        if (shouldRemove)
-        {
-            Attachment.RemoveFileFromDevice();
-
-            string removedText = string.Format(
-                LocalizedStrings.RemovedAttachmentFromDevice,
-                Attachment.Filename);
-
-            await Navigator.Navigation.PopAsync();
-            SnackbarHandler.ShowText(removedText);
-        }
     }
 }

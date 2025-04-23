@@ -190,6 +190,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         {
             Attachment = attachment,
             CaseloadItem = CaseloadItem,
+            IsDownloadedAttachment = true,
         };
     }
 }
