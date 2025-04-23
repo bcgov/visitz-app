@@ -3,9 +3,11 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -216,7 +218,7 @@ public partial class IncidentRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<IncidentJson> section)
+    public static async Task SynchronizeAsync(Realm realm, SectionJson<IncidentJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         var currentAssignedIds = realm.All<IncidentRecord>().AsEnumerable().Select(incident => incident.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
@@ -227,7 +229,7 @@ public partial class IncidentRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds);
+            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
             realm.Upsert(v2Incidents);
 
             // TODO: Remove this foreach loop once we've fully removed V1 CaseloadItems
@@ -237,7 +239,7 @@ public partial class IncidentRecord :
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> deleteIds)
+    static void CascadeDelete(Realm realm, IEnumerable<string> deleteIds, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in deleteIds)
         {
@@ -246,7 +248,7 @@ public partial class IncidentRecord :
             // TODO: Remove notes here once we remove V1 CaseloadItem
             IcmContact.RemoveByParent(realm, EntityType.Incident, id);
             SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, id);
-            // TODO: Remove Attachments
+            Attachment.RemoveByParent(realm, EntityType.Incident, id, userIgnoredPrefs);
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Visitz.Services.Caseload
                 await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases, UserIgnoredPrefs);
 
             if (CanSynchronize(caseloadFromApi.Incidents, invalidOps))
-                await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents);
+                await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents, UserIgnoredPrefs);
 
             if (CanSynchronize(caseloadFromApi.Memos, invalidOps))
                 await MemoRecord.SynchronizeAsync(realm, caseloadFromApi.Memos);
