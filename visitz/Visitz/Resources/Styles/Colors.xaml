@@ -19,6 +19,7 @@
     <Color x:Key="BC_Semantic_Success">#2E8540</Color>
     <Color x:Key="BC_Semantic_Info">#D9EAF7</Color>
     <Color x:Key="BC_Semantic_Warning">#F9F1C6</Color>
+    <Color x:Key="EmptyIconView_Color">#919197</Color>
 
 	<Color x:Key="Default_Background">White</Color>
 
