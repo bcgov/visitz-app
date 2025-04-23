@@ -13,7 +13,8 @@
 
     <Grid
         RowDefinitions="Auto,*"
-        ColumnDefinitions="Auto,*"
+        ColumnDefinitions="Auto,*,Auto,Auto,Auto"
+        ColumnSpacing="{StaticResource DefaultSpacing}"
         Padding="{StaticResource DefaultPadding}">
 
         <controls:CloseButton
@@ -21,12 +22,44 @@
             VerticalOptions="Center"
             TextColor="{StaticResource BC_TextColor}" />
 
-        <controls:FontIconButton
-            Grid.Column="2"
-            HorizontalOptions="End"
+        <Label
+            Grid.Column="1"
             VerticalOptions="Center"
+            Text="{Binding Attachment.FilenameBinding}" />
+
+        <controls:RenameButton
+            Grid.Column="2"
+            VerticalOptions="Center"
+            IsVisible="{Binding ShowDraftButtons}"
+            Renaming="{Binding Attachment.FilenameBinding}"
+            TextColor="{StaticResource BC_TextColor}" />
+
+        <controls:FontIconButton
+            Grid.Column="3"
+            VerticalOptions="Center"
+            IsVisible="{Binding ShowDraftButtons}"
+            Text="{Static icons:MaterialIcons.Delete}"
+            TextColor="{StaticResource BC_TextColor}"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            Command="{Binding PromptDiscardAttachmentCommand}" />
+
+        <controls:FontIconButton
+            Grid.Column="4"
+            VerticalOptions="Center"
+            IsVisible="{Binding ShowDraftButtons}"
+            Text="{Static icons:MaterialIcons.Publish}"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            TextColor="{StaticResource BC_TextColor}"
+            Command="{Binding PublishAttachmentDraftCommand}" />
+
+        <controls:FontIconButton
+            Grid.Column="4"
+            VerticalOptions="Center"
+            HorizontalOptions="End"
+            IsVisible="{Binding IsRemovable}"
             Text="{Static icons:FluentIcons.Subtract_circle_20_regular}"
             FontFamily="FluentIconsRegular"
+            TextColor="{StaticResource BC_TextColor}"
             Command="{Binding PromptRemoveFromDeviceCommand}" />
 
         <ActivityIndicator
@@ -36,13 +69,13 @@
 
         <Label
             Grid.Row="1"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="5"
             IsVisible="{Binding HasError}"
             Text="{Binding ErrorText}" />
 
         <WebView
             Grid.Row="1"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="5"
             Source="{Binding Source}"
             Navigated="WebView_Navigated">
         </WebView>

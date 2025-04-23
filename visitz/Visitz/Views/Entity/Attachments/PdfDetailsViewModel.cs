@@ -5,6 +5,7 @@ using System.Reflection;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -32,9 +33,18 @@ internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolde
     [ObservableProperty]
     public bool hasError;
 
-    public Attachment? Attachment {  get; set; }
+    [ObservableProperty]
+    public bool showDraftButtons;
+
+    [ObservableProperty]
+    public bool isRemovable;
+
+    [ObservableProperty]
+    public Attachment? attachment;
 
     public CaseloadItem? CaseloadItem { get; set; }
+
+    public bool IsDownloadedAttachment { get; set; }
 
     AttachmentFiler? Filer { get; set; }
 
@@ -64,6 +74,12 @@ internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolde
 
             return;
         }
+
+        ShowDraftButtons = Attachment.FileExistsLocally
+            && !IsDownloadedAttachment
+            && Attachment.HasDraft;
+
+        IsRemovable = Attachment.FileExistsLocally && IsDownloadedAttachment;
     }
 
     static string? GetEmbedPath(Assembly entry)
@@ -88,7 +104,7 @@ internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolde
     }
 
     [RelayCommand]
-    async Task PromptRemoveFromDevice()
+    async Task PromptRemoveFromDeviceAsync()
     {
         if (Attachment == null)
             return;
@@ -110,5 +126,42 @@ internal partial class PdfDetailsViewModel : VisitzViewModel, ICaseloadItemHolde
             await Navigator.Navigation.PopAsync();
             SnackbarHandler.ShowText(removedText);
         }
+    }
+
+    [RelayCommand]
+    async Task PromptDiscardAttachmentAsync()
+    {
+        if (Attachment == null || !Attachment.HasDraft)
+            return;
+
+        bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
+            LocalizedStrings.DiscardDraft,
+            LocalizedStrings.DiscardAttachmentDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel);
+
+        if (shouldDiscard)
+        {
+            string filename = Attachment.Filename;
+
+            await Attachment.DeleteAsync();
+            await Navigator.Navigation.PopAsync();
+
+            SnackbarHandler.ShowText(LocalizedStrings.FileDiscarded.Format(filename));
+        }
+    }
+
+    [RelayCommand]
+    async Task PublishAttachmentDraftAsync()
+    {
+        var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
+
+        if (Attachment?.Draft == null || attachmentPublishVm == null || Filer == null)
+            return;
+
+        attachmentPublishVm.AttachmentDraft = Attachment.Draft;
+        attachmentPublishVm.AttachmentFiler = Filer;
+
+        await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
     }
 }

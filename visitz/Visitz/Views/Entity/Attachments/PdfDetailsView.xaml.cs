@@ -27,6 +27,12 @@ public partial class PdfDetailsView : ViewModelContentView, ICaseloadItemHolder
         set => ViewModel.Attachment = value;
     }
 
+    public bool IsDownloadedAttachment
+    {
+        get => ViewModel.IsDownloadedAttachment;
+        set => ViewModel.IsDownloadedAttachment = value;
+    }
+
     public PdfDetailsView() : base(ServiceProvider.GetService<PdfDetailsViewModel>())
     {
         InitializeComponent();
