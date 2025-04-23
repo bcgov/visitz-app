@@ -15,7 +15,9 @@ public partial class TabView : ViewModelContentView
             propertyChanged: TabsChanged);
 
     public static readonly BindableProperty SelectedTabProperty =
-        BindableProperty.Create(nameof(SelectedTab), typeof(Tab), typeof(TabView));
+        BindableProperty.Create(nameof(SelectedTab), typeof(Tab), typeof(TabView),
+            defaultBindingMode: BindingMode.TwoWay,
+            propertyChanged: TabChanged);
 
     new TabViewModel ViewModel => base.ViewModel as TabViewModel
         ?? throw new InvalidOperationException("ViewModel is null");
@@ -55,5 +57,13 @@ public partial class TabView : ViewModelContentView
         var tabs = (IEnumerable<Tab>)@new;
 
         tabView.ViewModel.Tabs = tabs;
+    }
+
+    static void TabChanged(object bound, object old, object @new)
+    {
+        var tabView = (TabView)bound;
+        var tab = (Tab)@new;
+
+        tabView.ViewModel.SelectedTab = tab;
     }
 }
