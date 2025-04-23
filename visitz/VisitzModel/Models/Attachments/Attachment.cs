@@ -5,6 +5,7 @@ using VisitzModel.Formats;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models.Attachments;
@@ -282,5 +283,20 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     {
         AttachmentFiler.DeleteFileFromDevice(RelativePath);
         RelativePathBinding = string.Empty;
+    }
+
+    public static void RemoveByParent(Realm realm, EntityType type, string parentId, UserIgnoredContentPrefs userIgnoredPrefs)
+    {
+        var attachmentItems = realm.All<Attachment>()
+            .Where(item => item.RelatedEntityId == parentId && item.RelatedEntityTypeInt == (int)type)
+            .ToList();
+
+        foreach (var item in attachmentItems)
+        {
+            if(item.FileExistsLocally)
+                item.RemoveFileFromDevice();
+            userIgnoredPrefs.RemoveUserIgnoredContent(item.Id);
+            realm.Remove(item);
+        }
     }
 }

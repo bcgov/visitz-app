@@ -3,9 +3,11 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -152,7 +154,7 @@ public partial class ServiceRequestRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<ServiceRequestJson> section)
+    public static async Task SynchronizeAsync(Realm realm, SectionJson<ServiceRequestJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         var currentAssignedIds = realm.All<ServiceRequestRecord>().AsEnumerable().Select(sr => sr.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
@@ -160,12 +162,12 @@ public partial class ServiceRequestRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds);
+            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
             realm.Upsert(serviceRequests);
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds)
+    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in unassignedIds)
         {
@@ -174,7 +176,7 @@ public partial class ServiceRequestRecord :
             // TODO: Remove notes here once we remove V1 CaseloadItem
             IcmContact.RemoveByParent(realm, EntityType.ServiceRequest, id);
             SupportNetworkItem.RemoveByParent(realm, EntityType.ServiceRequest, id);
-            // TODO: Remove Attachments
+            Attachment.RemoveByParent(realm, EntityType.ServiceRequest, id, userIgnoredPrefs);
         }
     }
 

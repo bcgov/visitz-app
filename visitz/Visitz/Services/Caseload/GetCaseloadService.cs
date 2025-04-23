@@ -13,8 +13,12 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    public class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+    public class GetCaseloadService(
+        Vpi vpi,
+        LastUpdatedPrefs prefs,
+        UserIgnoredContentPrefs userIgnoredContentPrefs) : VisitzApiService(vpi, prefs)
     {
+        UserIgnoredContentPrefs UserIgnoredPrefs { get; } = userIgnoredContentPrefs;
         public static string MakeId()
         {
             return nameof(GetCaseloadService);
@@ -62,16 +66,16 @@ namespace Visitz.Services.Caseload
             List<InvalidOperationException> invalidOps = [];
 
             if (CanSynchronize(caseloadFromApi.Cases, invalidOps))
-                await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases);
+                await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases, UserIgnoredPrefs);
 
             if (CanSynchronize(caseloadFromApi.Incidents, invalidOps))
-                await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents);
+                await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents, UserIgnoredPrefs);
 
             if (CanSynchronize(caseloadFromApi.Memos, invalidOps))
-                await MemoRecord.SynchronizeAsync(realm, caseloadFromApi.Memos);
+                await MemoRecord.SynchronizeAsync(realm, caseloadFromApi.Memos, UserIgnoredPrefs);
 
             if (CanSynchronize(caseloadFromApi.ServiceRequests, invalidOps))
-                await ServiceRequestRecord.SynchronizeAsync(realm, caseloadFromApi.ServiceRequests);
+                await ServiceRequestRecord.SynchronizeAsync(realm, caseloadFromApi.ServiceRequests, UserIgnoredPrefs);
 
             if (invalidOps.Count > 0)
                 throw new AggregateException(invalidOps);
@@ -107,7 +111,7 @@ namespace Visitz.Services.Caseload
         }
 
         /// <summary>
-        /// As of v1.0, it is currently a business decision to only allow users to interact with Cases and Incidents 
+        /// As of v1.0, it is currently a business decision to only allow users to interact with Cases and Incidents
         /// from their caseload.
         /// </summary>
         /// <param name="caseloadItems"></param>

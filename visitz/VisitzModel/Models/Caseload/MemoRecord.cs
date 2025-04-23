@@ -2,9 +2,11 @@ using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -161,7 +163,7 @@ public partial class MemoRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<MemoJson> section)
+    public static async Task SynchronizeAsync(Realm realm, SectionJson<MemoJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         var currentAssignedIds = realm.All<MemoRecord>().AsEnumerable().Select(memo => memo.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
@@ -169,19 +171,19 @@ public partial class MemoRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds);
+            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
             realm.Upsert(memos);
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds)
+    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in unassignedIds)
         {
             realm.Remove(realm.Find<MemoRecord>(id));
 
             IcmContact.RemoveByParent(realm, EntityType.Memo, id);
-            // TODO: Remove Attachments
+            Attachment.RemoveByParent(realm, EntityType.Memo, id, userIgnoredPrefs);
         }
     }
 
