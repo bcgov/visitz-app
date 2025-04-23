@@ -7,6 +7,7 @@ using VisitzModel.Imaging;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Interfaces;
 using VisitzModel.Resources.Localization;
 using VisitzModel.Storage.Filesystem;
 
@@ -39,6 +40,30 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
     public string DraftLocation { get; set; }
 
     public Attachment Attachment { get; set; }
+
+    public AttachmentDraft() { }
+
+    AttachmentDraft(
+        CaseloadItem caseloadItem,
+        string filename,
+        string relativePath,
+        byte[] thumbnail)
+    {
+        int dotIndex = filename.LastIndexOf('.');
+
+        Attachment = new()
+        {
+            Filename = dotIndex != -1 ? filename[..dotIndex] : filename,
+            Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
+            RelativePath = relativePath,
+            Thumbnail = thumbnail,
+        };
+
+        this.InitDraftWith(caseloadItem);
+        Attachment.InitWith(caseloadItem);
+
+        Attachment.FileNumber = caseloadItem.CaseIncidentNumber;
+    }
 
     public static async Task<AttachmentDraft> SaveNewPhoto(
         CaseloadItem caseloadItem,
@@ -79,7 +104,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             ThrowSizeError(stream);
 
         string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
-        var draft = MakeDraft(caseloadItem, filer, filename, fullpath, thumbnail);
+        var draft = new AttachmentDraft(caseloadItem, filename, fullpath, thumbnail);
 
         try
         {
@@ -100,30 +125,6 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
     {
         double tooLargeSize = stream.Length / (double)Sizes.MB;
         throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
-    }
-
-    static AttachmentDraft MakeDraft(
-        CaseloadItem caseloadItem,
-        AttachmentFiler filer,
-        string filename,
-        string relativePath,
-        byte[] thumbnail)
-    {
-        int dotIndex = filename.LastIndexOf('.');
-
-        var draft = new AttachmentDraft()
-        {
-            Attachment = new()
-            {
-                Filename = dotIndex != -1 ? filename[..dotIndex] : filename,
-                Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
-                RelativePath = relativePath,
-                Thumbnail = thumbnail,
-            },
-        };
-        draft.InitDraftWith(caseloadItem);
-
-        return draft;
     }
 
     public async Task<SubmitAttachmentEntity> ToSubmitAttachmentEntity(
