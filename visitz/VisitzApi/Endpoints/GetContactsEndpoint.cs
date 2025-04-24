@@ -6,6 +6,8 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
+#nullable enable
+
 internal class GetContactsEndpoint(
     string baseUrl,
     ApiRecordType type,
@@ -43,6 +45,7 @@ internal class GetContactsEndpoint(
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<ContactJson>>(items, PayloadOptions.SiebelGet);
+        return JsonSerializer.Deserialize<IEnumerable<ContactJson>>
+            (items, PayloadOptions.SiebelGet) ?? [];
     }
 }

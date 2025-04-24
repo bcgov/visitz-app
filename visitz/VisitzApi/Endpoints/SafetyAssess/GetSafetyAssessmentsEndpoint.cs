@@ -6,6 +6,8 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.SafetyAssess;
 
+#nullable enable
+
 internal class GetSafetyAssessmentsEndpoint(
     string baseUrl,
     string incidentId,
@@ -40,7 +42,9 @@ internal class GetSafetyAssessmentsEndpoint(
         if (response.StatusCode == HttpStatusCode.NoContent)
             return [];
 
-        var json = JsonSerializer.Deserialize<SafetyAssessmentItemsJson>(responseContent, PayloadOptions.SiebelGet);
+        var json = JsonSerializer.Deserialize<SafetyAssessmentItemsJson>
+            (responseContent, PayloadOptions.SiebelGet);
+
         return json?.Items?.First().IcmIncidentSafetyAssessmentBc ?? [];
     }
 }

@@ -6,6 +6,8 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
+#nullable enable
+
 internal class GetAttachmentsEndpoint(
     string baseUrl,
     ApiRecordType type,
@@ -43,6 +45,7 @@ internal class GetAttachmentsEndpoint(
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<AttachmentJson>>(items, PayloadOptions.SiebelGet);
+        return JsonSerializer.Deserialize<IEnumerable<AttachmentJson>>
+            (items, PayloadOptions.SiebelGet) ?? [];
     }
 }

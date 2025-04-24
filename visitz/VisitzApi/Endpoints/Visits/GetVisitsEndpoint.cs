@@ -6,6 +6,8 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.Visits;
 
+#nullable enable
+
 internal class GetVisitsEndpoint(
     string baseUrl,
     string caseId,
@@ -37,6 +39,6 @@ internal class GetVisitsEndpoint(
                 .RootElement
                 .GetProperty("items");
 
-        return items.Deserialize<IEnumerable<VisitJson>>(PayloadOptions.SiebelGet);
+        return items.Deserialize<IEnumerable<VisitJson>>(PayloadOptions.SiebelGet) ?? [];
     }
 }

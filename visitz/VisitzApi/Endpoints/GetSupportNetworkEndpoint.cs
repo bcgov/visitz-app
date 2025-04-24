@@ -6,6 +6,8 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
+#nullable enable
+
 internal class GetSupportNetworkEndpoint(
     string baseUrl,
     ApiRecordType type,
@@ -45,6 +47,7 @@ internal class GetSupportNetworkEndpoint(
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<SupportNetworkJson>>(items, PayloadOptions.SiebelGet);
+        return JsonSerializer.Deserialize<IEnumerable<SupportNetworkJson>>
+            (items, PayloadOptions.SiebelGet) ?? [];
     }
 }
