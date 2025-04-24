@@ -5,6 +5,7 @@ using Visitz.Resources.Localization;
 using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
+using VisitzApi.Requests;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Base
@@ -78,6 +79,30 @@ namespace Visitz.Services.Base
             if (ResultCode == Result.Successful)
                 await MainThread.InvokeOnMainThreadAsync(
                     () => LastUpdatedPrefs.SetLocalNow(GetId()));
+        }
+
+        protected static IEnumerable<Task> UnrollPagination(
+            int totalCount,
+            int pageSize,
+            Func<Pagination, Task<int>> asyncTask,
+            int startPageOffset = 1)
+        {
+            List<Task> tasks = [];
+
+            int pages = totalCount / pageSize;
+
+            for (int page = startPageOffset; page <= pages; page++)
+            {
+                Pagination subPagination = new()
+                {
+                    PageSize = pageSize,
+                    RowOffset = page * pageSize
+                };
+
+                tasks.Add(asyncTask(subPagination));
+            }
+
+            return tasks;
         }
     }
 }
