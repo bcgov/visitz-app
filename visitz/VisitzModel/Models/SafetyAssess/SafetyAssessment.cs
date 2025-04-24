@@ -137,6 +137,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             WorkerId = workerId,
             FamilyName = familyName,
             Operation = DefaultOperation,
+            DateOfAssessment = DateTimeOffset.Now,
             FactorInfluence = new FactorInfluence(),
             SafetyFactors = new SafetyFactors(),
             ProtectiveCapacity = new ProtectiveCapacity(),
