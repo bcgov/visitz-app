@@ -54,22 +54,38 @@ namespace VisitzApi.Requests
             return $"HTTP {(int)code} {code} {message}";
         }
 
+        protected Uri WithQueryParams(Pagination pagination = null, string format = "s")
+        {
+            return WithQueryParams(
+                pagination?.RowOffset,
+                pagination?.PageSize,
+                recordCountNeeded: pagination != null,
+                pagination?.After,
+                format);
+        }
+
         protected Uri WithQueryParams(
             int? rowOffset = null,
             int? pageSize = null,
-            bool? getRemainingCount = null,
+            bool? recordCountNeeded = null,
             DateTimeOffset? after = null,
             string format = "s")
         {
             var query = HttpUtility.ParseQueryString(RequestUri.Query);
 
             if (rowOffset is int offset)
+            {
                 query[RequestParam.StartRowNum] = offset.ToString();
+                recordCountNeeded ??= true;
+            }
 
             if (pageSize is int size)
+            {
                 query[RequestParam.PageSize] = size.ToString();
+                recordCountNeeded ??= true;
+            }
 
-            if (getRemainingCount is bool getCount)
+            if (recordCountNeeded is bool getCount)
                 query[RequestParam.RecordCountNeeded] = getCount.ToString();
 
             if (after is DateTimeOffset timestamp)
