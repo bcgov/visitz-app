@@ -86,7 +86,7 @@ namespace VisitzApi.Requests
             }
 
             if (recordCountNeeded is bool getCount)
-                query[RequestParam.RecordCountNeeded] = getCount.ToString();
+                query[RequestParam.RecordCountNeeded] = getCount.ToString().ToLowerInvariant();
 
             if (after is DateTimeOffset timestamp)
                 query[RequestParam.Since] = timestamp.ToString(format);
