@@ -11,7 +11,7 @@ namespace Visitz.Services.Attachments;
 
 #nullable enable
 
-internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -35,21 +35,7 @@ internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzAp
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task RunApiServiceAsync()
-    {
-        Pagination pagination = new();
-        int total = await DownloadAndSaveAttachmentsAsync(pagination);
-
-        if (total > pagination.PageSize)
-            await Task.WhenAll(UnrollPagination(
-                total,
-                pagination.PageSize,
-                DownloadAndSaveAttachmentsAsync));
-
-        ResultCode = Result.Successful;
-    }
-
-    async Task<int> DownloadAndSaveAttachmentsAsync(Pagination? pagination = null)
+    override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
         var (total, attachments) = await Vpi.GetAttachmentsAsync(
             (ApiRecordType)Info.Type,

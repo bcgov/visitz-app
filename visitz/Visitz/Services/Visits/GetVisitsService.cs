@@ -10,7 +10,7 @@ namespace Visitz.Services.Visits;
 
 #nullable enable
 
-internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     public static string MakeId(string caseId)
     {
@@ -34,21 +34,7 @@ internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiServ
         return MakeId(CaseId);
     }
 
-    protected override async Task RunApiServiceAsync()
-    {
-        Pagination pagination = new();
-        int total = await GetVisitsAsync(pagination);
-
-        if (total > pagination.PageSize)
-            await Task.WhenAll(UnrollPagination(
-                total,
-                pagination.PageSize,
-                GetVisitsAsync));
-
-        ResultCode = Result.Successful;
-    }
-
-    async Task<int> GetVisitsAsync(Pagination? pagination = null)
+    override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
         var (total, visits) = await Vpi.GetVisitsAsync(CaseId, pagination);
 

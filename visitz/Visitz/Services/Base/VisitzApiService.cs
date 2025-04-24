@@ -81,28 +81,6 @@ namespace Visitz.Services.Base
                     () => LastUpdatedPrefs.SetLocalNow(GetId()));
         }
 
-        protected static IEnumerable<Task> UnrollPagination(
-            int totalCount,
-            int pageSize,
-            Func<Pagination, Task<int>> asyncTask,
-            int startPageOffset = 1)
-        {
-            List<Task> tasks = [];
-
-            int pages = totalCount / pageSize;
-
-            for (int page = startPageOffset; page <= pages; page++)
-            {
-                Pagination subPagination = new()
-                {
-                    PageSize = pageSize,
-                    RowOffset = page * pageSize
-                };
-
-                tasks.Add(asyncTask(subPagination));
-            }
-
-            return tasks;
-        }
+        
     }
 }

@@ -12,7 +12,7 @@ namespace Visitz.Services.People;
 #nullable enable
 
 internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
-    : VisitzApiService(vpi, prefs)
+    : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -36,21 +36,7 @@ internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task RunApiServiceAsync()
-    {
-        Pagination pagination = new();
-        int total = await DownloadAndSaveContacts(pagination);
-
-        if (total > pagination.PageSize)
-            await Task.WhenAll(UnrollPagination(
-                total,
-                pagination.PageSize,
-                DownloadAndSaveContacts));
-
-        ResultCode = Result.Successful;
-    }
-
-    async Task<int> DownloadAndSaveContacts(Pagination? pagination = null)
+    override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
         var (total, contacts) = await Vpi.GetContactsAsync(
             (ApiRecordType)Info.Type,

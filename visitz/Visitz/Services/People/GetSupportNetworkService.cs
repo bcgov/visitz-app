@@ -11,7 +11,8 @@ namespace Visitz.Services.People;
 
 #nullable enable
 
-internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs)
+    : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -35,21 +36,7 @@ internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : Visit
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task RunApiServiceAsync()
-    {
-        Pagination pagination = new();
-        int totalCount = await DownloadAndSaveSupportNetworkAsync(pagination);
-
-        if (totalCount > pagination.PageSize)
-            await Task.WhenAll(UnrollPagination(
-                totalCount,
-                pagination.PageSize,
-                DownloadAndSaveSupportNetworkAsync));
-
-        ResultCode = Result.Successful;
-    }
-
-    async Task<int> DownloadAndSaveSupportNetworkAsync(Pagination? pagination = null)
+    override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
         var (total, supportNetwork) = await Vpi.GetSupportNetworkAsync(
             (ApiRecordType)Info.Type,

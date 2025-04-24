@@ -11,7 +11,7 @@ namespace Visitz.Services.SafetyAssessments;
 #nullable enable
 
 internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs)
-    : VisitzApiService(vpi, prefs)
+    : ApiPaginationService(vpi, prefs)
 {
     public RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -35,21 +35,7 @@ internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs)
         return MakeId(Info);
     }
 
-    protected override async Task RunApiServiceAsync()
-    {
-        Pagination pagination = new();
-        int total = await DownloadAndSynchronizeSafetyAssessments(pagination);
-
-        if (total > pagination.PageSize)
-            await Task.WhenAll(UnrollPagination(
-                total,
-                pagination.PageSize,
-                DownloadAndSynchronizeSafetyAssessments));
-
-        ResultCode = Result.Successful;
-    }
-
-    async Task<int> DownloadAndSynchronizeSafetyAssessments(Pagination? pagination = null)
+    override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
         var (total, assessmentJson) = await Vpi.GetSafetyAssessments(Info.Id, pagination);
         var assessments = SafetyAssessment.FromApiJson(Info.FileNumber, assessmentJson);
