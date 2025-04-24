@@ -5,7 +5,6 @@ using Visitz.Resources.Localization;
 using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
-using VisitzApi.Requests;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Base
@@ -80,7 +79,5 @@ namespace Visitz.Services.Base
                 await MainThread.InvokeOnMainThreadAsync(
                     () => LastUpdatedPrefs.SetLocalNow(GetId()));
         }
-
-        
     }
 }
