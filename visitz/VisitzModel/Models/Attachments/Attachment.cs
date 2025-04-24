@@ -257,14 +257,79 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
         return outList;
     }
+    public void CopyFrom(Attachment source)
+    {
+        RelatedEntityId = source.RelatedEntityId;
+        RelatedEntityType = source.RelatedEntityType;
+        ServiceRequestNumber = source.ServiceRequestNumber;
+        Categorie = source.Categorie;
+        Category = source.Category;
+        ClientFlag = source.ClientFlag;
+        EndDate = source.EndDate;
+        FinalFlag = source.FinalFlag;
+        FormDescription = source.FormDescription;
+        IncidentId = source.IncidentId;
+        IncidentNo = source.IncidentNo;
+        Internal = source.Internal;
+        CaseNumber = source.CaseNumber;
+        PortalVisible = source.PortalVisible;
+        ShowOnContact = source.ShowOnContact;
+        Status = source.Status;
+        SubCategory = source.SubCategory;
+        Template = source.Template;
+        TemplateType = source.TemplateType;
+        CaseId = source.CaseId;
+        Comments = source.Comments;
+        FileAutoUpdFlg = source.FileAutoUpdFlg;
+        FileDate = source.FileDate;
+        FileDeferFlg = source.FileDeferFlg;
+        FileDockReqFlg = source.FileDockReqFlg;
+        FileDockStatFlg = source.FileDockStatFlg;
+        Extension = source.Extension;
+        FileSize = source.FileSize;
+        FileSrcPath = source.FileSrcPath;
+        FileSrcType = source.FileSrcType;
+        Filename = source.Filename;
+        MemoId = source.MemoId;
+        MemoNumber = source.MemoNumber;
+        ServiceRequestId = source.ServiceRequestId;
+        CreatedBy = source.CreatedBy;
+        UpdatedBy = source.UpdatedBy;
+        CreatedDate = source.CreatedDate;
+        UpdatedDate = source.UpdatedDate;
+    }
 
-    public static async Task SaveAttachmentsAsync(
+    public async Task SaveAttachmentsAsync(
         Realm realm,
         IEnumerable<AttachmentJson> items,
         string parentId,
         EntityType type)
     {
-        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
+        var existingAttachmentIds = realm.All<Attachment>().AsEnumerable().Select(item => item.Id);
+        var newItems = items.Where(item => !existingAttachmentIds.Contains(item.Id)).ToList(); //Try to use Exact
+        var existingItems = items.Where(item => existingAttachmentIds.Contains(item.Id)).ToList();
+
+        if (newItems.Count == 0 && existingItems.Count == 0)
+            return;
+
+        await RealmExtensions.CommitAsync(realm, () =>
+        {
+            if (newItems.Count != 0)
+            {
+                var newAttachments = FromApiArray(newItems, parentId, type);
+                foreach (var attachment in newAttachments)
+                    realm.Add(attachment);
+            }
+
+            if (existingItems.Count != 0)
+            {
+                foreach (var item in existingItems)
+                {
+                    var existingAttachment = realm.All<Attachment>().Where(att => att.Id == item.Id).FirstOrDefault();
+                    CopyFrom(existingAttachment);
+                }
+            }
+        });
     }
 
     public static IQueryable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)
@@ -293,7 +358,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
         foreach (var item in attachmentItems)
         {
-            if(item.FileExistsLocally)
+            if (item.FileExistsLocally)
                 item.RemoveFileFromDevice();
             userIgnoredPrefs.RemoveUserIgnoredContent(item.Id);
             realm.Remove(item);
