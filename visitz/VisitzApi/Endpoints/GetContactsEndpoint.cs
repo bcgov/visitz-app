@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using VisitzApi.Extensions;
 using VisitzApi.Json;
 using VisitzApi.Models.People;
 using VisitzApi.Requests;
@@ -13,7 +14,7 @@ internal class GetContactsEndpoint(
     ApiRecordType type,
     string rowId,
     Pagination? pagination = null)
-    : VisitzBaseEndpoint<IEnumerable<ContactJson>>(
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<ContactJson>)>(
         baseUrl,
         Vpi.V2,
         MakePath(type, rowId))
@@ -36,16 +37,19 @@ internal class GetContactsEndpoint(
         };
     }
 
-    public override IEnumerable<ContactJson> HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (int TotalRecords, IEnumerable<ContactJson>)
+        HandleResponse(HttpResponseMessage response, string responseContent)
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
-            return [];
+            return (-1, []);
 
         JsonElement items = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<ContactJson>>
-            (items, PayloadOptions.SiebelGet) ?? [];
+        return (
+            response.GetRecordCount(),
+            items.Deserialize<IEnumerable<ContactJson>>(PayloadOptions.SiebelGet) ?? []
+        );
     }
 }

@@ -70,7 +70,7 @@ namespace VisitzApi
             return await CallApi(new SubmitAttachmentEndpoint(BaseVisitzApiUrl, attachment));
         }
 
-        public async Task<IEnumerable<VisitJson>> GetVisitsAsync(
+        public async Task<(int TotalRecords, IEnumerable<VisitJson>)> GetVisitsAsync(
             string caseId,
             Pagination pagination = null)
         {
@@ -82,7 +82,7 @@ namespace VisitzApi
             return await CallApi(new PostVisitEndpoint(BaseVisitzApiUrl, caseId, visitJsonToSend));
         }
 
-        public async Task<IEnumerable<ContactJson>> GetContactsAsync(
+        public async Task<(int TotalRecords, IEnumerable<ContactJson>)> GetContactsAsync(
             ApiRecordType type,
             string id,
             Pagination pagination = null)
@@ -90,7 +90,8 @@ namespace VisitzApi
             return await CallApi(new GetContactsEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
-        public async Task<IEnumerable<SupportNetworkJson>> GetSupportNetworkAsync(
+        public async Task<(int TotalRecords, IEnumerable<SupportNetworkJson>)>
+            GetSupportNetworkAsync(
             ApiRecordType type,
             string id,
             Pagination pagination = null)
@@ -98,7 +99,7 @@ namespace VisitzApi
             return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
-        public async Task<IEnumerable<AttachmentJson>> GetAttachmentsAsync(
+        public async Task<(int TotalRecords, IEnumerable<AttachmentJson>)> GetAttachmentsAsync(
             ApiRecordType type,
             string id,
             Pagination pagination = null)
@@ -115,7 +116,7 @@ namespace VisitzApi
             return await CallApi(new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, recordId, attachmentId, after));
         }
 
-        public async Task<IEnumerable<SafetyAsessmentJson>> GetSafetyAssessments(
+        public async Task<(int TotalRecords, IEnumerable<SafetyAsessmentJson>)> GetSafetyAssessments(
             string incidentId,
             Pagination pagination = null)
         {

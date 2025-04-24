@@ -2,11 +2,14 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Requests;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
+
+#nullable enable
 
 internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
@@ -34,16 +37,28 @@ internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : Visit
 
     protected override async Task RunApiServiceAsync()
     {
-        await DownloadAndSaveSupportNetworkAsync();
+        Pagination pagination = new();
+        int totalCount = await DownloadAndSaveSupportNetworkAsync(pagination);
+
+        if (totalCount > pagination.PageSize)
+            await Task.WhenAll(UnrollPagination(
+                totalCount,
+                pagination.PageSize,
+                DownloadAndSaveSupportNetworkAsync));
 
         ResultCode = Result.Successful;
     }
 
-    async Task DownloadAndSaveSupportNetworkAsync()
+    async Task<int> DownloadAndSaveSupportNetworkAsync(Pagination? pagination = null)
     {
-        var supportNetwork = await Vpi.GetSupportNetworkAsync((ApiRecordType)Info.Type, Info.Id, pagination: null);
+        var (total, supportNetwork) = await Vpi.GetSupportNetworkAsync(
+            (ApiRecordType)Info.Type,
+            Info.Id,
+            pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
             await SupportNetworkItem.SaveSupportNetworkItemsAsync(realm, supportNetwork, Info.Id, Info.Type));
+
+        return total;
     }
 }

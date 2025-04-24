@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using VisitzApi.Extensions;
 using VisitzApi.Json;
 using VisitzApi.Models.SafetyAssess;
 using VisitzApi.Requests;
@@ -12,7 +13,7 @@ internal class GetSafetyAssessmentsEndpoint(
     string baseUrl,
     string incidentId,
     Pagination? pagination = null)
-    : VisitzBaseEndpoint<IEnumerable<SafetyAsessmentJson>>(
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<SafetyAsessmentJson>)>(
         baseUrl,
         Vpi.V2,
         MakePath(incidentId))
@@ -35,16 +36,18 @@ internal class GetSafetyAssessmentsEndpoint(
         };
     }
 
-    public override IEnumerable<SafetyAsessmentJson> HandleResponse(
-        HttpResponseMessage response,
-        string responseContent)
+    public override (int TotalRecords, IEnumerable<SafetyAsessmentJson>)
+        HandleResponse(HttpResponseMessage response, string responseContent)
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
-            return [];
+            return (-1, []);
 
         var json = JsonSerializer.Deserialize<SafetyAssessmentItemsJson>
             (responseContent, PayloadOptions.SiebelGet);
 
-        return json?.Items?.First().IcmIncidentSafetyAssessmentBc ?? [];
+        return (
+            response.GetRecordCount(),
+            json?.Items?.First().IcmIncidentSafetyAssessmentBc ?? []
+        );
     }
 }

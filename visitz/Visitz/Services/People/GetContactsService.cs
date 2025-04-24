@@ -2,11 +2,14 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Requests;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
+
+#nullable enable
 
 internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
     : VisitzApiService(vpi, prefs)
@@ -35,16 +38,28 @@ internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
 
     protected override async Task RunApiServiceAsync()
     {
-        await DownloadAndSaveContacts();
+        Pagination pagination = new();
+        int total = await DownloadAndSaveContacts(pagination);
+
+        if (total > pagination.PageSize)
+            await Task.WhenAll(UnrollPagination(
+                total,
+                pagination.PageSize,
+                DownloadAndSaveContacts));
 
         ResultCode = Result.Successful;
     }
 
-    async Task DownloadAndSaveContacts()
+    async Task<int> DownloadAndSaveContacts(Pagination? pagination = null)
     {
-        var contacts = await Vpi.GetContactsAsync((ApiRecordType)Info.Type, Info.Id, pagination: null);
+        var (total, contacts) = await Vpi.GetContactsAsync(
+            (ApiRecordType)Info.Type,
+            Info.Id,
+            pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
             await IcmContact.SaveContactsAsync(realm, contacts, Info.Id, Info.Type));
+
+        return total;
     }
 }

@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using VisitzApi.Extensions;
 using VisitzApi.Json;
 using VisitzApi.Models;
 using VisitzApi.Requests;
@@ -13,7 +14,7 @@ internal class GetSupportNetworkEndpoint(
     ApiRecordType type,
     string id,
     Pagination? pagination = null)
-    : VisitzBaseEndpoint<IEnumerable<SupportNetworkJson>>(
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<SupportNetworkJson>)>(
         baseUrl,
         Vpi.V2,
         MakePath(type, id))
@@ -36,18 +37,19 @@ internal class GetSupportNetworkEndpoint(
         };
     }
 
-    public override IEnumerable<SupportNetworkJson> HandleResponse(
-        HttpResponseMessage response,
-        string responseContent)
+    public override (int TotalRecords, IEnumerable<SupportNetworkJson>)
+        HandleResponse(HttpResponseMessage response, string responseContent)
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
-            return [];
+            return (-1, []);
 
         JsonElement items = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<SupportNetworkJson>>
-            (items, PayloadOptions.SiebelGet) ?? [];
+        return (
+            response.GetRecordCount(),
+            items.Deserialize<IEnumerable<SupportNetworkJson>>(PayloadOptions.SiebelGet) ?? []
+        );
     }
 }
