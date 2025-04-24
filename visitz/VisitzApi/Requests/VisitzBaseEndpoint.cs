@@ -6,17 +6,16 @@ namespace VisitzApi.Requests
 {
     internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string version, string requestPath)
     {
-        protected static KeyValuePair<string, string> FormDataPair(string key, string value)
+        protected static KeyValuePair<string, string>
+            FormDataPair(string key, string value)
         {
             return new KeyValuePair<string, string>(key, value);
         }
 
-        protected static IEnumerable<KeyValuePair<string, string>> FormDataCollection(string key, string value)
+        protected static IEnumerable<KeyValuePair<string, string>>
+            FormDataCollection(string key, string value)
         {
-            return new List<KeyValuePair<string, string>>()
-            {
-                FormDataPair(key, value)
-            };
+            return [ FormDataPair(key, value) ];
         }
 
         public string BaseUrl { get; } = baseUrl;
@@ -37,14 +36,16 @@ namespace VisitzApi.Requests
                 if (!KongJsonMessage.TryFindMessage(content, out string message))
                     message = content;
 
-                throw new VisitzApiException(response.StatusCode, BuildMessage(response.StatusCode, message));
+                throw new VisitzApiException(response.StatusCode,
+                    BuildMessage(response.StatusCode, message));
             }
         }
 
         public virtual void ThrowOnWebMethodsErrors(HttpResponseMessage response, string content)
         {
             if (WebMethodsJsonError.TryFindFirstError(content, out string errorMessage))
-                throw new VisitzApiException(response.StatusCode, BuildMessage(response.StatusCode, errorMessage));
+                throw new VisitzApiException(response.StatusCode,
+                    BuildMessage(response.StatusCode, errorMessage));
         }
 
         public abstract ResponseType HandleResponse(HttpResponseMessage response, string responseContent);
@@ -54,23 +55,39 @@ namespace VisitzApi.Requests
             return $"HTTP {(int)code} {code} {message}";
         }
 
+        protected Uri WithQueryParams(Pagination pagination = null, string format = "s")
+        {
+            return WithQueryParams(
+                pagination?.RowOffset,
+                pagination?.PageSize,
+                recordCountNeeded: pagination != null,
+                pagination?.After,
+                format);
+        }
+
         protected Uri WithQueryParams(
             int? rowOffset = null,
             int? pageSize = null,
-            bool? getRemainingCount = null,
+            bool? recordCountNeeded = null,
             DateTimeOffset? after = null,
             string format = "s")
         {
             var query = HttpUtility.ParseQueryString(RequestUri.Query);
 
             if (rowOffset is int offset)
+            {
                 query[RequestParam.StartRowNum] = offset.ToString();
+                recordCountNeeded ??= true;
+            }
 
             if (pageSize is int size)
+            {
                 query[RequestParam.PageSize] = size.ToString();
+                recordCountNeeded ??= true;
+            }
 
-            if (getRemainingCount is bool getCount)
-                query[RequestParam.RecordCountNeeded] = getCount.ToString();
+            if (recordCountNeeded is bool getCount)
+                query[RequestParam.RecordCountNeeded] = getCount.ToString().ToLowerInvariant();
 
             if (after is DateTimeOffset timestamp)
                 query[RequestParam.Since] = timestamp.ToString(format);

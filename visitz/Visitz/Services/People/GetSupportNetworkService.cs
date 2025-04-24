@@ -2,13 +2,17 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Requests;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
-internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+#nullable enable
+
+internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs)
+    : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -32,18 +36,16 @@ internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : Visit
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task RunApiServiceAsync()
+    override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
-        await DownloadAndSaveSupportNetworkAsync();
-
-        ResultCode = Result.Successful;
-    }
-
-    async Task DownloadAndSaveSupportNetworkAsync()
-    {
-        var supportNetwork = await Vpi.GetSupportNetworkAsync((ApiRecordType)Info.Type, Info.Id, after: null);
+        var (total, supportNetwork) = await Vpi.GetSupportNetworkAsync(
+            (ApiRecordType)Info.Type,
+            Info.Id,
+            pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
             await SupportNetworkItem.SaveSupportNetworkItemsAsync(realm, supportNetwork, Info.Id, Info.Type));
+
+        return total;
     }
 }

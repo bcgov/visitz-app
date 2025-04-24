@@ -2,12 +2,15 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Requests;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;
 
-internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+#nullable enable
+
+internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     public static string MakeId(string caseId)
     {
@@ -31,18 +34,13 @@ internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiServ
         return MakeId(CaseId);
     }
 
-    protected override async Task RunApiServiceAsync()
+    override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
-        await GetVisitsAsync();
-
-        ResultCode = Result.Successful;
-    }
-
-    async Task GetVisitsAsync()
-    {
-        var visits = await Vpi.GetVisitsAsync(CaseId, after: null);
+        var (total, visits) = await Vpi.GetVisitsAsync(CaseId, pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
             await PersonVisit.SaveVisitsAsync(realm, visits));
+
+        return total;
     }
 }

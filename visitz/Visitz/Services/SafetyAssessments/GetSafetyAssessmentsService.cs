@@ -2,13 +2,16 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Requests;
 using VisitzModel.Models.SafetyAssess;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.SafetyAssessments;
 
+#nullable enable
+
 internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs)
-    : VisitzApiService(vpi, prefs)
+    : ApiPaginationService(vpi, prefs)
 {
     public RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -32,19 +35,14 @@ internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs)
         return MakeId(Info);
     }
 
-    protected override async Task RunApiServiceAsync()
+    override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
-        await DownloadAndSynchronizeSafetyAssessments();
-
-        ResultCode = Result.Successful;
-    }
-
-    async Task DownloadAndSynchronizeSafetyAssessments()
-    {
-        var assessmentJson = await Vpi.GetSafetyAssessments(Info.Id, after: null);
+        var (total, assessmentJson) = await Vpi.GetSafetyAssessments(Info.Id, pagination);
         var assessments = SafetyAssessment.FromApiJson(Info.FileNumber, assessmentJson);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
             await SafetyAssessment.SynchronizeAsync(realm, Info.FileNumber, assessments));
+
+        return total;
     }
 }

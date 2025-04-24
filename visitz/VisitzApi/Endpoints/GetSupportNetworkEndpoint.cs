@@ -1,21 +1,27 @@
 using System.Net;
 using System.Text.Json;
+using VisitzApi.Extensions;
 using VisitzApi.Json;
 using VisitzApi.Models;
 using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
+#nullable enable
+
 internal class GetSupportNetworkEndpoint(
     string baseUrl,
     ApiRecordType type,
     string id,
-    DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<IEnumerable<SupportNetworkJson>>(baseUrl, Vpi.V2, MakePath(type, id))
+    Pagination? pagination = null)
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<SupportNetworkJson>)>(
+        baseUrl,
+        Vpi.V2,
+        MakePath(type, id))
 {
     static readonly string SupportNetworkPath = "/{0}/{1}/support-network";
 
-    readonly DateTimeOffset? After = after;
+    readonly Pagination? Pagination = pagination;
 
     static string MakePath(ApiRecordType recordType, string id)
     {
@@ -27,21 +33,23 @@ internal class GetSupportNetworkEndpoint(
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
+            RequestUri = WithQueryParams(Pagination),
         };
     }
 
-    public override IEnumerable<SupportNetworkJson> HandleResponse(
-        HttpResponseMessage response,
-        string responseContent)
+    public override (int TotalRecords, IEnumerable<SupportNetworkJson>)
+        HandleResponse(HttpResponseMessage response, string responseContent)
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
-            return [];
+            return (-1, []);
 
         JsonElement items = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<SupportNetworkJson>>(items, PayloadOptions.SiebelGet);
+        return (
+            response.GetRecordCount(),
+            items.Deserialize<IEnumerable<SupportNetworkJson>>(PayloadOptions.SiebelGet) ?? []
+        );
     }
 }
