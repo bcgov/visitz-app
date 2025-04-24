@@ -12,7 +12,7 @@ internal class GetContactsEndpoint(
     string baseUrl,
     ApiRecordType type,
     string rowId,
-    DateTimeOffset? after = null)
+    Pagination? pagination = null)
     : VisitzBaseEndpoint<IEnumerable<ContactJson>>(
         baseUrl,
         Vpi.V2,
@@ -20,7 +20,7 @@ internal class GetContactsEndpoint(
 {
     static readonly string ContactsPath = "/{0}/{1}/contacts";
 
-    readonly DateTimeOffset? After = after;
+    readonly Pagination? Pagination = pagination;
 
     static string MakePath(ApiRecordType recordType, string rowId)
     {
@@ -32,7 +32,7 @@ internal class GetContactsEndpoint(
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
+            RequestUri = WithQueryParams(Pagination),
         };
     }
 

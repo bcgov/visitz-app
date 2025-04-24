@@ -40,7 +40,7 @@ internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzAp
 
     async Task DownloadAndSaveAttachmentsAsync()
     {
-        var attachments = await Vpi.GetAttachmentsAsync((ApiRecordType)Info.Type, Info.Id, after: null);
+        var attachments = await Vpi.GetAttachmentsAsync((ApiRecordType)Info.Type, Info.Id, pagination: null);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
             await Attachment.SaveAttachmentsAsync(realm, attachments, Info.Id, Info.Type));

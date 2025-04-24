@@ -11,7 +11,7 @@ namespace VisitzApi.Endpoints.SafetyAssess;
 internal class GetSafetyAssessmentsEndpoint(
     string baseUrl,
     string incidentId,
-    DateTimeOffset? after = null)
+    Pagination? pagination = null)
     : VisitzBaseEndpoint<IEnumerable<SafetyAsessmentJson>>(
         baseUrl,
         Vpi.V2,
@@ -19,7 +19,7 @@ internal class GetSafetyAssessmentsEndpoint(
 {
     static readonly string AssessmentsPath = "/incident/{0}/safety-assessments";
 
-    readonly DateTimeOffset? After = after;
+    readonly Pagination? Pagination = pagination;
 
     static string MakePath(string incidentId)
     {
@@ -31,7 +31,7 @@ internal class GetSafetyAssessmentsEndpoint(
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After),
+            RequestUri = WithQueryParams(Pagination),
         };
     }
 

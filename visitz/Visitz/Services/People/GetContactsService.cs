@@ -42,7 +42,7 @@ internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
 
     async Task DownloadAndSaveContacts()
     {
-        var contacts = await Vpi.GetContactsAsync((ApiRecordType)Info.Type, Info.Id, after: null);
+        var contacts = await Vpi.GetContactsAsync((ApiRecordType)Info.Type, Info.Id, pagination: null);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
             await IcmContact.SaveContactsAsync(realm, contacts, Info.Id, Info.Type));

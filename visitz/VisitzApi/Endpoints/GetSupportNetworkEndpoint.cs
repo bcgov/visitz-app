@@ -12,7 +12,7 @@ internal class GetSupportNetworkEndpoint(
     string baseUrl,
     ApiRecordType type,
     string id,
-    DateTimeOffset? after = null)
+    Pagination? pagination = null)
     : VisitzBaseEndpoint<IEnumerable<SupportNetworkJson>>(
         baseUrl,
         Vpi.V2,
@@ -20,7 +20,7 @@ internal class GetSupportNetworkEndpoint(
 {
     static readonly string SupportNetworkPath = "/{0}/{1}/support-network";
 
-    readonly DateTimeOffset? After = after;
+    readonly Pagination? Pagination = pagination;
 
     static string MakePath(ApiRecordType recordType, string id)
     {
@@ -32,7 +32,7 @@ internal class GetSupportNetworkEndpoint(
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
+            RequestUri = WithQueryParams(Pagination),
         };
     }
 

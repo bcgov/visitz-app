@@ -11,7 +11,7 @@ namespace VisitzApi.Endpoints.Visits;
 internal class GetVisitsEndpoint(
     string baseUrl,
     string caseId,
-    DateTimeOffset? after = null)
+    Pagination? pagination = null)
     : VisitzBaseEndpoint<IEnumerable<VisitJson>>(
         baseUrl,
         Vpi.V2,
@@ -19,14 +19,14 @@ internal class GetVisitsEndpoint(
 {
     static readonly string VisitsPath = "/case/{0}/visits";
 
-    readonly DateTimeOffset? After = after;
+    readonly Pagination? Pagination = pagination;
 
     public override HttpRequestMessage MakeRequest()
     {
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
+            RequestUri = WithQueryParams(Pagination),
         };
     }
 

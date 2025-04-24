@@ -40,7 +40,7 @@ internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiServ
 
     async Task GetVisitsAsync()
     {
-        var visits = await Vpi.GetVisitsAsync(CaseId, after: null);
+        var visits = await Vpi.GetVisitsAsync(CaseId, pagination: null);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
             await PersonVisit.SaveVisitsAsync(realm, visits));

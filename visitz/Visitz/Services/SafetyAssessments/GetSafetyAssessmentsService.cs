@@ -41,7 +41,7 @@ internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs)
 
     async Task DownloadAndSynchronizeSafetyAssessments()
     {
-        var assessmentJson = await Vpi.GetSafetyAssessments(Info.Id, after: null);
+        var assessmentJson = await Vpi.GetSafetyAssessments(Info.Id, pagination: null);
         var assessments = SafetyAssessment.FromApiJson(Info.FileNumber, assessmentJson);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
