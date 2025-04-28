@@ -32,9 +32,8 @@ internal partial class TabViewModel : VisitzViewModel
     {
         if (!disposed && disposing)
         {
-            if (Tabs != null)
-                foreach (var tab in Tabs)
-                    tab?.Dispose();
+            foreach (var tab in Tabs ?? [])
+                tab.Dispose();
 
             disposed = true;
         }

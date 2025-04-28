@@ -1,7 +1,6 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 
@@ -34,13 +33,25 @@ public partial class AttachmentDraftsListView : ViewModelContentView, ICaseloadI
         loadingTcs.TrySetResult();
     }
 
-    protected override async void Creating()
+    protected override async Task InitAsync()
     {
-        base.Creating();
+        await base.InitAsync();
 
         await Task.WhenAll(loadingTcs.Task, ViewModel.attachmentsLoadedTcs.Task);
 
         TryNavigateToFocusDraft();
+    }
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            Loaded -= AttachmentDraftsListView_Loaded;
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     void TryNavigateToFocusDraft()
@@ -60,6 +71,6 @@ public partial class AttachmentDraftsListView : ViewModelContentView, ICaseloadI
 
     void ScrollToDraft(AttachmentDraftListItemUi draft)
     {
-        DraftsCollection.ScrollTo(draft, position: ScrollToPosition.Center);
+        DraftsCollection.ScrollTo(draft, position: ScrollToPosition.Center, animate: false);
     }
 }
