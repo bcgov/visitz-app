@@ -71,6 +71,6 @@ public partial class AttachmentDraftsListView : ViewModelContentView, ICaseloadI
 
     void ScrollToDraft(AttachmentDraftListItemUi draft)
     {
-        DraftsCollection.ScrollTo(draft, position: ScrollToPosition.Center);
+        DraftsCollection.ScrollTo(draft, position: ScrollToPosition.Center, animate: false);
     }
 }
