@@ -54,11 +54,15 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
         {
             var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
             draftsView.CaseloadItem = CaseloadItem;
+            draftsView.FocusedDraftItem = FocusedDraftItem;
             return draftsView;
         });
 
         AttachmentsTabs.PairedDisplayView = TabDisplayView;
         AttachmentsTabs.Tabs = [DownloadedTab, DraftsTab];
+
+        if (FocusedDraftItem != null)
+            AttachmentsTabs.SelectedTab = DraftsTab;
     }
 
     private async void AddPhotos_Clicked(object sender, EventArgs e)
