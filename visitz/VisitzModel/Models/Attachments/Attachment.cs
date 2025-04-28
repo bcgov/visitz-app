@@ -257,8 +257,10 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
         return outList;
     }
+
     public void CopyFrom(Attachment source)
     {
+        // We are not overwriting RelativePath
         RelatedEntityId = source.RelatedEntityId;
         RelatedEntityType = source.RelatedEntityType;
         ServiceRequestNumber = source.ServiceRequestNumber;
