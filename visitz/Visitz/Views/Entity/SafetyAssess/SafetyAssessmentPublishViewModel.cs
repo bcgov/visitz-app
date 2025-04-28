@@ -82,8 +82,8 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
             else if (message.FinishedSuccess)
             {
                 Published(LocalizedStrings.SAPublishedSuccess);
-                CallGetService();
                 await DiscardSentDraft();
+                CallGetService();
             }
             else if (message.FinishedCancelled)
                 Cancel(LocalizedStrings.LoginToSubmitSA);

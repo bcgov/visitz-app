@@ -93,8 +93,8 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
-                CallGetService();
                 await DiscardAttachmentDraft();
+                CallGetService();
             }
             else if (message.FinishedCancelled)
                 Cancel(LocalizedStrings.LoginToSubmitAttachment);
