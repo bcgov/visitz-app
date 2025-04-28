@@ -10,6 +10,8 @@ namespace Visitz.Services
 
         public string Message { get; set; }
 
+        public Exception UncaughtException { get; set; }
+
         public bool FinishedSuccess =>
             Status == VisitzService.State.Stopped
             && Result == VisitzService.Result.Successful;
