@@ -32,6 +32,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     string getAttachmentsServiceId;
     string submitAttachmentsServiceId;
+    RecordServiceInfo recordServiceInfo;
 
     public CaseloadItem CaseloadItem { get; set; }
 
@@ -45,6 +46,13 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
         var converter = TryMakeImageToPdfConverter(attachmentDraft);
         submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler, converter);
+
+        recordServiceInfo = new RecordServiceInfo(
+                attachmentDraft.RelatedEntityType,
+                CaseloadItem.RowId,
+                attachmentDraft.Attachment.FileNumber,
+                CaseloadItem.KeyPlayer.FirstName,
+                CaseloadItem.KeyPlayer.LastName);
 
         getAttachmentsServiceId = GetAttachmentsService.MakeId(
             attachmentDraft.RelatedEntityType,
@@ -74,12 +82,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     private void CallGetService()
     {
-        var recordServiceInfo = new RecordServiceInfo(
-                attachmentDraft.RelatedEntityType,
-                CaseloadItem.RowId,
-                attachmentDraft.Attachment.FileNumber,
-                CaseloadItem.KeyPlayer.FirstName,
-                CaseloadItem.KeyPlayer.LastName);
         var startMessage = GetAttachmentsService.MakeStartMessage(recordServiceInfo);
         WeakReferenceMessenger.Default.Send(startMessage);
     }

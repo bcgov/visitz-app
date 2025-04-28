@@ -307,29 +307,30 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         string parentId,
         EntityType type)
     {
-        var existingAttachmentIds = realm.All<Attachment>().AsEnumerable().Select(item => item.Id);
-        var newItems = items.Where(item => !existingAttachmentIds.Contains(item.Id)).ToList(); //Try to use Exact
-        var existingItems = items.Where(item => existingAttachmentIds.Contains(item.Id)).ToList();
+        var incomingAttachments = FromApiArray(items, parentId, type);
+        var incomingAttachmentIds = incomingAttachments.Select(item => item.Id);
 
-        if (newItems.Count == 0 && existingItems.Count == 0)
+        var existingAttachments = realm.All<Attachment>();
+        var existingAttachmentIds = existingAttachments.AsEnumerable().Select(item => item.Id);
+
+        var newAttachmentIds = incomingAttachmentIds.Except(existingAttachmentIds);
+        var newAttachments = incomingAttachments.Where(item => newAttachmentIds.Contains(item.Id));
+
+        var commonIds = incomingAttachmentIds.Except(newAttachmentIds);
+        var attachmentsToUpdate = incomingAttachments.Where(item => commonIds.Contains(item.Id));
+
+        if (!newAttachments.Any() && !attachmentsToUpdate.Any())
             return;
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            if (newItems.Count != 0)
-            {
-                var newAttachments = FromApiArray(newItems, parentId, type);
-                foreach (var attachment in newAttachments)
-                    realm.Add(attachment);
-            }
+            foreach (var attachment in newAttachments)
+                realm.Add(attachment);
 
-            if (existingItems.Count != 0)
+            foreach (var updatedAttachment in attachmentsToUpdate)
             {
-                foreach (var item in existingItems)
-                {
-                    var existingAttachment = realm.All<Attachment>().Where(att => att.Id == item.Id).FirstOrDefault();
-                    existingAttachment.CopyFrom(existingAttachment);
-                }
+                var existing = realm.Find<Attachment>(updatedAttachment.Id);
+                existing?.CopyFrom(updatedAttachment);
             }
         });
     }
