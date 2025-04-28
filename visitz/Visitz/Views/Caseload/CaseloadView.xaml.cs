@@ -71,7 +71,7 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
         if (message.FinishedError)
             await Navigator.CurrentOpenPage.DisplayErrorAlert(
                 LocalizedStrings.CaseloadErrorMessage,
-                message.Message,
+                message.UncaughtException?.ToString(),
                 LocalizedStrings.CaseloadError);
     }
 }

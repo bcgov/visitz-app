@@ -130,16 +130,39 @@ namespace Visitz.Services.Caseload
 
         private async Task GetAllAttachments(IEnumerable<RecordServiceInfo> all)
         {
-            var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
+            List<Exception> exceptions = [];
 
-            await GetPartialAttachments(all);
+            try
+            {
+                var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(new Exception("An error occurred when trying to download attachment metadata", ex));
+            }
+
+            await GetPartialAttachments(all, exceptions);
+
+            if (exceptions.Count > 1)
+                throw new AggregateException(exceptions);
+            else if (exceptions.Count > 0)
+                throw exceptions.First();
         }
 
-        private async Task GetPartialAttachments(IEnumerable<RecordServiceInfo> all)
+        private async Task GetPartialAttachments(
+            IEnumerable<RecordServiceInfo> all,
+            List<Exception> aggregateExs)
         {
-            var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage(all);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
+            try
+            {
+                var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage(all);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                aggregateExs.Add(ex);
+            }
         }
 
         private async Task GetAllSafetyAssessments(IEnumerable<RecordServiceInfo> incidents)
