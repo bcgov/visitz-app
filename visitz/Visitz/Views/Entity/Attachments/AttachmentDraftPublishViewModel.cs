@@ -78,8 +78,8 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
                 attachmentDraft.RelatedEntityType,
                 CaseloadItem.RowId,
                 attachmentDraft.Attachment.FileNumber,
-                "",
-                "");
+                CaseloadItem.KeyPlayer.FirstName,
+                CaseloadItem.KeyPlayer.LastName);
         var startMessage = GetAttachmentsService.MakeStartMessage(recordServiceInfo);
         WeakReferenceMessenger.Default.Send(startMessage);
     }
