@@ -299,7 +299,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         UpdatedDate = source.UpdatedDate;
     }
 
-    public async Task SaveAttachmentsAsync(
+    public static async Task SaveAttachmentsAsync(
         Realm realm,
         IEnumerable<AttachmentJson> items,
         string parentId,
@@ -326,7 +326,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
                 foreach (var item in existingItems)
                 {
                     var existingAttachment = realm.All<Attachment>().Where(att => att.Id == item.Id).FirstOrDefault();
-                    CopyFrom(existingAttachment);
+                    existingAttachment.CopyFrom(existingAttachment);
                 }
             }
         });
