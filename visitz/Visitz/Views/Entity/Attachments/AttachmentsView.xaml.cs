@@ -10,7 +10,10 @@ using Tab = Visitz.Views.Navigation.Tab;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder, IFocusDraftItem
+public partial class AttachmentsView :
+    ViewModelContentView,
+    ICaseloadItemHolder,
+    IFocusDraftItem
 {
     static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes
         .Concat(Attachment.AllowedDocumentTypes);
@@ -63,6 +66,18 @@ public partial class AttachmentsView : ViewModelContentView, ICaseloadItemHolder
 
         if (FocusedDraftItem != null)
             AttachmentsTabs.SelectedTab = DraftsTab;
+    }
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            AttachmentsTabs.Dispose();
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     private async void AddPhotos_Clicked(object sender, EventArgs e)

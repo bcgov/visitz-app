@@ -26,9 +26,9 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
         ContainerDetails.Content = ServiceProvider.GetService<EntityDetailsView>();
     }
 
-    protected override void Creating()
+    protected override async Task InitAsync()
     {
-        base.Creating();
+        await base.InitAsync();
 
         StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, message) =>
         {
@@ -39,17 +39,22 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
         });
     }
 
-    protected override void Destroying()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        StrongReferenceMessenger.Default.UnregisterAll(this);
-
-        if (ContainerDetails.Content is BaseContentView baseView)
+        if (!disposed && disposing)
         {
-            baseView.Dispose();
-            ContainerDetails.Content = null;
-        }
+            StrongReferenceMessenger.Default.UnregisterAll(this);
 
-        base.Destroying();
+            if (ContainerDetails.Content is BaseContentView baseView)
+            {
+                baseView.Dispose();
+                ContainerDetails.Content = null;
+            }
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     private void OpenEntitySection(
