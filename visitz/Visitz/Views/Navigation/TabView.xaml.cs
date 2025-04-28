@@ -66,4 +66,17 @@ public partial class TabView : ViewModelContentView
 
         tabView.ViewModel.SelectedTab = tab;
     }
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            foreach (var tab in Tabs ?? [])
+                tab.Dispose();
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
+    }
 }
