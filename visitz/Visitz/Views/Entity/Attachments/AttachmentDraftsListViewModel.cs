@@ -26,7 +26,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
     readonly ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
-    ObservableCollection<AttachmentDraft> attachmentDrafts = [];
+    ObservableCollection<AttachmentDraftListItemUi> attachmentDrafts = [];
 
     [ObservableProperty]
     public bool isLoading = true;
@@ -70,7 +70,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
         if (e.Changes == null)
         {
             foreach (var item in e.Items)
-                AttachmentDrafts.Add(item as AttachmentDraft);
+                AttachmentDrafts.Add(new AttachmentDraftListItemUi(item as AttachmentDraft));
 
             attachmentsLoadedTcs.TrySetResult();
         }
@@ -80,10 +80,10 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
                 AttachmentDrafts.RemoveAt(deleted);
 
             foreach (int modified in e.Changes.ModifiedIndices)
-                AttachmentDrafts[modified] = e.Items[modified] as AttachmentDraft;
+                AttachmentDrafts[modified] = new AttachmentDraftListItemUi(e.Items[modified] as AttachmentDraft);
 
             foreach (int inserted in e.Changes.InsertedIndices)
-                AttachmentDrafts.Insert(inserted, e.Items[inserted] as AttachmentDraft);
+                AttachmentDrafts.Insert(inserted, new AttachmentDraftListItemUi(e.Items[inserted] as AttachmentDraft));
         }
     }
 

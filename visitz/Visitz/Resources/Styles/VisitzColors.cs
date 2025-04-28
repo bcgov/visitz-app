@@ -31,6 +31,7 @@ public static class VisitzColors
     public static readonly Color BC_Semantic_Success = TryGetColor(nameof(BC_Semantic_Success));
     public static readonly Color BC_Semantic_Info = TryGetColor(nameof(BC_Semantic_Info));
     public static readonly Color BC_Semantic_Warning = TryGetColor(nameof(BC_Semantic_Warning));
+    public static readonly Color EmptyIconView_Color = TryGetColor(nameof(EmptyIconView_Color));
 
     public static readonly Color Default_Background = TryGetColor(nameof(Default_Background));
 
