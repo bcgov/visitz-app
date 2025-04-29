@@ -124,6 +124,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
             CaseloadItem.CaseIncidentNumber,
             CaseloadItem.KeyPlayer.FirstName,
             CaseloadItem.KeyPlayer.LastName);
+        attachmentPublishVm.CaseloadItem = CaseloadItem;
 
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
     }

@@ -116,7 +116,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
 
             await Attachment.DeleteAsync();
             await Navigator.Navigation.PopAsync();
-            
+
             SnackbarHandler.ShowText(string.Format(LocalizedStrings.FileDiscarded, filename));
         }
     }
@@ -131,6 +131,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
 
         attachmentPublishVm.AttachmentDraft = Attachment.Draft;
         attachmentPublishVm.AttachmentFiler = Filer;
+        attachmentPublishVm.CaseloadItem = CaseloadItem;
 
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
     }

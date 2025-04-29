@@ -777,11 +777,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshing attachments on device failed.
+        /// </summary>
+        public static string FailedToRefreshAttachments {
+            get {
+                return ResourceManager.GetString("FailedToRefreshAttachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshing notes on device failed.
         /// </summary>
         public static string FailedToRefreshNotes {
             get {
                 return ResourceManager.GetString("FailedToRefreshNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing safety assessments on device failed.
+        /// </summary>
+        public static string FailedToRefreshSAs {
+            get {
+                return ResourceManager.GetString("FailedToRefreshSAs", resourceCulture);
             }
         }
         
@@ -1568,11 +1586,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshed attachments on device.
+        /// </summary>
+        public static string RefreshedAttachmentsOnDevice {
+            get {
+                return ResourceManager.GetString("RefreshedAttachmentsOnDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
         public static string RefreshedNotesOnDevice {
             get {
                 return ResourceManager.GetString("RefreshedNotesOnDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshed safety assessments on device.
+        /// </summary>
+        public static string RefreshedSAsOnDevice {
+            get {
+                return ResourceManager.GetString("RefreshedSAsOnDevice", resourceCulture);
             }
         }
         
@@ -1586,11 +1622,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshing attachments.
+        /// </summary>
+        public static string RefreshingAttachments {
+            get {
+                return ResourceManager.GetString("RefreshingAttachments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshing notes.
         /// </summary>
         public static string RefreshingNotes {
             get {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshing safety assessments.
+        /// </summary>
+        public static string RefreshingSAs {
+            get {
+                return ResourceManager.GetString("RefreshingSAs", resourceCulture);
             }
         }
         

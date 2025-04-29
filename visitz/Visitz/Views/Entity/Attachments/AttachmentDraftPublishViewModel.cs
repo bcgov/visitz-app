@@ -7,12 +7,14 @@ using Visitz.Services.Base;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
+using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
+internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>, ICaseloadItemHolder
 {
     AttachmentDraft attachmentDraft;
 
@@ -28,6 +30,12 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     SubmitAttachmentEntity submitEntity;
 
+    string getAttachmentsServiceId;
+    string submitAttachmentsServiceId;
+    RecordServiceInfo recordServiceInfo;
+
+    public CaseloadItem CaseloadItem { get; set; }
+
     string AttachmentName => attachmentDraft.Attachment.Filename;
 
     public AttachmentFiler AttachmentFiler { get; set; }
@@ -39,7 +47,20 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         var converter = TryMakeImageToPdfConverter(attachmentDraft);
         submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler, converter);
 
-        WeakReferenceMessenger.Default.Register(this, SubmitAttachmentService.MakeId(submitEntity));
+        recordServiceInfo = new RecordServiceInfo(
+                attachmentDraft.RelatedEntityType,
+                CaseloadItem.RowId,
+                attachmentDraft.Attachment.FileNumber,
+                CaseloadItem.KeyPlayer.FirstName,
+                CaseloadItem.KeyPlayer.LastName);
+
+        getAttachmentsServiceId = GetAttachmentsService.MakeId(
+            attachmentDraft.RelatedEntityType,
+            CaseloadItem.RowId);
+        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(submitEntity);
+
+        WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
+        WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
 
         Wait(LocalizedStrings.LoginToSubmitAttachment);
 
@@ -59,20 +80,41 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         WeakReferenceMessenger.Default.Send(startMessage);
     }
 
+    private void CallGetService()
+    {
+        var startMessage = GetAttachmentsService.MakeStartMessage(recordServiceInfo);
+        WeakReferenceMessenger.Default.Send(startMessage);
+    }
+
     public async void Receive(ServiceStateMessage message)
     {
-        if (message.Status == VisitzService.State.Running)
-            Publishing(LocalizedStrings.PublishingAttachmentToIcm.Format(AttachmentName));
-        else if (message.FinishedSuccess)
+        if (message.ServiceId == submitAttachmentsServiceId)
         {
-            Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
-            await DiscardAttachmentDraft();
-            Complete();
+            if (message.Status == VisitzService.State.Running)
+                Publishing(LocalizedStrings.PublishingAttachmentToIcm.Format(AttachmentName));
+            else if (message.FinishedSuccess)
+            {
+                Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
+                await DiscardAttachmentDraft();
+                CallGetService();
+            }
+            else if (message.FinishedCancelled)
+                Cancel(LocalizedStrings.LoginToSubmitAttachment);
+            else if (message.FinishedError)
+                PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
         }
-        else if (message.FinishedCancelled)
-            Cancel(LocalizedStrings.LoginToSubmitAttachment);
-        else if (message.FinishedError)
-            PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
+        else if (message.ServiceId == getAttachmentsServiceId)
+        {
+            if (message.Status == VisitzService.State.Running)
+                Refreshing(LocalizedStrings.RefreshingAttachments);
+            else if (message.FinishedSuccess)
+            {
+                Refreshed(LocalizedStrings.RefreshedAttachmentsOnDevice);
+                Complete();
+            }
+            else if (message.FinishedError)
+                RefreshError(LocalizedStrings.FailedToRefreshAttachments, message.Message);
+        }
     }
 
     async Task DiscardAttachmentDraft()
