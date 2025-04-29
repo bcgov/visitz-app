@@ -81,57 +81,96 @@ namespace Visitz.Services.Caseload
             var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
             var all = casesIncidentsSrs.Concat(memos);
 
-            await Task.WhenAll(
-                GetAllNotes(realm),
-                GetAllVisits(realm),
-                GetAllContacts(all),
-                GetAllSupportNetworkItems(casesIncidentsSrs),
-                GetAllAttachments(all),
-                GetAllSafetyAssessments(incidents)
-            );
-        }
-
-        private async Task GetAllNotes(Realm realm)
-        {
-            var allIdEntities = realm
-                .All<CaseloadItem>()
-                .Freeze()
-                .AsEnumerable()
-                .Select(item => (item.CaseIncidentNumber, item.EntityType));
-
-            var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
-        }
-
-        private async Task GetAllVisits(Realm realm)
-        {
-            var allCaseIds = realm
-                .All<CaseRecord>()
-                .Freeze()
-                .AsEnumerable()
-                .Where(@case => @case.Type == EntitySubtype.ChildServices)
-                .Select(@case => @case.Id);
-
-            var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
-        }
-
-        private async Task GetAllContacts(IEnumerable<RecordServiceInfo> all)
-        {
-            var startMessage = GetContactsByRangeService.MakeStartMessage(all);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
-        }
-
-        private async Task GetAllSupportNetworkItems(IEnumerable<RecordServiceInfo> casesIncidentsSrs)
-        {
-            var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(casesIncidentsSrs);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
-        }
-
-        private async Task GetAllAttachments(IEnumerable<RecordServiceInfo> all)
-        {
             List<Exception> exceptions = [];
 
+            await Task.WhenAll(
+                GetAllNotes(realm, exceptions),
+                GetAllVisits(realm, exceptions),
+                GetAllContacts(all, exceptions),
+                GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
+                GetAllAttachments(all, exceptions),
+                GetAllSafetyAssessments(incidents, exceptions)
+            );
+
+            if (exceptions.Count > 1)
+                throw new AggregateException(exceptions);
+            else if (exceptions.Count > 0)
+                throw exceptions.First();
+        }
+
+        private async Task GetAllNotes(Realm realm, List<Exception> exceptions)
+        {
+            try
+            {
+                var allIdEntities = realm
+                    .All<CaseloadItem>()
+                    .Freeze()
+                    .AsEnumerable()
+                    .Select(item => (item.CaseIncidentNumber, item.EntityType));
+
+                var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+        }
+
+        private async Task GetAllVisits(Realm realm, List<Exception> exceptions)
+        {
+            try
+            {
+                var allCaseIds = realm
+                    .All<CaseRecord>()
+                    .Freeze()
+                    .AsEnumerable()
+                    .Where(@case => @case.Type == EntitySubtype.ChildServices)
+                    .Select(@case => @case.Id);
+
+                var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+        }
+
+        private async Task GetAllContacts(
+            IEnumerable<RecordServiceInfo> all,
+            List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactsByRangeService.MakeStartMessage(all);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+        }
+
+        private async Task GetAllSupportNetworkItems(
+            IEnumerable<RecordServiceInfo> casesIncidentsSrs,
+            List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(casesIncidentsSrs);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
+        }
+
+        private async Task GetAllAttachments(
+            IEnumerable<RecordServiceInfo> all,
+            List<Exception> exceptions)
+        {
             try
             {
                 var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
@@ -143,16 +182,11 @@ namespace Visitz.Services.Caseload
             }
 
             await GetPartialAttachments(all, exceptions);
-
-            if (exceptions.Count > 1)
-                throw new AggregateException(exceptions);
-            else if (exceptions.Count > 0)
-                throw exceptions.First();
         }
 
         private async Task GetPartialAttachments(
             IEnumerable<RecordServiceInfo> all,
-            List<Exception> aggregateExs)
+            List<Exception> exceptions)
         {
             try
             {
@@ -161,14 +195,23 @@ namespace Visitz.Services.Caseload
             }
             catch (Exception ex)
             {
-                aggregateExs.Add(ex);
+                exceptions.Add(ex);
             }
         }
 
-        private async Task GetAllSafetyAssessments(IEnumerable<RecordServiceInfo> incidents)
+        private async Task GetAllSafetyAssessments(
+            IEnumerable<RecordServiceInfo> incidents,
+            List<Exception> exceptions)
         {
-            var startMessage = GetSafetyAssessmentsByRangeService.MakeStartMessage(incidents);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
+            try
+            {
+                var startMessage = GetSafetyAssessmentsByRangeService.MakeStartMessage(incidents);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
         }
     }
 }
