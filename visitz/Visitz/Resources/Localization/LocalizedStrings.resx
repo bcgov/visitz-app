@@ -939,4 +939,8 @@ This does not affect attachments in ICM.</value>
   <data name="Overdue" xml:space="preserve">
     <value>Overdue</value>
   </data>
+  <data name="TodoIsEmpty" xml:space="preserve">
+    <value>You're all caught up!
+No items here.</value>
+  </data>
 </root>
