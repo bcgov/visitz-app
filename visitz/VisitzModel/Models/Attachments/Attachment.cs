@@ -130,11 +130,11 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         }
     }
 
-    public static async Task DeleteAsync(Realm realm, Attachment attachment)
+    public static async Task DeleteAsync(Realm realm, Attachment attachment, bool removeContent = true)
     {
         string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
 
-        if (File.Exists(fullpath))
+        if (removeContent && File.Exists(fullpath))
             File.Delete(fullpath);
 
         await attachment.CommitAsync(() =>
@@ -146,9 +146,9 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         });
     }
 
-    public async Task DeleteAsync()
+    public async Task DeleteAsync(bool removeContent = true)
     {
-        await DeleteAsync(Realm, this);
+        await DeleteAsync(Realm, this, removeContent);
     }
 
     public Attachment() { }

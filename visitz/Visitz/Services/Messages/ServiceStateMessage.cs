@@ -12,6 +12,8 @@ namespace Visitz.Services
 
         public Exception UncaughtException { get; set; }
 
+        public object ReturnPayload { get; set; }
+
         public bool FinishedSuccess =>
             Status == VisitzService.State.Stopped
             && Result == VisitzService.Result.Successful;

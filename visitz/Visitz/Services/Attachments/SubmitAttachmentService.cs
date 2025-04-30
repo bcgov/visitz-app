@@ -42,7 +42,8 @@ internal class SubmitAttachmentService(Vpi vpi, LastUpdatedPrefs prefs) : Visitz
 
     async Task SubmitAttachmentAsync()
     {
-        var (status, _) = await Vpi.SubmitAttachmentAsync(Payload);
+        var (status, attachmentId) = await Vpi.SubmitAttachmentAsync(Payload);
+        ReturnPayload = attachmentId;
 
         ResultCode = status ? Result.Successful : Result.Error;
     }

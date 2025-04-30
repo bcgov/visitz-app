@@ -1,9 +1,11 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using Visitz.Documents;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
@@ -33,6 +35,10 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     string getAttachmentsServiceId;
     string submitAttachmentsServiceId;
     RecordServiceInfo recordServiceInfo;
+
+    string relativePath;
+
+    string submittedAttachmentId;
 
     public CaseloadItem CaseloadItem { get; set; }
 
@@ -95,6 +101,8 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
+                relativePath = attachmentDraft.Attachment.RelativePath;
+                submittedAttachmentId = message.ReturnPayload as string;
                 await DiscardAttachmentDraft();
                 CallGetService();
             }
@@ -110,16 +118,24 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Refreshed(LocalizedStrings.RefreshedAttachmentsOnDevice);
+
+                using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
+                var newAttachment = realm.Find<Attachment>(submittedAttachmentId);
+                newAttachment.RelativePathBinding = relativePath;
+
                 Complete();
             }
             else if (message.FinishedError)
+            {
                 RefreshError(LocalizedStrings.FailedToRefreshAttachments, message.Message);
+                AttachmentFiler.DeleteFileFromDevice(relativePath);
+            }
         }
     }
 
     async Task DiscardAttachmentDraft()
     {
-        await attachmentDraft.Attachment.DeleteAsync();
+        await attachmentDraft.Attachment.DeleteAsync(removeContent: false);
     }
 
     static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
