@@ -129,7 +129,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedError)
                 RefreshError(LocalizedStrings.FailedToRefreshAttachments, message.Message);
             AttachmentFiler.DeleteFileFromDevice(relativePath);
-            //Delete file
         }
     }
 
