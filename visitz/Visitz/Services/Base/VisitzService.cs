@@ -52,6 +52,8 @@ namespace Visitz.Services.Base
 
         public object Payload { get; set; }
 
+        public object ReturnPayload { get; set; }
+
         public Exception UncaughtException { get; protected set; }
 
         protected ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<VisitzService>>();
@@ -68,6 +70,7 @@ namespace Visitz.Services.Base
                 ServiceType = GetType(),
                 Status = status,
                 UncaughtException = UncaughtException,
+                ReturnPayload = ReturnPayload,
             };
 
             if (status == State.Stopped)

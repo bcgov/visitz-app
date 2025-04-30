@@ -1,9 +1,11 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using Visitz.Documents;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
@@ -34,6 +36,12 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     string submitAttachmentsServiceId;
     RecordServiceInfo recordServiceInfo;
 
+    string relativePath;
+
+    string submittedAttachmentId;
+
+    private Realm Realm { get; set; }
+
     public CaseloadItem CaseloadItem { get; set; }
 
     string AttachmentName => attachmentDraft.Attachment.Filename;
@@ -43,6 +51,8 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     public override async void Create()
     {
         base.Create();
+
+        Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
         var converter = TryMakeImageToPdfConverter(attachmentDraft);
         submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler, converter);
@@ -95,7 +105,9 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
-                await DiscardAttachmentDraft();
+                relativePath = attachmentDraft.Attachment.RelativePath;
+                submittedAttachmentId = message.ReturnPayload as string;
+                await DiscardAttachmentDraft(removeContent: false);
                 CallGetService();
             }
             else if (message.FinishedCancelled)
@@ -110,16 +122,20 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Refreshed(LocalizedStrings.RefreshedAttachmentsOnDevice);
+                var newAttachment = Realm.Find<Attachment>(submittedAttachmentId);
+                newAttachment.RelativePathBinding = relativePath;
                 Complete();
             }
             else if (message.FinishedError)
                 RefreshError(LocalizedStrings.FailedToRefreshAttachments, message.Message);
+                AttachmentFiler.DeleteFileFromDevice(relativePath);
+                //Delete file
         }
     }
 
-    async Task DiscardAttachmentDraft()
+    async Task DiscardAttachmentDraft(bool removeContent = true)
     {
-        await attachmentDraft.Attachment.DeleteAsync();
+        await attachmentDraft.Attachment.DeleteAsync(removeContent);
     }
 
     static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
