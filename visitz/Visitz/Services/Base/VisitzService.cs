@@ -52,7 +52,7 @@ namespace Visitz.Services.Base
 
         public object Payload { get; set; }
 
-        public object ReturnPayload { get; set; }
+        public object ReturnPayload { get; protected set; }
 
         public Exception UncaughtException { get; protected set; }
 
