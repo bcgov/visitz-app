@@ -50,7 +50,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     {
         base.Create();
 
-
         var converter = TryMakeImageToPdfConverter(attachmentDraft);
         submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler, converter);
 
@@ -120,15 +119,17 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             {
                 Refreshed(LocalizedStrings.RefreshedAttachmentsOnDevice);
 
-                Realm Realm = await VisitzRealms.GetIcmDataRealmAsync();
-                var newAttachment = Realm.Find<Attachment>(submittedAttachmentId);
+                using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
+                var newAttachment = realm.Find<Attachment>(submittedAttachmentId);
                 newAttachment.RelativePathBinding = relativePath;
 
                 Complete();
             }
             else if (message.FinishedError)
+            {
                 RefreshError(LocalizedStrings.FailedToRefreshAttachments, message.Message);
-            AttachmentFiler.DeleteFileFromDevice(relativePath);
+                AttachmentFiler.DeleteFileFromDevice(relativePath);
+            }
         }
     }
 
