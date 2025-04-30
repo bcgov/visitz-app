@@ -1020,6 +1020,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last visit.
+        /// </summary>
+        public static string LastVisit {
+            get {
+                return ResourceManager.GetString("LastVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
@@ -1161,6 +1170,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next visit due.
+        /// </summary>
+        public static string NextVisitDue {
+            get {
+                return ResourceManager.GetString("NextVisitDue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next in-person visit due by {0}..
         /// </summary>
         public static string NextVisitDueBy {
@@ -1193,6 +1211,15 @@ namespace Visitz.Resources.Localization {
         public static string NoInternet {
             get {
                 return ResourceManager.GetString("NoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
@@ -1310,6 +1337,15 @@ namespace Visitz.Resources.Localization {
         public static string Other {
             get {
                 return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overdue.
+        /// </summary>
+        public static string Overdue {
+            get {
+                return ResourceManager.GetString("Overdue", resourceCulture);
             }
         }
         
@@ -2277,6 +2313,15 @@ namespace Visitz.Resources.Localization {
         public static string TerminateSession {
             get {
                 return ResourceManager.GetString("TerminateSession", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To do.
+        /// </summary>
+        public static string Todo {
+            get {
+                return ResourceManager.GetString("Todo", resourceCulture);
             }
         }
         
