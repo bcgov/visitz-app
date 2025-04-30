@@ -2326,6 +2326,16 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You&apos;re all caught up!
+        ///No items here..
+        /// </summary>
+        public static string TodoIsEmpty {
+            get {
+                return ResourceManager.GetString("TodoIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string Type {
