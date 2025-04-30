@@ -104,7 +104,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
                 Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
                 relativePath = attachmentDraft.Attachment.RelativePath;
                 submittedAttachmentId = message.ReturnPayload as string;
-                await DiscardAttachmentDraft(removeContent: false);
+                await DiscardAttachmentDraft();
                 CallGetService();
             }
             else if (message.FinishedCancelled)
@@ -132,9 +132,9 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         }
     }
 
-    async Task DiscardAttachmentDraft(bool removeContent = true)
+    async Task DiscardAttachmentDraft()
     {
-        await attachmentDraft.Attachment.DeleteAsync(removeContent);
+        await attachmentDraft.Attachment.DeleteAsync(removeContent: false);
     }
 
     static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
