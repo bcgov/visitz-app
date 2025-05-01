@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Net;
 using VisitzApi.Endpoints;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
