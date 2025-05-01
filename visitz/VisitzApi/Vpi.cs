@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Net;
 using VisitzApi.Endpoints;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
@@ -29,7 +31,10 @@ namespace VisitzApi
 
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {
-            var response = await HttpClient.SendAsync(endpoint.MakeRequest());
+            var request = endpoint.MakeRequest();
+            request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
+
+            var response = await HttpClient.SendAsync(request);
             string content = await response.Content.ReadAsStringAsync();
 
             endpoint.ThrowOnHttpErrors(response, content);
