@@ -10,6 +10,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
+using Visitz.Views.Todo;
 using Visitz.Views.User;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
@@ -46,6 +47,17 @@ public partial class NavRailViewModel : VisitzViewModel
 #endif
         }
     }
+
+    [ObservableProperty]
+    public NavItem todoNavItem = new()
+    {
+        Text = LocalizedStrings.Todo,
+        ContentViewType = typeof(TodoContainerView),
+        Color = Colors.White,
+        IconSize = IconSize,
+        SelectedImageSource = MaterialIcons.Checklist.GetFilledMaterialIcon(Colors.White),
+        UnselectedImageSource = MaterialIcons.Checklist.GetUnfilledMaterialIcon(Colors.White),
+    };
 
     [ObservableProperty]
     public NavItem caseloadNavItem = new()
@@ -106,6 +118,7 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         NavigationItems.Clear();
 
+        NavigationItems.Add(TodoNavItem);
         NavigationItems.Add(CaseloadNavItem);
         NavigationItems.Add(DraftsNavItem);
 
