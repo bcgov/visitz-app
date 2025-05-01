@@ -5,12 +5,9 @@ using VisitzModel.Models;
 
 namespace Visitz.Views.Todo;
 
-public partial class TodoMasterListViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class TodoMasterListViewModel : VisitzViewModel
 {
     private bool _disposed;
-
-    [ObservableProperty]
-    public CaseloadItem caseloadItem;
 
     protected override async Task InitAsync()
     {
