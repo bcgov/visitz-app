@@ -1,4 +1,5 @@
 using Realms;
+using VisitzApi;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -48,6 +49,29 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     public string CreatedBy { get; set; }
 
     public string UpdatedBy { get; set; }
+
+    public int DueDateDaysRemaining
+    {
+        get
+        {
+            return (DateTimeOffset.Now.Date - DateOfVisit.Date).Days;
+        }
+    }
+
+    public VisitDaysThreshold CurrentDueDateThreshold
+    {
+        get
+        {
+            if (DueDateDaysRemaining > (int)VisitDaysThreshold.Warning)
+                return VisitDaysThreshold.Info;
+            else if (DueDateDaysRemaining > (int)VisitDaysThreshold.Danger)
+                return VisitDaysThreshold.Warning;
+            else if (DueDateDaysRemaining >= (int)VisitDaysThreshold.Critical)
+                return VisitDaysThreshold.Danger;
+            else
+                return VisitDaysThreshold.Critical;
+        }
+    }
 
     public string CombinedVisitDetails => MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue);
 
