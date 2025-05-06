@@ -12,6 +12,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
@@ -30,7 +31,9 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         }
     }
 
-    SubmitAttachmentEntity submitEntity;
+    public EntityType EntityType { get; set; }
+
+    public string RecordId { get; set; }
 
     string getAttachmentsServiceId;
     string submitAttachmentsServiceId;
@@ -50,9 +53,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     {
         base.Create();
 
-        var converter = TryMakeImageToPdfConverter(attachmentDraft);
-        submitEntity = await attachmentDraft.ToSubmitAttachmentEntity(AttachmentFiler, converter);
-
         recordServiceInfo = new RecordServiceInfo(
                 attachmentDraft.RelatedEntityType,
                 CaseloadItem.RowId,
@@ -63,7 +63,10 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         getAttachmentsServiceId = GetAttachmentsService.MakeId(
             attachmentDraft.RelatedEntityType,
             CaseloadItem.RowId);
-        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(submitEntity);
+
+        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(
+            attachmentDraft.RelatedEntityType,
+            CaseloadItem.RowId);
 
         WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
         WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
@@ -80,11 +83,13 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
-    public override void Publish()
-    {
-        var startMessage = SubmitAttachmentService.MakeStartMessage(submitEntity);
-        WeakReferenceMessenger.Default.Send(startMessage);
-    }
+    public override async void Publish()
+	{
+        AttachmentFormData submitEntity = await attachmentDraft.ToAttachmentFormData(AttachmentFiler);
+
+        var startMessage = SubmitAttachmentService.MakeStartMessage(EntityType, RecordId, submitEntity);
+		WeakReferenceMessenger.Default.Send(startMessage);
+	}
 
     private void CallGetService()
     {
@@ -138,6 +143,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         await attachmentDraft.Attachment.DeleteAsync(removeContent: false);
     }
 
+    [Obsolete("No longer used")]
     static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
     {
         return Attachment.AllowedImageTypes.Contains(attachmentDraft.Attachment.Extension)

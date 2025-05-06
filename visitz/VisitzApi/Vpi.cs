@@ -120,7 +120,7 @@ namespace VisitzApi
             return await CallApi(new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, recordId, attachmentId, after));
         }
 
-        public async Task<bool> SubmitAttachmentAsync(
+        public async Task<(bool TotalCount, string AttachmentId)> SubmitAttachmentAsync(
             ApiRecordType type,
             string recordId,
             AttachmentFormData data)

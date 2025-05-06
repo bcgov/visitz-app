@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -12,17 +13,17 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 {
     new PhotoDetailsViewModel ViewModel => base.ViewModel as PhotoDetailsViewModel;
 
-    public Attachment Attachment
-    {
-        get => ViewModel.Attachment;
-        set => ViewModel.Attachment = value;
-    }
+	public Attachment Attachment
+	{
+		get => ViewModel.Attachment;
+		set => ViewModel.Attachment = value;
+	}
 
-    public CaseloadItem CaseloadItem
-    {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
-    }
+	public CaseloadItem CaseloadItem
+	{
+		get => ViewModel.CaseloadItem;
+		set => ViewModel.CaseloadItem = value;
+	}
 
     public bool IsDownloadedAttachment
     {
@@ -40,13 +41,14 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
     {
         var task = base.InitAsync();
 
-        var attachment = ViewModel.Attachment;
+		if (ViewModel.Attachment?.Draft is not null)
+		{
+			string id = SubmitAttachmentService.MakeId(
+                CaseloadItem.EntityType.ParseEntityType(),
+                CaseloadItem.RowId);
 
-        if (attachment.Draft is AttachmentDraft draft)
-        {
-            string id = SubmitAttachmentService.MakeId(draft.RelatedEntityId, attachment.Id);
-            WeakReferenceMessenger.Default.Register(this, id);
-        }
+			WeakReferenceMessenger.Default.Register(this, id);
+		}
 
         return task;
     }

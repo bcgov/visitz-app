@@ -115,16 +115,20 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
         _ = DoPublishAttachmentDraft(draft);
     }
 
-    async Task DoPublishAttachmentDraft(AttachmentDraft draft)
-    {
-        var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
-        attachmentPublishVm.AttachmentDraft = draft;
-        attachmentPublishVm.AttachmentFiler = await VisitzFiles.GetAsync(
-            CaseloadItem.EntityType.ParseEntityType(),
-            CaseloadItem.CaseIncidentNumber,
-            CaseloadItem.KeyPlayer.FirstName,
-            CaseloadItem.KeyPlayer.LastName);
+	async Task DoPublishAttachmentDraft(AttachmentDraft draft)
+	{
+		var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
+
+        attachmentPublishVm.EntityType = CaseloadItem.EntityType.ParseEntityType();
+        attachmentPublishVm.RecordId = CaseloadItem.RowId;
         attachmentPublishVm.CaseloadItem = CaseloadItem;
+        attachmentPublishVm.AttachmentDraft = draft;
+
+		attachmentPublishVm.AttachmentFiler = await VisitzFiles.GetAsync(
+			CaseloadItem.EntityType.ParseEntityType(),
+			CaseloadItem.CaseIncidentNumber,
+			CaseloadItem.KeyPlayer.FirstName,
+			CaseloadItem.KeyPlayer.LastName);
 
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
     }

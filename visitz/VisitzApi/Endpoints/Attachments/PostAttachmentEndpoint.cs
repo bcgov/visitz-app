@@ -1,3 +1,5 @@
+using System.Text.Json;
+using VisitzApi.Extensions;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
 
@@ -8,7 +10,10 @@ internal class PostAttachmentEndpoint(
     ApiRecordType type,
     string recordId,
     AttachmentFormData data)
-    : VisitzBaseEndpoint<bool>(baseUrl, Vpi.V2, MakePath(type, recordId))
+    : VisitzBaseEndpoint<(bool TotalCount, string AttachmentId)>(
+        baseUrl,
+        Vpi.V2,
+        MakePath(type, recordId))
 {
     readonly AttachmentFormData data = data;
 
@@ -30,8 +35,23 @@ internal class PostAttachmentEndpoint(
         };
     }
 
-    public override bool HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (bool TotalCount, string AttachmentId)
+        HandleResponse(HttpResponseMessage response, string responseContent)
     {
-        return response.IsSuccessStatusCode;
+        string attachmentId = "";
+
+        try
+        {
+            var root = JsonDocument.Parse(responseContent).RootElement;
+
+            if (root.FindFirstByName("Id") is JsonElement found)
+                attachmentId = found.GetString() ?? "";
+        }
+        catch (Exception) { }
+
+        return (
+            response.IsSuccessStatusCode,
+            attachmentId
+        );
     }
 }

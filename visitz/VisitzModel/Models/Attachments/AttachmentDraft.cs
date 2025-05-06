@@ -1,4 +1,5 @@
 using Realms;
+using System.Net.Mime;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -127,45 +128,26 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
     }
 
-    public async Task<SubmitAttachmentEntity> ToSubmitAttachmentEntity(
-        AttachmentFiler attachmentFiler,
-        IStreamConverter streamConverter = null,
-        CancellationToken? token = null)
-    {
+	public async Task<AttachmentFormData> ToAttachmentFormData(
+		AttachmentFiler attachmentFiler,
+        string category = null,
+        string description = null,
+        string status = null,
+        string template = null,
+		CancellationToken? token = null)
+	{
         token ??= CancellationToken.None;
 
-        await using var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
-        byte[] attachmentBytes;
+		var attachmentStream = await attachmentFiler.GetAppDataFileAsync(
+            Attachment.RelativePath,
+            token);
 
-        if (streamConverter != null)
-        {
-            var convertedStream = await streamConverter.ConvertAsync(attachmentStream);
-
-            attachmentBytes = new byte[convertedStream.Length];
-            await convertedStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
-        }
-        else
-        {
-            attachmentBytes = new byte[attachmentStream.Length];
-            await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
-        }
-
-        return new()
-        {
-            AttachmentId = Attachment.Id,
-            EntityNumber = RelatedEntityId,
-            EntityType = RelatedEntityType.GetDisplayString(),
-            CaseType = RelatedEntitySubtype.GetDisplayString(),
-            FormName = IcmFormNames.GenericDocument,
-            FileName = Attachment.Filename,
-            FormDescription = "",
-            FormCategory = "",
-            Section13Exists = "",
-            InvestigationResponse = "",
-            Attachment = new()
-            {
-                PdfString = Convert.ToBase64String(attachmentBytes),
-            }
-        };
-    }
+        return new AttachmentFormData(
+            Attachment.Filename,
+            attachmentStream,
+            category,
+            description,
+            status,
+            template);
+	}
 }
