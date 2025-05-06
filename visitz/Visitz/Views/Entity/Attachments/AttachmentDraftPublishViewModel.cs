@@ -9,6 +9,7 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -31,9 +32,9 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         }
     }
 
-    public EntityType EntityType { get; set; }
+    public EntityType EntityType { get; private set; }
 
-    public string RecordId { get; set; }
+    public string RecordId { get; private set; }
 
     string getAttachmentsServiceId;
     string submitAttachmentsServiceId;
@@ -47,7 +48,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     string AttachmentName => attachmentDraft.Attachment.Filename;
 
-    public AttachmentFiler AttachmentFiler { get; set; }
+    public AttachmentFiler AttachmentFiler { get; private set; }
 
     protected override async Task InitAsync()
 	{
@@ -86,6 +87,22 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             disposed = true;
         }
         base.Dispose(disposing);
+    }
+
+    public async Task SetPayload(
+        CaseloadItem item,
+        AttachmentDraft draft,
+        AttachmentFiler filer = null)
+    {
+        RecordId = item.RowId;
+        EntityType = item.EntityType.ParseEntityType();
+        attachmentDraft = draft;
+
+        AttachmentFiler = filer ?? await VisitzFiles.GetAsync(
+            item.EntityType.ParseEntityType(),
+            item.CaseIncidentNumber,
+            item.KeyPlayer.FirstName,
+            item.KeyPlayer.LastName);
     }
 
     public override async void Publish()
