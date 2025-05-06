@@ -115,12 +115,12 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
         _ = DoPublishAttachmentDraft(draft);
     }
 
-	async Task DoPublishAttachmentDraft(AttachmentDraft draft)
-	{
-		var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
+    async Task DoPublishAttachmentDraft(AttachmentDraft draft)
+    {
+        var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
         await attachmentPublishVm.SetPayload(CaseloadItem, draft);
-		await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
-	}
+        await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
+    }
 
     [RelayCommand]
     public void OpenAttachment(AttachmentDraft draft)

@@ -110,8 +110,8 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         AttachmentFormData submitEntity = await attachmentDraft.ToAttachmentFormData(AttachmentFiler);
 
         var startMessage = SubmitAttachmentService.MakeStartMessage(EntityType, RecordId, submitEntity);
-		WeakReferenceMessenger.Default.Send(startMessage);
-	}
+        WeakReferenceMessenger.Default.Send(startMessage);
+    }
 
     private void CallGetService()
     {
