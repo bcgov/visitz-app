@@ -17,7 +17,7 @@ using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>, ICaseloadItemHolder
+internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
     AttachmentDraft attachmentDraft;
 
@@ -43,8 +43,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     string submittedAttachmentId;
 
-    public CaseloadItem CaseloadItem { get; set; }
-
     string AttachmentName => attachmentDraft.Attachment.Filename;
 
     public AttachmentFiler AttachmentFiler { get; private set; }
@@ -52,21 +50,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     protected override async Task InitAsync()
 	{
 		await base.InitAsync();
-
-        recordServiceInfo = new RecordServiceInfo(
-                attachmentDraft.RelatedEntityType,
-                CaseloadItem.RowId,
-                attachmentDraft.Attachment.FileNumber,
-                CaseloadItem.KeyPlayer.FirstName,
-                CaseloadItem.KeyPlayer.LastName);
-
-        getAttachmentsServiceId = GetAttachmentsService.MakeId(
-            attachmentDraft.RelatedEntityType,
-            CaseloadItem.RowId);
-
-        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(
-            attachmentDraft.RelatedEntityType,
-            CaseloadItem.RowId);
 
         WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
         WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
@@ -102,6 +85,21 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             item.CaseIncidentNumber,
             item.KeyPlayer.FirstName,
             item.KeyPlayer.LastName);
+
+        recordServiceInfo = new RecordServiceInfo(
+                attachmentDraft.RelatedEntityType,
+                RecordId,
+                attachmentDraft.Attachment.FileNumber,
+                item.KeyPlayer.FirstName,
+                item.KeyPlayer.LastName);
+
+        getAttachmentsServiceId = GetAttachmentsService.MakeId(
+            attachmentDraft.RelatedEntityType,
+            RecordId);
+
+        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(
+            attachmentDraft.RelatedEntityType,
+            RecordId);
     }
 
     public override async void Publish()
