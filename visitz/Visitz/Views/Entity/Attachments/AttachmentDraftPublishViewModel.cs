@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using Visitz.Documents;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Attachments;
@@ -163,13 +162,5 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     async Task DiscardAttachmentDraft()
     {
         await attachmentDraft.Attachment.DeleteAsync(removeContent: false);
-    }
-
-    [Obsolete("No longer used")]
-    static ImagePdfStreamConverter TryMakeImageToPdfConverter(AttachmentDraft attachmentDraft)
-    {
-        return Attachment.AllowedImageTypes.Contains(attachmentDraft.Attachment.Extension)
-            ? new ImagePdfStreamConverter(attachmentDraft.Attachment.Filename, DisplayOrientation.Unknown)
-            : null;
     }
 }
