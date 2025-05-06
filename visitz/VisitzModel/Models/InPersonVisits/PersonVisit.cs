@@ -73,6 +73,20 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         }
     }
 
+    public static IQueryable<PersonVisit> GetUpcomingVisits(Realm realm)
+    {
+        var latestVisitsPerCase = realm.All<PersonVisit>()
+            .Where(item => item.ParentType == EntityType.Case)
+            .GroupBy(item => item.ParentId)
+            .Select(group => group
+                .OrderByDescending(item => item.DateOfVisit)
+                .FirstOrDefault())
+            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning)
+            .OrderBy(item => item.DueDateDaysRemaining);
+
+        return latestVisitsPerCase;
+    }
+
     public string CombinedVisitDetails => MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue);
 
     public PersonVisit() { }

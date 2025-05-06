@@ -8,7 +8,6 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
 	xmlns:visitModels="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
-	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Todo.TodoMasterList"
     x:DataType="todo:TodoMasterListViewModel"
@@ -25,12 +24,12 @@
         <selView:SelectionList
             Grid.Row="1"
             AutoSelectDefault="True"
-            ItemsSource="{Binding MasterDraftItems}"
+            ItemsSource="{Binding TodoMasterItems}"
             SelectedItem="{Binding SelectedItem}">
             <!-- SelectionChangedCommand="{Binding MasterDraftItemSelectedCommand}"> -->
 
             <selView:SelectionList.ItemTemplate>
-                <DataTemplate x:DataType="draftModels:MasterDraftItem">
+                <DataTemplate x:DataType="todo:TodoItemUi">
                     <selView:SelectableItem>
 
                         <VisualStateManager.VisualStateGroups>
@@ -56,7 +55,7 @@
                             <Label
                                 Grid.Column="0"
                                 VerticalOptions="Center"
-                                Text="{Binding Name}"/>
+                                Text="{Binding ItemName}"/>
 
                             <Label
                                 Grid.Column="1"
@@ -74,6 +73,7 @@
             Grid.Row="1"
             HorizontalOptions="Center"
             VerticalOptions="Center"
+            IsVisible="{Binding ShowEmpty}"
             Text="{local:Localize TodoIsEmpty}"/>
     </Grid>
 </baseClasses:ViewModelContentView>
