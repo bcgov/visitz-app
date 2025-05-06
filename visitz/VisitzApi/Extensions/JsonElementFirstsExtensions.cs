@@ -38,7 +38,7 @@ namespace VisitzApi.Extensions
             foreach (var property in startElement.EnumerateObject())
             {
                 var element = startElement.GetProperty(property.Name);
-                var kind = startElement.GetProperty(propertyName).ValueKind;
+                var kind = element.ValueKind;
 
                 if (kind == JsonValueKind.Object || kind == JsonValueKind.Array)
                     if (FindFirstByName(element, propertyName) is JsonElement foundElement)
