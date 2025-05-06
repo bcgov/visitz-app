@@ -49,9 +49,9 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     public AttachmentFiler AttachmentFiler { get; set; }
 
-    public override async void Create()
-    {
-        base.Create();
+    protected override async Task InitAsync()
+	{
+		await base.InitAsync();
 
         recordServiceInfo = new RecordServiceInfo(
                 attachmentDraft.RelatedEntityType,
@@ -76,11 +76,16 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         Publish();
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        base.Destroy();
+        if (!disposed && disposing)
+        {
+		    WeakReferenceMessenger.Default.UnregisterAll(this);
 
-        WeakReferenceMessenger.Default.UnregisterAll(this);
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     public override async void Publish()
