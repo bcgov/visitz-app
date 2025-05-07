@@ -47,6 +47,8 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     public AttachmentFiler AttachmentFiler { get; private set; }
 
+    public AttachmentFormData AttachmentToSubmit { get; private set; }
+
     public async Task SetPayload(
         CaseloadItem item,
         AttachmentDraft draft,
@@ -85,6 +87,8 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
         WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
 
+        AttachmentToSubmit = await attachmentDraft.ToAttachmentFormData(AttachmentFiler);
+
         Wait(LocalizedStrings.LoginToSubmitAttachment);
 
         Publish();
@@ -102,11 +106,13 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         base.Dispose(disposing);
     }
 
-    public override async void Publish()
+    public override void Publish()
 	{
-        AttachmentFormData submitEntity = await attachmentDraft.ToAttachmentFormData(AttachmentFiler);
+        var startMessage = SubmitAttachmentService.MakeStartMessage(
+            EntityType,
+            RecordId,
+            AttachmentToSubmit);
 
-        var startMessage = SubmitAttachmentService.MakeStartMessage(EntityType, RecordId, submitEntity);
         WeakReferenceMessenger.Default.Send(startMessage);
     }
 
