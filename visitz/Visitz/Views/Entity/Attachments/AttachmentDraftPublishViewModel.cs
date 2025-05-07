@@ -68,6 +68,11 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
                 attachmentDraft.Attachment.FileNumber,
                 item.KeyPlayer.FirstName,
                 item.KeyPlayer.LastName);
+    }
+
+    protected override async Task InitAsync()
+	{
+		await base.InitAsync();
 
         getAttachmentsServiceId = GetAttachmentsService.MakeId(
             attachmentDraft.RelatedEntityType,
@@ -76,11 +81,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         submitAttachmentsServiceId = SubmitAttachmentService.MakeId(
             attachmentDraft.RelatedEntityType,
             RecordId);
-    }
-
-    protected override async Task InitAsync()
-	{
-		await base.InitAsync();
 
         WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
         WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
