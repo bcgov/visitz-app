@@ -14,14 +14,14 @@ public partial class TodoMasterListViewModel : VisitzViewModel
     private bool _disposed;
 
     [ObservableProperty]
-    public MasterDraftItem selectedItem;
+    public TodoItemUi selectedItem;
     TodoItemUi upcomingVisitsItem;
 
     [ObservableProperty]
     ObservableCollection<object> todoMasterItems = [];
 
     [ObservableProperty]
-    public bool showEmpty;
+    public bool showEmpty = true;
 
     protected override async Task InitAsync()
     {
@@ -35,15 +35,17 @@ public partial class TodoMasterListViewModel : VisitzViewModel
 
     private void TodoItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        ShowEmpty = upcomingVisitsItem.Count <= 0;
-
         if (e.PropertyName != nameof(TodoItemUi.Count))
             return;
 
-        if (upcomingVisitsItem.Count <= 0)
-            TodoMasterItems.Remove(upcomingVisitsItem);
-        else if (!TodoMasterItems.Contains(upcomingVisitsItem))
-            InsertSortedAsc(TodoMasterItems, upcomingVisitsItem);
+        TodoItemUi item = sender as TodoItemUi;
+
+        if (item.Count <= 0)
+            TodoMasterItems.Remove(item);
+        else if (!TodoMasterItems.Contains(item))
+            InsertSortedAsc(TodoMasterItems, item);
+
+        ShowEmpty = TodoMasterItems.Count <= 0;
     }
 
     static void InsertSortedAsc(ObservableCollection<object> collection, TodoItemUi todoItem)
@@ -52,7 +54,7 @@ public partial class TodoMasterListViewModel : VisitzViewModel
             collection.Add(todoItem);
         else
         {
-            var find = collection.OfType<TodoItemUi>().FirstOrDefault(obj => obj.Count >= todoItem.Count);
+            var find = collection.OfType<TodoItemUi>().FirstOrDefault(obj => obj.ItemName.CompareTo(todoItem.ItemName) >= 0);
             if (find != null)
                 collection.Insert(collection.IndexOf(find), todoItem);
             else
