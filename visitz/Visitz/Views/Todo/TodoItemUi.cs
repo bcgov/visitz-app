@@ -1,11 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Realms;
 using Visitz.Resources.Localization;
+using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
 
 namespace Visitz.Views.Todo;
 
-public partial class TodoItemUi : ObservableObject
+public partial class TodoItemUi : VisitzViewModel
 {
     readonly ObservableRealmQueryMap realmQuery = new();
 
@@ -44,11 +45,5 @@ public partial class TodoItemUi : ObservableObject
         }
         Count = todoItems.Count;
         ItemName = LocalizedStrings.ChildYouthVisits;
-    }
-
-    public void Dispose()
-    {
-        realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
-        realmQuery.Dispose();
     }
 }
