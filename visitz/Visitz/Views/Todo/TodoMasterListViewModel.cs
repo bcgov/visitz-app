@@ -20,7 +20,7 @@ public partial class TodoMasterListViewModel : VisitzViewModel
     ObservableCollection<object> todoMasterItems = [];
 
     [ObservableProperty]
-    bool showEmpty;
+    public bool showEmpty;
 
     protected override async Task InitAsync()
     {
