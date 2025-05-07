@@ -1,4 +1,4 @@
-namespace VisitzApi;
+namespace VisitzModel.Models.InPersonVisits;
 
 public enum VisitDaysThreshold
 {
