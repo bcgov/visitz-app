@@ -47,30 +47,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     public AttachmentFiler AttachmentFiler { get; private set; }
 
-    protected override async Task InitAsync()
-	{
-		await base.InitAsync();
-
-        WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
-        WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
-
-        Wait(LocalizedStrings.LoginToSubmitAttachment);
-
-        Publish();
-    }
-
-    bool disposed;
-    protected override void Dispose(bool disposing)
-    {
-        if (!disposed && disposing)
-        {
-		    WeakReferenceMessenger.Default.UnregisterAll(this);
-
-            disposed = true;
-        }
-        base.Dispose(disposing);
-    }
-
     public async Task SetPayload(
         CaseloadItem item,
         AttachmentDraft draft,
@@ -100,6 +76,30 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         submitAttachmentsServiceId = SubmitAttachmentService.MakeId(
             attachmentDraft.RelatedEntityType,
             RecordId);
+    }
+
+    protected override async Task InitAsync()
+	{
+		await base.InitAsync();
+
+        WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
+        WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
+
+        Wait(LocalizedStrings.LoginToSubmitAttachment);
+
+        Publish();
+    }
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+		    WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     public override async void Publish()
