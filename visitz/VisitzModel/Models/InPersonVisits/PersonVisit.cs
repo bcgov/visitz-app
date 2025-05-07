@@ -62,14 +62,14 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     {
         get
         {
-            if (DueDateDaysRemaining > (int)VisitDaysThreshold.Warning)
-                return VisitDaysThreshold.Info;
-            else if (DueDateDaysRemaining > (int)VisitDaysThreshold.Danger)
-                return VisitDaysThreshold.Warning;
-            else if (DueDateDaysRemaining >= (int)VisitDaysThreshold.Critical)
-                return VisitDaysThreshold.Danger;
-            else
+            if (DueDateDaysRemaining <= (int)VisitDaysThreshold.Critical)
                 return VisitDaysThreshold.Critical;
+            else if (DueDateDaysRemaining <= (int)VisitDaysThreshold.Danger)
+                return VisitDaysThreshold.Danger;
+            else if (DueDateDaysRemaining <= (int)VisitDaysThreshold.Warning)
+                return VisitDaysThreshold.Warning;
+            else
+                return VisitDaysThreshold.Info;
         }
     }
 
