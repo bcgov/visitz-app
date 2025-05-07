@@ -69,11 +69,6 @@ namespace VisitzApi
             return await CallApi(new SubmitSafetyAssessmentEndpoint(BaseVisitzApiUrl, safetyAssessment));
         }
 
-        public async Task<(bool success, string attachmentId)> SubmitAttachmentAsync(SubmitAttachmentEntity attachment)
-        {
-            return await CallApi(new SubmitAttachmentEndpoint(BaseVisitzApiUrl, attachment));
-        }
-
         public async Task<(int TotalRecords, IEnumerable<VisitJson>)> GetVisitsAsync(
             string caseId,
             Pagination pagination = null)
