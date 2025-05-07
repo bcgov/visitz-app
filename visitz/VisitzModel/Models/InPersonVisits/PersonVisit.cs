@@ -54,7 +54,8 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     {
         get
         {
-            return (DateTimeOffset.Now.Date - DateOfVisit.Date).Days;
+            var threshold = DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info);
+            return (threshold - DateTimeOffset.Now.Date).Days;
         }
     }
 
@@ -79,16 +80,16 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         .Where(item => item.ParentTypeInt == (int)EntityType.Case)
         .ToList();
 
-    var latestVisitsPerCase = visits
-        .GroupBy(item => item.ParentId)
-        .Select(group => group
-            .OrderByDescending(item => item.DateOfVisit)
-            .FirstOrDefault())
-        .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning)
-        .OrderBy(item => item.DueDateDaysRemaining)
-        .AsQueryable();
+        var latestVisitsPerCase = visits
+            .GroupBy(item => item.ParentId)
+            .Select(group => group
+                .OrderByDescending(item => item.DateOfVisit)
+                .FirstOrDefault())
+            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning)
+            .OrderBy(item => item.DueDateDaysRemaining)
+            .AsQueryable();
 
-    return latestVisitsPerCase;
+        return latestVisitsPerCase;
     }
 
     public string CombinedVisitDetails => MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue);
