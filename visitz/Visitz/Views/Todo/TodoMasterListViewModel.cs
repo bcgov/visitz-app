@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Realms;
 using Visitz.Storage;
@@ -14,7 +15,7 @@ public partial class TodoMasterListViewModel : VisitzViewModel
 
     [ObservableProperty]
     public MasterDraftItem selectedItem;
-    TodoItemUi todoItem;
+    TodoItemUi upcomingVisitsItem;
 
     [ObservableProperty]
     ObservableCollection<object> todoMasterItems = [];
@@ -28,17 +29,43 @@ public partial class TodoMasterListViewModel : VisitzViewModel
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         IQueryable<PersonVisit> query = PersonVisit.GetUpcomingVisits(icmDataRealm);
 
-        todoItem = new TodoItemUi(query, icmDataRealm);
-        TodoMasterItems.Add(todoItem);
+        upcomingVisitsItem = new TodoItemUi(query, icmDataRealm);
+        upcomingVisitsItem.PropertyChanged += TodoItem_PropertyChanged;
+    }
 
-        ShowEmpty = TodoMasterItems.Count < 1;
+    private void TodoItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        ShowEmpty = upcomingVisitsItem.Count <= 0;
+
+        if (e.PropertyName != nameof(TodoItemUi.Count))
+            return;
+
+        if (upcomingVisitsItem.Count <= 0)
+            TodoMasterItems.Remove(upcomingVisitsItem);
+        else if (!TodoMasterItems.Contains(upcomingVisitsItem))
+            InsertSortedAsc(TodoMasterItems, upcomingVisitsItem);
+    }
+
+    static void InsertSortedAsc(ObservableCollection<object> collection, TodoItemUi todoItem)
+    {
+        if (collection.Count == 0)
+            collection.Add(todoItem);
+        else
+        {
+            var find = collection.OfType<TodoItemUi>().FirstOrDefault(obj => obj.Count >= todoItem.Count);
+            if (find != null)
+                collection.Insert(collection.IndexOf(find), todoItem);
+            else
+                collection.Add(todoItem);
+        }
     }
 
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
         {
-            todoItem?.Dispose();
+            upcomingVisitsItem.PropertyChanged -= TodoItem_PropertyChanged;
+            upcomingVisitsItem?.Dispose();
             _disposed = true;
         }
         base.Dispose(disposing);
