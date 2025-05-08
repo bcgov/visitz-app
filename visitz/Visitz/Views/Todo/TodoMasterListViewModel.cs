@@ -23,10 +23,12 @@ public partial class TodoMasterListViewModel : VisitzViewModel
     [ObservableProperty]
     public bool showEmpty = true;
 
+    Realm icmDataRealm;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-        Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         IQueryable<PersonVisit> query = PersonVisit.GetUpcomingVisits(icmDataRealm);
 
         upcomingVisitsItem = new TodoItemUi(query, icmDataRealm);
@@ -68,6 +70,7 @@ public partial class TodoMasterListViewModel : VisitzViewModel
         {
             upcomingVisitsItem.PropertyChanged -= TodoItem_PropertyChanged;
             upcomingVisitsItem?.Dispose();
+            icmDataRealm?.Dispose();
             _disposed = true;
         }
         base.Dispose(disposing);
