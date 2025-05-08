@@ -26,7 +26,6 @@
             AutoSelectDefault="True"
             ItemsSource="{Binding TodoMasterItems}"
             SelectedItem="{Binding SelectedItem}">
-            <!-- SelectionChangedCommand="{Binding MasterDraftItemSelectedCommand}"> -->
 
             <selView:SelectionList.ItemTemplate>
                 <DataTemplate x:DataType="todo:TodoItemUi">
