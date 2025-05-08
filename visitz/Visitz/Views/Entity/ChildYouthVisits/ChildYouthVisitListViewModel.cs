@@ -89,15 +89,12 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
         HasVisitData = personVisits.Count > 0;
         ShowEmptyIcon = !HasVisitData;
         if (personVisits.FirstOrDefault() is PersonVisit lastVisit)
-        {
-            DateTimeOffset nextVisitDate = lastVisit.DateOfVisit.AddDays((double)VisitDaysThreshold.Info);
-            string dueDate = nextVisitDate.ToString("MMMM d, yyyy");
-            SetBannerInfo(lastVisit, dueDate);
-        }
+            SetBannerInfo(lastVisit);
     }
 
-    private void SetBannerInfo(PersonVisit personVisit, string dateInBanner)
+    private void SetBannerInfo(PersonVisit personVisit)
     {
+        string dateInBanner = personVisit.DueDate.ToString("MMMM d, yyyy");
         var threshold = personVisit.CurrentDueDateThreshold;
         switch (threshold)
         {
