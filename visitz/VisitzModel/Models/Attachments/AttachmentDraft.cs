@@ -1,11 +1,8 @@
 using Realms;
-using System.Net.Mime;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Imaging;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;

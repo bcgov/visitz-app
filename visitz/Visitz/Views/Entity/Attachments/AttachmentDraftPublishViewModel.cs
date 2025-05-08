@@ -9,7 +9,6 @@ using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
-using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
