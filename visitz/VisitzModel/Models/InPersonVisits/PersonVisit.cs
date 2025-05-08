@@ -49,12 +49,19 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string UpdatedBy { get; set; }
 
+    public DateTimeOffset DueDate
+    {
+        get
+        {
+            return DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info);
+        }
+    }
+
     public int DueDateDaysRemaining
     {
         get
         {
-            var threshold = DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info);
-            return (threshold - DateTimeOffset.Now.Date).Days;
+            return (DueDate.Date - DateTimeOffset.Now.Date).Days;
         }
     }
 
