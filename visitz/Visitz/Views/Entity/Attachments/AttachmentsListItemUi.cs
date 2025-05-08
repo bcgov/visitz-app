@@ -29,6 +29,9 @@ public partial class AttachmentsListItemUi :
     [ObservableProperty]
     public Color toDownloadTextColor;
 
+    [ObservableProperty]
+    public bool showTemplate;
+
     private bool disposedValue;
 
     EntityType EntityType { get; set; }
@@ -51,6 +54,8 @@ public partial class AttachmentsListItemUi :
 
         EntityType = type;
         RecordId = recordId;
+
+        ShowTemplate = attachment.Template?.Trim().Length > 0;
 
         ServiceId = GetAttachmentContentService.MakeId(EntityType, RecordId, Attachment.Id);
         WeakReferenceMessenger.Default.Register(this, ServiceId);

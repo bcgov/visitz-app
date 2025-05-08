@@ -16,88 +16,87 @@
                 Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
             CommandParameter="{Binding .}" />
     </base:BaseContentView.GestureRecognizers>
-    
-    <VerticalStackLayout>
-        <Grid
-            RowSpacing="{StaticResource DefaultSpacing}"
+
+    <base:BaseContentView.Resources>
+        <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter"/>
+    </base:BaseContentView.Resources>
+
+    <VerticalStackLayout Margin="10,10,10,0">
+        
+        <Grid 
             ColumnSpacing="{StaticResource DefaultSpacing}"
-            Margin="10,10,10,0"
-            RowDefinitions="Auto,Auto,Auto"
+            RowDefinitions="Auto"
             ColumnDefinitions="*,Auto">
 
-            <Grid.Resources>
-                <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter"/>
-            </Grid.Resources>
-
-            <Label
-                Grid.Row="0"
-                TextColor="{Binding ToDownloadTextColor}"
-                Text="{Binding Attachment.FormDescription}"/>
-
-            <Label
-                Grid.Row="1"
-                Text="{Binding Attachment.Filename}"
-                TextColor="{Binding ToDownloadTextColor}"
-                FontFamily="BCSansBold"
-                FontSize="17"/>
-
-            <HorizontalStackLayout
-                Spacing="30"
-                Grid.Row="2">
+            <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
                 <Label
                     TextColor="{Binding ToDownloadTextColor}"
-                    Text="{Binding Attachment.Status}"/>
-                <Label
-                    TextColor="{Binding ToDownloadTextColor}"
-                    Text="{Binding Attachment.Category}"/>
-                <Label
-                    TextColor="{Binding ToDownloadTextColor}"
-                    Text="{Binding Attachment.CreatedDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"/>
-                <Label
-                    TextColor="{Binding ToDownloadTextColor}"
-                    Text="{Binding Attachment.CreatedBy}"/>
-            </HorizontalStackLayout>
+                    Text="{Binding Attachment.FormDescription}"
+                    IsVisible="{Binding ShowTemplate}"/>
 
-            <controls:FontIconButton
-                Grid.Row="0"
-                Grid.Column="1"
-                Grid.RowSpan="3"
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-                Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                CommandParameter="{Binding .}"
-                FontFamily="FluentIconsRegular"
-                FontSize="30"
-                IsVisible="{Binding ShowDeleteButton}"
-                Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
-                TextColor="{StaticResource Gray500}" />
+                <Label
+                    Text="{Binding Attachment.Filename}"
+                    TextColor="{Binding ToDownloadTextColor}"
+                    FontFamily="BCSansBold"
+                    FontSize="17"/>
+        
+                <HorizontalStackLayout Spacing="30">
+                    <Label
+                        TextColor="{Binding ToDownloadTextColor}"
+                        Text="{Binding Attachment.Status}"/>
+                    <Label
+                        TextColor="{Binding ToDownloadTextColor}"
+                        Text="{Binding Attachment.Category}"/>
+                    <Label
+                        TextColor="{Binding ToDownloadTextColor}"
+                        Text="{Binding Attachment.CreatedDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"/>
+                    <Label
+                        TextColor="{Binding ToDownloadTextColor}"
+                        Text="{Binding Attachment.CreatedBy}"/>
+                </HorizontalStackLayout>
+                
+            </VerticalStackLayout>
 
-            <ActivityIndicator
-                Grid.Row="0"
-                Grid.RowSpan="3"
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-                IsRunning="{Binding IsDownloading}"
-                IsVisible="{Binding IsDownloading}" />
+                <controls:FontIconButton
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    Command="{Binding DeleteDownloadedAttachmentFromDeviceCommand,
+                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                    CommandParameter="{Binding .}"
+                    FontFamily="FluentIconsRegular"
+                    FontSize="30"
+                    IsVisible="{Binding ShowDeleteButton}"
+                    Text="{Static fonticons:FluentIcons.Subtract_circle_20_regular}"
+                    TextColor="{StaticResource Gray500}" />
 
-            <controls:FontIconButton
-                Grid.Row="0"
-                Grid.Column="1"
-                Grid.RowSpan="3"
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-                Command="{Binding DownloadAttachmentForDeviceCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                CommandParameter="{Binding .}"
-                FontFamily="MaterialIconsRoundedUnfilled"
-                FontSize="30"
-                IsVisible="{Binding ShowDownloadButton}"
-                Text="{Static fonticons:MaterialIcons.Download}"
-                TextColor="{StaticResource Gray500}" />
+                <ActivityIndicator
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    IsRunning="{Binding IsDownloading}"
+                    IsVisible="{Binding IsDownloading}" />
+
+                <controls:FontIconButton
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    Command="{Binding DownloadAttachmentForDeviceCommand,
+                        Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                    CommandParameter="{Binding .}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    FontSize="30"
+                    IsVisible="{Binding ShowDownloadButton}"
+                    Text="{Static fonticons:MaterialIcons.Download}"
+                    TextColor="{StaticResource Gray500}" />
         </Grid>
         <BoxView
-            Margin="10"
+            Margin="0,10,0,0"
             Color="{StaticResource Gray200}"
             HeightRequest="0.5"/>
     </VerticalStackLayout>
