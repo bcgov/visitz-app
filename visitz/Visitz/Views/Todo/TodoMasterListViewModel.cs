@@ -18,7 +18,7 @@ public partial class TodoMasterListViewModel : VisitzViewModel
     TodoItemUi upcomingVisitsItem;
 
     [ObservableProperty]
-    ObservableCollection<object> todoMasterItems = [];
+    ObservableCollection<TodoItemUi> todoMasterItems = [];
 
     [ObservableProperty]
     public bool showEmpty = true;
@@ -50,7 +50,7 @@ public partial class TodoMasterListViewModel : VisitzViewModel
         ShowEmpty = TodoMasterItems.Count <= 0;
     }
 
-    static void InsertSortedAsc(ObservableCollection<object> collection, TodoItemUi todoItem)
+    static void InsertSortedAsc(ObservableCollection<TodoItemUi> collection, TodoItemUi todoItem)
     {
         if (collection.Count == 0)
             collection.Add(todoItem);
