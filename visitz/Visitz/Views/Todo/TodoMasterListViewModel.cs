@@ -1,10 +1,9 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Realms;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
 
 namespace Visitz.Views.Todo;
@@ -29,19 +28,18 @@ public partial class TodoMasterListViewModel : VisitzViewModel
     {
         await base.InitAsync();
         icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        IQueryable<PersonVisit> query = PersonVisit.GetUpcomingVisits(icmDataRealm);
+        IQueryable<PersonVisit> query = PersonVisit.GetAllByType(icmDataRealm);
 
-        upcomingVisitsItem = new TodoItemUi(query, icmDataRealm);
-        upcomingVisitsItem.PropertyChanged += TodoItem_PropertyChanged;
+        upcomingVisitsItem = new TodoItemUi(
+            LocalizedStrings.ChildYouthVisits,
+            query,
+            icmDataRealm,
+            TodoItem_PropertyChanged,
+            ()=>PersonVisit.GetUpcomingVisits(icmDataRealm).Count());
     }
 
-    private void TodoItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void TodoItem_PropertyChanged(TodoItemUi item)
     {
-        if (e.PropertyName != nameof(TodoItemUi.Count))
-            return;
-
-        TodoItemUi item = sender as TodoItemUi;
-
         if (item.Count <= 0)
             TodoMasterItems.Remove(item);
         else if (!TodoMasterItems.Contains(item))
@@ -68,7 +66,6 @@ public partial class TodoMasterListViewModel : VisitzViewModel
     {
         if (!_disposed && disposing)
         {
-            upcomingVisitsItem.PropertyChanged -= TodoItem_PropertyChanged;
             upcomingVisitsItem?.Dispose();
             icmDataRealm?.Dispose();
             _disposed = true;
