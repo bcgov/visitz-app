@@ -1,5 +1,6 @@
 using System.Text.Json;
 using VisitzApi.Extensions;
+using VisitzApi.Json;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
 
@@ -44,7 +45,7 @@ internal class PostAttachmentEndpoint(
         {
             var root = JsonDocument.Parse(responseContent).RootElement;
 
-            if (root.FindFirstByName("Id") is JsonElement found)
+            if (root.FindFirstByName(JsonKey.Id) is JsonElement found)
                 attachmentId = found.GetString() ?? "";
         }
         catch (Exception) { /* not throwing exception since API call was actually successful */ }
