@@ -13,17 +13,17 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
 {
     new PhotoDetailsViewModel ViewModel => base.ViewModel as PhotoDetailsViewModel;
 
-	public Attachment Attachment
-	{
-		get => ViewModel.Attachment;
-		set => ViewModel.Attachment = value;
-	}
+    public Attachment Attachment
+    {
+        get => ViewModel.Attachment;
+        set => ViewModel.Attachment = value;
+    }
 
-	public CaseloadItem CaseloadItem
-	{
-		get => ViewModel.CaseloadItem;
-		set => ViewModel.CaseloadItem = value;
-	}
+    public CaseloadItem CaseloadItem
+    {
+        get => ViewModel.CaseloadItem;
+        set => ViewModel.CaseloadItem = value;
+    }
 
     public bool IsDownloadedAttachment
     {
@@ -41,14 +41,14 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
     {
         var task = base.InitAsync();
 
-		if (ViewModel.Attachment?.Draft is not null)
-		{
-			string id = SubmitAttachmentService.MakeId(
+        if (ViewModel.Attachment?.Draft is not null)
+        {
+            string id = SubmitAttachmentService.MakeId(
                 CaseloadItem.EntityType.ParseEntityType(),
                 CaseloadItem.RowId);
 
-			WeakReferenceMessenger.Default.Register(this, id);
-		}
+            WeakReferenceMessenger.Default.Register(this, id);
+        }
 
         return task;
     }

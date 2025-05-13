@@ -125,17 +125,17 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
     }
 
-	public async Task<AttachmentFormData> ToAttachmentFormData(
-		AttachmentFiler attachmentFiler,
+    public async Task<AttachmentFormData> ToAttachmentFormData(
+        AttachmentFiler attachmentFiler,
         string category = null,
         string description = null,
         string status = null,
         string template = null,
-		CancellationToken? token = null)
-	{
+        CancellationToken? token = null)
+    {
         token ??= CancellationToken.None;
 
-		var attachmentStream = await attachmentFiler.GetAppDataFileAsync(
+        var attachmentStream = await attachmentFiler.GetAppDataFileAsync(
             Attachment.RelativePath,
             token);
 
@@ -146,5 +146,5 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             description,
             status,
             template);
-	}
+    }
 }
