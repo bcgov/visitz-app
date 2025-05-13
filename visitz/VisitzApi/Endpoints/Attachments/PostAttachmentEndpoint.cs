@@ -47,7 +47,7 @@ internal class PostAttachmentEndpoint(
             if (root.FindFirstByName("Id") is JsonElement found)
                 attachmentId = found.GetString() ?? "";
         }
-        catch (Exception) { }
+        catch (Exception) { /* not throwing exception since API call was actually successful */ }
 
         return (
             response.IsSuccessStatusCode,
