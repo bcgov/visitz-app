@@ -1,10 +1,8 @@
 using Realms;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Imaging;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -127,45 +125,26 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
     }
 
-    public async Task<SubmitAttachmentEntity> ToSubmitAttachmentEntity(
+    public async Task<AttachmentFormData> ToAttachmentFormData(
         AttachmentFiler attachmentFiler,
-        IStreamConverter streamConverter = null,
+        string category = null,
+        string description = null,
+        string status = null,
+        string template = null,
         CancellationToken? token = null)
     {
         token ??= CancellationToken.None;
 
-        await using var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
-        byte[] attachmentBytes;
+        var attachmentStream = await attachmentFiler.GetAppDataFileAsync(
+            Attachment.RelativePath,
+            token);
 
-        if (streamConverter != null)
-        {
-            var convertedStream = await streamConverter.ConvertAsync(attachmentStream);
-
-            attachmentBytes = new byte[convertedStream.Length];
-            await convertedStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
-        }
-        else
-        {
-            attachmentBytes = new byte[attachmentStream.Length];
-            await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
-        }
-
-        return new()
-        {
-            AttachmentId = Attachment.Id,
-            EntityNumber = RelatedEntityId,
-            EntityType = RelatedEntityType.GetDisplayString(),
-            CaseType = RelatedEntitySubtype.GetDisplayString(),
-            FormName = IcmFormNames.GenericDocument,
-            FileName = Attachment.Filename,
-            FormDescription = "",
-            FormCategory = "",
-            Section13Exists = "",
-            InvestigationResponse = "",
-            Attachment = new()
-            {
-                PdfString = Convert.ToBase64String(attachmentBytes),
-            }
-        };
+        return new AttachmentFormData(
+            Attachment.Filename + Attachment.Extension,
+            attachmentStream,
+            category,
+            description,
+            status,
+            template);
     }
 }

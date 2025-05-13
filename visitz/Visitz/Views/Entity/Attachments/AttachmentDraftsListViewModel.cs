@@ -9,7 +9,6 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -118,14 +117,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
     async Task DoPublishAttachmentDraft(AttachmentDraft draft)
     {
         var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
-        attachmentPublishVm.AttachmentDraft = draft;
-        attachmentPublishVm.AttachmentFiler = await VisitzFiles.GetAsync(
-            CaseloadItem.EntityType.ParseEntityType(),
-            CaseloadItem.CaseIncidentNumber,
-            CaseloadItem.KeyPlayer.FirstName,
-            CaseloadItem.KeyPlayer.LastName);
-        attachmentPublishVm.CaseloadItem = CaseloadItem;
-
+        await attachmentPublishVm.SetPayload(CaseloadItem, draft);
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
     }
 

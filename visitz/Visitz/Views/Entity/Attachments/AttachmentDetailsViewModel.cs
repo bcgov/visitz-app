@@ -129,10 +129,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
         if (Attachment?.Draft == null || attachmentPublishVm == null || Filer == null)
             return;
 
-        attachmentPublishVm.AttachmentDraft = Attachment.Draft;
-        attachmentPublishVm.AttachmentFiler = Filer;
-        attachmentPublishVm.CaseloadItem = CaseloadItem;
-
+        await attachmentPublishVm.SetPayload(CaseloadItem, Attachment.Draft, Filer);
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
     }
 }

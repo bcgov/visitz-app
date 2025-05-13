@@ -5,7 +5,7 @@ using VisitzApi.Json;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
 
-namespace VisitzApi.Endpoints;
+namespace VisitzApi.Endpoints.Attachments;
 
 #nullable enable
 
@@ -19,7 +19,7 @@ internal class GetAttachmentsEndpoint(
         Vpi.V2,
         MakePath(type, rowId))
 {
-    static readonly string AttachmentsPath = "/{0}/{1}/attachments";
+    public static readonly string AttachmentsPath = "/{0}/{1}/attachments";
 
     readonly Pagination? Pagination = pagination;
 

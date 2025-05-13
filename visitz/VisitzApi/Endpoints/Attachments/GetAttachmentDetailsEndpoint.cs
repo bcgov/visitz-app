@@ -4,10 +4,18 @@ using VisitzApi.Json;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
 
-namespace VisitzApi.Endpoints;
+namespace VisitzApi.Endpoints.Attachments;
 
-internal class GetAttachmentDetailsEndpoint(string baseUrl, ApiRecordType type, string rowId, string attachmentId, DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<AttachmentJson>(baseUrl, Vpi.V2, MakePath(type, rowId, attachmentId))
+internal class GetAttachmentDetailsEndpoint(
+    string baseUrl,
+    ApiRecordType type,
+    string rowId,
+    string attachmentId,
+    DateTimeOffset? after = null)
+    : VisitzBaseEndpoint<AttachmentJson>(
+        baseUrl,
+        Vpi.V2,
+        MakePath(type, rowId, attachmentId))
 {
     static readonly string AttachmentsPath = "/{0}/{1}/attachments/{2}";
 

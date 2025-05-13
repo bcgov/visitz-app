@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -40,11 +41,12 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
     {
         var task = base.InitAsync();
 
-        var attachment = ViewModel.Attachment;
-
-        if (attachment.Draft is AttachmentDraft draft)
+        if (ViewModel.Attachment?.Draft is not null)
         {
-            string id = SubmitAttachmentService.MakeId(draft.RelatedEntityId, attachment.Id);
+            string id = SubmitAttachmentService.MakeId(
+                CaseloadItem.EntityType.ParseEntityType(),
+                CaseloadItem.RowId);
+
             WeakReferenceMessenger.Default.Register(this, id);
         }
 
