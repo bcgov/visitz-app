@@ -1,4 +1,5 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -80,13 +81,19 @@ public partial class CaseRecord :
     public string Status { get; set; }
 
     int TypeInt { get; set; }
-    public EntitySubtype Type
+    public EntitySubtype EntitySubtype
     {
         get => (EntitySubtype)TypeInt;
         set => TypeInt = (int)value;
     }
 
     public string WorkQueue { get; set; }
+
+    public string DisplayDate => CreatedDate.ToString(
+        IBusinessObject.DisplayDateFormat,
+        CultureInfo.InvariantCulture);
+
+    public string DisplayName => IBusinessObjectExtensions.GetDisplayName(this);
 
     public CaseRecord() { }
 
@@ -120,7 +127,7 @@ public partial class CaseRecord :
         ReopenedDate = Timestamp.ParseDateTimeOffsetNullable(caseJson.ReopenedDate);
         RestrictedFlag = caseJson.RestrictedFlag.ParseWordTruthiness();
         Status = caseJson.Status;
-        Type = caseJson.Type.ParseEntitySubtype();
+        EntitySubtype = caseJson.Type.ParseEntitySubtype();
         WorkQueue = caseJson.WorkQueue;
     }
 
@@ -156,7 +163,7 @@ public partial class CaseRecord :
             ReopenedDate = Timestamp.WriteDateTimeOffset(ReopenedDate, dateFormat),
             RestrictedFlag = RestrictedFlag.AsTruthyChar(),
             Status = Status,
-            Type = Type.GetDisplayString(),
+            Type = EntitySubtype.GetDisplayString(),
             WorkQueue = WorkQueue,
         };
     }

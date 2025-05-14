@@ -1,4 +1,5 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -104,6 +105,19 @@ public partial class MemoRecord :
     public string TypeOfCaller { get; set; }
 
     public string Urgent { get; set; }
+
+    private int SubtypeInt { get; set; } = (int)EntitySubtype.Screening;
+    public EntitySubtype EntitySubtype
+    {
+        get => (EntitySubtype)SubtypeInt;
+        set => SubtypeInt = (int)value;
+    }
+
+    public string DisplayDate => CallDate?.ToString(
+        IBusinessObject.DisplayDateFormat,
+        CultureInfo.InvariantCulture) ?? "";
+
+    public string DisplayName => IBusinessObjectExtensions.GetDisplayName(this);
 
     public MemoRecord() { }
 

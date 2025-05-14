@@ -158,7 +158,7 @@
                 IsRefreshing="{Binding IsRefreshing}">
 
 				<CollectionView
-                    ItemsSource="{Binding Caseload}"
+                    ItemsSource="{Binding Lister.Records}"
                     SelectionMode="None"
                     ItemSizingStrategy="MeasureFirstItem">
 					

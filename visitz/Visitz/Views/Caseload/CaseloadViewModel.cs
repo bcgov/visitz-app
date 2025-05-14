@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using System.Collections.Specialized;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -9,14 +10,13 @@ using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Debugging;
 using Visitz.Views.SegmentedButtons;
 using Visitz.Views.User;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.InPersonVisits;
@@ -33,12 +33,12 @@ namespace Visitz.Views.Caseload
         private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 
         private static readonly SegmentedOptions SortKeyPlayer = new(
-            nameof(CaseloadItem.TryGetKeyPlayer),
+            nameof(LocalizedStrings.KeyPlayer),
             LocalizedStrings.KeyPlayer,
             MaterialIcons.Person.GetUnfilledMaterialIcon());
 
         private static readonly SegmentedOptions SortOpenDate = new(
-            nameof(CaseloadItem.DisplayDate),
+            nameof(IBusinessObject.DisplayDate),
             LocalizedStrings.OpenDate,
             MaterialIcons.Calendar_month.GetUnfilledMaterialIcon());
 
@@ -58,7 +58,7 @@ namespace Visitz.Views.Caseload
             MaterialIcons.Folder.GetUnfilledMaterialIcon());
 
         [ObservableProperty]
-        public IEnumerable<CaseloadItem> caseload;
+        public CaseloadLister lister;
 
         [ObservableProperty]
         public bool isRefreshing;
@@ -76,10 +76,6 @@ namespace Visitz.Views.Caseload
         public bool isFilterActivated;
 
         private Realm Realm { get; set; }
-
-        private IQueryable<CaseloadItem> CaseloadQuery { get; set; }
-
-        private IDisposable CaseloadQueryToken { get; set; }
 
         [ObservableProperty]
         public SegmentedOptions activatedSortOption;
@@ -138,8 +134,15 @@ namespace Visitz.Views.Caseload
         {
             Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            CaseloadQuery = Realm.All<CaseloadItem>();
-            CaseloadQueryToken = CaseloadQuery.SubscribeForNotifications(Caseload_Changed);
+            Lister = new CaseloadLister(Realm, list =>
+            {
+                list = ApplySorting(list);
+                list = ApplySearchQuery(list);
+                list = ApplySubtypeFilter(list);
+                return list;
+            });
+
+            Lister.Records.CollectionChanged += Records_CollectionChanged;
 
             realmQueryMap.ItemsChanged += RealmQueryMap_DraftsChanged;
 
@@ -156,109 +159,93 @@ namespace Visitz.Views.Caseload
             realmQueryMap.Subscribe(visitDraft, visitDraft.All<PersonVisitDraft>());
         }
 
+        private void Records_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ApplyCollectionViewPrompt();
+        }
+
         private void Teardown()
         {
             DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
-            realmQueryMap.Dispose();
+            realmQueryMap?.Dispose();
 
-            CaseloadQueryToken?.Dispose();
-            CaseloadQueryToken = null;
+            Lister?.Dispose();
 
             Realm?.Dispose();
             Realm = null;
         }
 
-        public override async void Create()
+        protected override async Task InitAsync()
         {
-            base.Create();
+            await base.InitAsync();
 
             await Setup();
-
-            ApplyCaseloadQuery();
         }
 
-        public override void Destroy()
+        bool disposed;
+        protected override void Dispose(bool disposing)
         {
-            Teardown();
+            if (!disposed && disposing)
+            {
+                Teardown();
 
-            base.Destroy();
+                disposed = true;
+            }
+            base.Dispose(disposing);
         }
 
-        private void Caseload_Changed(IRealmCollection<CaseloadItem> sender, ChangeSet changes)
-        {
-            if (changes == null)
-                return;
-
-            ApplyCaseloadQuery();
-        }
-
-        public void ApplyCaseloadQuery()
-        {
-            var query = CaseloadQuery.AsEnumerable();
-
-            ApplySorting(ref query);
-            ApplySearchQuery(ref query);
-            ApplySubtypeFilter(ref query);
-
-            Caseload = query;
-        }
-
-        private void ApplySorting(ref IEnumerable<CaseloadItem> query)
+        private IEnumerable<IBusinessObject> ApplySorting(IEnumerable<IBusinessObject> query)
         {
             if (query == null || ActivatedSortOption == null)
-                return;
+                return query;
 
             if (ActivatedSortOption == SortOpenDate)
             {
-                query = query.OrderBy(CaseloadItem.DisplayDateTransform);
+                query = query.OrderBy(IBusinessObjectExtensions.DisplayDateTransform);
             }
             else if (ActivatedSortOption == SortKeyPlayer)
             {
-                var sort = new Func<CaseloadItem, string>(item => item.DisplayName);
+                var sort = new Func<IBusinessObject, string>(item => item.DisplayName);
                 query = query.OrderBy(sort);
             }
+
+            return query;
         }
 
-        private void ApplySearchQuery(ref IEnumerable<CaseloadItem> query)
+        private IEnumerable<IBusinessObject> ApplySearchQuery(IEnumerable<IBusinessObject> query)
         {
             if (query == null || string.IsNullOrWhiteSpace(SearchQuery))
-                return;
+                return query;
 
             string trimmedSearch = SearchQuery.Trim();
 
-            query = query.Where(item =>
+            return query.Where(item =>
             {
-                return item.CaseIncidentNumber.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase)
+                return item.FileNumber.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase)
                     || item.DisplayName.Contains(trimmedSearch, StringComparison.InvariantCultureIgnoreCase);
             });
         }
 
-        private void ApplySubtypeFilter(ref IEnumerable<CaseloadItem> query)
+        private IEnumerable<IBusinessObject> ApplySubtypeFilter(IEnumerable<IBusinessObject> query)
         {
             if (query == null || ActivatedFilterOption == null)
-                return;
+                return query;
 
-            string subtype;
+            EntitySubtype subtype;
 
             if (ActivatedFilterOption.Id == nameof(EntitySubtype.ChildProtection))
-                subtype = EntitySubtype.ChildProtection.GetDisplayString();
+                subtype = EntitySubtype.ChildProtection;
             else if (ActivatedFilterOption.Id == nameof(EntitySubtype.ChildServices))
-                subtype = EntitySubtype.ChildServices.GetDisplayString();
+                subtype = EntitySubtype.ChildServices;
             else if (ActivatedFilterOption.Id == nameof(EntitySubtype.FamilyServices))
-                subtype = EntitySubtype.FamilyServices.GetDisplayString();
+                subtype = EntitySubtype.FamilyServices;
             else
-                return;
+                return query;
 
-            subtype = subtype.ToLowerInvariant();
-            query = query.Where(item => item.CaseIncidentType.ToLowerInvariant().Equals(subtype));
-        }
-
-        partial void OnCaseloadChanged(IEnumerable<CaseloadItem> value)
-        {
-            ApplyCollectionViewPrompt();
+            return query.Where(item => item.EntitySubtype == subtype);
         }
 
         private void ApplyCollectionViewPrompt()
@@ -282,20 +269,14 @@ namespace Visitz.Views.Caseload
         }
 
         [RelayCommand]
-        public async Task OpenDebugOptionsPage()
-        {
-            await DebugOptionsPage.TryOpen();
-        }
-
-        [RelayCommand]
-        public async Task OpenSessionPage()
+        public static async Task OpenSessionPage()
         {
             await Navigator.GoToPage<SessionPage>(modal: true);
         }
 
         public void SearchCaseload()
         {
-            ApplyCaseloadQuery();
+            Lister.ApplyWithFilter();
         }
 
         public void Receive(ServiceStateMessage message)
@@ -303,18 +284,18 @@ namespace Visitz.Views.Caseload
             IsRefreshing = message.Status == VisitzService.State.Running;
 
             if (message.FinishedSuccess)
-                ShowEmptyCaseloadMessage = !CaseloadQuery.Any();
+                ShowEmptyCaseloadMessage = !Lister.Records.Any();
         }
 
         partial void OnActivatedSortOptionChanged(SegmentedOptions value)
         {
             Preferences.Default.Set(SortOptionIndexPref, SortOptions.IndexOf(value));
-            ApplyCaseloadQuery();
+            Lister.ApplyWithFilter();
         }
 
         partial void OnActivatedFilterOptionChanged(SegmentedOptions value)
         {
-            ApplyCaseloadQuery();
+            Lister.ApplyWithFilter();
             IsFilterActivated = value != null;
         }
 
@@ -323,7 +304,9 @@ namespace Visitz.Views.Caseload
             ShowAvatarView = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
-        private void RealmQueryMap_DraftsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+        private void RealmQueryMap_DraftsChanged(
+            object sender,
+            (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
         {
             HashSet<(string EntityId, EntityType Type)> drafted = [];
 

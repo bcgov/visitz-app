@@ -125,7 +125,7 @@ namespace Visitz.Services.Caseload
                     .All<CaseRecord>()
                     .Freeze()
                     .AsEnumerable()
-                    .Where(@case => @case.Type == EntitySubtype.ChildServices)
+                    .Where(@case => @case.EntitySubtype == EntitySubtype.ChildServices)
                     .Select(@case => @case.Id);
 
                 var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);

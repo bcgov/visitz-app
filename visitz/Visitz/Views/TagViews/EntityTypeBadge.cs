@@ -1,6 +1,6 @@
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.TagViews;
@@ -40,10 +40,10 @@ public class EntityTypeBadge : TagView
     {
         base.OnBindingContextChanged();
 
-        if (BindingContext is CaseloadItem item)
+        if (BindingContext is IBusinessObject item)
         {
-            EntityType = item.EntityType.ParseEntityType();
-            EntitySubtype = item.CaseIncidentType.ParseEntitySubtype();
+            EntityType = item.EntityType;
+            EntitySubtype = item.EntitySubtype;
         }
 
         ApplyEntityTypes();

@@ -35,7 +35,7 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
 
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ViewModel.ApplyCaseloadQuery();
+        ViewModel.Lister.ApplyWithFilter();
     }
 
 #if MACCATALYST

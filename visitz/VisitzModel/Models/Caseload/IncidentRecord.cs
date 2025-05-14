@@ -1,4 +1,5 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -103,13 +104,19 @@ public partial class IncidentRecord :
     public string Status { get; set; }
 
     private int TypeInt { get; set; }
-    public EntitySubtype Type
+    public EntitySubtype EntitySubtype
     {
         get => (EntitySubtype)TypeInt;
         set => TypeInt = (int)value;
     }
 
     public string TypeOfCaller { get; set; }
+
+    public string DisplayDate => DateReported?.ToString(
+        IBusinessObject.DisplayDateFormat,
+        CultureInfo.InvariantCulture) ?? "";
+
+    public string DisplayName => IBusinessObjectExtensions.GetDisplayName(this);
 
     public IncidentRecord() { }
 
@@ -155,7 +162,7 @@ public partial class IncidentRecord :
         RestrictedFlag = json.RestrictedFlag.ParseWordTruthiness();
         ServiceOffice = json.ServiceOffice;
         Status = json.Status;
-        Type = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
+        EntitySubtype = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
     }
 
@@ -203,7 +210,7 @@ public partial class IncidentRecord :
             RestrictedFlag = RestrictedFlag.AsTruthyChar(),
             ServiceOffice = ServiceOffice,
             Status = Status,
-            Type = Type.GetDisplayString(),
+            Type = EntitySubtype.GetDisplayString(),
             TypeOfCaller = TypeOfCaller,
         };
     }
