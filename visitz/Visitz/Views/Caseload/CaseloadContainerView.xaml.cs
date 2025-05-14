@@ -50,7 +50,7 @@ public partial class CaseloadContainerView : SplitLayoutView
     {
         StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(this, (recipient, message) =>
         {
-            (recipient as CaseloadContainerView).OpenCaseloadItem(message);
+            (recipient as CaseloadContainerView).OpenBusinessObject(message);
         });
 
         StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
@@ -59,7 +59,7 @@ public partial class CaseloadContainerView : SplitLayoutView
         });
     }
 
-    private void OpenCaseloadItem(BusinessObjectSelectedMessage message)
+    private void OpenBusinessObject(BusinessObjectSelectedMessage message)
     {
         IBusinessObject item = message.Value;
         EntitySection section = message.Section;

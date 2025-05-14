@@ -2,6 +2,7 @@ using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Utilities;
@@ -10,6 +11,8 @@ namespace VisitzModel.Models.People;
 
 public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJson>, IParentRecord
 {
+    static readonly string KeyPlayer = "Key player";
+
     [PrimaryKey]
     public string LocalId { get; set; }
 
@@ -178,6 +181,10 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
     public string UnitNumber { get; set; }
 
     public string WorkPhone { get; set; }
+
+    public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone);
+
+    public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone);
 
     public IcmContact() { }
 
@@ -394,5 +401,21 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(contacts);
+    }
+
+    public static IQueryable<IcmContact> GetByParentObject(Realm realm, IBusinessObject businessObject)
+    {
+        return realm
+            .All<IcmContact>()
+            .Where(contact =>
+                contact.ParentId == businessObject.Id
+                && contact.ParentTypeInt == (int)businessObject.EntityType);
+    }
+
+    public static IcmContact GetKeyPlayerFor(Realm realm, IBusinessObject businessObject)
+    {
+        return GetByParentObject(realm, businessObject)
+            .Where(contact => contact.Relationship == KeyPlayer)
+            .FirstOrDefault();
     }
 }

@@ -1,7 +1,8 @@
 using Realms;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
-using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 
 namespace VisitzModel.Models.Caseload;
 
@@ -20,6 +21,8 @@ public interface IBusinessObject : IRealmObject
     public EntityType EntityType { get; }
 
     public EntitySubtype EntitySubtype { get; set; }
+
+    public string ServiceOffice { get; set; }
 
     public string DisplayDate { get; }
 
@@ -44,6 +47,13 @@ public static class IBusinessObjectExtensions
 
     public static string GetFullType(this IBusinessObject businessObject)
     {
-        return $"{businessObject.EntitySubtype} {businessObject.EntityType}";
+        string subtype = businessObject.EntitySubtype.GetDisplayString();
+        string type = businessObject.EntityType.GetDisplayString();
+        return $"{subtype} {type}";
+    }
+
+    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm realm = null)
+    {
+        return IcmContact.GetKeyPlayerFor(realm ?? businessObject.Realm, businessObject);
     }
 }

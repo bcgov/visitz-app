@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Entity.Details;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
@@ -22,8 +21,6 @@ public partial class EntityContainerView : ViewModelContentView, IBusinessObject
         InitializeComponent();
 
         BindingContext = ViewModel;
-
-        ContainerDetails.Content = ServiceProvider.GetService<EntityDetailsView>();
     }
 
     protected override async Task InitAsync()

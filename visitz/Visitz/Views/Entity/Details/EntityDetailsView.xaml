@@ -31,7 +31,7 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                Text="{Binding CaseloadItem.DisplayDate}" />
+                Text="{Binding BusinessObject.DisplayDate}" />
 
             <Label
                 Grid.Row="1"
@@ -44,7 +44,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                Text="{Binding CaseloadItem.CaseIncidentNumber}" />
+                Text="{Binding BusinessObject.FileNumber}" />
 
             <Label
                 Grid.Row="2"
@@ -57,7 +57,7 @@
                 Grid.Row="2"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                Text="{Binding CaseloadItem.ServiceOffice}" />
+                Text="{Binding BusinessObject.ServiceOffice}" />
 
             <Label
                 Grid.Row="3"
@@ -70,7 +70,7 @@
                 Grid.Row="3"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                Text="{Binding CaseloadItem.Address}" />
+                Text="{Binding KeyPlayer.PrimaryAddress}" />
 
 			<Label
 				Grid.Row="4"
@@ -83,7 +83,7 @@
 				Grid.Row="4"
 				Grid.Column="1"
 				HorizontalOptions="Start"
-				Text="{Binding CaseloadItem.KeyPlayer.HomePhoneFormatted}" />
+				Text="{Binding KeyPlayer.HomePhoneFormatted}" />
 
 			<Label
 				Grid.Row="5"
@@ -96,7 +96,7 @@
 				Grid.Row="5"
 				Grid.Column="1"
 				HorizontalOptions="Start"
-				Text="{Binding CaseloadItem.KeyPlayer.CellPhoneFormatted}" />
+				Text="{Binding KeyPlayer.CellPhoneFormatted}" />
 
 		</Grid>
     </ScrollView>

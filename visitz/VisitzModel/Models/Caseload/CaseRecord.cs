@@ -67,7 +67,7 @@ public partial class CaseRecord :
 
     public string Name { get; set; }
 
-    public string OfficeName { get; set; }
+    public string ServiceOffice { get; set; }
 
     public string Organization { get; set; }
 
@@ -123,7 +123,7 @@ public partial class CaseRecord :
         MiddleName = caseJson.MiddleName;
         MyFSFlag = caseJson.MyFSFlag.ParseWordTruthiness();
         Name = caseJson.Name;
-        OfficeName = caseJson.OfficeName;
+        ServiceOffice = caseJson.OfficeName;
         Organization = caseJson.Organization;
         RegionName = caseJson.RegionName;
         RenewReviewDate = Timestamp.ParseDateTimeOffsetNullable(caseJson.RenewReviewDate);
@@ -159,7 +159,7 @@ public partial class CaseRecord :
             MiddleName = MiddleName,
             MyFSFlag = MyFSFlag.AsTruthyChar(),
             Name = Name,
-            OfficeName = OfficeName,
+            OfficeName = ServiceOffice,
             Organization = Organization,
             RegionName = RegionName,
             RenewReviewDate = Timestamp.WriteDateTimeOffset(RenewReviewDate, dateFormat),
