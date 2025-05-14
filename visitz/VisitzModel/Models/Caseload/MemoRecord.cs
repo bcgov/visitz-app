@@ -4,6 +4,7 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
@@ -118,6 +119,8 @@ public partial class MemoRecord :
         CultureInfo.InvariantCulture) ?? "";
 
     public string DisplayName => IBusinessObjectExtensions.GetDisplayName(this);
+
+    public string FullType => IBusinessObjectExtensions.GetFullType(this);
 
     public MemoRecord() { }
 
@@ -248,5 +251,13 @@ public partial class MemoRecord :
             TypeOfCaller = TypeOfCaller,
             Urgent = Urgent,
         };
+    }
+
+    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    {
+        return realm
+            .All<MemoRecord>()
+            .FirstOrDefault(memo => memo.Id == draftItem.RelatedEntityId
+                        || memo.FileNumber == draftItem.RelatedEntityId);
     }
 }

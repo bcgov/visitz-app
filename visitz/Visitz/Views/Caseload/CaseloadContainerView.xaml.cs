@@ -3,7 +3,7 @@ using Visitz.Views.Entity;
 using Visitz.Views.Entity.Navigation;
 using Visitz.Views.SplitView;
 using VisitzModel.Messaging;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 
@@ -19,9 +19,9 @@ public partial class CaseloadContainerView : SplitLayoutView
         InitializeComponent();
     }
 
-    protected override void Creating()
+    protected override async Task InitAsync()
     {
-        base.Creating();
+        await base.InitAsync();
 
         StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
         StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
@@ -34,16 +34,21 @@ public partial class CaseloadContainerView : SplitLayoutView
         NavigateBack();
     }
 
-    protected override void Destroying()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        StrongReferenceMessenger.Default.UnregisterAll(this);
+        if (!disposed && disposing)
+        {
+            StrongReferenceMessenger.Default.UnregisterAll(this);
+            disposed = true;
+        }
 
-        base.Destroying();
+        base.Dispose(disposing);
     }
 
     private void RegisterReceivers()
     {
-        StrongReferenceMessenger.Default.Register<CaseloadItemSelectedMessage>(this, (recipient, message) =>
+        StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(this, (recipient, message) =>
         {
             (recipient as CaseloadContainerView).OpenCaseloadItem(message);
         });
@@ -54,18 +59,18 @@ public partial class CaseloadContainerView : SplitLayoutView
         });
     }
 
-    private void OpenCaseloadItem(CaseloadItemSelectedMessage message)
+    private void OpenCaseloadItem(BusinessObjectSelectedMessage message)
     {
-        CaseloadItem item = message.Value;
+        IBusinessObject item = message.Value;
         EntitySection section = message.Section;
         IDraftItem draftItem = message.DraftItem;
 
         var containerView = ServiceProvider.GetService<EntityContainerView>();
-        containerView.CaseloadItem = item;
+        containerView.BusinessObject = item;
         SetEndPane(containerView);
 
         var entityNav = ServiceProvider.GetService<EntityNavView>();
-        entityNav.CaseloadItem = item;
+        entityNav.BusinessObject = item;
         entityNav.SetRequestedSection(section, draftItem);
         SetStartPane(entityNav);
 

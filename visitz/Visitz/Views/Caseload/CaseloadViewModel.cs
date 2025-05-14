@@ -263,9 +263,9 @@ namespace Visitz.Views.Caseload
         }
 
         [RelayCommand]
-        public static void CaseloadItemSelected(CaseloadItem caseloadItem)
+        public static void BusinessObjectSelected(IBusinessObject record)
         {
-            StrongReferenceMessenger.Default.Send(new CaseloadItemSelectedMessage(caseloadItem));
+            StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(record));
         }
 
         [RelayCommand]

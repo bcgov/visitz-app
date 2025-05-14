@@ -11,7 +11,6 @@ using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
@@ -112,56 +111,15 @@ internal partial class DraftsListViewModel : VisitzViewModel
     [RelayCommand]
     private void DraftItemSelected(IDraftItem draftItem)
     {
-        var caseloadItem = GetRelatedCaseloadItem(draftItem);
-
-        if (caseloadItem != null)
-            NavigateTo(caseloadItem, SectionToOpen, draftItem);
+        if (draftItem.GetRelatedBusinessObjectFrom(DataRealm) is IBusinessObject bobj)
+            NavigateTo(bobj, SectionToOpen, draftItem);
         else
             SelectedItemRelatedMissing?.Invoke(this, draftItem);
     }
 
-    private CaseloadItem GetRelatedCaseloadItem(IDraftItem draft)
+    static void NavigateTo(IBusinessObject businessObject, EntitySection section, IDraftItem draftItem)
     {
-        var caseloadItem = DataRealm
-            .All<CaseloadItem>()
-            .Where(item => item.CaseIncidentNumber == draft.RelatedEntityId)
-            .FirstOrDefault();
-
-        if (caseloadItem == null)
-        {
-            // TODO: Remove this when fully switched to V2 API
-            string number = GetV2RecordNumber(draft);
-            caseloadItem = DataRealm
-                .All<CaseloadItem>()
-                .Where(item => item.CaseIncidentNumber == number)
-                .FirstOrDefault();
-        }
-
-        return caseloadItem;
-    }
-
-    // TODO: Remove this when fully switched to V2 API
-    private string GetV2RecordNumber(IDraftItem draft)
-    {
-        if (draft.RelatedEntityType == EntityType.Case)
-            return DataRealm
-                .All<CaseRecord>()
-                .Where(@case => @case.Id == draft.RelatedEntityId)
-                .FirstOrDefault()
-                ?.FileNumber;
-        else if (draft.RelatedEntityType == EntityType.Incident)
-            return DataRealm
-                .All<IncidentRecord>()
-                .Where(incident => incident.Id == draft.RelatedEntityId)
-                .FirstOrDefault()
-                ?.FileNumber;
-        else
-            throw new InvalidOperationException($"{nameof(EntityType)} '{draft.RelatedEntityType}' not supported");
-    }
-
-    static void NavigateTo(CaseloadItem caseloadItem, EntitySection section, IDraftItem draftItem)
-    {
-        var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section, draftItem);
+        var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section, draftItem);
         StrongReferenceMessenger.Default.Send(caseloadNav);
 
         var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });

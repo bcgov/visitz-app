@@ -5,6 +5,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
@@ -107,6 +108,8 @@ public partial class ServiceRequestRecord :
         CultureInfo.InvariantCulture);
 
     public string DisplayName => ServiceOffice;
+
+    public string FullType => IBusinessObjectExtensions.GetFullType(this);
 
     public ServiceRequestRecord() { }
 
@@ -229,5 +232,13 @@ public partial class ServiceRequestRecord :
             Type = EntitySubtype.GetDisplayString(),
             TypeOfCaller = TypeOfCaller,
         };
+    }
+
+    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    {
+        return realm
+            .All<ServiceRequestRecord>()
+            .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId
+                        || sr.FileNumber == draftItem.RelatedEntityId);
     }
 }

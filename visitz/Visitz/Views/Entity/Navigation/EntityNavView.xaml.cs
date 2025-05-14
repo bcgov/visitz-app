@@ -1,19 +1,19 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.Navigation;
 
-public partial class EntityNavView : ViewModelContentView, ICaseloadItemHolder
+public partial class EntityNavView : ViewModelContentView, IBusinessObjectHolder
 {
     new EntityNavViewModel ViewModel => base.ViewModel as EntityNavViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public EntityNavView() : base(ServiceProvider.GetService<EntityNavViewModel>())

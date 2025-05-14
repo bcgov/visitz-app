@@ -22,7 +22,7 @@
             
             <Label 
                 Grid.Column="0"
-                Text="{Binding CaseloadItem.DisplayName}"
+                Text="{Binding BusinessObject.DisplayName}"
                 FontSize="{StaticResource TitleLargeFontSize}"
                 LineBreakMode="TailTruncation"
                 HorizontalOptions="StartAndExpand"
@@ -32,11 +32,11 @@
 				Grid.Column="1"
 				VerticalOptions="Center"
 				Spacing="5">
-				<tagview:EntityTypeBadge BindingContext="{Binding CaseloadItem}" />
+				<tagview:EntityTypeBadge BindingContext="{Binding BusinessObject}" />
 				
 				<Label
 					FontSize="{StaticResource TitleMediumFontSize}"
-					Text="{Binding CaseloadItem.FullType}"
+					Text="{Binding BusinessObject.FullType}"
 					TextColor="{Binding EntityTypeTextColor}" />
 			</HorizontalStackLayout>
         </Grid>

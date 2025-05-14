@@ -5,6 +5,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Interfaces;
@@ -94,6 +95,8 @@ public partial class CaseRecord :
         CultureInfo.InvariantCulture);
 
     public string DisplayName => IBusinessObjectExtensions.GetDisplayName(this);
+
+    public string FullType => IBusinessObjectExtensions.GetFullType(this);
 
     public CaseRecord() { }
 
@@ -213,5 +216,13 @@ public partial class CaseRecord :
             SupportNetworkItem.RemoveByParent(realm, EntityType.Case, id);
             Attachment.RemoveByParent(realm, EntityType.Case, id, userIgnoredPrefs);
         }
+    }
+
+    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    {
+        return realm
+            .All<CaseRecord>()
+            .FirstOrDefault(@case => @case.Id == draftItem.RelatedEntityId
+                        || @case.FileNumber == draftItem.RelatedEntityId);
     }
 }
