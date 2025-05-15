@@ -1,6 +1,8 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
@@ -11,6 +13,11 @@ namespace VisitzModel.Models.People;
 
 public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJson>, IParentRecord
 {
+    public static readonly int KeyPlayerSortPosition = 0;
+    public static readonly int ParentCaregiverSortPosition = 1;
+    public static readonly int SubjectChildSortPosition = 2;
+    public static readonly int OtherSortPosition = int.MaxValue;
+
     static readonly string KeyPlayer = "Key player";
 
     [PrimaryKey]
@@ -182,9 +189,32 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
 
     public string WorkPhone { get; set; }
 
+    public string FullDisplayName => string.Join(" ",
+        FirstName, MiddleNames, LastName);
+
+    public string DateOfBirthFormatted => DateOfBirth?.ToString(
+        IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture);
+
     public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone);
 
     public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone);
+
+    public bool IsKeyPlayer => Relationship == KeyPlayer;
+
+    public int SortPositionAsc
+    {
+        get
+        {
+            if (IsKeyPlayer)
+                return KeyPlayerSortPosition;
+            else if (IsParentCaregiver)
+                return ParentCaregiverSortPosition;
+            else if (IsSubjectChild)
+                return SubjectChildSortPosition;
+            else
+                return OtherSortPosition;
+        }
+    }
 
     public IcmContact() { }
 

@@ -109,7 +109,9 @@ public partial class ServiceRequestRecord :
 
     public string DisplayName => ServiceOffice;
 
-    public string FullType => IBusinessObjectExtensions.GetFullType(this);
+    public string FullType => this.GetFullType();
+
+    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public ServiceRequestRecord() { }
 

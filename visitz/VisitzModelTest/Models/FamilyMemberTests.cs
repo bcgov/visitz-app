@@ -110,7 +110,7 @@ public class FamilyMemberTests
 
     private static IOrderedEnumerable<FamilyMember> MakeOrderedFamilyEnumerable()
     {
-        return MakeFamilyList().Order(new FamilyMemberComparer());
+        return MakeFamilyList().Order(new IcmContactRelationshipComparer());
     }
 
     [Fact]

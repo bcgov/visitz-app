@@ -117,9 +117,11 @@ public partial class IncidentRecord :
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture) ?? "";
 
-    public string DisplayName => IBusinessObjectExtensions.GetDisplayName(this);
+    public string DisplayName => this.GetDisplayName();
 
-    public string FullType => IBusinessObjectExtensions.GetFullType(this);
+    public string FullType => this.GetFullType();
+
+    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public IncidentRecord() { }
 

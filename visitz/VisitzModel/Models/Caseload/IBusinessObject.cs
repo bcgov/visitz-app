@@ -29,6 +29,8 @@ public interface IBusinessObject : IRealmObject
     public string DisplayName { get; }
 
     public string FullType { get; }
+
+    public IQueryable<IcmContact> Contacts { get; }
 }
 
 public static class IBusinessObjectExtensions
@@ -55,5 +57,10 @@ public static class IBusinessObjectExtensions
     public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm realm = null)
     {
         return IcmContact.GetKeyPlayerFor(realm ?? businessObject.Realm, businessObject);
+    }
+
+    public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm realm = null)
+    {
+        return IcmContact.GetByParentObject(realm ?? businessObject.Realm, businessObject);
     }
 }
