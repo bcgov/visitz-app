@@ -122,7 +122,7 @@ namespace VisitzModel.Models.Notes
                 // Case notes older <= 2012 may have a blank note period.
                 newNotes = SimulateNotePeriods(newNotes);
 
-            var currentNotes = GetNotesByEntityId(realm, entityId);
+            var currentNotes = GetNotesByFileNumber(realm, entityId);
             var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
 
             await realm.WriteAsync(() =>
@@ -165,11 +165,11 @@ namespace VisitzModel.Models.Notes
 
         public static NoteItem GetLatestByEntityId(Realm realm, string entityId)
         {
-            return GetNotesByEntityId(realm, entityId)
+            return GetNotesByFileNumber(realm, entityId)
                 .LastOrDefault();
         }
 
-        public static IQueryable<NoteItem> GetNotesByEntityId(Realm realm, string entityId)
+        public static IQueryable<NoteItem> GetNotesByFileNumber(Realm realm, string entityId)
         {
             return realm
                 .All<NoteItem>()

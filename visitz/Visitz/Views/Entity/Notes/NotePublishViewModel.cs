@@ -6,7 +6,7 @@ using Visitz.Services.Notes;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes
@@ -19,12 +19,12 @@ namespace Visitz.Views.Entity.Notes
         private string submitNotesServiceId;
         private string getNotesServiceId;
 
-        public void Init(CaseloadItem caseloadItem, SubmitNoteEntity submitNote)
+        public void Init(IBusinessObject businessObject, SubmitNoteEntity submitNote)
         {
-            Title = caseloadItem.DisplayName;
+            Title = businessObject.DisplayName;
             submitNoteEntity = submitNote;
 
-            var id = caseloadItem.CaseIncidentNumber;
+            var id = businessObject.FileNumber;
             var notePeriod = submitNoteEntity.NotePeriod;
 
             submitAndGetNotesServiceId = SubmitAndGetNotesService.MakeId(id, notePeriod);
@@ -32,9 +32,9 @@ namespace Visitz.Views.Entity.Notes
             getNotesServiceId = GetNotesService.MakeId(id);
         }
 
-        public override void Create()
+        protected override Task InitAsync()
         {
-            base.Create();
+            var init = base.InitAsync();
 
             Wait(LocalizedStrings.LoginToSubmitNotes);
 
@@ -43,13 +43,20 @@ namespace Visitz.Views.Entity.Notes
             WeakReferenceMessenger.Default.Register(this, getNotesServiceId);
 
             Publish();
+
+            return init;
         }
 
-        public override void Destroy()
+        bool disposed;
+        protected override void Dispose(bool disposing)
         {
-            WeakReferenceMessenger.Default.UnregisterAll(this);
+            if (!disposed && disposing)
+            {
+                WeakReferenceMessenger.Default.UnregisterAll(this);
+                disposed = true;
+            }
 
-            base.Destroy();
+            base.Dispose(disposing);
         }
 
         public override void Publish()

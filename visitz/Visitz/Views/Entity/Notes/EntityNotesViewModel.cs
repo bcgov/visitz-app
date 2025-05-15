@@ -7,18 +7,21 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
-public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
+public partial class EntityNotesViewModel :
+    VisitzViewModel,
+    IBusinessObjectHolder,
+    IRequestedEntitySection
 {
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
     [ObservableProperty]
     public ObservableCollection<NoteItemGroup> notes;
@@ -40,33 +43,39 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
     public readonly TaskCompletionSource notesLoadedTcs = new();
 
-    public override async void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
         var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
-        realmQueryMap.Subscribe(realm, NoteItem.GetNotesByEntityId(realm, CaseloadItem.CaseIncidentNumber));
+        realmQueryMap.Subscribe(realm, NoteItem.GetNotesByFileNumber(realm, BusinessObject.FileNumber));
 
         var noteDraftRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
 
         realmQueryMap.Subscribe(noteDraftRealm, noteDraftRealm.All<NoteDraft>()
-            .Where(draft => draft.ParentEntityId == CaseloadItem.CaseIncidentNumber));
+            .Where(draft => draft.ParentEntityId == BusinessObject.FileNumber));
 
         if (RequestedSection == EntitySection.NoteEntry)
             await OpenNoteEntry();
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        if (Notes != null)
-            Notes.CollectionChanged -= Notes_CollectionChanged;
-        Notes = null;
+        if (!disposed && disposing)
+        {
+            if (Notes != null)
+                Notes.CollectionChanged -= Notes_CollectionChanged;
+            Notes = null;
 
-        realmQueryMap.Dispose();
+            realmQueryMap.Dispose();
 
-        base.Destroy();
+            disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 
     private void InitNotesCollection(List<NoteItemGroup> items)
@@ -98,7 +107,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
         if (changes == null)
         {
             var groups = NoteItemGroup.GetGroupsFromNotesQuery(
-                CaseloadItem.EntityType.ParseEntityType(),
+                BusinessObject.EntityType,
                 realmQueryMap[typeof(NoteItem)].Query as IQueryable<NoteItem>,
                 LocalizedStrings.NotePageNumberHeader
             );
@@ -120,7 +129,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
 
         foreach (var insertedIndex in changes.InsertedIndices)
             NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex],
-                CaseloadItem.EntityType.ParseEntityType(), LocalizedStrings.NotePageNumberHeader);
+                BusinessObject.EntityType, LocalizedStrings.NotePageNumberHeader);
     }
 
     private void UpdateOpenNoteEntryText(bool draftAvailable)
@@ -137,7 +146,7 @@ public partial class EntityNotesViewModel : VisitzViewModel, ICaseloadItemHolder
     private async Task OpenNoteEntry()
     {
         var noteEntryView = ServiceProvider.GetService<NoteEntryView>();
-        noteEntryView.CaseloadItem = CaseloadItem;
+        noteEntryView.BusinessObject = BusinessObject;
 
         await Navigator.Navigation.PushModalAsync(noteEntryView, ViewModalSize.Wide);
     }

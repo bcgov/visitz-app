@@ -184,7 +184,7 @@ namespace VisitzModel.Models
 
         static void CascadeDelete(Realm realm, CaseloadItem itemToDelete)
         {
-            foreach (var note in NoteItem.GetNotesByEntityId(realm, itemToDelete.CaseIncidentNumber))
+            foreach (var note in NoteItem.GetNotesByFileNumber(realm, itemToDelete.CaseIncidentNumber))
                 realm.Remove(note);
 
             realm.Remove(itemToDelete);

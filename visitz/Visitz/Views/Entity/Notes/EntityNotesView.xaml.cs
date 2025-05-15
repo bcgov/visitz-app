@@ -1,19 +1,22 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
-public partial class EntityNotesView : ViewModelContentView, ICaseloadItemHolder, IRequestedEntitySection
+public partial class EntityNotesView :
+    ViewModelContentView,
+    IBusinessObjectHolder,
+    IRequestedEntitySection
 {
     new EntityNotesViewModel ViewModel => base.ViewModel as EntityNotesViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public EntitySection RequestedSection
