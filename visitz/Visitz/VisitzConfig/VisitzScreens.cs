@@ -135,6 +135,9 @@ public static class VisitzScreens
         builder.Services.AddTransient<TodoMasterList>();
         builder.Services.AddTransient<TodoMasterListViewModel>();
 
+        builder.Services.AddTransient<TodoVisitsView>();
+        builder.Services.AddTransient<TodoVisitsViewModel>();
+
         return builder;
     }
 }

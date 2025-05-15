@@ -1,10 +1,14 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using Visitz.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Todo;
 
@@ -35,7 +39,8 @@ public partial class TodoMasterListViewModel : VisitzViewModel
             query,
             icmDataRealm,
             TodoItem_PropertyChanged,
-            ()=>PersonVisit.GetUpcomingVisits(icmDataRealm).Count());
+            ()=>PersonVisit.GetUpcomingVisits(icmDataRealm).Count(),
+            new NavItem() {ContentViewType = typeof(TodoVisitsView)});
     }
 
     private void TodoItem_PropertyChanged(TodoItemUi item)
@@ -60,6 +65,13 @@ public partial class TodoMasterListViewModel : VisitzViewModel
             else
                 collection.Add(todoItem);
         }
+    }
+
+    [RelayCommand]
+    public void MasterTodoItemSelected()
+    {
+        var msg = new TodoMasterSelectedMessage(upcomingVisitsItem.selectedTodoNavItem);
+        StrongReferenceMessenger.Default.Send(msg);
     }
 
     protected override void Dispose(bool disposing)
