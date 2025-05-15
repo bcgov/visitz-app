@@ -25,7 +25,8 @@
             Grid.Row="1"
             AutoSelectDefault="True"
             ItemsSource="{Binding TodoMasterItems}"
-            SelectedItem="{Binding SelectedItem}">
+            SelectedItem="{Binding SelectedItem}"
+            SelectionChangedCommand="{Binding MasterTodoItemSelectedCommand}">
 
             <selView:SelectionList.ItemTemplate>
                 <DataTemplate x:DataType="todo:TodoItemUi">

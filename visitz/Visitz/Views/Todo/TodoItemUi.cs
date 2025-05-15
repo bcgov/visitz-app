@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Realms;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Todo;
 
@@ -21,17 +22,21 @@ public partial class TodoItemUi : VisitzViewModel
 
     Action<TodoItemUi> action;
 
+    public NavItem selectedTodoNavItem;
+
     public TodoItemUi(
         string name,
         IQueryable<IRealmObject> query,
         Realm icmDataRealm,
         Action<TodoItemUi> countUpdated,
-        Func<int> getCount = null)
+        Func<int> getCount = null,
+        NavItem navItem = null)
     {
         ItemName = name;
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
         action = countUpdated;
         counter = getCount;
+        selectedTodoNavItem = navItem;
         realmQuery.Subscribe(icmDataRealm, query);
     }
     private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
