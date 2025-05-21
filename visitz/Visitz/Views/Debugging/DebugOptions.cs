@@ -1,7 +1,5 @@
 using System.Text;
-using System.Text.Json;
 using Visitz.Storage;
-using VisitzModel.Models;
 
 #if WINDOWS
 using Windows.Storage;
@@ -126,22 +124,6 @@ public class DebugOptions
             if (Directory.Exists(attachmentsPath))
                 Directory.Delete(attachmentsPath, true);
         }
-    }
-
-    public static async Task Load620bTestingRecords()
-    {
-        await using var json = await FileSystem.OpenAppPackageFileAsync(Path.Join("MockIcmData", "620b.json"));
-
-        var opts = new JsonSerializerOptions()
-        {
-            PropertyNameCaseInsensitive = true,
-            PreferredObjectCreationHandling = System.Text.Json.Serialization.JsonObjectCreationHandling.Populate
-        };
-
-        var caseload = await JsonSerializer.DeserializeAsync<IEnumerable<CaseloadItem>>(json, options: opts);
-        using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-
-        await realm.WriteAsync(() => realm.Add(caseload, update: true));
     }
 
     public static void OpenAppDataDirectory()

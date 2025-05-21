@@ -157,19 +157,6 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    public static async Task Load620bData()
-    {
-        try
-        {
-            await DebugOptions.Load620bTestingRecords();
-        }
-        catch (Exception ex)
-        {
-            await Navigator.CurrentOpenPage.DisplayAlert("Error", ex.Message, "OK");
-        }
-    }
-
-    [RelayCommand]
     public static async Task Logout()
     {
         if (DebugOptions.Enabled)
