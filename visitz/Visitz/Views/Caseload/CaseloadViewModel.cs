@@ -258,7 +258,7 @@ namespace Visitz.Views.Caseload
         [RelayCommand]
         public void RefreshCaseload()
         {
-            WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+            WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage(forceDownload: true));
             ShowEmptyCaseloadMessage = false;
         }
 

@@ -2,11 +2,15 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes
 {
-    public class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
+    public class SubmitAndGetNotesService(
+        Vpi vpi,
+        ServiceHandler serviceHandler,
+        LastUpdatedPrefs prefs)
         : VisitzApiService(vpi, prefs)
     {
         public static string MakeId(string entityNumber, string notePeriod)
@@ -47,7 +51,7 @@ namespace Visitz.Services.Notes
 
         private async Task<bool> GetNotes(string caseIncidentId, string entityType)
         {
-            var startMessage = GetNotesService.MakeStartMessage(caseIncidentId, entityType);
+            var startMessage = GetNotesService.MakeStartMessage(caseIncidentId, entityType.ParseEntityType());
             var result = await ServiceHandler.TryRunServiceAsync(startMessage);
             return result == Result.Successful;
         }

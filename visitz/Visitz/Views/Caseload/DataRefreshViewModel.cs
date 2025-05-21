@@ -47,7 +47,7 @@ internal partial class DataRefreshViewModel : VisitzViewModel
     [RelayCommand]
     public static void RefreshData()
     {
-        WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+        WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage(forceDownload: true));
     }
 
     partial void OnSuperMessageChanged(string value)

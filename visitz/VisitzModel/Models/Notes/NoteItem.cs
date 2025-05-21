@@ -1,7 +1,6 @@
 using Realms;
 using System.Globalization;
 using VisitzApi.Models;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 
@@ -115,10 +114,10 @@ namespace VisitzModel.Models.Notes
         public static async Task UpsertNotesAsync(
             Realm realm,
             string entityId,
-            string entityType,
+            EntityType entityType,
             IEnumerable<NoteItem> newNotes)
         {
-            if (entityType.ParseEntityType() == EntityType.Case)
+            if (entityType == EntityType.Case)
                 // Case notes older <= 2012 may have a blank note period.
                 newNotes = SimulateNotePeriods(newNotes);
 

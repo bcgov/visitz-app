@@ -125,7 +125,7 @@ public partial class SessionViewModel
             if (SessionInfo.HasBasicAccessRole())
             {
                 await Navigator.PopAllModalsAsync(true);
-                WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+                WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage(forceDownload: true));
             }
         }
         catch (Exception ex)

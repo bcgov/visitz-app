@@ -1,4 +1,3 @@
-using Oidc;
 using Realms;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -9,14 +8,16 @@ using Visitz.Services.SafetyAssessments;
 using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
+    public class GetAllDataForOfflineService(
+        Vpi vpi,
+        ServiceHandler serviceHandler,
+        LastUpdatedPrefs prefs)
         : VisitzApiService(vpi, prefs)
     {
         public static string MakeId()
@@ -56,9 +57,7 @@ namespace Visitz.Services.Caseload
 
         private async Task GetCaseload()
         {
-            var info = await OidcSessionInfo.GetAsync();
-
-            var caseloadMessage = GetCaseloadService.MakeStartMessage(info.Idir, ShouldForceDownload);
+            var caseloadMessage = GetCaseloadService.MakeStartMessage(ShouldForceDownload);
             await ServiceHandler.TryRunServiceAsync(caseloadMessage);
         }
 
@@ -84,7 +83,7 @@ namespace Visitz.Services.Caseload
             List<Exception> exceptions = [];
 
             await Task.WhenAll(
-                GetAllNotes(realm, exceptions),
+                GetAllNotes(casesIncidentsSrs, exceptions),
                 GetAllVisits(realm, exceptions),
                 GetAllContacts(all, exceptions),
                 GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
@@ -98,15 +97,14 @@ namespace Visitz.Services.Caseload
                 throw exceptions.First();
         }
 
-        private async Task GetAllNotes(Realm realm, List<Exception> exceptions)
+        private async Task GetAllNotes(
+            IEnumerable<RecordServiceInfo> casesIncidentsSrs,
+            List<Exception> exceptions)
         {
             try
             {
-                var allIdEntities = realm
-                    .All<CaseloadItem>()
-                    .Freeze()
-                    .AsEnumerable()
-                    .Select(item => (item.CaseIncidentNumber, item.EntityType));
+                var allIdEntities = casesIncidentsSrs
+                    .Select(item => (item.FileNumber, item.Type));
 
                 var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);
                 await ServiceHandler.TryRunServiceAsync(startMessage);
