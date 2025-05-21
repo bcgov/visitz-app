@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -117,6 +118,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
         CacheDeletedEntityType = BusinessObject.EntityType.GetDisplayString();
 
         await SetupDraftsObserver();
+        BusinessObject.SubscribePropertyChanged(EntityNavViewModel_PropertyChanged);
 
         StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, ReceiveEntityNavMessage);
     }
@@ -128,6 +130,8 @@ public partial class EntityNavViewModel : VisitzViewModel,
         {
             realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
             realmQueryMap.Dispose();
+
+            BusinessObject.UnsubscribePropertyChanged(EntityNavViewModel_PropertyChanged);
 
             StrongReferenceMessenger.Default.UnregisterAll(this);
 
@@ -166,10 +170,6 @@ public partial class EntityNavViewModel : VisitzViewModel,
         realmQueryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
             .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber));
 
-        var caseloadRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        realmQueryMap.Subscribe(caseloadRealm, caseloadRealm.All<CaseloadItem>()
-            .Where(item => item.CaseIncidentNumber == BusinessObject.FileNumber));
-
         if (ShouldShowSafetyAssessment())
         {
             var assessmentRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
@@ -185,7 +185,17 @@ public partial class EntityNavViewModel : VisitzViewModel,
         }
     }
 
-    private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void EntityNavViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        IBusinessObject bobj = sender as IBusinessObject;
+
+        if (e.PropertyName == nameof(bobj.IsValid) && !bobj.IsValid)
+            _ = EntityUnassignedGoBack();
+    }
+
+    private void RealmQueryMap_ItemsChanged(
+        object sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
         if (e.Type == typeof(NoteDraft))
             Notes.HasDraft = e.Items.Any();
@@ -193,8 +203,6 @@ public partial class EntityNavViewModel : VisitzViewModel,
             SafetyAssessment.HasDraft = e.Items.Any();
         else if (e.Type == typeof(AttachmentDraft))
             Attachments.HasDraft = e.Items.Any();
-        else if (e.Type == typeof(CaseloadItem) && e.Changes?.DeletedIndices?.Length > 0)
-            _ = EntityUnassignedGoBack();
         else if (e.Type == typeof(PersonVisitDraft))
             ChildYouthVisits.HasDraft = e.Items.Any();
     }
@@ -223,7 +231,12 @@ public partial class EntityNavViewModel : VisitzViewModel,
     [RelayCommand]
     public void EntityNavSelected()
     {
-        var msg = new EntityNavMessage(SelectedEntityNavItem, BusinessObject, RequestedSection, FocusedDraftItem);
+        var msg = new EntityNavMessage(
+            SelectedEntityNavItem,
+            BusinessObject,
+            RequestedSection,
+            FocusedDraftItem);
+
         StrongReferenceMessenger.Default.Send(msg);
 
         RequestedSection = EntitySection.Unknown;

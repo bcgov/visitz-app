@@ -1,4 +1,5 @@
 using Realms;
+using System.ComponentModel;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
@@ -62,5 +63,37 @@ public static class IBusinessObjectExtensions
     public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm realm = null)
     {
         return IcmContact.GetByParentObject(realm ?? businessObject.Realm, businessObject);
+    }
+
+    public static void SubscribePropertyChanged(
+        this IBusinessObject business,
+        PropertyChangedEventHandler handler)
+    {
+        if (business is CaseRecord @case)
+            @case.PropertyChanged += handler;
+        else if (business is IncidentRecord incident)
+            incident.PropertyChanged += handler;
+        else if (business is MemoRecord memo)
+            memo.PropertyChanged += handler;
+        else if (business is ServiceRequestRecord sr)
+            sr.PropertyChanged += handler;
+        else
+            throw new NotImplementedException($"Type '{business.GetType()}' not implemented for subscription");
+    }
+
+    public static void UnsubscribePropertyChanged(
+        this IBusinessObject business,
+        PropertyChangedEventHandler handler)
+    {
+        if (business is CaseRecord @case)
+            @case.PropertyChanged -= handler;
+        else if (business is IncidentRecord incident)
+            incident.PropertyChanged -= handler;
+        else if (business is MemoRecord memo)
+            memo.PropertyChanged -= handler;
+        else if (business is ServiceRequestRecord sr)
+            sr.PropertyChanged -= handler;
+        else
+            throw new NotImplementedException($"Type '{business.GetType()}' not implemented for unsubscription");
     }
 }
