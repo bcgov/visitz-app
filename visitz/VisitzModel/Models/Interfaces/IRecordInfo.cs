@@ -1,4 +1,4 @@
-using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.Interfaces;
@@ -14,11 +14,11 @@ public interface IRecordInfo
 
 public static class IRecordInfoExtensions
 {
-    public static IRecordInfo InitWith(this IRecordInfo item, CaseloadItem caseloadItem)
+    public static IRecordInfo InitWith(this IRecordInfo item, IBusinessObject businessObject)
     {
-        item.RelatedEntityId = caseloadItem.CaseIncidentNumber;
-        item.RelatedEntityType = caseloadItem.EntityType.ParseEntityType();
-        item.RelatedEntitySubtype = caseloadItem.CaseIncidentType.ParseEntitySubtype();
+        item.RelatedEntityId = businessObject.FileNumber;
+        item.RelatedEntityType = businessObject.EntityType;
+        item.RelatedEntitySubtype = businessObject.EntitySubtype;
 
         return item;
     }

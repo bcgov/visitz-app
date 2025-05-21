@@ -2,14 +2,16 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolder, IRecipient<ServiceStateMessage>
+public partial class PhotoDetailsView :
+    ViewModelContentView,
+    IBusinessObjectHolder,
+    IRecipient<ServiceStateMessage>
 {
     new PhotoDetailsViewModel ViewModel => base.ViewModel as PhotoDetailsViewModel;
 
@@ -19,10 +21,10 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
         set => ViewModel.Attachment = value;
     }
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public bool IsDownloadedAttachment
@@ -44,8 +46,8 @@ public partial class PhotoDetailsView : ViewModelContentView, ICaseloadItemHolde
         if (ViewModel.Attachment?.Draft is not null)
         {
             string id = SubmitAttachmentService.MakeId(
-                CaseloadItem.EntityType.ParseEntityType(),
-                CaseloadItem.RowId);
+                BusinessObject.EntityType,
+                BusinessObject.Id);
 
             WeakReferenceMessenger.Default.Register(this, id);
         }

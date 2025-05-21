@@ -20,10 +20,10 @@ public interface IDraftItem : IRealmObject, IRecordInfo
 
 public static class IDraftItemExtensions
 {
-    public static IDraftItem InitDraftWith(this IDraftItem item, CaseloadItem caseloadItem)
+    public static IDraftItem InitDraftWith(this IDraftItem item, IBusinessObject businessObject)
     {
-        item.DraftLocation = caseloadItem.DisplayName;
-        (item as IRecordInfo).InitWith(caseloadItem);
+        item.DraftLocation = businessObject.DisplayName;
+        (item as IRecordInfo).InitWith(businessObject);
         return item;
     }
 

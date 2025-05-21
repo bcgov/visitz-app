@@ -10,10 +10,10 @@ using Visitz.Services.Attachments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
@@ -21,7 +21,7 @@ namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 
-internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     private bool _disposed;
 
@@ -31,7 +31,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     public ObservableCollection<AttachmentsListItemUi> attachmentsList = [];
 
     [ObservableProperty]
-    public CaseloadItem? caseloadItem;
+    public IBusinessObject? businessObject;
 
     [ObservableProperty]
     public bool isEmpty;
@@ -50,13 +50,13 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-        if (CaseloadItem == null)
-            throw new InvalidOperationException(nameof(CaseloadItem));
+        if (BusinessObject == null)
+            throw new InvalidOperationException(nameof(IBusinessObject));
 
         realmQuery.Subscribe(icmDataRealm, Attachment.GetOrderedAttachments(
             icmDataRealm,
-            CaseloadItem.EntityType.ParseEntityType(),
-            CaseloadItem.RowId));
+            BusinessObject.EntityType,
+            BusinessObject.Id));
     }
 
     protected override void Dispose(bool disposing)
@@ -111,8 +111,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     AttachmentsListItemUi MakeItemUi(Attachment? attachment)
     {
         return new AttachmentsListItemUi(
-            CaseloadItem?.EntityType.ParseEntityType() ?? EntityType.Unknown,
-            CaseloadItem?.RowId,
+            BusinessObject?.EntityType ?? EntityType.Unknown,
+            BusinessObject?.Id,
             attachment);
     }
 
@@ -144,14 +144,9 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
     [RelayCommand]
     public void DownloadAttachmentForDevice(AttachmentsListItemUi listItem)
     {
-        if (CaseloadItem is CaseloadItem item)
+        if (BusinessObject is IBusinessObject item)
         {
-            var recordServiceInfo = new RecordServiceInfo(
-                item.EntityType.ParseEntityType(),
-                item.RowId,
-                item.CaseIncidentNumber,
-                item.KeyPlayer.FirstName,
-                item.KeyPlayer.LastName);
+            var recordServiceInfo = new RecordServiceInfo(item);
             var attachmentId = listItem.Attachment.Id;
             var force = true;
 
@@ -161,7 +156,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
             UserIgnoredContentPrefs?.SetUserIgnoredContent(attachmentId, false);
         }
         else
-            throw new InvalidOperationException(nameof(CaseloadItem));
+            throw new InvalidOperationException(nameof(IBusinessObject));
     }
 
     [RelayCommand]
@@ -184,7 +179,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         return new()
         {
             Attachment = attachment,
-            CaseloadItem = CaseloadItem,
+            BusinessObject = BusinessObject,
             IsDownloadedAttachment = true,
         };
     }
@@ -194,7 +189,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItem
         return new()
         {
             Attachment = attachment,
-            CaseloadItem = CaseloadItem,
+            BusinessObject = BusinessObject,
             IsDownloadedAttachment = true,
         };
     }

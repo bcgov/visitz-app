@@ -5,8 +5,8 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
-using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
 
@@ -20,7 +20,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
     public Attachment? attachment;
 
     [ObservableProperty]
-    public CaseloadItem? caseloadItem;
+    public IBusinessObject? businessObject;
 
     [ObservableProperty]
     public bool showActivityIndicator = true;
@@ -47,16 +47,18 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
     {
         await base.InitAsync();
 
-        if (Attachment == null || CaseloadItem == null)
+        if (Attachment == null || BusinessObject == null)
         {
             ErrorText = LoadErrorText;
             return;
         }
 
+        var keyPlayer = BusinessObject.GetKeyPlayer();
+
         Filer = await VisitzFiles.GetAsync(
             Attachment,
-            CaseloadItem.KeyPlayer.FirstName,
-            CaseloadItem.KeyPlayer.LastName);
+            keyPlayer.FirstName,
+            keyPlayer.LastName);
 
         ShowDraftButtons = Attachment.FileExistsLocally
             && !IsDownloadedAttachment
@@ -129,7 +131,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
         if (Attachment?.Draft == null || attachmentPublishVm == null || Filer == null)
             return;
 
-        await attachmentPublishVm.SetPayload(CaseloadItem, Attachment.Draft, Filer);
+        await attachmentPublishVm.SetPayload(BusinessObject, Attachment.Draft, Filer);
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
     }
 }

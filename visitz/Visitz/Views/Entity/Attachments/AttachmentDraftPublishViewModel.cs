@@ -8,9 +8,8 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
-using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage.Filesystem;
 
@@ -49,26 +48,23 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     public AttachmentFormData AttachmentToSubmit { get; private set; }
 
     public async Task SetPayload(
-        CaseloadItem item,
+        IBusinessObject item,
         AttachmentDraft draft,
         AttachmentFiler filer = null)
     {
-        RecordId = item.RowId;
-        EntityType = item.EntityType.ParseEntityType();
+        RecordId = item.Id;
+        EntityType = item.EntityType;
         attachmentDraft = draft;
 
-        AttachmentFiler = filer ?? await VisitzFiles.GetAsync(
-            item.EntityType.ParseEntityType(),
-            item.CaseIncidentNumber,
-            item.KeyPlayer.FirstName,
-            item.KeyPlayer.LastName);
+        AttachmentFiler = filer ?? await VisitzFiles.GetAsync(item);
+        var keyPlayer = item.GetKeyPlayer();
 
         recordServiceInfo = new RecordServiceInfo(
                 attachmentDraft.RelatedEntityType,
                 RecordId,
                 attachmentDraft.Attachment.FileNumber,
-                item.KeyPlayer.FirstName,
-                item.KeyPlayer.LastName);
+                keyPlayer.FirstName,
+                keyPlayer.LastName);
     }
 
     protected override async Task InitAsync()

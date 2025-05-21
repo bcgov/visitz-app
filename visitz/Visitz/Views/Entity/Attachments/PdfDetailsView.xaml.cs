@@ -1,24 +1,24 @@
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 
-public partial class PdfDetailsView : ViewModelContentView, ICaseloadItemHolder
+public partial class PdfDetailsView : ViewModelContentView, IBusinessObjectHolder
 {
     static readonly string LoadPdfFromBase64Js = "loadPdfFromBase64('{0}')";
 
     new PdfDetailsViewModel ViewModel => base.ViewModel as PdfDetailsViewModel
         ?? throw new InvalidOperationException("ViewModel is null");
 
-    public CaseloadItem? CaseloadItem
+    public IBusinessObject? BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public Attachment? Attachment

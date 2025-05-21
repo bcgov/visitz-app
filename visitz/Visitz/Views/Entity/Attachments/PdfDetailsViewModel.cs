@@ -10,7 +10,7 @@ namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 
-internal partial class PdfDetailsViewModel : AttachmentDetailsViewModel, ICaseloadItemHolder
+internal partial class PdfDetailsViewModel : AttachmentDetailsViewModel, IBusinessObjectHolder
 {
     static readonly string EmbedHtmlPath = Path.Join("PDF", "pdf-embed.html");
 

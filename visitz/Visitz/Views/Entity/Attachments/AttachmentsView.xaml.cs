@@ -2,8 +2,8 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 using Tab = Visitz.Views.Navigation.Tab;
@@ -12,7 +12,7 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentsView :
     ViewModelContentView,
-    ICaseloadItemHolder,
+    IBusinessObjectHolder,
     IFocusDraftItem
 {
     static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes
@@ -24,10 +24,10 @@ public partial class AttachmentsView :
 
     Tab DraftsTab;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public IDraftItem FocusedDraftItem
@@ -49,14 +49,14 @@ public partial class AttachmentsView :
         DownloadedTab = new Tab(LocalizedStrings.InIcm, () =>
         {
             var listView = ServiceProvider.GetService<AttachmentsListView>();
-            listView.CaseloadItem = CaseloadItem;
+            listView.BusinessObject = BusinessObject;
             return listView;
         });
 
         DraftsTab = new(LocalizedStrings.OnMyDevice, () =>
         {
             var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
-            draftsView.CaseloadItem = CaseloadItem;
+            draftsView.BusinessObject = BusinessObject;
             draftsView.FocusedDraftItem = FocusedDraftItem;
             return draftsView;
         });
@@ -118,6 +118,6 @@ public partial class AttachmentsView :
 
     private async Task OpenTakePhotoView()
     {
-        await TakePhotoView.TryOpenWithPermissionsAsync(CaseloadItem);
+        await TakePhotoView.TryOpenWithPermissionsAsync(BusinessObject);
     }
 }

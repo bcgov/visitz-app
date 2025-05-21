@@ -5,15 +5,15 @@ using Realms;
 using System.Text;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : VisitzViewModel, ICaseloadItemHolder
+internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : VisitzViewModel, IBusinessObjectHolder
 {
     public static readonly string PictureFiletype = "jpg";
     public static readonly string PictureFilenamePrepend = "Pic";
@@ -24,7 +24,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
     AttachmentFiler attachmentFiler;
 
-    public CaseloadItem CaseloadItem { get; set; }
+    public IBusinessObject BusinessObject { get; set; }
 
     [ObservableProperty]
     public IReadOnlyList<CameraInfo> cameras;
@@ -43,27 +43,29 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
     [ObservableProperty]
     public byte[] rollBytes;
 
-    public override async void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
         AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-        attachmentFiler = await VisitzFiles.GetAsync(
-            CaseloadItem.EntityType.ParseEntityType(),
-            CaseloadItem.CaseIncidentNumber,
-            CaseloadItem.KeyPlayer.FirstName,
-            CaseloadItem.KeyPlayer.LastName);
+        attachmentFiler = await VisitzFiles.GetAsync(BusinessObject);
 
         await SetupCameras();
         SetupCameraRoll();
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        base.Destroy();
+        if (!disposed && disposing)
+        {
+            AttachmentsRealm.Dispose();
+            queryMap.Dispose();
 
-        AttachmentsRealm.Dispose();
-        queryMap.Dispose();
+            disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 
     private async Task SetupCameras()
@@ -105,7 +107,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
             .All<AttachmentDraft>()
             .Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
             .Filter(filetypeQuery)
-            .Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber)
+            .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber)
         );
     }
 
@@ -128,7 +130,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
         {
             string filename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
 
-            await AttachmentDraft.SaveNewPhoto(CaseloadItem, attachmentFiler, AttachmentsRealm, filename, stream);
+            await AttachmentDraft.SaveNewPhoto(BusinessObject, attachmentFiler, AttachmentsRealm, filename, stream);
         }
         finally
         {
