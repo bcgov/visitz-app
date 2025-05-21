@@ -8,14 +8,13 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     public static readonly string VisitTypeGroup = "VisitTypeGroup";
     public static readonly string VisitDetailGroup = "VisitDetailGroup";
@@ -33,7 +32,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
     [ObservableProperty]
     PersonVisitDraft draft;
 
-    public CaseloadItem CaseloadItem { get; set; }
+    public IBusinessObject BusinessObject { get; set; }
 
     [ObservableProperty]
     public bool isVisitTypeSelected;
@@ -118,7 +117,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
 
         Realm = await VisitzRealms.GetIcmDataRealmAsync();
         DraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-        Case = Realm.All<CaseRecord>().Where(@case => @case.FileNumber == CaseloadItem.CaseIncidentNumber).First();
+        Case = Realm.All<CaseRecord>().Where(@case => @case.FileNumber == BusinessObject.FileNumber).First();
 
         if (PersonVisitItem == null && IsUpdatingEnabled)
             Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
@@ -179,7 +178,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         await Navigator.Navigation.PopModalAsync();
 
         var publishVm = ServiceProvider.GetService<ChildYouthVisitPublishViewModel>();
-        publishVm.CaseloadItem = CaseloadItem;
+        publishVm.BusinessObject = BusinessObject;
 
         await Navigator.Navigation.PushAsync(new PublishPage(publishVm));
     }
@@ -213,7 +212,13 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, ICaseloadItemHo
         if (!PersonVisitItem.IsManaged)
         {
             DraftInitTcs = new();
-            Draft = await PersonVisitDraft.Upsert(DraftRealm, Case.Id, PersonVisitItem, CaseloadItem.DisplayName);
+
+            Draft = await PersonVisitDraft.Upsert(
+                DraftRealm,
+                Case.Id,
+                PersonVisitItem,
+                BusinessObject.DisplayName);
+
             DraftInitTcs.TrySetResult();
         }
         else if (Draft?.IsValid ?? false)
