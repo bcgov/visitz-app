@@ -1,16 +1,17 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
-public partial class SupportNetworkListView : ViewModelContentView, ICaseloadItemHolder
+public partial class SupportNetworkListView : ViewModelContentView, IBusinessObjectHolder
 {
     new SupportNetworkListViewModel ViewModel => base.ViewModel as SupportNetworkListViewModel;
-    public CaseloadItem CaseloadItem
+
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public SupportNetworkListView() : base(ServiceProvider.GetService<SupportNetworkListViewModel>())
