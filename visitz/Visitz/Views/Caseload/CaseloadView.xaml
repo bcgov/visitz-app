@@ -5,6 +5,7 @@
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
+    xmlns:caseloadModels="clr-namespace:VisitzModel.Models.Caseload;assembly=VisitzModel"
 	xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
@@ -185,8 +186,10 @@
                     </CollectionView.ItemsLayout>
 					
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:CaseloadItem">
-							<caseload:CaseloadItemView DraftedItems="{Binding Source={RelativeSource AncestorType={x:Type caseload:CaseloadViewModel}}, Path=DraftedItems}" />
+                        <DataTemplate x:DataType="caseloadModels:IBusinessObject">
+							<caseload:CaseloadItemView DraftedItems="{Binding
+                                Source={RelativeSource AncestorType={x:Type caseload:CaseloadViewModel}},
+                                Path=DraftedItems}" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 					
