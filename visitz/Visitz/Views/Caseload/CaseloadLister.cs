@@ -85,7 +85,7 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         else
         {
             foreach (var index in changes.DeletedIndices.Reverse())
-                list.Remove((T)items.ElementAt(index));
+                list.RemoveAt(index);
 
             foreach (var index in changes.InsertedIndices)
                 list.Insert(index, (T)items.ElementAt(index));
