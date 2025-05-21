@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using System.Collections.ObjectModel;
 using Visitz.FontIcons;
+using Visitz.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -34,6 +36,9 @@ public partial class NavRailViewModel : VisitzViewModel
 
     [ObservableProperty]
     public NavItem selectedNavItem;
+
+    private IDisposable _personVisitToken;
+    private Realm _icmDataRealm;
 
     public static double IconSize
     {
@@ -99,12 +104,17 @@ public partial class NavRailViewModel : VisitzViewModel
         await SubscribeToAllDraftCounts();
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
+        StrongReferenceMessenger.Default.Register<TodoBadgeCountMessage>(this, ReceiveTodoBadgeCountMessage);
+        await SubscribeToAllTodoCounts();
     }
 
     public override void Destroy()
     {
         base.Destroy();
 
+        _personVisitToken?.Dispose();
+        _icmDataRealm?.Dispose();
+        StrongReferenceMessenger.Default.Unregister<TodoBadgeCountMessage>(this);
         realmCount.Dispose();
     }
 
@@ -130,6 +140,20 @@ public partial class NavRailViewModel : VisitzViewModel
         realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
     }
 
+    private async Task SubscribeToAllTodoCounts()
+    {
+        _icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+
+        var query = PersonVisit.GetAllByType(_icmDataRealm);
+        var collection = query.AsRealmCollection();
+
+        _personVisitToken = collection.SubscribeForNotifications((sender, changes) =>
+        {
+            int updatedCount = PersonVisit.GetUpcomingVisits(_icmDataRealm).Count();
+            StrongReferenceMessenger.Default.Send(new TodoBadgeCountMessage(updatedCount));
+        });
+    }
+
     partial void OnSelectedNavItemChanged(NavItem value)
     {
         StrongReferenceMessenger.Default.Send(new AppNavMessage(value));
@@ -150,6 +174,12 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         if (message.Value != null && SelectedNavItem != message.Value)
             SelectedNavItem = GetNavItemByType(message.Value.ContentViewType);
+    }
+
+
+    private void ReceiveTodoBadgeCountMessage(object recipient, TodoBadgeCountMessage message)
+    {
+        TodoNavItem.BadgeCount = message.Value;
     }
 
     private NavItem GetNavItemByType(Type contentViewType)
