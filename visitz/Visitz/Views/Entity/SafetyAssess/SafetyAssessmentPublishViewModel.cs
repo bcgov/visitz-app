@@ -5,8 +5,7 @@ using Visitz.Services.Base;
 using Visitz.Services.SafetyAssessments;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Debugging;
-using VisitzModel.Extensions.EntityTypes;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
@@ -30,18 +29,19 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         }
     }
 
-    public CaseloadItem CaseloadItem { get; set; }
+    public IBusinessObject BusinessObject { get; set; }
 
-    public override void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
+        var keyPlayer = BusinessObject.GetKeyPlayer();
         recordServiceInfo = new RecordServiceInfo(
-                CaseloadItem.EntityType.ParseEntityType(),
-                CaseloadItem.RowId,
+                BusinessObject.EntityType,
+                BusinessObject.Id,
                 Assessment.IncidentNumber,
-                CaseloadItem.KeyPlayer.FirstName,
-                CaseloadItem.KeyPlayer.LastName);
+                keyPlayer.FirstName,
+                keyPlayer.LastName);
 
         submitAssessmentsServiceId = SubmitSafetyAssessmentService.MakeId(Assessment.IncidentNumber);
         getAssessmentsServiceId = GetSafetyAssessmentsService.MakeId(recordServiceInfo);
@@ -54,11 +54,17 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         Publish();
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        WeakReferenceMessenger.Default.UnregisterAll(this);
+        if (!disposed && disposing)
+        {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
 
-        base.Destroy();
+            disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 
     public override void Publish()

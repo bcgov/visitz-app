@@ -12,14 +12,14 @@ using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
@@ -28,7 +28,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     public DateTime maxDate = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
     [ObservableProperty]
     public SafetyAssessment assessment;
@@ -54,9 +54,9 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     public IList<string> familyNames;
 
     [ObservableProperty]
-    public IEnumerable<FamilyMember> availableChildrenInOutCare;
+    public IEnumerable<IcmContact> availableChildrenInOutCare;
 
-    // Using object instead of FamilyMember for generic as a workaround
+    // Using object instead of IcmContact for generic as a workaround
     // see https://github.com/dotnet/maui/issues/8435#issuecomment-1365586648
     [ObservableProperty]
     public ObservableCollection<object> selectedChildren = [];
@@ -142,17 +142,18 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     private async Task<SafetyAssessment> MakeNewSafetyAssessment()
     {
         var info = await OidcSessionInfo.GetAsync();
+
         return SafetyAssessment.Make(
-            CaseloadItem.CaseIncidentNumber,
+            BusinessObject.FileNumber,
             info.Idir,
-            CaseloadItem.KeyPlayerLastName
+            BusinessObject.GetKeyPlayer().LastName
         );
     }
 
     private async Task SetupAssessmentDraft()
     {
         DraftItem = null;
-        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, CaseloadItem.CaseIncidentNumber)
+        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, BusinessObject.FileNumber)
             ?? await MakeNewSafetyAssessment();
 
         await TryAssociateDraftItem();
@@ -164,7 +165,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     private async Task TryAssociateDraftItem()
     {
         if (Assessment.IsManaged)
-            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
+            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, BusinessObject.DisplayName);
     }
 
     private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -172,7 +173,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         _ = TrySendSavedMessage(DraftSaveState.Saving);
 
         if (!Assessment.IsManaged)
-            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, CaseloadItem.DisplayName);
+            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, BusinessObject.DisplayName);
         else if (DraftItem?.IsValid ?? false)
             DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
@@ -195,7 +196,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
     private void SetupFamilyNamePicker()
     {
         var names = new SortedSet<string>();
-        foreach (var member in CaseloadItem.FamilyMembers)
+        foreach (var member in BusinessObject.GetContacts())
             names.Add(member.LastName);
 
         FamilyNames = names.AsList();
@@ -203,7 +204,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
 
     private void SetupChildrenInOutCare()
     {
-        AvailableChildrenInOutCare = CaseloadItem.FamilyMembers;
+        AvailableChildrenInOutCare = BusinessObject.GetContacts();
     }
 
     partial void OnAssessmentChanged(SafetyAssessment value)
@@ -224,7 +225,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
 
         if (AvailableChildrenInOutCare is not null)
             foreach (var child in AvailableChildrenInOutCare)
-                if (value.ChildsInOutCare.Contains(child.ContactId))
+                if (value.ChildsInOutCare.Contains(child.Id))
                     SelectedChildren.Add(child);
 
         CanDiscard = value.IsManaged;
@@ -273,7 +274,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
 #endif
         var saPublishVm = ServiceProvider.Current.GetService<SafetyAssessmentPublishViewModel>();
         saPublishVm.Assessment = Assessment;
-        saPublishVm.CaseloadItem = CaseloadItem;
+        saPublishVm.BusinessObject = BusinessObject;
 
         var saPublish = new PublishPage(saPublishVm);
         await Navigator.Navigation.PushAsync(saPublish);
@@ -316,13 +317,13 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, ICaseloadI
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (FamilyMember child in e.NewItems.Cast<FamilyMember>())
-                    Assessment.ChildsInOutCare.Add(child.ContactId);
+                foreach (IcmContact child in e.NewItems.Cast<IcmContact>())
+                    Assessment.ChildsInOutCare.Add(child.Id);
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                foreach (FamilyMember child in e.OldItems.Cast<FamilyMember>())
-                    Assessment.ChildsInOutCare.Remove(child.ContactId);
+                foreach (IcmContact child in e.OldItems.Cast<IcmContact>())
+                    Assessment.ChildsInOutCare.Remove(child.Id);
             }
             else if (e.Action == NotifyCollectionChangedAction.Reset)
                 Assessment.ChildsInOutCare.Clear();

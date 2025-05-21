@@ -7,7 +7,7 @@
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
     xmlns:converters="clr-namespace:Visitz.Converters"
-    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
+    xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:safetyModels="clr-namespace:VisitzModel.Models.SafetyAssess;assembly=VisitzModel"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -525,7 +525,7 @@
                             IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}">
 
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:FamilyMember">
+                                <DataTemplate x:DataType="peopleModels:IcmContact">
                                     <safetyAssess:ChildInOutCareItem />
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

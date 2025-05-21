@@ -9,14 +9,15 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class SafetyAssessmentListViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
     [ObservableProperty]
     public string editViewButtonText;
@@ -39,11 +40,11 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
 
         var draftRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
-        var draftQuery = AssessmentDraft.GetAllByFileNumber(draftRealm, CaseloadItem.CaseIncidentNumber);
+        var draftQuery = AssessmentDraft.GetAllByFileNumber(draftRealm, BusinessObject.FileNumber);
         realmQueryMap.Subscribe(draftRealm, draftQuery);
 
         var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        var dataQuery = SafetyAssessment.GetAllByFileNumber(dataRealm, CaseloadItem.CaseIncidentNumber)
+        var dataQuery = SafetyAssessment.GetAllByFileNumber(dataRealm, BusinessObject.FileNumber)
             .OrderByDescending(sa => sa.CreatedDate);
         realmQueryMap.Subscribe(dataRealm, dataQuery);
     }
@@ -101,7 +102,7 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, ICaseloa
     {
         var view = ServiceProvider.GetService<SafetyAssessmentEditView>();
 
-        view.CaseloadItem = CaseloadItem;
+        view.BusinessObject = BusinessObject;
 
         if (assessment != null)
             view.ViewAssessment(assessment);

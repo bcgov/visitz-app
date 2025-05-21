@@ -3,12 +3,12 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Events;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class SafetyAssessmentEditView : ViewModelContentView, ICaseloadItemHolder
+public partial class SafetyAssessmentEditView : ViewModelContentView, IBusinessObjectHolder
 {
     protected new SafetyAssessmentEditViewModel ViewModel => (SafetyAssessmentEditViewModel)base.ViewModel;
 
@@ -20,10 +20,10 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, ICaseloadI
 
     private bool disposed;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public SafetyAssessmentEditView() : base(ServiceProvider.GetService<SafetyAssessmentEditViewModel>())
