@@ -49,7 +49,7 @@ namespace Visitz.Services.Notes
             var (id, entityType) = PayloadTuple;
 
             var notesFromApi = await Vpi.GetNotesAsync(id, entityType.GetDisplayString());
-            var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
+            var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
 
             await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
                 await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes));

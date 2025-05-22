@@ -8,6 +8,7 @@ using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Utilities;
@@ -183,12 +184,14 @@ public partial class ServiceRequestRecord :
     {
         foreach (var id in unassignedIds)
         {
-            realm.Remove(realm.Find<ServiceRequestRecord>(id));
+            var sr = realm.Find<ServiceRequestRecord>(id);
 
-            // TODO: Remove notes here once we release SR support fully
+            NoteItem.RemoveByParentFileNumber(realm, EntityType.ServiceRequest, sr.FileNumber);
             IcmContact.RemoveByParent(realm, EntityType.ServiceRequest, id);
             SupportNetworkItem.RemoveByParent(realm, EntityType.ServiceRequest, id);
             Attachment.RemoveByParent(realm, EntityType.ServiceRequest, id, userIgnoredPrefs);
+
+            realm.Remove(sr);
         }
     }
 

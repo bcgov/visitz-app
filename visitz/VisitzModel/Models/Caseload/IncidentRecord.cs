@@ -8,6 +8,7 @@ using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Utilities;
@@ -230,37 +231,41 @@ public partial class IncidentRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<IncidentJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
+    public static async Task SynchronizeAsync(
+        Realm realm,
+        SectionJson<IncidentJson> section,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
-        var currentAssignedIds = realm.All<IncidentRecord>().AsEnumerable().Select(incident => incident.Id);
+        var currentAssignedIds = realm.All<IncidentRecord>()
+            .AsEnumerable()
+            .Select(incident => incident.Id);
+
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
 
-        string type = EntityType.Incident.ToString();
         var v2Incidents = FromApiJsonArray(section.Items ?? []);
-        var v1Incidents = realm.All<CaseloadItem>().Where(item => item.EntityType == type);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
             CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
             realm.Upsert(v2Incidents);
-
-            // TODO: Remove this foreach loop once we've fully removed V1 CaseloadItems
-            foreach (var v1Incident in v1Incidents)
-                v1Incident.RowId = v2Incidents.FirstOrDefault(v2Incident =>
-                    v2Incident.FileNumber == v1Incident.CaseIncidentNumber)?.Id;
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> deleteIds, UserIgnoredContentPrefs userIgnoredPrefs)
+    static void CascadeDelete(
+        Realm realm,
+        IEnumerable<string> deleteIds,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in deleteIds)
         {
-            realm.Remove(realm.Find<IncidentRecord>(id));
+            var incident = realm.Find<IncidentRecord>(id);
 
-            // TODO: Remove notes here once we remove V1 CaseloadItem
+            NoteItem.RemoveByParentFileNumber(realm, EntityType.Incident, incident.FileNumber);
             IcmContact.RemoveByParent(realm, EntityType.Incident, id);
             SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, id);
             Attachment.RemoveByParent(realm, EntityType.Incident, id, userIgnoredPrefs);
+
+            realm.Remove(incident);
         }
     }
 
