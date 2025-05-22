@@ -77,9 +77,9 @@ public partial class NavRailViewModel : VisitzViewModel
 
     readonly ObservableRealmCount realmCount = new();
 
-    public override async void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
         BuildNavCollection();
         SelectedNavItem = (NavItem)NavigationItems.First();
@@ -89,11 +89,16 @@ public partial class NavRailViewModel : VisitzViewModel
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        base.Destroy();
+        if (!disposed && disposing)
+        {
+            realmCount.Dispose();
+            disposed = true;
+        }
 
-        realmCount.Dispose();
+        base.Dispose(disposing);
     }
 
     private void BuildNavCollection()

@@ -10,11 +10,6 @@ public partial class DraftsContainerView : SplitLayoutView
     public DraftsContainerView()
     {
         InitializeComponent();
-    }
-
-    protected override void Creating()
-    {
-        base.Creating();
 
         StartPaneColumnWidth = GridLength.Auto;
         StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;

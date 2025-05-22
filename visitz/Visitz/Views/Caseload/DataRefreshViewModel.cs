@@ -19,19 +19,25 @@ internal partial class DataRefreshViewModel : VisitzViewModel
     [ObservableProperty]
     public StackOrientation orientation = StackOrientation.Vertical;
 
-    public override void Create()
+    protected override Task InitAsync()
     {
-        base.Create();
+        base.InitAsync();
 
         SetConnectivityMessage();
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+
+        return Task.CompletedTask;
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        base.Destroy();
-
-        Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+        if (!disposed && disposing)
+        {
+            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)

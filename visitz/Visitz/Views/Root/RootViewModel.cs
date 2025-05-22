@@ -11,20 +11,27 @@ internal partial class RootViewModel : VisitzViewModel
     [ObservableProperty]
     public bool isPortrait = false;
 
-    public override void Create()
+    protected override Task InitAsync()
     {
-        base.Create();
+        base.InitAsync();
 
         UpdateOrientationVisibility(DeviceDisplay.Current.MainDisplayInfo.Orientation);
 
         DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
+
+        return Task.CompletedTask;
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
+        if (!disposed && disposing)
+        {
+            DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
+            disposed = true;
+        }
 
-        base.Destroy();
+        base.Dispose(disposing);
     }
 
     private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
