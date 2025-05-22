@@ -22,7 +22,7 @@ public partial class EntityNavView : ViewModelContentView, ICaseloadItemHolder
         BindingContext = ViewModel;
     }
 
-    public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem)
+    public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
     {
         ViewModel.SetRequestedSection(section, focusedDraftItem);
     }
