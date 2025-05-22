@@ -1,0 +1,3 @@
+public int? Age => DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
+            ? (DateTimeExtensions.LocalNow - dateOfBirth).Days / 365
+            : null;
