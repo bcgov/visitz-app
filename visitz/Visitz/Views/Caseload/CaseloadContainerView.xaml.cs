@@ -77,6 +77,24 @@ public partial class CaseloadContainerView : SplitLayoutView
         StartPaneColumnWidth = GridLength.Auto;
     }
 
+    private void OpenTodoCaseloadItem(CaseloadItemSelectedMessage message)
+    {
+        CaseloadItem item = message.Value;
+        EntitySection section = message.Section;
+        IDraftItem draftItem = message.DraftItem;
+
+        var containerView = ServiceProvider.GetService<EntityContainerView>();
+        containerView.CaseloadItem = item;
+        SetEndPane(containerView);
+
+        var entityNav = ServiceProvider.GetService<EntityNavView>();
+        entityNav.CaseloadItem = item;
+        entityNav.SetRequestedSection(section);
+        SetStartPane(entityNav);
+
+        StartPaneColumnWidth = GridLength.Auto;
+    }
+
     private void NavigateBack()
     {
         SetStartPane(CaseloadView);

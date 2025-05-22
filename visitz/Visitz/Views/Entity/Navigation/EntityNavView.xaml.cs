@@ -22,7 +22,7 @@ public partial class EntityNavView : ViewModelContentView, IBusinessObjectHolder
         BindingContext = ViewModel;
     }
 
-    public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem)
+    public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem = null)
     {
         ViewModel.SetRequestedSection(section, focusedDraftItem);
     }
