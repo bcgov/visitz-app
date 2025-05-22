@@ -18,6 +18,15 @@ public partial class TodoVisitsView : ViewModelContentView
     protected override async Task InitAsync()
     {
         await base.InitAsync();
+        await SendTodoMasterSelectedMessageWhenReady();
+    }
+
+    private async Task SendTodoMasterSelectedMessageWhenReady()
+    {
+        while (!ViewModel.IsInitialized)
+        {
+            await Task.Delay(100);
+        }
 
         StrongReferenceMessenger.Default.Register<TodoMasterSelectedMessage>(this, (recipient, message) =>
         {
@@ -42,6 +51,5 @@ public partial class TodoVisitsView : ViewModelContentView
     private void OpenTodoSection(NavItem navItem)
     {
         ViewModel.LoadTodoItemsForNavItem(navItem);
-        // var view = (View)ServiceProvider.GetService(navItem.ContentViewType);
     }
 }
