@@ -61,6 +61,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
         recordServiceInfo = new RecordServiceInfo(
                 attachmentDraft.RelatedEntityType,
+                attachmentDraft.RelatedEntitySubtype,
                 RecordId,
                 attachmentDraft.Attachment.FileNumber,
                 keyPlayer.FirstName,

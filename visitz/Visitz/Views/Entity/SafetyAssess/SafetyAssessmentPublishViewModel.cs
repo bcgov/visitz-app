@@ -38,6 +38,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         var keyPlayer = BusinessObject.GetKeyPlayer();
         recordServiceInfo = new RecordServiceInfo(
                 BusinessObject.EntityType,
+                BusinessObject.EntitySubtype,
                 BusinessObject.Id,
                 Assessment.IncidentNumber,
                 keyPlayer.FirstName,

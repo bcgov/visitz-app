@@ -84,7 +84,7 @@ namespace Visitz.Services.Caseload
 
             await Task.WhenAll(
                 GetAllNotes(casesIncidentsSrs, exceptions),
-                GetAllVisits(realm, exceptions),
+                GetAllVisits(cases, exceptions),
                 GetAllContacts(all, exceptions),
                 GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
                 GetAllAttachments(all, exceptions),
@@ -115,15 +115,14 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetAllVisits(Realm realm, List<Exception> exceptions)
+        private async Task GetAllVisits(
+            IEnumerable<RecordServiceInfo> cases,
+            List<Exception> exceptions)
         {
             try
             {
-                var allCaseIds = realm
-                    .All<CaseRecord>()
-                    .Freeze()
-                    .AsEnumerable()
-                    .Where(@case => @case.EntitySubtype == EntitySubtype.ChildServices)
+                var allCaseIds = cases
+                    .Where(@case => @case.Subtype == EntitySubtype.ChildServices)
                     .Select(@case => @case.Id);
 
                 var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);
