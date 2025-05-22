@@ -1,5 +1,6 @@
 using Realms;
 using Realms.Schema;
+using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
@@ -19,6 +20,8 @@ public class IcmData(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersio
     {
         return new[]
         {
+            typeof(CaseloadItem),
+            typeof(FamilyMember),
             typeof(CaseRecord),
             typeof(IncidentRecord),
             typeof(MemoRecord),
