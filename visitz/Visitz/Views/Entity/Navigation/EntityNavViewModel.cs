@@ -215,6 +215,15 @@ public partial class EntityNavViewModel : VisitzViewModel,
         SelectedEntityNavItem = GetMappedNavItem(section);
     }
 
+    public void SetRequestedTodoSection(EntitySection section, PersonVisit focusedItem = null)
+    {
+        RequestedSection = section;
+        SelectedEntityNavItem = GetMappedNavItem(section);
+
+        var msg = new EntityTodoNavMessage(SelectedEntityNavItem, CaseloadItem, RequestedSection, focusedItem);
+        StrongReferenceMessenger.Default.Send(msg);
+    }
+
     private EntityNavItem GetMappedNavItem(EntitySection? section)
     {
         return section switch
