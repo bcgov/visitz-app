@@ -18,24 +18,49 @@ public partial class TodoVisitsViewModel : VisitzViewModel
     private bool _disposed;
 
     [ObservableProperty]
-    public readonly ObservableCollection<TodoVisitsDisplayItem> todoItems = [];
+    public ObservableCollection<TodoVisitsDisplayItem> todoItems = [];
 
     Realm icmDataRealm;
+
+    readonly ObservableRealmQueryMap realmQuery = new();
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
         icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        GetTodoItems(PersonVisit.GetUpcomingVisits(icmDataRealm));
+        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
+        realmQuery.Subscribe(icmDataRealm, PersonVisit.GetAllByType(icmDataRealm));
     }
 
-    public void GetTodoItems(IOrderedEnumerable<PersonVisit> items)
+    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
-        foreach (var item in items)
+        if (e.Type == typeof(PersonVisit))
+            UpdateTodoItemsList(e.Items, e.Changes);
+    }
+
+    private void UpdateTodoItemsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    {
+        if (changes == null)
         {
-            var caseloadItem = GetRelatedCaseloadItem(item);
-            TodoItems.Add(new TodoVisitsDisplayItem(item, caseloadItem));
+            foreach (var item in items)
+            {
+                var personVisit = item as PersonVisit;
+                var caseloadItem = GetRelatedCaseloadItem(personVisit);
+                TodoItems.Add(new TodoVisitsDisplayItem(personVisit, caseloadItem));
+            }
+        }
+        else
+        {
+            foreach (int deleted in changes.DeletedIndices.Reverse())
+                TodoItems.RemoveAt(deleted);
+
+            foreach (int inserted in changes.InsertedIndices)
+            {
+                var personVisit = items[inserted] as PersonVisit;
+                var caseloadItem = GetRelatedCaseloadItem(personVisit);
+                TodoItems.Insert(inserted, new TodoVisitsDisplayItem(personVisit, caseloadItem));
+            }
         }
     }
 
@@ -68,6 +93,8 @@ public partial class TodoVisitsViewModel : VisitzViewModel
     {
         if (!_disposed && disposing)
         {
+            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+            realmQuery.Dispose();
             icmDataRealm.Dispose();
             _disposed = true;
         }
