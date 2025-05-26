@@ -7,7 +7,7 @@ namespace Visitz.Views.Todo;
 public class TodoVisitsDisplayItem(PersonVisit visit, CaseloadItem caseloadItem)
 {
     public PersonVisit TodoItem { get; set; } = visit;
-    public string CaseloadDisplayName { get; set; } = caseloadItem?.DisplayName;
+    public CaseloadItem CaseloadItem { get; set; } = caseloadItem;
     public bool IsOverdue { get; set; } = FindIfOverdue(visit);
 
     public EntitySection SectionToOpen { get; set; } = EntitySection.ChildYouthVisits;
