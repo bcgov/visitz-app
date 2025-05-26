@@ -43,15 +43,6 @@ public partial class EntityContainerView : ViewModelContentView, IBusinessObject
                 subsection,
                 draftItem);
         }
-
-        StrongReferenceMessenger.Default.Register<EntityTodoNavMessage>(this, (recipient, message) =>
-        {
-            var (navItem, caseloadItem, subsection, visitItem) = message.Value;
-
-            if (navItem != null)
-                (recipient as EntityContainerView).OpenEntityTodoSection(navItem, businessObject, subsection, visitItem);
-        });
-
     }
 
     bool disposed;
@@ -97,32 +88,6 @@ public partial class EntityContainerView : ViewModelContentView, IBusinessObject
 
         if (view is IFocusDraftItem focusDraftView)
             focusDraftView.FocusedDraftItem = focusedDraftItem;
-
-        ContainerDetails.Content = (View)view;
-    }
-
-    private void OpenEntityTodoSection(
-    EntityNavItem navItem,
-    IBusinessObject businessObject,
-    EntitySection? subsection,
-    PersonVisit visitItem)
-    {
-        if (ContainerDetails.Content is BaseContentView baseView)
-        {
-            if (baseView.GetType().Equals(navItem.ContentViewType.GetType()))
-                return;
-
-            baseView.Dispose();
-            ContainerDetails.Content = null;
-        }
-
-        var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
-
-        if (view is IBusinessObjectHolder objectHolder)
-            objectHolder.BusinessObject = businessObject;
-
-        if (view is IRequestedEntitySection sectionView)
-            sectionView.RequestedSection = subsection ?? navItem.Section;
 
         ContainerDetails.Content = (View)view;
     }

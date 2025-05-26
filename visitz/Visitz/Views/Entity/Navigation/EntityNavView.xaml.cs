@@ -27,9 +27,4 @@ public partial class EntityNavView : ViewModelContentView, IBusinessObjectHolder
     {
         ViewModel.SetRequestedSection(section, focusedDraftItem);
     }
-
-    public void SetRequestedTodoSection(EntitySection section, PersonVisit focusedItem = null)
-    {
-        ViewModel.SetRequestedTodoSection(section, focusedItem);
-    }
 }
