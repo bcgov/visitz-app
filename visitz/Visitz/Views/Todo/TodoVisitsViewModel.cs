@@ -40,12 +40,10 @@ public partial class TodoVisitsViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    private void TodoItemSelected(TodoVisitsDisplayItem item)
+    private static void TodoItemSelected(TodoVisitsDisplayItem item)
     {
-        var caseloadItem = GetRelatedCaseloadItem(item.TodoItem);
-
-        if (caseloadItem != null)
-            NavigateTo(caseloadItem, item.SectionToOpen, item.TodoItem);
+        if (item.CaseloadItem != null)
+            NavigateTo(item.CaseloadItem, item.SectionToOpen, item.TodoItem);
     }
 
     private CaseloadItem GetRelatedCaseloadItem(PersonVisit todoItem)

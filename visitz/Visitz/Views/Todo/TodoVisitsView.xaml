@@ -78,7 +78,7 @@
                                 <Label
                                     Grid.Column="0"
                                     VerticalOptions="Start"
-                                    Text="{Binding CaseloadDisplayName}"/>
+                                    Text="{Binding CaseloadItem.DisplayName}"/>
 
                                 <Label
                                     Grid.Column="1"
