@@ -18,7 +18,7 @@ public partial class TodoVisitsViewModel : VisitzViewModel
     private bool _disposed;
 
     [ObservableProperty]
-    public ObservableCollection<TodoVisitsDisplayItem> todoItems = [];
+    public readonly ObservableCollection<TodoVisitsDisplayItem> todoItems = [];
 
     Realm icmDataRealm;
 
