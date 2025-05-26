@@ -221,7 +221,7 @@
 				Background="AliceBlue"
 				Text="Child/youth visits" />
 
-			<Grid RowDefinitions="Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 				<Label
 					StyleClass="DebugLayout,DebugLabel"
 					Grid.Row="0"
@@ -245,6 +245,27 @@
 					Grid.Row="1"
 					Grid.Column="1"
 					IsToggled="{Binding DryFirePostVisitServiceSimulateSuccess}"/>
+
+                <Button
+					StyleClass="DebugLayout"
+					Grid.Row="2"
+					Grid.Column="1"
+					Command="{Binding SetWarningCommand}"
+					Text="Set Warning threshold" />
+
+                <Button
+					StyleClass="DebugLayout"
+					Grid.Row="3"
+					Grid.Column="1"
+					Command="{Binding SetDangerCommand}"
+					Text="Set Danger threshold" />
+
+                <Button
+					StyleClass="DebugLayout"
+					Grid.Row="4"
+					Grid.Column="1"
+					Command="{Binding SetCriticalCommand}"
+					Text="Set Critical threshold" />
 			</Grid>
 
             <Label

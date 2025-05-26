@@ -5,6 +5,7 @@ using Visitz.Services.Caseload;
 using Visitz.Settings;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Debugging;
@@ -199,5 +200,23 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public async Task LoadMockPersonVisits()
     {
         await DebugOptions.LoadPersonVisitsMockData(MockPersonVisitsParentId);
+    }
+
+    [RelayCommand]
+    public static async Task SetWarning()
+    {
+        await DebugOptions.SetThreshold(VisitDaysThreshold.Warning);
+    }
+
+    [RelayCommand]
+    public static async Task SetDanger()
+    {
+        await DebugOptions.SetThreshold(VisitDaysThreshold.Danger);
+    }
+
+    [RelayCommand]
+    public static async Task SetCritical()
+    {
+        await DebugOptions.SetThreshold(VisitDaysThreshold.Critical);
     }
 }
