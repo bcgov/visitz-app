@@ -22,8 +22,6 @@ public partial class TodoVisitsViewModel : VisitzViewModel
 
     Realm icmDataRealm;
 
-    EntitySection SectionToOpen { get; set; }
-
     public bool IsInitialized { get; private set; } = false;
 
     protected override async Task InitAsync()
@@ -58,10 +56,9 @@ public partial class TodoVisitsViewModel : VisitzViewModel
     private void TodoItemSelected(TodoVisitsDisplayItem item)
     {
         var caseloadItem = GetRelatedCaseloadItem(item.TodoItem);
-        SectionToOpen = EntitySection.ChildYouthVisitsEntry;
 
         if (caseloadItem != null)
-            NavigateTo(caseloadItem, SectionToOpen, item.TodoItem);
+            NavigateTo(caseloadItem, item.SectionToOpen, item.TodoItem);
     }
 
     private CaseloadItem GetRelatedCaseloadItem(PersonVisit todoItem)
@@ -75,7 +72,7 @@ public partial class TodoVisitsViewModel : VisitzViewModel
 
     static void NavigateTo(CaseloadItem caseloadItem, EntitySection section, PersonVisit visitItem)
     {
-        var caseloadNav = new CaseloadTodoItemSelectedMessage(caseloadItem, section, visitItem);
+        var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section);
         StrongReferenceMessenger.Default.Send(caseloadNav);
 
         var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });

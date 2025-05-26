@@ -49,12 +49,6 @@ public partial class CaseloadContainerView : SplitLayoutView
             (recipient as CaseloadContainerView).OpenCaseloadItem(message);
         });
 
-
-        StrongReferenceMessenger.Default.Register<CaseloadTodoItemSelectedMessage>(this, (recipient, message) =>
-        {
-            (recipient as CaseloadContainerView).OpenTodoCaseloadItem(message);
-        });
-
         StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
         {
             (recipient as CaseloadContainerView).NavigateBack();
@@ -74,24 +68,6 @@ public partial class CaseloadContainerView : SplitLayoutView
         var entityNav = ServiceProvider.GetService<EntityNavView>();
         entityNav.CaseloadItem = item;
         entityNav.SetRequestedSection(section, draftItem);
-        SetStartPane(entityNav);
-
-        StartPaneColumnWidth = GridLength.Auto;
-    }
-
-    private void OpenTodoCaseloadItem(CaseloadTodoItemSelectedMessage message)
-    {
-        CaseloadItem item = message.Value;
-        EntitySection section = message.Section;
-        PersonVisit personVisit = message.VisitItem;
-
-        var containerView = ServiceProvider.GetService<EntityContainerView>();
-        containerView.CaseloadItem = item;
-        SetEndPane(containerView);
-
-        var entityNav = ServiceProvider.GetService<EntityNavView>();
-        entityNav.CaseloadItem = item;
-        entityNav.SetRequestedTodoSection(section, personVisit);
         SetStartPane(entityNav);
 
         StartPaneColumnWidth = GridLength.Auto;

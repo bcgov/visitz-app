@@ -176,7 +176,6 @@ public partial class NavRailViewModel : VisitzViewModel
             SelectedNavItem = GetNavItemByType(message.Value.ContentViewType);
     }
 
-
     private void ReceiveTodoBadgeCountMessage(object recipient, TodoBadgeCountMessage message)
     {
         TodoNavItem.BadgeCount = message.Value;
