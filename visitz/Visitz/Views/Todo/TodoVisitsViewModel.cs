@@ -22,25 +22,12 @@ public partial class TodoVisitsViewModel : VisitzViewModel
 
     Realm icmDataRealm;
 
-    public bool IsInitialized { get; private set; } = false;
-
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
         icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         GetTodoItems(PersonVisit.GetUpcomingVisits(icmDataRealm));
-
-        IsInitialized = true;
-    }
-
-    public void LoadTodoItemsForNavItem(NavItem navItem)
-    {
-        if (navItem.ContentViewType == typeof(TodoVisitsView))
-        {
-            var upcomingVisits = PersonVisit.GetUpcomingVisits(icmDataRealm);
-            GetTodoItems(upcomingVisits);
-        }
     }
 
     public void GetTodoItems(IOrderedEnumerable<PersonVisit> items)
