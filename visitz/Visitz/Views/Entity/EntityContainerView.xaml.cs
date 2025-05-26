@@ -1,10 +1,12 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Entity.ChildYouthVisits;
 using Visitz.Views.Entity.Details;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
@@ -37,6 +39,15 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
             if (navItem != null)
                 (recipient as EntityContainerView).OpenEntitySection(navItem, caseloadItem, subsection, draftItem);
         });
+
+        StrongReferenceMessenger.Default.Register<EntityTodoNavMessage>(this, (recipient, message) =>
+        {
+            var (navItem, caseloadItem, subsection, visitItem) = message.Value;
+
+            if (navItem != null)
+                (recipient as EntityContainerView).OpenEntityTodoSection(navItem, caseloadItem, subsection, visitItem);
+        });
+
     }
 
     bool disposed;
@@ -82,6 +93,32 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
         if (view is IFocusDraftItem focusDraftView)
             focusDraftView.FocusedDraftItem = focusedDraftItem;
+
+        ContainerDetails.Content = (View)view;
+    }
+
+    private void OpenEntityTodoSection(
+    EntityNavItem navItem,
+    CaseloadItem caseloadItem,
+    EntitySection? subsection,
+    PersonVisit visitItem)
+    {
+        if (ContainerDetails.Content is BaseContentView baseView)
+        {
+            if (baseView.GetType().Equals(navItem.ContentViewType.GetType()))
+                return;
+
+            baseView.Dispose();
+            ContainerDetails.Content = null;
+        }
+
+        var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
+
+        if (view is ICaseloadItemHolder itemHolder)
+            itemHolder.CaseloadItem = caseloadItem;
+
+        if (view is IRequestedEntitySection sectionView)
+            sectionView.RequestedSection = subsection ?? navItem.Section;
 
         ContainerDetails.Content = (View)view;
     }
