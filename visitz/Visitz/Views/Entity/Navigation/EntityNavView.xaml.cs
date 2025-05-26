@@ -2,7 +2,6 @@ using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
-using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.Navigation;

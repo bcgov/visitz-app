@@ -1,12 +1,10 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Entity.ChildYouthVisits;
 using Visitz.Views.Entity.Details;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Drafts;
-using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
