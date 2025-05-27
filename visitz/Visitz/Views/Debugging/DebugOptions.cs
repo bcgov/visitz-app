@@ -247,8 +247,8 @@ public class DebugOptions
             .AsEnumerable()
             .GroupBy(item => item.ParentId)
             .Select(group => group
-            .OrderByDescending(item => item.DateOfVisit)
-            .FirstOrDefault())
+                .OrderByDescending(item => item.DateOfVisit)
+                .FirstOrDefault())
             .Where(item => item != null)
             .ToList();
 
