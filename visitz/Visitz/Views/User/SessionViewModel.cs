@@ -5,11 +5,8 @@ using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
 using Visitz.Extensions;
-using Visitz.FontIcons;
 using Visitz.Resources.Localization;
-using Visitz.Resources.Styles;
 using Visitz.Services.Caseload;
-using Visitz.Settings;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
@@ -20,7 +17,7 @@ using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 
 namespace Visitz.Views.User;
 
-public partial class SessionViewModel : VisitzViewModel
+public partial class SessionViewModel(ILogger<SessionViewModel> logger) : VisitzViewModel
 {
     [ObservableProperty]
     public string buildNumber;
@@ -34,14 +31,22 @@ public partial class SessionViewModel : VisitzViewModel
     [ObservableProperty]
     public DisplayOptions bgDisplayOptions = DisplayOptions.Clear;
 
+    [ObservableProperty]
+    public bool showLoginLayout;
+
+#if IOS
+    private static readonly UIModalPresentationStyle DialogStyle = UIModalPresentationStyle.PageSheet;
+
+    [ObservableProperty]
+    public UIModalPresentationStyle presentationStyle;
+#else
+    [ObservableProperty]
+    public object presentationStyle;
+#endif
+
     private OidcSessionInfo SessionInfo;
 
-    private ILogger<SessionViewModel> Logger { get; }
-
-    public SessionViewModel(ILogger<SessionViewModel> logger)
-    {
-        Logger = logger;
-    }
+    private ILogger<SessionViewModel> Logger { get; } = logger;
 
     public static async Task<string> GetDisplayNamePrompt(OidcSessionInfo info = null)
     {
@@ -92,12 +97,6 @@ public partial class SessionViewModel : VisitzViewModel
         else
             ApplyLoginLayout();
     }
-}
-
-public partial class SessionViewModel
-{
-    [ObservableProperty]
-    public bool showLoginLayout;
 
     private void ApplyLoginLayout()
     {
@@ -107,7 +106,9 @@ public partial class SessionViewModel
         IsUnauthorized = false;
         BgDisplayOptions = DisplayOptions.Clear;
 
+#if IOS
         ApplyModalStyles(false);
+#endif
     }
 
     [RelayCommand]
@@ -115,7 +116,6 @@ public partial class SessionViewModel
     {
         _ = LoginAsync();
     }
-
 
     public async Task LoginAsync()
     {
@@ -139,71 +139,6 @@ public partial class SessionViewModel
                 Logger.LogError(ex, ex.Message);
         }
     }
-}
-
-public partial class SessionViewModel
-{
-    [ObservableProperty]
-    public string displayName;
-
-    [ObservableProperty]
-    public bool showAuthStatusLayout;
-
-    [ObservableProperty]
-    public string authStatus;
-
-    [ObservableProperty]
-    public string authIcon;
-
-    [ObservableProperty]
-    public Color authColor;
-
-    [ObservableProperty]
-    public bool isAuthorized;
-
-    [ObservableProperty]
-    public bool isUnauthorized;
-
-    [ObservableProperty]
-    public string mailToUrl;
-
-    [ObservableProperty]
-    public bool showFeedbackUrl;
-
-    [ObservableProperty]
-    public string feedbackUrl;
-
-    private void ApplyAuthStatusLayout()
-    {
-        BgDisplayOptions = DisplayOptions.TextReadable;
-
-        DisplayName = SessionInfo.GivenName;
-        IsAuthorized = SessionInfo.HasBasicAccessRole();
-        IsUnauthorized = !IsAuthorized;
-        ShowFeedbackUrl = IsAuthorized;
-
-        var contactInfo = new AppSettings().ContactInfo;
-        MailToUrl = contactInfo.MailToAuthorize;
-        FeedbackUrl = contactInfo.FeedbackSurveyUrl;
-
-        if (IsUnauthorized)
-        {
-            AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
-            AuthIcon = MaterialIcons.Shield_lock;
-            AuthColor = VisitzColors.BC_Semantic_Error;
-        }
-        else
-        {
-            AuthStatus = LocalizedStrings.YouAreAuthorized;
-            AuthIcon = MaterialIcons.Verified_user;
-            AuthColor = VisitzColors.BC_Semantic_Success;
-        }
-
-        ShowLoginLayout = false;
-        ShowAuthStatusLayout = !ShowLoginLayout;
-
-        ApplyModalStyles(true);
-    }
 
     [RelayCommand]
     public static void TryLogout()
@@ -214,7 +149,7 @@ public partial class SessionViewModel
     private static async Task PromptAndLogoutAsync()
     {
         if (await PromptLogout())
-            await DoLogoutAsync();
+            await OidcSession.LogoutAsync();
     }
 
     private static async Task<bool> PromptLogout()
@@ -225,88 +160,6 @@ public partial class SessionViewModel
             LocalizedStrings.Logout,
             LocalizedStrings.Cancel);
     }
-
-    private static async Task DoLogoutAsync()
-    {
-        await OidcSession.LogoutAsync();
-    }
-
-    private static async Task ReopenSessionPage(bool modal = true)
-    {
-        await Navigator.PopAllModalsAsync(true);
-        await Navigator.GoToPage<SessionPage>(modal: modal);
-    }
-
-    [RelayCommand]
-    private static void RequestAccess()
-    {
-        _ = DoRequestAccessAsync();
-    }
-
-    private static async Task DoRequestAccessAsync()
-    {
-        var formUrl = new AppSettings().ContactInfo.AccessRequestFormUrl;
-
-        await Browser.Default.OpenAsync(formUrl, new BrowserLaunchOptions
-        {
-            LaunchMode = BrowserLaunchMode.SystemPreferred,
-            TitleMode = BrowserTitleMode.Hide,
-            Flags = BrowserLaunchFlags.PresentAsFormSheet,
-        });
-    }
-
-    [RelayCommand]
-    static void OpenCollectionNotice()
-    {
-        _ = DoOpenFeedbackUrl();
-    }
-
-    static async Task DoOpenFeedbackUrl()
-    {
-        await Navigator.Navigation.PopModalAsync(animated: false);
-
-        var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
-        await Navigator.Navigation.PushModalAsync(noticeView, ViewModalSize.Fullscreen);
-    }
-
-    [RelayCommand]
-    static void OpenFeedbackUrl(string feedbackUrl)
-    {
-        _ = DoOpenFeedbackUrl(feedbackUrl);
-    }
-
-    static async Task DoOpenFeedbackUrl(string feedbackUrl)
-    {
-        await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
-        {
-            LaunchMode = BrowserLaunchMode.SystemPreferred,
-            TitleMode = BrowserTitleMode.Hide,
-            Flags = BrowserLaunchFlags.PresentAsPageSheet,
-        });
-    }
-}
-
-public partial class SessionViewModel
-{
-#if IOS
-    private static readonly UIModalPresentationStyle DialogStyle = UIModalPresentationStyle.PageSheet;
-
-    [ObservableProperty]
-    public UIModalPresentationStyle presentationStyle;
-#else
-    [ObservableProperty]
-    public object presentationStyle;
-#endif
-
-    private void ApplyModalStyles(bool sessionExists)
-    {
-#if IOS
-        PresentationStyle = sessionExists && SessionInfo.HasBasicAccessRole()
-            ? DialogStyle
-            : UIModalPresentationStyle.FullScreen;
-#endif
-    }
-
     private static bool ShouldReopen()
     {
 #if IOS
