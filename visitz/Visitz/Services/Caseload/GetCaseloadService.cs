@@ -3,6 +3,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.ErrorHandling;
 using VisitzApi.Models.Base;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Models.Caseload;
@@ -48,7 +49,7 @@ namespace Visitz.Services.Caseload
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            List<InvalidOperationException> invalidOps = [];
+            List<Exception> invalidOps = [];
 
             if (CanSynchronize(caseloadFromApi.Cases, invalidOps))
                 await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases, UserIgnoredPrefs);
@@ -62,30 +63,33 @@ namespace Visitz.Services.Caseload
                 throw new AggregateException(invalidOps);
         }
 
-        private static bool IsSuccess<T>(SectionJson<T> section) where T : AssignableRecordJson
+        private static bool HasCode<T>(SectionJson<T> section, params HttpStatusCode[] codes)
+            where T : AssignableRecordJson
         {
-            HttpStatusCode status = (HttpStatusCode)section.Status;
-            return status == HttpStatusCode.OK || status == HttpStatusCode.NoContent;
+            foreach (var code in codes)
+                if (section.Status == (int)code)
+                    return true;
+
+            return false;
         }
 
         private static bool CanSynchronize<T>(
             SectionJson<T> section,
-            List<InvalidOperationException> invalidOps)
+            List<Exception> invalidOps)
             where T : AssignableRecordJson
         {
-            if (IsSuccess(section))
+            if (HasCode(section, HttpStatusCode.OK, HttpStatusCode.NoContent))
                 return true;
-            else
+            else if (HasCode(section, HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden))
             {
-                invalidOps.Add(MakeException(section));
-                return false;
+                invalidOps.Add(new VisitzApiException(
+                    HttpStatusCode.Forbidden,
+                    section.GetFullDisplayError()));
             }
-        }
+            else
+                invalidOps.Add(new InvalidOperationException(section.GetFullDisplayError()));
 
-        private static InvalidOperationException MakeException<T>(SectionJson<T> section)
-            where T : AssignableRecordJson
-        {
-            return new(section.GetFirstMessage() + " -> " + section.GetFirstError());
+            return false;
         }
 
         public override string GetId()

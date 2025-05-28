@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using VisitzApi.Models.Base;
+using static System.Collections.Specialized.BitVector32;
 
 namespace VisitzApi.Models.Caseload;
 
@@ -32,6 +33,11 @@ public class SectionJson<RecordType> where RecordType : BaseRecordJson
     public string GetFirstError()
     {
         return FindFirstStringByFieldName(errorFieldName, Message);
+    }
+
+    public string GetFullDisplayError()
+    {
+        return GetFirstMessage() + " -> " + GetFirstError();
     }
 
     static string FindFirstStringByFieldName(string fieldName, JsonObject obj)

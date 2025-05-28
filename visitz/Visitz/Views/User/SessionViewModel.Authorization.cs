@@ -50,7 +50,7 @@ public partial class SessionViewModel
         BgDisplayOptions = DisplayOptions.TextReadable;
 
         DisplayName = SessionInfo.GivenName;
-        IsAuthorized = SessionInfo.HasBasicAccessRole();
+        IsAuthorized = await OidcSession.IsAuthorized();
         IsUnauthorized = !IsAuthorized;
         ShowFeedbackUrl = IsAuthorized;
 
@@ -75,14 +75,14 @@ public partial class SessionViewModel
         ShowAuthStatusLayout = !ShowLoginLayout;
 
 #if IOS
-        ApplyModalStyles(true);
+        await ApplyModalStyles(true);
 #endif
     }
 
 #if IOS
-    private void ApplyModalStyles(bool sessionExists)
+    private async Task ApplyModalStyles(bool sessionExists)
     {
-        PresentationStyle = sessionExists && SessionInfo.HasBasicAccessRole()
+        PresentationStyle = sessionExists && await OidcSession.IsAuthorized()
             ? DialogStyle
             : UIModalPresentationStyle.FullScreen;
     }

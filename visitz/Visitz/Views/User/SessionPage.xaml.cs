@@ -1,5 +1,4 @@
 using Oidc;
-using Visitz.Auth;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
 
@@ -18,7 +17,7 @@ public partial class SessionPage : VisitzPage
 
     public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
     {
-        if (IsOpen || await OidcSession.HasRole(VisitzRoles.BasicAccess))
+        if (IsOpen || await OidcSession.IsAuthorized())
             return;
 
         await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);

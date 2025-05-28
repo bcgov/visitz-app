@@ -10,6 +10,8 @@ namespace Oidc
 {
     public class OidcSession
     {
+        private static readonly string IdirActiveKey = "idir_active_employee";
+
         private static AuthenticationClient AuthClient =>
             ServicesProvider.Current.GetRequiredService<AuthenticationClient>();
 
@@ -141,10 +143,15 @@ namespace Oidc
                 && await TokenHolder.GetIdentityTokenStringAsync() is not null;
         }
 
-        public static async Task<bool> HasRole(string role)
+        public static async Task<bool> IsAuthorized()
         {
-            var info = await OidcSessionInfo.GetAsync();
-            return await SessionExistsAsync() && info.Roles.Contains(role);
+            var status = await SecureStorage.Default.GetAsync(IdirActiveKey);
+            return status != null && bool.Parse(status);
+        }
+
+        public static async Task SetAuthorization(bool authorized)
+        {
+            await SecureStorage.Default.SetAsync(IdirActiveKey, authorized.ToString());
         }
     }
 }
