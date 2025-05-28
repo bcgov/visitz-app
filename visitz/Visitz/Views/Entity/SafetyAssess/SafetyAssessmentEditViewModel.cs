@@ -127,6 +127,11 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
             SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
             UnsubscribeFromAssessment();
 
+            Assessment = null;
+
+            Realm?.Dispose();
+            Realm = null;
+
             disposed = true;
         }
 
@@ -214,21 +219,25 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
 
     private void SetupBindings(SafetyAssessment value)
     {
-        if (FamilyNames?.Count > 0 && !value.IsManaged)
+        if (FamilyNames?.Count > 0 && value != null && !value.IsManaged)
             value.FamilyName = FamilyNames[0];
 
-        Influence = value.FactorInfluence;
-        Capacity = value.ProtectiveCapacity;
-        Decisions = value.SafetyDecisions;
-        Factors = value.SafetyFactors;
-        Interventions = value.SafetyInterventions;
+        Influence = value?.FactorInfluence;
+        Capacity = value?.ProtectiveCapacity;
+        Decisions = value?.SafetyDecisions;
+        Factors = value?.SafetyFactors;
+        Interventions = value?.SafetyInterventions;
 
-        if (AvailableChildrenInOutCare is not null)
+        if (value == null)
+            SelectedChildren.Clear();
+        else if (AvailableChildrenInOutCare != null)
+        {
             foreach (var child in AvailableChildrenInOutCare)
                 if (value.ChildsInOutCare.Contains(child.Id))
                     SelectedChildren.Add(child);
+        }
 
-        CanDiscard = value.IsManaged;
+        CanDiscard = value?.IsManaged ?? false;
     }
 
     private void SubscribeToAssessment()
