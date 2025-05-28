@@ -243,14 +243,7 @@ public class DebugOptions
 
         using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var latestVisits = PersonVisit.GetAllByType(icmData)
-            .AsEnumerable()
-            .GroupBy(item => item.ParentId)
-            .Select(group => group
-                .OrderByDescending(item => item.DateOfVisit)
-                .FirstOrDefault())
-            .Where(item => item != null)
-            .ToList();
+        var latestVisits = PersonVisit.GetAllByType(icmData);
 
         var targetDueDate = DateTimeOffset.Now.Date.AddDays((int)threshold);
         var targetDateOfVisit = targetDueDate.AddDays(-(int)VisitDaysThreshold.Info);
