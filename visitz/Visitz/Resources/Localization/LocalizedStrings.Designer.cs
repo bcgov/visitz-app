@@ -1029,11 +1029,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ve successfully logged in.
-        ///
-        ///Use the &quot;Request Access&quot; button below to submit a request for authorization to use the app.
-        ///
-        ///If that doesn&apos;t work, request access by emailing .
+        ///   Looks up a localized string similar to Your profile is not active in ICM—please contact your Office Manager to resolve this issue..
         /// </summary>
         public static string LoginSuccessButUnauth {
             get {
@@ -1710,15 +1706,6 @@ namespace Visitz.Resources.Localization {
         public static string Retry {
             get {
                 return ResourceManager.GetString("Retry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Retry login.
-        /// </summary>
-        public static string RetryLogin {
-            get {
-                return ResourceManager.GetString("RetryLogin", resourceCulture);
             }
         }
         

@@ -198,11 +198,7 @@ Logging out won't affect your unpublished drafts.</value>
     <value>You are authorized to use MCFD Mobility.</value>
   </data>
   <data name="LoginSuccessButUnauth" xml:space="preserve">
-    <value>You've successfully logged in.
-
-Use the "Request Access" button below to submit a request for authorization to use the app.
-
-If that doesn't work, request access by emailing </value>
+    <value>Your profile is not active in ICM—please contact your Office Manager to resolve this issue.</value>
   </data>
   <data name="CaseloadSearchHint" xml:space="preserve">
     <value>Search by key player's name</value>
@@ -609,9 +605,6 @@ If that doesn't work, request access by emailing </value>
   </data>
   <data name="WeWantYourFeedback" xml:space="preserve">
     <value>We want your feedback!</value>
-  </data>
-  <data name="RetryLogin" xml:space="preserve">
-    <value>Retry login</value>
   </data>
   <data name="LastUpdated" xml:space="preserve">
     <value>Last updated</value>

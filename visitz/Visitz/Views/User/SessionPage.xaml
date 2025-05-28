@@ -46,7 +46,7 @@
             <Grid
                 Grid.Row="1"
                 Padding="16"
-                RowDefinitions="*,2*,Auto">
+                RowDefinitions="*,*,Auto">
                     
                 <Button
                     Grid.Row="0"
@@ -71,7 +71,9 @@
 				<ContentView
 					Grid.Row="0"
 					IsVisible="{Binding IsUnauthorized}"
-					VerticalOptions="Center"
+                    HeightRequest="200"
+                    WidthRequest="200"
+					VerticalOptions="End"
 					HorizontalOptions="Center">
 					<Image>
 						<Image.Source>
@@ -91,25 +93,9 @@
                     WidthRequest="600"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    IsVisible="{Binding IsUnauthorized}">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span 
-                                FontFamily="BCSansBold"
-                                Text="{Binding AuthStatus}" />
-                            <Span 
-                                FontFamily="BCSansBold"
-                                TextDecorations="Underline"
-                                Text="{Binding MailToUrl}" />
-                            <Span 
-                                FontFamily="BCSansBold"
-                                Text="." />
-                        </FormattedString>
-                    </Label.FormattedText>
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                    </Label.GestureRecognizers>
-                </Label>
+                    IsVisible="{Binding IsUnauthorized}"
+                    FontFamily="BCSansBold"
+                    Text="{Binding AuthStatus}" />
 
                 <HorizontalStackLayout 
                     Grid.Row="2"
@@ -125,10 +111,9 @@
                         IsVisible="{Binding IsUnauthorized}" />
 
 					<Button
-						Style="{StaticResource SecondaryButtonDark}"
-						StyleClass="FeatureButton"
+						StyleClass="FeatureButton,GoldBorderButton"
 						Command="{Binding LoginCommand}"
-						Text="{local:Localize RetryLogin}"
+						Text="{local:Localize Retry}"
 						IsVisible="{Binding IsUnauthorized}">
 						<Button.ImageSource>
 							<FontImageSource
@@ -137,12 +122,6 @@
 								Color="White"/>
 						</Button.ImageSource>
 					</Button>
-
-                    <Button 
-                        StyleClass="FeatureButton,GoldBorderButton"
-                        Text="{local:Localize Request Access}"
-                        Command="{Binding RequestAccessCommand}"
-                        IsVisible="{Binding IsUnauthorized}" />
 
                 </HorizontalStackLayout>
 
