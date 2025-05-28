@@ -41,26 +41,13 @@ public partial class TodoVisitsViewModel : VisitzViewModel
 
     private void UpdateTodoItemsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
     {
-        if (changes == null)
-        {
-            foreach (var item in items)
-            {
-                var personVisit = item as PersonVisit;
-                var caseloadItem = GetRelatedCaseloadItem(personVisit);
-                TodoItems.Add(new TodoVisitsDisplayItem(personVisit, caseloadItem));
-            }
-        }
-        else
-        {
-            foreach (int deleted in changes.DeletedIndices.Reverse())
-                TodoItems.RemoveAt(deleted);
+        var upcomingVisits = PersonVisit.GetUpcomingVisits(icmDataRealm).ToList();
+        TodoItems.Clear();
 
-            foreach (int inserted in changes.InsertedIndices)
-            {
-                var personVisit = items[inserted] as PersonVisit;
-                var caseloadItem = GetRelatedCaseloadItem(personVisit);
-                TodoItems.Insert(inserted, new TodoVisitsDisplayItem(personVisit, caseloadItem));
-            }
+        foreach (var visit in upcomingVisits)
+        {
+            var caseloadItem = GetRelatedCaseloadItem(visit);
+            TodoItems.Add(new TodoVisitsDisplayItem(visit, caseloadItem));
         }
     }
 
