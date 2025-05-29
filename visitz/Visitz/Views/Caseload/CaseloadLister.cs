@@ -97,9 +97,7 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         if (!disposedValue)
         {
             if (disposing)
-            {
                 queryMap?.Dispose();
-            }
 
             disposedValue = true;
         }
