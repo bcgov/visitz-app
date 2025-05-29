@@ -131,6 +131,7 @@ namespace Oidc
             TokenHolder.DeleteAccessToken();
             TokenHolder.DeleteRefreshToken();
             TokenHolder.DeleteIdentityToken();
+            await SetAuthorization(authorized: false);
 
             var info = await OidcSessionInfo.GetAsync();
             SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs() { Success = true });
