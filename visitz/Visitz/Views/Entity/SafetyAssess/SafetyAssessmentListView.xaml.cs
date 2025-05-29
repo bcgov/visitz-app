@@ -1,21 +1,21 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
 public partial class SafetyAssessmentListView :
     ViewModelContentView,
-    ICaseloadItemHolder,
+    IBusinessObjectHolder,
     IRequestedEntitySection
 {
     new SafetyAssessmentListViewModel ViewModel => base.ViewModel as SafetyAssessmentListViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public EntitySection RequestedSection { get; set; }

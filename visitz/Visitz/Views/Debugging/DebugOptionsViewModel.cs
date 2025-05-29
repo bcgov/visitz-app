@@ -58,9 +58,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public string mockPersonVisitsParentId;
 
-    public override void Create()
+    protected override Task InitAsync()
     {
-        base.Create();
+        base.InitAsync();
 
         DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
         DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
@@ -87,6 +87,8 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         AuthenticationDomain = settings.Oidc.AuthenticationDomain;
 
         CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
+
+        return Task.CompletedTask;
     }
 
     partial void OnDryFireSubmitNotesChanged(bool value)
@@ -154,19 +156,6 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public static async Task ClearAttachmentDraft()
     {
         await DebugOptions.ClearAttachmentDraftsRealm();
-    }
-
-    [RelayCommand]
-    public static async Task Load620bData()
-    {
-        try
-        {
-            await DebugOptions.Load620bTestingRecords();
-        }
-        catch (Exception ex)
-        {
-            await Navigator.CurrentOpenPage.DisplayAlert("Error", ex.Message, "OK");
-        }
     }
 
     [RelayCommand]

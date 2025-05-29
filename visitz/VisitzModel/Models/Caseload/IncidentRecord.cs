@@ -1,11 +1,14 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Utilities;
@@ -103,13 +106,23 @@ public partial class IncidentRecord :
     public string Status { get; set; }
 
     private int TypeInt { get; set; }
-    public EntitySubtype Type
+    public EntitySubtype EntitySubtype
     {
         get => (EntitySubtype)TypeInt;
         set => TypeInt = (int)value;
     }
 
     public string TypeOfCaller { get; set; }
+
+    public string DisplayDate => DateReported?.ToString(
+        IBusinessObject.DisplayDateFormat,
+        CultureInfo.InvariantCulture) ?? "";
+
+    public string DisplayName => this.GetDisplayName();
+
+    public string FullType => this.GetFullType();
+
+    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public IncidentRecord() { }
 
@@ -155,7 +168,7 @@ public partial class IncidentRecord :
         RestrictedFlag = json.RestrictedFlag.ParseWordTruthiness();
         ServiceOffice = json.ServiceOffice;
         Status = json.Status;
-        Type = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
+        EntitySubtype = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
     }
 
@@ -203,7 +216,7 @@ public partial class IncidentRecord :
             RestrictedFlag = RestrictedFlag.AsTruthyChar(),
             ServiceOffice = ServiceOffice,
             Status = Status,
-            Type = Type.GetDisplayString(),
+            Type = EntitySubtype.GetDisplayString(),
             TypeOfCaller = TypeOfCaller,
         };
     }
@@ -218,37 +231,49 @@ public partial class IncidentRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<IncidentJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
+    public static async Task SynchronizeAsync(
+        Realm realm,
+        SectionJson<IncidentJson> section,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
-        var currentAssignedIds = realm.All<IncidentRecord>().AsEnumerable().Select(incident => incident.Id);
+        var currentAssignedIds = realm.All<IncidentRecord>()
+            .AsEnumerable()
+            .Select(incident => incident.Id);
+
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
 
-        string type = EntityType.Incident.ToString();
         var v2Incidents = FromApiJsonArray(section.Items ?? []);
-        var v1Incidents = realm.All<CaseloadItem>().Where(item => item.EntityType == type);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
             CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
             realm.Upsert(v2Incidents);
-
-            // TODO: Remove this foreach loop once we've fully removed V1 CaseloadItems
-            foreach (var v1Incident in v1Incidents)
-                v1Incident.RowId = v2Incidents.FirstOrDefault(v2Incident =>
-                    v2Incident.FileNumber == v1Incident.CaseIncidentNumber)?.Id;
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> deleteIds, UserIgnoredContentPrefs userIgnoredPrefs)
+    static void CascadeDelete(
+        Realm realm,
+        IEnumerable<string> deleteIds,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in deleteIds)
         {
-            realm.Remove(realm.Find<IncidentRecord>(id));
+            var incident = realm.Find<IncidentRecord>(id);
 
-            // TODO: Remove notes here once we remove V1 CaseloadItem
+            NoteItem.RemoveByParentFileNumber(realm, EntityType.Incident, incident.FileNumber);
             IcmContact.RemoveByParent(realm, EntityType.Incident, id);
             SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, id);
             Attachment.RemoveByParent(realm, EntityType.Incident, id, userIgnoredPrefs);
+
+            realm.Remove(incident);
         }
+    }
+
+    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    {
+        return realm
+            .All<IncidentRecord>()
+            .FirstOrDefault(incident => incident.Id == draftItem.RelatedEntityId
+                        || incident.FileNumber == draftItem.RelatedEntityId);
     }
 }

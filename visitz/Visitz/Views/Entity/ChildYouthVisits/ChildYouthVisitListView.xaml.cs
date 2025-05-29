@@ -3,13 +3,13 @@ using Visitz.Services;
 using Visitz.Services.Visits;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
 public partial class ChildYouthVisitListView : ViewModelContentView,
-    ICaseloadItemHolder,
+    IBusinessObjectHolder,
     IRequestedEntitySection,
     IRecipient<ServiceStateMessage>
 {
@@ -17,10 +17,10 @@ public partial class ChildYouthVisitListView : ViewModelContentView,
 
     new ChildYouthVisitListViewModel ViewModel => base.ViewModel as ChildYouthVisitListViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public EntitySection RequestedSection
@@ -39,7 +39,7 @@ public partial class ChildYouthVisitListView : ViewModelContentView,
     {
         await base.InitAsync();
 
-        WeakReferenceMessenger.Default.Register(this, PostAndRefreshVisitService.MakeId(CaseloadItem.RowId));
+        WeakReferenceMessenger.Default.Register(this, PostAndRefreshVisitService.MakeId(BusinessObject.Id));
     }
 
     protected override void Dispose(bool disposing)

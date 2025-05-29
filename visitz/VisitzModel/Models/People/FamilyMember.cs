@@ -75,45 +75,5 @@ namespace VisitzModel.Models.People
         public int? Age => DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
                     ? (DateTimeExtensions.LocalNow - dateOfBirth).Days / 365
                     : null;
-
-        public static FamilyMember FromApiEntity(FamilyMemberEntity familyMember)
-        {
-            return new FamilyMember()
-            {
-                ContactId = familyMember.ContactId,
-                KeyPlayer = familyMember.KeyPlayer,
-                LastName = familyMember.LastName,
-                FirstName = familyMember.FirstName,
-                MiddleName = familyMember.MiddleName,
-
-                // TODO: Properly handle DateTime in FamilyMember object
-                DateOfBirth = familyMember.DateOfBirth,
-
-                Sex = familyMember.Sex,
-                Relationship = familyMember.Relationship,
-                PersonIdICM = familyMember.PersonIdICM,
-                AboriginalOrigin = familyMember.AboriginalOrigin,
-                LivingCommunityBand = familyMember.LivingCommunityBand,
-                Email = familyMember.Email,
-                HomePhone = familyMember.HomePhone,
-                CellPhone = familyMember.CellPhone,
-                ContactUnitNo = familyMember.ContactUnitNo,
-                ContactAddressLine1 = familyMember.ContactAddressLine1,
-                ContactAddressLine2 = familyMember.ContactAddressLine2,
-                ContactCity = familyMember.ContactCity,
-                ContactPostalCode = familyMember.ContactPostalCode,
-                ContactProvinceState = familyMember.ContactProvinceState,
-                ContactCountry = familyMember.ContactCountry,
-                SubjectFlag = familyMember.SubjectFlag.ParseEmptyWordTruthiness(),
-                ParentCaregiver = familyMember.ParentCaregiver.ParseEmptyWordTruthiness(),
-                SubjectChild = familyMember.SubjectChild.ParseEmptyWordTruthiness(),
-            };
-        }
-
-        public static IEnumerable<FamilyMember> FromApiEntities(IEnumerable<FamilyMemberEntity> familyMembers)
-        {
-            return familyMembers.Select(FromApiEntity);
-        }
     }
 }
-

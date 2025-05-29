@@ -6,11 +6,12 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
-internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     private bool _disposed;
 
@@ -20,7 +21,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     public ObservableCollection<SupportNetworkItemUi> supportNetworksList = [];
 
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
     [ObservableProperty]
     public bool showEmptyIcon;
@@ -32,7 +33,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-        realmQuery.Subscribe(icmDataRealm, SupportNetworkItem.GetSupportNetworkByCaseId(icmDataRealm, CaseloadItem.RowId));
+        realmQuery.Subscribe(icmDataRealm, SupportNetworkItem.GetSupportNetworkByCaseId(icmDataRealm, BusinessObject.Id));
     }
 
     private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
@@ -61,7 +62,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, ICaseloadI
     }
 
     [RelayCommand]
-    public void SelectedSupportNetworkItem(SupportNetworkItemUi tappedItem)
+    public static void SelectedSupportNetworkItem(SupportNetworkItemUi tappedItem)
     {
         tappedItem.IsExpanded = !tappedItem.IsExpanded;
     }

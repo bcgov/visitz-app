@@ -12,13 +12,14 @@ using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class AttachmentDraftsListViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
     Realm attachmentsRealm;
 
@@ -42,7 +43,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
         attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 
         realmQuery.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
-                .Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
+                .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber));
 
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
     }
@@ -117,7 +118,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
     async Task DoPublishAttachmentDraft(AttachmentDraft draft)
     {
         var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
-        await attachmentPublishVm.SetPayload(CaseloadItem, draft);
+        await attachmentPublishVm.SetPayload(BusinessObject, draft);
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
     }
 
@@ -146,7 +147,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
         return new()
         {
             Attachment = attachment,
-            CaseloadItem = CaseloadItem,
+            BusinessObject = BusinessObject,
         };
     }
 
@@ -155,7 +156,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, ICaseloa
         return new()
         {
             Attachment = attachment,
-            CaseloadItem = CaseloadItem,
+            BusinessObject = BusinessObject,
         };
     }
 }

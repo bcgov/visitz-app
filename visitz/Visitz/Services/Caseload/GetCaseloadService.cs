@@ -5,10 +5,7 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models.Base;
 using VisitzApi.Models.Caseload;
-using VisitzModel.Extensions.EntityTypes;
-using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
@@ -24,42 +21,30 @@ namespace Visitz.Services.Caseload
             return nameof(GetCaseloadService);
         }
 
-        public static StartServiceMessage MakeStartMessage(string idir, bool forceDownload)
+        public static StartServiceMessage MakeStartMessage(bool forceDownload)
         {
             return new StartServiceMessage
             {
                 ServiceId = MakeId(),
                 ServiceType = typeof(GetCaseloadService),
-                Payload = (idir, forceDownload),
+                Payload = forceDownload,
             };
         }
 
-        public new (string Idir, bool Force) Payload => ((string, bool))base.Payload;
+        public bool Force => (bool)Payload;
 
         protected override async Task RunApiServiceAsync()
         {
-            await GetCaseloadV1Async();
             await DownloadAndSaveCaseloadV2Async();
 
             ResultCode = Result.Successful;
         }
 
-        private async Task GetCaseloadV1Async()
-        {
-            var caseloadFromApi = await Vpi.GetCaseloadV1Async(Payload.Idir);
-            var caseloadContent = CaseloadItem.FromApiEntities(caseloadFromApi);
-
-            caseloadContent = FilterNonCasesAndIncidents(caseloadContent);
-
-            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            await CaseloadItem.ReplaceCaseloadWithAsync(realm, caseloadContent);
-        }
-
         private async Task DownloadAndSaveCaseloadV2Async()
         {
-            DateTimeOffset? after = Payload.Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
+            DateTimeOffset? after = Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
 
-            CaseloadJson caseloadFromApi = await Vpi.GetCaseloadV2Async(after: after);
+            CaseloadJson caseloadFromApi = await Vpi.GetCaseloadAsync(after: after);
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
@@ -71,11 +56,7 @@ namespace Visitz.Services.Caseload
             if (CanSynchronize(caseloadFromApi.Incidents, invalidOps))
                 await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents, UserIgnoredPrefs);
 
-            if (CanSynchronize(caseloadFromApi.Memos, invalidOps))
-                await MemoRecord.SynchronizeAsync(realm, caseloadFromApi.Memos, UserIgnoredPrefs);
-
-            if (CanSynchronize(caseloadFromApi.ServiceRequests, invalidOps))
-                await ServiceRequestRecord.SynchronizeAsync(realm, caseloadFromApi.ServiceRequests, UserIgnoredPrefs);
+            // TODO: synchronize memos and service requests once we have official UI support
 
             if (invalidOps.Count > 0)
                 throw new AggregateException(invalidOps);
@@ -87,7 +68,9 @@ namespace Visitz.Services.Caseload
             return status == HttpStatusCode.OK || status == HttpStatusCode.NoContent;
         }
 
-        private static bool CanSynchronize<T>(SectionJson<T> section, List<InvalidOperationException> invalidOps)
+        private static bool CanSynchronize<T>(
+            SectionJson<T> section,
+            List<InvalidOperationException> invalidOps)
             where T : AssignableRecordJson
         {
             if (IsSuccess(section))
@@ -108,21 +91,6 @@ namespace Visitz.Services.Caseload
         public override string GetId()
         {
             return MakeId();
-        }
-
-        /// <summary>
-        /// As of v1.0, it is currently a business decision to only allow users to interact with Cases and Incidents
-        /// from their caseload.
-        /// </summary>
-        /// <param name="caseloadItems"></param>
-        /// <returns></returns>
-        private IEnumerable<CaseloadItem> FilterNonCasesAndIncidents(IEnumerable<CaseloadItem> caseloadItems)
-        {
-            return caseloadItems.Where(item =>
-            {
-                EntityType type = item.EntityType.ParseEntityType();
-                return type == EntityType.Case || type == EntityType.Incident;
-            });
         }
     }
 }

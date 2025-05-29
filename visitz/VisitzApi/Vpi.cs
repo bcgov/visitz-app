@@ -44,14 +44,9 @@ namespace VisitzApi
             return endpoint.HandleResponse(response, content);
         }
 
-        public async Task<IEnumerable<CaseloadEntity>> GetCaseloadV1Async(params string[] workerIds)
+        public async Task<CaseloadJson> GetCaseloadAsync(DateTimeOffset? after = null)
         {
-            return await CallApi(new Requests.GetCaseloadEndpoint(BaseVisitzApiUrl, workerIds));
-        }
-
-        public async Task<CaseloadJson> GetCaseloadV2Async(DateTimeOffset? after = null)
-        {
-            return await CallApi(new Endpoints.GetCaseloadEndpoint(BaseVisitzApiUrl, after));
+            return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, after));
         }
 
         public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)

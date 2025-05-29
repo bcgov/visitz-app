@@ -30,7 +30,6 @@ public partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage()
     {
         ConsoleTrace.TraceMethod(this);
 
-        ViewModel?.OnCreate();
         ViewModelInit = ViewModel?.StartInitAsync();
     }
 
@@ -40,7 +39,6 @@ public partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage()
 
         Behaviors.Clear();
 
-        ViewModel?.Destroy();
         ViewModel?.Dispose();
 
         if (Content.FindFirstDisposable() is IDisposable disposable)

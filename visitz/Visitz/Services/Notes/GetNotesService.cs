@@ -2,6 +2,8 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Extensions.EntityTypes;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 using VisitzModel.Storage;
 
@@ -14,12 +16,12 @@ namespace Visitz.Services.Notes
             return nameof(GetNotesService) + caseIncidentId;
         }
 
-        public static StartServiceMessage MakeStartMessage(string caseIncidentId, string entityType)
+        public static StartServiceMessage MakeStartMessage(string caseIncidentId, EntityType entityType)
         {
             return MakeStartMessage((caseIncidentId, entityType));
         }
 
-        public static StartServiceMessage MakeStartMessage(ValueTuple<string, string> idEntityItem)
+        public static StartServiceMessage MakeStartMessage(ValueTuple<string, EntityType> idEntityItem)
         {
             return new StartServiceMessage()
             {
@@ -29,7 +31,7 @@ namespace Visitz.Services.Notes
             };
         }
 
-        private ValueTuple<string, string> PayloadTuple => (ValueTuple<string, string>)Payload;
+        private ValueTuple<string, EntityType> PayloadTuple => (ValueTuple<string, EntityType>)Payload;
 
         public override string GetId()
         {
@@ -46,8 +48,8 @@ namespace Visitz.Services.Notes
         {
             var (id, entityType) = PayloadTuple;
 
-            var notesFromApi = await Vpi.GetNotesAsync(id, entityType);
-            var newNotes = NoteItem.FromApiEntities(id, notesFromApi);
+            var notesFromApi = await Vpi.GetNotesAsync(id, entityType.GetDisplayString());
+            var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
 
             await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
                 await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes));

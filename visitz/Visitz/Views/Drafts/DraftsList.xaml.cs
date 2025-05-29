@@ -15,18 +15,24 @@ public partial class DraftsList : ViewModelContentView
         BindingContext = ViewModel;
     }
 
-    protected override void Creating()
+    protected override Task InitAsync()
     {
-        base.Creating();
+        var init = base.InitAsync();
 
         ViewModel.SelectedItemRelatedMissing += ViewModel_SelectedItemRelatedMissing;
+
+        return init;
     }
 
-    protected override void Destroying()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        base.Destroying();
-
-        ViewModel.SelectedItemRelatedMissing -= ViewModel_SelectedItemRelatedMissing;
+        if (!disposed && disposing)
+        {
+            ViewModel.SelectedItemRelatedMissing -= ViewModel_SelectedItemRelatedMissing;
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     void ViewModel_SelectedItemRelatedMissing(object sender, IDraftItem draft)

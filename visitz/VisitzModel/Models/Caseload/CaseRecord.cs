@@ -1,12 +1,15 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Utilities;
@@ -65,7 +68,7 @@ public partial class CaseRecord :
 
     public string Name { get; set; }
 
-    public string OfficeName { get; set; }
+    public string ServiceOffice { get; set; }
 
     public string Organization { get; set; }
 
@@ -80,13 +83,23 @@ public partial class CaseRecord :
     public string Status { get; set; }
 
     int TypeInt { get; set; }
-    public EntitySubtype Type
+    public EntitySubtype EntitySubtype
     {
         get => (EntitySubtype)TypeInt;
         set => TypeInt = (int)value;
     }
 
     public string WorkQueue { get; set; }
+
+    public string DisplayDate => CreatedDate.ToString(
+        IBusinessObject.DisplayDateFormat,
+        CultureInfo.InvariantCulture);
+
+    public string DisplayName => this.GetDisplayName();
+
+    public string FullType => this.GetFullType();
+
+    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public CaseRecord() { }
 
@@ -113,14 +126,14 @@ public partial class CaseRecord :
         MiddleName = caseJson.MiddleName;
         MyFSFlag = caseJson.MyFSFlag.ParseWordTruthiness();
         Name = caseJson.Name;
-        OfficeName = caseJson.OfficeName;
+        ServiceOffice = caseJson.OfficeName;
         Organization = caseJson.Organization;
         RegionName = caseJson.RegionName;
         RenewReviewDate = Timestamp.ParseDateTimeOffsetNullable(caseJson.RenewReviewDate);
         ReopenedDate = Timestamp.ParseDateTimeOffsetNullable(caseJson.ReopenedDate);
         RestrictedFlag = caseJson.RestrictedFlag.ParseWordTruthiness();
         Status = caseJson.Status;
-        Type = caseJson.Type.ParseEntitySubtype();
+        EntitySubtype = caseJson.Type.ParseEntitySubtype();
         WorkQueue = caseJson.WorkQueue;
     }
 
@@ -149,14 +162,14 @@ public partial class CaseRecord :
             MiddleName = MiddleName,
             MyFSFlag = MyFSFlag.AsTruthyChar(),
             Name = Name,
-            OfficeName = OfficeName,
+            OfficeName = ServiceOffice,
             Organization = Organization,
             RegionName = RegionName,
             RenewReviewDate = Timestamp.WriteDateTimeOffset(RenewReviewDate, dateFormat),
             ReopenedDate = Timestamp.WriteDateTimeOffset(ReopenedDate, dateFormat),
             RestrictedFlag = RestrictedFlag.AsTruthyChar(),
             Status = Status,
-            Type = Type.GetDisplayString(),
+            Type = EntitySubtype.GetDisplayString(),
             WorkQueue = WorkQueue,
         };
     }
@@ -171,40 +184,50 @@ public partial class CaseRecord :
         return outList;
     }
 
-    public static async Task SynchronizeCasesAsync(Realm realm, SectionJson<CaseJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
+    public static async Task SynchronizeCasesAsync(
+        Realm realm,
+        SectionJson<CaseJson> section,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
-        var currentAssignedIds = realm.All<CaseRecord>().AsEnumerable().Select(@case => @case.Id);
+        var currentAssignedIds = realm.All<CaseRecord>()
+            .AsEnumerable()
+            .Select(@case => @case.Id);
+
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
 
-        string type = EntityType.Case.ToString();
-
-        var v2Cases = FromApiJsonArray(section.Items ?? []);
-        var v1Cases = realm
-            .All<CaseloadItem>()
-            .Where(@case => @case.EntityType == type);
+        var cases = FromApiJsonArray(section.Items ?? []);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
             CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-            realm.Upsert(v2Cases);
-
-            // TODO: Remove this foreach loop once we've fully removed V1 CaseloadItems
-            foreach (var v1Case in v1Cases)
-                v1Case.RowId = v2Cases.FirstOrDefault(v2Case => v2Case.FileNumber == v1Case.CaseIncidentNumber)?.Id;
+            realm.Upsert(cases);
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds, UserIgnoredContentPrefs userIgnoredPrefs)
+    static void CascadeDelete(
+        Realm realm,
+        IEnumerable<string> unassignedIds,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in unassignedIds)
         {
-            realm.Remove(realm.Find<CaseRecord>(id));
+            var @case = realm.Find<CaseRecord>(id);
 
-            // TODO: Remove notes here once we remove V1 CaseloadItem
+            NoteItem.RemoveByParentFileNumber(realm, EntityType.Case, @case.FileNumber);
             PersonVisit.RemoveByParent(realm, EntityType.Case, id);
             IcmContact.RemoveByParent(realm, EntityType.Case, id);
             SupportNetworkItem.RemoveByParent(realm, EntityType.Case, id);
             Attachment.RemoveByParent(realm, EntityType.Case, id, userIgnoredPrefs);
+
+            realm.Remove(@case);
         }
+    }
+
+    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    {
+        return realm
+            .All<CaseRecord>()
+            .FirstOrDefault(@case => @case.Id == draftItem.RelatedEntityId
+                        || @case.FileNumber == draftItem.RelatedEntityId);
     }
 }

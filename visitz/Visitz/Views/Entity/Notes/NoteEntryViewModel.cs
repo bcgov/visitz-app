@@ -12,19 +12,19 @@ using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes
 {
-    public partial class NoteEntryViewModel : VisitzViewModel, ICaseloadItemHolder
+    public partial class NoteEntryViewModel : VisitzViewModel, IBusinessObjectHolder
     {
         private static readonly int CharacterLimit = 16000;
         public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
 
-        public CaseloadItem CaseloadItem { get; set; }
+        public IBusinessObject BusinessObject { get; set; }
 
         [ObservableProperty]
         public NoteDraft noteDraft;
@@ -51,9 +51,9 @@ namespace Visitz.Views.Entity.Notes
 
         Realm Realm { get; set; }
 
-        public override async void Create()
+        protected override async Task InitAsync()
         {
-            base.Create();
+            await base.InitAsync();
 
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
@@ -80,14 +80,14 @@ namespace Visitz.Views.Entity.Notes
         private async Task InitNoteDraft()
         {
             Realm = await VisitzRealms.GetNoteDraftsRealmAsync();
-            NoteDraft = NoteDraft.FindByEntityId(Realm, CaseloadItem.CaseIncidentNumber) ?? CreateNoteDraft();
+            NoteDraft = NoteDraft.FindByEntityId(Realm, BusinessObject.FileNumber) ?? CreateNoteDraft();
         }
 
         private NoteDraft CreateNoteDraft()
         {
             return new NoteDraft()
             {
-                ParentEntityId = NoteDraft.MakeId(CaseloadItem.CaseIncidentNumber),
+                ParentEntityId = NoteDraft.MakeId(BusinessObject.FileNumber),
             };
         }
 
@@ -105,14 +105,14 @@ namespace Visitz.Views.Entity.Notes
                 var info = await OidcSessionInfo.GetAsync();
                 var submitNoteEntity = new SubmitNoteEntity
                 {
-                    EntityNumber = CaseloadItem.CaseIncidentNumber,
-                    EntityType = CaseloadItem.EntityType,
+                    EntityNumber = BusinessObject.FileNumber,
+                    EntityType = BusinessObject.EntityType.GetDisplayString(),
                     NotePeriod = NoteItem.NotePeriodFrom(now),
                     Content = NoteItem.WrapContent(info.Idir, now, DraftOutput),
                     CreatedBy = info.Idir,
                 };
 
-                notePublishVm.Init(CaseloadItem, submitNoteEntity);
+                notePublishVm.Init(BusinessObject, submitNoteEntity);
 
                 await Navigator.Navigation.PopModalAsync();
                 await Navigator.Navigation.PushAsync(new PublishPage(notePublishVm));
@@ -169,13 +169,13 @@ namespace Visitz.Views.Entity.Notes
         private void SetDraftInfo()
         {
             if (string.IsNullOrWhiteSpace(NoteDraft.DraftLocationBinding))
-                NoteDraft.DraftLocationBinding = CaseloadItem.DisplayName;
+                NoteDraft.DraftLocationBinding = BusinessObject.DisplayName;
 
             if (NoteDraft.RelatedEntityTypeBinding == EntityType.Unknown)
-                NoteDraft.RelatedEntityTypeBinding = CaseloadItem.EntityType.ParseEntityType();
+                NoteDraft.RelatedEntityTypeBinding = BusinessObject.EntityType;
 
             if (NoteDraft.RelatedEntitySubtypeBinding == EntitySubtype.Unknown)
-                NoteDraft.RelatedEntitySubtypeBinding = CaseloadItem.CaseIncidentType.ParseEntitySubtype();
+                NoteDraft.RelatedEntitySubtypeBinding = BusinessObject.EntitySubtype;
         }
 
         private void CancelTextChangedEvent(TextChangedEventArgs e)

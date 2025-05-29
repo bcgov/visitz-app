@@ -8,26 +8,9 @@ namespace Visitz.Views.BaseClasses
     /// </summary>
     public partial class VisitzViewModel : ObservableObject, IDisposable
     {
-        bool created;
         bool _disposedValue;
 
         public Task InitTask { get; private set; }
-
-        [Obsolete("Use InitAsync instead")]
-        public void OnCreate()
-        {
-            if (!created)
-            {
-                Create();
-                created = true;
-            }
-        }
-
-        [Obsolete("Use InitAsync instead")]
-        public virtual void Create()
-        {
-            ConsoleTrace.TraceMethod(this);
-        }
 
         public virtual Task StartInitAsync()
         {
@@ -43,24 +26,13 @@ namespace Visitz.Views.BaseClasses
             return Task.CompletedTask;
         }
 
-        [Obsolete("Use Dispose instead")]
-        public virtual void Destroy()
-        {
-            ConsoleTrace.TraceMethod(this);
-        }
-
         protected virtual void Dispose(bool disposing)
         {
             if (_disposedValue)
                 return;
 
             if (disposing)
-            {
                 ConsoleTrace.TraceMethod(this);
-#pragma warning disable CS0618 // Type or member is obsolete
-                Destroy(); // Used until all other references are removed
-#pragma warning restore CS0618 // Type or member is obsolete
-            }
 
             _disposedValue = true;
         }

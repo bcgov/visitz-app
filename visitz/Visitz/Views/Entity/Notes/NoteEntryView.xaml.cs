@@ -4,20 +4,20 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Events;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Notes;
 
-public partial class NoteEntryView : ViewModelContentView, ICaseloadItemHolder
+public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
 {
     bool _disposed;
 
     new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())

@@ -1,19 +1,22 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentDraftsListView : ViewModelContentView, ICaseloadItemHolder, IFocusDraftItem
+public partial class AttachmentDraftsListView :
+    ViewModelContentView,
+    IBusinessObjectHolder,
+    IFocusDraftItem
 {
     new AttachmentDraftsListViewModel ViewModel => base.ViewModel as AttachmentDraftsListViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public IDraftItem FocusedDraftItem { get; set; }

@@ -1,4 +1,5 @@
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
@@ -12,6 +13,20 @@ internal static class VisitzFiles
     static readonly int Aes256KeySize = 32;
 
     static readonly EagerActionQueue eagerFilesQueue = new();
+
+    public static async Task<AttachmentFiler> GetAsync(
+        IBusinessObject businessObject,
+        string keyName = null)
+    {
+        return await GetAsync
+        (
+            businessObject.EntityType,
+            businessObject.FileNumber,
+            businessObject.GivenNames,
+            businessObject.LastName,
+            keyName
+        );
+    }
 
     public static async Task<AttachmentFiler> GetAsync(
         EntityType entityType,

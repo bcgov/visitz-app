@@ -3,6 +3,7 @@ using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
 using VisitzModel.Formats;
 using VisitzModel.Imaging;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -42,7 +43,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
     public AttachmentDraft() { }
 
     AttachmentDraft(
-        CaseloadItem caseloadItem,
+        IBusinessObject businessObject,
         string filename,
         string relativePath,
         byte[] thumbnail)
@@ -57,14 +58,14 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             Thumbnail = thumbnail,
         };
 
-        this.InitDraftWith(caseloadItem);
-        Attachment.InitWith(caseloadItem);
+        this.InitDraftWith(businessObject);
+        Attachment.InitWith(businessObject);
 
-        Attachment.FileNumber = caseloadItem.CaseIncidentNumber;
+        Attachment.FileNumber = businessObject.FileNumber;
     }
 
     public static async Task<AttachmentDraft> SaveNewPhoto(
-        CaseloadItem caseloadItem,
+        IBusinessObject businessObject,
         AttachmentFiler filer,
         Realm realm,
         string filename,
@@ -77,21 +78,21 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         if (stream.Length > Attachment.MaxFilesize)
             stream = await imgProc.DownsizeByFilesize(Attachment.MaxFilesize);
 
-        return await MakeAndSaveDraft(caseloadItem, filer, realm, filename, stream, thumbnail);
+        return await MakeAndSaveDraft(businessObject, filer, realm, filename, stream, thumbnail);
     }
 
     public static async Task<AttachmentDraft> SaveNewFile(
-        CaseloadItem caseloadItem,
+        IBusinessObject businessObject,
         AttachmentFiler filer,
         Realm realm,
         string filename,
         Stream stream)
     {
-        return await MakeAndSaveDraft(caseloadItem, filer, realm, filename, stream);
+        return await MakeAndSaveDraft(businessObject, filer, realm, filename, stream);
     }
 
     static async Task<AttachmentDraft> MakeAndSaveDraft(
-        CaseloadItem caseloadItem,
+        IBusinessObject businessObject,
         AttachmentFiler filer,
         Realm realm,
         string filename,
@@ -102,7 +103,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             ThrowSizeError(stream);
 
         string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
-        var draft = new AttachmentDraft(caseloadItem, filename, fullpath, thumbnail);
+        var draft = new AttachmentDraft(businessObject, filename, fullpath, thumbnail);
 
         try
         {

@@ -5,12 +5,15 @@ namespace Visitz.Services;
 
 internal class RecordServiceInfo(
     EntityType type,
+    EntitySubtype subtype,
     string id,
     string fileNumber,
     string firstName,
     string lastName)
 {
     public EntityType Type { get; set; } = type;
+
+    public EntitySubtype Subtype { get; set; } = subtype;
 
     public string Id { get; set; } = id;
 
@@ -20,22 +23,14 @@ internal class RecordServiceInfo(
 
     public string LastName { get; set; } = lastName;
 
-    RecordServiceInfo(
-        string id, EntityType type, IBusinessObject record) : this(
-            type,
-            id,
+    public RecordServiceInfo(IBusinessObject record) : this(
+            record.EntityType,
+            record.EntitySubtype,
+            record.Id,
             record.FileNumber,
             record.GivenNames,
             record.LastName)
     { }
-
-    public RecordServiceInfo(CaseRecord @case) : this(@case.Id, @case.EntityType, @case) { }
-
-    public RecordServiceInfo(IncidentRecord incident) : this(incident.Id, incident.EntityType, incident) { }
-
-    public RecordServiceInfo(MemoRecord memo) : this(memo.Id, memo.EntityType, memo) { }
-
-    public RecordServiceInfo(ServiceRequestRecord sr) : this(sr.Id, sr.EntityType, sr) { }
 }
 
 internal static class RecordServiceInfoExtensions

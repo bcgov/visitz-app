@@ -48,7 +48,11 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
         (RecordServiceInfo recordServiceInfo, string attachmentId, bool force) tuple)
     {
         var (recordServiceInfo, attachmentId, force) = tuple;
-        var after = force ? null : prefs.Get(MakeId(recordServiceInfo.Type, recordServiceInfo.Id, attachmentId));
+
+        var after = force ? null : LastUpdatedPrefs.Get(MakeId(
+            recordServiceInfo.Type,
+            recordServiceInfo.Id,
+            attachmentId));
 
         var attachmentJson = await Vpi.GetAttachmentDetailsAsync(
             (ApiRecordType)recordServiceInfo.Type,

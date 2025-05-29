@@ -5,11 +5,11 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Events;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHolder
+public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObjectHolder
 {
     private bool _disposed;
     private bool _isKeyboardOpen;
@@ -18,10 +18,10 @@ public partial class ChildYouthVisitView : ViewModelContentView, ICaseloadItemHo
 
     public new ChildYouthVisitViewModel ViewModel => base.ViewModel as ChildYouthVisitViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public ChildYouthVisitView() : base(ServiceProvider.GetService<ChildYouthVisitViewModel>())

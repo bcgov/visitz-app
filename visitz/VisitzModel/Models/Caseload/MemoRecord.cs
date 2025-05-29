@@ -1,8 +1,10 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
@@ -104,6 +106,23 @@ public partial class MemoRecord :
     public string TypeOfCaller { get; set; }
 
     public string Urgent { get; set; }
+
+    private int SubtypeInt { get; set; } = (int)EntitySubtype.Screening;
+    public EntitySubtype EntitySubtype
+    {
+        get => (EntitySubtype)SubtypeInt;
+        set => SubtypeInt = (int)value;
+    }
+
+    public string DisplayDate => CallDate?.ToString(
+        IBusinessObject.DisplayDateFormat,
+        CultureInfo.InvariantCulture) ?? "";
+
+    public string DisplayName => this.GetDisplayName();
+
+    public string FullType => this.GetFullType();
+
+    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public MemoRecord() { }
 
@@ -234,5 +253,13 @@ public partial class MemoRecord :
             TypeOfCaller = TypeOfCaller,
             Urgent = Urgent,
         };
+    }
+
+    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    {
+        return realm
+            .All<MemoRecord>()
+            .FirstOrDefault(memo => memo.Id == draftItem.RelatedEntityId
+                        || memo.FileNumber == draftItem.RelatedEntityId);
     }
 }

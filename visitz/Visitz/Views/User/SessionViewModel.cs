@@ -49,9 +49,9 @@ public partial class SessionViewModel : VisitzViewModel
         return info.DisplayName?.Length > 0 ? info.DisplayName : LocalizedStrings.Login;
     }
 
-    public override async void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
         BuildNumber = AppInfo.Current.BuildString;
         AppVersion = AppInfo.Current.VersionString;
@@ -64,11 +64,16 @@ public partial class SessionViewModel : VisitzViewModel
         BackgroundImageUri = BcGovAlbum.GetFeaturedPictureUri();
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        OidcSession.SessionChanged -= OidcSession_SessionChanged;
+        if (!disposed && disposing)
+        {
+            OidcSession.SessionChanged -= OidcSession_SessionChanged;
+            disposed = true;
+        }
 
-        base.Destroy();
+        base.Dispose(disposing);
     }
 
     private async void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
@@ -125,7 +130,7 @@ public partial class SessionViewModel
             if (SessionInfo.HasBasicAccessRole())
             {
                 await Navigator.PopAllModalsAsync(true);
-                WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+                WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage(forceDownload: true));
             }
         }
         catch (Exception ex)

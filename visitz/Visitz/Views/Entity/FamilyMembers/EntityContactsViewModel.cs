@@ -1,23 +1,25 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;
 
-public partial class EntityContactsViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class EntityContactsViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
     [ObservableProperty]
-    public IEnumerable<FamilyMember> contacts;
+    public IEnumerable<IcmContact> contacts;
 
-    public override void Create()
+    protected override Task InitAsync()
     {
-        base.Create();
+        var init = base.InitAsync();
 
-        Contacts = CaseloadItem.FamilyMembers.Order(new FamilyMemberComparer());
+        Contacts = BusinessObject.Contacts.ToList().Order(new IcmContactRelationshipComparer());
+
+        return init;
     }
 }

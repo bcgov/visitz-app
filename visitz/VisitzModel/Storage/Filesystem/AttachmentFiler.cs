@@ -14,10 +14,10 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
 
     readonly Crypto cryptoHandler = new(key);
 
-    string CaseloadItemId => $"{entityType}_{fileNumber}";
+    string TypeNumberId => $"{entityType}_{fileNumber}";
 
     string ContextualName => string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName)
-            ? CaseloadItemId
+            ? TypeNumberId
             : $"{lastName}_{firstName}";
 
     static string AppDataPath =>

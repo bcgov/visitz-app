@@ -1,16 +1,17 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Details;
 
-public partial class EntityDetailsView : ViewModelContentView, ICaseloadItemHolder
+public partial class EntityDetailsView : ViewModelContentView, IBusinessObjectHolder
 {
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => (ViewModel as ICaseloadItemHolder).CaseloadItem;
-        set => (ViewModel as ICaseloadItemHolder).CaseloadItem = value;
+        get => (ViewModel as IBusinessObjectHolder).BusinessObject;
+        set => (ViewModel as IBusinessObjectHolder).BusinessObject = value;
     }
+
     public EntityDetailsView() : base(ServiceProvider.GetService<EntityDetailsViewModel>())
     {
         InitializeComponent();

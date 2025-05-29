@@ -1,17 +1,17 @@
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsListView : ViewModelContentView, ICaseloadItemHolder
+public partial class AttachmentsListView : ViewModelContentView, IBusinessObjectHolder
 {
     new AttachmentsListViewModel ViewModel => base.ViewModel as AttachmentsListViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public AttachmentsListView() : base(ServiceProvider.GetService<AttachmentsListViewModel>())
