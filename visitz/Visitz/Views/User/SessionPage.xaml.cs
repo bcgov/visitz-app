@@ -15,9 +15,13 @@ public partial class SessionPage : VisitzPage
         BindingContext = viewModel;
     }
 
-    public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
+    public static async Task TryOpenAsync(
+        Page fromPage = null,
+        bool modal = false,
+        bool animated = true)
     {
-        if (IsOpen || await OidcSession.IsAuthorized())
+        if (IsOpen
+            || await OidcSession.SessionExistsAsync() && await OidcSession.IsAuthorized())
             return;
 
         await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);

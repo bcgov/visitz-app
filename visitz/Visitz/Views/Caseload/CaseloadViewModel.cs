@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using System.Collections.Specialized;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -271,7 +272,8 @@ namespace Visitz.Views.Caseload
         [RelayCommand]
         public static async Task OpenSessionPage()
         {
-            await Navigator.GoToPage<SessionPage>(modal: true);
+            var userView = ServiceProvider.GetService<UserView>();
+            await Navigator.Navigation.PushModalAsync(userView);
         }
 
         public void SearchCaseload()

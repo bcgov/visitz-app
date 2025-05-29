@@ -315,6 +315,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Checking ICM profile....
+        /// </summary>
+        public static string CheckingIcmProfile {
+            get {
+                return ResourceManager.GetString("CheckingIcmProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Child.
         /// </summary>
         public static string Child {

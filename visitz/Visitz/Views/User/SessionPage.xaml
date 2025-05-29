@@ -10,10 +10,7 @@
     x:Class="Visitz.Views.User.SessionPage"
     x:DataType="user:SessionViewModel"
     Title="Session"
-    BackgroundColor="Black"
-    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-    ios:Page.UseSafeArea="False"
-    ios:Page.ModalPresentationStyle="{Binding PresentationStyle}">
+    BackgroundColor="Black">
 
 	<AbsoluteLayout IgnoreSafeArea="True">
 		<views:FeaturedBackgroundUnderlay
@@ -26,13 +23,6 @@
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             RowDefinitions="Auto,*,Auto">
-
-			<controls:CloseButton
-                Grid.Row="0"
-                Margin="16"
-                HorizontalOptions="Start"
-                IsVisible="{Binding IsAuthorized}"
-                IsEnabled="{Binding IsAuthorized}" />
                 
             <Label 
                 Grid.Row="0"
@@ -47,7 +37,7 @@
                 Grid.Row="1"
                 Padding="16"
                 RowDefinitions="*,*,Auto">
-                    
+
                 <Button
                     Grid.Row="0"
                     Grid.RowSpan="3"
@@ -58,42 +48,44 @@
                     Command="{Binding LoginCommand}"
                     IsVisible="{Binding ShowLoginLayout}" />
 
-                <Button 
-                    Grid.Row="0"
-                    Grid.RowSpan="3"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"
-                    StyleClass="FeatureButton,GoldBorderButton"
-                    Text="{local:Localize Logout}"
-                    Command="{Binding TryLogoutCommand}"
-                    IsVisible="{Binding IsAuthorized}" />
-
-				<ContentView
+                <Grid
 					Grid.Row="0"
-					IsVisible="{Binding IsUnauthorized}"
                     HeightRequest="200"
                     WidthRequest="200"
 					VerticalOptions="End"
-					HorizontalOptions="Center">
-					<Image>
-						<Image.Source>
-							<FontImageSource 
-								Glyph="{Binding AuthIcon}"
+					HorizontalOptions="Center"
+                    IsVisible="{Binding ShowAuthStatusLayout}">
+                    <Image
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+					    IsVisible="{Binding IsUnauthorized}">
+                        <Image.Source>
+                            <FontImageSource 
+								Glyph="{Static fonticons:MaterialIcons.Shield_lock}"
 								FontFamily="MaterialIconsRoundedFilled"
 								Size="200"
-								Color="{Binding AuthColor}" />
-						</Image.Source>
-					</Image>
-				</ContentView>
+								Color="{StaticResource BC_Semantic_Error}" />
+                        </Image.Source>
+                    </Image>
 
-                <Label 
+                    <ActivityIndicator
+                        Color="White"
+                        HeightRequest="100"
+                        WidthRequest="100"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="CenterAndExpand"
+                        IsVisible="{Binding TryingAuthorization}"
+                        IsRunning="{Binding TryingAuthorization}" />
+                </Grid>
+
+                <Label
                     Grid.Row="1"
                     FontSize="20"
                     TextColor="White"
                     WidthRequest="600"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    IsVisible="{Binding IsUnauthorized}"
+                    IsVisible="{Binding ShowAuthStatus}"
                     FontFamily="BCSansBold"
                     Text="{Binding AuthStatus}" />
 
@@ -103,44 +95,31 @@
                     IsVisible="{Binding IsUnauthorized}"
                     Spacing="20">
 
-                    <Button 
+                    <Button
                         Text="{local:Localize Logout}"
                         Style="{StaticResource SecondaryButtonDark}"
                         StyleClass="FeatureButton"
                         Command="{Binding TryLogoutCommand}"
                         IsVisible="{Binding IsUnauthorized}" />
 
-					<Button
+                    <Button
 						StyleClass="FeatureButton,GoldBorderButton"
-						Command="{Binding LoginCommand}"
+						Command="{Binding DownloadCaseloadAndSubscribeCommand}"
 						Text="{local:Localize Retry}"
 						IsVisible="{Binding IsUnauthorized}">
-						<Button.ImageSource>
-							<FontImageSource
+                        <Button.ImageSource>
+                            <FontImageSource
 								Glyph="{Static fonticons:MaterialIcons.Refresh}" 
 								FontFamily="MaterialIconsRoundedFilled"
 								Color="White"/>
-						</Button.ImageSource>
-					</Button>
+                        </Button.ImageSource>
+                    </Button>
 
                 </HorizontalStackLayout>
 
             </Grid>
 
-			<Label
-				Grid.Row="2"
-				HorizontalOptions="Start"
-				Padding="5,20,5,5"
-				Text="{local:Localize CollectionNotice}"
-				TextColor="White"
-				TextDecorations="Underline"
-				IsVisible="{Binding IsAuthorized}">
-				<Label.GestureRecognizers>
-					<TapGestureRecognizer Command="{Binding OpenCollectionNoticeCommand}" />
-				</Label.GestureRecognizers>
-			</Label>
-
-			<HorizontalStackLayout
+            <HorizontalStackLayout
                 Grid.Row="2"
                 HorizontalOptions="Center"
 				VerticalOptions="End"
@@ -155,21 +134,6 @@
                     TextColor="White" />
             </HorizontalStackLayout>
 
-			<Label
-				Grid.Row="2"
-				HorizontalOptions="End"
-				VerticalOptions="End"
-				Padding="5,20,5,5"
-				Text="{local:Localize FeedbackUrlPrompt}"
-				TextColor="White"
-				TextDecorations="Underline"
-				IsVisible="{Binding ShowFeedbackUrl}">
-				<Label.GestureRecognizers>
-					<TapGestureRecognizer
-						Command="{Binding OpenFeedbackUrlCommand}"
-						CommandParameter="{Binding FeedbackUrl}" />
-				</Label.GestureRecognizers>
-			</Label>
 		</Grid>
 
     </AbsoluteLayout>

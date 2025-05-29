@@ -917,4 +917,7 @@ This does not affect attachments in ICM.</value>
   <data name="FailedToRefreshSAs" xml:space="preserve">
     <value>Refreshing safety assessments on device failed</value>
   </data>
+  <data name="CheckingIcmProfile" xml:space="preserve">
+    <value>Checking ICM profile...</value>
+  </data>
 </root>
