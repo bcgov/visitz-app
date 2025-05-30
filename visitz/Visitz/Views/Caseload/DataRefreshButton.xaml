@@ -5,11 +5,16 @@
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
 	xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
 	xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:converters="clr-namespace:Visitz.Converters"
 	xmlns:icons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Caseload.DataRefreshButton"
 	x:DataType="caseload:DataRefreshViewModel">
 
-	<StackLayout Orientation="{Binding Orientation}">
+    <baseClasses:ViewModelContentView.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegation" />
+    </baseClasses:ViewModelContentView.Resources>
+
+    <StackLayout Orientation="Vertical">
 		<Label
 			HorizontalOptions="Center"
 			VerticalOptions="Center"
@@ -25,6 +30,30 @@
 			VerticalOptions="Center"
 			FontFamily="MaterialIconsRoundedUnfilled"
 			Command="{Binding RefreshDataCommand}"
-			Text="{Static icons:MaterialIcons.Download_for_offline}" />
-	</StackLayout>
+			Text="{Static icons:MaterialIcons.Download_for_offline}"
+            IsVisible="{Binding CaseloadActivity, Converter={StaticResource BoolNegation}}"/>
+
+        <ContentView
+            HeightRequest="{Static controls:FontIconButton.LargerDimension}"
+            WidthRequest="{Static controls:FontIconButton.LargerDimension}"
+            HorizontalOptions="Center"
+            IsVisible="{Binding CaseloadActivity}">
+
+            <ContentView.GestureRecognizers>
+            </ContentView.GestureRecognizers>
+            
+            <ActivityIndicator
+                x:Name="Activity"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Color="White"
+                IsRunning="{Binding CaseloadActivity}">
+                <ActivityIndicator.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding HideIndicatorCommand}"
+                        NumberOfTapsRequired="2" />
+                </ActivityIndicator.GestureRecognizers>
+            </ActivityIndicator>
+        </ContentView>
+    </StackLayout>
 </baseClasses:ViewModelContentView>

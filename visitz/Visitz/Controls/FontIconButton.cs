@@ -5,7 +5,7 @@ public class FontIconButton : Button
     static readonly double DefaultDimension = 44;
     static readonly double DefaultFontSize = 24;
 
-    static readonly double LargerDimension = 60;
+    public static readonly double LargerDimension = 60;
     static readonly double LargerFontSize = 34;
 
     public static readonly BindableProperty SizeProperty =

@@ -19,6 +19,9 @@ public partial class DataRefreshButton : ViewModelContentView
         InitializeComponent();
         BindingContext = ViewModel;
 
+        Activity.HeightRequest = RefreshButton.Height;
+        Activity.WidthRequest = RefreshButton.Width;
+
         SetIconByNetworkAccess();
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
     }
