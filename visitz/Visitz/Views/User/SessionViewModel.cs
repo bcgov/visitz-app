@@ -63,6 +63,11 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         if (await OidcSession.SessionExistsAsync())
         {
             await ApplyAuthStatusLayout();
+#if IOS
+            // Having issues with lifecycle timings on iOS and this delay solves
+            // it wonderfully. Not ideal but it works.
+            await Task.Delay(100);
+#endif
             DownloadCaseloadAndSubscribe();
         }
         else
