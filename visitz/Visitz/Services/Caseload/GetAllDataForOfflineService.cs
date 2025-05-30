@@ -1,4 +1,5 @@
 using Realms;
+using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
@@ -97,6 +98,15 @@ namespace Visitz.Services.Caseload
                 throw exceptions.First();
         }
 
+        private static Exception MakeDownloadEx(string kind, Exception ex)
+        {
+            var msg = string.Format(
+                LocalizedStrings.CaseloadErrorDownload,
+                kind.ToLower());
+
+            return new(msg, ex);
+        }
+
         private async Task GetAllNotes(
             IEnumerable<RecordServiceInfo> casesIncidentsSrs,
             List<Exception> exceptions)
@@ -111,7 +121,7 @@ namespace Visitz.Services.Caseload
             }
             catch (Exception ex)
             {
-                exceptions.Add(ex);
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.Notes, ex));
             }
         }
 
@@ -130,7 +140,7 @@ namespace Visitz.Services.Caseload
             }
             catch (Exception ex)
             {
-                exceptions.Add(ex);
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ChildYouthVisits, ex));
             }
         }
 
@@ -145,7 +155,7 @@ namespace Visitz.Services.Caseload
             }
             catch (Exception ex)
             {
-                exceptions.Add(ex);
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.FamilyMembers, ex));
             }
         }
 
@@ -160,7 +170,7 @@ namespace Visitz.Services.Caseload
             }
             catch (Exception ex)
             {
-                exceptions.Add(ex);
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.SupportNetwork, ex));
             }
         }
 
@@ -175,7 +185,7 @@ namespace Visitz.Services.Caseload
             }
             catch (Exception ex)
             {
-                exceptions.Add(new Exception("An error occurred when trying to download attachment metadata", ex));
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.AttachmentMetadata, ex));
             }
 
             await GetPartialAttachments(all, exceptions);
@@ -192,7 +202,7 @@ namespace Visitz.Services.Caseload
             }
             catch (Exception ex)
             {
-                exceptions.Add(ex);
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.Attachments, ex));
             }
         }
 
@@ -207,7 +217,7 @@ namespace Visitz.Services.Caseload
             }
             catch (Exception ex)
             {
-                exceptions.Add(ex);
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.SafetyAssessments, ex));
             }
         }
     }

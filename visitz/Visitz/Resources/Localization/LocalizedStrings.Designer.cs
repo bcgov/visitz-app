@@ -169,6 +169,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attachment metadata.
+        /// </summary>
+        public static string AttachmentMetadata {
+            get {
+                return ResourceManager.GetString("AttachmentMetadata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
         /// </summary>
         public static string AttachmentPublishSuccess {
@@ -255,6 +264,15 @@ namespace Visitz.Resources.Localization {
         public static string CaseloadError {
             get {
                 return ResourceManager.GetString("CaseloadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while trying to download {0}.
+        /// </summary>
+        public static string CaseloadErrorDownload {
+            get {
+                return ResourceManager.GetString("CaseloadErrorDownload", resourceCulture);
             }
         }
         

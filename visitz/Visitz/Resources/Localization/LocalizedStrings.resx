@@ -759,6 +759,7 @@ Do you want to discard this unlinked draft permanently?</value>
     <value>An error occurred while refreshing your caseload.
 
 You can view the details of this error or try again later.</value>
+    <comment>0 = Kind of item that failed</comment>
   </data>
   <data name="ErrorDialogCopyPrompt" xml:space="preserve">
     <value>To report this error, you can select 'copy to clipboard' and paste into an email:</value>
@@ -919,5 +920,11 @@ This does not affect attachments in ICM.</value>
   </data>
   <data name="CheckingIcmProfile" xml:space="preserve">
     <value>Checking ICM profile...</value>
+  </data>
+  <data name="CaseloadErrorDownload" xml:space="preserve">
+    <value>An error occurred while trying to download {0}</value>
+  </data>
+  <data name="AttachmentMetadata" xml:space="preserve">
+    <value>Attachment metadata</value>
   </data>
 </root>
