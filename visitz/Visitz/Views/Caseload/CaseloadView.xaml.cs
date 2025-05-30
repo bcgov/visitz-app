@@ -65,7 +65,7 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
 
     public async void Receive(ServiceStateMessage message)
     {
-        if (message.FinishedError && await OidcSession.IsAuthorized())
+        if (message.FinishedError && (await OidcSession.IsAuthorized() ?? false))
         {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(
                 LocalizedStrings.CaseloadErrorMessage,

@@ -112,13 +112,13 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     private async Task ApplyAuthStatusLayout()
     {
-        bool isAuthorized = await OidcSession.IsAuthorized();
+        bool? isAuthorized = await OidcSession.IsAuthorized();
 
         SetUiOptions(
             showAuthStatusLayout: true,
             showAuthStatus: true,
-            isAuthorized: isAuthorized,
-            isUnauthorized: !isAuthorized);
+            isAuthorized: isAuthorized ?? false,
+            isUnauthorized: !isAuthorized ?? false);
 
         DisplayName = SessionInfo.GivenName;
     }

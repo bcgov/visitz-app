@@ -21,7 +21,8 @@ public partial class SessionPage : VisitzPage
         bool animated = true)
     {
         if (IsOpen
-            || await OidcSession.SessionExistsAsync() && await OidcSession.IsAuthorized())
+            || await OidcSession.SessionExistsAsync()
+            && (await OidcSession.IsAuthorized() ?? false))
             return;
 
         await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);

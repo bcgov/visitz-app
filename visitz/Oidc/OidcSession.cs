@@ -131,7 +131,7 @@ namespace Oidc
             TokenHolder.DeleteAccessToken();
             TokenHolder.DeleteRefreshToken();
             TokenHolder.DeleteIdentityToken();
-            await SetAuthorization(authorized: false);
+            await SetAuthorization(authorized: null);
 
             var info = await OidcSessionInfo.GetAsync();
             SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs() { Success = true });
@@ -144,15 +144,18 @@ namespace Oidc
                 && await TokenHolder.GetIdentityTokenStringAsync() is not null;
         }
 
-        public static async Task<bool> IsAuthorized()
+        public static async Task<bool?> IsAuthorized()
         {
             var status = await SecureStorage.Default.GetAsync(IdirActiveKey);
-            return status != null && bool.Parse(status);
+            return status != null ? bool.Parse(status) : null;
         }
 
-        public static async Task SetAuthorization(bool authorized)
+        public static async Task SetAuthorization(bool? authorized)
         {
-            await SecureStorage.Default.SetAsync(IdirActiveKey, authorized.ToString());
+            if (authorized == null)
+                SecureStorage.Default.Remove(IdirActiveKey);
+            else
+                await SecureStorage.Default.SetAsync(IdirActiveKey, authorized.ToString());
         }
     }
 }
