@@ -107,7 +107,7 @@ internal partial class UserViewModel : VisitzViewModel
         try
         {
             await Navigator.Navigation.PopModalAsync(animated: true);
-            await SessionPage.TryOpenAsync(modal: true, animated: true);
+            await SessionPage.TryOpenAsync(animated: false);
         }
         catch (InvalidOperationException) { }
     }

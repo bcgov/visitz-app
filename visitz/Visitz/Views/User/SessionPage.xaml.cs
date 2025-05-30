@@ -13,6 +13,7 @@ public partial class SessionPage : VisitzPage
     {
         InitializeComponent();
         BindingContext = viewModel;
+        viewModel.AuthorizationSuccess = () => Navigator.Navigation.RemovePage(this);
     }
 
     public static async Task TryOpenAsync(

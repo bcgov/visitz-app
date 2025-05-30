@@ -50,6 +50,8 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     [ObservableProperty]
     public bool tryingAuthorization;
 
+    public Action AuthorizationSuccess { get; set; }
+
     private OidcSessionInfo SessionInfo;
 
     private ILogger<SessionViewModel> Logger { get; } = logger;
@@ -209,9 +211,9 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             tryingAuthorization: true); 
     }
 
-    public async void Receive(ServiceStateMessage message)
+    public void Receive(ServiceStateMessage message)
     {
-        await MainThread.InvokeOnMainThreadAsync(async () =>
+        MainThread.BeginInvokeOnMainThread(() =>
         {
             if (message.Status == VisitzService.State.Running)
             {
@@ -225,7 +227,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
                 WeakReferenceMessenger.Default.UnregisterAll(this);
 
                 if (message.Result == VisitzService.Result.Successful)
-                    await Navigator.PopAllModalsAsync(true);
+                    AuthorizationSuccess();
                 else
                 {
                     SetUiOptions(

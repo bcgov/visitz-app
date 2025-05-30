@@ -9,7 +9,8 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.User.SessionPage"
     x:DataType="user:SessionViewModel"
-    Title="Session"
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False"
     BackgroundColor="Black">
 
 	<AbsoluteLayout IgnoreSafeArea="True">
