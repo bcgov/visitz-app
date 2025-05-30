@@ -57,8 +57,13 @@ public partial class CaseloadLister : ObservableObject, IDisposable
 
     public void ApplyWithFilter()
     {
-        var caseRecords = cases.Cast<IBusinessObject>();
-        var incidentRecords = incidents.Cast<IBusinessObject>();
+        var caseRecords = cases
+            .Cast<IBusinessObject>()
+            .Where(rec => rec.IsValid);
+
+        var incidentRecords = incidents
+            .Cast<IBusinessObject>()
+            .Where(rec => rec.IsValid);
 
         var combined = caseRecords.Concat(incidentRecords);
 
