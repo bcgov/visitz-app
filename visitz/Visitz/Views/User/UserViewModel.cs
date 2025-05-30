@@ -104,7 +104,11 @@ internal partial class UserViewModel : VisitzViewModel
 
     static async Task GoToLoginScreen()
     {
-        await Navigator.Navigation.PopModalAsync(animated: true);
-        await SessionPage.TryOpenAsync(modal: true, animated: true);
+        try
+        {
+            await Navigator.Navigation.PopModalAsync(animated: true);
+            await SessionPage.TryOpenAsync(modal: true, animated: true);
+        }
+        catch (InvalidOperationException) { }
     }
 }
