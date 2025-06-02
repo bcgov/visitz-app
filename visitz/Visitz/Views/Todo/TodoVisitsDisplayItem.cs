@@ -1,13 +1,13 @@
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Todo;
 
-public class TodoVisitsDisplayItem(PersonVisit visit, CaseloadItem caseloadItem)
+public class TodoVisitsDisplayItem(PersonVisit visit, IBusinessObject businessObject)
 {
     public PersonVisit TodoItem { get; set; } = visit;
-    public CaseloadItem CaseloadItem { get; set; } = caseloadItem;
+    public IBusinessObject BusinessObject { get; set; } = businessObject;
     public bool IsOverdue { get; set; } = FindIfOverdue(visit);
 
     public EntitySection SectionToOpen { get; set; } = EntitySection.ChildYouthVisits;

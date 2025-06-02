@@ -8,6 +8,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
@@ -46,30 +47,26 @@ public partial class TodoVisitsViewModel : VisitzViewModel
 
         foreach (var visit in upcomingVisits)
         {
-            var caseloadItem = GetRelatedCaseloadItem(visit);
-            TodoItems.Add(new TodoVisitsDisplayItem(visit, caseloadItem));
+            var businessObject = GetRelatedBusinessObjectFrom(icmDataRealm, visit);
+            TodoItems.Add(new TodoVisitsDisplayItem(visit, businessObject));
         }
     }
 
     [RelayCommand]
     private static void TodoItemSelected(TodoVisitsDisplayItem item)
     {
-        if (item.CaseloadItem != null)
-            NavigateTo(item.CaseloadItem, item.SectionToOpen, item.TodoItem);
+        if (item.BusinessObject != null)
+            NavigateTo(item.BusinessObject, item.SectionToOpen, item.TodoItem);
     }
 
-    private CaseloadItem GetRelatedCaseloadItem(PersonVisit todoItem)
+    private static IBusinessObject GetRelatedBusinessObjectFrom(Realm realm, PersonVisit todoItem)
     {
-        var caseloadItem = icmDataRealm
-            .All<CaseloadItem>()
-            .Where(item => item.RowId == todoItem.ParentId)
-            .FirstOrDefault();
-        return caseloadItem;
+        return CaseRecord.GetByPersonVisitItem(realm, todoItem);
     }
 
-    static void NavigateTo(CaseloadItem caseloadItem, EntitySection section, PersonVisit visitItem)
+    static void NavigateTo(IBusinessObject businessObject, EntitySection section, PersonVisit visitItem)
     {
-        var caseloadNav = new CaseloadItemSelectedMessage(caseloadItem, section);
+        var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section);
         StrongReferenceMessenger.Default.Send(caseloadNav);
 
         var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
