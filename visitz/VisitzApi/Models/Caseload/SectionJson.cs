@@ -2,7 +2,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using VisitzApi.Models.Base;
-using static System.Collections.Specialized.BitVector32;
 
 namespace VisitzApi.Models.Caseload;
 
