@@ -230,4 +230,12 @@ public partial class CaseRecord :
             .FirstOrDefault(@case => @case.Id == draftItem.RelatedEntityId
                         || @case.FileNumber == draftItem.RelatedEntityId);
     }
+
+    public static IBusinessObject GetByPersonVisitItem(Realm realm, PersonVisit item)
+    {
+        return realm
+            .All<CaseRecord>()
+            .FirstOrDefault(@case => @case.Id == item.ParentId
+                        || @case.FileNumber == item.ParentId);
+    }
 }
