@@ -40,11 +40,11 @@
         <Label
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="0,1"
-	        HorizontalOptions="Start"
-	        Padding="5,20,5,5"
-	        Text="{local:Localize CollectionNotice}"
-	        TextColor="White"
-	        TextDecorations="Underline">
+            HorizontalOptions="Start"
+            Padding="5,20,5,5"
+            Text="{local:Localize CollectionNotice}"
+            TextColor="White"
+            TextDecorations="Underline">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding OpenCollectionNoticeCommand}" />
             </Label.GestureRecognizers>
@@ -67,14 +67,14 @@
         <Label
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="1,1"
-	        Padding="5,20,5,5"
-	        Text="{local:Localize FeedbackUrlPrompt}"
-	        TextColor="White"
-	        TextDecorations="Underline">
+            Padding="5,20,5,5"
+            Text="{local:Localize FeedbackUrlPrompt}"
+            TextColor="White"
+            TextDecorations="Underline">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer
-			        Command="{Binding OpenFeedbackUrlCommand}"
-			        CommandParameter="{Binding FeedbackUrl}" />
+                    Command="{Binding OpenFeedbackUrlCommand}"
+                    CommandParameter="{Binding FeedbackUrl}" />
             </Label.GestureRecognizers>
         </Label>
 

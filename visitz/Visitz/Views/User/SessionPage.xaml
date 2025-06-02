@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:user="clr-namespace:Visitz.Views.User"
@@ -13,13 +13,13 @@
     NavigationPage.HasNavigationBar="False"
     BackgroundColor="Black">
 
-	<AbsoluteLayout IgnoreSafeArea="True">
-		<views:FeaturedBackgroundUnderlay
+    <AbsoluteLayout IgnoreSafeArea="True">
+        <views:FeaturedBackgroundUnderlay
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             ImageDisplayOptions="{Binding BgDisplayOptions}" />
 
-		<Grid
+        <Grid
             IgnoreSafeArea="False"
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -50,22 +50,22 @@
                     IsVisible="{Binding ShowLoginLayout}" />
 
                 <Grid
-					Grid.Row="0"
+                    Grid.Row="0"
                     HeightRequest="200"
                     WidthRequest="200"
-					VerticalOptions="End"
-					HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    HorizontalOptions="Center"
                     IsVisible="{Binding ShowAuthStatusLayout}">
                     <Image
                         VerticalOptions="Center"
                         HorizontalOptions="Center"
-					    IsVisible="{Binding IsUnauthorized}">
+                        IsVisible="{Binding IsUnauthorized}">
                         <Image.Source>
                             <FontImageSource 
-								Glyph="{Static fonticons:MaterialIcons.Shield_lock}"
-								FontFamily="MaterialIconsRoundedFilled"
-								Size="200"
-								Color="{StaticResource BC_Semantic_Error}" />
+                                Glyph="{Static fonticons:MaterialIcons.Shield_lock}"
+                                FontFamily="MaterialIconsRoundedFilled"
+                                Size="200"
+                                Color="{StaticResource BC_Semantic_Error}" />
                         </Image.Source>
                     </Image>
 
@@ -104,15 +104,15 @@
                         IsVisible="{Binding IsUnauthorized}" />
 
                     <Button
-						StyleClass="FeatureButton,GoldBorderButton"
-						Command="{Binding DownloadCaseloadAndSubscribeCommand}"
-						Text="{local:Localize Retry}"
-						IsVisible="{Binding IsUnauthorized}">
+                        StyleClass="FeatureButton,GoldBorderButton"
+                        Command="{Binding DownloadCaseloadAndSubscribeCommand}"
+                        Text="{local:Localize Retry}"
+                        IsVisible="{Binding IsUnauthorized}">
                         <Button.ImageSource>
                             <FontImageSource
-								Glyph="{Static fonticons:MaterialIcons.Refresh}" 
-								FontFamily="MaterialIconsRoundedFilled"
-								Color="White"/>
+                                Glyph="{Static fonticons:MaterialIcons.Refresh}" 
+                                FontFamily="MaterialIconsRoundedFilled"
+                                Color="White"/>
                         </Button.ImageSource>
                     </Button>
 
@@ -123,7 +123,7 @@
             <HorizontalStackLayout
                 Grid.Row="2"
                 HorizontalOptions="Center"
-				VerticalOptions="End"
+                VerticalOptions="End"
                 Spacing="30"
                 Margin="5">
                 <Label 
@@ -135,7 +135,7 @@
                     TextColor="White" />
             </HorizontalStackLayout>
 
-		</Grid>
+        </Grid>
 
     </AbsoluteLayout>
     
