@@ -14,7 +14,7 @@
 
     <ContentView.Resources>
         <ResourceDictionary>
-            <converters:YorNIndigenousBoolConverter x:Key="YorNIndigenousBoolConverter"/>
+            <converters:YorNBoolConverter x:Key="YorNBoolConverter"/>
         </ResourceDictionary>
     </ContentView.Resources>
 
@@ -105,8 +105,8 @@
             Grid.Row="5"
             Grid.Column="1"
             HorizontalOptions="Start"
-            IsVisible="{Binding CoordinationAgtCa, Converter={StaticResource YorNIndigenousBoolConverter}}"
-            IsChecked="{Binding CoordinationAgtCa, Converter={StaticResource YorNIndigenousBoolConverter}}"/>
+            IsVisible="{Binding CoordinationAgtCa, Converter={StaticResource YorNBoolConverter}}"
+            IsChecked="{Binding CoordinationAgtCa, Converter={StaticResource YorNBoolConverter}}"/>
 
         <Label
             Grid.Row="6"
@@ -118,8 +118,8 @@
             Grid.Row="6"
             Grid.Column="1"
             HorizontalOptions="Start"
-            IsVisible="{Binding _921Agt, Converter={StaticResource YorNIndigenousBoolConverter}}"
-            IsChecked="{Binding _921Agt, Converter={StaticResource YorNIndigenousBoolConverter}}"/>
+            IsVisible="{Binding _921Agt, Converter={StaticResource YorNBoolConverter}}"
+            IsChecked="{Binding _921Agt, Converter={StaticResource YorNBoolConverter}}"/>
 
         <Label
             Grid.Row="7"

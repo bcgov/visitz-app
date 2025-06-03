@@ -1,15 +1,16 @@
 using System.Globalization;
+using VisitzModel.Extensions;
 
 namespace Visitz.Converters;
 
-public class YorNIndigenousBoolConverter : IValueConverter
+public class YorNBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value == null)
             return false;
 
-        string stringValue = value.ToString().Trim().ToUpper();
+        string stringValue = value.ToString().GetInitials();
         return stringValue == "Y";
     }
 
