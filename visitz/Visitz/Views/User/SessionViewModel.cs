@@ -16,7 +16,8 @@ namespace Visitz.Views.User;
 
 public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     VisitzViewModel,
-    IRecipient<ServiceStateMessage>
+    IRecipient<ServiceStateMessage>,
+    IRecipient<AppLockMessage>
 {
     [ObservableProperty]
     public string buildNumber = AppInfo.Current.BuildString;
@@ -76,13 +77,12 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
                 // This will cause an error if VisitzApiService needs to prompt
                 // user for login, and the user will be stuck at a blank screen
                 // in this page.
-                // TODO: Fix this behaviour so download auto-fire doesn't start
-                // until user succeeds AppLockPage auth and reaches this one.
                 DownloadCaseloadAndSubscribe();
         }
         else
             SetUiOptions(showLoginLayout: true);
 
+        StrongReferenceMessenger.Default.Register<AppLockMessage>(this);
         OidcSession.SessionChanged += OidcSession_SessionChanged;
     }
 
@@ -92,6 +92,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         if (!disposed && disposing)
         {
             OidcSession.SessionChanged -= OidcSession_SessionChanged;
+            StrongReferenceMessenger.Default.UnregisterAll(this);
             disposed = true;
         }
 
@@ -206,7 +207,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     [RelayCommand]
     public void DownloadCaseloadAndSubscribe()
     {
-        WeakReferenceMessenger.Default.Register(this, GetCaseloadService.MakeId());
+        WeakReferenceMessenger.Default.Register<ServiceStateMessage, string>(this, GetCaseloadService.MakeId());
 
         var msg = GetAllDataForOfflineService.MakeStartMessage(forceDownload: true);
         WeakReferenceMessenger.Default.Send(msg);
@@ -245,5 +246,11 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
                 }
             }
         });
+    }
+
+    public void Receive(AppLockMessage message)
+    {
+        if (message.Value == AppLockStatus.Closed)
+                DownloadCaseloadAndSubscribe();
     }
 }

@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Plugin.Fingerprint.Abstractions;
 using Visitz.Device;
 using Visitz.Extensions;
@@ -60,8 +61,11 @@ namespace Visitz.Views.AppLock
         static async Task HandleSuccessfulAuth()
         {
             await Navigator.Navigation.PopModalAsync();
+            
             new SurveyFeedbackTracker(Preferences.Default).IncrementTimesAppUnlocked();
             await FeedbackSurveyPage.TryOpen();
+
+            StrongReferenceMessenger.Default.Send(new AppLockMessage(AppLockStatus.Closed));
         }
     }
 }
