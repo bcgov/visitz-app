@@ -251,6 +251,6 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     public void Receive(AppLockMessage message)
     {
         if (message.Value == AppLockStatus.Closed)
-                DownloadCaseloadAndSubscribe();
+            DownloadCaseloadAndSubscribe();
     }
 }
