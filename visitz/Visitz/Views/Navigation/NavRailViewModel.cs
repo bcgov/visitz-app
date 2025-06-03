@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -130,7 +131,8 @@ public partial class NavRailViewModel : VisitzViewModel
     [RelayCommand]
     private static async Task OpenSessionPage()
     {
-        await Navigator.GoToPage<SessionPage>(modal: true);
+        var userView = ServiceProvider.GetService<UserView>();
+        await Navigator.Navigation.PushModalAsync(userView);
     }
 
     private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)

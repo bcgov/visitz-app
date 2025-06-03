@@ -3,12 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc.Network;
 using Visitz.Resources.Localization;
+using Visitz.Services;
+using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-internal partial class DataRefreshViewModel : VisitzViewModel
+internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]
     public bool superMessageVisible = false;
@@ -19,12 +21,16 @@ internal partial class DataRefreshViewModel : VisitzViewModel
     [ObservableProperty]
     public StackOrientation orientation = StackOrientation.Vertical;
 
+    [ObservableProperty]
+    public bool caseloadActivity;
+
     protected override Task InitAsync()
     {
         base.InitAsync();
 
         SetConnectivityMessage();
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+        WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
         return Task.CompletedTask;
     }
@@ -34,6 +40,7 @@ internal partial class DataRefreshViewModel : VisitzViewModel
     {
         if (!disposed && disposing)
         {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
             Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
             disposed = true;
         }
@@ -59,5 +66,16 @@ internal partial class DataRefreshViewModel : VisitzViewModel
     partial void OnSuperMessageChanged(string value)
     {
         SuperMessageVisible = !string.IsNullOrWhiteSpace(value);
+    }
+
+    public void Receive(ServiceStateMessage message)
+    {
+        CaseloadActivity = message.Status == VisitzService.State.Running;
+    }
+
+    [RelayCommand]
+    public void HideIndicator()
+    {
+        CaseloadActivity = false;
     }
 }

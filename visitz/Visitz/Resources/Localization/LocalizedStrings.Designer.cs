@@ -169,6 +169,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attachment metadata.
+        /// </summary>
+        public static string AttachmentMetadata {
+            get {
+                return ResourceManager.GetString("AttachmentMetadata", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
         /// </summary>
         public static string AttachmentPublishSuccess {
@@ -259,6 +268,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while trying to download {0}.
+        /// </summary>
+        public static string CaseloadErrorDownload {
+            get {
+                return ResourceManager.GetString("CaseloadErrorDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
         ///
         ///You can view the details of this error or try again later..
@@ -311,6 +329,15 @@ namespace Visitz.Resources.Localization {
         public static string CharacterLimitReached {
             get {
                 return ResourceManager.GetString("CharacterLimitReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking ICM profile....
+        /// </summary>
+        public static string CheckingIcmProfile {
+            get {
+                return ResourceManager.GetString("CheckingIcmProfile", resourceCulture);
             }
         }
         
@@ -1029,11 +1056,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ve successfully logged in.
-        ///
-        ///Use the &quot;Request Access&quot; button below to submit a request for authorization to use the app.
-        ///
-        ///If that doesn&apos;t work, request access by emailing .
+        ///   Looks up a localized string similar to Your profile is not active in ICM—please contact your Office Manager to resolve this issue..
         /// </summary>
         public static string LoginSuccessButUnauth {
             get {
@@ -1157,6 +1180,15 @@ namespace Visitz.Resources.Localization {
         public static string NarrativeDescription {
             get {
                 return ResourceManager.GetString("NarrativeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility needs to confirm you have a valid ICM profile..
+        /// </summary>
+        public static string NeedToConfirm {
+            get {
+                return ResourceManager.GetString("NeedToConfirm", resourceCulture);
             }
         }
         
@@ -1710,15 +1742,6 @@ namespace Visitz.Resources.Localization {
         public static string Retry {
             get {
                 return ResourceManager.GetString("Retry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Retry login.
-        /// </summary>
-        public static string RetryLogin {
-            get {
-                return ResourceManager.GetString("RetryLogin", resourceCulture);
             }
         }
         

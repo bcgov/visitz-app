@@ -10,6 +10,8 @@ namespace Oidc
 {
     public class OidcSession
     {
+        private static readonly string IdirActiveKey = "idir_active_employee";
+
         private static AuthenticationClient AuthClient =>
             ServicesProvider.Current.GetRequiredService<AuthenticationClient>();
 
@@ -129,6 +131,7 @@ namespace Oidc
             TokenHolder.DeleteAccessToken();
             TokenHolder.DeleteRefreshToken();
             TokenHolder.DeleteIdentityToken();
+            await SetAuthorization(authorized: null);
 
             var info = await OidcSessionInfo.GetAsync();
             SessionChanged?.Invoke(info, new SessionInvalidatedEventArgs() { Success = true });
@@ -141,10 +144,18 @@ namespace Oidc
                 && await TokenHolder.GetIdentityTokenStringAsync() is not null;
         }
 
-        public static async Task<bool> HasRole(string role)
+        public static async Task<bool?> IsAuthorized()
         {
-            var info = await OidcSessionInfo.GetAsync();
-            return await SessionExistsAsync() && info.Roles.Contains(role);
+            var status = await SecureStorage.Default.GetAsync(IdirActiveKey);
+            return status != null ? bool.Parse(status) : null;
+        }
+
+        public static async Task SetAuthorization(bool? authorized)
+        {
+            if (authorized == null)
+                SecureStorage.Default.Remove(IdirActiveKey);
+            else
+                await SecureStorage.Default.SetAsync(IdirActiveKey, authorized.ToString());
         }
     }
 }

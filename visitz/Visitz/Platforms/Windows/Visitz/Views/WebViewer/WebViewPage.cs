@@ -4,6 +4,7 @@ using Oidc;
 using System.Diagnostics;
 using System.Globalization;
 using Visitz.Controls;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
 
@@ -114,15 +115,20 @@ public partial class WebViewPage
             && url.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase);
     }
 
-    private static Task PerformCustomSchemeRedirect(string uri)
+    private async Task PerformCustomSchemeRedirect(string uri)
     {
-        Process.Start(new ProcessStartInfo
+        try
         {
-            FileName = uri,
-            UseShellExecute = true,
-        });
-
-        return Task.CompletedTask;
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = uri,
+                UseShellExecute = true,
+            });
+        }
+        catch (Exception ex)
+        {
+            await this.DisplayErrorAlert(ex);
+        }
     }
 
     // A workaround implementation to forcibly logout the user on Windows.

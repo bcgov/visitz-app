@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using VisitzModel;
+using Microsoft.Extensions.Logging;
+using Visitz.Extensions;
 
 namespace Visitz.Views.BaseClasses
 {
@@ -8,9 +9,21 @@ namespace Visitz.Views.BaseClasses
     /// </summary>
     public partial class VisitzViewModel : ObservableObject, IDisposable
     {
+        ILogger Logger { get; }
+
         bool _disposedValue;
 
         public Task InitTask { get; private set; }
+
+        public VisitzViewModel()
+        {
+            Logger = MakeLogger();
+        }
+
+        protected virtual ILogger<BaseContentView> MakeLogger()
+        {
+            return ServiceProvider.GetService<ILogger<BaseContentView>>();
+        }
 
         public virtual Task StartInitAsync()
         {
@@ -21,7 +34,7 @@ namespace Visitz.Views.BaseClasses
 
         protected virtual Task InitAsync()
         {
-            ConsoleTrace.TraceMethod(this);
+            Logger.TraceMethod(this);
 
             return Task.CompletedTask;
         }
@@ -32,7 +45,7 @@ namespace Visitz.Views.BaseClasses
                 return;
 
             if (disposing)
-                ConsoleTrace.TraceMethod(this);
+                Logger.TraceMethod(this);
 
             _disposedValue = true;
         }

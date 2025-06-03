@@ -17,7 +17,7 @@ public partial class VisitzWindow : Window
         ApplyDefaultWindowLayout(this);
 #endif
 
-        await SessionPage.TryOpenAsync(modal: true, animated: false);
+        await SessionPage.TryOpenAsync(animated: false);
 
         await AppLockPage.TryPrompt(promptOnAppearing: true);
     }

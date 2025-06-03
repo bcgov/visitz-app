@@ -3,11 +3,13 @@ using CommunityToolkit.Maui.Core.Platform;
 #endif
 
 using CommunityToolkit.Mvvm.Messaging;
+using Oidc;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.User;
 
 namespace Visitz.Views.Caseload;
 
@@ -63,10 +65,12 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
 
     public async void Receive(ServiceStateMessage message)
     {
-        if (message.FinishedError)
+        if (message.FinishedError && (await OidcSession.IsAuthorized() ?? false))
+        {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(
                 LocalizedStrings.CaseloadErrorMessage,
                 message.UncaughtException?.ToString(),
                 LocalizedStrings.CaseloadError);
+        }
     }
 }

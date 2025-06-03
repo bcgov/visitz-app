@@ -98,17 +98,18 @@ namespace Visitz.Services.Base
             catch (Exception ex)
             {
                 if (ex is OperationCanceledException)
+                {
                     ResultCode = Result.Cancelled;
+                    Logger.LogDebug(LoggerTemplate, GetId(), "Service cancelled");
+                }
                 else
                 {
                     UncaughtException = ex;
                     ResultCode = Result.Error;
+                    Logger.LogError(LoggerTemplate, GetId(), ex.ToString());
                 }
 
                 ResultMessage = ex.Message;
-
-                if (ResultCode == Result.Error)
-                    Logger.LogError(LoggerTemplate, GetId(), ResultMessage);
 
                 throw;
             }

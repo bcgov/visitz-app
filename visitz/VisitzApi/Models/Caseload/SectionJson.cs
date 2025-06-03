@@ -34,6 +34,11 @@ public class SectionJson<RecordType> where RecordType : BaseRecordJson
         return FindFirstStringByFieldName(errorFieldName, Message);
     }
 
+    public string GetFullDisplayError()
+    {
+        return GetFirstMessage() + " -> " + GetFirstError();
+    }
+
     static string FindFirstStringByFieldName(string fieldName, JsonObject obj)
     {
         foreach (KeyValuePair<string, JsonNode> fieldPair in obj)

@@ -4,64 +4,89 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
-using Visitz.Extensions;
-using Visitz.FontIcons;
 using Visitz.Resources.Localization;
-using Visitz.Resources.Styles;
+using Visitz.Services;
+using Visitz.Services.Base;
 using Visitz.Services.Caseload;
-using Visitz.Settings;
-using Visitz.Storage;
+using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
-#if IOS
-using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
-#endif
-
 namespace Visitz.Views.User;
 
-public partial class SessionViewModel : VisitzViewModel
+public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
+    VisitzViewModel,
+    IRecipient<ServiceStateMessage>,
+    IRecipient<AppLockMessage>
 {
     [ObservableProperty]
-    public string buildNumber;
+    public string buildNumber = AppInfo.Current.BuildString;
 
     [ObservableProperty]
-    public string appVersion;
-
-    [ObservableProperty]
-    public string backgroundImageUri;
+    public string appVersion = AppInfo.Current.VersionString;
 
     [ObservableProperty]
     public DisplayOptions bgDisplayOptions = DisplayOptions.Clear;
 
+    [ObservableProperty]
+    public bool showLoginLayout;
+
+    [ObservableProperty]
+    public string displayName;
+
+    [ObservableProperty]
+    public bool showAuthStatusLayout;
+
+    [ObservableProperty]
+    public string authStatus;
+
+    [ObservableProperty]
+    public bool showAuthStatus;
+
+    [ObservableProperty]
+    public bool isAuthorized;
+
+    [ObservableProperty]
+    public bool isUnauthorized;
+
+    [ObservableProperty]
+    public bool tryingAuthorization;
+
+    [ObservableProperty]
+    public bool showButtons;
+
+    [ObservableProperty]
+    public bool showUnknown;
+
+    public Action AuthorizationSuccess { get; set; }
+
     private OidcSessionInfo SessionInfo;
 
-    private ILogger<SessionViewModel> Logger { get; }
-
-    public SessionViewModel(ILogger<SessionViewModel> logger)
-    {
-        Logger = logger;
-    }
-
-    public static async Task<string> GetDisplayNamePrompt(OidcSessionInfo info = null)
-    {
-        info ??= await OidcSessionInfo.GetAsync();
-        return info.DisplayName?.Length > 0 ? info.DisplayName : LocalizedStrings.Login;
-    }
+    private ILogger<SessionViewModel> Logger { get; } = logger;
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        BuildNumber = AppInfo.Current.BuildString;
-        AppVersion = AppInfo.Current.VersionString;
-
         SessionInfo = await OidcSessionInfo.GetAsync();
-        await ApplyLayout();
 
+        if (await ApplyLayoutByAuthStatus() is (bool, _) sessionStatus)
+        {
+#if IOS
+            // Having issues with lifecycle timings on iOS and this delay solves
+            // it wonderfully. Not ideal but it works.
+            await Task.Delay(100);
+#endif
+            if (!AppLockPage.IsOpen && sessionStatus.SessionExists)
+                // If AppLockPage is open, it will auto prompt to authenticate.
+                // This will cause an error if VisitzApiService needs to prompt
+                // user for login, and the user will be stuck at a blank screen
+                // in this page.
+                DownloadCaseloadAndSubscribe();
+        }
+
+        StrongReferenceMessenger.Default.Register<AppLockMessage>(this);
         OidcSession.SessionChanged += OidcSession_SessionChanged;
-
-        BackgroundImageUri = BcGovAlbum.GetFeaturedPictureUri();
     }
 
     bool disposed;
@@ -70,44 +95,78 @@ public partial class SessionViewModel : VisitzViewModel
         if (!disposed && disposing)
         {
             OidcSession.SessionChanged -= OidcSession_SessionChanged;
+            StrongReferenceMessenger.Default.UnregisterAll(this);
             disposed = true;
         }
 
         base.Dispose(disposing);
     }
 
+    private void SetUiOptions(
+        bool showLoginLayout = false,
+        bool showAuthStatusLayout = false,
+        bool showAuthStatus = false,
+        bool isAuthorized = false,
+        bool isUnauthorized = false,
+        bool tryingAuthorization = false,
+        bool? showButtons = null,
+        bool showUnknown = false)
+    {
+        ShowLoginLayout = showLoginLayout;
+        ShowAuthStatusLayout = showAuthStatusLayout;
+        ShowAuthStatus = showAuthStatus;
+        IsAuthorized = isAuthorized;
+        IsUnauthorized = isUnauthorized;
+        TryingAuthorization = tryingAuthorization;
+        ShowButtons = showButtons ?? (showLoginLayout ? false : !IsAuthorized || IsUnauthorized);
+        ShowUnknown = showUnknown;
+
+        BgDisplayOptions = showLoginLayout
+            ? DisplayOptions.Clear
+            : DisplayOptions.TextReadable;
+
+        if (tryingAuthorization)
+            AuthStatus = LocalizedStrings.CheckingIcmProfile;
+        else if (isUnauthorized)
+            AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
+        else if (!isAuthorized)
+            AuthStatus = LocalizedStrings.NeedToConfirm;
+        else
+            AuthStatus = string.Empty;
+    }
+
+    private async Task<bool?> ApplyAuthStatusLayout(bool? showUnknown = null)
+    {
+        bool? isAuthorized = await OidcSession.IsAuthorized();
+
+        SetUiOptions(
+            showAuthStatusLayout: true,
+            showAuthStatus: true,
+            isAuthorized: isAuthorized ?? false,
+            isUnauthorized: !isAuthorized ?? false,
+            showUnknown: showUnknown ?? isAuthorized == null,
+            showButtons: true);
+
+        DisplayName = SessionInfo.GivenName;
+
+        return isAuthorized;
+    }
+
     private async void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
     {
         SessionInfo = sender as OidcSessionInfo;
-        await ApplyLayout();
-
-        if (e is LogoutChangedEventArgs && ShouldReopen())
-            _ = ReopenSessionPage();
+        await ApplyLayoutByAuthStatus();
     }
 
-    private async Task ApplyLayout()
+    private async Task<(bool SessionExists, bool? IsAuthorized)> ApplyLayoutByAuthStatus()
     {
         if (await OidcSession.SessionExistsAsync())
-            ApplyAuthStatusLayout();
+            return (true, await ApplyAuthStatusLayout());
         else
-            ApplyLoginLayout();
-    }
-}
-
-public partial class SessionViewModel
-{
-    [ObservableProperty]
-    public bool showLoginLayout;
-
-    private void ApplyLoginLayout()
-    {
-        ShowLoginLayout = true;
-        ShowAuthStatusLayout = !ShowLoginLayout;
-        IsAuthorized = false;
-        IsUnauthorized = false;
-        BgDisplayOptions = DisplayOptions.Clear;
-
-        ApplyModalStyles(false);
+        {
+            SetUiOptions(showLoginLayout: true);
+            return (false, null);
+        }
     }
 
     [RelayCommand]
@@ -115,7 +174,6 @@ public partial class SessionViewModel
     {
         _ = LoginAsync();
     }
-
 
     public async Task LoginAsync()
     {
@@ -127,11 +185,9 @@ public partial class SessionViewModel
 #endif
             await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
 
-            if (SessionInfo.HasBasicAccessRole())
-            {
-                await Navigator.PopAllModalsAsync(true);
-                WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage(forceDownload: true));
-            }
+            await ApplyAuthStatusLayout(showUnknown: false);
+
+            DownloadCaseloadAndSubscribe();
         }
         catch (Exception ex)
         {
@@ -139,82 +195,20 @@ public partial class SessionViewModel
                 Logger.LogError(ex, ex.Message);
         }
     }
-}
-
-public partial class SessionViewModel
-{
-    [ObservableProperty]
-    public string displayName;
-
-    [ObservableProperty]
-    public bool showAuthStatusLayout;
-
-    [ObservableProperty]
-    public string authStatus;
-
-    [ObservableProperty]
-    public string authIcon;
-
-    [ObservableProperty]
-    public Color authColor;
-
-    [ObservableProperty]
-    public bool isAuthorized;
-
-    [ObservableProperty]
-    public bool isUnauthorized;
-
-    [ObservableProperty]
-    public string mailToUrl;
-
-    [ObservableProperty]
-    public bool showFeedbackUrl;
-
-    [ObservableProperty]
-    public string feedbackUrl;
-
-    private void ApplyAuthStatusLayout()
-    {
-        BgDisplayOptions = DisplayOptions.TextReadable;
-
-        DisplayName = SessionInfo.GivenName;
-        IsAuthorized = SessionInfo.HasBasicAccessRole();
-        IsUnauthorized = !IsAuthorized;
-        ShowFeedbackUrl = IsAuthorized;
-
-        var contactInfo = new AppSettings().ContactInfo;
-        MailToUrl = contactInfo.MailToAuthorize;
-        FeedbackUrl = contactInfo.FeedbackSurveyUrl;
-
-        if (IsUnauthorized)
-        {
-            AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
-            AuthIcon = MaterialIcons.Shield_lock;
-            AuthColor = VisitzColors.BC_Semantic_Error;
-        }
-        else
-        {
-            AuthStatus = LocalizedStrings.YouAreAuthorized;
-            AuthIcon = MaterialIcons.Verified_user;
-            AuthColor = VisitzColors.BC_Semantic_Success;
-        }
-
-        ShowLoginLayout = false;
-        ShowAuthStatusLayout = !ShowLoginLayout;
-
-        ApplyModalStyles(true);
-    }
 
     [RelayCommand]
-    public static void TryLogout()
+    public void TryLogout()
     {
         _ = PromptAndLogoutAsync();
     }
 
-    private static async Task PromptAndLogoutAsync()
+    private async Task PromptAndLogoutAsync()
     {
         if (await PromptLogout())
-            await DoLogoutAsync();
+        {
+            SetUiOptions(showLoginLayout: true);
+            await OidcSession.LogoutAsync();
+        }
     }
 
     private static async Task<bool> PromptLogout()
@@ -226,93 +220,53 @@ public partial class SessionViewModel
             LocalizedStrings.Cancel);
     }
 
-    private static async Task DoLogoutAsync()
-    {
-        await OidcSession.LogoutAsync();
-    }
-
-    private static async Task ReopenSessionPage(bool modal = true)
-    {
-        await Navigator.PopAllModalsAsync(true);
-        await Navigator.GoToPage<SessionPage>(modal: modal);
-    }
-
     [RelayCommand]
-    private static void RequestAccess()
+    public void DownloadCaseloadAndSubscribe()
     {
-        _ = DoRequestAccessAsync();
+        WeakReferenceMessenger.Default.Register<ServiceStateMessage, string>(this, GetCaseloadService.MakeId());
+
+        var msg = GetAllDataForOfflineService.MakeStartMessage(forceDownload: true);
+        WeakReferenceMessenger.Default.Send(msg);
+
+        // extra SetUiOptions call before Receive() so "unauthorized" UI
+        // doesn't flash
+        SetUiOptions(
+            showAuthStatusLayout: true,
+            showAuthStatus: true,
+            tryingAuthorization: true);
     }
 
-    private static async Task DoRequestAccessAsync()
+    public void Receive(ServiceStateMessage message)
     {
-        var formUrl = new AppSettings().ContactInfo.AccessRequestFormUrl;
-
-        await Browser.Default.OpenAsync(formUrl, new BrowserLaunchOptions
+        MainThread.BeginInvokeOnMainThread(() =>
         {
-            LaunchMode = BrowserLaunchMode.SystemPreferred,
-            TitleMode = BrowserTitleMode.Hide,
-            Flags = BrowserLaunchFlags.PresentAsFormSheet,
+            if (message.Status == VisitzService.State.Running)
+            {
+                SetUiOptions(
+                    showAuthStatusLayout: true,
+                    showAuthStatus: true,
+                    tryingAuthorization: true);
+            }
+            else
+            {
+                WeakReferenceMessenger.Default.UnregisterAll(this);
+
+                if (message.Result == VisitzService.Result.Successful)
+                    AuthorizationSuccess();
+                else
+                {
+                    SetUiOptions(
+                        showAuthStatusLayout: true,
+                        showAuthStatus: true,
+                        isUnauthorized: true);
+                }
+            }
         });
     }
 
-    [RelayCommand]
-    static void OpenCollectionNotice()
+    public void Receive(AppLockMessage message)
     {
-        _ = DoOpenFeedbackUrl();
-    }
-
-    static async Task DoOpenFeedbackUrl()
-    {
-        await Navigator.Navigation.PopModalAsync(animated: false);
-
-        var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
-        await Navigator.Navigation.PushModalAsync(noticeView, ViewModalSize.Fullscreen);
-    }
-
-    [RelayCommand]
-    static void OpenFeedbackUrl(string feedbackUrl)
-    {
-        _ = DoOpenFeedbackUrl(feedbackUrl);
-    }
-
-    static async Task DoOpenFeedbackUrl(string feedbackUrl)
-    {
-        await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
-        {
-            LaunchMode = BrowserLaunchMode.SystemPreferred,
-            TitleMode = BrowserTitleMode.Hide,
-            Flags = BrowserLaunchFlags.PresentAsPageSheet,
-        });
-    }
-}
-
-public partial class SessionViewModel
-{
-#if IOS
-    private static readonly UIModalPresentationStyle DialogStyle = UIModalPresentationStyle.PageSheet;
-
-    [ObservableProperty]
-    public UIModalPresentationStyle presentationStyle;
-#else
-    [ObservableProperty]
-    public object presentationStyle;
-#endif
-
-    private void ApplyModalStyles(bool sessionExists)
-    {
-#if IOS
-        PresentationStyle = sessionExists && SessionInfo.HasBasicAccessRole()
-            ? DialogStyle
-            : UIModalPresentationStyle.FullScreen;
-#endif
-    }
-
-    private static bool ShouldReopen()
-    {
-#if IOS
-        return true;
-#else
-        return false;
-#endif
+        if (message.Value == AppLockStatus.Closed)
+            DownloadCaseloadAndSubscribe();
     }
 }

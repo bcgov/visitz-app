@@ -1,5 +1,5 @@
+using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
-using VisitzModel;
 
 namespace Visitz.Views.BaseClasses;
 
@@ -7,7 +7,19 @@ public abstract class BaseContentView : ContentView, IDisposable
 {
     private bool _disposedValue;
 
+    private ILogger Logger { get; }
+
     public Task InitTask { get; private set; }
+
+    public BaseContentView()
+    {
+        Logger = MakeLogger();
+    }
+
+    protected virtual ILogger<BaseContentView> MakeLogger()
+    {
+        return ServiceProvider.GetService<ILogger<BaseContentView>>();
+    }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
@@ -27,7 +39,7 @@ public abstract class BaseContentView : ContentView, IDisposable
 
     protected virtual Task InitAsync()
     {
-        ConsoleTrace.TraceMethod(this);
+        Logger.TraceMethod(this);
 
         return Task.CompletedTask;
     }
@@ -38,7 +50,7 @@ public abstract class BaseContentView : ContentView, IDisposable
             return;
 
         if (disposing)
-            ConsoleTrace.TraceMethod(this);
+            Logger.TraceMethod(this);
 
         _disposedValue = true;
     }

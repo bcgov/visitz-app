@@ -1,30 +1,59 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <baseClasses:ViewModelContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Caseload.DataRefreshButton"
-	x:DataType="caseload:DataRefreshViewModel">
+    x:DataType="caseload:DataRefreshViewModel">
 
-	<StackLayout Orientation="{Binding Orientation}">
-		<Label
-			HorizontalOptions="Center"
-			VerticalOptions="Center"
-			Text="{Binding SuperMessage}"
-			TextColor="White"
-			IsVisible="{Binding SuperMessageVisible}" />
+    <baseClasses:ViewModelContentView.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegation" />
+    </baseClasses:ViewModelContentView.Resources>
 
-		<controls:FontIconButton
-			x:Name="RefreshButton"
-			Style="{StaticResource FontIconButtonDarkMode}"
-			Size="Larger"
-			HorizontalOptions="Center"
-			VerticalOptions="Center"
-			FontFamily="MaterialIconsRoundedUnfilled"
-			Command="{Binding RefreshDataCommand}"
-			Text="{Static icons:MaterialIcons.Download_for_offline}" />
-	</StackLayout>
+    <StackLayout Orientation="Vertical">
+        <Label
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="{Binding SuperMessage}"
+            TextColor="White"
+            IsVisible="{Binding SuperMessageVisible}" />
+
+        <controls:FontIconButton
+            x:Name="RefreshButton"
+            Style="{StaticResource FontIconButtonDarkMode}"
+            Size="Larger"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            Command="{Binding RefreshDataCommand}"
+            Text="{Static icons:MaterialIcons.Download_for_offline}"
+            IsVisible="{Binding CaseloadActivity, Converter={StaticResource BoolNegation}}"/>
+
+        <ContentView
+            HeightRequest="{Static controls:FontIconButton.LargerDimension}"
+            WidthRequest="{Static controls:FontIconButton.LargerDimension}"
+            HorizontalOptions="Center"
+            IsVisible="{Binding CaseloadActivity}">
+
+            <ContentView.GestureRecognizers>
+            </ContentView.GestureRecognizers>
+            
+            <ActivityIndicator
+                x:Name="Activity"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Color="White"
+                IsRunning="{Binding CaseloadActivity}">
+                <ActivityIndicator.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding HideIndicatorCommand}"
+                        NumberOfTapsRequired="2" />
+                </ActivityIndicator.GestureRecognizers>
+            </ActivityIndicator>
+        </ContentView>
+    </StackLayout>
 </baseClasses:ViewModelContentView>
