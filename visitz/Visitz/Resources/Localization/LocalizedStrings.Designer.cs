@@ -1184,6 +1184,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility needs to confirm you have a valid ICM profile..
+        /// </summary>
+        public static string NeedToConfirm {
+            get {
+                return ResourceManager.GetString("NeedToConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next in-person visit due by {0}..
         /// </summary>
         public static string NextVisitDueBy {

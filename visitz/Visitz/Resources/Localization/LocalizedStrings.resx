@@ -927,4 +927,7 @@ This does not affect attachments in ICM.</value>
   <data name="AttachmentMetadata" xml:space="preserve">
     <value>Attachment metadata</value>
   </data>
+  <data name="NeedToConfirm" xml:space="preserve">
+    <value>MCFD Mobility needs to confirm you have a valid ICM profile.</value>
+  </data>
 </root>

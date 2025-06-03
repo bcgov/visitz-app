@@ -130,7 +130,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         else if (isUnauthorized)
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
         else if (!isAuthorized)
-            AuthStatus = "MCFD Mobility needs to confirm you have a valid ICM profile.";
+            AuthStatus = LocalizedStrings.NeedToConfirm;
         else
             AuthStatus = string.Empty;
     }
