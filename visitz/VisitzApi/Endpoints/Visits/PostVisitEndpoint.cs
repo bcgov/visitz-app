@@ -20,6 +20,8 @@ internal class PostVisitEndpoint(string baseUrl, string caseId, PostVisitJson vi
 
     public override HttpRequestMessage MakeRequest()
     {
+        RemoveTimeFromDateOfVisit(VisitToSend);
+
         return new()
         {
             Content = JsonContent.Create(VisitToSend, options: PayloadOptions.MiddlewarePost),
@@ -31,5 +33,10 @@ internal class PostVisitEndpoint(string baseUrl, string caseId, PostVisitJson vi
     public override bool HandleResponse(HttpResponseMessage response, string _)
     {
         return response.StatusCode == HttpStatusCode.OK;
+    }
+
+    static void RemoveTimeFromDateOfVisit(PostVisitJson visit)
+    {
+        visit.DateOfVisit = visit.DateOfVisit.Date;
     }
 }
