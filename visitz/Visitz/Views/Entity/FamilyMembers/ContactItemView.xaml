@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
@@ -11,8 +12,14 @@
     x:DataType="people:IcmContact"
     HorizontalOptions="Start">
 
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:YorNIndigenousBoolConverter x:Key="YorNIndigenousBoolConverter"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
     <Grid
-        RowDefinitions="*,*,*,*,*,*,*,*"
+        RowDefinitions="*,*,*,*,*,*,*,*,*,*"
         RowSpacing="10"
         ColumnDefinitions="Auto,*"
         ColumnSpacing="10"
@@ -23,7 +30,7 @@
             Grid.ColumnSpan="2"
             Spacing="5"
             Padding="10,0,10,0">
-            
+
             <Label
                 Text="{Binding FullDisplayName}"
                 FontFamily="BCSansBold"
@@ -31,100 +38,126 @@
 
             <tagview:TagView Padding="8,0">
                 <tagview:TagView.Behaviors>
-                    <tagBehaviors:ContactRelationshipTagBehavior />
+                    <tagBehaviors:ContactRelationshipTagBehavior/>
                 </tagview:TagView.Behaviors>
             </tagview:TagView>
         </HorizontalStackLayout>
 
-        <Label 
+        <Label
             Grid.Row="1"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="{local:Localize Age}" />
+            Text="{local:Localize Age}"/>
 
-        <Label 
+        <Label
             Grid.Row="1"
             Grid.Column="1"
             HorizontalOptions="Start"
-            FontFamily="BCSansRegular"            
-            Text="{Binding Age}" />
+            FontFamily="BCSansRegular"
+            Text="{Binding Age}"/>
 
-        <Label 
+        <Label
             Grid.Row="2"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="{local:Localize Birthdate}" />
+            Text="{local:Localize Birthdate}"/>
 
-        <Label 
+        <Label
             Grid.Row="2"
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding DateOfBirthFormatted}" />
+            Text="{Binding DateOfBirthFormatted}"/>
 
-        <Label 
+        <Label
             Grid.Row="3"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="{local:Localize Gender}" />
+            Text="{local:Localize Gender}"/>
 
-        <Label 
+        <Label
             Grid.Row="3"
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding Gender}" />
+            Text="{Binding Gender}"/>
 
-        <Label 
+        <Label
             Grid.Row="4"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="{local:Localize Indigenous}" />
+            Text="{local:Localize Indigenous}"/>
 
-        <Label 
+        <Label
             Grid.Row="4"
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding Indigenous}" />
+            Text="{Binding Indigenous}"/>
 
-        <Label 
+        <Label
             Grid.Row="5"
             FontFamily="BCSansBold"
             HorizontalOptions="End"
-            Text="{local:Localize Address}" />
+            Text="{local:Localize AgtCoordinationCa}"/>
 
-        <Label 
+        <CheckBox
             Grid.Row="5"
             Grid.Column="1"
             HorizontalOptions="Start"
+            IsVisible="{Binding CoordinationAgtCa, Converter={StaticResource YorNIndigenousBoolConverter}}"
+            IsChecked="{Binding CoordinationAgtCa, Converter={StaticResource YorNIndigenousBoolConverter}}"/>
+
+        <Label
+            Grid.Row="6"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="{local:Localize Agt921}"/>
+
+        <CheckBox
+            Grid.Row="6"
+            Grid.Column="1"
+            HorizontalOptions="Start"
+            IsVisible="{Binding _921Agt, Converter={StaticResource YorNIndigenousBoolConverter}}"
+            IsChecked="{Binding _921Agt, Converter={StaticResource YorNIndigenousBoolConverter}}"/>
+
+        <Label
+            Grid.Row="7"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="{local:Localize Address}"/>
+
+        <Label
+            Grid.Row="7"
+            Grid.Column="1"
+            HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding PrimaryAddress}" />
+            Text="{Binding PrimaryAddress}"/>
 
-		<Label 
-			Grid.Row="6"
-			FontFamily="BCSansBold"
-			HorizontalOptions="End"
-			Text="{local:Localize HomeNumber}" />
+        <Label
+            Grid.Row="8"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="{local:Localize HomeNumber}"/>
 
-		<Label 
-			Grid.Row="6"
-			Grid.Column="1"
-			HorizontalOptions="Start"
-			FontFamily="BCSansRegular"
-			Text="{Binding HomePhoneFormatted}" />
+        <Label
+            Grid.Row="8"
+            Grid.Column="1"
+            HorizontalOptions="Start"
+            FontFamily="BCSansRegular"
+            Text="{Binding HomePhoneFormatted}"/>
 
-		<Label 
-			Grid.Row="7"
-			FontFamily="BCSansBold"
-			HorizontalOptions="End"
-			Text="{local:Localize CellNumber}" />
+        <Label
+            Grid.Row="9"
+            FontFamily="BCSansBold"
+            HorizontalOptions="End"
+            Text="{local:Localize CellNumber}"/>
 
-		<Label 
-			Grid.Row="7"
-			Grid.Column="1"
-			HorizontalOptions="Start"
-			FontFamily="BCSansRegular"
-			Text="{Binding CellPhoneFormatted}" />
-	</Grid>
+        <Label
+            Grid.Row="9"
+            Grid.Column="1"
+            HorizontalOptions="Start"
+            FontFamily="BCSansRegular"
+            Text="{Binding CellPhoneFormatted}"/>
+    </Grid>
 </ContentView>
