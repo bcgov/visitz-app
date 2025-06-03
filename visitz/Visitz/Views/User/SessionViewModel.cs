@@ -8,6 +8,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
+using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
@@ -70,7 +71,14 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             // it wonderfully. Not ideal but it works.
             await Task.Delay(100);
 #endif
-            DownloadCaseloadAndSubscribe();
+            if (!AppLockPage.IsOpen)
+                // If AppLockPage is open, it will auto prompt to authenticate.
+                // This will cause an error if VisitzApiService needs to prompt
+                // user for login, and the user will be stuck at a blank screen
+                // in this page.
+                // TODO: Fix this behaviour so download auto-fire doesn't start
+                // until user succeeds AppLockPage auth and reaches this one.
+                DownloadCaseloadAndSubscribe();
         }
         else
             SetUiOptions(showLoginLayout: true);
