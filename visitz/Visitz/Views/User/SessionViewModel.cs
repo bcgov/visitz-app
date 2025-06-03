@@ -135,7 +135,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             AuthStatus = string.Empty;
     }
 
-    private async Task<bool?> ApplyAuthStatusLayout()
+    private async Task<bool?> ApplyAuthStatusLayout(bool? showUnknown = null)
     {
         bool? isAuthorized = await OidcSession.IsAuthorized();
 
@@ -144,7 +144,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             showAuthStatus: true,
             isAuthorized: isAuthorized ?? false,
             isUnauthorized: !isAuthorized ?? false,
-            showUnknown: isAuthorized == null,
+            showUnknown: showUnknown ?? isAuthorized == null,
             showButtons: true);
 
         DisplayName = SessionInfo.GivenName;
@@ -185,7 +185,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 #endif
             await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
 
-            await ApplyAuthStatusLayout();
+            await ApplyAuthStatusLayout(showUnknown: false);
 
             DownloadCaseloadAndSubscribe();
         }
@@ -233,7 +233,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         SetUiOptions(
             showAuthStatusLayout: true,
             showAuthStatus: true,
-            tryingAuthorization: true); 
+            tryingAuthorization: true);
     }
 
     public void Receive(ServiceStateMessage message)
