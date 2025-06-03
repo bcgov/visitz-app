@@ -69,6 +69,19 @@
                         </Image.Source>
                     </Image>
 
+                    <Image
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding ShowUnknown}">
+                        <Image.Source>
+                            <FontImageSource 
+                                Glyph="{Static fonticons:MaterialIcons.Security}"
+                                FontFamily="MaterialIconsRoundedFilled"
+                                Size="200"
+                                Color="White" />
+                        </Image.Source>
+                    </Image>
+
                     <ActivityIndicator
                         Color="White"
                         HeightRequest="100"
@@ -93,21 +106,19 @@
                 <HorizontalStackLayout 
                     Grid.Row="2"
                     HorizontalOptions="Center"
-                    IsVisible="{Binding IsUnauthorized}"
+                    IsVisible="{Binding ShowButtons}"
                     Spacing="20">
 
                     <Button
                         Text="{local:Localize Logout}"
                         Style="{StaticResource SecondaryButtonDark}"
                         StyleClass="FeatureButton"
-                        Command="{Binding TryLogoutCommand}"
-                        IsVisible="{Binding IsUnauthorized}" />
+                        Command="{Binding TryLogoutCommand}" />
 
                     <Button
                         StyleClass="FeatureButton,GoldBorderButton"
                         Command="{Binding DownloadCaseloadAndSubscribeCommand}"
-                        Text="{local:Localize Retry}"
-                        IsVisible="{Binding IsUnauthorized}">
+                        Text="{local:Localize Retry}">
                         <Button.ImageSource>
                             <FontImageSource
                                 Glyph="{Static fonticons:MaterialIcons.Refresh}" 

@@ -52,6 +52,12 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     [ObservableProperty]
     public bool tryingAuthorization;
 
+    [ObservableProperty]
+    public bool showButtons;
+
+    [ObservableProperty]
+    public bool showUnknown;
+
     public Action AuthorizationSuccess { get; set; }
 
     private OidcSessionInfo SessionInfo;
@@ -64,23 +70,20 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
         SessionInfo = await OidcSessionInfo.GetAsync();
 
-        if (await OidcSession.SessionExistsAsync())
+        if (await ApplyLayoutByAuthStatus() is (bool, _) sessionStatus)
         {
-            await ApplyAuthStatusLayout();
 #if IOS
             // Having issues with lifecycle timings on iOS and this delay solves
             // it wonderfully. Not ideal but it works.
             await Task.Delay(100);
 #endif
-            if (!AppLockPage.IsOpen)
+            if (!AppLockPage.IsOpen && sessionStatus.SessionExists)
                 // If AppLockPage is open, it will auto prompt to authenticate.
                 // This will cause an error if VisitzApiService needs to prompt
                 // user for login, and the user will be stuck at a blank screen
                 // in this page.
                 DownloadCaseloadAndSubscribe();
         }
-        else
-            SetUiOptions(showLoginLayout: true);
 
         StrongReferenceMessenger.Default.Register<AppLockMessage>(this);
         OidcSession.SessionChanged += OidcSession_SessionChanged;
@@ -105,7 +108,9 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         bool showAuthStatus = false,
         bool isAuthorized = false,
         bool isUnauthorized = false,
-        bool tryingAuthorization = false)
+        bool tryingAuthorization = false,
+        bool? showButtons = null,
+        bool showUnknown = false)
     {
         ShowLoginLayout = showLoginLayout;
         ShowAuthStatusLayout = showAuthStatusLayout;
@@ -113,6 +118,8 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         IsAuthorized = isAuthorized;
         IsUnauthorized = isUnauthorized;
         TryingAuthorization = tryingAuthorization;
+        ShowButtons = showButtons ?? (showLoginLayout ? false : !IsAuthorized || IsUnauthorized);
+        ShowUnknown = showUnknown;
 
         BgDisplayOptions = showLoginLayout
             ? DisplayOptions.Clear
@@ -122,11 +129,13 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             AuthStatus = LocalizedStrings.CheckingIcmProfile;
         else if (isUnauthorized)
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
+        else if (!isAuthorized)
+            AuthStatus = "MCFD Mobility needs to confirm you have a valid ICM profile.";
         else
             AuthStatus = string.Empty;
     }
 
-    private async Task ApplyAuthStatusLayout()
+    private async Task<bool?> ApplyAuthStatusLayout()
     {
         bool? isAuthorized = await OidcSession.IsAuthorized();
 
@@ -134,23 +143,30 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             showAuthStatusLayout: true,
             showAuthStatus: true,
             isAuthorized: isAuthorized ?? false,
-            isUnauthorized: !isAuthorized ?? false);
+            isUnauthorized: !isAuthorized ?? false,
+            showUnknown: isAuthorized == null,
+            showButtons: true);
 
         DisplayName = SessionInfo.GivenName;
+
+        return isAuthorized;
     }
 
     private async void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
     {
         SessionInfo = sender as OidcSessionInfo;
-        await ApplyLayout();
+        await ApplyLayoutByAuthStatus();
     }
 
-    private async Task ApplyLayout()
+    private async Task<(bool SessionExists, bool? IsAuthorized)> ApplyLayoutByAuthStatus()
     {
         if (await OidcSession.SessionExistsAsync())
-            await ApplyAuthStatusLayout();
+            return (true, await ApplyAuthStatusLayout());
         else
+        {
             SetUiOptions(showLoginLayout: true);
+            return (false, null);
+        }
     }
 
     [RelayCommand]
