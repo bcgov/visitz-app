@@ -10,8 +10,8 @@
 
 namespace Visitz.Resources.Localization {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,15 +23,15 @@ namespace Visitz.Resources.Localization {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class LocalizedStrings {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal LocalizedStrings() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace Visitz.Resources.Localization {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,7 +59,7 @@ namespace Visitz.Resources.Localization {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Active.
         /// </summary>
@@ -68,7 +68,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Active", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add new.
         /// </summary>
@@ -77,7 +77,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AddNew", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add notes.
         /// </summary>
@@ -86,7 +86,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AddNotes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add photos.
         /// </summary>
@@ -95,7 +95,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AddPhotos", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
@@ -104,7 +104,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Address", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add visit.
         /// </summary>
@@ -113,7 +113,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AddVisit", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Age.
         /// </summary>
@@ -122,7 +122,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Age", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Agency.
         /// </summary>
@@ -131,7 +131,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Agency", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
@@ -140,7 +140,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("All", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You&apos;re all caught up! No drafts here..
         /// </summary>
@@ -149,7 +149,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AllCaughtUpNoDrafts", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Approved by.
         /// </summary>
@@ -158,7 +158,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ApprovedBy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Approved date.
         /// </summary>
@@ -167,7 +167,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ApprovedDate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Attachment metadata.
         /// </summary>
@@ -176,7 +176,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AttachmentMetadata", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; published successfully..
         /// </summary>
@@ -185,7 +185,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AttachmentPublishSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Attachments.
         /// </summary>
@@ -194,7 +194,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Attachments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Authentication required.
         /// </summary>
@@ -203,7 +203,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AuthenticationRequired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility Authorization Request.
         /// </summary>
@@ -212,7 +212,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("AuthorizationRequest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Birthdate.
         /// </summary>
@@ -221,7 +221,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Birthdate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Browse.
         /// </summary>
@@ -230,7 +230,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Browse", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
@@ -239,7 +239,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Cancel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cancel and keep draft.
         /// </summary>
@@ -248,7 +248,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CancelAndKeepDraft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
@@ -257,7 +257,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Caseload", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Caseload refresh error.
         /// </summary>
@@ -266,7 +266,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CaseloadError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while trying to download {0}.
         /// </summary>
@@ -275,7 +275,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CaseloadErrorDownload", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while refreshing your caseload.
         ///
@@ -286,7 +286,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CaseloadErrorMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All clear! Nothing is assigned to you..
         /// </summary>
@@ -295,7 +295,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CaseloadIsEmpty", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Search by key player&apos;s name.
         /// </summary>
@@ -304,7 +304,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CaseloadSearchHint", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Case type.
         /// </summary>
@@ -313,7 +313,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CaseType", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cell #.
         /// </summary>
@@ -322,7 +322,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CellNumber", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Character limit reached.
         /// </summary>
@@ -331,7 +331,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CharacterLimitReached", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Checking ICM profile....
         /// </summary>
@@ -340,7 +340,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CheckingIcmProfile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Child.
         /// </summary>
@@ -349,7 +349,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Child", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Children in care/out-of-care.
         /// </summary>
@@ -358,7 +358,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ChildrenInOutCare", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You must select at least one child or publishing to ICM will fail..
         /// </summary>
@@ -367,7 +367,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ChildrenInOutCareIssueWarning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Child/youth visits.
         /// </summary>
@@ -376,7 +376,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ChildYouthVisits", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Collection Notice.
         /// </summary>
@@ -385,7 +385,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CollectionNotice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your personal information is being collected to facilitate the delivery of Child, Family and Community Services.
         ///
@@ -398,7 +398,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CollectionNoticeDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
@@ -407,7 +407,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Comments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comments (if clarification or rationale for the rating is needed).
         /// </summary>
@@ -416,7 +416,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CommentsClarificationPrompt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Connected—no internet available.
         /// </summary>
@@ -425,7 +425,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ConnectedNoInternet", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Continue draft.
         /// </summary>
@@ -434,7 +434,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ContinueDraft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copied to clipboard.
         /// </summary>
@@ -443,7 +443,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CopiedToClipboard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy to clipboard.
         /// </summary>
@@ -452,7 +452,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CopyToClipboard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Created by.
         /// </summary>
@@ -461,7 +461,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CreatedBy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Created date.
         /// </summary>
@@ -470,7 +470,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("CreatedDate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
@@ -479,7 +479,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Date", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Date of assessment.
         /// </summary>
@@ -488,7 +488,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DateOfAssessment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Date of birth.
         /// </summary>
@@ -497,7 +497,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DateOfBirth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Date of visit.
         /// </summary>
@@ -506,7 +506,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DateOfVisit", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
@@ -515,7 +515,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Description", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Details.
         /// </summary>
@@ -524,7 +524,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Details", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility contains Private Information and may only be accessed by authorized users..
         /// </summary>
@@ -533,7 +533,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DeviceAuthReason", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unlock MCFD Mobility.
         /// </summary>
@@ -542,7 +542,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DeviceAuthTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Device offline.
         /// </summary>
@@ -551,7 +551,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DeviceOffline", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your device is not connected to the internet right now.
         ///
@@ -564,7 +564,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DeviceOfflineDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discard.
         /// </summary>
@@ -573,7 +573,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Discard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to discard this attachment draft? You won&apos;t be able to recover it..
         /// </summary>
@@ -582,7 +582,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardAttachmentDraftDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discard draft.
         /// </summary>
@@ -591,7 +591,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardDraft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discard draft?.
         /// </summary>
@@ -600,7 +600,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardDraftQuestion", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discarded safety assessment draft.
         /// </summary>
@@ -609,7 +609,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardedSafetyAssessmentDraft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discarded visit draft.
         /// </summary>
@@ -618,7 +618,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardedVisitDraft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discarded note draft.
         /// </summary>
@@ -627,7 +627,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardNoteDraft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to discard this note draft? You won&apos;t be able to recover it..
         /// </summary>
@@ -636,7 +636,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardNoteDraftDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to discard this safety assessment draft? You won&apos;t be able to recover any progress you&apos;ve made..
         /// </summary>
@@ -645,7 +645,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardSafetyAssessmentDraftDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discard unlinked draft.
         /// </summary>
@@ -654,7 +654,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardUnlinkedDraft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You are not assigned to {0} &apos;{1}&apos;. To continue working on drafts for this record you must be assigned.
         ///
@@ -667,7 +667,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardUnlinkedDraftDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to discard this in-person visit draft? You won&apos;t be able to recover it..
         /// </summary>
@@ -676,7 +676,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DiscardVisitDraftDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Dismiss.
         /// </summary>
@@ -685,7 +685,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Dismiss", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Drafts.
         /// </summary>
@@ -694,7 +694,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Drafts", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Draft saved.
         /// </summary>
@@ -703,7 +703,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("DraftSaved", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
@@ -712,7 +712,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Ellipsis", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enable device security.
         /// </summary>
@@ -721,7 +721,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("EnableDeviceSecurity", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
@@ -730,7 +730,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Error", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to To report this error, you can select &apos;copy to clipboard&apos; and paste into an email:.
         /// </summary>
@@ -739,7 +739,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ErrorDialogCopyPrompt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Factors influencing child vulnerability.
         /// </summary>
@@ -748,7 +748,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FactorsInfluencingChildVuln", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Age 0-5 years.
         /// </summary>
@@ -757,7 +757,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FactorVuln_AgeUpToFive", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Diminished mental capacity.
         /// </summary>
@@ -766,7 +766,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FactorVuln_DiminishedMental", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Diminished physical capacity.
         /// </summary>
@@ -775,7 +775,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FactorVuln_DiminishedPhysical", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Significant diagnosed medical or mental disorder.
         /// </summary>
@@ -784,7 +784,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FactorVuln_MedicalMentalDisorder", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Not readily accessible to community oversight.
         /// </summary>
@@ -793,7 +793,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FactorVuln_NotReadilyAccessible", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Publishing to ICM failed.
         /// </summary>
@@ -802,7 +802,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FailedToPublishToIcm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshing attachments on device failed.
         /// </summary>
@@ -811,7 +811,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FailedToRefreshAttachments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshing notes on device failed.
         /// </summary>
@@ -820,7 +820,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FailedToRefreshNotes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshing safety assessments on device failed.
         /// </summary>
@@ -829,7 +829,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FailedToRefreshSAs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshing visits on device failed.
         /// </summary>
@@ -838,7 +838,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FailedToRefreshVisits", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Family members.
         /// </summary>
@@ -847,7 +847,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FamilyMembers", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Family name.
         /// </summary>
@@ -856,7 +856,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FamilyName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please take two minutes to tell us how the app is working for you..
         /// </summary>
@@ -865,7 +865,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FeedbackRequestDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Got feedback? Let us know!.
         /// </summary>
@@ -874,7 +874,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FeedbackUrlPrompt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to File.
         /// </summary>
@@ -883,7 +883,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("File", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; discarded.
         /// </summary>
@@ -892,7 +892,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FileDiscarded", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
@@ -901,7 +901,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("FirstName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Gender.
         /// </summary>
@@ -910,7 +910,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Gender", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You have an unpublished draft.
         /// </summary>
@@ -919,7 +919,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("HaveUnpublishedDraft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Home #.
         /// </summary>
@@ -928,7 +928,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("HomeNumber", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ID.
         /// </summary>
@@ -937,7 +937,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Id", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Image content missing.
         /// </summary>
@@ -946,7 +946,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ImageContentMissing", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Conditions resulting in a child&apos;s inability to protect self. Mark all that apply to ANY child:.
         /// </summary>
@@ -955,7 +955,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("InabilityProtectSelfMarkAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Incident number.
         /// </summary>
@@ -964,7 +964,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("IncidentNumber", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Indigenous.
         /// </summary>
@@ -973,7 +973,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Indigenous", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to In ICM.
         /// </summary>
@@ -982,7 +982,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("InIcm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Insert.
         /// </summary>
@@ -991,7 +991,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Insert", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invalid entry.
         /// </summary>
@@ -1000,7 +1000,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("InvalidEntry", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Key player.
         /// </summary>
@@ -1009,7 +1009,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("KeyPlayer", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Known app issue.
         /// </summary>
@@ -1018,7 +1018,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("KnownAppIssue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Last modified.
         /// </summary>
@@ -1027,7 +1027,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LastModified", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
@@ -1036,7 +1036,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LastName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Last updated.
         /// </summary>
@@ -1045,7 +1045,16 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LastUpdated", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Last visit.
+        /// </summary>
+        public static string LastVisit {
+            get {
+                return ResourceManager.GetString("LastVisit", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
@@ -1054,7 +1063,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Login", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your profile is not active in ICM—please contact your Office Manager to resolve this issue..
         /// </summary>
@@ -1063,7 +1072,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LoginSuccessButUnauth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Log in to submit attachment.
         /// </summary>
@@ -1072,7 +1081,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LoginToSubmitAttachment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Log in to submit notes.
         /// </summary>
@@ -1081,7 +1090,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LoginToSubmitNotes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Log in to submit safety assessment.
         /// </summary>
@@ -1090,7 +1099,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LoginToSubmitSA", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Login to submit child/youth visit.
         /// </summary>
@@ -1099,7 +1108,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LoginToSubmitVisit", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Log out.
         /// </summary>
@@ -1108,7 +1117,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Logout", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Log out and clear data.
         /// </summary>
@@ -1117,7 +1126,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LogoutAndClearData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cached ICM data on this device will be cleared and you will need to log in again before using any ICM features over the internet.
         ///
@@ -1128,7 +1137,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("LogoutAndClearDataDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Mark all that apply:.
         /// </summary>
@@ -1137,7 +1146,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("MarkAllThatApply", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Modified.
         /// </summary>
@@ -1146,7 +1155,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Modified", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to More info.
         /// </summary>
@@ -1155,7 +1164,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("MoreInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to N/A.
         /// </summary>
@@ -1164,7 +1173,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NA", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Narrative.
         /// </summary>
@@ -1173,7 +1182,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Narrative", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Provide rationale for the Safety Decision including how the intervention plan, if needed, is expected to mitigate safety concerns or is insufficient to address concerns:.
         /// </summary>
@@ -1182,7 +1191,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NarrativeDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility needs to confirm you have a valid ICM profile..
         /// </summary>
@@ -1191,7 +1200,17 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NeedToConfirm", resourceCulture);
             }
         }
-        
+
+        ///   Looks up a localized string similar to Next visit due.
+        /// </summary>
+        public static string NextVisitDue
+        {
+            get
+            {
+                return ResourceManager.GetString("NextVisitDue", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Next in-person visit due by {0}..
         /// </summary>
@@ -1200,7 +1219,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NextVisitDueBy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility isn&apos;t permitted to use your device&apos;s camera. Enable it in device settings and try again..
         /// </summary>
@@ -1209,7 +1228,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NoCameraPermissionsDetailMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Camera permissions disabled.
         /// </summary>
@@ -1218,7 +1237,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NoCameraPermissionsPrompt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No internet available.
         /// </summary>
@@ -1227,7 +1246,16 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NoInternet", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to There are no notes for this {0}.
         /// </summary>
@@ -1236,7 +1264,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NoNotesForEntity", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There are no notes for {0}.
         /// </summary>
@@ -1245,7 +1273,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NoNotesForPeriod", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No results for &apos;{0}&apos;.
         /// </summary>
@@ -1254,7 +1282,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NoResultsForSearch", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No results for &apos;{0}&apos; and &apos;{1}&apos;.
         /// </summary>
@@ -1263,7 +1291,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NoResultsForSearchAndFilter", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Page {0}.
         /// </summary>
@@ -1272,7 +1300,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NotePageNumberHeader", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
@@ -1281,7 +1309,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Notes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Notes published to ICM.
         /// </summary>
@@ -1290,7 +1318,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("NotesPublishedToIcm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Offline.
         /// </summary>
@@ -1299,7 +1327,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Offline", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
@@ -1308,7 +1336,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Ok", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Currently, attachments cannot be read from ICM. They can only be uploaded..
         /// </summary>
@@ -1317,7 +1345,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("OnlyPublishAttachments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to On my device.
         /// </summary>
@@ -1326,7 +1354,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("OnMyDevice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open date.
         /// </summary>
@@ -1335,7 +1363,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("OpenDate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Other.
         /// </summary>
@@ -1344,7 +1372,16 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Other", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Overdue.
+        /// </summary>
+        public static string Overdue {
+            get {
+                return ResourceManager.GetString("Overdue", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to In-person visit was due on {0}..
         /// </summary>
@@ -1353,7 +1390,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("OverdueVisitOn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/Care-provider.
         /// </summary>
@@ -1362,7 +1399,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ParentCareProvider", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to PDF content missing.
         /// </summary>
@@ -1371,7 +1408,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("PdfContentMissing", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Preview.
         /// </summary>
@@ -1380,7 +1417,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Preview", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Protective capacities.
         /// </summary>
@@ -1389,7 +1426,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacities", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Child/Youth has the cognitive, physical and emotional capacity to participate in safety interventions.
         /// </summary>
@@ -1398,7 +1435,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ChildCognitive", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Other.
         /// </summary>
@@ -1407,7 +1444,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_Comments1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Provide a brief description of supporting observations and evidence of any protective capacities marked.
         /// </summary>
@@ -1416,7 +1453,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_Comments2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No protective capacities present.
         /// </summary>
@@ -1425,7 +1462,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_NoProCapPresent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider is willing to accept temporary interventions offered by child protection worker and/or other community agencies, including co-operation with continuing Family Development Response/investigation.
         /// </summary>
@@ -1434,7 +1471,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentAccept", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider is aware of and committed to meeting the needs of the child/youth.
         /// </summary>
@@ -1443,7 +1480,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentAware", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider has the cognitive, physical and emotional capacity to participate in safety interventions.
         /// </summary>
@@ -1452,7 +1489,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentCognitive", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider has history of effective problem solving.
         /// </summary>
@@ -1461,7 +1498,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentProbSolving", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to At least one parent/care-provider in the home is willing and able to take action to protect the child/youth, including asking offending parent/care-provider to leave.
         /// </summary>
@@ -1470,7 +1507,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentProtect", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There is evidence of a healthy relationship between parent/care-provider and child/youth.
         /// </summary>
@@ -1479,7 +1516,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentRelationship", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider has the ability to access resources to provide necessary safety interventions.
         /// </summary>
@@ -1488,7 +1525,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentResources", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider has supportive relationships with one or more persons (extended family, neighbours, community members, Elders or community agencies), who may be willing to participate in safety planning, AND parent/care-provider is willing and able to accept their assistance.
         /// </summary>
@@ -1497,7 +1534,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentSupportive", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider has a willingness to recognize problems and concerns placing the child/youth in imminent danger.
         /// </summary>
@@ -1506,7 +1543,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ProtectiveCapacity_ParentWillingness", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Publishing &apos;{0}&apos; to ICM.
         /// </summary>
@@ -1515,7 +1552,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("PublishingAttachmentToIcm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Publishing notes to ICM.
         /// </summary>
@@ -1524,7 +1561,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("PublishingNotesToIcm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Publishing safety assessment to ICM.
         /// </summary>
@@ -1533,7 +1570,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("PublishingSAToICM", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Publishing visit to ICM.
         /// </summary>
@@ -1542,7 +1579,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("PublishingVisit", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} - Safety Assessment {1}.
         /// </summary>
@@ -1551,7 +1588,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("PublishSATitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Publish to ICM.
         /// </summary>
@@ -1560,7 +1597,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("PublishToIcm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Pull to refresh caseload from ICM.
         /// </summary>
@@ -1569,7 +1606,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("PullToRefreshCaseload", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Read-only.
         /// </summary>
@@ -1578,7 +1615,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ReadOnly", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ready to finalize.
         /// </summary>
@@ -1587,7 +1624,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ReadyToFinalize", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Ready to finalize date.
         /// </summary>
@@ -1596,7 +1633,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ReadyToFinalizeDate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} &apos;{1}&apos; unassigned from caseload.
         /// </summary>
@@ -1605,7 +1642,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RecordRemovedFromCaseload", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &quot;The record {0} &apos;{1}&apos; was unassigned from your caseload and was removed from this device during caseload refresh.
         ///
@@ -1616,7 +1653,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RecordRemovedFromCaseloadDetails", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshed attachments on device.
         /// </summary>
@@ -1625,7 +1662,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RefreshedAttachmentsOnDevice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshed notes on device.
         /// </summary>
@@ -1634,7 +1671,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RefreshedNotesOnDevice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshed safety assessments on device.
         /// </summary>
@@ -1643,7 +1680,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RefreshedSAsOnDevice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshed visits on device.
         /// </summary>
@@ -1652,7 +1689,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RefreshedVisitsOnDevice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshing attachments.
         /// </summary>
@@ -1661,7 +1698,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RefreshingAttachments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshing notes.
         /// </summary>
@@ -1670,7 +1707,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RefreshingNotes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshing safety assessments.
         /// </summary>
@@ -1679,7 +1716,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RefreshingSAs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refreshing visits.
         /// </summary>
@@ -1688,7 +1725,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RefreshingVisits", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
@@ -1697,7 +1734,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The attachment will be removed from your device and you won&apos;t be able to view it until it is downloaded again.
         ///
@@ -1708,7 +1745,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RemoveAttachmentDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Remove attachment from device.
         /// </summary>
@@ -1717,7 +1754,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RemoveAttachmentFromDevice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Removed &apos;{0}&apos; from device.
         /// </summary>
@@ -1726,7 +1763,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("RemovedAttachmentFromDevice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Rename.
         /// </summary>
@@ -1735,7 +1772,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Rename", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Retry.
         /// </summary>
@@ -1744,7 +1781,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Retry", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Safety assessment.
         /// </summary>
@@ -1753,7 +1790,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyAssessment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Safety assessment metadata.
         /// </summary>
@@ -1762,7 +1799,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyAssessmentMetadata", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Operation.
         /// </summary>
@@ -1771,7 +1808,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyAssessmentOperation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Safety assessments.
         /// </summary>
@@ -1780,7 +1817,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyAssessments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Published Safety Assessments can be edited in ICM to make any corrections..
         /// </summary>
@@ -1789,7 +1826,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyAssessmentsCanBeEdited", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to To publish to ICM, all safety factors must be answered yes or no and a valid safety decision must be selected..
         /// </summary>
@@ -1798,7 +1835,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyAssessmentValidationRulesInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Safety decision.
         /// </summary>
@@ -1807,7 +1844,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyDecision", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All Children/Youth placed in out-of-care living arrangements or in care.
         /// </summary>
@@ -1816,7 +1853,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyDecision_AllYouth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Identify the safety decision by checking the appropriate line below. The decision should be based on the assessment of all safety factors, safety interventions, and any other information known about the case..
         /// </summary>
@@ -1825,7 +1862,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyDecision_Prompt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The following children were placed in an out-of-care living arrangement or in care.
         /// </summary>
@@ -1834,7 +1871,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyDecision_SelectedYouth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 1. Safe—no safety factors are identified at this time. Based on currently available information, there are no children/youth likely to be in immediate danger of serious harm.
         /// </summary>
@@ -1843,7 +1880,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyDecision1_NoSafetyFactors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 2. Safe with intervention—one or more safety factors are present and protecting safety interventions have been planned or taken that immediately mitigate the identifies safety factors. Based on protecting interventions, child/youth will remain in the home at this time.
         /// </summary>
@@ -1852,7 +1889,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyDecision2_SafeInterventions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 3. Unsafe—one or more safety factors are present and placement is the only protecting intervention possible for one or more children/youth. Without placement, one or more children/youths will likely be in danger of immediate or serious harm.
         /// </summary>
@@ -1861,7 +1898,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyDecision3_UnsafeSafetyFactors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Excessive discipline or physical force.
         /// </summary>
@@ -1870,7 +1907,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor1_Discipline", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 1. Parent/care-provider caused serious physical harm to the child/youth, or made a plausible threat to cause serious physical harm in the current report indicated by:.
         /// </summary>
@@ -1879,7 +1916,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor1_PhysicalHarm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parent/care-provider fears he/she will maltreat child/youth.
         /// </summary>
@@ -1888,7 +1925,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor1_ProviderFears", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Serious injury or abuse to child other than accidental.
         /// </summary>
@@ -1897,7 +1934,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor1_SeriousInjury", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Substance-exposed infant.
         /// </summary>
@@ -1906,7 +1943,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor1_Substance", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Threat to cause harm or retaliate against child/youth.
         /// </summary>
@@ -1915,7 +1952,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor1_ThreatOfHarm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 10. Intimate partner violence exists in the family..
         /// </summary>
@@ -1924,7 +1961,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor10_PartnerViolence", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 11. Parent/care-provider describes child/youth in predominantly negative terms or acts toward child/youth in negative ways that result in the child being self destructive, acting out aggressively or demonstrating severe anxiety, depression or withdrawal..
         /// </summary>
@@ -1933,7 +1970,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor11_PredominantlyNegative", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 12. Parent/care-provider&apos;s emotional stability, developmental status, or cognitive limitation seriously impairs his/her current ability to supervise, protect, or care for the child/youth..
         /// </summary>
@@ -1942,7 +1979,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor12_EmotionalStability", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 13. Child/youth is fearful of parent/care-provider, other family members, or other people living in or having access to the home..
         /// </summary>
@@ -1951,7 +1988,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor13_ChildFearful", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
@@ -1960,7 +1997,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor14_Context", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 14. Other (please specify):.
         /// </summary>
@@ -1969,7 +2006,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor14_OtherFactors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 2. Current circumstances, combined with information that the parent/care-provider has or may have previously maltreated (abuse or neglect) a child/youth in his/her care, suggest that the child/youth&apos;s safety may be of immediate concern based on the severity of the previous maltreatment or the parent/care-provider&apos;s response to the previous incident..
         /// </summary>
@@ -1978,7 +2015,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor2_CurrentCircumstances", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 3. Child/youth sexual abuse is suspected and circumstances suggest that child/youth&apos;s safety may be of immediate concern..
         /// </summary>
@@ -1987,7 +2024,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor3_SexAbuse", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 4. Parent/care-provider is unable or unwilling to protect child/youth from serious harm or threatened harm by other adults or children in the home. This may include physical, emotional, sexual abuse or neglect..
         /// </summary>
@@ -1996,7 +2033,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor4_UnableToProtect", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 5. Parent/care-provider&apos;s explanation for the injury to the child/youth is questionable or inconsistent with type of injury, and the nature of the injury suggests that the child/youth&apos;s safety may be of imminent concern..
         /// </summary>
@@ -2005,7 +2042,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor5_InjuryExplanation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 6. The family refuses access to the child/youth or there is reason to believe that the family is about to flee..
         /// </summary>
@@ -2014,7 +2051,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor6_RefuseAccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 7. Parent/care-provider does not meet the child&apos;s immediate needs for supervision, food, clothing, medical, dental, or mental health care..
         /// </summary>
@@ -2023,7 +2060,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor7_ImmediateNeeds", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 8. The physical living conditions are hazardous and immediately threatening to the health and/or safety of the child/youth..
         /// </summary>
@@ -2032,7 +2069,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor8_PhysicalCondition", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 9. Parent/care-provider&apos;s current alcohol, drug, or substance abuse seriously impairs his/her ability to supervise, protect, or care for the child/youth..
         /// </summary>
@@ -2041,7 +2078,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactor9_CurrentAbuse", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Safety factors.
         /// </summary>
@@ -2050,7 +2087,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyFactors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to After weighing the Safety Factors and the Protective Capacities consider whether safety interventions 1-8 will allow the child to remain in the home for the present time. Check the item number for all safety interventions that will be implemented. If there are no available safety interventions that would allow the child/youth to remain in the home, indicate by checking item nine or ten, and follow procedures for initiating a voluntary agreement for placement in an out-of-care or in-care living arrangement o [rest of string was truncated]&quot;;.
         /// </summary>
@@ -2059,7 +2096,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention_Description", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Indicate a Safety Intervention only if one or more Safety Factors have been checked as Yes..
         /// </summary>
@@ -2068,7 +2105,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention_Prompt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 1. Direct service intervention by the child protection worker.
         /// </summary>
@@ -2077,7 +2114,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention1_DirectIntervention", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 10. Child/youth removed because interventions 1-9 do not adequately assure child&apos;s safety.
         /// </summary>
@@ -2086,7 +2123,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention10_ChildRemoved", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 2. Use of extended family, neighbours, community Elders, or other individuals in the community as safety resources.
         /// </summary>
@@ -2095,7 +2132,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention2_UseOfIndividuals", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources.
         /// </summary>
@@ -2104,7 +2141,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention3_UseCommAgencies", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 4. Parent/care-provider to appropriately protect victim from alleged perpetrator.
         /// </summary>
@@ -2113,7 +2150,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention4_ProtectVictim", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 5. Alleged perpetrator to leave the home, either voluntarily or in response to consideration of legal intervention.
         /// </summary>
@@ -2122,7 +2159,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention5_LeaveHome", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 6. Non-offending parent/care-provider to move to a safe environment with the child.
         /// </summary>
@@ -2131,7 +2168,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention6_NonOffendingParent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 7. Legal intervention planned or initiated - child/youth remains in the home.
         /// </summary>
@@ -2140,7 +2177,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention7_LegalIntPlanned", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 8. Other.
         /// </summary>
@@ -2149,7 +2186,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention8_OtherSafetyInterventions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 9. Parent/care-provider to voluntarily place the child outside the home.
         /// </summary>
@@ -2158,7 +2195,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyIntervention9_ChildOutsideHome", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Safety interventions.
         /// </summary>
@@ -2167,7 +2204,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyInterventions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Safety plan.
         /// </summary>
@@ -2176,7 +2213,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyPlan", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Provide a brief description of intervention, detailing relationship of support persons to child/youth including names, contact information, frequency and duration of supports and how the safety intervention plan will be monitored:.
         /// </summary>
@@ -2185,7 +2222,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SafetyPlanDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Safety assessment published successfully..
         /// </summary>
@@ -2194,7 +2231,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SAPublishedSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
@@ -2203,7 +2240,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SecureDeviceAndTryAgain", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select one or more children:.
         /// </summary>
@@ -2212,7 +2249,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SelectChildrenPrompt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Send to team leader.
         /// </summary>
@@ -2221,7 +2258,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SendToTeamLeader", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Service office.
         /// </summary>
@@ -2230,7 +2267,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ServiceOffice", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Social worker name.
         /// </summary>
@@ -2239,7 +2276,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SocialWorkerName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Start survey.
         /// </summary>
@@ -2248,7 +2285,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("StartSurvey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to IN.
         /// </summary>
@@ -2257,7 +2294,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Subtype_ChildProtectionIncidentInitials", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to CS.
         /// </summary>
@@ -2266,7 +2303,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Subtype_ChildServicesInitials", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to FS.
         /// </summary>
@@ -2275,7 +2312,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Subtype_FamilyServicesInitials", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Support network.
         /// </summary>
@@ -2284,7 +2321,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("SupportNetwork", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Tap to select.
         /// </summary>
@@ -2293,7 +2330,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("TapToSelect", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Terminate session.
         /// </summary>
@@ -2302,7 +2339,16 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("TerminateSession", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to To do.
+        /// </summary>
+        public static string Todo {
+            get {
+                return ResourceManager.GetString("Todo", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
@@ -2311,7 +2357,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("Type", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unable to load PDF.
         /// </summary>
@@ -2320,7 +2366,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("UnableToLoadPdf", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unable to reach ICM (device offline).
         /// </summary>
@@ -2329,7 +2375,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("UnableToReachIcmDeviceOffline", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You aren&apos;t authorized to use this feature..
         /// </summary>
@@ -2338,7 +2384,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("UnauthorizedForApi", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to User cancelled IDIR login..
         /// </summary>
@@ -2347,7 +2393,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("UserCancelledAuth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Visit description.
         /// </summary>
@@ -2356,7 +2402,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("VisitDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Visit details.
         /// </summary>
@@ -2365,7 +2411,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("VisitDetails", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to In-person visit due by {0}..
         /// </summary>
@@ -2374,7 +2420,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("VisitDueBy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Visit published to ICM.
         /// </summary>
@@ -2383,7 +2429,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("VisitPublishedToIcm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Visit type.
         /// </summary>
@@ -2392,7 +2438,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("VisitType", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We want your feedback!.
         /// </summary>
@@ -2401,7 +2447,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("WeWantYourFeedback", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Worker ID.
         /// </summary>
@@ -2410,7 +2456,7 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("WorkerId", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You are authorized to use MCFD Mobility..
         /// </summary>
