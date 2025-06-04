@@ -201,9 +201,9 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
 
     public bool IsKeyPlayer => Relationship == KeyPlayer;
 
-    public string? DisplayCoordinationAgtCa => CoordinationAgtCa.ExtendYOrN();
+    public string? DisplayCoordinationAgtCa => CoordinationAgtCa?.ExtendYOrN();
 
-    public string? Display_921Agt => _921Agt.ExtendYOrN();
+    public string? Display_921Agt => _921Agt?.ExtendYOrN();
 
     public int SortPositionAsc
     {
