@@ -50,4 +50,14 @@ public static class StringExtensions
         else
             return ParseWordTruthiness(text);
     }
+
+    public static string? ExtendYOrN(this string? text)
+    {
+        if (text != null && text.Trim().StartsWith("Y", StringComparison.CurrentCultureIgnoreCase))
+            return "Yes";
+        else if (text != null && text.Trim().StartsWith("N", StringComparison.CurrentCultureIgnoreCase))
+            return "No";
+
+        return null;
+    }
 }

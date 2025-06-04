@@ -133,6 +133,24 @@ namespace Visitz.Resources.Localization {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to 92.1 AGT.
+        /// </summary>
+        public static string Agt921 {
+            get {
+                return ResourceManager.GetString("Agt921", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coordination AGT (CA).
+        /// </summary>
+        public static string AgtCoordinationCa {
+            get {
+                return ResourceManager.GetString("AgtCoordinationCa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
