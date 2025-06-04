@@ -1,5 +1,8 @@
 using System.Text;
 using Visitz.Storage;
+using VisitzModel.Models;
+using VisitzModel.Models.InPersonVisits;
+
 
 #if WINDOWS
 using Windows.Storage;
@@ -214,5 +217,31 @@ public class DebugOptions
         using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
 
         await icmData.WriteAsync(() => icmData.Add(SimpleMockData.MockPersonVisits(parentId), update: true));
+    }
+
+    public static async Task SetThreshold(VisitDaysThreshold threshold)
+    {
+        if (!Enabled)
+            return;
+
+        using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
+
+        var latestVisits = PersonVisit.GetAllByType(icmData)
+            .AsEnumerable()
+            .GroupBy(item => item.ParentId)
+            .Select(group => group
+            .OrderByDescending(item => item.DateOfVisit)
+            .FirstOrDefault())
+            .Where(item => item != null)
+            .ToList();
+
+        var targetDueDate = DateTimeOffset.Now.Date.AddDays((int)threshold);
+        var targetDateOfVisit = targetDueDate.AddDays(-(int)VisitDaysThreshold.Info);
+
+        await icmData.WriteAsync(() =>
+        {
+            foreach (var visit in latestVisits)
+                visit.DateOfVisit = targetDateOfVisit;
+        });
     }
 }
