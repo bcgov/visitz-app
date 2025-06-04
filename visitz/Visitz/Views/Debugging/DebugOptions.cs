@@ -228,7 +228,9 @@ public class DebugOptions
 
         var latestVisits = PersonVisit.GetAllByType(icmData);
 
-        var targetDueDate = DateTimeOffset.Now.Date.AddDays((int)threshold);
+        var extraDay = threshold == VisitDaysThreshold.Critical ? 1 : 0;
+        var targetDueDate = DateTimeOffset.Now.Date.AddDays((int)threshold - extraDay);
+
         var targetDateOfVisit = targetDueDate.AddDays(-(int)VisitDaysThreshold.Info);
 
         await icmData.WriteAsync(() =>

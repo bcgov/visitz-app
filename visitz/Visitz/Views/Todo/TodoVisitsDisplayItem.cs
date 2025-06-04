@@ -8,12 +8,7 @@ public class TodoVisitsDisplayItem(PersonVisit visit, IBusinessObject businessOb
 {
     public PersonVisit TodoItem { get; set; } = visit;
     public IBusinessObject BusinessObject { get; set; } = businessObject;
-    public bool IsOverdue { get; set; } = FindIfOverdue(visit);
+    public bool IsOverdue => DateTimeOffset.Now.Date > TodoItem.DueDate;
 
     public EntitySection SectionToOpen { get; set; } = EntitySection.ChildYouthVisits;
-
-    public static bool FindIfOverdue(PersonVisit visit)
-    {
-        return DateTimeOffset.Now.Date > visit.DueDate;
-    }
 }
