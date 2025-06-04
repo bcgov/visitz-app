@@ -7,30 +7,39 @@
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
 	xmlns:icons="clr-namespace:Visitz.FontIcons"
 	xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentsView"
 	x:DataType="attachments:AttachmentsViewModel">
-	
-	<Grid
+
+    <Grid
 		HorizontalOptions="FillAndExpand"
 		VerticalOptions="FillAndExpand"
-		RowDefinitions="Auto, *, 0.5, Auto">
+		RowDefinitions="Auto, 0.5, *, 0.5, Auto">
 
-		<banners:InfoBanner
-			Grid.Row="0"
-			Margin="20"
-			Level="Info"
-			Text="{local:Localize OnlyPublishAttachments}" />
+        <nav:TabView
+            x:Name="AttachmentsTabs"
+            Grid.Row="0"
+            HorizontalOptions="FillAndExpand"
+            Padding="{Thickness
+                Left={StaticResource DefaultPadding},
+                Right={StaticResource DefaultPadding}}" />
 
-		<attachments:AttachmentsList
-			x:Name="AttachmentsList"
-			Grid.Row="1" />
+        <BoxView
+	        Grid.Row="1"
+	        Color="{StaticResource SeparatorColor}" />
+
+        <ContentView
+            x:Name="TabDisplayView"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            Grid.Row="2" />
 
 		<BoxView
-			Grid.Row="2"
+			Grid.Row="3"
 			Color="{StaticResource SeparatorColor}" />
 
 		<Grid
-			Grid.Row="3"
+			Grid.Row="4"
 			Padding="{StaticResource DefaultPadding}"
 			RowDefinitions="Auto"
 			ColumnSpacing="{StaticResource DefaultSpacing}"
@@ -43,7 +52,7 @@
 				Clicked="Browse_Clicked"
 				IsVisible="{OnPlatform iOS=False}">
 				<Button.ImageSource>
-					<FontImageSource 
+					<FontImageSource
 						Glyph="{Static icons:MaterialIcons.Folder_open}"
 						FontFamily="MaterialIconsRoundedUnfilled"
 						Size="20"
@@ -52,19 +61,19 @@
 			</Button>
 
 			<Button
-				Style="{StaticResource SecondaryButton}"
+				Style="{OnPlatform WinUI={StaticResource SecondaryButton}, Default={StaticResource PrimaryButton}}"
 				Grid.Column="2"
 				Clicked="AddPhotos_Clicked"
 				Text="{local:Localize AddPhotos}">
 				<Button.ImageSource>
-					<FontImageSource 
+					<FontImageSource
 						Glyph="{Static icons:MaterialIcons.Add_a_photo}"
 						FontFamily="MaterialIconsRoundedUnfilled"
 						Size="20"
-						Color="{StaticResource Primary}" />
+						Color="{OnPlatform WinUI={StaticResource Primary}, Default={StaticResource White}}" />
 				</Button.ImageSource>
 			</Button>
 		</Grid>
 	</Grid>
-	
+
 </baseClasses:ViewModelContentView>

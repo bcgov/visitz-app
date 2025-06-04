@@ -1,10 +1,14 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.People;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -32,6 +36,8 @@ public partial class MemoRecord :
     public DateTimeOffset UpdatedDate { get; set; }
 
     public string FileNumber { get; set; }
+
+    public EntityType EntityType => EntityType.Memo;
 
     public string GivenNames { get; set; }
 
@@ -101,6 +107,23 @@ public partial class MemoRecord :
 
     public string Urgent { get; set; }
 
+    private int SubtypeInt { get; set; } = (int)EntitySubtype.Screening;
+    public EntitySubtype EntitySubtype
+    {
+        get => (EntitySubtype)SubtypeInt;
+        set => SubtypeInt = (int)value;
+    }
+
+    public string DisplayDate => CallDate?.ToString(
+        IBusinessObject.DisplayDateFormat,
+        CultureInfo.InvariantCulture) ?? "";
+
+    public string DisplayName => this.GetDisplayName();
+
+    public string FullType => this.GetFullType();
+
+    public IQueryable<IcmContact> Contacts => this.GetContacts();
+
     public MemoRecord() { }
 
     public MemoRecord(MemoJson json)
@@ -152,14 +175,14 @@ public partial class MemoRecord :
     public static List<MemoRecord> FromApiArray(IEnumerable<MemoJson> jsonArray)
     {
         List<MemoRecord> outList = [];
-        
+
         foreach (var jsonItem in jsonArray)
             outList.Add(new MemoRecord(jsonItem));
 
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<MemoJson> section)
+    public static async Task SynchronizeAsync(Realm realm, SectionJson<MemoJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         var currentAssignedIds = realm.All<MemoRecord>().AsEnumerable().Select(memo => memo.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
@@ -167,19 +190,19 @@ public partial class MemoRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds);
+            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
             realm.Upsert(memos);
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds)
+    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in unassignedIds)
         {
             realm.Remove(realm.Find<MemoRecord>(id));
 
             IcmContact.RemoveByParent(realm, EntityType.Memo, id);
-            // TODO: Remove Attachments
+            Attachment.RemoveByParent(realm, EntityType.Memo, id, userIgnoredPrefs);
         }
     }
 
@@ -230,5 +253,13 @@ public partial class MemoRecord :
             TypeOfCaller = TypeOfCaller,
             Urgent = Urgent,
         };
+    }
+
+    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    {
+        return realm
+            .All<MemoRecord>()
+            .FirstOrDefault(memo => memo.Id == draftItem.RelatedEntityId
+                        || memo.FileNumber == draftItem.RelatedEntityId);
     }
 }

@@ -62,7 +62,7 @@ public abstract class SplitLayoutView : BaseContentView
     protected AbsoluteLayout EndPane { get; set; } = [];
 
     public SplitLayoutView()
-	{
+    {
         Content = SplitLayout = new Grid
         {
             RowDefinitions = [new RowDefinition()],
@@ -78,8 +78,8 @@ public abstract class SplitLayoutView : BaseContentView
         SplitLayout.Add(separator, 1, 0);
         SplitLayout.Add(EndPane, 2, 0);
 
-		StartPane.IsClippedToBounds = true;
-		EndPane.IsClippedToBounds = true;
+        StartPane.IsClippedToBounds = true;
+        EndPane.IsClippedToBounds = true;
     }
 
     public void SetStartPane(IView view)

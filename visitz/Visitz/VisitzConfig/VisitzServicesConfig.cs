@@ -22,7 +22,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<SubmitNoteService>();
             builder.Services.AddTransient<SubmitAndGetNotesService>();
             builder.Services.AddTransient<SubmitSafetyAssessmentService>();
-			builder.Services.AddTransient<SubmitAttachmentService>();
+            builder.Services.AddTransient<SubmitAttachmentService>();
             builder.Services.AddTransient<GetVisitsService>();
             builder.Services.AddTransient<GetVisitsByRangeService>();
             builder.Services.AddTransient<PostVisitService>();
@@ -31,15 +31,23 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetContactsByRangeService>();
             builder.Services.AddTransient<GetSupportNetworkService>();
             builder.Services.AddTransient<GetSupportNetworkByRangeService>();
+            builder.Services.AddTransient<GetAttachmentsService>();
+            builder.Services.AddTransient<GetAttachmentsByRangeService>();
+            builder.Services.AddTransient<GetAttachmentContentService>();
+            builder.Services.AddTransient<GetAttachmentContentByRangeService>();
+            builder.Services.AddTransient<GetPartialAttachmentsByRangeDownloadService>();
+            builder.Services.AddTransient<GetSafetyAssessmentsService>();
+            builder.Services.AddTransient<GetSafetyAssessmentsByRangeService>();
 
             return builder;
         }
 
-		public static MauiAppBuilder ConfigureVisitzUtilities(this MauiAppBuilder builder)
-		{
-			builder.Services.AddSingleton(_ => new LastUpdatedPrefs(Preferences.Default));
+        public static MauiAppBuilder ConfigureVisitzUtilities(this MauiAppBuilder builder)
+        {
+            builder.Services.AddSingleton(_ => new LastUpdatedPrefs(Preferences.Default));
+            builder.Services.AddSingleton(_ => new UserIgnoredContentPrefs(Preferences.Default));
 
-			return builder;
-		}
+            return builder;
+        }
     }
 }

@@ -3,39 +3,34 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Services;
 
-internal class RecordServiceInfo
+internal class RecordServiceInfo(
+    EntityType type,
+    EntitySubtype subtype,
+    string id,
+    string fileNumber,
+    string firstName,
+    string lastName)
 {
-    public EntityType Type { get; set; }
+    public EntityType Type { get; set; } = type;
 
-    public string Id { get; set; }
+    public EntitySubtype Subtype { get; set; } = subtype;
 
-    public string Label { get; set; }
+    public string Id { get; set; } = id;
 
-    RecordServiceInfo(string id, string label)
-    {
-        Id = id;
-        Label = label;
-    }
+    public string FileNumber { get; set; } = fileNumber;
 
-    public RecordServiceInfo(CaseRecord @case) : this(@case.Id, @case.Name)
-    {
-        Type = EntityType.Case;
-    }
+    public string FirstName { get; set; } = firstName;
 
-    public RecordServiceInfo(IncidentRecord incident) : this(incident.Id, incident.LastName)
-    {
-        Type = EntityType.Incident;
-    }
+    public string LastName { get; set; } = lastName;
 
-    public RecordServiceInfo(MemoRecord memo) : this(memo.Id, memo.LastName)
-    {
-        Type = EntityType.Memo;
-    }
-
-    public RecordServiceInfo(ServiceRequestRecord sr) : this(sr.Id, sr.LastName)
-    {
-        Type = EntityType.ServiceRequest;
-    }
+    public RecordServiceInfo(IBusinessObject record) : this(
+            record.EntityType,
+            record.EntitySubtype,
+            record.Id,
+            record.FileNumber,
+            record.GivenNames,
+            record.LastName)
+    { }
 }
 
 internal static class RecordServiceInfoExtensions
@@ -44,7 +39,7 @@ internal static class RecordServiceInfoExtensions
     {
         var outString = list.Select(ex =>
         {
-            return $"• {ex.Item.Type} {ex.Item.Label} -> {ex.Message}";
+            return $"• {ex.Item.Type} {ex.Item.FileNumber} -> {ex.Message}";
         }).Aggregate((accum, item) => accum + Environment.NewLine + item);
 
         return new Exception(outString);

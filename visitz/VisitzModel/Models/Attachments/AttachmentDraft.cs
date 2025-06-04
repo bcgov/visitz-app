@@ -1,12 +1,12 @@
 using Realms;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Imaging;
-using VisitzModel.Interfaces;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Interfaces;
 using VisitzModel.Resources.Localization;
 using VisitzModel.Storage.Filesystem;
 
@@ -14,157 +14,138 @@ namespace VisitzModel.Models.Attachments;
 
 public partial class AttachmentDraft : IRealmObject, IDraftItem
 {
-	public string RelatedEntityId { get; set; }
+    public string RelatedEntityId { get; set; }
 
-	private int RelatedEntityTypeInt { get; set; }
-	public EntityType RelatedEntityType
-	{
-		get => (EntityType)RelatedEntityTypeInt;
-		set => RelatedEntityTypeInt = (int)value;
-	}
+    private int RelatedEntityTypeInt { get; set; }
+    public EntityType RelatedEntityType
+    {
+        get => (EntityType)RelatedEntityTypeInt;
+        set => RelatedEntityTypeInt = (int)value;
+    }
 
-	private int RelatedEntitySubtypeInt { get; set; }
-	public EntitySubtype RelatedEntitySubtype
-	{
-		get => (EntitySubtype)RelatedEntitySubtypeInt;
-		set => RelatedEntitySubtypeInt = (int)value;
-	}
+    private int RelatedEntitySubtypeInt { get; set; }
+    public EntitySubtype RelatedEntitySubtype
+    {
+        get => (EntitySubtype)RelatedEntitySubtypeInt;
+        set => RelatedEntitySubtypeInt = (int)value;
+    }
 
-	public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
+    public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
 
-	public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
+    public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-	public string Preview => Attachment.Filename;
+    public string Preview => Attachment.Filename;
 
-	public string DraftLocation { get; set; }
+    public string DraftLocation { get; set; }
 
-	public Attachment Attachment { get; set; }
+    public Attachment Attachment { get; set; }
 
-	public static async Task<AttachmentDraft> SaveNewPhoto(
-		CaseloadItem caseloadItem,
-		AttachmentFiler filer,
-		Realm realm,
-		string filename,
-		Stream stream)
-	{
-		var imgProc = new ImageProcessor(stream);
+    public AttachmentDraft() { }
 
-		byte[] thumbnail = await (await imgProc.Downsize(Attachment.ThumbnailSize)).AsBytesAsync();
+    AttachmentDraft(
+        IBusinessObject businessObject,
+        string filename,
+        string relativePath,
+        byte[] thumbnail)
+    {
+        int dotIndex = filename.LastIndexOf('.');
 
-		if (stream.Length > Attachment.MaxFilesize)
-			stream = await imgProc.DownsizeByFilesize(Attachment.MaxFilesize);
+        Attachment = new()
+        {
+            Filename = dotIndex != -1 ? filename[..dotIndex] : filename,
+            Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
+            RelativePath = relativePath,
+            Thumbnail = thumbnail,
+        };
 
-		return await MakeAndSaveDraft(caseloadItem, filer, realm, filename, stream, thumbnail);
-	}
+        this.InitDraftWith(businessObject);
+        Attachment.InitWith(businessObject);
 
-	public static async Task<AttachmentDraft> SaveNewFile(
-		CaseloadItem caseloadItem,
-		AttachmentFiler filer,
-		Realm realm,
-		string filename,
-		Stream stream)
-	{
-		return await MakeAndSaveDraft(caseloadItem, filer, realm, filename, stream);
-	}
+        Attachment.FileNumber = businessObject.FileNumber;
+    }
 
-	static async Task<AttachmentDraft> MakeAndSaveDraft(
-		CaseloadItem caseloadItem,
-		AttachmentFiler filer,
-		Realm realm,
-		string filename,
-		Stream stream,
-		byte[] thumbnail = null)
-	{
-		if (stream.Length > Attachment.MaxFilesize)
-			ThrowSizeError(stream);
+    public static async Task<AttachmentDraft> SaveNewPhoto(
+        IBusinessObject businessObject,
+        AttachmentFiler filer,
+        Realm realm,
+        string filename,
+        Stream stream)
+    {
+        var imgProc = new ImageProcessor(stream);
 
-		string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
-		var draft = MakeDraft(caseloadItem, filer, filename, fullpath, thumbnail);
+        byte[] thumbnail = await (await imgProc.Downsize(Attachment.ThumbnailSize)).AsBytesAsync();
 
-		try
-		{
-			await realm.WriteAsync(() => realm.Add(draft));
-		}
-		catch
-		{
-			if (File.Exists(fullpath))
-				File.Delete(fullpath);
+        if (stream.Length > Attachment.MaxFilesize)
+            stream = await imgProc.DownsizeByFilesize(Attachment.MaxFilesize);
 
-			throw;
-		}
+        return await MakeAndSaveDraft(businessObject, filer, realm, filename, stream, thumbnail);
+    }
 
-		return draft;
-	}
+    public static async Task<AttachmentDraft> SaveNewFile(
+        IBusinessObject businessObject,
+        AttachmentFiler filer,
+        Realm realm,
+        string filename,
+        Stream stream)
+    {
+        return await MakeAndSaveDraft(businessObject, filer, realm, filename, stream);
+    }
 
-	static void ThrowSizeError(Stream stream)
-	{
-		double tooLargeSize = stream.Length / (double)Sizes.MB;
-		throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
-	}
+    static async Task<AttachmentDraft> MakeAndSaveDraft(
+        IBusinessObject businessObject,
+        AttachmentFiler filer,
+        Realm realm,
+        string filename,
+        Stream stream,
+        byte[] thumbnail = null)
+    {
+        if (stream.Length > Attachment.MaxFilesize)
+            ThrowSizeError(stream);
 
-	static AttachmentDraft MakeDraft(
-		CaseloadItem caseloadItem,
-		AttachmentFiler filer,
-		string filename,
-		string relativePath,
-		byte[] thumbnail)
-	{
-		int dotIndex = filename.LastIndexOf('.');
+        string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
+        var draft = new AttachmentDraft(businessObject, filename, fullpath, thumbnail);
 
-		var draft = new AttachmentDraft()
-		{
-			Attachment = new()
-			{
-				Filename = dotIndex != -1 ? filename[..dotIndex] : filename,
-				Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
-				RelativePath = relativePath,
-				Thumbnail = thumbnail,
-			},
-		};
-		draft.InitDraftWith(caseloadItem);
+        try
+        {
+            await realm.WriteAsync(() => realm.Add(draft));
+        }
+        catch
+        {
+            if (File.Exists(fullpath))
+                File.Delete(fullpath);
 
-		return draft;
-	}
+            throw;
+        }
 
-	public async Task<SubmitAttachmentEntity> ToSubmitAttachmentEntity(
-		AttachmentFiler attachmentFiler,
-		IStreamConverter streamConverter = null,
-		CancellationToken? token = null)
-	{
-		token ??= CancellationToken.None;
+        return draft;
+    }
 
-		await using var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
-		byte[] attachmentBytes;
+    static void ThrowSizeError(Stream stream)
+    {
+        double tooLargeSize = stream.Length / (double)Sizes.MB;
+        throw new ArgumentException(GeneralStrings.FileTooLarge.Format(tooLargeSize), nameof(stream));
+    }
 
-		if (streamConverter != null)
-		{
-			var convertedStream = await streamConverter.ConvertAsync(attachmentStream);
+    public async Task<AttachmentFormData> ToAttachmentFormData(
+        AttachmentFiler attachmentFiler,
+        string category = null,
+        string description = null,
+        string status = null,
+        string template = null,
+        CancellationToken? token = null)
+    {
+        token ??= CancellationToken.None;
 
-			attachmentBytes = new byte[convertedStream.Length];
-			await convertedStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
-		}
-		else
-		{
-			attachmentBytes = new byte[attachmentStream.Length];
-			await attachmentStream.ReadAsync(attachmentBytes.AsMemory(0, attachmentBytes.Length), token.Value);
-		}
+        var attachmentStream = await attachmentFiler.GetAppDataFileAsync(
+            Attachment.RelativePath,
+            token);
 
-		return new()
-		{
-			AttachmentId = Attachment.Id,
-			EntityNumber = RelatedEntityId,
-			EntityType = RelatedEntityType.GetDisplayString(),
-			CaseType = RelatedEntitySubtype.GetDisplayString(),
-			FormName = IcmFormNames.GenericDocument,
-			FileName = Attachment.Filename,
-			FormDescription = "",
-			FormCategory = "",
-			Section13Exists = "",
-			InvestigationResponse = "",
-			Attachment = new()
-			{
-				PdfString = Convert.ToBase64String(attachmentBytes),
-			}
-		};
-	}
+        return new AttachmentFormData(
+            Attachment.Filename + Attachment.Extension,
+            attachmentStream,
+            category,
+            description,
+            status,
+            template);
+    }
 }

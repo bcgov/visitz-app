@@ -5,6 +5,6 @@ namespace Visitz.Views.WebViewer;
 
 public partial class WebViewModel : VisitzViewModel
 {
-	[ObservableProperty]
-	public Uri authUri;
+    [ObservableProperty]
+    public Uri authUri;
 }

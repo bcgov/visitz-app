@@ -10,5 +10,7 @@ internal static class RequestParam
 
     public static readonly string RecordCountNeeded = "recordcountneeded";
 
+    public static readonly string TotalRecordCount = "total-record-count";
+
     public static readonly int MaxPageSize = 100;
 }

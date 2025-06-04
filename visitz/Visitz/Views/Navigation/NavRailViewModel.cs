@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -39,9 +40,9 @@ public partial class NavRailViewModel : VisitzViewModel
         get
         {
 #if IOS
-        return IosIconSize;
+            return IosIconSize;
 #else
-        return DefaultIconSize;
+            return DefaultIconSize;
 #endif
         }
     }
@@ -77,9 +78,9 @@ public partial class NavRailViewModel : VisitzViewModel
 
     readonly ObservableRealmCount realmCount = new();
 
-    public override async void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
         BuildNavCollection();
         SelectedNavItem = (NavItem)NavigationItems.First();
@@ -89,11 +90,16 @@ public partial class NavRailViewModel : VisitzViewModel
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        base.Destroy();
+        if (!disposed && disposing)
+        {
+            realmCount.Dispose();
+            disposed = true;
+        }
 
-        realmCount.Dispose();
+        base.Dispose(disposing);
     }
 
     private void BuildNavCollection()
@@ -125,7 +131,8 @@ public partial class NavRailViewModel : VisitzViewModel
     [RelayCommand]
     private static async Task OpenSessionPage()
     {
-        await Navigator.GoToPage<SessionPage>(modal: true);
+        var userView = ServiceProvider.GetService<UserView>();
+        await Navigator.Navigation.PushModalAsync(userView);
     }
 
     private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)

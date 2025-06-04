@@ -4,8 +4,8 @@ namespace VisitzModel.Models.Navigation;
 
 public partial class EntityNavItem : NavItem
 {
-	public EntitySection Section { get; set; } = EntitySection.Details;
+    public EntitySection Section { get; set; } = EntitySection.Details;
 
-	[ObservableProperty]
-	public bool hasDraft;
+    [ObservableProperty]
+    public bool hasDraft;
 }

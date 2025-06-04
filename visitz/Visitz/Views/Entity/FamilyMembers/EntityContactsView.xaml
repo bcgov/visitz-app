@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:familyMembers="clr-namespace:Visitz.Views.Entity.FamilyMembers"
-    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
+    xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.FamilyMembers.EntityContactsView"
     x:DataType="familyMembers:EntityContactsViewModel">
 
@@ -13,7 +13,7 @@
         ItemsSource="{Binding Contacts}"
         SelectionMode="None">
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:FamilyMember">
+            <DataTemplate x:DataType="people:IcmContact">
                 <familyMembers:ContactItemView />
             </DataTemplate>
         </CollectionView.ItemTemplate>

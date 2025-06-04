@@ -8,20 +8,20 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
+public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
 {
     readonly VisibilityAnimation SnapshotFade = new(showView: false);
 
     new TakePhotoViewModel ViewModel => base.ViewModel as TakePhotoViewModel;
 
-    public CaseloadItem CaseloadItem
+    public IBusinessObject BusinessObject
     {
-        get => ViewModel.CaseloadItem;
-        set => ViewModel.CaseloadItem = value;
+        get => ViewModel.BusinessObject;
+        set => ViewModel.BusinessObject = value;
     }
 
     public TakePhotoView() : base(ServiceProvider.GetService<TakePhotoViewModel>())
@@ -30,9 +30,9 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
         BindingContext = ViewModel;
     }
 
-    protected override async void Creating()
+    protected override async Task InitAsync()
     {
-        base.Creating();
+        await base.InitAsync();
 
         Unloaded += TakePhotoView_Unloaded;
         Camera.MediaCaptured += Camera_MediaCaptured;
@@ -41,17 +41,29 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
         await InitCamera();
     }
 
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            Camera.StopCameraPreview();
+            Camera.Handler.DisconnectHandler();
+
+            Camera.MediaCaptured -= Camera_MediaCaptured;
+            Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
+
+            ViewModel.Dispose();
+
+            Unloaded -= TakePhotoView_Unloaded;
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
     private void TakePhotoView_Unloaded(object sender, EventArgs e)
     {
-        Camera.StopCameraPreview();
-        Camera.Handler.DisconnectHandler();
-
-        Camera.MediaCaptured -= Camera_MediaCaptured;
-        Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
-
-        ViewModel.Destroy();
-
-        Unloaded -= TakePhotoView_Unloaded;
+        Dispose();
     }
 
     async Task InitCamera()
@@ -107,13 +119,13 @@ public partial class TakePhotoView : ViewModelContentView, ICaseloadItemHolder
         await Navigator.Navigation.PopModalAsync();
     }
 
-    public static async Task TryOpenWithPermissionsAsync(CaseloadItem CaseloadItem)
+    public static async Task TryOpenWithPermissionsAsync(IBusinessObject businessObject)
     {
         var status = await DevicePermissions.PromptEnsureCameraAsync();
 
         if (status == PermissionStatus.Granted)
         {
-            TakePhotoView photoView = new() { CaseloadItem = CaseloadItem, };
+            TakePhotoView photoView = new() { BusinessObject = businessObject, };
             await Navigator.Navigation.PushModalAsync(photoView, ViewModalSize.Fullscreen);
         }
         else

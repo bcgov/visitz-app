@@ -1,11 +1,16 @@
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
+using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
@@ -33,6 +38,8 @@ public partial class ServiceRequestRecord :
     public DateTimeOffset UpdatedDate { get; set; }
 
     public string FileNumber { get; set; }
+
+    public EntityType EntityType => EntityType.ServiceRequest;
 
     public string GivenNames { get; set; }
 
@@ -89,13 +96,23 @@ public partial class ServiceRequestRecord :
     public string Status { get; set; }
 
     private int TypeInt { get; set; }
-    public EntitySubtype Type
+    public EntitySubtype EntitySubtype
     {
         get => (EntitySubtype)TypeInt;
         set => TypeInt = (int)value;
     }
 
     public string TypeOfCaller { get; set; }
+
+    public string DisplayDate => CreatedDate.ToString(
+        IBusinessObject.DisplayDateFormat,
+        CultureInfo.InvariantCulture);
+
+    public string DisplayName => ServiceOffice;
+
+    public string FullType => this.GetFullType();
+
+    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public ServiceRequestRecord() { }
 
@@ -136,7 +153,7 @@ public partial class ServiceRequestRecord :
         RowId = json.RowId;
         ServiceOffice = json.ServiceOffice;
         Status = json.Status;
-        Type = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
+        EntitySubtype = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
     }
 
@@ -150,7 +167,7 @@ public partial class ServiceRequestRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<ServiceRequestJson> section)
+    public static async Task SynchronizeAsync(Realm realm, SectionJson<ServiceRequestJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         var currentAssignedIds = realm.All<ServiceRequestRecord>().AsEnumerable().Select(sr => sr.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
@@ -158,21 +175,23 @@ public partial class ServiceRequestRecord :
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds);
+            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
             realm.Upsert(serviceRequests);
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds)
+    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds, UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in unassignedIds)
         {
-            realm.Remove(realm.Find<ServiceRequestRecord>(id));
+            var sr = realm.Find<ServiceRequestRecord>(id);
 
-            // TODO: Remove notes here once we remove V1 CaseloadItem
+            NoteItem.RemoveByParentFileNumber(realm, EntityType.ServiceRequest, sr.FileNumber);
             IcmContact.RemoveByParent(realm, EntityType.ServiceRequest, id);
             SupportNetworkItem.RemoveByParent(realm, EntityType.ServiceRequest, id);
-            // TODO: Remove Attachments
+            Attachment.RemoveByParent(realm, EntityType.ServiceRequest, id, userIgnoredPrefs);
+
+            realm.Remove(sr);
         }
     }
 
@@ -215,8 +234,16 @@ public partial class ServiceRequestRecord :
             RowId = RowId,
             ServiceOffice = ServiceOffice,
             Status = Status,
-            Type = Type.GetDisplayString(),
+            Type = EntitySubtype.GetDisplayString(),
             TypeOfCaller = TypeOfCaller,
         };
+    }
+
+    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    {
+        return realm
+            .All<ServiceRequestRecord>()
+            .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId
+                        || sr.FileNumber == draftItem.RelatedEntityId);
     }
 }

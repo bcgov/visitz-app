@@ -14,7 +14,7 @@ public partial class PascalWhitespaceNamingPolicy : JsonNamingPolicy
         + "|" + NumberThenUpper
         + "|" + UpperThenNumber
         + "|" + UpperThenPascal;
-    
+
     [GeneratedRegex(PascalWhitespaceBoundary)]
     internal static partial Regex PascalBoundaryRegex();
 

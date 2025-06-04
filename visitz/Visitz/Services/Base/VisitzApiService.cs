@@ -1,7 +1,9 @@
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Network;
 using System.Net;
 using Visitz.Resources.Localization;
+using Visitz.Storage;
 using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
@@ -40,6 +42,8 @@ namespace Visitz.Services.Base
 
                 await RunApiServiceAsync();
 
+                await OidcSession.SetAuthorization(authorized: true);
+
                 await TrySetLastUpdated();
             }
             catch (OperationCanceledException)
@@ -47,28 +51,42 @@ namespace Visitz.Services.Base
                 ResultCode = Result.Cancelled;
                 throw;
             }
-            catch (VisitzApiException ex)
+            catch (Exception ex)
             {
-#if DEBUG
-                Console.WriteLine(nameof(VisitzApiException)
-                    + $" {ex.HttpStatusCode} -> {ex.Message}:\n{ex.StackTrace}");
-#endif
-                if (IsSessionException(ex.HttpStatusCode))
+                if (FindApiException(ex) is VisitzApiException vex && IsUnauthorized(vex.HttpStatusCode))
                 {
-                    await OidcSession.InvalidateSessionAsync();
-                    throw new UnauthorizedAccessException(LocalizedStrings.UnauthorizedForApi, ex);
+                    await OidcSession.SetAuthorization(authorized: false);
+                    await ClearIcmDataRealm();
 
-                    // No need for different messages for 401 vs. 403, since 401 would've been handled by the
-                    // OAuth login.
+                    throw new UnauthorizedAccessException(LocalizedStrings.UnauthorizedForApi, vex);
+
+                    // No need for different messages for 401 vs. 403, since
+                    // 401 would've been handled by the OAuth login.
                 }
 
                 throw;
             }
         }
 
+        static VisitzApiException FindApiException(Exception ex)
+        {
+            if (ex is VisitzApiException vex)
+                return vex;
+            else if (ex.InnerException is AggregateException aex)
+            {
+                foreach (var e in aex.InnerExceptions)
+                    if (FindApiException(e) is VisitzApiException innerVex)
+                        return innerVex;
+            }
+            else if (ex.InnerException != null)
+                return FindApiException(ex.InnerException);
+
+            return null;
+        }
+
         protected abstract Task RunApiServiceAsync();
 
-        private static bool IsSessionException(HttpStatusCode code)
+        private static bool IsUnauthorized(HttpStatusCode code)
         {
             return code == HttpStatusCode.Unauthorized || code == HttpStatusCode.Forbidden;
         }
@@ -78,6 +96,19 @@ namespace Visitz.Services.Base
             if (ResultCode == Result.Successful)
                 await MainThread.InvokeOnMainThreadAsync(
                     () => LastUpdatedPrefs.SetLocalNow(GetId()));
+        }
+
+        private async Task ClearIcmDataRealm()
+        {
+            try
+            {
+                using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
+                await icmData.WriteAsync(icmData.RemoveAll);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ using Visitz.Views.Entity;
 using Visitz.Views.Entity.Navigation;
 using Visitz.Views.SplitView;
 using VisitzModel.Messaging;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 
@@ -11,41 +11,46 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadContainerView : SplitLayoutView
 {
-	static IView CaseloadView;
-	static IView CaseloadDetailView;
+    static IView CaseloadView;
+    static IView CaseloadDetailView;
 
     public CaseloadContainerView()
     {
-		InitializeComponent();
+        InitializeComponent();
     }
 
-    protected override void Creating()
+    protected override async Task InitAsync()
     {
-        base.Creating();
+        await base.InitAsync();
 
         StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
         StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
 
         RegisterReceivers();
 
-		CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
-		CaseloadDetailView ??= ServiceProvider.GetService<CaseloadDetailView>();
+        CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
+        CaseloadDetailView ??= ServiceProvider.GetService<CaseloadDetailView>();
 
-		NavigateBack();
+        NavigateBack();
     }
 
-    protected override void Destroying()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        StrongReferenceMessenger.Default.UnregisterAll(this);
+        if (!disposed && disposing)
+        {
+            StrongReferenceMessenger.Default.UnregisterAll(this);
+            disposed = true;
+        }
 
-        base.Destroying();
+        base.Dispose(disposing);
     }
 
     private void RegisterReceivers()
     {
-        StrongReferenceMessenger.Default.Register<CaseloadItemSelectedMessage>(this, (recipient, message) =>
+        StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(this, (recipient, message) =>
         {
-            (recipient as CaseloadContainerView).OpenCaseloadItem(message);
+            (recipient as CaseloadContainerView).OpenBusinessObject(message);
         });
 
         StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
@@ -54,19 +59,19 @@ public partial class CaseloadContainerView : SplitLayoutView
         });
     }
 
-    private void OpenCaseloadItem(CaseloadItemSelectedMessage message)
+    private void OpenBusinessObject(BusinessObjectSelectedMessage message)
     {
-		CaseloadItem item = message.Value;
-		EntitySection section = message.Section;
-		IDraftItem draftItem = message.DraftItem;
+        IBusinessObject item = message.Value;
+        EntitySection section = message.Section;
+        IDraftItem draftItem = message.DraftItem;
 
-		var containerView = ServiceProvider.GetService<EntityContainerView>();
-        containerView.CaseloadItem = item;
+        var containerView = ServiceProvider.GetService<EntityContainerView>();
+        containerView.BusinessObject = item;
         SetEndPane(containerView);
 
         var entityNav = ServiceProvider.GetService<EntityNavView>();
-        entityNav.CaseloadItem = item;
-		entityNav.SetRequestedSection(section, draftItem);
+        entityNav.BusinessObject = item;
+        entityNav.SetRequestedSection(section, draftItem);
         SetStartPane(entityNav);
 
         StartPaneColumnWidth = GridLength.Auto;
@@ -74,9 +79,9 @@ public partial class CaseloadContainerView : SplitLayoutView
 
     private void NavigateBack()
     {
-		SetStartPane(CaseloadView);
-		SetEndPane(CaseloadDetailView);
+        SetStartPane(CaseloadView);
+        SetEndPane(CaseloadDetailView);
 
-		StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
+        StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
     }
 }

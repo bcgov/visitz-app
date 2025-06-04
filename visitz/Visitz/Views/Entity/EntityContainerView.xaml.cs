@@ -1,62 +1,72 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Entity.Details;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
-using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHolder
+public partial class EntityContainerView : ViewModelContentView, IBusinessObjectHolder
 {
-    public CaseloadItem CaseloadItem 
-	{
-		get => (ViewModel as EntityContainerViewModel).CaseloadItem;
-		set => (ViewModel as EntityContainerViewModel).CaseloadItem = value;
-    }
-
-	public EntityContainerView() : base(ServiceProvider.GetService<EntityContainerViewModel>())
-	{
-		InitializeComponent();
-
-		BindingContext = ViewModel;
-
-		ContainerDetails.Content = ServiceProvider.GetService<EntityDetailsView>();
-    }
-
-    protected override void Creating()
+    public IBusinessObject BusinessObject
     {
-        base.Creating();
-
-        StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, (recipient, message) =>
-        {
-            var (navItem, caseloadItem, subsection, draftItem) = message.Value;
-
-            if (navItem != null)
-                (recipient as EntityContainerView).OpenEntitySection(navItem, caseloadItem, subsection, draftItem);
-        });
+        get => (ViewModel as EntityContainerViewModel).BusinessObject;
+        set => (ViewModel as EntityContainerViewModel).BusinessObject = value;
     }
 
-    protected override void Destroying()
+    public EntityContainerView() : base(ServiceProvider.GetService<EntityContainerViewModel>())
     {
-        StrongReferenceMessenger.Default.UnregisterAll(this);
+        InitializeComponent();
 
-        if (ContainerDetails.Content is BaseContentView baseView)
+        BindingContext = ViewModel;
+    }
+
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
+
+        StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, Receive);
+    }
+
+    void Receive(object recipient, EntityNavMessage message)
+    {
+        var (navItem, businessObject, subsection, draftItem) = message.Value;
+
+        if (navItem != null)
         {
-            baseView.Dispose();
-            ContainerDetails.Content = null;
+            (recipient as EntityContainerView).OpenEntitySection(
+                navItem,
+                businessObject,
+                subsection,
+                draftItem);
         }
+    }
 
-        base.Destroying();
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            StrongReferenceMessenger.Default.UnregisterAll(this);
+
+            if (ContainerDetails.Content is BaseContentView baseView)
+            {
+                baseView.Dispose();
+                ContainerDetails.Content = null;
+            }
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     private void OpenEntitySection(
-		EntityNavItem navItem,
-		CaseloadItem caseloadItem,
-		EntitySection? subsection,
-		IDraftItem focusedDraftItem)
+        EntityNavItem navItem,
+        IBusinessObject businessObject,
+        EntitySection? subsection,
+        IDraftItem focusedDraftItem)
     {
         if (ContainerDetails.Content is BaseContentView baseView)
         {
@@ -69,14 +79,14 @@ public partial class EntityContainerView : ViewModelContentView, ICaseloadItemHo
 
         var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
 
-		if (view is ICaseloadItemHolder itemHolder)
-			itemHolder.CaseloadItem = caseloadItem;
+        if (view is IBusinessObjectHolder objectHolder)
+            objectHolder.BusinessObject = businessObject;
 
-		if (view is IRequestedEntitySection sectionView)
-			sectionView.RequestedSection = subsection ?? navItem.Section;
+        if (view is IRequestedEntitySection sectionView)
+            sectionView.RequestedSection = subsection ?? navItem.Section;
 
-		if (view is IFocusDraftItem focusDraftView)
-			focusDraftView.FocusedDraftItem = focusedDraftItem;
+        if (view is IFocusDraftItem focusDraftView)
+            focusDraftView.FocusedDraftItem = focusedDraftItem;
 
         ContainerDetails.Content = (View)view;
     }

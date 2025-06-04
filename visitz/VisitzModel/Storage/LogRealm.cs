@@ -21,6 +21,6 @@ public class LogRealm : VisitzRealmBase
 
     protected override void MigrateRealm(Migration migration, ulong oldSchemaVersion)
     {
-        
+
     }
 }

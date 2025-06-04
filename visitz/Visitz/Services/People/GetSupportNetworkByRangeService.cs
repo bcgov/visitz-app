@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
@@ -9,9 +8,8 @@ namespace Visitz.Services.People;
 internal class GetSupportNetworkByRangeService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler,
-    ILogger<GetSupportNetworkByRangeService> logger)
-    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler, logger)
+    ServiceHandler serviceHandler)
+    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
 
     public static string MakeId()

@@ -1,142 +1,196 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
+using Visitz.Services;
+using Visitz.Services.Attachments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
-using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class AttachmentsListViewModel : VisitzViewModel, ICaseloadItemHolder
+#nullable enable
+
+internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObjectHolder
 {
-	[ObservableProperty]
-	public CaseloadItem caseloadItem;
+    private bool _disposed;
 
-	Realm attachmentsRealm;
+    readonly ObservableRealmQueryMap realmQuery = new();
 
-	readonly ObservableRealmQueryMap realmQuery = new();
+    [ObservableProperty]
+    public ObservableCollection<AttachmentsListItemUi> attachmentsList = [];
 
-	[ObservableProperty]
-	ObservableCollection<AttachmentDraft> attachmentDrafts = [];
+    [ObservableProperty]
+    public IBusinessObject? businessObject;
 
-	[ObservableProperty]
-	public bool isLoading = true;
+    [ObservableProperty]
+    public bool isEmpty;
 
-	[ObservableProperty]
-	public bool isEmpty;
+    public UserIgnoredContentPrefs? UserIgnoredContentPrefs { get; set; }
 
-	public readonly TaskCompletionSource attachmentsLoadedTcs = new();
+    public AttachmentsListViewModel()
+    {
+        UserIgnoredContentPrefs = new UserIgnoredContentPrefs(Preferences.Default);
+    }
 
-	public override async void Create()
-	{
-		base.Create();
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
 
-		attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+        Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-		realmQuery.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
-				.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
+        if (BusinessObject == null)
+            throw new InvalidOperationException(nameof(IBusinessObject));
 
-		realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
-	}
+        realmQuery.Subscribe(icmDataRealm, Attachment.GetOrderedAttachments(
+            icmDataRealm,
+            BusinessObject.EntityType,
+            BusinessObject.Id));
+    }
 
-	public override void Destroy()
-	{
-		base.Destroy();
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
+            realmQuery.Dispose();
 
-		realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
-		realmQuery.Dispose();
-		attachmentsRealm?.Dispose();
-	}
+            foreach (var item in AttachmentsList)
+                item.Dispose();
 
-	private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
-	{
-		IsLoading = false;
-		IsEmpty = !realmQuery[typeof(AttachmentDraft)].Query.Any();
+            _disposed = true;
+        }
+        base.Dispose(disposing);
+    }
 
-		if (e.Changes == null)
-		{
-			foreach (var item in e.Items)
-				AttachmentDrafts.Add(item as AttachmentDraft);
+    private void RealmQuery_ItemsChanged(object? sender,
+        (Type Type,
+        IRealmCollection<IRealmObject> Items,
+        ChangeSet Changes) e)
+    {
+        if (e.Type == typeof(Attachment))
+            UpdateAttachmentsList(e.Items, e.Changes);
+    }
 
-			attachmentsLoadedTcs.TrySetResult();
-		}
-		else
-		{
-			foreach (int deleted in e.Changes.DeletedIndices.Reverse())
-				AttachmentDrafts.RemoveAt(deleted);
+    private void UpdateAttachmentsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    {
+        if (changes == null)
+        {
+            foreach (var item in items)
+                AttachmentsList.Add(MakeItemUi(item as Attachment));
+        }
+        else
+        {
+            foreach (int deleted in changes.DeletedIndices.Reverse())
+            {
+                AttachmentsList.ElementAt(deleted).Dispose();
+                AttachmentsList.RemoveAt(deleted);
+            }
 
-			foreach (int modified in e.Changes.ModifiedIndices)
-				AttachmentDrafts[modified] = e.Items[modified] as AttachmentDraft;
+            foreach (int modified in changes.ModifiedIndices)
+                AttachmentsList[modified] = MakeItemUi(items[modified] as Attachment);
 
-			foreach (int inserted in e.Changes.InsertedIndices)
-				AttachmentDrafts.Insert(inserted, e.Items[inserted] as AttachmentDraft);
-		}
-	}
+            foreach (int inserted in changes.InsertedIndices)
+                AttachmentsList.Insert(inserted, MakeItemUi(items[inserted] as Attachment));
+        }
 
-	[RelayCommand]
-	public static void DeleteAttachmentDraft(AttachmentDraft draft)
-	{
-		_ = PromptDiscardAttachmentDraftAsync(draft);
-	}
+        IsEmpty = !AttachmentsList.Any();
+    }
 
-	static async Task PromptDiscardAttachmentDraftAsync(AttachmentDraft draft)
-	{
-		bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
-			LocalizedStrings.DiscardDraft,
-			LocalizedStrings.DiscardAttachmentDraftDescription,
-			LocalizedStrings.Discard,
-			LocalizedStrings.Cancel);
+    AttachmentsListItemUi MakeItemUi(Attachment? attachment)
+    {
+        return new AttachmentsListItemUi(
+            BusinessObject?.EntityType ?? EntityType.Unknown,
+            BusinessObject?.Id,
+            attachment);
+    }
 
-		if (shouldDiscard)
-		{
-			string filename = draft.Attachment.Filename;
-			await draft.Attachment.DeleteAsync();
-			SnackbarHandler.ShowText(LocalizedStrings.FileDiscarded.Format(filename));
-		}
-	}
+    [RelayCommand]
+    public void DeleteDownloadedAttachmentFromDevice(AttachmentsListItemUi item)
+    {
+        _ = PromptRemoveAttachmentAsync(item);
+    }
 
-	[RelayCommand]
-	public void PublishAttachmentDraft(AttachmentDraft draft)
-	{
-		_ = DoPublishAttachmentDraft(draft);
-	}
+    public async Task PromptRemoveAttachmentAsync(AttachmentsListItemUi item)
+    {
+        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
+            LocalizedStrings.RemoveAttachmentFromDevice,
+            LocalizedStrings.RemoveAttachmentDescription,
+            LocalizedStrings.Remove,
+            LocalizedStrings.Cancel);
 
-	async Task DoPublishAttachmentDraft(AttachmentDraft draft)
-	{
-		var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
-		attachmentPublishVm.AttachmentDraft = draft;
-		attachmentPublishVm.AttachmentFiler = await VisitzFiles.GetAsync(
-			CaseloadItem.EntityType.ParseEntityType(),
-			CaseloadItem.CaseIncidentNumber,
-			CaseloadItem.KeyPlayer.FirstName,
-			CaseloadItem.KeyPlayer.LastName);
+        if (shouldRemove)
+        {
+            item.Attachment.RemoveFileFromDevice();
+            UserIgnoredContentPrefs?.SetUserIgnoredContent(item.Attachment.Id, true);
+            string removedText = string.Format(
+                LocalizedStrings.RemovedAttachmentFromDevice,
+                item.Attachment.Filename);
+            SnackbarHandler.ShowText(removedText);
+        }
+    }
 
-		await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
-	}
+    [RelayCommand]
+    public void DownloadAttachmentForDevice(AttachmentsListItemUi listItem)
+    {
+        if (BusinessObject is IBusinessObject item)
+        {
+            var recordServiceInfo = new RecordServiceInfo(item);
+            var attachmentId = listItem.Attachment.Id;
+            var force = true;
 
-	[RelayCommand]
-	public void OpenAttachment(AttachmentDraft draft)
-	{
-		_ = DoOpenAttachment(draft);
-	}
+            var tuple = (recordServiceInfo, attachmentId, force);
+            var msg = GetAttachmentContentService.MakeStartMessage(tuple);
+            WeakReferenceMessenger.Default.Send(msg);
+            UserIgnoredContentPrefs?.SetUserIgnoredContent(attachmentId, false);
+        }
+        else
+            throw new InvalidOperationException(nameof(IBusinessObject));
+    }
 
-	async Task DoOpenAttachment(AttachmentDraft draft)
-	{
-		var view = new PhotoDetailsView()
-		{
-			Attachment = draft.Attachment,
-			CaseloadItem = CaseloadItem,
-		}.WrapPageForModal(ViewModalSize.Fullscreen);
+    [RelayCommand]
+    public async Task OpenAttachment(AttachmentsListItemUi listItem)
+    {
+        if (!listItem.Attachment.FileExistsLocally)
+            return;
 
-		await Navigator.Navigation.PushAsync(view);
-	}
+        string path = listItem.Attachment.RelativePath.Trim();
+
+        ContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
+            ? MakePdfDetailsView(listItem.Attachment)
+            : MakePhotoDetailsView(listItem.Attachment);
+
+        await Navigator.Navigation.PushAsync(view);
+    }
+
+    PhotoDetailsView MakePhotoDetailsView(Attachment attachment)
+    {
+        return new()
+        {
+            Attachment = attachment,
+            BusinessObject = BusinessObject,
+            IsDownloadedAttachment = true,
+        };
+    }
+
+    PdfDetailsView MakePdfDetailsView(Attachment attachment)
+    {
+        return new()
+        {
+            Attachment = attachment,
+            BusinessObject = BusinessObject,
+            IsDownloadedAttachment = true,
+        };
+    }
 }

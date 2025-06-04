@@ -3,12 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc.Network;
 using Visitz.Resources.Localization;
+using Visitz.Services;
+using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-internal partial class DataRefreshViewModel : VisitzViewModel
+internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]
     public bool superMessageVisible = false;
@@ -19,19 +21,30 @@ internal partial class DataRefreshViewModel : VisitzViewModel
     [ObservableProperty]
     public StackOrientation orientation = StackOrientation.Vertical;
 
-    public override void Create()
+    [ObservableProperty]
+    public bool caseloadActivity;
+
+    protected override Task InitAsync()
     {
-        base.Create();
+        base.InitAsync();
 
         SetConnectivityMessage();
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+        WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
+
+        return Task.CompletedTask;
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        base.Destroy();
-
-        Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+        if (!disposed && disposing)
+        {
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
@@ -47,11 +60,22 @@ internal partial class DataRefreshViewModel : VisitzViewModel
     [RelayCommand]
     public static void RefreshData()
     {
-        WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage());
+        WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage(forceDownload: true));
     }
 
     partial void OnSuperMessageChanged(string value)
     {
         SuperMessageVisible = !string.IsNullOrWhiteSpace(value);
+    }
+
+    public void Receive(ServiceStateMessage message)
+    {
+        CaseloadActivity = message.Status == VisitzService.State.Running;
+    }
+
+    [RelayCommand]
+    public void HideIndicator()
+    {
+        CaseloadActivity = false;
     }
 }

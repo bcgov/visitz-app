@@ -1,9 +1,9 @@
 namespace Visitz.Views.FormControls;
 
-using Visitz.Resources.Localization;
-using VisitzModel.Extensions;
 using Visitz.Animations;
 using Visitz.Animations.Haptic;
+using Visitz.Resources.Localization;
+using VisitzModel.Extensions;
 
 public partial class FormEntry : ContentView
 {
@@ -46,6 +46,9 @@ public partial class FormEntry : ContentView
                 formEntry.UpdateCharacterCount();
             });
 
+    public static readonly BindableProperty IsReadOnlyProperty =
+        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
+
     public string FieldName
     {
         get => (string)GetValue(FieldNameProperty);
@@ -86,6 +89,12 @@ public partial class FormEntry : ContentView
     {
         get => (int)GetValue(MaxLengthProperty);
         set => SetValue(MaxLengthProperty, value);
+    }
+
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
     }
 
     public FormEntry()
@@ -136,17 +145,17 @@ public partial class FormEntry : ContentView
         if (EditorError.IsVisible)
             return;
 
-		var showAnimation = new VisibilityAnimation(true, 1000);
+        var showAnimation = new VisibilityAnimation(true, 1000);
         LeadingSupportingText = text;
-		await Task.WhenAll(showAnimation.Animate(EditorError), showAnimation.Animate(LeadingSupportingLabel));
+        await Task.WhenAll(showAnimation.Animate(EditorError), showAnimation.Animate(LeadingSupportingLabel));
 
         await Task.Delay(2000);
 
-		var hideAnimation = new VisibilityAnimation(false, 1000);
-		await Task.WhenAll(hideAnimation.Animate(EditorError), hideAnimation.Animate(LeadingSupportingLabel));
+        var hideAnimation = new VisibilityAnimation(false, 1000);
+        await Task.WhenAll(hideAnimation.Animate(EditorError), hideAnimation.Animate(LeadingSupportingLabel));
     }
 
-	private async Task AnimateEditorError()
+    private async Task AnimateEditorError()
     {
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(Editor);

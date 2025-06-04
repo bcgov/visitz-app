@@ -1,25 +1,46 @@
 using Realms;
+using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.Drafts;
 
+#nullable enable
+
 public interface IDraftItem : IRealmObject, IRecordInfo
 {
-	DateTimeOffset DraftCreated { get; set; }
+    DateTimeOffset DraftCreated { get; set; }
 
-	DateTimeOffset LastUpdated { get; set; }
+    DateTimeOffset LastUpdated { get; set; }
 
-	string Preview { get; }
+    string Preview { get; }
 
-	string DraftLocation { get; set; }	
+    string DraftLocation { get; set; }
 }
 
 public static class IDraftItemExtensions
 {
-	public static IDraftItem InitDraftWith(this IDraftItem item, CaseloadItem caseloadItem)
-	{
-		item.DraftLocation = caseloadItem.DisplayName;
-		(item as IRecordInfo).InitWith(caseloadItem);
-		return item;
-	}
+    public static IDraftItem InitDraftWith(this IDraftItem item, IBusinessObject businessObject)
+    {
+        item.DraftLocation = businessObject.DisplayName;
+        (item as IRecordInfo).InitWith(businessObject);
+        return item;
+    }
+
+    public static IBusinessObject? GetRelatedBusinessObjectFrom(this IDraftItem? item, Realm realm)
+    {
+        if (item == null)
+            return null;
+
+        // TS note: I tried using a generic function to run these queries in a nice way but Realm
+        // didn't support it, so I had to make the same static function "GetByDraftItem" 4 times.
+        return item.RelatedEntityType switch
+        {
+            EntityType.Case => CaseRecord.GetByDraftItem(realm, item),
+            EntityType.Incident => IncidentRecord.GetByDraftItem(realm, item),
+            EntityType.Memo => MemoRecord.GetByDraftItem(realm, item),
+            EntityType.ServiceRequest => ServiceRequestRecord.GetByDraftItem(realm, item),
+            _ => throw new NotImplementedException()
+        };
+    }
 }

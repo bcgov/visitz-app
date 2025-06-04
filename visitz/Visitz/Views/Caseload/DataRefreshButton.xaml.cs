@@ -23,11 +23,16 @@ public partial class DataRefreshButton : ViewModelContentView
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
     }
 
-    protected override void Destroying()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+        if (!disposed && disposing)
+        {
+            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+            disposed = true;
+        }
 
-        base.Destroying();
+        base.Dispose(disposing);
     }
 
     private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)

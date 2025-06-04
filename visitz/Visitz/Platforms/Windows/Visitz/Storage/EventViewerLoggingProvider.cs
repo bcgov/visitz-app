@@ -11,6 +11,6 @@ internal partial class EventViewerLoggingProvider : ILoggerProvider
 
     public void Dispose()
     {
-        
+
     }
 }

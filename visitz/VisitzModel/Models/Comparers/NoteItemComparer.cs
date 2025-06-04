@@ -16,7 +16,7 @@ public class NoteItemComparer : IComparer<NoteItem>
                 return 1;
             else
             {
-                if (x.IcmId.CompareTo(y.IcmId) is int idCompare && idCompare != 0)
+                if (x.ParentFileNumber.CompareTo(y.ParentFileNumber) is int idCompare && idCompare != 0)
                     return idCompare;
 
                 else if (x.NotePeriod.CompareTo(y.NotePeriod) is int periodCompare && periodCompare != 0)

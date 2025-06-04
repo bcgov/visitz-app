@@ -33,49 +33,49 @@ public partial class SafetyFactors
         return GetType().GetProperty(propertyName).PropertyType == typeof(bool?);
     }
 
-    public bool? PhysicalHarmBinding 
+    public bool? PhysicalHarmBinding
     {
         get => IsValid ? PhysicalHarm : default;
         set => this.Commit(() => PhysicalHarm = value);
     }
-        
-    public bool SeriousInjuryAbuseBinding 
+
+    public bool SeriousInjuryAbuseBinding
     {
         get => IsValid && SeriousInjuryAbuse;
         set => this.Commit(() => SeriousInjuryAbuse = value);
     }
-        
-    public bool FearsMaltreatChildBinding 
+
+    public bool FearsMaltreatChildBinding
     {
         get => IsValid && FearsMaltreatChild;
         set => this.Commit(() => FearsMaltreatChild = value);
     }
-        
-    public bool ThreatAgainstChildBinding 
+
+    public bool ThreatAgainstChildBinding
     {
         get => IsValid && ThreatAgainstChild;
         set => this.Commit(() => ThreatAgainstChild = value);
     }
-        
-    public bool ExcessiveForceBinding 
+
+    public bool ExcessiveForceBinding
     {
         get => IsValid && ExcessiveForce;
         set => this.Commit(() => ExcessiveForce = value);
     }
-        
-    public bool SubsExposedInfantBinding 
+
+    public bool SubsExposedInfantBinding
     {
         get => IsValid && SubsExposedInfant;
         set => this.Commit(() => SubsExposedInfant = value);
     }
 
     public string CmtClarificationBinding
-    { 
+    {
         get => IsValid ? CmtClarification : default;
         set => this.Commit(() => CmtClarification = value);
     }
 
-    public bool? CurrentCircumstancesBinding 
+    public bool? CurrentCircumstancesBinding
     {
         get => IsValid ? CurrentCircumstances : default;
         set => this.Commit(() => CurrentCircumstances = value);
@@ -87,7 +87,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtCircumstances = value);
     }
 
-    public bool? SexAbuseBinding 
+    public bool? SexAbuseBinding
     {
         get => IsValid ? SexAbuse : default;
         set => this.Commit(() => SexAbuse = value);
@@ -99,7 +99,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtAbuse = value);
     }
 
-    public bool? UnableToProtectBinding 
+    public bool? UnableToProtectBinding
     {
         get => IsValid ? UnableToProtect : default;
         set => this.Commit(() => UnableToProtect = value);
@@ -111,7 +111,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtProtect = value);
     }
 
-    public bool? InjuryExplanationBinding 
+    public bool? InjuryExplanationBinding
     {
         get => IsValid ? InjuryExplanation : default;
         set => this.Commit(() => InjuryExplanation = value);
@@ -123,7 +123,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtExplanation = value);
     }
 
-    public bool? RefuseAccessBinding 
+    public bool? RefuseAccessBinding
     {
         get => IsValid ? RefuseAccess : default;
         set => this.Commit(() => RefuseAccess = value);
@@ -135,7 +135,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtAccess = value);
     }
 
-    public bool? ImmediateNeedsBinding 
+    public bool? ImmediateNeedsBinding
     {
         get => IsValid ? ImmediateNeeds : default;
         set => this.Commit(() => ImmediateNeeds = value);
@@ -147,7 +147,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtNeeds = value);
     }
 
-    public bool? PhysicalConditionBinding 
+    public bool? PhysicalConditionBinding
     {
         get => IsValid ? PhysicalCondition : default;
         set => this.Commit(() => PhysicalCondition = value);
@@ -159,7 +159,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtCondition = value);
     }
 
-    public bool? CurrentAbuseBinding 
+    public bool? CurrentAbuseBinding
     {
         get => IsValid ? CurrentAbuse : default;
         set => this.Commit(() => CurrentAbuse = value);
@@ -171,7 +171,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtCurrent = value);
     }
 
-    public bool? PartnerViolenceBinding 
+    public bool? PartnerViolenceBinding
     {
         get => IsValid ? PartnerViolence : default;
         set => this.Commit(() => PartnerViolence = value);
@@ -183,7 +183,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtViolence = value);
     }
 
-    public bool? PredominantlyNegativeBinding 
+    public bool? PredominantlyNegativeBinding
     {
         get => IsValid ? PredominantlyNegative : default;
         set => this.Commit(() => PredominantlyNegative = value);
@@ -195,7 +195,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtNegative = value);
     }
 
-    public bool? EmotionalStabilityBinding 
+    public bool? EmotionalStabilityBinding
     {
         get => IsValid ? EmotionalStability : default;
         set => this.Commit(() => EmotionalStability = value);
@@ -207,7 +207,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtEmotional = value);
     }
 
-    public bool? ChildFearfulBinding 
+    public bool? ChildFearfulBinding
     {
         get => IsValid ? ChildFearful : default;
         set => this.Commit(() => ChildFearful = value);
@@ -219,7 +219,7 @@ public partial class SafetyFactors
         set => this.Commit(() => CmtFearful = value);
     }
 
-    public bool? OtherFactorsBinding 
+    public bool? OtherFactorsBinding
     {
         get => IsValid ? OtherFactors : default;
         set => this.Commit(() => OtherFactors = value);

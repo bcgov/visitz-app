@@ -2,37 +2,38 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models.Attachments;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
-internal class SubmitAttachmentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+internal class SubmitAttachmentService(Vpi vpi, LastUpdatedPrefs prefs)
+    : VisitzApiService(vpi, prefs)
 {
-    public static string MakeId(SubmitAttachmentEntity entity)
+    public static string MakeId(EntityType type, string recordId)
     {
-        return MakeId(entity.EntityNumber, entity.AttachmentId);
+        return $"{nameof(SubmitAttachmentService)}-{type}-{recordId}";
     }
 
-    public static string MakeId(string entityNumber, string attachmentId)
-    {
-        return $"{nameof(SubmitAttachmentService)}-{entityNumber}-{attachmentId}";
-    }
-
-    public static StartServiceMessage MakeStartMessage(SubmitAttachmentEntity submitEntity)
+    public static StartServiceMessage MakeStartMessage(
+        EntityType type,
+        string recordId,
+        AttachmentFormData data)
     {
         return new()
         {
-            Payload = submitEntity,
-            ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.AttachmentId),
+            Payload = (type, recordId, data),
+            ServiceId = MakeId(type, recordId),
             ServiceType = typeof(SubmitAttachmentService),
         };
     }
 
-    new SubmitAttachmentEntity Payload => (SubmitAttachmentEntity)base.Payload;
+    new (EntityType Type, string RecordId, AttachmentFormData) Payload =>
+        ((EntityType, string, AttachmentFormData))base.Payload;
 
     public override string GetId()
     {
-        return MakeId(Payload);
+        return MakeId(Payload.Type, Payload.RecordId);
     }
 
     protected override async Task RunApiServiceAsync()
@@ -42,8 +43,13 @@ internal class SubmitAttachmentService(Vpi vpi, LastUpdatedPrefs prefs) : Visitz
 
     async Task SubmitAttachmentAsync()
     {
-        var (status, _) = await Vpi.SubmitAttachmentAsync(Payload);
+        var (type, id, data) = Payload;
 
-        ResultCode = status ? Result.Successful : Result.Error;
+        var (result, attachmentId) = await Vpi.SubmitAttachmentAsync((ApiRecordType)type, id, data);
+
+        ResultCode = result ? Result.Successful : Result.Error;
+        ReturnPayload = attachmentId;
+
+        data.Dispose();
     }
 }

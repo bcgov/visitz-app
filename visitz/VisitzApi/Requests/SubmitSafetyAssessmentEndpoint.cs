@@ -5,14 +5,14 @@ using VisitzApi.Models.SafetyAssess;
 
 namespace VisitzApi.Requests;
 
-internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SafetyAssessmentEntity safetyAssessment)
+internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SubmitSafetyAssessmentJson safetyAssessment)
     : VisitzBaseEndpoint<(bool success, string status)>(baseUrl, Vpi.V1, SubmitSafetyAssessmentPath)
 {
     public static readonly string SubmitSafetyAssessmentPath = "/622";
 
     public static readonly string SafetyAssessmentKey = "safetyAssessment";
 
-    public readonly SafetyAssessmentEntity SafetyAssessment = safetyAssessment;
+    public readonly SubmitSafetyAssessmentJson SafetyAssessment = safetyAssessment;
 
     private string RequestPayload
     {

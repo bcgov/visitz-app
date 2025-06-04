@@ -1,4 +1,6 @@
 using VisitzApi.Endpoints;
+using VisitzApi.Endpoints.Attachments;
+using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
 using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
@@ -28,7 +30,10 @@ namespace VisitzApi
 
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {
-            var response = await HttpClient.SendAsync(endpoint.MakeRequest());
+            var request = endpoint.MakeRequest();
+            request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
+
+            var response = await HttpClient.SendAsync(request);
             string content = await response.Content.ReadAsStringAsync();
 
             endpoint.ThrowOnHttpErrors(response, content);
@@ -39,14 +44,9 @@ namespace VisitzApi
             return endpoint.HandleResponse(response, content);
         }
 
-        public async Task<IEnumerable<CaseloadEntity>> GetCaseloadV1Async(params string[] workerIds)
+        public async Task<CaseloadJson> GetCaseloadAsync(DateTimeOffset? after = null)
         {
-            return await CallApi(new Requests.GetCaseloadEndpoint(BaseVisitzApiUrl, workerIds));
-        }
-
-        public async Task<CaseloadJson> GetCaseloadV2Async(DateTimeOffset? after = null)
-        {
-            return await CallApi(new Endpoints.GetCaseloadEndpoint(BaseVisitzApiUrl, after));
+            return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, after));
         }
 
         public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
@@ -59,19 +59,16 @@ namespace VisitzApi
             return await CallApi(new SubmitNotesEndpoint(BaseVisitzApiUrl, noteToSubmit));
         }
 
-        public async Task<(bool success, string status)> SubmitSafetyAssessmentAsync(SafetyAssessmentEntity safetyAssessment)
+        public async Task<(bool success, string status)> SubmitSafetyAssessmentAsync(SubmitSafetyAssessmentJson safetyAssessment)
         {
             return await CallApi(new SubmitSafetyAssessmentEndpoint(BaseVisitzApiUrl, safetyAssessment));
         }
 
-		public async Task<(bool success, string attachmentId)> SubmitAttachmentAsync(SubmitAttachmentEntity attachment)
-		{
-			return await CallApi(new SubmitAttachmentEndpoint(BaseVisitzApiUrl, attachment));
-		}
-
-        public async Task<IEnumerable<VisitJson>> GetVisitsAsync(string caseId, DateTimeOffset? after = null)
+        public async Task<(int TotalRecords, IEnumerable<VisitJson>)> GetVisitsAsync(
+            string caseId,
+            Pagination pagination = null)
         {
-            return await CallApi(new GetVisitsEndpoint(BaseVisitzApiUrl, caseId, after));
+            return await CallApi(new GetVisitsEndpoint(BaseVisitzApiUrl, caseId, pagination));
         }
 
         public async Task<bool> PostVisitAsync(string caseId, PostVisitJson visitJsonToSend)
@@ -79,28 +76,29 @@ namespace VisitzApi
             return await CallApi(new PostVisitEndpoint(BaseVisitzApiUrl, caseId, visitJsonToSend));
         }
 
-        public async Task<IEnumerable<ContactJson>> GetContactsAsync(
+        public async Task<(int TotalRecords, IEnumerable<ContactJson>)> GetContactsAsync(
             ApiRecordType type,
             string id,
-            DateTimeOffset? after = null)
+            Pagination pagination = null)
         {
-            return await CallApi(new GetContactsEndpoint(BaseVisitzApiUrl, type, id, after));
+            return await CallApi(new GetContactsEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
-        public async Task<IEnumerable<SupportNetworkJson>> GetSupportNetworkAsync(
+        public async Task<(int TotalRecords, IEnumerable<SupportNetworkJson>)>
+            GetSupportNetworkAsync(
             ApiRecordType type,
             string id,
-            DateTimeOffset? after = null)
+            Pagination pagination = null)
         {
-            return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, after));
+            return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
-        public async Task<IEnumerable<AttachmentJson>> GetAttachmentsAsync(
+        public async Task<(int TotalRecords, IEnumerable<AttachmentJson>)> GetAttachmentsAsync(
             ApiRecordType type,
             string id,
-            DateTimeOffset? after = null)
+            Pagination pagination = null)
         {
-            return await CallApi(new GetAttachmentsEndpoint(BaseVisitzApiUrl, type, id, after));
+            return await CallApi(new GetAttachmentsEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
         public async Task<AttachmentJson> GetAttachmentDetailsAsync(
@@ -110,6 +108,21 @@ namespace VisitzApi
             DateTimeOffset? after = null)
         {
             return await CallApi(new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, recordId, attachmentId, after));
+        }
+
+        public async Task<(bool TotalCount, string AttachmentId)> SubmitAttachmentAsync(
+            ApiRecordType type,
+            string recordId,
+            AttachmentFormData data)
+        {
+            return await CallApi(new PostAttachmentEndpoint(BaseVisitzApiUrl, type, recordId, data));
+        }
+
+        public async Task<(int TotalRecords, IEnumerable<SafetyAsessmentJson>)> GetSafetyAssessments(
+            string incidentId,
+            Pagination pagination = null)
+        {
+            return await CallApi(new GetSafetyAssessmentsEndpoint(BaseVisitzApiUrl, incidentId, pagination));
         }
     }
 }

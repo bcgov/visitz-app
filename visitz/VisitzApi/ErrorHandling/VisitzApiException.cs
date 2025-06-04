@@ -1,17 +1,13 @@
-﻿using System.Net;
+using System.Net;
 
 namespace VisitzApi.ErrorHandling
 {
-    public class VisitzApiException : Exception
+    public class VisitzApiException(HttpStatusCode statusCode, string errorMessage)
+        : Exception(errorMessage)
     {
-        public HttpStatusCode HttpStatusCode { get; private set; }
+        public HttpStatusCode HttpStatusCode { get; private set; } = statusCode;
 
         public bool IsError => IsErroneousStatus(HttpStatusCode) || Message.Length > 0;
-
-        internal VisitzApiException(HttpStatusCode statusCode, string errorMessage) : base(errorMessage)
-        {
-            HttpStatusCode = statusCode;
-        }
 
         internal static bool IsErroneousStatus(HttpStatusCode statusCode)
         {

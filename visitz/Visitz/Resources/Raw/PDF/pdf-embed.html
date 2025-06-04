@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style>
+        body {
+            display: block;
+            padding: 0;
+        }
+
+        /* less than 100vh/vw because of layout issues with scrollbars */
+        embed {
+            min-height: 97vh;
+            width: 99vw;
+        }
+    </style>
+    <script>
+        // adapted from https://stackoverflow.com/a/60256297
+
+        function base64ToBlob(base64, type = "application/octet-stream") {
+          const binStr = atob(base64);
+          const len = binStr.length;
+          const arr = new Uint8Array(len);
+          for (let i = 0; i < len; i++) {
+            arr[i] = binStr.charCodeAt(i);
+          }
+          return new Blob([arr], { type: type });
+        }
+
+        function loadPdfFromBase64(base64) {
+            const blob = base64ToBlob(base64, 'application/pdf');
+            const url = URL.createObjectURL(blob);
+            document.getElementById('pdf-embed').src = url;
+        }
+    </script>
+</head>
+<body>
+    <embed id="pdf-embed" type='application/pdf' />
+</body>
+</html>

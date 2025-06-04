@@ -3,7 +3,7 @@ namespace Visitz.Views.FormControls;
 public partial class FormPromptAnswerField : ContentView
 {
     public static readonly BindableProperty RadioButtonGroupNameProperty =
-        BindableProperty.Create(nameof(RadioButtonGroupName), typeof(string), typeof(FormPromptAnswerField)); 
+        BindableProperty.Create(nameof(RadioButtonGroupName), typeof(string), typeof(FormPromptAnswerField));
 
     public static readonly BindableProperty QuestionPromptProperty =
         BindableProperty.Create(nameof(QuestionPrompt), typeof(string), typeof(FormPromptAnswerField));
@@ -46,6 +46,9 @@ public partial class FormPromptAnswerField : ContentView
     public static readonly BindableProperty NoCheckedProperty =
         BindableProperty.Create(nameof(NoChecked), typeof(bool), typeof(FormPromptAnswerField),
             defaultBindingMode: BindingMode.TwoWay);
+
+    public static readonly BindableProperty IsReadOnlyProperty =
+        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
 
     public string RadioButtonGroupName
     {
@@ -95,12 +98,18 @@ public partial class FormPromptAnswerField : ContentView
         set => SetValue(NoCheckedProperty, value);
     }
 
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
+    }
+
     public FormPromptAnswerField()
-	{
+    {
         RadioButtonGroupName = $"G{Guid.NewGuid():N}";
 
-		InitializeComponent();
-	}
+        InitializeComponent();
+    }
 
     private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {

@@ -2,7 +2,6 @@ using Realms;
 using VisitzApi.Models;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 
@@ -106,52 +105,6 @@ namespace VisitzModel.Models
             .TrimEnd([',', ' ', '-'])
             .TrimEnd([',', ' ', '-']);
 
-        public static CaseloadItem FromApiEntity(CaseloadEntity caseloadEntity)
-        {
-            var caseloadItem = new CaseloadItem()
-            {
-                EntityType = caseloadEntity.EntityType,
-                CaseIncidentNumber = caseloadEntity.CaseIncidentNumber,
-                CaseIncidentType = caseloadEntity.CaseIncidentType,
-                WorkerId = caseloadEntity.WorkerId,
-                WorkerFullName = caseloadEntity.WorkerFullName,
-                ServiceOffice = caseloadEntity.ServiceOffice,
-                OfficeCode = caseloadEntity.OfficeCode,
-                SafetyAssessmentExist = caseloadEntity.SafetyAssessmentExist,
-                UnitNo = caseloadEntity.UnitNo,
-                AddressLine1 = caseloadEntity.AddressLine1,
-                AddressLine2 = caseloadEntity.AddressLine2,
-                City = caseloadEntity.City,
-                PostalCode = caseloadEntity.PostalCode,
-                ProvinceState = caseloadEntity.ProvinceState,
-                Country = caseloadEntity.Country,
-                KeyPlayerCellPhone = caseloadEntity.KeyPlayerCellPhone,
-                KeyPlayerEmail = caseloadEntity.KeyPlayerEmail,
-                KeyPlayerHomePhone = caseloadEntity.KeyPlayerHomePhone,
-                CreatedDate = caseloadEntity.CreatedDate,
-                DateReported = caseloadEntity.DateReported,
-                MemoUrgent = caseloadEntity.MemoUrgent,
-                MemoCallDate = caseloadEntity.MemoCallDate,
-                MemoCallTime = caseloadEntity.MemoCallTime,
-                MemoRecordedBy = caseloadEntity.MemoRecordedBy,
-            };
-
-            if (caseloadEntity.FamilyMembers != null)
-            {
-                var family = FamilyMember.FromApiEntities(caseloadEntity.FamilyMembers);
-
-                foreach (var familyMember in family)
-                    caseloadItem.FamilyMembers.Add(familyMember);
-            }
-
-            return caseloadItem;
-        }
-
-        public static IEnumerable<CaseloadItem> FromApiEntities(IEnumerable<CaseloadEntity> caseloadEntities)
-        {
-            return caseloadEntities.Select(FromApiEntity);
-        }
-
         public static IQueryable<CaseloadItem> GetAllByDistinctSubtypes(Realm realm, bool sortAsc)
         {
             string subtype = nameof(CaseIncidentType);
@@ -185,7 +138,7 @@ namespace VisitzModel.Models
 
         static void CascadeDelete(Realm realm, CaseloadItem itemToDelete)
         {
-            foreach (var note in NoteItem.GetNotesByEntityId(realm, itemToDelete.CaseIncidentNumber))
+            foreach (var note in NoteItem.GetNotesByFileNumber(realm, itemToDelete.CaseIncidentNumber))
                 realm.Remove(note);
 
             realm.Remove(itemToDelete);

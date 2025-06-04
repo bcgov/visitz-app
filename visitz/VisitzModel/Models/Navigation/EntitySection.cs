@@ -8,6 +8,7 @@ public enum EntitySection
     Notes = 300,
     NoteEntry = 301,
     SafetyAssessment = 400,
+    SafetyAssessmentEntry = 401,
     Attachments = 500,
     ChildYouthVisits = 600,
     ChildYouthVisitsEntry = 601,

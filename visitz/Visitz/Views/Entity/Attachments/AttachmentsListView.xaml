@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseClasses:ViewModelContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Entity.Attachments.AttachmentsListView"
+    x:DataType="attachments:AttachmentsListViewModel"
+    VerticalOptions="FillAndExpand">
+
+    <AbsoluteLayout>
+        <CollectionView
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            ItemsSource="{Binding AttachmentsList}"
+            SelectionMode="None"
+            ItemsUpdatingScrollMode="KeepScrollOffset">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="attachments:AttachmentsListItemUi">
+                    <attachments:AttachmentsListItemView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <controls:EmptyIcon IsVisible="{Binding IsEmpty}" />
+    </AbsoluteLayout>
+</baseClasses:ViewModelContentView>

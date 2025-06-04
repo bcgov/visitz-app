@@ -52,6 +52,10 @@ namespace Visitz.Services.Base
 
         public object Payload { get; set; }
 
+        public object ReturnPayload { get; protected set; }
+
+        public Exception UncaughtException { get; protected set; }
+
         protected ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<VisitzService>>();
 
         static readonly string LoggerTemplate = "{id} -> {stateMessage}";
@@ -65,6 +69,8 @@ namespace Visitz.Services.Base
                 ServiceId = GetId(),
                 ServiceType = GetType(),
                 Status = status,
+                UncaughtException = UncaughtException,
+                ReturnPayload = ReturnPayload,
             };
 
             if (status == State.Stopped)
@@ -91,13 +97,19 @@ namespace Visitz.Services.Base
             }
             catch (Exception ex)
             {
-                ResultCode = ex is OperationCanceledException
-                    ? Result.Cancelled
-                    : Result.Error;
-                ResultMessage = ex.Message;
+                if (ex is OperationCanceledException)
+                {
+                    ResultCode = Result.Cancelled;
+                    Logger.LogDebug(LoggerTemplate, GetId(), "Service cancelled");
+                }
+                else
+                {
+                    UncaughtException = ex;
+                    ResultCode = Result.Error;
+                    Logger.LogError(LoggerTemplate, GetId(), ex.ToString());
+                }
 
-                if (ResultCode == Result.Error)
-                    Logger.LogError(LoggerTemplate, GetId(), ResultMessage);
+                ResultMessage = ex.Message;
 
                 throw;
             }

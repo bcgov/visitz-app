@@ -11,10 +11,10 @@ public partial class ChildInOutCareItem : ContentView
     public static readonly GridLength GenderGridLength = GridLength.Star;
 
     public ChildInOutCareItem()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         PropertyChanged += ChildInOutCareItem_PropertyChanged;
-	}
+    }
 
     private void ChildInOutCareItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {

@@ -12,7 +12,7 @@ internal static class VisitzRealms
     private static async Task<byte[]> GetKey(string name) => await VisitzKey.GetKey(name);
 
 
-    public static async Task<IcmData> GetIcmDataAsync() => 
+    public static async Task<IcmData> GetIcmDataAsync() =>
         new IcmData(await GetKey(IcmData.Name));
 
     public static async Task<NoteDrafts> GetNoteDraftsAsync() =>
@@ -21,8 +21,8 @@ internal static class VisitzRealms
     public static async Task<SafetyAssessmentDrafts> GetSafetyAssessmentDraftAsync() =>
         new SafetyAssessmentDrafts(await GetKey(SafetyAssessmentDrafts.Name));
 
-	public static async Task<AttachmentDrafts> GetAttachmentDraftsAsync() =>
-		new AttachmentDrafts(await GetKey(AttachmentDrafts.Name));
+    public static async Task<AttachmentDrafts> GetAttachmentDraftsAsync() =>
+        new AttachmentDrafts(await GetKey(AttachmentDrafts.Name));
 
     public static async Task<LogRealm> GetLogAsync() =>
         new LogRealm(await GetKey(LogRealm.Name));
@@ -40,14 +40,14 @@ internal static class VisitzRealms
     public static async Task<Realm> GetSafetyAssessmentDraftRealmAsync() =>
         await (await GetSafetyAssessmentDraftAsync()).GetAsync(ServiceProvider.GetService<ILogger<SafetyAssessmentDrafts>>());
 
-	public static async Task<Realm> GetAttachmentDraftsRealmAsync() =>
-		await (await GetAttachmentDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<AttachmentDrafts>>());
-    
-    public static async Task<Realm> GetLogRealmAsync() =>
-		await (await GetLogAsync()).GetAsync(ServiceProvider.GetService<ILogger<LogRealm>>());
+    public static async Task<Realm> GetAttachmentDraftsRealmAsync() =>
+        await (await GetAttachmentDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<AttachmentDrafts>>());
 
-	public static async Task<Realm> GetPersonVisitDraftsRealmAsync() =>
-		await (await GetPersonVisitDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<PersonVisitDrafts>>());
+    public static async Task<Realm> GetLogRealmAsync() =>
+        await (await GetLogAsync()).GetAsync(ServiceProvider.GetService<ILogger<LogRealm>>());
+
+    public static async Task<Realm> GetPersonVisitDraftsRealmAsync() =>
+        await (await GetPersonVisitDraftsAsync()).GetAsync(ServiceProvider.GetService<ILogger<PersonVisitDrafts>>());
 
     public static Task EnqueueIcmDataActionAsync(Func<Realm, Task> task)
     {

@@ -3,43 +3,54 @@ using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
+using VisitzModel.Models.Drafts;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class AttachmentsViewModel : VisitzViewModel, ICaseloadItemHolder
+internal partial class AttachmentsViewModel : VisitzViewModel, IBusinessObjectHolder
 {
-	[ObservableProperty]
-	public CaseloadItem caseloadItem;
+    [ObservableProperty]
+    public IBusinessObject businessObject;
 
-	Realm AttachmentsRealm { get; set; }
+    [ObservableProperty]
+    public IDraftItem focusedDraftItem;
 
-	AttachmentFiler attachmentFiler;
+    Realm AttachmentsRealm { get; set; }
 
-	public override async void Create()
-	{
-		base.Create();
+    AttachmentFiler attachmentFiler;
 
-		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-		attachmentFiler = await VisitzFiles.GetAsync(
-			CaseloadItem.EntityType.ParseEntityType(),
-			CaseloadItem.CaseIncidentNumber,
-			CaseloadItem.KeyPlayer.FirstName,
-			CaseloadItem.KeyPlayer.LastName);
-	}
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
 
-	public async Task SaveFile(FileResult fileResult)
-	{
-		string extension = fileResult.FileName.GetFileExtension();
-		await using Stream stream = await fileResult.OpenReadAsync();
+        AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+        attachmentFiler = await VisitzFiles.GetAsync(BusinessObject);
+    }
 
-		if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
-			await AttachmentDraft.SaveNewPhoto(CaseloadItem, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
-		else
-			await AttachmentDraft.SaveNewFile(CaseloadItem, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
-	}
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            AttachmentsRealm?.Dispose();
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
+    public async Task SaveFile(FileResult fileResult)
+    {
+        string extension = fileResult.FileName.GetFileExtension();
+        await using Stream stream = await fileResult.OpenReadAsync();
+
+        if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
+            await AttachmentDraft.SaveNewPhoto(BusinessObject, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+        else
+            await AttachmentDraft.SaveNewFile(BusinessObject, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+    }
 }

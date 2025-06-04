@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
@@ -9,12 +8,9 @@ namespace Visitz.Services.People;
 internal class GetContactsByRangeService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler,
-    ILogger<GetContactsByRangeService> logger)
-    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler, logger)
+    ServiceHandler serviceHandler)
+    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
-    ServiceHandler ServiceHandler { get; set; } = serviceHandler;
-
     public static string MakeId()
     {
         return nameof(GetContactsByRangeService);

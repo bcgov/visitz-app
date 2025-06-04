@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Partial class implementation of a Realm + compiled bindings workaround.
 
 	https://github.com/realm/realm-dotnet/issues/2270#issuecomment-786720318
@@ -60,7 +60,7 @@ public partial class SafetyDecisions
         set => this.Commit(() => ReadyFinalize = value);
     }
 
-    public DateTimeOffset ReadyFinalizeDateBinding
+    public DateTimeOffset? ReadyFinalizeDateBinding
     {
         get => IsValid ? ReadyFinalizeDate : default;
         set => this.Commit(() => ReadyFinalizeDate = value);

@@ -3,12 +3,13 @@ using CommunityToolkit.Maui.Core.Platform;
 #endif
 
 using CommunityToolkit.Mvvm.Messaging;
+using Oidc;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.SegmentedButtons;
+using Visitz.Views.User;
 
 namespace Visitz.Views.Caseload;
 
@@ -20,23 +21,18 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
     {
         InitializeComponent();
         BindingContext = ViewModel;
-    }
-
-    protected override void Creating()
-    {
-        base.Creating();
 
         WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
     }
 
-    protected override void Destroying()
+    protected override void Dispose(bool disposing)
     {
-        /* No-op because class is a DI singleton */
+        /* Overriding to a no-op because class is a DI singleton */
     }
 
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ViewModel.ApplyCaseloadQuery();
+        ViewModel.Lister.ApplyWithFilter();
     }
 
 #if MACCATALYST
@@ -69,10 +65,12 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
 
     public async void Receive(ServiceStateMessage message)
     {
-        if (message.FinishedError)
+        if (message.FinishedError && (await OidcSession.IsAuthorized() ?? false))
+        {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(
                 LocalizedStrings.CaseloadErrorMessage,
-                message.Message,
+                message.UncaughtException?.ToString(),
                 LocalizedStrings.CaseloadError);
+        }
     }
 }

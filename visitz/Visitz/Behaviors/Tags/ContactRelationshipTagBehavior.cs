@@ -8,12 +8,12 @@ public class ContactRelationshipTagBehavior : TagStyleBehavior
 {
     protected override void ApplyTagStyle(TagView tag)
     {
-        if (tag.BindingContext is not FamilyMember fam)
+        if (tag.BindingContext is not IcmContact contact)
             return;
 
-        tag.Text = fam.Relationship;
+        tag.Text = contact.Relationship;
 
-        if (fam.IsKeyPlayer)
+        if (contact.IsKeyPlayer)
         {
             tag.BackgroundColor = VisitzColors.ContactRelationshipTagText;
             tag.TextColor = Colors.White;

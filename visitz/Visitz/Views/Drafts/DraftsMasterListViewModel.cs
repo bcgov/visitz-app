@@ -56,9 +56,9 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
         ItemType = typeof(PersonVisitDraft),
     };
 
-    public override async void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
         realmCount.CountChanged += RealmCount_CountChanged;
 
@@ -68,12 +68,18 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
         realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        base.Destroy();
+        if (!disposed && disposing)
+        {
+            realmCount.CountChanged -= RealmCount_CountChanged;
+            realmCount.Dispose();
 
-        realmCount.CountChanged -= RealmCount_CountChanged;
-        realmCount.Dispose();
+            disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 
     private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)

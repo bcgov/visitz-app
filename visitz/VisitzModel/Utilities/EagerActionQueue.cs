@@ -4,32 +4,32 @@ namespace VisitzModel.Utilities;
 
 public class EagerActionQueue(CancellationToken? cancellationToken = null)
 {
-	readonly CancellationToken cancelToken = cancellationToken ?? CancellationToken.None;
-	readonly ConcurrentQueue<(TaskCompletionSource, Func<Task>)> taskQueue = new();
-	Task writeFromQueue;
+    readonly CancellationToken cancelToken = cancellationToken ?? CancellationToken.None;
+    readonly ConcurrentQueue<(TaskCompletionSource, Func<Task>)> taskQueue = new();
+    Task writeFromQueue;
 
-	public bool HasCompleted => writeFromQueue?.IsCompleted ?? true;
+    public bool HasCompleted => writeFromQueue?.IsCompleted ?? true;
 
-	public Task EnqueueAsync(Func<Task> task)
-	{
+    public Task EnqueueAsync(Func<Task> task)
+    {
         TaskCompletionSource tcs = new();
 
-		taskQueue.Enqueue((tcs, task));
+        taskQueue.Enqueue((tcs, task));
 
-		if (HasCompleted)
-			writeFromQueue = CreateWriteFromQueueTaskAsync();
+        if (HasCompleted)
+            writeFromQueue = CreateWriteFromQueueTaskAsync();
 
-		return tcs.Task;
-	}
+        return tcs.Task;
+    }
 
-	async Task CreateWriteFromQueueTaskAsync()
-	{
-		while (!taskQueue.IsEmpty)
-		{
-			cancelToken.ThrowIfCancellationRequested();
+    async Task CreateWriteFromQueueTaskAsync()
+    {
+        while (!taskQueue.IsEmpty)
+        {
+            cancelToken.ThrowIfCancellationRequested();
 
-			if (taskQueue.TryDequeue(out (TaskCompletionSource, Func<Task>) tuple))
-			{
+            if (taskQueue.TryDequeue(out (TaskCompletionSource, Func<Task>) tuple))
+            {
                 var (tcs, task) = tuple;
 
                 try
@@ -41,7 +41,7 @@ public class EagerActionQueue(CancellationToken? cancellationToken = null)
                 {
                     tcs.TrySetException(ex);
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 }

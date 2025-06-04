@@ -1,5 +1,5 @@
+using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
-using VisitzModel;
 
 namespace Visitz.Views.BaseClasses;
 
@@ -7,24 +7,28 @@ public abstract class BaseContentView : ContentView, IDisposable
 {
     private bool _disposedValue;
 
+    private ILogger Logger { get; }
+
     public Task InitTask { get; private set; }
+
+    public BaseContentView()
+    {
+        Logger = MakeLogger();
+    }
+
+    protected virtual ILogger<BaseContentView> MakeLogger()
+    {
+        return ServiceProvider.GetService<ILogger<BaseContentView>>();
+    }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
 
         if (args.AttachingToHandler())
-        {
-#pragma warning disable CS0618 // Type or member is obsolete
-            Creating(); // Used until all other references are removed
-#pragma warning restore CS0618 // Type or member is obsolete
-
             InitTask = InitAsync();
-        }
         else if (args.DetachingFromHandler())
-#pragma warning disable CS0618 // Type or member is obsolete
-            Destroying(); // Used until all other references are removed
-#pragma warning restore CS0618 // Type or member is obsolete
+            Dispose();
     }
 
     public void Dispose()
@@ -33,23 +37,11 @@ public abstract class BaseContentView : ContentView, IDisposable
         GC.SuppressFinalize(this);
     }
 
-    [Obsolete("Use InitAsync instead")]
-    protected virtual void Creating()
-    {
-        ConsoleTrace.TraceMethod(this);
-    }
-
     protected virtual Task InitAsync()
     {
-        ConsoleTrace.TraceMethod(this);
+        Logger.TraceMethod(this);
 
         return Task.CompletedTask;
-    }
-
-    [Obsolete("Use Dispose instead")]
-    protected virtual void Destroying()
-    {
-        ConsoleTrace.TraceMethod(this);
     }
 
     protected virtual void Dispose(bool disposing)
@@ -58,10 +50,7 @@ public abstract class BaseContentView : ContentView, IDisposable
             return;
 
         if (disposing)
-        {
-            ConsoleTrace.TraceMethod(this);
-            Handler = null;
-        }
+            Logger.TraceMethod(this);
 
         _disposedValue = true;
     }

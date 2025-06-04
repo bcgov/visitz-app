@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -18,6 +19,7 @@ using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.InPersonVisits;
@@ -28,12 +30,12 @@ using VisitzModel.Models.SafetyAssess;
 namespace Visitz.Views.Entity.Navigation;
 
 public partial class EntityNavViewModel : VisitzViewModel,
-    ICaseloadItemHolder,
+    IBusinessObjectHolder,
     IRequestedEntitySection,
     IFocusDraftItem
 {
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
     [ObservableProperty]
     public EntityNavItem headerNavItem;
@@ -83,7 +85,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
     private readonly EntityNavItem SafetyAssessment = new()
     {
         Text = LocalizedStrings.SafetyAssessment,
-        ContentViewType = typeof(EntitySafetyAssessView),
+        ContentViewType = typeof(SafetyAssessmentListView),
         Section = EntitySection.SafetyAssessment,
     };
 
@@ -104,30 +106,39 @@ public partial class EntityNavViewModel : VisitzViewModel,
     private string CacheDeletedKeyplayer;
     private string CacheDeletedEntityType;
 
-    public override async void Create()
+    protected override async Task InitAsync()
     {
-        base.Create();
+        await base.InitAsync();
 
         BuildNavList();
 
         SelectedEntityNavItem ??= DefaultNavItem;
 
-        CacheDeletedKeyplayer = CaseloadItem.DisplayName;
-        CacheDeletedEntityType = CaseloadItem.EntityType;
+        CacheDeletedKeyplayer = BusinessObject.DisplayName;
+        CacheDeletedEntityType = BusinessObject.EntityType.GetDisplayString();
 
         await SetupDraftsObserver();
+        BusinessObject.SubscribePropertyChanged(EntityNavViewModel_PropertyChanged);
 
         StrongReferenceMessenger.Default.Register<EntityNavMessage>(this, ReceiveEntityNavMessage);
     }
 
-    public override void Destroy()
+    bool disposed;
+    protected override void Dispose(bool disposing)
     {
-        realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
-        realmQueryMap.Dispose();
+        if (!disposed && disposing)
+        {
+            realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
+            realmQueryMap.Dispose();
 
-        StrongReferenceMessenger.Default.UnregisterAll(this);
+            BusinessObject.UnsubscribePropertyChanged(EntityNavViewModel_PropertyChanged);
 
-        base.Destroy();
+            StrongReferenceMessenger.Default.UnregisterAll(this);
+
+            disposed = true;
+        }
+
+        base.Dispose(disposing);
     }
 
     private void BuildNavList()
@@ -153,32 +164,38 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
         var noteRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
         realmQueryMap.Subscribe(noteRealm, noteRealm.All<NoteDraft>()
-            .Where(draft => draft.ParentEntityId == CaseloadItem.CaseIncidentNumber));
+            .Where(draft => draft.ParentEntityId == BusinessObject.FileNumber));
 
         var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
         realmQueryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
-            .Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber));
-
-        var caseloadRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        realmQueryMap.Subscribe(caseloadRealm, caseloadRealm.All<CaseloadItem>()
-            .Where(item => item.CaseIncidentNumber == CaseloadItem.CaseIncidentNumber));
+            .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber));
 
         if (ShouldShowSafetyAssessment())
         {
             var assessmentRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
             realmQueryMap.Subscribe(assessmentRealm, assessmentRealm.All<AssessmentDraft>()
-                .Where(draft => draft.DraftEntityId == CaseloadItem.CaseIncidentNumber));
+                .Where(draft => draft.DraftEntityId == BusinessObject.FileNumber));
         }
 
         if (ShouldShowChildYouthVisits())
         {
             var visitsRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
             realmQueryMap.Subscribe(visitsRealm, visitsRealm.All<PersonVisitDraft>()
-                .Where(draft => draft.RelatedEntityId == CaseloadItem.RowId));
+                .Where(draft => draft.RelatedEntityId == BusinessObject.Id));
         }
     }
 
-    private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void EntityNavViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        IBusinessObject bobj = sender as IBusinessObject;
+
+        if (e.PropertyName == nameof(bobj.IsValid) && !bobj.IsValid)
+            _ = EntityUnassignedGoBack();
+    }
+
+    private void RealmQueryMap_ItemsChanged(
+        object sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
         if (e.Type == typeof(NoteDraft))
             Notes.HasDraft = e.Items.Any();
@@ -186,8 +203,6 @@ public partial class EntityNavViewModel : VisitzViewModel,
             SafetyAssessment.HasDraft = e.Items.Any();
         else if (e.Type == typeof(AttachmentDraft))
             Attachments.HasDraft = e.Items.Any();
-        else if (e.Type == typeof(CaseloadItem) && e.Changes?.DeletedIndices?.Length > 0)
-            _ = EntityUnassignedGoBack();
         else if (e.Type == typeof(PersonVisitDraft))
             ChildYouthVisits.HasDraft = e.Items.Any();
     }
@@ -206,7 +221,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
         {
             EntitySection.Family => FamilyMembers,
             EntitySection.Notes or EntitySection.NoteEntry => Notes,
-            EntitySection.SafetyAssessment => SafetyAssessment,
+            EntitySection.SafetyAssessment or EntitySection.SafetyAssessmentEntry => SafetyAssessment,
             EntitySection.Attachments => Attachments,
             EntitySection.ChildYouthVisits or EntitySection.ChildYouthVisitsEntry => ChildYouthVisits,
             _ => Details,
@@ -216,7 +231,12 @@ public partial class EntityNavViewModel : VisitzViewModel,
     [RelayCommand]
     public void EntityNavSelected()
     {
-        var msg = new EntityNavMessage(SelectedEntityNavItem, CaseloadItem, RequestedSection, FocusedDraftItem);
+        var msg = new EntityNavMessage(
+            SelectedEntityNavItem,
+            BusinessObject,
+            RequestedSection,
+            FocusedDraftItem);
+
         StrongReferenceMessenger.Default.Send(msg);
 
         RequestedSection = EntitySection.Unknown;
@@ -247,13 +267,13 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
     private bool ShouldShowSafetyAssessment()
     {
-        return CaseloadItem.EntityType.ParseEntityType() == EntityType.Incident;
+        return BusinessObject.EntityType == EntityType.Incident;
     }
 
     private bool ShouldShowChildYouthVisits()
     {
-        return CaseloadItem.EntityType.ParseEntityType() == EntityType.Case
-            && CaseloadItem.CaseIncidentType.ParseEntitySubtype() == EntitySubtype.ChildServices;
+        return BusinessObject.EntityType == EntityType.Case
+            && BusinessObject.EntitySubtype == EntitySubtype.ChildServices;
     }
 
     private void ReceiveEntityNavMessage(object recipient, EntityNavMessage message)
@@ -264,6 +284,6 @@ public partial class EntityNavViewModel : VisitzViewModel,
 
     private bool ShouldShowSupportNetwork()
     {
-        return CaseloadItem.EntityType.ParseEntityType() != EntityType.Memo;
+        return BusinessObject.EntityType != EntityType.Memo;
     }
 }

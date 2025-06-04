@@ -23,7 +23,7 @@ public partial class ProtectiveCapacity
         get => IsValid && ChildCognitive;
         set => this.Commit(() => ChildCognitive = value);
     }
-	
+
     public bool ParentCognitiveBinding
     {
         get => IsValid && ParentCognitive;
@@ -33,7 +33,7 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool ParentWillingnessBinding
     {
         get => IsValid && ParentWillingness;
@@ -43,7 +43,7 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool ParentResourcesBinding
     {
         get => IsValid && ParentResources;
@@ -53,7 +53,7 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool ParentSupportiveBinding
     {
         get => IsValid && ParentSupportive;
@@ -63,7 +63,7 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool ParentProtectBinding
     {
         get => IsValid && ParentProtect;
@@ -73,7 +73,7 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool ParentAcceptBinding
     {
         get => IsValid && ParentAccept;
@@ -83,7 +83,7 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool ParentRelationshipBinding
     {
         get => IsValid && ParentRelationship;
@@ -93,7 +93,7 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool ParentAwareBinding
     {
         get => IsValid && ParentAware;
@@ -103,7 +103,7 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool ParentProbSolvingBinding
     {
         get => IsValid && ParentProbSolving;
@@ -113,13 +113,13 @@ public partial class ProtectiveCapacity
             if (value) ClearNoProCapPresent();
         }
     }
-    
+
     public bool NoProCapPresentBinding
     {
         get => IsValid && NoProCapPresent;
         set => this.Commit(() => SetNoProCapPresent(value));
     }
-    
+
     public bool CapacitiesOtherBinding
     {
         get => IsValid && CapacitiesOther;
@@ -135,7 +135,7 @@ public partial class ProtectiveCapacity
         get => IsValid ? CmtProtectiveCapacity01 : default;
         set => this.Commit(() => CmtProtectiveCapacity01 = value);
     }
-    
+
     public string CmtProtectiveCapacity02Binding
     {
         get => IsValid ? CmtProtectiveCapacity02 : default;

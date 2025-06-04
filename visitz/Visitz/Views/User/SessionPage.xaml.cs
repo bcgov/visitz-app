@@ -1,6 +1,4 @@
 using Oidc;
-using Visitz.Auth;
-using Visitz.Resources.Localization;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
 
@@ -12,32 +10,27 @@ public partial class SessionPage : VisitzPage
         .Any(page => page.GetType() == typeof(SessionPage));
 
     public SessionPage(SessionViewModel viewModel) : base(viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+        viewModel.AuthorizationSuccess = () => Navigator.Navigation.RemovePage(this);
+    }
 
-	public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
-	{
-        if (IsOpen || await OidcSession.HasRole(VisitzRoles.BasicAccess))
+    public static async Task TryOpenAsync(
+        Page fromPage = null,
+        bool modal = false,
+        bool animated = true)
+    {
+        if (IsOpen
+            || await OidcSession.SessionExistsAsync()
+            && (await OidcSession.IsAuthorized() ?? false))
             return;
 
         await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);
-	}
+    }
 
     protected override bool OnBackButtonPressed()
     {
-		return AppLockPage.BackButtonEnabled;
-    }
-
-    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-        var message = new EmailMessage
-        {
-            To = [(ViewModel as SessionViewModel).MailToUrl],
-            Subject = LocalizedStrings.AuthorizationRequest,
-        };
-
-        await Email.Default.ComposeAsync(message);
+        return AppLockPage.BackButtonEnabled;
     }
 }

@@ -2,7 +2,6 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models.SafetyAssess;
-using VisitzModel.Models;
 using VisitzModel.Models.SafetyAssess;
 using VisitzModel.Storage;
 
@@ -15,22 +14,17 @@ public class SubmitSafetyAssessmentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
         return $"{nameof(SubmitSafetyAssessmentService)}-{entityId}";
     }
 
-    public static string MakeId(CaseloadItem caseloadItem)
-    {
-        return MakeId(caseloadItem.CaseIncidentNumber);
-    }
-
     public static StartServiceMessage MakeStartMessage(SafetyAssessment safetyAssessment)
     {
         return new StartServiceMessage()
         {
-            Payload = safetyAssessment.ToApiEntity(),
+            Payload = safetyAssessment.ToApiJson(),
             ServiceId = MakeId(safetyAssessment.IncidentNumber),
             ServiceType = typeof(SubmitSafetyAssessmentService),
         };
     }
 
-    private new SafetyAssessmentEntity Payload => (SafetyAssessmentEntity)base.Payload;
+    private new SubmitSafetyAssessmentJson Payload => (SubmitSafetyAssessmentJson)base.Payload;
 
     public override string GetId()
     {

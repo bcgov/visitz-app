@@ -5,10 +5,10 @@
 	xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
-    xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.FamilyMembers.ContactItemView"
-    x:DataType="models:FamilyMember"
+    x:DataType="people:IcmContact"
     HorizontalOptions="Start">
 
     <Grid
@@ -60,7 +60,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding DateOfBirth}" />
+            Text="{Binding DateOfBirthFormatted}" />
 
         <Label 
             Grid.Row="3"
@@ -73,7 +73,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding Sex}" />
+            Text="{Binding Gender}" />
 
         <Label 
             Grid.Row="4"
@@ -86,7 +86,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding AboriginalOrigin}" />
+            Text="{Binding Indigenous}" />
 
         <Label 
             Grid.Row="5"
@@ -99,7 +99,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding Address}" />
+            Text="{Binding PrimaryAddress}" />
 
 		<Label 
 			Grid.Row="6"

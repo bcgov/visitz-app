@@ -1,20 +1,24 @@
-using Oidc;
 using Realms;
+using Visitz.Resources.Localization;
+using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
+using Visitz.Services.SafetyAssessments;
 using Visitz.Services.Visits;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
+    public class GetAllDataForOfflineService(
+        Vpi vpi,
+        ServiceHandler serviceHandler,
+        LastUpdatedPrefs prefs)
         : VisitzApiService(vpi, prefs)
     {
         public static string MakeId()
@@ -54,9 +58,7 @@ namespace Visitz.Services.Caseload
 
         private async Task GetCaseload()
         {
-            var info = await OidcSessionInfo.GetAsync();
-
-            var caseloadMessage = GetCaseloadService.MakeStartMessage(info.Idir, ShouldForceDownload);
+            var caseloadMessage = GetCaseloadService.MakeStartMessage(ShouldForceDownload);
             await ServiceHandler.TryRunServiceAsync(caseloadMessage);
         }
 
@@ -76,60 +78,147 @@ namespace Visitz.Services.Caseload
             var srs = realm.All<ServiceRequestRecord>().Freeze().AsEnumerable()
                 .Select(sr => new RecordServiceInfo(sr));
 
+            var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
+            var all = casesIncidentsSrs.Concat(memos);
+
+            List<Exception> exceptions = [];
+
             await Task.WhenAll(
-                GetAllNotes(realm),
-                GetAllVisits(realm),
-                GetAllContacts(cases, incidents, memos, srs),
-                GetAllSupportNetworkItems(cases, incidents, srs)
+                GetAllNotes(casesIncidentsSrs, exceptions),
+                GetAllVisits(cases, exceptions),
+                GetAllContacts(all, exceptions),
+                GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
+                GetAllAttachments(all, exceptions),
+                GetAllSafetyAssessments(incidents, exceptions)
             );
+
+            if (exceptions.Count > 1)
+                throw new AggregateException(exceptions);
+            else if (exceptions.Count > 0)
+                throw exceptions.First();
         }
 
-        private async Task GetAllNotes(Realm realm)
+        private static Exception MakeDownloadEx(string kind, Exception ex)
         {
-            var allIdEntities = realm
-                .All<CaseloadItem>()
-                .Freeze()
-                .AsEnumerable()
-                .Select(item => (item.CaseIncidentNumber, item.EntityType));
+            var msg = string.Format(
+                LocalizedStrings.CaseloadErrorDownload,
+                kind.ToLower());
 
-            var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
+            return new(msg, ex);
         }
 
-        private async Task GetAllVisits(Realm realm)
+        private async Task GetAllNotes(
+            IEnumerable<RecordServiceInfo> casesIncidentsSrs,
+            List<Exception> exceptions)
         {
-            var allCaseIds = realm
-                .All<CaseRecord>()
-                .Freeze()
-                .AsEnumerable()
-                .Where(@case => @case.Type == EntitySubtype.ChildServices)
-                .Select(@case => @case.Id);
+            try
+            {
+                var allIdEntities = casesIncidentsSrs
+                    .Select(item => (item.FileNumber, item.Type));
 
-            var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
+                var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.Notes, ex));
+            }
+        }
+
+        private async Task GetAllVisits(
+            IEnumerable<RecordServiceInfo> cases,
+            List<Exception> exceptions)
+        {
+            try
+            {
+                var allCaseIds = cases
+                    .Where(@case => @case.Subtype == EntitySubtype.ChildServices)
+                    .Select(@case => @case.Id);
+
+                var startMessage = GetVisitsByRangeService.MakeStartMessage(allCaseIds);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ChildYouthVisits, ex));
+            }
         }
 
         private async Task GetAllContacts(
-            IEnumerable<RecordServiceInfo> cases,
-            IEnumerable<RecordServiceInfo> incidents,
-            IEnumerable<RecordServiceInfo> memos,
-            IEnumerable<RecordServiceInfo> srs)
+            IEnumerable<RecordServiceInfo> all,
+            List<Exception> exceptions)
         {
-            var all = cases.Concat(incidents).Concat(memos).Concat(srs);
-
-            var startMessage = GetContactsByRangeService.MakeStartMessage(all);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
+            try
+            {
+                var startMessage = GetContactsByRangeService.MakeStartMessage(all);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.FamilyMembers, ex));
+            }
         }
 
         private async Task GetAllSupportNetworkItems(
-            IEnumerable<RecordServiceInfo> cases,
-            IEnumerable<RecordServiceInfo> incidents,
-            IEnumerable<RecordServiceInfo> srs)
+            IEnumerable<RecordServiceInfo> casesIncidentsSrs,
+            List<Exception> exceptions)
         {
-            var all = cases.Concat(incidents).Concat(srs);
+            try
+            {
+                var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(casesIncidentsSrs);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.SupportNetwork, ex));
+            }
+        }
 
-            var startMessage = GetSupportNetworkByRangeService.MakeStartMessage(all);
-            await ServiceHandler.TryRunServiceAsync(startMessage);
+        private async Task GetAllAttachments(
+            IEnumerable<RecordServiceInfo> all,
+            List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetAttachmentsByRangeService.MakeStartMessage(all);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.AttachmentMetadata, ex));
+            }
+
+            await GetPartialAttachments(all, exceptions);
+        }
+
+        private async Task GetPartialAttachments(
+            IEnumerable<RecordServiceInfo> all,
+            List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage(all);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.Attachments, ex));
+            }
+        }
+
+        private async Task GetAllSafetyAssessments(
+            IEnumerable<RecordServiceInfo> incidents,
+            List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetSafetyAssessmentsByRangeService.MakeStartMessage(incidents);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.SafetyAssessments, ex));
+            }
         }
     }
 }

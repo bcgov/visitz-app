@@ -5,139 +5,141 @@ using Realms;
 using System.Text;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : VisitzViewModel, ICaseloadItemHolder
+internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : VisitzViewModel, IBusinessObjectHolder
 {
-	public static readonly string PictureFiletype = "jpg";
-	public static readonly string PictureFilenamePrepend = "Pic";
+    public static readonly string PictureFiletype = "jpg";
+    public static readonly string PictureFilenamePrepend = "Pic";
 
-	Realm AttachmentsRealm { get; set; }
+    Realm AttachmentsRealm { get; set; }
 
-	readonly ObservableRealmQueryMap queryMap = new();
+    readonly ObservableRealmQueryMap queryMap = new();
 
-	AttachmentFiler attachmentFiler;
+    AttachmentFiler attachmentFiler;
 
-	public CaseloadItem CaseloadItem { get; set; }
+    public IBusinessObject BusinessObject { get; set; }
 
-	[ObservableProperty]
-	public IReadOnlyList<CameraInfo> cameras;
+    [ObservableProperty]
+    public IReadOnlyList<CameraInfo> cameras;
 
-	[ObservableProperty]
-	public CameraInfo selectedCamera;
+    [ObservableProperty]
+    public CameraInfo selectedCamera;
 
-	int selectedCameraIndex;
+    int selectedCameraIndex;
 
-	[ObservableProperty]
-	public bool waitingToProcess = true;
+    [ObservableProperty]
+    public bool waitingToProcess = true;
 
-	[ObservableProperty]
-	public bool processing;
+    [ObservableProperty]
+    public bool processing;
 
-	[ObservableProperty]
-	public byte[] rollBytes;
+    [ObservableProperty]
+    public byte[] rollBytes;
 
-	public override async void Create()
-	{
-		base.Create();
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
 
-		AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-		attachmentFiler = await VisitzFiles.GetAsync(
-			CaseloadItem.EntityType.ParseEntityType(),
-			CaseloadItem.CaseIncidentNumber,
-			CaseloadItem.KeyPlayer.FirstName,
-			CaseloadItem.KeyPlayer.LastName);
+        AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+        attachmentFiler = await VisitzFiles.GetAsync(BusinessObject);
 
-		await SetupCameras();
-		SetupCameraRoll();
-	}
+        await SetupCameras();
+        SetupCameraRoll();
+    }
 
-	public override void Destroy()
-	{
-		base.Destroy();
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            AttachmentsRealm.Dispose();
+            queryMap.Dispose();
 
-		AttachmentsRealm.Dispose();
-		queryMap.Dispose();
-	}
+            disposed = true;
+        }
 
-	private async Task SetupCameras()
-	{
-		await cameraProvider.RefreshAvailableCameras(CancellationToken.None);
-		Cameras = cameraProvider.AvailableCameras;
+        base.Dispose(disposing);
+    }
 
-		if (Cameras.Count > 0)
-			SelectedCamera = Cameras[0];
-	}
+    private async Task SetupCameras()
+    {
+        await cameraProvider.RefreshAvailableCameras(CancellationToken.None);
+        Cameras = cameraProvider.AvailableCameras;
 
-	[RelayCommand]
-	public void SelectNextCamera()
-	{
-		if (Cameras.Count > 0)
-			SelectedCamera = Cameras[NextCameraIndex()];
-	}
+        if (Cameras.Count > 0)
+            SelectedCamera = Cameras[0];
+    }
 
-	int NextCameraIndex()
-	{
-		selectedCameraIndex++;
-		return selectedCameraIndex %= Cameras.Count;
-	}
+    [RelayCommand]
+    public void SelectNextCamera()
+    {
+        if (Cameras.Count > 0)
+            SelectedCamera = Cameras[NextCameraIndex()];
+    }
 
-	private void SetupCameraRoll()
-	{
-		queryMap.ItemsChanged += QueryMap_ItemsChanged;
+    int NextCameraIndex()
+    {
+        selectedCameraIndex++;
+        return selectedCameraIndex %= Cameras.Count;
+    }
 
-		StringBuilder queryBuilder = new();
-		string name = nameof(AttachmentDraft.Attachment) + "." + nameof(Attachment.Extension);
+    private void SetupCameraRoll()
+    {
+        queryMap.ItemsChanged += QueryMap_ItemsChanged;
 
-		foreach (string ext in Attachment.AllowedImageTypes)
-			queryBuilder.Append($" {name} ENDSWITH '{ext}' OR");
+        StringBuilder queryBuilder = new();
+        string name = nameof(AttachmentDraft.Attachment) + "." + nameof(Attachment.Extension);
 
-		string filetypeQuery = queryBuilder.ToString();
-		filetypeQuery = filetypeQuery[..filetypeQuery.LastIndexOf("OR")];
+        foreach (string ext in Attachment.AllowedImageTypes)
+            queryBuilder.Append($" {name} ENDSWITH '{ext}' OR");
 
-		queryMap.Subscribe(AttachmentsRealm, AttachmentsRealm
-			.All<AttachmentDraft>()
-			.Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
-			.Filter(filetypeQuery)
-			.Where(draft => draft.RelatedEntityId == CaseloadItem.CaseIncidentNumber)
-		);
-	}
+        string filetypeQuery = queryBuilder.ToString();
+        filetypeQuery = filetypeQuery[..filetypeQuery.LastIndexOf("OR")];
 
-	private void QueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
-	{
-		if (e.Changes == null)
-		{
-			if (e.Items.Any())
-				RollBytes = (e.Items[0] as AttachmentDraft).Attachment.ThumbnailBinding;
-		}
-		else if (e.Changes.InsertedIndices.Length > 0)
-			RollBytes = (e.Items[e.Changes.InsertedIndices[0]] as AttachmentDraft).Attachment.ThumbnailBinding;
-	}
+        queryMap.Subscribe(AttachmentsRealm, AttachmentsRealm
+            .All<AttachmentDraft>()
+            .Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
+            .Filter(filetypeQuery)
+            .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber)
+        );
+    }
 
-	public async Task SavePicture(Stream stream)
-	{
-		WaitingToProcess = false;
+    private void QueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    {
+        if (e.Changes == null)
+        {
+            if (e.Items.Any())
+                RollBytes = (e.Items[0] as AttachmentDraft).Attachment.ThumbnailBinding;
+        }
+        else if (e.Changes.InsertedIndices.Length > 0)
+            RollBytes = (e.Items[e.Changes.InsertedIndices[0]] as AttachmentDraft).Attachment.ThumbnailBinding;
+    }
 
-		try
-		{
-			string filename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
+    public async Task SavePicture(Stream stream)
+    {
+        WaitingToProcess = false;
 
-			await AttachmentDraft.SaveNewPhoto(CaseloadItem, attachmentFiler, AttachmentsRealm, filename, stream);
-		}
-		finally
-		{
-			WaitingToProcess = true;
-		}
-	}
+        try
+        {
+            string filename = attachmentFiler.MakeFilename(PictureFilenamePrepend, PictureFiletype);
 
-	partial void OnWaitingToProcessChanged(bool value)
-	{
-		Processing = !value;
-	}
+            await AttachmentDraft.SaveNewPhoto(BusinessObject, attachmentFiler, AttachmentsRealm, filename, stream);
+        }
+        finally
+        {
+            WaitingToProcess = true;
+        }
+    }
+
+    partial void OnWaitingToProcessChanged(bool value)
+    {
+        Processing = !value;
+    }
 }

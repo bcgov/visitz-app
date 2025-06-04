@@ -2,15 +2,16 @@
 <base:ViewModelContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
-    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
-    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
-    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
-    xmlns:supportNetwork="clr-namespace:Visitz.Views.Entity.SupportNetwork"
-    x:Class="Visitz.Views.Entity.SupportNetwork.SupportNetworkListView"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:supportNetwork="clr-namespace:Visitz.Views.Entity.SupportNetwork"
+    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
+    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
+    x:Class="Visitz.Views.Entity.SupportNetwork.SupportNetworkListView"
     x:DataType="supportNetwork:SupportNetworkListViewModel">
 
     <base:ViewModelContentView.Resources>
@@ -159,14 +160,9 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Label
+
+        <controls:EmptyIcon
             Grid.Row="0"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            FontSize="200"
-            TextColor="#919197"
-            Text="{Static fonticons:MaterialIcons.Note_stack}"
-            FontFamily="MaterialIconsRoundedUnfilled"
             IsVisible="{Binding ShowEmptyIcon}"/>
     </Grid>
 </base:ViewModelContentView>

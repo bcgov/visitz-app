@@ -52,6 +52,8 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<WebViewPage>();
         builder.Services.AddTransient<WebViewModel>();
+        builder.Services.AddTransient<PdfDetailsView>();
+        builder.Services.AddTransient<PdfDetailsViewModel>();
 
         builder.Services.AddTransient<EntityNavView>();
         builder.Services.AddTransient<EntityNavViewModel>();
@@ -71,7 +73,10 @@ public static class VisitzScreens
         builder.Services.AddTransient<AttachmentsView>();
         builder.Services.AddTransient<AttachmentsViewModel>();
 
-        builder.Services.AddTransient<AttachmentsList>();
+        builder.Services.AddTransient<AttachmentDraftsListView>();
+        builder.Services.AddTransient<AttachmentDraftsListViewModel>();
+
+        builder.Services.AddTransient<AttachmentsListView>();
         builder.Services.AddTransient<AttachmentsListViewModel>();
 
         builder.Services.AddTransient<TakePhotoView>();
@@ -80,8 +85,10 @@ public static class VisitzScreens
         builder.Services.AddTransient<PhotoDetailsView>();
         builder.Services.AddTransient<PhotoDetailsViewModel>();
 
-        builder.Services.AddTransient<EntitySafetyAssessView>();
-        builder.Services.AddTransient<EntitySafetyAssessViewModel>();
+        builder.Services.AddTransient<SafetyAssessmentListView>();
+        builder.Services.AddTransient<SafetyAssessmentListViewModel>();
+        builder.Services.AddTransient<SafetyAssessmentEditView>();
+        builder.Services.AddTransient<SafetyAssessmentEditViewModel>();
 
         builder.Services.AddTransient<ChildYouthVisitListView>();
         builder.Services.AddTransient<ChildYouthVisitListViewModel>();
@@ -101,6 +108,8 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<SessionPage>();
         builder.Services.AddTransient<SessionViewModel>();
+        builder.Services.AddTransient<UserView>();
+        builder.Services.AddTransient<UserViewModel>();
 
         builder.Services.AddTransient<CollectionNoticeView>();
 
@@ -117,6 +126,10 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<SupportNetworkListView>();
         builder.Services.AddTransient<SupportNetworkListViewModel>();
+
+        builder.Services.AddTransient<TabView>();
+        builder.Services.AddTransient<TabViewModel>();
+        builder.Services.AddTransient<TabItemView>();
 
         return builder;
     }

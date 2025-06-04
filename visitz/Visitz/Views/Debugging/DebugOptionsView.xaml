@@ -81,7 +81,7 @@
 				Background="AliceBlue"
 				Text="Database" />
 
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
@@ -103,15 +103,8 @@
 					Command="{Binding ClearAttachmentDraftCommand}"
 					Text="Clear AttachmentDraft data" />
 
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="3"
-					Grid.Column="1"
-					Command="{Binding Load620bDataCommand}"
-					Text="Load 620b data" />
-
 				<HorizontalStackLayout
-					Grid.Row="4"
+					Grid.Row="3"
 					Grid.Column="1"
 					Spacing="5">
 					<Entry Text="{Binding MockPersonVisitsParentId, TargetNullValue='1-0000000'}" />
@@ -165,6 +158,27 @@
 					Grid.Column="1"
 					Command="{Binding ClearSecureStorageCommand}"
 					Text="Clear secure storage" />
+			</Grid>
+
+			<Label
+				StyleClass="DebugLayout,DebugLabel"
+				HorizontalOptions="FillAndExpand"
+				FontSize="20"
+				Background="AliceBlue"
+				Text="Attachments" />
+
+			<Grid RowDefinitions="Auto,Auto">
+				<Label
+					StyleClass="DebugLayout,DebugLabel"
+					Grid.Row="0"
+					Grid.Column="0"
+					Text="Require file content to exist on download and throw errors if not"/>
+
+				<Switch
+					StyleClass="DebugLayout"
+					Grid.Row="0"
+					Grid.Column="1"
+					IsToggled="{Binding RequireAttachmentFileContent}"/>
 			</Grid>
 
 			<Label
@@ -233,7 +247,28 @@
 					IsToggled="{Binding DryFirePostVisitServiceSimulateSuccess}"/>
 			</Grid>
 
-			<Label
+            <Label
+	            StyleClass="DebugLayout,DebugLabel"
+	            HorizontalOptions="FillAndExpand"
+	            FontSize="20"
+	            Background="AliceBlue"
+	            Text="Safety assessment" />
+
+            <Grid RowDefinitions="Auto,Auto">
+                <Label
+				    StyleClass="DebugLayout,DebugLabel"
+				    Grid.Row="0"
+				    Grid.Column="0"
+				    Text="Keep safety assessment draft after successful publish"/>
+
+                <Switch
+				    StyleClass="DebugLayout"
+				    Grid.Row="0"
+				    Grid.Column="1"
+				    IsToggled="{Binding KeepSafetyAssessmentDraftOnPublish}"/>
+            </Grid>
+
+            <Label
 				StyleClass="DebugLayout,DebugLabel"
 				HorizontalOptions="FillAndExpand"
 				FontSize="20"
@@ -265,7 +300,7 @@
 					Clicked="ShowDocumentsButton_Clicked"
 					Text="Show Documents' files" />
 			</Grid>
-			
+
 			<Label
 				StyleClass="DebugLayout,DebugLabel"
 				HorizontalOptions="FillAndExpand"
@@ -307,7 +342,7 @@
 				Text="Compile-time settings" />
 
 			<Grid RowDefinitions="Auto,Auto">
-				
+
 				<Label
 					StyleClass="DebugLayout,DebugLabel"
 					Grid.Row="0"

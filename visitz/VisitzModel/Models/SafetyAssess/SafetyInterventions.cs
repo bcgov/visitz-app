@@ -1,54 +1,55 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class SafetyInterventions : IRealmObject
+public partial class SafetyInterventions : IRealmObject, IApiJson<SubmitSafetyInterventionsJson>
 {
     public bool DirectIntervention { get; set; }
-    
+
     public bool UseOfIndividuals { get; set; }
-    
+
     public bool UseCommAgencies { get; set; }
-    
+
     public bool ProtectVictim { get; set; }
-    
+
     public bool LeaveHome { get; set; }
-    
+
     public bool NonOffendingParent { get; set; }
-    
+
     public bool LegalIntPlanned { get; set; }
-    
+
     public bool OtherSafetyInterventions { get; set; }
 
     public string CmtSafetyInterventions { get; set; } = string.Empty;
-    
+
     public bool ChildOutsideHome { get; set; }
-    
+
     public bool ChildRemoved { get; set; }
 
-    public static SafetyInterventions FromApiEntity(SafetyInterventionsEntity entity)
+    public static SafetyInterventions FromApiJson(SafetyAsessmentJson json)
     {
         return new SafetyInterventions()
         {
-            DirectIntervention = entity.DirectIntervention.ParseWordTruthiness(),
-            UseOfIndividuals = entity.UseOfIndividuals.ParseWordTruthiness(),
-            UseCommAgencies = entity.UseCommAgencies.ParseWordTruthiness(),
-            ProtectVictim = entity.ProtectVictim.ParseWordTruthiness(),
-            LeaveHome = entity.LeaveHome.ParseWordTruthiness(),
-            NonOffendingParent = entity.NonOffendingParent.ParseWordTruthiness(),
-            LegalIntPlanned = entity.LegalIntPlanned.ParseWordTruthiness(),
-            OtherSafetyInterventions = entity.OtherSafetyInterventions.ParseWordTruthiness(),
-            CmtSafetyInterventions = entity.CmtSafetyInterventions,
-            ChildOutsideHome = entity.ChildOutsideHome.ParseWordTruthiness(),
-            ChildRemoved = entity.ChildRemoved.ParseWordTruthiness(),
+            DirectIntervention = json.SafetyIntervention01.ParseWordTruthiness(),
+            UseOfIndividuals = json.SafetyIntervention02.ParseWordTruthiness(),
+            UseCommAgencies = json.SafetyIntervention03.ParseWordTruthiness(),
+            ProtectVictim = json.SafetyIntervention04.ParseWordTruthiness(),
+            LeaveHome = json.SafetyIntervention05.ParseWordTruthiness(),
+            NonOffendingParent = json.SafetyIntervention06.ParseWordTruthiness(),
+            LegalIntPlanned = json.SafetyIntervention07.ParseWordTruthiness(),
+            OtherSafetyInterventions = json.SafetyIntervention08.ParseWordTruthiness(),
+            CmtSafetyInterventions = json.SafetyIntervention08Other,
+            ChildOutsideHome = json.SafetyIntervention09.ParseWordTruthiness(),
+            ChildRemoved = json.SafetyIntervention10.ParseWordTruthiness(),
         };
     }
 
-    public SafetyInterventionsEntity ToApiEntity()
+    public SubmitSafetyInterventionsJson ToApiJson(string _ = "s")
     {
-        return new SafetyInterventionsEntity()
+        return new SubmitSafetyInterventionsJson()
         {
             DirectIntervention = DirectIntervention.AsTruthyChar(),
             UseOfIndividuals = UseOfIndividuals.AsTruthyChar(),

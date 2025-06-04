@@ -107,7 +107,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
                     showPublishErrorIcon: ShowPublishErrorIcon,
                     showRefreshErrorIcon: true,
                     showRetryButton: true,
-                    allowRetry: false);
+                    allowRetry: false,
+                    showDismissButton: true);
                 break;
             case State.Completed:
                 SetFlags(

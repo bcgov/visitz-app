@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using Visitz.Extensions;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzModel;
@@ -10,6 +12,8 @@ namespace Visitz.Services
     {
         readonly ConcurrentDictionary<string, VisitzService> Services = [];
 
+        ILogger<ServiceHandler> Logger { get; } = ServiceProvider.GetService<ILogger<ServiceHandler>>();
+
         public ServiceHandler()
         {
             WeakReferenceMessenger.Default.Register(this);
@@ -17,16 +21,19 @@ namespace Visitz.Services
 
         public void Receive(StartServiceMessage message)
         {
+            Logger.TraceMethod(this);
             _ = TryRunServiceAsync(message);
         }
 
         private VisitzService MakeAndTrackService(StartServiceMessage startMessage)
         {
             var service = (VisitzService)ServiceProvider.Current.GetRequiredService(startMessage.ServiceType);
-            
+
             Services[startMessage.ServiceId] = service;
             service.Payload = startMessage.Payload;
-            
+
+            Logger.TraceMethod(this);
+
             return service;
         }
 
@@ -66,7 +73,7 @@ namespace Visitz.Services
 #if DEBUG
             catch (Exception ex)
             {
-				ConsoleTrace.TraceMethod(this, ex);
+                ConsoleTrace.TraceMethod(this, ex);
 
                 throw;
             }
@@ -79,8 +86,8 @@ namespace Visitz.Services
 
         public VisitzService.State GetServiceState(string serviceId)
         {
-            return Services.TryGetValue(serviceId, out VisitzService service) 
-                ? service.Status 
+            return Services.TryGetValue(serviceId, out VisitzService service)
+                ? service.Status
                 : VisitzService.State.Stopped;
         }
     }

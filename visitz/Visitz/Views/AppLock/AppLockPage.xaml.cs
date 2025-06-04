@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
@@ -17,7 +18,7 @@ public partial class AppLockPage : VisitzPage
 
     static bool ShouldSkipAppLock
     {
-        get 
+        get
         {
             bool debugSkipActive = false;
             bool isWindows = false;
@@ -42,6 +43,8 @@ public partial class AppLockPage : VisitzPage
         base.OnAppearing();
 
         CurrentWindow.Resumed += AppLockPage_WindowResumed;
+
+        StrongReferenceMessenger.Default.Send(new AppLockMessage(AppLockStatus.Opened));
 
         if (PromptOnAppearing)
             await AppLockViewModel.PromptAuthentication();

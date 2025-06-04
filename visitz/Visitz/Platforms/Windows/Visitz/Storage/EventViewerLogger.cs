@@ -24,5 +24,5 @@ internal class EventViewerLogger(string categoryName) : ILogger
             return;
 
         EventLogWriter.WriteEntry(logLevel, formatter(state, exception), _categoryName, eventId.Id, exception);
-    }   
+    }
 }

@@ -1,17 +1,27 @@
 using System.Net;
 using System.Text.Json;
+using VisitzApi.Extensions;
 using VisitzApi.Json;
 using VisitzApi.Models.People;
 using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
-internal class GetContactsEndpoint(string baseUrl, ApiRecordType type, string rowId, DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<IEnumerable<ContactJson>>(baseUrl, Vpi.V2, MakePath(type, rowId))
+#nullable enable
+
+internal class GetContactsEndpoint(
+    string baseUrl,
+    ApiRecordType type,
+    string rowId,
+    Pagination? pagination = null)
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<ContactJson>)>(
+        baseUrl,
+        Vpi.V2,
+        MakePath(type, rowId))
 {
     static readonly string ContactsPath = "/{0}/{1}/contacts";
 
-    readonly DateTimeOffset? After = after;
+    readonly Pagination? Pagination = pagination;
 
     static string MakePath(ApiRecordType recordType, string rowId)
     {
@@ -23,19 +33,23 @@ internal class GetContactsEndpoint(string baseUrl, ApiRecordType type, string ro
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After, pageSize: RequestParam.MaxPageSize),
+            RequestUri = WithQueryParams(Pagination),
         };
     }
 
-    public override IEnumerable<ContactJson> HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (int TotalRecords, IEnumerable<ContactJson>)
+        HandleResponse(HttpResponseMessage response, string responseContent)
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
-            return [];
+            return (-1, []);
 
         JsonElement items = JsonDocument.Parse(responseContent)
                 .RootElement
                 .GetProperty("items");
 
-        return JsonSerializer.Deserialize<IEnumerable<ContactJson>>(items, PayloadOptions.SiebelGet);
+        return (
+            response.GetRecordCount(),
+            items.Deserialize<IEnumerable<ContactJson>>(PayloadOptions.SiebelGet) ?? []
+        );
     }
 }

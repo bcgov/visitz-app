@@ -2,26 +2,24 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Resources.Styles;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
-using VisitzModel.Models;
-using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntityContainerViewModel : VisitzViewModel, ICaseloadItemHolder
+public partial class EntityContainerViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
-	[ObservableProperty]
-	public Color entityTypeTextColor;
+    [ObservableProperty]
+    public Color entityTypeTextColor;
 
-	partial void OnCaseloadItemChanged(CaseloadItem oldValue, CaseloadItem newValue)
-	{
-		if (newValue != null && newValue.EntityType.TryParseEntityType(out EntityType type))
-			EntityTypeTextColor = type.GetTextColor();
-		else
-			EntityTypeTextColor = VisitzColors.BC_TextColor;
-	}
+    partial void OnBusinessObjectChanged(IBusinessObject oldValue, IBusinessObject newValue)
+    {
+        if (newValue != null)
+            EntityTypeTextColor = newValue.EntityType.GetTextColor();
+        else
+            EntityTypeTextColor = VisitzColors.BC_TextColor;
+    }
 }

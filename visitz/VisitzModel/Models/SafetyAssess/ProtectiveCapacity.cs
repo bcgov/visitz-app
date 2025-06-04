@@ -1,63 +1,64 @@
-﻿using Realms;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
+using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-public partial class ProtectiveCapacity : IRealmObject
+public partial class ProtectiveCapacity : IRealmObject, IApiJson<SubmitProtectiveCapacityJson>
 {
-	public bool ChildCognitive { get; set; }
-	
+    public bool ChildCognitive { get; set; }
+
     public bool ParentCognitive { get; set; }
-    
+
     public bool ParentWillingness { get; set; }
-    
+
     public bool ParentResources { get; set; }
-    
+
     public bool ParentSupportive { get; set; }
-    
+
     public bool ParentProtect { get; set; }
-    
+
     public bool ParentAccept { get; set; }
-    
+
     public bool ParentRelationship { get; set; }
-    
+
     public bool ParentAware { get; set; }
-    
+
     public bool ParentProbSolving { get; set; }
-    
+
     public bool NoProCapPresent { get; set; }
-    
+
     public bool CapacitiesOther { get; set; }
 
     public string CmtProtectiveCapacity01 { get; set; } = string.Empty;
-    
+
     public string CmtProtectiveCapacity02 { get; set; } = string.Empty;
 
-    public static ProtectiveCapacity FromApiEntity(ProtectiveCapacityEntity entity)
+    public static ProtectiveCapacity FromApiJson(SafetyAsessmentJson json)
     {
         return new ProtectiveCapacity()
         {
-            ChildCognitive = entity.ChildCognitive.ParseWordTruthiness(),
-            ParentCognitive = entity.ParentCognitive.ParseWordTruthiness(),
-            ParentWillingness = entity.ParentWillingness.ParseWordTruthiness(),
-            ParentResources = entity.ParentResources.ParseWordTruthiness(),
-            ParentSupportive = entity.ParentSupportive.ParseWordTruthiness(),
-            ParentProtect = entity.ParentProtect.ParseWordTruthiness(),
-            ParentAccept = entity.ParentAccept.ParseWordTruthiness(),
-            ParentRelationship = entity.ParentRelationship.ParseWordTruthiness(),
-            ParentAware = entity.ParentAware.ParseWordTruthiness(),
-            ParentProbSolving = entity.ParentProbSolving.ParseWordTruthiness(),
-            NoProCapPresent = entity.NoProCapPresent.ParseWordTruthiness(),
-            CapacitiesOther = entity.CapacitiesOther.ParseWordTruthiness(),
-            CmtProtectiveCapacity01 = entity.CmtProtectiveCapacity01,
-            CmtProtectiveCapacity02 = entity.CmtProtectiveCapacity02,
+            ChildCognitive = json.ProtectiveCapacity01.ParseWordTruthiness(),
+            ParentCognitive = json.ProtectiveCapacity02.ParseWordTruthiness(),
+            ParentWillingness = json.ProtectiveCapacity03.ParseWordTruthiness(),
+            ParentResources = json.ProtectiveCapacity04.ParseWordTruthiness(),
+            ParentSupportive = json.ProtectiveCapacity05.ParseWordTruthiness(),
+            ParentProtect = json.ProtectiveCapacity06.ParseWordTruthiness(),
+            ParentAccept = json.ProtectiveCapacity07.ParseWordTruthiness(),
+            ParentRelationship = json.ProtectiveCapacity08.ParseWordTruthiness(),
+            ParentAware = json.ProtectiveCapacity09.ParseWordTruthiness(),
+            ParentProbSolving = json.ProtectiveCapacity10.ParseWordTruthiness(),
+            NoProCapPresent = json.ProtectiveCapacity11.ParseWordTruthiness(),
+            CapacitiesOther = json.ProtectiveCapacity12.ParseWordTruthiness(),
+            CmtProtectiveCapacity01 = json.ProtectiveCapacity12Other,
+            CmtProtectiveCapacity02 = json.ProtectiveCapacityObservations,
         };
     }
 
-    public ProtectiveCapacityEntity ToApiEntity()
+    public SubmitProtectiveCapacityJson ToApiJson(string _ = "s")
     {
-        return new ProtectiveCapacityEntity()
+        return new SubmitProtectiveCapacityJson()
         {
             ChildCognitive = ChildCognitive.AsTruthyChar(),
             ParentCognitive = ParentCognitive.AsTruthyChar(),

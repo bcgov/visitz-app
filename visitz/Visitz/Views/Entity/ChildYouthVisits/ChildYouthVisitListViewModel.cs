@@ -1,7 +1,7 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
+using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -9,12 +9,16 @@ using Visitz.Views.Banners;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseloadItemHolder, IRequestedEntitySection
+internal partial class ChildYouthVisitListViewModel :
+    VisitzViewModel,
+    IBusinessObjectHolder,
+    IRequestedEntitySection
 {
     private static readonly int InfoDayRange = 90;
     private static readonly int WarningDayRange = 30;
@@ -30,7 +34,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     ObservableCollection<PersonVisit> personVisits = [];
 
     [ObservableProperty]
-    public CaseloadItem caseloadItem;
+    public IBusinessObject businessObject;
 
     [ObservableProperty]
     public DateTimeOffset dateOfVisit;
@@ -68,10 +72,10 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
 
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-        realmQuery.Subscribe(icmDataRealm, PersonVisit.GetVisitsByCaseId(icmDataRealm, CaseloadItem.RowId));
+        realmQuery.Subscribe(icmDataRealm, PersonVisit.GetVisitsByCaseId(icmDataRealm, BusinessObject.Id));
 
         realmQuery.Subscribe(visitDraftRealm, visitDraftRealm.All<PersonVisitDraft>()
-            .Where(visit => visit.RelatedEntityId == CaseloadItem.RowId));
+            .Where(visit => visit.RelatedEntityId == BusinessObject.Id));
 
         if (RequestedSection == EntitySection.ChildYouthVisitsEntry)
             await OpenVisitEntry();
@@ -166,7 +170,7 @@ internal partial class ChildYouthVisitListViewModel : VisitzViewModel, ICaseload
     public async Task OpenVisitEntry(PersonVisit personVisitObj = null)
     {
         var visitEntryView = ServiceProvider.GetService<ChildYouthVisitView>();
-        visitEntryView.CaseloadItem = CaseloadItem;
+        visitEntryView.BusinessObject = BusinessObject;
         visitEntryView.ViewModel.PersonVisitItem = personVisitObj;
         visitEntryView.ViewModel.IsUpdatingEnabled = personVisitObj == null;
         visitEntryView.ViewModel.HideElements = personVisitObj == null;

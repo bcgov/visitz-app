@@ -5,7 +5,7 @@
     xmlns:safetyAssess="clr-namespace:Visitz.Views.Entity.SafetyAssess"
     xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.SafetyAssess.ChildInOutCareItem"
-    x:DataType="models:FamilyMember">
+    x:DataType="models:IcmContact">
 
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroupList>
@@ -60,12 +60,12 @@
         <Label
             Grid.Column="3"
             BackgroundColor="White"
-            Text="{Binding DateOfBirth}" />
+            Text="{Binding DateOfBirthFormatted}" />
 
         <Label
             Grid.Column="4"
             BackgroundColor="White"
-            Text="{Binding Sex}" />
+            Text="{Binding Gender}" />
     </Grid>
     
 </ContentView>

@@ -3,11 +3,11 @@ using IdentityModel.OidcClient.Browser;
 
 namespace Oidc
 {
-	/// <summary>
-	/// The class implements the IBrowser interface to handle the authentication step.
-	/// In practice, this class is responsible for opening the system browser, which will show the user the Login page.
-	/// </summary>
-	public class WebBrowserAuthenticator : IdentityModel.OidcClient.Browser.IBrowser
+    /// <summary>
+    /// The class implements the IBrowser interface to handle the authentication step.
+    /// In practice, this class is responsible for opening the system browser, which will show the user the Login page.
+    /// </summary>
+    public class WebBrowserAuthenticator : IdentityModel.OidcClient.Browser.IBrowser
     {
         private const string EncodedHashtag = "%23";
 
@@ -16,12 +16,12 @@ namespace Oidc
             try
             {
 #if WINDOWS
-				var result = await WinWorkaround.WebAuthenticator.AuthenticateAsync(
-					new Uri(options.StartUrl),
-					new Uri(options.EndUrl),
-					cancellationToken);
+                var result = await WinWorkaround.WebAuthenticator.AuthenticateAsync(
+                    new Uri(options.StartUrl),
+                    new Uri(options.EndUrl),
+                    cancellationToken);
 #else
-				WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(new()
+                WebAuthenticatorResult result = await WebAuthenticator.Default.AuthenticateAsync(new()
                 {
                     Url = new Uri(options.StartUrl),
                     CallbackUrl = new Uri(options.EndUrl),
@@ -42,7 +42,7 @@ namespace Oidc
                     PrefersEphemeralWebBrowserSession = false,
                 });
 #endif
-				var url = new RequestUrl(options.EndUrl)
+                var url = new RequestUrl(options.EndUrl)
                     .Create(new Parameters(result.Properties));
 
                 return new BrowserResult
@@ -53,18 +53,18 @@ namespace Oidc
             }
             catch (Exception ex)
             {
-				if (ex is TaskCanceledException || ex is OperationCanceledException)
-					return new BrowserResult
-					{
-						ResultType = BrowserResultType.UserCancel,
-						ErrorDescription = BrowserResultType.UserCancel.ToString()
-					};
-				else
-					return new BrowserResult
-					{
-						ResultType = BrowserResultType.UnknownError,
-						ErrorDescription = ex.Message
-					};
+                if (ex is TaskCanceledException || ex is OperationCanceledException)
+                    return new BrowserResult
+                    {
+                        ResultType = BrowserResultType.UserCancel,
+                        ErrorDescription = BrowserResultType.UserCancel.ToString()
+                    };
+                else
+                    return new BrowserResult
+                    {
+                        ResultType = BrowserResultType.UnknownError,
+                        ErrorDescription = ex.Message
+                    };
             }
         }
 

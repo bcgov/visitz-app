@@ -4,25 +4,20 @@ namespace Visitz.Views.Drafts;
 
 public partial class DraftsContainerView : SplitLayoutView
 {
-	static IView StartView;
-	static IView EndView;
+    static IView StartView;
+    static IView EndView;
 
-	public DraftsContainerView()
-	{
-		InitializeComponent();
-	}
+    public DraftsContainerView()
+    {
+        InitializeComponent();
 
-	protected override void Creating()
-	{
-		base.Creating();
+        StartPaneColumnWidth = GridLength.Auto;
+        StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
 
-		StartPaneColumnWidth = GridLength.Auto;
-		StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
+        StartView ??= ServiceProvider.GetService<DraftsMasterList>();
+        SetStartPane(StartView);
 
-		StartView ??= ServiceProvider.GetService<DraftsMasterList>();
-		SetStartPane(StartView);
-
-		EndView ??= ServiceProvider.GetService<DraftsList>();
-		SetEndPane(EndView);
-	}
+        EndView ??= ServiceProvider.GetService<DraftsList>();
+        SetEndPane(EndView);
+    }
 }
