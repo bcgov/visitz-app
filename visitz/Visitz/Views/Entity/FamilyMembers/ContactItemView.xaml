@@ -4,19 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
-    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.FamilyMembers.ContactItemView"
     x:DataType="people:IcmContact"
     HorizontalOptions="Start">
-
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <converters:YorNBoolConverter x:Key="YorNBoolConverter"/>
-        </ResourceDictionary>
-    </ContentView.Resources>
 
     <Grid
         RowDefinitions="*,*,*,*,*,*,*,*,*,*"
@@ -101,12 +94,12 @@
             HorizontalOptions="End"
             Text="{local:Localize AgtCoordinationCa}"/>
 
-        <CheckBox
+        <Label
             Grid.Row="5"
             Grid.Column="1"
             HorizontalOptions="Start"
-            IsVisible="{Binding CoordinationAgtCa, Converter={StaticResource YorNBoolConverter}}"
-            IsChecked="{Binding CoordinationAgtCa, Converter={StaticResource YorNBoolConverter}}"/>
+            FontFamily="BCSansRegular"
+            Text="{Binding DisplayCoordinationAgtCa}"/>
 
         <Label
             Grid.Row="6"
@@ -114,12 +107,12 @@
             HorizontalOptions="End"
             Text="{local:Localize Agt921}"/>
 
-        <CheckBox
+        <Label
             Grid.Row="6"
             Grid.Column="1"
             HorizontalOptions="Start"
-            IsVisible="{Binding _921Agt, Converter={StaticResource YorNBoolConverter}}"
-            IsChecked="{Binding _921Agt, Converter={StaticResource YorNBoolConverter}}"/>
+            FontFamily="BCSansRegular"
+            Text="{Binding Display_921Agt}"/>
 
         <Label
             Grid.Row="7"
