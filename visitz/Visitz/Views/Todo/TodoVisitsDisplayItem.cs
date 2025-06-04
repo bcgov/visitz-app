@@ -1,7 +1,6 @@
-using Visitz.FontIcons;
-using Visitz.Resources.Localization;
 using VisitzModel.Models;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Todo;
 
@@ -9,7 +8,9 @@ public class TodoVisitsDisplayItem(PersonVisit visit, CaseloadItem caseloadItem)
 {
     public PersonVisit TodoItem { get; set; } = visit;
     public string CaseloadDisplayName { get; set; } = caseloadItem?.DisplayName;
-    public bool IsOverdue { get; set; } = TodoVisitsDisplayItem.FindIfOverdue(visit);
+    public bool IsOverdue { get; set; } = FindIfOverdue(visit);
+
+    public EntitySection SectionToOpen { get; set; } = EntitySection.ChildYouthVisits;
 
     public static bool FindIfOverdue(PersonVisit visit)
     {

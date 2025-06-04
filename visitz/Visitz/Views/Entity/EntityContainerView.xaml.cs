@@ -91,30 +91,4 @@ public partial class EntityContainerView : ViewModelContentView, IBusinessObject
 
         ContainerDetails.Content = (View)view;
     }
-
-    private void OpenEntityTodoSection(
-    EntityNavItem navItem,
-    CaseloadItem caseloadItem,
-    EntitySection? subsection,
-    PersonVisit visitItem)
-    {
-        if (ContainerDetails.Content is BaseContentView baseView)
-        {
-            if (baseView.GetType().Equals(navItem.ContentViewType.GetType()))
-                return;
-
-            baseView.Dispose();
-            ContainerDetails.Content = null;
-        }
-
-        var view = (IView)ServiceProvider.GetService(navItem.ContentViewType);
-
-        if (view is ICaseloadItemHolder itemHolder)
-            itemHolder.CaseloadItem = caseloadItem;
-
-        if (view is IRequestedEntitySection sectionView)
-            sectionView.RequestedSection = subsection ?? navItem.Section;
-
-        ContainerDetails.Content = (View)view;
-    }
 }
