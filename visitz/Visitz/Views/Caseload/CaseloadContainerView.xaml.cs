@@ -5,6 +5,7 @@ using Visitz.Views.SplitView;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Caseload;
@@ -53,6 +54,12 @@ public partial class CaseloadContainerView : SplitLayoutView
             (recipient as CaseloadContainerView).OpenBusinessObject(message);
         });
 
+
+        StrongReferenceMessenger.Default.Register<CaseloadTodoItemSelectedMessage>(this, (recipient, message) =>
+        {
+            (recipient as CaseloadContainerView).OpenTodoCaseloadItem(message);
+        });
+
         StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
         {
             (recipient as CaseloadContainerView).NavigateBack();
@@ -77,11 +84,11 @@ public partial class CaseloadContainerView : SplitLayoutView
         StartPaneColumnWidth = GridLength.Auto;
     }
 
-    private void OpenTodoCaseloadItem(CaseloadItemSelectedMessage message)
+    private void OpenTodoCaseloadItem(CaseloadTodoItemSelectedMessage message)
     {
         CaseloadItem item = message.Value;
         EntitySection section = message.Section;
-        IDraftItem draftItem = message.DraftItem;
+        PersonVisit personVisit = message.VisitItem;
 
         var containerView = ServiceProvider.GetService<EntityContainerView>();
         containerView.CaseloadItem = item;
@@ -89,7 +96,7 @@ public partial class CaseloadContainerView : SplitLayoutView
 
         var entityNav = ServiceProvider.GetService<EntityNavView>();
         entityNav.CaseloadItem = item;
-        entityNav.SetRequestedSection(section);
+        entityNav.SetRequestedTodoSection(section, personVisit);
         SetStartPane(entityNav);
 
         StartPaneColumnWidth = GridLength.Auto;
