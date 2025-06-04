@@ -49,6 +49,43 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string UpdatedBy { get; set; }
 
+    public DateTimeOffset DueDate => DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info);
+    public int DueDateDaysRemaining => (DueDate.Date - DateTimeOffset.Now.Date).Days;
+
+    public VisitDaysThreshold CurrentDueDateThreshold
+    {
+        get
+        {
+            if (DueDateDaysRemaining <= (int)VisitDaysThreshold.Critical)
+                return VisitDaysThreshold.Critical;
+            else if (DueDateDaysRemaining <= (int)VisitDaysThreshold.Danger)
+                return VisitDaysThreshold.Danger;
+            else if (DueDateDaysRemaining <= (int)VisitDaysThreshold.Warning)
+                return VisitDaysThreshold.Warning;
+            else
+                return VisitDaysThreshold.Info;
+        }
+    }
+
+    public static IQueryable<PersonVisit> GetAllByType(Realm realm, EntityType entityType = EntityType.Case)
+    {
+        return realm.All<PersonVisit>().Where(item => item.ParentTypeInt == (int)entityType);
+    }
+
+    public static IOrderedEnumerable<PersonVisit> GetUpcomingVisits(Realm realm, EntityType entityType = EntityType.Case)
+    {
+        var latestVisitsPerCase = GetAllByType(realm, entityType)
+            .AsEnumerable()
+            .GroupBy(item => item.ParentId)
+            .Select(group => group
+                .OrderByDescending(item => item.DateOfVisit)
+                .FirstOrDefault())
+            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning)
+            .OrderBy(item => item.DueDateDaysRemaining);
+
+        return latestVisitsPerCase;
+    }
+
     public string CombinedVisitDetails => MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue);
 
     public PersonVisit() { }
