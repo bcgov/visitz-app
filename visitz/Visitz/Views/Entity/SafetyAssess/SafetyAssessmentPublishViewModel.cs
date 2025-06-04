@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.SafetyAssessments;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Debugging;
 using VisitzModel.Models.Caseload;
@@ -15,9 +17,9 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
     string getAssessmentsServiceId;
     string submitAssessmentsServiceId;
     RecordServiceInfo recordServiceInfo;
-    private SafetyAssessment assessment;
+    SafetyAssessment assessment;
 
-    public SafetyAssessment Assessment
+    SafetyAssessment Assessment
     {
         get => assessment;
         set
@@ -29,11 +31,16 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         }
     }
 
+    Realm Realm { get; set; }
+
     public IBusinessObject BusinessObject { get; set; }
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
+
+        Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, BusinessObject.FileNumber);
 
         var keyPlayer = BusinessObject.GetKeyPlayer();
         recordServiceInfo = new RecordServiceInfo(
@@ -61,6 +68,8 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
         if (!disposed && disposing)
         {
             WeakReferenceMessenger.Default.UnregisterAll(this);
+
+            Realm?.Dispose();
 
             disposed = true;
         }

@@ -282,7 +282,6 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
         WriteSafetyAssessmentJson();
 #endif
         var saPublishVm = ServiceProvider.Current.GetService<SafetyAssessmentPublishViewModel>();
-        saPublishVm.Assessment = Assessment;
         saPublishVm.BusinessObject = BusinessObject;
 
         var saPublish = new PublishPage(saPublishVm);
