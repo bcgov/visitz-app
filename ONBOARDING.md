@@ -1,12 +1,23 @@
-# IDE Setup
+# Dev environment setup
 
 ## Windows
 
 Use Visual Studio.
 
+> Visual Studio can be used to run and debug both Windows and iOS builds [(via Pair to Mac)](https://learn.microsoft.com/en-us/dotnet/maui/ios/pair-to-mac?view=net-maui-10.0) of the app.
+
+From Visual Studio Installer, select components/workloads:
+
+- Visual Studio
+- .NET Multi-platform App UI development workload
+
+You can also us VSCode on Windows, but DevEx will be much better in full Visual Studio.
+
 ## Mac/OSX
 
 Use VSCode.
+
+> VSCode on Mac can only be used to run and debug iOS/Maccatalyst builds of the app.
 
 Use this guide when setting up VSCode for the first time or updating framework versions.
  
@@ -14,7 +25,8 @@ Use this guide when setting up VSCode for the first time or updating framework v
  
 1. Install the version of XCode that the app's current [MAUI version](https://github.com/dotnet/maui/wiki/Release-Versions) supports.
 
-    [Visitz.csproj:81-82](https://github.com/BC-Gov-Social-Sector/mcfd-mobility/blob/794773121a6c77e074efba9e1a51acda13094ca2/visitz/Visitz/Visitz.csproj#L81). Example PackageReferences:
+	You can find the current MAUI version used by checking the Visitz.csproj for `Microsoft.Maui.Controls*` versions—e.g., 
+    [Visitz.csproj:83-84](/visitz/Visitz/Visitz.csproj#L83). Example PackageReferences:
 
     ```xml
 	<PackageReference Include="Microsoft.Maui.Controls" Version="x.y.z" />
@@ -32,23 +44,55 @@ Use this guide when setting up VSCode for the first time or updating framework v
 1. Install matching major version of .NET that matches the current MAUI requirements (MAUI 8 = .NET 8)
  
 	- Make sure to install the latest minor/patch version
+
+1. In CLI/terminal, Navigate to `visitz/Visitz`
  
-2. Install workloads
- 
-	`sudo dotnet workload install maui ios maui-ios`
+1. Install workloads
+
+	```bash
+	sudo dotnet workload restore
+	```
+
+1. If previous step fails, directly install required workloads
+
+	```bash
+	sudo dotnet workload install maui ios maccatalyst maui-ios maui-maccatalyst
+	```
  
 ### Required extensions
  
 Install and set up extensions:
  
-### [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
+1. ### [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
  
-### [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+2. ### [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
  
-Sign into C# Dev Kit extension with licensed account
+	Sign into C# Dev Kit extension with licensed account
  
-### [.NET MAUI](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.dotnet-maui) == version 1.3.29
+1. ### [.NET MAUI](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.dotnet-maui)
 
-***!!!*** There are issues with other versions' debuggers, so make sure you use this specific version.
+	***!!!*** There have been issues with other versions' debuggers, so if you have issues, try using version **1.3.29**.
 
-### [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+4. ### [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+
+# App launch setup
+
+## Inflate appSettings.json
+
+1. Navigate to `visitz/Visitz`
+
+1. Make a copy of "appSettings.json.template" as "appSettings.json" right beside it. This new file will be ignored by Git.
+    
+1. Replace any `{{Templated}}` value with desired values. You can find valid values in this repository's environment variables.
+
+## Open project
+
+- **Visual Studio**: launch using the solution file (`visitz/Visitz.sln`)
+- **VSCode**: File > Open Folder > select root level repository folder
+
+## Select build configuration and launch
+
+Visitz currently only supports being built for iOS and Windows. Other platforms may or may not work when launching.
+
+- **Visual Studio**: choose configuration (Windows Machine or iOS options) and run.
+- **VSCode**: select simulator or physical device and run.
