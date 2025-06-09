@@ -1,6 +1,6 @@
-# mcfd-mobility
+# visitz-app
 
-This is the main repository for the MCFD Mobility mobile app solution.
+Repository for the mobile app solution designed for workers in CFD.
 
 Internally, the app is referred to as **Visitz**. You can find the app code and its README in the */visitz* directory.
 
@@ -12,7 +12,7 @@ GitHub Actions are used to make release builds for desired platform targets. Ref
 
 ## API
 
-Implementation of the middleware API the app connects to can be found at [visitz-api](https://github.com/bcgov-isd/visitz-api).
+Implementation of supporting APIs the app connects to can be found at [visitz-api](https://github.com/bcgov/visitz-api) and [mcfd-mobility-webmethods-passthru](https://github.com/bcgov/mcfd-mobility-webmethods-passthru).
 
 ## Licence
 
