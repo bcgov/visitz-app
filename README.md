@@ -2,9 +2,18 @@
 
 Repository for the mobile app solution designed for workers in CFD.
 
-Internally, the app is referred to as **Visitz**. You can find the app code and its README in the */visitz* directory.
+Internally, the app is referred to as **Visitz**. You can find the app code  in the */visitz* directory.
 
-[Go to Visitz README](visitz/README.md)
+## Project Structure
+
+Visitz is built using several C# projects:
+
+- `Visitz`: The MAUI implementation of the app.
+- `VisitzApi`: Wrapper for interacting with API integrations.
+- `VisitzModel`: The bulk of the business-logic.
+- `Oidc`: OIDC authentication implemenation for MAUI.
+
+Except for `Visitz`, each project has its own xUnit testing project associated with it.
 
 ## Making release builds
 
