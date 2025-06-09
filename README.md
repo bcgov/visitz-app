@@ -17,7 +17,7 @@ Except for `Visitz`, each project has its own xUnit testing project associated w
 
 ## Making release builds
 
-GitHub Actions are used to make release builds for desired platform targets. Refer to [this repository's workflows README](.github/workflows/README.md) for detailed information and instructions on how to run them.
+GitHub Actions are used to make release builds for desired platform targets. Refer to the [workflows README](.github/workflows/README.md) for information and instructions on how to run them.
 
 ## API
 
