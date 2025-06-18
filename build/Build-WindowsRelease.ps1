@@ -15,6 +15,8 @@ param(
 
     [switch] $AppxPackageSigningEnabled = $true,
 
+    [string] $TimestampUrl,
+
     [string] $RuntimeIdentifierOverride = "win-x64", # Can also be "win10-x64"
 
     [string] 
@@ -59,6 +61,58 @@ function Ensure-Env {
     }
 
     return $envValue
+}
+
+function Get-MsixFilePath {
+    $filter = "Visitz*$BuildNumber*.msix"
+    $msix = Get-ChildItem . -Recurse -Filter $filter
+
+    if (!(Test-Path $msix)) {
+        Write-Error "No MSIX file matching filter '$filter' found in build directory (recursive search)"
+        return ""
+    }
+
+    Write-Host "Found '$msix'"
+    return $msix
+}
+
+function Copy-MsixToOutput {
+    param([string] $MsixPath, [string] $TargetFilename)
+
+    if (!(Test-Path $outputDir)) {
+        mkdir $outputDir
+    }
+
+    $dest = ".\$outputDir\$TargetFilename"
+    Copy-Item -Path $msix -Destination $dest
+    Write-Host "Copied to '$dest'"
+
+    return $dest
+}
+
+function Focus-OutputFile {
+    param ([string]$FilePath)
+
+    # Resolve full path and folder
+    $FullPath = Resolve-Path $FilePath
+    $FolderPath = Split-Path $FullPath
+    $FileName = Split-Path $FullPath -Leaf
+
+    # Use Shell.Application COM object
+    $shell = New-Object -ComObject Shell.Application
+
+    foreach ($window in $shell.Windows()) {
+        if ($window.Document.Folder.Self.Path -eq $FolderPath) {
+            $window.Visible = $true
+
+            $wshell = New-Object -ComObject WScript.Shell
+            $wshell.AppActivate($window.LocationName) | Out-Null
+
+            return
+        }
+    }
+
+    Start-Process "explorer.exe" "/select,`"$FullPath`""
 }
 
 # Certificate thumbprint. May need to open the Safenet client to get this value
@@ -114,8 +168,6 @@ if ($SelfContained) {
     $selfContainedString = "--self-contained"
 }
 
-$appxEnabledString = $AppxPackageSigningEnabled.ToString().ToLowerInvariant()
-
 dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     --artifacts-path ".\$artifactsDir" `
     --framework net8.0-windows10.0.19041.0 `
@@ -123,7 +175,7 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     $selfContainedString `
     -p:ApplicationVersion=$BuildNumber `
     -p:DeploymentEnvironment=$env `
-    -p:AppxPackageSigningEnabled=$appxEnabledString `
+    -p:AppxPackageSigningEnabled=false `
     -p:PackageCertificateThumbprint=$CertificateThumbprint `
     -p:AppxCertificateSubject=$CertificateSubject `
     -p:BuildTypeColor=$BuildColor `
@@ -139,20 +191,21 @@ dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     -p:Debug_EnableDebugOptions=$enableDebug
 
 if ($?) {
-    $msix = Get-ChildItem $artifactsDir -Recurse -Filter "Visitz*$BuildNumber*.msix"
-    Write-Host "Found '$msix'"
+    $msix = Get-MsixFilePath
 
-    if (!(Test-Path $outputDir)) {
-        mkdir $outputDir
+    if (!$msix) { exit 1 }
+
+    $newMsixPath = Copy-MsixToOutput -MsixPath $msix -TargetFilename "$outputName.msix"
+
+    if ($AppxPackageSigningEnabled) {
+        .\Sign-Msix.ps1 `
+            -MsixPath $newMsixPath `
+            -Algorithm SHA256 `
+            -CertificateThumbprint $CertificateThumbprint `
+            -TimestampUrl $TimestampUrl
     }
 
-    $dest = ".\$outputDir\$outputName.msix"
-    Copy-Item -Path $msix -Destination $dest
-    Write-Host "Copied to '$dest'"
-
-    $openOutputDir = !$NoOpenOutputDirectory
-
-    if ($openOutputDir) {
-        explorer $outputDir
+    if (!$NoOpenOutputDirectory) {
+        Focus-OutputFile $newMsixPath
     }
 }
