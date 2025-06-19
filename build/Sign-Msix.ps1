@@ -49,6 +49,7 @@ if (-not $CertificateThumbprint) {
 Write-Host "Using SignTool from '$SignToolPath'"
 Write-Host "Using TimestampUrl '$TimestampUrl'"
 Write-Host "Using algorithm '$Algorithm'"
+Write-Host "Using thumbprint '$CertificateThumbprint'"
 
 & $SignToolPath sign `
     /t "$TimestampUrl" `

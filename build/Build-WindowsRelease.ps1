@@ -15,6 +15,8 @@ param(
 
     [switch] $AppxPackageSigningEnabled = $true,
 
+    [string] $CertificateThumbprint,
+
     [string] $TimestampUrl,
 
     [string] $RuntimeIdentifierOverride = "win-x64", # Can also be "win10-x64"
@@ -116,7 +118,9 @@ function Focus-OutputFile {
 }
 
 # Certificate thumbprint. May need to open the Safenet client to get this value
-[string] $CertificateThumbprint = Ensure-Env -Name $CertificateThumbprintName -Scope $EnvScope
+if (!$CertificateThumbprint) {
+    $CertificateThumbprint = Ensure-Env -Name $CertificateThumbprintName -Scope $EnvScope
+}
 
 # Commas need to be escaped: use %2C
 # e.g. "CN=BCGOV%2C O=SDPR" is equivalent to "CN=BCGOV, O=SDPR"
