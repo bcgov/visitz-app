@@ -27,7 +27,7 @@ internal class GetVisitsEndpoint(
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(Pagination),
+            RequestUri = WithQueryParams(Pagination, @params: ("multivalue", "true")),
         };
     }
 

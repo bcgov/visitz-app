@@ -160,7 +160,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
 
     private async void PersonVisitItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        IsVisitTypeSelected = !string.IsNullOrWhiteSpace(PersonVisitItem.VisitDetailsValue);
+        IsVisitTypeSelected = PersonVisitItem.VisitDetails?.Count > 0;
 
         if (!IsUpdatingEnabled)
             return;
@@ -194,8 +194,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     private void UpdateAllowPublish()
     {
         AllowPublish = NetworkHelper.InternetAvailable
-            && PersonVisitItem?.VisitDetailsGroup != null
-            && PersonVisitItem?.VisitDetailsValue != null
+            && PersonVisitItem?.VisitDetails.Count > 0
             && PersonVisitItem?.VisitDescription?.Length > 0
             && CharacterCount <= CharacterLimit;
     }

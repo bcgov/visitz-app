@@ -23,24 +23,4 @@ public partial class PersonVisit
             RaisePropertyChanged(nameof(DateOfVisit));
         }
     }
-
-    public string VisitDetailsValueBinding
-    {
-        get => IsValid ? VisitDetailsValue : default;
-        set
-        {
-            this.Commit(() => VisitDetailsValue = value);
-            RaisePropertyChanged(nameof(VisitDetailsValue));
-        }
-    }
-
-    public string VisitDetailsGroupBinding
-    {
-        get => IsValid ? VisitDetailsGroup : default;
-        set
-        {
-            this.Commit(() => VisitDetailsGroup = value);
-            RaisePropertyChanged(nameof(VisitDetailsGroup));
-        }
-    }
 }
