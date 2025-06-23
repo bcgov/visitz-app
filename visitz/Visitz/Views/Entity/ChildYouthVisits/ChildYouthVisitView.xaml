@@ -89,7 +89,8 @@
             <Grid
                 Grid.Row="1"
                 RowSpacing="15"
-                RowDefinitions="Auto, Auto, *">
+                RowDefinitions="Auto, *, 2*"
+                ColumnDefinitions="*">
 
                 <Grid
                     Grid.Row="0"
@@ -125,17 +126,32 @@
                 <Grid
                     Grid.Row="1"
                     IsVisible="{Binding ShowFullForm}"
-                    ColumnDefinitions="Auto,*"
-                    RowDefinitions="Auto, Auto"
+                    RowDefinitions="Auto, *"
                     ColumnSpacing="40">
 
-                    <!--TODO: new layout for multi-value visits-->
-                    
+                    <Label Text="{local:Localize VisitDetails}"/>
+
+                    <CollectionView
+                        Grid.Row="1"
+                        ItemsSource="{Binding DetailItems}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="childYouthVisit:VisitDetailListItem">
+                                <formctls:FormCheckBox
+                                    Background="White"
+                                    HorizontalOptions="Fill"
+                                    IsReadOnly="{Binding IsUpdatingEnabled,
+                                        Source={RelativeSource AncestorType={x:Type childYouthVisit:ChildYouthVisitViewModel}},
+                                        Converter={StaticResource BoolNegationConverter}}"
+                                    IsChecked="{Binding IsChecked}"
+                                    Text="{Binding DetailValue}"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
                 </Grid>
 
                 <Grid
                     Grid.Row="2"
-                    ColumnDefinitions="*"
                     VerticalOptions="Fill"
                     HorizontalOptions="Fill"
                     RowDefinitions="Auto, *"

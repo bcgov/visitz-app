@@ -123,4 +123,20 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
         realm.RemoveRange(visitItems);
     }
+
+    public void ToggleVisitDetail(string detail, bool add)
+    {
+        if (!IsValid)
+            return;
+
+        this.Commit(() =>
+        {
+            if (add && !VisitDetails.Contains(detail))
+                VisitDetails.Add(detail);
+            else if (!add && VisitDetails.Contains(detail))
+                VisitDetails.Remove(detail);
+        });
+
+        RaisePropertyChanged(nameof(VisitDetails));
+    }
 }

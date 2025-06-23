@@ -11,6 +11,7 @@ using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Resources.Localization;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
@@ -35,49 +36,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     public IBusinessObject BusinessObject { get; set; }
 
     [ObservableProperty]
-    public bool isVisitTypeSelected;
-
-    [ObservableProperty]
     public DateTime maxDate = DateTimeExtensions.LocalNow;
-
-    [ObservableProperty]
-    public bool privateChecked;
-
-    [ObservableProperty]
-    public bool exemptionToPrivateVisitChecked;
-
-    [ObservableProperty]
-    public bool notPrivateChecked;
-
-    [ObservableProperty]
-    public bool childDeclinedToMeetChecked;
-
-    [ObservableProperty]
-    public bool otherChecked;
-
-    [ObservableProperty]
-    public bool planningMeetingChecked;
-
-    [ObservableProperty]
-    public bool relationalVisitChecked;
-
-    [ObservableProperty]
-    public bool visitAge0To5Checked;
-
-    [ObservableProperty]
-    public bool visitInHomeChecked;
-
-    [ObservableProperty]
-    public bool visitInTheHomeChecked;
-
-    [ObservableProperty]
-    public bool visitMedicalOrSupportNeedsChecked;
-
-    [ObservableProperty]
-    public bool visitNotInHomeChecked;
-
-    [ObservableProperty]
-    public bool visitWithCaregiverChecked;
 
     [ObservableProperty]
     public string visitDescription;
@@ -111,6 +70,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
+    [ObservableProperty]
+    public IEnumerable<VisitDetailListItem> detailItems;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -121,6 +83,23 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
 
         if (PersonVisitItem == null && IsUpdatingEnabled)
             Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
+
+        DetailItems =
+        [
+            new(PersonVisitDetails.Api_ExemptionChildDeclined, PersonVisitItem),
+            new(PersonVisitDetails.Api_ExemptionOther, PersonVisitItem),
+            new(PersonVisitDetails.Api_NotPrivateInHome, PersonVisitItem),
+            new(PersonVisitDetails.Api_NotPrivatePlanning, PersonVisitItem),
+            new(PersonVisitDetails.Api_NotPrivateRelational, PersonVisitItem),
+            new(PersonVisitDetails.Api_NotPrivateWithCaregiver, PersonVisitItem),
+            new(PersonVisitDetails.Api_PrivateVisitAge0_5, PersonVisitItem),
+            new(PersonVisitDetails.Api_PrivateVisitInHome, PersonVisitItem),
+            new(PersonVisitDetails.Api_PrivateVisitMedicalSupportNeeds, PersonVisitItem),
+            new(PersonVisitDetails.Api_PrivateVisitNotInHome, PersonVisitItem),
+        ];
+
+        if (!IsUpdatingEnabled)
+            DetailItems = DetailItems.Where(item => item.IsChecked);
 
         SaveStateHandler.Clear();
     }
@@ -160,8 +139,6 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
 
     private async void PersonVisitItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        IsVisitTypeSelected = PersonVisitItem.VisitDetails?.Count > 0;
-
         if (!IsUpdatingEnabled)
             return;
 
