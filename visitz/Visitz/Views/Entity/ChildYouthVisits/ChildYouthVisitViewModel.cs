@@ -68,6 +68,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     [ObservableProperty]
     public bool showFullForm = true;
 
+    [ObservableProperty]
+    public GridLength detailsRowHeight = GridLength.Star;
+
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
     [ObservableProperty]
@@ -212,5 +215,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     {
         PersonVisitItem = value?.Visit;
         AllowDiscard = value?.IsManaged ?? false;
+    }
+
+    partial void OnShowFullFormChanged(bool value)
+    {
+        DetailsRowHeight = value ? GridLength.Star : 0;
     }
 }

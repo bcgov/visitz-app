@@ -89,8 +89,13 @@
             <Grid
                 Grid.Row="1"
                 RowSpacing="15"
-                RowDefinitions="Auto, *, 2*"
                 ColumnDefinitions="*">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="{Binding DetailsRowHeight}" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
 
                 <Grid
                     Grid.Row="0"
