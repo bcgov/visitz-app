@@ -13,7 +13,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     static readonly string _defaultType = "In Person Child Youth";
 
     [PrimaryKey]
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
     public string ParentId { get; set; }
 
