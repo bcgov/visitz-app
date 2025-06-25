@@ -200,7 +200,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
         else if (Draft?.IsValid ?? false)
             Draft.LastUpdatedBinding = DateTimeOffset.Now;
 
-        await SaveStateHandler.Saving();
+        _ = SaveStateHandler.Saving();
     }
 
     partial void OnCharacterCountChanged(int value)
