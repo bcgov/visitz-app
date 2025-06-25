@@ -22,6 +22,6 @@ public partial class PersonVisitDrafts(byte[] encryptionKey) : VisitzRealmBase(N
     protected override void MigrateRealm(Migration migration, ulong oldSchemaVersion)
     {
         if (oldSchemaVersion < Version2_7_1)
-            PersonVisitMigrations.Migrate_2_7_1_Drafts(migration);
+            PersonVisitMigrations.Migrate_2_7_1(migration);
     }
 }

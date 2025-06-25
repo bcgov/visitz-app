@@ -25,6 +25,6 @@ public static class IcmDataMigrations
     private static void MigratePersonVisits(Migration migration, ulong oldSchemaVersion)
     {
         if (oldSchemaVersion < VisitzRealmBase.Version2_7_1)
-            PersonVisitMigrations.Migrate_2_7_1_Visits(migration);
+            PersonVisitMigrations.Migrate_2_7_1(migration);
     }
 }
