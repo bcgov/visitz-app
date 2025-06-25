@@ -74,7 +74,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
     [ObservableProperty]
-    public IEnumerable<VisitDetailListItem> detailItems;
+    public List<VisitDetailListItem> detailItems;
 
     protected override async Task InitAsync()
     {
@@ -101,10 +101,21 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
             new(PersonVisitDetails.Api_PrivateVisitNotInHome, PersonVisitItem),
         ];
 
+        AddOtherVisitDetails();
+
         if (!IsUpdatingEnabled)
-            DetailItems = DetailItems.Where(item => item.IsChecked);
+            DetailItems = DetailItems.Where(item => item.IsChecked).ToList();
 
         SaveStateHandler.Clear();
+    }
+
+    void AddOtherVisitDetails()
+    {
+        var knownDetails = DetailItems.Select(item => item.DetailValue).ToList();
+        var otherDetails = PersonVisitItem.VisitDetails.Except(knownDetails);
+
+        foreach (var other in otherDetails)
+            DetailItems.Add(new VisitDetailListItem(other, PersonVisitItem));
     }
 
     protected override void Dispose(bool disposing)
