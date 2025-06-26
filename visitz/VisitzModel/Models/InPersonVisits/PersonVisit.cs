@@ -5,17 +5,15 @@ using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
-using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.InPersonVisits;
 
 public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
 {
     static readonly string _defaultType = "In Person Child Youth";
-    static readonly char DetailsDelimiter = '-';
 
     [PrimaryKey]
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
     public string ParentId { get; set; }
 
@@ -35,9 +33,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public DateTimeOffset DateOfVisit { get; set; } = DateTimeOffset.Now;
 
-    public string VisitDetailsValue { get; set; }
-
-    public string VisitDetailsGroup { get; set; }
+    public IList<string> VisitDetails { get; }
 
     public string LoginName { get; set; }
 
@@ -49,13 +45,19 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string UpdatedBy { get; set; }
 
-    public string CombinedVisitDetails => MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue);
+    public string FirstVisitDetail => VisitDetails?.FirstOrDefault() ?? "";
 
     public PersonVisit() { }
 
     public PersonVisit(CaseRecord @case)
     {
         ParentId = @case.Id;
+    }
+
+    public PersonVisit(params string[] visitDetails)
+    {
+        foreach (var detail in visitDetails)
+            VisitDetails.Add(detail);
     }
 
     public PersonVisit(VisitJson json)
@@ -66,11 +68,9 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         VisitDescription = json.VisitDescription;
         Type = json.Type;
         DateOfVisit = DateTimeOffset.Parse(json.DateOfVisit);
-        VisitDetailsValue = json.VisitDetailsValue;
 
-        var (group, value) = SplitDetailsValue(VisitDetailsValue);
-        VisitDetailsGroup = group;
-        VisitDetailsValue = value;
+        foreach (var item in json.VisitDetails ?? [])
+            VisitDetails.Add(item.VisitDetailValue);
 
         LoginName = json.LoginName;
         Created = DateTimeOffset.Parse(json.Created);
@@ -81,36 +81,17 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public PostVisitJson ToApiJson(string dateFormat = "s")
     {
-        return new()
+        PostVisitJson jsonVisit = new()
         {
             DateOfVisit = DateOfVisit,
             VisitDescription = VisitDescription,
-            VisitDetailsValue = MakeDetailsValue(VisitDetailsGroup, VisitDetailsValue),
+            VisitDetails = [],
         };
-    }
 
-    static string MakeDetailsValue(string group, string value)
-    {
-        if (group.StartsWith(PersonVisitDetails.Type_PrivateVisit))
-            return $"{group} {value}";
-        else
-            return $"{group} {DetailsDelimiter} {value}";
-    }
+        foreach (var item in VisitDetails)
+            jsonVisit.VisitDetails.Add(new() { VisitDetailValue = item });
 
-    static (string Group, string Value) SplitDetailsValue(string detailsValue)
-    {
-        if (string.IsNullOrWhiteSpace(detailsValue))
-            return ("", "");
-
-        string privateVisit = PersonVisitDetails.Type_PrivateVisit;
-
-        if (detailsValue.StartsWith(privateVisit))
-            return (privateVisit.Trim(), detailsValue[privateVisit.Length..].Trim());
-        else
-        {
-            string[] split = detailsValue.Split(DetailsDelimiter);
-            return (split[0].Trim(), split[1].Trim());
-        }
+        return jsonVisit;
     }
 
     public static IEnumerable<PersonVisit> FromApiArray(IEnumerable<VisitJson> visits)
@@ -141,5 +122,21 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(visitItems);
+    }
+
+    public void ToggleVisitDetail(string detail, bool add)
+    {
+        if (!IsValid)
+            return;
+
+        this.Commit(() =>
+        {
+            if (add && !VisitDetails.Contains(detail))
+                VisitDetails.Add(detail);
+            else if (!add && VisitDetails.Contains(detail))
+                VisitDetails.Remove(detail);
+        });
+
+        RaisePropertyChanged(nameof(VisitDetails));
     }
 }

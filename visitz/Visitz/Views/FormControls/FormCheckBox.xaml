@@ -12,6 +12,10 @@
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </ContentView.Resources>
 
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </ContentView.GestureRecognizers>
+
     <Grid 
         ColumnDefinitions="Auto,*"
         BindingContext="{Reference this}"
@@ -29,12 +33,6 @@
             HorizontalOptions="Start"
             VerticalOptions="Fill"
             VerticalTextAlignment="Center"
-            Text="{Binding Text}">
-            
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-            </Label.GestureRecognizers>
-        </Label>
-        
+            Text="{Binding Text}" />
     </Grid>
 </ContentView>

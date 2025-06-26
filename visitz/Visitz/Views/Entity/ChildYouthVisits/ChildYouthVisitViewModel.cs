@@ -11,6 +11,7 @@ using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Resources.Localization;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
@@ -35,49 +36,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     public IBusinessObject BusinessObject { get; set; }
 
     [ObservableProperty]
-    public bool isVisitTypeSelected;
-
-    [ObservableProperty]
     public DateTime maxDate = DateTimeExtensions.LocalNow;
-
-    [ObservableProperty]
-    public bool privateChecked;
-
-    [ObservableProperty]
-    public bool exemptionToPrivateVisitChecked;
-
-    [ObservableProperty]
-    public bool notPrivateChecked;
-
-    [ObservableProperty]
-    public bool childDeclinedToMeetChecked;
-
-    [ObservableProperty]
-    public bool otherChecked;
-
-    [ObservableProperty]
-    public bool planningMeetingChecked;
-
-    [ObservableProperty]
-    public bool relationalVisitChecked;
-
-    [ObservableProperty]
-    public bool visitAge0To5Checked;
-
-    [ObservableProperty]
-    public bool visitInHomeChecked;
-
-    [ObservableProperty]
-    public bool visitInTheHomeChecked;
-
-    [ObservableProperty]
-    public bool visitMedicalOrSupportNeedsChecked;
-
-    [ObservableProperty]
-    public bool visitNotInHomeChecked;
-
-    [ObservableProperty]
-    public bool visitWithCaregiverChecked;
 
     [ObservableProperty]
     public string visitDescription;
@@ -109,7 +68,13 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     [ObservableProperty]
     public bool showFullForm = true;
 
+    [ObservableProperty]
+    public GridLength detailsRowHeight = GridLength.Star;
+
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
+
+    [ObservableProperty]
+    public List<VisitDetailListItem> detailItems;
 
     protected override async Task InitAsync()
     {
@@ -122,7 +87,35 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
         if (PersonVisitItem == null && IsUpdatingEnabled)
             Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
 
+        DetailItems =
+        [
+            new(PersonVisitDetails.Api_ExemptionChildDeclined, PersonVisitItem),
+            new(PersonVisitDetails.Api_ExemptionOther, PersonVisitItem),
+            new(PersonVisitDetails.Api_NotPrivateInHome, PersonVisitItem),
+            new(PersonVisitDetails.Api_NotPrivatePlanning, PersonVisitItem),
+            new(PersonVisitDetails.Api_NotPrivateRelational, PersonVisitItem),
+            new(PersonVisitDetails.Api_NotPrivateWithCaregiver, PersonVisitItem),
+            new(PersonVisitDetails.Api_PrivateVisitAge0_5, PersonVisitItem),
+            new(PersonVisitDetails.Api_PrivateVisitInHome, PersonVisitItem),
+            new(PersonVisitDetails.Api_PrivateVisitMedicalSupportNeeds, PersonVisitItem),
+            new(PersonVisitDetails.Api_PrivateVisitNotInHome, PersonVisitItem),
+        ];
+
+        AddOtherVisitDetails();
+
+        if (!IsUpdatingEnabled)
+            DetailItems = DetailItems.Where(item => item.IsChecked).ToList();
+
         SaveStateHandler.Clear();
+    }
+
+    void AddOtherVisitDetails()
+    {
+        var knownDetails = DetailItems.Select(item => item.DetailValue).ToList();
+        var otherDetails = PersonVisitItem.VisitDetails.Except(knownDetails);
+
+        foreach (var other in otherDetails)
+            DetailItems.Add(new VisitDetailListItem(other, PersonVisitItem));
     }
 
     protected override void Dispose(bool disposing)
@@ -160,8 +153,6 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
 
     private async void PersonVisitItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        IsVisitTypeSelected = !string.IsNullOrWhiteSpace(PersonVisitItem.VisitDetailsValue);
-
         if (!IsUpdatingEnabled)
             return;
 
@@ -194,8 +185,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     private void UpdateAllowPublish()
     {
         AllowPublish = NetworkHelper.InternetAvailable
-            && PersonVisitItem?.VisitDetailsGroup != null
-            && PersonVisitItem?.VisitDetailsValue != null
+            && PersonVisitItem?.VisitDetails.Count > 0
             && PersonVisitItem?.VisitDescription?.Length > 0
             && CharacterCount <= CharacterLimit;
     }
@@ -224,7 +214,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
         else if (Draft?.IsValid ?? false)
             Draft.LastUpdatedBinding = DateTimeOffset.Now;
 
-        await SaveStateHandler.Saving();
+        _ = SaveStateHandler.Saving();
     }
 
     partial void OnCharacterCountChanged(int value)
@@ -236,5 +226,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     {
         PersonVisitItem = value?.Visit;
         AllowDiscard = value?.IsManaged ?? false;
+    }
+
+    partial void OnShowFullFormChanged(bool value)
+    {
+        DetailsRowHeight = value ? GridLength.Star : 0;
     }
 }
