@@ -55,14 +55,18 @@ namespace VisitzApi.Requests
             return $"HTTP {(int)code} {code} {message}";
         }
 
-        protected Uri WithQueryParams(Pagination pagination = null, string format = "s")
+        protected Uri WithQueryParams(
+            Pagination pagination = null,
+            string format = "s",
+            params (string Name, string Value)[] @params)
         {
             return WithQueryParams(
                 pagination?.RowOffset,
                 pagination?.PageSize,
                 recordCountNeeded: pagination != null,
                 pagination?.After,
-                format);
+                format,
+                @params);
         }
 
         protected Uri WithQueryParams(
@@ -70,7 +74,8 @@ namespace VisitzApi.Requests
             int? pageSize = null,
             bool? recordCountNeeded = null,
             DateTimeOffset? after = null,
-            string format = "s")
+            string format = "s",
+            params (string Name, string Value)[] extraParams)
         {
             var query = HttpUtility.ParseQueryString(RequestUri.Query);
 
@@ -91,6 +96,9 @@ namespace VisitzApi.Requests
 
             if (after is DateTimeOffset timestamp)
                 query[RequestParam.Since] = timestamp.ToString(format);
+
+            foreach (var (name, value) in extraParams)
+                query[name] = value;
 
             var urlWithoutQuery = RequestUri.ToString().Split('?')[0];
             string queryString = query.ToString();

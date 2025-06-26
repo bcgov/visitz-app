@@ -31,5 +31,6 @@ public class VisitJson
 
     public string VisitDescription { get; set; }
 
-    public string VisitDetailsValue { get; set; }
+    [JsonPropertyName("VisitDetails")]
+    public List<VisitDetailJson> VisitDetails { get; set; }
 }

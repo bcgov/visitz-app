@@ -9,7 +9,7 @@ namespace Visitz.Views.BaseClasses
     /// </summary>
     public partial class VisitzViewModel : ObservableObject, IDisposable
     {
-        ILogger Logger { get; }
+        protected ILogger Logger { get; }
 
         bool _disposedValue;
 

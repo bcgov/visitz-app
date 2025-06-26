@@ -103,7 +103,7 @@
                                     FontFamily="BCSansBold"
                                     Grid.Column="0"/>
                                 <Label
-                                    Text="{Binding CombinedVisitDetails}"
+                                    Text="{Binding FirstVisitDetail}"
                                     Grid.Column="1"/>
                                 <Label
                                     Text="{Binding VisitDescription}"
