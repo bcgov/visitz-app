@@ -12,6 +12,10 @@ using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
+#if WINDOWS
+using Visitz.WinUI;
+#endif
+
 namespace Visitz.Views.User;
 
 public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
@@ -181,7 +185,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         {
             var cancelToken = new CancellationTokenSource();
 #if WINDOWS
-            (Application.Current as VisitzApp).AuthCancelTokenSource = cancelToken;
+            (MauiWinUIApplication.Current as App).AuthCancelTokenSource = cancelToken;
 #endif
             await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
 

@@ -9,6 +9,10 @@ using VisitzApi;
 using VisitzApi.ErrorHandling;
 using VisitzModel.Storage;
 
+#if WINDOWS
+using Visitz.WinUI;
+#endif
+
 namespace Visitz.Services.Base
 {
     public abstract class VisitzApiService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzService
@@ -34,7 +38,7 @@ namespace Visitz.Services.Base
             {
                 var cancelTokenSource = new CancellationTokenSource();
 #if WINDOWS
-                (Application.Current as VisitzApp).AuthCancelTokenSource = cancelTokenSource;
+                (MauiWinUIApplication.Current as App).AuthCancelTokenSource = cancelTokenSource;
 #endif
                 await OidcSession.AssertValidSessionAsync(
                     messageIfUnavailable: LocalizedStrings.NoInternet,
