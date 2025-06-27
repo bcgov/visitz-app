@@ -29,18 +29,18 @@ public partial class App : MauiWinUIApplication
         InitializeComponent();
         UnhandledException += App_UnhandledException;
 
-        if (HandleOAuthRedirect())
-            return;
-
         try
         {
-            HandleInstanceRedirect();
+            if (HandleInstanceRedirect())
+                return;
         }
         catch (Exception ex)
         {
             var redirectEx = new Exception("Failed redirect to existing app instance", ex);
             WriteExceptionToEventViewer(redirectEx);
         }
+
+        HandleOAuthRedirect();
     }
 
     private bool HandleOAuthRedirect()
@@ -53,7 +53,7 @@ public partial class App : MauiWinUIApplication
         return isOAuthRedirect;
     }
 
-    private void HandleInstanceRedirect()
+    private bool HandleInstanceRedirect()
     {
         var keyInstance = AppInstance.FindOrRegisterForKey(nameof(VisitzApp));
 
@@ -61,7 +61,10 @@ public partial class App : MauiWinUIApplication
         {
             var args = AppInstance.GetCurrent().GetActivatedEventArgs();
             WindowUtil.RedirectActivationTo(args, keyInstance);
+            return true;
         }
+
+        return false;
     }
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
