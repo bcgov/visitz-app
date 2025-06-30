@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace VisitzModel.Extensions;
 
 public static class StringExtensions
@@ -59,5 +61,10 @@ public static class StringExtensions
             return "No";
 
         return null;
+    }
+
+    public static string ToTitleCase(this string text)
+    {
+        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text ?? "");
     }
 }
