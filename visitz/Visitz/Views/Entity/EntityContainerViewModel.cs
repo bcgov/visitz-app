@@ -15,11 +15,12 @@ public partial class EntityContainerViewModel : VisitzViewModel, IBusinessObject
     [ObservableProperty]
     public Color entityTypeTextColor;
 
+    [ObservableProperty]
+    public string fullTypeCased;
+
     partial void OnBusinessObjectChanged(IBusinessObject oldValue, IBusinessObject newValue)
     {
-        if (newValue != null)
-            EntityTypeTextColor = newValue.EntityType.GetTextColor();
-        else
-            EntityTypeTextColor = VisitzColors.BC_TextColor;
+        EntityTypeTextColor = newValue?.EntityType.GetTextColor() ?? VisitzColors.BC_TextColor;
+        FullTypeCased = newValue?.FullType.ToTitleCase();
     }
 }

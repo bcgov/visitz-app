@@ -36,7 +36,7 @@
 				
 				<Label
 					FontSize="{StaticResource TitleMediumFontSize}"
-					Text="{Binding BusinessObject.FullType}"
+					Text="{Binding FullTypeCased}"
 					TextColor="{Binding EntityTypeTextColor}" />
 			</HorizontalStackLayout>
         </Grid>

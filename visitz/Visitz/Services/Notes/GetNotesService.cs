@@ -2,6 +2,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
@@ -48,7 +49,9 @@ namespace Visitz.Services.Notes
         {
             var (id, entityType) = PayloadTuple;
 
-            var notesFromApi = await Vpi.GetNotesAsync(id, entityType.GetDisplayString());
+            string casedType = entityType.GetDisplayString().ToTitleCase();
+            var notesFromApi = await Vpi.GetNotesAsync(id, casedType);
+
             var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
 
             await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
