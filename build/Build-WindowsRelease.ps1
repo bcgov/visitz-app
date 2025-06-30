@@ -19,7 +19,9 @@ param(
 
     [string] $TimestampUrl,
 
-    [string] $RuntimeIdentifierOverride = "win-x64", # Can also be "win10-x64"
+    [string] $RuntimeIdentifierOverride = "win-x64", # Can also be "win10-x64",
+
+    [switch] $SkipClean = $false,
 
     [string] 
     [ValidateSet("Process", "User", "Machine")]
@@ -170,6 +172,12 @@ if ($env -eq "team") {
 [string] $selfContainedString = ""
 if ($SelfContained) {
     $selfContainedString = "--self-contained"
+}
+
+if (!$SkipClean) {
+    dotnet clean "..\visitz\Visitz\Visitz.csproj"
+
+    rm $artifactsDir -Recurse -ErrorAction SilentlyContinue
 }
 
 dotnet publish "..\visitz\Visitz\Visitz.csproj" `
