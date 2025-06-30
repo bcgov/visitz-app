@@ -1,12 +1,22 @@
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using VisitzModel.Extensions;
 
 namespace Visitz.Controls;
 
 internal partial class EditorEx : Editor
 {
+    readonly JsonSerializerOptions JsonOpts = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    };
+
     public static readonly BindableProperty CharacterCountProperty =
         BindableProperty.Create(nameof(CharacterCount), typeof(int), typeof(EditorEx),
             defaultBindingMode: BindingMode.OneWayToSource);
+
+    public static readonly BindableProperty CountStyleProperty =
+        BindableProperty.Create(nameof(CountStyle), typeof(CharacterCountStyle), typeof(EditorEx));
 
     public static readonly BindableProperty SuggestedMaxLengthProperty =
         BindableProperty.Create(nameof(SuggestedMaxLength), typeof(int), typeof(EditorEx));
@@ -15,6 +25,12 @@ internal partial class EditorEx : Editor
     {
         get => (int)GetValue(CharacterCountProperty);
         set => SetValue(CharacterCountProperty, value);
+    }
+
+    public CharacterCountStyle CountStyle
+    {
+        get => (CharacterCountStyle)GetValue(CountStyleProperty);
+        set => SetValue(CountStyleProperty, value);
     }
 
     public int SuggestedMaxLength
@@ -62,7 +78,13 @@ internal partial class EditorEx : Editor
 
     void DoTextChanged(string oldValue, string newValue)
     {
-        CharacterCount = newValue?.Length ?? 0;
+        if (CountStyle == CharacterCountStyle.JsonForRestApi)
+        {
+            string value = JsonSerializer.Serialize(newValue ?? "", JsonOpts);
+            CharacterCount = value[1..^1].Length;
+        }
+        else
+            CharacterCount = newValue?.Length ?? 0;
 
         if (DoesCharacterCountExceedSuggestedMaxLength())
             SuggestedMaxLengthExceeded?.Invoke(this, new EventArgs());

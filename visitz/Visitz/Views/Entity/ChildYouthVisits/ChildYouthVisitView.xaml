@@ -183,6 +183,7 @@
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
                             CharacterCount="{Binding CharacterCount}"
+                            CountStyle="JsonForRestApi"
                             EmojiEntered="VisitsEditor_EmojiEntered"
                             SuggestedMaxLength="{Static childYouthVisit:ChildYouthVisitViewModel.CharacterLimit}"
                             SuggestedMaxLengthExceeded="VisitsEditor_SuggestedMaxLengthExceeded"
