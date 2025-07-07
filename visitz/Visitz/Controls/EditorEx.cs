@@ -1,4 +1,3 @@
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using VisitzModel.Extensions;
 
@@ -6,11 +5,6 @@ namespace Visitz.Controls;
 
 internal partial class EditorEx : Editor
 {
-    readonly JsonSerializerOptions JsonOpts = new()
-    {
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-    };
-
     public static readonly BindableProperty CharacterCountProperty =
         BindableProperty.Create(nameof(CharacterCount), typeof(int), typeof(EditorEx),
             defaultBindingMode: BindingMode.OneWayToSource);
@@ -80,7 +74,11 @@ internal partial class EditorEx : Editor
     {
         if (CountStyle == CharacterCountStyle.JsonForRestApi)
         {
-            string value = JsonSerializer.Serialize(newValue ?? "", JsonOpts);
+            // Naive check. Default encoder escaping for JsonSerializer is aggressive
+            // and escapes most non-English characters. It also tends to escape to
+            // full unicode (e.g. ' => \u0027, “ => \u0028), dramatically misrepresenting
+            // the actual character/byte count.
+            string value = JsonSerializer.Serialize(newValue ?? "");
             CharacterCount = value[1..^1].Length;
         }
         else
