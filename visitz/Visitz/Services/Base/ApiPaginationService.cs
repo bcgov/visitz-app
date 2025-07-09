@@ -13,11 +13,17 @@ internal abstract class ApiPaginationService(Vpi vpi, LastUpdatedPrefs prefs)
     // easier to pass things like Pagination in
     public Pagination? Pagination { get; set; }
 
+    virtual protected Task BeforeRun() { return Task.CompletedTask; }
+
     abstract protected Task<int> RunPaginatedService(Pagination pagination);
+
+    virtual protected Task AfterRun() { return Task.CompletedTask; }
 
     protected override sealed async Task RunApiServiceAsync()
     {
+        await BeforeRun();
         Pagination ??= new();
+
         int total = await RunPaginatedService(Pagination);
 
         if (total > Pagination.PageSize)
@@ -26,6 +32,7 @@ internal abstract class ApiPaginationService(Vpi vpi, LastUpdatedPrefs prefs)
                 Pagination.PageSize,
                 RunPaginatedService));
 
+        await AfterRun();
         ResultCode = Result.Successful;
     }
 
