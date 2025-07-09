@@ -36,13 +36,12 @@ namespace Visitz.Services.Base
 
             try
             {
-                var cancelTokenSource = new CancellationTokenSource();
 #if WINDOWS
-                (MauiWinUIApplication.Current as App).AuthCancelTokenSource = cancelTokenSource;
+                (MauiWinUIApplication.Current as App).AuthCancelTokenSource = CancelTokenSource;
 #endif
                 await OidcSession.AssertValidSessionAsync(
                     messageIfUnavailable: LocalizedStrings.NoInternet,
-                    cancelTokenSource.Token);
+                    CancelTokenSource.Token);
 
                 await RunApiServiceAsync();
 
