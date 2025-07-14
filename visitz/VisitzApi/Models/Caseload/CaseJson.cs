@@ -38,6 +38,8 @@ public class CaseJson : AssignableRecordJson
 
     public string RestrictedFlag { get; set; }
 
+    public List<PositionSummary> Position { get; set; }
+
     public string Status { get; set; }
 
     public string SubjectContactFirstName { get; set; }

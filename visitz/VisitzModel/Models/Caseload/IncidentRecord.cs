@@ -1,5 +1,6 @@
 using Realms;
 using System.Globalization;
+using System.Linq;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -48,6 +49,8 @@ public partial class IncidentRecord :
     public string AssignedTo { get; set; }
 
     public string AssignedToId { get; set; }
+
+    public IList<string> Assignees { get; }
 
     public string AddressComments { get; set; }
 
@@ -126,7 +129,7 @@ public partial class IncidentRecord :
 
     public IncidentRecord() { }
 
-    public IncidentRecord(IncidentJson json)
+    public IncidentRecord(IncidentJson json, string currentUsername = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -140,6 +143,14 @@ public partial class IncidentRecord :
         LastName = json.LastName;
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
+
+        if (!string.IsNullOrWhiteSpace(AssignedTo))
+            Assignees.Add(AssignedTo);
+
+        if (!string.IsNullOrWhiteSpace(currentUsername)
+            && !Assignees.Contains(currentUsername))
+            Assignees.Add(currentUsername);
+
         AddressComments = json.AddressComments;
         Address = json.Address;
         AreAnyOfTheFamilyMembersIndigenous = json.AreAnyOfTheFamilyMembersIndigenous;
@@ -221,49 +232,72 @@ public partial class IncidentRecord :
         };
     }
 
-    public static List<IncidentRecord> FromApiJsonArray(IEnumerable<IncidentJson> jsonArray)
+    public static List<IncidentRecord> FromApiJsonArray(
+        IEnumerable<IncidentJson> jsonArray,
+        string currentUsername = null)
     {
         List<IncidentRecord> outList = [];
 
-        foreach (var jsonItem in jsonArray)
-            outList.Add(new IncidentRecord(jsonItem));
+        if (jsonArray != null)
+            foreach (var jsonItem in jsonArray)
+                outList.Add(new IncidentRecord(jsonItem, currentUsername));
 
         return outList;
     }
 
+    static IEnumerable<IncidentRecord> FilterUnsupportedSubtypes(IEnumerable<IncidentRecord> incidents)
+    {
+        return incidents.Where(incident => incident.EntitySubtype == EntitySubtype.ChildProtection);
+    }
+
     public static async Task SynchronizeAsync(
         Realm realm,
-        SectionJson<IncidentJson> section,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+        IEnumerable<IncidentRecord> newOfficeIncidents,
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        string currentUsername,
+        bool isPersonalCaseload)
     {
-        var currentAssignedIds = realm.All<IncidentRecord>()
-            .AsEnumerable()
-            .Select(incident => incident.Id);
+        if (newOfficeIncidents == null)
+            return;
 
-        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
-
-        var v2Incidents = FromApiJsonArray(section.Items ?? []);
+        bool isOfficeCaseload = !isPersonalCaseload;
+        var incomingIncidents = FilterUnsupportedSubtypes(newOfficeIncidents);
+        var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
+        var unassigned = currentAssigned.Except(incomingIncidents);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-            realm.Upsert(v2Incidents);
+            CascadeDelete(realm, unassigned, userIgnoredPrefs);
+            realm.Upsert(incomingIncidents);
         });
+    }
+
+    public static Task SynchronizeAsync(
+        Realm realm,
+        IEnumerable<IncidentJson> newOfficeIncidents,
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        string currentUsername,
+        bool isPersonalCaseload)
+    {
+        return SynchronizeAsync(
+            realm,
+            FromApiJsonArray(newOfficeIncidents, currentUsername),
+            userIgnoredPrefs,
+            currentUsername,
+            isPersonalCaseload);
     }
 
     static void CascadeDelete(
         Realm realm,
-        IEnumerable<string> deleteIds,
+        IEnumerable<IncidentRecord> removeIncidents,
         UserIgnoredContentPrefs userIgnoredPrefs)
     {
-        foreach (var id in deleteIds)
+        foreach (var incident in removeIncidents)
         {
-            var incident = realm.Find<IncidentRecord>(id);
-
             NoteItem.RemoveByParentFileNumber(realm, EntityType.Incident, incident.FileNumber);
-            IcmContact.RemoveByParent(realm, EntityType.Incident, id);
-            SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, id);
-            Attachment.RemoveByParent(realm, EntityType.Incident, id, userIgnoredPrefs);
+            IcmContact.RemoveByParent(realm, EntityType.Incident, incident.Id);
+            SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, incident.Id);
+            Attachment.RemoveByParent(realm, EntityType.Incident, incident.Id, userIgnoredPrefs);
 
             realm.Remove(incident);
         }
@@ -275,5 +309,36 @@ public partial class IncidentRecord :
             .All<IncidentRecord>()
             .FirstOrDefault(incident => incident.Id == draftItem.RelatedEntityId
                         || incident.FileNumber == draftItem.RelatedEntityId);
+    }
+
+    public static IQueryable<IncidentRecord> GetAllByAssignee(
+        Realm realm,
+        string username,
+        bool invert = false)
+    {
+        string operation = invert ? "NONE" : "ANY";
+
+        return realm
+            .All<IncidentRecord>()
+            .Filter($"$0 == {operation} {nameof(Assignees)}", username);
+    }
+
+    public bool Equals(IncidentRecord other)
+    {
+        return other != null
+            && Id == other.Id
+            && EntityType == other.EntityType;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is IncidentRecord info ? Equals(info) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        return EntityType.GetHashCode() * Id.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
     }
 }

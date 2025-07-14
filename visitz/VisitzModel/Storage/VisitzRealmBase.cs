@@ -16,6 +16,7 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
     public static readonly ulong Version2_6_0 = 3;
     public static readonly ulong Version2_7_0 = 4;
     public static readonly ulong Version2_7_1 = 5;
+    public static readonly ulong Version2_8_0 = 6;
 
     public string RealmName { get; private set; } = realmName;
 
