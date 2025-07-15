@@ -262,4 +262,16 @@ public partial class MemoRecord :
             .FirstOrDefault(memo => memo.Id == draftItem.RelatedEntityId
                         || memo.FileNumber == draftItem.RelatedEntityId);
     }
+
+    public static IQueryable<MemoRecord> GetAllByAssignee(
+        Realm realm,
+        string username,
+        bool invert = false)
+    {
+        string operation = invert ? "!=" : "==";
+
+        return realm
+            .All<MemoRecord>()
+            .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+    }
 }

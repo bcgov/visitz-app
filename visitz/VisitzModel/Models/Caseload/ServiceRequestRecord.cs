@@ -246,4 +246,16 @@ public partial class ServiceRequestRecord :
             .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId
                         || sr.FileNumber == draftItem.RelatedEntityId);
     }
+
+    public static IQueryable<ServiceRequestRecord> GetAllByAssignee(
+        Realm realm,
+        string username,
+        bool invert = false)
+    {
+        string operation = invert ? "!=" : "==";
+
+        return realm
+            .All<ServiceRequestRecord>()
+            .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+    }
 }
