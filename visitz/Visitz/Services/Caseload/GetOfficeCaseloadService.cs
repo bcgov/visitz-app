@@ -31,6 +31,8 @@ internal class GetOfficeCaseloadService(
 
     // TODO: memos and SRs
 
+    HashSet<string> Offices { get; } = [];
+
     public static string MakeId()
     {
         return nameof(GetOfficeCaseloadService);
@@ -66,6 +68,9 @@ internal class GetOfficeCaseloadService(
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Incidents, Exceptions))
             IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(officeCaseload.Incidents.Items));
+
+        foreach (var office in officeCaseload.OfficeNames)
+            Offices.Add(office);
 
         // TODO: memos and SRs
 
@@ -112,5 +117,22 @@ internal class GetOfficeCaseloadService(
         }
 
         // TODO: memos and SRs
+
+        try
+        {
+            Offices.UnionWith(CaseRecords.Select(@case =>
+                @case.ServiceOffice).Distinct());
+
+            Offices.UnionWith(IncidentRecords.Select(incident =>
+                incident.ServiceOffice).Distinct());
+
+            // TODO: memos and SRs
+
+            OidcSessionInfo.OfficeNames = Offices;
+        }
+        catch (Exception ex)
+        {
+            Exceptions.Add(ex);
+        }
     }
 }
