@@ -14,6 +14,8 @@ internal abstract class ApiPaginationService : VisitzApiService
 
     ParallelOptions ParallelOptions { get; }
 
+    protected List<Exception> Exceptions { get; } = [];
+
     protected ApiPaginationService(
         Vpi vpi,
         LastUpdatedPrefs prefs,
@@ -35,6 +37,19 @@ internal abstract class ApiPaginationService : VisitzApiService
 
     virtual protected Task BeforeRun() { return Task.CompletedTask; }
 
+    Task<int> TryRunPaginatedService(Pagination pagination)
+    {
+        try
+        {
+            return RunPaginatedService(pagination);
+        }
+        catch (Exception ex)
+        {
+            Exceptions.Add(ex);
+            return Task.FromResult(int.MinValue);
+        }
+    }
+
     abstract protected Task<int> RunPaginatedService(Pagination pagination);
 
     virtual protected Task AfterRun() { return Task.CompletedTask; }
@@ -44,7 +59,7 @@ internal abstract class ApiPaginationService : VisitzApiService
         await BeforeRun();
         Pagination ??= new();
 
-        int total = await RunPaginatedService(Pagination);
+        int total = await TryRunPaginatedService(Pagination);
         if (total > Pagination.PageSize)
         {
             int pages = total / Pagination.PageSize;
@@ -61,6 +76,12 @@ internal abstract class ApiPaginationService : VisitzApiService
         }
 
         await AfterRun();
+
+        if (Exceptions.Count > 1)
+            throw new AggregateException(Exceptions);
+        else if (Exceptions.Count > 0)
+            throw Exceptions.First();
+
         ResultCode = Result.Successful;
     }
 }
