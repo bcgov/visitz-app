@@ -3,6 +3,8 @@ using VisitzApi.Json;
 using VisitzApi.Models.Caseload;
 using VisitzApi.Requests;
 
+#nullable enable
+
 namespace VisitzApi.Endpoints;
 
 internal class GetCaseloadEndpoint(string baseUrl, DateTimeOffset? after = null)
@@ -23,6 +25,7 @@ internal class GetCaseloadEndpoint(string baseUrl, DateTimeOffset? after = null)
 
     public override CaseloadJson HandleResponse(HttpResponseMessage _, string responseContent)
     {
-        return JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet);
+        return JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet)
+            ?? CaseloadJson.Empty;
     }
 }

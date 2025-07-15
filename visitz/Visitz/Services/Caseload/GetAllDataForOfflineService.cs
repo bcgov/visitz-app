@@ -1,3 +1,4 @@
+using Oidc;
 using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
@@ -49,39 +50,60 @@ namespace Visitz.Services.Caseload
         {
             await Task.Run(async () =>
             {
-                await GetCaseload();
-                await MultiGetSubData();
+                await GetPersonalCaseload();
+
+                List<Exception> exceptions = [];
+
+                await GetPersonalCaseloadDependentInfo(exceptions);
+                await GetOfficeCaseload(exceptions);
+
+                if (exceptions.Count > 1)
+                    throw new AggregateException(exceptions);
+                else if (exceptions.Count > 0)
+                    throw exceptions.First();
             });
 
             ResultCode = Result.Successful;
         }
 
-        private async Task GetCaseload()
+        private async Task GetPersonalCaseload()
         {
             var caseloadMessage = GetCaseloadService.MakeStartMessage(ShouldForceDownload);
             await ServiceHandler.TryRunServiceAsync(caseloadMessage);
         }
 
-        private async Task MultiGetSubData()
+        private async Task GetOfficeCaseload(List<Exception> exceptions)
         {
+            try
+            {
+                var officeCaseloadMessage = GetOfficeCaseloadService.MakeStartMessage(ShouldForceDownload);
+                await ServiceHandler.TryRunServiceAsync(officeCaseloadMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.Notes, ex));
+            }
+        }
+
+        private async Task GetPersonalCaseloadDependentInfo(List<Exception> exceptions)
+        {
+            var username = (await OidcSession.GetInfoAsync()).Idir;
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            var cases = realm.All<CaseRecord>().Freeze().AsEnumerable()
-                .Select(@case => new RecordServiceInfo(@case));
+            var cases = CaseRecord.GetAllByAssignee(realm, username).Freeze()
+                .AsEnumerable().Select(@case => new RecordServiceInfo(@case));
 
-            var incidents = realm.All<IncidentRecord>().Freeze().AsEnumerable()
-                .Select(incident => new RecordServiceInfo(incident));
+            var incidents = IncidentRecord.GetAllByAssignee(realm, username).Freeze()
+                .AsEnumerable().Select(incident => new RecordServiceInfo(incident));
 
-            var memos = realm.All<MemoRecord>().Freeze().AsEnumerable()
-                .Select(memo => new RecordServiceInfo(memo));
+            var memos = MemoRecord.GetAllByAssignee(realm, username).Freeze()
+                .AsEnumerable().Select(memo => new RecordServiceInfo(memo));
 
-            var srs = realm.All<ServiceRequestRecord>().Freeze().AsEnumerable()
-                .Select(sr => new RecordServiceInfo(sr));
+            var srs = ServiceRequestRecord.GetAllByAssignee(realm, username).Freeze()
+                .AsEnumerable().Select(sr => new RecordServiceInfo(sr));
 
             var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
             var all = casesIncidentsSrs.Concat(memos);
-
-            List<Exception> exceptions = [];
 
             await Task.WhenAll(
                 GetAllNotes(casesIncidentsSrs, exceptions),
@@ -91,11 +113,6 @@ namespace Visitz.Services.Caseload
                 GetAllAttachments(all, exceptions),
                 GetAllSafetyAssessments(incidents, exceptions)
             );
-
-            if (exceptions.Count > 1)
-                throw new AggregateException(exceptions);
-            else if (exceptions.Count > 0)
-                throw exceptions.First();
         }
 
         private static Exception MakeDownloadEx(string kind, Exception ex)

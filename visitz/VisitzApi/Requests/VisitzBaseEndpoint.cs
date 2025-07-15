@@ -58,6 +58,7 @@ namespace VisitzApi.Requests
         protected Uri WithQueryParams(
             Pagination pagination = null,
             string format = "s",
+            bool excludeEmptyFields = true,
             params (string Name, string Value)[] @params)
         {
             return WithQueryParams(
@@ -66,6 +67,7 @@ namespace VisitzApi.Requests
                 recordCountNeeded: pagination != null,
                 pagination?.After,
                 format,
+                excludeEmptyFields,
                 @params);
         }
 
@@ -75,6 +77,7 @@ namespace VisitzApi.Requests
             bool? recordCountNeeded = null,
             DateTimeOffset? after = null,
             string format = "s",
+            bool excludeEmptyFields = true,
             params (string Name, string Value)[] extraParams)
         {
             var query = HttpUtility.ParseQueryString(RequestUri.Query);
@@ -92,10 +95,14 @@ namespace VisitzApi.Requests
             }
 
             if (recordCountNeeded is bool getCount)
-                query[RequestParam.RecordCountNeeded] = getCount.ToString().ToLowerInvariant();
+                query[RequestParam.RecordCountNeeded] = getCount
+                    .ToString().ToLowerInvariant();
 
             if (after is DateTimeOffset timestamp)
                 query[RequestParam.Since] = timestamp.ToString(format);
+
+            query[RequestParam.ExcludeEmptyFields] = excludeEmptyFields
+                ? "Y" : "N";
 
             foreach (var (name, value) in extraParams)
                 query[name] = value;

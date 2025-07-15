@@ -11,13 +11,16 @@ namespace Oidc
     public class OidcSession
     {
         private static readonly string IdirActiveKey = "idir_active_employee";
+        private static readonly SemaphoreSlim Semaphore = new(1);
 
         private static AuthenticationClient AuthClient =>
             ServicesProvider.Current.GetRequiredService<AuthenticationClient>();
 
         public static event EventHandler<SessionChangedEventArgs> SessionChanged;
 
-        public static async Task AssertValidSessionAsync(string messageIfUnavailable, CancellationToken cancellationToken = default)
+        static async Task DoAssertValidSessionAsync(
+            string messageIfUnavailable,
+            CancellationToken cancellationToken = default)
         {
             NetworkHelper.AssertInternetAvailable(messageIfUnavailable);
 
@@ -26,7 +29,27 @@ namespace Oidc
                 if (await TokenHolder.IsRefreshTokenExpired())
                     await LoginAsync(messageIfUnavailable, cancellationToken);
                 else
-                    await RefreshAsync(messageIfUnavailable);
+                    await RefreshAsync(messageIfUnavailable);   
+            }
+        }
+
+        public static async Task AssertValidSessionAsync(
+            string messageIfUnavailable,
+            CancellationToken cancellationToken = default)
+        {
+            await Semaphore.WaitAsync(cancellationToken);
+
+            try
+            {
+                await DoAssertValidSessionAsync(messageIfUnavailable, cancellationToken);
+            }
+            finally
+            {
+                try
+                {
+                    Semaphore.Release();
+                }
+                catch { }
             }
         }
 

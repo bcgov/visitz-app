@@ -2,26 +2,24 @@ using System.Text.Json.Serialization;
 
 namespace VisitzApi.Models.Base;
 
+/// <summary>
+/// Base metadata for a record. Only Id is required as it is possible for
+/// records to be missing the other fields.
+/// </summary>
 public class BaseRecordJson
 {
     [JsonRequired]
     public string Id { get; set; }
 
-    [JsonRequired]
     public string CreatedBy { get; set; }
 
-    [JsonRequired]
     public string CreatedById { get; set; }
 
-    [JsonRequired]
     public string UpdatedBy { get; set; }
 
-    [JsonRequired]
     public string UpdatedById { get; set; }
 
-    [JsonRequired]
     public string CreatedDate { get; set; }
 
-    [JsonRequired]
     public string UpdatedDate { get; set; }
 }

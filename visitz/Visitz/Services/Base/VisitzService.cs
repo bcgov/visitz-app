@@ -60,6 +60,8 @@ namespace Visitz.Services.Base
 
         static readonly string LoggerTemplate = "{id} -> {stateMessage}";
 
+        protected CancellationTokenSource CancelTokenSource { get; } = new();
+
         private void PublishCurrentState(State status)
         {
             Status = status;
