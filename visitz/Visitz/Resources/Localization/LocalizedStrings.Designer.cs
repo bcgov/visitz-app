@@ -1184,6 +1184,14 @@ namespace Visitz.Resources.Localization {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to My caseload.
+        /// </summary>
+        public static string MyCaseload {
+            get {
+                return ResourceManager.GetString("MyCaseload", resourceCulture);
+            }
+        }
+        /// <summary>
         ///   Looks up a localized string similar to N/A.
         /// </summary>
         public static string NA {

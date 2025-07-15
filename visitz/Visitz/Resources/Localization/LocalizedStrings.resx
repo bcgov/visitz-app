@@ -955,4 +955,7 @@ No items here.</value>
   <data name="AgtCoordinationCa" xml:space="preserve">
     <value>Coordination AGT (CA)</value>
   </data>
+  <data name="MyCaseload" xml:space="preserve">
+    <value>My caseload</value>
+  </data>
 </root>
