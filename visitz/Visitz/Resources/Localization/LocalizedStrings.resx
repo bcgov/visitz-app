@@ -958,4 +958,7 @@ No items here.</value>
   <data name="MyCaseload" xml:space="preserve">
     <value>My caseload</value>
   </data>
+  <data name="AssignedTo" xml:space="preserve">
+    <value>Assigned to</value>
+  </data>
 </root>

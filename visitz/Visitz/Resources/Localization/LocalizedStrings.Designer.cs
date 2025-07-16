@@ -187,6 +187,14 @@ namespace Visitz.Resources.Localization {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Assigned to.
+        /// </summary>
+        public static string AssignedTo {
+            get {
+                return ResourceManager.GetString("AssignedTo", resourceCulture);
+            }
+        }
+        /// <summary>
         ///   Looks up a localized string similar to Attachment metadata.
         /// </summary>
         public static string AttachmentMetadata {

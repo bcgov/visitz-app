@@ -1,6 +1,5 @@
 using Realms;
 using System.Globalization;
-using System.Linq;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -51,6 +50,10 @@ public partial class IncidentRecord :
     public string AssignedToId { get; set; }
 
     public IList<string> Assignees { get; }
+
+    public string DisplayAssignees => Assignees.Any()
+        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)
+        : AssignedTo;
 
     public string AddressComments { get; set; }
 
@@ -144,7 +147,8 @@ public partial class IncidentRecord :
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
 
-        if (!string.IsNullOrWhiteSpace(AssignedTo))
+        if (!string.IsNullOrWhiteSpace(AssignedTo)
+            && !Assignees.Contains(AssignedTo))
             Assignees.Add(AssignedTo);
 
         if (!string.IsNullOrWhiteSpace(currentUsername)

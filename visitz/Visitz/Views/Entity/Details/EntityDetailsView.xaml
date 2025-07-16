@@ -14,7 +14,7 @@
     <ScrollView>
 
         <Grid 
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
             ColumnDefinitions="Auto,*"
             RowSpacing="15"
             ColumnSpacing="15"
@@ -51,49 +51,62 @@
                 Grid.Column="0"
                 HorizontalOptions="End"
                 FontFamily="BCSansBold"
-                Text="{local:Localize ServiceOffice}" />
+                Text="{local:Localize AssignedTo}" />
 
             <Label
                 Grid.Row="2"
                 Grid.Column="1"
                 HorizontalOptions="Start"
-                Text="{Binding BusinessObject.ServiceOffice}" />
+                Text="{Binding BusinessObject.DisplayAssignees}" />
 
             <Label
                 Grid.Row="3"
                 Grid.Column="0"
                 HorizontalOptions="End"
                 FontFamily="BCSansBold"
-                Text="{local:Localize Address}" />
+                Text="{local:Localize ServiceOffice}" />
 
             <Label
                 Grid.Row="3"
                 Grid.Column="1"
                 HorizontalOptions="Start"
+                Text="{Binding BusinessObject.ServiceOffice}" />
+
+            <Label
+                Grid.Row="4"
+                Grid.Column="0"
+                HorizontalOptions="End"
+                FontFamily="BCSansBold"
+                Text="{local:Localize Address}" />
+
+            <Label
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalOptions="Start"
                 Text="{Binding KeyPlayer.PrimaryAddress}" />
 
 			<Label
-				Grid.Row="4"
+				Grid.Row="5"
 				Grid.Column="0"
 				HorizontalOptions="End"
 				FontFamily="BCSansBold"
 				Text="{local:Localize HomeNumber}" />
 
 			<Label
-				Grid.Row="4"
+				Grid.Row="5"
 				Grid.Column="1"
 				HorizontalOptions="Start"
 				Text="{Binding KeyPlayer.HomePhoneFormatted}" />
 
 			<Label
-				Grid.Row="5"
+				Grid.Row="6"
 				Grid.Column="0"
 				HorizontalOptions="End"
 				FontFamily="BCSansBold"
 				Text="{local:Localize CellNumber}" />
 
 			<Label
-				Grid.Row="5"
+				Grid.Row="6"
 				Grid.Column="1"
 				HorizontalOptions="Start"
 				Text="{Binding KeyPlayer.CellPhoneFormatted}" />

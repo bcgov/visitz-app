@@ -47,6 +47,8 @@ public partial class MemoRecord :
 
     public string AssignedToId { get; set; }
 
+    public string DisplayAssignees => AssignedTo;
+
     public string Address { get; set; }
 
     public string AddressComments { get; set; }

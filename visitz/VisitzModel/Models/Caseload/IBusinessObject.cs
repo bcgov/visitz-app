@@ -23,6 +23,8 @@ public interface IBusinessObject : IRealmObject
 
     public string AssignedToId { get; set; }
 
+    public string DisplayAssignees { get; }
+
     public EntityType EntityType { get; }
 
     public EntitySubtype EntitySubtype { get; set; }

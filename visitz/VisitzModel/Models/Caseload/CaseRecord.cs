@@ -53,6 +53,10 @@ public partial class CaseRecord :
 
     public IList<string> Assignees { get; }
 
+    public string DisplayAssignees => Assignees.Any()
+        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned).Trim()
+        : AssignedTo;
+
     public string Caseload { get; set; }
 
     public DateTimeOffset? ClosedDate { get; set; }
@@ -125,7 +129,8 @@ public partial class CaseRecord :
             foreach (var position in caseJson.Position)
                 Assignees.Add(position.SalesRep);
 
-        if (!Assignees.Contains(AssignedTo) && !string.IsNullOrWhiteSpace(AssignedTo))
+        if (!string.IsNullOrWhiteSpace(AssignedTo)
+            && !Assignees.Contains(AssignedTo))
             Assignees.Add(AssignedTo);
 
         if (!string.IsNullOrWhiteSpace(currentUsername)
