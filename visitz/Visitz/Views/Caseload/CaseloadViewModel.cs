@@ -142,8 +142,11 @@ namespace Visitz.Views.Caseload
 
         private void SessionInfo_OfficesChanged(object sender, OidcSessionInfo e)
         {
-            SetupOfficeNames();
-            Lister.ApplyWithFilter();
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                SetupOfficeNames();
+                Lister.ApplyWithFilter();
+            });
         }
 
         private async Task SetupRealm()
