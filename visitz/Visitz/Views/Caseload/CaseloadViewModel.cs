@@ -1,7 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Oidc;
 using Realms;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Visitz.Extensions;
 using Visitz.FontIcons;
@@ -95,9 +98,21 @@ namespace Visitz.Views.Caseload
         [ObservableProperty]
         public DraftIndicatorHelper indicatorHelper = new();
 
+        [ObservableProperty]
+        public ObservableCollection<string> officeNames = [];
+
+        [ObservableProperty]
+        public string selectedOffice;
+
+        OidcSessionInfo SessionInfo { get; set; }
+
         private async Task Setup()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
+
+            SessionInfo = await OidcSession.GetInfoAsync();
+            SetupOfficeNames();
+            SessionInfo.OfficesChanged += SessionInfo_OfficesChanged;
 
             await SetupRealm();
 
@@ -111,6 +126,26 @@ namespace Visitz.Views.Caseload
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
+        private void SetupOfficeNames()
+        {
+            OfficeNames.Clear();
+            OfficeNames.Add(LocalizedStrings.All);
+            OfficeNames.Add(LocalizedStrings.MyCaseload);
+
+            foreach (var office in SessionInfo.OfficeNames.ToImmutableSortedSet())
+                OfficeNames.Add(office);
+
+            if (string.IsNullOrWhiteSpace(SelectedOffice)
+                || !OfficeNames.Contains(SelectedOffice))
+                SelectedOffice = OfficeNames[1];
+        }
+
+        private void SessionInfo_OfficesChanged(object sender, OidcSessionInfo e)
+        {
+            SetupOfficeNames();
+            Lister.ApplyWithFilter();
+        }
+
         private async Task SetupRealm()
         {
             Realm = await VisitzRealms.GetIcmDataRealmAsync();
@@ -120,6 +155,7 @@ namespace Visitz.Views.Caseload
                 list = ApplySorting(list);
                 list = ApplySearchQuery(list);
                 list = ApplySubtypeFilter(list);
+                list = ApplyOfficeFilter(list);
                 return list;
             });
 
@@ -145,6 +181,10 @@ namespace Visitz.Views.Caseload
 
             Realm?.Dispose();
             Realm = null;
+
+            if (SessionInfo != null)
+                SessionInfo.OfficesChanged -= SessionInfo_OfficesChanged;
+            SessionInfo = null;
         }
 
         protected override async Task InitAsync()
@@ -217,6 +257,20 @@ namespace Visitz.Views.Caseload
             return query.Where(item => item.EntitySubtype == subtype);
         }
 
+        private IEnumerable<IBusinessObject> ApplyOfficeFilter(IEnumerable<IBusinessObject> query)
+        {
+            if (query == null
+                || string.IsNullOrWhiteSpace(SelectedOffice)
+                || SelectedOffice == LocalizedStrings.MyCaseload)
+            {
+                return query.Where(bo => bo.IsAssigned(SessionInfo.Idir));
+            }
+            else if (SelectedOffice == LocalizedStrings.All)
+                return query;
+            else
+                return query.Where(bo => bo.ServiceOffice == SelectedOffice);
+        }
+
         private void ApplyCollectionViewPrompt()
         {
             CollectionViewPrompt = !string.IsNullOrWhiteSpace(SearchQuery)
@@ -272,6 +326,12 @@ namespace Visitz.Views.Caseload
         private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
         {
             ShowAvatarView = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
+        }
+
+        partial void OnSelectedOfficeChanged(string value)
+        {
+            if (Lister != null)
+                Lister.ApplyWithFilter();
         }
     }
 }

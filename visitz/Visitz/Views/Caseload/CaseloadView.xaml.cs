@@ -9,7 +9,6 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.User;
 
 namespace Visitz.Views.Caseload;
 

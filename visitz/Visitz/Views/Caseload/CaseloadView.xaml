@@ -62,23 +62,27 @@
 					Clicked="ListOptionsButton_Clicked" />
             </Grid>
 
-            <SearchBar 
-                BackgroundColor="{StaticResource BC_Background_Light}"
-                CancelButtonColor="{StaticResource BC_TextColor}"
-                TextColor="{StaticResource BC_TextColor}"
-                x:Name="CaseloadSearchBar"
-                HorizontalOptions="FillAndExpand"
-                Placeholder="{local:Localize CaseloadSearchHint}"
-                Text="{Binding SearchQuery}"
-                Margin="{OnPlatform iOS='-9', Default=0}"
-                SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
-                TextChanged="CaseloadSearchBar_TextChanged"
-                ios:SearchBar.SearchBarStyle="Minimal" />
+            <Picker
+                ItemsSource="{Binding OfficeNames}"
+                SelectedItem="{Binding SelectedOffice}"
+                VerticalOptions="Center"/>
 
             <VerticalStackLayout 
                 x:Name="OptionsLayout"
                 IsVisible="False"
                 Spacing="10">
+                <SearchBar 
+                    BackgroundColor="{StaticResource BC_Background_Light}"
+                    CancelButtonColor="{StaticResource BC_TextColor}"
+                    TextColor="{StaticResource BC_TextColor}"
+                    x:Name="CaseloadSearchBar"
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="{local:Localize CaseloadSearchHint}"
+                    Text="{Binding SearchQuery}"
+                    Margin="{OnPlatform iOS='-9', Default=0}"
+                    SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+                    TextChanged="CaseloadSearchBar_TextChanged"
+                    ios:SearchBar.SearchBarStyle="Minimal" />
 
                 <segmentedButtons:SegmentedButtonsView
                     Options="{Binding SortOptions}"
