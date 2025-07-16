@@ -62,10 +62,17 @@
 					Clicked="ListOptionsButton_Clicked" />
             </Grid>
 
-            <Picker
-                ItemsSource="{Binding OfficeNames}"
-                SelectedItem="{Binding SelectedOffice}"
-                VerticalOptions="Center"/>
+            <Border
+                Background="Black"
+                StrokeShape="RoundRectangle 6"
+                StrokeThickness="0"
+                Padding="0.1">
+                <Picker
+                    Background="White"
+                    ItemsSource="{Binding OfficeNames}"
+                    SelectedItem="{Binding SelectedOffice}"
+                    VerticalOptions="Center"/>
+            </Border>
 
             <VerticalStackLayout 
                 x:Name="OptionsLayout"
