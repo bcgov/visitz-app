@@ -25,6 +25,8 @@ namespace Oidc
             return SessionInfo;
         }
 
+        public event EventHandler<OidcSessionInfo> OfficesChanged;
+
         private OidcSessionInfo() { }
 
         private string GetIdir()
@@ -73,12 +75,19 @@ namespace Oidc
             }
         }
 
-        public static HashSet<string> OfficeNames
+        public HashSet<string> OfficeNames
         {
             get => new(Preferences.Default.Get(OfficesKey, "").Split(OfficesDelimiter));
-            set => Preferences.Default.Set(OfficesKey,
-                value.Aggregate((accum, officeName) =>
-                    accum + OfficesDelimiter + officeName));
+            set
+            {
+                if (OfficeNames == null || !OfficeNames.Equals(value))
+                {
+                    Preferences.Default.Set(OfficesKey, value.Aggregate((accum, officeName) =>
+                        accum + OfficesDelimiter + officeName));
+
+                    OfficesChanged?.Invoke(this, this);
+                }
+            }
         }
     }
 }

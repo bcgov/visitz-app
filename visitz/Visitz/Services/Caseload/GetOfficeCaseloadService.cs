@@ -79,7 +79,8 @@ internal class GetOfficeCaseloadService(
 
     protected override async Task AfterRun()
     {
-        var username = (await OidcSession.GetInfoAsync()).Idir;
+        var sessionInfo = await OidcSession.GetInfoAsync();
+        var username = sessionInfo.Idir;
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
         try
@@ -128,7 +129,7 @@ internal class GetOfficeCaseloadService(
 
             // TODO: memos and SRs
 
-            OidcSessionInfo.OfficeNames = Offices;
+            sessionInfo.OfficeNames = Offices;
         }
         catch (Exception ex)
         {
