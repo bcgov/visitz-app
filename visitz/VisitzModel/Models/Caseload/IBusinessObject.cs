@@ -19,6 +19,10 @@ public interface IBusinessObject : IRealmObject
 
     public string LastName { get; set; }
 
+    public string AssignedTo { get; set; }
+
+    public string AssignedToId { get; set; }
+
     public EntityType EntityType { get; }
 
     public EntitySubtype EntitySubtype { get; set; }
@@ -32,6 +36,8 @@ public interface IBusinessObject : IRealmObject
     public string FullType { get; }
 
     public IQueryable<IcmContact> Contacts { get; }
+
+    public bool IsAssigned(string username);
 }
 
 public static class IBusinessObjectExtensions

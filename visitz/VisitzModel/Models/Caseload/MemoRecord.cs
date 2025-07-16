@@ -274,4 +274,9 @@ public partial class MemoRecord :
             .All<MemoRecord>()
             .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
     }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username;
+    }
 }

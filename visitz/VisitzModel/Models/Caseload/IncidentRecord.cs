@@ -323,6 +323,11 @@ public partial class IncidentRecord :
             .Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }
 
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username || Assignees.Contains(username);
+    }
+
     public bool Equals(IncidentRecord other)
     {
         return other != null

@@ -290,6 +290,11 @@ public partial class CaseRecord :
             .Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }
 
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username || Assignees.Contains(username);
+    }
+
     public bool Equals(CaseRecord other)
     {
         return other != null

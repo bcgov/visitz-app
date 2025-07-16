@@ -258,4 +258,9 @@ public partial class ServiceRequestRecord :
             .All<ServiceRequestRecord>()
             .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
     }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username;
+    }
 }
