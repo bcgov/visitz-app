@@ -31,6 +31,8 @@ public interface IBusinessObject : IRealmObject
 
     public string ServiceOffice { get; set; }
 
+    public BoLocalState LocalState { get; }
+
     public string DisplayDate { get; }
 
     public string DisplayName { get; }
@@ -44,6 +46,11 @@ public interface IBusinessObject : IRealmObject
 
 public static class IBusinessObjectExtensions
 {
+    public static string ToIdTypeString(this IBusinessObject businessObject)
+    {
+        return $"{businessObject.Id}||{(int)businessObject.EntityType}";
+    }
+
     public static DateTime DisplayDateTransform(this IBusinessObject businessObject)
     {
         return businessObject.DisplayDate?.Length > 0
@@ -103,5 +110,13 @@ public static class IBusinessObjectExtensions
             sr.PropertyChanged -= handler;
         else
             throw new NotImplementedException($"Type '{business.GetType()}' not implemented for unsubscription");
+    }
+
+    public static BoLocalState FindOrMakeLocalState(this IBusinessObject businessObject)
+    {
+        string id = businessObject.ToIdTypeString();
+
+        return businessObject.Realm?.Find<BoLocalState>(id)
+            is BoLocalState state ? state : new(businessObject);
     }
 }

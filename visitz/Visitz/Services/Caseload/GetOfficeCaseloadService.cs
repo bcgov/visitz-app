@@ -64,10 +64,12 @@ internal class GetOfficeCaseloadService(
         var (total, officeCaseload) = await Vpi.GetOfficeCaseloadAsync(pagination: pagination);
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Cases, Exceptions))
-            CaseRecords.AddRange(CaseRecord.FromApiJsonArray(officeCaseload.Cases.Items));
+            CaseRecords.AddRange(CaseRecord.FromApiJsonArray(
+                officeCaseload.Cases.Items, localState: new()));
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Incidents, Exceptions))
-            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(officeCaseload.Incidents.Items));
+            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(
+                officeCaseload.Incidents.Items, localState: new()));
 
         foreach (var office in officeCaseload.OfficeNames)
             Offices.Add(office);

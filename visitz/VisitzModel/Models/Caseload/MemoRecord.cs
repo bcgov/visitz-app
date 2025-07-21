@@ -116,6 +116,18 @@ public partial class MemoRecord :
         set => SubtypeInt = (int)value;
     }
 
+    private BoLocalState BoLocalState { get; set; }
+    public BoLocalState LocalState
+    {
+        get
+        {
+            if (BoLocalState == null)
+                this.Commit(() => BoLocalState = this.FindOrMakeLocalState());
+
+            return BoLocalState;
+        }
+    }
+
     public string DisplayDate => CallDate?.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture) ?? "";
@@ -128,7 +140,7 @@ public partial class MemoRecord :
 
     public MemoRecord() { }
 
-    public MemoRecord(MemoJson json)
+    public MemoRecord(MemoJson json, BoLocalState localState = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -172,6 +184,8 @@ public partial class MemoRecord :
         Status = json.Status;
         TypeOfCaller = json.TypeOfCaller;
         Urgent = json.Urgent;
+        BoLocalState = localState;
+        BoLocalState?.SetBusinessObject(this);
     }
 
     public static List<MemoRecord> FromApiArray(IEnumerable<MemoJson> jsonArray)

@@ -120,6 +120,18 @@ public partial class IncidentRecord :
 
     public string TypeOfCaller { get; set; }
 
+    private BoLocalState BoLocalState { get; set; }
+    public BoLocalState LocalState
+    {
+        get
+        {
+            if (BoLocalState == null)
+                this.Commit(() => BoLocalState = this.FindOrMakeLocalState());
+
+            return BoLocalState;
+        }
+    }
+
     public string DisplayDate => DateReported?.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture) ?? "";
@@ -132,7 +144,10 @@ public partial class IncidentRecord :
 
     public IncidentRecord() { }
 
-    public IncidentRecord(IncidentJson json, string currentUsername = null)
+    public IncidentRecord(
+        IncidentJson json,
+        BoLocalState localState = null,
+        string currentUsername = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -185,6 +200,8 @@ public partial class IncidentRecord :
         Status = json.Status;
         EntitySubtype = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
+        BoLocalState = localState;
+        BoLocalState?.SetBusinessObject(this);
     }
 
     public IncidentJson ToApiJson(string dateFormat = "s")
@@ -238,13 +255,14 @@ public partial class IncidentRecord :
 
     public static List<IncidentRecord> FromApiJsonArray(
         IEnumerable<IncidentJson> jsonArray,
+        BoLocalState localState,
         string currentUsername = null)
     {
         List<IncidentRecord> outList = [];
 
         if (jsonArray != null)
             foreach (var jsonItem in jsonArray)
-                outList.Add(new IncidentRecord(jsonItem, currentUsername));
+                outList.Add(new IncidentRecord(jsonItem, localState, currentUsername));
 
         return outList;
     }
@@ -281,11 +299,12 @@ public partial class IncidentRecord :
         IEnumerable<IncidentJson> newOfficeIncidents,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
-        bool isPersonalCaseload)
+        bool isPersonalCaseload,
+        BoLocalState localState)
     {
         return SynchronizeAsync(
             realm,
-            FromApiJsonArray(newOfficeIncidents, currentUsername),
+            FromApiJsonArray(newOfficeIncidents, localState, currentUsername),
             userIgnoredPrefs,
             currentUsername,
             isPersonalCaseload);
@@ -303,6 +322,7 @@ public partial class IncidentRecord :
             SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, incident.Id);
             Attachment.RemoveByParent(realm, EntityType.Incident, incident.Id, userIgnoredPrefs);
 
+            realm.Remove(incident.BoLocalState);
             realm.Remove(incident);
         }
     }

@@ -98,6 +98,18 @@ public partial class CaseRecord :
 
     public string WorkQueue { get; set; }
 
+    private BoLocalState BoLocalState { get; set; }
+    public BoLocalState LocalState
+    {
+        get
+        {
+            if (BoLocalState == null)
+                this.Commit(() => BoLocalState = this.FindOrMakeLocalState());
+
+            return BoLocalState;
+        }
+    }
+
     public string DisplayDate => CreatedDate.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture);
@@ -110,7 +122,10 @@ public partial class CaseRecord :
 
     public CaseRecord() { }
 
-    public CaseRecord(CaseJson caseJson, string currentUsername = null)
+    public CaseRecord(
+        CaseJson caseJson,
+        BoLocalState localState = null,
+        string currentUsername = null)
     {
         Id = caseJson.Id;
         CreatedBy = caseJson.CreatedBy;
@@ -155,6 +170,8 @@ public partial class CaseRecord :
         Status = caseJson.Status;
         EntitySubtype = caseJson.Type.ParseEntitySubtype();
         WorkQueue = caseJson.WorkQueue;
+        BoLocalState = localState;
+        BoLocalState?.SetBusinessObject(this);
     }
 
     public CaseJson ToApiJson(string dateFormat = "s")
@@ -196,13 +213,14 @@ public partial class CaseRecord :
 
     public static List<CaseRecord> FromApiJsonArray(
         IEnumerable<CaseJson> jsonArray,
+        BoLocalState localState,
         string currentUsername = null)
     {
         List<CaseRecord> outList = [];
 
         if (jsonArray != null)
             foreach (var jsonItem in jsonArray)
-                outList.Add(new CaseRecord(jsonItem, currentUsername));
+                outList.Add(new CaseRecord(jsonItem, localState, currentUsername));
 
         return outList;
     }
@@ -234,17 +252,18 @@ public partial class CaseRecord :
             realm.Upsert(incomingCases);
         });
     }
-
+    
     public static Task SynchronizeAsync(
         Realm realm,
         IEnumerable<CaseJson> newOfficeCases,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
-        bool isPersonalCaseload)
+        bool isPersonalCaseload,
+        BoLocalState localState)
     {
         return SynchronizeAsync(
             realm,
-            FromApiJsonArray(newOfficeCases, currentUsername),
+            FromApiJsonArray(newOfficeCases, localState, currentUsername),
             userIgnoredPrefs,
             currentUsername,
             isPersonalCaseload);
@@ -263,6 +282,7 @@ public partial class CaseRecord :
             SupportNetworkItem.RemoveByParent(realm, EntityType.Case, @case.Id);
             Attachment.RemoveByParent(realm, EntityType.Case, @case.Id, userIgnoredPrefs);
 
+            realm.Remove(@case.BoLocalState);
             realm.Remove(@case);
         }
     }
