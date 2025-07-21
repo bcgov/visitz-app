@@ -17,7 +17,6 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.SegmentedButtons;
 using Visitz.Views.User;
 using VisitzModel.Extensions;
-using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 
@@ -114,7 +113,7 @@ namespace Visitz.Views.Caseload
             SetupOfficeNames();
             SessionInfo.OfficesChanged += SessionInfo_OfficesChanged;
 
-            await SetupRealm();
+            await SetupCaseloadList();
 
             int sortPrefIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
@@ -149,11 +148,13 @@ namespace Visitz.Views.Caseload
             });
         }
 
-        private async Task SetupRealm()
+        private async Task SetupCaseloadList()
         {
+            await IndicatorHelper.InitAsync();
+
             Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            Lister = new CaseloadLister(Realm, list =>
+            Lister = new CaseloadLister(Realm, IndicatorHelper, list =>
             {
                 list = ApplySorting(list);
                 list = ApplySearchQuery(list);
@@ -163,8 +164,6 @@ namespace Visitz.Views.Caseload
             });
 
             Lister.Records.CollectionChanged += Records_CollectionChanged;
-
-            await IndicatorHelper.InitAsync();
         }
 
         private void Records_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -288,11 +287,7 @@ namespace Visitz.Views.Caseload
             ShowEmptyCaseloadMessage = false;
         }
 
-        [RelayCommand]
-        public static void BusinessObjectSelected(IBusinessObject record)
-        {
-            StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(record));
-        }
+        
 
         [RelayCommand]
         public static async Task OpenSessionPage()

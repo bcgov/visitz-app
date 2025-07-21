@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<base:BaseContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:caseloadModels="clr-namespace:VisitzModel.Models.Caseload;assembly=VisitzModel"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Caseload.CaseloadItemView"
-    x:DataType="caseloadModels:IBusinessObject">
+    x:DataType="caseload:CaseloadItemViewModel">
 
-    <ContentView.GestureRecognizers>
+    <base:BaseContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+    </base:BaseContentView.Resources>
+
+    <base:BaseContentView.GestureRecognizers>
         <TapGestureRecognizer 
-            Command="{Binding Source={RelativeSource AncestorType={x:Type caseload:CaseloadViewModel}},
-                Path=BusinessObjectSelectedCommand}"
-            CommandParameter="{Binding .}"/>
-    </ContentView.GestureRecognizers>
+            Command="{Binding BusinessObjectSelectedCommand}"
+            CommandParameter="{Binding BusinessObject}"/>
+    </base:BaseContentView.GestureRecognizers>
 
     <VerticalStackLayout>
         <Grid
@@ -36,30 +43,44 @@
 				Grid.Column="0"
 				Margin="-1,-10,0,-10"
 				Color="{StaticResource BC_Gold}"
-				IsVisible="False" />
+				IsVisible="{Binding ShowDraftIndicator}" />
 
-			<Label 
+			<Label
                 Grid.Column="1"
                 HorizontalOptions="StartAndExpand"
                 VerticalOptions="Center"
-                Text="{Binding DisplayName}"
+                Text="{Binding BusinessObject.DisplayName}"
                 FontSize="16"
                 LineBreakMode="TailTruncation"/>
 
-            <Label 
+            <Label
                 x:Name="OpenDateLabel"
                 Grid.Column="2"
-                Text="{Binding DisplayDate}"
+                Text="{Binding BusinessObject.DisplayDate}"
                 TextColor="{StaticResource BC_InputControlsTextColor}"
                 FontSize="12"
                 FontFamily="BCSansRegular"
+                IsVisible="{Binding ShowDownloadIcon}"
                 VerticalOptions="Center" />
 
-			<tagview:EntityTypeBadge Grid.Column="3" />
+            <Label
+                Grid.Column="2"
+                IsVisible="{Binding ShowDownloadIcon,
+                    Converter={StaticResource BoolNegationConverter}}"
+                TextColor="{StaticResource BC_InputControlsTextColor}"
+                FontSize="20"
+                Text="{Static icons:MaterialIcons.Download}"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                VerticalOptions="Center" />
+
+            <tagview:EntityTypeBadge
+                Grid.Column="3"
+                EntityType="{Binding BusinessObject.EntityType}"
+                EntitySubtype="{Binding BusinessObject.EntitySubtype}" />
         </Grid>
         
         <BoxView
             Color="{StaticResource Gray200}"
             HeightRequest="0.5" />
     </VerticalStackLayout>
-</ContentView>
+</base:BaseContentView>

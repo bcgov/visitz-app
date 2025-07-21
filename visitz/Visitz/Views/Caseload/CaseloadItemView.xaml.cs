@@ -1,49 +1,91 @@
+using Microsoft.Extensions.Logging;
+using System.ComponentModel;
+using Visitz.Views.BaseClasses;
 using VisitzModel.Models.Caseload;
-using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.Caseload;
 
-public partial class CaseloadItemView : ContentView
+#nullable enable
+
+public partial class CaseloadItemView : BaseContentView
 {
-    public static readonly BindableProperty DraftedItemsProperty = BindableProperty.Create(
-        nameof(DraftedItems),
-        typeof(HashSet<(string, EntityType)>),
-        typeof(CaseloadItemView),
-        propertyChanged: (boundObj, oldVal, newVal) =>
-        {
-            (boundObj as CaseloadItemView).OnBindingContextChanged();
-        });
+    DraftIndicatorHelper? IndicatorHelper { get; set; }
 
-    public HashSet<(string, EntityType)> DraftedItems
-    {
-        get => (HashSet<(string, EntityType)>)GetValue(DraftedItemsProperty);
-        set => SetValue(DraftedItemsProperty, value);
-    }
+    CaseloadItemViewModel? Previous { get; set; }
 
-    public CaseloadItemView()
+    public CaseloadItemView() : base()
     {
         InitializeComponent();
+    }
+
+    protected override ILogger<BaseContentView> MakeLogger()
+    {
+        return ServiceProvider.GetService<ILogger<CaseloadItemView>>();
     }
 
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
 
-        if (BindingContext is IBusinessObject bobj && bobj.IsValid)
-            ApplyBusinessObject(bobj);
+        if (BindingContext is CaseloadItemViewModel vm)
+        {
+            TryDetachBusinessObject();
+
+            vm.UpdateDraftIndicatorVisibility();
+            vm.UpdateDownloadIconVisibility();
+
+            Attach(vm);
+        }
     }
 
-    private void ApplyBusinessObject(IBusinessObject businessObject)
+    void Attach(CaseloadItemViewModel vm)
     {
-        OpenDateLabel.IsVisible = businessObject.DisplayDate?.Length > 0;
+        vm.BusinessObject.LocalState.PropertyChanged += LocalState_PropertyChanged;
+        Previous = vm;
 
-        if (DraftedItems != null)
+        if (IndicatorHelper == null)
         {
-            // TODO Remove v1Tuple when fully using Row IDs
-            var v1Tuple = (businessObject.FileNumber, businessObject.EntityType);
-            var v2Tuple = (businessObject.Id, businessObject.EntityType);
-
-            DraftIndicator.IsVisible = DraftedItems.Contains(v1Tuple) || DraftedItems.Contains(v2Tuple);
+            IndicatorHelper = vm.IndicatorHelper;
+            IndicatorHelper.PropertyChanged += IndicatorHelper_PropertyChanged;
         }
+    }
+
+    void TryDetachBusinessObject()
+    {
+        if (Previous != null)
+            Previous.BusinessObject.LocalState.PropertyChanged -= LocalState_PropertyChanged;
+    }
+
+    void IndicatorHelper_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    { 
+        if (e.PropertyName == nameof(DraftIndicatorHelper.DraftedItems)
+            && BindingContext is CaseloadItemViewModel vm)
+        {
+            vm.UpdateDraftIndicatorVisibility();
+        }
+    }
+
+    private void LocalState_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(BoLocalState.ShouldDownloadDuringRefresh)
+            && BindingContext is CaseloadItemViewModel vm)
+        {
+            vm.UpdateDownloadIconVisibility();
+        }
+    }
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            if (IndicatorHelper != null)
+                IndicatorHelper.PropertyChanged -= IndicatorHelper_PropertyChanged;
+
+            TryDetachBusinessObject();
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 }

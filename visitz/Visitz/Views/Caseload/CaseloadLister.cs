@@ -23,14 +23,19 @@ public partial class CaseloadLister : ObservableObject, IDisposable
     readonly List<IncidentRecord> incidents = [];
 
     [ObservableProperty]
-    public ObservableCollection<IBusinessObject> records = [];
+    public ObservableCollection<CaseloadItemViewModel> records = [];
+
+    [ObservableProperty]
+    public DraftIndicatorHelper indicatorHelper;
 
     public CaseloadLister(
         Realm realm,
+        DraftIndicatorHelper indicatorHelper,
         Func<IEnumerable<IBusinessObject>, IEnumerable<IBusinessObject>> filter)
     {
         Realm = realm;
         Filter = filter;
+        IndicatorHelper = indicatorHelper;
         Setup();
     }
 
@@ -72,7 +77,7 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         combined = Filter(combined);
 
         foreach (var record in combined)
-            Records.Add(record);
+            Records.Add(new CaseloadItemViewModel(IndicatorHelper, record));
     }
 
     static void UpdateItems<T>(
@@ -103,6 +108,9 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         {
             if (disposing)
                 queryMap?.Dispose();
+
+            foreach (var item in Records)
+                item?.Dispose();
 
             disposedValue = true;
         }
