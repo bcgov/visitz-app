@@ -54,7 +54,7 @@ public partial class CaseRecord :
     public IList<string> Assignees { get; }
 
     public string DisplayAssignees => Assignees.Any()
-        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned).Trim()
+        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)?.Trim()
         : AssignedTo;
 
     public string Caseload { get; set; }
