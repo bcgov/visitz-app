@@ -170,7 +170,7 @@ public partial class CaseRecord :
         Status = caseJson.Status;
         EntitySubtype = caseJson.Type.ParseEntitySubtype();
         WorkQueue = caseJson.WorkQueue;
-        BoLocalState = localState;
+        BoLocalState = localState?.ShallowCopy();
         BoLocalState?.SetBusinessObject(this);
     }
 

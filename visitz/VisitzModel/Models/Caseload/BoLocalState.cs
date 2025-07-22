@@ -45,4 +45,12 @@ public partial class BoLocalState : IRealmObject
         else
             throw new InvalidOperationException($"'{businessObject.GetType()}' not supported");
     }
+
+    public BoLocalState ShallowCopy()
+    {
+        return new()
+        {
+            ShouldDownloadDuringRefresh = ShouldDownloadDuringRefresh,
+        };
+    }
 }

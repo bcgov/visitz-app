@@ -184,7 +184,7 @@ public partial class MemoRecord :
         Status = json.Status;
         TypeOfCaller = json.TypeOfCaller;
         Urgent = json.Urgent;
-        BoLocalState = localState;
+        BoLocalState = localState?.ShallowCopy();
         BoLocalState?.SetBusinessObject(this);
     }
 

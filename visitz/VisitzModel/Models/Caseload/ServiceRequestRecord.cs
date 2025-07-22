@@ -171,7 +171,7 @@ public partial class ServiceRequestRecord :
         Status = json.Status;
         EntitySubtype = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
-        BoLocalState = localState;
+        BoLocalState = localState?.ShallowCopy();
         BoLocalState?.SetBusinessObject(this);
     }
 
