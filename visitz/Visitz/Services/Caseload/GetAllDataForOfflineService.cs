@@ -1,6 +1,3 @@
-using Oidc;
-using Realms;
-using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -214,8 +211,6 @@ namespace Visitz.Services.Caseload
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.AttachmentMetadata, ex));
             }
-
-            await GetPartialAttachments(all, exceptions);
         }
 
         private async Task GetPartialAttachments(
