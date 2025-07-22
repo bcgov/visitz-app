@@ -143,14 +143,18 @@ public class GetAllDataForRecordService(
     {
         try
         {
-            var startMessage = GetSupportNetworkService.MakeStartMessage(new(BusinessObject));
-            return ServiceHandler.TryRunServiceAsync(startMessage);
+            if (BusinessObject.EntityType != EntityType.Memo)
+            {
+                var startMessage = GetSupportNetworkService.MakeStartMessage(new(BusinessObject));
+                return ServiceHandler.TryRunServiceAsync(startMessage);
+            }
         }
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.SupportNetwork, ex));
             return Task.FromResult(Result.Error);
         }
+        return Task.FromResult(Result.NoOperation);
     }
 
     Task GetAttachments(List<Exception> exceptions)
