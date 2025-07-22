@@ -32,7 +32,15 @@
 				Grid.Column="1"
 				VerticalOptions="Center"
 				Spacing="5">
-				<tagview:EntityTypeBadge BindingContext="{Binding BusinessObject}" />
+                
+                <ActivityIndicator
+                    HeightRequest="20"
+                    WidthRequest="20"
+                    VerticalOptions="Center"
+                    IsRunning="{Binding ShowDownloadActivity}"
+                    IsVisible="{Binding ShowDownloadActivity}" />
+                
+                <tagview:EntityTypeBadge BindingContext="{Binding BusinessObject}" />
 				
 				<Label
 					FontSize="{StaticResource TitleMediumFontSize}"

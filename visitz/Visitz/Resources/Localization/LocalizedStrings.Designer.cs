@@ -712,6 +712,27 @@ namespace Visitz.Resources.Localization {
             }
         }
 
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download error.
+        /// </summary>
+        public static string DownloadError {
+            get {
+                return ResourceManager.GetString("DownloadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while downloading information for {0}.
+        ///
+        ///You can view the details of this error or try again later..
+        /// </summary>
+        public static string DownloadRecordErrorMessage {
+            get {
+                return ResourceManager.GetString("DownloadRecordErrorMessage", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Drafts.
         /// </summary>

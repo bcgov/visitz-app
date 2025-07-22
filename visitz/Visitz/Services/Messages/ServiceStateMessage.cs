@@ -14,6 +14,8 @@ namespace Visitz.Services
 
         public object ReturnPayload { get; set; }
 
+        public bool IsRunning => Status == VisitzService.State.Running;
+
         public bool FinishedSuccess =>
             Status == VisitzService.State.Stopped
             && Result == VisitzService.Result.Successful;
