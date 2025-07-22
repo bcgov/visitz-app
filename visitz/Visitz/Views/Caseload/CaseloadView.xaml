@@ -171,7 +171,8 @@
 				<CollectionView
                     ItemsSource="{Binding Lister.Records}"
                     SelectionMode="None"
-                    ItemSizingStrategy="MeasureFirstItem">
+                    ItemSizingStrategy="MeasureFirstItem"
+                    ItemsUpdatingScrollMode="KeepScrollOffset">
 					
                     <CollectionView.EmptyView>
                         <VerticalStackLayout
