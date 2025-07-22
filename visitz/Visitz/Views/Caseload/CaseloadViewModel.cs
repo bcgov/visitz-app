@@ -287,8 +287,6 @@ namespace Visitz.Views.Caseload
             ShowEmptyCaseloadMessage = false;
         }
 
-        
-
         [RelayCommand]
         public static async Task OpenSessionPage()
         {

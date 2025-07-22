@@ -60,13 +60,13 @@
                 TextColor="{StaticResource BC_InputControlsTextColor}"
                 FontSize="12"
                 FontFamily="BCSansRegular"
-                IsVisible="{Binding ShowDownloadIcon}"
+                IsVisible="{Binding ShowDownloadIcon,
+                    Converter={StaticResource BoolNegationConverter}}"
                 VerticalOptions="Center" />
 
             <Label
                 Grid.Column="2"
-                IsVisible="{Binding ShowDownloadIcon,
-                    Converter={StaticResource BoolNegationConverter}}"
+                IsVisible="{Binding ShowDownloadIcon}"
                 TextColor="{StaticResource BC_InputControlsTextColor}"
                 FontSize="20"
                 Text="{Static icons:MaterialIcons.Download}"

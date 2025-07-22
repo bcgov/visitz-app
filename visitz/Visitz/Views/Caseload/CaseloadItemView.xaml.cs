@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
+using Visitz.Services;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models.Caseload;
 
@@ -32,7 +33,7 @@ public partial class CaseloadItemView : BaseContentView
             TryDetachBusinessObject();
 
             vm.UpdateDraftIndicatorVisibility();
-            vm.UpdateDownloadIconVisibility();
+            vm.UpdateStateVisibility();
 
             Attach(vm);
         }
@@ -70,7 +71,7 @@ public partial class CaseloadItemView : BaseContentView
         if (e.PropertyName == nameof(BoLocalState.ShouldDownloadDuringRefresh)
             && BindingContext is CaseloadItemViewModel vm)
         {
-            vm.UpdateDownloadIconVisibility();
+            vm.UpdateStateVisibility();
         }
     }
 

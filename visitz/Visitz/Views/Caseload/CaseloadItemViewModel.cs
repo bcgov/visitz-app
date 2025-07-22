@@ -2,7 +2,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 
@@ -31,7 +33,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         IndicatorHelper = indicatorHelper;
         BusinessObject = businessObject;
 
-        UpdateDownloadIconVisibility();
+        UpdateStateVisibility();
         StartInitAsync();
     }
 
@@ -55,14 +57,25 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             ShowDraftIndicator = false;
     }
 
-    public void UpdateDownloadIconVisibility()
+    public void UpdateStateVisibility()
     {
-        ShowDownloadIcon = BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+        bool isntMarkedForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+        ShowDownloadIcon = isntMarkedForDownload;
     }
 
     [RelayCommand]
-    public static void BusinessObjectSelected(IBusinessObject record)
+    public void BusinessObjectSelected(IBusinessObject record)
     {
         StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(record));
+
+        bool markForDownload = !record.LocalState.ShouldDownloadDuringRefresh;
+        if (markForDownload)
+        {
+            record.Commit(() =>
+                record.LocalState.ShouldDownloadDuringRefresh = true);
+
+            var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
+            WeakReferenceMessenger.Default.Send(msg);
+        }
     }
 }
