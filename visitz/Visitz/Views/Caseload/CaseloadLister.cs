@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Oidc;
 using Realms;
 using System.Collections.ObjectModel;
 using VisitzModel.Models;
@@ -13,6 +14,8 @@ public partial class CaseloadLister : ObservableObject, IDisposable
     Realm Realm { get; }
 
     Func<IEnumerable<IBusinessObject>, IEnumerable<IBusinessObject>> Filter { get; }
+
+    OidcSessionInfo SessionInfo { get; }
 
     readonly ObservableRealmQueryMap queryMap = new();
 
@@ -31,10 +34,12 @@ public partial class CaseloadLister : ObservableObject, IDisposable
     public CaseloadLister(
         Realm realm,
         DraftIndicatorHelper indicatorHelper,
+        OidcSessionInfo sessionInfo,
         Func<IEnumerable<IBusinessObject>, IEnumerable<IBusinessObject>> filter)
     {
         Realm = realm;
         Filter = filter;
+        SessionInfo = sessionInfo;
         IndicatorHelper = indicatorHelper;
         Setup();
     }
@@ -80,7 +85,7 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         combined = Filter(combined);
 
         foreach (var record in combined)
-            Records.Add(new CaseloadItemViewModel(IndicatorHelper, record));
+            Records.Add(new CaseloadItemViewModel(IndicatorHelper, record, SessionInfo));
     }
 
     static void UpdateItems<T>(

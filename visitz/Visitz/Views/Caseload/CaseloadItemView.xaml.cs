@@ -3,7 +3,6 @@ using System.ComponentModel;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Caseload;
 
@@ -14,8 +13,6 @@ public partial class CaseloadItemView : BaseContentView
     readonly ServiceHandler serviceHandler = ServiceProvider.GetService<ServiceHandler>();
 
     DraftIndicatorHelper? IndicatorHelper { get; set; }
-
-    CaseloadItemViewModel? Previous { get; set; }
 
     public CaseloadItemView() : base()
     {
@@ -36,31 +33,21 @@ public partial class CaseloadItemView : BaseContentView
 
         if (BindingContext is CaseloadItemViewModel vm)
         {
-            TryDetachBusinessObject();
-
             vm.UpdateDraftIndicatorVisibility();
             vm.UpdateStateVisibility();
+            vm.UpdateIsAssigned();
 
-            Attach(vm);
+            TryAttach(vm);
         }
     }
 
-    void Attach(CaseloadItemViewModel vm)
+    void TryAttach(CaseloadItemViewModel vm)
     {
-        vm.BusinessObject.LocalState.PropertyChanged += LocalState_PropertyChanged;
-        Previous = vm;
-
         if (IndicatorHelper == null)
         {
             IndicatorHelper = vm.IndicatorHelper;
             IndicatorHelper.PropertyChanged += IndicatorHelper_PropertyChanged;
         }
-    }
-
-    void TryDetachBusinessObject()
-    {
-        if (Previous != null)
-            Previous.BusinessObject.LocalState.PropertyChanged -= LocalState_PropertyChanged;
     }
 
     void IndicatorHelper_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -71,22 +58,6 @@ public partial class CaseloadItemView : BaseContentView
                 && BindingContext is CaseloadItemViewModel vm)
             {
                 vm.UpdateDraftIndicatorVisibility();
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, ex.Message);
-        }
-    }
-
-    void LocalState_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        try
-        {
-            if (e.PropertyName == nameof(BoLocalState.ShouldDownloadDuringRefresh)
-                && BindingContext is CaseloadItemViewModel vm)
-            {
-                vm.UpdateStateVisibility();
             }
         }
         catch (Exception ex)
@@ -128,8 +99,6 @@ public partial class CaseloadItemView : BaseContentView
         {
             if (IndicatorHelper != null)
                 IndicatorHelper.PropertyChanged -= IndicatorHelper_PropertyChanged;
-
-            TryDetachBusinessObject();
 
             serviceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
 

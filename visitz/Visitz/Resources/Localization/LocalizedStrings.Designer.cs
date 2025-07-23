@@ -1820,6 +1820,32 @@ namespace Visitz.Resources.Localization {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Remove from device.
+        /// </summary>
+        public static string RemoveFromDevice {
+            get {
+                return ResourceManager.GetString("RemoveFromDevice", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t remove {0} &apos;{1}&apos;—it is directly assigned to you..
+        /// </summary>
+        public static string RemoveFromDeviceErrorAssigned {
+            get {
+                return ResourceManager.GetString("RemoveFromDeviceErrorAssigned", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to Removing this record from your device means you will not be able to view its information unless you are online and explicitly reopen it from the app.
+        ///
+        ///Are you sure you want to remove {0} &apos;{1}&apos; from your device?.
+        /// </summary>
+        public static string RemoveFromDeviceMessage {
+            get {
+                return ResourceManager.GetString("RemoveFromDeviceMessage", resourceCulture);
+            }
+        }
+        /// <summary>
         ///   Looks up a localized string similar to Rename.
         /// </summary>
         public static string Rename {
@@ -2441,6 +2467,14 @@ namespace Visitz.Resources.Localization {
             }
         }
 
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to remove.
+        /// </summary>
+        public static string UnableToRemove {
+            get {
+                return ResourceManager.GetString("UnableToRemove", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to You aren&apos;t authorized to use this feature..
         /// </summary>

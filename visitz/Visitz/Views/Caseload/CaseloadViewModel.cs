@@ -185,7 +185,7 @@ namespace Visitz.Views.Caseload
 
             Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            Lister = new CaseloadLister(Realm, IndicatorHelper, list =>
+            Lister = new CaseloadLister(Realm, IndicatorHelper, SessionInfo, list =>
             {
                 list = ApplySorting(list);
                 list = ApplySearchQuery(list);

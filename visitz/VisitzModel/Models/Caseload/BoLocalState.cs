@@ -1,4 +1,5 @@
 using Realms;
+using VisitzModel.Extensions;
 
 namespace VisitzModel.Models.Caseload;
 
@@ -22,6 +23,16 @@ public partial class BoLocalState : IRealmObject
     public ServiceRequestRecord? ServiceRequest { get; set; }
 
     public bool ShouldDownloadDuringRefresh { get; set; } = false;
+
+    public bool ShouldDownloadDuringRefreshBinding
+    {
+        get => IsValid && ShouldDownloadDuringRefresh;
+        set
+        {
+            this.Commit(() => ShouldDownloadDuringRefresh = value);
+            RaisePropertyChanged(nameof(ShouldDownloadDuringRefresh));
+        }
+    }
 
     public BoLocalState() { }
 

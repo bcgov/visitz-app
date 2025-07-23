@@ -2,11 +2,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Oidc;
+using Visitz.FontIcons;
+using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 
@@ -16,7 +18,15 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadItemViewModel : VisitzViewModel
 {
+    public static readonly FontImageSource RemoveImageSource = new()
+    {
+        FontFamily = FluentIcons.FontConfig.FontFamily,
+        Glyph = FluentIcons.Subtract_circle_20_regular,
+    };
+
     readonly ServiceHandler serviceHandler = ServiceProvider.GetService<ServiceHandler>();
+
+    OidcSessionInfo SessionInfo { get; }
 
     [ObservableProperty]
     public IBusinessObject businessObject;
@@ -36,12 +46,17 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     [ObservableProperty]
     public bool showProgressIndicator;
 
+    [ObservableProperty]
+    public bool canRemoveFromDevice;
+
     public CaseloadItemViewModel(
         DraftIndicatorHelper indicatorHelper,
-        IBusinessObject businessObject) : base()
+        IBusinessObject businessObject,
+        OidcSessionInfo sessionInfo) : base()
     {
         IndicatorHelper = indicatorHelper;
         BusinessObject = businessObject;
+        SessionInfo = sessionInfo;
 
         UpdateStateVisibility();
         StartInitAsync();
@@ -94,6 +109,12 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         });
     }
 
+    public void UpdateIsAssigned()
+    {
+        CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
+            && BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+    }
+
     [RelayCommand]
     public void BusinessObjectSelected(IBusinessObject record)
     {
@@ -102,11 +123,48 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         bool markForDownload = !record.LocalState.ShouldDownloadDuringRefresh;
         if (markForDownload)
         {
-            record.Commit(() =>
-                record.LocalState.ShouldDownloadDuringRefresh = true);
+            record.LocalState.ShouldDownloadDuringRefreshBinding = true;
 
-            var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
+            var msg = GetAllDataForRecordService.MakeStartMessage(record);
             WeakReferenceMessenger.Default.Send(msg);
+
+            UpdateStateVisibility();
+            UpdateIsAssigned();
+        }
+    }
+
+    [RelayCommand]
+    public async Task UnloadDependentData(IBusinessObject record)
+    {
+        if (record.IsAssigned(SessionInfo.Idir))
+        {
+            string assignedMsg = string.Format(
+                LocalizedStrings.RemoveFromDeviceErrorAssigned,
+                BusinessObject.EntityType,
+                BusinessObject.DisplayName);
+
+            await Navigator.CurrentOpenPage.DisplayAlert(
+                LocalizedStrings.UnableToRemove,
+                assignedMsg,
+                LocalizedStrings.Cancel);
+            return;
+        }
+
+        string message = string.Format(LocalizedStrings.RemoveFromDeviceMessage,
+            BusinessObject.EntityType,
+            BusinessObject.DisplayName);
+
+        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
+            LocalizedStrings.RemoveFromDevice,
+            message,
+            LocalizedStrings.RemoveFromDevice,
+            LocalizedStrings.Cancel);
+
+        if (shouldRemove)
+        {
+            record.LocalState.ShouldDownloadDuringRefreshBinding = false;
+            UpdateStateVisibility();
+            UpdateIsAssigned();
         }
     }
 }

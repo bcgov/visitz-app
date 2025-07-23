@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-    xmlns:converters="clr-namespace:Visitz.Converters"
-    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:caseloadModels="clr-namespace:VisitzModel.Models.Caseload;assembly=VisitzModel"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Caseload.CaseloadItemView"
     x:DataType="caseload:CaseloadItemViewModel">
@@ -24,69 +25,91 @@
             CommandParameter="{Binding BusinessObject}"/>
     </base:BaseContentView.GestureRecognizers>
 
-    <VerticalStackLayout>
-        <Grid
-            Padding="0,10,10,10"
-            RowDefinitions="*"
-            RowSpacing="5"
-            ColumnSpacing="10">
+    <SwipeView>
+        <SwipeView.LeftItems>
+            <SwipeItem
+                IsEnabled="{Binding CanRemoveFromDevice}"
+                Text="{local:Localize RemoveFromDevice}"
+                IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
+                Command="{Binding UnloadDependentDataCommand}"
+                CommandParameter="{Binding BusinessObject}" />
+        </SwipeView.LeftItems>
 
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
-				<ColumnDefinition Width="70*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
+        <VerticalStackLayout>
+            <FlyoutBase.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem
+                        IsEnabled="{Binding CanRemoveFromDevice}"
+                        Text="{local:Localize RemoveFromDevice}"
+                        IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
+                        Command="{Binding UnloadDependentDataCommand}"
+                        CommandParameter="{Binding BusinessObject}" />
+                </MenuFlyout>
+            </FlyoutBase.ContextFlyout>
 
-			<BoxView
-				x:Name="DraftIndicator"
-				Grid.Column="0"
-				Margin="-1,-10,0,-10"
-				Color="{StaticResource BC_Gold}"
-				IsVisible="{Binding ShowDraftIndicator}" />
+            <Grid
+                Padding="0,10,10,10"
+                RowDefinitions="*"
+                RowSpacing="5"
+                ColumnSpacing="10">
 
-			<Label
-                Grid.Column="1"
-                HorizontalOptions="StartAndExpand"
-                VerticalOptions="Center"
-                Text="{Binding BusinessObject.DisplayName}"
-                FontSize="16"
-                LineBreakMode="TailTruncation"/>
+			    <Grid.ColumnDefinitions>
+				    <ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
+				    <ColumnDefinition Width="70*" />
+				    <ColumnDefinition Width="Auto" />
+				    <ColumnDefinition Width="Auto" />
+			    </Grid.ColumnDefinitions>
 
-            <Label
-                x:Name="OpenDateLabel"
-                Grid.Column="2"
-                Text="{Binding BusinessObject.DisplayDate}"
-                TextColor="{StaticResource BC_InputControlsTextColor}"
-                FontSize="12"
-                FontFamily="BCSansRegular"
-                IsVisible="{Binding ShowDate}"
-                VerticalOptions="Center" />
+			    <BoxView
+				    x:Name="DraftIndicator"
+				    Grid.Column="0"
+				    Margin="-1,-10,0,-10"
+				    Color="{StaticResource BC_Gold}"
+				    IsVisible="{Binding ShowDraftIndicator}" />
 
-            <Label
-                Grid.Column="2"
-                IsVisible="{Binding ShowDownloadIcon}"
-                TextColor="{StaticResource BC_InputControlsTextColor}"
-                FontSize="20"
-                Text="{Static icons:MaterialIcons.Download}"
-                FontFamily="MaterialIconsRoundedUnfilled"
-                VerticalOptions="Center" />
+			    <Label
+                    Grid.Column="1"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Center"
+                    Text="{Binding BusinessObject.DisplayName}"
+                    FontSize="16"
+                    LineBreakMode="TailTruncation"/>
 
-            <ActivityIndicator
-                Grid.Column="2"
-                HeightRequest="20"
-                WidthRequest="20"
-                IsRunning="{Binding ShowProgressIndicator}"
-                IsVisible="{Binding ShowProgressIndicator}" />
+                <Label
+                    x:Name="OpenDateLabel"
+                    Grid.Column="2"
+                    Text="{Binding BusinessObject.DisplayDate}"
+                    TextColor="{StaticResource BC_InputControlsTextColor}"
+                    FontSize="12"
+                    FontFamily="BCSansRegular"
+                    IsVisible="{Binding ShowDate}"
+                    VerticalOptions="Center" />
 
-            <tagview:EntityTypeBadge
-                Grid.Column="3"
-                EntityType="{Binding BusinessObject.EntityType}"
-                EntitySubtype="{Binding BusinessObject.EntitySubtype}" />
-        </Grid>
+                <Label
+                    Grid.Column="2"
+                    IsVisible="{Binding ShowDownloadIcon}"
+                    TextColor="{StaticResource BC_InputControlsTextColor}"
+                    FontSize="20"
+                    Text="{Static icons:MaterialIcons.Download}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    VerticalOptions="Center" />
+
+                <ActivityIndicator
+                    Grid.Column="2"
+                    HeightRequest="20"
+                    WidthRequest="20"
+                    IsRunning="{Binding ShowProgressIndicator}"
+                    IsVisible="{Binding ShowProgressIndicator}" />
+
+                <tagview:EntityTypeBadge
+                    Grid.Column="3"
+                    EntityType="{Binding BusinessObject.EntityType}"
+                    EntitySubtype="{Binding BusinessObject.EntitySubtype}" />
+            </Grid>
         
-        <BoxView
-            Color="{StaticResource Gray200}"
-            HeightRequest="0.5" />
-    </VerticalStackLayout>
+            <BoxView
+                Color="{StaticResource Gray200}"
+                HeightRequest="0.5" />
+        </VerticalStackLayout>
+    </SwipeView>
 </base:BaseContentView>
