@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Visitz.Services;
+using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -14,6 +16,8 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadItemViewModel : VisitzViewModel
 {
+    readonly ServiceHandler serviceHandler = ServiceProvider.GetService<ServiceHandler>();
+
     [ObservableProperty]
     public IBusinessObject businessObject;
 
@@ -21,10 +25,16 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     public DraftIndicatorHelper indicatorHelper;
 
     [ObservableProperty]
+    public bool showDate;
+
+    [ObservableProperty]
     public bool showDraftIndicator;
 
     [ObservableProperty]
     public bool showDownloadIcon;
+
+    [ObservableProperty]
+    public bool showProgressIndicator;
 
     public CaseloadItemViewModel(
         DraftIndicatorHelper indicatorHelper,
@@ -59,8 +69,29 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
     public void UpdateStateVisibility()
     {
-        bool isntMarkedForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
-        ShowDownloadIcon = isntMarkedForDownload;
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            var state = serviceHandler.GetAnyServiceStateByIdSubstring(BusinessObject.Id);
+            bool isntMarkedForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+
+            if (state == VisitzService.State.Running)
+            {
+                ShowProgressIndicator = true;
+                ShowDownloadIcon = !ShowProgressIndicator;
+            }
+            else if (isntMarkedForDownload)
+            {
+                ShowProgressIndicator = false;
+                ShowDownloadIcon = !ShowProgressIndicator;
+            }
+            else
+            {
+                ShowProgressIndicator = false;
+                ShowDownloadIcon = false;
+            }
+
+            ShowDate = !ShowDownloadIcon && !ShowProgressIndicator;
+        });
     }
 
     [RelayCommand]

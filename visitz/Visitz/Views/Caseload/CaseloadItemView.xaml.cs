@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using Visitz.Services;
+using Visitz.Services.Base;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models.Caseload;
 
@@ -10,6 +11,8 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadItemView : BaseContentView
 {
+    readonly ServiceHandler serviceHandler = ServiceProvider.GetService<ServiceHandler>();
+
     DraftIndicatorHelper? IndicatorHelper { get; set; }
 
     CaseloadItemViewModel? Previous { get; set; }
@@ -17,6 +20,9 @@ public partial class CaseloadItemView : BaseContentView
     public CaseloadItemView() : base()
     {
         InitializeComponent();
+
+        serviceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
+        serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
     }
 
     protected override ILogger<BaseContentView> MakeLogger()
@@ -58,20 +64,60 @@ public partial class CaseloadItemView : BaseContentView
     }
 
     void IndicatorHelper_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    { 
-        if (e.PropertyName == nameof(DraftIndicatorHelper.DraftedItems)
-            && BindingContext is CaseloadItemViewModel vm)
+    {
+        try
         {
-            vm.UpdateDraftIndicatorVisibility();
+            if (e.PropertyName == nameof(DraftIndicatorHelper.DraftedItems)
+                && BindingContext is CaseloadItemViewModel vm)
+            {
+                vm.UpdateDraftIndicatorVisibility();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
         }
     }
 
-    private void LocalState_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    void LocalState_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(BoLocalState.ShouldDownloadDuringRefresh)
-            && BindingContext is CaseloadItemViewModel vm)
+        try
         {
+            if (e.PropertyName == nameof(BoLocalState.ShouldDownloadDuringRefresh)
+                && BindingContext is CaseloadItemViewModel vm)
+            {
+                vm.UpdateStateVisibility();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+        }
+    }
+
+    void ServiceHandler_ServiceStarted(object? sender, string e)
+    {
+        try
+        {
+            if (BindingContext is CaseloadItemViewModel vm)
+                vm.UpdateStateVisibility();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+        }
+    }
+
+    void ServiceHandler_ServiceFinished(object? sender, VisitzService service)
+    {
+        try
+        {
+            if (BindingContext is CaseloadItemViewModel vm)
             vm.UpdateStateVisibility();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
         }
     }
 
@@ -84,6 +130,8 @@ public partial class CaseloadItemView : BaseContentView
                 IndicatorHelper.PropertyChanged -= IndicatorHelper_PropertyChanged;
 
             TryDetachBusinessObject();
+
+            serviceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
 
             disposed = true;
         }

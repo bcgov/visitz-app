@@ -60,8 +60,7 @@
                 TextColor="{StaticResource BC_InputControlsTextColor}"
                 FontSize="12"
                 FontFamily="BCSansRegular"
-                IsVisible="{Binding ShowDownloadIcon,
-                    Converter={StaticResource BoolNegationConverter}}"
+                IsVisible="{Binding ShowDate}"
                 VerticalOptions="Center" />
 
             <Label
@@ -72,6 +71,13 @@
                 Text="{Static icons:MaterialIcons.Download}"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 VerticalOptions="Center" />
+
+            <ActivityIndicator
+                Grid.Column="2"
+                HeightRequest="20"
+                WidthRequest="20"
+                IsRunning="{Binding ShowProgressIndicator}"
+                IsVisible="{Binding ShowProgressIndicator}" />
 
             <tagview:EntityTypeBadge
                 Grid.Column="3"
