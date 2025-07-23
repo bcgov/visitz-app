@@ -125,25 +125,56 @@ namespace Visitz.Views.Caseload
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
-        private void SetupOfficeNames()
+        private void SetupOfficeNames(HashSet<string> newOffices = null)
         {
-            OfficeNames.Clear();
-            OfficeNames.Add(LocalizedStrings.All);
-            OfficeNames.Add(LocalizedStrings.MyCaseload);
+            if (newOffices == null)
+            {
+                OfficeNames.Clear();
+                OfficeNames.Add(LocalizedStrings.All);
+                OfficeNames.Add(LocalizedStrings.MyCaseload);
 
-            foreach (var office in SessionInfo.OfficeNames.ToImmutableSortedSet())
-                OfficeNames.Add(office);
+                foreach (var office in SessionInfo.OfficeNames.AsEnumerable().Order())
+                    OfficeNames.Add(office);
 
-            if (string.IsNullOrWhiteSpace(SelectedOffice)
-                || !OfficeNames.Contains(SelectedOffice))
-                SelectedOffice = OfficeNames[1];
+                SelectedOffice = LocalizedStrings.MyCaseload;
+            }
+            else
+            {
+                var currentSelected = SelectedOffice;
+
+                UpdateSortedOfficeNames(newOffices);
+
+                if (currentSelected != SelectedOffice)
+                {
+                    SelectedOffice = OfficeNames.Contains(currentSelected)
+                        ? currentSelected
+                        : LocalizedStrings.MyCaseload;
+                }
+            }
         }
 
-        private void SessionInfo_OfficesChanged(object sender, OidcSessionInfo e)
+        private void UpdateSortedOfficeNames(HashSet<string> newOffices)
+        {
+            // Skip 2 to account for the "All" and "My caseload" options
+            var current = OfficeNames.Skip(2);
+
+            foreach (var removeOffice in current.Except(newOffices))
+                OfficeNames.Remove(removeOffice);
+
+            foreach (var addOffice in newOffices.Except(current))
+            {
+                int index = OfficeNames.BinarySearch(addOffice);
+                if (index < 0) index = ~index;
+
+                OfficeNames.Insert(index, addOffice);
+            }
+        }
+
+        private void SessionInfo_OfficesChanged(object sender, HashSet<string> offices)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                SetupOfficeNames();
+                SetupOfficeNames(offices);
                 Lister.ApplyWithFilter();
             });
         }

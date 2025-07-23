@@ -25,7 +25,7 @@ namespace Oidc
             return SessionInfo;
         }
 
-        public event EventHandler<OidcSessionInfo> OfficesChanged;
+        public event EventHandler<HashSet<string>> OfficesChanged;
 
         private OidcSessionInfo() { }
 
@@ -85,7 +85,7 @@ namespace Oidc
                     Preferences.Default.Set(OfficesKey, value.Aggregate((accum, officeName) =>
                         accum + OfficesDelimiter + officeName));
 
-                    OfficesChanged?.Invoke(this, this);
+                    OfficesChanged?.Invoke(this, value);
                 }
             }
         }
