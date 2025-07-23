@@ -57,7 +57,10 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         else if (e.Type == typeof(IncidentRecord))
             UpdateItems(incidents, e.Items, e.Changes);
 
-        ApplyWithFilter();
+        if (e.Changes == null
+            || e.Changes?.InsertedIndices.Length > 0
+            || e.Changes?.DeletedIndices.Length > 0)
+            ApplyWithFilter();
     }
 
     public void ApplyWithFilter()
