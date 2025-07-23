@@ -3,20 +3,30 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:familyMembers="clr-namespace:Visitz.Views.Entity.FamilyMembers"
     xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.FamilyMembers.EntityContactsView"
     x:DataType="familyMembers:EntityContactsViewModel">
 
-    <CollectionView
-        ItemSizingStrategy="MeasureFirstItem"
-        ItemsSource="{Binding Contacts}"
-        SelectionMode="None">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="people:IcmContact">
-                <familyMembers:ContactItemView />
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <AbsoluteLayout>
+        <controls:EmptyIcon
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            IsVisible="{Binding IsEmpty}"/>
+
+        <CollectionView
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            ItemSizingStrategy="MeasureFirstItem"
+            ItemsSource="{Binding Contacts}"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="people:IcmContact">
+                    <familyMembers:ContactItemView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </AbsoluteLayout>
 
 </baseClasses:ViewModelContentView>
