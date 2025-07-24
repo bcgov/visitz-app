@@ -175,7 +175,7 @@ namespace Visitz.Views.Caseload
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 SetupOfficeNames(offices);
-                Lister.ApplyWithFilter();
+                Lister?.ApplyWithFilter();
             });
         }
 
