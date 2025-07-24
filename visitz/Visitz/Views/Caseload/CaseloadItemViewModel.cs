@@ -127,10 +127,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
             var msg = GetAllDataForRecordService.MakeStartMessage(record);
             WeakReferenceMessenger.Default.Send(msg);
-
-            UpdateStateVisibility();
-            UpdateIsAssigned();
         }
+
+        UpdateStateVisibility();
+        UpdateIsAssigned();
     }
 
     [RelayCommand]
