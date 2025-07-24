@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
+using Visitz.Extensions;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Views.BaseClasses;
@@ -10,7 +11,7 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadItemView : BaseContentView
 {
-    readonly ServiceHandler serviceHandler = ServiceProvider.GetService<ServiceHandler>();
+    ServiceHandler? serviceHandler = ServiceProvider.GetService<ServiceHandler>();
 
     DraftIndicatorHelper? IndicatorHelper { get; set; }
 
@@ -27,6 +28,30 @@ public partial class CaseloadItemView : BaseContentView
         return ServiceProvider.GetService<ILogger<CaseloadItemView>>();
     }
 
+    protected override void OnParentChanging(ParentChangingEventArgs args)
+    {
+        base.OnParentChanging(args);
+
+        if (args.AttachingToParent()
+            && GetParentCaseloadViewModel(args.NewParent) is CaseloadViewModel vm)
+        {
+            IndicatorHelper = vm.IndicatorHelper;
+            IndicatorHelper.PropertyChanged += IndicatorHelper_PropertyChanged;
+        }
+        else if (args.DetachingFromParent() && IndicatorHelper != null)
+            Dispose();
+    }
+
+    static CaseloadViewModel? GetParentCaseloadViewModel(Element parent)
+    {
+        if (parent == null)
+            return null;
+        else if (parent.BindingContext is CaseloadViewModel vm)
+            return vm;
+        else
+            return GetParentCaseloadViewModel(parent.Parent);
+    }
+
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
@@ -36,17 +61,6 @@ public partial class CaseloadItemView : BaseContentView
             vm.UpdateDraftIndicatorVisibility();
             vm.UpdateStateVisibility();
             vm.UpdateIsAssigned();
-
-            TryAttach(vm);
-        }
-    }
-
-    void TryAttach(CaseloadItemViewModel vm)
-    {
-        if (IndicatorHelper == null)
-        {
-            IndicatorHelper = vm.IndicatorHelper;
-            IndicatorHelper.PropertyChanged += IndicatorHelper_PropertyChanged;
         }
     }
 
@@ -98,9 +112,17 @@ public partial class CaseloadItemView : BaseContentView
         if (!disposed && disposing)
         {
             if (IndicatorHelper != null)
+            {
                 IndicatorHelper.PropertyChanged -= IndicatorHelper_PropertyChanged;
+                IndicatorHelper = null;
+            }
 
-            serviceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
+            if (serviceHandler != null)
+            {
+                serviceHandler.ServiceStarted -= ServiceHandler_ServiceStarted;
+                serviceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
+                serviceHandler = null;
+            }
 
             disposed = true;
         }
