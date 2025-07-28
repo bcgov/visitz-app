@@ -1248,6 +1248,14 @@ namespace Visitz.Resources.Localization {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to To view information for this record you need an internet connection to download it..
+        /// </summary>
+        public static string NeedInternetToViewRecord {
+            get {
+                return ResourceManager.GetString("NeedInternetToViewRecord", resourceCulture);
+            }
+        }
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility needs to confirm you have a valid ICM profile..
         /// </summary>
         public static string NeedToConfirm {

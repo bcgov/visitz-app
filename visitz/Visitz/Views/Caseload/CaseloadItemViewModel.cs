@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
+using Oidc.Network;
 using System.ComponentModel;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
@@ -136,18 +137,28 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    public void BusinessObjectSelected()
+    public async Task BusinessObjectSelected()
     {
-        StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(BusinessObject));
-
         bool markForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+
         if (markForDownload)
         {
+            if (!NetworkHelper.InternetAvailable)
+            {
+                await Navigator.CurrentOpenPage.DisplayAlert(
+                    LocalizedStrings.NoInternet,
+                    LocalizedStrings.NeedInternetToViewRecord,
+                    LocalizedStrings.Ok);
+                return;
+            }
+
             BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = true;
 
             var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
             WeakReferenceMessenger.Default.Send(msg);
-        }
+        } 
+
+        StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(BusinessObject));
 
         UpdateStateVisibility();
         UpdateIsAssigned();
