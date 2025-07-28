@@ -2,6 +2,8 @@ using System.Text;
 using Visitz.Storage;
 using VisitzModel.Models;
 using VisitzModel.Models.InPersonVisits;
+using Oidc;
+
 
 
 #if WINDOWS
@@ -238,5 +240,14 @@ public class DebugOptions
             foreach (var visit in latestVisits)
                 visit.DateOfVisit = targetDateOfVisit;
         });
+    }
+
+    public static async Task ClearOfficeNames()
+    {
+        if (!Enabled)
+            return;
+
+        var info = await OidcSession.GetInfoAsync();
+        info.OfficeNames = [];
     }
 }

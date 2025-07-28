@@ -38,7 +38,7 @@
 				Background="AliceBlue"
 				Text="Session" />
 
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
@@ -72,6 +72,13 @@
 					Grid.Column="1"
 					IsEnabled="{Binding BuildingInDebug}"
 					IsToggled="{Binding SkipLocalAuth}" />
+
+                <Button
+				    StyleClass="DebugLayout"
+				    Grid.Row="4"
+				    Grid.Column="1"
+				    Command="{Binding ClearOfficeNamesCommand}"
+				    Text="Clear office names" />
 			</Grid>
 
 			<Label
