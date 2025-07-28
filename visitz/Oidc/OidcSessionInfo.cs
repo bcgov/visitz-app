@@ -80,7 +80,12 @@ namespace Oidc
             get => new(Preferences.Default.Get(OfficesKey, "").Split(OfficesDelimiter));
             set
             {
-                if (OfficeNames == null || !OfficeNames.Equals(value))
+                if (value.Count == 0)
+                {
+                    Preferences.Default.Remove(OfficesKey);
+                    OfficesChanged?.Invoke(this, value);
+                }
+                else if (OfficeNames == null || !OfficeNames.Equals(value))
                 {
                     Preferences.Default.Set(OfficesKey, value.Aggregate((accum, officeName) =>
                         accum + OfficesDelimiter + officeName));
