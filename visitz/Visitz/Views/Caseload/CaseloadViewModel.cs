@@ -54,6 +54,12 @@ namespace Visitz.Views.Caseload
             LocalizedStrings.Subtype_FamilyServicesInitials,
             MaterialIcons.Folder.GetUnfilledMaterialIcon());
 
+        private static readonly List<string> StartingOfficeFilterOptions =
+        [
+            LocalizedStrings.All,
+            LocalizedStrings.MyCaseload,
+        ];
+
         [ObservableProperty]
         public CaseloadLister lister;
 
@@ -130,8 +136,8 @@ namespace Visitz.Views.Caseload
             if (newOffices == null)
             {
                 OfficeNames.Clear();
-                OfficeNames.Add(LocalizedStrings.All);
-                OfficeNames.Add(LocalizedStrings.MyCaseload);
+                foreach (var starter in StartingOfficeFilterOptions)
+                    OfficeNames.Add(starter);
 
                 foreach (var office in SessionInfo.OfficeNames.AsEnumerable().Order())
                     OfficeNames.Add(office);
@@ -155,19 +161,31 @@ namespace Visitz.Views.Caseload
 
         private void UpdateSortedOfficeNames(HashSet<string> newOffices)
         {
-            // Skip 2 to account for the "All" and "My caseload" options
-            var current = OfficeNames.Skip(2);
+            // Skip to account for always-available options
+            int offset = StartingOfficeFilterOptions.Count;
 
-            foreach (var removeOffice in current.Except(newOffices))
-                OfficeNames.Remove(removeOffice);
+            List<string> current = OfficeNames.Skip(offset).ToList();
 
             foreach (var addOffice in newOffices.Except(current))
             {
-                int index = OfficeNames.BinarySearch(addOffice);
+                int index = current.BinarySearch(addOffice);
                 if (index < 0) index = ~index;
+                int insertPosition = index + offset;
 
-                OfficeNames.Insert(index, addOffice);
+                if (insertPosition < OfficeNames.Count)
+                {
+                    current.Insert(index, addOffice);
+                    OfficeNames.Insert(insertPosition, addOffice);
+                }
+                else
+                {
+                    current.Add(addOffice);
+                    OfficeNames.Add(addOffice);
+                }
             }
+
+            foreach (var removeOffice in current.Except(newOffices))
+                OfficeNames.Remove(removeOffice);
         }
 
         private void SessionInfo_OfficesChanged(object sender, HashSet<string> offices)
