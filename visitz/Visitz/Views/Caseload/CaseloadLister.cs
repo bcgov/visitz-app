@@ -62,10 +62,7 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         else if (e.Type == typeof(IncidentRecord))
             UpdateItems(incidents, e.Items, e.Changes);
 
-        if (e.Changes == null
-            || e.Changes?.InsertedIndices.Length > 0
-            || e.Changes?.DeletedIndices.Length > 0)
-            ApplyWithFilter();
+        ApplyWithFilter();
     }
 
     public void ApplyWithFilter()
@@ -80,6 +77,8 @@ public partial class CaseloadLister : ObservableObject, IDisposable
 
         var combined = caseRecords.Concat(incidentRecords);
 
+        foreach (var item in Records)
+            item.Dispose();
         Records.Clear();
 
         combined = Filter(combined);

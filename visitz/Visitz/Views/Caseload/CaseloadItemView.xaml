@@ -20,9 +20,7 @@
     </base:BaseContentView.Resources>
 
     <base:BaseContentView.GestureRecognizers>
-        <TapGestureRecognizer 
-            Command="{Binding BusinessObjectSelectedCommand}"
-            CommandParameter="{Binding BusinessObject}"/>
+        <TapGestureRecognizer Command="{Binding BusinessObjectSelectedCommand}" />
     </base:BaseContentView.GestureRecognizers>
 
     <SwipeView>
@@ -31,8 +29,7 @@
                 IsEnabled="{Binding CanRemoveFromDevice}"
                 Text="{local:Localize RemoveFromDevice}"
                 IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
-                Command="{Binding UnloadDependentDataCommand}"
-                CommandParameter="{Binding BusinessObject}" />
+                Command="{Binding UnloadDependentDataCommand}" />
         </SwipeView.LeftItems>
 
         <VerticalStackLayout>
@@ -42,8 +39,7 @@
                         IsEnabled="{Binding CanRemoveFromDevice}"
                         Text="{local:Localize RemoveFromDevice}"
                         IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
-                        Command="{Binding UnloadDependentDataCommand}"
-                        CommandParameter="{Binding BusinessObject}" />
+                        Command="{Binding UnloadDependentDataCommand}" />
                 </MenuFlyout>
             </FlyoutBase.ContextFlyout>
 

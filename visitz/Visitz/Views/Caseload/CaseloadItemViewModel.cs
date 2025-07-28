@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
+using System.ComponentModel;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -24,7 +25,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         Glyph = FluentIcons.Subtract_circle_20_regular,
     };
 
-    readonly ServiceHandler serviceHandler = ServiceProvider.GetService<ServiceHandler>();
+    readonly ServiceHandler serviceHandler;
 
     OidcSessionInfo SessionInfo { get; }
 
@@ -57,9 +58,28 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         IndicatorHelper = indicatorHelper;
         BusinessObject = businessObject;
         SessionInfo = sessionInfo;
+        serviceHandler = ServiceProvider.GetService<ServiceHandler>();
+
+        IndicatorHelper.PropertyChanged += IndicatorHelper_PropertyChanged;
+        serviceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
+        serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
 
         UpdateStateVisibility();
         StartInitAsync();
+    }
+
+    bool disposed;
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
+        {
+            IndicatorHelper.PropertyChanged -= IndicatorHelper_PropertyChanged;
+            serviceHandler.ServiceStarted -= ServiceHandler_ServiceStarted;
+            serviceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
+
+            disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     protected override ILogger<VisitzViewModel> MakeLogger()
@@ -67,7 +87,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         return ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
     }
 
-    public void UpdateDraftIndicatorVisibility()
+    void UpdateDraftIndicatorVisibility()
     {
         var draftItems = IndicatorHelper.DraftedItems;
 
@@ -82,50 +102,50 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             ShowDraftIndicator = false;
     }
 
-    public void UpdateStateVisibility()
+    void UpdateStateVisibility()
     {
-        MainThread.BeginInvokeOnMainThread(() =>
+        if (!BusinessObject.IsValid)
+            return;
+
+        var state = serviceHandler.GetAnyServiceStateByIdSubstring(BusinessObject.Id);
+        bool isntMarkedForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+
+        if (state == VisitzService.State.Running)
         {
-            var state = serviceHandler.GetAnyServiceStateByIdSubstring(BusinessObject.Id);
-            bool isntMarkedForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+            ShowProgressIndicator = true;
+            ShowDownloadIcon = !ShowProgressIndicator;
+        }
+        else if (isntMarkedForDownload)
+        {
+            ShowProgressIndicator = false;
+            ShowDownloadIcon = !ShowProgressIndicator;
+        }
+        else
+        {
+            ShowProgressIndicator = false;
+            ShowDownloadIcon = false;
+        }
 
-            if (state == VisitzService.State.Running)
-            {
-                ShowProgressIndicator = true;
-                ShowDownloadIcon = !ShowProgressIndicator;
-            }
-            else if (isntMarkedForDownload)
-            {
-                ShowProgressIndicator = false;
-                ShowDownloadIcon = !ShowProgressIndicator;
-            }
-            else
-            {
-                ShowProgressIndicator = false;
-                ShowDownloadIcon = false;
-            }
-
-            ShowDate = !ShowDownloadIcon && !ShowProgressIndicator;
-        });
+        ShowDate = !ShowDownloadIcon && !ShowProgressIndicator;
     }
 
-    public void UpdateIsAssigned()
+    void UpdateIsAssigned()
     {
         CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
             && BusinessObject.LocalState.ShouldDownloadDuringRefresh;
     }
 
     [RelayCommand]
-    public void BusinessObjectSelected(IBusinessObject record)
+    public void BusinessObjectSelected()
     {
-        StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(record));
+        StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(BusinessObject));
 
-        bool markForDownload = !record.LocalState.ShouldDownloadDuringRefresh;
+        bool markForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
         if (markForDownload)
         {
-            record.LocalState.ShouldDownloadDuringRefreshBinding = true;
+            BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = true;
 
-            var msg = GetAllDataForRecordService.MakeStartMessage(record);
+            var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
             WeakReferenceMessenger.Default.Send(msg);
         }
 
@@ -134,9 +154,9 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    public async Task UnloadDependentData(IBusinessObject record)
+    public async Task UnloadDependentData()
     {
-        if (record.IsAssigned(SessionInfo.Idir))
+        if (BusinessObject.IsAssigned(SessionInfo.Idir))
         {
             string assignedMsg = string.Format(
                 LocalizedStrings.RemoveFromDeviceErrorAssigned,
@@ -162,9 +182,46 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
         if (shouldRemove)
         {
-            record.LocalState.ShouldDownloadDuringRefreshBinding = false;
+            BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = false;
             UpdateStateVisibility();
             UpdateIsAssigned();
+        }
+    }
+
+    void IndicatorHelper_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        try
+        {
+            if (e.PropertyName == nameof(DraftIndicatorHelper.DraftedItems))
+                UpdateDraftIndicatorVisibility();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+        }
+    }
+
+    void ServiceHandler_ServiceStarted(object? sender, string e)
+    {
+        try
+        {
+            MainThread.BeginInvokeOnMainThread(UpdateStateVisibility);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+        }
+    }
+
+    void ServiceHandler_ServiceFinished(object? sender, VisitzService service)
+    {
+        try
+        {
+            MainThread.BeginInvokeOnMainThread(UpdateStateVisibility);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
         }
     }
 }
