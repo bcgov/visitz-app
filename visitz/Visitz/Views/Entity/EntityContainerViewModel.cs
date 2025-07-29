@@ -4,6 +4,7 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Services;
+using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -34,6 +35,10 @@ public partial class EntityContainerViewModel :
         var init = base.InitAsync();
 
         string id = GetAllDataForRecordService.MakeId(BusinessObject);
+
+        ServiceHandler services = ServiceProvider.GetService<ServiceHandler>();
+        ShowDownloadActivity = services.GetServiceState(id) == VisitzService.State.Running;
+
         WeakReferenceMessenger.Default.Register(this, id);
 
         return init;
