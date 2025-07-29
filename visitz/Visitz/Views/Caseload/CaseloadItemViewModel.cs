@@ -167,7 +167,15 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     [RelayCommand]
     public async Task UnloadDependentData()
     {
-        if (BusinessObject.IsAssigned(SessionInfo.Idir))
+        if (ShowDownloadIcon)
+        {
+            await Navigator.CurrentOpenPage.DisplayAlert(
+                LocalizedStrings.UnableToRemove,
+                LocalizedStrings.RemoveFromDeviceErrorNotDownloaded,
+                LocalizedStrings.Ok);
+            return;
+        }
+        else if (BusinessObject.IsAssigned(SessionInfo.Idir))
         {
             string assignedMsg = string.Format(
                 LocalizedStrings.RemoveFromDeviceErrorAssigned,
@@ -177,7 +185,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             await Navigator.CurrentOpenPage.DisplayAlert(
                 LocalizedStrings.UnableToRemove,
                 assignedMsg,
-                LocalizedStrings.Cancel);
+                LocalizedStrings.Ok);
             return;
         }
 

@@ -991,4 +991,7 @@ Are you sure you want to remove {0} '{1}' from your device?</value>
   <data name="NeedInternetToViewRecord" xml:space="preserve">
     <value>To view information for this record you need an internet connection to download it.</value>
   </data>
+  <data name="RemoveFromDeviceErrorNotDownloaded" xml:space="preserve">
+    <value>Information for this record has not been downloaded yet.</value>
+  </data>
 </root>

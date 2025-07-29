@@ -1847,6 +1847,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Information for this record has not been downloaded yet..
+        /// </summary>
+        public static string RemoveFromDeviceErrorNotDownloaded {
+            get {
+                return ResourceManager.GetString("RemoveFromDeviceErrorNotDownloaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing this record from your device means you will not be able to view its information unless you are online and explicitly reopen it from the app.
         ///
         ///Are you sure you want to remove {0} &apos;{1}&apos; from your device?.
