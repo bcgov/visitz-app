@@ -26,8 +26,6 @@
     <SwipeView>
         <SwipeView.LeftItems>
             <SwipeItem
-                IsEnabled="{Binding CanRemoveFromDevice}"
-                Text="{local:Localize RemoveFromDevice}"
                 IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
                 Command="{Binding UnloadDependentDataCommand}" />
         </SwipeView.LeftItems>
