@@ -101,6 +101,12 @@
                     Grid.Column="3"
                     EntityType="{Binding BusinessObject.EntityType}"
                     EntitySubtype="{Binding BusinessObject.EntitySubtype}" />
+
+                <BoxView
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    Color="#55ffffff"
+                    IsVisible="{Binding ShowDownloadIcon}" />
             </Grid>
         
             <BoxView
