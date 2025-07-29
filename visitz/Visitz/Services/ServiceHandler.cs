@@ -97,12 +97,11 @@ namespace Visitz.Services
                 : VisitzService.State.Stopped;
         }
 
-        public VisitzService.State GetAnyServiceStateByIdSubstring(string serviceIdContains)
+        public bool IsAnyServiceRunning(string serviceIdContains)
         {
             string key = Services.Keys.FirstOrDefault(key => key.Contains(serviceIdContains));
             return key is not null && Services.TryGetValue(key, out var service)
-                    ? service.Status
-                    : VisitzService.State.Stopped;
+                && service.Status == VisitzService.State.Running;
         }
     }
 }

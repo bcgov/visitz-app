@@ -5,7 +5,6 @@ using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Services;
 using Visitz.Services.Base;
-using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -18,6 +17,8 @@ public partial class EntityContainerViewModel :
     IBusinessObjectHolder,
     IRecipient<ServiceStateMessage>
 {
+    ServiceHandler ServiceHandler { get; }
+
     [ObservableProperty]
     public IBusinessObject businessObject;
 
@@ -30,16 +31,18 @@ public partial class EntityContainerViewModel :
     [ObservableProperty]
     public string fullTypeCased;
 
+    public EntityContainerViewModel() : base()
+    {
+        ServiceHandler = ServiceProvider.GetService<ServiceHandler>();
+    }
+
     protected override Task InitAsync()
     {
         var init = base.InitAsync();
 
-        string id = GetAllDataForRecordService.MakeId(BusinessObject);
-
-        ServiceHandler services = ServiceProvider.GetService<ServiceHandler>();
-        ShowDownloadActivity = services.GetServiceState(id) == VisitzService.State.Running;
-
-        WeakReferenceMessenger.Default.Register(this, id);
+        UpdateDownloadActivity();
+        ServiceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
+        ServiceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
 
         return init;
     }
@@ -49,10 +52,29 @@ public partial class EntityContainerViewModel :
     {
         if (!disposed && disposing)
         {
+            ServiceHandler.ServiceStarted -= ServiceHandler_ServiceStarted;
+            ServiceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
+
             WeakReferenceMessenger.Default.UnregisterAll(this);
+
             disposed = true;
         }
         base.Dispose(disposing);
+    }
+
+    void UpdateDownloadActivity()
+    {
+        ShowDownloadActivity = ServiceHandler.IsAnyServiceRunning(BusinessObject.Id);
+    }
+
+    private void ServiceHandler_ServiceStarted(object sender, string e)
+    {
+        MainThread.BeginInvokeOnMainThread(UpdateDownloadActivity);
+    }
+
+    private void ServiceHandler_ServiceFinished(object sender, VisitzService e)
+    {
+        MainThread.BeginInvokeOnMainThread(UpdateDownloadActivity);
     }
 
     public async void Receive(ServiceStateMessage message)

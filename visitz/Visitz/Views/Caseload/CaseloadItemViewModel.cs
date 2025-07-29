@@ -108,10 +108,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         if (!BusinessObject.IsValid)
             return;
 
-        var state = serviceHandler.GetAnyServiceStateByIdSubstring(BusinessObject.Id);
+        var isRunning = serviceHandler.IsAnyServiceRunning(BusinessObject.Id);
         bool isntMarkedForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
 
-        if (state == VisitzService.State.Running)
+        if (isRunning)
         {
             ShowProgressIndicator = true;
             ShowDownloadIcon = !ShowProgressIndicator;
