@@ -994,4 +994,18 @@ Are you sure you want to remove {0} '{1}' from your device?</value>
   <data name="RemoveFromDeviceErrorNotDownloaded" xml:space="preserve">
     <value>Information for this record has not been downloaded yet.</value>
   </data>
+  <data name="MarkForDownload" xml:space="preserve">
+    <value>Information for {0} '{1}' has not been downloaded yet.
+
+Downloading it now will let the app know it should download information for this record during caseload refreshes. This can increase the time it takes to refresh your caseload and the amount of storage used in the device.
+
+Do you want to download information for this record?</value>
+    <comment>0 = entity type, 1 = key player name</comment>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadRecordInformation" xml:space="preserve">
+    <value>Download record information</value>
+  </data>
 </root>

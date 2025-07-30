@@ -714,6 +714,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download error.
         /// </summary>
         public static string DownloadError {
@@ -730,6 +739,15 @@ namespace Visitz.Resources.Localization {
         public static string DownloadRecordErrorMessage {
             get {
                 return ResourceManager.GetString("DownloadRecordErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download record information.
+        /// </summary>
+        public static string DownloadRecordInformation {
+            get {
+                return ResourceManager.GetString("DownloadRecordInformation", resourceCulture);
             }
         }
         
@@ -1191,6 +1209,19 @@ namespace Visitz.Resources.Localization {
         public static string MarkAllThatApply {
             get {
                 return ResourceManager.GetString("MarkAllThatApply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information for {0} &apos;{1}&apos; has not been downloaded yet.
+        ///
+        ///Downloading it now will let the app know it should download information for this record during caseload refreshes. This can increase the time it takes to refresh your caseload and the amount of storage used in the device.
+        ///
+        ///Do you want to download information for this record?.
+        /// </summary>
+        public static string MarkForDownload {
+            get {
+                return ResourceManager.GetString("MarkForDownload", resourceCulture);
             }
         }
         

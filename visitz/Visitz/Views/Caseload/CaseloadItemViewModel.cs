@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Network;
 using System.ComponentModel;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -65,7 +66,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         serviceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
         serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
 
-        UpdateStateVisibility();
+        UpdateInteractiveStates();
         StartInitAsync();
     }
 
@@ -103,6 +104,12 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             ShowDraftIndicator = false;
     }
 
+    void UpdateInteractiveStates()
+    {
+        UpdateStateVisibility();
+        UpdateIsAssigned();
+    }
+
     void UpdateStateVisibility()
     {
         if (!BusinessObject.IsValid)
@@ -136,6 +143,37 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             && BusinessObject.LocalState.ShouldDownloadDuringRefresh;
     }
 
+    void OpenEntityView()
+    {
+        var msg = new BusinessObjectSelectedMessage(BusinessObject);
+        StrongReferenceMessenger.Default.Send(msg);
+    }
+
+    async Task<bool> DoDownload()
+    {
+        if (!NetworkHelper.InternetAvailable)
+        {
+            await Navigator.CurrentOpenPage.DisplayAlert(
+                LocalizedStrings.NoInternet,
+                LocalizedStrings.NeedInternetToViewRecord,
+                LocalizedStrings.Ok);
+            return false;
+        }
+        else
+        {
+            string msg = string.Format(
+                LocalizedStrings.MarkForDownload,
+                BusinessObject.EntityType,
+                BusinessObject.DisplayName.Trim());
+
+            return await Navigator.CurrentOpenPage.DisplayAlert(
+                LocalizedStrings.DownloadRecordInformation,
+                msg,
+                LocalizedStrings.Download,
+                LocalizedStrings.Cancel);
+        }
+    }
+
     [RelayCommand]
     public async Task BusinessObjectSelected()
     {
@@ -143,25 +181,18 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
         if (markForDownload)
         {
-            if (!NetworkHelper.InternetAvailable)
+            if (await DoDownload())
             {
-                await Navigator.CurrentOpenPage.DisplayAlert(
-                    LocalizedStrings.NoInternet,
-                    LocalizedStrings.NeedInternetToViewRecord,
-                    LocalizedStrings.Ok);
-                return;
+                BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = true;
+
+                var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
+                WeakReferenceMessenger.Default.Send(msg);
             }
+        }
+        else
+            OpenEntityView();
 
-            BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = true;
-
-            var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
-            WeakReferenceMessenger.Default.Send(msg);
-        } 
-
-        StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(BusinessObject));
-
-        UpdateStateVisibility();
-        UpdateIsAssigned();
+        UpdateInteractiveStates();
     }
 
     [RelayCommand]
@@ -180,7 +211,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             string assignedMsg = string.Format(
                 LocalizedStrings.RemoveFromDeviceErrorAssigned,
                 BusinessObject.EntityType,
-                BusinessObject.DisplayName);
+                BusinessObject.DisplayName.Trim());
 
             await Navigator.CurrentOpenPage.DisplayAlert(
                 LocalizedStrings.UnableToRemove,
@@ -202,8 +233,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         if (shouldRemove)
         {
             BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = false;
-            UpdateStateVisibility();
-            UpdateIsAssigned();
+            UpdateInteractiveStates();
         }
     }
 
@@ -224,7 +254,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         try
         {
-            MainThread.BeginInvokeOnMainThread(UpdateStateVisibility);
+            MainThread.BeginInvokeOnMainThread(UpdateInteractiveStates);
         }
         catch (Exception ex)
         {
@@ -236,7 +266,13 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         try
         {
-            MainThread.BeginInvokeOnMainThread(UpdateStateVisibility);
+            MainThread.BeginInvokeOnMainThread(UpdateInteractiveStates);
+
+            if (service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
+                && service.UncaughtException != null)
+            {
+                _ = Navigator.CurrentOpenPage.DisplayErrorAlert(service.UncaughtException);
+            }
         }
         catch (Exception ex)
         {
