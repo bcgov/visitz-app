@@ -2236,7 +2236,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources.
+        ///   Looks up a localized string similar to 3. Use of community agencies (including First Nations, Indigenous or Metis community representatives or services) as safety resources.
         /// </summary>
         public static string SafetyIntervention3_UseCommAgencies {
             get {
