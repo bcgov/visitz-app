@@ -1,5 +1,6 @@
 using Realms;
 using System.Globalization;
+using System.Linq;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -120,17 +121,7 @@ public partial class IncidentRecord :
 
     public string TypeOfCaller { get; set; }
 
-    private BoLocalState BoLocalState { get; set; }
-    public BoLocalState LocalState
-    {
-        get
-        {
-            if (BoLocalState == null)
-                this.Commit(() => BoLocalState = this.FindOrMakeLocalState());
-
-            return BoLocalState;
-        }
-    }
+    public BoLocalState LocalState { get; set; }
 
     public string DisplayDate => DateReported?.ToString(
         IBusinessObject.DisplayDateFormat,
@@ -146,7 +137,6 @@ public partial class IncidentRecord :
 
     public IncidentRecord(
         IncidentJson json,
-        BoLocalState localState = null,
         string currentUsername = null)
     {
         Id = json.Id;
@@ -200,8 +190,6 @@ public partial class IncidentRecord :
         Status = json.Status;
         EntitySubtype = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
-        BoLocalState = localState?.ShallowCopy();
-        BoLocalState?.SetBusinessObject(this);
     }
 
     public IncidentJson ToApiJson(string dateFormat = "s")
@@ -255,14 +243,13 @@ public partial class IncidentRecord :
 
     public static List<IncidentRecord> FromApiJsonArray(
         IEnumerable<IncidentJson> jsonArray,
-        BoLocalState localState,
         string currentUsername = null)
     {
         List<IncidentRecord> outList = [];
 
         if (jsonArray != null)
             foreach (var jsonItem in jsonArray)
-                outList.Add(new IncidentRecord(jsonItem, localState, currentUsername));
+                outList.Add(new IncidentRecord(jsonItem, currentUsername));
 
         return outList;
     }
@@ -290,7 +277,11 @@ public partial class IncidentRecord :
         await RealmExtensions.CommitAsync(realm, () =>
         {
             CascadeDelete(realm, unassigned, userIgnoredPrefs);
-            realm.Upsert(incomingIncidents);
+            foreach (var item in incomingIncidents)
+            {
+                realm.Add(item, update: true);
+                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+            }
         });
     }
 
@@ -299,12 +290,11 @@ public partial class IncidentRecord :
         IEnumerable<IncidentJson> newOfficeIncidents,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
-        bool isPersonalCaseload,
-        BoLocalState localState)
+        bool isPersonalCaseload)
     {
         return SynchronizeAsync(
             realm,
-            FromApiJsonArray(newOfficeIncidents, localState, currentUsername),
+            FromApiJsonArray(newOfficeIncidents, currentUsername),
             userIgnoredPrefs,
             currentUsername,
             isPersonalCaseload);
@@ -322,7 +312,7 @@ public partial class IncidentRecord :
             SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, incident.Id);
             Attachment.RemoveByParent(realm, EntityType.Incident, incident.Id, userIgnoredPrefs);
 
-            realm.Remove(incident.BoLocalState);
+            realm.Remove(incident.LocalState);
             realm.Remove(incident);
         }
     }

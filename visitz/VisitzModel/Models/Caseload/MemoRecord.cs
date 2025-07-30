@@ -116,17 +116,7 @@ public partial class MemoRecord :
         set => SubtypeInt = (int)value;
     }
 
-    private BoLocalState BoLocalState { get; set; }
-    public BoLocalState LocalState
-    {
-        get
-        {
-            if (BoLocalState == null)
-                this.Commit(() => BoLocalState = this.FindOrMakeLocalState());
-
-            return BoLocalState;
-        }
-    }
+    public BoLocalState LocalState { get; set; }
 
     public string DisplayDate => CallDate?.ToString(
         IBusinessObject.DisplayDateFormat,
@@ -184,8 +174,6 @@ public partial class MemoRecord :
         Status = json.Status;
         TypeOfCaller = json.TypeOfCaller;
         Urgent = json.Urgent;
-        BoLocalState = localState?.ShallowCopy();
-        BoLocalState?.SetBusinessObject(this);
     }
 
     public static List<MemoRecord> FromApiArray(IEnumerable<MemoJson> jsonArray)

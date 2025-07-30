@@ -98,17 +98,7 @@ public partial class CaseRecord :
 
     public string WorkQueue { get; set; }
 
-    private BoLocalState BoLocalState { get; set; }
-    public BoLocalState LocalState
-    {
-        get
-        {
-            if (BoLocalState == null)
-                this.Commit(() => BoLocalState = this.FindOrMakeLocalState());
-
-            return BoLocalState;
-        }
-    }
+    public BoLocalState LocalState { get; set; }
 
     public string DisplayDate => CreatedDate.ToString(
         IBusinessObject.DisplayDateFormat,
@@ -124,7 +114,6 @@ public partial class CaseRecord :
 
     public CaseRecord(
         CaseJson caseJson,
-        BoLocalState localState = null,
         string currentUsername = null)
     {
         Id = caseJson.Id;
@@ -170,8 +159,6 @@ public partial class CaseRecord :
         Status = caseJson.Status;
         EntitySubtype = caseJson.Type.ParseEntitySubtype();
         WorkQueue = caseJson.WorkQueue;
-        BoLocalState = localState?.ShallowCopy();
-        BoLocalState?.SetBusinessObject(this);
     }
 
     public CaseJson ToApiJson(string dateFormat = "s")
@@ -213,14 +200,13 @@ public partial class CaseRecord :
 
     public static List<CaseRecord> FromApiJsonArray(
         IEnumerable<CaseJson> jsonArray,
-        BoLocalState localState,
         string currentUsername = null)
     {
         List<CaseRecord> outList = [];
 
         if (jsonArray != null)
             foreach (var jsonItem in jsonArray)
-                outList.Add(new CaseRecord(jsonItem, localState, currentUsername));
+                outList.Add(new CaseRecord(jsonItem, currentUsername));
 
         return outList;
     }
@@ -249,21 +235,24 @@ public partial class CaseRecord :
         await RealmExtensions.CommitAsync(realm, () =>
         {
             CascadeDelete(realm, unassigned, userIgnoredPrefs);
-            realm.Upsert(incomingCases);
+            foreach (var item in incomingCases)
+            {
+                realm.Add(item, update: true);
+                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+            }
         });
     }
     
     public static Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<CaseJson> newOfficeCases,
+        IEnumerable<CaseJson> newAssignedCases,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
-        bool isPersonalCaseload,
-        BoLocalState localState)
+        bool isPersonalCaseload)
     {
         return SynchronizeAsync(
             realm,
-            FromApiJsonArray(newOfficeCases, localState, currentUsername),
+            FromApiJsonArray(newAssignedCases, currentUsername),
             userIgnoredPrefs,
             currentUsername,
             isPersonalCaseload);
@@ -282,7 +271,7 @@ public partial class CaseRecord :
             SupportNetworkItem.RemoveByParent(realm, EntityType.Case, @case.Id);
             Attachment.RemoveByParent(realm, EntityType.Case, @case.Id, userIgnoredPrefs);
 
-            realm.Remove(@case.BoLocalState);
+            realm.Remove(@case.LocalState);
             realm.Remove(@case);
         }
     }

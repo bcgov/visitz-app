@@ -116,7 +116,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             return;
 
         var isRunning = serviceHandler.IsAnyServiceRunning(BusinessObject.Id);
-        bool isntMarkedForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+        bool isntMarkedForDownload = !(BusinessObject.LocalState?.ShouldDownloadDuringRefresh ?? false);
 
         if (isRunning)
         {
@@ -266,13 +266,16 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         try
         {
-            MainThread.BeginInvokeOnMainThread(UpdateInteractiveStates);
-
-            if (service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
-                && service.UncaughtException != null)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                _ = Navigator.CurrentOpenPage.DisplayErrorAlert(service.UncaughtException);
-            }
+                UpdateInteractiveStates();
+
+                if (service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
+                    && service.UncaughtException != null)
+                {
+                    _ = Navigator.CurrentOpenPage.DisplayErrorAlert(service.UncaughtException);
+                }
+            });
         }
         catch (Exception ex)
         {

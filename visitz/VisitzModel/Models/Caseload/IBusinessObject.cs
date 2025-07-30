@@ -7,6 +7,8 @@ using VisitzModel.Models.People;
 
 namespace VisitzModel.Models.Caseload;
 
+#nullable enable
+
 public interface IBusinessObject : IRealmObject
 {
     public static readonly string DisplayDateFormat = IcmDateFormats.BasicTimestampShort;
@@ -31,7 +33,7 @@ public interface IBusinessObject : IRealmObject
 
     public string ServiceOffice { get; set; }
 
-    public BoLocalState LocalState { get; }
+    public BoLocalState LocalState { get; set; }
 
     public string DisplayDate { get; }
 
@@ -70,12 +72,12 @@ public static class IBusinessObjectExtensions
         return $"{subtype} {type}";
     }
 
-    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm realm = null)
+    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm? realm = null)
     {
         return IcmContact.GetKeyPlayerFor(realm ?? businessObject.Realm, businessObject);
     }
 
-    public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm realm = null)
+    public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm? realm = null)
     {
         return IcmContact.GetByParentObject(realm ?? businessObject.Realm, businessObject);
     }
@@ -112,11 +114,20 @@ public static class IBusinessObjectExtensions
             throw new NotImplementedException($"Type '{business.GetType()}' not implemented for unsubscription");
     }
 
-    public static BoLocalState FindOrMakeLocalState(this IBusinessObject businessObject)
+    public static void UpsertLocalState(
+        this IBusinessObject item,
+        Realm realm,
+        bool markForDownload)
     {
-        string id = businessObject.ToIdTypeString();
-
-        return businessObject.Realm?.Find<BoLocalState>(id)
-            is BoLocalState state ? state : new(businessObject);
+        if (realm.Find<BoLocalState>(item.ToIdTypeString()) is BoLocalState local)
+        {
+            item.LocalState = local;
+            realm.Add(local, update: true);
+        }
+        else
+        {
+            item.LocalState = new(item) { ShouldDownloadDuringRefresh = markForDownload };
+            realm.Add(item.LocalState);
+        }
     }
 }

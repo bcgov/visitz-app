@@ -65,11 +65,11 @@ internal class GetOfficeCaseloadService(
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Cases, Exceptions))
             CaseRecords.AddRange(CaseRecord.FromApiJsonArray(
-                officeCaseload.Cases.Items, localState: new()));
+                officeCaseload.Cases.Items));
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Incidents, Exceptions))
             IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(
-                officeCaseload.Incidents.Items, localState: new()));
+                officeCaseload.Incidents.Items));
 
         foreach (var office in officeCaseload.OfficeNames)
             Offices.Add(office);

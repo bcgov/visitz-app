@@ -106,17 +106,7 @@ public partial class ServiceRequestRecord :
 
     public string TypeOfCaller { get; set; }
 
-    private BoLocalState BoLocalState { get; set; }
-    public BoLocalState LocalState
-    {
-        get
-        {
-            if (BoLocalState == null)
-                this.Commit(() => BoLocalState = this.FindOrMakeLocalState());
-
-            return BoLocalState;
-        }
-    }
+    public BoLocalState LocalState { get; set; }
 
     public string DisplayDate => CreatedDate.ToString(
         IBusinessObject.DisplayDateFormat,
@@ -171,8 +161,6 @@ public partial class ServiceRequestRecord :
         Status = json.Status;
         EntitySubtype = json.Type?.ParseEntitySubtype() ?? EntitySubtype.Unknown;
         TypeOfCaller = json.TypeOfCaller;
-        BoLocalState = localState?.ShallowCopy();
-        BoLocalState?.SetBusinessObject(this);
     }
 
     public static List<ServiceRequestRecord> FromApiArray(IEnumerable<ServiceRequestJson> jsonArray)

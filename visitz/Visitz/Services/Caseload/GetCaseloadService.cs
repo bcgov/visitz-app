@@ -56,8 +56,7 @@ namespace Visitz.Services.Caseload
                     caseloadFromApi.Cases.Items,
                     UserIgnoredPrefs,
                     session.Idir,
-                    isPersonalCaseload: true,
-                    new BoLocalState() { ShouldDownloadDuringRefresh = true });
+                    isPersonalCaseload: true);
 
             if (CaseloadHelper.CanSynchronize(caseloadFromApi.Incidents, invalidOps))
                 await IncidentRecord.SynchronizeAsync(
@@ -65,8 +64,7 @@ namespace Visitz.Services.Caseload
                     caseloadFromApi.Incidents.Items,
                     UserIgnoredPrefs,
                     session.Idir,
-                    isPersonalCaseload: true,
-                    new BoLocalState() { ShouldDownloadDuringRefresh = true });
+                    isPersonalCaseload: true);
 
             // TODO: synchronize memos and service requests once we have official UI support
 
