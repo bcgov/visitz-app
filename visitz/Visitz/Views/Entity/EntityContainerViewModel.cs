@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
@@ -36,6 +37,11 @@ public partial class EntityContainerViewModel :
         ServiceHandler = ServiceProvider.GetService<ServiceHandler>();
     }
 
+    protected override ILogger<VisitzViewModel> MakeLogger()
+    {
+        return ServiceProvider.GetService<ILogger<EntityContainerViewModel>>();
+    }
+
     protected override Task InitAsync()
     {
         var init = base.InitAsync();
@@ -69,12 +75,26 @@ public partial class EntityContainerViewModel :
 
     private void ServiceHandler_ServiceStarted(object sender, string e)
     {
-        MainThread.BeginInvokeOnMainThread(UpdateDownloadActivity);
+        try
+        {
+            MainThread.BeginInvokeOnMainThread(UpdateDownloadActivity);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+        }
     }
 
     private void ServiceHandler_ServiceFinished(object sender, VisitzService e)
     {
-        MainThread.BeginInvokeOnMainThread(UpdateDownloadActivity);
+        try
+        {
+            MainThread.BeginInvokeOnMainThread(UpdateDownloadActivity);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+        }
     }
 
     public async void Receive(ServiceStateMessage message)
