@@ -89,25 +89,25 @@ public class GetAllDataForRecordService(
         return new(msg, ex);
     }
 
-    Task<Result> GetNotes(List<Exception> exceptions)
+    async Task<Result> GetNotes(List<Exception> exceptions)
     {
         try
         {
             if (BusinessObject.EntityType != EntityType.Memo)
             {
                 var startMessage = GetNotesService.MakeStartMessage(BusinessObject.FileNumber, BusinessObject.EntityType);
-                return ServiceHandler.TryRunServiceAsync(startMessage);
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
             }
         }
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.Notes, ex));
-            return Task.FromResult(Result.Error);
+            return Result.Error;
         }
-        return Task.FromResult(Result.NoOperation);
+        return Result.NoOperation;
     }
 
-    Task<Result> GetVisits(List<Exception> exceptions)
+    async Task<Result> GetVisits(List<Exception> exceptions)
     {
         try
         {
@@ -115,92 +115,93 @@ public class GetAllDataForRecordService(
                 && BusinessObject.EntitySubtype == EntitySubtype.ChildServices)
             {
                 var startMessage = GetVisitsService.MakeStartMessage(BusinessObject.Id);
-                return ServiceHandler.TryRunServiceAsync(startMessage);
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
             }
         }
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.ChildYouthVisits, ex));
+            return Result.Error;
         }
-        return Task.FromResult(Result.NoOperation);
+        return Result.NoOperation;
     }
 
-    Task<Result> GetContacts(List<Exception> exceptions)
+    async Task<Result> GetContacts(List<Exception> exceptions)
     {
         try
         {
             var startMessage = GetContactsService.MakeStartMessage(new(BusinessObject));
-            return ServiceHandler.TryRunServiceAsync(startMessage);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.FamilyMembers, ex));
-            return Task.FromResult(Result.Error);
+            return Result.Error;
         }
     }
 
-    Task<Result> GetSupportNetworkItems(List<Exception> exceptions)
+    async Task<Result> GetSupportNetworkItems(List<Exception> exceptions)
     {
         try
         {
             if (BusinessObject.EntityType != EntityType.Memo)
             {
                 var startMessage = GetSupportNetworkService.MakeStartMessage(new(BusinessObject));
-                return ServiceHandler.TryRunServiceAsync(startMessage);
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
             }
         }
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.SupportNetwork, ex));
-            return Task.FromResult(Result.Error);
+            return Result.Error;
         }
-        return Task.FromResult(Result.NoOperation);
+        return Result.NoOperation;
     }
 
-    Task GetAttachments(List<Exception> exceptions)
+    async Task<Result> GetAttachments(List<Exception> exceptions)
     {
         try
         {
             var startMessage = GetAttachmentsService.MakeStartMessage(new(BusinessObject));
-            return ServiceHandler.TryRunServiceAsync(startMessage);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.AttachmentMetadata, ex));
-            return Task.FromResult(Result.Error);
+            return Result.Error;
         }
     }
 
-    Task<Result> GetPartialAttachments(List<Exception> exceptions)
+    async Task<Result> GetPartialAttachments(List<Exception> exceptions)
     {
         try
         {
             var startMessage = GetPartialAttachmentsByRangeDownloadService
                 .MakeStartMessage([new(BusinessObject)]);
-            return ServiceHandler.TryRunServiceAsync(startMessage);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.Attachments, ex));
-            return Task.FromResult(Result.Error);
+            return Result.Error;
         }
     }
 
-    Task<Result> GetSafetyAssessments(List<Exception> exceptions)
+    async Task<Result> GetSafetyAssessments(List<Exception> exceptions)
     {
         try
         {
             if (BusinessObject.EntityType == EntityType.Incident)
             {
                 var startMessage = GetSafetyAssessmentsService.MakeStartMessage(new(BusinessObject));
-                return ServiceHandler.TryRunServiceAsync(startMessage);
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
             }
         }
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.SafetyAssessments, ex));
-            return Task.FromResult(Result.Error);
+            return Result.Error;
         }
-        return Task.FromResult(Result.NoOperation);
+        return Result.NoOperation;
     }
 }
