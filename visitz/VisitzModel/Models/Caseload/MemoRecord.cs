@@ -47,6 +47,8 @@ public partial class MemoRecord :
 
     public string AssignedToId { get; set; }
 
+    public string DisplayAssignees => AssignedTo;
+
     public string Address { get; set; }
 
     public string AddressComments { get; set; }
@@ -114,6 +116,8 @@ public partial class MemoRecord :
         set => SubtypeInt = (int)value;
     }
 
+    public BoLocalState LocalState { get; set; }
+
     public string DisplayDate => CallDate?.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture) ?? "";
@@ -126,7 +130,7 @@ public partial class MemoRecord :
 
     public MemoRecord() { }
 
-    public MemoRecord(MemoJson json)
+    public MemoRecord(MemoJson json, BoLocalState localState = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -273,5 +277,10 @@ public partial class MemoRecord :
         return realm
             .All<MemoRecord>()
             .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+    }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username;
     }
 }

@@ -7,6 +7,8 @@ using VisitzModel.Models.People;
 
 namespace VisitzModel.Models.Caseload;
 
+#nullable enable
+
 public interface IBusinessObject : IRealmObject
 {
     public static readonly string DisplayDateFormat = IcmDateFormats.BasicTimestampShort;
@@ -19,11 +21,19 @@ public interface IBusinessObject : IRealmObject
 
     public string LastName { get; set; }
 
+    public string AssignedTo { get; set; }
+
+    public string AssignedToId { get; set; }
+
+    public string DisplayAssignees { get; }
+
     public EntityType EntityType { get; }
 
     public EntitySubtype EntitySubtype { get; set; }
 
     public string ServiceOffice { get; set; }
+
+    public BoLocalState LocalState { get; set; }
 
     public string DisplayDate { get; }
 
@@ -32,10 +42,17 @@ public interface IBusinessObject : IRealmObject
     public string FullType { get; }
 
     public IQueryable<IcmContact> Contacts { get; }
+
+    public bool IsAssigned(string username);
 }
 
 public static class IBusinessObjectExtensions
 {
+    public static string ToIdTypeString(this IBusinessObject businessObject)
+    {
+        return $"{businessObject.Id}||{(int)businessObject.EntityType}";
+    }
+
     public static DateTime DisplayDateTransform(this IBusinessObject businessObject)
     {
         return businessObject.DisplayDate?.Length > 0
@@ -55,12 +72,12 @@ public static class IBusinessObjectExtensions
         return $"{subtype} {type}";
     }
 
-    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm realm = null)
+    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm? realm = null)
     {
         return IcmContact.GetKeyPlayerFor(realm ?? businessObject.Realm, businessObject);
     }
 
-    public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm realm = null)
+    public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm? realm = null)
     {
         return IcmContact.GetByParentObject(realm ?? businessObject.Realm, businessObject);
     }
@@ -95,5 +112,22 @@ public static class IBusinessObjectExtensions
             sr.PropertyChanged -= handler;
         else
             throw new NotImplementedException($"Type '{business.GetType()}' not implemented for unsubscription");
+    }
+
+    public static void UpsertLocalState(
+        this IBusinessObject item,
+        Realm realm,
+        bool markForDownload)
+    {
+        if (realm.Find<BoLocalState>(item.ToIdTypeString()) is BoLocalState local)
+        {
+            item.LocalState = local;
+            realm.Add(local, update: true);
+        }
+        else
+        {
+            item.LocalState = new(item) { ShouldDownloadDuringRefresh = markForDownload };
+            realm.Add(item.LocalState);
+        }
     }
 }

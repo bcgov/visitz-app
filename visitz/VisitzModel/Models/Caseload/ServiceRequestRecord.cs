@@ -49,6 +49,8 @@ public partial class ServiceRequestRecord :
 
     public string AssignedToId { get; set; }
 
+    public string DisplayAssignees => AssignedTo;
+
     public string Address { get; set; }
 
     public string AddressComments { get; set; }
@@ -104,6 +106,8 @@ public partial class ServiceRequestRecord :
 
     public string TypeOfCaller { get; set; }
 
+    public BoLocalState LocalState { get; set; }
+
     public string DisplayDate => CreatedDate.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture);
@@ -116,7 +120,9 @@ public partial class ServiceRequestRecord :
 
     public ServiceRequestRecord() { }
 
-    public ServiceRequestRecord(ServiceRequestJson json)
+    public ServiceRequestRecord(
+        ServiceRequestJson json,
+        BoLocalState localState = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -257,5 +263,10 @@ public partial class ServiceRequestRecord :
         return realm
             .All<ServiceRequestRecord>()
             .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+    }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username;
     }
 }

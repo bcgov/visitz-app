@@ -31,6 +31,8 @@ internal class GetOfficeCaseloadService(
 
     // TODO: memos and SRs
 
+    HashSet<string> Offices { get; } = [];
+
     public static string MakeId()
     {
         return nameof(GetOfficeCaseloadService);
@@ -62,10 +64,15 @@ internal class GetOfficeCaseloadService(
         var (total, officeCaseload) = await Vpi.GetOfficeCaseloadAsync(pagination: pagination);
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Cases, Exceptions))
-            CaseRecords.AddRange(CaseRecord.FromApiJsonArray(officeCaseload.Cases.Items));
+            CaseRecords.AddRange(CaseRecord.FromApiJsonArray(
+                officeCaseload.Cases.Items));
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Incidents, Exceptions))
-            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(officeCaseload.Incidents.Items));
+            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(
+                officeCaseload.Incidents.Items));
+
+        foreach (var office in officeCaseload.OfficeNames)
+            Offices.Add(office);
 
         // TODO: memos and SRs
 
@@ -74,7 +81,8 @@ internal class GetOfficeCaseloadService(
 
     protected override async Task AfterRun()
     {
-        var username = (await OidcSession.GetInfoAsync()).Idir;
+        var sessionInfo = await OidcSession.GetInfoAsync();
+        var username = sessionInfo.Idir;
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
         try
@@ -112,5 +120,22 @@ internal class GetOfficeCaseloadService(
         }
 
         // TODO: memos and SRs
+
+        try
+        {
+            Offices.UnionWith(CaseRecords.Select(@case =>
+                @case.ServiceOffice).Distinct());
+
+            Offices.UnionWith(IncidentRecords.Select(incident =>
+                incident.ServiceOffice).Distinct());
+
+            // TODO: memos and SRs
+
+            sessionInfo.OfficeNames = Offices;
+        }
+        catch (Exception ex)
+        {
+            Exceptions.Add(ex);
+        }
     }
 }

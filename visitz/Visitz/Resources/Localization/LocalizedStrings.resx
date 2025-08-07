@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -462,7 +462,7 @@ Logging out won't affect your unpublished drafts.</value>
     <value>2. Use of extended family, neighbours, community Elders, or other individuals in the community as safety resources</value>
   </data>
   <data name="SafetyIntervention3_UseCommAgencies" xml:space="preserve">
-    <value>3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources</value>
+    <value>3. Use of community agencies (including First Nations, Indigenous or Metis community representatives or services) as safety resources</value>
   </data>
   <data name="SafetyIntervention4_ProtectVictim" xml:space="preserve">
     <value>4. Parent/care-provider to appropriately protect victim from alleged perpetrator</value>
@@ -929,7 +929,7 @@ This does not affect attachments in ICM.</value>
   </data>
   <data name="NeedToConfirm" xml:space="preserve">
     <value>MCFD Mobility needs to confirm you have a valid ICM profile.</value>
-	</data>
+  </data>
   <data name="Todo" xml:space="preserve">
     <value>To do</value>
   </data>
@@ -954,5 +954,58 @@ No items here.</value>
   </data>
   <data name="AgtCoordinationCa" xml:space="preserve">
     <value>Coordination AGT (CA)</value>
+  </data>
+  <data name="MyCaseload" xml:space="preserve">
+    <value>My caseload</value>
+  </data>
+  <data name="AssignedTo" xml:space="preserve">
+    <value>Assigned to</value>
+  </data>
+  <data name="DownloadError" xml:space="preserve">
+    <value>Download error</value>
+  </data>
+  <data name="DownloadRecordErrorMessage" xml:space="preserve">
+    <value>An error occurred while downloading information for {0}.
+
+You can view the details of this error or try again later.</value>
+    <comment>0 = identifying info of parent record</comment>
+  </data>
+  <data name="RemoveFromDeviceMessage" xml:space="preserve">
+    <value>Removing this record from your device means you will not be able to view its information unless you are online and explicitly reopen it from the app.
+
+Are you sure you want to remove {0} '{1}' from your device?</value>
+    <comment>0 = entity type of record
+1 = display name of record</comment>
+  </data>
+  <data name="RemoveFromDeviceErrorAssigned" xml:space="preserve">
+    <value>Can't remove {0} '{1}'—it is directly assigned to you.</value>
+    <comment>0 = entity type of record
+1 = display name of record</comment>
+  </data>
+  <data name="RemoveFromDevice" xml:space="preserve">
+    <value>Remove from device</value>
+  </data>
+  <data name="UnableToRemove" xml:space="preserve">
+    <value>Unable to remove</value>
+  </data>
+  <data name="NeedInternetToViewRecord" xml:space="preserve">
+    <value>To view information for this record you need an internet connection to download it.</value>
+  </data>
+  <data name="RemoveFromDeviceErrorNotDownloaded" xml:space="preserve">
+    <value>Information for this record has not been downloaded yet.</value>
+  </data>
+  <data name="MarkForDownload" xml:space="preserve">
+    <value>Information for {0} '{1}' has not been downloaded yet.
+
+Downloading it now will let the app know it should download information for this record during caseload refreshes. This can increase the time it takes to refresh your caseload and the amount of storage used in the device.
+
+Do you want to download information for this record?</value>
+    <comment>0 = entity type, 1 = key player name</comment>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadRecordInformation" xml:space="preserve">
+    <value>Download record information</value>
   </data>
 </root>

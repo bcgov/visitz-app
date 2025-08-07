@@ -52,6 +52,10 @@ public partial class IncidentRecord :
 
     public IList<string> Assignees { get; }
 
+    public string DisplayAssignees => Assignees.Any()
+        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)
+        : AssignedTo;
+
     public string AddressComments { get; set; }
 
     public string Address { get; set; }
@@ -117,6 +121,8 @@ public partial class IncidentRecord :
 
     public string TypeOfCaller { get; set; }
 
+    public BoLocalState LocalState { get; set; }
+
     public string DisplayDate => DateReported?.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture) ?? "";
@@ -129,7 +135,9 @@ public partial class IncidentRecord :
 
     public IncidentRecord() { }
 
-    public IncidentRecord(IncidentJson json, string currentUsername = null)
+    public IncidentRecord(
+        IncidentJson json,
+        string currentUsername = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -144,7 +152,8 @@ public partial class IncidentRecord :
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
 
-        if (!string.IsNullOrWhiteSpace(AssignedTo))
+        if (!string.IsNullOrWhiteSpace(AssignedTo)
+            && !Assignees.Contains(AssignedTo))
             Assignees.Add(AssignedTo);
 
         if (!string.IsNullOrWhiteSpace(currentUsername)
@@ -268,7 +277,11 @@ public partial class IncidentRecord :
         await RealmExtensions.CommitAsync(realm, () =>
         {
             CascadeDelete(realm, unassigned, userIgnoredPrefs);
-            realm.Upsert(incomingIncidents);
+            foreach (var item in incomingIncidents)
+            {
+                realm.Add(item, update: true);
+                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+            }
         });
     }
 
@@ -299,6 +312,7 @@ public partial class IncidentRecord :
             SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, incident.Id);
             Attachment.RemoveByParent(realm, EntityType.Incident, incident.Id, userIgnoredPrefs);
 
+            realm.Remove(incident.LocalState);
             realm.Remove(incident);
         }
     }
@@ -321,6 +335,11 @@ public partial class IncidentRecord :
         return realm
             .All<IncidentRecord>()
             .Filter($"$0 == {operation} {nameof(Assignees)}", username);
+    }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username || Assignees.Contains(username);
     }
 
     public bool Equals(IncidentRecord other)

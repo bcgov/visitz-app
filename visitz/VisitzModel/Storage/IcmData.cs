@@ -32,6 +32,7 @@ public class IcmData(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersio
             typeof(SupportNetworkItem),
             typeof(Attachment),
             typeof(AttachmentDraft),
+            typeof(BoLocalState),
 
             typeof(SafetyAssessment),
             typeof(FactorInfluence),

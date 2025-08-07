@@ -1,5 +1,3 @@
-using Oidc;
-using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -50,12 +48,36 @@ namespace Visitz.Services.Caseload
         {
             await Task.Run(async () =>
             {
-                await GetPersonalCaseload();
-
                 List<Exception> exceptions = [];
 
-                await GetPersonalCaseloadDependentInfo(exceptions);
-                await GetOfficeCaseload(exceptions);
+                // Synchronize both caseloads BEFORE getting any dependent info.
+                // We don't want to start downloading dependent info before
+                // caseload state is fully refreshed
+                await Task.WhenAll(
+                    GetPersonalCaseload(),
+                    GetOfficeCaseload(exceptions)
+                );
+
+                var cases = await GetRereshableRecords<CaseRecord>();
+                var incidents = await GetRereshableRecords<IncidentRecord>();
+                var memos = await GetRereshableRecords<MemoRecord>();
+                var srs = await GetRereshableRecords<ServiceRequestRecord>();
+
+                var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
+                var all = casesIncidentsSrs.Concat(memos);
+
+                await Task.WhenAll(
+                    GetAllNotes(casesIncidentsSrs, exceptions),
+                    GetAllVisits(cases, exceptions),
+                    GetAllContacts(all, exceptions),
+                    GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
+                    GetAllAttachments(all, exceptions),
+                    GetAllSafetyAssessments(incidents, exceptions)
+                );
+
+                // Get attachment files AFTER other dependent info so we
+                // complete text-only downloads sooner
+                await GetPartialAttachments(all, exceptions);
 
                 if (exceptions.Count > 1)
                     throw new AggregateException(exceptions);
@@ -64,6 +86,21 @@ namespace Visitz.Services.Caseload
             });
 
             ResultCode = Result.Successful;
+        }
+
+        static async Task<IEnumerable<RecordServiceInfo>> GetRereshableRecords<T>()
+            where T : IBusinessObject
+        {
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            IEnumerable<RecordServiceInfo> records = null;
+
+            records = realm.All<T>()
+                .AsEnumerable()
+                .Where(bo => bo.LocalState.ShouldDownloadDuringRefresh)
+                .Select(bo => new RecordServiceInfo(bo))
+                .ToList();
+
+            return records;
         }
 
         private async Task GetPersonalCaseload()
@@ -83,36 +120,6 @@ namespace Visitz.Services.Caseload
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.Notes, ex));
             }
-        }
-
-        private async Task GetPersonalCaseloadDependentInfo(List<Exception> exceptions)
-        {
-            var username = (await OidcSession.GetInfoAsync()).Idir;
-            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-
-            var cases = CaseRecord.GetAllByAssignee(realm, username).Freeze()
-                .AsEnumerable().Select(@case => new RecordServiceInfo(@case));
-
-            var incidents = IncidentRecord.GetAllByAssignee(realm, username).Freeze()
-                .AsEnumerable().Select(incident => new RecordServiceInfo(incident));
-
-            var memos = MemoRecord.GetAllByAssignee(realm, username).Freeze()
-                .AsEnumerable().Select(memo => new RecordServiceInfo(memo));
-
-            var srs = ServiceRequestRecord.GetAllByAssignee(realm, username).Freeze()
-                .AsEnumerable().Select(sr => new RecordServiceInfo(sr));
-
-            var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
-            var all = casesIncidentsSrs.Concat(memos);
-
-            await Task.WhenAll(
-                GetAllNotes(casesIncidentsSrs, exceptions),
-                GetAllVisits(cases, exceptions),
-                GetAllContacts(all, exceptions),
-                GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
-                GetAllAttachments(all, exceptions),
-                GetAllSafetyAssessments(incidents, exceptions)
-            );
         }
 
         private static Exception MakeDownloadEx(string kind, Exception ex)
@@ -204,8 +211,6 @@ namespace Visitz.Services.Caseload
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.AttachmentMetadata, ex));
             }
-
-            await GetPartialAttachments(all, exceptions);
         }
 
         private async Task GetPartialAttachments(

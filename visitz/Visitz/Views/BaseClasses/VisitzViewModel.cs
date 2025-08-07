@@ -20,9 +20,9 @@ namespace Visitz.Views.BaseClasses
             Logger = MakeLogger();
         }
 
-        protected virtual ILogger<BaseContentView> MakeLogger()
+        protected virtual ILogger<VisitzViewModel> MakeLogger()
         {
-            return ServiceProvider.GetService<ILogger<BaseContentView>>();
+            return ServiceProvider.GetService<ILogger<VisitzViewModel>>();
         }
 
         public virtual Task StartInitAsync()

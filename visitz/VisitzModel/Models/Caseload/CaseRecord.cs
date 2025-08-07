@@ -53,6 +53,10 @@ public partial class CaseRecord :
 
     public IList<string> Assignees { get; }
 
+    public string DisplayAssignees => Assignees.Any()
+        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)?.Trim()
+        : AssignedTo;
+
     public string Caseload { get; set; }
 
     public DateTimeOffset? ClosedDate { get; set; }
@@ -94,6 +98,8 @@ public partial class CaseRecord :
 
     public string WorkQueue { get; set; }
 
+    public BoLocalState LocalState { get; set; }
+
     public string DisplayDate => CreatedDate.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture);
@@ -106,7 +112,9 @@ public partial class CaseRecord :
 
     public CaseRecord() { }
 
-    public CaseRecord(CaseJson caseJson, string currentUsername = null)
+    public CaseRecord(
+        CaseJson caseJson,
+        string currentUsername = null)
     {
         Id = caseJson.Id;
         CreatedBy = caseJson.CreatedBy;
@@ -125,7 +133,8 @@ public partial class CaseRecord :
             foreach (var position in caseJson.Position)
                 Assignees.Add(position.SalesRep);
 
-        if (!Assignees.Contains(AssignedTo) && !string.IsNullOrWhiteSpace(AssignedTo))
+        if (!string.IsNullOrWhiteSpace(AssignedTo)
+            && !Assignees.Contains(AssignedTo))
             Assignees.Add(AssignedTo);
 
         if (!string.IsNullOrWhiteSpace(currentUsername)
@@ -226,20 +235,24 @@ public partial class CaseRecord :
         await RealmExtensions.CommitAsync(realm, () =>
         {
             CascadeDelete(realm, unassigned, userIgnoredPrefs);
-            realm.Upsert(incomingCases);
+            foreach (var item in incomingCases)
+            {
+                realm.Add(item, update: true);
+                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+            }
         });
     }
-
+    
     public static Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<CaseJson> newOfficeCases,
+        IEnumerable<CaseJson> newAssignedCases,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
         bool isPersonalCaseload)
     {
         return SynchronizeAsync(
             realm,
-            FromApiJsonArray(newOfficeCases, currentUsername),
+            FromApiJsonArray(newAssignedCases, currentUsername),
             userIgnoredPrefs,
             currentUsername,
             isPersonalCaseload);
@@ -258,6 +271,7 @@ public partial class CaseRecord :
             SupportNetworkItem.RemoveByParent(realm, EntityType.Case, @case.Id);
             Attachment.RemoveByParent(realm, EntityType.Case, @case.Id, userIgnoredPrefs);
 
+            realm.Remove(@case.LocalState);
             realm.Remove(@case);
         }
     }
@@ -288,6 +302,11 @@ public partial class CaseRecord :
         return realm
             .All<CaseRecord>()
             .Filter($"$0 == {operation} {nameof(Assignees)}", username);
+    }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username || Assignees.Contains(username);
     }
 
     public bool Equals(CaseRecord other)

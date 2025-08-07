@@ -5,7 +5,6 @@
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
-    xmlns:caseloadModels="clr-namespace:VisitzModel.Models.Caseload;assembly=VisitzModel"
 	xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
@@ -62,23 +61,34 @@
 					Clicked="ListOptionsButton_Clicked" />
             </Grid>
 
-            <SearchBar 
-                BackgroundColor="{StaticResource BC_Background_Light}"
-                CancelButtonColor="{StaticResource BC_TextColor}"
-                TextColor="{StaticResource BC_TextColor}"
-                x:Name="CaseloadSearchBar"
-                HorizontalOptions="FillAndExpand"
-                Placeholder="{local:Localize CaseloadSearchHint}"
-                Text="{Binding SearchQuery}"
-                Margin="{OnPlatform iOS='-9', Default=0}"
-                SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
-                TextChanged="CaseloadSearchBar_TextChanged"
-                ios:SearchBar.SearchBarStyle="Minimal" />
+            <Border
+                Background="Black"
+                StrokeShape="RoundRectangle 6"
+                StrokeThickness="0"
+                Padding="0.1">
+                <Picker
+                    Background="White"
+                    ItemsSource="{Binding OfficeNames}"
+                    SelectedItem="{Binding SelectedOffice}"
+                    VerticalOptions="Center"/>
+            </Border>
 
             <VerticalStackLayout 
                 x:Name="OptionsLayout"
                 IsVisible="False"
                 Spacing="10">
+                <SearchBar 
+                    BackgroundColor="{StaticResource BC_Background_Light}"
+                    CancelButtonColor="{StaticResource BC_TextColor}"
+                    TextColor="{StaticResource BC_TextColor}"
+                    x:Name="CaseloadSearchBar"
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="{local:Localize CaseloadSearchHint}"
+                    Text="{Binding SearchQuery}"
+                    Margin="{OnPlatform iOS='-9', Default=0}"
+                    SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+                    TextChanged="CaseloadSearchBar_TextChanged"
+                    ios:SearchBar.SearchBarStyle="Minimal" />
 
                 <segmentedButtons:SegmentedButtonsView
                     Options="{Binding SortOptions}"
@@ -161,7 +171,8 @@
 				<CollectionView
                     ItemsSource="{Binding Lister.Records}"
                     SelectionMode="None"
-                    ItemSizingStrategy="MeasureFirstItem">
+                    ItemSizingStrategy="MeasureFirstItem"
+                    ItemsUpdatingScrollMode="KeepScrollOffset">
 					
                     <CollectionView.EmptyView>
                         <VerticalStackLayout
@@ -186,10 +197,8 @@
                     </CollectionView.ItemsLayout>
 					
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="caseloadModels:IBusinessObject">
-							<caseload:CaseloadItemView DraftedItems="{Binding
-                                Source={RelativeSource AncestorType={x:Type caseload:CaseloadViewModel}},
-                                Path=DraftedItems}" />
+                        <DataTemplate x:DataType="caseload:CaseloadItemViewModel">
+							<caseload:CaseloadItemView />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 					

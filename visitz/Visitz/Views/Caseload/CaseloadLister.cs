@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Oidc;
 using Realms;
 using System.Collections.ObjectModel;
 using VisitzModel.Models;
@@ -14,6 +15,8 @@ public partial class CaseloadLister : ObservableObject, IDisposable
 
     Func<IEnumerable<IBusinessObject>, IEnumerable<IBusinessObject>> Filter { get; }
 
+    OidcSessionInfo SessionInfo { get; }
+
     readonly ObservableRealmQueryMap queryMap = new();
 
     bool disposedValue;
@@ -23,14 +26,21 @@ public partial class CaseloadLister : ObservableObject, IDisposable
     readonly List<IncidentRecord> incidents = [];
 
     [ObservableProperty]
-    public ObservableCollection<IBusinessObject> records = [];
+    public ObservableCollection<CaseloadItemViewModel> records = [];
+
+    [ObservableProperty]
+    public DraftIndicatorHelper indicatorHelper;
 
     public CaseloadLister(
         Realm realm,
+        DraftIndicatorHelper indicatorHelper,
+        OidcSessionInfo sessionInfo,
         Func<IEnumerable<IBusinessObject>, IEnumerable<IBusinessObject>> filter)
     {
         Realm = realm;
         Filter = filter;
+        SessionInfo = sessionInfo;
+        IndicatorHelper = indicatorHelper;
         Setup();
     }
 
@@ -67,12 +77,14 @@ public partial class CaseloadLister : ObservableObject, IDisposable
 
         var combined = caseRecords.Concat(incidentRecords);
 
+        foreach (var item in Records)
+            item.Dispose();
         Records.Clear();
 
         combined = Filter(combined);
 
         foreach (var record in combined)
-            Records.Add(record);
+            Records.Add(new CaseloadItemViewModel(IndicatorHelper, record, SessionInfo));
     }
 
     static void UpdateItems<T>(
@@ -103,6 +115,9 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         {
             if (disposing)
                 queryMap?.Dispose();
+
+            foreach (var item in Records)
+                item?.Dispose();
 
             disposedValue = true;
         }

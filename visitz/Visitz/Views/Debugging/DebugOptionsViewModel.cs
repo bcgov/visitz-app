@@ -219,4 +219,10 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     {
         await DebugOptions.SetThreshold(VisitDaysThreshold.Critical);
     }
+
+    [RelayCommand]
+    public static Task ClearOfficeNames()
+    {
+        return DebugOptions.ClearOfficeNames();
+    }
 }

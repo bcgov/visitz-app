@@ -14,5 +14,5 @@ public class OfficeCaseloadJson : CaseloadJson
     };
 
     [JsonPropertyName("officeNames")]
-    public List<string> OfficeNames;
+    public List<string> OfficeNames { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace Oidc
 {
@@ -11,6 +11,8 @@ namespace Oidc
         private static readonly string GivenNameKey = "given_name";
         private static readonly string FamilyNameKey = "family_name";
         private static readonly string EmailKey = "email";
+        private static readonly string OfficesKey = "offices";
+        private static readonly string OfficesDelimiter = "<;:?:;>";
 
         private static OidcSessionInfo SessionInfo { get; set; }
 
@@ -22,6 +24,8 @@ namespace Oidc
             SessionInfo.Token = new TokenInfo(await TokenHolder.GetAccessTokenAsync());
             return SessionInfo;
         }
+
+        public event EventHandler<HashSet<string>> OfficesChanged;
 
         private OidcSessionInfo() { }
 
@@ -68,6 +72,26 @@ namespace Oidc
             {
                 var initials = GetInitialOrNull(GivenName) + GetInitialOrNull(FamilyName);
                 return initials?.Length > 0 ? initials : "--";
+            }
+        }
+
+        public HashSet<string> OfficeNames
+        {
+            get => new(Preferences.Default.Get(OfficesKey, "").Split(OfficesDelimiter));
+            set
+            {
+                if (value.Count == 0)
+                {
+                    Preferences.Default.Remove(OfficesKey);
+                    OfficesChanged?.Invoke(this, value);
+                }
+                else if (OfficeNames == null || !OfficeNames.Equals(value))
+                {
+                    Preferences.Default.Set(OfficesKey, value.Aggregate((accum, officeName) =>
+                        accum + OfficesDelimiter + officeName));
+
+                    OfficesChanged?.Invoke(this, value);
+                }
             }
         }
     }

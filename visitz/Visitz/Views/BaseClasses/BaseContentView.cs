@@ -7,7 +7,7 @@ public abstract class BaseContentView : ContentView, IDisposable
 {
     private bool _disposedValue;
 
-    private ILogger Logger { get; }
+    protected ILogger Logger { get; }
 
     public Task InitTask { get; private set; }
 
