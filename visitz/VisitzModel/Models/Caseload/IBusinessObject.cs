@@ -4,6 +4,7 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
+using VisitzModel.Storage;
 
 namespace VisitzModel.Models.Caseload;
 
@@ -44,6 +45,33 @@ public interface IBusinessObject : IRealmObject
     public IQueryable<IcmContact> Contacts { get; }
 
     public bool IsAssigned(string username);
+
+    /// <summary>
+    /// Deletes most of the dependent data for a BusinessObject.
+    /// </summary>
+    /// <param name="userIgnoredPrefs"></param>
+    /// <param name="fromRealm">A Realm reference to delete from or leave null to use the private reference.</param>
+    /// <param name="deleteLocalState">true to delete LocalState as well. false to keep it.</param>
+    public void DeleteDependentData(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm? fromRealm = null,
+        bool deleteLocalState = false);
+
+    /// <summary>
+    /// Deletes a BusinessObject and all its dependent data.
+    /// </summary>
+    /// <param name="userIgnoredPrefs"></param>
+    /// <param name="fromRealm">A Realm reference to delete from or leave null
+    /// to use the private reference.</param>
+    /// <param name="cascade">Delete all dependent data for this BusinessObject.
+    /// Defaults to true.</param>
+    /// <param name="deleteLocalState">Delete LocalState for this BusinessObject.
+    /// Defaults to true. Independent from cascade.</param>
+    public void Delete(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm? fromRealm = null,
+        bool cascade = true,
+        bool deleteLocalState = true);
 }
 
 public static class IBusinessObjectExtensions
