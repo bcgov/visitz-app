@@ -128,6 +128,10 @@ namespace Oidc
             await InvalidateSessionAsync();
 
             var info = await OidcSessionInfo.GetAsync();
+
+            if (logoutSuccess)
+                info.OfficeNames = [];
+
             SessionChanged?.Invoke(info, new LogoutChangedEventArgs() { Success = logoutSuccess });
 
             return logoutSuccess;
@@ -141,6 +145,8 @@ namespace Oidc
             await InvalidateSessionAsync();
 
             var info = await OidcSessionInfo.GetAsync();
+            info.OfficeNames = [];
+
             SessionChanged?.Invoke(info, new LogoutChangedEventArgs() { Success = true });
         }
 
