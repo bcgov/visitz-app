@@ -12,8 +12,10 @@ using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
 
@@ -139,6 +141,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
     void UpdateIsAssigned()
     {
+        // TODO: ensure either service is not running: GetAllDataForOfflineService OR GetAllDataForRecordService for this specific record
         CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
             && BusinessObject.LocalState.ShouldDownloadDuringRefresh;
     }
@@ -230,9 +233,14 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             LocalizedStrings.RemoveFromDevice,
             LocalizedStrings.Cancel);
 
+        // TODO: ensure either service is not running: GetAllDataForOfflineService OR GetAllDataForRecordService for this specific record
         if (shouldRemove)
         {
             BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = false;
+
+            var ignoredPrefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
+            await BusinessObject.CommitAsync(() => BusinessObject.DeleteDependentData(ignoredPrefs));
+
             UpdateInteractiveStates();
         }
     }
