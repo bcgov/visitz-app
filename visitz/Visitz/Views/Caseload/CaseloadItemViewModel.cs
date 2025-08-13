@@ -109,7 +109,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     void UpdateInteractiveStates()
     {
         UpdateStateVisibility();
-        UpdateIsAssigned();
+
+        CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
+            && BusinessObject.LocalState.ShouldDownloadDuringRefresh
+            && !ServicesRunning();
     }
 
     void UpdateStateVisibility()
@@ -137,13 +140,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         }
 
         ShowDate = !ShowDownloadIcon && !ShowProgressIndicator;
-    }
-
-    void UpdateIsAssigned()
-    {
-        // TODO: ensure either service is not running: GetAllDataForOfflineService OR GetAllDataForRecordService for this specific record
-        CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
-            && BusinessObject.LocalState.ShouldDownloadDuringRefresh;
     }
 
     void OpenEntityView()
@@ -233,8 +229,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             LocalizedStrings.RemoveFromDevice,
             LocalizedStrings.Cancel);
 
-        // TODO: ensure either service is not running: GetAllDataForOfflineService OR GetAllDataForRecordService for this specific record
-        if (shouldRemove)
+        if (shouldRemove && !ServicesRunning())
         {
             var ignoredPrefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
 
@@ -292,5 +287,11 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         {
             Logger.LogError(ex, ex.Message);
         }
+    }
+
+    bool ServicesRunning()
+    {
+        return serviceHandler.IsAnyServiceRunning(nameof(GetAllDataForOfflineService))
+            || serviceHandler.IsAnyServiceRunning(BusinessObject.ToIdTypeString());
     }
 }
