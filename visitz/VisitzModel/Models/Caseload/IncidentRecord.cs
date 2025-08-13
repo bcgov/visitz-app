@@ -300,21 +300,42 @@ public partial class IncidentRecord :
             isPersonalCaseload);
     }
 
+    public void DeleteDependentData(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.Incident, FileNumber);
+        IcmContact.RemoveByParent(fromRealm, EntityType.Incident, Id);
+        SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
+        Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
+
+        if (deleteLocalState)
+            fromRealm.Remove(LocalState);
+    }
+
+    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool cascade = true,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        if (cascade)
+            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
+
+        fromRealm.Remove(this);
+    }
+
     static void CascadeDelete(
-        Realm realm,
+        Realm fromRealm,
         IEnumerable<IncidentRecord> removeIncidents,
         UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var incident in removeIncidents)
-        {
-            NoteItem.RemoveByParentFileNumber(realm, EntityType.Incident, incident.FileNumber);
-            IcmContact.RemoveByParent(realm, EntityType.Incident, incident.Id);
-            SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, incident.Id);
-            Attachment.RemoveByParent(realm, EntityType.Incident, incident.Id, userIgnoredPrefs);
-
-            realm.Remove(incident.LocalState);
-            realm.Remove(incident);
-        }
+            incident.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)

@@ -12,8 +12,10 @@ using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
 
@@ -107,7 +109,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     void UpdateInteractiveStates()
     {
         UpdateStateVisibility();
-        UpdateIsAssigned();
+
+        CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
+            && BusinessObject.LocalState.ShouldDownloadDuringRefresh
+            && !ServicesRunning();
     }
 
     void UpdateStateVisibility()
@@ -135,12 +140,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         }
 
         ShowDate = !ShowDownloadIcon && !ShowProgressIndicator;
-    }
-
-    void UpdateIsAssigned()
-    {
-        CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
-            && BusinessObject.LocalState.ShouldDownloadDuringRefresh;
     }
 
     void OpenEntityView()
@@ -230,9 +229,16 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             LocalizedStrings.RemoveFromDevice,
             LocalizedStrings.Cancel);
 
-        if (shouldRemove)
+        if (shouldRemove && !ServicesRunning())
         {
-            BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = false;
+            var ignoredPrefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
+
+            await BusinessObject.CommitAsync(() =>
+            {
+                BusinessObject.LocalState.ShouldDownloadDuringRefresh = false;
+                BusinessObject.DeleteDependentData(ignoredPrefs, deleteLocalState: false);
+            });
+
             UpdateInteractiveStates();
         }
     }
@@ -281,5 +287,11 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         {
             Logger.LogError(ex, ex.Message);
         }
+    }
+
+    bool ServicesRunning()
+    {
+        return serviceHandler.IsAnyServiceRunning(nameof(GetAllDataForOfflineService))
+            || serviceHandler.IsAnyServiceRunning(BusinessObject.ToIdTypeString());
     }
 }

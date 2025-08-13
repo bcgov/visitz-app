@@ -258,22 +258,43 @@ public partial class CaseRecord :
             isPersonalCaseload);
     }
 
+    public void DeleteDependentData(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.Case, FileNumber);
+        PersonVisit.RemoveByParent(fromRealm, EntityType.Case, Id);
+        IcmContact.RemoveByParent(fromRealm, EntityType.Case, Id);
+        SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);
+        Attachment.RemoveByParent(fromRealm, EntityType.Case, Id, userIgnoredPrefs);
+
+        if (deleteLocalState)
+            fromRealm.Remove(LocalState);
+    }
+
+    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool cascade = true,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        if (cascade)
+            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
+
+        fromRealm.Remove(this);
+    }
+
     static void CascadeDelete(
-        Realm realm,
+        Realm fromRealm,
         IEnumerable<CaseRecord> unassigned,
         UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var @case in unassigned)
-        {
-            NoteItem.RemoveByParentFileNumber(realm, EntityType.Case, @case.FileNumber);
-            PersonVisit.RemoveByParent(realm, EntityType.Case, @case.Id);
-            IcmContact.RemoveByParent(realm, EntityType.Case, @case.Id);
-            SupportNetworkItem.RemoveByParent(realm, EntityType.Case, @case.Id);
-            Attachment.RemoveByParent(realm, EntityType.Case, @case.Id, userIgnoredPrefs);
-
-            realm.Remove(@case.LocalState);
-            realm.Remove(@case);
-        }
+            @case.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)

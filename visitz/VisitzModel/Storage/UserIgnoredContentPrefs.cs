@@ -1,5 +1,8 @@
+using VisitzModel.Models.Caseload;
+
 namespace VisitzModel.Storage;
 
+[Obsolete($"Use {nameof(BoLocalState)} instead")]
 public class UserIgnoredContentPrefs(IPreferences prefs)
 {
     private const string IgnoredContentKeyPrefix = "UserIgnoredContent";
