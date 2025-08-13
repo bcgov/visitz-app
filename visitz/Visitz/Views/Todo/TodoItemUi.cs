@@ -10,7 +10,7 @@ public partial class TodoItemUi : VisitzViewModel
 {
     readonly ObservableRealmQueryMap realmQuery = new();
 
-    List<IRealmObject> todoItems = [];
+    readonly List<IRealmObject> todoItems = [];
 
     [ObservableProperty]
     int count;
@@ -18,9 +18,9 @@ public partial class TodoItemUi : VisitzViewModel
     [ObservableProperty]
     string itemName;
 
-    Func<int> counter;
+    readonly Func<int> counter;
 
-    Action<TodoItemUi> action;
+    readonly Action<TodoItemUi> action;
 
     public NavItem selectedTodoNavItem;
 
