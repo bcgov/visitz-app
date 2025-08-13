@@ -236,10 +236,13 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         // TODO: ensure either service is not running: GetAllDataForOfflineService OR GetAllDataForRecordService for this specific record
         if (shouldRemove)
         {
-            BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = false;
-
             var ignoredPrefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
-            await BusinessObject.CommitAsync(() => BusinessObject.DeleteDependentData(ignoredPrefs));
+
+            await BusinessObject.CommitAsync(() =>
+            {
+                BusinessObject.LocalState.ShouldDownloadDuringRefresh = false;
+                BusinessObject.DeleteDependentData(ignoredPrefs, deleteLocalState: false);
+            });
 
             UpdateInteractiveStates();
         }
