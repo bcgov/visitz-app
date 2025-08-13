@@ -303,7 +303,7 @@ public partial class IncidentRecord :
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
-        bool deleteLocalState = false)
+        bool deleteLocalState = true)
     {
         fromRealm ??= Realm;
 
