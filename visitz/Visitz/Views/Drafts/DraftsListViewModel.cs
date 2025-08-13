@@ -1,8 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Realms;
 using System.Collections.ObjectModel;
+using Visitz.Extensions;
+using Visitz.Services.Base;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
@@ -109,12 +112,40 @@ internal partial class DraftsListViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    private void DraftItemSelected(IDraftItem draftItem)
+    private async Task DraftItemSelected(IDraftItem draftItem)
     {
         if (draftItem.GetRelatedBusinessObjectFrom(DataRealm) is IBusinessObject bobj)
-            NavigateTo(bobj, SectionToOpen, draftItem);
+            await MarkForDownloadAndTryOpen(bobj, draftItem);
         else
             SelectedItemRelatedMissing?.Invoke(this, draftItem);
+    }
+
+    private async Task MarkForDownloadAndTryOpen(IBusinessObject bobj, IDraftItem draftItem)
+    {
+        bool markForDownload = !bobj.LocalState.ShouldDownloadDuringRefresh;
+
+        if (markForDownload)
+        {
+            if (await bobj.PromptCanDownloadDependentData())
+            {
+                try
+                {
+                    var result = await bobj.DownloadDependentData();
+
+                    if (result == VisitzService.Result.Successful)
+                        NavigateTo(bobj, SectionToOpen, draftItem);
+                }
+                catch (OperationCanceledException) { }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, ex.Message);
+                    await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+                }
+            }
+            // else: cancel
+        }
+        else
+            NavigateTo(bobj, SectionToOpen, draftItem);
     }
 
     static void NavigateTo(IBusinessObject businessObject, EntitySection section, IDraftItem draftItem)

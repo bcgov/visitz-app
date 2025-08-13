@@ -148,31 +148,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         StrongReferenceMessenger.Default.Send(msg);
     }
 
-    async Task<bool> DoDownload()
-    {
-        if (!NetworkHelper.InternetAvailable)
-        {
-            await Navigator.CurrentOpenPage.DisplayAlert(
-                LocalizedStrings.NoInternet,
-                LocalizedStrings.NeedInternetToViewRecord,
-                LocalizedStrings.Ok);
-            return false;
-        }
-        else
-        {
-            string msg = string.Format(
-                LocalizedStrings.MarkForDownload,
-                BusinessObject.EntityType,
-                BusinessObject.DisplayName.Trim());
-
-            return await Navigator.CurrentOpenPage.DisplayAlert(
-                LocalizedStrings.DownloadRecordInformation,
-                msg,
-                LocalizedStrings.Download,
-                LocalizedStrings.Cancel);
-        }
-    }
-
     [RelayCommand]
     public async Task BusinessObjectSelected()
     {
@@ -180,13 +155,14 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
         if (markForDownload)
         {
-            if (await DoDownload())
+            if (await BusinessObject.PromptCanDownloadDependentData())
             {
                 BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = true;
 
                 var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
                 WeakReferenceMessenger.Default.Send(msg);
             }
+            // else: cancel
         }
         else
             OpenEntityView();
