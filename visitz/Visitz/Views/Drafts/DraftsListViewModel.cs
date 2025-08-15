@@ -15,6 +15,7 @@ using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
@@ -26,7 +27,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
     bool _disposed;
 
     [ObservableProperty]
-    public ObservableCollection<object> draftItems = [];
+    public ObservableCollection<IDraftItem> draftItems = [];
 
     readonly ObservableRealmQueryMap queryMap = new();
 
@@ -103,12 +104,22 @@ internal partial class DraftsListViewModel : VisitzViewModel
         queryMap.Subscribe(realm, sortedQuery);
     }
 
-    private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void QueryMap_ItemsChanged(
+        object _,
+        (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
+        foreach (var draft in DraftItems)
+            draft.Dispose();
+
         DraftItems.Clear();
 
         foreach (var item in e.Items)
-            DraftItems.Add(item);
+        {
+            IDraftItem draftItem = (IDraftItem)item;
+            draftItem.SubscribeRelatedState(DataRealm);
+
+            DraftItems.Add(draftItem);
+        }
     }
 
     [RelayCommand]

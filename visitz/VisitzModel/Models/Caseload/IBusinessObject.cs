@@ -158,4 +158,28 @@ public static class IBusinessObjectExtensions
             realm.Add(item.LocalState);
         }
     }
+
+    public static IQueryable<IBusinessObject> GetQueryableByRelaxedIdType(Realm realm, string id, EntityType type)
+    {
+        return type switch
+        {
+            EntityType.Case => realm.All<CaseRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.Incident => realm.All<IncidentRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.Memo => realm.All<MemoRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.ServiceRequest => realm.All<ServiceRequestRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            _ => throw new InvalidOperationException($"'{type}' not supported")
+        };
+    }
+
+    public static IBusinessObject? GetByIdType(Realm realm, string id, EntityType type)
+    {
+        return type switch
+        {
+            EntityType.Case => realm.Find<CaseRecord>(id),
+            EntityType.Incident => realm.Find<IncidentRecord>(id),
+            EntityType.Memo => realm.Find<MemoRecord>(id),
+            EntityType.ServiceRequest => realm.Find<ServiceRequestRecord>(id),
+            _ => throw new InvalidOperationException($"'{type}' not supported")
+        };
+    }
 }
