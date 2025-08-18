@@ -702,7 +702,7 @@ If you have any questions about the collection, use, or disclosure of this infor
     <value>Discard unlinked draft</value>
   </data>
   <data name="DiscardUnlinkedDraftDesc" xml:space="preserve">
-    <value>You are not assigned to {0} '{1}'. To continue working on drafts for this record you must be assigned.
+    <value>{0} '{1}' is no longer available on this device because it may not be open, is restricted, or is no longer assigned to your office.
 
 If you select 'Cancel and keep draft', the draft will remain on your device.
 
@@ -771,13 +771,13 @@ You can view the details of this error or try again later.</value>
     <value>Camera permissions disabled</value>
   </data>
   <data name="RecordRemovedFromCaseload" xml:space="preserve">
-    <value>{0} '{1}' unassigned from caseload</value>
+    <value>{0} '{1}' removed from device</value>
     <comment>0 = Entity type, 1 = Key player name</comment>
   </data>
   <data name="RecordRemovedFromCaseloadDetails" xml:space="preserve">
-    <value>"The record {0} '{1}' was unassigned from your caseload and was removed from this device during caseload refresh.
+    <value>{0} '{1}' was removed from this device during caseload refresh because it may not be open, is restricted, or is no longer assigned to your office.
 
-Any drafts for this record are still saved—but won't be accessible until the record is reassigned."</value>
+Any drafts for this record are still saved—but won't be accessible until the record is viewable in the app again.</value>
     <comment>0 = Entity type, 1 = Key player name</comment>
   </data>
   <data name="ChildYouthVisits" xml:space="preserve">

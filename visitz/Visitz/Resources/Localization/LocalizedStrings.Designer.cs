@@ -683,7 +683,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are not assigned to {0} &apos;{1}&apos;. To continue working on drafts for this record you must be assigned.
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; is no longer available on this device because it may not be open, is restricted, or is no longer assigned to your office.
         ///
         ///If you select &apos;Cancel and keep draft&apos;, the draft will remain on your device.
         ///
@@ -1730,7 +1730,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} &apos;{1}&apos; unassigned from caseload.
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; removed from device.
         /// </summary>
         public static string RecordRemovedFromCaseload {
             get {
@@ -1739,9 +1739,9 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;The record {0} &apos;{1}&apos; was unassigned from your caseload and was removed from this device during caseload refresh.
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; was removed from this device during caseload refresh because it may not be open, is restricted, or is no longer assigned to your office.
         ///
-        ///Any drafts for this record are still saved—but won&apos;t be accessible until the record is reassigned.&quot;.
+        ///Any drafts for this record are still saved—but won&apos;t be accessible until the record is viewable in the app again..
         /// </summary>
         public static string RecordRemovedFromCaseloadDetails {
             get {
