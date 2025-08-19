@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Extensions;
-using Visitz.Services.Base;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
@@ -141,10 +140,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
             {
                 try
                 {
-                    var result = await bobj.DownloadDependentData();
-
-                    if (result == VisitzService.Result.Successful)
-                        NavigateTo(bobj, SectionToOpen, draftItem);
+                    await bobj.DownloadDependentData();
                 }
                 catch (OperationCanceledException) { }
                 catch (Exception ex)
