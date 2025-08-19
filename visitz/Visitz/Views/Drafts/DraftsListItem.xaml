@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:draftsModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
+    xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:interfaces="clr-namespace:VisitzModel.Models.Interfaces;assembly=VisitzModel"
+    xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
+    x:Class="Visitz.Views.Drafts.DraftsListItem"
+    x:DataType="draftsModels:IDraftItem">
+
+        <ContentView.GestureRecognizers>
+            <TapGestureRecognizer 
+                Command="{Binding Source={RelativeSource
+                    AncestorType={x:Type drafts:DraftsListViewModel}},
+                    Path=DraftItemSelectedCommand}"
+                CommandParameter="{Binding .}"/>
+        </ContentView.GestureRecognizers>
+
+        <VerticalStackLayout>
+            <Grid
+                RowDefinitions="*,Auto"
+                Style="{StaticResource DraftsColumns}"
+                MinimumHeightRequest="25"
+                Margin="10">
+
+                <Grid.Resources>
+                    <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
+                    <converters:BoolNegationConverter x:Key="BoolConverter" />
+                </Grid.Resources>
+
+                <Label 
+                    Grid.Column="0"
+                    VerticalOptions="Center"
+                    Text="{Binding DraftLocation}" />
+
+                <Label 
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    Text="{Binding Preview}"
+                    MaxLines="1"
+                    LineBreakMode="TailTruncation" />
+
+                <Label 
+                    Grid.Column="2"
+                    VerticalOptions="Center"
+                    Text="{Binding LastUpdated.LocalDateTime,
+                        Converter={StaticResource ShortTimestampConverter}}"
+                    TextColor="{StaticResource BC_TextColor_Lighter}" />
+
+                <tagViews:EntityTypeBadge
+                    x:DataType="interfaces:IRecordInfo"
+                    Grid.Column="3"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    EntityType="{Binding RelatedEntityType}"
+                    EntitySubtype="{Binding RelatedEntitySubtype}" />
+
+                <Label
+                    x:DataType="interfaces:IRecordInfo"
+                    Grid.Column="4"
+                    FontSize="20"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    Text="{Static icons:MaterialIcons.Download}"
+                    VerticalOptions="Center"
+                    IsVisible="{Binding RelatedEntityDownloaded,
+                        Converter={StaticResource BoolConverter}}"/>
+
+                <Label
+                    x:DataType="interfaces:IRecordInfo"
+                    Grid.Column="4"
+                    FontSize="20"
+                    BackgroundColor="White"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    Text="{Static icons:MaterialIcons.Link_off}"
+                    VerticalOptions="Center"
+                    IsVisible="{Binding RelatedEntityAvailable,
+                        Converter={StaticResource BoolConverter}}"/>
+
+                <ContentView
+                    x:DataType="interfaces:IRecordInfo"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="5"
+                    CascadeInputTransparent="True">
+                        <BoxView    
+                            Color="#55ffffff"
+                            IsVisible="{Binding RelatedEntityDownloaded,
+                                Converter={StaticResource BoolConverter}}" />
+                    </ContentView>
+            </Grid>
+
+            <BoxView
+                Margin="10,0"
+                HeightRequest="0.5"
+                Color="{StaticResource Gray200}" />
+        </VerticalStackLayout>
+
+</ContentView>
