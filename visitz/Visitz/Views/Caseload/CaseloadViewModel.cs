@@ -353,7 +353,14 @@ namespace Visitz.Views.Caseload
             IsRefreshing = message.Status == VisitzService.State.Running;
 
             if (message.FinishedSuccess)
-                ShowEmptyCaseloadMessage = !Lister.Records.Any();
+            {
+                bool anyExist = Realm.All<CaseRecord>().Any()
+                    || Realm.All<IncidentRecord>().Any()
+                    || Realm.All<MemoRecord>().Any()
+                    || Realm.All<ServiceRequestRecord>().Any();
+
+                ShowEmptyCaseloadMessage = !anyExist;
+            }
         }
 
         partial void OnActivatedSortOptionChanged(SegmentedOptions value)
