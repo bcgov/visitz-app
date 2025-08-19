@@ -34,13 +34,14 @@ public partial class TodoVisitsViewModel : VisitzViewModel
         realmQuery.Subscribe(icmDataRealm, PersonVisit.GetAllByType(icmDataRealm));
     }
 
-    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(
+        object sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
-        if (e.Type == typeof(PersonVisit))
-            UpdateTodoItemsList(e.Items, e.Changes);
+        UpdateTodoItemsList();
     }
 
-    private void UpdateTodoItemsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    private void UpdateTodoItemsList()
     {
         var upcomingVisits = PersonVisit.GetUpcomingVisits(icmDataRealm).ToList();
         TodoItems.Clear();
@@ -56,7 +57,7 @@ public partial class TodoVisitsViewModel : VisitzViewModel
     private static void TodoItemSelected(TodoVisitsDisplayItem item)
     {
         if (item.BusinessObject != null)
-            NavigateTo(item.BusinessObject, item.SectionToOpen, item.TodoItem);
+            NavigateTo(item.BusinessObject, item.SectionToOpen);
     }
 
     private static IBusinessObject GetRelatedBusinessObjectFrom(Realm realm, PersonVisit todoItem)
@@ -64,7 +65,7 @@ public partial class TodoVisitsViewModel : VisitzViewModel
         return CaseRecord.GetByPersonVisitItem(realm, todoItem);
     }
 
-    static void NavigateTo(IBusinessObject businessObject, EntitySection section, PersonVisit visitItem)
+    static void NavigateTo(IBusinessObject businessObject, EntitySection section)
     {
         var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section);
         StrongReferenceMessenger.Default.Send(caseloadNav);

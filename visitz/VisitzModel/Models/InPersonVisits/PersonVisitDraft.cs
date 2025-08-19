@@ -3,6 +3,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Interfaces;
 using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.InPersonVisits;
@@ -38,6 +39,49 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
 
     public PersonVisit Visit { get; set; } = new();
 
+    private bool disposedValue;
+    private bool? relatedEntityAvailable;
+    private bool? relatedEntityDownloaded;
+
+    [Ignored]
+    public Realm RelatedEntityRealm { get; set; }
+
+    [Ignored]
+    public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+
+    [Ignored]
+    public IDisposable RelatedEntitySubscriptionToken { get; set; }
+
+    /// <summary>
+    /// Whether or not the related entity is available for the app to interact
+    /// with at all.
+    /// </summary>
+    [Ignored]
+    public bool? RelatedEntityAvailable
+    {
+        get => relatedEntityAvailable;
+        set
+        {
+            relatedEntityAvailable = value;
+            RaisePropertyChanged(nameof(RelatedEntityAvailable));
+        }
+    }
+
+    /// <summary>
+    /// Whether or not the related entity's depdendent data has been
+    /// downloaded (or marked for download).
+    /// </summary>
+    [Ignored]
+    public bool? RelatedEntityDownloaded
+    {
+        get => relatedEntityDownloaded;
+        set
+        {
+            relatedEntityDownloaded = value;
+            RaisePropertyChanged(nameof(RelatedEntityDownloaded));
+        }
+    }
+
     public PersonVisitDraft() { }
 
     public PersonVisitDraft(CaseRecord @case)
@@ -69,5 +113,30 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         await RealmExtensions.CommitAsync(realm, () => realm.Upsert(draft));
 
         return draft;
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                RelatedEntitySubscriptionToken?.Dispose();
+                RelatedEntitySubscriptionToken = null;
+                RelatedEntitySubscriptionQuery = null;
+                RelatedEntityRealm = null;
+                RelatedEntityAvailable = null;
+                RelatedEntityDownloaded = null;
+            }
+
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

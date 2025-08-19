@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Realms;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Visitz.Extensions;
@@ -19,6 +18,7 @@ using Visitz.Views.User;
 using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using IBusinessObjectExtensions = VisitzModel.Models.Caseload.IBusinessObjectExtensions;
 
 namespace Visitz.Views.Caseload
 {
