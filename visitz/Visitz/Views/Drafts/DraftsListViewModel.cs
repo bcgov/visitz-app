@@ -157,11 +157,11 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
     static void NavigateTo(IBusinessObject businessObject, EntitySection section, IDraftItem draftItem)
     {
-        var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section, draftItem);
-        StrongReferenceMessenger.Default.Send(caseloadNav);
-
         var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
         StrongReferenceMessenger.Default.Send(appNav);
+
+        var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section, draftItem);
+        StrongReferenceMessenger.Default.Send(caseloadNav);
     }
 
     public static async Task DeleteDraft(IDraftItem draft)
