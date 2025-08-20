@@ -1,15 +1,20 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Messaging;
 
 namespace Visitz.Views.Root;
 
-internal partial class RootViewModel : VisitzViewModel
+internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>
 {
     [ObservableProperty]
     public bool isLandscape = false;
 
     [ObservableProperty]
     public bool isPortrait = false;
+
+    [ObservableProperty]
+    public bool showActivity = true;
 
     protected override Task InitAsync()
     {
@@ -19,6 +24,8 @@ internal partial class RootViewModel : VisitzViewModel
 
         DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
 
+        StrongReferenceMessenger.Default.RegisterAll(this);
+
         return Task.CompletedTask;
     }
 
@@ -27,6 +34,7 @@ internal partial class RootViewModel : VisitzViewModel
     {
         if (!disposed && disposing)
         {
+            StrongReferenceMessenger.Default.UnregisterAll(this);
             DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
             disposed = true;
         }
@@ -43,5 +51,11 @@ internal partial class RootViewModel : VisitzViewModel
     {
         IsPortrait = orientation.Equals(DisplayOrientation.Portrait);
         IsLandscape = !IsPortrait;
+    }
+
+    public void Receive(AppNavMessage message)
+    {
+        ShowActivity = false;
+        StrongReferenceMessenger.Default.UnregisterAll(this);
     }
 }

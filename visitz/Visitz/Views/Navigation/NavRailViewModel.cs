@@ -100,12 +100,12 @@ public partial class NavRailViewModel : VisitzViewModel
         await base.InitAsync();
 
         BuildNavCollection();
-        SelectedNavItem = (NavItem)NavigationItems.First();
 
         await SubscribeToAllDraftCounts();
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
         StrongReferenceMessenger.Default.Register<TodoBadgeCountMessage>(this, ReceiveTodoBadgeCountMessage);
+
         await SubscribeToAllTodoCounts();
     }
 
@@ -159,7 +159,15 @@ public partial class NavRailViewModel : VisitzViewModel
         {
             int updatedCount = PersonVisit.GetUpcomingVisits(_icmDataRealm).Count();
             StrongReferenceMessenger.Default.Send(new TodoBadgeCountMessage(updatedCount));
+
+            if (changes == null)
+                FirstLoadNavigate(updatedCount > 0 ? TodoNavItem : CaseloadNavItem);
         });
+    }
+
+    private void FirstLoadNavigate(NavItem navItem)
+    {
+        SelectedNavItem = navItem;
     }
 
     partial void OnSelectedNavItemChanged(NavItem value)

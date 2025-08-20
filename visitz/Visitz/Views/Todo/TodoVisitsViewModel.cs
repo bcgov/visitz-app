@@ -67,11 +67,11 @@ public partial class TodoVisitsViewModel : VisitzViewModel
 
     static void NavigateTo(IBusinessObject businessObject, EntitySection section)
     {
-        var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section);
-        StrongReferenceMessenger.Default.Send(caseloadNav);
-
         var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
         StrongReferenceMessenger.Default.Send(appNav);
+
+        var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section);
+        StrongReferenceMessenger.Default.Send(caseloadNav);
     }
 
     protected override void Dispose(bool disposing)
