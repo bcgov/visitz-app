@@ -40,6 +40,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetSafetyAssessmentsService>();
             builder.Services.AddTransient<GetSafetyAssessmentsByRangeService>();
             builder.Services.AddTransient<GetOfficeCaseloadService>();
+            builder.Services.AddTransient<RecordCleanupService>();
 
             return builder;
         }

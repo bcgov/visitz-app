@@ -88,7 +88,7 @@
 				Background="AliceBlue"
 				Text="Database" />
 
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
@@ -110,8 +110,15 @@
 					Command="{Binding ClearAttachmentDraftCommand}"
 					Text="Clear AttachmentDraft data" />
 
+                <Button
+				    StyleClass="DebugLayout"
+				    Grid.Row="3"
+				    Grid.Column="1"
+				    Command="{Binding RunRecordCleanupCommand}"
+				    Text="Run RecordCleanupService" />
+
 				<HorizontalStackLayout
-					Grid.Row="3"
+					Grid.Row="4"
 					Grid.Column="1"
 					Spacing="5">
 					<Entry Text="{Binding MockPersonVisitsParentId, TargetNullValue='1-0000000'}" />

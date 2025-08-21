@@ -77,6 +77,8 @@ public class GetAllDataForRecordService(
         else if (exceptions.Count > 0)
             throw exceptions.First();
 
+        BusinessObject.LocalState.LastOpenedBinding = DateTimeOffset.UtcNow;
+
         ResultCode = Result.Successful;
     }
 

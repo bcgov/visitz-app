@@ -1,7 +1,9 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
 using Visitz.Services;
+using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
@@ -31,14 +33,9 @@ public partial class VisitzApp : Application
         base.OnStart();
 
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
-        try
-        {
-            _ = ClearRealmLogs.ClearLogData();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.ToString());
-        }
+
+        TryClearLogs();
+        CleanupStaleRecords();
     }
 
     protected override Window CreateWindow(IActivationState activationState)
@@ -60,5 +57,22 @@ public partial class VisitzApp : Application
     private static async Task ClearIcmData()
     {
         await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
+    }
+
+    private void TryClearLogs()
+    {
+        try
+        {
+            _ = ClearRealmLogs.ClearLogData();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+        }
+    }
+
+    private static void CleanupStaleRecords()
+    {
+        WeakReferenceMessenger.Default.Send(RecordCleanupService.MakeStartMessage());
     }
 }

@@ -1,10 +1,9 @@
 using System.Text;
 using Visitz.Storage;
-using VisitzModel.Models;
 using VisitzModel.Models.InPersonVisits;
 using Oidc;
-
-
+using Visitz.Services;
+using Visitz.Services.Caseload;
 
 #if WINDOWS
 using Windows.Storage;
@@ -249,5 +248,14 @@ public class DebugOptions
 
         var info = await OidcSession.GetInfoAsync();
         info.OfficeNames = [];
+    }
+
+    public static async Task RunRecordCleanupService()
+    {
+        if (!Enabled)
+            return;
+
+        await ServiceProvider.GetService<ServiceHandler>()
+            .TryRunServiceAsync(RecordCleanupService.MakeStartMessage());
     }
 }
