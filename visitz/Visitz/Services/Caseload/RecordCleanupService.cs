@@ -45,6 +45,12 @@ internal class RecordCleanupService : VisitzService
     async Task RemoveStaleOfficeRecordsAsync()
     {
         OidcSessionInfo info = await OidcSession.GetInfoAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(info.Idir))
+        {
+            ResultCode = Result.NoOperation;
+            return;
+        }
+
         Realm realm = await VisitzRealms.GetIcmDataRealmAsync().ConfigureAwait(false);
         UserIgnoredContentPrefs ignoredPrefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
 
