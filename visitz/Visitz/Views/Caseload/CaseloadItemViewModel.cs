@@ -111,7 +111,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         UpdateStateVisibility();
 
         CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
-            && BusinessObject.LocalState.ShouldDownloadDuringRefresh
+            && (BusinessObject.LocalState?.ShouldDownloadDuringRefresh ?? false)
             && !ServicesRunning();
     }
 

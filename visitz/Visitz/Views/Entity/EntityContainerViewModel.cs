@@ -50,6 +50,8 @@ public partial class EntityContainerViewModel :
         ServiceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
         ServiceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
 
+        UpdateLocalActivityTimestamp();
+
         return init;
     }
 
@@ -116,5 +118,10 @@ public partial class EntityContainerViewModel :
     {
         EntityTypeTextColor = newValue?.EntityType.GetTextColor() ?? VisitzColors.BC_TextColor;
         FullTypeCased = newValue?.FullType.ToTitleCase();
+    }
+
+    private void UpdateLocalActivityTimestamp()
+    {
+        BusinessObject.LocalState.LastOpenedBinding = DateTimeOffset.UtcNow;
     }
 }
