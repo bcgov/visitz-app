@@ -16,6 +16,8 @@ internal class RecordCleanupService : VisitzService
 {
     static readonly int MaxDaysThreshold = 7;
 
+    DateTimeOffset dateThreshold;
+
     public static StartServiceMessage MakeStartMessage()
     {
         return new()
@@ -38,29 +40,29 @@ internal class RecordCleanupService : VisitzService
     protected override async Task RunServiceAsync()
     {
         await RemoveStaleOfficeRecordsAsync();
-
-        ResultCode = Result.Successful;
     }
 
     async Task RemoveStaleOfficeRecordsAsync()
     {
         OidcSessionInfo info = await OidcSession.GetInfoAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(info.Idir))
+        {
+            ResultCode = Result.NoOperation;
+            return;
+        }
+
         Realm realm = await VisitzRealms.GetIcmDataRealmAsync().ConfigureAwait(false);
         UserIgnoredContentPrefs ignoredPrefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
 
-        DateTimeOffset dateThreshold = DateTimeOffset.UtcNow.AddDays(-MaxDaysThreshold);
-
-        bool predicate(IBusinessObject bo) =>
-            (bo.LocalState?.ShouldDownloadDuringRefresh ?? false)
-                && bo.LocalState.LastOpened < dateThreshold;
+        dateThreshold = DateTimeOffset.UtcNow.AddDays(-MaxDaysThreshold);
 
         IEnumerable<IBusinessObject> officeCases = CaseRecord
             .GetAllByAssignee(realm, info.Idir, invert: true)
-            .Where(predicate);
+            .Where(IsStaleRecord);
 
         IEnumerable<IBusinessObject> officeIncidents = IncidentRecord
             .GetAllByAssignee(realm, info.Idir, invert: true)
-            .Where(predicate);
+            .Where(IsStaleRecord);
 
         IEnumerable<IBusinessObject> staleOfficeRecords = officeCases.Concat(officeIncidents);
 
@@ -69,6 +71,14 @@ internal class RecordCleanupService : VisitzService
             foreach (var stale in staleOfficeRecords)
                 DeleteDependentData(realm, stale, ignoredPrefs);
         });
+
+        ResultCode = Result.Successful;
+    }
+
+    bool IsStaleRecord(IBusinessObject bo)
+    {
+        return (bo.LocalState?.ShouldDownloadDuringRefresh ?? false)
+                && bo.LocalState?.LastOpened < dateThreshold;
     }
 
     void DeleteDependentData(
