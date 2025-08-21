@@ -225,4 +225,10 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     {
         return DebugOptions.ClearOfficeNames();
     }
+
+    [RelayCommand]
+    public static async Task RunRecordCleanup()
+    {
+        await DebugOptions.RunRecordCleanupService();
+    }
 }
