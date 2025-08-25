@@ -44,14 +44,14 @@ internal class RecordCleanupService : VisitzService
 
     async Task RemoveStaleOfficeRecordsAsync()
     {
-        OidcSessionInfo info = await OidcSession.GetInfoAsync().ConfigureAwait(false);
+        OidcSessionInfo info = await OidcSession.GetInfoAsync();
         if (string.IsNullOrWhiteSpace(info.Idir))
         {
             ResultCode = Result.NoOperation;
             return;
         }
 
-        Realm realm = await VisitzRealms.GetIcmDataRealmAsync().ConfigureAwait(false);
+        Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
         UserIgnoredContentPrefs ignoredPrefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
 
         dateThreshold = DateTimeOffset.UtcNow.AddDays(-MaxDaysThreshold);
