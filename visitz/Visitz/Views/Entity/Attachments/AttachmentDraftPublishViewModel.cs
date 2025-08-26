@@ -146,8 +146,13 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
                 Refreshed(LocalizedStrings.RefreshedAttachmentsOnDevice);
 
                 using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
-                var newAttachment = realm.Find<Attachment>(submittedAttachmentId);
-                newAttachment.RelativePathBinding = relativePath;
+
+                if (realm.Find<Attachment>(submittedAttachmentId) is Attachment newAttachment)
+                    // TODO: sometimes we can't find the new attachment.
+                    // Need to look into this, but since the user can just
+                    // refresh their caseload normally it's not the highest
+                    // priority.
+                    newAttachment.RelativePathBinding = relativePath;
 
                 Complete();
             }
