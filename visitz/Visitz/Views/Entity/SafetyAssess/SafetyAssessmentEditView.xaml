@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:banners="clr-namespace:Visitz.Views.Banners"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
     xmlns:converters="clr-namespace:Visitz.Converters"
@@ -16,6 +17,10 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.SafetyAssess.SafetyAssessmentEditView"
     x:DataType="safetyAssess:SafetyAssessmentEditViewModel">
+
+    <baseClasses:ViewModelContentView.Behaviors>
+		<behaviors:SoftKbResizeBehavior />
+	</baseClasses:ViewModelContentView.Behaviors>
 
     <baseClasses:ViewModelContentView.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
