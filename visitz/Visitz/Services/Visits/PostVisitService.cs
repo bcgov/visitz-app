@@ -51,6 +51,6 @@ internal class PostVisitService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiServ
 
     async Task PostVisitAsync()
     {
-        await Vpi.PostVisitAsync(Visit.ParentId, Visit.ToApiJson());
+        await Vpi.PostVisitAsync(Visit.ParentId, Visit.ToApiJson("yyyy-MM-dd"));
     }
 }
