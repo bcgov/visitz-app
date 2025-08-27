@@ -101,7 +101,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     {
         PostVisitJson jsonVisit = new()
         {
-            DateOfVisit = DateOfVisit,
+            DateOfVisit = DateOfVisit.UtcDateTime.ToString(dateFormat),
             VisitDescription = VisitDescription,
             VisitDetails = [],
         };
