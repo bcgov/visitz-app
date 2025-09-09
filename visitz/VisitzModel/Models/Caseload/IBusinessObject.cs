@@ -149,6 +149,9 @@ public static class IBusinessObjectExtensions
     {
         if (realm.Find<BoLocalState>(item.ToIdTypeString()) is BoLocalState local)
         {
+            if (!local.ShouldDownloadDuringRefresh)
+                local.ShouldDownloadDuringRefresh = markForDownload;
+
             item.LocalState = local;
             realm.Add(local, update: true);
         }
