@@ -100,7 +100,8 @@ public static class IRecordInfoExtensions
                 recordInfo.RelatedEntityAvailable = items.Any();
                 recordInfo.RelatedEntityDownloaded = items.FirstOrDefault()
                     is IBusinessObject businessObject
-                        && businessObject.LocalState.ShouldDownloadDuringRefresh;
+                        && businessObject.LocalState is BoLocalState state
+                            && state.ShouldDownloadDuringRefresh;
             });
         }
     }
