@@ -49,6 +49,11 @@ namespace VisitzApi
             return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, after));
         }
 
+        public async Task<(int TotalRecords, OfficeCaseloadJson)> GetOfficeCaseloadAsync(Pagination pagination = null)
+        {
+            return await CallApi(new GetOfficeCaseloadEndpoint(BaseVisitzApiUrl, pagination));
+        }
+
         public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
         {
             return await CallApi(new NotesEndpoint(BaseVisitzApiUrl, entityNumber, entityType));

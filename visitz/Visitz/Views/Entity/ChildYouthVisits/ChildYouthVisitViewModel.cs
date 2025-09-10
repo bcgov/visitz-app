@@ -107,6 +107,9 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
             DetailItems = DetailItems.Where(item => item.IsChecked).ToList();
 
         SaveStateHandler.Clear();
+        UpdateAllowPublish();
+
+        Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
     }
 
     void AddOtherVisitDetails()
@@ -122,6 +125,8 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     {
         if (!_disposed && disposing)
         {
+            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+
             Draft = null;
             PersonVisitItem = null;
 
@@ -157,7 +162,12 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
             return;
 
         await HandleDraft();
-        UpdateAllowPublish();
+
+        if (e.PropertyName != nameof(PersonVisit.VisitDescription))
+            // Skip VisitDescription updates, because we want to use EditorEx's
+            // character count instead of a race condition from directly reading
+            // VisitDescription.Length.
+            UpdateAllowPublish();
     }
 
     [RelayCommand]
@@ -220,6 +230,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     partial void OnCharacterCountChanged(int value)
     {
         RemainingCharacters = CharacterLimit - value;
+        UpdateAllowPublish();
     }
 
     partial void OnDraftChanged(PersonVisitDraft value)
@@ -231,5 +242,10 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
     partial void OnShowFullFormChanged(bool value)
     {
         DetailsRowHeight = value ? GridLength.Star : 0;
+    }
+
+    private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+    {
+        UpdateAllowPublish();
     }
 }

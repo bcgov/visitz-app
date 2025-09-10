@@ -10,18 +10,19 @@ internal class RecordServiceInfo(
     string fileNumber,
     string firstName,
     string lastName)
+    : IEquatable<RecordServiceInfo>
 {
-    public EntityType Type { get; set; } = type;
+    public EntityType Type { get; } = type;
 
-    public EntitySubtype Subtype { get; set; } = subtype;
+    public EntitySubtype Subtype { get; } = subtype;
 
-    public string Id { get; set; } = id;
+    public string Id { get; } = id;
 
-    public string FileNumber { get; set; } = fileNumber;
+    public string FileNumber { get; } = fileNumber;
 
-    public string FirstName { get; set; } = firstName;
+    public string FirstName { get; } = firstName;
 
-    public string LastName { get; set; } = lastName;
+    public string LastName { get; } = lastName;
 
     public RecordServiceInfo(IBusinessObject record) : this(
             record.EntityType,
@@ -31,6 +32,22 @@ internal class RecordServiceInfo(
             record.GivenNames,
             record.LastName)
     { }
+
+    public bool Equals(RecordServiceInfo other)
+    {
+        return Type == other.Type
+            && Id == other.Id;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is RecordServiceInfo info ? Equals(info) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return Type.GetHashCode() * Id.GetHashCode();
+    }
 }
 
 internal static class RecordServiceInfoExtensions

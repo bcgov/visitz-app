@@ -53,7 +53,10 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         if (allFilteredAttachments.Any())
         {
             await FetchAttachmentContents(allFilteredAttachments);
+            ResultCode = Result.Successful;
         }
+        else
+            ResultCode = Result.NoOperation;
     }
 
     private async Task<IEnumerable<

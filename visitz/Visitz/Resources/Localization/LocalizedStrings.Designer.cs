@@ -133,6 +133,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 92.1 AGT.
+        /// </summary>
+        public static string Agt921 {
+            get {
+                return ResourceManager.GetString("Agt921", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coordination AGT (CA).
+        /// </summary>
+        public static string AgtCoordinationCa {
+            get {
+                return ResourceManager.GetString("AgtCoordinationCa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -165,6 +183,15 @@ namespace Visitz.Resources.Localization {
         public static string ApprovedDate {
             get {
                 return ResourceManager.GetString("ApprovedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigned to.
+        /// </summary>
+        public static string AssignedTo {
+            get {
+                return ResourceManager.GetString("AssignedTo", resourceCulture);
             }
         }
         
@@ -656,7 +683,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are not assigned to {0} &apos;{1}&apos;. To continue working on drafts for this record you must be assigned.
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; is no longer available on this device because it may not be open, is restricted, or is no longer assigned to your office.
         ///
         ///If you select &apos;Cancel and keep draft&apos;, the draft will remain on your device.
         ///
@@ -683,6 +710,44 @@ namespace Visitz.Resources.Localization {
         public static string Dismiss {
             get {
                 return ResourceManager.GetString("Dismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download error.
+        /// </summary>
+        public static string DownloadError {
+            get {
+                return ResourceManager.GetString("DownloadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while downloading information for {0}.
+        ///
+        ///You can view the details of this error or try again later..
+        /// </summary>
+        public static string DownloadRecordErrorMessage {
+            get {
+                return ResourceManager.GetString("DownloadRecordErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download record information.
+        /// </summary>
+        public static string DownloadRecordInformation {
+            get {
+                return ResourceManager.GetString("DownloadRecordInformation", resourceCulture);
             }
         }
         
@@ -1047,6 +1112,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last visit.
+        /// </summary>
+        public static string LastVisit {
+            get {
+                return ResourceManager.GetString("LastVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
@@ -1139,6 +1213,19 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Information for {0} &apos;{1}&apos; has not been downloaded yet.
+        ///
+        ///Downloading it now will let the app know it should download information for this record during caseload refreshes. This can increase the time it takes to refresh your caseload and the amount of storage used in the device.
+        ///
+        ///Do you want to download information for this record?.
+        /// </summary>
+        public static string MarkForDownload {
+            get {
+                return ResourceManager.GetString("MarkForDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modified.
         /// </summary>
         public static string Modified {
@@ -1153,6 +1240,15 @@ namespace Visitz.Resources.Localization {
         public static string MoreInfo {
             get {
                 return ResourceManager.GetString("MoreInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My caseload.
+        /// </summary>
+        public static string MyCaseload {
+            get {
+                return ResourceManager.GetString("MyCaseload", resourceCulture);
             }
         }
         
@@ -1184,11 +1280,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To view information for this record you need an internet connection to download it..
+        /// </summary>
+        public static string NeedInternetToViewRecord {
+            get {
+                return ResourceManager.GetString("NeedInternetToViewRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility needs to confirm you have a valid ICM profile..
         /// </summary>
         public static string NeedToConfirm {
             get {
                 return ResourceManager.GetString("NeedToConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next visit due.
+        /// </summary>
+        public static string NextVisitDue {
+            get {
+                return ResourceManager.GetString("NextVisitDue", resourceCulture);
             }
         }
         
@@ -1225,6 +1339,15 @@ namespace Visitz.Resources.Localization {
         public static string NoInternet {
             get {
                 return ResourceManager.GetString("NoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
@@ -1342,6 +1465,15 @@ namespace Visitz.Resources.Localization {
         public static string Other {
             get {
                 return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overdue.
+        /// </summary>
+        public static string Overdue {
+            get {
+                return ResourceManager.GetString("Overdue", resourceCulture);
             }
         }
         
@@ -1598,7 +1730,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} &apos;{1}&apos; unassigned from caseload.
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; removed from device.
         /// </summary>
         public static string RecordRemovedFromCaseload {
             get {
@@ -1607,9 +1739,9 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;The record {0} &apos;{1}&apos; was unassigned from your caseload and was removed from this device during caseload refresh.
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; was removed from this device during caseload refresh because it may not be open, is restricted, or is no longer assigned to your office.
         ///
-        ///Any drafts for this record are still saved—but won&apos;t be accessible until the record is reassigned.&quot;.
+        ///Any drafts for this record are still saved—but won&apos;t be accessible until the record is viewable in the app again..
         /// </summary>
         public static string RecordRemovedFromCaseloadDetails {
             get {
@@ -1724,6 +1856,44 @@ namespace Visitz.Resources.Localization {
         public static string RemovedAttachmentFromDevice {
             get {
                 return ResourceManager.GetString("RemovedAttachmentFromDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove from device.
+        /// </summary>
+        public static string RemoveFromDevice {
+            get {
+                return ResourceManager.GetString("RemoveFromDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t remove {0} &apos;{1}&apos;—it is directly assigned to you..
+        /// </summary>
+        public static string RemoveFromDeviceErrorAssigned {
+            get {
+                return ResourceManager.GetString("RemoveFromDeviceErrorAssigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information for this record has not been downloaded yet..
+        /// </summary>
+        public static string RemoveFromDeviceErrorNotDownloaded {
+            get {
+                return ResourceManager.GetString("RemoveFromDeviceErrorNotDownloaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing this record from your device means you will not be able to view its information unless you are online and explicitly reopen it from the app.
+        ///
+        ///Are you sure you want to remove {0} &apos;{1}&apos; from your device?.
+        /// </summary>
+        public static string RemoveFromDeviceMessage {
+            get {
+                return ResourceManager.GetString("RemoveFromDeviceMessage", resourceCulture);
             }
         }
         
@@ -2097,7 +2267,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources.
+        ///   Looks up a localized string similar to 3. Use of community agencies (including First Nations, Indigenous or Metis community representatives or services) as safety resources.
         /// </summary>
         public static string SafetyIntervention3_UseCommAgencies {
             get {
@@ -2304,6 +2474,25 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To do.
+        /// </summary>
+        public static string Todo {
+            get {
+                return ResourceManager.GetString("Todo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re all caught up!
+        ///No items here..
+        /// </summary>
+        public static string TodoIsEmpty {
+            get {
+                return ResourceManager.GetString("TodoIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string Type {
@@ -2327,6 +2516,15 @@ namespace Visitz.Resources.Localization {
         public static string UnableToReachIcmDeviceOffline {
             get {
                 return ResourceManager.GetString("UnableToReachIcmDeviceOffline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to remove.
+        /// </summary>
+        public static string UnableToRemove {
+            get {
+                return ResourceManager.GetString("UnableToRemove", resourceCulture);
             }
         }
         

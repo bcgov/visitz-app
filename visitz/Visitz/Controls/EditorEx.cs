@@ -1,3 +1,4 @@
+using System.Text.Json;
 using VisitzModel.Extensions;
 
 namespace Visitz.Controls;
@@ -8,6 +9,9 @@ internal partial class EditorEx : Editor
         BindableProperty.Create(nameof(CharacterCount), typeof(int), typeof(EditorEx),
             defaultBindingMode: BindingMode.OneWayToSource);
 
+    public static readonly BindableProperty CountStyleProperty =
+        BindableProperty.Create(nameof(CountStyle), typeof(CharacterCountStyle), typeof(EditorEx));
+
     public static readonly BindableProperty SuggestedMaxLengthProperty =
         BindableProperty.Create(nameof(SuggestedMaxLength), typeof(int), typeof(EditorEx));
 
@@ -15,6 +19,12 @@ internal partial class EditorEx : Editor
     {
         get => (int)GetValue(CharacterCountProperty);
         set => SetValue(CharacterCountProperty, value);
+    }
+
+    public CharacterCountStyle CountStyle
+    {
+        get => (CharacterCountStyle)GetValue(CountStyleProperty);
+        set => SetValue(CountStyleProperty, value);
     }
 
     public int SuggestedMaxLength
@@ -62,7 +72,17 @@ internal partial class EditorEx : Editor
 
     void DoTextChanged(string oldValue, string newValue)
     {
-        CharacterCount = newValue?.Length ?? 0;
+        if (CountStyle == CharacterCountStyle.JsonForRestApi)
+        {
+            // Naive check. Default encoder escaping for JsonSerializer is aggressive
+            // and escapes most non-English characters. It also tends to escape to
+            // full unicode (e.g. ' => \u0027, “ => \u0028), dramatically misrepresenting
+            // the actual character/byte count.
+            string value = JsonSerializer.Serialize(newValue ?? "");
+            CharacterCount = value[1..^1].Length;
+        }
+        else
+            CharacterCount = newValue?.Length ?? 0;
 
         if (DoesCharacterCountExceedSuggestedMaxLength())
             SuggestedMaxLengthExceeded?.Invoke(this, new EventArgs());

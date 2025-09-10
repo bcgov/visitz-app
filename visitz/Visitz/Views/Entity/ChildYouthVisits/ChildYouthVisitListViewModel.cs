@@ -20,10 +20,6 @@ internal partial class ChildYouthVisitListViewModel :
     IBusinessObjectHolder,
     IRequestedEntitySection
 {
-    private static readonly int InfoDayRange = 90;
-    private static readonly int WarningDayRange = 30;
-    private static readonly int DangerDayRange = 5;
-    private static readonly int CriticalDayRange = 0;
     private bool _disposed;
 
     readonly ObservableRealmQueryMap realmQuery = new();
@@ -97,40 +93,35 @@ internal partial class ChildYouthVisitListViewModel :
         HasVisitData = personVisits.Count > 0;
         ShowEmptyIcon = !HasVisitData;
         if (personVisits.FirstOrDefault() is PersonVisit lastVisit)
-        {
-            DateTimeOffset currentDate = DateTimeOffset.UtcNow;
-            DateTimeOffset nextVisitDate = lastVisit.DateOfVisit.AddDays(InfoDayRange);
-            string dueDate = nextVisitDate.ToString("MMMM d, yyyy");
-            var dateDifference = nextVisitDate - currentDate;
-            SetBannerInfo(dateDifference.Days, dueDate);
-        }
+            SetBannerInfo(lastVisit);
     }
 
-    private void SetBannerInfo(int daysDifference, string dateInBanner)
+    private void SetBannerInfo(PersonVisit personVisit)
     {
-        if (daysDifference > WarningDayRange)
+        string dateInBanner = personVisit.DueDate.ToString("MMMM d, yyyy");
+        var threshold = personVisit.CurrentDueDateThreshold;
+        switch (threshold)
         {
-            BannerLevel = AlertLevel.Info;
-            BannerText = string.Format(
-                LocalizedStrings.NextVisitDueBy, dateInBanner);
-        }
-        else if (daysDifference > DangerDayRange)
-        {
-            BannerLevel = AlertLevel.Warning;
-            BannerText = string.Format(
-                LocalizedStrings.VisitDueBy, dateInBanner);
-        }
-        else if (daysDifference >= CriticalDayRange)
-        {
-            BannerLevel = AlertLevel.Danger;
-            BannerText = string.Format(
-                LocalizedStrings.VisitDueBy, dateInBanner);
-        }
-        else
-        {
-            BannerLevel = AlertLevel.Critical;
-            BannerText = string.Format(
-                LocalizedStrings.OverdueVisitOn, dateInBanner);
+            case VisitDaysThreshold.Info:
+                BannerLevel = AlertLevel.Info;
+                BannerText = string.Format(LocalizedStrings.NextVisitDueBy, dateInBanner);
+                break;
+            case VisitDaysThreshold.Warning:
+                BannerLevel = AlertLevel.Warning;
+                BannerText = string.Format(LocalizedStrings.VisitDueBy, dateInBanner);
+                break;
+            case VisitDaysThreshold.Danger:
+                BannerLevel = AlertLevel.Danger;
+                BannerText = string.Format(LocalizedStrings.VisitDueBy, dateInBanner);
+                break;
+            case VisitDaysThreshold.Critical:
+                BannerLevel = AlertLevel.Critical;
+                BannerText = string.Format(LocalizedStrings.OverdueVisitOn, dateInBanner);
+                break;
+            default:
+                BannerLevel = AlertLevel.Critical;
+                BannerText = string.Format(LocalizedStrings.OverdueVisitOn, dateInBanner);
+                break;
         }
     }
 

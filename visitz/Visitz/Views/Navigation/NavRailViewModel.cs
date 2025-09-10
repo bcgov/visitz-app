@@ -1,15 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.FontIcons;
+using Visitz.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
+using Visitz.Views.Todo;
 using Visitz.Views.User;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
@@ -35,6 +38,9 @@ public partial class NavRailViewModel : VisitzViewModel
     [ObservableProperty]
     public NavItem selectedNavItem;
 
+    private IDisposable _personVisitToken;
+    private Realm _icmDataRealm;
+
     public static double IconSize
     {
         get
@@ -46,6 +52,17 @@ public partial class NavRailViewModel : VisitzViewModel
 #endif
         }
     }
+
+    [ObservableProperty]
+    public NavItem todoNavItem = new()
+    {
+        Text = LocalizedStrings.Todo,
+        ContentViewType = typeof(TodoContainerView),
+        Color = Colors.White,
+        IconSize = IconSize,
+        SelectedImageSource = MaterialIcons.Checklist.GetFilledMaterialIcon(Colors.White),
+        UnselectedImageSource = MaterialIcons.Checklist.GetUnfilledMaterialIcon(Colors.White),
+    };
 
     [ObservableProperty]
     public NavItem caseloadNavItem = new()
@@ -83,11 +100,13 @@ public partial class NavRailViewModel : VisitzViewModel
         await base.InitAsync();
 
         BuildNavCollection();
-        SelectedNavItem = (NavItem)NavigationItems.First();
 
         await SubscribeToAllDraftCounts();
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
+        StrongReferenceMessenger.Default.Register<TodoBadgeCountMessage>(this, ReceiveTodoBadgeCountMessage);
+
+        await SubscribeToAllTodoCounts();
     }
 
     bool disposed;
@@ -96,6 +115,11 @@ public partial class NavRailViewModel : VisitzViewModel
         if (!disposed && disposing)
         {
             realmCount.Dispose();
+            _personVisitToken?.Dispose();
+            _icmDataRealm?.Dispose();
+            StrongReferenceMessenger.Default.Unregister<TodoBadgeCountMessage>(this);
+            realmCount.Dispose();
+
             disposed = true;
         }
 
@@ -106,6 +130,7 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         NavigationItems.Clear();
 
+        NavigationItems.Add(TodoNavItem);
         NavigationItems.Add(CaseloadNavItem);
         NavigationItems.Add(DraftsNavItem);
 
@@ -121,6 +146,28 @@ public partial class NavRailViewModel : VisitzViewModel
         realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
         realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
         realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
+    }
+
+    private async Task SubscribeToAllTodoCounts()
+    {
+        _icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+
+        var query = PersonVisit.GetAllByType(_icmDataRealm);
+        var collection = query.AsRealmCollection();
+
+        _personVisitToken = collection.SubscribeForNotifications((sender, changes) =>
+        {
+            int updatedCount = PersonVisit.GetUpcomingVisits(_icmDataRealm).Count();
+            StrongReferenceMessenger.Default.Send(new TodoBadgeCountMessage(updatedCount));
+
+            if (changes == null)
+                FirstLoadNavigate(updatedCount > 0 ? TodoNavItem : CaseloadNavItem);
+        });
+    }
+
+    private void FirstLoadNavigate(NavItem navItem)
+    {
+        SelectedNavItem = navItem;
     }
 
     partial void OnSelectedNavItemChanged(NavItem value)
@@ -144,6 +191,11 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         if (message.Value != null && SelectedNavItem != message.Value)
             SelectedNavItem = GetNavItemByType(message.Value.ContentViewType);
+    }
+
+    private void ReceiveTodoBadgeCountMessage(object recipient, TodoBadgeCountMessage message)
+    {
+        TodoNavItem.BadgeCount = message.Value;
     }
 
     private NavItem GetNavItemByType(Type contentViewType)

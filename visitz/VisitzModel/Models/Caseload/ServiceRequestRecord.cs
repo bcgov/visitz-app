@@ -49,6 +49,8 @@ public partial class ServiceRequestRecord :
 
     public string AssignedToId { get; set; }
 
+    public string DisplayAssignees => AssignedTo;
+
     public string Address { get; set; }
 
     public string AddressComments { get; set; }
@@ -104,6 +106,8 @@ public partial class ServiceRequestRecord :
 
     public string TypeOfCaller { get; set; }
 
+    public BoLocalState LocalState { get; set; }
+
     public string DisplayDate => CreatedDate.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture);
@@ -116,7 +120,9 @@ public partial class ServiceRequestRecord :
 
     public ServiceRequestRecord() { }
 
-    public ServiceRequestRecord(ServiceRequestJson json)
+    public ServiceRequestRecord(
+        ServiceRequestJson json,
+        BoLocalState localState = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -167,7 +173,10 @@ public partial class ServiceRequestRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<ServiceRequestJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
+    public static async Task SynchronizeAsync(
+        Realm realm,
+        SectionJson<ServiceRequestJson> section,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
         var currentAssignedIds = realm.All<ServiceRequestRecord>().AsEnumerable().Select(sr => sr.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
@@ -180,19 +189,43 @@ public partial class ServiceRequestRecord :
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds, UserIgnoredContentPrefs userIgnoredPrefs)
+    public void DeleteDependentData(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.ServiceRequest, FileNumber);
+        IcmContact.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
+        SupportNetworkItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
+        Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
+
+        if (deleteLocalState)
+            fromRealm.Remove(LocalState);
+    }
+
+    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool cascade = true,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        if (cascade)
+            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
+
+        fromRealm.Remove(this);
+    }
+
+    static void CascadeDelete(
+        Realm fromRealm,
+        IEnumerable<string> unassignedIds,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in unassignedIds)
-        {
-            var sr = realm.Find<ServiceRequestRecord>(id);
-
-            NoteItem.RemoveByParentFileNumber(realm, EntityType.ServiceRequest, sr.FileNumber);
-            IcmContact.RemoveByParent(realm, EntityType.ServiceRequest, id);
-            SupportNetworkItem.RemoveByParent(realm, EntityType.ServiceRequest, id);
-            Attachment.RemoveByParent(realm, EntityType.ServiceRequest, id, userIgnoredPrefs);
-
-            realm.Remove(sr);
-        }
+            if (fromRealm.Find<ServiceRequestRecord>(id) is ServiceRequestRecord sr)
+                sr.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public ServiceRequestJson ToApiJson(string dateFormat = "s")
@@ -245,5 +278,22 @@ public partial class ServiceRequestRecord :
             .All<ServiceRequestRecord>()
             .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId
                         || sr.FileNumber == draftItem.RelatedEntityId);
+    }
+
+    public static IQueryable<ServiceRequestRecord> GetAllByAssignee(
+        Realm realm,
+        string username,
+        bool invert = false)
+    {
+        string operation = invert ? "!=" : "==";
+
+        return realm
+            .All<ServiceRequestRecord>()
+            .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+    }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username;
     }
 }

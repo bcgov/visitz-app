@@ -19,6 +19,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetNotesService>();
             builder.Services.AddTransient<GetNotesForRangeService>();
             builder.Services.AddTransient<GetAllDataForOfflineService>();
+            builder.Services.AddTransient<GetAllDataForRecordService>();
             builder.Services.AddTransient<SubmitNoteService>();
             builder.Services.AddTransient<SubmitAndGetNotesService>();
             builder.Services.AddTransient<SubmitSafetyAssessmentService>();
@@ -38,6 +39,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetPartialAttachmentsByRangeDownloadService>();
             builder.Services.AddTransient<GetSafetyAssessmentsService>();
             builder.Services.AddTransient<GetSafetyAssessmentsByRangeService>();
+            builder.Services.AddTransient<GetOfficeCaseloadService>();
+            builder.Services.AddTransient<RecordCleanupService>();
 
             return builder;
         }

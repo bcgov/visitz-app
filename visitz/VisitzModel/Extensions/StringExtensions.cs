@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace VisitzModel.Extensions;
 
 public static class StringExtensions
@@ -49,5 +51,20 @@ public static class StringExtensions
             return null;
         else
             return ParseWordTruthiness(text);
+    }
+
+    public static string? ExtendYOrN(this string? text)
+    {
+        if (text != null && text.Trim().StartsWith("Y", StringComparison.CurrentCultureIgnoreCase))
+            return "Yes";
+        else if (text != null && text.Trim().StartsWith("N", StringComparison.CurrentCultureIgnoreCase))
+            return "No";
+
+        return null;
+    }
+
+    public static string ToTitleCase(this string text)
+    {
+        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text ?? "");
     }
 }

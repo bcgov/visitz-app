@@ -1,65 +1,115 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<base:BaseContentView 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:caseloadModels="clr-namespace:VisitzModel.Models.Caseload;assembly=VisitzModel"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Caseload.CaseloadItemView"
-    x:DataType="caseloadModels:IBusinessObject">
+    x:DataType="caseload:CaseloadItemViewModel">
 
-    <ContentView.GestureRecognizers>
-        <TapGestureRecognizer 
-            Command="{Binding Source={RelativeSource AncestorType={x:Type caseload:CaseloadViewModel}},
-                Path=BusinessObjectSelectedCommand}"
-            CommandParameter="{Binding .}"/>
-    </ContentView.GestureRecognizers>
+    <base:BaseContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+    </base:BaseContentView.Resources>
 
-    <VerticalStackLayout>
-        <Grid
-            Padding="0,10,10,10"
-            RowDefinitions="*"
-            RowSpacing="5"
-            ColumnSpacing="10">
+    <base:BaseContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding BusinessObjectSelectedCommand}" />
+    </base:BaseContentView.GestureRecognizers>
 
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
-				<ColumnDefinition Width="70*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
+    <SwipeView>
+        <SwipeView.LeftItems>
+            <SwipeItem
+                IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
+                Command="{Binding UnloadDependentDataCommand}" />
+        </SwipeView.LeftItems>
 
-			<BoxView
-				x:Name="DraftIndicator"
-				Grid.Column="0"
-				Margin="-1,-10,0,-10"
-				Color="{StaticResource BC_Gold}"
-				IsVisible="False" />
+        <VerticalStackLayout>
+            <FlyoutBase.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem
+                        IsEnabled="{Binding CanRemoveFromDevice}"
+                        Text="{local:Localize RemoveFromDevice}"
+                        IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
+                        Command="{Binding UnloadDependentDataCommand}" />
+                </MenuFlyout>
+            </FlyoutBase.ContextFlyout>
 
-			<Label 
-                Grid.Column="1"
-                HorizontalOptions="StartAndExpand"
-                VerticalOptions="Center"
-                Text="{Binding DisplayName}"
-                FontSize="16"
-                LineBreakMode="TailTruncation"/>
+            <Grid
+                Padding="0,10,10,10"
+                RowDefinitions="*"
+                RowSpacing="5"
+                ColumnSpacing="10">
 
-            <Label 
-                x:Name="OpenDateLabel"
-                Grid.Column="2"
-                Text="{Binding DisplayDate}"
-                TextColor="{StaticResource BC_InputControlsTextColor}"
-                FontSize="12"
-                FontFamily="BCSansRegular"
-                VerticalOptions="Center" />
+			    <Grid.ColumnDefinitions>
+				    <ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
+				    <ColumnDefinition Width="70*" />
+				    <ColumnDefinition Width="Auto" />
+				    <ColumnDefinition Width="Auto" />
+			    </Grid.ColumnDefinitions>
 
-			<tagview:EntityTypeBadge Grid.Column="3" />
-        </Grid>
+			    <BoxView
+				    x:Name="DraftIndicator"
+				    Grid.Column="0"
+				    Margin="-1,-10,0,-10"
+				    Color="{StaticResource BC_Gold}"
+				    IsVisible="{Binding ShowDraftIndicator}" />
+
+			    <Label
+                    Grid.Column="1"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Center"
+                    Text="{Binding BusinessObject.DisplayName}"
+                    FontSize="16"
+                    LineBreakMode="TailTruncation"/>
+
+                <Label
+                    x:Name="OpenDateLabel"
+                    Grid.Column="2"
+                    Text="{Binding BusinessObject.DisplayDate}"
+                    TextColor="{StaticResource BC_InputControlsTextColor}"
+                    FontSize="12"
+                    FontFamily="BCSansRegular"
+                    IsVisible="{Binding ShowDate}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    Grid.Column="2"
+                    IsVisible="{Binding ShowDownloadIcon}"
+                    TextColor="{StaticResource BC_InputControlsTextColor}"
+                    FontSize="20"
+                    Text="{Static icons:MaterialIcons.Download}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    VerticalOptions="Center" />
+
+                <ActivityIndicator
+                    Grid.Column="2"
+                    HeightRequest="20"
+                    WidthRequest="20"
+                    IsRunning="{Binding ShowProgressIndicator}"
+                    IsVisible="{Binding ShowProgressIndicator}" />
+
+                <tagview:EntityTypeBadge
+                    Grid.Column="3"
+                    EntityType="{Binding BusinessObject.EntityType}"
+                    EntitySubtype="{Binding BusinessObject.EntitySubtype}" />
+
+                <BoxView
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    Color="#55ffffff"
+                    IsVisible="{Binding ShowDownloadIcon}" />
+            </Grid>
         
-        <BoxView
-            Color="{StaticResource Gray200}"
-            HeightRequest="0.5" />
-    </VerticalStackLayout>
-</ContentView>
+            <BoxView
+                Color="{StaticResource Gray200}"
+                HeightRequest="0.5" />
+        </VerticalStackLayout>
+    </SwipeView>
+</base:BaseContentView>

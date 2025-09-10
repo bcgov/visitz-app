@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Realms;
 using System.Collections.ObjectModel;
+using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
@@ -12,6 +14,7 @@ using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Interfaces;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.SafetyAssess;
@@ -23,7 +26,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
     bool _disposed;
 
     [ObservableProperty]
-    public ObservableCollection<object> draftItems = [];
+    public ObservableCollection<IDraftItem> draftItems = [];
 
     readonly ObservableRealmQueryMap queryMap = new();
 
@@ -100,30 +103,65 @@ internal partial class DraftsListViewModel : VisitzViewModel
         queryMap.Subscribe(realm, sortedQuery);
     }
 
-    private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void QueryMap_ItemsChanged(
+        object _,
+        (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
+        foreach (var draft in DraftItems)
+            draft.Dispose();
+
         DraftItems.Clear();
 
         foreach (var item in e.Items)
-            DraftItems.Add(item);
+        {
+            IDraftItem draftItem = (IDraftItem)item;
+            draftItem.SubscribeRelatedState(DataRealm);
+
+            DraftItems.Add(draftItem);
+        }
     }
 
     [RelayCommand]
-    private void DraftItemSelected(IDraftItem draftItem)
+    private async Task DraftItemSelected(IDraftItem draftItem)
     {
         if (draftItem.GetRelatedBusinessObjectFrom(DataRealm) is IBusinessObject bobj)
-            NavigateTo(bobj, SectionToOpen, draftItem);
+            await MarkForDownloadAndTryOpen(bobj, draftItem);
         else
             SelectedItemRelatedMissing?.Invoke(this, draftItem);
     }
 
+    private async Task MarkForDownloadAndTryOpen(IBusinessObject bobj, IDraftItem draftItem)
+    {
+        bool markForDownload = !bobj.LocalState.ShouldDownloadDuringRefresh;
+
+        if (markForDownload)
+        {
+            if (await bobj.PromptCanDownloadDependentData())
+            {
+                try
+                {
+                    await bobj.DownloadDependentData();
+                }
+                catch (OperationCanceledException) { }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, ex.Message);
+                    await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+                }
+            }
+            // else: cancel
+        }
+        else
+            NavigateTo(bobj, SectionToOpen, draftItem);
+    }
+
     static void NavigateTo(IBusinessObject businessObject, EntitySection section, IDraftItem draftItem)
     {
-        var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section, draftItem);
-        StrongReferenceMessenger.Default.Send(caseloadNav);
-
         var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
         StrongReferenceMessenger.Default.Send(appNav);
+
+        var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section, draftItem);
+        StrongReferenceMessenger.Default.Send(caseloadNav);
     }
 
     public static async Task DeleteDraft(IDraftItem draft)

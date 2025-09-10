@@ -4,8 +4,11 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
+using VisitzModel.Storage;
 
 namespace VisitzModel.Models.Caseload;
+
+#nullable enable
 
 public interface IBusinessObject : IRealmObject
 {
@@ -19,11 +22,19 @@ public interface IBusinessObject : IRealmObject
 
     public string LastName { get; set; }
 
+    public string AssignedTo { get; set; }
+
+    public string AssignedToId { get; set; }
+
+    public string DisplayAssignees { get; }
+
     public EntityType EntityType { get; }
 
     public EntitySubtype EntitySubtype { get; set; }
 
     public string ServiceOffice { get; set; }
+
+    public BoLocalState LocalState { get; set; }
 
     public string DisplayDate { get; }
 
@@ -32,10 +43,44 @@ public interface IBusinessObject : IRealmObject
     public string FullType { get; }
 
     public IQueryable<IcmContact> Contacts { get; }
+
+    public bool IsAssigned(string username);
+
+    /// <summary>
+    /// Deletes most of the dependent data for a BusinessObject.
+    /// </summary>
+    /// <param name="userIgnoredPrefs"></param>
+    /// <param name="fromRealm">A Realm reference to delete from or leave null to use the private reference.</param>
+    /// <param name="deleteLocalState">true to delete LocalState as well. false to keep it.</param>
+    public void DeleteDependentData(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm? fromRealm = null,
+        bool deleteLocalState = false);
+
+    /// <summary>
+    /// Deletes a BusinessObject and all its dependent data.
+    /// </summary>
+    /// <param name="userIgnoredPrefs"></param>
+    /// <param name="fromRealm">A Realm reference to delete from or leave null
+    /// to use the private reference.</param>
+    /// <param name="cascade">Delete all dependent data for this BusinessObject.
+    /// Defaults to true.</param>
+    /// <param name="deleteLocalState">Delete LocalState for this BusinessObject.
+    /// Defaults to true. Independent from cascade.</param>
+    public void Delete(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm? fromRealm = null,
+        bool cascade = true,
+        bool deleteLocalState = true);
 }
 
 public static class IBusinessObjectExtensions
 {
+    public static string ToIdTypeString(this IBusinessObject businessObject)
+    {
+        return $"{businessObject.Id}||{(int)businessObject.EntityType}";
+    }
+
     public static DateTime DisplayDateTransform(this IBusinessObject businessObject)
     {
         return businessObject.DisplayDate?.Length > 0
@@ -55,12 +100,12 @@ public static class IBusinessObjectExtensions
         return $"{subtype} {type}";
     }
 
-    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm realm = null)
+    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm? realm = null)
     {
         return IcmContact.GetKeyPlayerFor(realm ?? businessObject.Realm, businessObject);
     }
 
-    public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm realm = null)
+    public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm? realm = null)
     {
         return IcmContact.GetByParentObject(realm ?? businessObject.Realm, businessObject);
     }
@@ -95,5 +140,49 @@ public static class IBusinessObjectExtensions
             sr.PropertyChanged -= handler;
         else
             throw new NotImplementedException($"Type '{business.GetType()}' not implemented for unsubscription");
+    }
+
+    public static void UpsertLocalState(
+        this IBusinessObject item,
+        Realm realm,
+        bool markForDownload)
+    {
+        if (realm.Find<BoLocalState>(item.ToIdTypeString()) is BoLocalState local)
+        {
+            if (!local.ShouldDownloadDuringRefresh)
+                local.ShouldDownloadDuringRefresh = markForDownload;
+
+            item.LocalState = local;
+            realm.Add(local, update: true);
+        }
+        else
+        {
+            item.LocalState = new(item) { ShouldDownloadDuringRefresh = markForDownload };
+            realm.Add(item.LocalState);
+        }
+    }
+
+    public static IQueryable<IBusinessObject> GetQueryableByRelaxedIdType(Realm realm, string id, EntityType type)
+    {
+        return type switch
+        {
+            EntityType.Case => realm.All<CaseRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.Incident => realm.All<IncidentRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.Memo => realm.All<MemoRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.ServiceRequest => realm.All<ServiceRequestRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            _ => throw new InvalidOperationException($"'{type}' not supported")
+        };
+    }
+
+    public static IBusinessObject? GetByIdType(Realm realm, string id, EntityType type)
+    {
+        return type switch
+        {
+            EntityType.Case => realm.Find<CaseRecord>(id),
+            EntityType.Incident => realm.Find<IncidentRecord>(id),
+            EntityType.Memo => realm.Find<MemoRecord>(id),
+            EntityType.ServiceRequest => realm.Find<ServiceRequestRecord>(id),
+            _ => throw new InvalidOperationException($"'{type}' not supported")
+        };
     }
 }

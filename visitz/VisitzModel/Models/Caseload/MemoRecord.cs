@@ -47,6 +47,8 @@ public partial class MemoRecord :
 
     public string AssignedToId { get; set; }
 
+    public string DisplayAssignees => AssignedTo;
+
     public string Address { get; set; }
 
     public string AddressComments { get; set; }
@@ -114,6 +116,8 @@ public partial class MemoRecord :
         set => SubtypeInt = (int)value;
     }
 
+    public BoLocalState LocalState { get; set; }
+
     public string DisplayDate => CallDate?.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture) ?? "";
@@ -126,7 +130,7 @@ public partial class MemoRecord :
 
     public MemoRecord() { }
 
-    public MemoRecord(MemoJson json)
+    public MemoRecord(MemoJson json, BoLocalState localState = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -182,7 +186,10 @@ public partial class MemoRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, SectionJson<MemoJson> section, UserIgnoredContentPrefs userIgnoredPrefs)
+    public static async Task SynchronizeAsync(
+        Realm realm,
+        SectionJson<MemoJson> section,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
         var currentAssignedIds = realm.All<MemoRecord>().AsEnumerable().Select(memo => memo.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
@@ -195,15 +202,41 @@ public partial class MemoRecord :
         });
     }
 
-    static void CascadeDelete(Realm realm, IEnumerable<string> unassignedIds, UserIgnoredContentPrefs userIgnoredPrefs)
+    public void DeleteDependentData(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        IcmContact.RemoveByParent(fromRealm, EntityType.Memo, Id);
+        Attachment.RemoveByParent(fromRealm, EntityType.Memo, Id, userIgnoredPrefs);
+
+        if (deleteLocalState)
+            fromRealm.Remove(LocalState);
+    }
+
+    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool cascade = true,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        if (cascade)
+            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
+
+        fromRealm.Remove(this);
+    }
+
+    static void CascadeDelete(
+        Realm fromRealm,
+        IEnumerable<string> unassignedIds,
+        UserIgnoredContentPrefs userIgnoredPrefs)
     {
         foreach (var id in unassignedIds)
-        {
-            realm.Remove(realm.Find<MemoRecord>(id));
-
-            IcmContact.RemoveByParent(realm, EntityType.Memo, id);
-            Attachment.RemoveByParent(realm, EntityType.Memo, id, userIgnoredPrefs);
-        }
+            if (fromRealm.Find<MemoRecord>(id) is MemoRecord memo)
+                memo.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public MemoJson ToApiJson(string dateFormat = "s")
@@ -261,5 +294,22 @@ public partial class MemoRecord :
             .All<MemoRecord>()
             .FirstOrDefault(memo => memo.Id == draftItem.RelatedEntityId
                         || memo.FileNumber == draftItem.RelatedEntityId);
+    }
+
+    public static IQueryable<MemoRecord> GetAllByAssignee(
+        Realm realm,
+        string username,
+        bool invert = false)
+    {
+        string operation = invert ? "!=" : "==";
+
+        return realm
+            .All<MemoRecord>()
+            .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+    }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username;
     }
 }

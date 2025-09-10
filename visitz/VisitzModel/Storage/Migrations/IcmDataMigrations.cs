@@ -1,4 +1,5 @@
 using Realms;
+using VisitzModel.Models.Caseload;
 
 namespace VisitzModel.Storage.Migrations;
 
@@ -19,6 +20,15 @@ public static class IcmDataMigrations
             var newCaseloadItems = migration.NewRealm.DynamicApi.All(CaseloadItemName);
 
             migration.NewRealm.RemoveRange(newCaseloadItems);
+        }
+
+        if (oldSchemaVersion < VisitzRealmBase.Version2_8_0)
+        {
+            foreach (var @case in migration.NewRealm.All<CaseRecord>())
+                @case.UpsertLocalState(@case.Realm, false);
+
+            foreach (var incident in migration.NewRealm.All<IncidentRecord>())
+                incident.UpsertLocalState(incident.Realm, false);
         }
     }
 

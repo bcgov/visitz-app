@@ -21,7 +21,8 @@ public partial class CaseRecord :
     IRowMetadata,
     IBusinessObject,
     IAssignedMetadata,
-    IApiJson<CaseJson>
+    IApiJson<CaseJson>,
+    IEquatable<CaseRecord>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -49,6 +50,12 @@ public partial class CaseRecord :
     public string AssignedTo { get; set; }
 
     public string AssignedToId { get; set; }
+
+    public IList<string> Assignees { get; }
+
+    public string DisplayAssignees => Assignees.Any()
+        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)?.Trim()
+        : AssignedTo;
 
     public string Caseload { get; set; }
 
@@ -91,6 +98,8 @@ public partial class CaseRecord :
 
     public string WorkQueue { get; set; }
 
+    public BoLocalState LocalState { get; set; }
+
     public string DisplayDate => CreatedDate.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture);
@@ -103,7 +112,9 @@ public partial class CaseRecord :
 
     public CaseRecord() { }
 
-    public CaseRecord(CaseJson caseJson)
+    public CaseRecord(
+        CaseJson caseJson,
+        string currentUsername = null)
     {
         Id = caseJson.Id;
         CreatedBy = caseJson.CreatedBy;
@@ -117,6 +128,19 @@ public partial class CaseRecord :
         LastName = caseJson.SubjectContactLastName;
         AssignedTo = caseJson.AssignedTo;
         AssignedToId = caseJson.AssignedToId;
+
+        if (caseJson.Position?.Count > 0)
+            foreach (var position in caseJson.Position)
+                Assignees.Add(position.SalesRep);
+
+        if (!string.IsNullOrWhiteSpace(AssignedTo)
+            && !Assignees.Contains(AssignedTo))
+            Assignees.Add(AssignedTo);
+
+        if (!string.IsNullOrWhiteSpace(currentUsername)
+            && !Assignees.Contains(currentUsername))
+            Assignees.Add(currentUsername);
+
         Caseload = caseJson.Caseload;
         ClosedDate = Timestamp.ParseDateTimeOffsetNullable(caseJson.ClosedDate);
         CloseReason = caseJson.CloseReason;
@@ -174,53 +198,103 @@ public partial class CaseRecord :
         };
     }
 
-    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> jsonArray)
+    public static List<CaseRecord> FromApiJsonArray(
+        IEnumerable<CaseJson> jsonArray,
+        string currentUsername = null)
     {
         List<CaseRecord> outList = [];
 
-        foreach (var jsonItem in jsonArray)
-            outList.Add(new CaseRecord(jsonItem));
+        if (jsonArray != null)
+            foreach (var jsonItem in jsonArray)
+                outList.Add(new CaseRecord(jsonItem, currentUsername));
 
         return outList;
     }
 
-    public static async Task SynchronizeCasesAsync(
-        Realm realm,
-        SectionJson<CaseJson> section,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+    static IEnumerable<CaseRecord> FilterUnsupportedSubtypes(IEnumerable<CaseRecord> cases)
     {
-        var currentAssignedIds = realm.All<CaseRecord>()
-            .AsEnumerable()
-            .Select(@case => @case.Id);
+        return cases.Where(@case => @case.EntitySubtype == EntitySubtype.ChildServices
+                        || @case.EntitySubtype == EntitySubtype.FamilyServices);
+    }
 
-        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
+    public static async Task SynchronizeAsync(
+        Realm realm,
+        IEnumerable<CaseRecord> newOfficeCases,
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        string currentUsername,
+        bool isPersonalCaseload)
+    {
+        if (newOfficeCases == null)
+            return;
 
-        var cases = FromApiJsonArray(section.Items ?? []);
+        bool isOfficeCaseload = !isPersonalCaseload;
+        var incomingCases = FilterUnsupportedSubtypes(newOfficeCases);
+        var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
+        var unassigned = currentAssigned.Except(incomingCases);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-            realm.Upsert(cases);
+            CascadeDelete(realm, unassigned, userIgnoredPrefs);
+            foreach (var item in incomingCases)
+            {
+                realm.Add(item, update: true);
+                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+            }
         });
+    }
+    
+    public static Task SynchronizeAsync(
+        Realm realm,
+        IEnumerable<CaseJson> newAssignedCases,
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        string currentUsername,
+        bool isPersonalCaseload)
+    {
+        return SynchronizeAsync(
+            realm,
+            FromApiJsonArray(newAssignedCases, currentUsername),
+            userIgnoredPrefs,
+            currentUsername,
+            isPersonalCaseload);
+    }
+
+    public void DeleteDependentData(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.Case, FileNumber);
+        PersonVisit.RemoveByParent(fromRealm, EntityType.Case, Id);
+        IcmContact.RemoveByParent(fromRealm, EntityType.Case, Id);
+        SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);
+        Attachment.RemoveByParent(fromRealm, EntityType.Case, Id, userIgnoredPrefs);
+
+        if (deleteLocalState)
+            fromRealm.Remove(LocalState);
+    }
+
+    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool cascade = true,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        if (cascade)
+            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
+
+        fromRealm.Remove(this);
     }
 
     static void CascadeDelete(
-        Realm realm,
-        IEnumerable<string> unassignedIds,
+        Realm fromRealm,
+        IEnumerable<CaseRecord> unassigned,
         UserIgnoredContentPrefs userIgnoredPrefs)
     {
-        foreach (var id in unassignedIds)
-        {
-            var @case = realm.Find<CaseRecord>(id);
-
-            NoteItem.RemoveByParentFileNumber(realm, EntityType.Case, @case.FileNumber);
-            PersonVisit.RemoveByParent(realm, EntityType.Case, id);
-            IcmContact.RemoveByParent(realm, EntityType.Case, id);
-            SupportNetworkItem.RemoveByParent(realm, EntityType.Case, id);
-            Attachment.RemoveByParent(realm, EntityType.Case, id, userIgnoredPrefs);
-
-            realm.Remove(@case);
-        }
+        foreach (var @case in unassigned)
+            @case.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
@@ -229,5 +303,49 @@ public partial class CaseRecord :
             .All<CaseRecord>()
             .FirstOrDefault(@case => @case.Id == draftItem.RelatedEntityId
                         || @case.FileNumber == draftItem.RelatedEntityId);
+    }
+
+    public static IBusinessObject GetByPersonVisitItem(Realm realm, PersonVisit item)
+    {
+        return realm
+            .All<CaseRecord>()
+            .FirstOrDefault(@case => @case.Id == item.ParentId
+                        || @case.FileNumber == item.ParentId);
+    }
+
+    public static IQueryable<CaseRecord> GetAllByAssignee(
+        Realm realm,
+        string username,
+        bool invert = false)
+    {
+        string operation = invert ? "NONE" : "ANY";
+
+        return realm
+            .All<CaseRecord>()
+            .Filter($"$0 == {operation} {nameof(Assignees)}", username);
+    }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username || Assignees.Contains(username);
+    }
+
+    public bool Equals(CaseRecord other)
+    {
+        return other != null
+            && Id == other.Id
+            && EntityType == other.EntityType;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is CaseRecord info ? Equals(info) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        return EntityType.GetHashCode() * Id.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
     }
 }

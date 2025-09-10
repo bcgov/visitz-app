@@ -1,5 +1,9 @@
 using System.Text;
 using Visitz.Storage;
+using VisitzModel.Models.InPersonVisits;
+using Oidc;
+using Visitz.Services;
+using Visitz.Services.Caseload;
 
 #if WINDOWS
 using Windows.Storage;
@@ -214,5 +218,44 @@ public class DebugOptions
         using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
 
         await icmData.WriteAsync(() => icmData.Add(SimpleMockData.MockPersonVisits(parentId), update: true));
+    }
+
+    public static async Task SetThreshold(VisitDaysThreshold threshold)
+    {
+        if (!Enabled)
+            return;
+
+        using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
+
+        var latestVisits = PersonVisit.GetAllByType(icmData);
+
+        var extraDay = threshold == VisitDaysThreshold.Critical ? 1 : 0;
+        var targetDueDate = DateTimeOffset.Now.Date.AddDays((int)threshold - extraDay);
+
+        var targetDateOfVisit = targetDueDate.AddDays(-(int)VisitDaysThreshold.Info);
+
+        await icmData.WriteAsync(() =>
+        {
+            foreach (var visit in latestVisits)
+                visit.DateOfVisit = targetDateOfVisit;
+        });
+    }
+
+    public static async Task ClearOfficeNames()
+    {
+        if (!Enabled)
+            return;
+
+        var info = await OidcSession.GetInfoAsync();
+        info.OfficeNames = [];
+    }
+
+    public static async Task RunRecordCleanupService()
+    {
+        if (!Enabled)
+            return;
+
+        await ServiceProvider.GetService<ServiceHandler>()
+            .TryRunServiceAsync(RecordCleanupService.MakeStartMessage());
     }
 }

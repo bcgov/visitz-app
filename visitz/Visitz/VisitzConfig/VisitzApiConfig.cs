@@ -1,6 +1,7 @@
-﻿using Oidc;
+using Oidc;
 using Visitz.Settings;
 using VisitzApi;
+using VisitzApi.Network;
 
 namespace Visitz.VisitzConfig
 {
@@ -12,9 +13,11 @@ namespace Visitz.VisitzConfig
         {
             builder.Services.AddSingleton<AppendTokenHandler>();
             builder.Services.AddSingleton<AppendAcceptLanguageHandler>();
+            builder.Services.AddSingleton<ClientSideRateLimitedHandler>();
 
             builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<AppendTokenHandler>();
             builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<AppendAcceptLanguageHandler>();
+            builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<ClientSideRateLimitedHandler>();
 
             builder.Services.AddSingleton(sp =>
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));

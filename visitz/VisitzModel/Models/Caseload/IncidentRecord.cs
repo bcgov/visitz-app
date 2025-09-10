@@ -1,5 +1,6 @@
 using Realms;
 using System.Globalization;
+using System.Linq;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -48,6 +49,12 @@ public partial class IncidentRecord :
     public string AssignedTo { get; set; }
 
     public string AssignedToId { get; set; }
+
+    public IList<string> Assignees { get; }
+
+    public string DisplayAssignees => Assignees.Any()
+        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)
+        : AssignedTo;
 
     public string AddressComments { get; set; }
 
@@ -114,6 +121,8 @@ public partial class IncidentRecord :
 
     public string TypeOfCaller { get; set; }
 
+    public BoLocalState LocalState { get; set; }
+
     public string DisplayDate => DateReported?.ToString(
         IBusinessObject.DisplayDateFormat,
         CultureInfo.InvariantCulture) ?? "";
@@ -126,7 +135,9 @@ public partial class IncidentRecord :
 
     public IncidentRecord() { }
 
-    public IncidentRecord(IncidentJson json)
+    public IncidentRecord(
+        IncidentJson json,
+        string currentUsername = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -140,6 +151,15 @@ public partial class IncidentRecord :
         LastName = json.LastName;
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
+
+        if (!string.IsNullOrWhiteSpace(AssignedTo)
+            && !Assignees.Contains(AssignedTo))
+            Assignees.Add(AssignedTo);
+
+        if (!string.IsNullOrWhiteSpace(currentUsername)
+            && !Assignees.Contains(currentUsername))
+            Assignees.Add(currentUsername);
+
         AddressComments = json.AddressComments;
         Address = json.Address;
         AreAnyOfTheFamilyMembersIndigenous = json.AreAnyOfTheFamilyMembersIndigenous;
@@ -221,52 +241,101 @@ public partial class IncidentRecord :
         };
     }
 
-    public static List<IncidentRecord> FromApiJsonArray(IEnumerable<IncidentJson> jsonArray)
+    public static List<IncidentRecord> FromApiJsonArray(
+        IEnumerable<IncidentJson> jsonArray,
+        string currentUsername = null)
     {
         List<IncidentRecord> outList = [];
 
-        foreach (var jsonItem in jsonArray)
-            outList.Add(new IncidentRecord(jsonItem));
+        if (jsonArray != null)
+            foreach (var jsonItem in jsonArray)
+                outList.Add(new IncidentRecord(jsonItem, currentUsername));
 
         return outList;
     }
 
+    static IEnumerable<IncidentRecord> FilterUnsupportedSubtypes(IEnumerable<IncidentRecord> incidents)
+    {
+        return incidents.Where(incident => incident.EntitySubtype == EntitySubtype.ChildProtection);
+    }
+
     public static async Task SynchronizeAsync(
         Realm realm,
-        SectionJson<IncidentJson> section,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+        IEnumerable<IncidentRecord> newOfficeIncidents,
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        string currentUsername,
+        bool isPersonalCaseload)
     {
-        var currentAssignedIds = realm.All<IncidentRecord>()
-            .AsEnumerable()
-            .Select(incident => incident.Id);
+        if (newOfficeIncidents == null)
+            return;
 
-        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
-
-        var v2Incidents = FromApiJsonArray(section.Items ?? []);
+        bool isOfficeCaseload = !isPersonalCaseload;
+        var incomingIncidents = FilterUnsupportedSubtypes(newOfficeIncidents);
+        var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
+        var unassigned = currentAssigned.Except(incomingIncidents);
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-            realm.Upsert(v2Incidents);
+            CascadeDelete(realm, unassigned, userIgnoredPrefs);
+            foreach (var item in incomingIncidents)
+            {
+                realm.Add(item, update: true);
+                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+            }
         });
     }
 
-    static void CascadeDelete(
+    public static Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<string> deleteIds,
+        IEnumerable<IncidentJson> newOfficeIncidents,
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        string currentUsername,
+        bool isPersonalCaseload)
+    {
+        return SynchronizeAsync(
+            realm,
+            FromApiJsonArray(newOfficeIncidents, currentUsername),
+            userIgnoredPrefs,
+            currentUsername,
+            isPersonalCaseload);
+    }
+
+    public void DeleteDependentData(
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.Incident, FileNumber);
+        IcmContact.RemoveByParent(fromRealm, EntityType.Incident, Id);
+        SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
+        Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
+
+        if (deleteLocalState)
+            fromRealm.Remove(LocalState);
+    }
+
+    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+        Realm fromRealm = null,
+        bool cascade = true,
+        bool deleteLocalState = true)
+    {
+        fromRealm ??= Realm;
+
+        if (cascade)
+            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
+
+        fromRealm.Remove(this);
+    }
+
+    static void CascadeDelete(
+        Realm fromRealm,
+        IEnumerable<IncidentRecord> removeIncidents,
         UserIgnoredContentPrefs userIgnoredPrefs)
     {
-        foreach (var id in deleteIds)
-        {
-            var incident = realm.Find<IncidentRecord>(id);
-
-            NoteItem.RemoveByParentFileNumber(realm, EntityType.Incident, incident.FileNumber);
-            IcmContact.RemoveByParent(realm, EntityType.Incident, id);
-            SupportNetworkItem.RemoveByParent(realm, EntityType.Incident, id);
-            Attachment.RemoveByParent(realm, EntityType.Incident, id, userIgnoredPrefs);
-
-            realm.Remove(incident);
-        }
+        foreach (var incident in removeIncidents)
+            incident.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
@@ -275,5 +344,41 @@ public partial class IncidentRecord :
             .All<IncidentRecord>()
             .FirstOrDefault(incident => incident.Id == draftItem.RelatedEntityId
                         || incident.FileNumber == draftItem.RelatedEntityId);
+    }
+
+    public static IQueryable<IncidentRecord> GetAllByAssignee(
+        Realm realm,
+        string username,
+        bool invert = false)
+    {
+        string operation = invert ? "NONE" : "ANY";
+
+        return realm
+            .All<IncidentRecord>()
+            .Filter($"$0 == {operation} {nameof(Assignees)}", username);
+    }
+
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username || Assignees.Contains(username);
+    }
+
+    public bool Equals(IncidentRecord other)
+    {
+        return other != null
+            && Id == other.Id
+            && EntityType == other.EntityType;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is IncidentRecord info ? Equals(info) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        return EntityType.GetHashCode() * Id.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
     }
 }

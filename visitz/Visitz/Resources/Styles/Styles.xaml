@@ -450,6 +450,11 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Grid" x:Key="DraftsColumns">
+        <Setter Property="ColumnDefinitions" Value="*, *, 0.75*, 0.2*, 0.1*" />
+        <Setter Property="ColumnSpacing" Value="8" />
+    </Style>
+
     <Style TargetType="Label" x:Key="BaseLabelStyle">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BC_TextColor}, Dark={StaticResource BC_TextColor}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />

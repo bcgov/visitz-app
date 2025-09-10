@@ -38,7 +38,7 @@
 				Background="AliceBlue"
 				Text="Session" />
 
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
@@ -72,6 +72,13 @@
 					Grid.Column="1"
 					IsEnabled="{Binding BuildingInDebug}"
 					IsToggled="{Binding SkipLocalAuth}" />
+
+                <Button
+				    StyleClass="DebugLayout"
+				    Grid.Row="4"
+				    Grid.Column="1"
+				    Command="{Binding ClearOfficeNamesCommand}"
+				    Text="Clear office names" />
 			</Grid>
 
 			<Label
@@ -81,7 +88,7 @@
 				Background="AliceBlue"
 				Text="Database" />
 
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
@@ -103,8 +110,15 @@
 					Command="{Binding ClearAttachmentDraftCommand}"
 					Text="Clear AttachmentDraft data" />
 
+                <Button
+				    StyleClass="DebugLayout"
+				    Grid.Row="3"
+				    Grid.Column="1"
+				    Command="{Binding RunRecordCleanupCommand}"
+				    Text="Run RecordCleanupService" />
+
 				<HorizontalStackLayout
-					Grid.Row="3"
+					Grid.Row="4"
 					Grid.Column="1"
 					Spacing="5">
 					<Entry Text="{Binding MockPersonVisitsParentId, TargetNullValue='1-0000000'}" />
@@ -221,7 +235,7 @@
 				Background="AliceBlue"
 				Text="Child/youth visits" />
 
-			<Grid RowDefinitions="Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
 				<Label
 					StyleClass="DebugLayout,DebugLabel"
 					Grid.Row="0"
@@ -245,6 +259,27 @@
 					Grid.Row="1"
 					Grid.Column="1"
 					IsToggled="{Binding DryFirePostVisitServiceSimulateSuccess}"/>
+
+                <Button
+					StyleClass="DebugLayout"
+					Grid.Row="2"
+					Grid.Column="1"
+					Command="{Binding SetWarningCommand}"
+					Text="Set Warning threshold" />
+
+                <Button
+					StyleClass="DebugLayout"
+					Grid.Row="3"
+					Grid.Column="1"
+					Command="{Binding SetDangerCommand}"
+					Text="Set Danger threshold" />
+
+                <Button
+					StyleClass="DebugLayout"
+					Grid.Row="4"
+					Grid.Column="1"
+					Command="{Binding SetCriticalCommand}"
+					Text="Set Critical threshold" />
 			</Grid>
 
             <Label

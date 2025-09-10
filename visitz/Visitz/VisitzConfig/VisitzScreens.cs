@@ -17,6 +17,7 @@ using Visitz.Views.Entity.SupportNetwork;
 using Visitz.Views.Navigation;
 using Visitz.Views.Root;
 using Visitz.Views.Snackbar;
+using Visitz.Views.Todo;
 using Visitz.Views.User;
 using Visitz.Views.WebViewer;
 
@@ -130,6 +131,14 @@ public static class VisitzScreens
         builder.Services.AddTransient<TabView>();
         builder.Services.AddTransient<TabViewModel>();
         builder.Services.AddTransient<TabItemView>();
+
+        builder.Services.AddSingleton<TodoContainerView>();
+
+        builder.Services.AddTransient<TodoMasterList>();
+        builder.Services.AddTransient<TodoMasterListViewModel>();
+
+        builder.Services.AddTransient<TodoVisitsView>();
+        builder.Services.AddTransient<TodoVisitsViewModel>();
 
         return builder;
     }

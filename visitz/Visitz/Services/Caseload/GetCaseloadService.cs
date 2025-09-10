@@ -1,10 +1,8 @@
-using System.Net;
+using Oidc;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzApi.ErrorHandling;
-using VisitzApi.Models.Base;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
@@ -47,49 +45,31 @@ namespace Visitz.Services.Caseload
 
             CaseloadJson caseloadFromApi = await Vpi.GetCaseloadAsync(after: after);
 
+            var session = await OidcSessionInfo.GetAsync();
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
             List<Exception> invalidOps = [];
 
-            if (CanSynchronize(caseloadFromApi.Cases, invalidOps))
-                await CaseRecord.SynchronizeCasesAsync(realm, caseloadFromApi.Cases, UserIgnoredPrefs);
+            if (CaseloadHelper.CanSynchronize(caseloadFromApi.Cases, invalidOps))
+                await CaseRecord.SynchronizeAsync(
+                    realm,
+                    caseloadFromApi.Cases.Items,
+                    UserIgnoredPrefs,
+                    session.Idir,
+                    isPersonalCaseload: true);
 
-            if (CanSynchronize(caseloadFromApi.Incidents, invalidOps))
-                await IncidentRecord.SynchronizeAsync(realm, caseloadFromApi.Incidents, UserIgnoredPrefs);
+            if (CaseloadHelper.CanSynchronize(caseloadFromApi.Incidents, invalidOps))
+                await IncidentRecord.SynchronizeAsync(
+                    realm,
+                    caseloadFromApi.Incidents.Items,
+                    UserIgnoredPrefs,
+                    session.Idir,
+                    isPersonalCaseload: true);
 
             // TODO: synchronize memos and service requests once we have official UI support
 
             if (invalidOps.Count > 0)
                 throw new AggregateException(invalidOps);
-        }
-
-        private static bool HasCode<T>(SectionJson<T> section, params HttpStatusCode[] codes)
-            where T : AssignableRecordJson
-        {
-            foreach (var code in codes)
-                if (section.Status == (int)code)
-                    return true;
-
-            return false;
-        }
-
-        private static bool CanSynchronize<T>(
-            SectionJson<T> section,
-            List<Exception> invalidOps)
-            where T : AssignableRecordJson
-        {
-            if (HasCode(section, HttpStatusCode.OK, HttpStatusCode.NoContent))
-                return true;
-            else if (HasCode(section, HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden))
-            {
-                invalidOps.Add(new VisitzApiException(
-                    HttpStatusCode.Forbidden,
-                    section.GetFullDisplayError()));
-            }
-            else
-                invalidOps.Add(new InvalidOperationException(section.GetFullDisplayError()));
-
-            return false;
         }
 
         public override string GetId()

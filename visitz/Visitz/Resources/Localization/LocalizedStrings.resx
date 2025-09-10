@@ -462,7 +462,7 @@ Logging out won't affect your unpublished drafts.</value>
     <value>2. Use of extended family, neighbours, community Elders, or other individuals in the community as safety resources</value>
   </data>
   <data name="SafetyIntervention3_UseCommAgencies" xml:space="preserve">
-    <value>3. Use of community agencies (including First Nations, Aboriginal or Metis community representatives or services) as safety resources</value>
+    <value>3. Use of community agencies (including First Nations, Indigenous or Metis community representatives or services) as safety resources</value>
   </data>
   <data name="SafetyIntervention4_ProtectVictim" xml:space="preserve">
     <value>4. Parent/care-provider to appropriately protect victim from alleged perpetrator</value>
@@ -702,7 +702,7 @@ If you have any questions about the collection, use, or disclosure of this infor
     <value>Discard unlinked draft</value>
   </data>
   <data name="DiscardUnlinkedDraftDesc" xml:space="preserve">
-    <value>You are not assigned to {0} '{1}'. To continue working on drafts for this record you must be assigned.
+    <value>{0} '{1}' is no longer available on this device because it may not be open, is restricted, or is no longer assigned to your office.
 
 If you select 'Cancel and keep draft', the draft will remain on your device.
 
@@ -771,13 +771,13 @@ You can view the details of this error or try again later.</value>
     <value>Camera permissions disabled</value>
   </data>
   <data name="RecordRemovedFromCaseload" xml:space="preserve">
-    <value>{0} '{1}' unassigned from caseload</value>
+    <value>{0} '{1}' removed from device</value>
     <comment>0 = Entity type, 1 = Key player name</comment>
   </data>
   <data name="RecordRemovedFromCaseloadDetails" xml:space="preserve">
-    <value>"The record {0} '{1}' was unassigned from your caseload and was removed from this device during caseload refresh.
+    <value>{0} '{1}' was removed from this device during caseload refresh because it may not be open, is restricted, or is no longer assigned to your office.
 
-Any drafts for this record are still saved—but won't be accessible until the record is reassigned."</value>
+Any drafts for this record are still saved—but won't be accessible until the record is viewable in the app again.</value>
     <comment>0 = Entity type, 1 = Key player name</comment>
   </data>
   <data name="ChildYouthVisits" xml:space="preserve">
@@ -929,5 +929,83 @@ This does not affect attachments in ICM.</value>
   </data>
   <data name="NeedToConfirm" xml:space="preserve">
     <value>MCFD Mobility needs to confirm you have a valid ICM profile.</value>
+  </data>
+  <data name="Todo" xml:space="preserve">
+    <value>To do</value>
+  </data>
+  <data name="LastVisit" xml:space="preserve">
+    <value>Last visit</value>
+  </data>
+  <data name="NextVisitDue" xml:space="preserve">
+    <value>Next visit due</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Overdue" xml:space="preserve">
+    <value>Overdue</value>
+  </data>
+  <data name="TodoIsEmpty" xml:space="preserve">
+    <value>You're all caught up!
+No items here.</value>
+  </data>
+  <data name="Agt921" xml:space="preserve">
+    <value>92.1 AGT</value>
+  </data>
+  <data name="AgtCoordinationCa" xml:space="preserve">
+    <value>Coordination AGT (CA)</value>
+  </data>
+  <data name="MyCaseload" xml:space="preserve">
+    <value>My caseload</value>
+  </data>
+  <data name="AssignedTo" xml:space="preserve">
+    <value>Assigned to</value>
+  </data>
+  <data name="DownloadError" xml:space="preserve">
+    <value>Download error</value>
+  </data>
+  <data name="DownloadRecordErrorMessage" xml:space="preserve">
+    <value>An error occurred while downloading information for {0}.
+
+You can view the details of this error or try again later.</value>
+    <comment>0 = identifying info of parent record</comment>
+  </data>
+  <data name="RemoveFromDeviceMessage" xml:space="preserve">
+    <value>Removing this record from your device means you will not be able to view its information unless you are online and explicitly reopen it from the app.
+
+Are you sure you want to remove {0} '{1}' from your device?</value>
+    <comment>0 = entity type of record
+1 = display name of record</comment>
+  </data>
+  <data name="RemoveFromDeviceErrorAssigned" xml:space="preserve">
+    <value>Can't remove {0} '{1}'—it is directly assigned to you.</value>
+    <comment>0 = entity type of record
+1 = display name of record</comment>
+  </data>
+  <data name="RemoveFromDevice" xml:space="preserve">
+    <value>Remove from device</value>
+  </data>
+  <data name="UnableToRemove" xml:space="preserve">
+    <value>Unable to remove</value>
+  </data>
+  <data name="NeedInternetToViewRecord" xml:space="preserve">
+    <value>To view information for this record you need an internet connection to download it.</value>
+  </data>
+  <data name="RemoveFromDeviceErrorNotDownloaded" xml:space="preserve">
+    <value>Information for this record has not been downloaded yet.</value>
+  </data>
+  <data name="MarkForDownload" xml:space="preserve">
+    <value>Information for {0} '{1}' has not been downloaded yet.
+
+Downloading it now will let the app know it should download information for this record during caseload refreshes. This can increase the time it takes to refresh your caseload and the amount of storage used in the device.
+
+Do you want to download information for this record?</value>
+    <comment>0 = entity type, 1 = key player name</comment>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadRecordInformation" xml:space="preserve">
+    <value>Download record information</value>
   </data>
 </root>

@@ -1,15 +1,41 @@
+using Realms;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.Interfaces;
 
-public interface IRecordInfo
+#nullable enable
+
+public interface IRecordInfo : IDisposable
 {
     string RelatedEntityId { get; set; }
 
     EntityType RelatedEntityType { get; set; }
 
     EntitySubtype RelatedEntitySubtype { get; set; }
+
+    [Ignored]
+    Realm? RelatedEntityRealm { get; set; }
+
+    [Ignored]
+    IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
+
+    [Ignored]
+    IDisposable? RelatedEntitySubscriptionToken { get; set; }
+
+    /// <summary>
+    /// Whether or not the related entity is available for the app to interact
+    /// with at all.
+    /// </summary>
+    [Ignored]
+    bool? RelatedEntityAvailable { get; set; }
+
+    /// <summary>
+    /// Whether or not the related entity's depdendent data has been
+    /// downloaded (or marked for download).
+    /// </summary>
+    [Ignored]
+    bool? RelatedEntityDownloaded { get; set; }
 }
 
 public static class IRecordInfoExtensions
@@ -21,5 +47,62 @@ public static class IRecordInfoExtensions
         item.RelatedEntitySubtype = businessObject.EntitySubtype;
 
         return item;
+    }
+
+    public static bool? IsAvailable(this IRecordInfo recordInfo)
+    {
+        if (recordInfo.RelatedEntityRealm is Realm realm)
+        {
+            return IBusinessObjectExtensions.GetByIdType(
+                realm,
+                recordInfo.RelatedEntityId,
+                recordInfo.RelatedEntityType) != null;
+        }
+        return null;
+    }
+
+    public static bool? IsDownloaded(this IRecordInfo recordInfo)
+    {
+        if (recordInfo.RelatedEntityRealm is Realm realm)
+        {
+            var bo = IBusinessObjectExtensions.GetByIdType(
+                realm,
+                recordInfo.RelatedEntityId,
+                recordInfo.RelatedEntityType);
+
+            if (bo is IBusinessObject businessObject)
+                return businessObject.LocalState.ShouldDownloadDuringRefresh;
+        }
+        return null;
+    }
+
+    public static void SubscribeRelatedState(this IRecordInfo recordInfo, Realm? realm)
+    {
+        recordInfo.RelatedEntityRealm = realm;
+
+        if (recordInfo.RelatedEntitySubscriptionToken != null)
+        {
+            recordInfo.RelatedEntitySubscriptionToken.Dispose();
+            recordInfo.RelatedEntitySubscriptionToken = null;
+        }
+
+        if (realm != null)
+        {
+            recordInfo.RelatedEntitySubscriptionQuery = IBusinessObjectExtensions
+                .GetQueryableByRelaxedIdType(realm,
+                    recordInfo.RelatedEntityId,
+                    recordInfo.RelatedEntityType);
+
+            recordInfo.RelatedEntitySubscriptionToken =
+                recordInfo.RelatedEntitySubscriptionQuery
+                    .SubscribeForNotifications((items, changes) =>
+            {
+                recordInfo.RelatedEntityAvailable = items.Any();
+                recordInfo.RelatedEntityDownloaded = items.FirstOrDefault()
+                    is IBusinessObject businessObject
+                        && businessObject.LocalState is BoLocalState state
+                            && state.ShouldDownloadDuringRefresh;
+            });
+        }
     }
 }

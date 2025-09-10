@@ -1,7 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Oidc;
 using Realms;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Visitz.Extensions;
 using Visitz.FontIcons;
@@ -14,15 +16,9 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.SegmentedButtons;
 using Visitz.Views.User;
 using VisitzModel.Extensions;
-using VisitzModel.Messaging;
-using VisitzModel.Models;
-using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
-using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
-using VisitzModel.Models.InPersonVisits;
-using VisitzModel.Models.Notes;
-using VisitzModel.Models.SafetyAssess;
+using IBusinessObjectExtensions = VisitzModel.Models.Caseload.IBusinessObjectExtensions;
 
 namespace Visitz.Views.Caseload
 {
@@ -57,6 +53,12 @@ namespace Visitz.Views.Caseload
             nameof(EntitySubtype.FamilyServices),
             LocalizedStrings.Subtype_FamilyServicesInitials,
             MaterialIcons.Folder.GetUnfilledMaterialIcon());
+
+        private static readonly List<string> StartingOfficeFilterOptions =
+        [
+            LocalizedStrings.All,
+            LocalizedStrings.MyCaseload,
+        ];
 
         [ObservableProperty]
         public CaseloadLister lister;
@@ -98,28 +100,26 @@ namespace Visitz.Views.Caseload
         [ObservableProperty]
         public bool showAvatarView;
 
-        private readonly ObservableRealmQueryMap realmQueryMap = new();
+        [ObservableProperty]
+        public DraftIndicatorHelper indicatorHelper = new();
 
         [ObservableProperty]
-        public HashSet<(string EntityId, EntityType Type)> draftedNotes = [];
+        public ObservableCollection<string> officeNames = [];
 
         [ObservableProperty]
-        public HashSet<(string EntityId, EntityType Type)> draftedAssessments = [];
+        public string selectedOffice;
 
-        [ObservableProperty]
-        public HashSet<(string EntityId, EntityType Type)> draftedAttachments = [];
-
-        [ObservableProperty]
-        public HashSet<(string EntityId, EntityType Type)> draftedItems = [];
-
-        [ObservableProperty]
-        public HashSet<(string EntityId, EntityType Type)> draftedVisits = [];
+        OidcSessionInfo SessionInfo { get; set; }
 
         private async Task Setup()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-            await SetupRealm();
+            SessionInfo = await OidcSession.GetInfoAsync();
+            SetupOfficeNames();
+            SessionInfo.OfficesChanged += SessionInfo_OfficesChanged;
+
+            await SetupCaseloadList();
 
             int sortPrefIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
@@ -131,33 +131,88 @@ namespace Visitz.Views.Caseload
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
-        private async Task SetupRealm()
+        private void SetupOfficeNames(HashSet<string> newOffices = null)
         {
+            if (newOffices == null)
+            {
+                OfficeNames.Clear();
+                foreach (var starter in StartingOfficeFilterOptions)
+                    OfficeNames.Add(starter);
+
+                foreach (var office in SessionInfo.OfficeNames.AsEnumerable().Order())
+                    OfficeNames.Add(office);
+
+                SelectedOffice = LocalizedStrings.MyCaseload;
+            }
+            else
+            {
+                var currentSelected = SelectedOffice;
+
+                UpdateSortedOfficeNames(newOffices);
+
+                if (currentSelected != SelectedOffice)
+                {
+                    SelectedOffice = OfficeNames.Contains(currentSelected)
+                        ? currentSelected
+                        : LocalizedStrings.MyCaseload;
+                }
+            }
+        }
+
+        private void UpdateSortedOfficeNames(HashSet<string> newOffices)
+        {
+            // Skip to account for always-available options
+            int offset = StartingOfficeFilterOptions.Count;
+
+            List<string> current = OfficeNames.Skip(offset).ToList();
+
+            foreach (var addOffice in newOffices.Except(current))
+            {
+                int index = current.BinarySearch(addOffice);
+                if (index < 0) index = ~index;
+                int insertPosition = index + offset;
+
+                if (insertPosition < OfficeNames.Count)
+                {
+                    current.Insert(index, addOffice);
+                    OfficeNames.Insert(insertPosition, addOffice);
+                }
+                else
+                {
+                    current.Add(addOffice);
+                    OfficeNames.Add(addOffice);
+                }
+            }
+
+            foreach (var removeOffice in current.Except(newOffices))
+                OfficeNames.Remove(removeOffice);
+        }
+
+        private void SessionInfo_OfficesChanged(object sender, HashSet<string> offices)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                SetupOfficeNames(offices);
+                Lister?.ApplyWithFilter();
+            });
+        }
+
+        private async Task SetupCaseloadList()
+        {
+            await IndicatorHelper.InitAsync();
+
             Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            Lister = new CaseloadLister(Realm, list =>
+            Lister = new CaseloadLister(Realm, IndicatorHelper, SessionInfo, list =>
             {
                 list = ApplySorting(list);
                 list = ApplySearchQuery(list);
                 list = ApplySubtypeFilter(list);
+                list = ApplyOfficeFilter(list);
                 return list;
             });
 
             Lister.Records.CollectionChanged += Records_CollectionChanged;
-
-            realmQueryMap.ItemsChanged += RealmQueryMap_DraftsChanged;
-
-            var noteDraft = await VisitzRealms.GetNoteDraftsRealmAsync();
-            realmQueryMap.Subscribe(noteDraft, noteDraft.All<NoteDraft>());
-
-            var assessmentDraft = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
-            realmQueryMap.Subscribe(assessmentDraft, assessmentDraft.All<AssessmentDraft>());
-
-            var attachmentDraft = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-            realmQueryMap.Subscribe(attachmentDraft, attachmentDraft.All<AttachmentDraft>());
-
-            var visitDraft = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-            realmQueryMap.Subscribe(visitDraft, visitDraft.All<PersonVisitDraft>());
         }
 
         private void Records_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -171,12 +226,16 @@ namespace Visitz.Views.Caseload
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
-            realmQueryMap?.Dispose();
+            IndicatorHelper?.Dispose();
 
             Lister?.Dispose();
 
             Realm?.Dispose();
             Realm = null;
+
+            if (SessionInfo != null)
+                SessionInfo.OfficesChanged -= SessionInfo_OfficesChanged;
+            SessionInfo = null;
         }
 
         protected override async Task InitAsync()
@@ -249,6 +308,20 @@ namespace Visitz.Views.Caseload
             return query.Where(item => item.EntitySubtype == subtype);
         }
 
+        private IEnumerable<IBusinessObject> ApplyOfficeFilter(IEnumerable<IBusinessObject> query)
+        {
+            if (query == null
+                || string.IsNullOrWhiteSpace(SelectedOffice)
+                || SelectedOffice == LocalizedStrings.MyCaseload)
+            {
+                return query.Where(bo => bo.IsAssigned(SessionInfo.Idir));
+            }
+            else if (SelectedOffice == LocalizedStrings.All)
+                return query;
+            else
+                return query.Where(bo => bo.ServiceOffice == SelectedOffice);
+        }
+
         private void ApplyCollectionViewPrompt()
         {
             CollectionViewPrompt = !string.IsNullOrWhiteSpace(SearchQuery)
@@ -261,12 +334,6 @@ namespace Visitz.Views.Caseload
         {
             WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage(forceDownload: true));
             ShowEmptyCaseloadMessage = false;
-        }
-
-        [RelayCommand]
-        public static void BusinessObjectSelected(IBusinessObject record)
-        {
-            StrongReferenceMessenger.Default.Send(new BusinessObjectSelectedMessage(record));
         }
 
         [RelayCommand]
@@ -286,7 +353,14 @@ namespace Visitz.Views.Caseload
             IsRefreshing = message.Status == VisitzService.State.Running;
 
             if (message.FinishedSuccess)
-                ShowEmptyCaseloadMessage = !Lister.Records.Any();
+            {
+                bool anyExist = Realm.All<CaseRecord>().Any()
+                    || Realm.All<IncidentRecord>().Any()
+                    || Realm.All<MemoRecord>().Any()
+                    || Realm.All<ServiceRequestRecord>().Any();
+
+                ShowEmptyCaseloadMessage = !anyExist;
+            }
         }
 
         partial void OnActivatedSortOptionChanged(SegmentedOptions value)
@@ -306,59 +380,10 @@ namespace Visitz.Views.Caseload
             ShowAvatarView = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
-        private void RealmQueryMap_DraftsChanged(
-            object sender,
-            (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+        partial void OnSelectedOfficeChanged(string value)
         {
-            HashSet<(string EntityId, EntityType Type)> drafted = [];
-
-            foreach (var item in e.Items.Cast<IDraftItem>())
-                drafted.Add((item.RelatedEntityId, item.RelatedEntityType));
-
-            if (e.Type == typeof(NoteDraft))
-                DraftedNotes = drafted;
-            else if (e.Type == typeof(AssessmentDraft))
-                DraftedAssessments = drafted;
-            else if (e.Type == typeof(AttachmentDraft))
-                DraftedAttachments = drafted;
-            else if (e.Type == typeof(PersonVisitDraft))
-                DraftedVisits = drafted;
-        }
-
-        partial void OnDraftedNotesChanged(HashSet<(string EntityId, EntityType Type)> value)
-        {
-            var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
-            newSet.UnionWith(DraftedAssessments);
-            newSet.UnionWith(DraftedAttachments);
-            newSet.UnionWith(DraftedVisits);
-            DraftedItems = newSet;
-        }
-
-        partial void OnDraftedAssessmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
-        {
-            var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
-            newSet.UnionWith(DraftedNotes);
-            newSet.UnionWith(DraftedAttachments);
-            newSet.UnionWith(DraftedVisits);
-            DraftedItems = newSet;
-        }
-
-        partial void OnDraftedAttachmentsChanged(HashSet<(string EntityId, EntityType Type)> value)
-        {
-            var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
-            newSet.UnionWith(DraftedNotes);
-            newSet.UnionWith(DraftedAssessments);
-            newSet.UnionWith(DraftedVisits);
-            DraftedItems = newSet;
-        }
-
-        partial void OnDraftedVisitsChanged(HashSet<(string EntityId, EntityType Type)> value)
-        {
-            var newSet = new HashSet<(string EntityId, EntityType Type)>(value);
-            newSet.UnionWith(DraftedAssessments);
-            newSet.UnionWith(DraftedAttachments);
-            newSet.UnionWith(DraftedNotes);
-            DraftedItems = newSet;
+            if (Lister != null)
+                Lister.ApplyWithFilter();
         }
     }
 }
