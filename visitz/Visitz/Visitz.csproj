@@ -82,7 +82,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiPackageVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiPackageVersion)" />
-		<PackageReference Include="PDFsharp" Version="6.1.1" />
+		<PackageReference Include="PDFsharp" Version="6.2.1" />
 		<PackageReference Include="Plugin.Fingerprint" Version="3.0.0-beta.1" />
 		<PackageReference Include="Realm" Version="$(RealmVersion)" />
 		<PackageReference Include="SecurityCodeScan.VS2019" Version="$(SecurityCodeScanVersion)">
