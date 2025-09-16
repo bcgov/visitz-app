@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
 using Visitz.Views.BaseClasses;
 
@@ -15,8 +16,8 @@ public partial class DebugOptionsView : ViewModelContentView
     {
         var popup = new Popup()
         {
-            VerticalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Fill,
-            HorizontalOptions = Microsoft.Maui.Primitives.LayoutAlignment.Fill,
+            VerticalOptions = LayoutOptions.Fill,
+            HorizontalOptions = LayoutOptions.Fill,
             Content = new ScrollView()
             {
                 Orientation = ScrollOrientation.Both,
