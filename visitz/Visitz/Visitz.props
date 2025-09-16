@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<CommunityToolkitMvvmVersion>8.2.2</CommunityToolkitMvvmVersion>
 		<CoverletCollectorVersion>6.0.2</CoverletCollectorVersion>
-		<MauiPackageVersion>8.0.100</MauiPackageVersion>
+		<MauiPackageVersion>9.0.110</MauiPackageVersion>
 		<NETTestSdkVersion>17.10.0</NETTestSdkVersion>
 		<RealmVersion>12.4.1</RealmVersion>
 		<SecurityCodeScanVersion>5.6.7</SecurityCodeScanVersion>
