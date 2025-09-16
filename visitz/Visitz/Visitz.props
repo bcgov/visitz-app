@@ -1,7 +1,7 @@
 <Project>
 
 	<PropertyGroup>
-		<CommunityToolkitMvvmVersion>8.2.2</CommunityToolkitMvvmVersion>
+		<CommunityToolkitMvvmVersion>8.4.0</CommunityToolkitMvvmVersion>
 		<CoverletCollectorVersion>6.0.2</CoverletCollectorVersion>
 		<MauiPackageVersion>9.0.110</MauiPackageVersion>
 		<NETTestSdkVersion>17.10.0</NETTestSdkVersion>
