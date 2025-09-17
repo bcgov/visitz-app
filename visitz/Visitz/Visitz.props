@@ -5,7 +5,7 @@
 		<CoverletCollectorVersion>6.0.2</CoverletCollectorVersion>
 		<MauiPackageVersion>9.0.110</MauiPackageVersion>
 		<NETTestSdkVersion>17.10.0</NETTestSdkVersion>
-		<RealmVersion>12.4.1</RealmVersion>
+		<RealmVersion>20.1.0</RealmVersion>
 		<SecurityCodeScanVersion>5.6.7</SecurityCodeScanVersion>
 		<SharpSourceVersion>1.27.1</SharpSourceVersion>
 		<VisitzVersion>2.9.0</VisitzVersion>
