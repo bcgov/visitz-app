@@ -18,7 +18,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
-		<PackageReference Include="System.Threading.RateLimiting" Version="8.0.0" />
+		<PackageReference Include="System.Threading.RateLimiting" Version="9.0.9" />
 	</ItemGroup>
 
 </Project>
