@@ -112,7 +112,7 @@ public class IncidentRecordTests
     [InlineData(SecondaryName)]
     public void IsIncidentAssignedToForcedAssignee(string name)
     {
-        IncidentRecord incident = new(IncidentJson, null, name);
+        IncidentRecord incident = new(IncidentJson, name);
 
         Assert.Contains(name, incident.Assignees);
     }
@@ -199,12 +199,12 @@ public class IncidentRecordTests
     {
         var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
 
-        IncidentRecord incident = new(IncidentJson, localState: null);
+        IncidentRecord incident = new(IncidentJson);
         incident.LocalState.ShouldDownloadDuringRefresh = true;
         realm.Write(() => realm.Add(incident));
 
         string closed = "Closed";
-        IncidentRecord upsertCase = new(IncidentJson, localState: null) { Status = closed };
+        IncidentRecord upsertCase = new(IncidentJson) { Status = closed };
         realm.Write(() => realm.Add(upsertCase, update: true));
 
         IncidentRecord retrievedCase = realm.Find<IncidentRecord>(IncidentJson.Id)!;
@@ -218,11 +218,11 @@ public class IncidentRecordTests
     {
         var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
 
-        IncidentRecord incident = new(IncidentJson, new() { ShouldDownloadDuringRefresh = true });
+        IncidentRecord incident = new(IncidentJson);
         realm.Write(() => realm.Add(incident));
 
         string closed = "Closed";
-        IncidentRecord upsertCase = new(IncidentJson, localState: null) { Status = closed };
+        IncidentRecord upsertCase = new(IncidentJson) { Status = closed };
         realm.Write(() => realm.Add(upsertCase, update: true));
 
         IncidentRecord retrievedCase = realm.Find<IncidentRecord>(IncidentJson.Id)!;
