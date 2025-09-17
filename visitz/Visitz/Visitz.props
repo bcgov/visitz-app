@@ -13,16 +13,6 @@
 		<XUnitVersion>2.9.0</XUnitVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
-		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-		<ArchiveOnBuild>true</ArchiveOnBuild>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
-		<ArchiveOnBuild>true</ArchiveOnBuild>
-	</PropertyGroup>
-
 	<!-- If no BuildTypeColor was provided, use our default "developer build" color -->
 	<PropertyGroup Condition=" '$(BuildTypeColor)' == '' ">
 		<BuildTypeColor>#440066</BuildTypeColor>
