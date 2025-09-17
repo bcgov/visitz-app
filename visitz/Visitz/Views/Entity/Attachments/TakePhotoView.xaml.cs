@@ -1,12 +1,12 @@
-using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Visitz.Animations;
 using Visitz.Device;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
-using VisitzModel;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 
@@ -30,15 +30,15 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
         BindingContext = ViewModel;
     }
 
-    protected override async Task InitAsync()
+    protected override Task InitAsync()
     {
-        await base.InitAsync();
+        Task init = base.InitAsync();
 
         Unloaded += TakePhotoView_Unloaded;
         Camera.MediaCaptured += Camera_MediaCaptured;
         Camera.MediaCaptureFailed += Camera_MediaCaptureFailed;
 
-        await InitCamera();
+        return init;
     }
 
     bool disposed;
@@ -66,27 +66,6 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
         Dispose();
     }
 
-    async Task InitCamera()
-    {
-        try
-        {
-            await Camera.StartCameraPreview(CancellationToken.None);
-        }
-        catch (TaskCanceledException ex)
-        {
-            ConsoleTrace.TraceMethod(this, ex);
-        }
-        catch (Exception ex)
-        {
-            ConsoleTrace.TraceMethod(this, ex);
-
-            await Navigator.CurrentOpenPage.DisplayAlert(
-                LocalizedStrings.Error,
-                ex.Message + " => " + ex.StackTrace,
-                LocalizedStrings.Ok);
-        }
-    }
-
     private async Task AnimateSnapshotAsync()
     {
         SnapshotLayer.IsVisible = true;
@@ -103,13 +82,13 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
         catch (Exception ex)
         {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
-            ConsoleTrace.TraceMethod(this, ex);
+            Logger.LogError(ex, ex.Message);
         }
     }
 
     private void Camera_MediaCaptureFailed(object sender, MediaCaptureFailedEventArgs e)
     {
-        ConsoleTrace.TraceMethod(this);
+        Logger.LogError($"{nameof(Camera_MediaCaptureFailed)} " + e.FailureReason);
         // TODO: Show error when info is added to MediaCaptureFailedEventArgs
         // await Navigator.CurrentOpenPage.DisplayErrorAlert(e...);
     }
@@ -142,14 +121,21 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
     {
         try
         {
-            _ = AnimateSnapshotAsync();
             CameraRollButton.IsEnabled = false;
-            await Camera.CaptureImage(CancellationToken.None);
+            CancellationTokenSource cts = new(TimeSpan.FromSeconds(10));
+
+            await Task.WhenAll(
+                AnimateSnapshotAsync(),
+                Camera.CaptureImage(cts.Token));
+        }
+        catch (TaskCanceledException)
+        {
+            await Navigator.CurrentOpenPage.DisplayErrorAlert("Took too long to save picture and process was canceled.");
         }
         catch (Exception ex)
         {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
-            ConsoleTrace.TraceMethod(this, ex);
+            Logger.LogError(ex, ex.Message);
         }
         finally
         {
