@@ -35,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<PackageReference Include="System.Diagnostics.EventLog" Version="8.0.1" />
+		<PackageReference Include="System.Diagnostics.EventLog" Version="9.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
