@@ -192,12 +192,12 @@ public class CaseRecordTests
     {
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
 
-        CaseRecord @case = new(CaseJson, localState: null);
+        CaseRecord @case = new(CaseJson);
         @case.LocalState.ShouldDownloadDuringRefresh = true;
         realm.Write(() => realm.Add(@case));
 
         string closed = "Closed";
-        CaseRecord upsertCase = new(CaseJson, localState: null) { Status = closed };
+        CaseRecord upsertCase = new(CaseJson) { Status = closed };
         realm.Write(() => realm.Add(upsertCase, update: true));
 
         CaseRecord retrievedCase = realm.Find<CaseRecord>(CaseJson.Id)!;
@@ -211,11 +211,11 @@ public class CaseRecordTests
     {
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
 
-        CaseRecord @case = new(CaseJson, new() { ShouldDownloadDuringRefresh = true });
+        CaseRecord @case = new(CaseJson);
         realm.Write(() => realm.Add(@case));
 
         string closed = "Closed";
-        CaseRecord upsertCase = new(CaseJson, localState: null) { Status = closed };
+        CaseRecord upsertCase = new(CaseJson) { Status = closed };
         realm.Write(() => realm.Add(upsertCase, update: true));
 
         CaseRecord retrievedCase = realm.Find<CaseRecord>(CaseJson.Id)!;
