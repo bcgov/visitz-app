@@ -50,7 +50,7 @@ jobs:
           dotnet nuget locals all --clear
 
       - name: Cache .NET dependencies
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.2.4
         if: always()
         with:
           path: ~/.nuget/packages
@@ -59,7 +59,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Cache .NET workloads
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4.2.4
         if: always()
         with:
           path: ~/.dotnet
