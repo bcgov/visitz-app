@@ -164,13 +164,13 @@ public class IncidentRecordTests
     }
 
     [Fact]
-    public async Task LocalStateIsNotNullOnFirstAccess()
+    public async Task LocalStateIsNullOnRecordCreate()
     {
         var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
         IncidentRecord incident = new(IncidentJson);
         realm.Write(() => realm.Add(incident));
 
-        Assert.NotNull(incident?.LocalState);
+        Assert.Null(incident.LocalState);
     }
 
     [Fact]
@@ -188,7 +188,11 @@ public class IncidentRecordTests
     {
         var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
         IncidentRecord incident = new(IncidentJson);
-        realm.Write(() => realm.Add(incident));
+        realm.Write(() =>
+        {
+            incident.UpsertLocalState(realm);
+            realm.Add(incident);
+        });
 
         Assert.NotNull(incident.LocalState);
         Assert.NotNull(realm.Find<BoLocalState>(incident.ToIdTypeString()));
@@ -200,30 +204,20 @@ public class IncidentRecordTests
         var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
 
         IncidentRecord incident = new(IncidentJson);
-        incident.LocalState.ShouldDownloadDuringRefresh = true;
-        realm.Write(() => realm.Add(incident));
+        realm.Write(() =>
+        {
+            incident.UpsertLocalState(realm);
+            incident.LocalState.ShouldDownloadDuringRefresh = true;
+            realm.Add(incident);
+        });
 
         string closed = "Closed";
         IncidentRecord upsertCase = new(IncidentJson) { Status = closed };
-        realm.Write(() => realm.Add(upsertCase, update: true));
-
-        IncidentRecord retrievedCase = realm.Find<IncidentRecord>(IncidentJson.Id)!;
-
-        Assert.Equal(closed, retrievedCase.Status);
-        Assert.True(retrievedCase.LocalState.ShouldDownloadDuringRefresh);
-    }
-
-    [Fact]
-    public async Task LocalStateViaCtorInitPersistsAfterUpsert()
-    {
-        var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
-
-        IncidentRecord incident = new(IncidentJson);
-        realm.Write(() => realm.Add(incident));
-
-        string closed = "Closed";
-        IncidentRecord upsertCase = new(IncidentJson) { Status = closed };
-        realm.Write(() => realm.Add(upsertCase, update: true));
+        realm.Write(() =>
+        {
+            realm.Add(upsertCase, update: true);
+            incident.UpsertLocalState(realm);
+        });
 
         IncidentRecord retrievedCase = realm.Find<IncidentRecord>(IncidentJson.Id)!;
 
