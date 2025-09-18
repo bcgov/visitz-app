@@ -29,13 +29,13 @@
 			Color="{StaticResource BC_Gold}"
 			IsRunning="True" />
 
-		<toolkit:CameraView
+        <toolkit:CameraView
 			x:Name="Camera"
 			AbsoluteLayout.LayoutFlags="All"
 			AbsoluteLayout.LayoutBounds="0,0,1,1"
 			SelectedCamera="{Binding SelectedCamera}" />
 
-		<BoxView
+        <BoxView
 			x:Name="SnapshotLayer"
 			AbsoluteLayout.LayoutFlags="All"
 			AbsoluteLayout.LayoutBounds="0,0,1,1"

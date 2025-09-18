@@ -145,19 +145,19 @@ public static class IBusinessObjectExtensions
     public static void UpsertLocalState(
         this IBusinessObject item,
         Realm realm,
-        bool markForDownload)
+        bool? markForDownload = null)
     {
         if (realm.Find<BoLocalState>(item.ToIdTypeString()) is BoLocalState local)
         {
-            if (!local.ShouldDownloadDuringRefresh)
-                local.ShouldDownloadDuringRefresh = markForDownload;
+            if (!local.ShouldDownloadDuringRefresh && markForDownload is bool mark)
+                local.ShouldDownloadDuringRefresh = mark;
 
             item.LocalState = local;
             realm.Add(local, update: true);
         }
         else
         {
-            item.LocalState = new(item) { ShouldDownloadDuringRefresh = markForDownload };
+            item.LocalState = new(item) { ShouldDownloadDuringRefresh = markForDownload ?? false };
             realm.Add(item.LocalState);
         }
     }
