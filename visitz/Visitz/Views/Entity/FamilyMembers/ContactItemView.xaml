@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView
+<base:BaseContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:family="clr-namespace:Visitz.Views.Entity.FamilyMembers"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
-    xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.FamilyMembers.ContactItemView"
-    x:DataType="people:IcmContact"
+    x:DataType="family:ContactItemViewModel"
     HorizontalOptions="Start">
+
+    <base:BaseContentView.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding ItemTappedCommand}" />
+    </base:BaseContentView.GestureRecognizers>
 
     <Grid
         RowDefinitions="*,*,*,*,*,*,*,*,*,*"
@@ -25,15 +30,15 @@
             Padding="10,0,10,0">
 
             <Label
-                Text="{Binding FullDisplayName}"
+                Text="{Binding Contact.FullDisplayName}"
                 FontFamily="BCSansBold"
-                FontSize="17"/>
+                FontSize="17" />
 
-            <tagview:TagView Padding="8,0">
-                <tagview:TagView.Behaviors>
-                    <tagBehaviors:ContactRelationshipTagBehavior/>
-                </tagview:TagView.Behaviors>
-            </tagview:TagView>
+            <tagview:TagView
+                Padding="8,0"
+                BackgroundColor="{Binding TagBgColor}"
+                Text="{Binding TagText}"
+                TextColor="{Binding TagTextColor}"/>
         </HorizontalStackLayout>
 
         <Label
@@ -47,7 +52,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding Age}"/>
+            Text="{Binding Contact.Age}"/>
 
         <Label
             Grid.Row="2"
@@ -60,7 +65,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding DateOfBirthFormatted}"/>
+            Text="{Binding Contact.DateOfBirthFormatted}"/>
 
         <Label
             Grid.Row="3"
@@ -73,7 +78,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding Gender}"/>
+            Text="{Binding Contact.Gender}"/>
 
         <Label
             Grid.Row="4"
@@ -86,7 +91,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding Indigenous}"/>
+            Text="{Binding Contact.Indigenous}"/>
 
         <Label
             Grid.Row="5"
@@ -99,7 +104,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding DisplayCoordinationAgtCa}"/>
+            Text="{Binding Contact.DisplayCoordinationAgtCa}"/>
 
         <Label
             Grid.Row="6"
@@ -112,7 +117,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding Display_921Agt}"/>
+            Text="{Binding Contact.Display_921Agt}"/>
 
         <Label
             Grid.Row="7"
@@ -125,7 +130,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding PrimaryAddress}"/>
+            Text="{Binding Contact.PrimaryAddress}"/>
 
         <Label
             Grid.Row="8"
@@ -138,7 +143,7 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding HomePhoneFormatted}"/>
+            Text="{Binding Contact.HomePhoneFormatted}"/>
 
         <Label
             Grid.Row="9"
@@ -151,6 +156,6 @@
             Grid.Column="1"
             HorizontalOptions="Start"
             FontFamily="BCSansRegular"
-            Text="{Binding CellPhoneFormatted}"/>
+            Text="{Binding Contact.CellPhoneFormatted}"/>
     </Grid>
-</ContentView>
+</base:BaseContentView>

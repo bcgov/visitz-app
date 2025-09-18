@@ -5,7 +5,6 @@
 	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:familyMembers="clr-namespace:Visitz.Views.Entity.FamilyMembers"
-    xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.FamilyMembers.EntityContactsView"
     x:DataType="familyMembers:EntityContactsViewModel">
 
@@ -19,10 +18,10 @@
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             ItemSizingStrategy="MeasureFirstItem"
-            ItemsSource="{Binding Contacts}"
+            ItemsSource="{Binding ContactViewModels}"
             SelectionMode="None">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="people:IcmContact">
+                <DataTemplate x:DataType="familyMembers:ContactItemViewModel">
                     <familyMembers:ContactItemView />
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -3,7 +3,6 @@ using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
@@ -15,11 +14,13 @@ public partial class EntityContactsViewModel : VisitzViewModel, IBusinessObjectH
 {
     readonly ObservableRealmQueryMap realmQueryMap = new();
 
+    Realm Realm { get; set; }
+
     [ObservableProperty]
     public IBusinessObject businessObject;
 
     [ObservableProperty]
-    public ObservableCollection<IcmContact> contacts = [];
+    public ObservableCollection<ContactItemViewModel> contactViewModels = [];
 
     [ObservableProperty]
     public bool isEmpty;
@@ -28,10 +29,10 @@ public partial class EntityContactsViewModel : VisitzViewModel, IBusinessObjectH
     {
         await base.InitAsync();
 
-        var realm = await VisitzRealms.GetIcmDataRealmAsync();
+        Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
-        realmQueryMap.Subscribe(realm, IcmContact.GetByParentObject(realm, BusinessObject));
+        realmQueryMap.Subscribe(Realm, IcmContact.GetByParentObject(Realm, BusinessObject));
     }
 
     bool disposed;
@@ -52,36 +53,52 @@ public partial class EntityContactsViewModel : VisitzViewModel, IBusinessObjectH
         IRealmCollection<IRealmObject> Items,
         ChangeSet Changes) e)
     {
-        var items = e.Items;
-        var changes = e.Changes;
-
         var comparer = new IcmContactRelationshipComparer();
 
-        if (changes == null)
+        if (e.Changes == null)
         {
-            var ordered = items.Cast<IcmContact>()
+            var ordered = e.Items.Cast<IcmContact>()
                 .ToList()
                 .Order(comparer);
 
             foreach (var contact in ordered)
-                Contacts.Add(contact);
+                ContactViewModels.Add(new ContactItemViewModel() { Contact = contact });
         }
         else
         {
-            foreach (var removeIndex in changes.DeletedIndices.Reverse())
-                Contacts.RemoveAt(removeIndex);
+            // We can't rely on the indices provided by realm because we're
+            // modifying the collection order outside the original query. So
+            // we need to do another full query to see differences.
 
-            foreach (var insertIndex in changes.InsertedIndices)
+            List<IcmContact> contactsCopy = ContactViewModels
+                .Select(vm => vm.Contact)
+                .ToList();
+            var savedContacts = IcmContact
+                .GetByParentObject(Realm, BusinessObject)
+                .ToList();
+
+            var removed = contactsCopy.Except(savedContacts);
+            var added = savedContacts.Except(contactsCopy);
+            var removeVms = ContactViewModels
+                .Where(vm => removed.Contains(vm.Contact))
+                .ToList();
+
+            foreach (var vm in removeVms)
             {
-                var contact = (IcmContact)items.ElementAt(insertIndex);
+                contactsCopy.Remove(vm.Contact);
+                ContactViewModels.Remove(vm);
+            }
 
-                int index = Contacts.BinarySearch(contact, comparer);
+            foreach (IcmContact contact in added)
+            {
+                int index = contactsCopy.BinarySearch(contact, comparer);
                 if (index < 0) index = ~index;
 
-                Contacts.Insert(index, contact);
+                contactsCopy.Insert(index, contact);
+                ContactViewModels.Insert(index, new ContactItemViewModel() { Contact = contact });
             }
         }
 
-        IsEmpty = !Contacts.Any();
+        IsEmpty = !ContactViewModels.Any();
     }
 }
