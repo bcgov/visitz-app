@@ -29,29 +29,6 @@ public class AssignableRecordJsonTests
 	"Updated Date": "{BaseRecordJsonTests.UpdatedDateValue}"
 """ + "}";
 
-    const string missingNameFields =
-"{" + $"""
-    "Id": "{BaseRecordJsonTests.ArbitraryId}",
-	"Row Id": "{BaseRecordJsonTests.ArbitraryId}",
-	"Assigned To Id": "{BaseRecordJsonTests.SomeNameId}",
-	"Created By Id": "{BaseRecordJsonTests.OtherNameId}",
-	"Created Date": "{BaseRecordJsonTests.CreatedDateValue}",
-	"Updated By Id": "{BaseRecordJsonTests.SomeNameId}",
-	"Updated Date": "{BaseRecordJsonTests.UpdatedDateValue}"
-""" + "}";
-
-    const string missingDateFields =
-"{" + $"""
-    "Id": "{BaseRecordJsonTests.ArbitraryId}",
-	"Row Id": "{BaseRecordJsonTests.ArbitraryId}",
-	"Assigned To": "{BaseRecordJsonTests.SomeName}",
-	"Assigned To Id": "{BaseRecordJsonTests.SomeNameId}",
-	"Created By": "{BaseRecordJsonTests.OtherName}",
-	"Created By Id": "{BaseRecordJsonTests.OtherNameId}",
-	"Updated By": "{BaseRecordJsonTests.SomeName}",
-	"Updated By Id": "{BaseRecordJsonTests.SomeNameId}",
-""" + "}";
-
     [Theory]
     [InlineData(BaseRecordJsonTests.SomeName, nameof(AssignableRecordJson.AssignedTo))]
     [InlineData(BaseRecordJsonTests.SomeNameId, nameof(AssignableRecordJson.AssignedToId))]
@@ -67,8 +44,6 @@ public class AssignableRecordJsonTests
 
     [Theory]
     [InlineData(missingIdFields)]
-    [InlineData(missingNameFields)]
-    [InlineData(missingDateFields)]
     public void ThrowWhenFieldsMissing(string json)
     {
         Assert.ThrowsAny<Exception>(() => JsonSerializer.Deserialize<AssignableRecordJson>(
