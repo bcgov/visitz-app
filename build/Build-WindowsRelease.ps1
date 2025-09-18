@@ -182,7 +182,7 @@ if (!$SkipClean) {
 
 dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     --artifacts-path ".\$artifactsDir" `
-    --framework net8.0-windows10.0.19041.0 `
+    --framework net9.0-windows10.0.19041.0 `
     --configuration Release `
     $selfContainedString `
     -p:ApplicationVersion=$BuildNumber `
