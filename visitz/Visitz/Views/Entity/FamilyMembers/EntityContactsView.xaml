@@ -17,7 +17,6 @@
         <CollectionView
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
-            ItemSizingStrategy="MeasureFirstItem"
             ItemsSource="{Binding ContactViewModels}"
             SelectionMode="None">
             <CollectionView.ItemTemplate>

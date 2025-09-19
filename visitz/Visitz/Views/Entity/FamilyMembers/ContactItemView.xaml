@@ -11,7 +11,7 @@
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.FamilyMembers.ContactItemView"
     x:DataType="family:ContactItemViewModel"
-    HorizontalOptions="Start">
+    HorizontalOptions="Fill">
 
     <base:BaseContentView.GestureRecognizers>
         <TapGestureRecognizer Command="{Binding ItemTappedCommand}" />
@@ -104,11 +104,11 @@
         </Grid>
 
         <Grid
-            ColumnDefinitions="*,*"
+            ColumnDefinitions="Auto,*"
             RowDefinitions="*,*,*,*,*,*"
             RowSpacing="10"
             ColumnSpacing="10"
-            HorizontalOptions="Start"
+            HorizontalOptions="Fill"
             IsVisible="{Binding Expanded}">
             <Label
                 Grid.Row="0"
