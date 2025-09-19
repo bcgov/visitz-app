@@ -1,11 +1,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Globalization;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Extensions;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;

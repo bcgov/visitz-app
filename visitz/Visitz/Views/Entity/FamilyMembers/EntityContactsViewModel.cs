@@ -10,14 +10,16 @@ using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;
 
+#nullable enable
+
 public partial class EntityContactsViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     readonly ObservableRealmQueryMap realmQueryMap = new();
 
-    Realm Realm { get; set; }
+    Realm? Realm { get; set; }
 
     [ObservableProperty]
-    public IBusinessObject businessObject;
+    public IBusinessObject? businessObject;
 
     [ObservableProperty]
     public ObservableCollection<ContactItemViewModel> contactViewModels = [];
@@ -48,7 +50,7 @@ public partial class EntityContactsViewModel : VisitzViewModel, IBusinessObjectH
         base.Dispose(disposing);
     }
 
-    private void RealmQueryMap_ItemsChanged(object sender,
+    private void RealmQueryMap_ItemsChanged(object? sender,
         (Type Type,
         IRealmCollection<IRealmObject> Items,
         ChangeSet Changes) e)
