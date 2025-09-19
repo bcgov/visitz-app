@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Visitz.FontIcons;
 using Visitz.Resources.Styles;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models.People;
@@ -25,6 +26,9 @@ public partial class ContactItemViewModel : VisitzViewModel
     [ObservableProperty]
     public Color tagTextColor;
 
+    [ObservableProperty]
+    public string expandedChevronGlyph = MaterialIcons.Keyboard_arrow_down;
+
     [RelayCommand]
     public void ItemTapped()
     {
@@ -42,5 +46,12 @@ public partial class ContactItemViewModel : VisitzViewModel
         TagTextColor = value.IsKeyPlayer
             ? Colors.White
             : VisitzColors.ContactRelationshipTagText;
+    }
+
+    partial void OnExpandedChanged(bool value)
+    {
+        ExpandedChevronGlyph = value
+            ? MaterialIcons.Keyboard_arrow_up
+            : MaterialIcons.Keyboard_arrow_down;
     }
 }
