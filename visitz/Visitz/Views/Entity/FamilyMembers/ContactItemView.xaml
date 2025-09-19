@@ -126,72 +126,73 @@
 
             <Label
                 Grid.Row="1"
-                FontFamily="BCSansBold"
-                HorizontalOptions="Start"
-                Text="{local:Localize AgtCoordinationCa}"/>
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                FontFamily="BCSansRegular"
-                Text="{Binding Contact.DisplayCoordinationAgtCa}"/>
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="0"
-                FontFamily="BCSansBold"
-                HorizontalOptions="Start"
-                Text="{local:Localize Agt921}"/>
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                FontFamily="BCSansRegular"
-                Text="{Binding Contact.Display_921Agt}"/>
-
-            <Label
-                Grid.Row="3"
                 Grid.Column="0"
                 FontFamily="BCSansBold"
                 HorizontalOptions="Start"
                 Text="{local:Localize Address}"/>
 
             <Label
-                Grid.Row="3"
+                Grid.Row="1"
                 Grid.Column="1"
                 HorizontalOptions="Start"
                 FontFamily="BCSansRegular"
                 Text="{Binding Contact.PrimaryAddress}"/>
 
             <Label
-                Grid.Row="4"
+                Grid.Row="2"
                 Grid.Column="0"
                 FontFamily="BCSansBold"
                 HorizontalOptions="Start"
                 Text="{local:Localize HomeNumber}"/>
 
             <Label
-                Grid.Row="4"
+                Grid.Row="2"
                 Grid.Column="1"
                 HorizontalOptions="Start"
                 FontFamily="BCSansRegular"
                 Text="{Binding Contact.HomePhoneFormatted}"/>
 
             <Label
-                Grid.Row="5"
+                Grid.Row="3"
                 Grid.Column="0"
                 FontFamily="BCSansBold"
                 HorizontalOptions="Start"
                 Text="{local:Localize CellNumber}"/>
 
             <Label
-                Grid.Row="5"
+                Grid.Row="3"
                 Grid.Column="1"
                 HorizontalOptions="Start"
                 FontFamily="BCSansRegular"
                 Text="{Binding Contact.CellPhoneFormatted}"/>
+
+            <Label
+                Grid.Row="4"
+                Grid.Column="0"
+                FontFamily="BCSansBold"
+                HorizontalOptions="Start"
+                Text="{local:Localize AgtCoordinationCa}"/>
+
+            <Label
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalOptions="Start"
+                FontFamily="BCSansRegular"
+                Text="{Binding Contact.DisplayCoordinationAgtCa}"/>
+
+            <Label
+                Grid.Row="5"
+                Grid.Column="0"
+                FontFamily="BCSansBold"
+                HorizontalOptions="Start"
+                Text="{local:Localize Agt921}"/>
+
+            <Label
+                Grid.Row="5"
+                Grid.Column="1"
+                HorizontalOptions="Start"
+                FontFamily="BCSansRegular"
+                Text="{Binding Contact.Display_921Agt}"/>
         </Grid>
 
         <BoxView
