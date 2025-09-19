@@ -22,7 +22,10 @@
     </base:BaseContentView.Resources>
 
     <VerticalStackLayout
-        Padding="{StaticResource DefaultPadding}"
+        Padding="{Thickness
+            Left={StaticResource DefaultPadding},
+            Top={StaticResource DefaultPadding},
+            Right={StaticResource DefaultPadding}}"
         Spacing="{StaticResource DefaultSpacing}">
         
         <Grid
@@ -193,7 +196,7 @@
 
         <BoxView
             Color="{StaticResource Gray200}"
-            HeightRequest="0.5"/>
+            HeightRequest="0.5" />
     </VerticalStackLayout>
 
 </base:BaseContentView>
