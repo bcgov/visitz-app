@@ -1008,4 +1008,7 @@ Do you want to download information for this record?</value>
   <data name="DownloadRecordInformation" xml:space="preserve">
     <value>Download record information</value>
   </data>
+  <data name="Deceased" xml:space="preserve">
+    <value>Deceased</value>
+  </data>
 </root>

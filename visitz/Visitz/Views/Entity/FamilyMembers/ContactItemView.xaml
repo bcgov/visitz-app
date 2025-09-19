@@ -39,6 +39,13 @@
                     BackgroundColor="{Binding TagBgColor}"
                     Text="{Binding TagText}"
                     TextColor="{Binding TagTextColor}"/>
+
+                <tagview:TagView
+                    Padding="8,0"
+                    BackgroundColor="Red"
+                    Text="{Binding DeceasedText}"
+                    TextColor="White"
+                    IsVisible="{Binding IsDeceased}" />
             </HorizontalStackLayout>
 
             <HorizontalStackLayout

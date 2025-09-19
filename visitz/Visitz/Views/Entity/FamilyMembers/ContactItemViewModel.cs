@@ -1,8 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Globalization;
 using Visitz.FontIcons;
+using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;
@@ -29,6 +33,12 @@ public partial class ContactItemViewModel : VisitzViewModel
     [ObservableProperty]
     public string expandedChevronGlyph = MaterialIcons.Keyboard_arrow_down;
 
+    [ObservableProperty]
+    public bool isDeceased;
+
+    [ObservableProperty]
+    public string deceasedText = LocalizedStrings.Deceased;
+
     [RelayCommand]
     public void ItemTapped()
     {
@@ -46,6 +56,15 @@ public partial class ContactItemViewModel : VisitzViewModel
         TagTextColor = value.IsKeyPlayer
             ? Colors.White
             : VisitzColors.ContactRelationshipTagText;
+
+        IsDeceased = value.Deceased.ParseWordTruthiness();
+
+        if (IsDeceased && value.DeceasedDate is DateTimeOffset deceasedDate)
+        {
+            DeceasedText = LocalizedStrings.Deceased + " "
+                + deceasedDate.ToString(IcmDateFormats.BasicTimestampShort,
+                    CultureInfo.InvariantCulture);
+        }
     }
 
     partial void OnExpandedChanged(bool value)

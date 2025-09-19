@@ -535,6 +535,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deceased.
+        /// </summary>
+        public static string Deceased {
+            get {
+                return ResourceManager.GetString("Deceased", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
