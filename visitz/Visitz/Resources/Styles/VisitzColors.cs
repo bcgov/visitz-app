@@ -132,4 +132,6 @@ public static class VisitzColors
     public static readonly Color UnpublishedDraftTextColor = TryGetColor(nameof(UnpublishedDraftTextColor));
 
     public static readonly Color ClearButtonColor = TryGetColor(nameof(ClearButtonColor));
+
+    public static readonly Color DeceasedBackground = TryGetColor(nameof(DeceasedBackground));
 }

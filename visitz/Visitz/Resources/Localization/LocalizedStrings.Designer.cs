@@ -142,7 +142,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Coordination AGT (CA).
+        ///   Looks up a localized string similar to Coord. AGT.
         /// </summary>
         public static string AgtCoordinationCa {
             get {
