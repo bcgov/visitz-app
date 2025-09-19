@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:converter="clr-namespace:Visitz.Converters"
     xmlns:family="clr-namespace:Visitz.Views.Entity.FamilyMembers"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
@@ -15,6 +16,10 @@
     <base:BaseContentView.GestureRecognizers>
         <TapGestureRecognizer Command="{Binding ItemTappedCommand}" />
     </base:BaseContentView.GestureRecognizers>
+
+    <base:BaseContentView.Resources>
+        <converter:TruthyStringToBoolConverter x:Key="StringToBool" />
+    </base:BaseContentView.Resources>
 
     <VerticalStackLayout
         Padding="{StaticResource DefaultPadding}"
@@ -37,15 +42,16 @@
                 <tagview:TagView
                     Padding="8,0"
                     BackgroundColor="{Binding TagBgColor}"
-                    Text="{Binding TagText}"
+                    Text="{Binding Contact.Relationship}"
                     TextColor="{Binding TagTextColor}"/>
 
                 <tagview:TagView
                     Padding="8,0"
                     BackgroundColor="Red"
-                    Text="{Binding DeceasedText}"
+                    Text="{local:Localize Deceased}"
                     TextColor="White"
-                    IsVisible="{Binding IsDeceased}" />
+                    IsVisible="{Binding Contact.Deceased,
+                        Converter={StaticResource StringToBool}}" />
             </HorizontalStackLayout>
 
             <HorizontalStackLayout

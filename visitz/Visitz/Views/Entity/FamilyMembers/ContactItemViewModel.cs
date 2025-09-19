@@ -6,7 +6,6 @@ using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
-using VisitzModel.Formats;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;
@@ -22,9 +21,6 @@ public partial class ContactItemViewModel : VisitzViewModel
     public bool expanded;
 
     [ObservableProperty]
-    public string tagText;
-
-    [ObservableProperty]
     public Color tagBgColor;
 
     [ObservableProperty]
@@ -32,9 +28,6 @@ public partial class ContactItemViewModel : VisitzViewModel
 
     [ObservableProperty]
     public string expandedChevronGlyph = MaterialIcons.Keyboard_arrow_down;
-
-    [ObservableProperty]
-    public bool isDeceased;
 
     [ObservableProperty]
     public string deceasedText = LocalizedStrings.Deceased;
@@ -47,8 +40,6 @@ public partial class ContactItemViewModel : VisitzViewModel
 
     partial void OnContactChanged(IcmContact value)
     {
-        TagText = value.Relationship;
-
         TagBgColor = value.IsKeyPlayer
             ? VisitzColors.ContactRelationshipTagText
             : VisitzColors.ContactRelationshipTagBackground;
@@ -56,15 +47,6 @@ public partial class ContactItemViewModel : VisitzViewModel
         TagTextColor = value.IsKeyPlayer
             ? Colors.White
             : VisitzColors.ContactRelationshipTagText;
-
-        IsDeceased = value.Deceased.ParseWordTruthiness();
-
-        if (IsDeceased && value.DeceasedDate is DateTimeOffset deceasedDate)
-        {
-            DeceasedText = LocalizedStrings.Deceased + " "
-                + deceasedDate.ToString(IcmDateFormats.BasicTimestampShort,
-                    CultureInfo.InvariantCulture);
-        }
     }
 
     partial void OnExpandedChanged(bool value)
