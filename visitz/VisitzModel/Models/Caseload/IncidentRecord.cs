@@ -119,6 +119,8 @@ public partial class IncidentRecord :
         set => TypeInt = (int)value;
     }
 
+    public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
+
     public string TypeOfCaller { get; set; }
 
     public BoLocalState LocalState { get; set; }

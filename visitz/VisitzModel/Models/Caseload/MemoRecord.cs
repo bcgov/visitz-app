@@ -2,6 +2,7 @@ using Realms;
 using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
@@ -115,6 +116,8 @@ public partial class MemoRecord :
         get => (EntitySubtype)SubtypeInt;
         set => SubtypeInt = (int)value;
     }
+
+    public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
 
     public BoLocalState LocalState { get; set; }
 

@@ -96,6 +96,8 @@ public partial class CaseRecord :
         set => TypeInt = (int)value;
     }
 
+    public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
+
     public string WorkQueue { get; set; }
 
     public BoLocalState LocalState { get; set; }

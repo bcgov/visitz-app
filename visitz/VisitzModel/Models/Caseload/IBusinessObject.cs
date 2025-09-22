@@ -32,6 +32,8 @@ public interface IBusinessObject : IRealmObject
 
     public EntitySubtype EntitySubtype { get; set; }
 
+    public string EntitySubtypeInitials { get; }
+
     public string ServiceOffice { get; set; }
 
     public BoLocalState LocalState { get; set; }
