@@ -249,6 +249,10 @@
     <value>SNR</value>
     <comment>Memo</comment>
   </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>N/A</value>
+    <comment>Unknown</comment>
+  </data>
   <data name="YouthServices" xml:space="preserve">
     <value>YS</value>
     <comment>SR</comment>

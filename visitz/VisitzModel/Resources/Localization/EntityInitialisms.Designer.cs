@@ -358,6 +358,15 @@ namespace VisitzModel.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to N/A.
+        /// </summary>
+        internal static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to YS.
         /// </summary>
         internal static string YouthServices {
