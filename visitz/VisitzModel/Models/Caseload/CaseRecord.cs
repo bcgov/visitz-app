@@ -214,7 +214,8 @@ public partial class CaseRecord :
     static IEnumerable<CaseRecord> FilterUnsupportedSubtypes(IEnumerable<CaseRecord> cases)
     {
         return cases.Where(@case => @case.EntitySubtype == EntitySubtype.ChildServices
-                        || @case.EntitySubtype == EntitySubtype.FamilyServices);
+                        || @case.EntitySubtype == EntitySubtype.FamilyServices
+                        || @case.EntitySubtype == EntitySubtype.CysnFamilyServices);
     }
 
     public static async Task SynchronizeAsync(
