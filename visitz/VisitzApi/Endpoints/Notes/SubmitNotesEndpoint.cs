@@ -2,8 +2,9 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using VisitzApi.Json;
 using VisitzApi.Models;
+using VisitzApi.Requests;
 
-namespace VisitzApi.Requests
+namespace VisitzApi.Endpoints.Notes
 {
     internal class SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit)
         : VisitzBaseEndpoint<(bool success, string noteId)>(baseUrl, Vpi.V1, SubmitNotesPath)
