@@ -6,7 +6,7 @@ using VisitzApi.Requests;
 
 #nullable enable
 
-namespace VisitzApi.Endpoints;
+namespace VisitzApi.Endpoints.Caseload;
 
 internal class GetOfficeCaseloadEndpoint(string baseUrl, Pagination? pagination = null)
     : VisitzBaseEndpoint<(int TotalRecords, OfficeCaseloadJson)>(baseUrl, Vpi.V2, OfficeCaseloadPath)
