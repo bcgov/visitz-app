@@ -57,7 +57,7 @@ namespace VisitzApi
 
         public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
         {
-            return await CallApi(new NotesEndpoint(BaseVisitzApiUrl, entityNumber, entityType));
+            return await CallApi(new GetNotesEndpoint(BaseVisitzApiUrl, entityNumber, entityType));
         }
 
         public async Task<(bool success, string noteId)> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)
