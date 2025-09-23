@@ -2,7 +2,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using VisitzApi.Json;
 using VisitzApi.Models.SafetyAssess;
-using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.SafetyAssess;
 

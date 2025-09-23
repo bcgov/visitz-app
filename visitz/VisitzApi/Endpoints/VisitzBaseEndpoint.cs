@@ -1,8 +1,9 @@
 using System.Net;
 using System.Web;
 using VisitzApi.ErrorHandling;
+using VisitzApi.Requests;
 
-namespace VisitzApi.Requests
+namespace VisitzApi.Endpoints
 {
     internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string version, string requestPath)
     {
