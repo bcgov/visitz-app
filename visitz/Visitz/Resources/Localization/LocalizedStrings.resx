@@ -1012,4 +1012,10 @@ Do you want to download information for this record?</value>
   <data name="Deceased" xml:space="preserve">
     <value>Deceased</value>
   </data>
+  <data name="Cases" xml:space="preserve">
+    <value>Cases</value>
+  </data>
+  <data name="Incidents" xml:space="preserve">
+    <value>Incidents</value>
+  </data>
 </root>

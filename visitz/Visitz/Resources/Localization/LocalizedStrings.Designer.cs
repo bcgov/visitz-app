@@ -333,6 +333,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cases.
+        /// </summary>
+        public static string Cases {
+            get {
+                return ResourceManager.GetString("Cases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Case type.
         /// </summary>
         public static string CaseType {
@@ -1036,6 +1045,15 @@ namespace Visitz.Resources.Localization {
         public static string IncidentNumber {
             get {
                 return ResourceManager.GetString("IncidentNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incidents.
+        /// </summary>
+        public static string Incidents {
+            get {
+                return ResourceManager.GetString("Incidents", resourceCulture);
             }
         }
         
