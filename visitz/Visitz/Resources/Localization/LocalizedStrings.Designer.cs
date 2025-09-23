@@ -142,7 +142,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Coordination AGT (CA).
+        ///   Looks up a localized string similar to Coord. AGT.
         /// </summary>
         public static string AgtCoordinationCa {
             get {
@@ -531,6 +531,15 @@ namespace Visitz.Resources.Localization {
         public static string DateOfVisit {
             get {
                 return ResourceManager.GetString("DateOfVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deceased.
+        /// </summary>
+        public static string Deceased {
+            get {
+                return ResourceManager.GetString("Deceased", resourceCulture);
             }
         }
         

@@ -11,6 +11,8 @@ using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
+#nullable enable
+
 internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessObjectHolder
 {
     private bool _disposed;
@@ -21,7 +23,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessO
     public ObservableCollection<SupportNetworkItemUi> supportNetworksList = [];
 
     [ObservableProperty]
-    public IBusinessObject businessObject;
+    public IBusinessObject? businessObject;
 
     [ObservableProperty]
     public bool showEmptyIcon;
@@ -33,10 +35,14 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessO
         Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-        realmQuery.Subscribe(icmDataRealm, SupportNetworkItem.GetSupportNetworkByCaseId(icmDataRealm, BusinessObject.Id));
+        if (BusinessObject != null)
+        {
+            realmQuery.Subscribe(icmDataRealm,
+                SupportNetworkItem.GetSupportNetworkByCaseId(icmDataRealm, BusinessObject.Id));
+        }
     }
 
-    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(object? sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
         if (e.Type == typeof(SupportNetworkItem))
             UpdateSupportNetworkList(e.Items, e.Changes);

@@ -140,4 +140,6 @@
 
 	<Color x:Key="Black55Scrim">#55000000</Color>
 
+    <Color x:Key="DeceasedBackground">#B30000</Color>
+
 </ResourceDictionary>

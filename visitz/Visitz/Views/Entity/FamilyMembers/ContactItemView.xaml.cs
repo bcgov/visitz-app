@@ -1,6 +1,10 @@
+using Visitz.Views.BaseClasses;
+
 namespace Visitz.Views.Entity.FamilyMembers;
 
-public partial class ContactItemView : ContentView
+#nullable enable
+
+public partial class ContactItemView : BaseContentView
 {
     public ContactItemView()
     {
