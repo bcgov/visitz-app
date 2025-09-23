@@ -1,3 +1,5 @@
+using VisitzApi.Requests;
+
 namespace VisitzApi.Extensions;
 
 internal static class HttpResponseMessageExtensions

@@ -1,4 +1,4 @@
-namespace VisitzApi;
+namespace VisitzApi.Requests;
 
 internal static class RequestParam
 {
