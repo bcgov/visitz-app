@@ -109,7 +109,6 @@ namespace Visitz.Views.Entity.Notes
                     EntityType = BusinessObject.EntityType.GetDisplayString(),
                     NotePeriod = NoteItem.NotePeriodFrom(now),
                     Content = NoteItem.WrapContent(info.Idir, now, DraftOutput),
-                    CreatedBy = info.Idir,
                 };
 
                 notePublishVm.Init(BusinessObject, submitNoteEntity);
