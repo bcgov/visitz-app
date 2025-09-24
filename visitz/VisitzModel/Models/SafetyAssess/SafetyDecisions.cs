@@ -110,8 +110,8 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
 
     public SubmitSafetyDecisionsJson ToApiJson(string _ = "s")
     {
-        var finalizeDate = ReadyFinalize && ReadyFinalizeDate is DateTimeOffset finalize
-            ? finalize.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture)
+        var finalizeDate = ReadyFinalize
+            ? DateTimeOffset.Now.ToString(SafetyAssessment.DateFormat, CultureInfo.InvariantCulture)
             : "";
 
         return new SubmitSafetyDecisionsJson()
