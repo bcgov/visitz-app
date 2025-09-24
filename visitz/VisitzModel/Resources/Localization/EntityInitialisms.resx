@@ -118,67 +118,67 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AdoptionHome" xml:space="preserve">
-    <value>Adoption home</value>
+    <value>AH</value>
     <comment>Case</comment>
   </data>
   <data name="AdoptionService" xml:space="preserve">
-    <value>Adoption service</value>
+    <value>AS</value>
     <comment>Case</comment>
   </data>
   <data name="AfterHours" xml:space="preserve">
-    <value>After hours</value>
+    <value>AH</value>
     <comment>SR</comment>
   </data>
   <data name="AfterHoursAction" xml:space="preserve">
-    <value>After hours - Action</value>
+    <value>AHA</value>
     <comment>Memo</comment>
   </data>
   <data name="AfterHoursFrom" xml:space="preserve">
-    <value>After hours - From</value>
+    <value>AHF</value>
     <comment>Memo</comment>
   </data>
   <data name="AfterHoursInfo" xml:space="preserve">
-    <value>After hours - Info</value>
+    <value>AHI</value>
     <comment>Memo</comment>
   </data>
   <data name="AgreementWithYoungAdults" xml:space="preserve">
-    <value>Agreement with young adults</value>
+    <value>AWYA</value>
     <comment>Memo</comment>
   </data>
   <data name="AssessmentOnly" xml:space="preserve">
-    <value>Assessment only</value>
+    <value>AO</value>
     <comment>Case</comment>
   </data>
   <data name="AssistedAdoption" xml:space="preserve">
-    <value>Assisted adoption</value>
+    <value>AA</value>
     <comment>Case</comment>
   </data>
   <data name="Autism" xml:space="preserve">
-    <value>Autism</value>
+    <value>AUT</value>
     <comment>Case</comment>
   </data>
   <data name="AutismFundingUnit" xml:space="preserve">
-    <value>Autism Funding Unit</value>
+    <value>AFU</value>
     <comment>SR</comment>
   </data>
   <data name="CentralizedServicesHub" xml:space="preserve">
-    <value>Centralized Services Hub</value>
+    <value>CSH</value>
     <comment>Memo</comment>
   </data>
   <data name="ChildAtHomeProgram" xml:space="preserve">
-    <value>Child At Home program</value>
+    <value>CHAP</value>
     <comment>Case</comment>
   </data>
   <data name="ChildProtection" xml:space="preserve">
-    <value>Child protection</value>
+    <value>IN</value>
     <comment>Incident</comment>
   </data>
   <data name="ChildServices" xml:space="preserve">
-    <value>Child services</value>
+    <value>CS</value>
     <comment>Case</comment>
   </data>
   <data name="CommunityDevelopment" xml:space="preserve">
-    <value>Community development</value>
+    <value>CD</value>
     <comment>SR</comment>
   </data>
   <data name="Cysn" xml:space="preserve">
@@ -186,71 +186,75 @@
     <comment>Memo</comment>
   </data>
   <data name="CysnFamilyServices" xml:space="preserve">
-    <value>CYSN family services</value>
+    <value>CYSN</value>
     <comment>Case</comment>
   </data>
   <data name="FamilyNeedsAssessment" xml:space="preserve">
-    <value>Family Needs assessment</value>
+    <value>FNA</value>
     <comment>SR</comment>
   </data>
   <data name="FamilyServices" xml:space="preserve">
-    <value>Family services</value>
+    <value>FS</value>
     <comment>Case</comment>
   </data>
   <data name="MedicalBenefits" xml:space="preserve">
-    <value>Medical benefits</value>
+    <value>MB</value>
     <comment>Common</comment>
   </data>
   <data name="PostAdoptionService" xml:space="preserve">
-    <value>Post adoption service</value>
+    <value>PAS</value>
     <comment>Case</comment>
   </data>
   <data name="PostMajorityServices" xml:space="preserve">
-    <value>Post majority services</value>
+    <value>PMS</value>
     <comment>Common</comment>
   </data>
   <data name="ProtocolInvestigation" xml:space="preserve">
-    <value>Protocol investigation</value>
+    <value>PI</value>
     <comment>Common</comment>
   </data>
   <data name="ReferralAndInquiry" xml:space="preserve">
-    <value>Referral and inquiry</value>
+    <value>RI</value>
     <comment>Incident</comment>
   </data>
   <data name="RequestForFamilySupport" xml:space="preserve">
-    <value>Request for family suppot</value>
+    <value>RFS</value>
     <comment>SR</comment>
   </data>
   <data name="RequestForInformation" xml:space="preserve">
-    <value>Request for information</value>
+    <value>RFI</value>
     <comment>SR</comment>
   </data>
   <data name="RequestServiceCapp" xml:space="preserve">
-    <value>Request Service: CAPP</value>
+    <value>RSCA</value>
     <comment>SR</comment>
   </data>
   <data name="RequestServiceCfs" xml:space="preserve">
-    <value>Request Service - CFS</value>
+    <value>RSCF</value>
     <comment>SR</comment>
   </data>
   <data name="Resource" xml:space="preserve">
-    <value>Resource</value>
+    <value>RE</value>
     <comment>Case</comment>
   </data>
   <data name="Screening" xml:space="preserve">
-    <value>Screening</value>
+    <value>SC</value>
     <comment>Memo</comment>
   </data>
   <data name="SupportNeedsChildrenYouth" xml:space="preserve">
-    <value>Support needs children youth</value>
+    <value>SNCY</value>
     <comment>Case</comment>
   </data>
   <data name="SupportNeedsRequest" xml:space="preserve">
-    <value>Support Needs request</value>
+    <value>SNR</value>
     <comment>Memo</comment>
   </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>N/A</value>
+    <comment>Unknown</comment>
+  </data>
   <data name="YouthServices" xml:space="preserve">
-    <value>Youth Services</value>
+    <value>YS</value>
     <comment>SR</comment>
   </data>
 </root>
