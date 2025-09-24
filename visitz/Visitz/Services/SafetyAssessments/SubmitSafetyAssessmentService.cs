@@ -28,7 +28,7 @@ public class SubmitSafetyAssessmentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
 
     public override string GetId()
     {
-        return MakeId(Payload.IncidentNumber);
+        return MakeId(Payload.Payload.First().IncidentNumber);
     }
 
     protected override async Task RunApiServiceAsync()

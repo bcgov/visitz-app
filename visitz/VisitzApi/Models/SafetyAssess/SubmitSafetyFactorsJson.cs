@@ -1,72 +1,74 @@
 namespace VisitzApi.Models.SafetyAssess;
 
+#nullable enable
+
 public class SubmitSafetyFactorsJson
 {
-    public string PhysicalHarm { get; set; }
+    public string PhysicalHarm { get; set; } = string.Empty;
 
-    public string SeriousInjuryAbuse { get; set; }
+    public string SeriousInjuryAbuse { get; set; } = string.Empty;
 
-    public string FearsMaltreatChild { get; set; }
+    public string FearsMaltreatChild { get; set; } = string.Empty;
 
-    public string ThreatAgainstChild { get; set; }
+    public string ThreatAgainstChild { get; set; } = string.Empty;
 
-    public string ExcessiveForce { get; set; }
+    public string ExcessiveForce { get; set; } = string.Empty;
 
-    public string SubsExposedInfant { get; set; }
+    public string SubsExposedInfant { get; set; } = string.Empty;
 
-    public string CmtClarification { get; set; }
+    public string CmtClarification { get; set; } = string.Empty;
 
-    public string CurrentCircumstances { get; set; }
+    public string CurrentCircumstances { get; set; } = string.Empty;
 
-    public string CmtCircumstances { get; set; }
+    public string CmtCircumstances { get; set; } = string.Empty;
 
-    public string SexAbuse { get; set; }
+    public string SexAbuse { get; set; } = string.Empty;
 
-    public string CmtAbuse { get; set; }
+    public string CmtAbuse { get; set; } = string.Empty;
 
-    public string UnableToProtect { get; set; }
+    public string UnableToProtect { get; set; } = string.Empty;
 
-    public string CmtProtect { get; set; }
+    public string CmtProtect { get; set; } = string.Empty;
 
-    public string InjuryExplanation { get; set; }
+    public string InjuryExplanation { get; set; } = string.Empty;
 
-    public string CmtExplanation { get; set; }
+    public string CmtExplanation { get; set; } = string.Empty;
 
-    public string RefuseAccess { get; set; }
+    public string RefuseAccess { get; set; } = string.Empty;
 
-    public string CmtAccess { get; set; }
+    public string CmtAccess { get; set; } = string.Empty;
 
-    public string ImmediateNeeds { get; set; }
+    public string ImmediateNeeds { get; set; } = string.Empty;
 
-    public string CmtNeeds { get; set; }
+    public string CmtNeeds { get; set; } = string.Empty;
 
-    public string PhysicalCondition { get; set; }
+    public string PhysicalCondition { get; set; } = string.Empty;
 
-    public string CmtCondition { get; set; }
+    public string CmtCondition { get; set; } = string.Empty;
 
-    public string CurrentAbuse { get; set; }
+    public string CurrentAbuse { get; set; } = string.Empty;
 
-    public string CmtCurrent { get; set; }
+    public string CmtCurrent { get; set; } = string.Empty;
 
-    public string PartnerViolence { get; set; }
+    public string PartnerViolence { get; set; } = string.Empty;
 
-    public string CmtViolence { get; set; }
+    public string CmtViolence { get; set; } = string.Empty;
 
-    public string PredominantlyNegative { get; set; }
+    public string PredominantlyNegative { get; set; } = string.Empty;
 
-    public string CmtNegative { get; set; }
+    public string CmtNegative { get; set; } = string.Empty;
 
-    public string EmotionalStability { get; set; }
+    public string EmotionalStability { get; set; } = string.Empty;
 
-    public string CmtEmotional { get; set; }
+    public string CmtEmotional { get; set; } = string.Empty;
 
-    public string ChildFearful { get; set; }
+    public string ChildFearful { get; set; } = string.Empty;
 
-    public string CmtFearful { get; set; }
+    public string CmtFearful { get; set; } = string.Empty;
 
-    public string OtherFactors { get; set; }
+    public string OtherFactors { get; set; } = string.Empty;
 
-    public string CmtOtherFactors { get; set; }
+    public string CmtOtherFactors { get; set; } = string.Empty;
 
-    public string CurretAbuse { get; set; }
+    public string CurretAbuse { get; set; } = string.Empty;
 }

@@ -1,32 +1,37 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
 namespace VisitzApi.Models.SafetyAssess;
+
+#nullable enable
 
 public class SubmitSafetyAssessmentJson
 {
-    public string IncidentNumber { get; set; }
+    [Required]
+    [JsonPropertyName("Payload")]
+    public List<SubmitSafetyAssessmentHeaderJson> Payload { get; set; } = [];
 
-    public string WorkerId { get; set; }
+    [Required]
+    public List<SubmitFactorInfluenceJson> FactorInfluence { get; set; } = [];
 
-    public string FamilyName { get; set; }
+    [Required]
+    public List<SubmitSafetyFactorsJson> SafetyFactors { get; set; } = [];
 
-    public string DateOfAssessment { get; set; }
+    [Required]
+    public List<SubmitProtectiveCapacityJson> ProtectiveCapacity { get; set; } = [];
 
-    public string Operation { get; set; }
+    [Required]
+    public List<SubmitSafetyInterventionsJson> SafetyInterventions { get; set; } = [];
 
-    public SubmitFactorInfluenceJson FactorInfluence { get; set; }
+    [Required]
+    public List<SubmitSafetyDecisionsJson> SafetyDecisions { get; set; } = [];
 
-    public SubmitSafetyFactorsJson SafetyFactors { get; set; }
-
-    public SubmitProtectiveCapacityJson ProtectiveCapacity { get; set; }
-
-    public SubmitSafetyInterventionsJson SafetyInterventions { get; set; }
-
-    public SubmitSafetyDecisionsJson SafetyDecisions { get; set; }
-
-    public IList<ChildId> ChildsInOutCare { get; set; } = new List<ChildId>();
+    [Required]
+    public IList<ChildId> ChildsInOutCare { get; set; } = [];
 
     public class ChildId
     {
-        public string ChildContactId { get; set; }
+        public string ChildContactId { get; set; } = string.Empty;
 
         public override string ToString() => ChildContactId;
     }

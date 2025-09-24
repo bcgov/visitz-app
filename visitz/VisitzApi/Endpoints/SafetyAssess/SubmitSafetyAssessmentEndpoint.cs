@@ -1,40 +1,24 @@
+using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using VisitzApi.Json;
 using VisitzApi.Models.SafetyAssess;
 
 namespace VisitzApi.Endpoints.SafetyAssess;
 
 internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SubmitSafetyAssessmentJson safetyAssessment)
-    : VisitzBaseEndpoint<(bool success, string status)>(baseUrl, Vpi.V1, SubmitSafetyAssessmentPath)
+    : VisitzBaseEndpoint<(bool success, string status)>(baseUrl, Vpi.V2, SubmitSafetyAssessmentPath)
 {
-    public static readonly string SubmitSafetyAssessmentPath = "/622";
+    public static readonly string SubmitSafetyAssessmentPath = "/wf/submit-safety-assessment";
 
     public static readonly string SafetyAssessmentKey = "safetyAssessment";
 
     public readonly SubmitSafetyAssessmentJson SafetyAssessment = safetyAssessment;
 
-    private string RequestPayload
-    {
-        get
-        {
-            var assessmentJson = JsonSerializer.Serialize(SafetyAssessment, PayloadOptions.Default);
-
-            return new JsonObject
-            {
-                [SafetyAssessmentKey] = new JsonObject
-                {
-                    [JsonKey.Payload] = JsonNode.Parse(assessmentJson)
-                }
-            }.ToString();
-        }
-    }
-
     public override HttpRequestMessage MakeRequest()
     {
         return new HttpRequestMessage()
         {
-            Content = new FormUrlEncodedContent(FormDataCollection(JsonKey.DocRequest, RequestPayload)),
+            Content = JsonContent.Create(SafetyAssessment),
             Method = HttpMethod.Post,
             RequestUri = RequestUri,
         };
@@ -42,12 +26,9 @@ internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SubmitSafetyAssess
 
     public override (bool success, string status) HandleResponse(HttpResponseMessage _, string responseContent)
     {
-        var payload = JsonDocument.Parse(responseContent)
-                .RootElement
-                .GetProperty(JsonKey.StatusResponse)
-                .GetProperty(JsonKey.Payload);
+        var json = JsonDocument.Parse(responseContent).RootElement;
 
-        var status = payload.GetProperty(JsonKey.Status).GetString();
+        var status = json.GetProperty(JsonKey.Status).GetString();
 
         return (status.Equals(JsonKey.Success), status);
     }
