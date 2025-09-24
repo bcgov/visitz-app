@@ -178,7 +178,7 @@ namespace VisitzModel.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CP.
+        ///   Looks up a localized string similar to IN.
         /// </summary>
         internal static string ChildProtection {
             get {

@@ -170,7 +170,7 @@
     <comment>Case</comment>
   </data>
   <data name="ChildProtection" xml:space="preserve">
-    <value>CP</value>
+    <value>IN</value>
     <comment>Incident</comment>
   </data>
   <data name="ChildServices" xml:space="preserve">
