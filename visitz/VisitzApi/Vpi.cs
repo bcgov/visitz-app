@@ -4,6 +4,7 @@ using VisitzApi.Endpoints.Caseload;
 using VisitzApi.Endpoints.Notes;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
+using VisitzApi.ErrorHandling;
 using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.Caseload;
@@ -30,6 +31,11 @@ namespace VisitzApi
             return endpoint.RequestUrl.StartsWith(BaseVisitzApiUrl.Trim('/') + "/" + V1);
         }
 
+        private bool IsV2WorkflowEndpoint<T>(VisitzBaseEndpoint<T> endpoint)
+        {
+            return endpoint.RequestUrl.StartsWith(BaseVisitzApiUrl.Trim('/') + $"/{V2}/wf");
+        }
+
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {
             var request = endpoint.MakeRequest();
@@ -37,11 +43,12 @@ namespace VisitzApi
 
             var response = await HttpClient.SendAsync(request);
             string content = await response.Content.ReadAsStringAsync();
+            ResponseBodyParser bodyParser = new(content);
 
-            endpoint.ThrowOnHttpErrors(response, content);
+            endpoint.ThrowOnHttpErrors(response, bodyParser);
 
-            if (IsV1Endpoint(endpoint))
-                endpoint.ThrowOnWebMethodsErrors(response, content);
+            if (IsV2WorkflowEndpoint(endpoint) || IsV1Endpoint(endpoint))
+                endpoint.ThrowOnErrorsInBody(response, bodyParser);
 
             return endpoint.HandleResponse(response, content);
         }
