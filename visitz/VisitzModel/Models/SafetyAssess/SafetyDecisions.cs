@@ -92,7 +92,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
         ? DecisionUnsafe?.Length > 0
         : Decision != null;
 
-    public static SafetyDecisions FromApiJson(SafetyAsessmentJson entity)
+    public static SafetyDecisions FromApiJson(GetSafetyAsessmentJson entity)
     {
         return new SafetyDecisions()
         {

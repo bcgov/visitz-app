@@ -125,7 +125,7 @@ namespace VisitzApi
             return await CallApi(new PostAttachmentEndpoint(BaseVisitzApiUrl, type, recordId, data));
         }
 
-        public async Task<(int TotalRecords, IEnumerable<SafetyAsessmentJson>)> GetSafetyAssessments(
+        public async Task<(int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)> GetSafetyAssessments(
             string incidentId,
             Pagination pagination = null)
         {

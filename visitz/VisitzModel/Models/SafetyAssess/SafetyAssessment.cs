@@ -84,7 +84,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public string Type { get; set; } = string.Empty;
 
-    public static SafetyAssessment FromApiJson(string fileNumber, SafetyAsessmentJson json)
+    public static SafetyAssessment FromApiJson(string fileNumber, GetSafetyAsessmentJson json)
     {
         var safetyAssessment = new SafetyAssessment()
         {
@@ -146,7 +146,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
         };
     }
 
-    static string GetOrMakeId(string fileNumber, SafetyAsessmentJson json)
+    static string GetOrMakeId(string fileNumber, GetSafetyAsessmentJson json)
     {
         return GetOrMakeId(fileNumber, json.CreatedDate, json.CreatedBy, json.Id);
     }
@@ -165,7 +165,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public static IEnumerable<SafetyAssessment> FromApiJson(
         string incidentId,
-        IEnumerable<SafetyAsessmentJson> json)
+        IEnumerable<GetSafetyAsessmentJson> json)
     {
         List<SafetyAssessment> assessments = [];
 

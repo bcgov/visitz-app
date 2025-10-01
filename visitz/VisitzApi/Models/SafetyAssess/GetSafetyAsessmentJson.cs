@@ -5,7 +5,7 @@ namespace VisitzApi.Models.SafetyAssess;
 
 #nullable enable
 
-public class SafetyAsessmentJson : BaseRecordJson
+public class GetSafetyAsessmentJson : BaseRecordJson
 {
     public class ChildContacts
     {
