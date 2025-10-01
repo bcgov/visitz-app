@@ -26,8 +26,8 @@ public class SubmitSafetyAssessmentJson
     [Required]
     public List<SubmitSafetyDecisionsJson> SafetyDecisions { get; set; } = [];
 
-    [Required]
-    public IList<ChildId> ChildsInOutCare { get; set; } = [];
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IList<ChildId>? ChildsInOutCare { get; set; }
 
     public class ChildId
     {
@@ -38,6 +38,7 @@ public class SubmitSafetyAssessmentJson
 
     public void AddChildContactId(string childContactid)
     {
+        ChildsInOutCare ??= [];
         ChildsInOutCare.Add(new ChildId { ChildContactId = childContactid });
     }
 }

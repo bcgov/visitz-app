@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace VisitzApi.Models.SafetyAssess;
 
 #nullable enable
@@ -10,7 +12,8 @@ public class SubmitSafetyDecisionsJson
 
     public string UnsafeSafetyFactors { get; set; } = string.Empty;
 
-    public string DecisionUnsafe { get; set; } = string.Empty;
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? DecisionUnsafe { get; set; }
 
     public string Comments { get; set; } = string.Empty;
 
@@ -18,5 +21,6 @@ public class SubmitSafetyDecisionsJson
 
     public string ReadyFinalize { get; set; } = string.Empty;
 
-    public string ReadyFinalizeDate { get; set; } = string.Empty;
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ReadyFinalizeDate { get; set; }
 }

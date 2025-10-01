@@ -192,11 +192,8 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
             SafetyDecisions = [SafetyDecisions.ToApiJson(dateFormat)],
         };
 
-        if (ChildsInOutCare.Count == 0)
-            safetyAssessmentEntity.AddChildContactId("");
-        else
-            foreach (var childId in ChildsInOutCare)
-                safetyAssessmentEntity.AddChildContactId(childId);
+        foreach (var childId in ChildsInOutCare)
+            safetyAssessmentEntity.AddChildContactId(childId);
 
         return safetyAssessmentEntity;
     }
