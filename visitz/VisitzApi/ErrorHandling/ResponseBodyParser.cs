@@ -5,7 +5,7 @@ namespace VisitzApi.ErrorHandling;
 
 #nullable enable
 
-internal class ResponseBodyParser
+internal class ResponseBodyParser : IDisposable
 {
     const string StatusKey = "Status";
     const string StatusKeyLower = "status";
@@ -17,6 +17,8 @@ internal class ResponseBodyParser
     const string ErrorDetailKey = "errorDetail";
     const string ErrorMessageKey = "Error Message";
 
+    bool disposedValue;
+
     public string ResponseBody { get; private set; }
 
     /// <summary>
@@ -24,14 +26,18 @@ internal class ResponseBodyParser
     /// </summary>
     public Exception? ParseException { get; private set; }
 
+    JsonDocument? JsonDocument { get; set; }
+
     JsonElement? RootElement { get; set; }
 
     public ResponseBodyParser(string responseBody)
     {
         ResponseBody = responseBody;
+
         try
         {
-            RootElement = JsonDocument.Parse(responseBody).RootElement;
+            JsonDocument = JsonDocument.Parse(responseBody);
+            RootElement = JsonDocument.RootElement;
         }
         catch (Exception ex)
         {
@@ -66,7 +72,8 @@ internal class ResponseBodyParser
             {
                 foreach (JsonElement element in msgElement.EnumerateArray())
                 {
-                    if (element.GetString() is string text)
+                    if (element.ValueKind == JsonValueKind.String
+                        && element.GetString() is string text)
                         list.Add(text);
                 }
             }
@@ -82,5 +89,23 @@ internal class ResponseBodyParser
             ErrorMessageKey,
             ErrorKeyLower,
             ErrorKey)?.GetString();
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+                JsonDocument?.Dispose();
+
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

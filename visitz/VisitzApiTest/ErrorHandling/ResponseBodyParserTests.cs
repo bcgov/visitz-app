@@ -156,4 +156,13 @@ public class ResponseBodyParserTests
 
         Assert.NotNull(bodyParser.ParseException);
     }
+
+    [Fact]
+    public void ExceptionOnAccessAfterDispose()
+    {
+        ResponseBodyParser bodyParser = new(messageSingle);
+        bodyParser.Dispose();
+
+        Assert.Throws<ObjectDisposedException>(() => bodyParser.FindFirstMessage());
+    }
 }

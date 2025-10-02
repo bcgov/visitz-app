@@ -43,7 +43,7 @@ namespace VisitzApi
 
             var response = await HttpClient.SendAsync(request);
             string content = await response.Content.ReadAsStringAsync();
-            ResponseBodyParser bodyParser = new(content);
+            using ResponseBodyParser bodyParser = new(content);
 
             endpoint.ThrowOnHttpErrors(response, bodyParser);
 
