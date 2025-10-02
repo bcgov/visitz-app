@@ -148,4 +148,12 @@ public class ResponseBodyParserTests
 
         Assert.Equal(secondErrorText, bodyParser.FindFirstError());
     }
+
+    [Fact]
+    public void ParseExceptionOnEmptyBody()
+    {
+        ResponseBodyParser bodyParser = new(string.Empty);
+
+        Assert.NotNull(bodyParser.ParseException);
+    }
 }

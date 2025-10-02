@@ -148,7 +148,5 @@ namespace VisitzApi.Endpoints
 
             return new Uri(urlWithoutQuery + "?" + queryString);
         }
-
-        
     }
 }

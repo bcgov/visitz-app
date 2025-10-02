@@ -5,7 +5,7 @@ namespace VisitzApi.ErrorHandling;
 
 #nullable enable
 
-internal class ResponseBodyParser(string responseBody)
+internal class ResponseBodyParser
 {
     const string StatusKey = "Status";
     const string StatusKeyLower = "status";
@@ -17,18 +17,36 @@ internal class ResponseBodyParser(string responseBody)
     const string ErrorDetailKey = "errorDetail";
     const string ErrorMessageKey = "Error Message";
 
-    public string ResponseBody { get; private set; } = responseBody;
+    public string ResponseBody { get; private set; }
 
-    JsonElement RootElement { get; set; } = JsonDocument.Parse(responseBody).RootElement;
+    /// <summary>
+    /// Exception thrown when trying to parse input responseBody text.
+    /// </summary>
+    public Exception? ParseException { get; private set; }
+
+    JsonElement? RootElement { get; set; }
+
+    public ResponseBodyParser(string responseBody)
+    {
+        ResponseBody = responseBody;
+        try
+        {
+            RootElement = JsonDocument.Parse(responseBody).RootElement;
+        }
+        catch (Exception ex)
+        {
+            ParseException = ex;
+        }
+    }
 
     public JsonElement? FindFirstMessage()
     {
-        return RootElement.FindFirstByAnyName(MessageKeyLower, MessageKey);
+        return RootElement?.FindFirstByAnyName(MessageKeyLower, MessageKey);
     }
 
     public bool? GetSuccessStatusFromBody()
     {
-        return RootElement.FindFirstByAnyName(StatusKeyLower, StatusKey)?
+        return RootElement?.FindFirstByAnyName(StatusKeyLower, StatusKey)?
             .GetString()?
             .Equals(SuccessKey, StringComparison.CurrentCultureIgnoreCase);
     }
@@ -59,7 +77,7 @@ internal class ResponseBodyParser(string responseBody)
 
     public string? FindFirstError()
     {
-        return RootElement.FindFirstByAnyName(
+        return RootElement?.FindFirstByAnyName(
             ErrorDetailKey,
             ErrorMessageKey,
             ErrorKeyLower,
