@@ -120,7 +120,7 @@ jobs:
 
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
         run: |
-          dotnet workload install maui maui-ios
+          dotnet workload install maui maui-ios --version ${{ env.DOTNET_SDK_VERSION }}
 
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |
