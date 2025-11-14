@@ -108,7 +108,7 @@ public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJ
         && ChildFearful != null
         && OtherFactors != null;
 
-    public static SafetyFactors FromApiJson(SafetyAsessmentJson json)
+    public static SafetyFactors FromApiJson(GetSafetyAsessmentJson json)
     {
         return new SafetyFactors()
         {

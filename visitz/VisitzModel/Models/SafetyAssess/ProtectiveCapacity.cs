@@ -35,7 +35,7 @@ public partial class ProtectiveCapacity : IRealmObject, IApiJson<SubmitProtectiv
 
     public string CmtProtectiveCapacity02 { get; set; } = string.Empty;
 
-    public static ProtectiveCapacity FromApiJson(SafetyAsessmentJson json)
+    public static ProtectiveCapacity FromApiJson(GetSafetyAsessmentJson json)
     {
         return new ProtectiveCapacity()
         {

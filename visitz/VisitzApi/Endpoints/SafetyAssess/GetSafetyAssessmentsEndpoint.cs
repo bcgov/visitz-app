@@ -13,7 +13,7 @@ internal class GetSafetyAssessmentsEndpoint(
     string baseUrl,
     string incidentId,
     Pagination? pagination = null)
-    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<SafetyAsessmentJson>)>(
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)>(
         baseUrl,
         Vpi.V2,
         MakePath(incidentId))
@@ -36,13 +36,13 @@ internal class GetSafetyAssessmentsEndpoint(
         };
     }
 
-    public override (int TotalRecords, IEnumerable<SafetyAsessmentJson>)
+    public override (int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)
         HandleResponse(HttpResponseMessage response, string responseContent)
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
             return (-1, []);
 
-        var json = JsonSerializer.Deserialize<SafetyAssessmentItemsJson>
+        var json = JsonSerializer.Deserialize<GetSafetyAssessmentItemsJson>
             (responseContent, PayloadOptions.SiebelGet);
 
         return (

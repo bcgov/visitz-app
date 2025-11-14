@@ -1,7 +1,10 @@
 using VisitzApi.Endpoints;
 using VisitzApi.Endpoints.Attachments;
+using VisitzApi.Endpoints.Caseload;
+using VisitzApi.Endpoints.Notes;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
+using VisitzApi.ErrorHandling;
 using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.Caseload;
@@ -28,6 +31,11 @@ namespace VisitzApi
             return endpoint.RequestUrl.StartsWith(BaseVisitzApiUrl.Trim('/') + "/" + V1);
         }
 
+        private bool IsV2WorkflowEndpoint<T>(VisitzBaseEndpoint<T> endpoint)
+        {
+            return endpoint.RequestUrl.StartsWith(BaseVisitzApiUrl.Trim('/') + $"/{V2}/wf");
+        }
+
         private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
         {
             var request = endpoint.MakeRequest();
@@ -35,11 +43,12 @@ namespace VisitzApi
 
             var response = await HttpClient.SendAsync(request);
             string content = await response.Content.ReadAsStringAsync();
+            using ResponseBodyParser bodyParser = new(content);
 
-            endpoint.ThrowOnHttpErrors(response, content);
+            endpoint.ThrowOnHttpErrors(response, bodyParser);
 
-            if (IsV1Endpoint(endpoint))
-                endpoint.ThrowOnWebMethodsErrors(response, content);
+            if (IsV2WorkflowEndpoint(endpoint) || IsV1Endpoint(endpoint))
+                endpoint.ThrowOnErrorsInBody(response, bodyParser);
 
             return endpoint.HandleResponse(response, content);
         }
@@ -56,7 +65,7 @@ namespace VisitzApi
 
         public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
         {
-            return await CallApi(new NotesEndpoint(BaseVisitzApiUrl, entityNumber, entityType));
+            return await CallApi(new GetNotesEndpoint(BaseVisitzApiUrl, entityNumber, entityType));
         }
 
         public async Task<(bool success, string noteId)> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)
@@ -123,7 +132,7 @@ namespace VisitzApi
             return await CallApi(new PostAttachmentEndpoint(BaseVisitzApiUrl, type, recordId, data));
         }
 
-        public async Task<(int TotalRecords, IEnumerable<SafetyAsessmentJson>)> GetSafetyAssessments(
+        public async Task<(int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)> GetSafetyAssessments(
             string incidentId,
             Pagination pagination = null)
         {

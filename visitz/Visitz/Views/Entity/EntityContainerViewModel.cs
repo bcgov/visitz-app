@@ -72,7 +72,8 @@ public partial class EntityContainerViewModel :
 
     void UpdateDownloadActivity()
     {
-        ShowDownloadActivity = ServiceHandler.IsAnyServiceRunning(BusinessObject.Id);
+        ShowDownloadActivity = BusinessObject.IsValid
+            && ServiceHandler.IsAnyServiceRunning(BusinessObject.Id);
     }
 
     private void ServiceHandler_ServiceStarted(object sender, string e)

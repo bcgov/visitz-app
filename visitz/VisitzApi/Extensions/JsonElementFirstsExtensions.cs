@@ -47,5 +47,18 @@ namespace VisitzApi.Extensions
 
             return null;
         }
+
+        public static JsonElement? FindFirstByAnyName(
+            this JsonElement startElement,
+            params string[] propertyName)
+        {
+            foreach (string name in propertyName)
+            {
+                if (startElement.FindFirstByName(name) is JsonElement found)
+                    return found;
+            }
+
+            return null;
+        }
     }
 }
