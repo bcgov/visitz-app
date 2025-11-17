@@ -1018,4 +1018,7 @@ Do you want to download information for this record?</value>
   <data name="Incidents" xml:space="preserve">
     <value>Incidents</value>
   </data>
+  <data name="ButtonToRefreshCaseload" xml:space="preserve">
+    <value>Use download button to refresh caseload</value>
+  </data>
 </root>
