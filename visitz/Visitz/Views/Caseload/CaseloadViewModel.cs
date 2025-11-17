@@ -27,6 +27,12 @@ namespace Visitz.Views.Caseload
     /// </summary>
     public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
+#if WINDOWS
+        private static readonly string PromptText = LocalizedStrings.ButtonToRefreshCaseload;
+#else
+        private static readonly string PromptText = LocalizedStrings.PullToRefreshCaseload;
+#endif
+
         private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 
         private static readonly SegmentedOptions SortKeyPlayer = new(
@@ -119,7 +125,7 @@ namespace Visitz.Views.Caseload
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
 
             ShowEmptyCaseloadMessage = false;
-            CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
+            CollectionViewPrompt = PromptText;
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
@@ -318,7 +324,7 @@ namespace Visitz.Views.Caseload
         {
             CollectionViewPrompt = !string.IsNullOrWhiteSpace(SearchQuery)
                 ? LocalizedStrings.NoResultsForSearch.Format(SearchQuery)
-                : LocalizedStrings.PullToRefreshCaseload;
+                : PromptText;
         }
 
         [RelayCommand]

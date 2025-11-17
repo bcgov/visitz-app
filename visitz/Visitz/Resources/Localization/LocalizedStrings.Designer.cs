@@ -259,6 +259,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use download button to refresh caseload.
+        /// </summary>
+        public static string ButtonToRefreshCaseload {
+            get {
+                return ResourceManager.GetString("ButtonToRefreshCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
