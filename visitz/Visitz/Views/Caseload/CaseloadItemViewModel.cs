@@ -68,7 +68,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         serviceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
         serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
 
-        UpdateInteractiveStates();
+        UpdateRecordStates();
         StartInitAsync();
     }
 
@@ -106,7 +106,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             ShowDraftIndicator = false;
     }
 
-    void UpdateInteractiveStates()
+    void UpdateRecordStates()
     {
         UpdateStateVisibility();
 
@@ -167,7 +167,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         else
             OpenEntityView();
 
-        UpdateInteractiveStates();
+        UpdateRecordStates();
     }
 
     [RelayCommand]
@@ -215,7 +215,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
                 BusinessObject.DeleteDependentData(ignoredPrefs, deleteLocalState: false);
             });
 
-            UpdateInteractiveStates();
+            UpdateRecordStates();
         }
     }
 
@@ -236,7 +236,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         try
         {
-            MainThread.BeginInvokeOnMainThread(UpdateInteractiveStates);
+            MainThread.BeginInvokeOnMainThread(UpdateRecordStates);
         }
         catch (Exception ex)
         {
@@ -250,7 +250,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                UpdateInteractiveStates();
+                UpdateRecordStates();
 
                 if (service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
                     && service.UncaughtException != null)
