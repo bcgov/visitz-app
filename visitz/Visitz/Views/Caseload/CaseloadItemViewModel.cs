@@ -69,6 +69,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
 
         UpdateRecordStates();
+        UpdateDraftIndicatorVisibility();
         StartInitAsync();
     }
 
