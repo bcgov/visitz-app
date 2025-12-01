@@ -41,7 +41,7 @@ Use this guide when setting up VSCode for the first time or updating framework v
 
 ### .NET
  
-1. Install matching major version of .NET that matches the current MAUI requirements (MAUI 8 = .NET 8)
+1. Install matching major version of .NET that matches the current MAUI requirements (MAUI 8 = .NET 8, MAUI 9 = .NET 9, etc.)
  
 	- Make sure to install the latest minor/patch version
 
@@ -63,17 +63,19 @@ Use this guide when setting up VSCode for the first time or updating framework v
  
 Install and set up extensions:
  
-1. ### [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
+1. [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
  
-2. ### [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+1. [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
  
 	Sign into C# Dev Kit extension with licensed account
  
-1. ### [.NET MAUI](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.dotnet-maui)
+1. [.NET MAUI](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.dotnet-maui)
 
 	***!!!*** There have been issues with other versions' debuggers, so if you have issues, try using version **1.3.29**.
 
-4. ### [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+1. [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+
+---
 
 # App launch setup
 
