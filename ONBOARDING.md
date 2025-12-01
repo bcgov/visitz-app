@@ -75,6 +75,22 @@ Install and set up extensions:
 
 1. [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
+## Set up Apple certificates and provisioning profiles
+
+Assuming your Apple account is already authorized and can access certs and profiles for the project:
+
+1. Create a dummy project in XCode
+
+1. Give it the same bundle ID as the Visitz app (check [Visitz.csproj](visitz/Visitz/Visitz.csproj) for app ID)
+
+1. Enable "Automatically manage signing" and let XCode set up certs, CA's and provisioning profiles for you
+
+1. Try to build and run the dummy project, it will probably fail
+
+1. XCode should now have set up everything you need in the chain of trust to run development builds of the app
+
+	***!!!*** If your development certificate is still not trusted by the machine, you'll need to [manually download](https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer) and install Apple's CA for dev certs
+
 ---
 
 # App launch setup
