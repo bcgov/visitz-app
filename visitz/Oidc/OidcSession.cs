@@ -6,6 +6,8 @@ using Oidc.Exceptions;
 using Oidc.Network;
 using Oidc.Util;
 
+#nullable enable
+
 namespace Oidc
 {
     public class OidcSession
@@ -16,7 +18,7 @@ namespace Oidc
         private static AuthenticationClient AuthClient =>
             ServicesProvider.Current.GetRequiredService<AuthenticationClient>();
 
-        public static event EventHandler<SessionChangedEventArgs> SessionChanged;
+        public static event EventHandler<SessionChangedEventArgs>? SessionChanged;
 
         static async Task DoAssertValidSessionAsync(
             string messageIfUnavailable,
@@ -55,7 +57,7 @@ namespace Oidc
 
         public static async Task LoginAsync(string messageIfUnavailable, CancellationToken cancellationToken = default)
         {
-            LoginResult loginResult = null;
+            LoginResult? loginResult = null;
 
             try
             {
@@ -63,7 +65,9 @@ namespace Oidc
 
                 loginResult = await AuthClient.LoginAsync(cancellationToken);
 
-                if (loginResult.IsError)
+                if (loginResult == null)
+                    throw new LoginException("No login result");
+                else if (loginResult.IsError)
                 {
                     if (loginResult.Error == BrowserResultType.UserCancel.ToString())
                         // WORKAROUND String compare to BrowserResultType is a limitation of the library
@@ -79,7 +83,7 @@ namespace Oidc
                 bool success = !loginResult?.IsError ?? false;
 #if DEBUG
                 ConsoleTrace.TraceMethod(typeof(OidcSession),
-                    $"Login success: '{success}', Error: {loginResult.Error} -> '{loginResult.ErrorDescription}'");
+                    $"Login success: '{success}', Error: {loginResult?.Error} -> '{loginResult?.ErrorDescription}'");
 #endif
                 var info = await OidcSessionInfo.GetAsync();
                 SessionChanged?.Invoke(info, new LoginChangedEventArgs() { Success = success, });
@@ -88,7 +92,7 @@ namespace Oidc
 
         private static async Task RefreshAsync(string messageIfUnavailable)
         {
-            RefreshTokenResult refreshResult = null;
+            RefreshTokenResult? refreshResult = null;
 
             try
             {
@@ -97,8 +101,8 @@ namespace Oidc
                 var refreshToken = await TokenHolder.GetRefreshTokenStringAsync();
                 refreshResult = await AuthClient.RefreshAsync(refreshToken);
 
-                if (refreshResult.IsError)
-                    throw new SessionRefreshException(refreshResult.Error);
+                if (refreshResult == null || refreshResult.IsError)
+                    throw new SessionRefreshException(refreshResult?.Error ?? "No refresh result");
 
                 await TokenHolder.SaveAsync(refreshResult);
             }
@@ -181,10 +185,10 @@ namespace Oidc
 
         public static async Task SetAuthorization(bool? authorized)
         {
-            if (authorized == null)
-                SecureStorage.Default.Remove(IdirActiveKey);
+            if (authorized is bool auth)
+                await SecureStorage.Default.SetAsync(IdirActiveKey, auth.ToString());
             else
-                await SecureStorage.Default.SetAsync(IdirActiveKey, authorized.ToString());
+                SecureStorage.Default.Remove(IdirActiveKey);
         }
     }
 }

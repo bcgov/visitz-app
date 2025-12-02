@@ -377,4 +377,4 @@ Directory.Build.Override.props
 # MCFD Mobility
 appSettings.json
 MockIcmData/
-global.json.template
+global.json
