@@ -1,2 +1,5 @@
 # Mac File System
 .DS_Store
+
+# Dotnet config
+global.json

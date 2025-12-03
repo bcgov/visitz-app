@@ -69,7 +69,7 @@ function Ensure-Env {
 
 function Get-MsixFilePath {
     $filter = "Visitz*$BuildNumber*.msix"
-    $msix = Get-ChildItem . -Recurse -Filter $filter
+    $msix = (Get-ChildItem -Path .\artifacts\ -Recurse -Filter $filter)[0].FullName
 
     if (!(Test-Path $msix)) {
         Write-Error "No MSIX file matching filter '$filter' found in build directory (recursive search)"
@@ -175,7 +175,7 @@ if ($SelfContained) {
 }
 
 if (!$SkipClean) {
-    dotnet clean "..\visitz\Visitz\Visitz.csproj"
+    dotnet clean "..\visitz\Visitz\Visitz.csproj" --framework net9.0-windows10.0.19041.0
 
     rm $artifactsDir -Recurse -ErrorAction SilentlyContinue
 }
