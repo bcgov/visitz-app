@@ -13,6 +13,7 @@ param(
     # https://learn.microsoft.com/en-us/windows/msix/package/sign-app-package-using-signtool#determine-the-hash-algorithm
     [string] $Algorithm = "",
 
+    # !!! Needs Windows SDK to be installed (possibly also "ClickOnce" publishing tools), check Visual Studio installer
     [string] $SignToolPath = "",
 
     [string] $CertificateThumbprint = "",
