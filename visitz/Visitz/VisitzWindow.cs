@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Visitz.Views.AppLock;
 using Visitz.Views.User;
 
@@ -5,6 +6,8 @@ namespace Visitz;
 
 public partial class VisitzWindow : Window
 {
+    public bool IsActivated { get; private set; }
+
     public VisitzWindow() { }
 
     public VisitzWindow(Page page) : base(page) { }
@@ -33,4 +36,17 @@ public partial class VisitzWindow : Window
     private static partial Window ApplyDefaultWindowLayout(Window window);
 #endif
 
+    protected override void OnActivated()
+    {
+        base.OnActivated();
+
+        IsActivated = true;
+    }
+
+    protected override void OnDeactivated()
+    {
+        base.OnDeactivated();
+
+        IsActivated = false;
+    }
 }
