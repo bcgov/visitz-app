@@ -177,7 +177,7 @@ namespace Oidc
                 && await TokenHolder.GetIdentityTokenStringAsync() is not null;
         }
 
-        public static async Task<bool?> IsAuthorized()
+        public static async Task<bool?> IsAuthorizedAsync()
         {
             var status = await SecureStorage.Default.GetAsync(IdirActiveKey);
             return status != null ? bool.Parse(status) : null;

@@ -141,7 +141,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     private async Task<bool?> ApplyAuthStatusLayout(bool? showUnknown = null)
     {
-        bool? isAuthorized = await OidcSession.IsAuthorized();
+        bool? isAuthorized = await OidcSession.IsAuthorizedAsync();
 
         SetUiOptions(
             showAuthStatusLayout: true,
