@@ -1021,4 +1021,13 @@ Do you want to download information for this record?</value>
   <data name="ButtonToRefreshCaseload" xml:space="preserve">
     <value>Use download button to refresh caseload</value>
   </data>
+  <data name="CaseloadRefresh" xml:space="preserve">
+    <value>Auto caseload refresh</value>
+  </data>
+  <data name="AutoCaseloadRefreshDesc" xml:space="preserve">
+    <value>MCFD Mobility wants to refresh your caseload. Log in to proceed.</value>
+  </data>
+  <data name="AutoRefreshDebugDisabled" xml:space="preserve">
+    <value>Attempted auto caseload refresh but it's disabled in debug options.</value>
+  </data>
 </root>

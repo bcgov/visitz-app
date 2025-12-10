@@ -24,6 +24,7 @@ public class DebugOptions
     private static readonly string SkipLocalAuthKey = "SkipLocalAuth";
     private static readonly string ShouldExpectFileContentKey = "ShouldExpectFileContent";
     private static readonly string KeepSafetyAssessmentDraftOnPublishKey = "KeepSafetyAssessmentDraftOnPublish";
+    private static readonly string AutoCaseloadRefreshDisabledKey = "AutoCaseloadRefreshDisabled";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -103,6 +104,12 @@ public class DebugOptions
     {
         get => Get(KeepSafetyAssessmentDraftOnPublishKey, false);
         set => Set(KeepSafetyAssessmentDraftOnPublishKey, value);
+    }
+
+    public static bool AutoCaseloadRefreshDisabled
+    {
+        get => Get(AutoCaseloadRefreshDisabledKey, false);
+        set => Set(AutoCaseloadRefreshDisabledKey, value);
     }
 
     public static async Task ClearRealmData()
@@ -257,5 +264,14 @@ public class DebugOptions
 
         await ServiceProvider.GetService<ServiceHandler>()
             .TryRunServiceAsync(RecordCleanupService.MakeStartMessage());
+    }
+
+    public static async Task RunAutoCaseloadRefreshService()
+    {
+        if (!Enabled)
+            return;
+
+        var handler = ServiceProvider.GetService<ServiceHandler>();
+        await handler.TryRunServiceAsync(AutoRefreshService.MakeStartMessage());
     }
 }

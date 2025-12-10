@@ -20,6 +20,12 @@ namespace Oidc
 
         public static event EventHandler<SessionChangedEventArgs>? SessionChanged;
 
+        public static async Task<bool> IsSessionValid()
+        {
+            return await TokenHolder.IsAccessTokenValid()
+                || !await TokenHolder.IsRefreshTokenExpired();
+        }
+
         static async Task DoAssertValidSessionAsync(
             string messageIfUnavailable,
             CancellationToken cancellationToken = default)

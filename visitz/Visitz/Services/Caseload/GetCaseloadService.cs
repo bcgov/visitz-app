@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
@@ -34,9 +35,22 @@ namespace Visitz.Services.Caseload
 
         protected override async Task RunApiServiceAsync()
         {
-            await DownloadAndSaveCaseloadV2Async();
+            try
+            {
+                await DownloadAndSaveCaseloadV2Async();
 
-            ResultCode = Result.Successful;
+                ResultCode = Result.Successful;
+                LastUpdatedPrefs.SetUtcNow(AutoRefreshService.CooldownTimestampUtc);
+            }
+            catch (OperationCanceledException opEx)
+            {
+                Logger.LogInformation($"Caseload refresh cancelled: '{opEx.Message}'");
+            }
+            catch (Exception)
+            {
+                LastUpdatedPrefs.SetUtcNow(AutoRefreshService.CooldownTimestampUtc);
+                throw;
+            }
         }
 
         private async Task DownloadAndSaveCaseloadV2Async()
