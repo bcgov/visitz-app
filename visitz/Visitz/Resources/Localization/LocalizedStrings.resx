@@ -1030,4 +1030,13 @@ Do you want to download information for this record?</value>
   <data name="AutoRefreshDebugDisabled" xml:space="preserve">
     <value>Attempted auto caseload refresh but it's disabled in debug options.</value>
   </data>
+  <data name="CantRefreshNoInternet" xml:space="preserve">
+    <value>Can't refresh caseload—internet connection unavailable</value>
+  </data>
+  <data name="RefreshInterrupted" xml:space="preserve">
+    <value>Refresh interrupted</value>
+  </data>
+  <data name="RefreshInterruptedDesc" xml:space="preserve">
+    <value>MCFD Mobility was not able to refresh your caseload before your device lost its internet connection. It will automatically retry the next time your device is connected to internet.</value>
+  </data>
 </root>

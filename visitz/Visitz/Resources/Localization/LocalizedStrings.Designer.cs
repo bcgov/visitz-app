@@ -304,6 +304,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t refresh caseload—internet connection unavailable.
+        /// </summary>
+        public static string CantRefreshNoInternet {
+            get {
+                return ResourceManager.GetString("CantRefreshNoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Caseload.
         /// </summary>
         public static string Caseload {
@@ -1881,6 +1890,24 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingVisits {
             get {
                 return ResourceManager.GetString("RefreshingVisits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh interrupted.
+        /// </summary>
+        public static string RefreshInterrupted {
+            get {
+                return ResourceManager.GetString("RefreshInterrupted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility was not able to refresh your caseload before your device lost its internet connection. It will automatically retry the next time your device is connected to internet..
+        /// </summary>
+        public static string RefreshInterruptedDesc {
+            get {
+                return ResourceManager.GetString("RefreshInterruptedDesc", resourceCulture);
             }
         }
         

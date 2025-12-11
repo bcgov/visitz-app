@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Visitz.Resources.Localization;
 using Visitz.Views.Debugging;
 using Visitz.Views.Snackbar;
+using Oidc.Network;
+
 
 #if !WINDOWS
 using Visitz.Views.AppLock;
@@ -63,6 +65,23 @@ internal class AutoRefreshService(
             return;
         }
 
+        bool sessionInvalid = !await OidcSession.IsSessionValid();
+        if (sessionInvalid)
+            await Window.Page.DisplayAlert(
+                LocalizedStrings.CaseloadRefresh,
+                LocalizedStrings.AutoCaseloadRefreshDesc,
+                LocalizedStrings.Ok);
+
+        if (!NetworkHelper.InternetAvailable)
+        {
+            SnackbarHandler.ShowTextWithDetails(
+                LocalizedStrings.CantRefreshNoInternet,
+                LocalizedStrings.RefreshInterrupted,
+                LocalizedStrings.RefreshInterruptedDesc);
+            ResultCode = Result.Cancelled;
+            return;
+        }
+
         if (DebugOptions.AutoCaseloadRefreshDisabled)
         {
             SnackbarHandler.ShowText(LocalizedStrings.AutoRefreshDebugDisabled);
@@ -72,13 +91,11 @@ internal class AutoRefreshService(
 
         Logger.LogTrace("Auto caseload refresh proceeding");
 
-        bool sessionInvalid = !await OidcSession.IsSessionValid();
-        if (sessionInvalid)
-            await Window.Page.DisplayAlert(
-                LocalizedStrings.CaseloadRefresh,
-                LocalizedStrings.AutoCaseloadRefreshDesc,
-                LocalizedStrings.Ok);
+        await RunAllDataService();
+    }
 
+    async Task RunAllDataService()
+    {
         try
         {
             await ServiceHandler.TryRunServiceAsync(GetAllDataForOfflineService.MakeStartMessage());
@@ -102,7 +119,8 @@ internal class AutoRefreshService(
     {
         return CooldownElapsed()
             && AppUnlockedOrFocused()
-            && (await OidcSession.IsAuthorizedAsync() ?? false);
+            && (await OidcSession.IsAuthorizedAsync() ?? false)
+            && NetworkHelper.InternetAvailable;
     }
 
     static bool AppUnlockedOrFocused()
