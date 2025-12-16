@@ -33,6 +33,8 @@ public partial class VisitzWindow : Window
 
 #if WINDOWS
     private static partial Window ApplyDefaultWindowLayout(Window window);
+
+    partial void TryRunAutoRefresh();
 #endif
 
     protected override void OnActivated()
@@ -40,6 +42,11 @@ public partial class VisitzWindow : Window
         base.OnActivated();
 
         IsActivated = true;
+
+#if WINDOWS
+        // Run in OnActivated instead of OnResumed to respond to window focus events
+        TryRunAutoRefresh();
+#endif
     }
 
     protected override void OnDeactivated()
