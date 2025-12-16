@@ -1,3 +1,6 @@
+using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Services.Caseload;
+
 namespace Visitz;
 
 public partial class VisitzWindow
@@ -11,5 +14,12 @@ public partial class VisitzWindow
         window.Width = window.Height * WidthRatio;
 
         return window;
+    }
+
+    protected override void OnResumed()
+    {
+        base.OnResumed();
+
+        WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
     }
 }

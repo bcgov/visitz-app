@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Visitz.Views.AppLock;
 using Visitz.Views.User;
 

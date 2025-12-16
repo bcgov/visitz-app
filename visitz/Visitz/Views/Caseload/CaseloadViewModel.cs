@@ -129,6 +129,8 @@ namespace Visitz.Views.Caseload
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
+
+            WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
         }
 
         private void SetupOfficeNames(HashSet<string> newOffices = null)

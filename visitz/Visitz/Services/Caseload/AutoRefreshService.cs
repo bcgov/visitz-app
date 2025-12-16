@@ -8,7 +8,6 @@ using Visitz.Views.Debugging;
 using Visitz.Views.Snackbar;
 using Oidc.Network;
 
-
 #if !WINDOWS
 using Visitz.Views.AppLock;
 #endif

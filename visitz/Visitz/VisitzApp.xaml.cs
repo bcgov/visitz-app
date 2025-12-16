@@ -5,12 +5,13 @@ using Oidc.Events;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
+using Visitz.Views.AppLock;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
 
 namespace Visitz;
 
-public partial class VisitzApp : Application
+public partial class VisitzApp : Application, IRecipient<AppLockMessage>
 {
     public ServiceHandler ServiceHandler { get; private set; }
 
@@ -24,6 +25,8 @@ public partial class VisitzApp : Application
         InitializeComponent();
 
         TryStartDebugSensor();
+
+        StrongReferenceMessenger.Default.RegisterAll(this);
     }
 
     protected override void OnStart()
@@ -35,6 +38,8 @@ public partial class VisitzApp : Application
         TryClearLogs();
         CleanupStaleRecords();
     }
+
+
 
     protected override Window CreateWindow(IActivationState activationState)
     {
@@ -72,5 +77,11 @@ public partial class VisitzApp : Application
     private static void CleanupStaleRecords()
     {
         WeakReferenceMessenger.Default.Send(RecordCleanupService.MakeStartMessage());
+    }
+
+    public void Receive(AppLockMessage message)
+    {
+        if (message.Value == AppLockStatus.Closed)
+            WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
     }
 }
