@@ -23,8 +23,6 @@ public partial class VisitzApp : Application
 
         InitializeComponent();
 
-        MainPage = new NavigationPage(new RootPage());
-
         TryStartDebugSensor();
     }
 
@@ -40,7 +38,7 @@ public partial class VisitzApp : Application
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-        return new VisitzWindow(MainPage);
+        return new VisitzWindow(new NavigationPage(new RootPage()));
     }
 
     private static void TryStartDebugSensor()
