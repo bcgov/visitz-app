@@ -202,7 +202,7 @@
 				Background="AliceBlue"
 				Text="Services" />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                 <Label
 					StyleClass="DebugLayout,DebugLabel"
 					Grid.Row="0"
@@ -234,15 +234,22 @@
 				    Command="{Binding RunAutoCaseloadRefreshServiceCommand}"
 				    Text="Run auto caseload refresh service" />
 
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding ResetAutoCaseloadRefreshCommand}"
+                    Text="Reset auto caseload refresh cooldown" />
+
                 <Label
 				    StyleClass="DebugLayout,DebugLabel"
-				    Grid.Row="3"
+				    Grid.Row="4"
 				    Grid.Column="0"
 				    Text="Disable auto caseload refresh"/>
 
                 <Switch
 				    StyleClass="DebugLayout"
-				    Grid.Row="3"
+				    Grid.Row="4"
 				    Grid.Column="1"
 				    IsToggled="{Binding AutoCaseloadRefreshDisabled}"/>
             </Grid>

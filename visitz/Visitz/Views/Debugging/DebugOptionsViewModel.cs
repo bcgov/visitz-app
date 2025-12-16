@@ -249,5 +249,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         _ = DebugOptions.RunAutoCaseloadRefreshService();
     }
 
-
+    [RelayCommand]
+    public static void ResetAutoCaseloadRefresh()
+    {
+        DebugOptions.ResetAutoCaseloadRefresh();
+    }
 }

@@ -4,6 +4,7 @@ using VisitzModel.Models.InPersonVisits;
 using Oidc;
 using Visitz.Services;
 using Visitz.Services.Caseload;
+using VisitzModel.Storage;
 
 #if WINDOWS
 using Windows.Storage;
@@ -273,5 +274,14 @@ public class DebugOptions
 
         var handler = ServiceProvider.GetService<ServiceHandler>();
         await handler.TryRunServiceAsync(AutoRefreshService.MakeStartMessage());
+    }
+
+    public static void ResetAutoCaseloadRefresh()
+    {
+        if (!Enabled)
+            return;
+
+        LastUpdatedPrefs prefs = ServiceProvider.GetService<LastUpdatedPrefs>();
+        prefs.Set(AutoRefreshService.CooldownTimestampUtc, DateTime.MinValue);
     }
 }
