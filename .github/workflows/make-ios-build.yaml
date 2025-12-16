@@ -15,7 +15,7 @@ env:
   RUN_NUMBER: ${{ github.run_number }}
   PROJPATH: "visitz/Visitz"
   DOTNET_SDK_VERSION: "9.0.305"
-  GLOBAL_JSON_PATH: "visitz/global.json"
+  GLOBAL_JSON_PATH: "global.json"
   XCODE_VERSION: "16.4"
 
 jobs:
