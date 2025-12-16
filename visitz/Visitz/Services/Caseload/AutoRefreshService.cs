@@ -116,10 +116,27 @@ internal class AutoRefreshService(
 
     async Task<bool> CanRefresh()
     {
-        return CooldownElapsed()
-            && AppUnlockedOrFocused()
-            && (await OidcSession.IsAuthorizedAsync() ?? false)
-            && NetworkHelper.InternetAvailable;
+        bool elapsed = CooldownElapsed();
+        bool unlocked = AppUnlockedOrFocused();
+        bool authorized = (await OidcSession.IsAuthorizedAsync() ?? false);
+        bool internetAvailable = NetworkHelper.InternetAvailable;
+
+        Logger.LogInformation("Auto refresh: cooldown "
+            + (elapsed ? "elapsed" : "ongoing"));
+
+        if (!unlocked)
+            Logger.LogInformation("Auto refresh: app not unlocked/focused");
+
+        if (!authorized)
+            Logger.LogInformation("Auto refresh: user not authorized");
+
+        if (!internetAvailable)
+            Logger.LogInformation("Auto refresh: internet unavailable");
+
+        return elapsed
+            && unlocked
+            && authorized
+            && internetAvailable;
     }
 
     static bool AppUnlockedOrFocused()
