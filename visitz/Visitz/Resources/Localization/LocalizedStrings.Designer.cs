@@ -19,7 +19,7 @@ namespace Visitz.Resources.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class LocalizedStrings {
@@ -241,6 +241,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility wants to refresh your caseload. Log in to proceed..
+        /// </summary>
+        public static string AutoCaseloadRefreshDesc {
+            get {
+                return ResourceManager.GetString("AutoCaseloadRefreshDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempted auto caseload refresh but it&apos;s disabled in debug options..
+        /// </summary>
+        public static string AutoRefreshDebugDisabled {
+            get {
+                return ResourceManager.GetString("AutoRefreshDebugDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Birthdate.
         /// </summary>
         public static string Birthdate {
@@ -282,6 +300,15 @@ namespace Visitz.Resources.Localization {
         public static string CancelAndKeepDraft {
             get {
                 return ResourceManager.GetString("CancelAndKeepDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t refresh caseload—internet connection unavailable.
+        /// </summary>
+        public static string CantRefreshNoInternet {
+            get {
+                return ResourceManager.GetString("CantRefreshNoInternet", resourceCulture);
             }
         }
         
@@ -329,6 +356,15 @@ namespace Visitz.Resources.Localization {
         public static string CaseloadIsEmpty {
             get {
                 return ResourceManager.GetString("CaseloadIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto caseload refresh.
+        /// </summary>
+        public static string CaseloadRefresh {
+            get {
+                return ResourceManager.GetString("CaseloadRefresh", resourceCulture);
             }
         }
         
@@ -1854,6 +1890,24 @@ namespace Visitz.Resources.Localization {
         public static string RefreshingVisits {
             get {
                 return ResourceManager.GetString("RefreshingVisits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh interrupted.
+        /// </summary>
+        public static string RefreshInterrupted {
+            get {
+                return ResourceManager.GetString("RefreshInterrupted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility was not able to refresh your caseload before your device lost its internet connection. It will automatically retry the next time your device is connected to internet..
+        /// </summary>
+        public static string RefreshInterruptedDesc {
+            get {
+                return ResourceManager.GetString("RefreshInterruptedDesc", resourceCulture);
             }
         }
         

@@ -136,7 +136,7 @@
 				HorizontalOptions="FillAndExpand"
 				FontSize="20"
 				Background="AliceBlue"
-				Text="Preferences" />
+				Text="Preferences" />            
 
 			<Grid RowDefinitions="Auto,Auto,Auto">
 				<Button
@@ -200,35 +200,61 @@
 				HorizontalOptions="FillAndExpand"
 				FontSize="20"
 				Background="AliceBlue"
-				Text="Notes" />
+				Text="Services" />
 
-			<Grid RowDefinitions="Auto,Auto">
-				<Label
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                <Label
 					StyleClass="DebugLayout,DebugLabel"
 					Grid.Row="0"
 					Grid.Column="0"
 					Text="Dry-fire SubmitNotes"/>
 
-				<Switch
+                <Switch
 					StyleClass="DebugLayout"
 					Grid.Row="0"
 					Grid.Column="1"
 					IsToggled="{Binding DryFireSubmitNotes}"/>
 
-				<Label
+                <Label
 					StyleClass="DebugLayout,DebugLabel"
 					Grid.Row="1"
 					Grid.Column="0"
 					Text="Dry-fire SubmitNotes: simulate success"/>
 
-				<Switch
+                <Switch
 					StyleClass="DebugLayout"
 					Grid.Row="1"
 					Grid.Column="1"
 					IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
-			</Grid>
 
-			<Label
+                <Button
+				    StyleClass="DebugLayout"
+				    Grid.Row="2"
+				    Grid.Column="1"
+				    Command="{Binding RunAutoCaseloadRefreshServiceCommand}"
+				    Text="Run auto caseload refresh service" />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding ResetAutoCaseloadRefreshCommand}"
+                    Text="Reset auto caseload refresh cooldown" />
+
+                <Label
+				    StyleClass="DebugLayout,DebugLabel"
+				    Grid.Row="4"
+				    Grid.Column="0"
+				    Text="Dry-fire auto caseload refresh: run checks without refresh"/>
+
+                <Switch
+				    StyleClass="DebugLayout"
+				    Grid.Row="4"
+				    Grid.Column="1"
+				    IsToggled="{Binding AutoCaseloadRefreshDisabled}"/>
+            </Grid>
+
+            <Label
 				StyleClass="DebugLayout,DebugLabel"
 				HorizontalOptions="FillAndExpand"
 				FontSize="20"

@@ -20,6 +20,12 @@ namespace Oidc
 
         public static event EventHandler<SessionChangedEventArgs>? SessionChanged;
 
+        public static async Task<bool> IsSessionValid()
+        {
+            return await TokenHolder.IsAccessTokenValid()
+                || !await TokenHolder.IsRefreshTokenExpired();
+        }
+
         static async Task DoAssertValidSessionAsync(
             string messageIfUnavailable,
             CancellationToken cancellationToken = default)
@@ -177,7 +183,7 @@ namespace Oidc
                 && await TokenHolder.GetIdentityTokenStringAsync() is not null;
         }
 
-        public static async Task<bool?> IsAuthorized()
+        public static async Task<bool?> IsAuthorizedAsync()
         {
             var status = await SecureStorage.Default.GetAsync(IdirActiveKey);
             return status != null ? bool.Parse(status) : null;

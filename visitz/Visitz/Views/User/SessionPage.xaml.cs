@@ -23,7 +23,7 @@ public partial class SessionPage : VisitzPage
     {
         if (IsOpen
             || await OidcSession.SessionExistsAsync()
-            && (await OidcSession.IsAuthorized() ?? false))
+            && (await OidcSession.IsAuthorizedAsync() ?? false))
             return;
 
         await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);

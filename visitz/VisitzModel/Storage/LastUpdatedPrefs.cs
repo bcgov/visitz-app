@@ -24,6 +24,11 @@ public class LastUpdatedPrefs(IPreferences prefs)
         Set(key, DateTimeExtensions.LocalNow);
     }
 
+    public void SetUtcNow(string key)
+    {
+        Set(key, DateTime.UtcNow);
+    }
+
     public DateTime? Get(string key)
     {
         var fullKey = KeyPrefix + key;
