@@ -6,8 +6,15 @@ namespace Visitz.Views.User;
 
 public partial class SessionPage : VisitzPage
 {
-    public static bool IsOpen => Navigator.Navigation.ModalStack
-        .Any(page => page.GetType() == typeof(SessionPage));
+    public static bool IsOpen
+    {
+        get
+        {
+            static bool isSessionPage(Page page) => page.GetType() == typeof(SessionPage);
+            return Navigator.Navigation.ModalStack.Any(isSessionPage)
+                || Navigator.Navigation.NavigationStack.Any(isSessionPage);
+        }
+    }
 
     public SessionPage(SessionViewModel viewModel) : base(viewModel)
     {
