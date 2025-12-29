@@ -32,14 +32,12 @@ public partial class EntityContainerViewModel :
     [ObservableProperty]
     public string fullTypeCased;
 
+    protected override ILogger<VisitzViewModel> Logger { get; } = 
+        ServiceProvider.GetService<ILogger<EntityContainerViewModel>>();
+
     public EntityContainerViewModel() : base()
     {
         ServiceHandler = ServiceProvider.GetService<ServiceHandler>();
-    }
-
-    protected override ILogger<VisitzViewModel> MakeLogger()
-    {
-        return ServiceProvider.GetService<ILogger<EntityContainerViewModel>>();
     }
 
     protected override Task InitAsync()

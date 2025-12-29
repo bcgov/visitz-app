@@ -66,7 +66,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     private OidcSessionInfo SessionInfo;
 
-    private ILogger<SessionViewModel> Logger { get; } = logger;
+    protected override ILogger<VisitzViewModel> Logger { get; } = logger;
 
     protected override async Task InitAsync()
     {
