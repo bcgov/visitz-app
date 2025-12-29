@@ -73,6 +73,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         await base.InitAsync();
 
         SessionInfo = await OidcSessionInfo.GetAsync();
+        DisplayName = SessionInfo.GivenName;
 
         if (await ApplyLayoutByAuthStatus() is (bool, _) sessionStatus)
         {
@@ -151,15 +152,14 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             showUnknown: showUnknown ?? isAuthorized == null,
             showButtons: true);
 
-        DisplayName = SessionInfo.GivenName;
-
         return isAuthorized;
     }
 
     private async void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
     {
         SessionInfo = sender as OidcSessionInfo;
-        await ApplyLayoutByAuthStatus();
+        DisplayName = SessionInfo.GivenName;
+        await ApplyLayoutByStatus();
     }
 
     private async Task<(bool SessionExists, bool? IsAuthorized)> ApplyLayoutByAuthStatus()
