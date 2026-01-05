@@ -5,6 +5,7 @@ using Oidc.Events;
 using Oidc.Exceptions;
 using Oidc.Network;
 using Oidc.Util;
+using System.IdentityModel.Tokens.Jwt;
 
 #nullable enable
 
@@ -14,6 +15,8 @@ namespace Oidc
     {
         private static readonly string IdirActiveKey = "idir_active_employee";
         private static readonly SemaphoreSlim Semaphore = new(1);
+
+        public static readonly double StaleThresholdMinutes = 7 * TimeSpan.MinutesPerDay;
 
         private static AuthenticationClient AuthClient =>
             ServicesProvider.Current.GetRequiredService<AuthenticationClient>();
@@ -181,6 +184,13 @@ namespace Oidc
             return await TokenHolder.GetAccessTokenStringAsync() is not null
                 && await TokenHolder.GetRefreshTokenStringAsync() is not null
                 && await TokenHolder.GetIdentityTokenStringAsync() is not null;
+        }
+
+        public static async Task<bool?> IsSessionStale(double? minutesSinceExpiration = null)
+        {
+            JwtSecurityToken? access = await TokenHolder.GetAccessTokenAsync();
+            TimeSpan? diff = DateTime.UtcNow - access?.ValidTo;
+            return diff?.TotalMinutes >= (minutesSinceExpiration ?? StaleThresholdMinutes);
         }
 
         public static async Task<bool?> IsAuthorizedAsync()
