@@ -1,11 +1,14 @@
 using Oidc;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Debugging;
 
 namespace Visitz.Views.User;
 
 public partial class SessionPage : VisitzPage
 {
+    static SemaphoreSlim _semaphore = new(1);
+
     public static bool IsOpen
     {
         get
@@ -28,12 +31,26 @@ public partial class SessionPage : VisitzPage
         bool modal = false,
         bool animated = true)
     {
-        if (IsOpen
-            || await OidcSession.SessionExistsAsync()
-            && (await OidcSession.IsAuthorizedAsync() ?? false))
-            return;
+        await _semaphore.WaitAsync();
 
-        await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);
+        try
+        {
+            if (IsOpen
+                || await OidcSession.SessionExistsAsync()
+                && (await OidcSession.IsAuthorizedAsync() ?? false)
+                && (!await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false))
+                return;
+
+            await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);
+        }
+        finally
+        {
+            try
+            {
+                _semaphore.Release();
+            }
+            catch {}
+        }
     }
 
     protected override bool OnBackButtonPressed()

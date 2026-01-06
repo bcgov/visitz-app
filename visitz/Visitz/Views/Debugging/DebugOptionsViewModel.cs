@@ -63,6 +63,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public bool autoCaseloadRefreshDisabled;
 
+    [ObservableProperty]
+    public double staleSessionMinutes;
+
     protected override Task InitAsync()
     {
         base.InitAsync();
@@ -94,6 +97,8 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
 
         AutoCaseloadRefreshDisabled = DebugOptions.AutoCaseloadRefreshDisabled;
+
+        StaleSessionMinutes = DebugOptions.StaleThresholdMinutes;
 
         return Task.CompletedTask;
     }
@@ -136,6 +141,11 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     partial void OnAutoCaseloadRefreshDisabledChanged(bool value)
     {
         DebugOptions.AutoCaseloadRefreshDisabled = value;
+    }
+
+    partial void OnStaleSessionMinutesChanged(double value)
+    {
+        DebugOptions.StaleThresholdMinutes = value;
     }
 
     [RelayCommand]

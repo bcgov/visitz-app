@@ -10,6 +10,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Debugging;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
 #if WINDOWS
@@ -62,6 +63,9 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     [ObservableProperty]
     public bool showUnknown;
 
+    [ObservableProperty]
+    public bool staleSession;
+
     public Action AuthorizationSuccess { get; set; }
 
     private OidcSessionInfo SessionInfo;
@@ -75,7 +79,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         SessionInfo = await OidcSessionInfo.GetAsync();
         DisplayName = SessionInfo.GivenName;
 
-        if (await ApplyLayoutByAuthStatus() is (bool, _) sessionStatus)
+        if (await ApplyLayoutByStatus() is (bool, _) sessionStatus)
         {
 #if IOS
             // Having issues with lifecycle timings on iOS and this delay solves
@@ -109,22 +113,22 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     private void SetUiOptions(
         bool showLoginLayout = false,
-        bool showAuthStatusLayout = false,
-        bool showAuthStatus = false,
+        bool? showAuthStatusLayout = null,
+        bool? showAuthStatus = null,
         bool isAuthorized = false,
         bool isUnauthorized = false,
         bool tryingAuthorization = false,
         bool? showButtons = null,
-        bool showUnknown = false)
+        bool showUnknown = false,
+        bool staleSession = false)
     {
         ShowLoginLayout = showLoginLayout;
-        ShowAuthStatusLayout = showAuthStatusLayout;
-        ShowAuthStatus = showAuthStatus;
         IsAuthorized = isAuthorized;
         IsUnauthorized = isUnauthorized;
         TryingAuthorization = tryingAuthorization;
         ShowButtons = showButtons ?? (showLoginLayout ? false : !IsAuthorized || IsUnauthorized);
         ShowUnknown = showUnknown;
+        StaleSession = staleSession;
 
         BgDisplayOptions = showLoginLayout
             ? DisplayOptions.Clear
@@ -132,27 +136,34 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
         if (tryingAuthorization)
             AuthStatus = LocalizedStrings.CheckingIcmProfile;
+        else if (staleSession)
+            AuthStatus = LocalizedStrings.StaleSessionDesc;
         else if (isUnauthorized)
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
         else if (!isAuthorized)
             AuthStatus = LocalizedStrings.NeedToConfirm;
         else
             AuthStatus = string.Empty;
+
+        ShowAuthStatusLayout = showAuthStatusLayout ?? AuthStatus?.Length > 0;
+        ShowAuthStatus = showAuthStatus ?? AuthStatus?.Length > 0;
     }
 
-    private async Task<bool?> ApplyAuthStatusLayout(bool? showUnknown = null)
+    private async Task<bool?> ApplyAuthStatusLayout(
+        bool? showUnknown = null,
+        bool? isAuthorized = null)
     {
-        bool? isAuthorized = await OidcSession.IsAuthorizedAsync();
+        bool? authorized = isAuthorized ?? await OidcSession.IsAuthorizedAsync();
 
         SetUiOptions(
             showAuthStatusLayout: true,
             showAuthStatus: true,
-            isAuthorized: isAuthorized ?? false,
-            isUnauthorized: !isAuthorized ?? false,
-            showUnknown: showUnknown ?? isAuthorized == null,
+            isAuthorized: authorized ?? false,
+            isUnauthorized: !authorized ?? false,
+            showUnknown: showUnknown ?? authorized == null,
             showButtons: true);
 
-        return isAuthorized;
+        return authorized;
     }
 
     private async void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
@@ -162,10 +173,25 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         await ApplyLayoutByStatus();
     }
 
-    private async Task<(bool SessionExists, bool? IsAuthorized)> ApplyLayoutByAuthStatus()
+    private async Task<(bool SessionExists, bool? IsAuthorized)> ApplyLayoutByStatus()
     {
         if (await OidcSession.SessionExistsAsync())
-            return (true, await ApplyAuthStatusLayout());
+        {
+            bool? isAuthorized = await OidcSession.IsAuthorizedAsync();
+
+            if (isAuthorized is true)
+            {
+                if (await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false)
+                    SetUiOptions(showButtons: true, staleSession: true);
+            }
+            else if (isAuthorized is false)
+                await ApplyAuthStatusLayout(isAuthorized: false);
+            else
+                // "Idle" layout
+                SetUiOptions(showButtons: true);
+
+            return (true, isAuthorized);
+        }
         else
         {
             SetUiOptions(showLoginLayout: true);

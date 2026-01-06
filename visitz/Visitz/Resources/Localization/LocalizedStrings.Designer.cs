@@ -2501,6 +2501,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caseload information on your device is out of date and needs to be refreshed before you can use the app..
+        /// </summary>
+        public static string StaleSessionDesc {
+            get {
+                return ResourceManager.GetString("StaleSessionDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start survey.
         /// </summary>
         public static string StartSurvey {
