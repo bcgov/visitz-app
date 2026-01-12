@@ -38,7 +38,7 @@
 				Background="AliceBlue"
 				Text="Session" />
 
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
 				<Button
 					StyleClass="DebugLayout"
 					Grid.Row="0"
@@ -79,6 +79,20 @@
 				    Grid.Column="1"
 				    Command="{Binding ClearOfficeNamesCommand}"
 				    Text="Clear office names" />
+
+                <Label
+				    StyleClass="DebugLayout,DebugLabel"
+				    Grid.Row="5"
+				    Grid.Column="0"
+				    IsEnabled="{Binding BuildingInDebug}"
+				    Text="Stale sessions threshold in minutes (enter 0 to reset)"/>
+
+                <Entry
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Text="{Binding StaleSessionMinutes, TargetNullValue='0'}"
+                    HorizontalOptions="Start"
+                    WidthRequest="100"/>
 			</Grid>
 
 			<Label

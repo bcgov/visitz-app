@@ -1039,4 +1039,10 @@ Do you want to download information for this record?</value>
   <data name="RefreshInterruptedDesc" xml:space="preserve">
     <value>MCFD Mobility was not able to refresh your caseload before your device lost its internet connection. It will automatically retry the next time your device is connected to internet.</value>
   </data>
+  <data name="StaleSessionDesc" xml:space="preserve">
+    <value>Caseload information on your device is out of date and needs to be refreshed before you can use the app.</value>
+  </data>
+  <data name="ConnectBeforeRetry" xml:space="preserve">
+    <value>Connect to the internet before trying again.</value>
+  </data>
 </root>

@@ -7,6 +7,8 @@ using Visitz.Resources.Localization;
 using Visitz.Views.Debugging;
 using Visitz.Views.Snackbar;
 using Oidc.Network;
+using Visitz.Views.User;
+
 
 #if !WINDOWS
 using Visitz.Views.AppLock;
@@ -118,23 +120,29 @@ internal class AutoRefreshService(
     {
         bool elapsed = CooldownElapsed();
         bool unlocked = AppUnlockedOrFocused();
+        bool sessionpageClosed = !SessionPage.IsOpen;
         bool authorized = (await OidcSession.IsAuthorizedAsync() ?? false);
         bool internetAvailable = NetworkHelper.InternetAvailable;
 
-        Logger.LogInformation("Auto refresh: cooldown "
-            + (elapsed ? "elapsed" : "ongoing"));
+        string prefix = "Auto refresh: ";
+
+        Logger.LogInformation(prefix + "cooldown " + (elapsed ? "elapsed" : "ongoing"));
 
         if (!unlocked)
-            Logger.LogInformation("Auto refresh: app not unlocked/focused");
+            Logger.LogInformation(prefix + "app not unlocked/focused");
+
+        if (!sessionpageClosed)
+            Logger.LogInformation(prefix + "session page is open");
 
         if (!authorized)
-            Logger.LogInformation("Auto refresh: user not authorized");
+            Logger.LogInformation(prefix + "user not authorized");
 
         if (!internetAvailable)
-            Logger.LogInformation("Auto refresh: internet unavailable");
+            Logger.LogInformation(prefix + "internet unavailable");
 
         return elapsed
             && unlocked
+            && sessionpageClosed
             && authorized
             && internetAvailable;
     }

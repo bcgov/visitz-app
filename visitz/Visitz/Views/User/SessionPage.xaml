@@ -64,7 +64,7 @@
                             <FontImageSource 
                                 Glyph="{Static fonticons:MaterialIcons.Shield_lock}"
                                 FontFamily="MaterialIconsRoundedFilled"
-                                Size="200"
+                                Size="400"
                                 Color="{StaticResource BC_Semantic_Error}" />
                         </Image.Source>
                     </Image>
@@ -77,7 +77,20 @@
                             <FontImageSource 
                                 Glyph="{Static fonticons:MaterialIcons.Security}"
                                 FontFamily="MaterialIconsRoundedFilled"
-                                Size="200"
+                                Size="400"
+                                Color="White" />
+                        </Image.Source>
+                    </Image>
+
+                    <Image
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding StaleSession}">
+                        <Image.Source>
+                            <FontImageSource 
+                                Glyph="{Static fonticons:MaterialIcons.Cloud_off}"
+                                FontFamily="MaterialIconsRoundedFilled"
+                                Size="400"
                                 Color="White" />
                         </Image.Source>
                     </Image>

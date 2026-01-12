@@ -54,6 +54,9 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     [ObservableProperty]
     public bool canRemoveFromDevice;
 
+    protected override ILogger<VisitzViewModel> Logger { get; } =
+        ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
+
     public CaseloadItemViewModel(
         DraftIndicatorHelper indicatorHelper,
         IBusinessObject businessObject,
@@ -85,11 +88,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             disposed = true;
         }
         base.Dispose(disposing);
-    }
-
-    protected override ILogger<VisitzViewModel> MakeLogger()
-    {
-        return ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
     }
 
     void UpdateDraftIndicatorVisibility()

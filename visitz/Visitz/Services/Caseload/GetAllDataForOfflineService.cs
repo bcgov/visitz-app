@@ -78,10 +78,10 @@ namespace Visitz.Services.Caseload
                 GetOfficeCaseload(exceptions)
             );
 
-            var cases = await GetRereshableRecords<CaseRecord>();
-            var incidents = await GetRereshableRecords<IncidentRecord>();
-            var memos = await GetRereshableRecords<MemoRecord>();
-            var srs = await GetRereshableRecords<ServiceRequestRecord>();
+            var cases = await GetRefreshableRecords<CaseRecord>();
+            var incidents = await GetRefreshableRecords<IncidentRecord>();
+            var memos = await GetRefreshableRecords<MemoRecord>();
+            var srs = await GetRefreshableRecords<ServiceRequestRecord>();
 
             var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
             var all = casesIncidentsSrs.Concat(memos);
@@ -100,7 +100,7 @@ namespace Visitz.Services.Caseload
             await GetPartialAttachments(all, exceptions);   
         }
 
-        static async Task<IEnumerable<RecordServiceInfo>> GetRereshableRecords<T>()
+        static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
             where T : IBusinessObject
         {
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();

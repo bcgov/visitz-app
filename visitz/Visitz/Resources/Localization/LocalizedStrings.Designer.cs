@@ -499,6 +499,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect to the internet before trying again..
+        /// </summary>
+        public static string ConnectBeforeRetry {
+            get {
+                return ResourceManager.GetString("ConnectBeforeRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected—no internet available.
         /// </summary>
         public static string ConnectedNoInternet {
@@ -2497,6 +2506,15 @@ namespace Visitz.Resources.Localization {
         public static string SocialWorkerName {
             get {
                 return ResourceManager.GetString("SocialWorkerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caseload information on your device is out of date and needs to be refreshed before you can use the app..
+        /// </summary>
+        public static string StaleSessionDesc {
+            get {
+                return ResourceManager.GetString("StaleSessionDesc", resourceCulture);
             }
         }
         

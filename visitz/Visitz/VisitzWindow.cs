@@ -37,11 +37,13 @@ public partial class VisitzWindow : Window
     partial void TryRunAutoRefresh();
 #endif
 
-    protected override void OnActivated()
+    protected override async void OnActivated()
     {
         base.OnActivated();
 
         IsActivated = true;
+
+        await SessionPage.TryOpenAsync(animated: false);
 
 #if WINDOWS
         // Run in OnActivated instead of OnResumed to respond to window focus events
