@@ -149,8 +149,16 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         else
             AuthStatus = string.Empty;
 
-        ShowAuthStatusLayout = showAuthStatusLayout ?? AuthStatus?.Length > 0;
-        ShowAuthStatus = showAuthStatus ?? AuthStatus?.Length > 0;
+        if (showLoginLayout)
+        {
+            ShowAuthStatusLayout = false;
+            ShowAuthStatus = false;
+        }
+        else
+        {
+            ShowAuthStatusLayout = showAuthStatusLayout ?? AuthStatus?.Length > 0;
+            ShowAuthStatus = showAuthStatus ?? AuthStatus?.Length > 0;
+        }
     }
 
     private async Task<bool?> ApplyAuthStatusLayout(
