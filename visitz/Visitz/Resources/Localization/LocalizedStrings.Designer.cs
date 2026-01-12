@@ -499,6 +499,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect to the internet before trying again..
+        /// </summary>
+        public static string ConnectBeforeRetry {
+            get {
+                return ResourceManager.GetString("ConnectBeforeRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected—no internet available.
         /// </summary>
         public static string ConnectedNoInternet {

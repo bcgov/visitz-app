@@ -261,7 +261,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         {
             await Navigator.CurrentOpenPage.DisplayAlert(
                 LocalizedStrings.NoInternet,
-                "Connect to the internet before trying again.",
+                LocalizedStrings.ConnectBeforeRetry,
                 LocalizedStrings.Ok
             );
             return;

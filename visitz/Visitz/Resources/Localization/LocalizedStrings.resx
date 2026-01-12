@@ -1042,4 +1042,7 @@ Do you want to download information for this record?</value>
   <data name="StaleSessionDesc" xml:space="preserve">
     <value>Caseload information on your device is out of date and needs to be refreshed before you can use the app.</value>
   </data>
+  <data name="ConnectBeforeRetry" xml:space="preserve">
+    <value>Connect to the internet before trying again.</value>
+  </data>
 </root>
