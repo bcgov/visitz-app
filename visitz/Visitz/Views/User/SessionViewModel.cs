@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
+using Oidc.Network;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
@@ -86,12 +88,14 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             // it wonderfully. Not ideal but it works.
             await Task.Delay(100);
 #endif
-            if (!AppLockPage.IsOpen && sessionStatus.SessionExists)
+            if (!AppLockPage.IsOpen 
+                && sessionStatus.SessionExists
+                && NetworkHelper.InternetAvailable)
                 // If AppLockPage is open, it will auto prompt to authenticate.
                 // This will cause an error if VisitzApiService needs to prompt
                 // user for login, and the user will be stuck at a blank screen
                 // in this page.
-                DownloadCaseloadAndSubscribe();
+                await DownloadCaseloadAndSubscribeAsync();
         }
 
         StrongReferenceMessenger.Default.Register<AppLockMessage>(this);
@@ -217,7 +221,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
             await ApplyAuthStatusLayout(showUnknown: false);
 
-            DownloadCaseloadAndSubscribe();
+            await DownloadCaseloadAndSubscribeAsync();
         }
         catch (Exception ex)
         {
@@ -251,8 +255,18 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     }
 
     [RelayCommand]
-    public void DownloadCaseloadAndSubscribe()
+    public async Task DownloadCaseloadAndSubscribeAsync()
     {
+        if (!NetworkHelper.InternetAvailable)
+        {
+            await Navigator.CurrentOpenPage.DisplayAlert(
+                LocalizedStrings.NoInternet,
+                "Connect to the internet before trying again.",
+                LocalizedStrings.Ok
+            );
+            return;
+        }
+        
         WeakReferenceMessenger.Default.Register<ServiceStateMessage, string>(this, GetCaseloadService.MakeId());
 
         var msg = GetAllDataForOfflineService.MakeStartMessage(forceDownload: true);
@@ -296,7 +310,8 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     public void Receive(AppLockMessage message)
     {
-        if (message.Value == AppLockStatus.Closed)
-            DownloadCaseloadAndSubscribe();
+        if (message.Value == AppLockStatus.Closed 
+            && NetworkHelper.InternetAvailable)
+            _ = DownloadCaseloadAndSubscribeAsync();
     }
 }
