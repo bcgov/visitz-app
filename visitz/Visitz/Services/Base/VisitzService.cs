@@ -56,7 +56,8 @@ namespace Visitz.Services.Base
 
         public Exception UncaughtException { get; protected set; }
 
-        protected ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<VisitzService>>();
+        protected virtual ILogger Logger { get; set; }
+            = ServiceProvider.GetService<ILogger<VisitzService>>();
 
         static readonly string LoggerTemplate = "{id} -> {stateMessage}";
 

@@ -4,14 +4,20 @@ using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
+#nullable enable
+
 public partial class SupportNetworkListView : ViewModelContentView, IBusinessObjectHolder
 {
-    new SupportNetworkListViewModel ViewModel => base.ViewModel as SupportNetworkListViewModel;
+    new SupportNetworkListViewModel? ViewModel => base.ViewModel as SupportNetworkListViewModel;
 
-    public IBusinessObject BusinessObject
+    public IBusinessObject? BusinessObject
     {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
+        get => ViewModel?.BusinessObject;
+        set
+        {
+            if (ViewModel != null)
+                ViewModel.BusinessObject = value;
+        }
     }
 
     public SupportNetworkListView() : base(ServiceProvider.GetService<SupportNetworkListViewModel>())

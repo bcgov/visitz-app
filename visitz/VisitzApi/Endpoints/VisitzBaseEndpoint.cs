@@ -1,8 +1,13 @@
 using System.Net;
+using System.Text;
+using System.Text.Json;
 using System.Web;
 using VisitzApi.ErrorHandling;
+using VisitzApi.Requests;
 
-namespace VisitzApi.Requests
+#nullable enable
+
+namespace VisitzApi.Endpoints
 {
     internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string version, string requestPath)
     {
@@ -29,34 +34,65 @@ namespace VisitzApi.Requests
 
         public abstract HttpRequestMessage MakeRequest();
 
-        public virtual void ThrowOnHttpErrors(HttpResponseMessage response, string content)
+        public virtual void ThrowOnHttpErrors(HttpResponseMessage response, ResponseBodyParser bodyParser)
         {
             if (VisitzApiException.IsErroneousStatus(response.StatusCode))
             {
-                if (!KongJsonMessage.TryFindMessage(content, out string message))
-                    message = content;
+                string? message = null;
+
+                if (bodyParser.FindFirstMessage() is JsonElement msgElement)
+                {
+                    if (msgElement.ValueKind == JsonValueKind.String)
+                        message = msgElement.GetString();
+                    else if (msgElement.ValueKind == JsonValueKind.Array)
+                    {
+                        StringBuilder stringBuilder = new();
+                        foreach (JsonElement element in msgElement.EnumerateArray())
+                        {
+                            if (element.GetString() is string text)
+                                stringBuilder.Append("•" + text + Environment.NewLine);
+                        }
+
+                        if (stringBuilder.Length > 0)
+                            message = stringBuilder.ToString();
+                    }
+                }
 
                 throw new VisitzApiException(response.StatusCode,
-                    BuildMessage(response.StatusCode, message));
+                    BuildMessage(response.StatusCode, message ?? bodyParser.ResponseBody));
             }
         }
 
-        public virtual void ThrowOnWebMethodsErrors(HttpResponseMessage response, string content)
+        public virtual void ThrowOnErrorsInBody(HttpResponseMessage response, ResponseBodyParser bodyParser)
         {
-            if (WebMethodsJsonError.TryFindFirstError(content, out string errorMessage))
-                throw new VisitzApiException(response.StatusCode,
-                    BuildMessage(response.StatusCode, errorMessage));
+            if (bodyParser.GetSuccessStatusFromBody() ?? false)
+                return;
+
+            string? error = bodyParser.FindFirstError();
+            if (error == null)
+                return;
+
+            HttpStatusCode code =
+                (int)response.StatusCode >= 200 && (int)response.StatusCode < 300
+                ? HttpStatusCode.BadRequest
+                : response.StatusCode;
+
+            string message = BuildMessage(code, error);
+            throw new VisitzApiException(code, message);
         }
 
         public abstract ResponseType HandleResponse(HttpResponseMessage response, string responseContent);
 
         static string BuildMessage(HttpStatusCode code, string message)
         {
-            return $"HTTP {(int)code} {code} {message}";
+            return $"HTTP {(int)code} -> {code}"
+                + Environment.NewLine
+                + Environment.NewLine
+                + message;
         }
 
         protected Uri WithQueryParams(
-            Pagination pagination = null,
+            Pagination? pagination = null,
             string format = "s",
             bool excludeEmptyFields = true,
             params (string Name, string Value)[] @params)
@@ -108,7 +144,7 @@ namespace VisitzApi.Requests
                 query[name] = value;
 
             var urlWithoutQuery = RequestUri.ToString().Split('?')[0];
-            string queryString = query.ToString();
+            string queryString = query.ToString() ?? string.Empty;
 
             return new Uri(urlWithoutQuery + "?" + queryString);
         }

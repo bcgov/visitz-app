@@ -36,21 +36,29 @@
                                 Command="{Binding Path=SelectedSupportNetworkItemCommand, Source={RelativeSource AncestorType={x:Type supportNetwork:SupportNetworkListViewModel}}}"
                                 CommandParameter="{Binding .}"/>
                         </ContentView.GestureRecognizers>
-                        <VerticalStackLayout>
+                        
+                        <VerticalStackLayout
+                            Padding="{Thickness
+                                Left={StaticResource DefaultPadding},
+                                Top={StaticResource DefaultPadding},
+                                Right={StaticResource DefaultPadding}}"
+                            Spacing="{StaticResource DefaultSpacing}">
+
                             <Grid
-                                RowSpacing="{StaticResource DefaultSpacing}"
+                                ColumnDefinitions="*,Auto"
                                 ColumnSpacing="{StaticResource DefaultSpacing}"
-                                Margin="10,10,10,0"
-                                RowDefinitions="Auto,Auto"
-                                ColumnDefinitions="*,*,*,*,*,*,Auto">
+                                RowDefinitions="*,*"
+                                RowSpacing="{StaticResource DefaultSpacing}">
+
                                 <HorizontalStackLayout
-                                    Spacing="5"
-                                    Grid.ColumnSpan="6"
-                                    Grid.Row="0">
+                                    Grid.Row="0"
+                                    Spacing="{StaticResource DefaultSpacingHalf}">
                                     <Label
                                         Text="{Binding SupportNetwork.Name}"
                                         FontFamily="BCSansBold"
+                                        VerticalOptions="Center"
                                         FontSize="17"/>
+
                                     <tagview:TagView
                                         Padding="8,0"
                                         Text="{Binding CapitalizedRelationship}"
@@ -58,13 +66,12 @@
                                         TextColor="{StaticResource ContactRelationshipTagText}"
                                         IsVisible="{Binding ShowRelationshipTag}"/>
                                 </HorizontalStackLayout>
+                                
                                 <HorizontalStackLayout
                                     Grid.Row="0"
-                                    Grid.Column="7"
                                     Grid.RowSpan="2"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="End"
-                                    Spacing="5">
+                                    Grid.Column="1"
+                                    VerticalOptions="Center">
                                     <Label
                                         IsVisible="{Binding IsExpanded, Converter={StaticResource BoolNegationConverter}}"
                                         FontFamily="MaterialIconsRoundedUnfilled"
@@ -78,81 +85,69 @@
 
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout
-                                    Spacing="25"
-                                    Grid.ColumnSpan="6"
-                                    Grid.Row="1">
-                                    <HorizontalStackLayout
-                                        Spacing="5">
-                                        <Label
-                                            FontFamily="BCSansBold"
-                                            Text="{local:Localize Active}"/>
-                                        <Label
-                                            Text="{Binding SupportNetwork.Active}"/>
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout
-                                        Spacing="5">
-                                        <Label
-                                            FontFamily="BCSansBold"
-                                            Text="{local:Localize HomeNumber}"/>
-                                        <Label
-                                            Text="{Binding SupportNetwork.PhoneNumber}"/>
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout
-                                        Spacing="5">
-                                        <Label
-                                            FontFamily="BCSansBold"
-                                            Text="{local:Localize CellNumber}"/>
-                                        <Label
-                                            Text="{Binding SupportNetwork.CellPhoneNumber}"/>
-                                    </HorizontalStackLayout>
+                                    Grid.Row="1"
+                                    Spacing="{StaticResource DefaultSpacingHalf}">
+
+                                    <Label
+                                        FontFamily="BCSansBold"
+                                        Text="{local:Localize Active}"/>
+                                    <Label
+                                        Text="{Binding SupportNetwork.Active}"/>
+
+                                    <Label
+                                        StyleClass="ExpanderHorizontalLabelLeftOffset"
+                                        FontFamily="BCSansBold"
+                                        Text="{local:Localize HomeNumber}"/>
+                                    <Label
+                                        Text="{Binding SupportNetwork.PhoneNumber}"/>
+
+                                    <Label
+                                        StyleClass="ExpanderHorizontalLabelLeftOffset"
+                                        FontFamily="BCSansBold"
+                                        Text="{local:Localize CellNumber}"/>
+                                    <Label
+                                        Text="{Binding SupportNetwork.CellPhoneNumber}"/>
+                                 
                                 </HorizontalStackLayout>
                             </Grid>
                             <Grid
                                 RowSpacing="{StaticResource DefaultSpacing}"
                                 ColumnSpacing="{StaticResource DefaultSpacing}"
-                                Margin="10,5"
                                 IsVisible="{Binding IsExpanded}"
-                                RowDefinitions="Auto,Auto,Auto"
-                                ColumnDefinitions="*,Auto">
-                                <HorizontalStackLayout
-                                    Spacing="5"
-                                    Grid.Row="0">
-                                    <Label
-                                        Text="{local:Localize Agency}"
-                                        FontFamily="BCSansBold"/>
-                                    <Label
-                                        Text="{Binding SupportNetwork.AgencyName}"/>
-
-                                </HorizontalStackLayout>
-                                <HorizontalStackLayout
-                                    Spacing="5"
-                                    Grid.Row="1">
-                                    <Label
-                                        Text="{local:Localize Address}"
-                                        FontFamily="BCSansBold"/>
-                                    <Label
-                                        Text="{Binding SupportNetwork.Address}"/>
-                                </HorizontalStackLayout>
-                                <HorizontalStackLayout
-                                    Spacing="5"
-                                    Grid.Row="2">
-                                    <Label
-                                        Text="{local:Localize Comments}"
-                                        FontFamily="BCSansBold"/>
-                                    <Label
-                                        Text="{Binding SupportNetwork.Comments}"/>
-                                </HorizontalStackLayout>
+                                RowDefinitions="*,*,*"
+                                ColumnDefinitions="Auto,*">
 
                                 <Label
-                                    Grid.RowSpan="3"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Text="{local:Localize Agency}"
+                                    FontFamily="BCSansBold"/>
+                                <Label
+                                    Grid.Row="0"
                                     Grid.Column="1"
-                                    IsVisible="False"
-                                    FontFamily="MaterialIconsRoundedUnfilled"
-                                    FontSize="30"
-                                    Text="{Static fonticons:MaterialIcons.Keyboard_arrow_up}"/>
+                                    Text="{Binding SupportNetwork.AgencyName}"/>
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Text="{local:Localize Address}"
+                                    FontFamily="BCSansBold"/>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding SupportNetwork.Address}"/>
+
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Text="{local:Localize Comments}"
+                                    FontFamily="BCSansBold"/>
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Text="{Binding SupportNetwork.Comments}"/>
                             </Grid>
                             <BoxView
-                                Margin="10"
                                 Color="{StaticResource Gray200}"
                                 HeightRequest="0.5"/>
                         </VerticalStackLayout>

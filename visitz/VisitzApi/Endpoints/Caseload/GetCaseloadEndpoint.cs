@@ -1,11 +1,10 @@
 using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Caseload;
-using VisitzApi.Requests;
 
 #nullable enable
 
-namespace VisitzApi.Endpoints;
+namespace VisitzApi.Endpoints.Caseload;
 
 internal class GetCaseloadEndpoint(string baseUrl, DateTimeOffset? after = null)
     : VisitzBaseEndpoint<CaseloadJson>(baseUrl, Vpi.V2, CaseloadPath)

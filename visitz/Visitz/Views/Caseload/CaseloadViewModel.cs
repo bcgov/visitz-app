@@ -27,6 +27,12 @@ namespace Visitz.Views.Caseload
     /// </summary>
     public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
+#if WINDOWS
+        private static readonly string PromptText = LocalizedStrings.ButtonToRefreshCaseload;
+#else
+        private static readonly string PromptText = LocalizedStrings.PullToRefreshCaseload;
+#endif
+
         private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 
         private static readonly SegmentedOptions SortKeyPlayer = new(
@@ -39,20 +45,15 @@ namespace Visitz.Views.Caseload
             LocalizedStrings.OpenDate,
             MaterialIcons.Calendar_month.GetUnfilledMaterialIcon());
 
-        private static readonly SegmentedOptions FilterChildProtection = new(
-            nameof(EntitySubtype.ChildProtection),
-            LocalizedStrings.Subtype_ChildProtectionIncidentInitials,
+        private static readonly SegmentedOptions FilterCase = new(
+            nameof(EntityType.Case),
+            LocalizedStrings.Cases,
+            MaterialIcons.Folder.GetUnfilledMaterialIcon());
+
+        private static readonly SegmentedOptions FilterIncident = new(
+            nameof(EntityType.Incident),
+            LocalizedStrings.Incidents,
             MaterialIcons.Description.GetUnfilledMaterialIcon());
-
-        private static readonly SegmentedOptions FilterChildServices = new(
-            nameof(EntitySubtype.ChildServices),
-            LocalizedStrings.Subtype_ChildServicesInitials,
-            MaterialIcons.Folder.GetUnfilledMaterialIcon());
-
-        private static readonly SegmentedOptions FilterFamilyServices = new(
-            nameof(EntitySubtype.FamilyServices),
-            LocalizedStrings.Subtype_FamilyServicesInitials,
-            MaterialIcons.Folder.GetUnfilledMaterialIcon());
 
         private static readonly List<string> StartingOfficeFilterOptions =
         [
@@ -92,9 +93,8 @@ namespace Visitz.Views.Caseload
         [ObservableProperty]
         public IList<SegmentedOptions> filterOptions =
         [
-            FilterChildProtection,
-            FilterChildServices,
-            FilterFamilyServices,
+            FilterCase,
+            FilterIncident,
         ];
 
         [ObservableProperty]
@@ -125,10 +125,12 @@ namespace Visitz.Views.Caseload
             ActivatedSortOption = SortOptions.ElementAt(sortPrefIndex);
 
             ShowEmptyCaseloadMessage = false;
-            CollectionViewPrompt = LocalizedStrings.PullToRefreshCaseload;
+            CollectionViewPrompt = PromptText;
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
             ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
+
+            WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
         }
 
         private void SetupOfficeNames(HashSet<string> newOffices = null)
@@ -294,18 +296,16 @@ namespace Visitz.Views.Caseload
             if (query == null || ActivatedFilterOption == null)
                 return query;
 
-            EntitySubtype subtype;
+            EntityType type;
 
-            if (ActivatedFilterOption.Id == nameof(EntitySubtype.ChildProtection))
-                subtype = EntitySubtype.ChildProtection;
-            else if (ActivatedFilterOption.Id == nameof(EntitySubtype.ChildServices))
-                subtype = EntitySubtype.ChildServices;
-            else if (ActivatedFilterOption.Id == nameof(EntitySubtype.FamilyServices))
-                subtype = EntitySubtype.FamilyServices;
+            if (ActivatedFilterOption.Id == nameof(EntityType.Case))
+                type = EntityType.Case;
+            else if (ActivatedFilterOption.Id == nameof(EntityType.Incident))
+                type = EntityType.Incident;
             else
                 return query;
 
-            return query.Where(item => item.EntitySubtype == subtype);
+            return query.Where(item => item.EntityType == type);
         }
 
         private IEnumerable<IBusinessObject> ApplyOfficeFilter(IEnumerable<IBusinessObject> query)
@@ -326,7 +326,7 @@ namespace Visitz.Views.Caseload
         {
             CollectionViewPrompt = !string.IsNullOrWhiteSpace(SearchQuery)
                 ? LocalizedStrings.NoResultsForSearch.Format(SearchQuery)
-                : LocalizedStrings.PullToRefreshCaseload;
+                : PromptText;
         }
 
         [RelayCommand]

@@ -1,33 +1,32 @@
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using VisitzApi.Json;
 using VisitzApi.Models;
 
-namespace VisitzApi.Requests
+namespace VisitzApi.Endpoints.Notes
 {
     internal class SubmitNotesEndpoint(string baseUrl, SubmitNoteEntity noteToSubmit)
-        : VisitzBaseEndpoint<(bool success, string noteId)>(baseUrl, Vpi.V1, SubmitNotesPath)
+        : VisitzBaseEndpoint<(bool success, string noteId)>(baseUrl, Vpi.V2, SubmitNotesPath)
     {
-        private static readonly string SubmitNotesPath = "/679C";
+        private static readonly string SubmitNotesPath = "/wf/submit-notes";
 
-        private static readonly string RequestSubmitNotesKey = "requestSubmitNotes";
-        private static readonly string ResponseSubmitNotesKey = "responseSubmitNotes";
-
-        private static readonly string NoteIdKey = "noteId";
+        private static readonly string RequestSubmitNotesKey = "RequestSubmitNotes";
+        private static readonly string NoteIdKey = "NoteId";
 
         public SubmitNoteEntity NoteToSubmit { get; } = noteToSubmit;
 
-        private string RequestPayload
+        private JsonObject RequestPayload
         {
             get
             {
                 return new JsonObject
                 {
-                    [RequestSubmitNotesKey] = new JsonObject
+                    [RequestSubmitNotesKey] = new JsonArray
                     {
-                        [JsonKey.PayLoad] = JsonNode.Parse(JsonSerializer.Serialize(NoteToSubmit))
+                        NoteToSubmit
                     }
-                }.ToString();
+                };
             }
         }
 
@@ -35,7 +34,7 @@ namespace VisitzApi.Requests
         {
             return new HttpRequestMessage()
             {
-                Content = new FormUrlEncodedContent(FormDataCollection(JsonKey.DocRequest, RequestPayload)),
+                Content = JsonContent.Create(RequestPayload),
                 Method = HttpMethod.Post,
                 RequestUri = RequestUri
             };
@@ -43,10 +42,7 @@ namespace VisitzApi.Requests
 
         public override (bool success, string noteId) HandleResponse(HttpResponseMessage _, string responseContent)
         {
-            var rJson = JsonDocument.Parse(responseContent)
-                .RootElement
-                .GetProperty(ResponseSubmitNotesKey)
-                .GetProperty(JsonKey.PayLoad);
+            var rJson = JsonDocument.Parse(responseContent).RootElement;
 
             return GetProperties(rJson);
         }

@@ -1,26 +1,28 @@
 namespace VisitzApi.Models.SafetyAssess;
 
+#nullable enable
+
 public class SubmitSafetyInterventionsJson
 {
-    public string DirectIntervention { get; set; }
+    public string DirectIntervention { get; set; } = string.Empty;
 
-    public string UseOfIndividuals { get; set; }
+    public string UseOfIndividuals { get; set; } = string.Empty;
 
-    public string UseCommAgencies { get; set; }
+    public string UseCommAgencies { get; set; } = string.Empty;
 
-    public string ProtectVictim { get; set; }
+    public string ProtectVictim { get; set; } = string.Empty;
 
-    public string LeaveHome { get; set; }
+    public string LeaveHome { get; set; } = string.Empty;
 
-    public string NonOffendingParent { get; set; }
+    public string NonOffendingParent { get; set; } = string.Empty;
 
-    public string LegalIntPlanned { get; set; }
+    public string LegalIntPlanned { get; set; } = string.Empty;
 
-    public string OtherSafetyInterventions { get; set; }
+    public string OtherSafetyInterventions { get; set; } = string.Empty;
 
-    public string CmtSafetyInterventions { get; set; }
+    public string CmtSafetyInterventions { get; set; } = string.Empty;
 
-    public string ChildOutsideHome { get; set; }
+    public string ChildOutsideHome { get; set; } = string.Empty;
 
-    public string ChildRemoved { get; set; }
+    public string ChildRemoved { get; set; } = string.Empty;
 }

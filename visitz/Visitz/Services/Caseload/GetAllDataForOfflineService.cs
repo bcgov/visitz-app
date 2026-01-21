@@ -50,34 +50,14 @@ namespace Visitz.Services.Caseload
             {
                 List<Exception> exceptions = [];
 
-                // Synchronize both caseloads BEFORE getting any dependent info.
-                // We don't want to start downloading dependent info before
-                // caseload state is fully refreshed
-                await Task.WhenAll(
-                    GetPersonalCaseload(),
-                    GetOfficeCaseload(exceptions)
-                );
-
-                var cases = await GetRereshableRecords<CaseRecord>();
-                var incidents = await GetRereshableRecords<IncidentRecord>();
-                var memos = await GetRereshableRecords<MemoRecord>();
-                var srs = await GetRereshableRecords<ServiceRequestRecord>();
-
-                var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
-                var all = casesIncidentsSrs.Concat(memos);
-
-                await Task.WhenAll(
-                    GetAllNotes(casesIncidentsSrs, exceptions),
-                    GetAllVisits(cases, exceptions),
-                    GetAllContacts(all, exceptions),
-                    GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
-                    GetAllAttachments(all, exceptions),
-                    GetAllSafetyAssessments(incidents, exceptions)
-                );
-
-                // Get attachment files AFTER other dependent info so we
-                // complete text-only downloads sooner
-                await GetPartialAttachments(all, exceptions);
+                try
+                {
+                    await GetAllData(exceptions);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(ex);
+                }
 
                 if (exceptions.Count > 1)
                     throw new AggregateException(exceptions);
@@ -88,7 +68,39 @@ namespace Visitz.Services.Caseload
             ResultCode = Result.Successful;
         }
 
-        static async Task<IEnumerable<RecordServiceInfo>> GetRereshableRecords<T>()
+        async Task GetAllData(List<Exception> exceptions)
+        {
+            // Synchronize both caseloads BEFORE getting any dependent info.
+            // We don't want to start downloading dependent info before
+            // caseload state is fully refreshed
+            await Task.WhenAll(
+                GetPersonalCaseload(),
+                GetOfficeCaseload(exceptions)
+            );
+
+            var cases = await GetRefreshableRecords<CaseRecord>();
+            var incidents = await GetRefreshableRecords<IncidentRecord>();
+            var memos = await GetRefreshableRecords<MemoRecord>();
+            var srs = await GetRefreshableRecords<ServiceRequestRecord>();
+
+            var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
+            var all = casesIncidentsSrs.Concat(memos);
+
+            await Task.WhenAll(
+                GetAllNotes(casesIncidentsSrs, exceptions),
+                GetAllVisits(cases, exceptions),
+                GetAllContacts(all, exceptions),
+                GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
+                GetAllAttachments(all, exceptions),
+                GetAllSafetyAssessments(incidents, exceptions)
+            );
+
+            // Get attachment files AFTER other dependent info so we
+            // complete text-only downloads sooner
+            await GetPartialAttachments(all, exceptions);   
+        }
+
+        static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
             where T : IBusinessObject
         {
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();

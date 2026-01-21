@@ -12,7 +12,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 {
     static readonly string IdString = "{0}|{1}|{2}|LOCALONLY";
 
-    public static readonly string DateFormat = "dd/MM/yyyy";
+    public static readonly string DateFormat = "MM/dd/yyyy";
     public static readonly int CommentsMaxLength = 1000;
     public static readonly string DefaultOperation = "Insert";
 
@@ -84,7 +84,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public string Type { get; set; } = string.Empty;
 
-    public static SafetyAssessment FromApiJson(string fileNumber, SafetyAsessmentJson json)
+    public static SafetyAssessment FromApiJson(string fileNumber, GetSafetyAsessmentJson json)
     {
         var safetyAssessment = new SafetyAssessment()
         {
@@ -146,7 +146,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
         };
     }
 
-    static string GetOrMakeId(string fileNumber, SafetyAsessmentJson json)
+    static string GetOrMakeId(string fileNumber, GetSafetyAsessmentJson json)
     {
         return GetOrMakeId(fileNumber, json.CreatedDate, json.CreatedBy, json.Id);
     }
@@ -165,7 +165,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public static IEnumerable<SafetyAssessment> FromApiJson(
         string incidentId,
-        IEnumerable<SafetyAsessmentJson> json)
+        IEnumerable<GetSafetyAsessmentJson> json)
     {
         List<SafetyAssessment> assessments = [];
 
@@ -179,23 +179,21 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
     {
         var safetyAssessmentEntity = new SubmitSafetyAssessmentJson()
         {
-            IncidentNumber = IncidentNumber,
-            WorkerId = WorkerId,
-            FamilyName = FamilyName,
-            DateOfAssessment = DateOfAssessment?.ToString(DateFormat, CultureInfo.InvariantCulture),
-            Operation = DefaultOperation,
-            FactorInfluence = FactorInfluence.ToApiJson(dateFormat),
-            SafetyFactors = SafetyFactors.ToApiJson(dateFormat),
-            ProtectiveCapacity = ProtectiveCapacity.ToApiJson(dateFormat),
-            SafetyInterventions = SafetyInterventions.ToApiJson(dateFormat),
-            SafetyDecisions = SafetyDecisions.ToApiJson(dateFormat),
+            Payload = [new()
+            {
+                IncidentNumber = IncidentNumber,
+                FamilyName = FamilyName,
+                DateOfAssessment = DateOfAssessment?.ToString(DateFormat, CultureInfo.InvariantCulture),
+            }],
+            FactorInfluence = [FactorInfluence.ToApiJson(dateFormat)],
+            SafetyFactors = [SafetyFactors.ToApiJson(dateFormat)],
+            ProtectiveCapacity = [ProtectiveCapacity.ToApiJson(dateFormat)],
+            SafetyInterventions = [SafetyInterventions.ToApiJson(dateFormat)],
+            SafetyDecisions = [SafetyDecisions.ToApiJson(dateFormat)],
         };
 
-        if (ChildsInOutCare.Count == 0)
-            safetyAssessmentEntity.AddChildContactId("");
-        else
-            foreach (var childId in ChildsInOutCare)
-                safetyAssessmentEntity.AddChildContactId(childId);
+        foreach (var childId in ChildsInOutCare)
+            safetyAssessmentEntity.AddChildContactId(childId);
 
         return safetyAssessmentEntity;
     }

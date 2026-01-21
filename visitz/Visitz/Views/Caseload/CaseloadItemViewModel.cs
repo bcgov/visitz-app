@@ -54,6 +54,9 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     [ObservableProperty]
     public bool canRemoveFromDevice;
 
+    protected override ILogger<VisitzViewModel> Logger { get; } =
+        ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
+
     public CaseloadItemViewModel(
         DraftIndicatorHelper indicatorHelper,
         IBusinessObject businessObject,
@@ -68,7 +71,8 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         serviceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
         serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
 
-        UpdateInteractiveStates();
+        UpdateRecordStates();
+        UpdateDraftIndicatorVisibility();
         StartInitAsync();
     }
 
@@ -86,11 +90,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         base.Dispose(disposing);
     }
 
-    protected override ILogger<VisitzViewModel> MakeLogger()
-    {
-        return ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
-    }
-
     void UpdateDraftIndicatorVisibility()
     {
         var draftItems = IndicatorHelper.DraftedItems;
@@ -106,7 +105,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             ShowDraftIndicator = false;
     }
 
-    void UpdateInteractiveStates()
+    void UpdateRecordStates()
     {
         UpdateStateVisibility();
 
@@ -167,7 +166,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         else
             OpenEntityView();
 
-        UpdateInteractiveStates();
+        UpdateRecordStates();
     }
 
     [RelayCommand]
@@ -215,7 +214,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
                 BusinessObject.DeleteDependentData(ignoredPrefs, deleteLocalState: false);
             });
 
-            UpdateInteractiveStates();
+            UpdateRecordStates();
         }
     }
 
@@ -236,7 +235,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         try
         {
-            MainThread.BeginInvokeOnMainThread(UpdateInteractiveStates);
+            MainThread.BeginInvokeOnMainThread(UpdateRecordStates);
         }
         catch (Exception ex)
         {
@@ -250,7 +249,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                UpdateInteractiveStates();
+                UpdateRecordStates();
 
                 if (service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
                     && service.UncaughtException != null)

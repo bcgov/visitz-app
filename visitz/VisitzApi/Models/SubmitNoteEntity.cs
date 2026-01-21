@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace VisitzApi.Models
 {
@@ -15,8 +15,5 @@ namespace VisitzApi.Models
 
         [JsonPropertyName("notes")]
         public string Content { get; set; }
-
-        [JsonPropertyName("createdBy")]
-        public string CreatedBy { get; set; }
     }
 }

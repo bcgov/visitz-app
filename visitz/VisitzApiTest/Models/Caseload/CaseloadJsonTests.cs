@@ -9,7 +9,9 @@ public partial class CaseloadJsonTests
     const string caseloadJson =
 @$"{{
     ""cases"": {SectionJsonTests.sectionJsonSuccess},
-    ""incidents"": {SectionJsonTests.sectionJsonSuccess}
+    ""incidents"": {SectionJsonTests.sectionJsonSuccess},
+    ""srs"":null,
+    ""memos"":null
 }}";
 
     [Theory]

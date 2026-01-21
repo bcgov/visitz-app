@@ -9,21 +9,12 @@ namespace Visitz.Views.BaseClasses
     /// </summary>
     public partial class VisitzViewModel : ObservableObject, IDisposable
     {
-        protected ILogger Logger { get; }
+        protected virtual ILogger<VisitzViewModel> Logger { get; }
+            = ServiceProvider.GetService<ILogger<VisitzViewModel>>();
 
         bool _disposedValue;
 
         public Task InitTask { get; private set; }
-
-        public VisitzViewModel()
-        {
-            Logger = MakeLogger();
-        }
-
-        protected virtual ILogger<VisitzViewModel> MakeLogger()
-        {
-            return ServiceProvider.GetService<ILogger<VisitzViewModel>>();
-        }
 
         public virtual Task StartInitAsync()
         {

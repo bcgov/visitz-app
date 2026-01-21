@@ -1,12 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0</TargetFrameworks>
+		<TargetFrameworks>net9.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Version>$(VisitzVersion)</Version>
 	</PropertyGroup>
 
 	<Import Project="..\Visitz\Visitz.props" />
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="VisitzApiTest" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="MimeTypes" Version="2.5.2">
@@ -18,7 +22,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
-		<PackageReference Include="System.Threading.RateLimiting" Version="8.0.0" />
+		<PackageReference Include="System.Threading.RateLimiting" Version="9.0.9" />
 	</ItemGroup>
 
 </Project>

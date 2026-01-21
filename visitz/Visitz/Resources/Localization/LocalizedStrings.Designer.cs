@@ -19,7 +19,7 @@ namespace Visitz.Resources.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class LocalizedStrings {
@@ -142,7 +142,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Coordination AGT (CA).
+        ///   Looks up a localized string similar to Coord. AGT.
         /// </summary>
         public static string AgtCoordinationCa {
             get {
@@ -241,6 +241,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility wants to refresh your caseload. Log in to proceed..
+        /// </summary>
+        public static string AutoCaseloadRefreshDesc {
+            get {
+                return ResourceManager.GetString("AutoCaseloadRefreshDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempted auto caseload refresh but it&apos;s disabled in debug options..
+        /// </summary>
+        public static string AutoRefreshDebugDisabled {
+            get {
+                return ResourceManager.GetString("AutoRefreshDebugDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Birthdate.
         /// </summary>
         public static string Birthdate {
@@ -259,6 +277,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use download button to refresh caseload.
+        /// </summary>
+        public static string ButtonToRefreshCaseload {
+            get {
+                return ResourceManager.GetString("ButtonToRefreshCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -273,6 +300,15 @@ namespace Visitz.Resources.Localization {
         public static string CancelAndKeepDraft {
             get {
                 return ResourceManager.GetString("CancelAndKeepDraft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t refresh caseload—internet connection unavailable.
+        /// </summary>
+        public static string CantRefreshNoInternet {
+            get {
+                return ResourceManager.GetString("CantRefreshNoInternet", resourceCulture);
             }
         }
         
@@ -324,11 +360,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto caseload refresh.
+        /// </summary>
+        public static string CaseloadRefresh {
+            get {
+                return ResourceManager.GetString("CaseloadRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search by key player&apos;s name.
         /// </summary>
         public static string CaseloadSearchHint {
             get {
                 return ResourceManager.GetString("CaseloadSearchHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cases.
+        /// </summary>
+        public static string Cases {
+            get {
+                return ResourceManager.GetString("Cases", resourceCulture);
             }
         }
         
@@ -445,6 +499,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect to the internet before trying again..
+        /// </summary>
+        public static string ConnectBeforeRetry {
+            get {
+                return ResourceManager.GetString("ConnectBeforeRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected—no internet available.
         /// </summary>
         public static string ConnectedNoInternet {
@@ -531,6 +594,15 @@ namespace Visitz.Resources.Localization {
         public static string DateOfVisit {
             get {
                 return ResourceManager.GetString("DateOfVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deceased.
+        /// </summary>
+        public static string Deceased {
+            get {
+                return ResourceManager.GetString("Deceased", resourceCulture);
             }
         }
         
@@ -1027,6 +1099,15 @@ namespace Visitz.Resources.Localization {
         public static string IncidentNumber {
             get {
                 return ResourceManager.GetString("IncidentNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incidents.
+        /// </summary>
+        public static string Incidents {
+            get {
+                return ResourceManager.GetString("Incidents", resourceCulture);
             }
         }
         
@@ -1822,6 +1903,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh interrupted.
+        /// </summary>
+        public static string RefreshInterrupted {
+            get {
+                return ResourceManager.GetString("RefreshInterrupted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility was not able to refresh your caseload before your device lost its internet connection. It will automatically retry the next time your device is connected to internet..
+        /// </summary>
+        public static string RefreshInterruptedDesc {
+            get {
+                return ResourceManager.GetString("RefreshInterruptedDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string Remove {
@@ -2407,6 +2506,15 @@ namespace Visitz.Resources.Localization {
         public static string SocialWorkerName {
             get {
                 return ResourceManager.GetString("SocialWorkerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caseload information on your device is out of date and needs to be refreshed before you can use the app..
+        /// </summary>
+        public static string StaleSessionDesc {
+            get {
+                return ResourceManager.GetString("StaleSessionDesc", resourceCulture);
             }
         }
         

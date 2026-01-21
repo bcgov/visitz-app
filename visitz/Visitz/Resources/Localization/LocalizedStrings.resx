@@ -953,7 +953,8 @@ No items here.</value>
     <value>92.1 AGT</value>
   </data>
   <data name="AgtCoordinationCa" xml:space="preserve">
-    <value>Coordination AGT (CA)</value>
+    <value>Coord. AGT</value>
+    <comment>Coordination Agreement</comment>
   </data>
   <data name="MyCaseload" xml:space="preserve">
     <value>My caseload</value>
@@ -1007,5 +1008,41 @@ Do you want to download information for this record?</value>
   </data>
   <data name="DownloadRecordInformation" xml:space="preserve">
     <value>Download record information</value>
+  </data>
+  <data name="Deceased" xml:space="preserve">
+    <value>Deceased</value>
+  </data>
+  <data name="Cases" xml:space="preserve">
+    <value>Cases</value>
+  </data>
+  <data name="Incidents" xml:space="preserve">
+    <value>Incidents</value>
+  </data>
+  <data name="ButtonToRefreshCaseload" xml:space="preserve">
+    <value>Use download button to refresh caseload</value>
+  </data>
+  <data name="CaseloadRefresh" xml:space="preserve">
+    <value>Auto caseload refresh</value>
+  </data>
+  <data name="AutoCaseloadRefreshDesc" xml:space="preserve">
+    <value>MCFD Mobility wants to refresh your caseload. Log in to proceed.</value>
+  </data>
+  <data name="AutoRefreshDebugDisabled" xml:space="preserve">
+    <value>Attempted auto caseload refresh but it's disabled in debug options.</value>
+  </data>
+  <data name="CantRefreshNoInternet" xml:space="preserve">
+    <value>Can't refresh caseload—internet connection unavailable</value>
+  </data>
+  <data name="RefreshInterrupted" xml:space="preserve">
+    <value>Refresh interrupted</value>
+  </data>
+  <data name="RefreshInterruptedDesc" xml:space="preserve">
+    <value>MCFD Mobility was not able to refresh your caseload before your device lost its internet connection. It will automatically retry the next time your device is connected to internet.</value>
+  </data>
+  <data name="StaleSessionDesc" xml:space="preserve">
+    <value>Caseload information on your device is out of date and needs to be refreshed before you can use the app.</value>
+  </data>
+  <data name="ConnectBeforeRetry" xml:space="preserve">
+    <value>Connect to the internet before trying again.</value>
   </data>
 </root>

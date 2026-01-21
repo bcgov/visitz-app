@@ -17,7 +17,7 @@ public partial class FactorInfluence : IRealmObject, IApiJson<SubmitFactorInflue
 
     public bool DiminishedPhysical { get; set; }
 
-    public static FactorInfluence FromApiJson(SafetyAsessmentJson entity)
+    public static FactorInfluence FromApiJson(GetSafetyAsessmentJson entity)
     {
         return new FactorInfluence()
         {

@@ -8,13 +8,15 @@ using VisitzModel.Extensions;
 
 namespace VisitzModel.Models.SafetyAssess;
 
+#nullable enable
+
 public partial class SafetyDecisions
 {
     private const string Binding = "Binding";
 
-    partial void OnPropertyChanged(string propertyName)
+    partial void OnPropertyChanged(string? propertyName)
     {
-        if (!propertyName.EndsWith(Binding))
+        if (propertyName != null && !propertyName.EndsWith(Binding))
             RaisePropertyChanged($"{propertyName}{Binding}");
     }
 
@@ -26,13 +28,13 @@ public partial class SafetyDecisions
             this.Commit(() => Decision = value);
 
             if (value != SafetyDecisionOption.Unsafe)
-                DecisionUnsafeBinding = "";
+                DecisionUnsafeBinding = null;
 
             RaisePropertyChanged(nameof(IsAnswered));
         }
     }
 
-    public string DecisionUnsafeBinding
+    public string? DecisionUnsafeBinding
     {
         get => IsValid ? DecisionUnsafe : default;
         set
@@ -42,13 +44,13 @@ public partial class SafetyDecisions
         }
     }
 
-    public string CommentsBinding
+    public string? CommentsBinding
     {
         get => IsValid ? Comments : default;
         set => this.Commit(() => Comments = value);
     }
 
-    public string NarrativeBinding
+    public string? NarrativeBinding
     {
         get => IsValid ? Narrative : default;
         set => this.Commit(() => Narrative = value);

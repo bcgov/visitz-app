@@ -1,15 +1,18 @@
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
+using Oidc.Network;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Debugging;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 
 #if WINDOWS
@@ -62,31 +65,37 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     [ObservableProperty]
     public bool showUnknown;
 
+    [ObservableProperty]
+    public bool staleSession;
+
     public Action AuthorizationSuccess { get; set; }
 
     private OidcSessionInfo SessionInfo;
 
-    private ILogger<SessionViewModel> Logger { get; } = logger;
+    protected override ILogger<VisitzViewModel> Logger { get; } = logger;
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
         SessionInfo = await OidcSessionInfo.GetAsync();
+        DisplayName = SessionInfo.GivenName;
 
-        if (await ApplyLayoutByAuthStatus() is (bool, _) sessionStatus)
+        if (await ApplyLayoutByStatus() is (bool, _) sessionStatus)
         {
 #if IOS
             // Having issues with lifecycle timings on iOS and this delay solves
             // it wonderfully. Not ideal but it works.
             await Task.Delay(100);
 #endif
-            if (!AppLockPage.IsOpen && sessionStatus.SessionExists)
+            if (!AppLockPage.IsOpen 
+                && sessionStatus.SessionExists
+                && NetworkHelper.InternetAvailable)
                 // If AppLockPage is open, it will auto prompt to authenticate.
                 // This will cause an error if VisitzApiService needs to prompt
                 // user for login, and the user will be stuck at a blank screen
                 // in this page.
-                DownloadCaseloadAndSubscribe();
+                await DownloadCaseloadAndSubscribeAsync();
         }
 
         StrongReferenceMessenger.Default.Register<AppLockMessage>(this);
@@ -108,22 +117,22 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     private void SetUiOptions(
         bool showLoginLayout = false,
-        bool showAuthStatusLayout = false,
-        bool showAuthStatus = false,
+        bool? showAuthStatusLayout = null,
+        bool? showAuthStatus = null,
         bool isAuthorized = false,
         bool isUnauthorized = false,
         bool tryingAuthorization = false,
         bool? showButtons = null,
-        bool showUnknown = false)
+        bool showUnknown = false,
+        bool staleSession = false)
     {
         ShowLoginLayout = showLoginLayout;
-        ShowAuthStatusLayout = showAuthStatusLayout;
-        ShowAuthStatus = showAuthStatus;
         IsAuthorized = isAuthorized;
         IsUnauthorized = isUnauthorized;
         TryingAuthorization = tryingAuthorization;
         ShowButtons = showButtons ?? (showLoginLayout ? false : !IsAuthorized || IsUnauthorized);
         ShowUnknown = showUnknown;
+        StaleSession = staleSession;
 
         BgDisplayOptions = showLoginLayout
             ? DisplayOptions.Clear
@@ -131,41 +140,70 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
         if (tryingAuthorization)
             AuthStatus = LocalizedStrings.CheckingIcmProfile;
+        else if (staleSession)
+            AuthStatus = LocalizedStrings.StaleSessionDesc;
         else if (isUnauthorized)
             AuthStatus = LocalizedStrings.LoginSuccessButUnauth;
         else if (!isAuthorized)
             AuthStatus = LocalizedStrings.NeedToConfirm;
         else
             AuthStatus = string.Empty;
+
+        if (showLoginLayout)
+        {
+            ShowAuthStatusLayout = false;
+            ShowAuthStatus = false;
+        }
+        else
+        {
+            ShowAuthStatusLayout = showAuthStatusLayout ?? AuthStatus?.Length > 0;
+            ShowAuthStatus = showAuthStatus ?? AuthStatus?.Length > 0;
+        }
     }
 
-    private async Task<bool?> ApplyAuthStatusLayout(bool? showUnknown = null)
+    private async Task<bool?> ApplyAuthStatusLayout(
+        bool? showUnknown = null,
+        bool? isAuthorized = null)
     {
-        bool? isAuthorized = await OidcSession.IsAuthorized();
+        bool? authorized = isAuthorized ?? await OidcSession.IsAuthorizedAsync();
 
         SetUiOptions(
             showAuthStatusLayout: true,
             showAuthStatus: true,
-            isAuthorized: isAuthorized ?? false,
-            isUnauthorized: !isAuthorized ?? false,
-            showUnknown: showUnknown ?? isAuthorized == null,
+            isAuthorized: authorized ?? false,
+            isUnauthorized: !authorized ?? false,
+            showUnknown: showUnknown ?? authorized == null,
             showButtons: true);
 
-        DisplayName = SessionInfo.GivenName;
-
-        return isAuthorized;
+        return authorized;
     }
 
     private async void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
     {
         SessionInfo = sender as OidcSessionInfo;
-        await ApplyLayoutByAuthStatus();
+        DisplayName = SessionInfo.GivenName;
+        await ApplyLayoutByStatus();
     }
 
-    private async Task<(bool SessionExists, bool? IsAuthorized)> ApplyLayoutByAuthStatus()
+    private async Task<(bool SessionExists, bool? IsAuthorized)> ApplyLayoutByStatus()
     {
         if (await OidcSession.SessionExistsAsync())
-            return (true, await ApplyAuthStatusLayout());
+        {
+            bool? isAuthorized = await OidcSession.IsAuthorizedAsync();
+
+            if (isAuthorized is true)
+            {
+                if (await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false)
+                    SetUiOptions(showButtons: true, staleSession: true);
+            }
+            else if (isAuthorized is false)
+                await ApplyAuthStatusLayout(isAuthorized: false);
+            else
+                // "Idle" layout
+                SetUiOptions(showButtons: true);
+
+            return (true, isAuthorized);
+        }
         else
         {
             SetUiOptions(showLoginLayout: true);
@@ -191,7 +229,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
             await ApplyAuthStatusLayout(showUnknown: false);
 
-            DownloadCaseloadAndSubscribe();
+            await DownloadCaseloadAndSubscribeAsync();
         }
         catch (Exception ex)
         {
@@ -225,8 +263,18 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     }
 
     [RelayCommand]
-    public void DownloadCaseloadAndSubscribe()
+    public async Task DownloadCaseloadAndSubscribeAsync()
     {
+        if (!NetworkHelper.InternetAvailable)
+        {
+            await Navigator.CurrentOpenPage.DisplayAlert(
+                LocalizedStrings.NoInternet,
+                LocalizedStrings.ConnectBeforeRetry,
+                LocalizedStrings.Ok
+            );
+            return;
+        }
+        
         WeakReferenceMessenger.Default.Register<ServiceStateMessage, string>(this, GetCaseloadService.MakeId());
 
         var msg = GetAllDataForOfflineService.MakeStartMessage(forceDownload: true);
@@ -270,7 +318,8 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     public void Receive(AppLockMessage message)
     {
-        if (message.Value == AppLockStatus.Closed)
-            DownloadCaseloadAndSubscribe();
+        if (message.Value == AppLockStatus.Closed 
+            && NetworkHelper.InternetAvailable)
+            _ = DownloadCaseloadAndSubscribeAsync();
     }
 }

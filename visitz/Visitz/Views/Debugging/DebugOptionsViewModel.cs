@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
+using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Settings;
 using Visitz.Views.BaseClasses;
@@ -59,6 +60,12 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public string mockPersonVisitsParentId;
 
+    [ObservableProperty]
+    public bool autoCaseloadRefreshDisabled;
+
+    [ObservableProperty]
+    public double staleSessionMinutes;
+
     protected override Task InitAsync()
     {
         base.InitAsync();
@@ -88,6 +95,10 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         AuthenticationDomain = settings.Oidc.AuthenticationDomain;
 
         CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
+
+        AutoCaseloadRefreshDisabled = DebugOptions.AutoCaseloadRefreshDisabled;
+
+        StaleSessionMinutes = DebugOptions.StaleThresholdMinutes;
 
         return Task.CompletedTask;
     }
@@ -125,6 +136,16 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     partial void OnKeepSafetyAssessmentDraftOnPublishChanged(bool value)
     {
         DebugOptions.KeepSafetyAssessmentDraftOnPublish = value;
+    }
+
+    partial void OnAutoCaseloadRefreshDisabledChanged(bool value)
+    {
+        DebugOptions.AutoCaseloadRefreshDisabled = value;
+    }
+
+    partial void OnStaleSessionMinutesChanged(double value)
+    {
+        DebugOptions.StaleThresholdMinutes = value;
     }
 
     [RelayCommand]
@@ -230,5 +251,17 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public static async Task RunRecordCleanup()
     {
         await DebugOptions.RunRecordCleanupService();
+    }
+
+    [RelayCommand]
+    public static void RunAutoCaseloadRefreshService()
+    {
+        _ = DebugOptions.RunAutoCaseloadRefreshService();
+    }
+
+    [RelayCommand]
+    public static void ResetAutoCaseloadRefresh()
+    {
+        DebugOptions.ResetAutoCaseloadRefresh();
     }
 }

@@ -13,6 +13,7 @@ param(
     # https://learn.microsoft.com/en-us/windows/msix/package/sign-app-package-using-signtool#determine-the-hash-algorithm
     [string] $Algorithm = "",
 
+    # !!! Needs Windows SDK to be installed (possibly also "ClickOnce" publishing tools), check Visual Studio installer
     [string] $SignToolPath = "",
 
     [string] $CertificateThumbprint = "",
@@ -36,6 +37,10 @@ if (-not $TimestampUrl) {
 if (-not $SignToolPath) {
     $paths = Get-ChildItem "C:\Program Files (x86)\Windows Kits\*\bin\*\x64" -Recurse -Filter "SignTool.exe"
     $SignToolPath = $paths[-1]
+
+    if (-not $SignToolPath) {
+        throw "SignTool not found in Program Files. Make sure Windows SDK is installed (may also need to install ClickOnce). Check the Visual Studio Installer."
+    }
 }
 
 if (-not $Algorithm) {
@@ -44,6 +49,10 @@ if (-not $Algorithm) {
 
 if (-not $CertificateThumbprint) {
     $CertificateThumbprint = Get-Env $CertificateThumbprintName -Scope $EnvScope
+
+    if (-not $CertificateThumbprint) {
+        throw "No certificate thumbprint is set in environment variables."
+    }
 }
 
 Write-Host "Using SignTool from '$SignToolPath'"

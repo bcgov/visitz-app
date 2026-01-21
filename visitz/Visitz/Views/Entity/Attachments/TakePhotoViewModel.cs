@@ -68,7 +68,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
         base.Dispose(disposing);
     }
 
-    private async Task SetupCameras()
+    async Task SetupCameras()
     {
         await cameraProvider.RefreshAvailableCameras(CancellationToken.None);
         Cameras = cameraProvider.AvailableCameras;

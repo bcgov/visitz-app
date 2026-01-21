@@ -3,7 +3,6 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Utilities;
-using VisitzModelTest.Models.Incidentload;
 
 namespace VisitzModelTest.Models.Caseload;
 
@@ -157,13 +156,13 @@ public class CaseRecordTests
     }
 
     [Fact]
-    public async Task LocalStateIsNotNullOnFirstAccess()
+    public async Task LocalStateIsNullOnRecordCreate()
     {
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
         CaseRecord @case = new(CaseJson);
         realm.Write(() => realm.Add(@case));
 
-        Assert.NotNull(@case?.LocalState);
+        Assert.Null(@case.LocalState);
     }
 
     [Fact]
@@ -177,11 +176,15 @@ public class CaseRecordTests
     }
 
     [Fact]
-    public async Task LocalStateIsPersistedAfterFirstAccess()
+    public async Task LocalStateIsPersistedAfterUpsert()
     {
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
         CaseRecord @case = new(CaseJson);
-        realm.Write(() => realm.Add(@case));
+        realm.Write(() =>
+        {
+            @case.UpsertLocalState(realm, false);
+            realm.Add(@case);
+        });
 
         Assert.NotNull(@case.LocalState);
         Assert.NotNull(realm.Find<BoLocalState>(@case.ToIdTypeString()));
@@ -192,31 +195,21 @@ public class CaseRecordTests
     {
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
 
-        CaseRecord @case = new(CaseJson, localState: null);
-        @case.LocalState.ShouldDownloadDuringRefresh = true;
-        realm.Write(() => realm.Add(@case));
+        CaseRecord @case = new(CaseJson);
+        realm.Write(() =>
+        {
+            @case.UpsertLocalState(realm);
+            @case.LocalState.ShouldDownloadDuringRefresh = true;
+            realm.Add(@case);
+        });
 
         string closed = "Closed";
-        CaseRecord upsertCase = new(CaseJson, localState: null) { Status = closed };
-        realm.Write(() => realm.Add(upsertCase, update: true));
-
-        CaseRecord retrievedCase = realm.Find<CaseRecord>(CaseJson.Id)!;
-
-        Assert.Equal(closed, retrievedCase.Status);
-        Assert.True(retrievedCase.LocalState.ShouldDownloadDuringRefresh);
-    }
-
-    [Fact]
-    public async Task LocalStateViaCtorInitPersistsAfterUpsert()
-    {
-        var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
-
-        CaseRecord @case = new(CaseJson, new() { ShouldDownloadDuringRefresh = true });
-        realm.Write(() => realm.Add(@case));
-
-        string closed = "Closed";
-        CaseRecord upsertCase = new(CaseJson, localState: null) { Status = closed };
-        realm.Write(() => realm.Add(upsertCase, update: true));
+        CaseRecord upsertCase = new(CaseJson) { Status = closed };
+        realm.Write(() =>
+        {
+            realm.Add(upsertCase, update: true);
+            @case.UpsertLocalState(realm);
+        });
 
         CaseRecord retrievedCase = realm.Find<CaseRecord>(CaseJson.Id)!;
 

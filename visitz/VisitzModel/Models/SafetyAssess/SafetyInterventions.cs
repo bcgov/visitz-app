@@ -29,7 +29,7 @@ public partial class SafetyInterventions : IRealmObject, IApiJson<SubmitSafetyIn
 
     public bool ChildRemoved { get; set; }
 
-    public static SafetyInterventions FromApiJson(SafetyAsessmentJson json)
+    public static SafetyInterventions FromApiJson(GetSafetyAsessmentJson json)
     {
         return new SafetyInterventions()
         {

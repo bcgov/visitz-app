@@ -41,6 +41,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetSafetyAssessmentsByRangeService>();
             builder.Services.AddTransient<GetOfficeCaseloadService>();
             builder.Services.AddTransient<RecordCleanupService>();
+            builder.Services.AddTransient<AutoRefreshService>();
 
             return builder;
         }

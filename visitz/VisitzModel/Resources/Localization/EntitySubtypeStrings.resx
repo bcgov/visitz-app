@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -119,104 +119,138 @@
   </resheader>
   <data name="AdoptionHome" xml:space="preserve">
     <value>Adoption home</value>
+    <comment>Case</comment>
   </data>
   <data name="AdoptionService" xml:space="preserve">
     <value>Adoption service</value>
+    <comment>Case</comment>
   </data>
   <data name="AfterHours" xml:space="preserve">
     <value>After hours</value>
+    <comment>SR</comment>
   </data>
   <data name="AfterHoursAction" xml:space="preserve">
     <value>After hours - Action</value>
+    <comment>Memo</comment>
   </data>
   <data name="AfterHoursFrom" xml:space="preserve">
     <value>After hours - From</value>
+    <comment>Memo</comment>
   </data>
   <data name="AfterHoursInfo" xml:space="preserve">
     <value>After hours - Info</value>
+    <comment>Memo</comment>
   </data>
   <data name="AgreementWithYoungAdults" xml:space="preserve">
     <value>Agreement with young adults</value>
+    <comment>Memo</comment>
   </data>
   <data name="AssessmentOnly" xml:space="preserve">
     <value>Assessment only</value>
+    <comment>Case</comment>
   </data>
   <data name="AssistedAdoption" xml:space="preserve">
     <value>Assisted adoption</value>
+    <comment>Case</comment>
   </data>
   <data name="Autism" xml:space="preserve">
     <value>Autism</value>
+    <comment>Case</comment>
   </data>
   <data name="AutismFundingUnit" xml:space="preserve">
     <value>Autism Funding Unit</value>
+    <comment>SR</comment>
   </data>
   <data name="CentralizedServicesHub" xml:space="preserve">
     <value>Centralized Services Hub</value>
+    <comment>Memo</comment>
   </data>
   <data name="ChildAtHomeProgram" xml:space="preserve">
     <value>Child At Home program</value>
+    <comment>Case</comment>
   </data>
   <data name="ChildProtection" xml:space="preserve">
     <value>Child protection</value>
+    <comment>Incident</comment>
   </data>
   <data name="ChildServices" xml:space="preserve">
     <value>Child services</value>
+    <comment>Case</comment>
   </data>
   <data name="CommunityDevelopment" xml:space="preserve">
     <value>Community development</value>
+    <comment>SR</comment>
   </data>
   <data name="Cysn" xml:space="preserve">
     <value>CYSN</value>
+    <comment>Memo</comment>
   </data>
   <data name="CysnFamilyServices" xml:space="preserve">
     <value>CYSN family services</value>
+    <comment>Case</comment>
   </data>
   <data name="FamilyNeedsAssessment" xml:space="preserve">
     <value>Family Needs assessment</value>
+    <comment>SR</comment>
   </data>
   <data name="FamilyServices" xml:space="preserve">
     <value>Family services</value>
+    <comment>Case</comment>
   </data>
   <data name="MedicalBenefits" xml:space="preserve">
     <value>Medical benefits</value>
+    <comment>Common</comment>
   </data>
   <data name="PostAdoptionService" xml:space="preserve">
     <value>Post adoption service</value>
+    <comment>Case</comment>
   </data>
   <data name="PostMajorityServices" xml:space="preserve">
     <value>Post majority services</value>
+    <comment>Common</comment>
   </data>
   <data name="ProtocolInvestigation" xml:space="preserve">
     <value>Protocol investigation</value>
+    <comment>Common</comment>
   </data>
   <data name="ReferralAndInquiry" xml:space="preserve">
     <value>Referral and inquiry</value>
+    <comment>Incident</comment>
   </data>
   <data name="RequestForFamilySupport" xml:space="preserve">
     <value>Request for family suppot</value>
+    <comment>SR</comment>
   </data>
   <data name="RequestForInformation" xml:space="preserve">
     <value>Request for information</value>
+    <comment>SR</comment>
   </data>
   <data name="RequestServiceCapp" xml:space="preserve">
     <value>Request Service: CAPP</value>
+    <comment>SR</comment>
   </data>
   <data name="RequestServiceCfs" xml:space="preserve">
     <value>Request Service - CFS</value>
+    <comment>SR</comment>
   </data>
   <data name="Resource" xml:space="preserve">
     <value>Resource</value>
+    <comment>Case</comment>
   </data>
   <data name="Screening" xml:space="preserve">
     <value>Screening</value>
+    <comment>Memo</comment>
   </data>
   <data name="SupportNeedsChildrenYouth" xml:space="preserve">
     <value>Support needs children youth</value>
+    <comment>Case</comment>
   </data>
   <data name="SupportNeedsRequest" xml:space="preserve">
     <value>Support Needs request</value>
+    <comment>Memo</comment>
   </data>
   <data name="YouthServices" xml:space="preserve">
     <value>Youth Services</value>
+    <comment>SR</comment>
   </data>
 </root>

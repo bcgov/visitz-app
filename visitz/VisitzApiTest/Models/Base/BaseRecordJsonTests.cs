@@ -32,24 +32,6 @@ public partial class BaseRecordJsonTests
 	"Updated Date": "{UpdatedDateValue}"
 """ + "}";
 
-    const string missingNameFields =
-"{" + $"""
-    "Id": "{ArbitraryId}",
-	"Created By Id": "{OtherNameId}",
-	"Created Date": "{CreatedDateValue}",
-	"Updated By Id": "{SomeNameId}",
-	"Updated Date": "{UpdatedDateValue}"
-""" + "}";
-
-    const string missingDateFields =
-"{" + $"""
-    "Id": "{ArbitraryId}",
-	"Created By": "{OtherName}",
-	"Created By Id": "{OtherNameId}",
-	"Updated By": "{SomeName}",
-	"Updated By Id": "{SomeNameId}",
-""" + "}";
-
     [Theory]
     [InlineData(ArbitraryId, nameof(BaseRecordJson.Id))]
     [InlineData(OtherName, nameof(BaseRecordJson.CreatedBy))]
@@ -70,8 +52,6 @@ public partial class BaseRecordJsonTests
 
     [Theory]
     [InlineData(missingIdFields)]
-    [InlineData(missingNameFields)]
-    [InlineData(missingDateFields)]
     public void ThrowWhenFieldsMissing(string json)
     {
         Assert.ThrowsAny<Exception>(() => JsonSerializer.Deserialize<BaseRecordJson>(

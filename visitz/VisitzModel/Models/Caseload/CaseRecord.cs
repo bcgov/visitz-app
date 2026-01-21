@@ -96,6 +96,8 @@ public partial class CaseRecord :
         set => TypeInt = (int)value;
     }
 
+    public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
+
     public string WorkQueue { get; set; }
 
     public BoLocalState LocalState { get; set; }
@@ -214,7 +216,8 @@ public partial class CaseRecord :
     static IEnumerable<CaseRecord> FilterUnsupportedSubtypes(IEnumerable<CaseRecord> cases)
     {
         return cases.Where(@case => @case.EntitySubtype == EntitySubtype.ChildServices
-                        || @case.EntitySubtype == EntitySubtype.FamilyServices);
+                        || @case.EntitySubtype == EntitySubtype.FamilyServices
+                        || @case.EntitySubtype == EntitySubtype.CysnFamilyServices);
     }
 
     public static async Task SynchronizeAsync(

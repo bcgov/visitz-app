@@ -69,9 +69,6 @@ public class EntityTypeBadge : TagView
     {
         BackgroundColor = EntityType.GetBackgroundColor();
         TextColor = EntityType.GetTextColor();
-
-        Text = EntityType == EntityType.Incident
-            ? EntityType.GetDisplayString().GetInitialsOrTruncate()
-            : EntitySubtype.GetDisplayString().GetInitialsOrTruncate();
+        Text = EntitySubtype.GetDisplayInitials();
     }
 }

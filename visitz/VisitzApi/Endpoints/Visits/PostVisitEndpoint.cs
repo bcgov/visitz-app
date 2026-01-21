@@ -2,7 +2,6 @@ using System.Net;
 using System.Net.Http.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Visits;
-using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.Visits;
 

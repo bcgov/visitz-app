@@ -67,6 +67,8 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<EntityContactsView>();
         builder.Services.AddTransient<EntityContactsViewModel>();
+        builder.Services.AddTransient<ContactItemView>();
+        builder.Services.AddTransient<ContactItemViewModel>();
 
         builder.Services.AddTransient<EntityNotesView>();
         builder.Services.AddTransient<EntityNotesViewModel>();

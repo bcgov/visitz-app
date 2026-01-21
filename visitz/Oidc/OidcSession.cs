@@ -5,6 +5,9 @@ using Oidc.Events;
 using Oidc.Exceptions;
 using Oidc.Network;
 using Oidc.Util;
+using System.IdentityModel.Tokens.Jwt;
+
+#nullable enable
 
 namespace Oidc
 {
@@ -13,10 +16,18 @@ namespace Oidc
         private static readonly string IdirActiveKey = "idir_active_employee";
         private static readonly SemaphoreSlim Semaphore = new(1);
 
+        public static readonly double StaleThresholdMinutes = 7 * TimeSpan.MinutesPerDay;
+
         private static AuthenticationClient AuthClient =>
             ServicesProvider.Current.GetRequiredService<AuthenticationClient>();
 
-        public static event EventHandler<SessionChangedEventArgs> SessionChanged;
+        public static event EventHandler<SessionChangedEventArgs>? SessionChanged;
+
+        public static async Task<bool> IsSessionValid()
+        {
+            return await TokenHolder.IsAccessTokenValid()
+                || !await TokenHolder.IsRefreshTokenExpired();
+        }
 
         static async Task DoAssertValidSessionAsync(
             string messageIfUnavailable,
@@ -55,7 +66,7 @@ namespace Oidc
 
         public static async Task LoginAsync(string messageIfUnavailable, CancellationToken cancellationToken = default)
         {
-            LoginResult loginResult = null;
+            LoginResult? loginResult = null;
 
             try
             {
@@ -63,7 +74,9 @@ namespace Oidc
 
                 loginResult = await AuthClient.LoginAsync(cancellationToken);
 
-                if (loginResult.IsError)
+                if (loginResult == null)
+                    throw new LoginException("No login result");
+                else if (loginResult.IsError)
                 {
                     if (loginResult.Error == BrowserResultType.UserCancel.ToString())
                         // WORKAROUND String compare to BrowserResultType is a limitation of the library
@@ -79,7 +92,7 @@ namespace Oidc
                 bool success = !loginResult?.IsError ?? false;
 #if DEBUG
                 ConsoleTrace.TraceMethod(typeof(OidcSession),
-                    $"Login success: '{success}', Error: {loginResult.Error} -> '{loginResult.ErrorDescription}'");
+                    $"Login success: '{success}', Error: {loginResult?.Error} -> '{loginResult?.ErrorDescription}'");
 #endif
                 var info = await OidcSessionInfo.GetAsync();
                 SessionChanged?.Invoke(info, new LoginChangedEventArgs() { Success = success, });
@@ -88,7 +101,7 @@ namespace Oidc
 
         private static async Task RefreshAsync(string messageIfUnavailable)
         {
-            RefreshTokenResult refreshResult = null;
+            RefreshTokenResult? refreshResult = null;
 
             try
             {
@@ -97,8 +110,8 @@ namespace Oidc
                 var refreshToken = await TokenHolder.GetRefreshTokenStringAsync();
                 refreshResult = await AuthClient.RefreshAsync(refreshToken);
 
-                if (refreshResult.IsError)
-                    throw new SessionRefreshException(refreshResult.Error);
+                if (refreshResult == null || refreshResult.IsError)
+                    throw new SessionRefreshException(refreshResult?.Error ?? "No refresh result");
 
                 await TokenHolder.SaveAsync(refreshResult);
             }
@@ -173,7 +186,14 @@ namespace Oidc
                 && await TokenHolder.GetIdentityTokenStringAsync() is not null;
         }
 
-        public static async Task<bool?> IsAuthorized()
+        public static async Task<bool?> IsSessionStale(double? minutesSinceExpiration = null)
+        {
+            JwtSecurityToken? access = await TokenHolder.GetAccessTokenAsync();
+            TimeSpan? diff = DateTime.UtcNow - access?.ValidTo;
+            return diff?.TotalMinutes >= (minutesSinceExpiration ?? StaleThresholdMinutes);
+        }
+
+        public static async Task<bool?> IsAuthorizedAsync()
         {
             var status = await SecureStorage.Default.GetAsync(IdirActiveKey);
             return status != null ? bool.Parse(status) : null;
@@ -181,10 +201,10 @@ namespace Oidc
 
         public static async Task SetAuthorization(bool? authorized)
         {
-            if (authorized == null)
-                SecureStorage.Default.Remove(IdirActiveKey);
+            if (authorized is bool auth)
+                await SecureStorage.Default.SetAsync(IdirActiveKey, auth.ToString());
             else
-                await SecureStorage.Default.SetAsync(IdirActiveKey, authorized.ToString());
+                SecureStorage.Default.Remove(IdirActiveKey);
         }
     }
 }

@@ -4,6 +4,7 @@ using VisitzModel.Models.InPersonVisits;
 using Oidc;
 using Visitz.Services;
 using Visitz.Services.Caseload;
+using VisitzModel.Storage;
 
 #if WINDOWS
 using Windows.Storage;
@@ -24,6 +25,8 @@ public class DebugOptions
     private static readonly string SkipLocalAuthKey = "SkipLocalAuth";
     private static readonly string ShouldExpectFileContentKey = "ShouldExpectFileContent";
     private static readonly string KeepSafetyAssessmentDraftOnPublishKey = "KeepSafetyAssessmentDraftOnPublish";
+    private static readonly string AutoCaseloadRefreshDisabledKey = "AutoCaseloadRefreshDisabled";
+    private static readonly string StaleThresholdMinutesKey = "StaleThresholdMinutes";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -103,6 +106,18 @@ public class DebugOptions
     {
         get => Get(KeepSafetyAssessmentDraftOnPublishKey, false);
         set => Set(KeepSafetyAssessmentDraftOnPublishKey, value);
+    }
+
+    public static bool AutoCaseloadRefreshDisabled
+    {
+        get => Get(AutoCaseloadRefreshDisabledKey, false);
+        set => Set(AutoCaseloadRefreshDisabledKey, value);
+    }
+
+    public static double StaleThresholdMinutes
+    {
+        get => Get(StaleThresholdMinutesKey, OidcSession.StaleThresholdMinutes);
+        set => Set(StaleThresholdMinutesKey, value > 0.0d? value : OidcSession.StaleThresholdMinutes);
     }
 
     public static async Task ClearRealmData()
@@ -257,5 +272,23 @@ public class DebugOptions
 
         await ServiceProvider.GetService<ServiceHandler>()
             .TryRunServiceAsync(RecordCleanupService.MakeStartMessage());
+    }
+
+    public static async Task RunAutoCaseloadRefreshService()
+    {
+        if (!Enabled)
+            return;
+
+        var handler = ServiceProvider.GetService<ServiceHandler>();
+        await handler.TryRunServiceAsync(AutoRefreshService.MakeStartMessage());
+    }
+
+    public static void ResetAutoCaseloadRefresh()
+    {
+        if (!Enabled)
+            return;
+
+        LastUpdatedPrefs prefs = ServiceProvider.GetService<LastUpdatedPrefs>();
+        prefs.Set(AutoRefreshService.CooldownTimestampUtc, DateTime.MinValue);
     }
 }

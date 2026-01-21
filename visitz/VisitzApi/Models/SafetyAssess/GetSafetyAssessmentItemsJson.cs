@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace VisitzApi.Models.SafetyAssess;
 
-internal class SafetyAssessmentItemsJson
+internal class GetSafetyAssessmentItemsJson
 {
     [JsonPropertyName("items")]
-    public IList<SafetyAssessmentItemJson> Items { get; set; }
+    public IList<GetSafetyAssessmentItemJson> Items { get; set; }
 }

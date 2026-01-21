@@ -180,7 +180,7 @@
 							Padding="20"
 							Spacing="10">
                             <Label 
-                                HorizontalOptions="Center"
+                                HorizontalOptions="Fill"
 								HorizontalTextAlignment="Center"
                                 FontSize="16"
                                 Text="{Binding CollectionViewPrompt}" />

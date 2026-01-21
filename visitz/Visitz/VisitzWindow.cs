@@ -5,6 +5,8 @@ namespace Visitz;
 
 public partial class VisitzWindow : Window
 {
+    public bool IsActivated { get; private set; }
+
     public VisitzWindow() { }
 
     public VisitzWindow(Page page) : base(page) { }
@@ -31,6 +33,28 @@ public partial class VisitzWindow : Window
 
 #if WINDOWS
     private static partial Window ApplyDefaultWindowLayout(Window window);
+
+    partial void TryRunAutoRefresh();
 #endif
 
+    protected override async void OnActivated()
+    {
+        base.OnActivated();
+
+        IsActivated = true;
+
+        await SessionPage.TryOpenAsync(animated: false);
+
+#if WINDOWS
+        // Run in OnActivated instead of OnResumed to respond to window focus events
+        TryRunAutoRefresh();
+#endif
+    }
+
+    protected override void OnDeactivated()
+    {
+        base.OnDeactivated();
+
+        IsActivated = false;
+    }
 }
