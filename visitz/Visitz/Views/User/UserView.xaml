@@ -51,11 +51,14 @@
         </Label>
 
         <HorizontalStackLayout
+            IgnoreSafeArea="False"
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="0.5,1"
             Spacing="30"
-            Margin="5">
-            <Label 
+            Margin="{OnPlatform iOS=20, Default=5}">
+            <!-- Setting iOS margin to workaround a safe area bug -->
+
+            <Label
                 Text="{Binding BuildNumber, StringFormat='Build #{0}'}" 
                 TextColor="White" />
 
