@@ -64,7 +64,7 @@ Use this guide when setting up VSCode for the first time or updating framework v
 1. Install the version of XCode that the app's current [MAUI version](https://github.com/dotnet/maui/wiki/Release-Versions) supports.
 
 	You can find the current MAUI version used by checking the Visitz.csproj for `Microsoft.Maui.Controls*` versions—e.g., 
-    [Visitz.csproj:83-84](/visitz/Visitz/Visitz.csproj#L83). Example PackageReferences:
+    [Visitz.csproj](/visitz/Visitz/Visitz.csproj). Example PackageReferences:
 
     ```xml
 	<PackageReference Include="Microsoft.Maui.Controls" Version="x.y.z" />
