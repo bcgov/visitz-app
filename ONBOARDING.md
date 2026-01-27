@@ -12,14 +12,14 @@
 
 1. Install workloads
 
-	```bash
-	sudo dotnet workload restore
+	```powershell
+	dotnet workload restore
 	```
 
 	If the previous command fails, directly install required workloads instead:
 
-	```bash
-	sudo dotnet workload install maui ios maccatalyst maui-ios maui-maccatalyst
+	```powershell
+	dotnet workload install maui ios maccatalyst maui-ios maui-maccatalyst
 	```
 
 	If workload install was successful, you should now be able to build the project.
@@ -34,7 +34,7 @@ Make a copy of [global.json.template](global.json.template), rename it to `globa
 
 If you don't know the SDK version you want (it is different from the main version), you can find it on the [.NET distribution site](https://dotnet.microsoft.com/en-us/download/dotnet) or run a terminal command to see locally installed versions:
 
-```bash
+```powershell
 dotnet --list-sdks
 ```
 
