@@ -16,19 +16,21 @@
 
 	If the app crashes, or you encounter unexpected behaviour, you'll need to implement migrations.
 
-1. Make sure all working branches that we want to release have been merged into the desired `dev/` branch.
+1. Make sure all working branches that we want to release have been merged into the desired `dev/x.y.z` branch.
 
-1. Make sure all unit tests pass in the desired `dev/` branch.
-
-1. Make and complete a Pull Request to merge `dev/` into `test/`.
+1. Make sure all unit tests pass in the desired `dev/x.y.z` branch.
 
 1. Ensure that the app's configurable "Debug mode" is disabled when making production release builds.
 
-1. Create a regression build from the `test/` branch and ensure the build passes all regression tests.
+1. Create a regression build from the latest commit on `dev/x.y.z` branch and ensure the build passes all regression tests.
 
-	- If it does not pass, create working branch from `test/`, resolve issues, and create a new regression build for testing again.
+	- If it does not pass, create a new working branch (e.g. `dev/regressions`), resolve issues, and create a new regression build for testing again.
 
-1. If regression testing passes, make and complete a Pull Request to merge `test/` into `prod`. Name the Pull Request "Version Major.Minor.Patch", e.g. "Version 2.4.0"
+	- Continue to fix issues in this branch until all regression testing passes. 
+
+	- Make a Pull Request and merge back into `dev/x.y.z` when complete.
+
+1. Once regression testing passes, make and complete a Pull Request to merge `dev/x.y.z` into `prod`. Title the Pull Request "Version Major.Minor.Patch", e.g. "Version 2.4.0"
 
 1. Create desired builds (beta/prod) from the `prod` branch and deliver artifacts to whichever team will handle deployment.
 
@@ -44,6 +46,6 @@
 
 	- When making the GitHub release, use GitHub's auto-generate release notes feature.
 
-1. Decide on the next version number and create the next `dev/` branch
+1. Decide on the next version number and create the next `dev/x.y.z` branch
 
 	- We use (Semver)[https://semver.org/spec/v2.0.0.html] (Major.Minor.Patch).
