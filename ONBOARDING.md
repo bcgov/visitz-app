@@ -1,6 +1,44 @@
 # Dev environment setup
 
-## Windows
+## Install .NET
+
+1. Navigate to [Visitz.csproj](visitz/Visitz/Visitz.csproj) and look for the `TargetFrameworks` property to get the major .NET version you need to install.
+
+	> e.g. `<TargetFrameworks>net9.0-maccatalyst;net9.0-ios</TargetFrameworks>` = .NET 9 required
+
+1. From the [.NET distribution site](https://dotnet.microsoft.com/en-us/download/dotnet), download the latest SDK for the matching major version for your platform.
+
+1. In CLI/terminal, Navigate to [visitz/Visitz](visitz/Visitz).
+
+1. Install workloads
+
+	```bash
+	sudo dotnet workload restore
+	```
+
+	If the previous command fails, directly install required workloads instead:
+
+	```bash
+	sudo dotnet workload install maui ios maccatalyst maui-ios maui-maccatalyst
+	```
+
+	If workload install was successful, you should now be able to build the project.
+
+> !! NOTE: If you have multiple versions of .NET installed or are using Visual Studio, you may need to pin the version of the runtime you want to use. See [.NET version pinning](#net-version-pinning) for details.
+
+## .NET version pinning
+
+You can override the default dotnet SDK version used in terminal for a given project using a `global.json` file. This is sometimes necessary when using Visual Studio, as it ships with its own internal version of .NET—which may not match the SDK version currently used by the app.
+
+Make a copy of [global.json.template](global.json.template), rename it to `global.json` in the same directory, and set the SDK version you wish to use in `"version": "DOTNET_SDK_VERSION"`.
+
+If you don't know the SDK version you want (it is different from the main version), you can find it on the [.NET distribution site](https://dotnet.microsoft.com/en-us/download/dotnet) or run a terminal command to see locally installed versions:
+
+```bash
+dotnet --list-sdks
+```
+
+## Windows setup
 
 Use Visual Studio.
 
@@ -11,9 +49,9 @@ From Visual Studio Installer, select components/workloads:
 - Visual Studio
 - .NET Multi-platform App UI development workload
 
-You can also us VSCode on Windows, but DevEx will be much better in full Visual Studio.
+You can also us VSCode on Windows, but your developer experience will be much better in full Visual Studio.
 
-## Mac/OSX
+## Mac/OSX setup
 
 Use VSCode.
 
@@ -39,26 +77,6 @@ Use this guide when setting up VSCode for the first time or updating framework v
  
 4. Install the matching iOS simulator version for your current installed XCode version (even if you won't use it)
 
-### .NET
- 
-1. Install matching major version of .NET that matches the current MAUI requirements (MAUI 8 = .NET 8, MAUI 9 = .NET 9, etc.)
- 
-	- Make sure to install the latest minor/patch version
-
-1. In CLI/terminal, Navigate to `visitz/Visitz`
- 
-1. Install workloads
-
-	```bash
-	sudo dotnet workload restore
-	```
-
-1. If previous step fails, directly install required workloads
-
-	```bash
-	sudo dotnet workload install maui ios maccatalyst maui-ios maui-maccatalyst
-	```
- 
 ### Required extensions
  
 Install and set up extensions:
@@ -75,7 +93,7 @@ Install and set up extensions:
 
 1. [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
-## Set up Apple certificates and provisioning profiles
+### Set up Apple certificates and provisioning profiles
 
 Assuming your Apple account is already authorized and can access certs and profiles for the project:
 
@@ -91,17 +109,17 @@ Assuming your Apple account is already authorized and can access certs and profi
 
 	***!!!*** If your development certificate is still not trusted by the machine, you'll need to [manually download](https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer) and install Apple's CA for dev certs
 
----
+## App settings
 
-# App launch setup
+Visitz requires some settings in a configuration file for full functionality.
 
-## Inflate appSettings.json
+Inflate appSettings.json:
 
 1. Navigate to `visitz/Visitz`
 
-1. Make a copy of "appSettings.json.template" as "appSettings.json" right beside it. This new file will be ignored by Git.
+1. Make a copy of `appSettings.json.template` and rename to `appSettings.json` in the same directory. This new file will be ignored by Git.
     
-1. Replace any `{{Templated}}` value with desired values. You can find valid values in this repository's environment variables.
+1. Replace any `{{Templated}}` value with desired values. You can find valid values in this repository's environment variables or from another developer.
 
 ## Open project
 
