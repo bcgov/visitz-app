@@ -4,7 +4,9 @@
 
 1. Navigate to [Visitz.csproj](visitz/Visitz/Visitz.csproj) and look for the `TargetFrameworks` property to get the major .NET version you need to install.
 
-	> e.g. `<TargetFrameworks>net9.0-maccatalyst;net9.0-ios</TargetFrameworks>` = .NET 9 required
+	> Example:
+	>
+	> `<TargetFrameworks>net9.0-maccatalyst;net9.0-ios</TargetFrameworks>` = .NET 9 required
 
 1. From the [.NET distribution site](https://dotnet.microsoft.com/en-us/download/dotnet), download the latest SDK for the matching major version for your platform.
 
