@@ -30,6 +30,8 @@ Go to https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode
 
 1. Install workloads
 
+	> Note: You may need to run terminal as Administrator if you are encountering issues or errors.
+
 	```powershell
 	dotnet workload install maui ios maccatalyst maui-ios maui-maccatalyst
 	dotnet workload restore
@@ -81,9 +83,21 @@ dotnet --list-sdks
 
 Use Visual Studio.
 
-> Visual Studio can be used to run and debug both Windows and iOS builds [(via Pair to Mac)](https://learn.microsoft.com/en-us/dotnet/maui/ios/pair-to-mac?view=net-maui-10.0) of the app.
+> Note: Visual Studio can be used to run and debug both Windows and iOS builds [(via Pair to Mac)](https://learn.microsoft.com/en-us/dotnet/maui/ios/pair-to-mac?view=net-maui-10.0) of the app.
 
-You can also us VSCode on Windows, but your developer experience will be much better in full Visual Studio.
+> Note 2: You can also us VSCode on Windows, but your developer experience will be much better in full Visual Studio.
+
+1. Restart Visual Studio if it was running while you were installing .NET and running the restore/build steps
+
+1. Make sure developer mode is enabled from the previous step
+
+### Troubleshooting
+
+You may encounter weird errors like exceptions with no message, or compiler errors that don't make sense.
+
+If you do, try cleaning the solution and running `dotnet restore` from terminal before running the app in Visual Studio again.
+
+If you've already run the app and gotten crashes or errors, you can try uninstalling the app from the system before running again.
 
 ## Mac/OSX setup
 
