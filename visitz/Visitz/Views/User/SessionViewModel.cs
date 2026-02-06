@@ -255,7 +255,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     private static async Task<bool> PromptLogout()
     {
-        return await Navigator.CurrentOpenPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.LogoutAndClearData,
             LocalizedStrings.LogoutAndClearDataDesc,
             LocalizedStrings.Logout,
@@ -267,7 +267,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     {
         if (!NetworkHelper.InternetAvailable)
         {
-            await Navigator.CurrentOpenPage.DisplayAlert(
+            await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.NoInternet,
                 LocalizedStrings.ConnectBeforeRetry,
                 LocalizedStrings.Ok

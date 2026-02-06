@@ -252,7 +252,7 @@ public partial class EntityNavViewModel : VisitzViewModel,
     private async Task EntityUnassignedGoBack()
     {
         GoBack();
-        await Navigator.CurrentOpenPage.DisplayAlert(
+        await Navigator.CurrentOpenPage.DisplayAlertAsync(
             string.Format(
                 LocalizedStrings.RecordRemovedFromCaseload,
                 CacheDeletedEntityType,

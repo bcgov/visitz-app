@@ -19,7 +19,7 @@ internal static class IBusinessObjectExtensions
     {
         if (!NetworkHelper.InternetAvailable)
         {
-            await Navigator.CurrentOpenPage.DisplayAlert(
+            await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.NoInternet,
                 LocalizedStrings.NeedInternetToViewRecord,
                 LocalizedStrings.Ok);
@@ -32,7 +32,7 @@ internal static class IBusinessObjectExtensions
                 businessObject.EntityType,
                 businessObject.DisplayName.Trim());
 
-            return await Navigator.CurrentOpenPage.DisplayAlert(
+            return await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.DownloadRecordInformation,
                 msg,
                 LocalizedStrings.Download,

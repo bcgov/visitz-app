@@ -78,7 +78,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
         if (Attachment == null)
             return;
 
-        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
+        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.RemoveAttachmentFromDevice,
             LocalizedStrings.RemoveAttachmentDescription,
             LocalizedStrings.Remove,
@@ -106,7 +106,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
         if (Attachment == null || !Attachment.HasDraft)
             return;
 
-        bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
+        bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardDraft,
             LocalizedStrings.DiscardAttachmentDraftDescription,
             LocalizedStrings.Discard,

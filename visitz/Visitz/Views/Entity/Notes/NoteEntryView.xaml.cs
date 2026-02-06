@@ -94,7 +94,7 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
 
     private static async Task<bool> PromptDiscard()
     {
-        return await Navigator.CurrentOpenPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardDraftQuestion,
             LocalizedStrings.DiscardNoteDraftDescription,
             LocalizedStrings.Discard,

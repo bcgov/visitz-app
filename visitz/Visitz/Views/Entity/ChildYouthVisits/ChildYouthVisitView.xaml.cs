@@ -96,7 +96,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObject
 
     private static async Task<bool> PromptDiscard()
     {
-        return await Navigator.CurrentOpenPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardDraftQuestion,
             LocalizedStrings.DiscardVisitDraftDescription,
             LocalizedStrings.Discard,

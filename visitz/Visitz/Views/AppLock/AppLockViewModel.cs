@@ -36,7 +36,7 @@ namespace Visitz.Views.AppLock
                     await HandleSuccessfulAuth();
                     break;
                 case FingerprintAuthenticationResultStatus.NotAvailable:
-                    await Navigator.CurrentOpenPage.DisplayAlert(
+                    await Navigator.CurrentOpenPage.DisplayAlertAsync(
                         LocalizedStrings.EnableDeviceSecurity,
                         LocalizedStrings.SecureDeviceAndTryAgain,
                         LocalizedStrings.Ok

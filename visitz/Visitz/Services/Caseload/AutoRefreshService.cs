@@ -68,7 +68,7 @@ internal class AutoRefreshService(
 
         bool sessionInvalid = !await OidcSession.IsSessionValid();
         if (sessionInvalid)
-            await Window.Page.DisplayAlert(
+            await Window.Page.DisplayAlertAsync(
                 LocalizedStrings.CaseloadRefresh,
                 LocalizedStrings.AutoCaseloadRefreshDesc,
                 LocalizedStrings.Ok);
