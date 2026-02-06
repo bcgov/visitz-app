@@ -52,7 +52,7 @@ Go to https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode
 	For Windows:
 
 	```powershell
-	dotnet build --framework net9.0-windows10.0.19041.0
+	dotnet build --framework net10.0-windows10.0.19041.0
 	```
 
 	> !! Note: if the framework identifier `--framework net10.0-windows10.0.19041.0` does not work, you can find the correct one in [`visitz/Visitz/Visitz.csproj`](visitz/Visitz/Visitz.csproj). Look for the `TargetFrameworks` property with `Condition="$([MSBuild]::IsOSPlatform('windows'))"` to find it.
