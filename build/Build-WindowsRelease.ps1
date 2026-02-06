@@ -175,14 +175,14 @@ if ($SelfContained) {
 }
 
 if (!$SkipClean) {
-    dotnet clean "..\visitz\Visitz\Visitz.csproj" --framework net9.0-windows10.0.19041.0
+    dotnet clean "..\visitz\Visitz\Visitz.csproj" --framework net10.0-windows10.0.19041.0
 
     rm $artifactsDir -Recurse -ErrorAction SilentlyContinue
 }
 
 dotnet publish "..\visitz\Visitz\Visitz.csproj" `
     --artifacts-path ".\$artifactsDir" `
-    --framework net9.0-windows10.0.19041.0 `
+    --framework net10.0-windows10.0.19041.0 `
     --configuration Release `
     $selfContainedString `
     -p:ApplicationVersion=$BuildNumber `

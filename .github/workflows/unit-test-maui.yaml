@@ -15,7 +15,7 @@ permissions:
 
 env:
   BASE_PROJPATH: "./visitz"
-  DOTNET_SDK_VERSION: "9.0.305"
+  DOTNET_SDK_VERSION: "10.0.102"
   GLOBAL_JSON_PATH: "global.json"
 
 jobs:
@@ -77,7 +77,7 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
-          dotnet build --framework net9.0
+          dotnet build --framework net10.0
 
       # Running with --no-build to work around an MSBuild targets issue.
       # (Details: build throws an error about a missing "Visitz.appSettings.json" file. That file should only exist
@@ -87,7 +87,7 @@ jobs:
         run: |
           dotnet --version
           dotnet test `
-            --framework net9.0 `
+            --framework net10.0 `
             --logger "trx;LogFilePrefix=${{ env.TEST_RESULTS }}" `
             --no-build
 

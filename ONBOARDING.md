@@ -19,7 +19,7 @@ Go to https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode
 	As an example, if you find:
 
 	```xml
-	<TargetFrameworks>net9.0-maccatalyst;net9.0-ios</TargetFrameworks>
+	<TargetFrameworks>net10.0-maccatalyst;net10.0-ios</TargetFrameworks>
 	```
 
 	then you must install .NET 9.
@@ -70,7 +70,7 @@ An example could look like:
 ```json
 {
   "sdk": {
-    "version": "9.0.309", // Example only. This may not be the latest version
+    "version": "10.0.102", // Example only. This may not be the latest version
     "allowPrerelease": false,
     "rollForward": "disable"
   }

@@ -14,7 +14,7 @@ env:
   BUILD_NUM_OFFSET: 246 # Final run number from previous repo before migration
   RUN_NUMBER: ${{ github.run_number }}
   PROJPATH: "visitz/Visitz"
-  DOTNET_SDK_VERSION: "9.0.305"
+  DOTNET_SDK_VERSION: "10.0.102"
   GLOBAL_JSON_PATH: "global.json"
   XCODE_VERSION: "16.4"
 
@@ -125,7 +125,7 @@ jobs:
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |
           dotnet publish $PROJPATH \
-            --framework net9.0-ios \
+            --framework net10.0-ios \
             --configuration Release \
             -p:ApplicationVersion=${{ env.BUILD_NUM }} \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
@@ -144,11 +144,11 @@ jobs:
 
       - name: Prepare output package
         run: |
-          cd ${{ env.PROJPATH }}/bin/Release/net9.0-ios/ios-arm64/publish
+          cd ${{ env.PROJPATH }}/bin/Release/net10.0-ios/ios-arm64/publish
           mv "MCFD Mobility.ipa" "$OUTPUT_NAME.ipa"
 
       - name: Upload IPA archive (${{ inputs.environment }})
         uses: actions/upload-artifact@v4.6.1
         with:
           name: ${{ env.OUTPUT_NAME }}
-          path: ${{ env.PROJPATH }}/bin/Release/net9.0-ios/ios-arm64/publish/*.ipa
+          path: ${{ env.PROJPATH }}/bin/Release/net10.0-ios/ios-arm64/publish/*.ipa
