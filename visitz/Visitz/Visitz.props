@@ -7,7 +7,7 @@
 		<NETTestSdkVersion>17.14.1</NETTestSdkVersion>
 		<RealmVersion>20.1.0</RealmVersion>
 		<SecurityCodeScanVersion>5.6.7</SecurityCodeScanVersion>
-		<SharpSourceVersion>1.27.1</SharpSourceVersion>
+		<SharpSourceVersion>1.31.1</SharpSourceVersion>
 		<VisitzVersion>3.0.0</VisitzVersion>
 		<XUnitRunnerVsVersion>3.1.4</XUnitRunnerVsVersion>
 		<XUnitVersion>2.9.3</XUnitVersion>
