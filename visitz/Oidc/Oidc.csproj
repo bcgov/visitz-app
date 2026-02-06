@@ -29,7 +29,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
 	</ItemGroup>
 
 </Project>
