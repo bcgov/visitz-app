@@ -47,11 +47,15 @@ Go to https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode
 
 	> Note 2: you may need to run a restore in between workload installations.
 
-1. Build
+1. Build Visitz.csproj
+
+	For Windows:
 
 	```powershell
-	dotnet build
+	dotnet build --framework net9.0-windows10.0.19041.0
 	```
+
+	> !! Note: if the framework identifier `--framework net10.0-windows10.0.19041.0` does not work, you can find the correct one in [`visitz/Visitz/Visitz.csproj`](visitz/Visitz/Visitz.csproj). Look for the `TargetFrameworks` property with `Condition="$([MSBuild]::IsOSPlatform('windows'))"` to find it.
 
 	If there are no build errors, you should be good to proceed.
 
