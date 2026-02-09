@@ -124,7 +124,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
 
     public async Task PromptRemoveAttachmentAsync(AttachmentsListItemUi item)
     {
-        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
+        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.RemoveAttachmentFromDevice,
             LocalizedStrings.RemoveAttachmentDescription,
             LocalizedStrings.Remove,

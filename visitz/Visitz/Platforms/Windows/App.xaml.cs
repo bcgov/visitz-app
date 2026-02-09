@@ -2,6 +2,7 @@
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Handlers.Items;
 using Microsoft.Windows.AppLifecycle;
 using Oidc.WinWorkaround;
 using Visitz.Platforms.Windows.Visitz;
@@ -41,6 +42,20 @@ public partial class App : MauiWinUIApplication
         }
 
         HandleOAuthRedirect();
+
+        SetupMappers();
+    }
+
+    private static void SetupMappers()
+    {
+        // https://github.com/dotnet/maui/issues/16066#issuecomment-2058487452
+
+        CollectionViewHandler.Mapper.AppendToMapping(
+            "DisableMultiselectCheckbox",
+            (handler, view) =>
+            {
+                handler.PlatformView.IsMultiSelectCheckBoxEnabled = false;
+            });
     }
 
     private bool HandleOAuthRedirect()

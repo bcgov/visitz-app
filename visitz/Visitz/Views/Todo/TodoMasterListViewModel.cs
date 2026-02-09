@@ -1,8 +1,8 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using System.Collections.ObjectModel;
 using Visitz.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -39,8 +39,8 @@ public partial class TodoMasterListViewModel : VisitzViewModel
             query,
             icmDataRealm,
             TodoItem_PropertyChanged,
-            ()=>PersonVisit.GetUpcomingVisits(icmDataRealm).Count(),
-            new NavItem() {ContentViewType = typeof(TodoVisitsView)});
+            () => PersonVisit.GetUpcomingVisits(icmDataRealm).Count(),
+            new NavItem() { ContentViewType = typeof(TodoVisitsView) });
     }
 
     private void TodoItem_PropertyChanged(TodoItemUi item)

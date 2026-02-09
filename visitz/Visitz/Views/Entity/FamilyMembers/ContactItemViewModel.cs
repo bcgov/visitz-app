@@ -19,16 +19,21 @@ public partial class ContactItemViewModel : VisitzViewModel
     public bool expanded;
 
     [ObservableProperty]
-    public Color tagBgColor;
+    public Color? tagBgColor;
 
     [ObservableProperty]
-    public Color tagTextColor;
+    public Color? tagTextColor;
 
     [ObservableProperty]
     public string expandedChevronGlyph = MaterialIcons.Keyboard_arrow_down;
 
     [ObservableProperty]
     public string deceasedText = LocalizedStrings.Deceased;
+
+    public ContactItemViewModel(IcmContact icmContact)
+    {
+        Contact = icmContact;
+    }
 
     [RelayCommand]
     public void ItemTapped()

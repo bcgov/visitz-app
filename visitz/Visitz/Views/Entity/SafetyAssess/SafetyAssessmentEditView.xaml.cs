@@ -75,7 +75,7 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, IBusinessO
 
     private async static Task<bool> PromptDiscard()
     {
-        return await Navigator.CurrentOpenPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardDraftQuestion,
             LocalizedStrings.DiscardSafetyAssessmentDraftDescription,
             LocalizedStrings.Discard,

@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
-using Oidc.Network;
 using System.ComponentModel;
 using Visitz.Extensions;
 using Visitz.FontIcons;
@@ -174,7 +173,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         if (ShowDownloadIcon)
         {
-            await Navigator.CurrentOpenPage.DisplayAlert(
+            await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.UnableToRemove,
                 LocalizedStrings.RemoveFromDeviceErrorNotDownloaded,
                 LocalizedStrings.Ok);
@@ -187,7 +186,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
                 BusinessObject.EntityType,
                 BusinessObject.DisplayName.Trim());
 
-            await Navigator.CurrentOpenPage.DisplayAlert(
+            await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.UnableToRemove,
                 assignedMsg,
                 LocalizedStrings.Ok);
@@ -198,7 +197,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             BusinessObject.EntityType,
             BusinessObject.DisplayName);
 
-        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
+        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.RemoveFromDevice,
             message,
             LocalizedStrings.RemoveFromDevice,

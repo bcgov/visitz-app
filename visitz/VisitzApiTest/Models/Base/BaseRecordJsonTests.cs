@@ -3,6 +3,7 @@ using VisitzApi.Json;
 using VisitzApi.Models.Base;
 
 namespace VisitzApiTest.Models.Base;
+
 public partial class BaseRecordJsonTests
 {
     internal const string ArbitraryId = "1-1A2B3C4";

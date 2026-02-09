@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Extensions;
-using Visitz.Views.BaseClasses;
 using Oidc;
-using Visitz.Settings;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
+using Visitz.Settings;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.User;
 
@@ -82,7 +82,7 @@ internal partial class UserViewModel : VisitzViewModel
 
     static async Task<bool> PromptLogout()
     {
-        return await Navigator.CurrentOpenPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.LogoutAndClearData,
             LocalizedStrings.LogoutAndClearDataDesc,
             LocalizedStrings.Logout,

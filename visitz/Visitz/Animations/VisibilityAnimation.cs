@@ -25,12 +25,12 @@ namespace Visitz.Animations
                 view.IsVisible = ShowView;
 
                 view.Opacity = 0.0;
-                await view.FadeTo(1.0, Duration, Easing);
+                await view.FadeToAsync(1.0, Duration, Easing);
             }
             else
             {
                 view.Opacity = 1.0;
-                await view.FadeTo(0.0, Duration, Easing);
+                await view.FadeToAsync(0.0, Duration, Easing);
 
                 view.IsVisible = ShowView;
             }

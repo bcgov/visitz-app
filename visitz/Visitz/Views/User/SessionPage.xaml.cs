@@ -49,7 +49,7 @@ public partial class SessionPage : VisitzPage
             {
                 _semaphore.Release();
             }
-            catch {}
+            catch { }
         }
     }
 

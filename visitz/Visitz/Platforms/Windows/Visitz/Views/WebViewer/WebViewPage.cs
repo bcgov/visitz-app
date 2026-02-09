@@ -78,7 +78,7 @@ public partial class WebViewPage
 
         coreWebView.ProcessFailed += async (_, args) =>
         {
-            await DisplayAlert(LocalizedStrings.Error,
+            await DisplayAlertAsync(LocalizedStrings.Error,
                 args.Reason + "\n\n" + args.ProcessDescription,
                 LocalizedStrings.Ok);
 

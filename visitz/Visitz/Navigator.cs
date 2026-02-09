@@ -4,7 +4,7 @@ namespace Visitz;
 
 public class Navigator
 {
-    public static INavigation Navigation => Application.Current.MainPage.Navigation;
+    public static INavigation Navigation => Application.Current.Windows[0].Page.Navigation;
 
     public static Page CurrentOpenPage
     {

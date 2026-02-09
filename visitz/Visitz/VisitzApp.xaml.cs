@@ -39,8 +39,6 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
         CleanupStaleRecords();
     }
 
-
-
     protected override Window CreateWindow(IActivationState activationState)
     {
         return new VisitzWindow(new NavigationPage(new RootPage()));

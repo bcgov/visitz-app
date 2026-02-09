@@ -56,7 +56,7 @@ public class CaseRecordTests
         RenewReviewDate = "",
         ReopenedDate = "",
         RestrictedFlag = "N",
-        Position = [ PrimaryPosition, SecondaryPosition ],
+        Position = [PrimaryPosition, SecondaryPosition],
         Status = "",
         Type = "A type",
         WorkQueue = "",

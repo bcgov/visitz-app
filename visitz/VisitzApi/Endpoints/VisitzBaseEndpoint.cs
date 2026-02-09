@@ -20,7 +20,7 @@ namespace VisitzApi.Endpoints
         protected static IEnumerable<KeyValuePair<string, string>>
             FormDataCollection(string key, string value)
         {
-            return [ FormDataPair(key, value) ];
+            return [FormDataPair(key, value)];
         }
 
         public string BaseUrl { get; } = baseUrl;

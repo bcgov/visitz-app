@@ -54,7 +54,7 @@ public partial class DraftsList : ViewModelContentView
             !string.IsNullOrWhiteSpace(draft.DraftLocation) ? draft.DraftLocation : draft.RelatedEntityId
         );
 
-        return await Navigator.CurrentOpenPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardUnlinkedDraft,
             message,
             LocalizedStrings.DiscardDraft,

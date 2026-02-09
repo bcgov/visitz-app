@@ -6,8 +6,8 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentsListItemView : BaseContentView
 {
-	public AttachmentsListItemView()
-	{
-		InitializeComponent();
-	}
+    public AttachmentsListItemView()
+    {
+        InitializeComponent();
+    }
 }

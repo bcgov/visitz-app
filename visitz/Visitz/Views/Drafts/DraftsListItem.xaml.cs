@@ -14,13 +14,13 @@ public partial class DraftsListItem : BaseContentView
 
     IRecordInfo? Previous { get; set; }
 
-	public DraftsListItem()
-	{
-		InitializeComponent();
+    public DraftsListItem()
+    {
+        InitializeComponent();
 
         serviceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
         serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
-	}
+    }
 
     protected override void OnBindingContextChanged()
     {

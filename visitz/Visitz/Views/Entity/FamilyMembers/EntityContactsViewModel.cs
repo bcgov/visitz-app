@@ -64,7 +64,7 @@ public partial class EntityContactsViewModel : VisitzViewModel, IBusinessObjectH
                 .Order(comparer);
 
             foreach (var contact in ordered)
-                ContactViewModels.Add(new ContactItemViewModel() { Contact = contact });
+                ContactViewModels.Add(new ContactItemViewModel(contact));
         }
         else
         {
@@ -97,7 +97,7 @@ public partial class EntityContactsViewModel : VisitzViewModel, IBusinessObjectH
                 if (index < 0) index = ~index;
 
                 contactsCopy.Insert(index, contact);
-                ContactViewModels.Insert(index, new ContactItemViewModel() { Contact = contact });
+                ContactViewModels.Insert(index, new ContactItemViewModel(contact));
             }
         }
 

@@ -95,7 +95,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, IBusines
 
     static async Task PromptDiscardAttachmentDraftAsync(AttachmentDraft draft)
     {
-        bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
+        bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardDraft,
             LocalizedStrings.DiscardAttachmentDraftDescription,
             LocalizedStrings.Discard,

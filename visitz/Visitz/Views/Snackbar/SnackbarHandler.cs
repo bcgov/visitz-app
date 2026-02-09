@@ -37,6 +37,6 @@ internal class SnackbarHandler
 
     static async Task ShowDialogMessage(string title, string message)
     {
-        await Navigator.CurrentOpenPage.DisplayAlert(title, message, LocalizedStrings.Ok);
+        await Navigator.CurrentOpenPage.DisplayAlertAsync(title, message, LocalizedStrings.Ok);
     }
 }

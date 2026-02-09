@@ -8,13 +8,13 @@ internal static class PageExtensions
     static async Task<bool> MessagePrompt(Page page, string message, bool promptDetails, string title = null)
     {
         if (promptDetails)
-            return await page.DisplayAlert(
+            return await page.DisplayAlertAsync(
                 !string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error,
                 message,
                 LocalizedStrings.Details,
                 LocalizedStrings.Ok);
         else
-            await page.DisplayAlert(LocalizedStrings.Error, message, LocalizedStrings.Ok);
+            await page.DisplayAlertAsync(LocalizedStrings.Error, message, LocalizedStrings.Ok);
 
         return false;
     }
@@ -22,7 +22,7 @@ internal static class PageExtensions
     static async Task<bool> DetailedMessagePrompt(Page page, string detailedMessage, string title = null)
     {
         string prompt = LocalizedStrings.ErrorDialogCopyPrompt + Environment.NewLine + Environment.NewLine;
-        return await page.DisplayAlert(
+        return await page.DisplayAlertAsync(
             title,
             prompt + detailedMessage,
             LocalizedStrings.CopyToClipboard,
