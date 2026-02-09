@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
-using Oidc.Network;
 using System.ComponentModel;
 using Visitz.Extensions;
 using Visitz.FontIcons;

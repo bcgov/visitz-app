@@ -61,7 +61,7 @@ namespace Visitz.Views.AppLock
         static async Task HandleSuccessfulAuth()
         {
             await Navigator.Navigation.PopModalAsync();
-            
+
             new SurveyFeedbackTracker(Preferences.Default).IncrementTimesAppUnlocked();
             await FeedbackSurveyPage.TryOpen();
 

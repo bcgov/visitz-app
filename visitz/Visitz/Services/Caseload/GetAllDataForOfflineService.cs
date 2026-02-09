@@ -97,7 +97,7 @@ namespace Visitz.Services.Caseload
 
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
-            await GetPartialAttachments(all, exceptions);   
+            await GetPartialAttachments(all, exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()

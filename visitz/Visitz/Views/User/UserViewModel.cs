@@ -1,10 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Extensions;
-using Visitz.Views.BaseClasses;
 using Oidc;
-using Visitz.Settings;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
+using Visitz.Settings;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.User;
 

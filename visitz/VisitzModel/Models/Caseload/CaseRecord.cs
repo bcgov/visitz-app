@@ -245,7 +245,7 @@ public partial class CaseRecord :
             }
         });
     }
-    
+
     public static Task SynchronizeAsync(
         Realm realm,
         IEnumerable<CaseJson> newAssignedCases,

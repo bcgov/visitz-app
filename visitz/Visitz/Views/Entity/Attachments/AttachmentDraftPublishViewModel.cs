@@ -69,8 +69,8 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     }
 
     protected override async Task InitAsync()
-	{
-		await base.InitAsync();
+    {
+        await base.InitAsync();
 
         getAttachmentsServiceId = GetAttachmentsService.MakeId(
             attachmentDraft.RelatedEntityType,
@@ -95,7 +95,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     {
         if (!disposed && disposing)
         {
-		    WeakReferenceMessenger.Default.UnregisterAll(this);
+            WeakReferenceMessenger.Default.UnregisterAll(this);
 
             disposed = true;
         }
@@ -103,7 +103,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     }
 
     public override void Publish()
-	{
+    {
         var startMessage = SubmitAttachmentService.MakeStartMessage(
             EntityType,
             RecordId,

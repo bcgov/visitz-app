@@ -1,4 +1,5 @@
 namespace Visitz.Device;
+
 public static class DevicePermissions
 {
     public async static Task<PermissionStatus> PromptEnsureCameraAsync()

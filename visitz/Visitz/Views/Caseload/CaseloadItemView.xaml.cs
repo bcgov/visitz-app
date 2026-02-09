@@ -9,7 +9,7 @@ public partial class CaseloadItemView : BaseContentView
 {
     public CaseloadItemView() : base()
     {
-        InitializeComponent();    
+        InitializeComponent();
     }
 
     protected override ILogger<BaseContentView> MakeLogger()

@@ -2,7 +2,6 @@ using Realms;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
-using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.Notes
 {

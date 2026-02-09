@@ -1,8 +1,8 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using System.Collections.ObjectModel;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;

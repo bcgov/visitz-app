@@ -1,13 +1,13 @@
+using Microsoft.Extensions.Logging;
 using Oidc;
+using Oidc.Network;
+using Visitz.Resources.Localization;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
-using VisitzModel.Storage;
-using Microsoft.Extensions.Logging;
-using Visitz.Resources.Localization;
 using Visitz.Views.Debugging;
 using Visitz.Views.Snackbar;
-using Oidc.Network;
 using Visitz.Views.User;
+using VisitzModel.Storage;
 
 
 #if !WINDOWS
@@ -169,7 +169,7 @@ internal class AutoRefreshService(
             Logger.LogInformation("Cooldown {p}% ({sec}s/{min}m remaining)",
                 percent,
                 remainingSeconds,
-                remainingSeconds/60);
+                remainingSeconds / 60);
 
             return cooldownElapsed;
         }

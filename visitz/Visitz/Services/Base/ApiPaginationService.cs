@@ -27,7 +27,7 @@ internal abstract class ApiPaginationService : VisitzApiService
         {
             parallelOptions.CancellationToken = CancelTokenSource.Token;
         }
-        
+
         ParallelOptions = parallelOptions ?? new()
         {
             CancellationToken = CancelTokenSource.Token,

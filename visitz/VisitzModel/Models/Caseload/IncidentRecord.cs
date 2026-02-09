@@ -1,6 +1,5 @@
 using Realms;
 using System.Globalization;
-using System.Linq;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;

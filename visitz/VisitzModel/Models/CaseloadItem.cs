@@ -1,5 +1,4 @@
 using Realms;
-using VisitzApi.Models;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Notes;

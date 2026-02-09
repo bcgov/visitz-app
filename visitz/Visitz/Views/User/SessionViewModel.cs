@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -88,7 +87,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             // it wonderfully. Not ideal but it works.
             await Task.Delay(100);
 #endif
-            if (!AppLockPage.IsOpen 
+            if (!AppLockPage.IsOpen
                 && sessionStatus.SessionExists
                 && NetworkHelper.InternetAvailable)
                 // If AppLockPage is open, it will auto prompt to authenticate.
@@ -274,7 +273,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             );
             return;
         }
-        
+
         WeakReferenceMessenger.Default.Register<ServiceStateMessage, string>(this, GetCaseloadService.MakeId());
 
         var msg = GetAllDataForOfflineService.MakeStartMessage(forceDownload: true);
@@ -318,7 +317,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     public void Receive(AppLockMessage message)
     {
-        if (message.Value == AppLockStatus.Closed 
+        if (message.Value == AppLockStatus.Closed
             && NetworkHelper.InternetAvailable)
             _ = DownloadCaseloadAndSubscribeAsync();
     }

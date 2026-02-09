@@ -40,7 +40,7 @@ namespace Oidc
                 if (await TokenHolder.IsRefreshTokenExpired())
                     await LoginAsync(messageIfUnavailable, cancellationToken);
                 else
-                    await RefreshAsync(messageIfUnavailable);   
+                    await RefreshAsync(messageIfUnavailable);
             }
         }
 

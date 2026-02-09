@@ -1,9 +1,9 @@
-using System.Text;
-using Visitz.Storage;
-using VisitzModel.Models.InPersonVisits;
 using Oidc;
+using System.Text;
 using Visitz.Services;
 using Visitz.Services.Caseload;
+using Visitz.Storage;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 
 #if WINDOWS
@@ -117,7 +117,7 @@ public class DebugOptions
     public static double StaleThresholdMinutes
     {
         get => Get(StaleThresholdMinutesKey, OidcSession.StaleThresholdMinutes);
-        set => Set(StaleThresholdMinutesKey, value > 0.0d? value : OidcSession.StaleThresholdMinutes);
+        set => Set(StaleThresholdMinutesKey, value > 0.0d ? value : OidcSession.StaleThresholdMinutes);
     }
 
     public static async Task ClearRealmData()
