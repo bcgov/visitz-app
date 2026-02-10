@@ -1,12 +1,16 @@
-# Pull Requests
+# Contributing
 
-## Making a PR
+## Pull Requests
+
+Changes to source code must go through a Pull Request.
+
+### Making a PR
 
 1. Commit your work in a working branch
 
-    We don't require a naming convention for working branches—as long as they don't conflict with any mainline branch (`dev/*`, `prod`, etc.) branch and the branch name is at least somewhat descriptive.
+    We don't require a naming convention for working branches as long as they don't conflict with any mainline branch (`dev/*`, `prod`, etc.) and the branch name is relatively descriptive.
 
-1. If your working branch is out of date with `dev/*`, rebase it onto the latest dev branch and resolve any merge conflicts. Do not pull and merge `dev/*` into your working branch.
+1. If your working branch is out of date with `dev/*`, **rebase** it onto the latest dev branch and resolve any merge conflicts. **Do not** pull and merge `dev/*` into your working branch.
 
 1. Create a PR for your branch
 
@@ -14,9 +18,9 @@
 
 1. In the PR description, include a hyperlink to the story/ticket related to this work
 
-	e.g. `[STRY00000 - \<short description or title of work\>\](\<URL to story/ticket\>)`
+	e.g. `[STRY00000](<URL to story/ticket>)`
 
-# App secrets & environment settings
+## App secrets & environment settings
 
 App secrets & environment app settings *must not* be committed. Use configuration files and/or environment variables instead. *Pull Requests containing info that must not be committed will be* ***rejected***.
 
@@ -63,8 +67,6 @@ Before merging a branch into one of the mainlines (dev, test, prod) you *must* r
 - If it's for some kind of A/B testing, then enabling/disabling certain features should be handled by feature flags in code instead of manually building different snapshots with commented code.
 
 - If you are removing code but keeping it in comments for historical purposes: remove it from the main codebase and add it to the `archive` folder with an explanation of why this code is being kept.
-        
-    > We use Git to track historical changes, not commented code.
 
 # Coding Conventions
 
@@ -88,7 +90,7 @@ Then follow:
 
     * Instead, refactor the surrounding code to work without a nested ternary statement (like an if/else-if/else block or a self-descriptive private function).
     
-    * Ternary statements that are not nested are fine—but if they're long, consider breaking them up with whitespace:
+    * If you're writing a long ternary statement, consider breaking them up with whitespace and newlines:
     
         ```C#
         return someBoolValue
@@ -96,6 +98,6 @@ Then follow:
             : SmallerStringUtilities.TrimSomeWhitespace(stringVal)
         ```
         
-4. Use `static readonly` instead of `const` for public global constant values.
+4. Use `static readonly` instead of `const` for public global constant values that will be shared between classes.
 
     * [What is the difference between const and static in C#?](https://stackoverflow.com/a/2512962)
