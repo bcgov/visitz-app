@@ -14,7 +14,7 @@
 	x:Class="Visitz.Views.Navigation.VerticalNavRailView"
 	x:DataType="nav:NavRailViewModel"
 	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-	MaximumWidthRequest="95">
+	WidthRequest="72">
 
 	<Grid 
 		RowDefinitions="Auto,Auto,*,Auto,Auto">
@@ -42,7 +42,7 @@
 
 			<selView:SelectionList.ItemTemplate>
 				<DataTemplate>
-					<nav:NavItemView MinimumHeightRequest="72" HorizontalOptions="Fill" />
+					<nav:NavItemView />
 				</DataTemplate>
 			</selView:SelectionList.ItemTemplate>
 		</selView:SelectionList>

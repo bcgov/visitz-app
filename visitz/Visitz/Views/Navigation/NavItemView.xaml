@@ -6,7 +6,9 @@
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Navigation.NavItemView"
     x:DataType="navModels:NavItem"
-    Padding="8">
+    MinimumHeightRequest="72"
+    MinimumWidthRequest="72"
+    Padding="0">
 
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup x:Name="CommonStates">
@@ -37,30 +39,26 @@
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
 
-    <StackLayout
+    <Grid
         x:Name="MainStack"
+        RowDefinitions="1.05*,*"
         HorizontalOptions="Fill"
-        VerticalOptions="Center"
-        Orientation="{Binding Orientation, Source={RelativeSource AncestorType={x:Type nav:NavItemView}}}"
-        Spacing="8">
+        VerticalOptions="Fill">
 
-        <AbsoluteLayout
-            HorizontalOptions="Center"
-            VerticalOptions="FillAndExpand">
-
+        <Grid Grid.Row="0">
             <Image
                 x:Name="IconImage"
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="0.5,0.5"
                 Source="{Binding UnselectedImageSource}"
                 HeightRequest="{Binding IconSize}"
                 WidthRequest="{Binding IconSize}"
                 HorizontalOptions="Center"
-                VerticalOptions="Center"/>
-
+                VerticalOptions="End"/>
+            
             <Border
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-                AbsoluteLayout.LayoutBounds="{OnPlatform iOS='2,-1', Default='4,-4.5'}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                TranslationX="17"
+                TranslationY="0"
                 StrokeShape="RoundRectangle 20"
                 StrokeThickness="0"
                 IsVisible="{Binding ShowBadge}"
@@ -92,15 +90,15 @@
                             VerticalTextAlignment="Center"/>
                     </Border>
                 </Border>
-
             </Border>
-        </AbsoluteLayout>
+        </Grid>
 
         <Label
+            Grid.Row="1"
             Text="{Binding Text}"
             TextColor="{Binding Color}"
             HorizontalOptions="Center"
-            VerticalOptions="Center"/>
-    </StackLayout>
+            VerticalOptions="Start"/>
+    </Grid>
 
 </ContentView>

@@ -13,7 +13,7 @@
 	x:Class="Visitz.Views.Navigation.HorizontalNavRailView"
 	x:DataType="nav:NavRailViewModel"
 	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-	MaximumHeightRequest="72">
+	HeightRequest="72">
 
 	<Grid ColumnDefinitions="Auto,*,Auto,Auto">
 		<selView:SelectionList
@@ -24,7 +24,7 @@
 
 			<selView:SelectionList.ItemTemplate>
 				<DataTemplate>
-					<nav:NavItemView Orientation="Horizontal" MinimumWidthRequest="72" />
+					<nav:NavItemView />
 				</DataTemplate>
 			</selView:SelectionList.ItemTemplate>
 		</selView:SelectionList>
@@ -32,7 +32,8 @@
 		<caseload:DataRefreshButton
 			Grid.Column="2"
 			Orientation="Horizontal"
-			HorizontalOptions="Center" />
+			HorizontalOptions="Center"
+            VerticalOptions="Center"/>
 
 		<Image 
 			Grid.Column="3"

@@ -29,7 +29,7 @@ public partial class NavRailViewModel : VisitzViewModel
 #if IOS
     static readonly double IosIconSize = 34;
 #else
-    static readonly double DefaultIconSize = 24;
+    static readonly double DefaultIconSize = 21;
 #endif
 
     [ObservableProperty]
