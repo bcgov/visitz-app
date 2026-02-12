@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.Foldable;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Messaging;
 
@@ -51,6 +52,12 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
     {
         IsPortrait = orientation.Equals(DisplayOrientation.Portrait);
         IsLandscape = !IsPortrait;
+    }
+
+    public void UpdateOrientationVisibility(TwoPaneViewMode mode)
+    {
+        IsPortrait = mode == TwoPaneViewMode.Tall;
+        IsLandscape = mode == TwoPaneViewMode.Wide;
     }
 
     public void Receive(AppNavMessage message)

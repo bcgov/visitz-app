@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.Foldable;
 using Visitz.Animations;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
@@ -79,5 +80,11 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
     {
         await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
         SetSnackbar(null);
+    }
+
+    private void TwoPaneView_ModeChanged(object sender, EventArgs e)
+    {
+        if (ViewModel is RootViewModel rvm && sender is TwoPaneView paneView)
+            rvm.UpdateOrientationVisibility(paneView.Mode);
     }
 }
