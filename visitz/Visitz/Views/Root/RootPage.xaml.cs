@@ -8,9 +8,11 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Root;
 
+#nullable enable
+
 public partial class RootPage : VisitzPage, ISnackbarPresenter
 {
-    VisitzSnackbar Snackbar { get; set; }
+    VisitzSnackbar? Snackbar { get; set; }
 
     public RootPage() : base(ServiceProvider.GetService<RootViewModel>())
     {
@@ -52,12 +54,11 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
         ContentPane.Add(view);
     }
 
-    public void SetSnackbar(VisitzSnackbar snackbar)
+    public void SetSnackbar(VisitzSnackbar? snackbar)
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            if (Snackbar != null)
-                Snackbar.ShouldClose -= Snackbar_ShouldClose;
+            Snackbar?.ShouldClose -= Snackbar_ShouldClose;
 
             Snackbar = snackbar;
             SnackbarContainer.Content = Snackbar;
@@ -71,7 +72,7 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
         });
     }
 
-    public void Snackbar_ShouldClose(object sender, EventArgs e)
+    public void Snackbar_ShouldClose(object? sender, EventArgs e)
     {
         _ = AnimateCloseSnackbar();
     }

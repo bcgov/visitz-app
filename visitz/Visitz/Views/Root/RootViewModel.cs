@@ -6,6 +6,8 @@ using VisitzModel.Messaging;
 
 namespace Visitz.Views.Root;
 
+#nullable enable
+
 internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>
 {
     [ObservableProperty]
@@ -43,7 +45,7 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
         base.Dispose(disposing);
     }
 
-    private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    private void Current_MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
     {
         UpdateOrientationVisibility(e.DisplayInfo.Orientation);
     }
