@@ -109,10 +109,17 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
         }
         else
         {
+#if WINDOWS
+                SnackbarHandler.ShowTextWithDetails(
+                    LocalizedStrings.NoCameraMicrophonePermissionsPrompt,
+                    LocalizedStrings.NoCameraMicrophonePermissionsPrompt,
+                    LocalizedStrings.PhotoPermissionsErrorDesc);
+#else
             SnackbarHandler.ShowTextWithDetails(
-                LocalizedStrings.NoCameraPermissionsPrompt,
-                LocalizedStrings.NoCameraPermissionsPrompt,
-                LocalizedStrings.NoCameraPermissionsDetailMessage);
+                    LocalizedStrings.NoCameraPermissionsPrompt,
+                    LocalizedStrings.NoCameraPermissionsPrompt,
+                    LocalizedStrings.NoCameraPermissionsDetailMessage);
+            #endif
         }
     }
 
