@@ -770,6 +770,12 @@ You can view the details of this error or try again later.</value>
   <data name="NoCameraPermissionsPrompt" xml:space="preserve">
     <value>Camera permissions disabled</value>
   </data>
+  <data name="NoCameraMicrophonePermissionsPrompt" xml:space="preserve">
+    <value>Camera and Microphone permissions disabled</value>
+  </data>
+  <data name="PhotoPermissionsErrorDesc" xml:space="preserve">
+    <value>MCFD Mobility does not have full permission to use your device's camera and microphone. Go to your system's settings page and turn on Camera and Microphone access for MCFD Mobility.</value>
+  </data>
   <data name="RecordRemovedFromCaseload" xml:space="preserve">
     <value>{0} '{1}' removed from device</value>
     <comment>0 = Entity type, 1 = Key player name</comment>
