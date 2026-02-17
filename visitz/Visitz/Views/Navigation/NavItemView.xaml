@@ -6,8 +6,8 @@
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Navigation.NavItemView"
     x:DataType="navModels:NavItem"
-    MinimumHeightRequest="72"
-    MinimumWidthRequest="72"
+    MinimumHeightRequest="64"
+    MinimumWidthRequest="64"
     Padding="0">
 
     <VisualStateManager.VisualStateGroups>
@@ -95,6 +95,7 @@
 
         <Label
             Grid.Row="1"
+            FontSize="14"
             Text="{Binding Text}"
             TextColor="{Binding Color}"
             HorizontalOptions="Center"
