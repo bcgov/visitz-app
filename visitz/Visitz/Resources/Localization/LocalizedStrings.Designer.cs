@@ -1397,7 +1397,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Camera and Microphone permissions disabled.
+        ///   Looks up a localized string similar to Camera and microphone permissions disabled.
         /// </summary>
         public static string NoCameraMicrophonePermissionsPrompt {
             get {
@@ -1595,7 +1595,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MCFD Mobility does not have full permission to use your device&apos;s camera and microphone. Go to your system&apos;s settings page and turn on Camera and Microphone access for MCFD Mobility..
+        ///   Looks up a localized string similar to MCFD Mobility does not have full permission to use your device&apos;s camera and microphone. Go to your system&apos;s settings page and turn on Camera and Microphone..
         /// </summary>
         public static string PhotoPermissionsErrorDesc {
             get {
