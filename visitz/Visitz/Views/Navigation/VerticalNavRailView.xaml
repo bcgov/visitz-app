@@ -35,17 +35,21 @@
 			
 		</toolkit:AvatarView>
 
-		<selView:SelectionList
-			Grid.Row="1"
-			ItemsSource="{Binding NavigationItems}"
-			SelectedItem="{Binding SelectedNavItem}">
+		<VerticalStackLayout Grid.Row="1">
 
-			<selView:SelectionList.ItemTemplate>
+            <VerticalStackLayout.Behaviors>
+                <behaviors:SelectionLayoutBehavior
+			        ItemsSource="{Binding NavigationItems}"
+			        SelectedItem="{Binding SelectedNavItem}"
+                    StickySelection="True"/>
+            </VerticalStackLayout.Behaviors>
+
+			<BindableLayout.ItemTemplate>
 				<DataTemplate>
 					<nav:NavItemView />
 				</DataTemplate>
-			</selView:SelectionList.ItemTemplate>
-		</selView:SelectionList>
+			</BindableLayout.ItemTemplate>
+		</VerticalStackLayout>
 
 		<caseload:DataRefreshButton
 			Grid.Row="3"
