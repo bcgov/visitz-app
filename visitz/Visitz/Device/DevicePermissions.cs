@@ -11,8 +11,7 @@ public static class DevicePermissions
         //Checking camera access for non Window devices
         PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
-        //Checking camera and microphone access for Window devices
-        #if WINDOWS
+#if WINDOWS
         try
         {
             var mediaCapture = new MediaCapture();
@@ -30,18 +29,18 @@ public static class DevicePermissions
         {
             status = PermissionStatus.Denied;
         }
-        catch
+        catch (Exception ex)
         {
             // Other error (camera missing, in use, etc.)
             status = PermissionStatus.Unknown;
         }
-        #else
+#else
 
         if (status == PermissionStatus.Unknown)
         {
             status = await Permissions.RequestAsync<Permissions.Camera>();
         }
-        #endif
+#endif
 
         return status;
     }

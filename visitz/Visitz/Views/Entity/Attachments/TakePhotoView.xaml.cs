@@ -119,7 +119,7 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
                     LocalizedStrings.NoCameraPermissionsPrompt,
                     LocalizedStrings.NoCameraPermissionsPrompt,
                     LocalizedStrings.NoCameraPermissionsDetailMessage);
-            #endif
+#endif
         }
     }
 
