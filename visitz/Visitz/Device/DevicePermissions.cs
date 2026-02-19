@@ -1,11 +1,16 @@
+using Microsoft.Extensions.Logging;
+
 namespace Visitz.Device;
 #if WINDOWS
 using Windows.Security.Authorization.AppCapabilityAccess;
 using Windows.Media.Capture;
 #endif
 
-public static class DevicePermissions
+public class DevicePermissions
 {
+    public static ILogger Logger { get; set; }
+        = ServiceProvider.GetService<ILogger<DevicePermissions>>();
+
     public async static Task<PermissionStatus> PromptEnsureCameraAsync()
     {
         //Checking camera access for non Window devices
@@ -33,6 +38,7 @@ public static class DevicePermissions
         {
             // Other error (camera missing, in use, etc.)
             status = PermissionStatus.Unknown;
+            Logger.LogError(ex, $"Error using camera/microphone: {ex.Message}");
         }
 #else
 
