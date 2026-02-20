@@ -1397,6 +1397,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Camera and microphone permissions disabled.
+        /// </summary>
+        public static string NoCameraMicrophonePermissionsPrompt {
+            get {
+                return ResourceManager.GetString("NoCameraMicrophonePermissionsPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility isn&apos;t permitted to use your device&apos;s camera. Enable it in device settings and try again..
         /// </summary>
         public static string NoCameraPermissionsDetailMessage {
@@ -1582,6 +1591,15 @@ namespace Visitz.Resources.Localization {
         public static string PdfContentMissing {
             get {
                 return ResourceManager.GetString("PdfContentMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility does not have full permission to use your device&apos;s camera and microphone. Go to your system&apos;s settings page and turn on Camera and Microphone..
+        /// </summary>
+        public static string PhotoPermissionsErrorDesc {
+            get {
+                return ResourceManager.GetString("PhotoPermissionsErrorDesc", resourceCulture);
             }
         }
         
