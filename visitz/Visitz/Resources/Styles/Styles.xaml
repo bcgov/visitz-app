@@ -127,7 +127,7 @@
 
     <Style TargetType="Button" BasedOn="{StaticResource PrimaryButton}" />
 
-    <Style TargetType="Button" x:Key="PrimaryButtonMedium" BasedOn="{StaticResource BaseButtonStyle}">
+    <Style TargetType="Button" x:Key="PrimaryButtonRounded" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="TextColor" Value="{StaticResource White}" />
         <Setter Property="BackgroundColor" Value="{StaticResource BC_Blue}" />
         <Setter Property="WidthRequest" Value="40" />
