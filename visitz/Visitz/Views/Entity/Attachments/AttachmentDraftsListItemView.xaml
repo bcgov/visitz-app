@@ -82,7 +82,7 @@
 
             <controls:FontIconButton
                 Grid.Column="4"
-                Style="{StaticResource PrimaryButtonLight}"
+                Style="{StaticResource PrimaryButtonRounded}"                
                 Padding="0"
                 VerticalOptions="Center"
                 Text="{Static icons:MaterialIcons.Publish}"
