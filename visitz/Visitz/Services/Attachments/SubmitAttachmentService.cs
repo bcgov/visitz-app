@@ -2,6 +2,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models.Attachments;
+using VisitzApi.Requests;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 

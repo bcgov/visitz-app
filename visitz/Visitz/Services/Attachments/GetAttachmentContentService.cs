@@ -4,6 +4,7 @@ using Visitz.Storage;
 using Visitz.Views.Debugging;
 using VisitzApi;
 using VisitzApi.Models.Attachments;
+using VisitzApi.Requests;
 using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;

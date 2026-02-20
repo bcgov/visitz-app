@@ -2,6 +2,7 @@ using System.Net;
 using System.Text.Json;
 using VisitzApi.Json;
 using VisitzApi.Models.Attachments;
+using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.Attachments;
 
