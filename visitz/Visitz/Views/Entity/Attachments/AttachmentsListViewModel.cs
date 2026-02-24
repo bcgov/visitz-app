@@ -87,6 +87,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
     {
         if (changes == null)
         {
+            AttachmentsList.Clear();
+
             foreach (var item in items)
                 AttachmentsList.Add(MakeItemUi(item as Attachment));
         }
@@ -97,9 +99,6 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
                 AttachmentsList.ElementAt(deleted).Dispose();
                 AttachmentsList.RemoveAt(deleted);
             }
-
-            foreach (int modified in changes.ModifiedIndices)
-                AttachmentsList[modified] = MakeItemUi(items[modified] as Attachment);
 
             foreach (int inserted in changes.InsertedIndices)
                 AttachmentsList.Insert(inserted, MakeItemUi(items[inserted] as Attachment));
