@@ -87,6 +87,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
     {
         if (changes == null)
         {
+            AttachmentsList.Clear();
+
             foreach (var item in items)
                 AttachmentsList.Add(MakeItemUi(item as Attachment));
         }
