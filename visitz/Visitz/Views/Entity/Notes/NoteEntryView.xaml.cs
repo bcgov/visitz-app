@@ -24,7 +24,7 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
     {
         InitializeComponent();
         BindingContext = ViewModel;
-
+        
         ViewModel.DraftError += NoteEntryView_DraftError;
         ViewModel.SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
     }
