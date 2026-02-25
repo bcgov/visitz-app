@@ -24,7 +24,7 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
     {
         InitializeComponent();
         BindingContext = ViewModel;
-
+        
         ViewModel.DraftError += NoteEntryView_DraftError;
         ViewModel.SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
     }
@@ -99,5 +99,15 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
             LocalizedStrings.DiscardNoteDraftDescription,
             LocalizedStrings.Discard,
             LocalizedStrings.Cancel);
+    }
+
+    private void NotesEditor_Loaded(object sender, EventArgs e)
+    {
+#if WINDOWS
+        NotesEditor.Focus();
+
+        if (!string.IsNullOrEmpty(NotesEditor.Text))
+            NotesEditor.CursorPosition = NotesEditor.Text.Length;
+#endif
     }
 }
