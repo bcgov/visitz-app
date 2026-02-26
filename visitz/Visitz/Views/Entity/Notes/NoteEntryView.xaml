@@ -85,8 +85,7 @@
                     Placeholder="Type your notes here..."
                     TextChanged="NotesEditor_TextChanged"
                     Keyboard="Text"
-                    Loaded="NotesEditor_Loaded"
-                    >
+                    Loaded="NotesEditor_Loaded">
 
                     
                 </Editor>
