@@ -12,7 +12,7 @@
     x:DataType="notes:EntityNotesViewModel">
 
     <StackLayout Orientation="Vertical">
-        
+
         <AbsoluteLayout VerticalOptions="FillAndExpand">
             <VerticalStackLayout 
                 AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -60,11 +60,11 @@
 
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="models:NoteItemGroup">
-                        
+
                         <!-- Fonts in Windows seem to have extra padding -->
                         <ContentView 
                             Padding="{OnPlatform WinUI='0', Default='10'}">
-                            
+
                             <Label
                                 VerticalOptions="Center"
                                 VerticalTextAlignment="Center"
@@ -97,7 +97,7 @@
             Padding="10"
             RowDefinitions="Auto"
             ColumnDefinitions="Auto,*,Auto">
-            
+
             <!-- TODO: Unhide this search button once notes search is implemented. -->
             <Button 
                 IsVisible="False"
@@ -106,6 +106,18 @@
                 FontSize="20"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Text="{Static icons:MaterialIcons.Search}" />
+
+            <Button 
+             Grid.Column="0"
+             Text="Copy Cases and Incidents"
+             Clicked="OnCopyClicked">
+                <Button.ImageSource>
+                    <FontImageSource 
+                        Glyph="{Static icons:MaterialIcons.Copy_all}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Size="20"/>
+                </Button.ImageSource>
+            </Button>
 
             <Button 
                 Grid.Column="2"
@@ -119,6 +131,6 @@
                 </Button.ImageSource>
             </Button>
         </Grid>
-        
+
     </StackLayout>
 </baseClasses:ViewModelContentView>
