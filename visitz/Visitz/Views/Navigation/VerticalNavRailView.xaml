@@ -56,10 +56,11 @@
 			Orientation="Vertical"
 			HorizontalOptions="Center" />
 
-		<Image 
-			Grid.Row="4"
-			HorizontalOptions="Center"
-			Source="bc_logo_vertical_reverse.png"/>
-	</Grid>
+        <Image
+            x:Name="LogoImage"
+            Grid.Row="4"
+            HorizontalOptions="Center"
+            Source="bc_logo_vertical_reverse.png" />
+    </Grid>
 
 </baseClasses:ViewModelContentView>

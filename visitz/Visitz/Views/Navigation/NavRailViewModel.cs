@@ -86,13 +86,6 @@ public partial class NavRailViewModel : VisitzViewModel
         UnselectedImageSource = MaterialIcons.Draft.GetUnfilledMaterialIcon(Colors.White),
     };
 
-    [ObservableProperty]
-    public NavItem debugNavItem = new()
-    {
-        Text = "",
-        ContentViewType = typeof(DebugOptionsView),
-    };
-
     readonly ObservableRealmCount realmCount = new();
 
     protected override async Task InitAsync()
@@ -133,9 +126,6 @@ public partial class NavRailViewModel : VisitzViewModel
         NavigationItems.Add(TodoNavItem);
         NavigationItems.Add(CaseloadNavItem);
         NavigationItems.Add(DraftsNavItem);
-
-        if (DebugOptions.Enabled)
-            NavigationItems.Add(DebugNavItem);
     }
 
     private async Task SubscribeToAllDraftCounts()
@@ -201,5 +191,12 @@ public partial class NavRailViewModel : VisitzViewModel
     private NavItem GetNavItemByType(Type contentViewType)
     {
         return (NavItem)NavigationItems.FirstOrDefault(item => (item as NavItem).ContentViewType == contentViewType);
+    }
+
+    [RelayCommand]
+    private static async Task OpenDebugOptions()
+    {
+        if (DebugOptions.Enabled)
+            await Navigator.GoToPage<DebugOptionsPage>();
     }
 }
