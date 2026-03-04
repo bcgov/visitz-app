@@ -100,4 +100,14 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
             LocalizedStrings.Discard,
             LocalizedStrings.Cancel);
     }
+
+    private void NotesEditor_Loaded(object sender, EventArgs e)
+    {
+#if WINDOWS
+        NotesEditor.Focus();
+
+        if (!string.IsNullOrEmpty(NotesEditor.Text))
+            NotesEditor.CursorPosition = NotesEditor.Text.Length;
+#endif
+    }
 }

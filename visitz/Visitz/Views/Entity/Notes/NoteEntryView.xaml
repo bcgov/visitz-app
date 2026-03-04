@@ -84,7 +84,8 @@
                     FontSize="17"
                     Placeholder="Type your notes here..."
                     TextChanged="NotesEditor_TextChanged"
-                    Keyboard="Text">
+                    Keyboard="Text"
+                    Loaded="NotesEditor_Loaded">
 
                     
                 </Editor>
