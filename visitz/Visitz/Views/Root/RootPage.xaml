@@ -24,6 +24,7 @@
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             TallModeConfiguration="BottomTop"
             Pane1Length="Auto"
+            MinWideModeWidth="{Binding MinScreenSize}"
             ModeChanged="TwoPaneView_ModeChanged">
             
             <foldable:TwoPaneView.Pane1>

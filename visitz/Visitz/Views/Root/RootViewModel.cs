@@ -19,6 +19,23 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
     [ObservableProperty]
     public bool showActivity = true;
 
+    [ObservableProperty]
+    public double minScreenSize = GetMinSize();
+
+    static double GetMinSize()
+    {
+        if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            return 700; // 700 arbitrarily chosen
+        else
+        {
+            double min = Math.Min(
+                DeviceDisplay.MainDisplayInfo.Height,
+                DeviceDisplay.MainDisplayInfo.Width);
+
+            return min / DeviceDisplay.MainDisplayInfo.Density;
+        }
+    }
+
     protected override Task InitAsync()
     {
         base.InitAsync();
