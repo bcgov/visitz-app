@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Behaviors;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
 
@@ -34,5 +35,15 @@ public partial class VerticalNavRailView : ViewModelContentView
         menu.Add(item);
 
         FlyoutBase.SetContextFlyout(LogoImage, menu);
+
+        LogoImage.Behaviors.Add(new TouchBehavior()
+        {
+            BindingContext = ViewModel,
+            LongPressDuration = 300,
+            LongPressCommand = vm.OpenDebugOptionsCommand,
+            PressedAnimationDuration = 300,
+            PressedScale = 1.4d,
+            PressedAnimationEasing = Easing.BounceIn,
+        });
     }
 }
