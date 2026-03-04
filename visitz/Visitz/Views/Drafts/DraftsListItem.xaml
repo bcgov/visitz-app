@@ -23,8 +23,8 @@
         <VerticalStackLayout>
             <Grid
                 RowDefinitions="*,Auto"
-                ColumnDefinitions="Auto,*,Auto,Auto,Auto"
-                ColumnSpacing="5"
+                ColumnDefinitions="*, *, 0.75*, 0.2*, Auto"
+                ColumnSpacing="8"
                 Style="{StaticResource DraftsColumns}"
                 MinimumHeightRequest="25"
                 Margin="10">
@@ -56,9 +56,6 @@
                 <tagViews:EntityTypeBadge
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="3"
-                    Padding="0,2"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
                     EntityType="{Binding RelatedEntityType}"
                     EntitySubtype="{Binding RelatedEntitySubtype}" />
 
@@ -66,7 +63,6 @@
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="4"
                     FontSize="20"
-                    Padding="0,2"
                     FontFamily="MaterialIconsRoundedUnfilled"
                     Text="{Static icons:MaterialIcons.Download}"
                     VerticalOptions="Center"
@@ -77,7 +73,6 @@
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="4"
                     FontSize="20"
-                    Padding="0,2"
                     BackgroundColor="White"
                     FontFamily="MaterialIconsRoundedUnfilled"
                     Text="{Static icons:MaterialIcons.Link_off}"
