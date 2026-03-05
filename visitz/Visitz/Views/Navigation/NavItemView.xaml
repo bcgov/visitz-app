@@ -41,7 +41,7 @@
 
     <Grid
         x:Name="MainStack"
-        RowDefinitions="1.05*,*"
+        RowDefinitions="1.5*,*"
         HorizontalOptions="Fill"
         VerticalOptions="Fill">
 
