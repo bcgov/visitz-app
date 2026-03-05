@@ -10,49 +10,78 @@
     MinimumWidthRequest="64"
     Padding="0">
 
+    <!-- Dimension values collected from https://m3.material.io/components/navigation-bar/specs -->
+
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup x:Name="CommonStates">
             <VisualState x:Name="Normal">
                 <VisualState.Setters>
-                    <Setter TargetName="IconImage"
-                            Property="Image.Source"
-                            Value="{Binding UnselectedImageSource}"/>
-                    <Setter TargetName="SpacerBorder"
-                            Property="Border.BackgroundColor"
-                            Value="Transparent"/>
-                    <Setter Property="BackgroundColor"
-                            Value="Transparent"/>
+                    <Setter
+                        TargetName="IconImage"
+                        Property="Image.Source"
+                        Value="{Binding UnselectedImageSource}"/>
+                    <Setter
+                        TargetName="IconBackdrop"
+                        Property="Border.BackgroundColor"
+                        Value="Transparent"/>
+                    <Setter
+                        TargetName="SpacerBorder"
+                        Property="Border.BackgroundColor"
+                        Value="Transparent" />
                 </VisualState.Setters>
             </VisualState>
             <VisualState x:Name="Selected">
                 <VisualState.Setters>
-                    <Setter TargetName="IconImage"
-                            Property="Image.Source"
-                            Value="{Binding SelectedImageSource}"/>
-                    <Setter TargetName="SpacerBorder"
-                            Property="Border.BackgroundColor"
-                            Value="#33ffffff"/>
-                    <Setter Property="BackgroundColor"
-                            Value="#33ffffff"/>
+                    <Setter
+                        TargetName="IconImage"
+                        Property="Image.Source"
+                        Value="{Binding SelectedImageSource}"/>
+                    <Setter
+
+                        TargetName="IconBackdrop"
+                        Property="Border.BackgroundColor"
+                        Value="#33ffffff"/>
+                    <Setter
+                        TargetName="SpacerBorder"
+                        Property="Border.BackgroundColor"
+                        Value="#33ffffff" />
                 </VisualState.Setters>
             </VisualState>
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
 
-    <Grid
+    <VerticalStackLayout
         x:Name="MainStack"
-        RowDefinitions="{OnPlatform WinUI='1.05*,*', Default='1.5*,*'}"
         HorizontalOptions="Fill"
-        VerticalOptions="Fill">
+        MinimumHeightRequest="64">
 
-        <Grid Grid.Row="0">
-            <Image
-                x:Name="IconImage"
-                Source="{Binding UnselectedImageSource}"
-                HeightRequest="{Binding IconSize}"
-                WidthRequest="{Binding IconSize}"
+        <Grid
+            Grid.Row="0">
+            
+            <Border
+                x:Name="IconBackdrop"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 16"
                 HorizontalOptions="Center"
-                VerticalOptions="End"/>
+                HeightRequest="32"
+                WidthRequest="56">
+                <Border.Margin>
+                    <Thickness
+                        Top="6" />
+                </Border.Margin>
+                <Border.Padding>
+                    <Thickness
+                        Left="16"
+                        Right="16" />
+                </Border.Padding>
+                <Image
+                    x:Name="IconImage"
+                    Source="{Binding UnselectedImageSource}"
+                    HeightRequest="{Binding IconSize}"
+                    WidthRequest="{Binding IconSize}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+            </Border>
             
             <Border
                 VerticalOptions="Center"
@@ -99,7 +128,13 @@
             Text="{Binding Text}"
             TextColor="{Binding Color}"
             HorizontalOptions="Center"
-            VerticalOptions="Start"/>
-    </Grid>
+            VerticalOptions="Start">
+            <Label.Margin>
+                <Thickness
+                    Top="4"
+                    Bottom="6" />
+            </Label.Margin>
+        </Label>
+    </VerticalStackLayout>
 
 </ContentView>

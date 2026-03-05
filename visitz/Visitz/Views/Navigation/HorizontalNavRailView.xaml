@@ -14,12 +14,12 @@
 	x:Class="Visitz.Views.Navigation.HorizontalNavRailView"
 	x:DataType="nav:NavRailViewModel"
 	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-	HeightRequest="64">
+	MinimumHeightRequest="64">
 
-    <Grid>
+    <Grid HorizontalOptions="{OnIdiom Phone=Fill, Default=Center}">
         <BindableLayout.ItemTemplate>
 			<DataTemplate>
-				<nav:NavItemView/>
+				<nav:NavItemView MinimumWidthRequest="{OnIdiom Phone=null, Default=120}"/>
 			</DataTemplate>
 		</BindableLayout.ItemTemplate>
 
