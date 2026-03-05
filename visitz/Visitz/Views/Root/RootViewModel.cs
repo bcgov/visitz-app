@@ -1,9 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.Foldable;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Messaging;
 
 namespace Visitz.Views.Root;
+
+#nullable enable
 
 internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>
 {
@@ -15,6 +18,23 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
 
     [ObservableProperty]
     public bool showActivity = true;
+
+    [ObservableProperty]
+    public double minScreenSize = GetMinSize();
+
+    static double GetMinSize()
+    {
+        if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+            return 700; // 700 arbitrarily chosen
+        else
+        {
+            double min = Math.Min(
+                DeviceDisplay.MainDisplayInfo.Height,
+                DeviceDisplay.MainDisplayInfo.Width);
+
+            return min / DeviceDisplay.MainDisplayInfo.Density;
+        }
+    }
 
     protected override Task InitAsync()
     {
@@ -42,7 +62,7 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
         base.Dispose(disposing);
     }
 
-    private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    private void Current_MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
     {
         UpdateOrientationVisibility(e.DisplayInfo.Orientation);
     }
@@ -51,6 +71,12 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
     {
         IsPortrait = orientation.Equals(DisplayOrientation.Portrait);
         IsLandscape = !IsPortrait;
+    }
+
+    public void UpdateOrientationVisibility(TwoPaneViewMode mode)
+    {
+        IsPortrait = mode == TwoPaneViewMode.Tall;
+        IsLandscape = mode == TwoPaneViewMode.Wide;
     }
 
     public void Receive(AppNavMessage message)

@@ -14,7 +14,7 @@
 	x:Class="Visitz.Views.Navigation.VerticalNavRailView"
 	x:DataType="nav:NavRailViewModel"
 	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-	MaximumWidthRequest="95">
+	WidthRequest="72">
 
 	<Grid 
 		RowDefinitions="Auto,Auto,*,Auto,Auto">
@@ -35,27 +35,32 @@
 			
 		</toolkit:AvatarView>
 
-		<selView:SelectionList
-			Grid.Row="1"
-			ItemsSource="{Binding NavigationItems}"
-			SelectedItem="{Binding SelectedNavItem}">
+		<VerticalStackLayout Grid.Row="1">
 
-			<selView:SelectionList.ItemTemplate>
+            <VerticalStackLayout.Behaviors>
+                <behaviors:SelectionLayoutBehavior
+			        ItemsSource="{Binding NavigationItems}"
+			        SelectedItem="{Binding SelectedNavItem}"
+                    StickySelection="True"/>
+            </VerticalStackLayout.Behaviors>
+
+			<BindableLayout.ItemTemplate>
 				<DataTemplate>
-					<nav:NavItemView MinimumHeightRequest="72" HorizontalOptions="Fill" />
+					<nav:NavItemView />
 				</DataTemplate>
-			</selView:SelectionList.ItemTemplate>
-		</selView:SelectionList>
+			</BindableLayout.ItemTemplate>
+		</VerticalStackLayout>
 
 		<caseload:DataRefreshButton
 			Grid.Row="3"
 			Orientation="Vertical"
 			HorizontalOptions="Center" />
 
-		<Image 
-			Grid.Row="4"
-			HorizontalOptions="Center"
-			Source="bc_logo_vertical_reverse.png"/>
-	</Grid>
+        <Image
+            x:Name="LogoImage"
+            Grid.Row="4"
+            HorizontalOptions="Center"
+            Source="bc_logo_vertical_reverse.png" />
+    </Grid>
 
 </baseClasses:ViewModelContentView>

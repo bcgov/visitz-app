@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.Foldable;
 using Visitz.Animations;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
@@ -7,9 +8,11 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Root;
 
+#nullable enable
+
 public partial class RootPage : VisitzPage, ISnackbarPresenter
 {
-    VisitzSnackbar Snackbar { get; set; }
+    VisitzSnackbar? Snackbar { get; set; }
 
     public RootPage() : base(ServiceProvider.GetService<RootViewModel>())
     {
@@ -51,12 +54,11 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
         ContentPane.Add(view);
     }
 
-    public void SetSnackbar(VisitzSnackbar snackbar)
+    public void SetSnackbar(VisitzSnackbar? snackbar)
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            if (Snackbar != null)
-                Snackbar.ShouldClose -= Snackbar_ShouldClose;
+            Snackbar?.ShouldClose -= Snackbar_ShouldClose;
 
             Snackbar = snackbar;
             SnackbarContainer.Content = Snackbar;
@@ -70,7 +72,7 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
         });
     }
 
-    public void Snackbar_ShouldClose(object sender, EventArgs e)
+    public void Snackbar_ShouldClose(object? sender, EventArgs e)
     {
         _ = AnimateCloseSnackbar();
     }
@@ -79,5 +81,11 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
     {
         await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
         SetSnackbar(null);
+    }
+
+    private void TwoPaneView_ModeChanged(object sender, EventArgs e)
+    {
+        if (ViewModel is RootViewModel rvm && sender is TwoPaneView paneView)
+            rvm.UpdateOrientationVisibility(paneView.Mode);
     }
 }
