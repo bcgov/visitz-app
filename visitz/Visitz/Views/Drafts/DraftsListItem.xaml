@@ -12,46 +12,48 @@
     x:Class="Visitz.Views.Drafts.DraftsListItem"
     x:DataType="draftsModels:IDraftItem">
 
-        <ContentView.GestureRecognizers>
-            <TapGestureRecognizer 
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer 
                 Command="{Binding Source={RelativeSource
                     AncestorType={x:Type drafts:DraftsListViewModel}},
                     Path=DraftItemSelectedCommand}"
                 CommandParameter="{Binding .}"/>
-        </ContentView.GestureRecognizers>
+    </ContentView.GestureRecognizers>
 
-        <VerticalStackLayout>
-            <Grid
+    <VerticalStackLayout>
+        <Grid
                 RowDefinitions="*,Auto"
+                ColumnDefinitions="*, *, 0.75*, 0.2*, Auto"
+                ColumnSpacing="8"
                 Style="{StaticResource DraftsColumns}"
                 MinimumHeightRequest="25"
                 Margin="10">
 
-                <Grid.Resources>
-                    <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
-                    <converters:BoolNegationConverter x:Key="BoolConverter" />
-                </Grid.Resources>
+            <Grid.Resources>
+                <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
+                <converters:BoolNegationConverter x:Key="BoolConverter" />
+            </Grid.Resources>
 
-                <Label 
+            <Label 
                     Grid.Column="0"
                     VerticalOptions="Center"
                     Text="{Binding DraftLocation}" />
 
-                <Label 
+            <Label 
                     Grid.Column="1"
                     VerticalOptions="Center"
                     Text="{Binding Preview}"
                     MaxLines="1"
                     LineBreakMode="TailTruncation" />
 
-                <Label 
+            <Label 
                     Grid.Column="2"
                     VerticalOptions="Center"
                     Text="{Binding LastUpdated.LocalDateTime,
                         Converter={StaticResource ShortTimestampConverter}}"
                     TextColor="{StaticResource BC_TextColor_Lighter}" />
 
-                <tagViews:EntityTypeBadge
+            <tagViews:EntityTypeBadge
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="3"
                     HorizontalOptions="Center"
@@ -59,7 +61,7 @@
                     EntityType="{Binding RelatedEntityType}"
                     EntitySubtype="{Binding RelatedEntitySubtype}" />
 
-                <Label
+            <Label
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="4"
                     FontSize="20"
@@ -69,7 +71,7 @@
                     IsVisible="{Binding RelatedEntityDownloaded,
                         Converter={StaticResource BoolConverter}}"/>
 
-                <Label
+            <Label
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="4"
                     FontSize="20"
@@ -80,7 +82,7 @@
                     IsVisible="{Binding RelatedEntityAvailable,
                         Converter={StaticResource BoolConverter}}"/>
 
-                <ActivityIndicator
+            <ActivityIndicator
                     x:Name="DownloadActivity"
                     Grid.Column="4"
                     BackgroundColor="White"
@@ -89,22 +91,22 @@
                     HeightRequest="20"
                     WidthRequest="20" />
 
-                <ContentView
+            <ContentView
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="0"
                     Grid.ColumnSpan="5"
                     CascadeInputTransparent="True">
-                        <BoxView    
+                <BoxView    
                             Color="#55ffffff"
                             IsVisible="{Binding RelatedEntityDownloaded,
                                 Converter={StaticResource BoolConverter}}" />
-                    </ContentView>
-            </Grid>
+            </ContentView>
+        </Grid>
 
-            <BoxView
+        <BoxView
                 Margin="10,0"
                 HeightRequest="0.5"
                 Color="{StaticResource Gray200}" />
-        </VerticalStackLayout>
+    </VerticalStackLayout>
 
 </base:BaseContentView>
