@@ -8,8 +8,7 @@ public partial class VisitzWindow : Window
     public VisitzWindow() { }
 
     public VisitzWindow(Page page) : base(page) { }
-
-    protected async override void OnCreated()
+       protected async override void OnCreated()
     {
         base.OnCreated();
 
@@ -33,6 +32,7 @@ public partial class VisitzWindow : Window
     private static partial Window ApplyDefaultWindowLayout(Window window);
 
     partial void TryRunAutoRefresh();
+    partial void OnWindowFocusChanged(bool focused);
 #endif
 
     protected override async void OnActivated()
@@ -44,6 +44,14 @@ public partial class VisitzWindow : Window
 #if WINDOWS
         // Run in OnActivated instead of OnResumed to respond to window focus events
         TryRunAutoRefresh();
+         OnWindowFocusChanged(true);
 #endif
     }
+#if WINDOWS
+    protected override void OnDeactivated()
+    {
+        base.OnDeactivated();
+        OnWindowFocusChanged(false);
+    }
+#endif
 }
