@@ -345,7 +345,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         UpdatedDate = source.UpdatedDate;
     }
 
-    public static async Task SaveAttachmentsAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<AttachmentJson> items,
         string parentId,
@@ -363,11 +363,20 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         var commonIds = incomingAttachmentIds.Except(newAttachmentIds);
         var attachmentsToUpdate = incomingAttachments.Where(item => commonIds.Contains(item.Id));
 
-        if (!newAttachments.Any() && !attachmentsToUpdate.Any())
+        var attachmentsToDeleteFromRealm = existingAttachments.ToList()
+            .Where(x => !incomingAttachmentIds.Contains(x.Id) && x.RelatedEntityId == parentId && x.RelatedEntityTypeInt == (int)type).ToList();
+
+        if (!newAttachments.Any() && !attachmentsToUpdate.Any() && attachmentsToDeleteFromRealm.Count == 0)
             return;
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
+            foreach (var item in attachmentsToDeleteFromRealm)
+            {
+                if (item != null && item.IsValid)
+                    realm.Remove(item);
+            }
+
             foreach (var attachment in newAttachments)
                 realm.Add(attachment);
 

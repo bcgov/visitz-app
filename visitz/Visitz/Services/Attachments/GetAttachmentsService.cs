@@ -46,7 +46,7 @@ internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagin
             pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await Attachment.SaveAttachmentsAsync(realm, attachments, Info.Id, Info.Type));
+            await Attachment.SynchronizeAsync(realm, attachments, Info.Id, Info.Type));
 
         return total;
     }
