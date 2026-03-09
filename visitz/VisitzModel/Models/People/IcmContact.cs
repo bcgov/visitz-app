@@ -420,13 +420,24 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         return outList;
     }
 
-    public static async Task SaveContactsAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<ContactJson> contacts,
         string parentId,
         EntityType type)
     {
-        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(contacts, parentId, type)));
+        await RealmExtensions.CommitAsync(realm, () =>
+        {
+            var incomingContacts = FromApiArray(contacts, parentId, type);
+            var incomingContactsIds = incomingContacts.Select(item => item.Id);
+            var allIcmContacts = realm
+                                    .All<IcmContact>()
+                                    .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type).ToList();
+            var contactsToDelete = allIcmContacts.Where(x => !incomingContactsIds.Contains(x.Id)).ToList();
+            Delete(contactsToDelete, realm);
+
+            realm.Upsert(incomingContacts);
+        });
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)
@@ -451,5 +462,14 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         return GetByParentObject(realm, businessObject)
             .Where(contact => contact.Relationship == KeyPlayer)
             .FirstOrDefault();
+    }
+
+    private static void Delete(IEnumerable<IcmContact> contacts, Realm realm)
+    {
+        foreach (var item in contacts)
+        {
+            if (item != null && item.IsValid)
+                realm.Remove(item);
+        }
     }
 }

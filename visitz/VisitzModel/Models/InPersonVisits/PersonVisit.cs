@@ -122,9 +122,21 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         return outList;
     }
 
-    public static async Task SaveVisitsAsync(Realm realm, IEnumerable<VisitJson> visits)
+    public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits)
     {
-        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(visits)));
+        await RealmExtensions.CommitAsync(realm, () =>
+        {
+            var incomingVisits = FromApiArray(visits);
+            var incomingVisitIds = incomingVisits.Select(item => item.Id);
+
+            var allPersonVisits = realm
+                .All<PersonVisit>()
+                .ToList();
+            var visitsToDelete = allPersonVisits.Where(x => !incomingVisitIds.Contains(x.Id)).ToList();
+
+            Delete(visitsToDelete, realm);
+            realm.Upsert(incomingVisits);
+        });
     }
 
     public static IQueryable<PersonVisit> GetVisitsByCaseId(Realm realm, string caseId)
@@ -175,5 +187,14 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         });
 
         RaisePropertyChanged(nameof(VisitDetails));
+    }
+
+    private static void Delete(IEnumerable<PersonVisit> visits, Realm realm)
+    {
+        foreach (var item in visits)
+        {
+            if (item != null && item.IsValid)
+                realm.Remove(item);
+        }
     }
 }

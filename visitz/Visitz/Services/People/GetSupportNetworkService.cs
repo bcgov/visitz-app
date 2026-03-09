@@ -44,7 +44,7 @@ internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs)
             pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await SupportNetworkItem.SaveSupportNetworkItemsAsync(realm, supportNetwork, Info.Id, Info.Type));
+            await SupportNetworkItem.SynchronizeAsync(realm, supportNetwork, Info.Id, Info.Type));
 
         return total;
     }

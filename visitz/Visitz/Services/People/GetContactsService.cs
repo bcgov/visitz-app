@@ -44,7 +44,7 @@ internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
             pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await IcmContact.SaveContactsAsync(realm, contacts, Info.Id, Info.Type));
+            await IcmContact.SynchronizeAsync(realm, contacts, Info.Id, Info.Type));
 
         return total;
     }

@@ -124,13 +124,25 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
         return outList;
     }
 
-    public static async Task SaveSupportNetworkItemsAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<SupportNetworkJson> items,
         string parentId,
         EntityType type)
     {
-        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
+        var icomingSupportNetworkItems = FromApiArray(items, parentId, type);
+        var icomingSupportNetworkItemIds = icomingSupportNetworkItems.Select(item => item.Id);
+        var supportNetworks = realm
+            .All<SupportNetworkItem>()
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type).ToList();
+        var networkItemsToDelete = supportNetworks.Where(x => !icomingSupportNetworkItemIds.Contains(x.Id)).ToList();
+
+
+        await RealmExtensions.CommitAsync(realm, () =>
+        {
+            Delete(networkItemsToDelete, realm);
+            realm.Upsert(icomingSupportNetworkItems);
+        });
     }
 
     public static IQueryable<SupportNetworkItem> GetSupportNetworkByCaseId(Realm realm, string caseId)
@@ -146,5 +158,14 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(networkItems);
+    }
+
+    private static void Delete(IEnumerable<SupportNetworkItem> supportNetworks, Realm realm)
+    {
+        foreach (var item in supportNetworks)
+        {
+            if (item != null && item.IsValid)
+                realm.Remove(item);
+        }
     }
 }
