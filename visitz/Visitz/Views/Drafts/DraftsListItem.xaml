@@ -96,11 +96,11 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="5"
                     CascadeInputTransparent="True">
-                <BoxView    
+                    <BoxView    
                             Color="#55ffffff"
                             IsVisible="{Binding RelatedEntityDownloaded,
                                 Converter={StaticResource BoolConverter}}" />
-                </ContentView>
+                    </ContentView>
             </Grid>
 
             <BoxView
