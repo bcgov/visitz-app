@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui;
 using Oidc;
+using Syncfusion.Maui.Toolkit.Hosting;
 using Visitz.Settings;
 using Visitz.VisitzConfig;
 
@@ -27,6 +28,7 @@ public static class MauiProgram
             .UseMauiApp<VisitzApp>()
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitCamera()
+            .ConfigureSyncfusionToolkit()
             .ConfigureEssentials(essentials =>
             {
                 essentials.UseVersionTracking();

@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:drawer="clr-namespace:Syncfusion.Maui.Toolkit.NavigationDrawer;assembly=Syncfusion.Maui.Toolkit"
     xmlns:foldable="clr-namespace:Microsoft.Maui.Controls.Foldable;assembly=Microsoft.Maui.Controls.Foldable"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     xmlns:root="clr-namespace:Visitz.Views.Root"
@@ -18,52 +20,74 @@
             StatusBarColor="{StaticResource BuildBarBackgroundColor}" />
     </baseClasses:VisitzPage.Behaviors>
 
-	<AbsoluteLayout x:Name="RootAbsoluteLayout">
-        <foldable:TwoPaneView
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
-            TallModeConfiguration="BottomTop"
-            Pane1Length="Auto"
-            MinWideModeWidth="{Binding MinScreenSize}"
-            ModeChanged="TwoPaneView_ModeChanged">
-            
-            <foldable:TwoPaneView.Pane1>
-				<!-- 
-					For some reason it seems that the ContentView's implicit binding context changes, so we need to
-					specifically reference RootViewModel.
-				-->
-                <Grid>
-                    <nav:VerticalNavRailView IsVisible="{Binding IsLandscape, 
-					    Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
+    <drawer:SfNavigationDrawer x:Name="NavDrawer">
 
-                    <nav:HorizontalNavRailView IsVisible="{Binding IsPortrait, 
-				        Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
-                </Grid>
-                    
-            </foldable:TwoPaneView.Pane1>
+        <drawer:SfNavigationDrawer.DrawerSettings>
+            <drawer:DrawerSettings
+                DrawerWidth="360"
+                Duration="150"
+                DrawerHeaderHeight="100"
+                TouchThreshold="10">
+
+                <drawer:DrawerSettings.DrawerContentView>
+                    <root:NavDrawerContentView />
+                </drawer:DrawerSettings.DrawerContentView>
                 
-            <foldable:TwoPaneView.Pane2>
-                <StackLayout
-					x:Name="ContentPane"
-                    BackgroundColor="White"
-					Orientation="Horizontal"
-					HorizontalOptions="Fill" 
-					VerticalOptions="Fill" />
-            </foldable:TwoPaneView.Pane2>
-        </foldable:TwoPaneView>
+            </drawer:DrawerSettings>
+        </drawer:SfNavigationDrawer.DrawerSettings>
 
-        <ActivityIndicator
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,0.5"
-            IsRunning="{Binding ShowActivity}"
-            IsVisible="{Binding ShowActivity}" />
+        <drawer:SfNavigationDrawer.ContentView>
 
-        <ContentView
-			x:Name="SnackbarContainer"
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="0.5,1"
-			Margin="48"
-			IsVisible="False" />
-	</AbsoluteLayout>
-    
+            <AbsoluteLayout x:Name="RootAbsoluteLayout">
+                <foldable:TwoPaneView
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    TallModeConfiguration="BottomTop"
+                    Pane1Length="Auto"
+                    MinWideModeWidth="{Binding MinScreenSize}"
+                    ModeChanged="TwoPaneView_ModeChanged">
+            
+                    <foldable:TwoPaneView.Pane1>
+				        <!-- 
+					        For some reason it seems that the ContentView's implicit binding context changes, so we need to
+					        specifically reference RootViewModel.
+				        -->
+                        <Grid>
+                            <nav:VerticalNavRailView IsVisible="{Binding IsLandscape, 
+					            Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
+
+                            <nav:HorizontalNavRailView IsVisible="{Binding IsPortrait, 
+				                Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
+                        </Grid>
+                    
+                    </foldable:TwoPaneView.Pane1>
+                
+                    <foldable:TwoPaneView.Pane2>
+                        <StackLayout
+					        x:Name="ContentPane"
+                            BackgroundColor="White"
+					        Orientation="Horizontal"
+					        HorizontalOptions="Fill" 
+					        VerticalOptions="Fill" />
+                    </foldable:TwoPaneView.Pane2>
+                </foldable:TwoPaneView>
+
+                <ActivityIndicator
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5"
+                    IsRunning="{Binding ShowActivity}"
+                    IsVisible="{Binding ShowActivity}" />
+
+                <ContentView
+			        x:Name="SnackbarContainer"
+			        AbsoluteLayout.LayoutFlags="PositionProportional"
+			        AbsoluteLayout.LayoutBounds="0.5,1"
+			        Margin="48"
+			        IsVisible="False" />
+	        </AbsoluteLayout>
+
+        </drawer:SfNavigationDrawer.ContentView>
+
+    </drawer:SfNavigationDrawer>
+
 </baseClasses:VisitzPage>

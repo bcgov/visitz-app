@@ -10,7 +10,9 @@ namespace Visitz.Views.Root;
 
 #nullable enable
 
-public partial class RootPage : VisitzPage, ISnackbarPresenter
+public partial class RootPage :
+    VisitzPage,
+    ISnackbarPresenter
 {
     VisitzSnackbar? Snackbar { get; set; }
 
@@ -20,7 +22,9 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
         BindingContext = ViewModel;
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
+        StrongReferenceMessenger.Default.Register<NavDrawerMessage>(this, ReceiveNavDrawerMessage);
         HideSoftInputOnTapped = true;
+
     }
 
     private void ReceiveAppNavMessage(object recipient, AppNavMessage message)
@@ -34,6 +38,12 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
 
             SetContent(content);
         }
+    }
+
+    private void ReceiveNavDrawerMessage(object _, NavDrawerMessage message)
+    {
+        if (NavDrawer.IsOpen != message.Value)
+            NavDrawer.ToggleDrawer();
     }
 
     private void SetContent(IView view)

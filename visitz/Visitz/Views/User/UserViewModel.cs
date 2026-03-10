@@ -51,8 +51,6 @@ internal partial class UserViewModel : VisitzViewModel
     [RelayCommand]
     static async Task OpenCollectionNotice()
     {
-        await Navigator.Navigation.PopModalAsync(animated: false);
-
         var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
         await Navigator.Navigation.PushModalAsync(noticeView, ViewModalSize.Fullscreen);
     }

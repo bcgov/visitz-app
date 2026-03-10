@@ -2,6 +2,7 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:navModels="clr-namespace:VisitzModel.Models.Navigation;assembly=VisitzModel"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Navigation.NavItemView"
@@ -50,91 +51,96 @@
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
 
-    <VerticalStackLayout
-        x:Name="MainStack"
-        HorizontalOptions="Fill"
-        MinimumHeightRequest="64">
+    <effectsView:SfEffectsView
+        TouchDownEffects="Ripple"
+        RippleBackground="White">
 
-        <Grid
-            Grid.Row="0">
-            
-            <Border
-                x:Name="IconBackdrop"
-                StrokeThickness="0"
-                StrokeShape="RoundRectangle 16"
-                HorizontalOptions="Center"
-                HeightRequest="32"
-                WidthRequest="56">
-                <Border.Margin>
-                    <Thickness
-                        Top="6" />
-                </Border.Margin>
-                <Border.Padding>
-                    <Thickness
-                        Left="16"
-                        Right="16" />
-                </Border.Padding>
-                <Image
-                    x:Name="IconImage"
-                    Source="{Binding UnselectedImageSource}"
-                    HeightRequest="{Binding IconSize}"
-                    WidthRequest="{Binding IconSize}"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center" />
-            </Border>
-            
-            <Border
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                TranslationX="17"
-                TranslationY="0"
-                StrokeShape="RoundRectangle 20"
-                StrokeThickness="0"
-                IsVisible="{Binding ShowBadge}"
-                BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+            <VerticalStackLayout
+                x:Name="MainStack"
+                HorizontalOptions="Fill"
+                MinimumHeightRequest="64">
 
+            <Grid
+                Grid.Row="0">
+            
                 <Border
-                    x:Name="SpacerBorder"
+                    x:Name="IconBackdrop"
                     StrokeThickness="0"
-                    StrokeShape="RoundRectangle 20">
+                    StrokeShape="RoundRectangle 16"
+                    HorizontalOptions="Center"
+                    HeightRequest="32"
+                    WidthRequest="56">
+                    <Border.Margin>
+                        <Thickness
+                            Top="6" />
+                    </Border.Margin>
+                    <Border.Padding>
+                        <Thickness
+                            Left="16"
+                            Right="16" />
+                    </Border.Padding>
+                    <Image
+                        x:Name="IconImage"
+                        Source="{Binding UnselectedImageSource}"
+                        HeightRequest="{Binding IconSize}"
+                        WidthRequest="{Binding IconSize}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Border>
+            
+                <Border
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    TranslationX="17"
+                    TranslationY="0"
+                    StrokeShape="RoundRectangle 20"
+                    StrokeThickness="0"
+                    IsVisible="{Binding ShowBadge}"
+                    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
 
                     <Border
-                        Margin="2"
-                        VerticalOptions="Fill"
-                        HorizontalOptions="Fill"
-                        BackgroundColor="{StaticResource BC_Gold}"
-                        StrokeShape="RoundRectangle 20"
+                        x:Name="SpacerBorder"
                         StrokeThickness="0"
-                        IsVisible="{Binding ShowBadge}">
+                        StrokeShape="RoundRectangle 20">
 
-                        <Label
-                            Margin="1"
-                            MinimumHeightRequest="16"
-                            MinimumWidthRequest="{OnPlatform iOS=20, Default=16}"
-                            FontSize="{OnPlatform iOS={StaticResource LabelSmallFontSize}, Default={StaticResource LabelMediumFontSize}}"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center"
-                            Text="{Binding BadgeCount}"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"/>
+                        <Border
+                            Margin="2"
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill"
+                            BackgroundColor="{StaticResource BC_Gold}"
+                            StrokeShape="RoundRectangle 20"
+                            StrokeThickness="0"
+                            IsVisible="{Binding ShowBadge}">
+
+                            <Label
+                                Margin="1"
+                                MinimumHeightRequest="16"
+                                MinimumWidthRequest="{OnPlatform iOS=20, Default=16}"
+                                FontSize="{OnPlatform iOS={StaticResource LabelSmallFontSize}, Default={StaticResource LabelMediumFontSize}}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Text="{Binding BadgeCount}"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"/>
+                        </Border>
                     </Border>
                 </Border>
-            </Border>
-        </Grid>
+            </Grid>
 
-        <Label
-            Grid.Row="1"
-            FontSize="14"
-            Text="{Binding Text}"
-            TextColor="{Binding Color}"
-            HorizontalOptions="Center"
-            VerticalOptions="Start">
-            <Label.Margin>
-                <Thickness
-                    Top="4"
-                    Bottom="6" />
-            </Label.Margin>
-        </Label>
-    </VerticalStackLayout>
+            <Label
+                Grid.Row="1"
+                FontSize="14"
+                Text="{Binding Text}"
+                TextColor="{Binding Color}"
+                HorizontalOptions="Center"
+                VerticalOptions="Start">
+                <Label.Margin>
+                    <Thickness
+                        Top="4"
+                        Bottom="6" />
+                </Label.Margin>
+            </Label>
+        </VerticalStackLayout>
+    </effectsView:SfEffectsView>
 
 </ContentView>
