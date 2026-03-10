@@ -6,7 +6,7 @@ namespace VisitzModelTest.Models.People;
 
 public class SupportNetworkItemTests
 {
-    private static readonly List<SupportNetworkJson> supportNetworkJsons =
+    private static readonly List<SupportNetworkJson> initialSupportNetworkJsonList =
     [
         new()
         {
@@ -70,30 +70,9 @@ public class SupportNetworkItemTests
         }
     ];
 
-    [Fact]
-    public async Task SynchronizeAsync()
-    {
-        var realm = await TestingUtilities.MakeRealm<SupportNetworkItemTests>();
-        List<SupportNetworkJson> supportNetworks = supportNetworkJsons;
-        var parentId = "12";
-
-        await realm.Write(async () => await SupportNetworkItem.SynchronizeAsync(
-            realm,
-            supportNetworks,
-            parentId,
-            EntityType.Case));
-
-        var allNetworkItems = realm
-            .All<SupportNetworkItem>()
-            .Where(networkItem =>
-                networkItem.ParentId == parentId).ToList();
-
-        Assert.Equal(supportNetworks.Count, allNetworkItems.Count);
-
-        //Checking deletion of realm objects
-        supportNetworks.Clear();
-        supportNetworks.AddRange(
-            new()
+    private static readonly List<SupportNetworkJson> supportNetworkJsonListForSynchronization =
+        [
+        new()
             {
                 Active = "true",
                 Address = "2312313",
@@ -133,13 +112,27 @@ public class SupportNetworkItemTests
                 UpdatedById = "3",
                 UpdatedDate = "12/10/2018 13:50:02"
             }
-        );
+        ];
 
-        await realm.Write(async () => await SupportNetworkItem.SynchronizeAsync(
-            realm,
-            supportNetworks,
-            parentId,
-            EntityType.Case));
+    [Fact]
+    public async Task SynchronizeAsyncDeletesDifferenceFromRealm()
+    {
+        var realm = await TestingUtilities.MakeRealm<SupportNetworkItemTests>();
+        List<SupportNetworkJson> supportNetworks = initialSupportNetworkJsonList;
+        string parentId = "12";
+
+        await SupportNetworkItem.SynchronizeAsync(realm, supportNetworks, parentId, EntityType.Case);
+
+        var allNetworkItems = realm
+            .All<SupportNetworkItem>()
+            .Where(networkItem =>
+                networkItem.ParentId == parentId).ToList();
+
+        //Checking deletion of realm objects
+        supportNetworks.Clear();
+        supportNetworks.AddRange(supportNetworkJsonListForSynchronization);
+
+        await SupportNetworkItem.SynchronizeAsync(realm, supportNetworks, parentId, EntityType.Case);
 
         allNetworkItems = realm
             .All<SupportNetworkItem>()

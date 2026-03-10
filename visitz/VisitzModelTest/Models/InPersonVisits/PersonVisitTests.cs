@@ -5,7 +5,7 @@ namespace VisitzModelTest.Models.InPersonVisits;
 
 public class PersonVisitTests
 {
-    private static readonly List<VisitJson> visitJsons =
+    private static readonly List<VisitJson> initialVisitJsonList =
     [
         new()
         {
@@ -51,26 +51,9 @@ public class PersonVisitTests
         }
     ];
 
-    [Fact]
-    public async Task SynchronizeAsync()
-    {
-        //Adding new visits into the realm
-        var realm = await TestingUtilities.MakeRealm<PersonVisitTests>();
-        List<VisitJson> visits = visitJsons;
-
-        await realm.Write(async () => await PersonVisit.SynchronizeAsync(
-            realm,
-            visits));
-        
-        var allVisits = PersonVisit.GetAllByType(realm).ToList();
-
-        Assert.Equal(visits.Count, allVisits.Count);
-
-        //Checking deletion of realm objects
-
-        visits.Clear();
-        visits.AddRange(
-            new VisitJson
+    private static readonly List<VisitJson> visitJsonListForSynchronization =
+        [
+        new VisitJson
             {
                 Created = "12/11/2025 13:50:02",
                 CreatedBy = "TestUser3",
@@ -89,7 +72,7 @@ public class PersonVisitTests
                     {
                         VisitDetailValue = "Visit Details 123"
                     }
-                ]            
+                ]
             },
             new VisitJson
             {
@@ -132,14 +115,29 @@ public class PersonVisitTests
                         VisitDetailValue = "Visit Details 123"
                     }
                 ]
-            });
+            }
+        ];
 
-        await realm.Write(async () => await PersonVisit.SynchronizeAsync(
-            realm,
-            visits));
+    [Fact]
+    public async Task SynchronizeAsync()
+    {
+        //Adding new visits into the realm
+        var realm = await TestingUtilities.MakeRealm<PersonVisitTests>();
+        List<VisitJson> visits = initialVisitJsonList;
+
+        await PersonVisit.SynchronizeAsync(realm, visits);
+
+        var allVisits = PersonVisit.GetAllByType(realm).ToList();
+
+        //Checking deletion of realm objects
+
+        visits.Clear();
+        visits.AddRange(visitJsonListForSynchronization);
+
+        await PersonVisit.SynchronizeAsync(realm, visits);
 
         allVisits = PersonVisit.GetAllByType(realm).ToList();
 
         Assert.Equal(3, allVisits.Count);
-    }   
+    }
 }

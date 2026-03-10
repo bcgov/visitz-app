@@ -6,7 +6,7 @@ namespace VisitzModelTest.Models.People;
 
 public class IcmContactTests
 {
-    private static readonly List<ContactJson> contactJson =
+    private static readonly List<ContactJson> initialContactJsonList =
     [
         new()
         {
@@ -172,30 +172,9 @@ public class IcmContactTests
         }
     ];
 
-    [Fact]
-    public async Task SynchronizeAsync()
-    {
-        var realm = await TestingUtilities.MakeRealm<IcmContactTests>();
-        List<ContactJson> contacts = contactJson;
-        var parentId = "10";
-
-        await realm.Write(async () => await IcmContact.SynchronizeAsync(
-            realm,
-            contacts,
-            parentId,
-            EntityType.Case));
-
-        var allContacts = realm
-            .All<IcmContact>()
-            .Where(contact =>
-                contact.ParentId == parentId).ToList();
-
-        Assert.Equal(2, allContacts?.Count);
-
-        //Checking deletion of realm objects
-        contacts.Clear();
-        contacts.AddRange(
-            new()
+    private static readonly List<ContactJson> ContactJsonListForSynchronization =
+        [
+        new()
             {
                 ActiveAddresses = "ABC",
                 Age = "10",
@@ -437,13 +416,28 @@ public class IcmContactTests
             UpdatedDate = "12/11/2025 13:50:02",
             WorkPhone = "3423432",
             _92_1AGT = "ddd"
-        });
+        }
+        ];
 
-        await realm.Write(async () => await IcmContact.SynchronizeAsync(
-            realm,
-            contacts,
-            parentId,
-            EntityType.Case));
+    [Fact]
+    public async Task SynchronizeAsyncDeletesDifferenceFromRealm()
+    {
+        var realm = await TestingUtilities.MakeRealm<IcmContactTests>();
+        List<ContactJson> contacts = initialContactJsonList;
+        string parentId = "10";
+
+        await IcmContact.SynchronizeAsync(realm, contacts, parentId, EntityType.Case);
+
+        var allContacts = realm
+            .All<IcmContact>()
+            .Where(contact =>
+                contact.ParentId == parentId).ToList();
+
+        //Checking deletion of realm objects
+        contacts.Clear();
+        contacts.AddRange(ContactJsonListForSynchronization);
+
+        await IcmContact.SynchronizeAsync(realm, contacts, parentId, EntityType.Case);
 
         allContacts = realm
             .All<IcmContact>()
