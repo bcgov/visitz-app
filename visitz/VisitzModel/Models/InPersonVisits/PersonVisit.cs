@@ -129,12 +129,17 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
             var incomingVisits = FromApiArray(visits);
             var incomingVisitIds = incomingVisits.Select(item => item.Id);
 
-            var allPersonVisits = realm
-                .All<PersonVisit>()
-                .ToList();
-            var visitsToDelete = allPersonVisits.Where(x => !incomingVisitIds.Contains(x.Id)).ToList();
+            var allPersonVisits = realm.All<PersonVisit>().ToList();
+            var allPersonVisitIds = allPersonVisits.Select(item => item.Id);
 
-            Delete(visitsToDelete, realm);
+            var visitIdsToDelete = allPersonVisitIds.Except(incomingVisitIds);
+            var visitsToDelete = allPersonVisits.Where(item => visitIdsToDelete.Contains(item.Id)).ToList();
+
+            foreach (var item in visitsToDelete)
+            {
+                if (item != null && item.IsValid)
+                    realm.Remove(item);
+            }
             realm.Upsert(incomingVisits);
         });
     }
@@ -187,14 +192,5 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         });
 
         RaisePropertyChanged(nameof(VisitDetails));
-    }
-
-    private static void Delete(IEnumerable<PersonVisit> visits, Realm realm)
-    {
-        foreach (var item in visits)
-        {
-            if (item != null && item.IsValid)
-                realm.Remove(item);
-        }
     }
 }

@@ -354,7 +354,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         var incomingAttachments = FromApiArray(items, parentId, type);
         var incomingAttachmentIds = incomingAttachments.Select(item => item.Id);
 
-        var existingAttachments = realm.All<Attachment>();
+        var existingAttachments = GetAttachments(realm, type, parentId);
         var existingAttachmentIds = existingAttachments.AsEnumerable().Select(item => item.Id);
 
         var newAttachmentIds = incomingAttachmentIds.Except(existingAttachmentIds);
@@ -363,10 +363,10 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         var commonIds = incomingAttachmentIds.Except(newAttachmentIds);
         var attachmentsToUpdate = incomingAttachments.Where(item => commonIds.Contains(item.Id));
 
-        var attachmentsToDeleteFromRealm = existingAttachments.ToList()
-            .Where(x => !incomingAttachmentIds.Contains(x.Id) && x.RelatedEntityId == parentId && x.RelatedEntityTypeInt == (int)type).ToList();
+        var attachmentIdsToDeleteFromRealm = existingAttachmentIds.Except(incomingAttachmentIds);
+        var attachmentsToDeleteFromRealm = existingAttachments.ToList().Where(item => attachmentIdsToDeleteFromRealm.Contains(item.Id));
 
-        if (!newAttachments.Any() && !attachmentsToUpdate.Any() && attachmentsToDeleteFromRealm.Count == 0)
+        if (!newAttachments.Any() && !attachmentsToUpdate.Any() && !attachmentsToDeleteFromRealm.Any())
             return;
 
         await RealmExtensions.CommitAsync(realm, () =>

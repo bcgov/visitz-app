@@ -169,11 +169,7 @@ public class IcmContactTests
             UpdatedDate = "12/11/2025 13:50:02",
             WorkPhone = "3423432",
             _92_1AGT = "ddd"
-        }
-    ];
-
-    private static readonly List<ContactJson> ContactJsonListForSynchronization =
-        [
+        },
         new()
             {
                 ActiveAddresses = "ABC",
@@ -254,170 +250,8 @@ public class IcmContactTests
                 UpdatedDate = "12/11/2025 13:50:02",
                 WorkPhone = "3423432",
                 _92_1AGT = "ddd"
-            },
-        new()
-        {
-            ActiveAddresses = "XYZ",
-            Age = "20",
-            Id = "12",
-            AKAFirstName = "XYZ",
-            AKALastName = "Test",
-            CellPhone = "123",
-            Alerts = "ABC",
-            AutismFundingPaused = "false",
-            BCeIDUserName = "TestABC",
-            CanadianCitizen = "false",
-            Citizen = "aus",
-            Citizenship = "nn",
-            City = "Toronto",
-            CollaborateID = "12",
-            Comments = "nnn",
-            ConcernsOutcome = "ssds",
-            CoordinationAGTCA = "sdsdwe",
-            Country = "Canada",
-            CountryofBirth = "aus",
-            CreatedBy = "MAM",
-            CreatedById = "MAM",
-            CreatedDate = "12/11/2025 13:50:02",
-            CurrentStartDate = "12/11/2025 13:50:02",
-            CYSN = "ss",
-            DateofBirth = "12/11/2025 13:50:02",
-            DateUpdated_CitizenshipUpdatedDate = "12/11/2025 13:50:02",
-            DateUpdated_CitizenUpdatedDate = "12/11/2025 13:50:02",
-            Deceased = "no",
-            DeceasedDate = "12/11/2025 13:50:02",
-            EndDate = "12/11/2025 13:50:02",
-            FirstName = "rea",
-            Gender = "F",
-            GivenNames = "rea",
-            HomePhone = "1231",
-            ImmigrationStatus = "ds",
-            ImmigrationStatusUpdated = "dcs",
-            Indigenous = "sdasd",
-            IntegrationState = "sdxsd",
-            InvestigationOutcomeSummary = "dcsd",
-            LastName = "scdss",
-            LegacyDependentSequence = "dwdwa",
-            LegalStatus = "dwdwd",
-            MessagePhone = "w21312",
-            MiddleNames = "cxcx",
-            OriginalStartDate = "12/11/2025 13:50:02",
-            Parent_Caregiver = "sdfs",
-            PersonIDICM = "2321",
-            PersonIDMIS = "4544",
-            PersonResponsibleforAllegedMaltreatment = "fer",
-            PHN = "2321",
-            PHNVerified = "yes",
-            PostalCode = "32242",
-            PotentialDuplicate = "no",
-            PotentialDuplicateComments = "xsadsa",
-            PreferredLanguage = "eng",
-            Primary = "222",
-            PrimaryAddress = "xsafsd dfcsd",
-            PrimaryEmail = "asbasdb@dei.com",
-            ProjectCode = "2321321",
-            Prov = "sdas",
-            PSTScore = "@#21",
-            Relationship = "dsad",
-            Role = "diwedi",
-            RowId = "1",
-            SAETPaused = "deww",
-            SIN = "343534",
-            StartDate = "12/11/2025 13:50:02",
-            StreetAddress = "cjdkfvjsdk",
-            StreetAddress2 = "iwadjiwadj",
-            Subject = "dsaodjw",
-            SubjectChild = "skdjekd",
-            Title = "Mr",
-            UnitNumber = "2324",
-            UpdatedBy = "uuu",
-            UpdatedById = "45",
-            UpdatedDate = "12/11/2025 13:50:02",
-            WorkPhone = "3423432",
-            _92_1AGT = "ddd"
-        },
-        new()
-        {
-            ActiveAddresses = "XYZ",
-            Age = "20",
-            Id = "13",
-            AKAFirstName = "XYZ",
-            AKALastName = "Test",
-            CellPhone = "123",
-            Alerts = "ABC",
-            AutismFundingPaused = "false",
-            BCeIDUserName = "TestABC",
-            CanadianCitizen = "false",
-            Citizen = "aus",
-            Citizenship = "nn",
-            City = "Toronto",
-            CollaborateID = "12",
-            Comments = "nnn",
-            ConcernsOutcome = "ssds",
-            CoordinationAGTCA = "sdsdwe",
-            Country = "Canada",
-            CountryofBirth = "aus",
-            CreatedBy = "MAM",
-            CreatedById = "MAM",
-            CreatedDate = "12/11/2025 13:50:02",
-            CurrentStartDate = "12/11/2025 13:50:02",
-            CYSN = "ss",
-            DateofBirth = "12/11/2025 13:50:02",
-            DateUpdated_CitizenshipUpdatedDate = "12/11/2025 13:50:02",
-            DateUpdated_CitizenUpdatedDate = "12/11/2025 13:50:02",
-            Deceased = "no",
-            DeceasedDate = "12/11/2025 13:50:02",
-            EndDate = "12/11/2025 13:50:02",
-            FirstName = "rea",
-            Gender = "F",
-            GivenNames = "rea",
-            HomePhone = "1231",
-            ImmigrationStatus = "ds",
-            ImmigrationStatusUpdated = "dcs",
-            Indigenous = "sdasd",
-            IntegrationState = "sdxsd",
-            InvestigationOutcomeSummary = "dcsd",
-            LastName = "scdss",
-            LegacyDependentSequence = "dwdwa",
-            LegalStatus = "dwdwd",
-            MessagePhone = "w21312",
-            MiddleNames = "cxcx",
-            OriginalStartDate = "12/11/2025 13:50:02",
-            Parent_Caregiver = "sdfs",
-            PersonIDICM = "2321",
-            PersonIDMIS = "4544",
-            PersonResponsibleforAllegedMaltreatment = "fer",
-            PHN = "2321",
-            PHNVerified = "yes",
-            PostalCode = "32242",
-            PotentialDuplicate = "no",
-            PotentialDuplicateComments = "xsadsa",
-            PreferredLanguage = "eng",
-            Primary = "222",
-            PrimaryAddress = "xsafsd dfcsd",
-            PrimaryEmail = "asbasdb@dei.com",
-            ProjectCode = "2321321",
-            Prov = "sdas",
-            PSTScore = "@#21",
-            Relationship = "dsad",
-            Role = "diwedi",
-            RowId = "1",
-            SAETPaused = "deww",
-            SIN = "343534",
-            StartDate = "12/11/2025 13:50:02",
-            StreetAddress = "cjdkfvjsdk",
-            StreetAddress2 = "iwadjiwadj",
-            Subject = "dsaodjw",
-            SubjectChild = "skdjekd",
-            Title = "Mr",
-            UnitNumber = "2324",
-            UpdatedBy = "uuu",
-            UpdatedById = "45",
-            UpdatedDate = "12/11/2025 13:50:02",
-            WorkPhone = "3423432",
-            _92_1AGT = "ddd"
-        }
-        ];
+            }
+    ];
 
     [Fact]
     public async Task SynchronizeAsyncDeletesDifferenceFromRealm()
@@ -427,22 +261,15 @@ public class IcmContactTests
         string parentId = "10";
 
         await IcmContact.SynchronizeAsync(realm, contacts, parentId, EntityType.Case);
-
-        var allContacts = realm
-            .All<IcmContact>()
-            .Where(contact =>
-                contact.ParentId == parentId).ToList();
+        var numberOfcontactsBeforeDeletion = realm.All<IcmContact>().Count();
 
         //Checking deletion of realm objects
-        contacts.Clear();
-        contacts.AddRange(ContactJsonListForSynchronization);
+        contacts.RemoveAll(item => item.Id == "11");
 
         await IcmContact.SynchronizeAsync(realm, contacts, parentId, EntityType.Case);
+        var numberOfcontactsAfterDeletion = realm.All<IcmContact>().Count();
 
-        allContacts = realm
-            .All<IcmContact>()
-            .ToList();
-
-        Assert.Equal(3, allContacts.Count);
+        Assert.Equal(3, numberOfcontactsBeforeDeletion);
+        Assert.Equal(numberOfcontactsBeforeDeletion - 1, numberOfcontactsAfterDeletion);
     }
 }

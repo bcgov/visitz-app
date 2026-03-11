@@ -433,8 +433,16 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
             var allIcmContacts = realm
                                     .All<IcmContact>()
                                     .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type).ToList();
-            var contactsToDelete = allIcmContacts.Where(x => !incomingContactsIds.Contains(x.Id)).ToList();
-            Delete(contactsToDelete, realm);
+            var allIcmContactIds = allIcmContacts.Select(item => item.Id);
+
+            var contactIdsToDelete = allIcmContactIds.Except(incomingContactsIds);
+            var contactsToDelete = allIcmContacts.Where(item => contactIdsToDelete.Contains(item.Id));
+
+            foreach (var item in contactsToDelete)
+            {
+                if (item != null && item.IsValid)
+                    realm.Remove(item);
+            }
 
             realm.Upsert(incomingContacts);
         });
@@ -462,14 +470,5 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         return GetByParentObject(realm, businessObject)
             .Where(contact => contact.Relationship == KeyPlayer)
             .FirstOrDefault();
-    }
-
-    private static void Delete(IEnumerable<IcmContact> contacts, Realm realm)
-    {
-        foreach (var item in contacts)
-        {
-            if (item != null && item.IsValid)
-                realm.Remove(item);
-        }
     }
 }

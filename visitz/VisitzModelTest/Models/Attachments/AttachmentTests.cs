@@ -8,7 +8,7 @@ public class AttachmentTests
 {
     private static readonly List<AttachmentJson> initialAttachmentJsonList =
         [
-         new()
+        new()
          {
              ApplicationNo = "123",
              AttachmentId = "1",
@@ -171,11 +171,8 @@ public class AttachmentTests
              Template = "jdaijd",
              TemplateType = "dsfs",
              UpdatedByName = "test"
-         }
-        ];
-
-    private static readonly List<AttachmentJson> attachmentJsonListForSynchronization = [
-               new()
+         },
+        new()
                {
                    ApplicationNo = "123",
                    AttachmentId = "10",
@@ -215,49 +212,7 @@ public class AttachmentTests
                    Template = "jdaijd",
                    TemplateType = "dsfs",
                    UpdatedByName = "test"
-               },
-           new()
-           {
-               ApplicationNo = "123",
-               AttachmentId = "12",
-               CaseId = "2",
-               Categorie = "Case",
-               Category = "sasdas",
-               ClientFlag = "d",
-               Comments = "ssss",
-               CreatedByName = "bhgbh",
-               CreatedDate = "12/10/2018 13:50:02",
-               EndDate = "12/10/2018 13:50:02",
-               FileAutoUpdFlg = "rr",
-               FileDate = "12/10/2018 13:50:02",
-               FileDeferFlg = "d",
-               FileDockReqFlg = "d",
-               FileDockStatFlg = "d",
-               FileExt = "jpg",
-               FileName = "test",
-               FileSize = "12",
-               FileSrcPath = "ddd",
-               FileSrcType = "dcs",
-               FinalFlag = "d",
-               FormDescription = "dfdsfs",
-               Id = "12",
-               IncidentId = "1",
-               IncidentNo = "1",
-               Internal = "1",
-               LastUpdatedDate = "12/10/2018 13:50:02",
-               MemoId = "1",
-               MemoNumber = "1",
-               NoIntervention = "ss",
-               PortalVisible = "true",
-               ShowOnContact = "true",
-               SrId = "1",
-               Status = "test",
-               SubCategory = "test",
-               Template = "jdaijd",
-               TemplateType = "dsfs",
-               UpdatedByName = "test"
-           }
-
+               }
         ];
 
     [Fact]
@@ -268,23 +223,17 @@ public class AttachmentTests
         string parentId = "12";
 
         await Attachment.SynchronizeAsync(realm, attachments, parentId, EntityType.Case);
-
-        var allAttachments = realm
-            .All<Attachment>()
-            .Where(attachment =>
-                attachment.RelatedEntityId == parentId).ToList();
+        var numberOfAttachmentsBeforeDeletion = realm.All<Attachment>().Count();
 
         //Checking deletion of realm objects
-        attachments.Clear();
-        attachments.AddRange(attachmentJsonListForSynchronization);
+        attachments.RemoveAll(item => item.Id == "4");
 
         await Attachment.SynchronizeAsync(realm, attachments, parentId, EntityType.Case);
 
-        allAttachments = realm
-            .All<Attachment>()
-            .ToList();
+        var numberOfAttachmentsAfterDeletion = realm.All<Attachment>().Count();
 
-        Assert.Equal(2, allAttachments.Count);
+        Assert.Equal(5, numberOfAttachmentsBeforeDeletion);
+        Assert.Equal(numberOfAttachmentsBeforeDeletion - 1, numberOfAttachmentsAfterDeletion);
 
     }
 }

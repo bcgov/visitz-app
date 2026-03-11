@@ -130,18 +130,24 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
         string parentId,
         EntityType type)
     {
-        var icomingSupportNetworkItems = FromApiArray(items, parentId, type);
-        var icomingSupportNetworkItemIds = icomingSupportNetworkItems.Select(item => item.Id);
+        var incomingSupportNetworkItems = FromApiArray(items, parentId, type);
+        var incomingSupportNetworkItemIds = incomingSupportNetworkItems.Select(item => item.Id);
         var supportNetworks = realm
             .All<SupportNetworkItem>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type).ToList();
-        var networkItemsToDelete = supportNetworks.Where(x => !icomingSupportNetworkItemIds.Contains(x.Id)).ToList();
+        var supportNetworkIds = supportNetworks.Select(item => item.Id);
 
+        var networkItemIdsToDelete = supportNetworkIds.Except(incomingSupportNetworkItemIds);
+        var networkItemsToDelete = supportNetworks.Where(item => networkItemIdsToDelete.Contains(item.Id));
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
-            Delete(networkItemsToDelete, realm);
-            realm.Upsert(icomingSupportNetworkItems);
+            foreach (var item in supportNetworks)
+            {
+                if (item != null && item.IsValid)
+                    realm.Remove(item);
+            }
+            realm.Upsert(incomingSupportNetworkItems);
         });
     }
 
@@ -158,14 +164,5 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(networkItems);
-    }
-
-    private static void Delete(IEnumerable<SupportNetworkItem> supportNetworks, Realm realm)
-    {
-        foreach (var item in supportNetworks)
-        {
-            if (item != null && item.IsValid)
-                realm.Remove(item);
-        }
     }
 }
