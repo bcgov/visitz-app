@@ -61,6 +61,4 @@ public partial class EntityNotesView :
         if (item != null && noteItemGroup != null)
             NotesCollectionView.ScrollTo(item, noteItemGroup, position: ScrollToPosition.End, animate: false);
     }
-
-  
 }

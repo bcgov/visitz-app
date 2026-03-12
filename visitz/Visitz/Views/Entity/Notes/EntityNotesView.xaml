@@ -79,16 +79,8 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:NoteItem">
                         <ContentView>
-                            <Border
-    Stroke="Transparent"
-    StrokeThickness="0"
-    Padding="8" BackgroundColor="Transparent">
-                                <Editor Margin="0,0,0,0"
-                                TextColor="Black"
-                Text="{Binding Content, Mode=TwoWay}"
-                AutoSize="TextChanges"
-                Placeholder="Edit note..."
-                BackgroundColor="Transparent" />
+                            <Border Stroke="Transparent" StrokeThickness="0" Padding="8" BackgroundColor="Transparent">
+                                <Editor Margin="0,0,0,0" IsReadOnly="True" TextColor="Black" Text="{Binding Content, Mode=OneWay}" AutoSize="TextChanges" Placeholder="Edit note..." BackgroundColor="Transparent" />
                             </Border>
                         </ContentView>
                     </DataTemplate>
