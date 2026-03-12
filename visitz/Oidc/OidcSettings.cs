@@ -1,4 +1,4 @@
-﻿namespace Oidc
+namespace Oidc
 {
     /// <summary>
     /// Environment variables model following appSettings.json structure.

@@ -1,4 +1,4 @@
-﻿#if IOS
+#if IOS
 
 namespace Visitz.Platforms.iOS;
 

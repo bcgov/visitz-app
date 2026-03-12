@@ -1,4 +1,4 @@
-﻿using MetroLog.MicrosoftExtensions;
+using MetroLog.MicrosoftExtensions;
 using Microsoft.Extensions.Logging;
 using Visitz.Storage;
 using MetroLogLevel = MetroLog.LogLevel;

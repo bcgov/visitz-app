@@ -1,4 +1,4 @@
-﻿using IdentityModel.OidcClient;
+using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
 using System.IdentityModel.Tokens.Jwt;
 

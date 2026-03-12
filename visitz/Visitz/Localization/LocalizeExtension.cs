@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using Visitz.Resources.Localization;
 
 namespace Visitz.Localization

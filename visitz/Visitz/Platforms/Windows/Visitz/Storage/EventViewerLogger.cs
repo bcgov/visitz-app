@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using VisitzModel.Platforms.Windows.Logging;
 
 namespace Visitz.Platforms.Windows.Visitz.Storage;

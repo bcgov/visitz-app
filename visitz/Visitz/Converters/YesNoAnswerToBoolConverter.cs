@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Visitz.Views.FormControls;
 
 namespace Visitz.Converters;

@@ -1,4 +1,4 @@
-﻿namespace Oidc
+namespace Oidc
 {
     public static class OidcMauiAppBuilderExtension
     {

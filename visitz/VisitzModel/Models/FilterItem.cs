@@ -1,4 +1,4 @@
-﻿namespace VisitzModel.Models;
+namespace VisitzModel.Models;
 
 public class FilterItem
 {

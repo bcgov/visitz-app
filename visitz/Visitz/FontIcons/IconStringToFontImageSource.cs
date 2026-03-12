@@ -1,4 +1,4 @@
-﻿namespace Visitz.FontIcons;
+namespace Visitz.FontIcons;
 
 public static class IconStringToFontImageSource
 {
