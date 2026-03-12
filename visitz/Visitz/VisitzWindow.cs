@@ -8,16 +8,13 @@ public partial class VisitzWindow : Window
     public VisitzWindow() { }
 
     public VisitzWindow(Page page) : base(page) { }
-       protected async override void OnCreated()
+    protected async override void OnCreated()
     {
         base.OnCreated();
-
 #if WINDOWS
         ApplyDefaultWindowLayout(this);
 #endif
-
         await SessionPage.TryOpenAsync(animated: false);
-
         await AppLockPage.TryPrompt(promptOnAppearing: true);
     }
 

@@ -1,13 +1,9 @@
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Maui.Platform;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.ComponentModel;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
-using static PdfSharp.Capabilities.Features;
 using Grid = Microsoft.UI.Xaml.Controls.Grid;
 using Image = Microsoft.UI.Xaml.Controls.Image;
 using Window = Microsoft.Maui.Controls.Window;
@@ -19,8 +15,8 @@ public partial class VisitzWindow
 {
     private static readonly double InitialHeight = 800;
     private static readonly double WidthRatio = 1.5d;
-    static Microsoft.UI.Xaml.Controls.Grid ScrimGrid;
-    static Image ScrimImage;
+    Grid ScrimGrid;
+    Image ScrimImage;
     bool AutoRefreshTriedOnce { get; set; }
     private static partial Window ApplyDefaultWindowLayout(Window window)
     {
@@ -44,33 +40,24 @@ public partial class VisitzWindow
     }
     partial void OnWindowFocusChanged(bool focused)
     {
-        var nativeWindow = this.Handler?.PlatformView as Microsoft.UI.Xaml.Window;
-
+        var nativeWindow = Handler?.PlatformView as Microsoft.UI.Xaml.Window;
         if (nativeWindow?.Content is not FrameworkElement root)
             return;
-
         if (ScrimGrid == null)
         {
             ScrimGrid = new Grid();
-
             ScrimImage = new Image
             {
                 Stretch = Microsoft.UI.Xaml.Media.Stretch.UniformToFill,
-                Source = new BitmapImage(new Uri("ms-appx:///bella_coola_river.jpg"))
+                // Source = new BitmapImage(new Uri("ms-appx:///bella_coola_river.jpg"))
+                Source = new BitmapImage(new Uri($"ms-appx:///{BcGovAlbum.GetFeaturedPictureUri()}"))
             };
-
             ScrimGrid.Children.Add(ScrimImage);
-
             var panel = root as Panel;
-
             if (panel != null)
                 panel.Children.Add(ScrimGrid);
         }
-
-        ScrimGrid.Visibility = focused
-            ? Microsoft.UI.Xaml.Visibility.Collapsed
-            : Microsoft.UI.Xaml.Visibility.Visible;
-        ScrimGrid.Opacity = focused ? 0 : 1;
+        ScrimGrid.Visibility = focused? Microsoft.UI.Xaml.Visibility.Collapsed: Microsoft.UI.Xaml.Visibility.Visible;
     }
 
 
