@@ -23,6 +23,8 @@
         <VerticalStackLayout>
             <Grid
                 RowDefinitions="*,Auto"
+                ColumnDefinitions="*, *, 0.75*, 0.2*, Auto"
+                ColumnSpacing="8"
                 Style="{StaticResource DraftsColumns}"
                 MinimumHeightRequest="25"
                 Margin="10">
