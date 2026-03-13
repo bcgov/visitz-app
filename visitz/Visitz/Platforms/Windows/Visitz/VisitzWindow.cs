@@ -49,7 +49,6 @@ public partial class VisitzWindow
             ScrimImage = new Image
             {
                 Stretch = Microsoft.UI.Xaml.Media.Stretch.UniformToFill,
-                // Source = new BitmapImage(new Uri("ms-appx:///bella_coola_river.jpg"))
                 Source = new BitmapImage(new Uri($"ms-appx:///{BcGovAlbum.GetFeaturedPictureUri()}"))
             };
             ScrimGrid.Children.Add(ScrimImage);
