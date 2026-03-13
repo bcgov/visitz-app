@@ -374,7 +374,11 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             foreach (var item in attachmentsToDeleteFromRealm)
             {
                 if (item != null && item.IsValid)
+                {
+                    if (item.FileExistsLocally)
+                        item.RemoveFileFromDevice();
                     realm.Remove(item);
+                }
             }
 
             foreach (var attachment in newAttachments)
