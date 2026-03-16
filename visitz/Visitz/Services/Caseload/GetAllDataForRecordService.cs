@@ -1,6 +1,7 @@
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Services.CallDetails;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
@@ -65,7 +66,8 @@ public class GetAllDataForRecordService(
             GetContacts(exceptions),
             GetSupportNetworkItems(exceptions),
             GetAttachments(exceptions),
-            GetSafetyAssessments(exceptions)
+            GetSafetyAssessments(exceptions),
+            GetIncidentConcerns(exceptions)
         );
 
         // Get attachment files AFTER other dependent info so we
@@ -202,6 +204,24 @@ public class GetAllDataForRecordService(
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.SafetyAssessments, ex));
+            return Result.Error;
+        }
+        return Result.NoOperation;
+    }
+
+    async Task<Result> GetIncidentConcerns(List<Exception> exceptions)
+    {
+        try
+        {
+            if (BusinessObject.EntityType == EntityType.Incident)
+            {
+                var startMessage = GetIncidentConcernsService.MakeStartMessage(new(BusinessObject));
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.IncidentConcern, ex));
             return Result.Error;
         }
         return Result.NoOperation;

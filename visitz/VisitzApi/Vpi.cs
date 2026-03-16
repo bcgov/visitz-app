@@ -1,5 +1,6 @@
 using VisitzApi.Endpoints;
 using VisitzApi.Endpoints.Attachments;
+using VisitzApi.Endpoints.CallDetails;
 using VisitzApi.Endpoints.Caseload;
 using VisitzApi.Endpoints.Notes;
 using VisitzApi.Endpoints.SafetyAssess;
@@ -7,6 +8,7 @@ using VisitzApi.Endpoints.Visits;
 using VisitzApi.ErrorHandling;
 using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
+using VisitzApi.Models.CallDetails;
 using VisitzApi.Models.Caseload;
 using VisitzApi.Models.People;
 using VisitzApi.Models.SafetyAssess;
@@ -137,6 +139,13 @@ namespace VisitzApi
             Pagination pagination = null)
         {
             return await CallApi(new GetSafetyAssessmentsEndpoint(BaseVisitzApiUrl, incidentId, pagination));
+        }
+
+        public async Task<(int TotalRecords, IEnumerable<IncidentConcernsJson>)> GetIncidentConcerns(
+            string incidentId,
+            Pagination pagination = null)
+        {
+            return await CallApi(new IncidentConcernsEndpoint(BaseVisitzApiUrl, incidentId, pagination));
         }
     }
 }
