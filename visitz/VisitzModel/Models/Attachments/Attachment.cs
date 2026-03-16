@@ -345,7 +345,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         UpdatedDate = source.UpdatedDate;
     }
 
-    public static async Task SaveAttachmentsAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<AttachmentJson> items,
         string parentId,
@@ -354,7 +354,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         var incomingAttachments = FromApiArray(items, parentId, type);
         var incomingAttachmentIds = incomingAttachments.Select(item => item.Id);
 
-        var existingAttachments = realm.All<Attachment>();
+        var existingAttachments = GetAttachments(realm, type, parentId);
         var existingAttachmentIds = existingAttachments.AsEnumerable().Select(item => item.Id);
 
         var newAttachmentIds = incomingAttachmentIds.Except(existingAttachmentIds);
@@ -363,11 +363,24 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         var commonIds = incomingAttachmentIds.Except(newAttachmentIds);
         var attachmentsToUpdate = incomingAttachments.Where(item => commonIds.Contains(item.Id));
 
-        if (!newAttachments.Any() && !attachmentsToUpdate.Any())
+        var attachmentIdsToDeleteFromRealm = existingAttachmentIds.Except(incomingAttachmentIds);
+        var attachmentsToDeleteFromRealm = existingAttachments.ToList().Where(item => attachmentIdsToDeleteFromRealm.Contains(item.Id));
+
+        if (!newAttachments.Any() && !attachmentsToUpdate.Any() && !attachmentsToDeleteFromRealm.Any())
             return;
 
         await RealmExtensions.CommitAsync(realm, () =>
         {
+            foreach (var item in attachmentsToDeleteFromRealm)
+            {
+                if (item != null && item.IsValid)
+                {
+                    if (item.FileExistsLocally)
+                        item.RemoveFileFromDevice();
+                    realm.Remove(item);
+                }
+            }
+
             foreach (var attachment in newAttachments)
                 realm.Add(attachment);
 

@@ -39,7 +39,7 @@ internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagination
         var (total, visits) = await Vpi.GetVisitsAsync(CaseId, pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await PersonVisit.SaveVisitsAsync(realm, visits));
+            await PersonVisit.SynchronizeAsync(realm, visits));
 
         return total;
     }

@@ -124,13 +124,31 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
         return outList;
     }
 
-    public static async Task SaveSupportNetworkItemsAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<SupportNetworkJson> items,
         string parentId,
         EntityType type)
     {
-        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(items, parentId, type)));
+        var incomingSupportNetworkItems = FromApiArray(items, parentId, type);
+        var incomingSupportNetworkItemIds = incomingSupportNetworkItems.Select(item => item.Id);
+        var supportNetworks = realm
+            .All<SupportNetworkItem>()
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type).ToList();
+        var supportNetworkIds = supportNetworks.Select(item => item.Id);
+
+        var networkItemIdsToDelete = supportNetworkIds.Except(incomingSupportNetworkItemIds);
+        var networkItemsToDelete = supportNetworks.Where(item => networkItemIdsToDelete.Contains(item.Id));
+
+        await RealmExtensions.CommitAsync(realm, () =>
+        {
+            foreach (var item in supportNetworks)
+            {
+                if (item != null && item.IsValid)
+                    realm.Remove(item);
+            }
+            realm.Upsert(incomingSupportNetworkItems);
+        });
     }
 
     public static IQueryable<SupportNetworkItem> GetSupportNetworkByCaseId(Realm realm, string caseId)
