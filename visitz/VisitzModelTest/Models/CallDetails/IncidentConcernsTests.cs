@@ -88,7 +88,8 @@ public class IncidentConcernsTests
     public async Task SynchronizeAsyncDeletesDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<IncidentConcernsTests>();
-        List<IncidentConcernsJson> incidentConcerns = incidentConcernsList;
+        List<IncidentConcernsJson> incidentConcerns = new();
+        incidentConcerns.AddRange(incidentConcernsList);
 
         await IncidentConcerns.SynchronizeAsync(realm, incidentConcerns);
         var numberOfIncidentConcernsBeforeDeletion = realm.All<IncidentConcerns>().Count();
