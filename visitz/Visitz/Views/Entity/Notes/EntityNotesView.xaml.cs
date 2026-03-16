@@ -1,3 +1,5 @@
+using Microsoft.Maui.Handlers;
+using System.Text;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
@@ -29,6 +31,22 @@ public partial class EntityNotesView :
     {
         InitializeComponent();
         BindingContext = ViewModel;
+        EditorHandler.Mapper.AppendToMapping("NoBorder", (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.Background = null;
+#endif
+
+#if IOS || MACCATALYST
+            handler.PlatformView.Layer.BorderWidth = 0;
+            handler.PlatformView.Layer.CornerRadius = 0;
+#endif
+
+#if WINDOWS
+            handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+#endif
+        });
+
     }
 
     private async void NotesCollectionView_Loaded(object sender, EventArgs e)

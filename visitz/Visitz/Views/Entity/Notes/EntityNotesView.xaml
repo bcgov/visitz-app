@@ -12,7 +12,7 @@
     x:DataType="notes:EntityNotesViewModel">
 
     <StackLayout Orientation="Vertical">
-        
+
         <AbsoluteLayout VerticalOptions="FillAndExpand">
             <VerticalStackLayout 
                 AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -60,11 +60,11 @@
 
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="models:NoteItemGroup">
-                        
+
                         <!-- Fonts in Windows seem to have extra padding -->
                         <ContentView 
                             Padding="{OnPlatform WinUI='0', Default='10'}">
-                            
+
                             <Label
                                 VerticalOptions="Center"
                                 VerticalTextAlignment="Center"
@@ -79,9 +79,9 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:NoteItem">
                         <ContentView>
-                            <Label
-                                Margin="10,0,10,0"
-                                Text="{Binding Content}" />
+                            <Border Stroke="Transparent" StrokeThickness="0" Padding="8" BackgroundColor="Transparent">
+                                <Editor Margin="0,0,0,0" IsReadOnly="True" TextColor="Black" Text="{Binding Content, Mode=OneWay}" AutoSize="TextChanges" Placeholder="Edit note..." BackgroundColor="Transparent" />
+                            </Border>
                         </ContentView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -97,7 +97,7 @@
             Padding="10"
             RowDefinitions="Auto"
             ColumnDefinitions="Auto,*,Auto">
-            
+
             <!-- TODO: Unhide this search button once notes search is implemented. -->
             <Button 
                 IsVisible="False"
@@ -119,6 +119,6 @@
                 </Button.ImageSource>
             </Button>
         </Grid>
-        
+
     </StackLayout>
 </baseClasses:ViewModelContentView>
