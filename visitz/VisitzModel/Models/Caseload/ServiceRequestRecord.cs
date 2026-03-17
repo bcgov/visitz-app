@@ -5,6 +5,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -202,7 +203,7 @@ public partial class ServiceRequestRecord :
         IcmContact.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
-
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Case, Id);
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

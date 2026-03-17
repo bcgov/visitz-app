@@ -13,7 +13,7 @@ using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Utilities;
-
+using VisitzModel.Models.CallDetails;
 namespace VisitzModel.Models.Caseload;
 
 public partial class CaseRecord :
@@ -273,7 +273,7 @@ public partial class CaseRecord :
         IcmContact.RemoveByParent(fromRealm, EntityType.Case, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Case, Id, userIgnoredPrefs);
-
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Case, Id);
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

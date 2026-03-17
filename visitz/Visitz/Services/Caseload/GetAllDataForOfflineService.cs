@@ -1,6 +1,7 @@
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Services.CallDetails;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
@@ -92,7 +93,8 @@ namespace Visitz.Services.Caseload
                 GetAllContacts(all, exceptions),
                 GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
                 GetAllAttachments(all, exceptions),
-                GetAllSafetyAssessments(incidents, exceptions)
+                GetAllSafetyAssessments(incidents, exceptions),
+                GetAllAdditionalInformation(incidents, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
@@ -252,6 +254,21 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.SafetyAssessments, ex));
+            }
+        }
+        private async Task GetAllAdditionalInformation(
+           IEnumerable<RecordServiceInfo> incidents,
+           List<Exception> exceptions
+           )
+        {
+            try
+            {
+                var startMessage = GetAdditionalInformationByRangeService.MakeStartMessage(incidents);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.AdditionalInformation, ex));
             }
         }
     }

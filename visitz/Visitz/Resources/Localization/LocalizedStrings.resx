@@ -1051,4 +1051,7 @@ Do you want to download information for this record?</value>
   <data name="ConnectBeforeRetry" xml:space="preserve">
     <value>Connect to the internet before trying again.</value>
   </data>
+  <data name="AdditionalInformation" xml:space="preserve">
+    <value>AdditionalInformation</value>
+  </data>
 </root>
