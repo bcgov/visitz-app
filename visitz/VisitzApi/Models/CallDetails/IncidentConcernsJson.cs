@@ -4,16 +4,16 @@ namespace VisitzApi.Models.CallDetails;
 
 public class IncidentConcernsJson
 {
-    public string Id { get; set; }
-    public string OriginalConcern { get; set; }
-    public string Concern { get; set; }
-    public string StartDate { get; set; }
-    public string EndDate { get; set; }
-    public string Created { get; set; }
-    public string CreatedBy { get; set; }
-    public string CreatedByName { get; set; }
-    public string Updated { get; set; }
-    public string UpdatedBy { get; set; }
-    public string UpdatedByName { get; set; }
-    public string IncidentId { get; set; }
+    public string Id { get; set; } = string.Empty;
+    public string OriginalConcern { get; set; } = string.Empty;
+    public string Concern { get; set; } = string.Empty;
+    public string StartDate { get; set; } = string.Empty;
+    public string EndDate { get; set; } = string.Empty;
+    public string Created { get; set; } = string.Empty;
+    public string CreatedBy { get; set; } = string.Empty;
+    public string CreatedByName { get; set; } = string.Empty;
+    public string Updated { get; set; } = string.Empty;
+    public string UpdatedBy { get; set; } = string.Empty;
+    public string UpdatedByName { get; set; } = string.Empty;
+    public string IncidentId { get; set; } = string.Empty;
 }
