@@ -5,6 +5,8 @@ using VisitzApi.Json;
 using VisitzApi.Models.CallDetails;
 using VisitzApi.Requests;
 
+#nullable enable
+
 namespace VisitzApi.Endpoints.CallDetails;
 
 internal class IncidentConcernsEndpoint(
@@ -25,7 +27,7 @@ internal class IncidentConcernsEndpoint(
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(Pagination, @params: ("multivalue", "true")),
+            RequestUri = WithQueryParams(Pagination),
         };
     }
 

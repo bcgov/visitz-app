@@ -5,6 +5,8 @@ namespace VisitzModelTest.Models.CallDetails;
 
 public class IncidentConcernsTests
 {
+    private static readonly string parentId = "1";
+
     private static readonly List<IncidentConcernsJson> incidentConcernsList =
         [
             new()
@@ -76,7 +78,7 @@ public class IncidentConcernsTests
         List<IncidentConcernsJson> incidentConcerns = incidentConcernsList;
 
         var numberOfIncidentConcernsBeforeInsertion = realm.All<IncidentConcerns>().Count();
-        await IncidentConcerns.SynchronizeAsync(realm, incidentConcerns);
+        await IncidentConcerns.SynchronizeAsync(realm, incidentConcerns, parentId);
 
         var numberOfIncidentConcernsAfterInsertion = realm.All<IncidentConcerns>().Count();
 
@@ -88,15 +90,14 @@ public class IncidentConcernsTests
     public async Task SynchronizeAsyncDeletesDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<IncidentConcernsTests>();
-        List<IncidentConcernsJson> incidentConcerns = new();
-        incidentConcerns.AddRange(incidentConcernsList);
+        List<IncidentConcernsJson> incidentConcerns = [.. incidentConcernsList];
 
-        await IncidentConcerns.SynchronizeAsync(realm, incidentConcerns);
+        await IncidentConcerns.SynchronizeAsync(realm, incidentConcerns, parentId);
         var numberOfIncidentConcernsBeforeDeletion = realm.All<IncidentConcerns>().Count();
 
         incidentConcerns.RemoveAll(item => item.Id == "1");
         incidentConcerns.RemoveAll(item => item.Id == "4");
-        await IncidentConcerns.SynchronizeAsync(realm, incidentConcerns);
+        await IncidentConcerns.SynchronizeAsync(realm, incidentConcerns, parentId);
 
         var numberOfIncidentConcernsAfterDeletion = realm.All<IncidentConcerns>().Count();
 

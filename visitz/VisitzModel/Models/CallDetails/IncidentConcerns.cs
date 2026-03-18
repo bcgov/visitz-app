@@ -4,6 +4,8 @@ using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Utilities;
 
+#nullable enable
+
 namespace VisitzModel.Models.CallDetails;
 
 public partial class IncidentConcerns :
@@ -86,7 +88,8 @@ public partial class IncidentConcerns :
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<IncidentConcernsJson> newIncidentConcerns)
+        IEnumerable<IncidentConcernsJson> newIncidentConcerns,
+        string parentId)
     {
         if (newIncidentConcerns == null)
             return;
@@ -94,7 +97,7 @@ public partial class IncidentConcerns :
         var incomingIncidentConcerns = FromApiJsonArray(newIncidentConcerns);
         var incomingIncidentConcernIds = incomingIncidentConcerns.Select(item => item.Id);
 
-        var allIncidentConcerns = realm.All<IncidentConcerns>();
+        var allIncidentConcerns = realm.All<IncidentConcerns>().Where(item => item.IncidentId == parentId);
         var allIncidentConcernIds = allIncidentConcerns.AsEnumerable().Select(item => item.Id);
 
         var incidentConcernIdsToDelete = allIncidentConcernIds.Except(incomingIncidentConcernIds);
@@ -113,5 +116,17 @@ public partial class IncidentConcerns :
 
             realm.Upsert(incomingIncidentConcerns);
         });
+    }
+
+    public static void RemoveByParent(Realm realm, string parentIncidentId)
+    {
+        var incidentConcerns = realm.All<IncidentConcerns>()
+            .Where(item => item.IncidentId == parentIncidentId)
+            .ToList();
+
+        foreach (var item in incidentConcerns)
+        {
+            realm.Remove(item);
+        }
     }
 }

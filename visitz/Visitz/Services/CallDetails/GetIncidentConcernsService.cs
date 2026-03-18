@@ -2,6 +2,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Models.CallDetails;
 using VisitzApi.Requests;
 using VisitzModel.Models.CallDetails;
 using VisitzModel.Storage;
@@ -14,6 +15,8 @@ internal class GetIncidentConcernsService(Vpi vpi, LastUpdatedPrefs prefs)
     : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
+
+    List<IncidentConcernsJson> IncidentConcernRecords { get; } = [];
 
     public static string MakeId(string id)
     {
@@ -41,9 +44,14 @@ internal class GetIncidentConcernsService(Vpi vpi, LastUpdatedPrefs prefs)
             Info.Id,
             pagination);
 
-        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await IncidentConcerns.SynchronizeAsync(realm, incidentConcerns));
+        IncidentConcernRecords.AddRange(incidentConcerns);
 
         return total;
+    }
+
+    protected override async Task AfterRun()
+    {
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await IncidentConcerns.SynchronizeAsync(realm, IncidentConcernRecords, Info.Id));
     }
 }

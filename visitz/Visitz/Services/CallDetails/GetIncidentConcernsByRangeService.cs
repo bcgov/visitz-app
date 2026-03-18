@@ -3,6 +3,8 @@ using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzModel.Storage;
 
+#nullable enable
+
 namespace Visitz.Services.CallDetails;
 
 internal class GetIncidentConcernsByRangeService(
