@@ -37,9 +37,6 @@ internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagin
 
     protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
-        pagination.PageSize = 5; // FIXME Temporary stop-gap fix only for downloading Attachment rows.
-        // Remove this once upstream data row issues have been fixed or a workaround is found.
-
         var (total, attachments) = await Vpi.GetAttachmentsAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
