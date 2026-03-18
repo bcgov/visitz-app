@@ -44,16 +44,16 @@ internal abstract class ApiPaginationService : VisitzApiService
         return Task.CompletedTask;
     }
 
-    Task<int> TryRunPaginatedService(Pagination pagination)
+    async Task<int> TryRunPaginatedService(Pagination pagination)
     {
         try
         {
-            return RunPaginatedService(pagination);
+            return await RunPaginatedService(pagination);
         }
         catch (Exception ex)
         {
             Exceptions.Add(ex);
-            return Task.FromResult(int.MinValue);
+            return int.MinValue;
         }
     }
 
@@ -82,11 +82,18 @@ internal abstract class ApiPaginationService : VisitzApiService
             await Parallel.ForEachAsync(
                 pagination,
                 ParallelOptions,
-                async (item, _) => await RunPaginatedService(item)
+                async (item, _) => await TryRunPaginatedService(item)
             );
         }
 
-        await AfterRun();
+        try
+        {
+            await AfterRun();
+        }
+        catch (Exception ex)
+        {
+            Exceptions.Add(ex);
+        }
 
         if (Exceptions.Count > 1)
             throw new AggregateException(Exceptions);
