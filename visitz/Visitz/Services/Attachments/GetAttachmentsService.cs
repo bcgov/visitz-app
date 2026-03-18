@@ -5,6 +5,7 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
@@ -43,8 +44,7 @@ internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagin
     {
         var (total, attachments) = await Vpi.GetAttachmentsAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 
-        foreach (var attachment in attachments)
-            _attachments.Add(attachment);
+        _attachments.AddAll(attachments);
 
         return total;
     }
