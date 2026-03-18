@@ -1,8 +1,8 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -40,7 +40,8 @@ public partial class TodoMasterListViewModel : VisitzViewModel
             icmDataRealm,
             TodoItem_PropertyChanged,
             () => PersonVisit.GetUpcomingVisits(icmDataRealm).Count(),
-            new NavItem() { ContentViewType = typeof(TodoVisitsView) });
+            new NavItem() { ContentViewType = typeof(TodoVisitsView) }
+        );
     }
 
     private void TodoItem_PropertyChanged(TodoItemUi item)
@@ -59,7 +60,9 @@ public partial class TodoMasterListViewModel : VisitzViewModel
             collection.Add(todoItem);
         else
         {
-            var find = collection.OfType<TodoItemUi>().FirstOrDefault(obj => obj.ItemName.CompareTo(todoItem.ItemName) >= 0);
+            var find = collection
+                .OfType<TodoItemUi>()
+                .FirstOrDefault(obj => obj.ItemName.CompareTo(todoItem.ItemName) >= 0);
             if (find != null)
                 collection.Insert(collection.IndexOf(find), todoItem);
             else

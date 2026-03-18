@@ -9,7 +9,8 @@ public partial class DraftsList : ViewModelContentView
 {
     new DraftsListViewModel ViewModel => base.ViewModel as DraftsListViewModel;
 
-    public DraftsList() : base(ServiceProvider.GetService<DraftsListViewModel>())
+    public DraftsList()
+        : base(ServiceProvider.GetService<DraftsListViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -25,6 +26,7 @@ public partial class DraftsList : ViewModelContentView
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -58,6 +60,7 @@ public partial class DraftsList : ViewModelContentView
             LocalizedStrings.DiscardUnlinkedDraft,
             message,
             LocalizedStrings.DiscardDraft,
-            LocalizedStrings.CancelAndKeepDraft);
+            LocalizedStrings.CancelAndKeepDraft
+        );
     }
 }

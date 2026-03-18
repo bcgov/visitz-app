@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
 	<Import Project="Visitz.props" />
 
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-maccatalyst;net10.0-ios</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))"
+			>$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks
+		>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net10.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
@@ -24,20 +25,35 @@
 		<ApplicationDisplayVersion>$(VisitzVersion)</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
+			>15.0</SupportedOSPlatformVersion
+		>
+		<SupportedOSPlatformVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'"
+			>13.1</SupportedOSPlatformVersion
+		>
+		<SupportedOSPlatformVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
+			>10.0.17763.0</SupportedOSPlatformVersion
+		>
+		<TargetPlatformMinVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
+			>10.0.17763.0</TargetPlatformMinVersion
+		>
+		<SupportedOSPlatformVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'"
+			>6.5</SupportedOSPlatformVersion
+		>
 		<AssemblyName>$(ApplicationTitle)</AssemblyName>
 		<DefaultLanguage>en</DefaultLanguage>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-ios|AnyCPU'">
-	  	<CreatePackage>false</CreatePackage>
+		<CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net10.0-ios|AnyCPU'">
-	  	<CreatePackage>false</CreatePackage>
+		<CreatePackage>false</CreatePackage>
 		<RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
 		<ArchiveOnBuild>true</ArchiveOnBuild>
 	</PropertyGroup>
@@ -45,7 +61,7 @@
 	<Import Project="Visitz.targets" />
 
 	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'">
-	    <AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
+		<AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
 	</PropertyGroup>
 	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(RuntimeIdentifierOverride)' != ''">
 		<RuntimeIdentifier>$(RuntimeIdentifierOverride)</RuntimeIdentifier>
@@ -56,7 +72,12 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="$(BuildTypeColor)" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splashicon.svg" Color="$(BuildTypeColor)" BaseSize="352,328" Resize="true" />
+		<MauiSplashScreen
+			Include="Resources\Splash\splashicon.svg"
+			Color="$(BuildTypeColor)"
+			BaseSize="352,328"
+			Resize="true"
+		/>
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -69,8 +90,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="appSettings.json" />
-	  <EmbeddedResource Include="appSettings.json" />
+		<None Remove="appSettings.json" />
+		<EmbeddedResource Include="appSettings.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -88,7 +109,10 @@
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiPackageVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiPackageVersion)" />
+		<PackageReference
+			Include="Microsoft.Maui.Controls.Compatibility"
+			Version="$(MauiPackageVersion)"
+		/>
 		<PackageReference Include="Microsoft.Maui.Controls.Foldable" Version="10.0.31" />
 		<PackageReference Include="PDFsharp" Version="6.2.4" />
 		<PackageReference Include="Plugin.Fingerprint" Version="3.0.0-beta.1" />
@@ -101,60 +125,59 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Oidc\Oidc.csproj" />
-	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
-	  <ProjectReference Include="..\VisitzModel\VisitzModel.csproj" />
+		<ProjectReference Include="..\Oidc\Oidc.csproj" />
+		<ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
+		<ProjectReference Include="..\VisitzModel\VisitzModel.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Resources\Localization\LocalizedStrings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>LocalizedStrings.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\Entity\Attachments\AttachmentDraftsListItemView.xaml.cs">
-	    <DependentUpon>AttachmentDraftsListItemView.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml.cs">
-	    <DependentUpon>ChildYouthVisitListView.xaml</DependentUpon>
-	  </Compile>
+		<Compile Update="Resources\Localization\LocalizedStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>LocalizedStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Views\Entity\Attachments\AttachmentDraftsListItemView.xaml.cs">
+			<DependentUpon>AttachmentDraftsListItemView.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml.cs">
+			<DependentUpon>ChildYouthVisitListView.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Localization\LocalizedStrings.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Resources\Localization\LocalizedStrings.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>LocalizedStrings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\Drafts\DraftsListItem.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Drafts\EditDraftAppBar.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Entity\Attachments\AttachmentsListItemView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Entity\SafetyAssess\SafetyAssessmentListView.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Navigation\TabItemView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Navigation\TabView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Entity\Attachments\PdfDetailsView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\User\UserView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Views\Drafts\DraftsListItem.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Drafts\EditDraftAppBar.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Entity\Attachments\AttachmentsListItemView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Entity\SafetyAssess\SafetyAssessmentListView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Navigation\TabItemView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Navigation\TabView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Entity\Attachments\PdfDetailsView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\User\UserView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
-
 </Project>

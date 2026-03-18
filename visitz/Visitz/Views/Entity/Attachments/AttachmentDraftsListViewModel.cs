@@ -1,7 +1,7 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -42,13 +42,16 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, IBusines
 
         attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
 
-        realmQuery.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>()
-                .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber));
+        realmQuery.Subscribe(
+            attachmentsRealm,
+            attachmentsRealm.All<AttachmentDraft>().Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber)
+        );
 
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -62,7 +65,10 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, IBusines
         base.Dispose(disposing);
     }
 
-    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(
+        object sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+    )
     {
         IsLoading = false;
         IsEmpty = !realmQuery[typeof(AttachmentDraft)].Query.Any();
@@ -99,7 +105,8 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, IBusines
             LocalizedStrings.DiscardDraft,
             LocalizedStrings.DiscardAttachmentDraftDescription,
             LocalizedStrings.Discard,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
 
         if (shouldDiscard)
         {
@@ -144,19 +151,11 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, IBusines
 
     PhotoDetailsView MakePhotoDetailsView(Attachment attachment)
     {
-        return new()
-        {
-            Attachment = attachment,
-            BusinessObject = BusinessObject,
-        };
+        return new() { Attachment = attachment, BusinessObject = BusinessObject };
     }
 
     PdfDetailsView MakePdfDetailsView(Attachment attachment)
     {
-        return new()
-        {
-            Attachment = attachment,
-            BusinessObject = BusinessObject,
-        };
+        return new() { Attachment = attachment, BusinessObject = BusinessObject };
     }
 }

@@ -22,7 +22,8 @@ public partial class ActivatableTagView : TagView, IActiveState
         }
     }
 
-    public ActivatableTagView() : base()
+    public ActivatableTagView()
+        : base()
     {
         var tap = new TapGestureRecognizer();
         tap.Tapped += Tapped;

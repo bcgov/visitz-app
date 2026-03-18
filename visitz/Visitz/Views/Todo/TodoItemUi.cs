@@ -30,7 +30,8 @@ public partial class TodoItemUi : VisitzViewModel
         Realm icmDataRealm,
         Action<TodoItemUi> countUpdated,
         Func<int> getCount = null,
-        NavItem navItem = null)
+        NavItem navItem = null
+    )
     {
         ItemName = name;
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
@@ -39,7 +40,11 @@ public partial class TodoItemUi : VisitzViewModel
         selectedTodoNavItem = navItem;
         realmQuery.Subscribe(icmDataRealm, query);
     }
-    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+
+    private void RealmQuery_ItemsChanged(
+        object sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+    )
     {
         if (counter == null)
         {

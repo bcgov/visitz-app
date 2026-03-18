@@ -12,51 +12,52 @@ public class IncidentRecordTests
     const string PrimaryName = "USER";
     const string SecondaryName = "USER2";
 
-    static IncidentJson IncidentJson => new()
-    {
-        Id = "",
-        CreatedBy = "",
-        CreatedById = "",
-        UpdatedBy = "",
-        UpdatedById = "",
-        CreatedDate = "12/10/2018 13:50:02",
-        UpdatedDate = "12/10/2018 13:50:02",
-        IncidentNumber = "",
-        GivenNames = "",
-        LastName = "",
-        AssignedTo = "",
-        AssignedToId = "",
-        AddressComments = "",
-        Address = "",
-        AreAnyOfTheFamilyMembersIndigenous = "",
-        CallerAddress = "",
-        CallerEmail = "",
-        CallerName = "",
-        CallerPhone = "",
-        Caseload = "",
-        CellPhone = "",
-        ClosedDate = "",
-        CreatedByOffice = "",
-        DateReported = "",
-        HomePhone = "",
-        MedicalExamRequired = "",
-        Method = "",
-        NatureOfCall = "",
-        PccSummary = "",
-        PoliceForce = "",
-        PoliceInvestigation = "",
-        PoliceNotifiedDate = "",
-        PoliceReportNumber = "",
-        PreferredContactMethod = "",
-        ProtectionResponse = "",
-        Resolution = "",
-        ResponsePriority = "",
-        RestrictedFlag = "N",
-        ServiceOffice = "",
-        Status = "",
-        Type = "",
-        TypeOfCaller = "",
-    };
+    static IncidentJson IncidentJson =>
+        new()
+        {
+            Id = "",
+            CreatedBy = "",
+            CreatedById = "",
+            UpdatedBy = "",
+            UpdatedById = "",
+            CreatedDate = "12/10/2018 13:50:02",
+            UpdatedDate = "12/10/2018 13:50:02",
+            IncidentNumber = "",
+            GivenNames = "",
+            LastName = "",
+            AssignedTo = "",
+            AssignedToId = "",
+            AddressComments = "",
+            Address = "",
+            AreAnyOfTheFamilyMembersIndigenous = "",
+            CallerAddress = "",
+            CallerEmail = "",
+            CallerName = "",
+            CallerPhone = "",
+            Caseload = "",
+            CellPhone = "",
+            ClosedDate = "",
+            CreatedByOffice = "",
+            DateReported = "",
+            HomePhone = "",
+            MedicalExamRequired = "",
+            Method = "",
+            NatureOfCall = "",
+            PccSummary = "",
+            PoliceForce = "",
+            PoliceInvestigation = "",
+            PoliceNotifiedDate = "",
+            PoliceReportNumber = "",
+            PreferredContactMethod = "",
+            ProtectionResponse = "",
+            Resolution = "",
+            ResponsePriority = "",
+            RestrictedFlag = "N",
+            ServiceOffice = "",
+            Status = "",
+            Type = "",
+            TypeOfCaller = "",
+        };
 
     [Fact]
     public void InstanceFromJsonIsEqualIgnoreAssignees()
@@ -94,7 +95,10 @@ public class IncidentRecordTests
         Assert.Equal(IncidentJson.PccSummary, incident.PccSummary);
         Assert.Equal(IncidentJson.PoliceForce, incident.PoliceForce);
         Assert.Equal(IncidentJson.PoliceInvestigation, incident.PoliceInvestigation);
-        Assert.Equal(Timestamp.ParseDateTimeOffsetNullable(IncidentJson.PoliceNotifiedDate), incident.PoliceNotifiedDate);
+        Assert.Equal(
+            Timestamp.ParseDateTimeOffsetNullable(IncidentJson.PoliceNotifiedDate),
+            incident.PoliceNotifiedDate
+        );
         Assert.Equal(IncidentJson.PoliceReportNumber, incident.PoliceReportNumber);
         Assert.Equal(IncidentJson.PreferredContactMethod, incident.PreferredContactMethod);
         Assert.Equal(IncidentJson.ProtectionResponse, incident.ProtectionResponse);
@@ -133,12 +137,9 @@ public class IncidentRecordTests
         var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
         List<IncidentRecord> incidents = [new IncidentRecord(IncidentJson), new() { Id = "23456" }];
 
-        await realm.Write(async () => await IncidentRecord.SynchronizeAsync(
-            realm,
-            incidents,
-            null,
-            PrimaryName,
-            isPersonalCaseload));
+        await realm.Write(async () =>
+            await IncidentRecord.SynchronizeAsync(realm, incidents, null, PrimaryName, isPersonalCaseload)
+        );
 
         return IncidentRecord.GetAllByAssignee(realm, name, isPersonalCaseload);
     }

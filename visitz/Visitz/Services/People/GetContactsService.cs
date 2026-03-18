@@ -11,8 +11,7 @@ namespace Visitz.Services.People;
 
 #nullable enable
 
-internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
-    : ApiPaginationService(vpi, prefs)
+internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -36,15 +35,13 @@ internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs)
         return MakeId(Info.Type, Info.Id);
     }
 
-    override protected async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
-        var (total, contacts) = await Vpi.GetContactsAsync(
-            (ApiRecordType)Info.Type,
-            Info.Id,
-            pagination);
+        var (total, contacts) = await Vpi.GetContactsAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await IcmContact.SynchronizeAsync(realm, contacts, Info.Id, Info.Type));
+            await IcmContact.SynchronizeAsync(realm, contacts, Info.Id, Info.Type)
+        );
 
         return total;
     }

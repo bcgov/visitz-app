@@ -15,8 +15,7 @@ public static class VisitzColors
     public static Color TryGetColor(string name)
     {
         return Application.Current.Resources.TryGetColor(name, null)
-            ??
-            throw new InvalidOperationException($"Color '{name}' not found in resources");
+            ?? throw new InvalidOperationException($"Color '{name}' not found in resources");
     }
 
     public static readonly Color BC_Blue = TryGetColor(nameof(BC_Blue));
@@ -68,13 +67,17 @@ public static class VisitzColors
     public static readonly Color EntityIncidentTagBackground = TryGetColor(nameof(EntityIncidentTagBackground));
     public static readonly Color EntityIncidentTagText = TryGetColor(nameof(EntityIncidentTagText));
 
-    public static readonly Color ContactRelationshipTagBackground = TryGetColor(nameof(ContactRelationshipTagBackground));
+    public static readonly Color ContactRelationshipTagBackground = TryGetColor(
+        nameof(ContactRelationshipTagBackground)
+    );
     public static readonly Color ContactRelationshipTagText = TryGetColor(nameof(ContactRelationshipTagText));
 
     public static readonly Color EntityMemoTagBackground = TryGetColor(nameof(EntityMemoTagBackground));
     public static readonly Color EntityMemoTagText = TryGetColor(nameof(EntityMemoTagText));
 
-    public static readonly Color EntityServiceRequestTagBackground = TryGetColor(nameof(EntityServiceRequestTagBackground));
+    public static readonly Color EntityServiceRequestTagBackground = TryGetColor(
+        nameof(EntityServiceRequestTagBackground)
+    );
     public static readonly Color EntityServiceRequestTagText = TryGetColor(nameof(EntityServiceRequestTagText));
 
     public static readonly Color PurpleTagBorder = TryGetColor(nameof(PurpleTagBorder));
@@ -92,7 +95,9 @@ public static class VisitzColors
 
     public static readonly Color LightGrayText = TryGetColor(nameof(LightGrayText));
     public static readonly Color DarkSkyBlueBackground = TryGetColor(nameof(DarkSkyBlueBackground));
-    public static readonly Color DarkSkyBlueBackgroundPointerOver = TryGetColor(nameof(DarkSkyBlueBackgroundPointerOver));
+    public static readonly Color DarkSkyBlueBackgroundPointerOver = TryGetColor(
+        nameof(DarkSkyBlueBackgroundPointerOver)
+    );
     public static readonly Color DarkSkyBlueBackgroundPressed = TryGetColor(nameof(DarkSkyBlueBackgroundPressed));
     public static readonly Color BlackishText = TryGetColor(nameof(BlackishText));
     public static readonly Color LightGrayBackground = TryGetColor(nameof(LightGrayBackground));

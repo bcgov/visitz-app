@@ -8,7 +8,7 @@ namespace Oidc
             {
                 Domain = settings.AuthenticationDomain,
                 ClientId = settings.ClientId,
-                RedirectUri = settings.RedirectUri
+                RedirectUri = settings.RedirectUri,
             };
 
             builder.Services.AddSingleton(new AuthenticationClient(options));

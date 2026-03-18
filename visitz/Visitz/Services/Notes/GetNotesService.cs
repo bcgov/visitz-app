@@ -28,7 +28,7 @@ namespace Visitz.Services.Notes
             {
                 ServiceId = MakeId(idEntityItem.Item1),
                 ServiceType = typeof(GetNotesService),
-                Payload = idEntityItem
+                Payload = idEntityItem,
             };
         }
 
@@ -55,7 +55,8 @@ namespace Visitz.Services.Notes
             var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
 
             await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-                await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes));
+                await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes)
+            );
 
             ResultCode = Result.Successful;
         }

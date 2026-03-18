@@ -15,11 +15,7 @@ internal class GetCaseloadEndpoint(string baseUrl, DateTimeOffset? after = null)
 
     public override HttpRequestMessage MakeRequest()
     {
-        return new HttpRequestMessage()
-        {
-            Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After),
-        };
+        return new HttpRequestMessage() { Method = HttpMethod.Get, RequestUri = WithQueryParams(after: After) };
     }
 
     public override CaseloadJson HandleResponse(HttpResponseMessage _, string responseContent)

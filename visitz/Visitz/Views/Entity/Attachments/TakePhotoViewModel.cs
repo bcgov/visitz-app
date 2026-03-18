@@ -1,8 +1,8 @@
+using System.Text;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Text;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
@@ -55,6 +55,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -103,15 +104,20 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
         string filetypeQuery = queryBuilder.ToString();
         filetypeQuery = filetypeQuery[..filetypeQuery.LastIndexOf("OR")];
 
-        queryMap.Subscribe(AttachmentsRealm, AttachmentsRealm
-            .All<AttachmentDraft>()
-            .Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
-            .Filter(filetypeQuery)
-            .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber)
+        queryMap.Subscribe(
+            AttachmentsRealm,
+            AttachmentsRealm
+                .All<AttachmentDraft>()
+                .Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
+                .Filter(filetypeQuery)
+                .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber)
         );
     }
 
-    private void QueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void QueryMap_ItemsChanged(
+        object sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+    )
     {
         if (e.Changes == null)
         {

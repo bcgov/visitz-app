@@ -1,8 +1,7 @@
+using Visitz.FontIcons;
 #if IOS
 using Microsoft.Maui.Controls.PlatformConfiguration;
 #endif
-
-using Visitz.FontIcons;
 
 namespace Visitz.Controls;
 
@@ -10,7 +9,8 @@ internal class CloseButton : FontIconButton
 {
     public event EventHandler<ClosingEventArgs> Closing;
 
-    public CloseButton() : base()
+    public CloseButton()
+        : base()
     {
         FontFamily = MaterialIcons.RoundedUnfilled.FontFamily;
         Text = MaterialIcons.Close;

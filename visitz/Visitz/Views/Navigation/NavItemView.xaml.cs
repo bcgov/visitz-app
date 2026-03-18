@@ -4,8 +4,11 @@ namespace Visitz.Views.Navigation;
 
 public partial class NavItemView : ContentView, ISelectedState
 {
-    public static readonly BindableProperty IsSelectedProperty =
-        BindableProperty.Create(nameof(IsSelected), typeof(bool), typeof(NavItemView));
+    public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
+        nameof(IsSelected),
+        typeof(bool),
+        typeof(NavItemView)
+    );
 
     public bool IsSelected
     {

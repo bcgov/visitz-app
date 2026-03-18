@@ -1,5 +1,3 @@
 namespace Oidc.Exceptions;
 
-public class SessionRefreshException(string message) : Exception(message)
-{
-}
+public class SessionRefreshException(string message) : Exception(message) { }

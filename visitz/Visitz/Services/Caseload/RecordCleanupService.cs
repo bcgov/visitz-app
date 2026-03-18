@@ -20,11 +20,7 @@ internal class RecordCleanupService : VisitzService
 
     public static StartServiceMessage MakeStartMessage()
     {
-        return new()
-        {
-            ServiceId = MakeId(),
-            ServiceType = typeof(RecordCleanupService),
-        };
+        return new() { ServiceId = MakeId(), ServiceType = typeof(RecordCleanupService) };
     }
 
     public static string MakeId()
@@ -77,14 +73,10 @@ internal class RecordCleanupService : VisitzService
 
     bool IsStaleRecord(IBusinessObject bo)
     {
-        return (bo.LocalState?.ShouldDownloadDuringRefresh ?? false)
-                && bo.LocalState?.LastOpened < dateThreshold;
+        return (bo.LocalState?.ShouldDownloadDuringRefresh ?? false) && bo.LocalState?.LastOpened < dateThreshold;
     }
 
-    void DeleteDependentData(
-        Realm realm,
-        IBusinessObject businessObject,
-        UserIgnoredContentPrefs ignoredPrefs)
+    void DeleteDependentData(Realm realm, IBusinessObject businessObject, UserIgnoredContentPrefs ignoredPrefs)
     {
         try
         {

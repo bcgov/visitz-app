@@ -32,8 +32,7 @@ public class Program
     // This workaround can be removed once the fix is applied in Realm.
     static void LoadRealmAssembly()
     {
-        var alc = AssemblyLoadContext.GetLoadContext(typeof(Realms.Realm).Assembly)
-            ?? AssemblyLoadContext.Default;
+        var alc = AssemblyLoadContext.GetLoadContext(typeof(Realms.Realm).Assembly) ?? AssemblyLoadContext.Default;
 
         alc.ResolvingUnmanagedDll += (assembly, libraryName) =>
         {
@@ -42,11 +41,11 @@ public class Program
                 return NativeLibrary.Load(
                     "@rpath/realm-wrappers.framework/realm-wrappers",
                     assembly,
-                    DllImportSearchPath.ApplicationDirectory);
+                    DllImportSearchPath.ApplicationDirectory
+                );
             }
 
             return IntPtr.Zero;
         };
     }
 }
-

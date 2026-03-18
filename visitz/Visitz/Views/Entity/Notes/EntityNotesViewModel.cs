@@ -1,8 +1,8 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -15,10 +15,7 @@ using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
-public partial class EntityNotesViewModel :
-    VisitzViewModel,
-    IBusinessObjectHolder,
-    IRequestedEntitySection
+public partial class EntityNotesViewModel : VisitzViewModel, IBusinessObjectHolder, IRequestedEntitySection
 {
     [ObservableProperty]
     public IBusinessObject businessObject;
@@ -54,14 +51,17 @@ public partial class EntityNotesViewModel :
 
         var noteDraftRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
 
-        realmQueryMap.Subscribe(noteDraftRealm, noteDraftRealm.All<NoteDraft>()
-            .Where(draft => draft.ParentEntityId == BusinessObject.FileNumber));
+        realmQueryMap.Subscribe(
+            noteDraftRealm,
+            noteDraftRealm.All<NoteDraft>().Where(draft => draft.ParentEntityId == BusinessObject.FileNumber)
+        );
 
         if (RequestedSection == EntitySection.NoteEntry)
             await OpenNoteEntry();
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -94,7 +94,10 @@ public partial class EntityNotesViewModel :
         IsNotesEmtpy = !Notes?.Any() ?? true;
     }
 
-    private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQueryMap_ItemsChanged(
+        object sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+    )
     {
         if (e.Type == typeof(NoteItem))
             UpdateNotesList(e.Items as IRealmCollection<NoteItem>, e.Changes);
@@ -128,8 +131,12 @@ public partial class EntityNotesViewModel :
             NoteItemGroup.RemoveFromSortedGroups(Notes, deletedIndex);
 
         foreach (var insertedIndex in changes.InsertedIndices)
-            NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex],
-                BusinessObject.EntityType, LocalizedStrings.NotePageNumberHeader);
+            NoteItemGroup.InsertInSortedGroups(
+                Notes,
+                realmNotes[insertedIndex],
+                BusinessObject.EntityType,
+                LocalizedStrings.NotePageNumberHeader
+            );
     }
 
     private void UpdateOpenNoteEntryText(bool draftAvailable)

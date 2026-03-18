@@ -87,8 +87,10 @@ namespace Oidc
                 }
                 else if (OfficeNames == null || !OfficeNames.Equals(value))
                 {
-                    Preferences.Default.Set(OfficesKey, value.Aggregate((accum, officeName) =>
-                        accum + OfficesDelimiter + officeName));
+                    Preferences.Default.Set(
+                        OfficesKey,
+                        value.Aggregate((accum, officeName) => accum + OfficesDelimiter + officeName)
+                    );
 
                     OfficesChanged?.Invoke(this, value);
                 }

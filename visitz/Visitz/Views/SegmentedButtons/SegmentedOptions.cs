@@ -10,10 +10,10 @@ public class SegmentedOptions(string id, string text, ImageSource imageSource)
 
     public override bool Equals(object obj)
     {
-        return obj is SegmentedOptions opts &&
-               Id == opts.Id &&
-               Text == opts.Text &&
-               EqualityComparer<ImageSource>.Default.Equals(ImageSource, opts.ImageSource);
+        return obj is SegmentedOptions opts
+            && Id == opts.Id
+            && Text == opts.Text
+            && EqualityComparer<ImageSource>.Default.Equals(ImageSource, opts.ImageSource);
     }
 
     public override int GetHashCode()

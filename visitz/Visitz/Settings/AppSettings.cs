@@ -1,6 +1,6 @@
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Oidc;
-using System.Reflection;
 
 namespace Visitz.Settings
 {
@@ -24,8 +24,8 @@ namespace Visitz.Settings
 
         public DebugSettings Debug => Configuration.GetRequiredSection(DebugSettingsKey).Get<DebugSettings>();
 
-        public ContactInfoSettings ContactInfo => Configuration
-            .GetRequiredSection(ContactInfoSettingsKey).Get<ContactInfoSettings>();
+        public ContactInfoSettings ContactInfo =>
+            Configuration.GetRequiredSection(ContactInfoSettingsKey).Get<ContactInfoSettings>();
 
         public AppSettings()
         {
@@ -33,9 +33,7 @@ namespace Visitz.Settings
 
             using var stream = assembly.GetManifestResourceStream(AppSettingsPath);
 
-            Configuration = new ConfigurationBuilder()
-                .AddJsonStream(stream)
-                .Build();
+            Configuration = new ConfigurationBuilder().AddJsonStream(stream).Build();
         }
     }
 }

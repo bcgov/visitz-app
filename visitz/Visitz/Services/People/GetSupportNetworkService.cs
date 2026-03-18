@@ -11,8 +11,7 @@ namespace Visitz.Services.People;
 
 #nullable enable
 
-internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs)
-    : ApiPaginationService(vpi, prefs)
+internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -36,15 +35,13 @@ internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs)
         return MakeId(Info.Type, Info.Id);
     }
 
-    override protected async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
-        var (total, supportNetwork) = await Vpi.GetSupportNetworkAsync(
-            (ApiRecordType)Info.Type,
-            Info.Id,
-            pagination);
+        var (total, supportNetwork) = await Vpi.GetSupportNetworkAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await SupportNetworkItem.SynchronizeAsync(realm, supportNetwork, Info.Id, Info.Type));
+            await SupportNetworkItem.SynchronizeAsync(realm, supportNetwork, Info.Id, Info.Type)
+        );
 
         return total;
     }

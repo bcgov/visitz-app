@@ -14,37 +14,38 @@
         Top={StaticResource DefaultPaddingDouble},
         Left={StaticResource DefaultPaddingDouble},
         Right={StaticResource DefaultPaddingDouble},
-        Bottom={StaticResource DefaultPadding}}">
-
+        Bottom={StaticResource DefaultPadding}}"
+>
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>
-
     </ContentView.Resources>
 
     <Grid
         BindingContext="{Reference this}"
         ColumnDefinitions="Auto,*,Auto"
-        RowDefinitions="Auto,Auto">
-
+        RowDefinitions="Auto,Auto"
+    >
         <controls:CloseButton
             Grid.Row="0"
             Grid.Column="0"
             VerticalOptions="Center"
-            TextColor="{StaticResource Gray600}" />
+            TextColor="{StaticResource Gray600}"
+        />
 
         <views:DraftSavedView
             x:Name="DraftSavedIndicator"
             Grid.Row="0"
             Grid.Column="1"
-            VerticalOptions="Center" />
+            VerticalOptions="Center"
+        />
 
-        <HorizontalStackLayout 
+        <HorizontalStackLayout
             Grid.Row="0"
             Grid.Column="2"
-            Spacing="{StaticResource DefaultSpacing}">
-
+            Spacing="{StaticResource DefaultSpacing}"
+        >
             <views:InternetInfoView />
 
             <Button
@@ -53,20 +54,23 @@
                 Text="{local:Localize DiscardDraft}"
                 Command="{Binding DiscardCommand}"
                 IsEnabled="{Binding AllowDiscard}"
-                IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
+                IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+            />
 
             <Button
                 x:Name="PublishButton"
                 Text="{local:Localize PublishToIcm}"
                 Command="{Binding PublishCommand}"
                 IsEnabled="{Binding AllowPublish}"
-                IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
+                IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+            />
 
             <Label
                 Text="{local:Localize ReadOnly}"
                 FontFamily="BCSansItalic"
                 VerticalOptions="Center"
-                IsVisible="{Binding IsReadOnly}" />
+                IsVisible="{Binding IsReadOnly}"
+            />
         </HorizontalStackLayout>
     </Grid>
 </ContentView>

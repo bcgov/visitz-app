@@ -8,15 +8,16 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentsListView"
     x:DataType="attachments:AttachmentsListViewModel"
-    VerticalOptions="FillAndExpand">
-
+    VerticalOptions="FillAndExpand"
+>
     <AbsoluteLayout>
         <CollectionView
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             ItemsSource="{Binding AttachmentsList}"
             SelectionMode="None"
-            ItemsUpdatingScrollMode="KeepScrollOffset">
+            ItemsUpdatingScrollMode="KeepScrollOffset"
+        >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="attachments:AttachmentsListItemUi">
                     <attachments:AttachmentsListItemView />

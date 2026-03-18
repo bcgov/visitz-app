@@ -114,7 +114,8 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
     public static IEnumerable<SupportNetworkItem> FromApiArray(
         IEnumerable<SupportNetworkJson> items,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
         List<SupportNetworkItem> outList = [];
 
@@ -128,39 +129,46 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
         Realm realm,
         IEnumerable<SupportNetworkJson> items,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
         var incomingSupportNetworkItems = FromApiArray(items, parentId, type);
         var incomingSupportNetworkItemIds = incomingSupportNetworkItems.Select(item => item.Id);
         var supportNetworks = realm
             .All<SupportNetworkItem>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type).ToList();
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
+            .ToList();
         var supportNetworkIds = supportNetworks.Select(item => item.Id);
 
         var networkItemIdsToDelete = supportNetworkIds.Except(incomingSupportNetworkItemIds);
         var networkItemsToDelete = supportNetworks.Where(item => networkItemIdsToDelete.Contains(item.Id));
 
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            foreach (var item in supportNetworks)
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
             {
-                if (item != null && item.IsValid)
-                    realm.Remove(item);
+                foreach (var item in supportNetworks)
+                {
+                    if (item != null && item.IsValid)
+                        realm.Remove(item);
+                }
+                realm.Upsert(incomingSupportNetworkItems);
             }
-            realm.Upsert(incomingSupportNetworkItems);
-        });
+        );
     }
 
     public static IQueryable<SupportNetworkItem> GetSupportNetworkByCaseId(Realm realm, string caseId)
     {
-        return realm.All<SupportNetworkItem>()
+        return realm
+            .All<SupportNetworkItem>()
             .Where(item => item.EntityId == caseId)
             .Filter($"TRUEPREDICATE SORT({nameof(Name)} ASC)");
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)
     {
-        var networkItems = realm.All<SupportNetworkItem>()
+        var networkItems = realm
+            .All<SupportNetworkItem>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(networkItems);

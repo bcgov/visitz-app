@@ -35,6 +35,7 @@ public partial class CaseloadContainerView : SplitLayoutView
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -48,15 +49,21 @@ public partial class CaseloadContainerView : SplitLayoutView
 
     private void RegisterReceivers()
     {
-        StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(this, (recipient, message) =>
-        {
-            (recipient as CaseloadContainerView).OpenBusinessObject(message);
-        });
+        StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(
+            this,
+            (recipient, message) =>
+            {
+                (recipient as CaseloadContainerView).OpenBusinessObject(message);
+            }
+        );
 
-        StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
-        {
-            (recipient as CaseloadContainerView).NavigateBack();
-        });
+        StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(
+            this,
+            (recipient, message) =>
+            {
+                (recipient as CaseloadContainerView).NavigateBack();
+            }
+        );
     }
 
     private void OpenBusinessObject(BusinessObjectSelectedMessage message)

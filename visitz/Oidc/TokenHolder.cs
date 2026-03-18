@@ -1,6 +1,6 @@
+using System.IdentityModel.Tokens.Jwt;
 using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Results;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Oidc
 {
@@ -18,12 +18,12 @@ namespace Oidc
 
         public static JwtSecurityToken IdentityToken { get; private set; }
 
-        private async static Task SetAsync(string key, string value)
+        private static async Task SetAsync(string key, string value)
         {
             await SecureStorage.Default.SetAsync(key, value);
         }
 
-        private async static Task<string> GetAsync(string key)
+        private static async Task<string> GetAsync(string key)
         {
             return await SecureStorage.Default.GetAsync(key);
         }
@@ -64,6 +64,7 @@ namespace Oidc
         {
             return await GetAsync(AccessTokenKey);
         }
+
         public static async Task<string> GetRefreshTokenStringAsync()
         {
             return await GetAsync(RefreshTokenKey);
@@ -124,4 +125,3 @@ namespace Oidc
         }
     }
 }
-

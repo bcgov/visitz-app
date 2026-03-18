@@ -6,7 +6,8 @@ namespace Visitz.Views.Navigation;
 
 public partial class VerticalNavRailView : ViewModelContentView
 {
-    public VerticalNavRailView() : base(ServiceProvider.GetService<NavRailViewModel>())
+    public VerticalNavRailView()
+        : base(ServiceProvider.GetService<NavRailViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -21,29 +22,24 @@ public partial class VerticalNavRailView : ViewModelContentView
 
         NavRailViewModel vm = (NavRailViewModel)ViewModel;
 
-        var item = new MenuFlyoutItem()
-        {
-            Text = "Debug options",
-            Command = vm.OpenDebugOptionsCommand,
-        };
+        var item = new MenuFlyoutItem() { Text = "Debug options", Command = vm.OpenDebugOptionsCommand };
 
-        item.KeyboardAccelerators.Add(new KeyboardAccelerator()
-        {
-            Key = "F2"
-        });
+        item.KeyboardAccelerators.Add(new KeyboardAccelerator() { Key = "F2" });
 
         menu.Add(item);
 
         FlyoutBase.SetContextFlyout(LogoImage, menu);
 
-        LogoImage.Behaviors.Add(new TouchBehavior()
-        {
-            BindingContext = ViewModel,
-            LongPressDuration = 300,
-            LongPressCommand = vm.OpenDebugOptionsCommand,
-            PressedAnimationDuration = 300,
-            PressedScale = 1.4d,
-            PressedAnimationEasing = Easing.BounceIn,
-        });
+        LogoImage.Behaviors.Add(
+            new TouchBehavior()
+            {
+                BindingContext = ViewModel,
+                LongPressDuration = 300,
+                LongPressCommand = vm.OpenDebugOptionsCommand,
+                PressedAnimationDuration = 300,
+                PressedScale = 1.4d,
+                PressedAnimationEasing = Easing.BounceIn,
+            }
+        );
     }
 }

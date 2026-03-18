@@ -9,16 +9,17 @@ public partial class ImageProcessor
 {
     partial void DownsizeByFilesize(ref Task<Stream> downsizeImageTask, int bytesLength)
     {
-        downsizeImageTask = bytesLength >= ImageBytes.Length
-            ? Task.FromResult(ImageBytes)
-            : Task.Run(async () =>
-            {
-                using var image = await ConvertToImageAsync(ImageBytes);
-                var newMax = ResizeImageValues.MaxNewDimensionByFileSize(image.Width, image.Height, bytesLength);
+        downsizeImageTask =
+            bytesLength >= ImageBytes.Length
+                ? Task.FromResult(ImageBytes)
+                : Task.Run(async () =>
+                {
+                    using var image = await ConvertToImageAsync(ImageBytes);
+                    var newMax = ResizeImageValues.MaxNewDimensionByFileSize(image.Width, image.Height, bytesLength);
 
-                ResizeImage(image, (int)newMax);
-                return await ConvertToStreamAsync(image);
-            });
+                    ResizeImage(image, (int)newMax);
+                    return await ConvertToStreamAsync(image);
+                });
     }
 
     partial void Downsize(ref Task<Stream> downsizeImageTask, int maxWidthOrHeight)
@@ -53,11 +54,13 @@ public partial class ImageProcessor
     {
         image.Mutate(i =>
         {
-            i.Resize(new ResizeOptions
-            {
-                Size = new SixLabors.ImageSharp.Size(maxWidthOrHeight),
-                Mode = SixLabors.ImageSharp.Processing.ResizeMode.Max,
-            });
+            i.Resize(
+                new ResizeOptions
+                {
+                    Size = new SixLabors.ImageSharp.Size(maxWidthOrHeight),
+                    Mode = SixLabors.ImageSharp.Processing.ResizeMode.Max,
+                }
+            );
         });
     }
 

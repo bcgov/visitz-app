@@ -9,8 +9,5 @@ internal partial class EventViewerLoggingProvider : ILoggerProvider
         return new EventViewerLogger(categoryName);
     }
 
-    public void Dispose()
-    {
-
-    }
+    public void Dispose() { }
 }

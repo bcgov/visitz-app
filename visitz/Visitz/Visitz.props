@@ -1,5 +1,4 @@
 <Project>
-
 	<PropertyGroup>
 		<CSharpierVersion>1.2.6</CSharpierVersion>
 		<CommunityToolkitMvvmVersion>8.4.0</CommunityToolkitMvvmVersion>
@@ -18,5 +17,4 @@
 	<PropertyGroup Condition=" '$(BuildTypeColor)' == '' ">
 		<BuildTypeColor>#440066</BuildTypeColor>
 	</PropertyGroup>
-
 </Project>

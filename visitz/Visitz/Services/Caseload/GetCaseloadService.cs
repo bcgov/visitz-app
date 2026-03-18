@@ -10,12 +10,11 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    public class GetCaseloadService(
-        Vpi vpi,
-        LastUpdatedPrefs prefs,
-        UserIgnoredContentPrefs userIgnoredContentPrefs) : VisitzApiService(vpi, prefs)
+    public class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredContentPrefs userIgnoredContentPrefs)
+        : VisitzApiService(vpi, prefs)
     {
         UserIgnoredContentPrefs UserIgnoredPrefs { get; } = userIgnoredContentPrefs;
+
         public static string MakeId()
         {
             return nameof(GetCaseloadService);
@@ -70,7 +69,8 @@ namespace Visitz.Services.Caseload
                     caseloadFromApi.Cases.Items,
                     UserIgnoredPrefs,
                     session.Idir,
-                    isPersonalCaseload: true);
+                    isPersonalCaseload: true
+                );
 
             if (CaseloadHelper.CanSynchronize(caseloadFromApi.Incidents, invalidOps))
                 await IncidentRecord.SynchronizeAsync(
@@ -78,7 +78,8 @@ namespace Visitz.Services.Caseload
                     caseloadFromApi.Incidents.Items,
                     UserIgnoredPrefs,
                     session.Idir,
-                    isPersonalCaseload: true);
+                    isPersonalCaseload: true
+                );
 
             // TODO: synchronize memos and service requests once we have official UI support
 

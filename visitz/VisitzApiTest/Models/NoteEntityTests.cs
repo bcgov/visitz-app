@@ -6,14 +6,16 @@ namespace VisitzApiTest.Models;
 
 public class NoteEntityTests
 {
-    private const string IncidentNote = @"
+    private const string IncidentNote =
+        @"
 {
   ""notePeriod"": """",
   ""createdDate"": ""2024-Apr-29 12:00:00 PM"",
   ""notes"": ""Incident notes in april""
 }";
 
-    private const string CaseNote = @"
+    private const string CaseNote =
+        @"
 {
   ""notePeriod"": ""Apr 2024"",
   ""createdDate"": ""2024-Apr-29 12:00:00 PM"",
@@ -72,9 +74,7 @@ public class NoteEntityTests
 
         var transformedNotePeriod = NoteEntity.NotePeriodDateTimeTransform(note, ascending);
 
-        var expectedDateTime = ascending
-            ? DateTime.MinValue
-            : DateTime.MaxValue;
+        var expectedDateTime = ascending ? DateTime.MinValue : DateTime.MaxValue;
 
         Assert.Equal(expectedDateTime, transformedNotePeriod);
     }
@@ -112,9 +112,7 @@ public class NoteEntityTests
 
         var transformedDateCreated = NoteEntity.CreatedDateTimeTransform(note, ascending);
 
-        var expectedDateTime = ascending
-            ? DateTime.MinValue
-            : DateTime.MaxValue;
+        var expectedDateTime = ascending ? DateTime.MinValue : DateTime.MaxValue;
 
         Assert.Equal(expectedDateTime, transformedDateCreated);
     }

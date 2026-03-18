@@ -14,8 +14,7 @@ namespace Visitz.Services.Attachments;
 
 internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
-    private (RecordServiceInfo, string, bool) AttachmentDetailsItem =>
-            ((RecordServiceInfo, string, bool))Payload;
+    private (RecordServiceInfo, string, bool) AttachmentDetailsItem => ((RecordServiceInfo, string, bool))Payload;
 
     public static string MakeId(EntityType type, string id, string attachmentId)
     {
@@ -23,7 +22,8 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
     }
 
     public static StartServiceMessage MakeStartMessage(
-        (RecordServiceInfo recordServiceInfo, string attachmentId, bool force) tuple)
+        (RecordServiceInfo recordServiceInfo, string attachmentId, bool force) tuple
+    )
     {
         return new()
         {
@@ -46,27 +46,29 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
     }
 
     private async Task DownloadAndSaveAttachmentDetailAsync(
-        (RecordServiceInfo recordServiceInfo, string attachmentId, bool force) tuple)
+        (RecordServiceInfo recordServiceInfo, string attachmentId, bool force) tuple
+    )
     {
         var (recordServiceInfo, attachmentId, force) = tuple;
 
-        var after = force ? null : LastUpdatedPrefs.Get(MakeId(
-            recordServiceInfo.Type,
-            recordServiceInfo.Id,
-            attachmentId));
+        var after = force
+            ? null
+            : LastUpdatedPrefs.Get(MakeId(recordServiceInfo.Type, recordServiceInfo.Id, attachmentId));
 
         var attachmentJson = await Vpi.GetAttachmentDetailsAsync(
             (ApiRecordType)recordServiceInfo.Type,
             recordServiceInfo.Id,
             attachmentId,
-            after);
+            after
+        );
 
         if (attachmentJson != null)
         {
             var attachment = await SaveFile(attachmentJson, recordServiceInfo);
 
-            await VisitzRealms.EnqueueIcmDataActionAsync(async (realm) =>
-                await realm.WriteAsync(() => realm.Upsert(attachment)));
+            await VisitzRealms.EnqueueIcmDataActionAsync(
+                async (realm) => await realm.WriteAsync(() => realm.Upsert(attachment))
+            );
         }
     }
 
@@ -77,11 +79,13 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
             recordServiceInfo.Type,
             recordServiceInfo.Id,
             recordServiceInfo.FirstName,
-            recordServiceInfo.LastName);
+            recordServiceInfo.LastName
+        );
 
         if (DebugOptions.RequireAttachmentFileContent || !string.IsNullOrWhiteSpace(json.AttachmentId))
-            await VisitzFiles.EnqueueAsync(async () => attachment.RelativePath =
-                await attachmentFiler.SaveFileAsync(json.AttachmentId, json.FileExt));
+            await VisitzFiles.EnqueueAsync(async () =>
+                attachment.RelativePath = await attachmentFiler.SaveFileAsync(json.AttachmentId, json.FileExt)
+            );
 
         return attachment;
     }

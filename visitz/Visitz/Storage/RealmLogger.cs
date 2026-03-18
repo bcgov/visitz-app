@@ -20,14 +20,20 @@ namespace Visitz.Storage
 
         public bool IsEnabled(LogLevel logLevel) => true;
 
-        public async void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public async void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception exception,
+            Func<TState, Exception, string> formatter
+        )
         {
             if (_target != null && _target.IsEnabled(logLevel))
             {
                 var message = formatter(state, exception);
                 var logEvent = new LogEventInfo((MetroLog.LogLevel)logLevel, _categoryName, message, exception)
                 {
-                    TimeStamp = DateTimeOffset.UtcNow
+                    TimeStamp = DateTimeOffset.UtcNow,
                 };
                 await _target.WriteLogAsync(new LogWriteContext(), logEvent);
             }

@@ -6,10 +6,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes
 {
-    public class GetNotesForRangeService(
-        Vpi vpi,
-        ServiceHandler serviceHandler,
-        LastUpdatedPrefs prefs)
+    public class GetNotesForRangeService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
         : VisitzApiService(vpi, prefs)
     {
         readonly List<string> successIds = [];
@@ -20,8 +17,7 @@ namespace Visitz.Services.Notes
             return nameof(GetNotesForRangeService);
         }
 
-        public static StartServiceMessage MakeStartMessage(
-            IEnumerable<ValueTuple<string, EntityType>> idEntityItems)
+        public static StartServiceMessage MakeStartMessage(IEnumerable<ValueTuple<string, EntityType>> idEntityItems)
         {
             return new StartServiceMessage()
             {
@@ -50,9 +46,10 @@ namespace Visitz.Services.Notes
         {
             await Parallel.ForEachAsync(IdEntityItems, GetNotesForRecord);
 
-            ResultCode = erroredIds.Count <= 0
-                ? Result.Successful
-                : throw new PartialRangeErrorException(nameof(GetNotesForRangeService), successIds, erroredIds);
+            ResultCode =
+                erroredIds.Count <= 0
+                    ? Result.Successful
+                    : throw new PartialRangeErrorException(nameof(GetNotesForRangeService), successIds, erroredIds);
         }
 
         private async ValueTask GetNotesForRecord((string id, EntityType entityType) tuple, CancellationToken token)

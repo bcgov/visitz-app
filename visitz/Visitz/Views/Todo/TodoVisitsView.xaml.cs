@@ -6,7 +6,8 @@ public partial class TodoVisitsView : ViewModelContentView
 {
     new TodoVisitsViewModel ViewModel => base.ViewModel as TodoVisitsViewModel;
 
-    public TodoVisitsView() : base(ServiceProvider.GetService<TodoVisitsViewModel>())
+    public TodoVisitsView()
+        : base(ServiceProvider.GetService<TodoVisitsViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

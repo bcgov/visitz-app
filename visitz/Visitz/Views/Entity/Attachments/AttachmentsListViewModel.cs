@@ -1,8 +1,8 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -53,10 +53,10 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
         if (BusinessObject == null)
             throw new InvalidOperationException(nameof(IBusinessObject));
 
-        realmQuery.Subscribe(icmDataRealm, Attachment.GetOrderedAttachments(
+        realmQuery.Subscribe(
             icmDataRealm,
-            BusinessObject.EntityType,
-            BusinessObject.Id));
+            Attachment.GetOrderedAttachments(icmDataRealm, BusinessObject.EntityType, BusinessObject.Id)
+        );
     }
 
     protected override void Dispose(bool disposing)
@@ -74,10 +74,10 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
         base.Dispose(disposing);
     }
 
-    private void RealmQuery_ItemsChanged(object? sender,
-        (Type Type,
-        IRealmCollection<IRealmObject> Items,
-        ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(
+        object? sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+    )
     {
         if (e.Type == typeof(Attachment))
             UpdateAttachmentsList(e.Items, e.Changes);
@@ -110,7 +110,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
         return new AttachmentsListItemUi(
             BusinessObject?.EntityType ?? EntityType.Unknown,
             BusinessObject?.Id,
-            attachment);
+            attachment
+        );
     }
 
     [RelayCommand]
@@ -125,15 +126,14 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
             LocalizedStrings.RemoveAttachmentFromDevice,
             LocalizedStrings.RemoveAttachmentDescription,
             LocalizedStrings.Remove,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
 
         if (shouldRemove)
         {
             item.Attachment.RemoveFileFromDevice();
             UserIgnoredContentPrefs?.SetUserIgnoredContent(item.Attachment.Id, true);
-            string removedText = string.Format(
-                LocalizedStrings.RemovedAttachmentFromDevice,
-                item.Attachment.Filename);
+            string removedText = string.Format(LocalizedStrings.RemovedAttachmentFromDevice, item.Attachment.Filename);
             SnackbarHandler.ShowText(removedText);
         }
     }

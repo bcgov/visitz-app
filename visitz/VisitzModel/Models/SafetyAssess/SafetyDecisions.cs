@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -90,8 +90,8 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
 
     public DateTimeOffset? ReadyFinalizeDate { get; set; } // Only date, no time
 
-    public bool IsAnswered => Decision != null
-        && (Decision != SafetyDecisionOption.Unsafe || DecisionUnsafe?.Length > 0);
+    public bool IsAnswered =>
+        Decision != null && (Decision != SafetyDecisionOption.Unsafe || DecisionUnsafe?.Length > 0);
 
     public static SafetyDecisions FromApiJson(GetSafetyAsessmentJson entity)
     {

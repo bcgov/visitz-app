@@ -28,6 +28,7 @@ internal partial class TabViewModel : VisitzViewModel
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
