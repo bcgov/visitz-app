@@ -13,6 +13,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CSharpier.MsBuild" Version="$(CSharpierVersion)">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="MimeTypes" Version="2.5.2">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
