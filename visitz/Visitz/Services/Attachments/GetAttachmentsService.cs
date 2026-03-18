@@ -1,7 +1,9 @@
+using System.Collections.Concurrent;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
@@ -14,6 +16,8 @@ namespace Visitz.Services.Attachments;
 internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
+
+    readonly ConcurrentBag<AttachmentJson> _attachments = [];
 
     public static string MakeId(EntityType type, string id)
     {
@@ -39,10 +43,16 @@ internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagin
     {
         var (total, attachments) = await Vpi.GetAttachmentsAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 
-        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await Attachment.SynchronizeAsync(realm, attachments, Info.Id, Info.Type)
-        );
+        foreach (var attachment in attachments)
+            _attachments.Add(attachment);
 
         return total;
+    }
+
+    protected override async Task AfterRun()
+    {
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await Attachment.SynchronizeAsync(realm, _attachments, Info.Id, Info.Type)
+        );
     }
 }
