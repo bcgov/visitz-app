@@ -24,7 +24,8 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
         set => ViewModel.BusinessObject = value;
     }
 
-    public TakePhotoView() : base(ServiceProvider.GetService<TakePhotoViewModel>())
+    public TakePhotoView()
+        : base(ServiceProvider.GetService<TakePhotoViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -42,6 +43,7 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -104,21 +106,23 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
 
         if (status == PermissionStatus.Granted)
         {
-            TakePhotoView photoView = new() { BusinessObject = businessObject, };
+            TakePhotoView photoView = new() { BusinessObject = businessObject };
             await Navigator.Navigation.PushModalAsync(photoView, ViewModalSize.Fullscreen);
         }
         else
         {
 #if WINDOWS
-                SnackbarHandler.ShowTextWithDetails(
-                    LocalizedStrings.NoCameraMicrophonePermissionsPrompt,
-                    LocalizedStrings.NoCameraMicrophonePermissionsPrompt,
-                    LocalizedStrings.PhotoPermissionsErrorDesc);
+            SnackbarHandler.ShowTextWithDetails(
+                LocalizedStrings.NoCameraMicrophonePermissionsPrompt,
+                LocalizedStrings.NoCameraMicrophonePermissionsPrompt,
+                LocalizedStrings.PhotoPermissionsErrorDesc
+            );
 #else
             SnackbarHandler.ShowTextWithDetails(
-                    LocalizedStrings.NoCameraPermissionsPrompt,
-                    LocalizedStrings.NoCameraPermissionsPrompt,
-                    LocalizedStrings.NoCameraPermissionsDetailMessage);
+                LocalizedStrings.NoCameraPermissionsPrompt,
+                LocalizedStrings.NoCameraPermissionsPrompt,
+                LocalizedStrings.NoCameraPermissionsDetailMessage
+            );
 #endif
         }
     }
@@ -131,13 +135,13 @@ public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
             CameraRollButton.IsEnabled = false;
             CancellationTokenSource cts = new(TimeSpan.FromSeconds(10));
 
-            await Task.WhenAll(
-                AnimateSnapshotAsync(),
-                Camera.CaptureImage(cts.Token));
+            await Task.WhenAll(AnimateSnapshotAsync(), Camera.CaptureImage(cts.Token));
         }
         catch (TaskCanceledException)
         {
-            await Navigator.CurrentOpenPage.DisplayErrorAlert("Took too long to save picture and process was canceled.");
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(
+                "Took too long to save picture and process was canceled."
+            );
         }
         catch (Exception ex)
         {

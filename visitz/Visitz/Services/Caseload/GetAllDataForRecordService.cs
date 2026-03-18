@@ -23,10 +23,7 @@ namespace Visitz.Services.Caseload;
 /// <param name="vpi"></param>
 /// <param name="prefs"></param>
 /// <param name="serviceHandler"></param>
-public class GetAllDataForRecordService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiService(vpi, prefs)
 {
     ServiceHandler ServiceHandler { get; set; } = serviceHandler;
@@ -35,9 +32,7 @@ public class GetAllDataForRecordService(
 
     public static string MakeId(IBusinessObject businessObject)
     {
-        return nameof(GetAllDataForRecordService) +
-            "|" + businessObject.Id +
-            "|" + businessObject.EntityType;
+        return nameof(GetAllDataForRecordService) + "|" + businessObject.Id + "|" + businessObject.EntityType;
     }
 
     public static StartServiceMessage MakeStartMessage(IBusinessObject businessObject)
@@ -84,9 +79,7 @@ public class GetAllDataForRecordService(
 
     static Exception MakeDownloadEx(string kind, Exception ex)
     {
-        var msg = string.Format(
-            LocalizedStrings.CaseloadErrorDownload,
-            kind.ToLower());
+        var msg = string.Format(LocalizedStrings.CaseloadErrorDownload, kind.ToLower());
 
         return new(msg, ex);
     }
@@ -97,7 +90,10 @@ public class GetAllDataForRecordService(
         {
             if (BusinessObject.EntityType != EntityType.Memo)
             {
-                var startMessage = GetNotesService.MakeStartMessage(BusinessObject.FileNumber, BusinessObject.EntityType);
+                var startMessage = GetNotesService.MakeStartMessage(
+                    BusinessObject.FileNumber,
+                    BusinessObject.EntityType
+                );
                 return await ServiceHandler.TryRunServiceAsync(startMessage);
             }
         }
@@ -113,8 +109,10 @@ public class GetAllDataForRecordService(
     {
         try
         {
-            if (BusinessObject.EntityType == EntityType.Case
-                && BusinessObject.EntitySubtype == EntitySubtype.ChildServices)
+            if (
+                BusinessObject.EntityType == EntityType.Case
+                && BusinessObject.EntitySubtype == EntitySubtype.ChildServices
+            )
             {
                 var startMessage = GetVisitsService.MakeStartMessage(BusinessObject.Id);
                 return await ServiceHandler.TryRunServiceAsync(startMessage);
@@ -178,8 +176,7 @@ public class GetAllDataForRecordService(
     {
         try
         {
-            var startMessage = GetPartialAttachmentsByRangeDownloadService
-                .MakeStartMessage([new(BusinessObject)]);
+            var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage([new(BusinessObject)]);
             return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)

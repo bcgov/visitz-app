@@ -1,29 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     x:DataType="tagview:TagView"
     x:Class="Visitz.Views.TagViews.TagView"
-    x:Name="this">
-
+    x:Name="this"
+>
     <Border
         x:Name="Border"
         BackgroundColor="{Binding BackgroundColor}"
         BindingContext="{x:Reference this}"
         Stroke="{Binding BorderColor}"
         StrokeThickness="{Binding StrokeThickness}"
-        Margin="0">
-
+        Margin="0"
+    >
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="{Binding CornerRadius}" />
         </Border.StrokeShape>
 
         <Grid Padding="{Binding Padding}">
-            <HorizontalStackLayout 
+            <HorizontalStackLayout
                 HorizontalOptions="Center"
-                Spacing="{OnPlatform iOS=2, Default=4}">
-
+                Spacing="{OnPlatform iOS=2, Default=4}"
+            >
                 <Image
                     x:Name="Icon"
                     HeightRequest="{Binding IconHeightRequest}"
@@ -33,10 +33,10 @@
                     Source="{Binding ImageSource}"
                     Aspect="AspectFit"
                     VerticalOptions="Center"
-                    IsVisible="False">
-                </Image>
+                    IsVisible="False"
+                ></Image>
 
-                <Label 
+                <Label
                     x:Name="TagLabel"
                     Text="{Binding Text}"
                     FontSize="{Binding FontSize}"
@@ -44,9 +44,9 @@
                     TextColor="{Binding TextColor}"
                     VerticalOptions="Center"
                     VerticalTextAlignment="Center"
-                    TextTransform="{Binding TextTransform}" />
+                    TextTransform="{Binding TextTransform}"
+                />
             </HorizontalStackLayout>
         </Grid>
     </Border>
-
 </ContentView>

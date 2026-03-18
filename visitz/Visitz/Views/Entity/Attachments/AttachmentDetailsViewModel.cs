@@ -41,7 +41,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
 
     public bool IsDownloadedAttachment { get; set; }
 
-    abstract protected string LoadErrorText { get; }
+    protected abstract string LoadErrorText { get; }
 
     protected override async Task InitAsync()
     {
@@ -55,14 +55,9 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
 
         var keyPlayer = BusinessObject.GetKeyPlayer();
 
-        Filer = await VisitzFiles.GetAsync(
-            Attachment,
-            keyPlayer.FirstName,
-            keyPlayer.LastName);
+        Filer = await VisitzFiles.GetAsync(Attachment, keyPlayer.FirstName, keyPlayer.LastName);
 
-        ShowDraftButtons = Attachment.FileExistsLocally
-            && !IsDownloadedAttachment
-            && Attachment.HasDraft;
+        ShowDraftButtons = Attachment.FileExistsLocally && !IsDownloadedAttachment && Attachment.HasDraft;
 
         IsRemovable = Attachment.FileExistsLocally && IsDownloadedAttachment;
     }
@@ -82,7 +77,8 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
             LocalizedStrings.RemoveAttachmentFromDevice,
             LocalizedStrings.RemoveAttachmentDescription,
             LocalizedStrings.Remove,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
 
         if (shouldRemove)
         {
@@ -91,9 +87,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
 
             Attachment.RemoveFileFromDevice();
 
-            string removedText = string.Format(
-                LocalizedStrings.RemovedAttachmentFromDevice,
-                Attachment.Filename);
+            string removedText = string.Format(LocalizedStrings.RemovedAttachmentFromDevice, Attachment.Filename);
 
             await Navigator.Navigation.PopAsync();
             SnackbarHandler.ShowText(removedText);
@@ -110,7 +104,8 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
             LocalizedStrings.DiscardDraft,
             LocalizedStrings.DiscardAttachmentDraftDescription,
             LocalizedStrings.Discard,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
 
         if (shouldDiscard)
         {

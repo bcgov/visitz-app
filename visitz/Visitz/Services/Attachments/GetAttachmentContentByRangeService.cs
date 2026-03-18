@@ -5,18 +5,16 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
-internal class GetAttachmentContentByRangeService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+internal class GetAttachmentContentByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<(RecordServiceInfo, string, bool)>(
         vpi,
         prefs,
         serviceHandler,
-        new ParallelOptions { MaxDegreeOfParallelism = 2 })
+        new ParallelOptions { MaxDegreeOfParallelism = 2 }
+    )
 {
     private IEnumerable<(RecordServiceInfo, string, bool)> AttachmentContentItems =>
-            (IEnumerable<(RecordServiceInfo, string, bool)>)Payload;
+        (IEnumerable<(RecordServiceInfo, string, bool)>)Payload;
 
     public static string MakeId()
     {
@@ -24,7 +22,8 @@ internal class GetAttachmentContentByRangeService(
     }
 
     public static StartServiceMessage MakeStartMessage(
-        IEnumerable<(RecordServiceInfo, string, bool)> AttachmentContentItems)
+        IEnumerable<(RecordServiceInfo, string, bool)> AttachmentContentItems
+    )
     {
         return new()
         {
@@ -40,13 +39,16 @@ internal class GetAttachmentContentByRangeService(
     }
 
     protected override async Task RunInParallelAsync(
-        ServiceHandler serviceHandler, (RecordServiceInfo, string, bool) tuple)
+        ServiceHandler serviceHandler,
+        (RecordServiceInfo, string, bool) tuple
+    )
     {
         await ServiceHandler.TryRunServiceAsync(GetAttachmentContentService.MakeStartMessage(tuple));
     }
 
     protected override Exception MakePartialException(
-        List<ApiRangeItemException<(RecordServiceInfo, string, bool)>> exceptions)
+        List<ApiRangeItemException<(RecordServiceInfo, string, bool)>> exceptions
+    )
     {
         var recordServiceInfoExceptions = exceptions
             .Select(ex => new ApiRangeItemException<RecordServiceInfo>(ex.Item.Item1, ex.InnerException))

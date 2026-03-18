@@ -1,4 +1,4 @@
-﻿namespace Visitz.Views.SegmentedButtons;
+namespace Visitz.Views.SegmentedButtons;
 
 public class ItemDeactivatedEventArgs(SegmentedOptions segmentedOption) : EventArgs
 {

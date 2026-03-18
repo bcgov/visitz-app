@@ -1,7 +1,3 @@
-#if !MACCATALYST
-using CommunityToolkit.Maui.Core.Platform;
-#endif
-
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Visitz.Extensions;
@@ -9,6 +5,9 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
+#if !MACCATALYST
+using CommunityToolkit.Maui.Core.Platform;
+#endif
 
 namespace Visitz.Views.Caseload;
 
@@ -16,7 +15,8 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
 {
     protected new CaseloadViewModel ViewModel => (CaseloadViewModel)base.ViewModel;
 
-    public CaseloadView() : base(ServiceProvider.GetService<CaseloadViewModel>())
+    public CaseloadView()
+        : base(ServiceProvider.GetService<CaseloadViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -69,7 +69,8 @@ public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStat
             await Navigator.CurrentOpenPage.DisplayErrorAlert(
                 LocalizedStrings.CaseloadErrorMessage,
                 message.UncaughtException?.ToString(),
-                LocalizedStrings.CaseloadError);
+                LocalizedStrings.CaseloadError
+            );
         }
     }
 }

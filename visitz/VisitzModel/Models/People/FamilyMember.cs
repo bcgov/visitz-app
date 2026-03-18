@@ -36,8 +36,7 @@ namespace VisitzModel.Models.People
         public bool? ParentCaregiver { get; set; }
         public bool? SubjectChild { get; set; }
 
-        public string FullDisplayName => string.Join(" ",
-            FirstName, MiddleName, LastName);
+        public string FullDisplayName => string.Join(" ", FirstName, MiddleName, LastName);
 
         public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone);
 
@@ -46,15 +45,14 @@ namespace VisitzModel.Models.People
         public bool IsKeyPlayer => KeyPlayer == "Y";
 
         public string Address =>
-            (ContactUnitNo.FormatAddressPart("-")
-            + ContactAddressLine1.FormatAddressPart(" ")
-            + ContactAddressLine2.FormatAddressPart(" ")
-            + ContactCity.FormatAddressPart(", ")
-            + ContactProvinceState.FormatAddressPart(", ")
-            + ContactCountry.FormatAddressPart(", "))
-            + ContactPostalCode.FormatAddressPart("")
-            .TrimEnd([',', ' ', '-'])
-            .TrimEnd([',', ' ', '-']);
+            (
+                ContactUnitNo.FormatAddressPart("-")
+                + ContactAddressLine1.FormatAddressPart(" ")
+                + ContactAddressLine2.FormatAddressPart(" ")
+                + ContactCity.FormatAddressPart(", ")
+                + ContactProvinceState.FormatAddressPart(", ")
+                + ContactCountry.FormatAddressPart(", ")
+            ) + ContactPostalCode.FormatAddressPart("").TrimEnd([',', ' ', '-']).TrimEnd([',', ' ', '-']);
 
         public int SortPositionAsc
         {
@@ -71,8 +69,9 @@ namespace VisitzModel.Models.People
             }
         }
 
-        public int? Age => DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
-                    ? (DateTimeExtensions.LocalNow - dateOfBirth).Days / 365
-                    : null;
+        public int? Age =>
+            DateTime.TryParse(DateOfBirth, out DateTime dateOfBirth)
+                ? (DateTimeExtensions.LocalNow - dateOfBirth).Days / 365
+                : null;
     }
 }

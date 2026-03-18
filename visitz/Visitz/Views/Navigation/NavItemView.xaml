@@ -8,8 +8,8 @@
     x:DataType="navModels:NavItem"
     MinimumHeightRequest="64"
     MinimumWidthRequest="64"
-    Padding="0">
-
+    Padding="0"
+>
     <!-- Dimension values collected from https://m3.material.io/components/navigation-bar/specs -->
 
     <VisualStateManager.VisualStateGroups>
@@ -19,15 +19,18 @@
                     <Setter
                         TargetName="IconImage"
                         Property="Image.Source"
-                        Value="{Binding UnselectedImageSource}"/>
+                        Value="{Binding UnselectedImageSource}"
+                    />
                     <Setter
                         TargetName="IconBackdrop"
                         Property="Border.BackgroundColor"
-                        Value="Transparent"/>
+                        Value="Transparent"
+                    />
                     <Setter
                         TargetName="SpacerBorder"
                         Property="Border.BackgroundColor"
-                        Value="Transparent" />
+                        Value="Transparent"
+                    />
                 </VisualState.Setters>
             </VisualState>
             <VisualState x:Name="Selected">
@@ -35,44 +38,38 @@
                     <Setter
                         TargetName="IconImage"
                         Property="Image.Source"
-                        Value="{Binding SelectedImageSource}"/>
+                        Value="{Binding SelectedImageSource}"
+                    />
                     <Setter
-
                         TargetName="IconBackdrop"
                         Property="Border.BackgroundColor"
-                        Value="#33ffffff"/>
+                        Value="#33ffffff"
+                    />
                     <Setter
                         TargetName="SpacerBorder"
                         Property="Border.BackgroundColor"
-                        Value="#33ffffff" />
+                        Value="#33ffffff"
+                    />
                 </VisualState.Setters>
             </VisualState>
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
 
-    <VerticalStackLayout
-        x:Name="MainStack"
-        HorizontalOptions="Fill"
-        MinimumHeightRequest="64">
-
-        <Grid
-            Grid.Row="0">
-            
+    <VerticalStackLayout x:Name="MainStack" HorizontalOptions="Fill" MinimumHeightRequest="64">
+        <Grid Grid.Row="0">
             <Border
                 x:Name="IconBackdrop"
                 StrokeThickness="0"
                 StrokeShape="RoundRectangle 16"
                 HorizontalOptions="Center"
                 HeightRequest="32"
-                WidthRequest="56">
+                WidthRequest="56"
+            >
                 <Border.Margin>
-                    <Thickness
-                        Top="6" />
+                    <Thickness Top="6" />
                 </Border.Margin>
                 <Border.Padding>
-                    <Thickness
-                        Left="16"
-                        Right="16" />
+                    <Thickness Left="16" Right="16" />
                 </Border.Padding>
                 <Image
                     x:Name="IconImage"
@@ -80,9 +77,10 @@
                     HeightRequest="{Binding IconSize}"
                     WidthRequest="{Binding IconSize}"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"
+                />
             </Border>
-            
+
             <Border
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
@@ -91,13 +89,9 @@
                 StrokeShape="RoundRectangle 20"
                 StrokeThickness="0"
                 IsVisible="{Binding ShowBadge}"
-                BackgroundColor="{StaticResource BuildBarBackgroundColor}">
-
-                <Border
-                    x:Name="SpacerBorder"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 20">
-
+                BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+            >
+                <Border x:Name="SpacerBorder" StrokeThickness="0" StrokeShape="RoundRectangle 20">
                     <Border
                         Margin="2"
                         VerticalOptions="Fill"
@@ -105,8 +99,8 @@
                         BackgroundColor="{StaticResource BC_Gold}"
                         StrokeShape="RoundRectangle 20"
                         StrokeThickness="0"
-                        IsVisible="{Binding ShowBadge}">
-
+                        IsVisible="{Binding ShowBadge}"
+                    >
                         <Label
                             Margin="1"
                             MinimumHeightRequest="16"
@@ -116,7 +110,8 @@
                             HorizontalOptions="Center"
                             Text="{Binding BadgeCount}"
                             HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"/>
+                            VerticalTextAlignment="Center"
+                        />
                     </Border>
                 </Border>
             </Border>
@@ -128,13 +123,11 @@
             Text="{Binding Text}"
             TextColor="{Binding Color}"
             HorizontalOptions="Center"
-            VerticalOptions="Start">
+            VerticalOptions="Start"
+        >
             <Label.Margin>
-                <Thickness
-                    Top="4"
-                    Bottom="6" />
+                <Thickness Top="4" Bottom="6" />
             </Label.Margin>
         </Label>
     </VerticalStackLayout>
-
 </ContentView>

@@ -1,4 +1,4 @@
-﻿namespace Oidc
+namespace Oidc
 {
     public static class OidcMauiAppBuilderExtension
     {
@@ -8,7 +8,7 @@
             {
                 Domain = settings.AuthenticationDomain,
                 ClientId = settings.ClientId,
-                RedirectUri = settings.RedirectUri
+                RedirectUri = settings.RedirectUri,
             };
 
             builder.Services.AddSingleton(new AuthenticationClient(options));

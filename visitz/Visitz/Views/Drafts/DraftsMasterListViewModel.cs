@@ -1,7 +1,7 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -29,11 +29,7 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
     readonly ObservableRealmCount realmCount = new();
 
     [ObservableProperty]
-    MasterDraftItem noteDraftItem = new()
-    {
-        Name = LocalizedStrings.Notes,
-        ItemType = typeof(NoteDraft),
-    };
+    MasterDraftItem noteDraftItem = new() { Name = LocalizedStrings.Notes, ItemType = typeof(NoteDraft) };
 
     [ObservableProperty]
     MasterDraftItem assessmentDraftItem = new()
@@ -69,6 +65,7 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)

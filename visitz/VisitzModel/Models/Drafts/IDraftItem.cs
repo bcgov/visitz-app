@@ -40,7 +40,7 @@ public static class IDraftItemExtensions
             EntityType.Incident => IncidentRecord.GetByDraftItem(realm, item),
             EntityType.Memo => MemoRecord.GetByDraftItem(realm, item),
             EntityType.ServiceRequest => ServiceRequestRecord.GetByDraftItem(realm, item),
-            _ => throw new NotImplementedException()
+            _ => throw new NotImplementedException(),
         };
     }
 }

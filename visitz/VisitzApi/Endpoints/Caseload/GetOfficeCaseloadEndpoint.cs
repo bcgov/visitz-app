@@ -24,10 +24,13 @@ internal class GetOfficeCaseloadEndpoint(string baseUrl, Pagination? pagination 
         };
     }
 
-    public override (int TotalRecords, OfficeCaseloadJson)
-        HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (int TotalRecords, OfficeCaseloadJson) HandleResponse(
+        HttpResponseMessage response,
+        string responseContent
+    )
     {
-        var json = JsonSerializer.Deserialize<OfficeCaseloadJson>(responseContent, PayloadOptions.SiebelGet)
+        var json =
+            JsonSerializer.Deserialize<OfficeCaseloadJson>(responseContent, PayloadOptions.SiebelGet)
             ?? OfficeCaseloadJson.Empty;
 
         return (response.GetRecordCount(), json);

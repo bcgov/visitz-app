@@ -22,7 +22,8 @@ internal static class IBusinessObjectExtensions
             await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.NoInternet,
                 LocalizedStrings.NeedInternetToViewRecord,
-                LocalizedStrings.Ok);
+                LocalizedStrings.Ok
+            );
             return false;
         }
         else
@@ -30,13 +31,15 @@ internal static class IBusinessObjectExtensions
             string msg = string.Format(
                 LocalizedStrings.MarkForDownload,
                 businessObject.EntityType,
-                businessObject.DisplayName.Trim());
+                businessObject.DisplayName.Trim()
+            );
 
             return await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.DownloadRecordInformation,
                 msg,
                 LocalizedStrings.Download,
-                LocalizedStrings.Cancel);
+                LocalizedStrings.Cancel
+            );
         }
     }
 

@@ -16,7 +16,8 @@ public partial class EntityNavView : ViewModelContentView, IBusinessObjectHolder
         set => ViewModel.BusinessObject = value;
     }
 
-    public EntityNavView() : base(ServiceProvider.GetService<EntityNavViewModel>())
+    public EntityNavView()
+        : base(ServiceProvider.GetService<EntityNavViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

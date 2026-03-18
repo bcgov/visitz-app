@@ -9,40 +9,47 @@ namespace Visitz.Behaviors;
 
 internal partial class SelectionLayoutBehavior : Behavior<Layout>
 {
-    protected static readonly BindableProperty SelectedItemViewProperty =
-        BindableProperty.Create(
-            nameof(SelectedItemView),
-            typeof(object),
-            typeof(SelectionLayoutBehavior),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: (bound, old, @new) =>
-                SelectedItemView_Changed(old, @new));
+    protected static readonly BindableProperty SelectedItemViewProperty = BindableProperty.Create(
+        nameof(SelectedItemView),
+        typeof(object),
+        typeof(SelectionLayoutBehavior),
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (bound, old, @new) => SelectedItemView_Changed(old, @new)
+    );
 
-    public static readonly BindableProperty ItemsSourceProperty =
-        BindableProperty.Create(
-            nameof(ItemsSource),
-            typeof(IList),
-            typeof(SelectionLayoutBehavior),
-            propertyChanged: (bound, old, @new) =>
-                (bound as SelectionLayoutBehavior)?.ItemsSource_Changed(old as IList, @new as IList));
+    public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
+        nameof(ItemsSource),
+        typeof(IList),
+        typeof(SelectionLayoutBehavior),
+        propertyChanged: (bound, old, @new) =>
+            (bound as SelectionLayoutBehavior)?.ItemsSource_Changed(old as IList, @new as IList)
+    );
 
-    public static readonly BindableProperty SelectedItemProperty =
-        BindableProperty.Create(
-            nameof(SelectedItem),
-            typeof(object),
-            typeof(SelectionLayoutBehavior),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: (bound, old, @new) =>
-                (bound as SelectionLayoutBehavior)?.SelectedItem_Changed(@new));
+    public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
+        nameof(SelectedItem),
+        typeof(object),
+        typeof(SelectionLayoutBehavior),
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (bound, old, @new) => (bound as SelectionLayoutBehavior)?.SelectedItem_Changed(@new)
+    );
 
-    public static readonly BindableProperty SelectionChangedCommandProperty =
-        BindableProperty.Create(nameof(SelectionChangedCommand), typeof(ICommand), typeof(SelectionLayoutBehavior));
+    public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(
+        nameof(SelectionChangedCommand),
+        typeof(ICommand),
+        typeof(SelectionLayoutBehavior)
+    );
 
-    public static readonly BindableProperty AutoSelectDefaultProperty =
-        BindableProperty.Create(nameof(AutoSelectDefault), typeof(bool), typeof(SelectionLayoutBehavior));
+    public static readonly BindableProperty AutoSelectDefaultProperty = BindableProperty.Create(
+        nameof(AutoSelectDefault),
+        typeof(bool),
+        typeof(SelectionLayoutBehavior)
+    );
 
-    public static readonly BindableProperty StickySelectionProperty =
-        BindableProperty.Create(nameof(StickySelection), typeof(bool), typeof(SelectionLayoutBehavior));
+    public static readonly BindableProperty StickySelectionProperty = BindableProperty.Create(
+        nameof(StickySelection),
+        typeof(bool),
+        typeof(SelectionLayoutBehavior)
+    );
 
     protected ISelectedState? SelectedItemView
     {
@@ -91,7 +98,8 @@ internal partial class SelectionLayoutBehavior : Behavior<Layout>
         layout.SetBinding(
             BindableLayout.ItemsSourceProperty,
             static (SelectionLayoutBehavior slb) => slb.ItemsSource,
-            source: this);
+            source: this
+        );
 
         layout.ChildAdded += Bindable_ChildAdded;
         layout.ChildRemoved += Bindable_ChildRemoved;
@@ -160,9 +168,7 @@ internal partial class SelectionLayoutBehavior : Behavior<Layout>
             return null;
 
         foreach (var child in Layout.Children)
-            if (child is ISelectedState selItem
-                && child is View view
-                && view.BindingContext == item)
+            if (child is ISelectedState selItem && child is View view && view.BindingContext == item)
                 return selItem;
 
         return null;
@@ -197,8 +203,7 @@ internal partial class SelectionLayoutBehavior : Behavior<Layout>
 
     void Point_PointerReleased(object? sender, PointerEventArgs e)
     {
-        if (sender is not ISelectedState selectableItem
-            || PreventDeselection(selectableItem))
+        if (sender is not ISelectedState selectableItem || PreventDeselection(selectableItem))
             return;
 
         selectableItem.IsSelected = !selectableItem.IsSelected;
@@ -211,8 +216,6 @@ internal partial class SelectionLayoutBehavior : Behavior<Layout>
 
     bool PreventDeselection(ISelectedState selectableItem)
     {
-        return StickySelection
-            && (SelectedItemView?.Equals(selectableItem) ?? false)
-            && selectableItem.IsSelected;
+        return StickySelection && (SelectedItemView?.Equals(selectableItem) ?? false) && selectableItem.IsSelected;
     }
 }

@@ -36,6 +36,7 @@ internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<Servic
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)

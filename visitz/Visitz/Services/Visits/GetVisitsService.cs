@@ -34,12 +34,11 @@ internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagination
         return MakeId(CaseId);
     }
 
-    override protected async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
         var (total, visits) = await Vpi.GetVisitsAsync(CaseId, pagination);
 
-        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await PersonVisit.SynchronizeAsync(realm, visits));
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm => await PersonVisit.SynchronizeAsync(realm, visits));
 
         return total;
     }

@@ -20,13 +20,7 @@ public class PersonVisitTests
             Updated = "12/10/2025 13:50:02",
             UpdatedBy = "User A",
             VisitDescription = "Regular",
-            VisitDetails =
-            [
-                new ()
-                {
-                    VisitDetailValue = "Visit Details 123"
-                }
-            ]
+            VisitDetails = [new() { VisitDetailValue = "Visit Details 123" }],
         },
         new()
         {
@@ -41,56 +35,38 @@ public class PersonVisitTests
             Updated = "12/10/2018 13:50:02",
             UpdatedBy = "User A",
             VisitDescription = "Regular",
-            VisitDetails =
-            [
-                new ()
-                {
-                    VisitDetailValue = "Visit Details abc"
-                }
-            ]
+            VisitDetails = [new() { VisitDetailValue = "Visit Details abc" }],
         },
         new VisitJson
-            {
-                Created = "12/11/2025 13:50:02",
-                CreatedBy = "TestUser3",
-                DateOfVisit = "12/11/2025 13:50:02",
-                Id = "87",
-                LoginName = "Test",
-                Name = "TestUser3",
-                ParentId = "123",
-                Type = "Case",
-                Updated = "12/11/2025 13:50:02",
-                UpdatedBy = "User B",
-                VisitDescription = "Regular",
-                VisitDetails =
-                [
-                    new ()
-                    {
-                        VisitDetailValue = "Visit Details 123"
-                    }
-                ]
-            },
-            new VisitJson
-            {
-                Created = "12/12/2025 13:50:02",
-                CreatedBy = "TestUser4",
-                DateOfVisit = "12/12/2025 13:50:02",
-                Id = "86",
-                LoginName = "Test",
-                Name = "TestUser4",
-                ParentId = "123",
-                Type = "Case",
-                Updated = "12/12/2025 13:50:02",
-                UpdatedBy = "User B",
-                VisitDescription = "Regular",
-                VisitDetails =
-                [
-                    new ()
-                    {
-                        VisitDetailValue = "Visit Details 123"
-                    }
-                ]
-            }
+        {
+            Created = "12/11/2025 13:50:02",
+            CreatedBy = "TestUser3",
+            DateOfVisit = "12/11/2025 13:50:02",
+            Id = "87",
+            LoginName = "Test",
+            Name = "TestUser3",
+            ParentId = "123",
+            Type = "Case",
+            Updated = "12/11/2025 13:50:02",
+            UpdatedBy = "User B",
+            VisitDescription = "Regular",
+            VisitDetails = [new() { VisitDetailValue = "Visit Details 123" }],
+        },
+        new VisitJson
+        {
+            Created = "12/12/2025 13:50:02",
+            CreatedBy = "TestUser4",
+            DateOfVisit = "12/12/2025 13:50:02",
+            Id = "86",
+            LoginName = "Test",
+            Name = "TestUser4",
+            ParentId = "123",
+            Type = "Case",
+            Updated = "12/12/2025 13:50:02",
+            UpdatedBy = "User B",
+            VisitDescription = "Regular",
+            VisitDetails = [new() { VisitDetailValue = "Visit Details 123" }],
+        },
     ];
 
     [Fact]

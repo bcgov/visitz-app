@@ -16,6 +16,7 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
     public ServiceHandler ServiceHandler { get; private set; }
 
     private readonly ILogger<VisitzApp> _logger;
+
     public VisitzApp(ILogger<VisitzApp> logger)
     {
         _logger = logger;

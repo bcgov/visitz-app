@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -15,12 +15,12 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class ServiceRequestRecord :
-    IRealmObject,
-    IRowMetadata,
-    IBusinessObject,
-    IAssignedMetadata,
-    IApiJson<ServiceRequestJson>
+public partial class ServiceRequestRecord
+    : IRealmObject,
+        IRowMetadata,
+        IBusinessObject,
+        IAssignedMetadata,
+        IApiJson<ServiceRequestJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -110,9 +110,7 @@ public partial class ServiceRequestRecord :
 
     public BoLocalState LocalState { get; set; }
 
-    public string DisplayDate => CreatedDate.ToString(
-        IBusinessObject.DisplayDateFormat,
-        CultureInfo.InvariantCulture);
+    public string DisplayDate => CreatedDate.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
 
     public string DisplayName => ServiceOffice;
 
@@ -122,9 +120,7 @@ public partial class ServiceRequestRecord :
 
     public ServiceRequestRecord() { }
 
-    public ServiceRequestRecord(
-        ServiceRequestJson json,
-        BoLocalState localState = null)
+    public ServiceRequestRecord(ServiceRequestJson json, BoLocalState localState = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -178,23 +174,28 @@ public partial class ServiceRequestRecord :
     public static async Task SynchronizeAsync(
         Realm realm,
         SectionJson<ServiceRequestJson> section,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
     {
         var currentAssignedIds = realm.All<ServiceRequestRecord>().AsEnumerable().Select(sr => sr.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
         var serviceRequests = FromApiArray(section.Items ?? []);
 
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-            realm.Upsert(serviceRequests);
-        });
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
+            {
+                CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
+                realm.Upsert(serviceRequests);
+            }
+        );
     }
 
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
-        bool deleteLocalState = true)
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
 
@@ -207,10 +208,12 @@ public partial class ServiceRequestRecord :
             fromRealm.Remove(LocalState);
     }
 
-    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+    public void Delete(
+        UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
         bool cascade = true,
-        bool deleteLocalState = true)
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
 
@@ -223,7 +226,8 @@ public partial class ServiceRequestRecord :
     static void CascadeDelete(
         Realm fromRealm,
         IEnumerable<string> unassignedIds,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
     {
         foreach (var id in unassignedIds)
             if (fromRealm.Find<ServiceRequestRecord>(id) is ServiceRequestRecord sr)
@@ -278,20 +282,14 @@ public partial class ServiceRequestRecord :
     {
         return realm
             .All<ServiceRequestRecord>()
-            .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId
-                        || sr.FileNumber == draftItem.RelatedEntityId);
+            .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId || sr.FileNumber == draftItem.RelatedEntityId);
     }
 
-    public static IQueryable<ServiceRequestRecord> GetAllByAssignee(
-        Realm realm,
-        string username,
-        bool invert = false)
+    public static IQueryable<ServiceRequestRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
     {
         string operation = invert ? "!=" : "==";
 
-        return realm
-            .All<ServiceRequestRecord>()
-            .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+        return realm.All<ServiceRequestRecord>().Filter($"$0 {operation} {nameof(AssignedTo)}", username);
     }
 
     public bool IsAssigned(string username)

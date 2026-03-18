@@ -44,12 +44,13 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
         var keyPlayer = BusinessObject.GetKeyPlayer();
         recordServiceInfo = new RecordServiceInfo(
-                BusinessObject.EntityType,
-                BusinessObject.EntitySubtype,
-                BusinessObject.Id,
-                Assessment.IncidentNumber,
-                keyPlayer.FirstName,
-                keyPlayer.LastName);
+            BusinessObject.EntityType,
+            BusinessObject.EntitySubtype,
+            BusinessObject.Id,
+            Assessment.IncidentNumber,
+            keyPlayer.FirstName,
+            keyPlayer.LastName
+        );
 
         submitAssessmentsServiceId = SubmitSafetyAssessmentService.MakeId(Assessment.IncidentNumber);
         getAssessmentsServiceId = GetSafetyAssessmentsService.MakeId(recordServiceInfo);
@@ -63,6 +64,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)

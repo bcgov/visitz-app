@@ -30,7 +30,8 @@ public static class IListTExtensions
         return ~lower;
     }
 
-    public static void InsertSortedAsc<T>(this IList<T> list, T newItem) where T : IComparable<T>
+    public static void InsertSortedAsc<T>(this IList<T> list, T newItem)
+        where T : IComparable<T>
     {
         if (list.Count == 0)
             list.Add(newItem);

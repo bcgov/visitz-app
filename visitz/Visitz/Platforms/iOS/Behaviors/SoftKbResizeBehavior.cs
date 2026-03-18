@@ -37,7 +37,9 @@ public partial class SoftKbResizeBehavior
         else
         {
             var uiViewFrameInWindowCoordinateSpace = UIView.CoordinateSpace.ConvertRectToCoordinateSpace(
-                UIView.Frame, UIView.Window.CoordinateSpace);
+                UIView.Frame,
+                UIView.Window.CoordinateSpace
+            );
 
             var viewMaxY = uiViewFrameInWindowCoordinateSpace.GetMaxY();
             var intMinY = intersection.GetMinY();

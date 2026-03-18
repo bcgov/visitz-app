@@ -17,7 +17,7 @@ namespace Visitz.Services.Base
             /// <summary>
             /// Service currently doing its task.
             /// </summary>
-            Running = 4
+            Running = 4,
         }
 
         public enum Result
@@ -56,8 +56,7 @@ namespace Visitz.Services.Base
 
         public Exception UncaughtException { get; protected set; }
 
-        protected virtual ILogger Logger { get; set; }
-            = ServiceProvider.GetService<ILogger<VisitzService>>();
+        protected virtual ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<VisitzService>>();
 
         static readonly string LoggerTemplate = "{id} -> {stateMessage}";
 

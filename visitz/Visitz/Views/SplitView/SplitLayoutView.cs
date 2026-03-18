@@ -8,11 +8,19 @@ public abstract class SplitLayoutView : BaseContentView
 {
     private static readonly double Unset = -1.0d;
 
-    public static readonly BindableProperty StartPaneColumnWidthProperty = BindableProperty.Create(nameof(StartPaneColumnWidth),
-        typeof(GridLength), typeof(SplitLayoutView), propertyChanged: StartPaneColumnWidthChanged);
+    public static readonly BindableProperty StartPaneColumnWidthProperty = BindableProperty.Create(
+        nameof(StartPaneColumnWidth),
+        typeof(GridLength),
+        typeof(SplitLayoutView),
+        propertyChanged: StartPaneColumnWidthChanged
+    );
 
-    public static readonly BindableProperty EndPaneColumnWidthProperty = BindableProperty.Create(nameof(EndPaneColumnWidth),
-        typeof(GridLength), typeof(SplitLayoutView), propertyChanged: EndPaneColumnWidthChanged);
+    public static readonly BindableProperty EndPaneColumnWidthProperty = BindableProperty.Create(
+        nameof(EndPaneColumnWidth),
+        typeof(GridLength),
+        typeof(SplitLayoutView),
+        propertyChanged: EndPaneColumnWidthChanged
+    );
 
     private static void MatchWidths(VisualElement ve, ColumnDefinition column, GridLength gridLength)
     {
@@ -66,13 +74,10 @@ public abstract class SplitLayoutView : BaseContentView
         Content = SplitLayout = new Grid
         {
             RowDefinitions = [new RowDefinition()],
-            ColumnDefinitions = [StartColumn, SeparatorColumn, EndColumn,],
+            ColumnDefinitions = [StartColumn, SeparatorColumn, EndColumn],
         };
 
-        var separator = new BoxView()
-        {
-            Color = VisitzColors.SeparatorColor,
-        };
+        var separator = new BoxView() { Color = VisitzColors.SeparatorColor };
 
         SplitLayout.Add(StartPane, 0, 0);
         SplitLayout.Add(separator, 1, 0);

@@ -8,17 +8,29 @@ namespace Visitz.Views;
 
 public partial class InternetInfoView : ContentView
 {
-    public static readonly BindableProperty ShouldShowViewProperty =
-        BindableProperty.Create(nameof(ShouldShowView), typeof(bool), typeof(InternetInfoView));
+    public static readonly BindableProperty ShouldShowViewProperty = BindableProperty.Create(
+        nameof(ShouldShowView),
+        typeof(bool),
+        typeof(InternetInfoView)
+    );
 
-    public static readonly BindableProperty MessageProperty =
-        BindableProperty.Create(nameof(Message), typeof(string), typeof(InternetInfoView));
+    public static readonly BindableProperty MessageProperty = BindableProperty.Create(
+        nameof(Message),
+        typeof(string),
+        typeof(InternetInfoView)
+    );
 
-    public static readonly BindableProperty ImageSourceProperty =
-        BindableProperty.Create(nameof(ImageSource), typeof(ImageSource), typeof(InternetInfoView));
+    public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create(
+        nameof(ImageSource),
+        typeof(ImageSource),
+        typeof(InternetInfoView)
+    );
 
-    public static readonly BindableProperty ColorProperty =
-        BindableProperty.Create(nameof(Color), typeof(Color), typeof(TagView));
+    public static readonly BindableProperty ColorProperty = BindableProperty.Create(
+        nameof(Color),
+        typeof(Color),
+        typeof(TagView)
+    );
 
     public bool ShouldShowView
     {
@@ -63,7 +75,6 @@ public partial class InternetInfoView : ContentView
 
         if (args.AttachingToParent())
             Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
-
         else if (args.DetachingFromParent())
             Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
     }

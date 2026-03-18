@@ -2,8 +2,7 @@ using System.Net;
 
 namespace VisitzApi.ErrorHandling
 {
-    public class VisitzApiException(HttpStatusCode statusCode, string errorMessage)
-        : Exception(errorMessage)
+    public class VisitzApiException(HttpStatusCode statusCode, string errorMessage) : Exception(errorMessage)
     {
         public HttpStatusCode HttpStatusCode { get; private set; } = statusCode;
 

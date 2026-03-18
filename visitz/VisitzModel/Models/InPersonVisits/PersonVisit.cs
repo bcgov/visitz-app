@@ -124,36 +124,41 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits)
     {
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            var incomingVisits = FromApiArray(visits);
-            var incomingVisitIds = incomingVisits.Select(item => item.Id);
-
-            var allPersonVisits = realm.All<PersonVisit>().ToList();
-            var allPersonVisitIds = allPersonVisits.Select(item => item.Id);
-
-            var visitIdsToDelete = allPersonVisitIds.Except(incomingVisitIds);
-            var visitsToDelete = allPersonVisits.Where(item => visitIdsToDelete.Contains(item.Id)).ToList();
-
-            foreach (var item in visitsToDelete)
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
             {
-                if (item != null && item.IsValid)
-                    realm.Remove(item);
+                var incomingVisits = FromApiArray(visits);
+                var incomingVisitIds = incomingVisits.Select(item => item.Id);
+
+                var allPersonVisits = realm.All<PersonVisit>().ToList();
+                var allPersonVisitIds = allPersonVisits.Select(item => item.Id);
+
+                var visitIdsToDelete = allPersonVisitIds.Except(incomingVisitIds);
+                var visitsToDelete = allPersonVisits.Where(item => visitIdsToDelete.Contains(item.Id)).ToList();
+
+                foreach (var item in visitsToDelete)
+                {
+                    if (item != null && item.IsValid)
+                        realm.Remove(item);
+                }
+                realm.Upsert(incomingVisits);
             }
-            realm.Upsert(incomingVisits);
-        });
+        );
     }
 
     public static IQueryable<PersonVisit> GetVisitsByCaseId(Realm realm, string caseId)
     {
-        return realm.All<PersonVisit>()
+        return realm
+            .All<PersonVisit>()
             .Where(person => person.ParentId == caseId)
             .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)");
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)
     {
-        var visitItems = realm.All<PersonVisit>()
+        var visitItems = realm
+            .All<PersonVisit>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(visitItems);
@@ -164,14 +169,15 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         return realm.All<PersonVisit>().Where(item => item.ParentTypeInt == (int)entityType);
     }
 
-    public static IOrderedEnumerable<PersonVisit> GetUpcomingVisits(Realm realm, EntityType entityType = EntityType.Case)
+    public static IOrderedEnumerable<PersonVisit> GetUpcomingVisits(
+        Realm realm,
+        EntityType entityType = EntityType.Case
+    )
     {
         var latestVisitsPerCase = GetAllByType(realm, entityType)
             .AsEnumerable()
             .GroupBy(item => item.ParentId)
-            .Select(group => group
-                .OrderByDescending(item => item.DateOfVisit)
-                .FirstOrDefault())
+            .Select(group => group.OrderByDescending(item => item.DateOfVisit).FirstOrDefault())
             .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning)
             .OrderBy(item => item.DueDateDaysRemaining);
 

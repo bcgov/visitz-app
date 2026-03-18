@@ -13,10 +13,7 @@ using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntityContainerViewModel :
-    VisitzViewModel,
-    IBusinessObjectHolder,
-    IRecipient<ServiceStateMessage>
+public partial class EntityContainerViewModel : VisitzViewModel, IBusinessObjectHolder, IRecipient<ServiceStateMessage>
 {
     ServiceHandler ServiceHandler { get; }
 
@@ -35,7 +32,8 @@ public partial class EntityContainerViewModel :
     protected override ILogger<VisitzViewModel> Logger { get; } =
         ServiceProvider.GetService<ILogger<EntityContainerViewModel>>();
 
-    public EntityContainerViewModel() : base()
+    public EntityContainerViewModel()
+        : base()
     {
         ServiceHandler = ServiceProvider.GetService<ServiceHandler>();
     }
@@ -54,6 +52,7 @@ public partial class EntityContainerViewModel :
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -70,8 +69,7 @@ public partial class EntityContainerViewModel :
 
     void UpdateDownloadActivity()
     {
-        ShowDownloadActivity = BusinessObject.IsValid
-            && ServiceHandler.IsAnyServiceRunning(BusinessObject.Id);
+        ShowDownloadActivity = BusinessObject.IsValid && ServiceHandler.IsAnyServiceRunning(BusinessObject.Id);
     }
 
     private void ServiceHandler_ServiceStarted(object sender, string e)
@@ -109,7 +107,8 @@ public partial class EntityContainerViewModel :
             await Navigator.CurrentOpenPage.DisplayErrorAlert(
                 msg,
                 message.UncaughtException?.ToString(),
-                LocalizedStrings.DownloadError);
+                LocalizedStrings.DownloadError
+            );
         }
     }
 

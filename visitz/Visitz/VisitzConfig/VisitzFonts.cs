@@ -1,4 +1,4 @@
-﻿using Visitz.FontIcons;
+using Visitz.FontIcons;
 
 namespace Visitz.VisitzConfig
 {

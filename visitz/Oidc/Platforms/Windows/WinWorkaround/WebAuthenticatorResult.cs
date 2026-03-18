@@ -23,14 +23,20 @@ namespace Oidc.WinWorkaround
             var query = System.Web.HttpUtility.ParseQueryString(str);
             foreach (string key in query.Keys)
             {
-                if (key is null) continue;
+                if (key is null)
+                    continue;
                 if (key == "state")
                 {
                     try
                     {
                         var jsonObject = System.Text.Json.Nodes.JsonObject.Parse(query[key] ?? "{}") as JsonObject;
 
-                        if (jsonObject is not null && jsonObject.ContainsKey("state") && jsonObject["state"] is JsonValue jvalue && jvalue.TryGetValue<string>(out string? value))
+                        if (
+                            jsonObject is not null
+                            && jsonObject.ContainsKey("state")
+                            && jsonObject["state"] is JsonValue jvalue
+                            && jvalue.TryGetValue<string>(out string? value)
+                        )
                         {
                             Properties[key] = value;
                         }

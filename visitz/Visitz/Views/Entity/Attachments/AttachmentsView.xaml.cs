@@ -10,13 +10,11 @@ using Tab = Visitz.Views.Navigation.Tab;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsView :
-    ViewModelContentView,
-    IBusinessObjectHolder,
-    IFocusDraftItem
+public partial class AttachmentsView : ViewModelContentView, IBusinessObjectHolder, IFocusDraftItem
 {
-    static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes
-        .Concat(Attachment.AllowedDocumentTypes);
+    static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes.Concat(
+        Attachment.AllowedDocumentTypes
+    );
 
     new AttachmentsViewModel ViewModel => base.ViewModel as AttachmentsViewModel;
 
@@ -36,7 +34,8 @@ public partial class AttachmentsView :
         set => ViewModel.FocusedDraftItem = value;
     }
 
-    public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
+    public AttachmentsView()
+        : base(ServiceProvider.GetService<AttachmentsViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -46,20 +45,26 @@ public partial class AttachmentsView :
     {
         await base.InitAsync();
 
-        DownloadedTab = new Tab(LocalizedStrings.InIcm, () =>
-        {
-            var listView = ServiceProvider.GetService<AttachmentsListView>();
-            listView.BusinessObject = BusinessObject;
-            return listView;
-        });
+        DownloadedTab = new Tab(
+            LocalizedStrings.InIcm,
+            () =>
+            {
+                var listView = ServiceProvider.GetService<AttachmentsListView>();
+                listView.BusinessObject = BusinessObject;
+                return listView;
+            }
+        );
 
-        DraftsTab = new(LocalizedStrings.OnMyDevice, () =>
-        {
-            var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
-            draftsView.BusinessObject = BusinessObject;
-            draftsView.FocusedDraftItem = FocusedDraftItem;
-            return draftsView;
-        });
+        DraftsTab = new(
+            LocalizedStrings.OnMyDevice,
+            () =>
+            {
+                var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
+                draftsView.BusinessObject = BusinessObject;
+                draftsView.FocusedDraftItem = FocusedDraftItem;
+                return draftsView;
+            }
+        );
 
         AttachmentsTabs.PairedDisplayView = TabDisplayView;
         AttachmentsTabs.Tabs = [DownloadedTab, DraftsTab];
@@ -69,6 +74,7 @@ public partial class AttachmentsView :
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -87,13 +93,14 @@ public partial class AttachmentsView :
 
     private async void Browse_Clicked(object sender, EventArgs e)
     {
-        var result = await FilePicker.Default.PickAsync(new()
-        {
-            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
+        var result = await FilePicker.Default.PickAsync(
+            new()
             {
-                { DevicePlatform.WinUI, AllowedTypes },
-            }),
-        });
+                FileTypes = new FilePickerFileType(
+                    new Dictionary<DevicePlatform, IEnumerable<string>>() { { DevicePlatform.WinUI, AllowedTypes } }
+                ),
+            }
+        );
 
         await SaveFile(result);
     }

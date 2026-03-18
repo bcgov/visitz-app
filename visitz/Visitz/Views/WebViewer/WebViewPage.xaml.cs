@@ -14,7 +14,8 @@ public partial class WebViewPage : VisitzPage
 
     public CancellationTokenSource CancelTokenSource { get; set; }
 
-    public WebViewPage() : base(ServiceProvider.GetService<WebViewModel>())
+    public WebViewPage()
+        : base(ServiceProvider.GetService<WebViewModel>())
     {
         InitializeComponent();
         Setup();
