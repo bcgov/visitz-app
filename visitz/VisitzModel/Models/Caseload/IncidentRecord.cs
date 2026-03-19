@@ -313,7 +313,7 @@ public partial class IncidentRecord :
         IcmContact.RemoveByParent(fromRealm, EntityType.Incident, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
-        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Case, Id);
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Case,Convert.ToInt32(Id));
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

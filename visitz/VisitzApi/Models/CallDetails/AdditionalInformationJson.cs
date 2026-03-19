@@ -16,4 +16,6 @@ public class AdditionalInformationJson
     public string UpdatedBy { get; set; }
     public string UpdatedByName { get; set; }
     public string IncidentId { get; set; }
+    public string SRId { get; set; }
+    public string MemoId { get; set; }
 }

@@ -29,7 +29,7 @@ internal class AdditionalInformationEndpoint(
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(Pagination, @params: ("multivalue", "true")),
+            RequestUri = WithQueryParams(Pagination),
         };
     }
 

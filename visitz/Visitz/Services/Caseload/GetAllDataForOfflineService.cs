@@ -94,7 +94,9 @@ namespace Visitz.Services.Caseload
                 GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
                 GetAllAttachments(all, exceptions),
                 GetAllSafetyAssessments(incidents, exceptions),
-                GetAllAdditionalInformation(incidents, exceptions)
+                GetAllAdditionalInformation(incidents, exceptions),
+                GetAllAdditionalInformation(memos, exceptions),
+                GetAllAdditionalInformation(srs, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we

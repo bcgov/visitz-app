@@ -215,7 +215,7 @@ public partial class MemoRecord :
 
         IcmContact.RemoveByParent(fromRealm, EntityType.Memo, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Memo, Id, userIgnoredPrefs);
-        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Case, Id);
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Case,Convert.ToInt32(Id));
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

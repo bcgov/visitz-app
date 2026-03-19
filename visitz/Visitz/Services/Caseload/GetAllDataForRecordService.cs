@@ -217,6 +217,16 @@ public class GetAllDataForRecordService(
                 var startMessage = GetAdditionalInformationService.MakeStartMessage(new(BusinessObject));
                 return await ServiceHandler.TryRunServiceAsync(startMessage);
             }
+            if (BusinessObject.EntityType == EntityType.Memo)
+            {
+                var startMessage = GetAdditionalInformationService.MakeStartMessage(new(BusinessObject));
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            if (BusinessObject.EntityType == EntityType.ServiceRequest)
+            {
+                var startMessage = GetAdditionalInformationService.MakeStartMessage(new(BusinessObject));
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
         }
         catch (Exception ex)
         {

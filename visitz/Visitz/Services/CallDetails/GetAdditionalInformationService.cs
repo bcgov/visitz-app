@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.People;
@@ -10,27 +7,27 @@ using VisitzApi.Models.CallDetails;
 using VisitzApi.Requests;
 using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.EntityTypes;
-//need to review
-using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.CallDetails;
-
+#nullable enable
 internal class GetAdditionalInformationService(Vpi vpi, LastUpdatedPrefs prefs)
     : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
+    List<AdditionalInformationJson> AdditionalInformationRecords { get; } = [];
 
-    public static string MakeId(string id)
+    public static string MakeId(EntityType type, string id)
     {
-        return $"{nameof(GetAdditionalInformationService)}|{id}";
+
+        return nameof(GetAdditionalInformationService) + $"|{type}|{id}";
     }
 
     public static StartServiceMessage MakeStartMessage(RecordServiceInfo info)
     {
         return new()
         {
-            ServiceId = MakeId(info.Id),
+            ServiceId = MakeId(info.Type, info.Id),
             ServiceType = typeof(GetAdditionalInformationService),
             Payload = info,
         };
@@ -38,18 +35,19 @@ internal class GetAdditionalInformationService(Vpi vpi, LastUpdatedPrefs prefs)
 
     public override string GetId()
     {
-        return MakeId(Info.Id);
+        return MakeId(Info.Type, Info.Id);
     }
 
     override protected async Task<int> RunPaginatedService(Pagination pagination)
     {
-        var (total, contacts) = await Vpi.GetAdditionalInformation(
-(ApiRecordType)Info.Type,
-Info.Id,
-pagination);
-        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-        await AdditionalInformation.SynchronizeAsync(realm, contacts, Info.Id, Info.Type));
+        var (total, contacts) = await Vpi.GetAdditionalInformation((ApiRecordType)Info.Type, Info.Id, pagination);
+        AdditionalInformationRecords.AddRange(contacts);
         return total;
+    }
+    protected override async Task AfterRun()
+    {
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await AdditionalInformation.SynchronizeAsync(realm, AdditionalInformationRecords, Info.Id, Info.Type));
     }
 
 }
