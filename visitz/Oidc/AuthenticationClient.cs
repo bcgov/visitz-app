@@ -7,34 +7,30 @@ namespace Oidc
     /// <summary>
     /// The class exposes the Browser property and provides the LoginAsync() method to start the authentication process.
     /// </summary>
-	public class AuthenticationClient
+    public class AuthenticationClient
     {
         private readonly OidcClient oidcClient;
 
         public AuthenticationClient(Options options)
         {
-            oidcClient = new OidcClient(new OidcClientOptions
-            {
-                Authority = options.Domain,
-                ClientId = options.ClientId,
-                Scope = options.Scope,
-                RedirectUri = options.RedirectUri,
-                Browser = options.Browser,
-                PostLogoutRedirectUri = options.RedirectUri,
-                DisablePushedAuthorization = true,
-            });
+            oidcClient = new OidcClient(
+                new OidcClientOptions
+                {
+                    Authority = options.Domain,
+                    ClientId = options.ClientId,
+                    Scope = options.Scope,
+                    RedirectUri = options.RedirectUri,
+                    Browser = options.Browser,
+                    PostLogoutRedirectUri = options.RedirectUri,
+                    DisablePushedAuthorization = true,
+                }
+            );
         }
 
         public IdentityModel.OidcClient.Browser.IBrowser Browser
         {
-            get
-            {
-                return oidcClient.Options.Browser;
-            }
-            set
-            {
-                oidcClient.Options.Browser = value;
-            }
+            get { return oidcClient.Options.Browser; }
+            set { oidcClient.Options.Browser = value; }
         }
 
         public async Task<LoginResult> LoginAsync(CancellationToken cancellationToken = default)
@@ -44,11 +40,13 @@ namespace Oidc
 
         public async Task<LogoutResult> LogoutAsync()
         {
-            return await oidcClient.LogoutAsync(new LogoutRequest()
-            {
-                BrowserDisplayMode = DisplayMode.Hidden,
-                IdTokenHint = await TokenHolder.GetIdentityTokenStringAsync(),
-            });
+            return await oidcClient.LogoutAsync(
+                new LogoutRequest()
+                {
+                    BrowserDisplayMode = DisplayMode.Hidden,
+                    IdTokenHint = await TokenHolder.GetIdentityTokenStringAsync(),
+                }
+            );
         }
 
         public async Task<RefreshTokenResult> RefreshAsync(string refreshToken)
@@ -79,4 +77,3 @@ namespace Oidc
         }
     }
 }
-

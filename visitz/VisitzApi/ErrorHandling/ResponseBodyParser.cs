@@ -52,9 +52,10 @@ internal class ResponseBodyParser : IDisposable
 
     public bool? GetSuccessStatusFromBody()
     {
-        return RootElement?.FindFirstByAnyName(StatusKeyLower, StatusKey)?
-            .GetString()?
-            .Equals(SuccessKey, StringComparison.CurrentCultureIgnoreCase);
+        return RootElement
+            ?.FindFirstByAnyName(StatusKeyLower, StatusKey)
+            ?.GetString()
+            ?.Equals(SuccessKey, StringComparison.CurrentCultureIgnoreCase);
     }
 
     public IList<string> GetFirstMessages()
@@ -72,8 +73,7 @@ internal class ResponseBodyParser : IDisposable
             {
                 foreach (JsonElement element in msgElement.EnumerateArray())
                 {
-                    if (element.ValueKind == JsonValueKind.String
-                        && element.GetString() is string text)
+                    if (element.ValueKind == JsonValueKind.String && element.GetString() is string text)
                         list.Add(text);
                 }
             }
@@ -84,11 +84,7 @@ internal class ResponseBodyParser : IDisposable
 
     public string? FindFirstError()
     {
-        return RootElement?.FindFirstByAnyName(
-            ErrorDetailKey,
-            ErrorMessageKey,
-            ErrorKeyLower,
-            ErrorKey)?.GetString();
+        return RootElement?.FindFirstByAnyName(ErrorDetailKey, ErrorMessageKey, ErrorKeyLower, ErrorKey)?.GetString();
     }
 
     protected virtual void Dispose(bool disposing)

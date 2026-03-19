@@ -8,10 +8,7 @@ using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class PhotoDetailsView :
-    ViewModelContentView,
-    IBusinessObjectHolder,
-    IRecipient<ServiceStateMessage>
+public partial class PhotoDetailsView : ViewModelContentView, IBusinessObjectHolder, IRecipient<ServiceStateMessage>
 {
     new PhotoDetailsViewModel ViewModel => base.ViewModel as PhotoDetailsViewModel;
 
@@ -33,7 +30,8 @@ public partial class PhotoDetailsView :
         set => ViewModel.IsDownloadedAttachment = value;
     }
 
-    public PhotoDetailsView() : base(ServiceProvider.GetService<PhotoDetailsViewModel>())
+    public PhotoDetailsView()
+        : base(ServiceProvider.GetService<PhotoDetailsViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -45,9 +43,7 @@ public partial class PhotoDetailsView :
 
         if (ViewModel.Attachment?.Draft is not null)
         {
-            string id = SubmitAttachmentService.MakeId(
-                BusinessObject.EntityType,
-                BusinessObject.Id);
+            string id = SubmitAttachmentService.MakeId(BusinessObject.EntityType, BusinessObject.Id);
 
             WeakReferenceMessenger.Default.Register(this, id);
         }
@@ -56,6 +52,7 @@ public partial class PhotoDetailsView :
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -65,7 +62,6 @@ public partial class PhotoDetailsView :
         }
         base.Dispose(disposing);
     }
-
 
     void Unregister()
     {

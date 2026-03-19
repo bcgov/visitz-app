@@ -32,6 +32,7 @@ internal partial class AttachmentsViewModel : VisitzViewModel, IBusinessObjectHo
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -49,8 +50,20 @@ internal partial class AttachmentsViewModel : VisitzViewModel, IBusinessObjectHo
         await using Stream stream = await fileResult.OpenReadAsync();
 
         if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
-            await AttachmentDraft.SaveNewPhoto(BusinessObject, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+            await AttachmentDraft.SaveNewPhoto(
+                BusinessObject,
+                attachmentFiler,
+                AttachmentsRealm,
+                fileResult.FileName,
+                stream
+            );
         else
-            await AttachmentDraft.SaveNewFile(BusinessObject, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+            await AttachmentDraft.SaveNewFile(
+                BusinessObject,
+                attachmentFiler,
+                AttachmentsRealm,
+                fileResult.FileName,
+                stream
+            );
     }
 }

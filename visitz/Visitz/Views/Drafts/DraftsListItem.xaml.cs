@@ -43,8 +43,8 @@ public partial class DraftsListItem : BaseContentView
     {
         try
         {
-            bool isRunning = BindingContext is IRecordInfo info
-                && serviceHandler.IsAnyServiceRunning(info.RelatedEntityId);
+            bool isRunning =
+                BindingContext is IRecordInfo info && serviceHandler.IsAnyServiceRunning(info.RelatedEntityId);
 
             DownloadActivity.IsRunning = isRunning;
             DownloadActivity.IsVisible = isRunning;

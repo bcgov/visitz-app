@@ -8,26 +8,20 @@ using Visitz.Views.Debugging;
 using Visitz.Views.Snackbar;
 using Visitz.Views.User;
 using VisitzModel.Storage;
-
-
 #if !WINDOWS
 using Visitz.Views.AppLock;
 #endif
 
 namespace Visitz.Services.Caseload;
 
-internal class AutoRefreshService(
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
-    : VisitzService()
+internal class AutoRefreshService(LastUpdatedPrefs prefs, ServiceHandler serviceHandler) : VisitzService()
 {
     private static readonly string Id = nameof(AutoRefreshService);
     private static readonly int CooldownDurationSeconds = 3600 * 3;
 
     public static readonly string CooldownTimestampUtc = "LastRefreshAttempt";
 
-    protected override ILogger Logger { get; set; }
-        = ServiceProvider.GetService<ILogger<AutoRefreshService>>();
+    protected override ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<AutoRefreshService>>();
 
     readonly LastUpdatedPrefs LastUpdatedPrefs = prefs;
 
@@ -71,14 +65,16 @@ internal class AutoRefreshService(
             await Window.Page.DisplayAlertAsync(
                 LocalizedStrings.CaseloadRefresh,
                 LocalizedStrings.AutoCaseloadRefreshDesc,
-                LocalizedStrings.Ok);
+                LocalizedStrings.Ok
+            );
 
         if (!NetworkHelper.InternetAvailable)
         {
             SnackbarHandler.ShowTextWithDetails(
                 LocalizedStrings.CantRefreshNoInternet,
                 LocalizedStrings.RefreshInterrupted,
-                LocalizedStrings.RefreshInterruptedDesc);
+                LocalizedStrings.RefreshInterruptedDesc
+            );
             ResultCode = Result.Cancelled;
             return;
         }
@@ -140,11 +136,7 @@ internal class AutoRefreshService(
         if (!internetAvailable)
             Logger.LogInformation(prefix + "internet unavailable");
 
-        return elapsed
-            && unlocked
-            && sessionpageClosed
-            && authorized
-            && internetAvailable;
+        return elapsed && unlocked && sessionpageClosed && authorized && internetAvailable;
     }
 
     static bool AppUnlockedOrFocused()
@@ -166,10 +158,12 @@ internal class AutoRefreshService(
             int remainingSeconds = CooldownDurationSeconds - (int)secondsDiff;
             double percent = secondsDiff / CooldownDurationSeconds * 100;
 
-            Logger.LogInformation("Cooldown {p}% ({sec}s/{min}m remaining)",
+            Logger.LogInformation(
+                "Cooldown {p}% ({sec}s/{min}m remaining)",
                 percent,
                 remainingSeconds,
-                remainingSeconds / 60);
+                remainingSeconds / 60
+            );
 
             return cooldownElapsed;
         }

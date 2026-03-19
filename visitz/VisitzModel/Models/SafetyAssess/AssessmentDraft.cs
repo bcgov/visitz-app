@@ -11,7 +11,11 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
     [PrimaryKey]
     public string DraftEntityId { get; set; }
 
-    public string RelatedEntityId { get => DraftEntityId; set { } }
+    public string RelatedEntityId
+    {
+        get => DraftEntityId;
+        set { }
+    }
 
     public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
@@ -87,12 +91,12 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
         SafetyAssessment assessment,
         string draftLocation,
         EntityType type = EntityType.Incident,
-        EntitySubtype subtype = EntitySubtype.ChildProtection)
+        EntitySubtype subtype = EntitySubtype.ChildProtection
+    )
     {
-        var draft = realm.Find<AssessmentDraft>(assessment.IncidentNumber) ?? new()
-        {
-            DraftEntityId = assessment.IncidentNumber,
-        };
+        var draft =
+            realm.Find<AssessmentDraft>(assessment.IncidentNumber)
+            ?? new() { DraftEntityId = assessment.IncidentNumber };
 
         await realm.WriteAsync(() =>
         {

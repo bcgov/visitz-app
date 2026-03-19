@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 
 namespace Visitz.Device;
+
 #if WINDOWS
 using Windows.Security.Authorization.AppCapabilityAccess;
 using Windows.Media.Capture;
@@ -8,10 +9,9 @@ using Windows.Media.Capture;
 
 public class DevicePermissions
 {
-    public static ILogger Logger { get; set; }
-        = ServiceProvider.GetService<ILogger<DevicePermissions>>();
+    public static ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<DevicePermissions>>();
 
-    public async static Task<PermissionStatus> PromptEnsureCameraAsync()
+    public static async Task<PermissionStatus> PromptEnsureCameraAsync()
     {
         //Checking camera access for non Window devices
         PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.Camera>();

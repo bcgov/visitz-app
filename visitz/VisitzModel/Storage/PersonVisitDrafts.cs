@@ -12,11 +12,7 @@ public partial class PersonVisitDrafts(byte[] encryptionKey) : VisitzRealmBase(N
 
     protected override RealmSchema MakeRealmSchema()
     {
-        return new[]
-        {
-            typeof(PersonVisit),
-            typeof(PersonVisitDraft),
-        };
+        return new[] { typeof(PersonVisit), typeof(PersonVisitDraft) };
     }
 
     protected override void MigrateRealm(Migration migration, ulong oldSchemaVersion)

@@ -47,17 +47,16 @@ namespace VisitzModel.Models
         public string MemoRecordedBy { get; set; }
 
 #pragma warning disable RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
-        public FamilyMember KeyPlayer => FamilyMembers?
-            .Where(mem => mem.IsKeyPlayer)
-            .FirstOrDefault();
+        public FamilyMember KeyPlayer => FamilyMembers?.Where(mem => mem.IsKeyPlayer).FirstOrDefault();
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
-        public string DisplayDate => EntityType.ParseEntityType() switch
-        {
-            EntityTypes.EntityType.Incident => DateReported,
-            EntityTypes.EntityType.Memo => MemoCallDate,
-            _ => CreatedDate, // Case, etc...
-        };
+        public string DisplayDate =>
+            EntityType.ParseEntityType() switch
+            {
+                EntityTypes.EntityType.Incident => DateReported,
+                EntityTypes.EntityType.Memo => MemoCallDate,
+                _ => CreatedDate, // Case, etc...
+            };
 
         public string DisplayName
         {
@@ -76,9 +75,12 @@ namespace VisitzModel.Models
 
         public string FullType => CaseIncidentType + " " + EntityType;
 
-        public string TypeInitials => (EntityType.ParseEntityType() == EntityTypes.EntityType.Incident
-            ? EntityType[..2]
-            : CaseIncidentType.GetInitials()).ToUpper();
+        public string TypeInitials =>
+            (
+                EntityType.ParseEntityType() == EntityTypes.EntityType.Incident
+                    ? EntityType[..2]
+                    : CaseIncidentType.GetInitials()
+            ).ToUpper();
 
         public bool TryGetKeyPlayer(out FamilyMember keyPlayer)
         {
@@ -88,21 +90,21 @@ namespace VisitzModel.Models
 
         public static DateTime DisplayDateTransform(CaseloadItem caseloadItem)
         {
-            return caseloadItem.DisplayDate?.Length > 0
-                ? DateTime.Parse(caseloadItem.DisplayDate)
-                : DateTime.MinValue;
+            return caseloadItem.DisplayDate?.Length > 0 ? DateTime.Parse(caseloadItem.DisplayDate) : DateTime.MinValue;
         }
 
         public string Address =>
-            (UnitNo.FormatAddressPart("-")
-            + AddressLine1.FormatAddressPart(" ")
-            + AddressLine2.FormatAddressPart(" ")
-            + City.FormatAddressPart(", ")
-            + ProvinceState.FormatAddressPart(", ")
-            + Country.FormatAddressPart(", ")
-            + PostalCode.FormatAddressPart(""))
-            .TrimEnd([',', ' ', '-'])
-            .TrimEnd([',', ' ', '-']);
+            (
+                UnitNo.FormatAddressPart("-")
+                + AddressLine1.FormatAddressPart(" ")
+                + AddressLine2.FormatAddressPart(" ")
+                + City.FormatAddressPart(", ")
+                + ProvinceState.FormatAddressPart(", ")
+                + Country.FormatAddressPart(", ")
+                + PostalCode.FormatAddressPart("")
+            )
+                .TrimEnd([',', ' ', '-'])
+                .TrimEnd([',', ' ', '-']);
 
         public static IQueryable<CaseloadItem> GetAllByDistinctSubtypes(Realm realm, bool sortAsc)
         {

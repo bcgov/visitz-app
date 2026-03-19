@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
@@ -29,7 +29,7 @@ namespace VisitzModel.Models.Notes
         /// </para>
         /// <para>
         /// <i>This may become an issue</i>—if two note objects are created in the same second for a given ICM entity, this PK
-        /// unique assertion will fail. While possible, this is also unlikely: new note objects are typically only 
+        /// unique assertion will fail. While possible, this is also unlikely: new note objects are typically only
         /// created either monthly or when a ~16000 character limit is reached.
         /// </para>
         /// </remarks>
@@ -62,9 +62,7 @@ namespace VisitzModel.Models.Notes
             {
                 NotePeriodField = value;
 
-                NotePeriodDateTime = value?.Length > 0
-                    ? DateTimeOffset.Parse(value)
-                    : DateTimeOffset.MinValue;
+                NotePeriodDateTime = value?.Length > 0 ? DateTimeOffset.Parse(value) : DateTimeOffset.MinValue;
             }
         }
 
@@ -77,9 +75,7 @@ namespace VisitzModel.Models.Notes
             {
                 CreatedDateField = value;
 
-                CreatedDateTime = value?.Length > 0
-                    ? DateTimeOffset.Parse(value)
-                    : DateTimeOffset.MinValue;
+                CreatedDateTime = value?.Length > 0 ? DateTimeOffset.Parse(value) : DateTimeOffset.MinValue;
             }
         }
 
@@ -105,7 +101,8 @@ namespace VisitzModel.Models.Notes
             string parentFileNumber,
             EntityType parentType,
             NoteEntity note,
-            int pageNumber)
+            int pageNumber
+        )
         {
             return new NoteItem()
             {
@@ -122,7 +119,8 @@ namespace VisitzModel.Models.Notes
         public static IEnumerable<NoteItem> FromApiEntities(
             string parentFileNumber,
             EntityType parentType,
-            IEnumerable<NoteEntity> noteEntities)
+            IEnumerable<NoteEntity> noteEntities
+        )
         {
             return noteEntities
                 .OrderBy(item => NoteEntity.NotePeriodDateTimeTransform(item, true))
@@ -134,7 +132,8 @@ namespace VisitzModel.Models.Notes
             Realm realm,
             string parentFileNumber,
             EntityType parentEntityType,
-            IEnumerable<NoteItem> newNotes)
+            IEnumerable<NoteItem> newNotes
+        )
         {
             if (parentEntityType == EntityType.Case)
                 // Case notes older <= 2012 may have a blank note period.
@@ -183,8 +182,7 @@ namespace VisitzModel.Models.Notes
 
         public static NoteItem GetLatestByEntityId(Realm realm, string parentFileNumber)
         {
-            return GetNotesByFileNumber(realm, parentFileNumber)
-                .LastOrDefault();
+            return GetNotesByFileNumber(realm, parentFileNumber).LastOrDefault();
         }
 
         public static IQueryable<NoteItem> GetNotesByFileNumber(Realm realm, string parentFileNumber)
@@ -195,14 +193,11 @@ namespace VisitzModel.Models.Notes
                 .Filter($"TRUEPREDICATE SORT({nameof(NotePeriodDateTime)} ASC, {nameof(CreatedDateTime)} ASC)");
         }
 
-        public static void RemoveByParentFileNumber(
-            Realm realm,
-            EntityType type,
-            string fileNumber)
+        public static void RemoveByParentFileNumber(Realm realm, EntityType type, string fileNumber)
         {
-            var noteItems = realm.All<NoteItem>()
-                .Where(item => item.ParentFileNumber == fileNumber
-                    && item.ParentTypeInt == (int)type);
+            var noteItems = realm
+                .All<NoteItem>()
+                .Where(item => item.ParentFileNumber == fileNumber && item.ParentTypeInt == (int)type);
 
             realm.RemoveRange(noteItems);
         }

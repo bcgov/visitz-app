@@ -6,43 +6,68 @@ namespace Visitz.Views.SegmentedButtons;
 
 public partial class SegmentedButtonsView : BaseContentView
 {
-    public static readonly BindableProperty OptionsProperty =
-        BindableProperty.Create(nameof(Options), typeof(IEnumerable<SegmentedOptions>), typeof(SegmentedButtonsView));
+    public static readonly BindableProperty OptionsProperty = BindableProperty.Create(
+        nameof(Options),
+        typeof(IEnumerable<SegmentedOptions>),
+        typeof(SegmentedButtonsView)
+    );
 
-    public static readonly BindableProperty ColorProperty =
-        BindableProperty.Create(nameof(Color), typeof(Color), typeof(SegmentedButtonsView));
+    public static readonly BindableProperty ColorProperty = BindableProperty.Create(
+        nameof(Color),
+        typeof(Color),
+        typeof(SegmentedButtonsView)
+    );
 
-    public static readonly BindableProperty ActivatedBackgroundColorProperty =
-        BindableProperty.Create(nameof(ActivatedBackgroundColor), typeof(Color), typeof(SegmentedButtonsView));
+    public static readonly BindableProperty ActivatedBackgroundColorProperty = BindableProperty.Create(
+        nameof(ActivatedBackgroundColor),
+        typeof(Color),
+        typeof(SegmentedButtonsView)
+    );
 
-    public static readonly BindableProperty ActivatedTextColorProperty =
-        BindableProperty.Create(nameof(ActivatedTextColor), typeof(Color), typeof(SegmentedButtonsView));
+    public static readonly BindableProperty ActivatedTextColorProperty = BindableProperty.Create(
+        nameof(ActivatedTextColor),
+        typeof(Color),
+        typeof(SegmentedButtonsView)
+    );
 
-    public static readonly BindableProperty ItemPaddingProperty =
-        BindableProperty.Create(nameof(ItemPadding), typeof(Thickness), typeof(TagView),
-            defaultValue: new Thickness(10.0));
+    public static readonly BindableProperty ItemPaddingProperty = BindableProperty.Create(
+        nameof(ItemPadding),
+        typeof(Thickness),
+        typeof(TagView),
+        defaultValue: new Thickness(10.0)
+    );
 
-    public static readonly BindableProperty TapGestureCannotDeactivateItemProperty =
-        BindableProperty.Create(nameof(TapGestureCannotDeactivateItem), typeof(bool), typeof(SegmentedButtonsView));
+    public static readonly BindableProperty TapGestureCannotDeactivateItemProperty = BindableProperty.Create(
+        nameof(TapGestureCannotDeactivateItem),
+        typeof(bool),
+        typeof(SegmentedButtonsView)
+    );
 
-    public static readonly BindableProperty ActivatedOptionProperty =
-        BindableProperty.Create(nameof(ActivatedOption), typeof(SegmentedOptions), typeof(SegmentedButtonsView),
-            defaultBindingMode: BindingMode.TwoWay, propertyChanged: (bound, oldVal, newVal) =>
-            {
-                var segmentedView = (SegmentedButtonsView)bound;
-                var oldOption = (SegmentedOptions)oldVal;
-                var newOption = (SegmentedOptions)newVal;
+    public static readonly BindableProperty ActivatedOptionProperty = BindableProperty.Create(
+        nameof(ActivatedOption),
+        typeof(SegmentedOptions),
+        typeof(SegmentedButtonsView),
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (bound, oldVal, newVal) =>
+        {
+            var segmentedView = (SegmentedButtonsView)bound;
+            var oldOption = (SegmentedOptions)oldVal;
+            var newOption = (SegmentedOptions)newVal;
 
-                if (oldOption != null)
-                    if (segmentedView.GetPairedTagView(oldOption) is ActivatableTagView oldTagView)
-                        oldTagView.IsActive = false;
+            if (oldOption != null)
+                if (segmentedView.GetPairedTagView(oldOption) is ActivatableTagView oldTagView)
+                    oldTagView.IsActive = false;
 
-                if (segmentedView.GetPairedTagView(newOption) is ActivatableTagView tagView)
-                    tagView.IsActive = true;
-            });
+            if (segmentedView.GetPairedTagView(newOption) is ActivatableTagView tagView)
+                tagView.IsActive = true;
+        }
+    );
 
-    public static readonly BindableProperty BorderColorProperty =
-        BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(SegmentedButtonsView));
+    public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
+        nameof(BorderColor),
+        typeof(Color),
+        typeof(SegmentedButtonsView)
+    );
 
     public IEnumerable<SegmentedOptions> Options
     {
@@ -125,9 +150,7 @@ public partial class SegmentedButtonsView : BaseContentView
             }
         }
 
-        return optionIndex == -1
-            ? null
-            : (ActivatableTagView)Items.Children[optionIndex];
+        return optionIndex == -1 ? null : (ActivatableTagView)Items.Children[optionIndex];
     }
 
     private void ActivatableTagView_ActiveStateChanged(object sender, IActiveState.ActiveChangedEventArgs e)

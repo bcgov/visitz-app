@@ -7,34 +7,32 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Banners.InfoBanner"
     x:DataType="banners:InfoBanner"
-    x:Name="this">
-
+    x:Name="this"
+>
     <Border
         x:Name="Border"
         BindingContext="{Reference this}"
         HorizontalOptions="Fill"
         StrokeShape="RoundRectangle 4"
         StrokeThickness="2"
-        Padding="20">
-
-        <Grid
-            Padding="8"
-            ColumnDefinitions="Auto,*"
-            ColumnSpacing="16">
-
+        Padding="20"
+    >
+        <Grid Padding="8" ColumnDefinitions="Auto,*" ColumnSpacing="16">
             <Label
                 x:Name="IconLabel"
                 Grid.Column="0"
                 VerticalOptions="Start"
                 FontFamily="MaterialIconsRoundedFilled"
-                FontSize="24"/>
+                FontSize="24"
+            />
 
             <Label
                 Grid.Column="1"
                 Padding="3"
                 FontFamily="BCSansBold"
                 FontSize="{StaticResource BodyLargeFontSize}"
-                Text="{Binding Text}"/>
+                Text="{Binding Text}"
+            />
         </Grid>
     </Border>
 </ContentView>

@@ -27,40 +27,41 @@ public class CaseRecordTests
         SalesRep = SecondaryName,
     };
 
-    static CaseJson CaseJson => new()
-    {
-        Id = "12345",
-        CreatedBy = "USER",
-        CreatedById = "12345",
-        UpdatedBy = "USER",
-        UpdatedById = "12345",
-        CreatedDate = "12/10/2018 13:50:02",
-        UpdatedDate = "12/10/2018 13:50:02",
-        CaseNum = "123456789ASDBCEF",
-        SubjectContactFirstName = "First name",
-        SubjectContactLastName = "Last name",
-        AssignedTo = PrimaryPosition.SalesRep,
-        AssignedToId = PrimaryPosition.Id,
-        Caseload = "CASELOAD_ID",
-        ClosedDate = "",
-        CloseReason = "",
-        EarlyOpenReason = "",
-        IntegrationState = "",
-        LegacyFileNumber = "",
-        MiddleName = "",
-        MyFSFlag = "N",
-        Name = "SOME NAME HERE",
-        OfficeName = "OFFICE NAME 1",
-        Organization = "ORG",
-        RegionName = "REG",
-        RenewReviewDate = "",
-        ReopenedDate = "",
-        RestrictedFlag = "N",
-        Position = [PrimaryPosition, SecondaryPosition],
-        Status = "",
-        Type = "A type",
-        WorkQueue = "",
-    };
+    static CaseJson CaseJson =>
+        new()
+        {
+            Id = "12345",
+            CreatedBy = "USER",
+            CreatedById = "12345",
+            UpdatedBy = "USER",
+            UpdatedById = "12345",
+            CreatedDate = "12/10/2018 13:50:02",
+            UpdatedDate = "12/10/2018 13:50:02",
+            CaseNum = "123456789ASDBCEF",
+            SubjectContactFirstName = "First name",
+            SubjectContactLastName = "Last name",
+            AssignedTo = PrimaryPosition.SalesRep,
+            AssignedToId = PrimaryPosition.Id,
+            Caseload = "CASELOAD_ID",
+            ClosedDate = "",
+            CloseReason = "",
+            EarlyOpenReason = "",
+            IntegrationState = "",
+            LegacyFileNumber = "",
+            MiddleName = "",
+            MyFSFlag = "N",
+            Name = "SOME NAME HERE",
+            OfficeName = "OFFICE NAME 1",
+            Organization = "ORG",
+            RegionName = "REG",
+            RenewReviewDate = "",
+            ReopenedDate = "",
+            RestrictedFlag = "N",
+            Position = [PrimaryPosition, SecondaryPosition],
+            Status = "",
+            Type = "A type",
+            WorkQueue = "",
+        };
 
     [Fact]
     public void InstanceFromJsonIsEqualIgnoreAssignees()
@@ -125,12 +126,9 @@ public class CaseRecordTests
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
         List<CaseRecord> cases = [new CaseRecord(CaseJson), new() { Id = "23456" }];
 
-        await realm.Write(async () => await CaseRecord.SynchronizeAsync(
-            realm,
-            cases,
-            null,
-            PrimaryName,
-            isPersonalCaseload));
+        await realm.Write(async () =>
+            await CaseRecord.SynchronizeAsync(realm, cases, null, PrimaryName, isPersonalCaseload)
+        );
 
         return CaseRecord.GetAllByAssignee(realm, name, isPersonalCaseload);
     }

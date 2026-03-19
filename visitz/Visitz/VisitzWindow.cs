@@ -7,8 +7,10 @@ public partial class VisitzWindow : Window
 {
     public VisitzWindow() { }
 
-    public VisitzWindow(Page page) : base(page) { }
-    protected async override void OnCreated()
+    public VisitzWindow(Page page)
+        : base(page) { }
+
+    protected override async void OnCreated()
     {
         base.OnCreated();
 #if WINDOWS
@@ -18,7 +20,7 @@ public partial class VisitzWindow : Window
         await AppLockPage.TryPrompt(promptOnAppearing: true);
     }
 
-    protected async override void OnStopped()
+    protected override async void OnStopped()
     {
         base.OnStopped();
 
@@ -29,6 +31,7 @@ public partial class VisitzWindow : Window
     private static partial Window ApplyDefaultWindowLayout(Window window);
 
     partial void TryRunAutoRefresh();
+
     partial void OnWindowFocusChanged(bool focused);
 #endif
 
@@ -41,9 +44,10 @@ public partial class VisitzWindow : Window
 #if WINDOWS
         // Run in OnActivated instead of OnResumed to respond to window focus events
         TryRunAutoRefresh();
-         OnWindowFocusChanged(true);
+        OnWindowFocusChanged(true);
 #endif
     }
+
 #if WINDOWS
     protected override void OnDeactivated()
     {

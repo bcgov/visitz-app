@@ -1,7 +1,5 @@
-using MauiNavigationPage = Microsoft.Maui.Controls.NavigationPage;
 using Visitz.Views.BaseClasses;
-
-
+using MauiNavigationPage = Microsoft.Maui.Controls.NavigationPage;
 #if IOS || MACCATALYST
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
@@ -26,10 +24,7 @@ public static class ContentViewExtensions
 
     public static ContentPage WrapPageForModal(this ContentView contentView, ViewModalSize size = ViewModalSize.Wide)
     {
-        var page = new VisitzPage(null)
-        {
-            Background = Colors.Transparent,
-        };
+        var page = new VisitzPage(null) { Background = Colors.Transparent };
 
         MauiNavigationPage.SetHasNavigationBar(page, false);
         MauiNavigationPage.SetHasBackButton(page, false);

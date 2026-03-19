@@ -47,15 +47,11 @@ public partial class ContactItemViewModel : VisitzViewModel
             ? VisitzColors.ContactRelationshipTagText
             : VisitzColors.ContactRelationshipTagBackground;
 
-        TagTextColor = value.IsKeyPlayer
-            ? Colors.White
-            : VisitzColors.ContactRelationshipTagText;
+        TagTextColor = value.IsKeyPlayer ? Colors.White : VisitzColors.ContactRelationshipTagText;
     }
 
     partial void OnExpandedChanged(bool value)
     {
-        ExpandedChevronGlyph = value
-            ? MaterialIcons.Keyboard_arrow_up
-            : MaterialIcons.Keyboard_arrow_down;
+        ExpandedChevronGlyph = value ? MaterialIcons.Keyboard_arrow_up : MaterialIcons.Keyboard_arrow_down;
     }
 }

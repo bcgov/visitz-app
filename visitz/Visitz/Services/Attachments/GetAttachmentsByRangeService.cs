@@ -5,13 +5,9 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
-internal class GetAttachmentsByRangeService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+internal class GetAttachmentsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
-
     public static string MakeId()
     {
         return nameof(GetAttachmentsByRangeService);

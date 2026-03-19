@@ -6,7 +6,7 @@ namespace Visitz.Device
     /// <summary>
     /// Authenticate a user via fingerprint, face id or any other biometric / local authentication method.
     /// </summary>
-	public class DeviceAuthenticator
+    public class DeviceAuthenticator
     {
         public static async Task<FingerprintAuthenticationResult> Authenticate(string title, string reason)
         {

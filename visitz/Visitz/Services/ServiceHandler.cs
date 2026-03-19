@@ -1,6 +1,6 @@
+using System.Collections.Concurrent;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using System.Collections.Concurrent;
 using Visitz.Extensions;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
@@ -100,7 +100,8 @@ namespace Visitz.Services
         public bool IsAnyServiceRunning(string serviceIdContains)
         {
             string key = Services.Keys.FirstOrDefault(key => key.Contains(serviceIdContains));
-            return key is not null && Services.TryGetValue(key, out var service)
+            return key is not null
+                && Services.TryGetValue(key, out var service)
                 && service.Status == VisitzService.State.Running;
         }
     }

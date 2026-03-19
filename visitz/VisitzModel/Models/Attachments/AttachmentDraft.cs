@@ -85,11 +85,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public AttachmentDraft() { }
 
-    AttachmentDraft(
-        IBusinessObject businessObject,
-        string filename,
-        string relativePath,
-        byte[] thumbnail)
+    AttachmentDraft(IBusinessObject businessObject, string filename, string relativePath, byte[] thumbnail)
     {
         int dotIndex = filename.LastIndexOf('.');
 
@@ -112,7 +108,8 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         AttachmentFiler filer,
         Realm realm,
         string filename,
-        Stream stream)
+        Stream stream
+    )
     {
         var imgProc = new ImageProcessor(stream);
 
@@ -129,7 +126,8 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         AttachmentFiler filer,
         Realm realm,
         string filename,
-        Stream stream)
+        Stream stream
+    )
     {
         return await MakeAndSaveDraft(businessObject, filer, realm, filename, stream);
     }
@@ -140,7 +138,8 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         Realm realm,
         string filename,
         Stream stream,
-        byte[] thumbnail = null)
+        byte[] thumbnail = null
+    )
     {
         if (stream.Length > Attachment.MaxFilesize)
             ThrowSizeError(stream);
@@ -175,13 +174,12 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         string description = null,
         string status = null,
         string template = null,
-        CancellationToken? token = null)
+        CancellationToken? token = null
+    )
     {
         token ??= CancellationToken.None;
 
-        var attachmentStream = await attachmentFiler.GetAppDataFileAsync(
-            Attachment.RelativePath,
-            token);
+        var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
 
         return new AttachmentFormData(
             Attachment.Filename + Attachment.Extension,
@@ -189,7 +187,8 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             category,
             description,
             status,
-            template);
+            template
+        );
     }
 
     protected virtual void Dispose(bool disposing)

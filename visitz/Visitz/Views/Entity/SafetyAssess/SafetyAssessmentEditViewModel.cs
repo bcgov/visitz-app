@@ -1,11 +1,11 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Realms;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
@@ -117,6 +117,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -148,18 +149,14 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
     {
         var info = await OidcSessionInfo.GetAsync();
 
-        return SafetyAssessment.Make(
-            BusinessObject.FileNumber,
-            info.Idir,
-            BusinessObject.GetKeyPlayer().LastName
-        );
+        return SafetyAssessment.Make(BusinessObject.FileNumber, info.Idir, BusinessObject.GetKeyPlayer().LastName);
     }
 
     private async Task SetupAssessmentDraft()
     {
         DraftItem = null;
-        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, BusinessObject.FileNumber)
-            ?? await MakeNewSafetyAssessment();
+        Assessment =
+            SafetyAssessment.FindByIncidentNumber(Realm, BusinessObject.FileNumber) ?? await MakeNewSafetyAssessment();
 
         await TryAssociateDraftItem();
 
@@ -307,12 +304,15 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
         var entity = Assessment.ToApiJson();
 
 #pragma warning disable CA1869 // Cache and reuse 'JsonSerializerOptions' instances
-        var json = System.Text.Json.JsonSerializer.Serialize(entity, new System.Text.Json.JsonSerializerOptions
-        {
-            AllowTrailingCommas = true,
-            PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
-            WriteIndented = true,
-        });
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            entity,
+            new System.Text.Json.JsonSerializerOptions
+            {
+                AllowTrailingCommas = true,
+                PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
+                WriteIndented = true,
+            }
+        );
 #pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances
 
         ConsoleTrace.TraceMethod(this, json);

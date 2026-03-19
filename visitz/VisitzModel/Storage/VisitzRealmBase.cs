@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Realms;
 using Realms.Schema;
-
 #if WINDOWS
 using VisitzModel.Platforms.Windows.Logging;
 using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
@@ -38,9 +37,9 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
 #endif
     }
 
-    abstract protected RealmSchema MakeRealmSchema();
+    protected abstract RealmSchema MakeRealmSchema();
 
-    abstract protected void MigrateRealm(Migration migration, ulong oldSchemaVersion);
+    protected abstract void MigrateRealm(Migration migration, ulong oldSchemaVersion);
 
     private RealmConfiguration MakeRealmConfiguration()
     {
@@ -67,7 +66,8 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         }
         catch (Exception ex)
         {
-            string message = $"{ex.GetType()}: Unable to open Realm '{RealmName}/{Version}' from path '{realmConfig?.DatabasePath ?? "<path not available>"}'";
+            string message =
+                $"{ex.GetType()}: Unable to open Realm '{RealmName}/{Version}' from path '{realmConfig?.DatabasePath ?? "<path not available>"}'";
 
             var invalidOpExeption = new InvalidOperationException(message, ex);
 

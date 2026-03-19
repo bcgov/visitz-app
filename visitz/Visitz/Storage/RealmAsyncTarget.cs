@@ -9,16 +9,15 @@ namespace Visitz.Storage
 {
     public class RealmAsyncTarget : AsyncTarget, ILoggerProvider
     {
-        public RealmAsyncTarget() : base(default) { }
+        public RealmAsyncTarget()
+            : base(default) { }
 
         public Logger CreateLogger(string categoryName)
         {
             return new RealmLogger(this, categoryName);
         }
 
-        public void Dispose()
-        {
-        }
+        public void Dispose() { }
 
         public bool IsEnabled(LogLevel logLevel)
         {

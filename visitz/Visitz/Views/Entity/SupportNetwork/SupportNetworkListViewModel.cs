@@ -1,7 +1,7 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
@@ -37,12 +37,17 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessO
 
         if (BusinessObject != null)
         {
-            realmQuery.Subscribe(icmDataRealm,
-                SupportNetworkItem.GetSupportNetworkByCaseId(icmDataRealm, BusinessObject.Id));
+            realmQuery.Subscribe(
+                icmDataRealm,
+                SupportNetworkItem.GetSupportNetworkByCaseId(icmDataRealm, BusinessObject.Id)
+            );
         }
     }
 
-    private void RealmQuery_ItemsChanged(object? sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(
+        object? sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+    )
     {
         if (e.Type == typeof(SupportNetworkItem))
             UpdateSupportNetworkList(e.Items, e.Changes);

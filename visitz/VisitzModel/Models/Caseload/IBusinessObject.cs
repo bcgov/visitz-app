@@ -1,5 +1,5 @@
-using Realms;
 using System.ComponentModel;
+using Realms;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
@@ -57,7 +57,8 @@ public interface IBusinessObject : IRealmObject
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm? fromRealm = null,
-        bool deleteLocalState = false);
+        bool deleteLocalState = false
+    );
 
     /// <summary>
     /// Deletes a BusinessObject and all its dependent data.
@@ -73,7 +74,8 @@ public interface IBusinessObject : IRealmObject
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm? fromRealm = null,
         bool cascade = true,
-        bool deleteLocalState = true);
+        bool deleteLocalState = true
+    );
 }
 
 public static class IBusinessObjectExtensions
@@ -85,9 +87,7 @@ public static class IBusinessObjectExtensions
 
     public static DateTime DisplayDateTransform(this IBusinessObject businessObject)
     {
-        return businessObject.DisplayDate?.Length > 0
-            ? DateTime.Parse(businessObject.DisplayDate)
-            : DateTime.MinValue;
+        return businessObject.DisplayDate?.Length > 0 ? DateTime.Parse(businessObject.DisplayDate) : DateTime.MinValue;
     }
 
     public static string GetDisplayName(this IBusinessObject businessObject)
@@ -112,9 +112,7 @@ public static class IBusinessObjectExtensions
         return IcmContact.GetByParentObject(realm ?? businessObject.Realm, businessObject);
     }
 
-    public static void SubscribePropertyChanged(
-        this IBusinessObject business,
-        PropertyChangedEventHandler handler)
+    public static void SubscribePropertyChanged(this IBusinessObject business, PropertyChangedEventHandler handler)
     {
         if (business is CaseRecord @case)
             @case.PropertyChanged += handler;
@@ -128,9 +126,7 @@ public static class IBusinessObjectExtensions
             throw new NotImplementedException($"Type '{business.GetType()}' not implemented for subscription");
     }
 
-    public static void UnsubscribePropertyChanged(
-        this IBusinessObject business,
-        PropertyChangedEventHandler handler)
+    public static void UnsubscribePropertyChanged(this IBusinessObject business, PropertyChangedEventHandler handler)
     {
         if (business is CaseRecord @case)
             @case.PropertyChanged -= handler;
@@ -144,10 +140,7 @@ public static class IBusinessObjectExtensions
             throw new NotImplementedException($"Type '{business.GetType()}' not implemented for unsubscription");
     }
 
-    public static void UpsertLocalState(
-        this IBusinessObject item,
-        Realm realm,
-        bool? markForDownload = null)
+    public static void UpsertLocalState(this IBusinessObject item, Realm realm, bool? markForDownload = null)
     {
         if (realm.Find<BoLocalState>(item.ToIdTypeString()) is BoLocalState local)
         {
@@ -171,8 +164,10 @@ public static class IBusinessObjectExtensions
             EntityType.Case => realm.All<CaseRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
             EntityType.Incident => realm.All<IncidentRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
             EntityType.Memo => realm.All<MemoRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
-            EntityType.ServiceRequest => realm.All<ServiceRequestRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
-            _ => throw new InvalidOperationException($"'{type}' not supported")
+            EntityType.ServiceRequest => realm
+                .All<ServiceRequestRecord>()
+                .Where(rec => rec.Id == id || rec.FileNumber == id),
+            _ => throw new InvalidOperationException($"'{type}' not supported"),
         };
     }
 
@@ -184,7 +179,7 @@ public static class IBusinessObjectExtensions
             EntityType.Incident => realm.Find<IncidentRecord>(id),
             EntityType.Memo => realm.Find<MemoRecord>(id),
             EntityType.ServiceRequest => realm.Find<ServiceRequestRecord>(id),
-            _ => throw new InvalidOperationException($"'{type}' not supported")
+            _ => throw new InvalidOperationException($"'{type}' not supported"),
         };
     }
 }

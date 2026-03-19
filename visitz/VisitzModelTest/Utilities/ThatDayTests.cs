@@ -6,7 +6,6 @@ public class ThatDayTests
 {
     static readonly string ArbitraryNowDateTime = "2024-03-14 11:53 AM";
 
-
     static readonly string ArbitrarySameDayTime = "8:56 AM";
     static readonly string ArbitrarySameDayDateTime = "2024-03-14 " + ArbitrarySameDayTime;
 
@@ -30,7 +29,6 @@ public class ThatDayTests
         Assert.Equal(ArbitrarySameDayTime, thatDay.ToString());
     }
 
-
     static readonly string ArbitraryLastNightTime = "8:56 PM";
     static readonly string ArbitraryLastNightDateTime = "2024-03-13 " + ArbitraryLastNightTime;
 
@@ -45,7 +43,6 @@ public class ThatDayTests
 
         Assert.Equal(todayTime, thatDay.ToString());
     }
-
 
     static readonly string ArbitrarySameWeekTime = "6:21 AM";
     static readonly string ArbitrarySameWeekDateTime = "2024-03-12 " + ArbitrarySameWeekTime;
@@ -62,7 +59,6 @@ public class ThatDayTests
         Assert.Equal(tuesdayTime, thatDay.ToString());
     }
 
-
     static readonly string Arbitrary6DaysAgoTime = "1:33 PM";
     static readonly string Arbitrary6DaysAgoDateTime = "2024-03-8 " + Arbitrary6DaysAgoTime;
 
@@ -77,7 +73,6 @@ public class ThatDayTests
 
         Assert.Equal(lastWeekDateTime, thatDay.ToString());
     }
-
 
     static readonly string ArbitraryLastWeekTime = "1:33 PM";
     static readonly string ArbitraryLastWeekDateTime = "2024-03-7 " + ArbitraryLastWeekTime;
@@ -94,7 +89,6 @@ public class ThatDayTests
         Assert.Equal(lastWeekDateTime, thatDay.ToString());
     }
 
-
     static readonly string ArbitraryLastMonthTime = "12:17 PM";
     static readonly string ArbitraryLastMonthDateTime = "2024-02-2 " + ArbitraryLastMonthTime;
 
@@ -110,7 +104,6 @@ public class ThatDayTests
         Assert.Equal(lastMonthDateTime, thatDay.ToString());
     }
 
-
     static readonly string ArbitraryLastYearTime = "12:17 PM";
     static readonly string ArbitraryLastYearDateTime = "2023-08-28 " + ArbitraryLastYearTime;
 
@@ -125,7 +118,6 @@ public class ThatDayTests
 
         Assert.Equal(lastYearDateTime, thatDay.ToString());
     }
-
 
     static readonly string ArbitrarySeveralYearsAgoTime = "9:01 PM";
     static readonly string ArbitrarySeveralYearsAgoDateTime = "2015-08-28 " + ArbitrarySeveralYearsAgoTime;

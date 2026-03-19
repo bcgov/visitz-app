@@ -17,16 +17,12 @@ namespace Visitz.Services
         public bool IsRunning => Status == VisitzService.State.Running;
 
         public bool FinishedSuccess =>
-            Status == VisitzService.State.Stopped
-            && Result == VisitzService.Result.Successful;
+            Status == VisitzService.State.Stopped && Result == VisitzService.Result.Successful;
 
-        public bool FinishedError =>
-            Status == VisitzService.State.Stopped
-            && Result == VisitzService.Result.Error;
+        public bool FinishedError => Status == VisitzService.State.Stopped && Result == VisitzService.Result.Error;
 
         public bool FinishedCancelled =>
-            Status == VisitzService.State.Stopped
-            && Result == VisitzService.Result.Cancelled;
+            Status == VisitzService.State.Stopped && Result == VisitzService.Result.Cancelled;
 
         public override string ToString()
         {

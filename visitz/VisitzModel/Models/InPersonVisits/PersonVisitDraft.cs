@@ -98,14 +98,17 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         Realm realm,
         string caseId,
         PersonVisit visit,
-        string draftLocation)
+        string draftLocation
+    )
     {
-        var draft = realm.Find<PersonVisitDraft>(caseId) ?? new()
-        {
-            RelatedEntityId = caseId,
-            DraftLocation = draftLocation,
-            Visit = visit ?? new(),
-        };
+        var draft =
+            realm.Find<PersonVisitDraft>(caseId)
+            ?? new()
+            {
+                RelatedEntityId = caseId,
+                DraftLocation = draftLocation,
+                Visit = visit ?? new(),
+            };
 
         draft.Visit.ParentId = caseId;
 

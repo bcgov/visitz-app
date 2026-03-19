@@ -12,14 +12,20 @@ namespace VisitzModel.Models.Logging
 
         public DateTimeOffset Timestamp { get; set; }
 
-        public static async Task AddLogEntry(string logType, string logMessage, string logSource, DateTimeOffset timeStamp, Realm realm)
+        public static async Task AddLogEntry(
+            string logType,
+            string logMessage,
+            string logSource,
+            DateTimeOffset timeStamp,
+            Realm realm
+        )
         {
             var logEntry = new LogEntry
             {
                 Type = logType,
                 Message = logMessage,
                 Source = logSource,
-                Timestamp = timeStamp
+                Timestamp = timeStamp,
             };
             try
             {

@@ -48,7 +48,7 @@ public static class EntityInitialismsExtensions
             EntitySubtype.MedicalBenefits => EntityInitialisms.MedicalBenefits,
             EntitySubtype.PostMajorityServices => EntityInitialisms.PostMajorityServices,
             EntitySubtype.Unknown => EntityInitialisms.Unknown,
-            _ => throw new InvalidOperationException($"'{entitySubtype}' not supported")
+            _ => throw new InvalidOperationException($"'{entitySubtype}' not supported"),
         };
     }
 }

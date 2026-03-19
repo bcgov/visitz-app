@@ -93,13 +93,15 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 SetFlags(
                     showPublishSuccessIcon: ShowPublishSuccessIcon,
                     showPublishErrorIcon: ShowPublishErrorIcon,
-                    showRefreshingIndicator: true);
+                    showRefreshingIndicator: true
+                );
                 break;
             case State.Refreshed:
                 SetFlags(
                     showPublishSuccessIcon: ShowPublishSuccessIcon,
                     showPublishErrorIcon: ShowPublishErrorIcon,
-                    showRefreshSuccessIcon: true);
+                    showRefreshSuccessIcon: true
+                );
                 break;
             case State.RefreshError:
                 SetFlags(
@@ -108,7 +110,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
                     showRefreshErrorIcon: true,
                     showRetryButton: true,
                     allowRetry: false,
-                    showDismissButton: true);
+                    showDismissButton: true
+                );
                 break;
             case State.Completed:
                 SetFlags(
@@ -116,7 +119,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
                     showPublishErrorIcon: ShowPublishErrorIcon,
                     showRefreshSuccessIcon: ShowRefreshSuccessIcon,
                     showRefreshErrorIcon: ShowRefreshErrorIcon,
-                    showDismissButton: true);
+                    showDismissButton: true
+                );
                 break;
             case State.Unknown:
                 ConsoleTrace.TraceMethod(this, $"Reached {nameof(State.Unknown)} enum");
@@ -135,7 +139,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
         bool showPublishErrorIcon = false,
         bool showRefreshSuccessIcon = false,
         bool showRefreshErrorIcon = false,
-        bool allowRetry = true)
+        bool allowRetry = true
+    )
     {
         ShowPublishingIndicator = showPublishingIndicator;
         ShowRefreshingIndicator = showRefreshingIndicator;

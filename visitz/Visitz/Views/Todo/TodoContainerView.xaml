@@ -8,4 +8,5 @@
     xmlns:split="clr-namespace:Visitz.Views.SplitView"
     x:Class="Visitz.Views.Todo.TodoContainerView"
     x:DataType="todo:TodoContainerView"
-    BackgroundColor="{StaticResource Default_Background}"/>
+    BackgroundColor="{StaticResource Default_Background}"
+/>
