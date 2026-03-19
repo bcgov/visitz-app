@@ -5,6 +5,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -316,6 +317,7 @@ public partial class IncidentRecord
         IcmContact.RemoveByParent(fromRealm, EntityType.Incident, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
+        IncidentConcerns.RemoveByParent(fromRealm, Id);
 
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
