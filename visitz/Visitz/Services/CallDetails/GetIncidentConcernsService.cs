@@ -11,8 +11,7 @@ namespace Visitz.Services.CallDetails;
 
 #nullable enable
 
-internal class GetIncidentConcernsService(Vpi vpi, LastUpdatedPrefs prefs)
-    : ApiPaginationService(vpi, prefs)
+internal class GetIncidentConcernsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
 
@@ -38,11 +37,9 @@ internal class GetIncidentConcernsService(Vpi vpi, LastUpdatedPrefs prefs)
         return MakeId(Info.Id);
     }
 
-    override protected async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
-        var (total, incidentConcerns) = await Vpi.GetIncidentConcerns(
-            Info.Id,
-            pagination);
+        var (total, incidentConcerns) = await Vpi.GetIncidentConcerns(Info.Id, pagination);
 
         IncidentConcernRecords.AddRange(incidentConcerns);
 
@@ -52,6 +49,7 @@ internal class GetIncidentConcernsService(Vpi vpi, LastUpdatedPrefs prefs)
     protected override async Task AfterRun()
     {
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await IncidentConcerns.SynchronizeAsync(realm, IncidentConcernRecords, Info.Id));
+            await IncidentConcerns.SynchronizeAsync(realm, IncidentConcernRecords, Info.Id)
+        );
     }
 }

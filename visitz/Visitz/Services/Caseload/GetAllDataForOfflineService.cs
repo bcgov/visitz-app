@@ -238,10 +238,7 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetAllIncidentConcerns(
-            IEnumerable<RecordServiceInfo> incidents,
-            List<Exception> exceptions
-            )
+        private async Task GetAllIncidentConcerns(IEnumerable<RecordServiceInfo> incidents, List<Exception> exceptions)
         {
             try
             {

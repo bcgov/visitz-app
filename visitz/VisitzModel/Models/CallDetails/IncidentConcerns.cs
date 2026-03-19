@@ -8,9 +8,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.CallDetails;
 
-public partial class IncidentConcerns :
-    IRealmObject,
-    IApiJson<IncidentConcernsJson>
+public partial class IncidentConcerns : IRealmObject, IApiJson<IncidentConcernsJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -70,12 +68,11 @@ public partial class IncidentConcerns :
             Id = Id,
             OriginalConcern = OriginalConcern,
             StartDate = StartDate?.ToString(dateFormat) ?? string.Empty,
-            UpdatedByName = UpdatedByName
+            UpdatedByName = UpdatedByName,
         };
     }
 
-    public static List<IncidentConcerns> FromApiJsonArray(
-        IEnumerable<IncidentConcernsJson> jsonArray)
+    public static List<IncidentConcerns> FromApiJsonArray(IEnumerable<IncidentConcernsJson> jsonArray)
     {
         List<IncidentConcerns> outList = [];
 
@@ -89,7 +86,8 @@ public partial class IncidentConcerns :
     public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<IncidentConcernsJson> newIncidentConcerns,
-        string parentId)
+        string parentId
+    )
     {
         if (newIncidentConcerns == null)
             return;
@@ -101,26 +99,32 @@ public partial class IncidentConcerns :
         var allIncidentConcernIds = allIncidentConcerns.AsEnumerable().Select(item => item.Id);
 
         var incidentConcernIdsToDelete = allIncidentConcernIds.Except(incomingIncidentConcernIds);
-        var incidentConcernsToDelete = allIncidentConcerns.ToList().Where(item => incidentConcernIdsToDelete.Contains(item.Id));
+        var incidentConcernsToDelete = allIncidentConcerns
+            .ToList()
+            .Where(item => incidentConcernIdsToDelete.Contains(item.Id));
 
         if (!incidentConcernsToDelete.Any() && !incomingIncidentConcernIds.Any())
             return;
 
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            foreach (var item in incidentConcernsToDelete)
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
             {
-                if (item != null && item.IsValid)
-                    realm.Remove(item);
-            }
+                foreach (var item in incidentConcernsToDelete)
+                {
+                    if (item != null && item.IsValid)
+                        realm.Remove(item);
+                }
 
-            realm.Upsert(incomingIncidentConcerns);
-        });
+                realm.Upsert(incomingIncidentConcerns);
+            }
+        );
     }
 
     public static void RemoveByParent(Realm realm, string parentIncidentId)
     {
-        var incidentConcerns = realm.All<IncidentConcerns>()
+        var incidentConcerns = realm
+            .All<IncidentConcerns>()
             .Where(item => item.IncidentId == parentIncidentId)
             .ToList();
 

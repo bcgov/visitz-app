@@ -7,10 +7,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.CallDetails;
 
-internal class GetIncidentConcernsByRangeService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+internal class GetIncidentConcernsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
     public static string MakeId()

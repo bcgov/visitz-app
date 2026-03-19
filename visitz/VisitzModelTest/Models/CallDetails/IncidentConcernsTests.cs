@@ -8,68 +8,68 @@ public class IncidentConcernsTests
     private static readonly string parentId = "1";
 
     private static readonly List<IncidentConcernsJson> incidentConcernsList =
-        [
-            new()
-            {
-                Concern = "Physical HArm",
-                Created = "abc",
-                CreatedBy = "jdijdi",
-                CreatedByName = "abc",
-                EndDate = "12/10/2025 13:50:02",
-                Id = "1",
-                IncidentId = "1",
-                OriginalConcern = "PH",
-                StartDate = "12/10/2025 13:50:02",
-                Updated = "djie",
-                UpdatedBy = "abc",
-                UpdatedByName = "test"
-            },
-            new()
-            {
-                Concern = "Physical HArm",
-                Created = "abc",
-                CreatedBy = "jdijdi",
-                CreatedByName = "abc",
-                EndDate = "12/10/2025 13:50:02",
-                Id = "2",
-                IncidentId = "1",
-                OriginalConcern = "PH",
-                StartDate = "12/10/2025 13:50:02",
-                Updated = "djie",
-                UpdatedBy = "abc",
-                UpdatedByName = "test"
-            },
-            new()
-            {
-                Concern = "Physical HArm",
-                Created = "abc",
-                CreatedBy = "jdijdi",
-                CreatedByName = "abc",
-                EndDate = "12/10/2025 13:50:02",
-                Id = "3",
-                IncidentId = "1",
-                OriginalConcern = "PH",
-                StartDate = "12/10/2025 13:50:02",
-                Updated = "djie",
-                UpdatedBy = "abc",
-                UpdatedByName = "test"
-            },
-            new()
-            {
-                Concern = "Physical HArm",
-                Created = "abc",
-                CreatedBy = "jdijdi",
-                CreatedByName = "abc",
-                EndDate = "12/10/2025 13:50:02",
-                Id = "4",
-                IncidentId = "1",
-                OriginalConcern = "PH",
-                StartDate = "12/10/2025 13:50:02",
-                Updated = "djie",
-                UpdatedBy = "abc",
-                UpdatedByName = "test"
-            }
-        ];
+    [
+        new()
+        {
+            Concern = "Physical HArm",
+            Created = "abc",
+            CreatedBy = "jdijdi",
+            CreatedByName = "abc",
+            EndDate = "12/10/2025 13:50:02",
+            Id = "1",
+            IncidentId = "1",
+            OriginalConcern = "PH",
+            StartDate = "12/10/2025 13:50:02",
+            Updated = "djie",
+            UpdatedBy = "abc",
+            UpdatedByName = "test",
+        },
+        new()
+        {
+            Concern = "Physical HArm",
+            Created = "abc",
+            CreatedBy = "jdijdi",
+            CreatedByName = "abc",
+            EndDate = "12/10/2025 13:50:02",
+            Id = "2",
+            IncidentId = "1",
+            OriginalConcern = "PH",
+            StartDate = "12/10/2025 13:50:02",
+            Updated = "djie",
+            UpdatedBy = "abc",
+            UpdatedByName = "test",
+        },
+        new()
+        {
+            Concern = "Physical HArm",
+            Created = "abc",
+            CreatedBy = "jdijdi",
+            CreatedByName = "abc",
+            EndDate = "12/10/2025 13:50:02",
+            Id = "3",
+            IncidentId = "1",
+            OriginalConcern = "PH",
+            StartDate = "12/10/2025 13:50:02",
+            Updated = "djie",
+            UpdatedBy = "abc",
+            UpdatedByName = "test",
+        },
+        new()
+        {
+            Concern = "Physical HArm",
+            Created = "abc",
+            CreatedBy = "jdijdi",
+            CreatedByName = "abc",
+            EndDate = "12/10/2025 13:50:02",
+            Id = "4",
+            IncidentId = "1",
+            OriginalConcern = "PH",
+            StartDate = "12/10/2025 13:50:02",
+            Updated = "djie",
+            UpdatedBy = "abc",
+            UpdatedByName = "test",
+        },
+    ];
 
     [Fact]
     public async Task SynchronizeAsyncAddIncidentConcernsToRealm()

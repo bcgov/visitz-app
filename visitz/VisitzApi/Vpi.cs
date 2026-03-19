@@ -153,7 +153,8 @@ namespace VisitzApi
 
         public async Task<(int TotalRecords, IEnumerable<IncidentConcernsJson>)> GetIncidentConcerns(
             string incidentId,
-            Pagination pagination = null)
+            Pagination pagination = null
+        )
         {
             return await CallApi(new IncidentConcernsEndpoint(BaseVisitzApiUrl, incidentId, pagination));
         }
