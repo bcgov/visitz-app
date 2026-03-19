@@ -212,6 +212,7 @@ public partial class CaseRecord
             @case.EntitySubtype == EntitySubtype.ChildServices
             || @case.EntitySubtype == EntitySubtype.FamilyServices
             || @case.EntitySubtype == EntitySubtype.CysnFamilyServices
+            || @case.EntitySubtype == EntitySubtype.Resource
         );
     }
 
