@@ -11,11 +11,7 @@ public partial class AttachmentDrafts(byte[] encryptionKey) : VisitzRealmBase(Na
 
     protected override RealmSchema MakeRealmSchema()
     {
-        return new[]
-        {
-            typeof(Attachment),
-            typeof(AttachmentDraft),
-        };
+        return new[] { typeof(Attachment), typeof(AttachmentDraft) };
     }
 
     protected override void MigrateRealm(Migration migration, ulong oldSchemaVersion)

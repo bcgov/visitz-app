@@ -24,10 +24,8 @@ public class Navigator
         }
     }
 
-    public static async Task GoToPage<T>(
-        Page fromPage = null,
-        bool modal = false,
-        bool animated = true) where T : ContentPage
+    public static async Task GoToPage<T>(Page fromPage = null, bool modal = false, bool animated = true)
+        where T : ContentPage
     {
         fromPage ??= CurrentOpenPage ?? CurrentOpenModal;
 

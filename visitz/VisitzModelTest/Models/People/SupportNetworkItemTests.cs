@@ -26,7 +26,7 @@ public class SupportNetworkItemTests
             Relationship = "Mother",
             UpdatedBy = "2",
             UpdatedById = "3",
-            UpdatedDate = "12/10/2018 13:50:02"
+            UpdatedDate = "12/10/2018 13:50:02",
         },
         new()
         {
@@ -46,7 +46,7 @@ public class SupportNetworkItemTests
             Relationship = "Father",
             UpdatedBy = "2",
             UpdatedById = "3",
-            UpdatedDate = "12/10/2018 13:50:02"
+            UpdatedDate = "12/10/2018 13:50:02",
         },
         new()
         {
@@ -66,28 +66,28 @@ public class SupportNetworkItemTests
             Relationship = "SON",
             UpdatedBy = "2",
             UpdatedById = "3",
-            UpdatedDate = "12/10/2018 13:50:02"
+            UpdatedDate = "12/10/2018 13:50:02",
         },
         new()
-            {
-                Active = "true",
-                Address = "2312313",
-                Agency = "cdscs",
-                Cell = "3423423",
-                Comments = "dishfs",
-                CreatedBy = "1",
-                CreatedById = "2",
-                CreatedDate = "12/10/2018 13:50:02",
-                EntityId = "3",
-                EntityName = "Case",
-                Id = "4",
-                Name = "ABC",
-                Phone = "23242",
-                Relationship = "Mother",
-                UpdatedBy = "2",
-                UpdatedById = "3",
-                UpdatedDate = "12/10/2018 13:50:02"
-            }
+        {
+            Active = "true",
+            Address = "2312313",
+            Agency = "cdscs",
+            Cell = "3423423",
+            Comments = "dishfs",
+            CreatedBy = "1",
+            CreatedById = "2",
+            CreatedDate = "12/10/2018 13:50:02",
+            EntityId = "3",
+            EntityName = "Case",
+            Id = "4",
+            Name = "ABC",
+            Phone = "23242",
+            Relationship = "Mother",
+            UpdatedBy = "2",
+            UpdatedById = "3",
+            UpdatedDate = "12/10/2018 13:50:02",
+        },
     ];
 
     [Fact]

@@ -1,6 +1,6 @@
+using System.Reflection;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -29,7 +29,8 @@ internal partial class PdfDetailsViewModel : AttachmentDetailsViewModel, IBusine
         {
             ErrorText = LocalizedStrings.UnableToLoadPdf;
 
-            ServiceProvider.GetService<ILogger<PdfDetailsViewModel>>()
+            ServiceProvider
+                .GetService<ILogger<PdfDetailsViewModel>>()
                 .LogError("{ErrorText} -> Couldn't load entry assembly", ErrorText);
 
             return;

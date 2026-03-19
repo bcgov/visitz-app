@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -16,12 +16,12 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class IncidentRecord :
-    IRealmObject,
-    IRowMetadata,
-    IBusinessObject,
-    IAssignedMetadata,
-    IApiJson<IncidentJson>
+public partial class IncidentRecord
+    : IRealmObject,
+        IRowMetadata,
+        IBusinessObject,
+        IAssignedMetadata,
+        IApiJson<IncidentJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -52,9 +52,10 @@ public partial class IncidentRecord :
 
     public IList<string> Assignees { get; }
 
-    public string DisplayAssignees => Assignees.Any()
-        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)
-        : AssignedTo;
+    public string DisplayAssignees =>
+        Assignees.Any()
+            ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)
+            : AssignedTo;
 
     public string AddressComments { get; set; }
 
@@ -125,9 +126,8 @@ public partial class IncidentRecord :
 
     public BoLocalState LocalState { get; set; }
 
-    public string DisplayDate => DateReported?.ToString(
-        IBusinessObject.DisplayDateFormat,
-        CultureInfo.InvariantCulture) ?? "";
+    public string DisplayDate =>
+        DateReported?.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture) ?? "";
 
     public string DisplayName => this.GetDisplayName();
 
@@ -137,9 +137,7 @@ public partial class IncidentRecord :
 
     public IncidentRecord() { }
 
-    public IncidentRecord(
-        IncidentJson json,
-        string currentUsername = null)
+    public IncidentRecord(IncidentJson json, string currentUsername = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -154,12 +152,10 @@ public partial class IncidentRecord :
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
 
-        if (!string.IsNullOrWhiteSpace(AssignedTo)
-            && !Assignees.Contains(AssignedTo))
+        if (!string.IsNullOrWhiteSpace(AssignedTo) && !Assignees.Contains(AssignedTo))
             Assignees.Add(AssignedTo);
 
-        if (!string.IsNullOrWhiteSpace(currentUsername)
-            && !Assignees.Contains(currentUsername))
+        if (!string.IsNullOrWhiteSpace(currentUsername) && !Assignees.Contains(currentUsername))
             Assignees.Add(currentUsername);
 
         AddressComments = json.AddressComments;
@@ -245,7 +241,8 @@ public partial class IncidentRecord :
 
     public static List<IncidentRecord> FromApiJsonArray(
         IEnumerable<IncidentJson> jsonArray,
-        string currentUsername = null)
+        string currentUsername = null
+    )
     {
         List<IncidentRecord> outList = [];
 
@@ -266,7 +263,8 @@ public partial class IncidentRecord :
         IEnumerable<IncidentRecord> newOfficeIncidents,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
-        bool isPersonalCaseload)
+        bool isPersonalCaseload
+    )
     {
         if (newOfficeIncidents == null)
             return;
@@ -276,15 +274,18 @@ public partial class IncidentRecord :
         var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
         var unassigned = currentAssigned.Except(incomingIncidents);
 
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            CascadeDelete(realm, unassigned, userIgnoredPrefs);
-            foreach (var item in incomingIncidents)
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
             {
-                realm.Add(item, update: true);
-                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+                CascadeDelete(realm, unassigned, userIgnoredPrefs);
+                foreach (var item in incomingIncidents)
+                {
+                    realm.Add(item, update: true);
+                    item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+                }
             }
-        });
+        );
     }
 
     public static Task SynchronizeAsync(
@@ -292,20 +293,23 @@ public partial class IncidentRecord :
         IEnumerable<IncidentJson> newOfficeIncidents,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
-        bool isPersonalCaseload)
+        bool isPersonalCaseload
+    )
     {
         return SynchronizeAsync(
             realm,
             FromApiJsonArray(newOfficeIncidents, currentUsername),
             userIgnoredPrefs,
             currentUsername,
-            isPersonalCaseload);
+            isPersonalCaseload
+        );
     }
 
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
-        bool deleteLocalState = true)
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
 
@@ -319,10 +323,12 @@ public partial class IncidentRecord :
             fromRealm.Remove(LocalState);
     }
 
-    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+    public void Delete(
+        UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
         bool cascade = true,
-        bool deleteLocalState = true)
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
 
@@ -335,7 +341,8 @@ public partial class IncidentRecord :
     static void CascadeDelete(
         Realm fromRealm,
         IEnumerable<IncidentRecord> removeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
     {
         foreach (var incident in removeIncidents)
             incident.Delete(userIgnoredPrefs, fromRealm);
@@ -345,20 +352,16 @@ public partial class IncidentRecord :
     {
         return realm
             .All<IncidentRecord>()
-            .FirstOrDefault(incident => incident.Id == draftItem.RelatedEntityId
-                        || incident.FileNumber == draftItem.RelatedEntityId);
+            .FirstOrDefault(incident =>
+                incident.Id == draftItem.RelatedEntityId || incident.FileNumber == draftItem.RelatedEntityId
+            );
     }
 
-    public static IQueryable<IncidentRecord> GetAllByAssignee(
-        Realm realm,
-        string username,
-        bool invert = false)
+    public static IQueryable<IncidentRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
     {
         string operation = invert ? "NONE" : "ANY";
 
-        return realm
-            .All<IncidentRecord>()
-            .Filter($"$0 == {operation} {nameof(Assignees)}", username);
+        return realm.All<IncidentRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }
 
     public bool IsAssigned(string username)
@@ -368,9 +371,7 @@ public partial class IncidentRecord :
 
     public bool Equals(IncidentRecord other)
     {
-        return other != null
-            && Id == other.Id
-            && EntityType == other.EntityType;
+        return other != null && Id == other.Id && EntityType == other.EntityType;
     }
 
     public override bool Equals(object obj)

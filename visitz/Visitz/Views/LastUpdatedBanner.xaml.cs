@@ -6,13 +6,20 @@ namespace Visitz.Views;
 
 public partial class LastUpdatedBanner : ContentView
 {
-    public static readonly BindableProperty LastUpdatedProperty =
-        BindableProperty.Create(nameof(LastUpdated), typeof(DateTime?), typeof(LastUpdatedBanner),
-            propertyChanged: SetUpdatedText);
+    public static readonly BindableProperty LastUpdatedProperty = BindableProperty.Create(
+        nameof(LastUpdated),
+        typeof(DateTime?),
+        typeof(LastUpdatedBanner),
+        propertyChanged: SetUpdatedText
+    );
 
-    public static readonly BindableProperty FallbackTextProperty =
-        BindableProperty.Create(nameof(FallbackText), typeof(string), typeof(LastUpdatedBanner),
-            propertyChanged: SetUpdatedText, defaultValue: LocalizedStrings.NA);
+    public static readonly BindableProperty FallbackTextProperty = BindableProperty.Create(
+        nameof(FallbackText),
+        typeof(string),
+        typeof(LastUpdatedBanner),
+        propertyChanged: SetUpdatedText,
+        defaultValue: LocalizedStrings.NA
+    );
 
     private static void SetUpdatedText(object boundObj, object _, object newVal)
     {

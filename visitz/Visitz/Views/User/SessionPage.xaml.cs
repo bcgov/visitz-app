@@ -19,26 +19,26 @@ public partial class SessionPage : VisitzPage
         }
     }
 
-    public SessionPage(SessionViewModel viewModel) : base(viewModel)
+    public SessionPage(SessionViewModel viewModel)
+        : base(viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
         viewModel.AuthorizationSuccess = () => Navigator.Navigation.RemovePage(this);
     }
 
-    public static async Task TryOpenAsync(
-        Page fromPage = null,
-        bool modal = false,
-        bool animated = true)
+    public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
     {
         await _semaphore.WaitAsync();
 
         try
         {
-            if (IsOpen
+            if (
+                IsOpen
                 || await OidcSession.SessionExistsAsync()
-                && (await OidcSession.IsAuthorizedAsync() ?? false)
-                && (!await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false))
+                    && (await OidcSession.IsAuthorizedAsync() ?? false)
+                    && (!await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false)
+            )
                 return;
 
             await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);

@@ -6,22 +6,25 @@ namespace VisitzApi.Network;
 
 public class ClientSideRateLimitedHandler : DelegatingHandler
 {
-    RateLimiter RateLimiter { get; } = new TokenBucketRateLimiter(new()
-    {
-        TokenLimit = 40, // arbitrarily chosen
-        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-        QueueLimit = short.MaxValue,
-        ReplenishmentPeriod = TimeSpan.FromMilliseconds(10), // arbitrarily chosen
-        TokensPerPeriod = 1, // arbitrarily chosen
-        AutoReplenishment = true,
-    });
+    RateLimiter RateLimiter { get; } =
+        new TokenBucketRateLimiter(
+            new()
+            {
+                TokenLimit = 40, // arbitrarily chosen
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = short.MaxValue,
+                ReplenishmentPeriod = TimeSpan.FromMilliseconds(10), // arbitrarily chosen
+                TokensPerPeriod = 1, // arbitrarily chosen
+                AutoReplenishment = true,
+            }
+        );
 
     protected override async Task<HttpResponseMessage> SendAsync(
-        HttpRequestMessage request, CancellationToken cancellationToken)
+        HttpRequestMessage request,
+        CancellationToken cancellationToken
+    )
     {
-        using RateLimitLease lease = await RateLimiter.AcquireAsync(
-            permitCount: 1,
-            cancellationToken);
+        using RateLimitLease lease = await RateLimiter.AcquireAsync(permitCount: 1, cancellationToken);
 
         if (lease.IsAcquired)
             return await base.SendAsync(request, cancellationToken);
@@ -29,8 +32,10 @@ public class ClientSideRateLimitedHandler : DelegatingHandler
         var response = new HttpResponseMessage(HttpStatusCode.TooManyRequests);
 
         if (lease.TryGetMetadata(MetadataName.RetryAfter, out TimeSpan retryAfter))
-            response.Headers.Add("Retry-After",
-                ((int)retryAfter.TotalSeconds).ToString(NumberFormatInfo.InvariantInfo));
+            response.Headers.Add(
+                "Retry-After",
+                ((int)retryAfter.TotalSeconds).ToString(NumberFormatInfo.InvariantInfo)
+            );
 
         return response;
     }

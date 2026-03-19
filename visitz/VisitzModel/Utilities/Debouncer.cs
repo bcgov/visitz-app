@@ -34,5 +34,4 @@ public sealed class Debouncer(TimeSpan? delay) : IDisposable
     }
 
     public void Dispose() => Cancel();
-
 }

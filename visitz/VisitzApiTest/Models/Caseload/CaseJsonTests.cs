@@ -38,7 +38,7 @@ public class CaseJsonTests
     internal const string workQueue = "queue text";
 
     internal const string json =
-@$"{{
+        @$"{{
 	""Id"": ""{id}"",
     ""Assigned To Id"": ""{assignedToId}"",
     ""Assigned To"": ""{assignedTo}"",

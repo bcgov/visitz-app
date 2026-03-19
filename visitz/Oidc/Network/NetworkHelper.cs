@@ -38,22 +38,25 @@ public static class NetworkHelper
 
         // Forcing Internet check on main thread to avoid issue on Windows:
         // https://github.com/dotnet/maui/issues/9972
-        MainThread.BeginInvokeOnMainThread(delegate
-        {
-            try
+        MainThread.BeginInvokeOnMainThread(
+            delegate
             {
-                var connectionProfile = NetworkInformation.GetInternetConnectionProfile()
-                    ?? throw new InvalidOperationException("Network connection profile unavailable");
+                try
+                {
+                    var connectionProfile =
+                        NetworkInformation.GetInternetConnectionProfile()
+                        ?? throw new InvalidOperationException("Network connection profile unavailable");
 
-                level = connectionProfile.GetNetworkConnectivityLevel();
+                    level = connectionProfile.GetNetworkConnectivityLevel();
 
-                src.SetResult();
+                    src.SetResult();
+                }
+                catch (Exception ex)
+                {
+                    src.TrySetException(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                src.TrySetException(ex);
-            }
-        });
+        );
 
         // *Shouldn't* deadlock MainThread since SetResult or TrySetException would've already been called.
         src.Task.Wait();
@@ -67,12 +70,14 @@ public static class NetworkHelper
     {
         // TODO: Review if this MainThread.BeginInvokeOnMainThread call is necessary since InternetAvailable
         // now uses it on its own. Need to test across platforms since it's shared code.
-        MainThread.BeginInvokeOnMainThread(delegate
-        {
-            // Forcing Internet check on main thread to avoid issue on Windows:
-            // https://github.com/dotnet/maui/issues/9972
-            if (!InternetAvailable)
-                throw new InternetUnavailableException(messageIfUnavailable);
-        });
+        MainThread.BeginInvokeOnMainThread(
+            delegate
+            {
+                // Forcing Internet check on main thread to avoid issue on Windows:
+                // https://github.com/dotnet/maui/issues/9972
+                if (!InternetAvailable)
+                    throw new InternetUnavailableException(messageIfUnavailable);
+            }
+        );
     }
 }

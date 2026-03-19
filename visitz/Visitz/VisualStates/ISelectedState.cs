@@ -1,4 +1,4 @@
-﻿namespace Visitz.VisualStates;
+namespace Visitz.VisualStates;
 
 internal interface ISelectedState : IVisualStateBase
 {

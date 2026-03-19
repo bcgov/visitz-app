@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -158,14 +158,10 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     static string GetOrMakeId(string fileNumber, string createdDate, string createdBy, string id = null)
     {
-        return string.IsNullOrWhiteSpace(id)
-            ? string.Format(IdString, fileNumber, createdDate, createdBy)
-            : id;
+        return string.IsNullOrWhiteSpace(id) ? string.Format(IdString, fileNumber, createdDate, createdBy) : id;
     }
 
-    public static IEnumerable<SafetyAssessment> FromApiJson(
-        string incidentId,
-        IEnumerable<GetSafetyAsessmentJson> json)
+    public static IEnumerable<SafetyAssessment> FromApiJson(string incidentId, IEnumerable<GetSafetyAsessmentJson> json)
     {
         List<SafetyAssessment> assessments = [];
 
@@ -179,12 +175,15 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
     {
         var safetyAssessmentEntity = new SubmitSafetyAssessmentJson()
         {
-            Payload = [new()
-            {
-                IncidentNumber = IncidentNumber,
-                FamilyName = FamilyName,
-                DateOfAssessment = DateOfAssessment?.ToString(DateFormat, CultureInfo.InvariantCulture),
-            }],
+            Payload =
+            [
+                new()
+                {
+                    IncidentNumber = IncidentNumber,
+                    FamilyName = FamilyName,
+                    DateOfAssessment = DateOfAssessment?.ToString(DateFormat, CultureInfo.InvariantCulture),
+                },
+            ],
             FactorInfluence = [FactorInfluence.ToApiJson(dateFormat)],
             SafetyFactors = [SafetyFactors.ToApiJson(dateFormat)],
             ProtectiveCapacity = [ProtectiveCapacity.ToApiJson(dateFormat)],
@@ -229,10 +228,7 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
     {
         var newIds = assessments.Select(a => a.Id);
 
-        var idsToRemove = GetAllByFileNumber(realm, fileNumber)
-            .AsEnumerable()
-            .Select(a => a.Id)
-            .Except(newIds);
+        var idsToRemove = GetAllByFileNumber(realm, fileNumber).AsEnumerable().Select(a => a.Id).Except(newIds);
 
         await realm.CommitAsync(() =>
         {

@@ -26,7 +26,8 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, IBusinessO
         set => ViewModel.BusinessObject = value;
     }
 
-    public SafetyAssessmentEditView() : base(ServiceProvider.GetService<SafetyAssessmentEditViewModel>())
+    public SafetyAssessmentEditView()
+        : base(ServiceProvider.GetService<SafetyAssessmentEditViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -73,13 +74,14 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, IBusinessO
         }
     }
 
-    private async static Task<bool> PromptDiscard()
+    private static async Task<bool> PromptDiscard()
     {
         return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardDraftQuestion,
             LocalizedStrings.DiscardSafetyAssessmentDraftDescription,
             LocalizedStrings.Discard,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
     }
 
     private async void SomeChildrenPlaced_CheckedChanged(object sender, CheckedChangedEventArgs e)

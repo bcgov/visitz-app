@@ -12,7 +12,7 @@ public class NoteDrafts(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVer
 
     protected override RealmSchema MakeRealmSchema()
     {
-        return new[] { typeof(NoteDraft), };
+        return new[] { typeof(NoteDraft) };
     }
 
     protected override void MigrateRealm(Migration migration, ulong oldSchemaVersion)

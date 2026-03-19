@@ -24,7 +24,8 @@ public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObject
         set => ViewModel.BusinessObject = value;
     }
 
-    public ChildYouthVisitView() : base(ServiceProvider.GetService<ChildYouthVisitViewModel>())
+    public ChildYouthVisitView()
+        : base(ServiceProvider.GetService<ChildYouthVisitViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -48,7 +49,8 @@ public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObject
 
     private void CheckAndApplyOrientation(bool isKeyboardOpen)
     {
-        bool hideForm = VisitsEditor.IsFocused
+        bool hideForm =
+            VisitsEditor.IsFocused
             && DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape
             && isKeyboardOpen;
 
@@ -100,7 +102,8 @@ public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObject
             LocalizedStrings.DiscardDraftQuestion,
             LocalizedStrings.DiscardVisitDraftDescription,
             LocalizedStrings.Discard,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
     }
 
     private async void VisitsEditor_EmojiEntered(object sender, EventArgs e)

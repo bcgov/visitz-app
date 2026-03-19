@@ -7,14 +7,15 @@
     xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Navigation.TabView"
-    x:DataType="nav:TabViewModel">
-
+    x:DataType="nav:TabViewModel"
+>
     <HorizontalStackLayout>
         <HorizontalStackLayout.Behaviors>
             <behaviors:SelectionLayoutBehavior
                 ItemsSource="{Binding Tabs}"
                 SelectedItem="{Binding SelectedTab}"
-                StickySelection="True"/>
+                StickySelection="True"
+            />
         </HorizontalStackLayout.Behaviors>
 
         <BindableLayout.ItemTemplate>
@@ -22,6 +23,5 @@
                 <nav:TabItemView BindingContext="{Binding .}" />
             </DataTemplate>
         </BindableLayout.ItemTemplate>
-
     </HorizontalStackLayout>
 </base:ViewModelContentView>

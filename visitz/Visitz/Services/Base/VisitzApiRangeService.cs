@@ -8,8 +8,8 @@ internal abstract class VisitzApiRangeService<Item>(
     Vpi vpi,
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler,
-    ParallelOptions options = null)
-    : VisitzApiService(vpi, prefs)
+    ParallelOptions options = null
+) : VisitzApiService(vpi, prefs)
 {
     protected ServiceHandler ServiceHandler => serviceHandler;
 
@@ -17,16 +17,14 @@ internal abstract class VisitzApiRangeService<Item>(
 
     List<ApiRangeItemException<Item>> Exceptions { get; } = [];
 
-    protected override sealed async Task RunApiServiceAsync()
+    protected sealed override async Task RunApiServiceAsync()
     {
         if (options == null)
             await Parallel.ForEachAsync(Items, RunForItemParallelAsync);
         else
             await Parallel.ForEachAsync(Items, options, RunForItemParallelAsync);
 
-        ResultCode = Exceptions.Count <= 0
-            ? Result.Successful
-            : throw MakePartialException(Exceptions);
+        ResultCode = Exceptions.Count <= 0 ? Result.Successful : throw MakePartialException(Exceptions);
     }
 
     async ValueTask RunForItemParallelAsync(Item item, CancellationToken token)

@@ -28,4 +28,3 @@ public class UserIgnoredContentPrefs(IPreferences prefs)
         Preferences.Remove(fullKey);
     }
 }
-

@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -16,13 +16,13 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class CaseRecord :
-    IRealmObject,
-    IRowMetadata,
-    IBusinessObject,
-    IAssignedMetadata,
-    IApiJson<CaseJson>,
-    IEquatable<CaseRecord>
+public partial class CaseRecord
+    : IRealmObject,
+        IRowMetadata,
+        IBusinessObject,
+        IAssignedMetadata,
+        IApiJson<CaseJson>,
+        IEquatable<CaseRecord>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -53,9 +53,10 @@ public partial class CaseRecord :
 
     public IList<string> Assignees { get; }
 
-    public string DisplayAssignees => Assignees.Any()
-        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)?.Trim()
-        : AssignedTo;
+    public string DisplayAssignees =>
+        Assignees.Any()
+            ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)?.Trim()
+            : AssignedTo;
 
     public string Caseload { get; set; }
 
@@ -102,9 +103,7 @@ public partial class CaseRecord :
 
     public BoLocalState LocalState { get; set; }
 
-    public string DisplayDate => CreatedDate.ToString(
-        IBusinessObject.DisplayDateFormat,
-        CultureInfo.InvariantCulture);
+    public string DisplayDate => CreatedDate.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
 
     public string DisplayName => this.GetDisplayName();
 
@@ -114,9 +113,7 @@ public partial class CaseRecord :
 
     public CaseRecord() { }
 
-    public CaseRecord(
-        CaseJson caseJson,
-        string currentUsername = null)
+    public CaseRecord(CaseJson caseJson, string currentUsername = null)
     {
         Id = caseJson.Id;
         CreatedBy = caseJson.CreatedBy;
@@ -135,12 +132,10 @@ public partial class CaseRecord :
             foreach (var position in caseJson.Position)
                 Assignees.Add(position.SalesRep);
 
-        if (!string.IsNullOrWhiteSpace(AssignedTo)
-            && !Assignees.Contains(AssignedTo))
+        if (!string.IsNullOrWhiteSpace(AssignedTo) && !Assignees.Contains(AssignedTo))
             Assignees.Add(AssignedTo);
 
-        if (!string.IsNullOrWhiteSpace(currentUsername)
-            && !Assignees.Contains(currentUsername))
+        if (!string.IsNullOrWhiteSpace(currentUsername) && !Assignees.Contains(currentUsername))
             Assignees.Add(currentUsername);
 
         Caseload = caseJson.Caseload;
@@ -200,9 +195,7 @@ public partial class CaseRecord :
         };
     }
 
-    public static List<CaseRecord> FromApiJsonArray(
-        IEnumerable<CaseJson> jsonArray,
-        string currentUsername = null)
+    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> jsonArray, string currentUsername = null)
     {
         List<CaseRecord> outList = [];
 
@@ -215,9 +208,11 @@ public partial class CaseRecord :
 
     static IEnumerable<CaseRecord> FilterUnsupportedSubtypes(IEnumerable<CaseRecord> cases)
     {
-        return cases.Where(@case => @case.EntitySubtype == EntitySubtype.ChildServices
-                        || @case.EntitySubtype == EntitySubtype.FamilyServices
-                        || @case.EntitySubtype == EntitySubtype.CysnFamilyServices);
+        return cases.Where(@case =>
+            @case.EntitySubtype == EntitySubtype.ChildServices
+            || @case.EntitySubtype == EntitySubtype.FamilyServices
+            || @case.EntitySubtype == EntitySubtype.CysnFamilyServices
+        );
     }
 
     public static async Task SynchronizeAsync(
@@ -225,7 +220,8 @@ public partial class CaseRecord :
         IEnumerable<CaseRecord> newOfficeCases,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
-        bool isPersonalCaseload)
+        bool isPersonalCaseload
+    )
     {
         if (newOfficeCases == null)
             return;
@@ -235,15 +231,18 @@ public partial class CaseRecord :
         var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
         var unassigned = currentAssigned.Except(incomingCases);
 
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            CascadeDelete(realm, unassigned, userIgnoredPrefs);
-            foreach (var item in incomingCases)
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
             {
-                realm.Add(item, update: true);
-                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+                CascadeDelete(realm, unassigned, userIgnoredPrefs);
+                foreach (var item in incomingCases)
+                {
+                    realm.Add(item, update: true);
+                    item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+                }
             }
-        });
+        );
     }
 
     public static Task SynchronizeAsync(
@@ -251,20 +250,23 @@ public partial class CaseRecord :
         IEnumerable<CaseJson> newAssignedCases,
         UserIgnoredContentPrefs userIgnoredPrefs,
         string currentUsername,
-        bool isPersonalCaseload)
+        bool isPersonalCaseload
+    )
     {
         return SynchronizeAsync(
             realm,
             FromApiJsonArray(newAssignedCases, currentUsername),
             userIgnoredPrefs,
             currentUsername,
-            isPersonalCaseload);
+            isPersonalCaseload
+        );
     }
 
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
-        bool deleteLocalState = true)
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
 
@@ -278,10 +280,12 @@ public partial class CaseRecord :
             fromRealm.Remove(LocalState);
     }
 
-    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+    public void Delete(
+        UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
         bool cascade = true,
-        bool deleteLocalState = true)
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
 
@@ -294,7 +298,8 @@ public partial class CaseRecord :
     static void CascadeDelete(
         Realm fromRealm,
         IEnumerable<CaseRecord> unassigned,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
     {
         foreach (var @case in unassigned)
             @case.Delete(userIgnoredPrefs, fromRealm);
@@ -304,28 +309,23 @@ public partial class CaseRecord :
     {
         return realm
             .All<CaseRecord>()
-            .FirstOrDefault(@case => @case.Id == draftItem.RelatedEntityId
-                        || @case.FileNumber == draftItem.RelatedEntityId);
+            .FirstOrDefault(@case =>
+                @case.Id == draftItem.RelatedEntityId || @case.FileNumber == draftItem.RelatedEntityId
+            );
     }
 
     public static IBusinessObject GetByPersonVisitItem(Realm realm, PersonVisit item)
     {
         return realm
             .All<CaseRecord>()
-            .FirstOrDefault(@case => @case.Id == item.ParentId
-                        || @case.FileNumber == item.ParentId);
+            .FirstOrDefault(@case => @case.Id == item.ParentId || @case.FileNumber == item.ParentId);
     }
 
-    public static IQueryable<CaseRecord> GetAllByAssignee(
-        Realm realm,
-        string username,
-        bool invert = false)
+    public static IQueryable<CaseRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
     {
         string operation = invert ? "NONE" : "ANY";
 
-        return realm
-            .All<CaseRecord>()
-            .Filter($"$0 == {operation} {nameof(Assignees)}", username);
+        return realm.All<CaseRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }
 
     public bool IsAssigned(string username)
@@ -335,9 +335,7 @@ public partial class CaseRecord :
 
     public bool Equals(CaseRecord other)
     {
-        return other != null
-            && Id == other.Id
-            && EntityType == other.EntityType;
+        return other != null && Id == other.Id && EntityType == other.EntityType;
     }
 
     public override bool Equals(object obj)

@@ -1,7 +1,7 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Oidc;
 using Realms;
-using System.Collections.ObjectModel;
 using VisitzModel.Models;
 using VisitzModel.Models.Caseload;
 
@@ -35,7 +35,8 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         Realm realm,
         DraftIndicatorHelper indicatorHelper,
         OidcSessionInfo sessionInfo,
-        Func<IEnumerable<IBusinessObject>, IEnumerable<IBusinessObject>> filter)
+        Func<IEnumerable<IBusinessObject>, IEnumerable<IBusinessObject>> filter
+    )
     {
         Realm = realm;
         Filter = filter;
@@ -53,9 +54,7 @@ public partial class CaseloadLister : ObservableObject, IDisposable
         // TODO: query Memos and Service Requests when we decide to support them
     }
 
-    void QueryMap_ItemsChanged(
-        object? sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e)
+    void QueryMap_ItemsChanged(object? sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e)
     {
         if (e.Type == typeof(CaseRecord))
             UpdateItems(cases, e.Items, e.Changes);
@@ -67,13 +66,9 @@ public partial class CaseloadLister : ObservableObject, IDisposable
 
     public void ApplyWithFilter()
     {
-        var caseRecords = cases
-            .Cast<IBusinessObject>()
-            .Where(rec => rec.IsValid);
+        var caseRecords = cases.Cast<IBusinessObject>().Where(rec => rec.IsValid);
 
-        var incidentRecords = incidents
-            .Cast<IBusinessObject>()
-            .Where(rec => rec.IsValid);
+        var incidentRecords = incidents.Cast<IBusinessObject>().Where(rec => rec.IsValid);
 
         var combined = caseRecords.Concat(incidentRecords);
 
@@ -87,10 +82,8 @@ public partial class CaseloadLister : ObservableObject, IDisposable
             Records.Add(new CaseloadItemViewModel(IndicatorHelper, record, SessionInfo));
     }
 
-    static void UpdateItems<T>(
-        IList<T> list,
-        IRealmCollection<IRealmObject> items,
-        ChangeSet? changes) where T : IBusinessObject
+    static void UpdateItems<T>(IList<T> list, IRealmCollection<IRealmObject> items, ChangeSet? changes)
+        where T : IBusinessObject
     {
         if (changes == null)
         {

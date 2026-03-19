@@ -9,8 +9,8 @@ internal class RecordServiceInfo(
     string id,
     string fileNumber,
     string firstName,
-    string lastName)
-    : IEquatable<RecordServiceInfo>
+    string lastName
+) : IEquatable<RecordServiceInfo>
 {
     public EntityType Type { get; } = type;
 
@@ -24,19 +24,19 @@ internal class RecordServiceInfo(
 
     public string LastName { get; } = lastName;
 
-    public RecordServiceInfo(IBusinessObject record) : this(
+    public RecordServiceInfo(IBusinessObject record)
+        : this(
             record.EntityType,
             record.EntitySubtype,
             record.Id,
             record.FileNumber,
             record.GivenNames,
-            record.LastName)
-    { }
+            record.LastName
+        ) { }
 
     public bool Equals(RecordServiceInfo other)
     {
-        return Type == other.Type
-            && Id == other.Id;
+        return Type == other.Type && Id == other.Id;
     }
 
     public override bool Equals(object obj)
@@ -55,9 +55,10 @@ internal static class RecordServiceInfoExtensions
     public static Exception CombineIntoException(this List<ApiRangeItemException<RecordServiceInfo>> list)
     {
         var outString = list.Select(ex =>
-        {
-            return $"• {ex.Item.Type} {ex.Item.FileNumber} -> {ex.Message}";
-        }).Aggregate((accum, item) => accum + Environment.NewLine + item);
+            {
+                return $"• {ex.Item.Type} {ex.Item.FileNumber} -> {ex.Message}";
+            })
+            .Aggregate((accum, item) => accum + Environment.NewLine + item);
 
         return new Exception(outString);
     }

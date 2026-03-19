@@ -1,8 +1,8 @@
+using System.Diagnostics;
+using System.Globalization;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Oidc;
-using System.Diagnostics;
-using System.Globalization;
 using Visitz.Controls;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
@@ -43,7 +43,7 @@ public partial class WebViewPage
 #if DEBUG
             settings.AreDevToolsEnabled = true;
 #else
-			settings.AreDevToolsEnabled = false;
+            settings.AreDevToolsEnabled = false;
 #endif
         }
 
@@ -78,9 +78,11 @@ public partial class WebViewPage
 
         coreWebView.ProcessFailed += async (_, args) =>
         {
-            await DisplayAlertAsync(LocalizedStrings.Error,
+            await DisplayAlertAsync(
+                LocalizedStrings.Error,
                 args.Reason + "\n\n" + args.ProcessDescription,
-                LocalizedStrings.Ok);
+                LocalizedStrings.Ok
+            );
 
             await Navigator.Navigation.PopModalAsync();
         };
@@ -119,11 +121,7 @@ public partial class WebViewPage
     {
         try
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = uri,
-                UseShellExecute = true,
-            });
+            Process.Start(new ProcessStartInfo { FileName = uri, UseShellExecute = true });
         }
         catch (Exception ex)
         {

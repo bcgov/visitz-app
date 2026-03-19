@@ -7,8 +7,10 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 
 [*.cs]
+charset = utf-8
 indent_style = space
 indent_size = 4
+max_line_length = 120
 csharp_style_namespace_declarations = file_scoped:silent
 dotnet_diagnostic.SS003.severity = none
 dotnet_diagnostic.IDE0079.severity = none
@@ -64,10 +66,12 @@ csharp_style_var_when_type_is_apparent = false:silent
 csharp_style_var_elsewhere = false:silent
 
 [*.xaml]
+charset = utf-8
 indent_style = space
 indent_size = 4
 
 [*.{cs,vb}]
+charset = utf-8
 #### Naming styles ####
 
 # Naming rules

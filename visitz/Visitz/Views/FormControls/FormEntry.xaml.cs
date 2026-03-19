@@ -7,47 +7,72 @@ using VisitzModel.Extensions;
 
 public partial class FormEntry : ContentView
 {
-    public static readonly BindableProperty FieldNameProperty =
-        BindableProperty.Create(nameof(FieldName), typeof(string), typeof(FormEntry));
+    public static readonly BindableProperty FieldNameProperty = BindableProperty.Create(
+        nameof(FieldName),
+        typeof(string),
+        typeof(FormEntry)
+    );
 
-    public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(FormEntry),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: (boundObj, oldVal, newVal) => (boundObj as FormEntry).UpdateCharacterCount());
+    public static readonly BindableProperty TextProperty = BindableProperty.Create(
+        nameof(Text),
+        typeof(string),
+        typeof(FormEntry),
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (boundObj, oldVal, newVal) => (boundObj as FormEntry).UpdateCharacterCount()
+    );
 
-    public static readonly BindableProperty LeadingSupportingTextProperty =
-        BindableProperty.Create(nameof(LeadingSupportingText), typeof(string), typeof(FormEntry));
+    public static readonly BindableProperty LeadingSupportingTextProperty = BindableProperty.Create(
+        nameof(LeadingSupportingText),
+        typeof(string),
+        typeof(FormEntry)
+    );
 
-    public static readonly BindableProperty TrailingSupportingTextProperty =
-        BindableProperty.Create(nameof(TrailingSupportingText), typeof(string), typeof(FormEntry));
+    public static readonly BindableProperty TrailingSupportingTextProperty = BindableProperty.Create(
+        nameof(TrailingSupportingText),
+        typeof(string),
+        typeof(FormEntry)
+    );
 
-    public static readonly BindableProperty FieldNameIsVisibleProperty =
-        BindableProperty.Create(nameof(FieldNameIsVisible), typeof(bool), typeof(FormEntry),
-            defaultValue: true,
-            propertyChanged: (boundObj, oldVal, newVal) =>
+    public static readonly BindableProperty FieldNameIsVisibleProperty = BindableProperty.Create(
+        nameof(FieldNameIsVisible),
+        typeof(bool),
+        typeof(FormEntry),
+        defaultValue: true,
+        propertyChanged: (boundObj, oldVal, newVal) =>
         {
             var formEntry = (FormEntry)boundObj;
             var isVisible = (bool)newVal;
 
             formEntry.FieldNameRow.Height = isVisible ? GridLength.Star : 0.0;
-        });
+        }
+    );
 
-    public static readonly BindableProperty PlaceholderProperty =
-        BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(FormEntry));
+    public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
+        nameof(Placeholder),
+        typeof(string),
+        typeof(FormEntry)
+    );
 
-    public static readonly BindableProperty MaxLengthProperty =
-        BindableProperty.Create(nameof(MaxLength), typeof(int), typeof(FormEntry),
-            defaultValue: int.MaxValue, propertyChanged: (boundObj, oldVal, newVal) =>
-            {
-                var formEntry = (FormEntry)boundObj;
-                int newLength = (int)newVal;
+    public static readonly BindableProperty MaxLengthProperty = BindableProperty.Create(
+        nameof(MaxLength),
+        typeof(int),
+        typeof(FormEntry),
+        defaultValue: int.MaxValue,
+        propertyChanged: (boundObj, oldVal, newVal) =>
+        {
+            var formEntry = (FormEntry)boundObj;
+            int newLength = (int)newVal;
 
-                formEntry.UpdateBottomRowVisibility(newLength);
-                formEntry.UpdateCharacterCount();
-            });
+            formEntry.UpdateBottomRowVisibility(newLength);
+            formEntry.UpdateCharacterCount();
+        }
+    );
 
-    public static readonly BindableProperty IsReadOnlyProperty =
-        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
+    public static readonly BindableProperty IsReadOnlyProperty = BindableProperty.Create(
+        nameof(IsReadOnly),
+        typeof(bool),
+        typeof(FormEntry)
+    );
 
     public string FieldName
     {
@@ -114,7 +139,6 @@ public partial class FormEntry : ContentView
 
     private void Editor_TextChanged(object sender, TextChangedEventArgs e)
     {
-
         if (ContainEmojis(e))
         {
             CancelTextChangedEvent(sender, e);
@@ -159,7 +183,5 @@ public partial class FormEntry : ContentView
     {
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(Editor);
-
     }
-
 }

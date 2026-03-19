@@ -4,10 +4,7 @@ namespace VisitzApi.Json;
 
 public static class PayloadOptions
 {
-    public static readonly JsonSerializerOptions Default = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    };
+    public static readonly JsonSerializerOptions Default = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
     static readonly JsonSerializerOptions _siebelGet = new()
     {

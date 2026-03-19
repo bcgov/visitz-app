@@ -1,6 +1,6 @@
 <Project>
-
 	<PropertyGroup>
+		<CSharpierVersion>1.2.6</CSharpierVersion>
 		<CommunityToolkitMvvmVersion>8.4.0</CommunityToolkitMvvmVersion>
 		<CoverletCollectorVersion>6.0.4</CoverletCollectorVersion>
 		<MauiPackageVersion>10.0.31</MauiPackageVersion>
@@ -17,5 +17,4 @@
 	<PropertyGroup Condition=" '$(BuildTypeColor)' == '' ">
 		<BuildTypeColor>#440066</BuildTypeColor>
 	</PropertyGroup>
-
 </Project>

@@ -35,10 +35,7 @@ public class PanPinchContainer : ContentView
         _pinchGestureRecognizer.PinchUpdated += OnPinchUpdatedAsync;
         GestureRecognizers.Add(_pinchGestureRecognizer);
 
-        _doubleTapGestureRecognizer = new TapGestureRecognizer
-        {
-            NumberOfTapsRequired = 2
-        };
+        _doubleTapGestureRecognizer = new TapGestureRecognizer { NumberOfTapsRequired = 2 };
 
         _doubleTapGestureRecognizer.Tapped += DoubleTappedAsync;
         GestureRecognizers.Add(_doubleTapGestureRecognizer);

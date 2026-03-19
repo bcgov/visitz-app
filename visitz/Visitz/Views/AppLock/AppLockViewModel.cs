@@ -23,7 +23,8 @@ namespace Visitz.Views.AppLock
         {
             var result = await DeviceAuthenticator.Authenticate(
                 LocalizedStrings.DeviceAuthTitle,
-                LocalizedStrings.DeviceAuthReason);
+                LocalizedStrings.DeviceAuthReason
+            );
 
             await HandleAuthResult(result);
         }

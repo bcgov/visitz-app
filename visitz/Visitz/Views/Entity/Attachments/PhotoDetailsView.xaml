@@ -8,24 +8,23 @@
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.Attachments.PhotoDetailsView"
     x:DataType="attachments:PhotoDetailsViewModel"
-    BackgroundColor="Black">
-    
+    BackgroundColor="Black"
+>
     <AbsoluteLayout IsClippedToBounds="True">
-
         <ActivityIndicator
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="0.5,0.5"
             HeightRequest="64"
             WidthRequest="64"
             Color="{StaticResource BC_Gold}"
-            IsRunning="True" />
+            IsRunning="True"
+        />
 
         <controls:PanPinchContainer
             AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1">
-            <Image    
-                Aspect="AspectFit"
-                Source="{Binding DetailImage}" />
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+        >
+            <Image Aspect="AspectFit" Source="{Binding DetailImage}" />
         </controls:PanPinchContainer>
 
         <Grid
@@ -34,24 +33,27 @@
             BackgroundColor="{StaticResource Black55Scrim}"
             ColumnDefinitions="Auto, *, Auto, Auto, Auto"
             ColumnSpacing="{StaticResource DefaultSpacing}"
-            Padding="{StaticResource DefaultPadding}">
-
+            Padding="{StaticResource DefaultPadding}"
+        >
             <controls:CloseButton
                 Grid.Column="0"
                 VerticalOptions="Center"
-                Closing="CloseButton_Closing"/>
+                Closing="CloseButton_Closing"
+            />
 
             <Label
                 Grid.Column="1"
                 VerticalOptions="Center"
                 Text="{Binding Attachment.FilenameBinding}"
-                TextColor="White" />
+                TextColor="White"
+            />
 
             <controls:RenameButton
                 Grid.Column="2"
                 VerticalOptions="Center"
                 IsVisible="{Binding Attachment.HasDraft}"
-                Renaming="{Binding Attachment.FilenameBinding}" />
+                Renaming="{Binding Attachment.FilenameBinding}"
+            />
 
             <controls:FontIconButton
                 Grid.Column="3"
@@ -61,7 +63,8 @@
                 TextColor="White"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Command="{Binding PromptDiscardAttachmentDraftCommand}"
-                CommandParameter="{Binding Attachment}" />
+                CommandParameter="{Binding Attachment}"
+            />
 
             <controls:FontIconButton
                 Grid.Column="4"
@@ -71,7 +74,8 @@
                 FontFamily="MaterialIconsRoundedUnfilled"
                 TextColor="{StaticResource White}"
                 Command="{Binding PublishAttachmentDraftCommand}"
-                CommandParameter="{Binding Attachment}" />
+                CommandParameter="{Binding Attachment}"
+            />
 
             <controls:FontIconButton
                 Grid.Column="4"
@@ -81,9 +85,8 @@
                 FontFamily="FluentIconsRegular"
                 TextColor="{StaticResource White}"
                 Command="{Binding PromptRemoveFromDeviceCommand}"
-                CommandParameter="{Binding Attachment}" />
-
+                CommandParameter="{Binding Attachment}"
+            />
         </Grid>
-        
     </AbsoluteLayout>
 </baseClasses:ViewModelContentView>

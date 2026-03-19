@@ -12,7 +12,8 @@ internal static class PageExtensions
                 !string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error,
                 message,
                 LocalizedStrings.Details,
-                LocalizedStrings.Ok);
+                LocalizedStrings.Ok
+            );
         else
             await page.DisplayAlertAsync(LocalizedStrings.Error, message, LocalizedStrings.Ok);
 
@@ -26,16 +27,17 @@ internal static class PageExtensions
             title,
             prompt + detailedMessage,
             LocalizedStrings.CopyToClipboard,
-            LocalizedStrings.Ok);
+            LocalizedStrings.Ok
+        );
     }
 
     public static async Task DisplayErrorAlert(
         this Page page,
         string message,
         string detailedMessage = null,
-        string title = null)
+        string title = null
+    )
     {
-
         string displayTitle = !string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error;
         if (await MessagePrompt(page, message, detailedMessage != null, displayTitle))
             if (await DetailedMessagePrompt(page, detailedMessage, displayTitle))

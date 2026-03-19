@@ -1,7 +1,7 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -15,10 +15,7 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-internal partial class ChildYouthVisitListViewModel :
-    VisitzViewModel,
-    IBusinessObjectHolder,
-    IRequestedEntitySection
+internal partial class ChildYouthVisitListViewModel : VisitzViewModel, IBusinessObjectHolder, IRequestedEntitySection
 {
     private bool _disposed;
 
@@ -70,8 +67,10 @@ internal partial class ChildYouthVisitListViewModel :
 
         realmQuery.Subscribe(icmDataRealm, PersonVisit.GetVisitsByCaseId(icmDataRealm, BusinessObject.Id));
 
-        realmQuery.Subscribe(visitDraftRealm, visitDraftRealm.All<PersonVisitDraft>()
-            .Where(visit => visit.RelatedEntityId == BusinessObject.Id));
+        realmQuery.Subscribe(
+            visitDraftRealm,
+            visitDraftRealm.All<PersonVisitDraft>().Where(visit => visit.RelatedEntityId == BusinessObject.Id)
+        );
 
         if (RequestedSection == EntitySection.ChildYouthVisitsEntry)
             await OpenVisitEntry();
@@ -125,7 +124,10 @@ internal partial class ChildYouthVisitListViewModel :
         }
     }
 
-    private void RealmQuery_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(
+        object sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+    )
     {
         if (e.Type == typeof(PersonVisit))
             UpdateVisitsList(e.Items, e.Changes);

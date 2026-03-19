@@ -14,7 +14,8 @@ public partial class AttachmentsListView : ViewModelContentView, IBusinessObject
         set => ViewModel.BusinessObject = value;
     }
 
-    public AttachmentsListView() : base(ServiceProvider.GetService<AttachmentsListViewModel>())
+    public AttachmentsListView()
+        : base(ServiceProvider.GetService<AttachmentsListViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

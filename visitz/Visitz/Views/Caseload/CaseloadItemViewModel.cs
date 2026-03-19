@@ -1,9 +1,9 @@
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
-using System.ComponentModel;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
@@ -59,7 +59,9 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     public CaseloadItemViewModel(
         DraftIndicatorHelper indicatorHelper,
         IBusinessObject businessObject,
-        OidcSessionInfo sessionInfo) : base()
+        OidcSessionInfo sessionInfo
+    )
+        : base()
     {
         IndicatorHelper = indicatorHelper;
         BusinessObject = businessObject;
@@ -76,6 +78,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -108,7 +111,8 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         UpdateStateVisibility();
 
-        CanRemoveFromDevice = !BusinessObject.IsAssigned(SessionInfo.Idir)
+        CanRemoveFromDevice =
+            !BusinessObject.IsAssigned(SessionInfo.Idir)
             && (BusinessObject.LocalState?.ShouldDownloadDuringRefresh ?? false)
             && !ServicesRunning();
     }
@@ -176,7 +180,8 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.UnableToRemove,
                 LocalizedStrings.RemoveFromDeviceErrorNotDownloaded,
-                LocalizedStrings.Ok);
+                LocalizedStrings.Ok
+            );
             return;
         }
         else if (BusinessObject.IsAssigned(SessionInfo.Idir))
@@ -184,24 +189,29 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             string assignedMsg = string.Format(
                 LocalizedStrings.RemoveFromDeviceErrorAssigned,
                 BusinessObject.EntityType,
-                BusinessObject.DisplayName.Trim());
+                BusinessObject.DisplayName.Trim()
+            );
 
             await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.UnableToRemove,
                 assignedMsg,
-                LocalizedStrings.Ok);
+                LocalizedStrings.Ok
+            );
             return;
         }
 
-        string message = string.Format(LocalizedStrings.RemoveFromDeviceMessage,
+        string message = string.Format(
+            LocalizedStrings.RemoveFromDeviceMessage,
             BusinessObject.EntityType,
-            BusinessObject.DisplayName);
+            BusinessObject.DisplayName
+        );
 
         bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.RemoveFromDevice,
             message,
             LocalizedStrings.RemoveFromDevice,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
 
         if (shouldRemove && !ServicesRunning())
         {
@@ -250,8 +260,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             {
                 UpdateRecordStates();
 
-                if (service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
-                    && service.UncaughtException != null)
+                if (
+                    service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
+                    && service.UncaughtException != null
+                )
                 {
                     _ = Navigator.CurrentOpenPage.DisplayErrorAlert(service.UncaughtException);
                 }

@@ -78,7 +78,8 @@ public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJ
     /// </summary>
     public bool? CurretAbuse { get; set; }
 
-    public bool AnyTrue => (PhysicalHarm ?? false)
+    public bool AnyTrue =>
+        (PhysicalHarm ?? false)
         || (CurrentCircumstances ?? false)
         || (SexAbuse ?? false)
         || (UnableToProtect ?? false)
@@ -93,7 +94,8 @@ public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJ
         || (ChildFearful ?? false)
         || (OtherFactors ?? false);
 
-    public bool AllAnswered => PhysicalHarm != null
+    public bool AllAnswered =>
+        PhysicalHarm != null
         && CurrentCircumstances != null
         && SexAbuse != null
         && UnableToProtect != null
