@@ -24,11 +24,13 @@ internal class GetCaseloadEndpoint(string baseUrl, Pagination? pagination = null
         };
     }
 
-    public override (int TotalRecords, CaseloadJson)
-        HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (int TotalRecords, CaseloadJson) HandleResponse(
+        HttpResponseMessage response,
+        string responseContent
+    )
     {
-        var json = JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet)
-            ?? CaseloadJson.Empty;
+        var json =
+            JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet) ?? CaseloadJson.Empty;
 
         return (response.GetRecordCount(), json);
     }

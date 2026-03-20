@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Oidc;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
@@ -48,26 +47,10 @@ namespace Visitz.Services.Caseload
 
         protected override async Task<int> RunPaginatedService(Pagination pagination)
         {
-            try
-            {
-                pagination.After = Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
+            pagination.After = Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
+            var (total, caseload) = await Vpi.GetCaseloadAsync(pagination: pagination);
 
-                var (total, caseload) = await Vpi.GetCaseloadAsync(pagination: pagination);
-                ResultCode = Result.Successful;
-                LastUpdatedPrefs.SetUtcNow(AutoRefreshService.CooldownTimestampUtc);
-
-                return await DownloadAndSaveCaseloadV2Async(pagination);
-            }
-            catch (OperationCanceledException opEx)
-            {
-                Logger.LogInformation($"Caseload refresh cancelled: '{opEx.Message}'");
-                return 0;
-            }
-            catch (Exception)
-            {
-                LastUpdatedPrefs.SetUtcNow(AutoRefreshService.CooldownTimestampUtc);
-                throw;
-            }
+            return await DownloadAndSaveCaseloadV2Async(pagination);
         }
 
         private async Task<int> DownloadAndSaveCaseloadV2Async(Pagination pagination)
@@ -82,12 +65,12 @@ namespace Visitz.Services.Caseload
             List<Exception> invalidOps = [];
 
             if (CaseloadHelper.CanSynchronize(caseloadFromApi.Cases, invalidOps))
-                CaseRecords.AddRange(CaseRecord.FromApiJsonArray(
-                    caseloadFromApi.Cases.Items, session.Idir));
+                CaseRecords.AddRange(CaseRecord.FromApiJsonArray(caseloadFromApi.Cases.Items, session.Idir));
 
             if (CaseloadHelper.CanSynchronize(caseloadFromApi.Incidents, invalidOps))
-                IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(
-                    caseloadFromApi.Incidents.Items, session.Idir));
+                IncidentRecords.AddRange(
+                    IncidentRecord.FromApiJsonArray(caseloadFromApi.Incidents.Items, session.Idir)
+                );
 
             // TODO: synchronize memos and service requests once we have official UI support
 
@@ -109,7 +92,8 @@ namespace Visitz.Services.Caseload
                     CaseRecords,
                     UserIgnoredPrefs,
                     session.Idir,
-                    isPersonalCaseload: true);
+                    isPersonalCaseload: true
+                );
             }
             catch (Exception ex)
             {
@@ -123,7 +107,8 @@ namespace Visitz.Services.Caseload
                     IncidentRecords,
                     UserIgnoredPrefs,
                     session.Idir,
-                    isPersonalCaseload: true);
+                    isPersonalCaseload: true
+                );
             }
             catch (Exception ex)
             {
