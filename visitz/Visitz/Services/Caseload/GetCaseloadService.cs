@@ -11,10 +11,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    internal class GetCaseloadService(
-        Vpi vpi,
-        LastUpdatedPrefs prefs,
-        UserIgnoredContentPrefs userIgnoredContentPrefs)
+    internal class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredContentPrefs userIgnoredContentPrefs)
         : ApiPaginationService(vpi, prefs)
     {
         UserIgnoredContentPrefs UserIgnoredPrefs { get; } = userIgnoredContentPrefs;
@@ -46,14 +43,6 @@ namespace Visitz.Services.Caseload
         }
 
         protected override async Task<int> RunPaginatedService(Pagination pagination)
-        {
-            pagination.After = Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
-            var (total, caseload) = await Vpi.GetCaseloadAsync(pagination: pagination);
-
-            return await DownloadAndSaveCaseloadV2Async(pagination);
-        }
-
-        private async Task<int> DownloadAndSaveCaseloadV2Async(Pagination pagination)
         {
             pagination.After = Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
 
