@@ -51,9 +51,6 @@ public partial class AdditionalInformation :
         Updated = json.Updated;
         UpdatedBy = json.UpdatedBy;
         UpdatedByName = json.UpdatedByName;
-        //IncidentId = json.IncidentId;
-        //SRId = json.SRId;
-        //MemoId = json.MemoId;
         ParentId = parentId;
     }
 
