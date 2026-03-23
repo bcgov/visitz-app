@@ -55,9 +55,9 @@ namespace VisitzApi
             return endpoint.HandleResponse(response, content);
         }
 
-        public async Task<CaseloadJson> GetCaseloadAsync(DateTimeOffset? after = null)
+        public async Task<(int TotalRecords, CaseloadJson)> GetCaseloadAsync(Pagination pagination)
         {
-            return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, after));
+            return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, pagination));
         }
 
         public async Task<(int TotalRecords, OfficeCaseloadJson)> GetOfficeCaseloadAsync(Pagination pagination = null)
