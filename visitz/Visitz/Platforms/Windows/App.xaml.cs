@@ -55,7 +55,8 @@ public partial class App : MauiWinUIApplication
             (handler, view) =>
             {
                 handler.PlatformView.IsMultiSelectCheckBoxEnabled = false;
-            });
+            }
+        );
     }
 
     private bool HandleOAuthRedirect()
@@ -91,11 +92,7 @@ public partial class App : MauiWinUIApplication
 
     private void WriteExceptionToEventViewer(Exception exception)
     {
-        EventLogWriter.WriteEntry(
-            LogLevel.Error,
-            exception.Message,
-            GetType().FullName,
-            exception: exception);
+        EventLogWriter.WriteEntry(LogLevel.Error, exception.Message, GetType().FullName, exception: exception);
     }
 
     private async void WebAuthenticator_PromptForCredentials(object? sender, InvokingAuthEventArgs e)

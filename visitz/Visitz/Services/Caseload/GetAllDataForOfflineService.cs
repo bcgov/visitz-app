@@ -1,6 +1,7 @@
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Services.CallDetails;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
@@ -14,10 +15,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
 {
-    public class GetAllDataForOfflineService(
-        Vpi vpi,
-        ServiceHandler serviceHandler,
-        LastUpdatedPrefs prefs)
+    public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
         : VisitzApiService(vpi, prefs)
     {
         public static string MakeId()
@@ -73,10 +71,7 @@ namespace Visitz.Services.Caseload
             // Synchronize both caseloads BEFORE getting any dependent info.
             // We don't want to start downloading dependent info before
             // caseload state is fully refreshed
-            await Task.WhenAll(
-                GetPersonalCaseload(),
-                GetOfficeCaseload(exceptions)
-            );
+            await Task.WhenAll(GetPersonalCaseload(), GetOfficeCaseload(exceptions));
 
             var cases = await GetRefreshableRecords<CaseRecord>();
             var incidents = await GetRefreshableRecords<IncidentRecord>();
@@ -92,7 +87,8 @@ namespace Visitz.Services.Caseload
                 GetAllContacts(all, exceptions),
                 GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
                 GetAllAttachments(all, exceptions),
-                GetAllSafetyAssessments(incidents, exceptions)
+                GetAllSafetyAssessments(incidents, exceptions),
+                GetAllIncidentConcerns(incidents, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
@@ -106,7 +102,8 @@ namespace Visitz.Services.Caseload
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
             IEnumerable<RecordServiceInfo> records = null;
 
-            records = realm.All<T>()
+            records = realm
+                .All<T>()
                 .AsEnumerable()
                 .Where(bo => bo.LocalState.ShouldDownloadDuringRefresh)
                 .Select(bo => new RecordServiceInfo(bo))
@@ -136,21 +133,16 @@ namespace Visitz.Services.Caseload
 
         private static Exception MakeDownloadEx(string kind, Exception ex)
         {
-            var msg = string.Format(
-                LocalizedStrings.CaseloadErrorDownload,
-                kind.ToLower());
+            var msg = string.Format(LocalizedStrings.CaseloadErrorDownload, kind.ToLower());
 
             return new(msg, ex);
         }
 
-        private async Task GetAllNotes(
-            IEnumerable<RecordServiceInfo> casesIncidentsSrs,
-            List<Exception> exceptions)
+        private async Task GetAllNotes(IEnumerable<RecordServiceInfo> casesIncidentsSrs, List<Exception> exceptions)
         {
             try
             {
-                var allIdEntities = casesIncidentsSrs
-                    .Select(item => (item.FileNumber, item.Type));
+                var allIdEntities = casesIncidentsSrs.Select(item => (item.FileNumber, item.Type));
 
                 var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);
                 await ServiceHandler.TryRunServiceAsync(startMessage);
@@ -161,9 +153,7 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetAllVisits(
-            IEnumerable<RecordServiceInfo> cases,
-            List<Exception> exceptions)
+        private async Task GetAllVisits(IEnumerable<RecordServiceInfo> cases, List<Exception> exceptions)
         {
             try
             {
@@ -180,9 +170,7 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetAllContacts(
-            IEnumerable<RecordServiceInfo> all,
-            List<Exception> exceptions)
+        private async Task GetAllContacts(IEnumerable<RecordServiceInfo> all, List<Exception> exceptions)
         {
             try
             {
@@ -197,7 +185,8 @@ namespace Visitz.Services.Caseload
 
         private async Task GetAllSupportNetworkItems(
             IEnumerable<RecordServiceInfo> casesIncidentsSrs,
-            List<Exception> exceptions)
+            List<Exception> exceptions
+        )
         {
             try
             {
@@ -210,9 +199,7 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetAllAttachments(
-            IEnumerable<RecordServiceInfo> all,
-            List<Exception> exceptions)
+        private async Task GetAllAttachments(IEnumerable<RecordServiceInfo> all, List<Exception> exceptions)
         {
             try
             {
@@ -225,9 +212,7 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetPartialAttachments(
-            IEnumerable<RecordServiceInfo> all,
-            List<Exception> exceptions)
+        private async Task GetPartialAttachments(IEnumerable<RecordServiceInfo> all, List<Exception> exceptions)
         {
             try
             {
@@ -240,9 +225,7 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetAllSafetyAssessments(
-            IEnumerable<RecordServiceInfo> incidents,
-            List<Exception> exceptions)
+        private async Task GetAllSafetyAssessments(IEnumerable<RecordServiceInfo> incidents, List<Exception> exceptions)
         {
             try
             {
@@ -252,6 +235,19 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.SafetyAssessments, ex));
+            }
+        }
+
+        private async Task GetAllIncidentConcerns(IEnumerable<RecordServiceInfo> incidents, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetIncidentConcernsByRangeService.MakeStartMessage(incidents);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.IncidentConcern, ex));
             }
         }
     }

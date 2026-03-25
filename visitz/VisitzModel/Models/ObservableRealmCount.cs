@@ -25,7 +25,8 @@ public class ObservableRealmCount : IDisposable
         }
     }
 
-    public void Subscribe<T>(Realm realm) where T : IRealmObject
+    public void Subscribe<T>(Realm realm)
+        where T : IRealmObject
     {
         var query = realm.All<T>();
         var queryToken = query.SubscribeForNotifications(CountRecords);

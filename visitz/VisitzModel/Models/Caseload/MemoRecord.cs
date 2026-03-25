@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -14,12 +14,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class MemoRecord :
-    IRealmObject,
-    IRowMetadata,
-    IBusinessObject,
-    IAssignedMetadata,
-    IApiJson<MemoJson>
+public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, IAssignedMetadata, IApiJson<MemoJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -121,9 +116,8 @@ public partial class MemoRecord :
 
     public BoLocalState LocalState { get; set; }
 
-    public string DisplayDate => CallDate?.ToString(
-        IBusinessObject.DisplayDateFormat,
-        CultureInfo.InvariantCulture) ?? "";
+    public string DisplayDate =>
+        CallDate?.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture) ?? "";
 
     public string DisplayName => this.GetDisplayName();
 
@@ -192,23 +186,28 @@ public partial class MemoRecord :
     public static async Task SynchronizeAsync(
         Realm realm,
         SectionJson<MemoJson> section,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
     {
         var currentAssignedIds = realm.All<MemoRecord>().AsEnumerable().Select(memo => memo.Id);
         var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
         var memos = FromApiArray(section.Items ?? []);
 
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-            realm.Upsert(memos);
-        });
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
+            {
+                CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
+                realm.Upsert(memos);
+            }
+        );
     }
 
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
-        bool deleteLocalState = true)
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
 
@@ -219,10 +218,12 @@ public partial class MemoRecord :
             fromRealm.Remove(LocalState);
     }
 
-    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
+    public void Delete(
+        UserIgnoredContentPrefs userIgnoredPrefs,
         Realm fromRealm = null,
         bool cascade = true,
-        bool deleteLocalState = true)
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
 
@@ -235,7 +236,8 @@ public partial class MemoRecord :
     static void CascadeDelete(
         Realm fromRealm,
         IEnumerable<string> unassignedIds,
-        UserIgnoredContentPrefs userIgnoredPrefs)
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
     {
         foreach (var id in unassignedIds)
             if (fromRealm.Find<MemoRecord>(id) is MemoRecord memo)
@@ -295,20 +297,16 @@ public partial class MemoRecord :
     {
         return realm
             .All<MemoRecord>()
-            .FirstOrDefault(memo => memo.Id == draftItem.RelatedEntityId
-                        || memo.FileNumber == draftItem.RelatedEntityId);
+            .FirstOrDefault(memo =>
+                memo.Id == draftItem.RelatedEntityId || memo.FileNumber == draftItem.RelatedEntityId
+            );
     }
 
-    public static IQueryable<MemoRecord> GetAllByAssignee(
-        Realm realm,
-        string username,
-        bool invert = false)
+    public static IQueryable<MemoRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
     {
         string operation = invert ? "!=" : "==";
 
-        return realm
-            .All<MemoRecord>()
-            .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+        return realm.All<MemoRecord>().Filter($"$0 {operation} {nameof(AssignedTo)}", username);
     }
 
     public bool IsAssigned(string username)

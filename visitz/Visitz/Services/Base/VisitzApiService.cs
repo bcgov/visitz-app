@@ -1,14 +1,13 @@
+using System.Net;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Network;
-using System.Net;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
 using VisitzModel.Storage;
-
 #if WINDOWS
 using Visitz.WinUI;
 #endif
@@ -21,14 +20,15 @@ namespace Visitz.Services.Base
 
         protected LastUpdatedPrefs LastUpdatedPrefs { get; } = prefs;
 
-        protected override sealed async Task RunServiceAsync()
+        protected sealed override async Task RunServiceAsync()
         {
             if (!NetworkHelper.InternetAvailable)
             {
                 SnackbarHandler.ShowTextWithDetails(
                     LocalizedStrings.UnableToReachIcmDeviceOffline,
                     LocalizedStrings.DeviceOffline,
-                    LocalizedStrings.DeviceOfflineDesc);
+                    LocalizedStrings.DeviceOfflineDesc
+                );
 
                 ResultCode = Result.Cancelled;
                 return;
@@ -41,7 +41,8 @@ namespace Visitz.Services.Base
 #endif
                 await OidcSession.AssertValidSessionAsync(
                     messageIfUnavailable: LocalizedStrings.NoInternet,
-                    CancelTokenSource.Token);
+                    CancelTokenSource.Token
+                );
 
                 await RunApiServiceAsync();
 
@@ -97,8 +98,7 @@ namespace Visitz.Services.Base
         private async Task TrySetLastUpdated()
         {
             if (ResultCode == Result.Successful)
-                await MainThread.InvokeOnMainThreadAsync(
-                    () => LastUpdatedPrefs.SetLocalNow(GetId()));
+                await MainThread.InvokeOnMainThreadAsync(() => LastUpdatedPrefs.SetLocalNow(GetId()));
         }
 
         private async Task ClearIcmDataRealm()

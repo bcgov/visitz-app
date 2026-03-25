@@ -5,9 +5,12 @@ namespace Visitz.Views;
 
 public partial class DraftSavedView : ContentView
 {
-    public static readonly BindableProperty TagPaddingProperty =
-        BindableProperty.Create(nameof(TagPadding), typeof(Thickness), typeof(DraftSavedView),
-            defaultValue: new Thickness(5.0d));
+    public static readonly BindableProperty TagPaddingProperty = BindableProperty.Create(
+        nameof(TagPadding),
+        typeof(Thickness),
+        typeof(DraftSavedView),
+        defaultValue: new Thickness(5.0d)
+    );
 
     public Thickness TagPadding
     {
@@ -40,11 +43,7 @@ public partial class DraftSavedView : ContentView
 
     private async Task AnimateCrossfade(bool showSaving, bool showSaved)
     {
-        await Task.WhenAll
-        (
-            SetSavingDraftPromptVisible(showSaving),
-            SetDraftSavedPromptVisible(showSaved)
-        );
+        await Task.WhenAll(SetSavingDraftPromptVisible(showSaving), SetDraftSavedPromptVisible(showSaved));
     }
 
     private async Task SetDraftSavedPromptVisible(bool visible)

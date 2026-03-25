@@ -5,13 +5,9 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
-internal class GetSupportNetworkByRangeService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+internal class GetSupportNetworkByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
-
     public static string MakeId()
     {
         return nameof(GetSupportNetworkByRangeService);

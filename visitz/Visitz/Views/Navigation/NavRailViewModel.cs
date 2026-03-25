@@ -1,8 +1,8 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Messaging;
@@ -103,6 +103,7 @@ public partial class NavRailViewModel : VisitzViewModel
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -145,14 +146,16 @@ public partial class NavRailViewModel : VisitzViewModel
         var query = PersonVisit.GetAllByType(_icmDataRealm);
         var collection = query.AsRealmCollection();
 
-        _personVisitToken = collection.SubscribeForNotifications((sender, changes) =>
-        {
-            int updatedCount = PersonVisit.GetUpcomingVisits(_icmDataRealm).Count();
-            StrongReferenceMessenger.Default.Send(new TodoBadgeCountMessage(updatedCount));
+        _personVisitToken = collection.SubscribeForNotifications(
+            (sender, changes) =>
+            {
+                int updatedCount = PersonVisit.GetUpcomingVisits(_icmDataRealm).Count();
+                StrongReferenceMessenger.Default.Send(new TodoBadgeCountMessage(updatedCount));
 
-            if (changes == null)
-                FirstLoadNavigate(updatedCount > 0 ? TodoNavItem : CaseloadNavItem);
-        });
+                if (changes == null)
+                    FirstLoadNavigate(updatedCount > 0 ? TodoNavItem : CaseloadNavItem);
+            }
+        );
     }
 
     private void FirstLoadNavigate(NavItem navItem)

@@ -3,8 +3,6 @@ using Oidc;
 using Syncfusion.Maui.Toolkit.Hosting;
 using Visitz.Settings;
 using Visitz.VisitzConfig;
-
-
 #if IOS
 using Visitz.Platforms.iOS;
 #endif
@@ -35,10 +33,8 @@ public static class MauiProgram
             })
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
-
             // TODO: Get AppSettings working correctly with DI
             .ConfigureOidcSettings(new AppSettings().Oidc)
-
             .ConfigureVisitzApi()
             .ConfigureVisitzLogging()
             .ConfigureVisitzScreens()
@@ -54,4 +50,3 @@ public static class MauiProgram
         return builder.Build();
     }
 }
-

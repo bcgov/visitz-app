@@ -5,7 +5,8 @@ using VisitzApi.Models.Base;
 
 namespace VisitzApi.Models.Caseload;
 
-public class SectionJson<RecordType> where RecordType : BaseRecordJson
+public class SectionJson<RecordType>
+    where RecordType : BaseRecordJson
 {
     const string messageFieldName = "message";
     const string errorFieldName = "error";
@@ -43,10 +44,11 @@ public class SectionJson<RecordType> where RecordType : BaseRecordJson
     {
         foreach (KeyValuePair<string, JsonNode> fieldPair in obj)
         {
-            if (fieldPair.Value.GetValueKind() == JsonValueKind.String
-                && string.Equals(fieldPair.Key, fieldName, StringComparison.InvariantCultureIgnoreCase))
+            if (
+                fieldPair.Value.GetValueKind() == JsonValueKind.String
+                && string.Equals(fieldPair.Key, fieldName, StringComparison.InvariantCultureIgnoreCase)
+            )
                 return fieldPair.Value.ToString();
-
             else if (fieldPair.Value is JsonObject nestedObj)
                 return FindFirstStringByFieldName(fieldName, nestedObj);
         }

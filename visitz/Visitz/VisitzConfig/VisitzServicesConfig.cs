@@ -1,5 +1,6 @@
 using Visitz.Services;
 using Visitz.Services.Attachments;
+using Visitz.Services.CallDetails;
 using Visitz.Services.Caseload;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
@@ -42,6 +43,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetOfficeCaseloadService>();
             builder.Services.AddTransient<RecordCleanupService>();
             builder.Services.AddTransient<AutoRefreshService>();
+            builder.Services.AddTransient<GetIncidentConcernsService>();
+            builder.Services.AddTransient<GetIncidentConcernsByRangeService>();
 
             return builder;
         }

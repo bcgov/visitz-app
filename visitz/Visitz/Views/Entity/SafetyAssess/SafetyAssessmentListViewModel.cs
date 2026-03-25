@@ -1,7 +1,7 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
@@ -44,12 +44,14 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, IBusines
         realmQueryMap.Subscribe(draftRealm, draftQuery);
 
         var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        var dataQuery = SafetyAssessment.GetAllByFileNumber(dataRealm, BusinessObject.FileNumber)
+        var dataQuery = SafetyAssessment
+            .GetAllByFileNumber(dataRealm, BusinessObject.FileNumber)
             .OrderByDescending(sa => sa.CreatedDate);
         realmQueryMap.Subscribe(dataRealm, dataQuery);
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -64,7 +66,8 @@ internal partial class SafetyAssessmentListViewModel : VisitzViewModel, IBusines
 
     private void RealmQueryMap_ItemsChanged(
         object sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+    )
     {
         if (e.Type == typeof(SafetyAssessment))
             UpdateSafetyAssessmentsList(e.Items, e.Changes);

@@ -1,11 +1,10 @@
-using Oidc;
 using System.Text;
+using Oidc;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
-
 #if WINDOWS
 using Windows.Storage;
 #endif
@@ -48,9 +47,7 @@ public class DebugOptions
 
     private static T Get<T>(string key, T defaultValue)
     {
-        return Enabled
-            ? Preferences.Default.Get(key, defaultValue)
-            : defaultValue;
+        return Enabled ? Preferences.Default.Get(key, defaultValue) : defaultValue;
     }
 
     private static void Set<T>(string key, T value)
@@ -163,10 +160,11 @@ public class DebugOptions
 
     static string ListFilesRecursively(string path)
     {
-        string[] files = Directory.GetFileSystemEntries(path, "**", new EnumerationOptions()
-        {
-            RecurseSubdirectories = true,
-        });
+        string[] files = Directory.GetFileSystemEntries(
+            path,
+            "**",
+            new EnumerationOptions() { RecurseSubdirectories = true }
+        );
 
         StringBuilder filesOut = new();
 
@@ -185,9 +183,7 @@ public class DebugOptions
 #else
         string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 #endif
-        return Enabled
-            ? ListFilesRecursively(path)
-            : string.Empty;
+        return Enabled ? ListFilesRecursively(path) : string.Empty;
     }
 
     public static void ClearSecureStorage()
@@ -215,11 +211,11 @@ public class DebugOptions
             result[$"({container.Name}), Key '{key}'"] = container.Values[key]?.ToString();
 
         foreach (var subContainer in container.Containers)
-            foreach (var valuesResult in GetAllValuesFrom(subContainer.Value))
-                if (result.ContainsKey(valuesResult.Key))
-                    result[subContainer.Key + " > " + valuesResult.Key + "+"] = valuesResult.Value;
-                else
-                    result[subContainer.Key + " > " + valuesResult.Key] = valuesResult.Value;
+        foreach (var valuesResult in GetAllValuesFrom(subContainer.Value))
+            if (result.ContainsKey(valuesResult.Key))
+                result[subContainer.Key + " > " + valuesResult.Key + "+"] = valuesResult.Value;
+            else
+                result[subContainer.Key + " > " + valuesResult.Key] = valuesResult.Value;
 
         return result;
     }
@@ -270,8 +266,7 @@ public class DebugOptions
         if (!Enabled)
             return;
 
-        await ServiceProvider.GetService<ServiceHandler>()
-            .TryRunServiceAsync(RecordCleanupService.MakeStartMessage());
+        await ServiceProvider.GetService<ServiceHandler>().TryRunServiceAsync(RecordCleanupService.MakeStartMessage());
     }
 
     public static async Task RunAutoCaseloadRefreshService()

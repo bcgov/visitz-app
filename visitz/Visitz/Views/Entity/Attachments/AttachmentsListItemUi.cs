@@ -9,10 +9,7 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsListItemUi :
-    ObservableObject,
-    IRecipient<ServiceStateMessage>,
-    IDisposable
+public partial class AttachmentsListItemUi : ObservableObject, IRecipient<ServiceStateMessage>, IDisposable
 {
     [ObservableProperty]
     Attachment attachment;

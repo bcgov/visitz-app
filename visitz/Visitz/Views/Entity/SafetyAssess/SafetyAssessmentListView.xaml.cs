@@ -5,10 +5,7 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class SafetyAssessmentListView :
-    ViewModelContentView,
-    IBusinessObjectHolder,
-    IRequestedEntitySection
+public partial class SafetyAssessmentListView : ViewModelContentView, IBusinessObjectHolder, IRequestedEntitySection
 {
     new SafetyAssessmentListViewModel ViewModel => base.ViewModel as SafetyAssessmentListViewModel;
 

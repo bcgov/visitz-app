@@ -6,8 +6,11 @@ namespace Visitz.Views.Navigation;
 
 public partial class TabItemView : ContentView, ISelectedState
 {
-    public static readonly BindableProperty IsSelectedProperty =
-        BindableProperty.Create(nameof(IsSelected), typeof(bool), typeof(TabItemView));
+    public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
+        nameof(IsSelected),
+        typeof(bool),
+        typeof(TabItemView)
+    );
 
     public bool IsSelected
     {

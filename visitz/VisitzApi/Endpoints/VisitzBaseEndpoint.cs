@@ -11,14 +11,12 @@ namespace VisitzApi.Endpoints
 {
     internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string version, string requestPath)
     {
-        protected static KeyValuePair<string, string>
-            FormDataPair(string key, string value)
+        protected static KeyValuePair<string, string> FormDataPair(string key, string value)
         {
             return new KeyValuePair<string, string>(key, value);
         }
 
-        protected static IEnumerable<KeyValuePair<string, string>>
-            FormDataCollection(string key, string value)
+        protected static IEnumerable<KeyValuePair<string, string>> FormDataCollection(string key, string value)
         {
             return [FormDataPair(key, value)];
         }
@@ -27,9 +25,7 @@ namespace VisitzApi.Endpoints
         public string Version { get; } = version;
         public string RequestPath { get; } = requestPath;
 
-        public string RequestUrl => BaseUrl.TrimEnd('/')
-            + "/" + Version.Trim('/')
-            + "/" + RequestPath.TrimStart('/');
+        public string RequestUrl => BaseUrl.TrimEnd('/') + "/" + Version.Trim('/') + "/" + RequestPath.TrimStart('/');
         public Uri RequestUri => new(RequestUrl);
 
         public abstract HttpRequestMessage MakeRequest();
@@ -58,8 +54,10 @@ namespace VisitzApi.Endpoints
                     }
                 }
 
-                throw new VisitzApiException(response.StatusCode,
-                    BuildMessage(response.StatusCode, message ?? bodyParser.ResponseBody));
+                throw new VisitzApiException(
+                    response.StatusCode,
+                    BuildMessage(response.StatusCode, message ?? bodyParser.ResponseBody)
+                );
             }
         }
 
@@ -74,8 +72,8 @@ namespace VisitzApi.Endpoints
 
             HttpStatusCode code =
                 (int)response.StatusCode >= 200 && (int)response.StatusCode < 300
-                ? HttpStatusCode.BadRequest
-                : response.StatusCode;
+                    ? HttpStatusCode.BadRequest
+                    : response.StatusCode;
 
             string message = BuildMessage(code, error);
             throw new VisitzApiException(code, message);
@@ -85,17 +83,15 @@ namespace VisitzApi.Endpoints
 
         static string BuildMessage(HttpStatusCode code, string message)
         {
-            return $"HTTP {(int)code} -> {code}"
-                + Environment.NewLine
-                + Environment.NewLine
-                + message;
+            return $"HTTP {(int)code} -> {code}" + Environment.NewLine + Environment.NewLine + message;
         }
 
         protected Uri WithQueryParams(
             Pagination? pagination = null,
             string format = "s",
             bool excludeEmptyFields = true,
-            params (string Name, string Value)[] @params)
+            params (string Name, string Value)[] @params
+        )
         {
             return WithQueryParams(
                 pagination?.RowOffset,
@@ -104,7 +100,8 @@ namespace VisitzApi.Endpoints
                 pagination?.After,
                 format,
                 excludeEmptyFields,
-                @params);
+                @params
+            );
         }
 
         protected Uri WithQueryParams(
@@ -114,7 +111,8 @@ namespace VisitzApi.Endpoints
             DateTimeOffset? after = null,
             string format = "s",
             bool excludeEmptyFields = true,
-            params (string Name, string Value)[] extraParams)
+            params (string Name, string Value)[] extraParams
+        )
         {
             var query = HttpUtility.ParseQueryString(RequestUri.Query);
 
@@ -131,14 +129,12 @@ namespace VisitzApi.Endpoints
             }
 
             if (recordCountNeeded is bool getCount)
-                query[RequestParam.RecordCountNeeded] = getCount
-                    .ToString().ToLowerInvariant();
+                query[RequestParam.RecordCountNeeded] = getCount.ToString().ToLowerInvariant();
 
             if (after is DateTimeOffset timestamp)
                 query[RequestParam.Since] = timestamp.ToString(format);
 
-            query[RequestParam.ExcludeEmptyFields] = excludeEmptyFields
-                ? "Y" : "N";
+            query[RequestParam.ExcludeEmptyFields] = excludeEmptyFields ? "Y" : "N";
 
             foreach (var (name, value) in extraParams)
                 query[name] = value;

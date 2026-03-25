@@ -1,4 +1,4 @@
-﻿using Visitz.Views.TagViews;
+using Visitz.Views.TagViews;
 
 namespace Visitz.Behaviors.Tags;
 

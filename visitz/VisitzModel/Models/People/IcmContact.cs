@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Formats;
@@ -189,11 +189,10 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
 
     public string WorkPhone { get; set; }
 
-    public string FullDisplayName => string.Join(" ",
-        FirstName, MiddleNames, LastName);
+    public string FullDisplayName => string.Join(" ", FirstName, MiddleNames, LastName);
 
-    public string DateOfBirthFormatted => DateOfBirth?.ToString(
-        IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture);
+    public string DateOfBirthFormatted =>
+        DateOfBirth?.ToString(IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture);
 
     public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone);
 
@@ -278,8 +277,8 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         IsParentCaregiver = json.Parent_Caregiver?.ParseWordTruthiness() ?? false;
         PersonIdIcm = json.PersonIDICM;
         PersonIdMis = json.PersonIDMIS;
-        ResponsibleForAllegedMaltreatment = json.PersonResponsibleforAllegedMaltreatment?
-            .ParseWordTruthiness() ?? false;
+        ResponsibleForAllegedMaltreatment =
+            json.PersonResponsibleforAllegedMaltreatment?.ParseWordTruthiness() ?? false;
         PersonalHealthNumber = json.PHN;
         PersonalHealthNumberVerified = json.PHNVerified;
         PostalCode = json.PostalCode;
@@ -410,7 +409,8 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
     public static IEnumerable<IcmContact> FromApiArray(
         IEnumerable<ContactJson> contacts,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
         List<IcmContact> outList = [];
 
@@ -420,18 +420,43 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         return outList;
     }
 
-    public static async Task SaveContactsAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<ContactJson> contacts,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
-        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(contacts, parentId, type)));
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
+            {
+                var incomingContacts = FromApiArray(contacts, parentId, type);
+                var incomingContactsIds = incomingContacts.Select(item => item.Id);
+                var allIcmContacts = realm
+                    .All<IcmContact>()
+                    .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
+                    .ToList();
+                var allIcmContactIds = allIcmContacts.Select(item => item.Id);
+
+                var contactIdsToDelete = allIcmContactIds.Except(incomingContactsIds);
+                var contactsToDelete = allIcmContacts.Where(item => contactIdsToDelete.Contains(item.Id));
+
+                foreach (var item in contactsToDelete)
+                {
+                    if (item != null && item.IsValid)
+                        realm.Remove(item);
+                }
+
+                realm.Upsert(incomingContacts);
+            }
+        );
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)
     {
-        var contacts = realm.All<IcmContact>()
+        var contacts = realm
+            .All<IcmContact>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(contacts);
@@ -442,8 +467,8 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
         return realm
             .All<IcmContact>()
             .Where(contact =>
-                contact.ParentId == businessObject.Id
-                && contact.ParentTypeInt == (int)businessObject.EntityType);
+                contact.ParentId == businessObject.Id && contact.ParentTypeInt == (int)businessObject.EntityType
+            );
     }
 
     public static IcmContact GetKeyPlayerFor(Realm realm, IBusinessObject businessObject)

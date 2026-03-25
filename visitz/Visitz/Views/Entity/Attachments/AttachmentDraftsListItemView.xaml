@@ -10,8 +10,8 @@
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentDraftsListItemView"
-    x:DataType="attachments:AttachmentDraftListItemUi">
-
+    x:DataType="attachments:AttachmentDraftListItemUi"
+>
     <baseClasses:BaseContentView.Resources>
         <ResourceDictionary>
             <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
@@ -24,19 +24,21 @@
             <TapGestureRecognizer
                 Command="{Binding OpenAttachmentCommand,
                     Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
-                CommandParameter="{Binding Attachment.Draft}" />
+                CommandParameter="{Binding Attachment.Draft}"
+            />
         </VerticalStackLayout.GestureRecognizers>
 
         <Grid
             HorizontalOptions="Fill"
             ColumnDefinitions="Auto, *, Auto, Auto, Auto"
-            ColumnSpacing="{StaticResource DefaultSpacing}">
-
+            ColumnSpacing="{StaticResource DefaultSpacing}"
+        >
             <Border
                 Grid.Column="0"
                 VerticalOptions="Center"
                 StrokeShape="RoundRectangle 5"
-                StrokeThickness="0">
+                StrokeThickness="0"
+            >
                 <Grid>
                     <Image
                         Aspect="AspectFill"
@@ -44,7 +46,8 @@
                         WidthRequest="100"
                         Source="{Binding Attachment.ThumbnailBinding,
                             Converter={StaticResource ByteArrayToImageSourceConverter}}"
-                        IsVisible="{Binding HasThumbnail}"/>
+                        IsVisible="{Binding HasThumbnail}"
+                    />
 
                     <Label
                         HeightRequest="100"
@@ -55,20 +58,23 @@
                         FontFamily="{Binding FontFamily}"
                         FontSize="90"
                         Text="{Binding IconGlyph}"
-                        IsVisible="{Binding HasThumbnail, Converter={StaticResource BoolNegationConverter}}"/>
+                        IsVisible="{Binding HasThumbnail, Converter={StaticResource BoolNegationConverter}}"
+                    />
                 </Grid>
             </Border>
 
             <Label
                 Grid.Column="1"
                 VerticalOptions="Center"
-                Text="{Binding Attachment.FilenameBinding}" />
+                Text="{Binding Attachment.FilenameBinding}"
+            />
 
             <controls:RenameButton
                 Grid.Column="2"
                 VerticalOptions="Center"
                 Renaming="{Binding Attachment.FilenameBinding}"
-                TextColor="{StaticResource Gray500}" />
+                TextColor="{StaticResource Gray500}"
+            />
 
             <controls:FontIconButton
                 Grid.Column="3"
@@ -78,23 +84,22 @@
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Command="{Binding DeleteAttachmentDraftCommand,
                     Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
-                CommandParameter="{Binding Attachment.Draft}" />
+                CommandParameter="{Binding Attachment.Draft}"
+            />
 
             <controls:FontIconButton
                 Grid.Column="4"
-                Style="{StaticResource PrimaryButtonRounded}"                
+                Style="{StaticResource PrimaryButtonRounded}"
                 Padding="0"
                 VerticalOptions="Center"
                 Text="{Static icons:MaterialIcons.Publish}"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Command="{Binding PublishAttachmentDraftCommand,
                     Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
-                CommandParameter="{Binding Attachment.Draft}" />
+                CommandParameter="{Binding Attachment.Draft}"
+            />
         </Grid>
 
-        <BoxView
-            Margin="0,10,0,0"
-            HeightRequest="0.5"
-            Color="{StaticResource SeparatorColor}" />
+        <BoxView Margin="0,10,0,0" HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
     </VerticalStackLayout>
 </baseClasses:BaseContentView>

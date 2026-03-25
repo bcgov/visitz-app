@@ -18,16 +18,7 @@ namespace VisitzApi.Endpoints.Notes
 
         private JsonObject RequestPayload
         {
-            get
-            {
-                return new JsonObject
-                {
-                    [RequestSubmitNotesKey] = new JsonArray
-                    {
-                        NoteToSubmit
-                    }
-                };
-            }
+            get { return new JsonObject { [RequestSubmitNotesKey] = new JsonArray { NoteToSubmit } }; }
         }
 
         public override HttpRequestMessage MakeRequest()
@@ -36,7 +27,7 @@ namespace VisitzApi.Endpoints.Notes
             {
                 Content = JsonContent.Create(RequestPayload),
                 Method = HttpMethod.Post,
-                RequestUri = RequestUri
+                RequestUri = RequestUri,
             };
         }
 
@@ -52,9 +43,7 @@ namespace VisitzApi.Endpoints.Notes
             bool gotStatus = json.TryGetProperty(JsonKey.Status, out var status);
             bool gotNoteId = json.TryGetProperty(NoteIdKey, out var id);
 
-            return gotStatus && gotNoteId
-                ? (status.GetString() == JsonKey.Success, id.GetString())
-                : (false, null);
+            return gotStatus && gotNoteId ? (status.GetString() == JsonKey.Success, id.GetString()) : (false, null);
         }
     }
 }

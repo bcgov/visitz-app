@@ -7,7 +7,7 @@ public static class StreamExtensions
         byte[] bytesOut = new byte[stream.Length];
 
         stream.Seek(0, SeekOrigin.Begin);
-        await stream.ReadAsync(bytesOut.AsMemory());
+        await stream.ReadExactlyAsync(bytesOut.AsMemory());
 
         return bytesOut;
     }

@@ -48,7 +48,8 @@ public class AttachmentFormData : IDisposable
         string? category = null,
         string? description = null,
         string? status = null,
-        string? template = null)
+        string? template = null
+    )
     {
         Filename = filename;
         FileContent = contentStream;
@@ -85,6 +86,7 @@ public class AttachmentFormData : IDisposable
     }
 
     bool disposedValue;
+
     protected virtual void Dispose(bool disposing)
     {
         if (!disposedValue)

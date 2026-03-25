@@ -12,7 +12,8 @@ public static class ConsoleTrace
         object caller,
         Exception ex,
         string prepend = null,
-        [CallerMemberName] string memberName = "")
+        [CallerMemberName] string memberName = ""
+    )
     {
         TraceMethod(caller.GetType(), ex.Message + " => " + ex.StackTrace, prepend, memberName);
     }
@@ -21,7 +22,8 @@ public static class ConsoleTrace
         object caller,
         string message = null,
         string prepend = null,
-        [CallerMemberName] string memberName = "")
+        [CallerMemberName] string memberName = ""
+    )
     {
         TraceMethod(caller.GetType(), message, prepend, memberName);
     }
@@ -30,7 +32,8 @@ public static class ConsoleTrace
         Type callerType,
         string message = null,
         string prepend = null,
-        [CallerMemberName] string memberName = "")
+        [CallerMemberName] string memberName = ""
+    )
     {
 #if DEBUG
         if (prepend != null)

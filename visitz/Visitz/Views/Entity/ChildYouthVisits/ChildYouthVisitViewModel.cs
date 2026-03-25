@@ -1,8 +1,8 @@
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc.Network;
 using Realms;
-using System.ComponentModel;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
@@ -194,13 +194,15 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
 
     private void UpdateAllowPublish()
     {
-        AllowPublish = NetworkHelper.InternetAvailable
+        AllowPublish =
+            NetworkHelper.InternetAvailable
             && PersonVisitItem?.VisitDetails.Count > 0
             && PersonVisitItem?.VisitDescription?.Length > 0
             && CharacterCount <= CharacterLimit;
     }
 
     TaskCompletionSource DraftInitTcs;
+
     private async Task HandleDraft()
     {
         if (Draft == null)
@@ -213,11 +215,7 @@ public partial class ChildYouthVisitViewModel : VisitzViewModel, IBusinessObject
         {
             DraftInitTcs = new();
 
-            Draft = await PersonVisitDraft.Upsert(
-                DraftRealm,
-                Case.Id,
-                PersonVisitItem,
-                BusinessObject.DisplayName);
+            Draft = await PersonVisitDraft.Upsert(DraftRealm, Case.Id, PersonVisitItem, BusinessObject.DisplayName);
 
             DraftInitTcs.TrySetResult();
         }

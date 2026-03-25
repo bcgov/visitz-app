@@ -20,7 +20,8 @@ public partial class SupportNetworkListView : ViewModelContentView, IBusinessObj
         }
     }
 
-    public SupportNetworkListView() : base(ServiceProvider.GetService<SupportNetworkListViewModel>())
+    public SupportNetworkListView()
+        : base(ServiceProvider.GetService<SupportNetworkListViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

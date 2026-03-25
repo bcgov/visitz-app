@@ -16,8 +16,8 @@ internal class GetOfficeCaseloadService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
     UserIgnoredContentPrefs ignoredPrefs,
-    ServiceHandler serviceHandler)
-    : ApiPaginationService(vpi, prefs)
+    ServiceHandler serviceHandler
+) : ApiPaginationService(vpi, prefs)
 {
     UserIgnoredContentPrefs UserIgnoredPrefs { get; } = ignoredPrefs;
 
@@ -64,12 +64,10 @@ internal class GetOfficeCaseloadService(
         var (total, officeCaseload) = await Vpi.GetOfficeCaseloadAsync(pagination: pagination);
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Cases, Exceptions))
-            CaseRecords.AddRange(CaseRecord.FromApiJsonArray(
-                officeCaseload.Cases.Items));
+            CaseRecords.AddRange(CaseRecord.FromApiJsonArray(officeCaseload.Cases.Items));
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Incidents, Exceptions))
-            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(
-                officeCaseload.Incidents.Items));
+            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(officeCaseload.Incidents.Items));
 
         foreach (var office in officeCaseload.OfficeNames)
             Offices.Add(office);
@@ -95,7 +93,8 @@ internal class GetOfficeCaseloadService(
                 officeCases,
                 UserIgnoredPrefs,
                 username,
-                isPersonalCaseload: false);
+                isPersonalCaseload: false
+            );
         }
         catch (Exception ex)
         {
@@ -112,7 +111,8 @@ internal class GetOfficeCaseloadService(
                 officeIncidents,
                 UserIgnoredPrefs,
                 username,
-                isPersonalCaseload: false);
+                isPersonalCaseload: false
+            );
         }
         catch (Exception ex)
         {
@@ -123,11 +123,9 @@ internal class GetOfficeCaseloadService(
 
         try
         {
-            Offices.UnionWith(CaseRecords.Select(@case =>
-                @case.ServiceOffice).Distinct());
+            Offices.UnionWith(CaseRecords.Select(@case => @case.ServiceOffice).Distinct());
 
-            Offices.UnionWith(IncidentRecords.Select(incident =>
-                incident.ServiceOffice).Distinct());
+            Offices.UnionWith(IncidentRecords.Select(incident => incident.ServiceOffice).Distinct());
 
             // TODO: memos and SRs
 

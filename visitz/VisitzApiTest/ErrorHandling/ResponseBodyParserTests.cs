@@ -12,11 +12,13 @@ public class ResponseBodyParserTests
 
     const string secondErrorText = "Second error text";
 
-    const string messageSingle = $@"{{
+    const string messageSingle =
+        $@"{{
             ""message"": ""{firstErrorText}""
         }}";
 
-    const string errorMessagesArray = $@"{{
+    const string errorMessagesArray =
+        $@"{{
 	        ""message"": [
 		        ""{firstErrorText}"",
 		        ""{secondErrorText}""
@@ -25,12 +27,14 @@ public class ResponseBodyParserTests
 	        ""statusCode"": 400
         }}";
 
-    const string bodyError = $@"{{
+    const string bodyError =
+        $@"{{
 	        ""error"": ""{firstErrorText}"",
 	        ""statusCode"": 403
         }}";
 
-    const string bodyWithErrorStatus = $@"{{
+    const string bodyWithErrorStatus =
+        $@"{{
 	        ""serverResponse"": {{
 		        ""payload"": {{
 			        ""status"": ""{error}"",
@@ -43,13 +47,15 @@ public class ResponseBodyParserTests
 	        }}
         }}";
 
-    const string bodyWithImplicitSuccessStatus = $@"{{
+    const string bodyWithImplicitSuccessStatus =
+        $@"{{
 	        ""serverResponse"": {{
 		        ""payload"": {{ }}
 	        }}
         }}";
 
-    const string bodyWithExplicitSuccessStatus = $@"{{
+    const string bodyWithExplicitSuccessStatus =
+        $@"{{
 	        ""serverResponse"": {{
 		        ""payload"": {{
 			        ""status"": ""{success}""
@@ -57,7 +63,8 @@ public class ResponseBodyParserTests
 	        }}
         }}";
 
-    const string bodyWithErrorDetail = $@"{{
+    const string bodyWithErrorDetail =
+        $@"{{
 	        ""responseFormAttachment"": {{
 		        ""payLoad"": {{
 			        ""status"": ""{error}"",

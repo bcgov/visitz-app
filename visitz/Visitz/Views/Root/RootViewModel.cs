@@ -31,9 +31,7 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
             return 700; // 700 arbitrarily chosen
         else
         {
-            double min = Math.Min(
-                DeviceDisplay.MainDisplayInfo.Height,
-                DeviceDisplay.MainDisplayInfo.Width);
+            double min = Math.Min(DeviceDisplay.MainDisplayInfo.Height, DeviceDisplay.MainDisplayInfo.Width);
 
             return min / DeviceDisplay.MainDisplayInfo.Density;
         }
@@ -53,6 +51,7 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)

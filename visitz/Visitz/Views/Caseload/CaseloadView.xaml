@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<baseClasses:ViewModelContentView 
+<baseClasses:ViewModelContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
-	xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -14,14 +14,10 @@
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Caseload.CaseloadView"
-    x:DataType="caseload:CaseloadViewModel">
-    
-    <StackLayout
-        Orientation="Vertical"
-        HorizontalOptions="Fill"
-        IsClippedToBounds="True">
-
-        <VerticalStackLayout 
+    x:DataType="caseload:CaseloadViewModel"
+>
+    <StackLayout Orientation="Vertical" HorizontalOptions="Fill" IsClippedToBounds="True">
+        <VerticalStackLayout
             BackgroundColor="White"
             Shadow="{StaticResource RestingLevel2}"
             ZIndex="2"
@@ -42,38 +38,39 @@
                         </ImageButton.Source>
                     </ImageButton>
 
-                    <Label 
+                    <Label
                         Text="{local:Localize Caseload}"
                         Style="{StaticResource HeadlineMedium}"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"
+                    />
                 </HorizontalStackLayout>
 
-				<controls:FontIconButton
-					Style="{StaticResource FontIconButtonLightMode}"
-					HorizontalOptions="End"
-					VerticalOptions="Center"
-					Text="{Static icons:MaterialIcons.Tune}"
-					FontFamily="MaterialIconsRoundedUnfilled"
-					Clicked="ListOptionsButton_Clicked" />
+                <controls:FontIconButton
+                    Style="{StaticResource FontIconButtonLightMode}"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Text="{Static icons:MaterialIcons.Tune}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    Clicked="ListOptionsButton_Clicked"
+                />
             </Grid>
 
             <Border
                 Background="Black"
                 StrokeShape="RoundRectangle 6"
                 StrokeThickness="0"
-                Padding="0.1">
+                Padding="0.1"
+            >
                 <Picker
                     Background="White"
                     ItemsSource="{Binding OfficeNames}"
                     SelectedItem="{Binding SelectedOffice}"
-                    VerticalOptions="Center"/>
+                    VerticalOptions="Center"
+                />
             </Border>
 
-            <VerticalStackLayout 
-                x:Name="OptionsLayout"
-                IsVisible="False"
-                Spacing="10">
-                <SearchBar 
+            <VerticalStackLayout x:Name="OptionsLayout" IsVisible="False" Spacing="10">
+                <SearchBar
                     BackgroundColor="{StaticResource BC_Background_Light}"
                     CancelButtonColor="{StaticResource BC_TextColor}"
                     TextColor="{StaticResource BC_TextColor}"
@@ -84,31 +81,31 @@
                     Margin="{OnPlatform iOS='-9', Default=0}"
                     SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
                     TextChanged="CaseloadSearchBar_TextChanged"
-                    ios:SearchBar.SearchBarStyle="Minimal" />
+                    ios:SearchBar.SearchBarStyle="Minimal"
+                />
 
                 <segmentedButtons:SegmentedButtonsView
                     Options="{Binding SortOptions}"
                     BorderColor="{StaticResource SeparatorColor}"
                     Color="{StaticResource BC_TextColor}"
                     ItemPadding="0,10"
-                    ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
+                    ActivatedBackgroundColor="{StaticResource ItemSelectedColor}"
                     ActivatedTextColor="{StaticResource BC_TextColor}"
                     ActivatedOption="{Binding ActivatedSortOption}"
-                    TapGestureCannotDeactivateItem="True" />
+                    TapGestureCannotDeactivateItem="True"
+                />
 
-                <Grid
-                    ColumnDefinitions="*,Auto"
-                    ColumnSpacing="10">
-
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                     <segmentedButtons:SegmentedButtonsView
                         Grid.Column="0"
                         Options="{Binding FilterOptions}"
                         BorderColor="{StaticResource SeparatorColor}"
                         Color="{StaticResource BC_TextColor}"
                         ItemPadding="0,10"
-                        ActivatedBackgroundColor="{StaticResource ItemSelectedColor}" 
+                        ActivatedBackgroundColor="{StaticResource ItemSelectedColor}"
                         ActivatedTextColor="{StaticResource BC_TextColor}"
-                        ActivatedOption="{Binding ActivatedFilterOption}"/>
+                        ActivatedOption="{Binding ActivatedFilterOption}"
+                    />
 
                     <controls:FontIconButton
                         Grid.Column="1"
@@ -119,13 +116,13 @@
                         FontFamily="MaterialIconsRoundedUnfilled"
                         Text="{Static icons:MaterialIcons.Close}"
                         TextColor="{StaticResource ClearButtonColor}"
-                        Clicked="ClearFilterButton_Clicked">
-
+                        Clicked="ClearFilterButton_Clicked"
+                    >
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>
                                 <VisualStateGroup x:Name="MoreStates">
-									<VisualState x:Name="Normal" />
-									<VisualState x:Name="Disabled">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled">
                                         <VisualState.Setters>
                                             <Setter Property="BorderColor" Value="Transparent" />
                                             <Setter Property="Opacity" Value="0.3" />
@@ -133,76 +130,72 @@
                                     </VisualState>
                                     <VisualState x:Name="PointerOver">
                                         <VisualState.Setters>
-                                            <Setter Property="Background" Value="{AppThemeBinding Light=#11000000, Dark=#11000000}" />
+                                            <Setter
+                                                Property="Background"
+                                                Value="{AppThemeBinding Light=#11000000, Dark=#11000000}"
+                                            />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <VisualState.Setters>
-                                            <Setter Property="Background" Value="{AppThemeBinding Light=#22000000, Dark=#22000000}" />
+                                            <Setter
+                                                Property="Background"
+                                                Value="{AppThemeBinding Light=#22000000, Dark=#22000000}"
+                                            />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateGroupList>
                         </VisualStateManager.VisualStateGroups>
                     </controls:FontIconButton>
-
                 </Grid>
             </VerticalStackLayout>
         </VerticalStackLayout>
 
         <AbsoluteLayout VerticalOptions="FillAndExpand">
+            <views:EmptyCollectionMessage
+                AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
+                AbsoluteLayout.LayoutBounds="0.5,0.5,1,-1"
+                Text="{local:Localize CaseloadIsEmpty}"
+                IsVisible="{Binding ShowEmptyCaseloadMessage}"
+            />
 
-			<views:EmptyCollectionMessage
-				AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
-				AbsoluteLayout.LayoutBounds="0.5,0.5,1,-1"
-				Text="{local:Localize CaseloadIsEmpty}"
-				IsVisible="{Binding ShowEmptyCaseloadMessage}" />
-
-			<RefreshView
+            <RefreshView
                 AbsoluteLayout.LayoutFlags="All"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 Command="{Binding RefreshCaseloadCommand}"
-                IsRefreshing="{Binding IsRefreshing}">
-
-				<CollectionView
+                IsRefreshing="{Binding IsRefreshing}"
+            >
+                <CollectionView
                     ItemsSource="{Binding Lister.Records}"
                     SelectionMode="None"
                     ItemSizingStrategy="MeasureFirstItem"
-                    ItemsUpdatingScrollMode="KeepScrollOffset">
-					
+                    ItemsUpdatingScrollMode="KeepScrollOffset"
+                >
                     <CollectionView.EmptyView>
-                        <VerticalStackLayout
-							HorizontalOptions="Fill"
-							Padding="20"
-							Spacing="10">
-                            <Label 
+                        <VerticalStackLayout HorizontalOptions="Fill" Padding="20" Spacing="10">
+                            <Label
                                 HorizontalOptions="Fill"
-								HorizontalTextAlignment="Center"
+                                HorizontalTextAlignment="Center"
                                 FontSize="16"
-                                Text="{Binding CollectionViewPrompt}" />
+                                Text="{Binding CollectionViewPrompt}"
+                            />
 
-                            <Label 
-                                HorizontalOptions="Center" 
-                                FontSize="24"
-                                Text="↓" />
+                            <Label HorizontalOptions="Center" FontSize="24" Text="↓" />
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
-					
-					<CollectionView.ItemsLayout>
-						<LinearItemsLayout Orientation="Vertical" />
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
-					
+
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="caseload:CaseloadItemViewModel">
-							<caseload:CaseloadItemView />
+                            <caseload:CaseloadItemView />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-					
                 </CollectionView>
-
             </RefreshView>
-
         </AbsoluteLayout>
-
     </StackLayout>
 </baseClasses:ViewModelContentView>

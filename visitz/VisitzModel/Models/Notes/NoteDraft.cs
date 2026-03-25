@@ -11,7 +11,11 @@ namespace VisitzModel.Models.Notes
         [PrimaryKey]
         public string ParentEntityId { get; set; }
 
-        public string RelatedEntityId { get => ParentEntityId; set { } }
+        public string RelatedEntityId
+        {
+            get => ParentEntityId;
+            set { }
+        }
 
         private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
 
@@ -35,7 +39,10 @@ namespace VisitzModel.Models.Notes
 
         public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-        public string Preview { get => Draft; }
+        public string Preview
+        {
+            get => Draft;
+        }
 
         public string DraftLocation { get; set; }
 

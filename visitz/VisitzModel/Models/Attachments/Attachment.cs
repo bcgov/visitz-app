@@ -113,7 +113,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
                 EntityType.Incident => IncidentNo,
                 EntityType.Memo => MemoNumber,
                 EntityType.ServiceRequest => ServiceRequestNumber,
-                _ => throw new NotImplementedException($"'{RelatedEntityType}' not implemented")
+                _ => throw new NotImplementedException($"'{RelatedEntityType}' not implemented"),
             };
         }
         set
@@ -292,7 +292,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public static IEnumerable<Attachment> FromApiArray(
         IEnumerable<AttachmentJson> items,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
         List<Attachment> outList = [];
 
@@ -345,16 +346,17 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         UpdatedDate = source.UpdatedDate;
     }
 
-    public static async Task SaveAttachmentsAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<AttachmentJson> items,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
         var incomingAttachments = FromApiArray(items, parentId, type);
         var incomingAttachmentIds = incomingAttachments.Select(item => item.Id);
 
-        var existingAttachments = realm.All<Attachment>();
+        var existingAttachments = GetAttachments(realm, type, parentId);
         var existingAttachmentIds = existingAttachments.AsEnumerable().Select(item => item.Id);
 
         var newAttachmentIds = incomingAttachmentIds.Except(existingAttachmentIds);
@@ -363,32 +365,50 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         var commonIds = incomingAttachmentIds.Except(newAttachmentIds);
         var attachmentsToUpdate = incomingAttachments.Where(item => commonIds.Contains(item.Id));
 
-        if (!newAttachments.Any() && !attachmentsToUpdate.Any())
+        var attachmentIdsToDeleteFromRealm = existingAttachmentIds.Except(incomingAttachmentIds);
+        var attachmentsToDeleteFromRealm = existingAttachments
+            .ToList()
+            .Where(item => attachmentIdsToDeleteFromRealm.Contains(item.Id));
+
+        if (!newAttachments.Any() && !attachmentsToUpdate.Any() && !attachmentsToDeleteFromRealm.Any())
             return;
 
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            foreach (var attachment in newAttachments)
-                realm.Add(attachment);
-
-            foreach (var updatedAttachment in attachmentsToUpdate)
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
             {
-                var existing = realm.Find<Attachment>(updatedAttachment.Id);
-                existing?.CopyFrom(updatedAttachment);
+                foreach (var item in attachmentsToDeleteFromRealm)
+                {
+                    if (item != null && item.IsValid)
+                    {
+                        if (item.FileExistsLocally)
+                            item.RemoveFileFromDevice();
+                        realm.Remove(item);
+                    }
+                }
+
+                foreach (var attachment in newAttachments)
+                    realm.Add(attachment);
+
+                foreach (var updatedAttachment in attachmentsToUpdate)
+                {
+                    var existing = realm.Find<Attachment>(updatedAttachment.Id);
+                    existing?.CopyFrom(updatedAttachment);
+                }
             }
-        });
+        );
     }
 
     public static IQueryable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)
     {
-        return realm.All<Attachment>()
+        return realm
+            .All<Attachment>()
             .Where(item => item.RelatedEntityTypeInt == (int)type && item.RelatedEntityId == recordId);
     }
 
     public static IOrderedQueryable<Attachment> GetOrderedAttachments(Realm realm, EntityType type, string recordId)
     {
-        return GetAttachments(realm, type, recordId)
-            .OrderByDescending(item => item.CreatedDate);
+        return GetAttachments(realm, type, recordId).OrderByDescending(item => item.CreatedDate);
     }
 
     public void RemoveFileFromDevice()
@@ -397,9 +417,15 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         RelativePathBinding = string.Empty;
     }
 
-    public static void RemoveByParent(Realm realm, EntityType type, string parentId, UserIgnoredContentPrefs userIgnoredPrefs)
+    public static void RemoveByParent(
+        Realm realm,
+        EntityType type,
+        string parentId,
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
     {
-        var attachmentItems = realm.All<Attachment>()
+        var attachmentItems = realm
+            .All<Attachment>()
             .Where(item => item.RelatedEntityId == parentId && item.RelatedEntityTypeInt == (int)type)
             .ToList();
 

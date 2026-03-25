@@ -1,9 +1,9 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Realms;
-using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -97,15 +97,14 @@ internal partial class DraftsListViewModel : VisitzViewModel
     }
 #pragma warning restore SS001 // Async methods should return a Task to make them awaitable
 
-    private void SortAndSubscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
+    private void SortAndSubscribe<T>(Realm realm, IQueryable<T> query)
+        where T : IRealmObject
     {
         var sortedQuery = query.Filter($"TRUEPREDICATE SORT({nameof(IDraftItem.LastUpdated)} DESC)");
         queryMap.Subscribe(realm, sortedQuery);
     }
 
-    private void QueryMap_ItemsChanged(
-        object _,
-        (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
         foreach (var draft in DraftItems)
             draft.Dispose();

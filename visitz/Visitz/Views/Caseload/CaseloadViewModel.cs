@@ -40,22 +40,26 @@ namespace Visitz.Views.Caseload
         private static readonly SegmentedOptions SortKeyPlayer = new(
             nameof(LocalizedStrings.KeyPlayer),
             LocalizedStrings.KeyPlayer,
-            MaterialIcons.Person.GetUnfilledMaterialIcon());
+            MaterialIcons.Person.GetUnfilledMaterialIcon()
+        );
 
         private static readonly SegmentedOptions SortOpenDate = new(
             nameof(IBusinessObject.DisplayDate),
             LocalizedStrings.OpenDate,
-            MaterialIcons.Calendar_month.GetUnfilledMaterialIcon());
+            MaterialIcons.Calendar_month.GetUnfilledMaterialIcon()
+        );
 
         private static readonly SegmentedOptions FilterCase = new(
             nameof(EntityType.Case),
             LocalizedStrings.Cases,
-            MaterialIcons.Folder.GetUnfilledMaterialIcon());
+            MaterialIcons.Folder.GetUnfilledMaterialIcon()
+        );
 
         private static readonly SegmentedOptions FilterIncident = new(
             nameof(EntityType.Incident),
             LocalizedStrings.Incidents,
-            MaterialIcons.Description.GetUnfilledMaterialIcon());
+            MaterialIcons.Description.GetUnfilledMaterialIcon()
+        );
 
         private static readonly List<string> StartingOfficeFilterOptions =
         [
@@ -90,14 +94,10 @@ namespace Visitz.Views.Caseload
         public SegmentedOptions activatedFilterOption;
 
         [ObservableProperty]
-        public IList<SegmentedOptions> sortOptions = [SortKeyPlayer, SortOpenDate,];
+        public IList<SegmentedOptions> sortOptions = [SortKeyPlayer, SortOpenDate];
 
         [ObservableProperty]
-        public IList<SegmentedOptions> filterOptions =
-        [
-            FilterCase,
-            FilterIncident,
-        ];
+        public IList<SegmentedOptions> filterOptions = [FilterCase, FilterIncident];
 
         [ObservableProperty]
         public bool showMenuButton;
@@ -175,7 +175,8 @@ namespace Visitz.Views.Caseload
             foreach (var addOffice in newOffices.Except(current))
             {
                 int index = current.BinarySearch(addOffice);
-                if (index < 0) index = ~index;
+                if (index < 0)
+                    index = ~index;
                 int insertPosition = index + offset;
 
                 if (insertPosition < OfficeNames.Count)
@@ -209,14 +210,19 @@ namespace Visitz.Views.Caseload
 
             Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
-            Lister = new CaseloadLister(Realm, IndicatorHelper, SessionInfo, list =>
-            {
-                list = ApplySorting(list);
-                list = ApplySearchQuery(list);
-                list = ApplySubtypeFilter(list);
-                list = ApplyOfficeFilter(list);
-                return list;
-            });
+            Lister = new CaseloadLister(
+                Realm,
+                IndicatorHelper,
+                SessionInfo,
+                list =>
+                {
+                    list = ApplySorting(list);
+                    list = ApplySearchQuery(list);
+                    list = ApplySubtypeFilter(list);
+                    list = ApplyOfficeFilter(list);
+                    return list;
+                }
+            );
 
             Lister.Records.CollectionChanged += Records_CollectionChanged;
         }
@@ -252,6 +258,7 @@ namespace Visitz.Views.Caseload
         }
 
         bool disposed;
+
         protected override void Dispose(bool disposing)
         {
             if (!disposed && disposing)
@@ -314,9 +321,11 @@ namespace Visitz.Views.Caseload
 
         private IEnumerable<IBusinessObject> ApplyOfficeFilter(IEnumerable<IBusinessObject> query)
         {
-            if (query == null
+            if (
+                query == null
                 || string.IsNullOrWhiteSpace(SelectedOffice)
-                || SelectedOffice == LocalizedStrings.MyCaseload)
+                || SelectedOffice == LocalizedStrings.MyCaseload
+            )
             {
                 return query.Where(bo => bo.IsAssigned(SessionInfo.Idir));
             }
@@ -357,7 +366,8 @@ namespace Visitz.Views.Caseload
 
             if (message.FinishedSuccess)
             {
-                bool anyExist = Realm.All<CaseRecord>().Any()
+                bool anyExist =
+                    Realm.All<CaseRecord>().Any()
                     || Realm.All<IncidentRecord>().Any()
                     || Realm.All<MemoRecord>().Any()
                     || Realm.All<ServiceRequestRecord>().Any();

@@ -8,10 +8,11 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-public partial class ChildYouthVisitListView : ViewModelContentView,
-    IBusinessObjectHolder,
-    IRequestedEntitySection,
-    IRecipient<ServiceStateMessage>
+public partial class ChildYouthVisitListView
+    : ViewModelContentView,
+        IBusinessObjectHolder,
+        IRequestedEntitySection,
+        IRecipient<ServiceStateMessage>
 {
     bool _disposed;
 
@@ -29,7 +30,8 @@ public partial class ChildYouthVisitListView : ViewModelContentView,
         set => ViewModel.RequestedSection = value;
     }
 
-    public ChildYouthVisitListView() : base(ServiceProvider.GetService<ChildYouthVisitListViewModel>())
+    public ChildYouthVisitListView()
+        : base(ServiceProvider.GetService<ChildYouthVisitListViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

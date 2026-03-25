@@ -5,14 +5,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.SafetyAssessments;
 
-internal class GetSafetyAssessmentsByRangeService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
-    : VisitzApiRangeService<RecordServiceInfo>(
-        vpi,
-        prefs,
-        serviceHandler)
+internal class GetSafetyAssessmentsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
+    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
     public static StartServiceMessage MakeStartMessage(IEnumerable<RecordServiceInfo> records)
     {

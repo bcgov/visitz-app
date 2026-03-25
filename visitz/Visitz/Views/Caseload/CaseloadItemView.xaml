@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<base:BaseContentView 
+<base:BaseContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
@@ -11,8 +11,8 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Caseload.CaseloadItemView"
-    x:DataType="caseload:CaseloadItemViewModel">
-
+    x:DataType="caseload:CaseloadItemViewModel"
+>
     <base:BaseContentView.Resources>
         <ResourceDictionary>
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -27,7 +27,8 @@
         <SwipeView.LeftItems>
             <SwipeItem
                 IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
-                Command="{Binding UnloadDependentDataCommand}" />
+                Command="{Binding UnloadDependentDataCommand}"
+            />
         </SwipeView.LeftItems>
 
         <VerticalStackLayout>
@@ -37,37 +38,35 @@
                         IsEnabled="{Binding CanRemoveFromDevice}"
                         Text="{local:Localize RemoveFromDevice}"
                         IconImageSource="{Static caseload:CaseloadItemViewModel.RemoveImageSource}"
-                        Command="{Binding UnloadDependentDataCommand}" />
+                        Command="{Binding UnloadDependentDataCommand}"
+                    />
                 </MenuFlyout>
             </FlyoutBase.ContextFlyout>
 
-            <Grid
-                Padding="0,10,10,10"
-                RowDefinitions="*"
-                RowSpacing="5"
-                ColumnSpacing="10">
+            <Grid Padding="0,10,10,10" RowDefinitions="*" RowSpacing="5" ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
+                    <ColumnDefinition Width="70*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-			    <Grid.ColumnDefinitions>
-				    <ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
-				    <ColumnDefinition Width="70*" />
-				    <ColumnDefinition Width="Auto" />
-				    <ColumnDefinition Width="Auto" />
-			    </Grid.ColumnDefinitions>
+                <BoxView
+                    x:Name="DraftIndicator"
+                    Grid.Column="0"
+                    Margin="-1,-10,0,-10"
+                    Color="{StaticResource BC_Gold}"
+                    IsVisible="{Binding ShowDraftIndicator}"
+                />
 
-			    <BoxView
-				    x:Name="DraftIndicator"
-				    Grid.Column="0"
-				    Margin="-1,-10,0,-10"
-				    Color="{StaticResource BC_Gold}"
-				    IsVisible="{Binding ShowDraftIndicator}" />
-
-			    <Label
+                <Label
                     Grid.Column="1"
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="Center"
                     Text="{Binding BusinessObject.DisplayName}"
                     FontSize="16"
-                    LineBreakMode="TailTruncation"/>
+                    LineBreakMode="TailTruncation"
+                />
 
                 <Label
                     x:Name="OpenDateLabel"
@@ -77,7 +76,8 @@
                     FontSize="12"
                     FontFamily="BCSansRegular"
                     IsVisible="{Binding ShowDate}"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"
+                />
 
                 <Label
                     Grid.Column="2"
@@ -86,30 +86,32 @@
                     FontSize="20"
                     Text="{Static icons:MaterialIcons.Download}"
                     FontFamily="MaterialIconsRoundedUnfilled"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center"
+                />
 
                 <ActivityIndicator
                     Grid.Column="2"
                     HeightRequest="20"
                     WidthRequest="20"
                     IsRunning="{Binding ShowProgressIndicator}"
-                    IsVisible="{Binding ShowProgressIndicator}" />
+                    IsVisible="{Binding ShowProgressIndicator}"
+                />
 
                 <tagview:EntityTypeBadge
                     Grid.Column="3"
                     EntityType="{Binding BusinessObject.EntityType}"
-                    EntitySubtype="{Binding BusinessObject.EntitySubtype}" />
+                    EntitySubtype="{Binding BusinessObject.EntitySubtype}"
+                />
 
                 <BoxView
                     Grid.Column="0"
                     Grid.ColumnSpan="4"
                     Color="#55ffffff"
-                    IsVisible="{Binding ShowDownloadIcon}" />
+                    IsVisible="{Binding ShowDownloadIcon}"
+                />
             </Grid>
-        
-            <BoxView
-                Color="{StaticResource Gray200}"
-                HeightRequest="0.5" />
+
+            <BoxView Color="{StaticResource Gray200}" HeightRequest="0.5" />
         </VerticalStackLayout>
     </SwipeView>
 </base:BaseContentView>

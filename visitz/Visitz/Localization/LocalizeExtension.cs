@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using Visitz.Resources.Localization;
 
 namespace Visitz.Localization
@@ -14,7 +14,7 @@ namespace Visitz.Localization
 
         public LocalizeExtension()
         {
-            // Have to inject like this because LocalizeExtension constructor 
+            // Have to inject like this because LocalizeExtension constructor
             // has to be parameterless in order to be used in XAML
             _localizer = ServiceProvider.GetService<IStringLocalizer<LocalizedStrings>>();
         }
@@ -33,4 +33,3 @@ namespace Visitz.Localization
         }
     }
 }
-

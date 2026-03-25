@@ -16,7 +16,8 @@ public partial class EntityContainerView : ViewModelContentView, IBusinessObject
         set => (ViewModel as EntityContainerViewModel).BusinessObject = value;
     }
 
-    public EntityContainerView() : base(ServiceProvider.GetService<EntityContainerViewModel>())
+    public EntityContainerView()
+        : base(ServiceProvider.GetService<EntityContainerViewModel>())
     {
         InitializeComponent();
 
@@ -36,15 +37,12 @@ public partial class EntityContainerView : ViewModelContentView, IBusinessObject
 
         if (navItem != null)
         {
-            (recipient as EntityContainerView).OpenEntitySection(
-                navItem,
-                businessObject,
-                subsection,
-                draftItem);
+            (recipient as EntityContainerView).OpenEntitySection(navItem, businessObject, subsection, draftItem);
         }
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -66,7 +64,8 @@ public partial class EntityContainerView : ViewModelContentView, IBusinessObject
         EntityNavItem navItem,
         IBusinessObject businessObject,
         EntitySection? subsection,
-        IDraftItem focusedDraftItem)
+        IDraftItem focusedDraftItem
+    )
     {
         if (ContainerDetails.Content is BaseContentView baseView)
         {

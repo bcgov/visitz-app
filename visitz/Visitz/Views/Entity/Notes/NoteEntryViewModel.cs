@@ -85,10 +85,7 @@ namespace Visitz.Views.Entity.Notes
 
         private NoteDraft CreateNoteDraft()
         {
-            return new NoteDraft()
-            {
-                ParentEntityId = NoteDraft.MakeId(BusinessObject.FileNumber),
-            };
+            return new NoteDraft() { ParentEntityId = NoteDraft.MakeId(BusinessObject.FileNumber) };
         }
 
         [RelayCommand]

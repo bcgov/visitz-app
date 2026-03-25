@@ -1,3 +1,5 @@
+using System.Text;
+using Microsoft.Maui.Handlers;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
@@ -6,10 +8,7 @@ using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
-public partial class EntityNotesView :
-    ViewModelContentView,
-    IBusinessObjectHolder,
-    IRequestedEntitySection
+public partial class EntityNotesView : ViewModelContentView, IBusinessObjectHolder, IRequestedEntitySection
 {
     new EntityNotesViewModel ViewModel => base.ViewModel as EntityNotesViewModel;
 
@@ -25,10 +24,29 @@ public partial class EntityNotesView :
         set => ViewModel.RequestedSection = value;
     }
 
-    public EntityNotesView() : base(ServiceProvider.GetService<EntityNotesViewModel>())
+    public EntityNotesView()
+        : base(ServiceProvider.GetService<EntityNotesViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
+        EditorHandler.Mapper.AppendToMapping(
+            "NoBorder",
+            (handler, view) =>
+            {
+#if ANDROID
+                handler.PlatformView.Background = null;
+#endif
+
+#if IOS || MACCATALYST
+                handler.PlatformView.Layer.BorderWidth = 0;
+                handler.PlatformView.Layer.CornerRadius = 0;
+#endif
+
+#if WINDOWS
+                handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+#endif
+            }
+        );
     }
 
     private async void NotesCollectionView_Loaded(object sender, EventArgs e)

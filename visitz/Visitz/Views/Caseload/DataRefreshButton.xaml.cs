@@ -14,7 +14,8 @@ public partial class DataRefreshButton : ViewModelContentView
         set => ViewModel.Orientation = value;
     }
 
-    public DataRefreshButton() : base(ServiceProvider.GetService<DataRefreshViewModel>())
+    public DataRefreshButton()
+        : base(ServiceProvider.GetService<DataRefreshViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -24,6 +25,7 @@ public partial class DataRefreshButton : ViewModelContentView
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
