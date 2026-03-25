@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     xmlns:navModels="clr-namespace:VisitzModel.Models.Navigation;assembly=VisitzModel"
     x:Class="Visitz.Views.Navigation.NavDrawerItemView"
     x:DataType="navModels:NavItem">
@@ -54,8 +55,9 @@
 
         <effectsView:SfEffectsView
             TouchDownEffects="Ripple"
+            TouchDown="SfEffectsView_TouchDown"
             RippleBackground="White">
-            
+
             <Grid
                 x:Name="MainStack"
                 ColumnDefinitions="Auto, *, Auto"

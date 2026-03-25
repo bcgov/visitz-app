@@ -56,9 +56,9 @@ internal partial class UserViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    static async Task OpenFeedbackUrl(string feedbackUrl)
+    async Task OpenFeedbackUrl()
     {
-        await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
+        await Browser.Default.OpenAsync(FeedbackUrl, new BrowserLaunchOptions
         {
             LaunchMode = BrowserLaunchMode.SystemPreferred,
             TitleMode = BrowserTitleMode.Hide,

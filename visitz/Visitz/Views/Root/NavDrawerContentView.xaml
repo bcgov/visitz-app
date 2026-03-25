@@ -53,28 +53,16 @@
 
                 <VerticalStackLayout>
                     <nav:NavDrawerItemView
-                        BindingContext="{Binding CollectionNoticeNavItem}">
-                        <nav:NavDrawerItemView.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding UserViewModel.OpenCollectionNoticeCommand}"/>
-                        </nav:NavDrawerItemView.GestureRecognizers>   
-                    </nav:NavDrawerItemView>
+                        x:Name="CollectionNoticeItem"
+                        BindingContext="{Binding CollectionNoticeNavItem}" />
 
                     <nav:NavDrawerItemView
-                        BindingContext="{Binding FeedbackNavItem}">
-                        <nav:NavDrawerItemView.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding UserViewModel.OpenFeedbackUrlCommand}" />
-                        </nav:NavDrawerItemView.GestureRecognizers>
-                    </nav:NavDrawerItemView>
-                    
+                        x:Name="FeedbackItem"
+                        BindingContext="{Binding FeedbackNavItem}" />
+
                     <nav:NavDrawerItemView
-                        BindingContext="{Binding LogoutNavItem}">
-                        <nav:NavDrawerItemView.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding UserViewModel.TryLogoutCommand}" />
-                        </nav:NavDrawerItemView.GestureRecognizers>
-                    </nav:NavDrawerItemView>
+                        x:Name="LogoutItem"
+                        BindingContext="{Binding LogoutNavItem}" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
