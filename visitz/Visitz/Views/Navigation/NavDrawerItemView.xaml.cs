@@ -38,7 +38,7 @@ public partial class NavDrawerItemView : ContentView, ISelectedState
         InitializeComponent();
     }
 
-    private void SfEffectsView_TouchDown(object sender, EventArgs e)
+    private void SfEffectsView_TouchUp(object sender, EventArgs e)
     {
         TappedCommand?.Execute(null);
     }

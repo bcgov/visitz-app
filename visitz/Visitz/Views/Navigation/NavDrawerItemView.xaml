@@ -54,7 +54,7 @@
 
         <effectsView:SfEffectsView
             TouchDownEffects="Ripple"
-            TouchDown="SfEffectsView_TouchDown"
+            TouchUp="SfEffectsView_TouchUp"
             RippleBackground="White"
         >
             <Grid x:Name="MainStack" ColumnDefinitions="Auto, *, Auto" ColumnSpacing="12">
