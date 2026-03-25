@@ -23,7 +23,7 @@
                 <FontImageSource
                     Glyph="{Static icons:MaterialIcons.Menu}"
                     FontFamily="MaterialIconsRoundedUnfilled"
-                    Size="32" />
+                    Size="{OnPlatform iOS=31, Default=24}" />
             </ImageButton.Source>
         </ImageButton>
 

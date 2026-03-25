@@ -23,8 +23,9 @@ public partial class RootPage :
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
         StrongReferenceMessenger.Default.Register<NavDrawerMessage>(this, ReceiveNavDrawerMessage);
-        HideSoftInputOnTapped = true;
+        StrongReferenceMessenger.Default.Register<GetNavPositionMessage>(this, SendNavPosition);
 
+        HideSoftInputOnTapped = true;
     }
 
     private void ReceiveAppNavMessage(object recipient, AppNavMessage message)
@@ -96,6 +97,15 @@ public partial class RootPage :
     private void TwoPaneView_ModeChanged(object sender, EventArgs e)
     {
         if (ViewModel is RootViewModel rvm && sender is TwoPaneView paneView)
+        {
             rvm.UpdateOrientationVisibility(paneView.Mode);
+            StrongReferenceMessenger.Default.Send(new NavPositionMessage((int)paneView.Mode));
+        }
+    }
+
+    private static void SendNavPosition(object recipient, GetNavPositionMessage message)
+    {
+        if (recipient is RootPage root)
+            message.Reply((int)root.TwoPane.Mode);
     }
 }

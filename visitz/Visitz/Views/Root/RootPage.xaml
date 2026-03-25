@@ -40,6 +40,7 @@
 
             <AbsoluteLayout x:Name="RootAbsoluteLayout">
                 <foldable:TwoPaneView
+                    x:Name="TwoPane"
                     AbsoluteLayout.LayoutFlags="All"
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     TallModeConfiguration="BottomTop"

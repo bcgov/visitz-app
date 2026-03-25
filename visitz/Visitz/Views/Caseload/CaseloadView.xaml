@@ -25,26 +25,22 @@
             BackgroundColor="White"
             Shadow="{StaticResource RestingLevel2}"
             ZIndex="2"
-            Spacing="10" 
+            Spacing="10"
             Padding="10">
 
             <Grid>
-                <HorizontalStackLayout>
-                    <toolkit:AvatarView
-                        Margin="0,0,10,0"
-                        BackgroundColor="{StaticResource Blue300Accent}"
-                        FontFamily="BCSansBold"
-                        VerticalOptions="Center"
-                        IsVisible="{Binding ShowAvatarView}">
-
-                        <toolkit:AvatarView.Behaviors>
-                            <behaviors:AvatarSessionBehavior />
-                        </toolkit:AvatarView.Behaviors>
-
-                        <toolkit:AvatarView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding OpenSessionPageCommand}" />
-                        </toolkit:AvatarView.GestureRecognizers>
-                    </toolkit:AvatarView>
+                <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                    <ImageButton
+                        Command="{Binding OpenNavDrawerCommand}"
+                        IsVisible="{Binding ShowMenuButton}">
+                        <ImageButton.Source>
+                            <FontImageSource
+                                Glyph="{Static icons:MaterialIcons.Menu}"
+                                FontFamily="MaterialIconsRoundedUnfilled"
+                                Size="{OnPlatform iOS=31, Default=24}"
+                                Color="Black" />
+                        </ImageButton.Source>
+                    </ImageButton>
 
                     <Label 
                         Text="{local:Localize Caseload}"

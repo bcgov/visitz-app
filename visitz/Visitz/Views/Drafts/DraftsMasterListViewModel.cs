@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.Foldable;
 using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
@@ -56,6 +57,9 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
         ItemType = typeof(PersonVisitDraft),
     };
 
+    [ObservableProperty]
+    public bool showMenuButton;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -66,6 +70,9 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
         realmCount.Subscribe<NoteDraft>(await VisitzRealms.GetNoteDraftsRealmAsync());
         realmCount.Subscribe<AssessmentDraft>(await VisitzRealms.GetSafetyAssessmentDraftRealmAsync());
         realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
+
+        StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavPositionMessage);
+        ShowMenuButton = StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
     }
 
     bool disposed;
@@ -75,6 +82,8 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
         {
             realmCount.CountChanged -= RealmCount_CountChanged;
             realmCount.Dispose();
+
+            StrongReferenceMessenger.Default.UnregisterAll(this);
 
             disposed = true;
         }
@@ -128,5 +137,16 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
             else
                 collection.Add(newDraft);
         }
+    }
+
+    [RelayCommand]
+    public static void OpenNavDrawer()
+    {
+        StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: true));
+    }
+
+    void ReceiveNavPositionMessage(object recipient, NavPositionMessage message)
+    {
+        ShowMenuButton = ((TwoPaneViewMode)message.Value) == TwoPaneViewMode.Tall;
     }
 }

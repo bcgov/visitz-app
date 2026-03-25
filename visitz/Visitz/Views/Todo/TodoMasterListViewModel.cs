@@ -1,12 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.Foldable;
 using Realms;
 using System.Collections.ObjectModel;
 using Visitz.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Messaging;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
@@ -28,6 +30,9 @@ public partial class TodoMasterListViewModel : VisitzViewModel
 
     Realm icmDataRealm;
 
+    [ObservableProperty]
+    public bool showMenuButton;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -41,6 +46,9 @@ public partial class TodoMasterListViewModel : VisitzViewModel
             TodoItem_PropertyChanged,
             () => PersonVisit.GetUpcomingVisits(icmDataRealm).Count(),
             new NavItem() { ContentViewType = typeof(TodoVisitsView) });
+
+        StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavPositionMessage);
+        ShowMenuButton = StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
     }
 
     private void TodoItem_PropertyChanged(TodoItemUi item)
@@ -80,8 +88,22 @@ public partial class TodoMasterListViewModel : VisitzViewModel
         {
             upcomingVisitsItem?.Dispose();
             icmDataRealm?.Dispose();
+
+            StrongReferenceMessenger.Default.UnregisterAll(this);
+
             _disposed = true;
         }
         base.Dispose(disposing);
+    }
+
+    [RelayCommand]
+    public static void OpenNavDrawer()
+    {
+        StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: true));
+    }
+
+    void ReceiveNavPositionMessage(object recipient, NavPositionMessage message)
+    {
+        ShowMenuButton = ((TwoPaneViewMode)message.Value) == TwoPaneViewMode.Tall;
     }
 }
