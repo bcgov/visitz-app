@@ -22,19 +22,21 @@
             Shadow="{StaticResource RestingLevel2}"
             ZIndex="2"
             Spacing="10"
-            Padding="10">
-
+            Padding="10"
+        >
             <Grid>
                 <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
                     <ImageButton
                         Command="{Binding OpenNavDrawerCommand}"
-                        IsVisible="{Binding ShowMenuButton}">
+                        IsVisible="{Binding ShowMenuButton}"
+                    >
                         <ImageButton.Source>
                             <FontImageSource
                                 Glyph="{Static icons:MaterialIcons.Menu}"
                                 FontFamily="MaterialIconsRoundedUnfilled"
                                 Size="{OnPlatform iOS=31, Default=24}"
-                                Color="Black" />
+                                Color="Black"
+                            />
                         </ImageButton.Source>
                     </ImageButton>
 

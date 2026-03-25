@@ -38,6 +38,7 @@ internal partial class UserViewModel : VisitzViewModel
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -58,12 +59,15 @@ internal partial class UserViewModel : VisitzViewModel
     [RelayCommand]
     async Task OpenFeedbackUrl()
     {
-        await Browser.Default.OpenAsync(FeedbackUrl, new BrowserLaunchOptions
-        {
-            LaunchMode = BrowserLaunchMode.SystemPreferred,
-            TitleMode = BrowserTitleMode.Hide,
-            Flags = BrowserLaunchFlags.PresentAsPageSheet,
-        });
+        await Browser.Default.OpenAsync(
+            FeedbackUrl,
+            new BrowserLaunchOptions
+            {
+                LaunchMode = BrowserLaunchMode.SystemPreferred,
+                TitleMode = BrowserTitleMode.Hide,
+                Flags = BrowserLaunchFlags.PresentAsPageSheet,
+            }
+        );
     }
 
     [RelayCommand]
@@ -84,7 +88,8 @@ internal partial class UserViewModel : VisitzViewModel
             LocalizedStrings.LogoutAndClearData,
             LocalizedStrings.LogoutAndClearDataDesc,
             LocalizedStrings.Logout,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
     }
 
     async void OidcSession_SessionChanged(object sender, Oidc.Events.SessionChangedEventArgs e)

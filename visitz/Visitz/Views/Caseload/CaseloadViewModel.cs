@@ -1,11 +1,11 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.Foldable;
 using Oidc;
 using Realms;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -25,9 +25,7 @@ namespace Visitz.Views.Caseload
     /// <summary>
     /// The business logic for the cases and incidents list rendering goes here.
     /// </summary>
-    public partial class CaseloadViewModel :
-        VisitzViewModel,
-        IRecipient<ServiceStateMessage>
+    public partial class CaseloadViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
     {
 #if WINDOWS
         private static readonly string PromptText = LocalizedStrings.ButtonToRefreshCaseload;

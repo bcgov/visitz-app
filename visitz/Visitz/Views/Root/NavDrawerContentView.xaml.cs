@@ -6,7 +6,8 @@ public partial class NavDrawerContentView : ViewModelContentView
 {
     new NavDrawerContentViewModel ViewModel => base.ViewModel as NavDrawerContentViewModel;
 
-    public NavDrawerContentView() : base(ServiceProvider.GetService<NavDrawerContentViewModel>())
+    public NavDrawerContentView()
+        : base(ServiceProvider.GetService<NavDrawerContentViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

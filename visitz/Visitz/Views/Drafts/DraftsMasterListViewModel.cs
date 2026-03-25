@@ -1,8 +1,8 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.Foldable;
-using System.Collections.ObjectModel;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -68,7 +68,8 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
         realmCount.Subscribe<PersonVisitDraft>(await VisitzRealms.GetPersonVisitDraftsRealmAsync());
 
         StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavPositionMessage);
-        ShowMenuButton = StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
+        ShowMenuButton =
+            StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
     }
 
     bool disposed;

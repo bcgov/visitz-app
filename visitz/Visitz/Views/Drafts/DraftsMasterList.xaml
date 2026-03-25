@@ -4,45 +4,43 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
-	xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:draftModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
+    xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
-	xmlns:local="clr-namespace:Visitz.Localization"
-	xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
-	xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Drafts.DraftsMasterList"
-	x:DataType="drafts:DraftsMasterListViewModel"
-	BackgroundColor="{StaticResource Default_Background}">
-
-	<Grid RowDefinitions="Auto,*">
-
-		<controls:TopAppBar
-            Grid.Row="0">
-
+    x:DataType="drafts:DraftsMasterListViewModel"
+    BackgroundColor="{StaticResource Default_Background}"
+>
+    <Grid RowDefinitions="Auto,*">
+        <controls:TopAppBar Grid.Row="0">
             <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
                 <ImageButton
                     Command="{Binding OpenNavDrawerCommand}"
-                    IsVisible="{Binding ShowMenuButton}">
+                    IsVisible="{Binding ShowMenuButton}"
+                >
                     <ImageButton.Source>
                         <FontImageSource
                             Glyph="{Static icons:MaterialIcons.Menu}"
                             FontFamily="MaterialIconsRoundedUnfilled"
                             Size="{OnPlatform iOS=31, Default=24}"
-                            Color="Black" />
+                            Color="Black"
+                        />
                     </ImageButton.Source>
                 </ImageButton>
-            
-                <Label 
-				    Text="{local:Localize Drafts}"
-				    Style="{StaticResource HeadlineMedium}"
-				    VerticalOptions="Center" />
+
+                <Label
+                    Text="{local:Localize Drafts}"
+                    Style="{StaticResource HeadlineMedium}"
+                    VerticalOptions="Center"
+                />
             </HorizontalStackLayout>
-		</controls:TopAppBar>
+        </controls:TopAppBar>
 
-        <VerticalStackLayout
-            Grid.Row="1">
-
+        <VerticalStackLayout Grid.Row="1">
             <VerticalStackLayout.Behaviors>
                 <behaviors:SelectionLayoutBehavior
                     AutoSelectDefault="True"

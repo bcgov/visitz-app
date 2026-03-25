@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 namespace Visitz.Device;
 
 #if WINDOWS
-using Windows.Security.Authorization.AppCapabilityAccess;
 using Windows.Media.Capture;
+using Windows.Security.Authorization.AppCapabilityAccess;
 #endif
 
 public class DevicePermissions

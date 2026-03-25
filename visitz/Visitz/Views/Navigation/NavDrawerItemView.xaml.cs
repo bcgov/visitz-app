@@ -5,11 +5,17 @@ namespace Visitz.Views.Navigation;
 
 public partial class NavDrawerItemView : ContentView, ISelectedState
 {
-    public static readonly BindableProperty IsSelectedProperty =
-        BindableProperty.Create(nameof(IsSelected), typeof(bool), typeof(NavDrawerItemView));
+    public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
+        nameof(IsSelected),
+        typeof(bool),
+        typeof(NavDrawerItemView)
+    );
 
-    public static readonly BindableProperty TappedCommandProperty =
-        BindableProperty.Create(nameof(TappedCommand), typeof(ICommand), typeof(NavDrawerItemView));
+    public static readonly BindableProperty TappedCommandProperty = BindableProperty.Create(
+        nameof(TappedCommand),
+        typeof(ICommand),
+        typeof(NavDrawerItemView)
+    );
 
     public bool IsSelected
     {

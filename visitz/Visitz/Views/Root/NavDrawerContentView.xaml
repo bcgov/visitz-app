@@ -9,33 +9,24 @@
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Root.NavDrawerContentView"
-    x:DataType="root:NavDrawerContentViewModel">
-    
-    <Grid
-        RowDefinitions="*, Auto">
-        
-        <views:FeaturedBackgroundUnderlay
-            Grid.RowSpan="3"
-            ImageDisplayOptions="TextReadable" />
+    x:DataType="root:NavDrawerContentViewModel"
+>
+    <Grid RowDefinitions="*, Auto">
+        <views:FeaturedBackgroundUnderlay Grid.RowSpan="3" ImageDisplayOptions="TextReadable" />
 
-        <ScrollView
-            Grid.Row="0"
-            VerticalOptions="Fill">
-
+        <ScrollView Grid.Row="0" VerticalOptions="Fill">
             <VerticalStackLayout>
-                
                 <VerticalStackLayout>
-
                     <VerticalStackLayout.Margin>
-                        <Thickness
-                            Top="15" />
+                        <Thickness Top="15" />
                     </VerticalStackLayout.Margin>
 
                     <VerticalStackLayout.Behaviors>
                         <behaviors:SelectionLayoutBehavior
                             ItemsSource="{Binding NavRailViewModel.NavigationItems}"
                             SelectedItem="{Binding NavRailViewModel.SelectedNavItem}"
-                            StickySelection="True" />
+                            StickySelection="True"
+                        />
                     </VerticalStackLayout.Behaviors>
 
                     <BindableLayout.ItemTemplate>
@@ -45,41 +36,37 @@
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
 
-                <BoxView
-                    Color="White"
-                    HorizontalOptions="Fill"
-                    HeightRequest="1"
-                    Margin="28,16"/>
+                <BoxView Color="White" HorizontalOptions="Fill" HeightRequest="1" Margin="28,16" />
 
                 <VerticalStackLayout>
                     <nav:NavDrawerItemView
                         x:Name="CollectionNoticeItem"
-                        BindingContext="{Binding CollectionNoticeNavItem}" />
+                        BindingContext="{Binding CollectionNoticeNavItem}"
+                    />
 
                     <nav:NavDrawerItemView
                         x:Name="FeedbackItem"
-                        BindingContext="{Binding FeedbackNavItem}" />
+                        BindingContext="{Binding FeedbackNavItem}"
+                    />
 
                     <nav:NavDrawerItemView
                         x:Name="LogoutItem"
-                        BindingContext="{Binding LogoutNavItem}" />
+                        BindingContext="{Binding LogoutNavItem}"
+                    />
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
 
-        <HorizontalStackLayout
-            Grid.Row="2"
-            Margin="10"
-            Spacing="30"
-            HorizontalOptions="Center">
+        <HorizontalStackLayout Grid.Row="2" Margin="10" Spacing="30" HorizontalOptions="Center">
             <Label
                 Text="{Binding UserViewModel.BuildNumber, StringFormat='Build #{0}'}"
-                TextColor="White" />
+                TextColor="White"
+            />
 
             <Label
                 Text="{Binding UserViewModel.AppVersion, StringFormat='Version {0}'}"
-                TextColor="White" />
+                TextColor="White"
+            />
         </HorizontalStackLayout>
-
     </Grid>
 </base:ViewModelContentView>

@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<baseClasses:ViewModelContentView 
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-	xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:nav="clr-namespace:Visitz.Views.Navigation"
-	xmlns:icons="clr-namespace:Visitz.FontIcons"
-	xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
-	xmlns:views="clr-namespace:Visitz.Views"
-	x:Class="Visitz.Views.Navigation.VerticalNavRailView"
-	x:DataType="nav:NavRailViewModel"
-	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-	WidthRequest="72">
-
-	<Grid 
-		RowDefinitions="Auto,Auto,*,Auto,Auto">
-
+<baseClasses:ViewModelContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Navigation.VerticalNavRailView"
+    x:DataType="nav:NavRailViewModel"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+    WidthRequest="72"
+>
+    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
         <ImageButton Command="{Binding OpenNavDrawerCommand}">
             <ImageButton.Source>
                 <FontImageSource
                     Glyph="{Static icons:MaterialIcons.Menu}"
                     FontFamily="MaterialIconsRoundedUnfilled"
-                    Size="{OnPlatform iOS=31, Default=24}" />
+                    Size="{OnPlatform iOS=31, Default=24}"
+                />
             </ImageButton.Source>
         </ImageButton>
 
-		<VerticalStackLayout Grid.Row="1">
-
+        <VerticalStackLayout Grid.Row="1">
             <VerticalStackLayout.Behaviors>
                 <behaviors:SelectionLayoutBehavior
-			        ItemsSource="{Binding NavigationItems}"
-			        SelectedItem="{Binding SelectedNavItem}"
-                    StickySelection="True"/>
+                    ItemsSource="{Binding NavigationItems}"
+                    SelectedItem="{Binding SelectedNavItem}"
+                    StickySelection="True"
+                />
             </VerticalStackLayout.Behaviors>
 
-			<BindableLayout.ItemTemplate>
-				<DataTemplate>
-					<nav:NavItemView />
-				</DataTemplate>
-			</BindableLayout.ItemTemplate>
-		</VerticalStackLayout>
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <nav:NavItemView />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
 
-		<caseload:DataRefreshButton
-			Grid.Row="3"
-			Orientation="Vertical"
-			HorizontalOptions="Center" />
+        <caseload:DataRefreshButton
+            Grid.Row="3"
+            Orientation="Vertical"
+            HorizontalOptions="Center"
+        />
 
         <Image
             x:Name="LogoImage"
             Grid.Row="4"
             HorizontalOptions="Center"
-            Source="bc_logo_vertical_reverse.png" />
+            Source="bc_logo_vertical_reverse.png"
+        />
     </Grid>
-
 </baseClasses:ViewModelContentView>

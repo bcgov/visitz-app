@@ -9,81 +9,83 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
-	xmlns:visitModels="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
+    xmlns:visitModels="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Todo.TodoMasterList"
     x:DataType="todo:TodoMasterListViewModel"
-    BackgroundColor="{StaticResource Default_Background}">
-
+    BackgroundColor="{StaticResource Default_Background}"
+>
     <Grid RowDefinitions="Auto,*">
         <controls:TopAppBar Grid.Row="0">
             <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
                 <ImageButton
                     Command="{Binding OpenNavDrawerCommand}"
-                    IsVisible="{Binding ShowMenuButton}">
+                    IsVisible="{Binding ShowMenuButton}"
+                >
                     <ImageButton.Source>
                         <FontImageSource
                             Glyph="{Static icons:MaterialIcons.Menu}"
                             FontFamily="MaterialIconsRoundedUnfilled"
                             Size="{OnPlatform iOS=31, Default=24}"
-                            Color="Black" />
+                            Color="Black"
+                        />
                     </ImageButton.Source>
                 </ImageButton>
-                
+
                 <Label
                     Text="{local:Localize Todo}"
                     Style="{StaticResource HeadlineMedium}"
-                    VerticalOptions="Center"/>
+                    VerticalOptions="Center"
+                />
             </HorizontalStackLayout>
         </controls:TopAppBar>
 
         <VerticalStackLayout Grid.Row="1">
-
             <VerticalStackLayout.Behaviors>
                 <behaviors:SelectionLayoutBehavior
                     AutoSelectDefault="True"
                     ItemsSource="{Binding TodoMasterItems}"
                     SelectedItem="{Binding SelectedItem}"
                     SelectionChangedCommand="{Binding MasterTodoItemSelectedCommand}"
-                    StickySelection="True"/>
+                    StickySelection="True"
+                />
             </VerticalStackLayout.Behaviors>
 
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="todo:TodoItemUi">
                     <selView:SelectableItem>
-
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor"
-                                                Value="Transparent"/>
+                                        <Setter Property="BackgroundColor" Value="Transparent" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor"
-                                                Value="{StaticResource EntityNavSelectedColor}"/>
+                                        <Setter
+                                            Property="BackgroundColor"
+                                            Value="{StaticResource EntityNavSelectedColor}"
+                                        />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Grid
-                            ColumnDefinitions="5*,*"
-                            Padding="10,15">
+                        <Grid ColumnDefinitions="5*,*" Padding="10,15">
                             <Label
                                 Grid.Column="0"
                                 VerticalOptions="Center"
-                                Text="{Binding ItemName}"/>
+                                Text="{Binding ItemName}"
+                            />
 
                             <Label
                                 Grid.Column="1"
                                 VerticalOptions="Center"
                                 HorizontalOptions="End"
-                                Text="{Binding Count}"/>
+                                Text="{Binding Count}"
+                            />
                         </Grid>
-
                     </selView:SelectableItem>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
@@ -94,6 +96,7 @@
             HorizontalOptions="Center"
             VerticalOptions="Center"
             IsVisible="{Binding ShowEmpty}"
-            Text="{local:Localize TodoIsEmpty}"/>
+            Text="{local:Localize TodoIsEmpty}"
+        />
     </Grid>
 </baseClasses:ViewModelContentView>

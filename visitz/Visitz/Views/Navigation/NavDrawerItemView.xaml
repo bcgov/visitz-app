@@ -6,35 +6,36 @@
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     xmlns:navModels="clr-namespace:VisitzModel.Models.Navigation;assembly=VisitzModel"
     x:Class="Visitz.Views.Navigation.NavDrawerItemView"
-    x:DataType="navModels:NavItem">
-    
+    x:DataType="navModels:NavItem"
+>
     <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup
-            x:Name="CommonStates">
-            <VisualState
-                x:Name="Normal">
+        <VisualStateGroup x:Name="CommonStates">
+            <VisualState x:Name="Normal">
                 <VisualState.Setters>
                     <Setter
                         TargetName="IconImage"
                         Property="Image.Source"
-                        Value="{Binding UnselectedImageSource}" />
+                        Value="{Binding UnselectedImageSource}"
+                    />
                     <Setter
                         TargetName="Backdrop"
                         Property="Border.BackgroundColor"
-                        Value="Transparent" />
+                        Value="Transparent"
+                    />
                 </VisualState.Setters>
             </VisualState>
-            <VisualState
-                x:Name="Selected">
+            <VisualState x:Name="Selected">
                 <VisualState.Setters>
                     <Setter
                         TargetName="IconImage"
                         Property="Image.Source"
-                        Value="{Binding SelectedImageSource}" />
+                        Value="{Binding SelectedImageSource}"
+                    />
                     <Setter
                         TargetName="Backdrop"
                         Property="Border.BackgroundColor"
-                        Value="#33ffffff" />
+                        Value="#33ffffff"
+                    />
                 </VisualState.Setters>
             </VisualState>
         </VisualStateGroup>
@@ -45,24 +46,18 @@
         StrokeThickness="0"
         StrokeShape="RoundRectangle 52"
         HorizontalOptions="Fill"
-        HeightRequest="56">
-
+        HeightRequest="56"
+    >
         <Border.Margin>
-            <Thickness
-                Left="12"
-                Right="12" />
+            <Thickness Left="12" Right="12" />
         </Border.Margin>
 
         <effectsView:SfEffectsView
             TouchDownEffects="Ripple"
             TouchDown="SfEffectsView_TouchDown"
-            RippleBackground="White">
-
-            <Grid
-                x:Name="MainStack"
-                ColumnDefinitions="Auto, *, Auto"
-                ColumnSpacing="12">
-
+            RippleBackground="White"
+        >
+            <Grid x:Name="MainStack" ColumnDefinitions="Auto, *, Auto" ColumnSpacing="12">
                 <Image
                     Grid.Column="0"
                     x:Name="IconImage"
@@ -70,10 +65,10 @@
                     HeightRequest="{Binding IconSize}"
                     WidthRequest="{Binding IconSize}"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center">
+                    VerticalOptions="Center"
+                >
                     <Image.Margin>
-                        <Thickness
-                            Left="16"/>
+                        <Thickness Left="16" />
                     </Image.Margin>
                 </Image>
 
@@ -83,25 +78,21 @@
                     Text="{Binding Text}"
                     TextColor="{Binding Color}"
                     HorizontalOptions="Start"
-                    VerticalOptions="Center">
-                </Label>
+                    VerticalOptions="Center"
+                ></Label>
 
                 <Label
                     Grid.Column="2"
                     IsVisible="{Binding ShowBadge}"
                     VerticalOptions="Center"
                     Text="{Binding BadgeCount}"
-                    TextColor="{Binding Color}">
+                    TextColor="{Binding Color}"
+                >
                     <Label.Margin>
-                        <Thickness
-                            Left="16"
-                            Right="12" />
+                        <Thickness Left="16" Right="12" />
                     </Label.Margin>
                 </Label>
             </Grid>
-            
         </effectsView:SfEffectsView>
-
     </Border>
-
 </ContentView>

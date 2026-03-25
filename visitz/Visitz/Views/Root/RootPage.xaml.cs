@@ -10,9 +10,7 @@ namespace Visitz.Views.Root;
 
 #nullable enable
 
-public partial class RootPage :
-    VisitzPage,
-    ISnackbarPresenter
+public partial class RootPage : VisitzPage, ISnackbarPresenter
 {
     VisitzSnackbar? Snackbar { get; set; }
 

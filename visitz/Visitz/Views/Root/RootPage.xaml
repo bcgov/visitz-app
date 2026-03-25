@@ -12,32 +12,30 @@
     x:Class="Visitz.Views.Root.RootPage"
     x:DataType="root:RootViewModel"
     NavigationPage.HasNavigationBar="False"
-    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
-
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+>
     <baseClasses:VisitzPage.Behaviors>
         <toolkit:StatusBarBehavior
             StatusBarStyle="LightContent"
-            StatusBarColor="{StaticResource BuildBarBackgroundColor}" />
+            StatusBarColor="{StaticResource BuildBarBackgroundColor}"
+        />
     </baseClasses:VisitzPage.Behaviors>
 
     <drawer:SfNavigationDrawer x:Name="NavDrawer">
-
         <drawer:SfNavigationDrawer.DrawerSettings>
             <drawer:DrawerSettings
                 DrawerWidth="360"
                 Duration="150"
                 DrawerHeaderHeight="100"
-                TouchThreshold="10">
-
+                TouchThreshold="10"
+            >
                 <drawer:DrawerSettings.DrawerContentView>
                     <root:NavDrawerContentView />
                 </drawer:DrawerSettings.DrawerContentView>
-                
             </drawer:DrawerSettings>
         </drawer:SfNavigationDrawer.DrawerSettings>
 
         <drawer:SfNavigationDrawer.ContentView>
-
             <AbsoluteLayout x:Name="RootAbsoluteLayout">
                 <foldable:TwoPaneView
                     x:Name="TwoPane"
@@ -46,30 +44,34 @@
                     TallModeConfiguration="BottomTop"
                     Pane1Length="Auto"
                     MinWideModeWidth="{Binding MinScreenSize}"
-                    ModeChanged="TwoPaneView_ModeChanged">
-            
+                    ModeChanged="TwoPaneView_ModeChanged"
+                >
                     <foldable:TwoPaneView.Pane1>
-				        <!-- 
+                        <!-- 
 					        For some reason it seems that the ContentView's implicit binding context changes, so we need to
 					        specifically reference RootViewModel.
 				        -->
                         <Grid>
-                            <nav:VerticalNavRailView IsVisible="{Binding IsLandscape, 
-					            Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
+                            <nav:VerticalNavRailView
+                                IsVisible="{Binding IsLandscape, 
+					            Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}"
+                            />
 
-                            <nav:HorizontalNavRailView IsVisible="{Binding IsPortrait, 
-				                Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
+                            <nav:HorizontalNavRailView
+                                IsVisible="{Binding IsPortrait, 
+				                Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}"
+                            />
                         </Grid>
-                    
                     </foldable:TwoPaneView.Pane1>
-                
+
                     <foldable:TwoPaneView.Pane2>
                         <StackLayout
-					        x:Name="ContentPane"
+                            x:Name="ContentPane"
                             BackgroundColor="White"
-					        Orientation="Horizontal"
-					        HorizontalOptions="Fill" 
-					        VerticalOptions="Fill" />
+                            Orientation="Horizontal"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Fill"
+                        />
                     </foldable:TwoPaneView.Pane2>
                 </foldable:TwoPaneView>
 
@@ -77,18 +79,17 @@
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     AbsoluteLayout.LayoutBounds="0.5,0.5"
                     IsRunning="{Binding ShowActivity}"
-                    IsVisible="{Binding ShowActivity}" />
+                    IsVisible="{Binding ShowActivity}"
+                />
 
                 <ContentView
-			        x:Name="SnackbarContainer"
-			        AbsoluteLayout.LayoutFlags="PositionProportional"
-			        AbsoluteLayout.LayoutBounds="0.5,1"
-			        Margin="48"
-			        IsVisible="False" />
-	        </AbsoluteLayout>
-
+                    x:Name="SnackbarContainer"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,1"
+                    Margin="48"
+                    IsVisible="False"
+                />
+            </AbsoluteLayout>
         </drawer:SfNavigationDrawer.ContentView>
-
     </drawer:SfNavigationDrawer>
-
 </baseClasses:VisitzPage>
