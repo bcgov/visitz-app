@@ -116,6 +116,8 @@ namespace Visitz.Views.Caseload
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
             StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
+            ShowMenuButton =
+                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
 
             SessionInfo = await OidcSession.GetInfoAsync();
             SetupOfficeNames();
