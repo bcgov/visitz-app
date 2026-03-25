@@ -6,7 +6,8 @@ namespace Visitz.Views.Debugging;
 
 public partial class DebugOptionsView : ViewModelContentView
 {
-    public DebugOptionsView() : base(ServiceProvider.GetService<DebugOptionsViewModel>())
+    public DebugOptionsView()
+        : base(ServiceProvider.GetService<DebugOptionsViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -25,8 +26,8 @@ public partial class DebugOptionsView : ViewModelContentView
                 {
                     HorizontalOptions = LayoutOptions.Start,
                     Text = DebugOptions.ListDocumentsFiles(),
-                }
-            }
+                },
+            },
         };
 
         await Navigator.CurrentOpenPage.ShowPopupAsync(popup);

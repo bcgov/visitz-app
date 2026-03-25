@@ -1,4 +1,4 @@
-﻿namespace Visitz.Extensions;
+namespace Visitz.Extensions;
 
 public static class HandlerChangingEventArgsExtension
 {

@@ -12,7 +12,8 @@ internal class GetPartialAttachmentsByRangeDownloadService(
     Vpi vpi,
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler,
-    UserIgnoredContentPrefs userIgnoredContentPrefs) : VisitzApiService(vpi, prefs)
+    UserIgnoredContentPrefs userIgnoredContentPrefs
+) : VisitzApiService(vpi, prefs)
 {
     static readonly int DefaultLimit = 10;
     static readonly int DefaultMonthLimit = 3;
@@ -30,7 +31,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         {
             ServiceId = MakeId(),
             ServiceType = typeof(GetPartialAttachmentsByRangeDownloadService),
-            Payload = items
+            Payload = items,
         };
     }
 
@@ -60,10 +61,9 @@ internal class GetPartialAttachmentsByRangeDownloadService(
             ResultCode = Result.NoOperation;
     }
 
-    private async Task<IEnumerable<
-        (RecordServiceInfo recordInfo,
-        string attachmentId,
-        bool force)>> ProcessAttachmentsAsync(RecordServiceInfo recordInfo)
+    private async Task<
+        IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)>
+    > ProcessAttachmentsAsync(RecordServiceInfo recordInfo)
     {
         using var realm = await VisitzRealms.GetIcmDataRealmAsync();
 
@@ -73,10 +73,10 @@ internal class GetPartialAttachmentsByRangeDownloadService(
         return filteredAttachments;
     }
 
-    private IEnumerable<
-        (RecordServiceInfo recordInfo,
-        string attachmentId,
-        bool force)> FilterAndTransformAttachments(IQueryable<Attachment> attachments, RecordServiceInfo recordInfo)
+    private IEnumerable<(RecordServiceInfo recordInfo, string attachmentId, bool force)> FilterAndTransformAttachments(
+        IQueryable<Attachment> attachments,
+        RecordServiceInfo recordInfo
+    )
     {
         var monthThreshold = DateTimeOffset.Now.AddMonths(-DefaultMonthLimit);
 

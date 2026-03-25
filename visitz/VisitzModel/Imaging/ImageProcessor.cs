@@ -35,7 +35,6 @@ public partial class ImageProcessor(Stream imageBytes)
                 var error = string.Format(MaxLoopsError, FilesizeDownsizeLoopLimit, streamOut.Length);
                 throw new InvalidOperationException(error);
             }
-
         } while (streamOut.Length > desiredMaxBytes);
 
         return streamOut;

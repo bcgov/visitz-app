@@ -3,6 +3,4 @@ using VisitzModel.Models.Navigation;
 
 namespace VisitzModel.Messaging;
 
-public class AppNavMessage(NavItem value) : ValueChangedMessage<NavItem>(value)
-{
-}
+public class AppNavMessage(NavItem value) : ValueChangedMessage<NavItem>(value) { }

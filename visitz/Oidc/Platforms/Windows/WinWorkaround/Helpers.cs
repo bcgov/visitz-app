@@ -9,7 +9,10 @@ namespace Oidc.WinWorkaround
 #pragma warning restore SA1203 // Constants should appear before fields
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern int GetCurrentPackageFullName(ref int packageFullNameLength, System.Text.StringBuilder packageFullName);
+        private static extern int GetCurrentPackageFullName(
+            ref int packageFullNameLength,
+            System.Text.StringBuilder packageFullName
+        );
 
         internal static bool IsAppPackaged
         {

@@ -45,7 +45,8 @@ public partial class VisitzSnackbar : ViewModelContentView
         }
     }
 
-    public VisitzSnackbar() : base(ServiceProvider.GetService<VisitzSnackbarViewModel>())
+    public VisitzSnackbar()
+        : base(ServiceProvider.GetService<VisitzSnackbarViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

@@ -8,18 +8,14 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
-internal class SubmitAttachmentService(Vpi vpi, LastUpdatedPrefs prefs)
-    : VisitzApiService(vpi, prefs)
+internal class SubmitAttachmentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     public static string MakeId(EntityType type, string recordId)
     {
         return $"{nameof(SubmitAttachmentService)}-{type}-{recordId}";
     }
 
-    public static StartServiceMessage MakeStartMessage(
-        EntityType type,
-        string recordId,
-        AttachmentFormData data)
+    public static StartServiceMessage MakeStartMessage(EntityType type, string recordId, AttachmentFormData data)
     {
         return new()
         {

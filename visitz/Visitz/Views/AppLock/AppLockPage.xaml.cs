@@ -32,7 +32,8 @@ public partial class AppLockPage : VisitzPage
         }
     }
 
-    public AppLockPage(AppLockViewModel viewModel) : base(viewModel)
+    public AppLockPage(AppLockViewModel viewModel)
+        : base(viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;

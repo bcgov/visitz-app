@@ -13,10 +13,10 @@ using ServiceState = Visitz.Services.Base.VisitzService.State;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-internal partial class ChildYouthVisitPublishViewModel :
-    PublishViewModel,
-    IRecipient<ServiceStateMessage>,
-    IBusinessObjectHolder
+internal partial class ChildYouthVisitPublishViewModel
+    : PublishViewModel,
+        IRecipient<ServiceStateMessage>,
+        IBusinessObjectHolder
 {
     bool _disposed;
 
@@ -136,7 +136,6 @@ internal partial class ChildYouthVisitPublishViewModel :
 
     async Task DiscardPublishedDraft()
     {
-        await VisitDraftRealm.WriteAsync(() =>
-            VisitDraftRealm.DeleteByIds<PersonVisitDraft>([Visit.ParentId]));
+        await VisitDraftRealm.WriteAsync(() => VisitDraftRealm.DeleteByIds<PersonVisitDraft>([Visit.ParentId]));
     }
 }

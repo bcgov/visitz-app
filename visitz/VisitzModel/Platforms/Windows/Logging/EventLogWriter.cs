@@ -1,6 +1,6 @@
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace VisitzModel.Platforms.Windows.Logging;
 
@@ -9,13 +9,19 @@ public static class EventLogWriter
     static readonly string _logSource = "Application";
     static readonly int _defaultEventId = 1;
 
-    public static void WriteEntry(LogLevel logLevel, string message, string categoryName, int? eventId = null, Exception exception = null)
+    public static void WriteEntry(
+        LogLevel logLevel,
+        string message,
+        string categoryName,
+        int? eventId = null,
+        Exception exception = null
+    )
     {
         string level = logLevel.ToString().ToUpperInvariant();
         var assembly = Assembly.GetEntryAssembly();
 
         string outputMessage =
-@$"{assembly.GetName().Name} {AppInfo.Current.VersionString}
+            @$"{assembly.GetName().Name} {AppInfo.Current.VersionString}
 Level: {level}
 Category: {categoryName}
 Message: {message}";
@@ -33,7 +39,7 @@ Message: {message}";
             <= LogLevel.Information => EventLogEntryType.Information,
             LogLevel.Warning => EventLogEntryType.Warning,
             <= LogLevel.Critical => EventLogEntryType.Error,
-            _ => throw new NotImplementedException(logLevel.ToString())
+            _ => throw new NotImplementedException(logLevel.ToString()),
         };
     }
 }

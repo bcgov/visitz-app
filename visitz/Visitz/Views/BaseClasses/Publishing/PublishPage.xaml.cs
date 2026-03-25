@@ -8,7 +8,8 @@ public partial class PublishPage : VisitzPage
 {
     public new PublishViewModel ViewModel => base.ViewModel as PublishViewModel;
 
-    public PublishPage(PublishViewModel publishViewModel) : base(publishViewModel)
+    public PublishPage(PublishViewModel publishViewModel)
+        : base(publishViewModel)
     {
         InitializeComponent();
         BindingContext = ViewModel;

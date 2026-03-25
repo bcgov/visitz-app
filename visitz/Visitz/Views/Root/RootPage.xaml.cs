@@ -14,7 +14,8 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
 {
     VisitzSnackbar? Snackbar { get; set; }
 
-    public RootPage() : base(ServiceProvider.GetService<RootViewModel>())
+    public RootPage()
+        : base(ServiceProvider.GetService<RootViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -40,7 +41,6 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
     {
         if (view is View v)
         {
-
 #pragma warning disable CS0618 // Type or member is obsolete
             // StackLayout with FillAndExpand has so far been the most reliable layout mechanism in MAUI, so we'll
             // suppress compiler warnings about it.

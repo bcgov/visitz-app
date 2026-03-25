@@ -1103,6 +1103,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incident concern.
+        /// </summary>
+        public static string IncidentConcern {
+            get {
+                return ResourceManager.GetString("IncidentConcern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incident number.
         /// </summary>
         public static string IncidentNumber {

@@ -12,8 +12,8 @@ public partial class PdfDetailsView : ViewModelContentView, IBusinessObjectHolde
 {
     static readonly string LoadPdfFromBase64Js = "loadPdfFromBase64('{0}')";
 
-    new PdfDetailsViewModel ViewModel => base.ViewModel as PdfDetailsViewModel
-        ?? throw new InvalidOperationException("ViewModel is null");
+    new PdfDetailsViewModel ViewModel =>
+        base.ViewModel as PdfDetailsViewModel ?? throw new InvalidOperationException("ViewModel is null");
 
     public IBusinessObject? BusinessObject
     {
@@ -33,7 +33,8 @@ public partial class PdfDetailsView : ViewModelContentView, IBusinessObjectHolde
         set => ViewModel.IsDownloadedAttachment = value;
     }
 
-    public PdfDetailsView() : base(ServiceProvider.GetService<PdfDetailsViewModel>())
+    public PdfDetailsView()
+        : base(ServiceProvider.GetService<PdfDetailsViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

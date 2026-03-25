@@ -31,9 +31,9 @@ namespace VisitzApi.Endpoints.Notes
                         [JsonKey.PayLoad] = new JsonObject()
                         {
                             [EntityNumberKey] = EntityNumber,
-                            [EntityTypeKey] = EntityType
-                        }
-                    }
+                            [EntityTypeKey] = EntityType,
+                        },
+                    },
                 }.ToString();
             }
         }
@@ -44,15 +44,15 @@ namespace VisitzApi.Endpoints.Notes
             {
                 Content = new FormUrlEncodedContent(FormDataCollection(JsonKey.DocRequest, RequestPayload)),
                 Method = HttpMethod.Post,
-                RequestUri = RequestUri
+                RequestUri = RequestUri,
             };
         }
 
         public override IEnumerable<NoteEntity> HandleResponse(HttpResponseMessage _, string responseContent)
         {
-            var notesJson = JsonDocument.Parse(responseContent)
-                .RootElement
-                .GetProperty(ResponseGetNotesKey)
+            var notesJson = JsonDocument
+                .Parse(responseContent)
+                .RootElement.GetProperty(ResponseGetNotesKey)
                 .GetProperty(JsonKey.PayLoad)
                 .GetProperty(NotesKey);
 

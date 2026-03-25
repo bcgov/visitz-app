@@ -1,7 +1,7 @@
-﻿using Oidc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
+using Oidc;
 
 namespace OidcTest;
 
@@ -20,21 +20,25 @@ public class TokenInfoTests
 
     static TokenInfo CreateTokenInfo(DateTime notBefore, DateTime expires, IEnumerable<Claim> claims)
     {
-        return new TokenInfo(new JwtSecurityToken(
-            issuer: issuer,
-            audience: audience,
-            claims: claims,
-            notBefore: notBefore,
-            expires: expires));
+        return new TokenInfo(
+            new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                notBefore: notBefore,
+                expires: expires
+            )
+        );
     }
 
     [Fact]
     public void CanCreateTokenWithStringClaim()
     {
-        var tokenInfo = CreateTokenInfo(ArbitraryNotBefore, ArbitraryExpires,
-        [
-            new Claim(displayNameKey, arbitraryDisplayName),
-        ]);
+        var tokenInfo = CreateTokenInfo(
+            ArbitraryNotBefore,
+            ArbitraryExpires,
+            [new Claim(displayNameKey, arbitraryDisplayName)]
+        );
 
         Assert.NotNull(tokenInfo);
     }
@@ -42,10 +46,11 @@ public class TokenInfoTests
     [Fact]
     public void CanCreateAndReadTokenWithStringClaim()
     {
-        var tokenInfo = CreateTokenInfo(ArbitraryNotBefore, ArbitraryExpires,
-        [
-            new Claim(displayNameKey, arbitraryDisplayName),
-        ]);
+        var tokenInfo = CreateTokenInfo(
+            ArbitraryNotBefore,
+            ArbitraryExpires,
+            [new Claim(displayNameKey, arbitraryDisplayName)]
+        );
 
         var actualName = tokenInfo.TryGet<string>(displayNameKey, out var claim) ? claim : null;
 
@@ -55,12 +60,15 @@ public class TokenInfoTests
     [Fact]
     public void CanCreateTokenAndReadListClaim()
     {
-        var tokenInfo = CreateTokenInfo(ArbitraryNotBefore, ArbitraryExpires,
-        [
-            new Claim(displayNameKey, arbitraryDisplayName),
-            new Claim(stringCollectionClaimKey, arbitraryItem),
-            new Claim(stringCollectionClaimKey, arbitraryItem),
-        ]);
+        var tokenInfo = CreateTokenInfo(
+            ArbitraryNotBefore,
+            ArbitraryExpires,
+            [
+                new Claim(displayNameKey, arbitraryDisplayName),
+                new Claim(stringCollectionClaimKey, arbitraryItem),
+                new Claim(stringCollectionClaimKey, arbitraryItem),
+            ]
+        );
 
         if (tokenInfo.TryGet<List<object>>(stringCollectionClaimKey, out var actualOutput))
             Assert.Equal(arbitraryItem, actualOutput.FirstOrDefault());
@@ -70,11 +78,14 @@ public class TokenInfoTests
     public void CanCreateTokenAndReadJsonArrayClaim()
     {
         var jsonItems = JsonSerializer.Serialize(new List<string>() { arbitraryItem, arbitraryItem });
-        var tokenInfo = CreateTokenInfo(ArbitraryNotBefore, ArbitraryExpires,
-        [
-            new Claim(displayNameKey, arbitraryDisplayName),
-            new Claim(stringCollectionClaimKey, jsonItems, JsonClaimValueTypes.JsonArray),
-        ]);
+        var tokenInfo = CreateTokenInfo(
+            ArbitraryNotBefore,
+            ArbitraryExpires,
+            [
+                new Claim(displayNameKey, arbitraryDisplayName),
+                new Claim(stringCollectionClaimKey, jsonItems, JsonClaimValueTypes.JsonArray),
+            ]
+        );
 
         if (tokenInfo.TryGet<JsonElement>(stringCollectionClaimKey, out var actualOutput))
             Assert.Equal(arbitraryItem, actualOutput.EnumerateArray().FirstOrDefault().ToString());

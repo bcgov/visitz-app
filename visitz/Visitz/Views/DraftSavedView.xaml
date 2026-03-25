@@ -8,13 +8,9 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.DraftSavedView"
     x:DataType="views:DraftSavedView"
-    x:Name="this">
-    
-    <Grid
-        BindingContext="{Reference this}"
-        RowDefinitions="Auto"
-        ColumnDefinitions="Auto">
-
+    x:Name="this"
+>
+    <Grid BindingContext="{Reference this}" RowDefinitions="Auto" ColumnDefinitions="Auto">
         <tagview:TagView
             x:Name="DraftSavedTagView"
             HorizontalOptions="Start"
@@ -23,12 +19,14 @@
             IconHeightRequest="24"
             IconWidthRequest="24"
             TextColor="{StaticResource BC_Semantic_Success}"
-            IsVisible="False">
+            IsVisible="False"
+        >
             <tagview:TagView.ImageSource>
-                <FontImageSource 
-                    Glyph="{Static fonticons:FluentIcons.Document_checkmark_20_regular}" 
+                <FontImageSource
+                    Glyph="{Static fonticons:FluentIcons.Document_checkmark_20_regular}"
                     FontFamily="FluentIconsRegular"
-                    Color="{StaticResource BC_Semantic_Success}" />
+                    Color="{StaticResource BC_Semantic_Success}"
+                />
             </tagview:TagView.ImageSource>
         </tagview:TagView>
 
@@ -40,12 +38,14 @@
             IconHeightRequest="24"
             IconWidthRequest="24"
             TextColor="{StaticResource BC_TextColor}"
-            IsVisible="False">
+            IsVisible="False"
+        >
             <tagview:TagView.ImageSource>
-                <FontImageSource 
-                    Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}" 
+                <FontImageSource
+                    Glyph="{Static fonticons:FluentIcons.Document_edit_20_regular}"
                     FontFamily="FluentIconsRegular"
-                    Color="{StaticResource BC_TextColor}" />
+                    Color="{StaticResource BC_TextColor}"
+                />
             </tagview:TagView.ImageSource>
         </tagview:TagView>
     </Grid>

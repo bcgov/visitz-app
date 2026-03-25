@@ -1,4 +1,4 @@
-﻿namespace Visitz
+namespace Visitz
 {
     /// <summary>
     /// Alternate service for Dependency Injection. Use this when there is a need to bypass constructor injection.
@@ -12,4 +12,3 @@
         public static IServiceProvider Current => IPlatformApplication.Current.Services;
     }
 }
-

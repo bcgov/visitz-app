@@ -12,7 +12,8 @@ public partial class EntityDetailsView : ViewModelContentView, IBusinessObjectHo
         set => (ViewModel as IBusinessObjectHolder).BusinessObject = value;
     }
 
-    public EntityDetailsView() : base(ServiceProvider.GetService<EntityDetailsViewModel>())
+    public EntityDetailsView()
+        : base(ServiceProvider.GetService<EntityDetailsViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

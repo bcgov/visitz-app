@@ -9,15 +9,8 @@ namespace VisitzApi.Endpoints;
 
 #nullable enable
 
-internal class GetSupportNetworkEndpoint(
-    string baseUrl,
-    ApiRecordType type,
-    string id,
-    Pagination? pagination = null)
-    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<SupportNetworkJson>)>(
-        baseUrl,
-        Vpi.V2,
-        MakePath(type, id))
+internal class GetSupportNetworkEndpoint(string baseUrl, ApiRecordType type, string id, Pagination? pagination = null)
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<SupportNetworkJson>)>(baseUrl, Vpi.V2, MakePath(type, id))
 {
     static readonly string SupportNetworkPath = "/{0}/{1}/support-network";
 
@@ -30,22 +23,18 @@ internal class GetSupportNetworkEndpoint(
 
     public override HttpRequestMessage MakeRequest()
     {
-        return new HttpRequestMessage()
-        {
-            Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(Pagination),
-        };
+        return new HttpRequestMessage() { Method = HttpMethod.Get, RequestUri = WithQueryParams(Pagination) };
     }
 
-    public override (int TotalRecords, IEnumerable<SupportNetworkJson>)
-        HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (int TotalRecords, IEnumerable<SupportNetworkJson>) HandleResponse(
+        HttpResponseMessage response,
+        string responseContent
+    )
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
             return (-1, []);
 
-        JsonElement items = JsonDocument.Parse(responseContent)
-                .RootElement
-                .GetProperty("items");
+        JsonElement items = JsonDocument.Parse(responseContent).RootElement.GetProperty("items");
 
         return (
             response.GetRecordCount(),

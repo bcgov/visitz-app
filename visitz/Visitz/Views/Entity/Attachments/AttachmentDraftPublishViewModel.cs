@@ -47,10 +47,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     public AttachmentFormData AttachmentToSubmit { get; private set; }
 
-    public async Task SetPayload(
-        IBusinessObject item,
-        AttachmentDraft draft,
-        AttachmentFiler filer = null)
+    public async Task SetPayload(IBusinessObject item, AttachmentDraft draft, AttachmentFiler filer = null)
     {
         RecordId = item.Id;
         EntityType = item.EntityType;
@@ -60,25 +57,22 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         var keyPlayer = item.GetKeyPlayer();
 
         recordServiceInfo = new RecordServiceInfo(
-                attachmentDraft.RelatedEntityType,
-                attachmentDraft.RelatedEntitySubtype,
-                RecordId,
-                attachmentDraft.Attachment.FileNumber,
-                keyPlayer.FirstName,
-                keyPlayer.LastName);
+            attachmentDraft.RelatedEntityType,
+            attachmentDraft.RelatedEntitySubtype,
+            RecordId,
+            attachmentDraft.Attachment.FileNumber,
+            keyPlayer.FirstName,
+            keyPlayer.LastName
+        );
     }
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        getAttachmentsServiceId = GetAttachmentsService.MakeId(
-            attachmentDraft.RelatedEntityType,
-            RecordId);
+        getAttachmentsServiceId = GetAttachmentsService.MakeId(attachmentDraft.RelatedEntityType, RecordId);
 
-        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(
-            attachmentDraft.RelatedEntityType,
-            RecordId);
+        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(attachmentDraft.RelatedEntityType, RecordId);
 
         WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
         WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
@@ -91,6 +85,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -104,10 +99,7 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     public override void Publish()
     {
-        var startMessage = SubmitAttachmentService.MakeStartMessage(
-            EntityType,
-            RecordId,
-            AttachmentToSubmit);
+        var startMessage = SubmitAttachmentService.MakeStartMessage(EntityType, RecordId, AttachmentToSubmit);
 
         WeakReferenceMessenger.Default.Send(startMessage);
     }

@@ -54,9 +54,10 @@ public static class IRecordInfoExtensions
         if (recordInfo.RelatedEntityRealm is Realm realm)
         {
             return IBusinessObjectExtensions.GetByIdType(
-                realm,
-                recordInfo.RelatedEntityId,
-                recordInfo.RelatedEntityType) != null;
+                    realm,
+                    recordInfo.RelatedEntityId,
+                    recordInfo.RelatedEntityType
+                ) != null;
         }
         return null;
     }
@@ -68,7 +69,8 @@ public static class IRecordInfoExtensions
             var bo = IBusinessObjectExtensions.GetByIdType(
                 realm,
                 recordInfo.RelatedEntityId,
-                recordInfo.RelatedEntityType);
+                recordInfo.RelatedEntityType
+            );
 
             if (bo is IBusinessObject businessObject)
                 return businessObject.LocalState.ShouldDownloadDuringRefresh;
@@ -88,21 +90,23 @@ public static class IRecordInfoExtensions
 
         if (realm != null)
         {
-            recordInfo.RelatedEntitySubscriptionQuery = IBusinessObjectExtensions
-                .GetQueryableByRelaxedIdType(realm,
-                    recordInfo.RelatedEntityId,
-                    recordInfo.RelatedEntityType);
+            recordInfo.RelatedEntitySubscriptionQuery = IBusinessObjectExtensions.GetQueryableByRelaxedIdType(
+                realm,
+                recordInfo.RelatedEntityId,
+                recordInfo.RelatedEntityType
+            );
 
             recordInfo.RelatedEntitySubscriptionToken =
-                recordInfo.RelatedEntitySubscriptionQuery
-                    .SubscribeForNotifications((items, changes) =>
-            {
-                recordInfo.RelatedEntityAvailable = items.Any();
-                recordInfo.RelatedEntityDownloaded = items.FirstOrDefault()
-                    is IBusinessObject businessObject
-                        && businessObject.LocalState is BoLocalState state
+                recordInfo.RelatedEntitySubscriptionQuery.SubscribeForNotifications(
+                    (items, changes) =>
+                    {
+                        recordInfo.RelatedEntityAvailable = items.Any();
+                        recordInfo.RelatedEntityDownloaded =
+                            items.FirstOrDefault() is IBusinessObject businessObject
+                            && businessObject.LocalState is BoLocalState state
                             && state.ShouldDownloadDuringRefresh;
-            });
+                    }
+                );
         }
     }
 }

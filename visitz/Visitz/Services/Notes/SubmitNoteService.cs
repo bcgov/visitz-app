@@ -20,7 +20,7 @@ namespace Visitz.Services.Notes
             {
                 Payload = submitEntity,
                 ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.NotePeriod),
-                ServiceType = typeof(SubmitNoteService)
+                ServiceType = typeof(SubmitNoteService),
             };
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Visitz.Settings
+namespace Visitz.Settings
 {
     public class DebugSettings
     {

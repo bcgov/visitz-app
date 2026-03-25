@@ -1,10 +1,10 @@
 #nullable enable
-using Microsoft.Windows.AppLifecycle;
 using System.Collections.Specialized;
 using System.Text.Json.Nodes;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel.Activation;
 
 namespace Oidc.WinWorkaround
@@ -14,7 +14,7 @@ namespace Oidc.WinWorkaround
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Your app must be configured for OAuth. In you app package's <c>Package.appxmanifest</c> under Declarations, add a 
+    /// Your app must be configured for OAuth. In you app package's <c>Package.appxmanifest</c> under Declarations, add a
     /// Protocol declaration and add the scheme you registered for your application's oauth redirect url under "Name".
     /// </para>
     /// </remarks>
@@ -30,7 +30,8 @@ namespace Oidc.WinWorkaround
         /// <returns>Returns a result parsed out from the callback url.</returns>
         /// <remarks>Prior to calling this, a call to <see cref="CheckOAuthRedirectionActivation(bool)"/> must be made during application startup.</remarks>
         /// <seealso cref="CheckOAuthRedirectionActivation(bool)"/>
-        public static Task<WebAuthenticatorResult> AuthenticateAsync(Uri authorizeUri, Uri callbackUri) => Instance.Authenticate(authorizeUri, callbackUri, CancellationToken.None);
+        public static Task<WebAuthenticatorResult> AuthenticateAsync(Uri authorizeUri, Uri callbackUri) =>
+            Instance.Authenticate(authorizeUri, callbackUri, CancellationToken.None);
 
         /// <summary>
         /// Begin an authentication flow by navigating to the specified url and waiting for a callback/redirect to the callbackUrl scheme.
@@ -41,11 +42,16 @@ namespace Oidc.WinWorkaround
         /// <returns>Returns a result parsed out from the callback url.</returns>
         /// <remarks>Prior to calling this, a call to <see cref="CheckOAuthRedirectionActivation(bool)"/> must be made during application startup.</remarks>
         /// <seealso cref="CheckOAuthRedirectionActivation(bool)"/>
-        public static Task<WebAuthenticatorResult> AuthenticateAsync(Uri authorizeUri, Uri callbackUri, CancellationToken cancellationToken) => Instance.Authenticate(authorizeUri, callbackUri, cancellationToken);
+        public static Task<WebAuthenticatorResult> AuthenticateAsync(
+            Uri authorizeUri,
+            Uri callbackUri,
+            CancellationToken cancellationToken
+        ) => Instance.Authenticate(authorizeUri, callbackUri, cancellationToken);
 
         private static readonly WebAuthenticator Instance = new WebAuthenticator();
 
-        private Dictionary<string, TaskCompletionSource<Uri>> tasks = new Dictionary<string, TaskCompletionSource<Uri>>();
+        private Dictionary<string, TaskCompletionSource<Uri>> tasks =
+            new Dictionary<string, TaskCompletionSource<Uri>>();
 
         private WebAuthenticator()
         {
@@ -56,7 +62,10 @@ namespace Oidc.WinWorkaround
         {
             if (global::Windows.ApplicationModel.Package.Current is null)
                 return false;
-            var docPath = Path.Combine(global::Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "AppxManifest.xml");
+            var docPath = Path.Combine(
+                global::Windows.ApplicationModel.Package.Current.InstalledLocation.Path,
+                "AppxManifest.xml"
+            );
             var doc = XDocument.Load(docPath, LoadOptions.None);
             var reader = doc.CreateReader();
             var namespaceManager = new XmlNamespaceManager(reader.NameTable);
@@ -64,15 +73,22 @@ namespace Oidc.WinWorkaround
             namespaceManager.AddNamespace("uap", "http://schemas.microsoft.com/appx/manifest/uap/windows10");
 
             // Check if the protocol was declared
-            var decl = doc.Root?.XPathSelectElements($"//uap:Extension[@Category='windows.protocol']/uap:Protocol[@Name='{scheme}']", namespaceManager);
+            var decl = doc.Root?.XPathSelectElements(
+                $"//uap:Extension[@Category='windows.protocol']/uap:Protocol[@Name='{scheme}']",
+                namespaceManager
+            );
 
             return decl != null && decl.Any();
         }
 
-        private static System.Collections.Specialized.NameValueCollection? GetState(Microsoft.Windows.AppLifecycle.AppActivationArguments activatedEventArgs)
+        private static System.Collections.Specialized.NameValueCollection? GetState(
+            Microsoft.Windows.AppLifecycle.AppActivationArguments activatedEventArgs
+        )
         {
-            if (activatedEventArgs.Kind == Microsoft.Windows.AppLifecycle.ExtendedActivationKind.Protocol &&
-                activatedEventArgs.Data is IProtocolActivatedEventArgs protocolArgs)
+            if (
+                activatedEventArgs.Kind == Microsoft.Windows.AppLifecycle.ExtendedActivationKind.Protocol
+                && activatedEventArgs.Data is IProtocolActivatedEventArgs protocolArgs
+            )
             {
                 return GetState(protocolArgs);
             }
@@ -108,9 +124,17 @@ namespace Oidc.WinWorkaround
                     if (jsonObject is not null)
                     {
                         NameValueCollection vals2 = new NameValueCollection(jsonObject.Count);
-                        if (jsonObject.ContainsKey("appInstanceId") && jsonObject["appInstanceId"] is JsonValue jvalue && jvalue.TryGetValue<string>(out string? value))
+                        if (
+                            jsonObject.ContainsKey("appInstanceId")
+                            && jsonObject["appInstanceId"] is JsonValue jvalue
+                            && jvalue.TryGetValue<string>(out string? value)
+                        )
                             vals2.Add("appInstanceId", value);
-                        if (jsonObject.ContainsKey("signinId") && jsonObject["signinId"] is JsonValue jvalue2 && jvalue2.TryGetValue<string>(out string? value2))
+                        if (
+                            jsonObject.ContainsKey("signinId")
+                            && jsonObject["signinId"] is JsonValue jvalue2
+                            && jvalue2.TryGetValue<string>(out string? value2)
+                        )
                             vals2.Add("signinId", value2);
                         return vals2;
                     }
@@ -119,6 +143,7 @@ namespace Oidc.WinWorkaround
             }
             return null;
         }
+
         private static bool _oauthCheckWasPerformed;
 
         /// <summary>
@@ -150,7 +175,10 @@ namespace Oidc.WinWorkaround
         /// prior to using <see cref="AuthenticateAsync(Uri, Uri, CancellationToken)"/>
         /// </remarks>
         /// <seealso cref="AuthenticateAsync(Uri, Uri, CancellationToken)"/>
-        public static bool CheckOAuthRedirectionActivation(AppActivationArguments? activatedEventArgs, bool skipShutDownOnActivation = false)
+        public static bool CheckOAuthRedirectionActivation(
+            AppActivationArguments? activatedEventArgs,
+            bool skipShutDownOnActivation = false
+        )
         {
             _oauthCheckWasPerformed = true;
             if (activatedEventArgs is null)
@@ -158,9 +186,17 @@ namespace Oidc.WinWorkaround
             if (activatedEventArgs.Kind != Microsoft.Windows.AppLifecycle.ExtendedActivationKind.Protocol)
                 return false;
             var state = GetState(activatedEventArgs);
-            if (state is not null && state["appInstanceId"] is string id && state["signinId"] is string signinId && !string.IsNullOrEmpty(signinId))
+            if (
+                state is not null
+                && state["appInstanceId"] is string id
+                && state["signinId"] is string signinId
+                && !string.IsNullOrEmpty(signinId)
+            )
             {
-                var instance = Microsoft.Windows.AppLifecycle.AppInstance.GetInstances().Where(i => i.Key == id).FirstOrDefault();
+                var instance = Microsoft
+                    .Windows.AppLifecycle.AppInstance.GetInstances()
+                    .Where(i => i.Key == id)
+                    .FirstOrDefault();
 
                 if (instance is not null && !instance.IsCurrent)
                 {
@@ -182,7 +218,10 @@ namespace Oidc.WinWorkaround
             return false;
         }
 
-        private void CurrentAppInstance_Activated(object? sender, Microsoft.Windows.AppLifecycle.AppActivationArguments e)
+        private void CurrentAppInstance_Activated(
+            object? sender,
+            Microsoft.Windows.AppLifecycle.AppActivationArguments e
+        )
         {
             if (e.Kind == Microsoft.Windows.AppLifecycle.ExtendedActivationKind.Protocol)
             {
@@ -207,19 +246,29 @@ namespace Oidc.WinWorkaround
             }
         }
 
-        private async Task<WebAuthenticatorResult> Authenticate(Uri authorizeUri, Uri callbackUri, CancellationToken cancellationToken)
+        private async Task<WebAuthenticatorResult> Authenticate(
+            Uri authorizeUri,
+            Uri callbackUri,
+            CancellationToken cancellationToken
+        )
         {
             if (!_oauthCheckWasPerformed)
             {
-                throw new InvalidOperationException("OAuth redirection check on app activation was not detected. Please make sure a call to WebAuthenticator.CheckOAuthRedirectionActivation was made during App creation.");
+                throw new InvalidOperationException(
+                    "OAuth redirection check on app activation was not detected. Please make sure a call to WebAuthenticator.CheckOAuthRedirectionActivation was made during App creation."
+                );
             }
             if (!Helpers.IsAppPackaged)
             {
-                throw new InvalidOperationException("The WebAuthenticator requires a packaged app with an AppxManifest");
+                throw new InvalidOperationException(
+                    "The WebAuthenticator requires a packaged app with an AppxManifest"
+                );
             }
             if (!IsUriProtocolDeclared(callbackUri.Scheme))
             {
-                throw new InvalidOperationException($"The URI Scheme {callbackUri.Scheme} is not declared in AppxManifest.xml");
+                throw new InvalidOperationException(
+                    $"The URI Scheme {callbackUri.Scheme} is not declared in AppxManifest.xml"
+                );
             }
             var g = Guid.NewGuid();
             var taskId = g.ToString();
@@ -229,7 +278,7 @@ namespace Oidc.WinWorkaround
             var stateJson = new JsonObject
             {
                 { "appInstanceId", Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().Key },
-                { "signinId", taskId }
+                { "signinId", taskId },
             };
             if (query["state"] is string oldstate && !string.IsNullOrEmpty(oldstate))
             {

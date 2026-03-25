@@ -43,6 +43,9 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetOfficeCaseloadService>();
             builder.Services.AddTransient<RecordCleanupService>();
             builder.Services.AddTransient<AutoRefreshService>();
+            builder.Services.AddTransient<GetIncidentConcernsService>();
+            builder.Services.AddTransient<GetIncidentConcernsByRangeService>();
+
             builder.Services.AddTransient<GetAdditionalInformationService>();
             builder.Services.AddTransient<GetAdditionalInformationByRangeService>();
             return builder;

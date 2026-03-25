@@ -20,7 +20,8 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
         set => ViewModel.BusinessObject = value;
     }
 
-    public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())
+    public NoteEntryView()
+        : base(ServiceProvider.GetService<NoteEntryViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -98,7 +99,8 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
             LocalizedStrings.DiscardDraftQuestion,
             LocalizedStrings.DiscardNoteDraftDescription,
             LocalizedStrings.Discard,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
     }
 
     private void NotesEditor_Loaded(object sender, EventArgs e)

@@ -7,7 +7,8 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadItemView : BaseContentView
 {
-    public CaseloadItemView() : base()
+    public CaseloadItemView()
+        : base()
     {
         InitializeComponent();
     }

@@ -4,6 +4,7 @@ namespace Visitz.Device
     {
         public bool IsKeyboardOpen { get; } = isKeyboardOpen;
     }
+
     public partial class SoftKeyboardOpenHandler : IDisposable
     {
         public event EventHandler<KeyboardStateChangedEventArgs> KeyboardStateChanged;

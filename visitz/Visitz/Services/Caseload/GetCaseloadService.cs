@@ -1,21 +1,25 @@
-using Microsoft.Extensions.Logging;
 using Oidc;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzApi.Models.Caseload;
+using VisitzApi.Requests;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
 
+#nullable enable
+
 namespace Visitz.Services.Caseload
 {
-    public class GetCaseloadService(
-        Vpi vpi,
-        LastUpdatedPrefs prefs,
-        UserIgnoredContentPrefs userIgnoredContentPrefs) : VisitzApiService(vpi, prefs)
+    internal class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredContentPrefs userIgnoredContentPrefs)
+        : ApiPaginationService(vpi, prefs)
     {
         UserIgnoredContentPrefs UserIgnoredPrefs { get; } = userIgnoredContentPrefs;
+
+        List<CaseRecord> CaseRecords { get; } = [];
+
+        List<IncidentRecord> IncidentRecords { get; } = [];
+
         public static string MakeId()
         {
             return nameof(GetCaseloadService);
@@ -33,31 +37,16 @@ namespace Visitz.Services.Caseload
 
         public bool Force => (bool)Payload;
 
-        protected override async Task RunApiServiceAsync()
+        public override string GetId()
         {
-            try
-            {
-                await DownloadAndSaveCaseloadV2Async();
-
-                ResultCode = Result.Successful;
-                LastUpdatedPrefs.SetUtcNow(AutoRefreshService.CooldownTimestampUtc);
-            }
-            catch (OperationCanceledException opEx)
-            {
-                Logger.LogInformation($"Caseload refresh cancelled: '{opEx.Message}'");
-            }
-            catch (Exception)
-            {
-                LastUpdatedPrefs.SetUtcNow(AutoRefreshService.CooldownTimestampUtc);
-                throw;
-            }
+            return MakeId();
         }
 
-        private async Task DownloadAndSaveCaseloadV2Async()
+        protected override async Task<int> RunPaginatedService(Pagination pagination)
         {
-            DateTimeOffset? after = Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
+            pagination.After = Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
 
-            CaseloadJson caseloadFromApi = await Vpi.GetCaseloadAsync(after: after);
+            var (total, caseloadFromApi) = await Vpi.GetCaseloadAsync(pagination: pagination);
 
             var session = await OidcSessionInfo.GetAsync();
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
@@ -65,30 +54,57 @@ namespace Visitz.Services.Caseload
             List<Exception> invalidOps = [];
 
             if (CaseloadHelper.CanSynchronize(caseloadFromApi.Cases, invalidOps))
-                await CaseRecord.SynchronizeAsync(
-                    realm,
-                    caseloadFromApi.Cases.Items,
-                    UserIgnoredPrefs,
-                    session.Idir,
-                    isPersonalCaseload: true);
+                CaseRecords.AddRange(CaseRecord.FromApiJsonArray(caseloadFromApi.Cases.Items, session.Idir));
 
             if (CaseloadHelper.CanSynchronize(caseloadFromApi.Incidents, invalidOps))
-                await IncidentRecord.SynchronizeAsync(
-                    realm,
-                    caseloadFromApi.Incidents.Items,
-                    UserIgnoredPrefs,
-                    session.Idir,
-                    isPersonalCaseload: true);
+                IncidentRecords.AddRange(
+                    IncidentRecord.FromApiJsonArray(caseloadFromApi.Incidents.Items, session.Idir)
+                );
 
             // TODO: synchronize memos and service requests once we have official UI support
 
             if (invalidOps.Count > 0)
                 throw new AggregateException(invalidOps);
+
+            return total;
         }
 
-        public override string GetId()
+        protected override async Task AfterRun()
         {
-            return MakeId();
+            var session = await OidcSessionInfo.GetAsync();
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+
+            try
+            {
+                await CaseRecord.SynchronizeAsync(
+                    realm,
+                    CaseRecords,
+                    UserIgnoredPrefs,
+                    session.Idir,
+                    isPersonalCaseload: true
+                );
+            }
+            catch (Exception ex)
+            {
+                Exceptions.Add(ex);
+            }
+
+            try
+            {
+                await IncidentRecord.SynchronizeAsync(
+                    realm,
+                    IncidentRecords,
+                    UserIgnoredPrefs,
+                    session.Idir,
+                    isPersonalCaseload: true
+                );
+            }
+            catch (Exception ex)
+            {
+                Exceptions.Add(ex);
+            }
+
+            // TODO: synchronize memos and service requests once we have official UI supports
         }
     }
 }

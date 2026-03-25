@@ -3,6 +3,4 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Messaging;
 
-public class TodoMasterSelectedMessage(NavItem value) : ValueChangedMessage<NavItem>(value)
-{
-}
+public class TodoMasterSelectedMessage(NavItem value) : ValueChangedMessage<NavItem>(value) { }

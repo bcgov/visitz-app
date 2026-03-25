@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using IdentityModel.OidcClient;
 using IdentityModel.OidcClient.Browser;
 using IdentityModel.OidcClient.Results;
@@ -5,7 +6,6 @@ using Oidc.Events;
 using Oidc.Exceptions;
 using Oidc.Network;
 using Oidc.Util;
-using System.IdentityModel.Tokens.Jwt;
 
 #nullable enable
 
@@ -25,13 +25,13 @@ namespace Oidc
 
         public static async Task<bool> IsSessionValid()
         {
-            return await TokenHolder.IsAccessTokenValid()
-                || !await TokenHolder.IsRefreshTokenExpired();
+            return await TokenHolder.IsAccessTokenValid() || !await TokenHolder.IsRefreshTokenExpired();
         }
 
         static async Task DoAssertValidSessionAsync(
             string messageIfUnavailable,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default
+        )
         {
             NetworkHelper.AssertInternetAvailable(messageIfUnavailable);
 
@@ -46,7 +46,8 @@ namespace Oidc
 
         public static async Task AssertValidSessionAsync(
             string messageIfUnavailable,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default
+        )
         {
             await Semaphore.WaitAsync(cancellationToken);
 
@@ -91,11 +92,13 @@ namespace Oidc
             {
                 bool success = !loginResult?.IsError ?? false;
 #if DEBUG
-                ConsoleTrace.TraceMethod(typeof(OidcSession),
-                    $"Login success: '{success}', Error: {loginResult?.Error} -> '{loginResult?.ErrorDescription}'");
+                ConsoleTrace.TraceMethod(
+                    typeof(OidcSession),
+                    $"Login success: '{success}', Error: {loginResult?.Error} -> '{loginResult?.ErrorDescription}'"
+                );
 #endif
                 var info = await OidcSessionInfo.GetAsync();
-                SessionChanged?.Invoke(info, new LoginChangedEventArgs() { Success = success, });
+                SessionChanged?.Invoke(info, new LoginChangedEventArgs() { Success = success });
             }
         }
 
@@ -118,14 +121,16 @@ namespace Oidc
             finally
             {
 #if DEBUG
-                ConsoleTrace.TraceMethod(typeof(OidcSession),
-                    $"refreshResult.IsError: '{refreshResult?.IsError}', error: '{refreshResult?.Error}'");
+                ConsoleTrace.TraceMethod(
+                    typeof(OidcSession),
+                    $"refreshResult.IsError: '{refreshResult?.IsError}', error: '{refreshResult?.Error}'"
+                );
 #endif
                 var info = await OidcSessionInfo.GetAsync();
-                SessionChanged?.Invoke(info, new RefreshChangedEventArgs()
-                {
-                    Success = !refreshResult?.IsError ?? false
-                });
+                SessionChanged?.Invoke(
+                    info,
+                    new RefreshChangedEventArgs() { Success = !refreshResult?.IsError ?? false }
+                );
             }
         }
 
@@ -135,8 +140,10 @@ namespace Oidc
             var logoutSuccess = !logoutResult.IsError;
 
 #if DEBUG
-            ConsoleTrace.TraceMethod(typeof(OidcSession),
-                $"logoutResult.IsError: '{logoutResult.IsError}', error: '{logoutResult.Error}'");
+            ConsoleTrace.TraceMethod(
+                typeof(OidcSession),
+                $"logoutResult.IsError: '{logoutResult.IsError}', error: '{logoutResult.Error}'"
+            );
 #endif
             await InvalidateSessionAsync();
 

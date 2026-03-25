@@ -9,18 +9,20 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.User.UserView"
     x:DataType="user:UserViewModel"
-    BackgroundColor="Black">
-
+    BackgroundColor="Black"
+>
     <AbsoluteLayout IgnoreSafeArea="True">
         <views:FeaturedBackgroundUnderlay
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
-            ImageDisplayOptions="TextReadable" />
+            ImageDisplayOptions="TextReadable"
+        />
 
         <controls:CloseButton
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="0,0"
-            Margin="{StaticResource DefaultMargin}" />
+            Margin="{StaticResource DefaultMargin}"
+        />
 
         <Label
             AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -28,14 +30,16 @@
             Margin="16"
             Text="{Binding DisplayName, StringFormat='Hello, {0}.'}"
             FontSize="{StaticResource HeadlineLargeFontSize}"
-            TextColor="White" />
+            TextColor="White"
+        />
 
         <Button
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="0.5,0.5"
             StyleClass="FeatureButton,GoldBorderButton"
             Text="{local:Localize Logout}"
-            Command="{Binding TryLogoutCommand}" />
+            Command="{Binding TryLogoutCommand}"
+        />
 
         <Label
             AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -44,7 +48,8 @@
             Padding="5,20,5,5"
             Text="{local:Localize CollectionNotice}"
             TextColor="White"
-            TextDecorations="Underline">
+            TextDecorations="Underline"
+        >
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding OpenCollectionNoticeCommand}" />
             </Label.GestureRecognizers>
@@ -55,16 +60,13 @@
             AbsoluteLayout.LayoutFlags="PositionProportional"
             AbsoluteLayout.LayoutBounds="0.5,1"
             Spacing="30"
-            Margin="{OnPlatform iOS=20, Default=5}">
+            Margin="{OnPlatform iOS=20, Default=5}"
+        >
             <!-- Setting iOS margin to workaround a safe area bug -->
 
-            <Label
-                Text="{Binding BuildNumber, StringFormat='Build #{0}'}" 
-                TextColor="White" />
+            <Label Text="{Binding BuildNumber, StringFormat='Build #{0}'}" TextColor="White" />
 
-            <Label 
-                Text="{Binding AppVersion, StringFormat='Version {0}'}" 
-                TextColor="White" />
+            <Label Text="{Binding AppVersion, StringFormat='Version {0}'}" TextColor="White" />
         </HorizontalStackLayout>
 
         <Label
@@ -73,14 +75,14 @@
             Padding="5,20,5,5"
             Text="{local:Localize FeedbackUrlPrompt}"
             TextColor="White"
-            TextDecorations="Underline">
+            TextDecorations="Underline"
+        >
             <Label.GestureRecognizers>
                 <TapGestureRecognizer
                     Command="{Binding OpenFeedbackUrlCommand}"
-                    CommandParameter="{Binding FeedbackUrl}" />
+                    CommandParameter="{Binding FeedbackUrl}"
+                />
             </Label.GestureRecognizers>
         </Label>
-
     </AbsoluteLayout>
-
 </base:ViewModelContentView>

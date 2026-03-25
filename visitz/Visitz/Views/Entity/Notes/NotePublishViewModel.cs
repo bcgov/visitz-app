@@ -48,6 +48,7 @@ namespace Visitz.Views.Entity.Notes
         }
 
         bool disposed;
+
         protected override void Dispose(bool disposing)
         {
             if (!disposed && disposing)
@@ -105,4 +106,3 @@ namespace Visitz.Views.Entity.Notes
         }
     }
 }
-

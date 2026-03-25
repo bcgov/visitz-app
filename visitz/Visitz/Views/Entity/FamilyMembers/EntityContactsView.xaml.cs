@@ -20,7 +20,8 @@ public partial class EntityContactsView : ViewModelContentView, IBusinessObjectH
         }
     }
 
-    public EntityContactsView() : base(ServiceProvider.GetService<EntityContactsViewModel>())
+    public EntityContactsView()
+        : base(ServiceProvider.GetService<EntityContactsViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;

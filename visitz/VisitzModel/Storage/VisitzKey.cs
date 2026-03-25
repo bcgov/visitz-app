@@ -32,9 +32,7 @@ public static class VisitzKey
         var namespacedKey = _encryptionKeyName + keyName;
         var encodedKey = await SecureStorage.Default.GetAsync(namespacedKey);
 
-        return encodedKey != null
-            ? Convert.FromBase64String(encodedKey)
-            : null;
+        return encodedKey != null ? Convert.FromBase64String(encodedKey) : null;
     }
 
     public static async Task<byte[]> GetKey(string keyName, int? keySizeIfNew = null)
