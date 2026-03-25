@@ -80,7 +80,7 @@ namespace Visitz.Services.Caseload
 
             var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
             var all = casesIncidentsSrs.Concat(memos);
-
+            var IncidentmemoSrs = incidents.Concat(memos).Concat(srs);
             await Task.WhenAll(
                 GetAllNotes(casesIncidentsSrs, exceptions),
                 GetAllVisits(cases, exceptions),
@@ -89,9 +89,7 @@ namespace Visitz.Services.Caseload
                 GetAllAttachments(all, exceptions),
                 GetAllSafetyAssessments(incidents, exceptions),
                 GetAllIncidentConcerns(incidents, exceptions),
-                              GetAllAdditionalInformation(incidents, exceptions),
-                GetAllAdditionalInformation(memos, exceptions),
-                GetAllAdditionalInformation(srs, exceptions)
+                GetAllAdditionalInformation(IncidentmemoSrs, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
@@ -253,14 +251,15 @@ namespace Visitz.Services.Caseload
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.IncidentConcern, ex));
             }
         }
+
         private async Task GetAllAdditionalInformation(
-           IEnumerable<RecordServiceInfo> incidents,
-           List<Exception> exceptions
-           )
+            IEnumerable<RecordServiceInfo> incidentsMemosSrs,
+            List<Exception> exceptions
+        )
         {
             try
             {
-                var startMessage = GetAdditionalInformationByRangeService.MakeStartMessage(incidents);
+                var startMessage = GetAdditionalInformationByRangeService.MakeStartMessage(incidentsMemosSrs);
                 await ServiceHandler.TryRunServiceAsync(startMessage);
             }
             catch (Exception ex)

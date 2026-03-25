@@ -5,10 +5,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.CallDetails;
 
-internal class GetAdditionalInformationByRangeService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+internal class GetAdditionalInformationByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
     public static string MakeId()

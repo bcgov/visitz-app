@@ -9,58 +9,57 @@ namespace VisitzModelTest.Models.CallDetails;
 
 public class AdditionalInformationTests
 {
-
     private static readonly List<AdditionalInformationJson> AddInfoList =
-        [
-            new()
-            {
-                AdditionalInformation = "Test",
-                Created = "abc",
-                CreatedBy = "jdijdi",
-                CreatedByName = "abc",
-                Id = "1",
-                IncidentId = "1",
-                Updated = "djie",
-                UpdatedBy = "abc",
-                UpdatedByName = "test"
-            },
-            new()
-            {
-                AdditionalInformation = "Test",
-                Created = "abc",
-                CreatedBy = "jdijdi",
-                CreatedByName = "abc",
-                Id = "2",
-                IncidentId = "1",
-                Updated = "djie",
-                UpdatedBy = "abc",
-                UpdatedByName = "test"
-            },
-            new()
-            {
-                AdditionalInformation = "Test",
-                Created = "abc",
-                CreatedBy = "jdijdi",
-                CreatedByName = "abc",
-                Id = "3",
-                IncidentId = "1",
-                Updated = "djie",
-                UpdatedBy = "abc",
-                UpdatedByName = "test"
-            },
-            new()
-            {
-                AdditionalInformation = "Test",
-                Created = "abc",
-                CreatedBy = "jdijdi",
-                CreatedByName = "abc",
-                Id = "4",
-                IncidentId = "1",
-                Updated = "djie",
-                UpdatedBy = "abc",
-                UpdatedByName = "test"
-            }
-        ];
+    [
+        new()
+        {
+            AdditionalInformation = "Test",
+            Created = "abc",
+            CreatedBy = "jdijdi",
+            CreatedByName = "abc",
+            Id = "1",
+            IncidentId = "1",
+            Updated = "djie",
+            UpdatedBy = "abc",
+            UpdatedByName = "test",
+        },
+        new()
+        {
+            AdditionalInformation = "Test",
+            Created = "abc",
+            CreatedBy = "jdijdi",
+            CreatedByName = "abc",
+            Id = "2",
+            IncidentId = "1",
+            Updated = "djie",
+            UpdatedBy = "abc",
+            UpdatedByName = "test",
+        },
+        new()
+        {
+            AdditionalInformation = "Test",
+            Created = "abc",
+            CreatedBy = "jdijdi",
+            CreatedByName = "abc",
+            Id = "3",
+            IncidentId = "1",
+            Updated = "djie",
+            UpdatedBy = "abc",
+            UpdatedByName = "test",
+        },
+        new()
+        {
+            AdditionalInformation = "Test",
+            Created = "abc",
+            CreatedBy = "jdijdi",
+            CreatedByName = "abc",
+            Id = "4",
+            IncidentId = "1",
+            Updated = "djie",
+            UpdatedBy = "abc",
+            UpdatedByName = "test",
+        },
+    ];
 
     [Fact]
     public async Task SynchronizeAsyncAddAdditionalInfoToRealm()
@@ -69,7 +68,7 @@ public class AdditionalInformationTests
         List<AdditionalInformationJson> AdditionalInfo = AddInfoList;
 
         var numberOfAdditionalInfoBeforeInsertion = realm.All<AdditionalInformation>().Count();
-        await AdditionalInformation.SynchronizeAsync(realm, AdditionalInfo, "1",EntityType.Case);
+        await AdditionalInformation.SynchronizeAsync(realm, AdditionalInfo, "1", EntityType.Incident);
 
         var numberOfAdditionalInfoAfterInsertion = realm.All<AdditionalInformation>().Count();
 
@@ -83,12 +82,12 @@ public class AdditionalInformationTests
         var realm = await TestingUtilities.MakeRealm<AdditionalInformationTests>();
         List<AdditionalInformationJson> AdditionalInfo = AddInfoList;
 
-        await AdditionalInformation.SynchronizeAsync(realm, AdditionalInfo, "1", EntityType.Case);
+        await AdditionalInformation.SynchronizeAsync(realm, AdditionalInfo, "1", EntityType.Incident);
         var numberOfAdditionalInfoBeforeDeletion = realm.All<AdditionalInformation>().Count();
 
         AdditionalInfo.RemoveAll(item => item.Id == "1");
         AdditionalInfo.RemoveAll(item => item.Id == "4");
-        await AdditionalInformation.SynchronizeAsync(realm, AdditionalInfo, "1", EntityType.Case);
+        await AdditionalInformation.SynchronizeAsync(realm, AdditionalInfo, "1", EntityType.Incident);
 
         var numberOfAdditionalInfoAfterDeletion = realm.All<AdditionalInformation>().Count();
 

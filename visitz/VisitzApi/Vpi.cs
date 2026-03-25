@@ -160,12 +160,12 @@ namespace VisitzApi
         }
 
         public async Task<(int TotalRecords, IEnumerable<AdditionalInformationJson>)> GetAdditionalInformation(
-           ApiRecordType type,
-          string id,
-          Pagination pagination = null)
+            ApiRecordType type,
+            string id,
+            Pagination pagination = null
+        )
         {
             return await CallApi(new AdditionalInformationEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
-       
     }
 }

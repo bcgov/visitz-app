@@ -63,7 +63,6 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAttachments(exceptions),
             GetSafetyAssessments(exceptions),
             GetIncidentConcerns(exceptions),
-           
             GetAdditionalInformation(exceptions)
         );
 
@@ -225,21 +224,16 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         }
         return Result.NoOperation;
     }
+
     async Task<Result> GetAdditionalInformation(List<Exception> exceptions)
     {
         try
         {
-            if (BusinessObject.EntityType == EntityType.Incident)
-            {
-                var startMessage = GetAdditionalInformationService.MakeStartMessage(new(BusinessObject));
-                return await ServiceHandler.TryRunServiceAsync(startMessage);
-            }
-            if (BusinessObject.EntityType == EntityType.Memo)
-            {
-                var startMessage = GetAdditionalInformationService.MakeStartMessage(new(BusinessObject));
-                return await ServiceHandler.TryRunServiceAsync(startMessage);
-            }
-            if (BusinessObject.EntityType == EntityType.ServiceRequest)
+            if (
+                (BusinessObject.EntityType == EntityType.Incident)
+                || (BusinessObject.EntityType == EntityType.Memo)
+                || (BusinessObject.EntityType == EntityType.ServiceRequest)
+            )
             {
                 var startMessage = GetAdditionalInformationService.MakeStartMessage(new(BusinessObject));
                 return await ServiceHandler.TryRunServiceAsync(startMessage);

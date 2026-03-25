@@ -10,16 +10,15 @@ using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.CallDetails;
+
 #nullable enable
-internal class GetAdditionalInformationService(Vpi vpi, LastUpdatedPrefs prefs)
-    : ApiPaginationService(vpi, prefs)
+internal class GetAdditionalInformationService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
     List<AdditionalInformationJson> AdditionalInformationRecords { get; } = [];
 
     public static string MakeId(EntityType type, string id)
     {
-
         return nameof(GetAdditionalInformationService) + $"|{type}|{id}";
     }
 
@@ -38,17 +37,17 @@ internal class GetAdditionalInformationService(Vpi vpi, LastUpdatedPrefs prefs)
         return MakeId(Info.Type, Info.Id);
     }
 
-    override protected async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
         var (total, contacts) = await Vpi.GetAdditionalInformation((ApiRecordType)Info.Type, Info.Id, pagination);
         AdditionalInformationRecords.AddRange(contacts);
         return total;
     }
+
     protected override async Task AfterRun()
     {
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await AdditionalInformation.SynchronizeAsync(realm, AdditionalInformationRecords, Info.Id, Info.Type));
+            await AdditionalInformation.SynchronizeAsync(realm, AdditionalInformationRecords, Info.Id, Info.Type)
+        );
     }
-
 }
-

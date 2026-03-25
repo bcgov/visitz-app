@@ -2,17 +2,16 @@ using Realms;
 using VisitzApi.Models.CallDetails;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using static Microsoft.Maui.Controls.Internals.GIFBitmap;
 
 namespace VisitzModel.Models.CallDetails;
+
 #nullable enable
-public partial class AdditionalInformation :
-    IRealmObject,
-    IApiJson<AdditionalInformationJson>
+public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalInformationJson>
 {
     [PrimaryKey]
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
     public string? ParentId { get; set; }
     public EntityType ParentType
@@ -21,23 +20,19 @@ public partial class AdditionalInformation :
         set => ParentTypeInt = (int)value;
     }
     private int ParentTypeInt { get; set; }
-    public string AdditionalInformations { get; set; }
+    public string AdditionalInformations { get; set; } = string.Empty;
 
-    public string Created { get; set; }
+    public string Created { get; set; } = string.Empty;
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string CreatedByName { get; set; }
+    public string CreatedByName { get; set; } = string.Empty;
 
-    public string Updated { get; set; }
+    public string Updated { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public string UpdatedByName { get; set; }
-
-    public string IncidentId { get; set; }
-    public string SRId { get; set; }
-    public string MemoId { get; set; }
+    public string UpdatedByName { get; set; } = string.Empty;
 
     public AdditionalInformation() { }
 
@@ -52,11 +47,12 @@ public partial class AdditionalInformation :
         UpdatedBy = json.UpdatedBy;
         UpdatedByName = json.UpdatedByName;
         ParentId = parentId;
+        ParentType = parentType;
     }
 
     public AdditionalInformationJson ToApiJson(string dateFormat = "s")
     {
-        return new()
+        var addInfo = new AdditionalInformationJson()
         {
             Created = Created,
             AdditionalInformation = AdditionalInformations,
@@ -64,16 +60,29 @@ public partial class AdditionalInformation :
             CreatedByName = CreatedByName,
             Updated = Updated,
             UpdatedBy = UpdatedBy,
-            IncidentId = IncidentId,
             Id = Id,
             UpdatedByName = UpdatedByName,
-            SRId = SRId,
-            MemoId = MemoId
         };
+        if (ParentTypeInt == 3)
+        {
+            addInfo.MemoId = ParentId;
+        }
+        if (ParentTypeInt == 2)
+        {
+            addInfo.IncidentId = ParentId;
+        }
+        if (ParentTypeInt == 4)
+        {
+            addInfo.SRId = ParentId;
+        }
+        return addInfo;
     }
 
     public static List<AdditionalInformation> FromApiJsonArray(
-        IEnumerable<AdditionalInformationJson> jsonArray, EntityType parentType, string parentId)
+        IEnumerable<AdditionalInformationJson> jsonArray,
+        EntityType parentType,
+        string parentId
+    )
     {
         List<AdditionalInformation> outList = [];
 
@@ -88,7 +97,8 @@ public partial class AdditionalInformation :
         Realm realm,
         IEnumerable<AdditionalInformationJson> additionalInformation,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
         if (additionalInformation == null)
             return;
@@ -96,30 +106,39 @@ public partial class AdditionalInformation :
         var incomingadditionalinformation = FromApiJsonArray(additionalInformation, type, parentId);
         var incomingIncidentConcernIds = incomingadditionalinformation.Select(item => item.Id);
 
-        var allIncidentConcerns = realm.All<AdditionalInformation>().Where(rec => rec.ParentId == parentId);
+        var allIncidentConcerns = realm
+            .All<AdditionalInformation>()
+            .Where(item => (item.ParentId) == parentId && item.ParentTypeInt == (int)type);
         var allIncidentConcernIds = allIncidentConcerns.AsEnumerable().Select(item => item.Id);
 
         var additionalInformationIdsToDelete = allIncidentConcernIds.Except(incomingIncidentConcernIds);
-        var incidentConcernsToDelete = allIncidentConcerns.ToList().Where(item => additionalInformationIdsToDelete.Contains(item.Id));
+        var incidentConcernsToDelete = allIncidentConcerns
+            .ToList()
+            .Where(item => additionalInformationIdsToDelete.Contains(item.Id));
 
         if (!incidentConcernsToDelete.Any() && !incomingIncidentConcernIds.Any())
             return;
 
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            foreach (var item in incidentConcernsToDelete)
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
             {
-                if (item != null && item.IsValid)
-                    realm.Remove(item);
-            }
+                foreach (var item in incidentConcernsToDelete)
+                {
+                    if (item != null && item.IsValid)
+                        realm.Remove(item);
+                }
 
-            realm.Upsert(incomingadditionalinformation);
-        });
+                realm.Upsert(incomingadditionalinformation);
+            }
+        );
     }
-    public static void RemoveByParent(Realm realm, EntityType type, int parentId)
+
+    public static void RemoveByParent(Realm realm, EntityType type, string parentId)
     {
-        var visitItems = realm.All<AdditionalInformation>()
-            .Where(item => Convert.ToInt32(item.ParentId) == parentId && item.ParentTypeInt == (int)type);
+        var visitItems = realm
+            .All<AdditionalInformation>()
+            .Where(item => (item.ParentId) == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(visitItems);
     }

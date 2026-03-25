@@ -13,7 +13,7 @@ using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Utilities;
-using VisitzModel.Models.CallDetails;
+
 namespace VisitzModel.Models.Caseload;
 
 public partial class CaseRecord
