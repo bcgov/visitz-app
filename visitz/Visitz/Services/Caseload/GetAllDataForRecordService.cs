@@ -242,4 +242,18 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         }
         return Result.NoOperation;
     }
+
+    async Task<Result> GetContactMedicalBehavioral(List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactMedicalBehavioralService.MakeStartMessage(new(BusinessObject));
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
+            return Result.Error;
+        }
+    }
 }

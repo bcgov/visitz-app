@@ -47,6 +47,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetIncidentConcernsByRangeService>();
             builder.Services.AddTransient<GetCallInformationService>();
             builder.Services.AddTransient<GetCallInformationByRangeService>();
+            builder.Services.AddTransient<GetContactMedicalBehavioralService>();
+            builder.Services.AddTransient<GetContactMedicalBehavioralByRangeService>();
 
             return builder;
         }

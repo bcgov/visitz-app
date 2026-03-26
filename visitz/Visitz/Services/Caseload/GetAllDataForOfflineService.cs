@@ -90,7 +90,8 @@ namespace Visitz.Services.Caseload
                 GetAllAttachments(all, exceptions),
                 GetAllSafetyAssessments(incidents, exceptions),
                 GetAllIncidentConcerns(incidents, exceptions),
-                GetCallInformation(memosIncidentsSrs, exceptions)
+                GetCallInformation(memosIncidentsSrs, exceptions),
+                //GetContactMedicalBehavioral(all, exceptions),
             );
 
             // Get attachment files AFTER other dependent info so we
@@ -266,6 +267,22 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.CallInformation, ex));
+            }
+        }
+
+        private async Task GetContactMedicalBehavioral(
+            IEnumerable<(RecordServiceInfo, string)> contactMedicalBehavioral,
+            List<Exception> exceptions
+        )
+        {
+            try
+            {
+                var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(contactMedicalBehavioral);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
             }
         }
     }
