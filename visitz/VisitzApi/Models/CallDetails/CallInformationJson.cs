@@ -1,22 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.VisualBasic;
+#nullable enable
 
 namespace VisitzApi.Models.CallDetails;
 
-#nullable enable
-public class AdditionalInformationJson
+public class CallInformationJson
 {
     public string Id { get; set; } = string.Empty;
-    public string AdditionalInformation { get; set; } = string.Empty;
     public string Created { get; set; } = string.Empty;
     public string CreatedBy { get; set; } = string.Empty;
     public string CreatedByName { get; set; } = string.Empty;
     public string Updated { get; set; } = string.Empty;
     public string UpdatedBy { get; set; } = string.Empty;
     public string UpdatedByName { get; set; } = string.Empty;
+    public string CallInformation { get; set; } = string.Empty;
+    public string SrId { get; set; } = string.Empty;
     public string IncidentId { get; set; } = string.Empty;
-    public string SRId { get; set; } = string.Empty;
     public string MemoId { get; set; } = string.Empty;
+    public string Note { get; set; } = string.Empty;
 }

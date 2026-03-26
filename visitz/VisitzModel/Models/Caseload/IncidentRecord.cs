@@ -319,6 +319,7 @@ public partial class IncidentRecord
         Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
         IncidentConcerns.RemoveByParent(fromRealm, Id);
+        CallInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
 
         if (deleteLocalState)
             fromRealm.Remove(LocalState);

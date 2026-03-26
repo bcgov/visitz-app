@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic;
 using Realms;
 using VisitzApi.Models.CallDetails;
 using VisitzModel.Extensions;
@@ -13,13 +14,13 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string? ParentId { get; set; }
+    public string ParentId { get; set; } = string.Empty;
     public EntityType ParentType
     {
         get => (EntityType)ParentTypeInt;
         set => ParentTypeInt = (int)value;
     }
-    private int ParentTypeInt { get; set; }
+    private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
     public string AdditionalInformations { get; set; } = string.Empty;
 
     public string Created { get; set; } = string.Empty;
@@ -63,17 +64,21 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
             Id = Id,
             UpdatedByName = UpdatedByName,
         };
-        if (ParentTypeInt == 3)
+        switch (ParentType)
         {
-            addInfo.MemoId = ParentId;
-        }
-        if (ParentTypeInt == 2)
-        {
-            addInfo.IncidentId = ParentId;
-        }
-        if (ParentTypeInt == 4)
-        {
-            addInfo.SRId = ParentId;
+            case EntityType.Incident:
+                addInfo.IncidentId = ParentId;
+                break;
+            case EntityType.Memo:
+                addInfo.MemoId = ParentId;
+                break;
+            case EntityType.ServiceRequest:
+                addInfo.SRId = ParentId;
+                break;
+            case EntityType.Case:
+            case EntityType.Unknown:
+            default:
+                throw new NotImplementedException($"'{ParentType}' not implemented");
         }
         return addInfo;
     }

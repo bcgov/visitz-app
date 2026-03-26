@@ -295,6 +295,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Call information.
+        /// </summary>
+        public static string CallInformation {
+            get {
+                return ResourceManager.GetString("CallInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
