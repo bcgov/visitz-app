@@ -80,7 +80,7 @@ public class AdditionalInformationTests
     public async Task SynchronizeAsyncDeletesDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<AdditionalInformationTests>();
-        List<AdditionalInformationJson> AdditionalInfo = AddInfoList;
+        List<AdditionalInformationJson> AdditionalInfo = [.. AddInfoList];
 
         await AdditionalInformation.SynchronizeAsync(realm, AdditionalInfo, "1", EntityType.Incident);
         var numberOfAdditionalInfoBeforeDeletion = realm.All<AdditionalInformation>().Count();
