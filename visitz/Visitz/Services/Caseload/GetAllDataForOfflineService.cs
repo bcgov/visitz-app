@@ -91,6 +91,7 @@ namespace Visitz.Services.Caseload
                 GetAllSafetyAssessments(incidents, exceptions),
                 GetAllIncidentConcerns(incidents, exceptions),
                 GetCallInformation(memosIncidentsSrs, exceptions)
+            //  GetContactLanguageaudittrial(all, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
@@ -266,6 +267,22 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.CallInformation, ex));
+            }
+        }
+
+        private async Task GetContactLanguageaudittrial(
+            IEnumerable<(RecordServiceInfo, string)> callInformation,
+            List<Exception> exceptions
+        )
+        {
+            try
+            {
+                var startMessage = GetContactLegalAuditTrailByRangeService.MakeStartMessage(callInformation);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguageaudittrial, ex));
             }
         }
     }

@@ -205,7 +205,7 @@ public partial class ServiceRequestRecord
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
-
+        ContactLegalAuditTrail.RemoveByParent(fromRealm, EntityType.Incident, Id);
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

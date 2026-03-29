@@ -319,7 +319,7 @@ public partial class IncidentRecord
         Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
         IncidentConcerns.RemoveByParent(fromRealm, Id);
         CallInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
-
+        ContactLegalAuditTrail.RemoveByParent(fromRealm, EntityType.Incident, Id);
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

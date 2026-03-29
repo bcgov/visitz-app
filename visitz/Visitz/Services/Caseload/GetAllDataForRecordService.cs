@@ -63,7 +63,8 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAttachments(exceptions),
             GetSafetyAssessments(exceptions),
             GetIncidentConcerns(exceptions),
-            GetCallInformation(exceptions)
+            GetCallInformation(exceptions),
+            GetContactLanguageaudittrial(exceptions)
         );
 
         // Get attachment files AFTER other dependent info so we
@@ -241,5 +242,19 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             return Result.Error;
         }
         return Result.NoOperation;
+    }
+
+    async Task<Result> GetContactLanguageaudittrial(List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactLegalAuditTrailService.MakeStartMessage(new(BusinessObject));
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguageaudittrial, ex));
+            return Result.Error;
+        }
     }
 }

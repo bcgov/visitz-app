@@ -526,6 +526,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ContactLanguageaudittrial.
+        /// </summary>
+        public static string ContactLanguageaudittrial {
+            get {
+                return ResourceManager.GetString("ContactLanguageaudittrial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue draft.
         /// </summary>
         public static string ContinueDraft {
