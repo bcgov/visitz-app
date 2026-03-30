@@ -63,6 +63,7 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAttachments(exceptions),
             GetSafetyAssessments(exceptions),
             GetIncidentConcerns(exceptions),
+            GetCallInformation(exceptions),
             GetContactlanguages(exceptions)
         );
 
@@ -220,6 +221,24 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.IncidentConcern, ex));
+            return Result.Error;
+        }
+        return Result.NoOperation;
+    }
+
+    async Task<Result> GetCallInformation(List<Exception> exceptions)
+    {
+        try
+        {
+            if (BusinessObject.EntityType != EntityType.Case)
+            {
+                var startMessage = GetCallInformationService.MakeStartMessage(new(BusinessObject));
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.CallInformation, ex));
             return Result.Error;
         }
         return Result.NoOperation;

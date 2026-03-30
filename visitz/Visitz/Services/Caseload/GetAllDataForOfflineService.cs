@@ -80,6 +80,7 @@ namespace Visitz.Services.Caseload
             var srs = await GetRefreshableRecords<ServiceRequestRecord>();
 
             var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
+            var memosIncidentsSrs = memos.Concat(incidents).Concat(srs);
             var all = casesIncidentsSrs.Concat(memos);
                      
             await Task.WhenAll(
@@ -90,6 +91,7 @@ namespace Visitz.Services.Caseload
                 GetAllAttachments(all, exceptions),
                 GetAllSafetyAssessments(incidents, exceptions),
                 GetAllIncidentConcerns(incidents, exceptions),
+                GetCallInformation(memosIncidentsSrs, exceptions),
                 GetAllContactlanguages(exceptions)
             );
 
@@ -250,6 +252,22 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.IncidentConcern, ex));
+            }
+        }
+
+        private async Task GetCallInformation(
+            IEnumerable<RecordServiceInfo> callInformation,
+            List<Exception> exceptions
+        )
+        {
+            try
+            {
+                var startMessage = GetCallInformationByRangeService.MakeStartMessage(callInformation);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.CallInformation, ex));
             }
         }
 

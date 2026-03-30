@@ -56,9 +56,9 @@ namespace VisitzApi
             return endpoint.HandleResponse(response, content);
         }
 
-        public async Task<CaseloadJson> GetCaseloadAsync(DateTimeOffset? after = null)
+        public async Task<(int TotalRecords, CaseloadJson)> GetCaseloadAsync(Pagination pagination)
         {
-            return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, after));
+            return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, pagination));
         }
 
         public async Task<(int TotalRecords, OfficeCaseloadJson)> GetOfficeCaseloadAsync(Pagination pagination = null)
@@ -158,6 +158,15 @@ namespace VisitzApi
         )
         {
             return await CallApi(new IncidentConcernsEndpoint(BaseVisitzApiUrl, incidentId, pagination));
+        }
+
+        public async Task<(int TotalRecords, IEnumerable<CallInformationJson>)> GetCallInformation(
+            ApiRecordType type,
+            string recordId,
+            Pagination pagination = null
+        )
+        {
+            return await CallApi(new CallInformationEndpoint(BaseVisitzApiUrl, type, recordId, pagination));
         }
 
         public async Task<(int TotalRecords, IEnumerable<ContactLanguageJson>)> GetContactLanguageAsync(

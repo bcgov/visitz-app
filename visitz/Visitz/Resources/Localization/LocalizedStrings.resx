@@ -1054,6 +1054,10 @@ Do you want to download information for this record?</value>
   <data name="IncidentConcern" xml:space="preserve">
     <value>Incident concern</value>
   </data>
+  <data name="CallInformation" xml:space="preserve">
+    <value>Call information</value>
+  </data>
+</root>
   <data name="ContactLanguages" xml:space="preserve">
     <value>ContactLanguages</value>
   </data>

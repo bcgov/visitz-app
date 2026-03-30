@@ -45,6 +45,9 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<AutoRefreshService>();
             builder.Services.AddTransient<GetIncidentConcernsService>();
             builder.Services.AddTransient<GetIncidentConcernsByRangeService>();
+            builder.Services.AddTransient<GetCallInformationService>();
+            builder.Services.AddTransient<GetCallInformationByRangeService>();
+
             builder.Services.AddTransient<GetContactLanguagesService>();
             builder.Services.AddTransient<GetContactLanguagesByRangeService>();
             return builder;
