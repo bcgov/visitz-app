@@ -63,13 +63,13 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAttachments(exceptions),
             GetSafetyAssessments(exceptions),
             GetIncidentConcerns(exceptions),
-            GetCallInformation(exceptions),
-            GetContactlanguages(exceptions)
+            GetCallInformation(exceptions)
         );
 
         // Get attachment files AFTER other dependent info so we
         // complete text-only downloads sooner
         await GetPartialAttachments(exceptions);
+        await GetContactlanguages(exceptions);
 
         if (exceptions.Count > 1)
             throw new AggregateException(exceptions);

@@ -82,7 +82,7 @@ namespace Visitz.Services.Caseload
             var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
             var memosIncidentsSrs = memos.Concat(incidents).Concat(srs);
             var all = casesIncidentsSrs.Concat(memos);
-                     
+
             await Task.WhenAll(
                 GetAllNotes(casesIncidentsSrs, exceptions),
                 GetAllVisits(cases, exceptions),
@@ -91,13 +91,14 @@ namespace Visitz.Services.Caseload
                 GetAllAttachments(all, exceptions),
                 GetAllSafetyAssessments(incidents, exceptions),
                 GetAllIncidentConcerns(incidents, exceptions),
-                GetCallInformation(memosIncidentsSrs, exceptions),
-                GetAllContactlanguages(exceptions)
+                GetCallInformation(memosIncidentsSrs, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
+
+            await GetAllContactlanguages(exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
