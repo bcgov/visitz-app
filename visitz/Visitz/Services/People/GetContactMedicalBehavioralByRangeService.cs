@@ -6,17 +6,14 @@ using VisitzModel.Storage;
 namespace Visitz.Services.People;
 
 internal class GetContactMedicalBehavioralByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
-    : VisitzApiRangeService<(RecordServiceInfo, string)>(vpi, prefs, serviceHandler)
+    : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
-    private IEnumerable<(RecordServiceInfo, string)> ContactMedicalBehavioralItems =>
-        (IEnumerable<(RecordServiceInfo, string)>)Payload;
-
     public static string MakeId()
     {
         return nameof(GetContactMedicalBehavioralByRangeService);
     }
 
-    public static StartServiceMessage MakeStartMessage(IEnumerable<(RecordServiceInfo, string)> items)
+    public static StartServiceMessage MakeStartMessage(IEnumerable<RecordServiceInfo> items)
     {
         return new()
         {
@@ -31,19 +28,13 @@ internal class GetContactMedicalBehavioralByRangeService(Vpi vpi, LastUpdatedPre
         return MakeId();
     }
 
-    protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, (RecordServiceInfo, string) tuple)
+    protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
     {
-        await serviceHandler.TryRunServiceAsync(GetContactMedicalBehavioralService.MakeStartMessage(tuple));
+        await serviceHandler.TryRunServiceAsync(GetContactMedicalBehavioralService.MakeStartMessage(item));
     }
 
-    protected override Exception MakePartialException(
-        List<ApiRangeItemException<(RecordServiceInfo, string)>> exceptions
-    )
+    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
     {
-        var recordServiceInfoExceptions = exceptions
-            .Select(ex => new ApiRangeItemException<RecordServiceInfo>(ex.Item.Item1, ex.InnerException))
-            .ToList();
-
-        return recordServiceInfoExceptions.CombineIntoException();
+        return exceptions.CombineIntoException();
     }
 }

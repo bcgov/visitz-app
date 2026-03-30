@@ -76,7 +76,7 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
 
     public ContactMedicalBehavioralJson ToApiJson(string dateFormat = "s")
     {
-        var json = new ContactMedicalBehavioralJson()
+        return new ContactMedicalBehavioralJson()
         {
             Id = Id,
             Created = Created?.ToString(dateFormat) ?? string.Empty,
@@ -102,27 +102,6 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
             TreatmentPlan = TreatmentPlan,
             Type = Type,
         };
-
-        switch (ParentType)
-        {
-            case EntityType.Incident:
-                json.IncidentId = ParentId;
-                break;
-            case EntityType.Memo:
-                json.MemoId = ParentId;
-                break;
-            case EntityType.ServiceRequest:
-                json.SrId = ParentId;
-                break;
-            case EntityType.Case:
-                json.CaseId = ParentId;
-                break;
-            case EntityType.Unknown:
-            default:
-                throw new NotImplementedException($"'{ParentType}' not implemented");
-        }
-
-        return json;
     }
 
     public static List<ContactMedicalBehavioral> FromApiJsonArray(

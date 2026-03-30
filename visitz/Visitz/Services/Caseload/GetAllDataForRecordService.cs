@@ -70,6 +70,8 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         // complete text-only downloads sooner
         await GetPartialAttachments(exceptions);
 
+        await GetContactMedicalBehavioral(exceptions);
+
         if (exceptions.Count > 1)
             throw new AggregateException(exceptions);
         else if (exceptions.Count > 0)

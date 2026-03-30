@@ -25,10 +25,6 @@ public class ContactMedicalBehavioralJson
     public string ContactLastName { get; set; } = string.Empty;
     public string UpdatedBy { get; set; } = string.Empty;
     public string ContactId { get; set; } = string.Empty;
-    public string CaseId { get; set; } = string.Empty;
     public string StartDate { get; set; } = string.Empty;
     public string CreatedBy { get; set; } = string.Empty;
-    public string SrId { get; set; } = string.Empty;
-    public string IncidentId { get; set; } = string.Empty;
-    public string MemoId { get; set; } = string.Empty;
 }

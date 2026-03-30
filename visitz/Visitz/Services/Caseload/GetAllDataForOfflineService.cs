@@ -90,13 +90,14 @@ namespace Visitz.Services.Caseload
                 GetAllAttachments(all, exceptions),
                 GetAllSafetyAssessments(incidents, exceptions),
                 GetAllIncidentConcerns(incidents, exceptions),
-                GetCallInformation(memosIncidentsSrs, exceptions),
-                //GetContactMedicalBehavioral(all, exceptions),
+                GetCallInformation(memosIncidentsSrs, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
+
+            await GetContactMedicalBehavioral(all, exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
@@ -271,7 +272,7 @@ namespace Visitz.Services.Caseload
         }
 
         private async Task GetContactMedicalBehavioral(
-            IEnumerable<(RecordServiceInfo, string)> contactMedicalBehavioral,
+            IEnumerable<RecordServiceInfo> contactMedicalBehavioral,
             List<Exception> exceptions
         )
         {
