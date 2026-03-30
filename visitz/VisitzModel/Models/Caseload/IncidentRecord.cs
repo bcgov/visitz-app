@@ -318,7 +318,7 @@ public partial class IncidentRecord
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
         IncidentConcerns.RemoveByParent(fromRealm, Id);
-
+        ContactLanguage.RemoveByParent(fromRealm, EntityType.Incident, Id);
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

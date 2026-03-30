@@ -11,6 +11,7 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
@@ -80,7 +81,7 @@ namespace Visitz.Services.Caseload
 
             var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
             var all = casesIncidentsSrs.Concat(memos);
-
+                     
             await Task.WhenAll(
                 GetAllNotes(casesIncidentsSrs, exceptions),
                 GetAllVisits(cases, exceptions),
@@ -88,7 +89,8 @@ namespace Visitz.Services.Caseload
                 GetAllSupportNetworkItems(casesIncidentsSrs, exceptions),
                 GetAllAttachments(all, exceptions),
                 GetAllSafetyAssessments(incidents, exceptions),
-                GetAllIncidentConcerns(incidents, exceptions)
+                GetAllIncidentConcerns(incidents, exceptions),
+                GetAllContactlanguages(exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
@@ -248,6 +250,36 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.IncidentConcern, ex));
+            }
+        }
+
+        private async Task GetAllContactlanguages(List<Exception> exceptions)
+        {
+            try
+            {
+                using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+                var allContacts = realm.All<IcmContact>().AsEnumerable().ToList();
+                if (allContacts.Any())
+                {
+                    var languageTasks = allContacts.Select(contact =>
+                    {
+                        var parentInfo = new RecordServiceInfo(
+                            contact.ParentType,
+                            EntitySubtype.Unknown,
+                            contact.ParentId,
+                            string.Empty,
+                            string.Empty,
+                            string.Empty
+                        );
+                        var startMessage = GetContactLanguagesService.MakeStartMessage((parentInfo, contact.RowId));
+                        return ServiceHandler.TryRunServiceAsync(startMessage);
+                    });
+                    await Task.WhenAll(languageTasks);
+                }
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguages, ex));
             }
         }
     }

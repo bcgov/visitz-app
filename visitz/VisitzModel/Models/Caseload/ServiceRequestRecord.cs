@@ -203,7 +203,7 @@ public partial class ServiceRequestRecord
         IcmContact.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
-
+        ContactLanguage.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

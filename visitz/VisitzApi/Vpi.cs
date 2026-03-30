@@ -3,6 +3,7 @@ using VisitzApi.Endpoints.Attachments;
 using VisitzApi.Endpoints.CallDetails;
 using VisitzApi.Endpoints.Caseload;
 using VisitzApi.Endpoints.Notes;
+using VisitzApi.Endpoints.People;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
 using VisitzApi.ErrorHandling;
@@ -157,6 +158,18 @@ namespace VisitzApi
         )
         {
             return await CallApi(new IncidentConcernsEndpoint(BaseVisitzApiUrl, incidentId, pagination));
+        }
+
+        public async Task<(int TotalRecords, IEnumerable<ContactLanguageJson>)> GetContactLanguageAsync(
+            ApiRecordType type,
+            string recordId,
+            string contactrowid,
+            Pagination pagination = null
+        )
+        {
+            return await CallApi(
+                new ContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactrowid, pagination)
+            );
         }
     }
 }

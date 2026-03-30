@@ -62,7 +62,8 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetSupportNetworkItems(exceptions),
             GetAttachments(exceptions),
             GetSafetyAssessments(exceptions),
-            GetIncidentConcerns(exceptions)
+            GetIncidentConcerns(exceptions),
+            GetContactlanguages(exceptions)
         );
 
         // Get attachment files AFTER other dependent info so we
@@ -222,5 +223,19 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             return Result.Error;
         }
         return Result.NoOperation;
+    }
+
+    async Task<Result> GetContactlanguages(List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactLanguagesService.MakeStartMessage((new(BusinessObject), ""));
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguages, ex));
+            return Result.Error;
+        }
     }
 }
