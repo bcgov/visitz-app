@@ -1,5 +1,5 @@
-using System.Globalization;
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -215,8 +215,8 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
         IcmContact.RemoveByParent(fromRealm, EntityType.Memo, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Memo, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
-
         ContactLanguage.RemoveByParent(fromRealm, EntityType.Memo, Id);
+
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

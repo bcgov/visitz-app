@@ -1,5 +1,5 @@
-using System.Globalization;
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -205,8 +205,8 @@ public partial class ServiceRequestRecord
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
-
         ContactLanguage.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
+
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

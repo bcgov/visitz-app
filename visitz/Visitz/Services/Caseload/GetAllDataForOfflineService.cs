@@ -98,7 +98,7 @@ namespace Visitz.Services.Caseload
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
 
-            await GetAllContactlanguages(exceptions);
+            await GetAllContactlanguages(all, exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
@@ -272,7 +272,7 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetAllContactlanguages(List<Exception> exceptions)
+        private async Task GetAllContactlanguages(IEnumerable<RecordServiceInfo> contactLanguages, List<Exception> exceptions)
         {
             try
             {

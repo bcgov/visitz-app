@@ -1,5 +1,5 @@
-using System.Globalization;
 using Realms;
+using System.Globalization;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
@@ -277,6 +277,7 @@ public partial class CaseRecord
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Case, Id, userIgnoredPrefs);
         ContactLanguage.RemoveByParent(fromRealm, EntityType.Case, Id);
+
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

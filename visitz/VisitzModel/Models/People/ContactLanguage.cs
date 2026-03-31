@@ -12,7 +12,6 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-
     public DateTimeOffset? Created { get; set; }
     public string Type { get; set; } = string.Empty;
     public string SSAPrimaryField { get; set; } = string.Empty;
@@ -28,9 +27,7 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     public string CreatedByName { get; set; } = string.Empty;
     public string ICMType { get; set; } = string.Empty;
     public string ParentId { get; set; } = string.Empty;
-
     private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
-
     public EntityType ParentType
     {
         get => (EntityType)ParentTypeInt;
@@ -99,30 +96,40 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactLanguageJson> newIncidentConcerns,
+        IEnumerable<ContactLanguageJson> newContactLanguages,
         string parentId,
         EntityType type
     )
     {
+        if (newContactLanguages == null)
+            return;
+
+        var incomingContactLanguages = FromApiJsonArray(newContactLanguages, type, parentId);
+        var incomingContactLanguageIds = incomingContactLanguages.Select(item => item.Id);
+
+        var allContactLanguages = realm
+            .All<ContactLanguage>()
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+        var allContactLanguageIds = allContactLanguages.AsEnumerable().Select(item => item.Id);
+
+        var contactLanguageIdsToDelete = allContactLanguageIds.Except(incomingContactLanguageIds);
+        var contactLanguagesToDelete = allContactLanguages
+            .ToList()
+            .Where(item => contactLanguageIdsToDelete.Contains(item.Id));
+
+        if (!contactLanguageIdsToDelete.Any() && !incomingContactLanguageIds.Any())
+            return;
+
         await RealmExtensions.CommitAsync(
             realm,
             () =>
             {
-                var incomingVisits = FromApiJsonArray(newIncidentConcerns, type, parentId);
-                var incomingVisitIds = incomingVisits.Select(item => item.Id);
-
-                var allPersonVisits = realm.All<ContactLanguage>().ToList();
-                var allPersonVisitIds = allPersonVisits.Select(item => item.Id);
-
-                var visitIdsToDelete = allPersonVisitIds.Except(incomingVisitIds);
-                var visitsToDelete = allPersonVisits.Where(item => visitIdsToDelete.Contains(item.Id)).ToList();
-
-                foreach (var item in visitsToDelete)
+                foreach (var item in contactLanguagesToDelete)
                 {
                     if (item != null && item.IsValid)
                         realm.Remove(item);
                 }
-                realm.Upsert(incomingVisits);
+                realm.Upsert(incomingContactLanguages);
             }
         );
     }
