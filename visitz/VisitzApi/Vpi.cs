@@ -169,7 +169,7 @@ namespace VisitzApi
             return await CallApi(new CallInformationEndpoint(BaseVisitzApiUrl, type, recordId, pagination));
         }
 
-        public async Task<(int TotalRecords, IEnumerable<ContactLegalAuditTrailJson>)> GetContactLegalaudittrail(
+        public async Task<(int TotalRecords, IEnumerable<ContactLegalAuditTrailJson>)> GetContactLegalAuditTrail(
             ApiRecordType type,
             string recordId,
             string contactId,
@@ -177,7 +177,7 @@ namespace VisitzApi
         )
         {
             return await CallApi(
-                new ContactLanguageaudittrailEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
+                new ContactLegalAuditTrailEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
             );
         }
     }

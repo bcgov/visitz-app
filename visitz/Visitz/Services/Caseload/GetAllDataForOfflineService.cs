@@ -91,12 +91,13 @@ namespace Visitz.Services.Caseload
                 GetAllSafetyAssessments(incidents, exceptions),
                 GetAllIncidentConcerns(incidents, exceptions),
                 GetCallInformation(memosIncidentsSrs, exceptions)
-            //  GetContactLanguageaudittrial(all, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
+
+            await GetContactLegalAuditTrail(all, exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
@@ -270,19 +271,20 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetContactLanguageaudittrial(
-            IEnumerable<(RecordServiceInfo, string)> callInformation,
+        private async Task GetContactLegalAuditTrail(
+            IEnumerable<RecordServiceInfo> contactLanguageAuditTrail,
             List<Exception> exceptions
         )
         {
             try
             {
-                var startMessage = GetContactLegalAuditTrailByRangeService.MakeStartMessage(callInformation);
+                IEnumerable<(RecordServiceInfo, string)> items = [];
+                var startMessage = GetContactLegalAuditTrailByRangeService.MakeStartMessage(items); //TODO
                 await ServiceHandler.TryRunServiceAsync(startMessage);
             }
             catch (Exception ex)
             {
-                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguageaudittrial, ex));
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguageAuditTrail, ex));
             }
         }
     }

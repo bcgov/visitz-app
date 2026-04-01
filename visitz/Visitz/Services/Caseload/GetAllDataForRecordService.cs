@@ -63,13 +63,13 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAttachments(exceptions),
             GetSafetyAssessments(exceptions),
             GetIncidentConcerns(exceptions),
-            GetCallInformation(exceptions),
-            GetContactLanguageaudittrial(exceptions)
+            GetCallInformation(exceptions)
         );
 
         // Get attachment files AFTER other dependent info so we
         // complete text-only downloads sooner
         await GetPartialAttachments(exceptions);
+        await GetContactLegalAuditTrail(exceptions);
 
         if (exceptions.Count > 1)
             throw new AggregateException(exceptions);
@@ -244,16 +244,16 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         return Result.NoOperation;
     }
 
-    async Task<Result> GetContactLanguageaudittrial(List<Exception> exceptions)
+    async Task<Result> GetContactLegalAuditTrail(List<Exception> exceptions)
     {
         try
         {
-            var startMessage = GetContactLegalAuditTrailService.MakeStartMessage(new(BusinessObject));
+            var startMessage = GetContactLegalAuditTrailService.MakeStartMessage((new(BusinessObject), ""));
             return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)
         {
-            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguageaudittrial, ex));
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguageAuditTrail, ex));
             return Result.Error;
         }
     }

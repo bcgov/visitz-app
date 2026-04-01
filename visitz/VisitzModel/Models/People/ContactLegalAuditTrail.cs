@@ -1,26 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Utilities;
+
 #nullable enable
+
 namespace VisitzModel.Models.People;
 
 public partial class ContactLegalAuditTrail : IRealmObject, IApiJson<ContactLegalAuditTrailJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-
     public DateTimeOffset? Created { get; set; }
     public string OperationPerformed { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public DateTimeOffset? Updated { get; set; }
-
-    //public string ID { get; set; } = string.Empty;
     public string UpdatedByName { get; set; } = string.Empty;
     public string Updatedby { get; set; } = string.Empty;
     public string CreatedBy { get; set; } = string.Empty;
@@ -59,7 +55,7 @@ public partial class ContactLegalAuditTrail : IRealmObject, IApiJson<ContactLega
 
     public ContactLegalAuditTrailJson ToApiJson(string dateFormat = "s")
     {
-        var json = new ContactLegalAuditTrailJson()
+        return new()
         {
             ID = Id,
             Created = Created?.ToString(dateFormat) ?? string.Empty,
@@ -74,27 +70,6 @@ public partial class ContactLegalAuditTrail : IRealmObject, IApiJson<ContactLega
             EmployeeLogin = EmployeeLogin,
             EntityId = EntityId,
         };
-
-        switch (ParentType)
-        {
-            case EntityType.Incident:
-                json.EntityId = ParentId;
-                break;
-            case EntityType.Memo:
-                json.EntityId = ParentId;
-                break;
-            case EntityType.ServiceRequest:
-                json.EntityId = ParentId;
-                break;
-            case EntityType.Case:
-                json.EntityId = ParentId;
-                break;
-            case EntityType.Unknown:
-            default:
-                throw new NotImplementedException($"'{ParentType}' not implemented");
-        }
-
-        return json;
     }
 
     public static List<ContactLegalAuditTrail> FromApiJsonArray(
@@ -114,37 +89,35 @@ public partial class ContactLegalAuditTrail : IRealmObject, IApiJson<ContactLega
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<ContactLegalAuditTrailJson> ContactLegalAuditTrail,
+        IEnumerable<ContactLegalAuditTrailJson> contactLegalAuditTrail,
         string parentId,
         EntityType type
     )
     {
-        if (ContactLegalAuditTrail == null)
+        if (contactLegalAuditTrail == null)
             return;
 
-        var incomingContactLegalAuditTrail = FromApiJsonArray(ContactLegalAuditTrail, type, parentId);
-        var incomingContactLegalaudittrailIds = incomingContactLegalAuditTrail.Select(item => item.Id);
+        var incomingContactLegalAuditTrail = FromApiJsonArray(contactLegalAuditTrail, type, parentId);
+        var incomingContactLegalAuditTrailIds = incomingContactLegalAuditTrail.Select(item => item.Id);
 
-        var allincomingContactLegalAuditTrail = realm
+        var allContactLegalAuditTrail = realm
             .All<ContactLegalAuditTrail>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
-        var allContactLegalAuditTrailIds = allincomingContactLegalAuditTrail.AsEnumerable().Select(item => item.Id);
+        var allContactLegalAuditTrailIds = allContactLegalAuditTrail.AsEnumerable().Select(item => item.Id);
 
-        var contactMedicalBehavioralIdsToDelete = allContactLegalAuditTrailIds.Except(
-            incomingContactLegalaudittrailIds
-        );
-        var contactlegalaudittrailToDelete = allincomingContactLegalAuditTrail
+        var contactLegalAuditTrailIdsToDelete = allContactLegalAuditTrailIds.Except(incomingContactLegalAuditTrailIds);
+        var contactLegalAuditTrailToDelete = allContactLegalAuditTrail
             .ToList()
-            .Where(item => contactMedicalBehavioralIdsToDelete.Contains(item.Id));
+            .Where(item => contactLegalAuditTrailIdsToDelete.Contains(item.Id));
 
-        if (!contactlegalaudittrailToDelete.Any() && !incomingContactLegalaudittrailIds.Any())
+        if (!contactLegalAuditTrailToDelete.Any() && !incomingContactLegalAuditTrailIds.Any())
             return;
 
         await RealmExtensions.CommitAsync(
             realm,
             () =>
             {
-                foreach (var item in contactlegalaudittrailToDelete)
+                foreach (var item in contactLegalAuditTrailToDelete)
                 {
                     if (item != null && item.IsValid)
                         realm.Remove(item);

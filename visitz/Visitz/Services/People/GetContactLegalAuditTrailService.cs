@@ -1,25 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Visitz.Services.Base;
-using Visitz.Services.CallDetails;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzApi.Models.CallDetails;
 using VisitzApi.Models.People;
 using VisitzApi.Requests;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
+
 #nullable enable
+
 namespace Visitz.Services.People;
 
 internal class GetContactLegalAuditTrailService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
-    private (RecordServiceInfo, string) ContactaudittrailItem => ((RecordServiceInfo, string))Payload;
+    private (RecordServiceInfo, string) ContactAuditTrailItem => ((RecordServiceInfo, string))Payload;
 
-    List<ContactLegalAuditTrailJson> AudittrailData { get; } = [];
+    List<ContactLegalAuditTrailJson> AuditTrailData { get; } = [];
 
     public static string MakeId(EntityType type, string id, string contactId)
     {
@@ -38,30 +35,30 @@ internal class GetContactLegalAuditTrailService(Vpi vpi, LastUpdatedPrefs prefs)
 
     public override string GetId()
     {
-        var (info, contactId) = ContactaudittrailItem;
+        var (info, contactId) = ContactAuditTrailItem;
         return MakeId(info.Type, info.Id, contactId);
     }
 
     protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
-        var (info, contactId) = ContactaudittrailItem;
-        var (total, contactIds) = await Vpi.GetContactLegalaudittrail(
+        var (info, contactId) = ContactAuditTrailItem;
+        var (total, contactIds) = await Vpi.GetContactLegalAuditTrail(
             (ApiRecordType)info.Type,
             info.Id,
             contactId,
             pagination
         );
-        AudittrailData.AddRange(contactIds);
+        AuditTrailData.AddRange(contactIds);
 
         return total;
     }
 
     protected override async Task AfterRun()
     {
-        var (info, contactId) = ContactaudittrailItem;
+        var (info, contactId) = ContactAuditTrailItem;
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await ContactLegalAuditTrail.SynchronizeAsync(realm, AudittrailData, info.Id, info.Type)
+            await ContactLegalAuditTrail.SynchronizeAsync(realm, AuditTrailData, info.Id, info.Type)
         );
     }
 }

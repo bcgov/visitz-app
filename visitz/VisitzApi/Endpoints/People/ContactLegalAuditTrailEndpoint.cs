@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Text.Json;
 using VisitzApi.Extensions;
 using VisitzApi.Json;
@@ -10,7 +7,7 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.People;
 
-internal class ContactLanguageaudittrailEndpoint(
+internal class ContactLegalAuditTrailEndpoint(
     string baseUrl,
     ApiRecordType type,
     string rowId,
