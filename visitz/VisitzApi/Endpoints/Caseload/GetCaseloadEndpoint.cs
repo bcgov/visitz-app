@@ -30,7 +30,7 @@ internal class GetCaseloadEndpoint(string baseUrl, Pagination? pagination = null
     )
     {
         var json =
-            JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet) ?? CaseloadJson.Empty;
+            JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet) ?? new CaseloadJson();
 
         return (response.GetRecordCount(), json);
     }

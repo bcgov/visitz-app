@@ -17,6 +17,8 @@ namespace VisitzApi.Endpoints.Notes
         private static readonly string EntityTypeKey = "entityType";
         private static readonly string NotesKey = "notes";
 
+        private static readonly JsonSerializerOptions Options = new() { PropertyNameCaseInsensitive = true };
+
         public string EntityNumber { get; } = entityNumber;
         public string EntityType { get; } = entityType;
 
@@ -56,10 +58,7 @@ namespace VisitzApi.Endpoints.Notes
                 .GetProperty(JsonKey.PayLoad)
                 .GetProperty(NotesKey);
 
-            var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-            var notesContent = (List<NoteEntity>)notesJson.Deserialize(typeof(List<NoteEntity>), options);
-
-            return notesContent.SkipWhile(IsInvalidNote);
+            return notesJson.Deserialize<List<NoteEntity>>(Options)?.SkipWhile(IsInvalidNote) ?? [];
         }
 
         private bool IsInvalidNote(NoteEntity entity)
