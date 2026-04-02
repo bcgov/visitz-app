@@ -1,10 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Messaging;
 
 namespace Visitz.Views.User;
 
@@ -98,7 +100,7 @@ internal partial class UserViewModel : VisitzViewModel
         {
             // Delay was the only thing I could do to get this working. App
             // wasn't playing nice on Windows waiting for WebViewPage to close
-            // and this Pop call kept silently failing.
+            // and no UI updates were firing.
             await Task.Delay(100);
 
             await GoToLoginScreen();
@@ -109,7 +111,7 @@ internal partial class UserViewModel : VisitzViewModel
     {
         try
         {
-            await Navigator.Navigation.PopModalAsync(animated: true);
+            StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: false));
             await SessionPage.TryOpenAsync(animated: false);
         }
         catch (InvalidOperationException) { }
