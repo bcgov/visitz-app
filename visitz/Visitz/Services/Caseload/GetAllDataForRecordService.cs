@@ -63,7 +63,8 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAttachments(exceptions),
             GetSafetyAssessments(exceptions),
             GetIncidentConcerns(exceptions),
-            GetCallInformation(exceptions)
+            GetCallInformation(exceptions),
+            GetAdditionalInformation(exceptions)
         );
 
         // Get attachment files AFTER other dependent info so we
@@ -238,6 +239,28 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.CallInformation, ex));
+            return Result.Error;
+        }
+        return Result.NoOperation;
+    }
+
+    async Task<Result> GetAdditionalInformation(List<Exception> exceptions)
+    {
+        try
+        {
+            if (
+                (BusinessObject.EntityType == EntityType.Incident)
+                || (BusinessObject.EntityType == EntityType.Memo)
+                || (BusinessObject.EntityType == EntityType.ServiceRequest)
+            )
+            {
+                var startMessage = GetAdditionalInformationService.MakeStartMessage(new(BusinessObject));
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.AdditionalInformation, ex));
             return Result.Error;
         }
         return Result.NoOperation;

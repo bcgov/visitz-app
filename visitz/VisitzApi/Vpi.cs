@@ -167,5 +167,14 @@ namespace VisitzApi
         {
             return await CallApi(new CallInformationEndpoint(BaseVisitzApiUrl, type, recordId, pagination));
         }
+
+        public async Task<(int TotalRecords, IEnumerable<AdditionalInformationJson>)> GetAdditionalInformation(
+            ApiRecordType type,
+            string id,
+            Pagination pagination = null
+        )
+        {
+            return await CallApi(new AdditionalInformationEndpoint(BaseVisitzApiUrl, type, id, pagination));
+        }
     }
 }

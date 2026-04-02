@@ -206,6 +206,7 @@ public partial class ServiceRequestRecord
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
 
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

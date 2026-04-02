@@ -317,6 +317,7 @@ public partial class IncidentRecord
         IcmContact.RemoveByParent(fromRealm, EntityType.Incident, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
         IncidentConcerns.RemoveByParent(fromRealm, Id);
         CallInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
 
