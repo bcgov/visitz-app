@@ -80,8 +80,9 @@ namespace Visitz.Services.Caseload
 
             var casesIncidentsSrs = cases.Concat(incidents).Concat(srs);
             var memosIncidentsSrs = memos.Concat(incidents).Concat(srs);
+
             var all = casesIncidentsSrs.Concat(memos);
-            var IncidentmemoSrs = incidents.Concat(memos).Concat(srs);
+
             await Task.WhenAll(
                 GetAllNotes(casesIncidentsSrs, exceptions),
                 GetAllVisits(cases, exceptions),
@@ -91,7 +92,7 @@ namespace Visitz.Services.Caseload
                 GetAllSafetyAssessments(incidents, exceptions),
                 GetAllIncidentConcerns(incidents, exceptions),
                 GetCallInformation(memosIncidentsSrs, exceptions),
-                GetAllAdditionalInformation(IncidentmemoSrs, exceptions)
+                GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
