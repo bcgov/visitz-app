@@ -16,13 +16,15 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
 
+#nullable enable
+
 internal partial class DraftsMasterListViewModel : VisitzViewModel
 {
     [ObservableProperty]
     public ObservableCollection<object> masterDraftItems = [];
 
     [ObservableProperty]
-    public MasterDraftItem selectedItem;
+    public MasterDraftItem? selectedItem;
 
     [ObservableProperty]
     public bool showEmptyView;
@@ -89,9 +91,9 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
         base.Dispose(disposing);
     }
 
-    private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
+    private void RealmCount_CountChanged(object? sender, (Type Kind, int Count) e)
     {
-        ShowEmptyView = (sender as ObservableRealmCount).Total <= 0;
+        ShowEmptyView = (sender as ObservableRealmCount)?.Total <= 0;
 
         if (e.Kind == typeof(NoteDraft))
             UpdateItem(NoteDraftItem, e.Count);
@@ -116,6 +118,9 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
     [RelayCommand]
     public void MasterDraftItemSelected()
     {
+        if (SelectedItem == null)
+            return;
+
         var kind = SelectedItem.ItemType;
         var msg = new DraftMasterSelectedMessage(kind, realmCount[kind].Realm);
         StrongReferenceMessenger.Default.Send(msg);
@@ -129,7 +134,13 @@ internal partial class DraftsMasterListViewModel : VisitzViewModel
             collection.Add(newDraft);
         else
         {
-            var find = collection.FirstOrDefault(obj => (obj as MasterDraftItem).CompareTo(newDraft) >= 0);
+            bool CompareDraftItems(object obj)
+            {
+                return ((MasterDraftItem)obj).CompareTo(newDraft) >= 0;
+            }
+
+            var find = collection.FirstOrDefault(CompareDraftItems);
+
             if (find != null)
                 collection.Insert(collection.IndexOf(find), newDraft);
             else

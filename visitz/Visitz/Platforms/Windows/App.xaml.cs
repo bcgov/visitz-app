@@ -92,7 +92,8 @@ public partial class App : MauiWinUIApplication
 
     private void WriteExceptionToEventViewer(Exception exception)
     {
-        EventLogWriter.WriteEntry(LogLevel.Error, exception.Message, GetType().FullName, exception: exception);
+        string category = GetType()?.FullName ?? typeof(App).FullName ?? "<NULL CATEGORY>";
+        EventLogWriter.WriteEntry(LogLevel.Error, exception.Message, category, exception: exception);
     }
 
     private async void WebAuthenticator_PromptForCredentials(object? sender, InvokingAuthEventArgs e)

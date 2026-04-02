@@ -31,7 +31,7 @@
 		>
 		<SupportedOSPlatformVersion
 			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'"
-			>13.1</SupportedOSPlatformVersion
+			>15.0</SupportedOSPlatformVersion
 		>
 		<SupportedOSPlatformVersion
 			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
