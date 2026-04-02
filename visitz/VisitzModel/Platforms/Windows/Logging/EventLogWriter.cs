@@ -4,30 +4,36 @@ using Microsoft.Extensions.Logging;
 
 namespace VisitzModel.Platforms.Windows.Logging;
 
+#nullable enable
+
 public static class EventLogWriter
 {
     static readonly string _logSource = "Application";
     static readonly int _defaultEventId = 1;
+    static readonly int _maxLogLength = 32766; // Event Viewer limitation
 
     public static void WriteEntry(
         LogLevel logLevel,
         string message,
         string categoryName,
         int? eventId = null,
-        Exception exception = null
+        Exception? exception = null
     )
     {
         string level = logLevel.ToString().ToUpperInvariant();
-        var assembly = Assembly.GetEntryAssembly();
+        Assembly? assembly = Assembly.GetEntryAssembly();
 
         string outputMessage =
-            @$"{assembly.GetName().Name} {AppInfo.Current.VersionString}
+            @$"{assembly?.GetName().Name ?? "NULL ASSEMBLY ERROR"} {AppInfo.Current.VersionString}
 Level: {level}
 Category: {categoryName}
 Message: {message}";
 
         if (exception != null)
             outputMessage += "\nStack trace: " + exception.ToString();
+
+        if (outputMessage.Length > _maxLogLength)
+            outputMessage = outputMessage[.._maxLogLength];
 
         EventLog.WriteEntry(_logSource, outputMessage, ConvertLogLevel(logLevel), eventId ?? _defaultEventId);
     }
