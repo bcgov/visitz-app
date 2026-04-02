@@ -22,6 +22,8 @@
             Text="{Static icons:MaterialIcons.Menu}"
             FontFamily="MaterialIconsRoundedUnfilled"
             TextColor="White"
+            HorizontalOptions="Fill"
+            WidthRequest="-1"
         />
 
         <VerticalStackLayout Grid.Row="1">
