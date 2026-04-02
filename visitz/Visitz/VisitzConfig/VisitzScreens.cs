@@ -142,6 +142,9 @@ public static class VisitzScreens
         builder.Services.AddTransient<TodoVisitsView>();
         builder.Services.AddTransient<TodoVisitsViewModel>();
 
+        builder.Services.AddTransient<NavDrawerContentView>();
+        builder.Services.AddTransient<NavDrawerContentViewModel>();
+
         return builder;
     }
 }

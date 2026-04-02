@@ -1,10 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Settings;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Messaging;
 
 namespace Visitz.Views.User;
 
@@ -52,17 +54,16 @@ internal partial class UserViewModel : VisitzViewModel
     [RelayCommand]
     static async Task OpenCollectionNotice()
     {
-        await Navigator.Navigation.PopModalAsync(animated: false);
-
         var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
         await Navigator.Navigation.PushModalAsync(noticeView, ViewModalSize.Fullscreen);
+        CloseNavDrawer();
     }
 
     [RelayCommand]
-    static async Task OpenFeedbackUrl(string feedbackUrl)
+    async Task OpenFeedbackUrl()
     {
         await Browser.Default.OpenAsync(
-            feedbackUrl,
+            FeedbackUrl,
             new BrowserLaunchOptions
             {
                 LaunchMode = BrowserLaunchMode.SystemPreferred,
@@ -70,6 +71,7 @@ internal partial class UserViewModel : VisitzViewModel
                 Flags = BrowserLaunchFlags.PresentAsPageSheet,
             }
         );
+        CloseNavDrawer();
     }
 
     [RelayCommand]
@@ -100,7 +102,7 @@ internal partial class UserViewModel : VisitzViewModel
         {
             // Delay was the only thing I could do to get this working. App
             // wasn't playing nice on Windows waiting for WebViewPage to close
-            // and this Pop call kept silently failing.
+            // and no UI updates were firing.
             await Task.Delay(100);
 
             await GoToLoginScreen();
@@ -111,9 +113,14 @@ internal partial class UserViewModel : VisitzViewModel
     {
         try
         {
-            await Navigator.Navigation.PopModalAsync(animated: true);
+            CloseNavDrawer();
             await SessionPage.TryOpenAsync(animated: false);
         }
         catch (InvalidOperationException) { }
+    }
+
+    static void CloseNavDrawer()
+    {
+        StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: false));
     }
 }

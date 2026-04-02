@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.Foldable;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Navigation;
 using VisitzModel.Messaging;
 
 namespace Visitz.Views.Root;
@@ -21,6 +22,8 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
 
     [ObservableProperty]
     public double minScreenSize = GetMinSize();
+
+    public NavRailViewModel NavRailViewModel = ServiceProvider.GetService<NavRailViewModel>();
 
     static double GetMinSize()
     {

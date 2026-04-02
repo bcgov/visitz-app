@@ -3,9 +3,9 @@ using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.Foldable;
 using Oidc;
 using Realms;
-using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Services;
@@ -14,8 +14,8 @@ using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.SegmentedButtons;
-using Visitz.Views.User;
 using VisitzModel.Extensions;
+using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using IBusinessObjectExtensions = VisitzModel.Models.Caseload.IBusinessObjectExtensions;
@@ -98,7 +98,7 @@ namespace Visitz.Views.Caseload
         public IList<SegmentedOptions> filterOptions = [FilterCase, FilterIncident];
 
         [ObservableProperty]
-        public bool showAvatarView;
+        public bool showMenuButton;
 
         [ObservableProperty]
         public DraftIndicatorHelper indicatorHelper = new();
@@ -115,6 +115,10 @@ namespace Visitz.Views.Caseload
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
+            StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
+            ShowMenuButton =
+                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
+
             SessionInfo = await OidcSession.GetInfoAsync();
             SetupOfficeNames();
             SessionInfo.OfficesChanged += SessionInfo_OfficesChanged;
@@ -128,7 +132,7 @@ namespace Visitz.Views.Caseload
             CollectionViewPrompt = PromptText;
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
-            ShowAvatarView = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
+            ShowMenuButton = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
 
             WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
         }
@@ -346,10 +350,9 @@ namespace Visitz.Views.Caseload
         }
 
         [RelayCommand]
-        public static async Task OpenSessionPage()
+        public static void OpenNavDrawer()
         {
-            var userView = ServiceProvider.GetService<UserView>();
-            await Navigator.Navigation.PushModalAsync(userView);
+            StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: true));
         }
 
         public void SearchCaseload()
@@ -387,13 +390,18 @@ namespace Visitz.Views.Caseload
 
         private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
         {
-            ShowAvatarView = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
+            ShowMenuButton = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
         partial void OnSelectedOfficeChanged(string value)
         {
             if (Lister != null)
                 Lister.ApplyWithFilter();
+        }
+
+        void ReceiveNavBarPositionMessage(object recipient, NavPositionMessage message)
+        {
+            ShowMenuButton = ((TwoPaneViewMode)message.Value) == TwoPaneViewMode.Tall;
         }
     }
 }
