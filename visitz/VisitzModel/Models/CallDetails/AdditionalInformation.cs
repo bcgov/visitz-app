@@ -1,10 +1,9 @@
-using Microsoft.VisualBasic;
 using Realms;
 using VisitzApi.Models.CallDetails;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
-using static Microsoft.Maui.Controls.Internals.GIFBitmap;
+using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.CallDetails;
 
@@ -23,13 +22,13 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
     private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
     public string AdditionalInformations { get; set; } = string.Empty;
 
-    public string Created { get; set; } = string.Empty;
+    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
 
     public string CreatedBy { get; set; } = string.Empty;
 
     public string CreatedByName { get; set; } = string.Empty;
 
-    public string Updated { get; set; } = string.Empty;
+    public DateTimeOffset Updated { get; set; } = DateTimeOffset.UtcNow;
 
     public string UpdatedBy { get; set; } = string.Empty;
 
@@ -40,11 +39,11 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
     public AdditionalInformation(AdditionalInformationJson json, EntityType parentType, string parentId)
     {
         Id = json.Id;
-        Created = json.Created;
+        Created = Timestamp.ParseDateTimeOffsetNullable(json.Created) ?? default;
         AdditionalInformations = json.AdditionalInformation;
         CreatedBy = json.CreatedBy;
         CreatedByName = json.CreatedByName;
-        Updated = json.Updated;
+        Updated = Timestamp.ParseDateTimeOffsetNullable(json.Updated) ?? default;
         UpdatedBy = json.UpdatedBy;
         UpdatedByName = json.UpdatedByName;
         ParentId = parentId;
@@ -55,11 +54,11 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
     {
         var addInfo = new AdditionalInformationJson()
         {
-            Created = Created,
+            Created = Created.ToString(dateFormat),
             AdditionalInformation = AdditionalInformations,
             CreatedBy = CreatedBy,
             CreatedByName = CreatedByName,
-            Updated = Updated,
+            Updated = Updated.ToString(dateFormat),
             UpdatedBy = UpdatedBy,
             Id = Id,
             UpdatedByName = UpdatedByName,
@@ -113,7 +112,7 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
 
         var allIncidentConcerns = realm
             .All<AdditionalInformation>()
-            .Where(item => (item.ParentId) == parentId && item.ParentTypeInt == (int)type);
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
         var allIncidentConcernIds = allIncidentConcerns.AsEnumerable().Select(item => item.Id);
 
         var additionalInformationIdsToDelete = allIncidentConcernIds.Except(incomingIncidentConcernIds);
@@ -143,7 +142,7 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
     {
         var visitItems = realm
             .All<AdditionalInformation>()
-            .Where(item => (item.ParentId) == parentId && item.ParentTypeInt == (int)type);
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(visitItems);
     }
