@@ -7,8 +7,6 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.Attachments;
 
-#nullable enable
-
 internal class GetAttachmentsEndpoint(string baseUrl, ApiRecordType type, string rowId, Pagination? pagination = null)
     : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<AttachmentJson>)>(baseUrl, Vpi.V2, MakePath(type, rowId))
 {

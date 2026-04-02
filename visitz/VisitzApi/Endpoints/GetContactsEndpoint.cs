@@ -7,8 +7,6 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
-#nullable enable
-
 internal class GetContactsEndpoint(string baseUrl, ApiRecordType type, string rowId, Pagination? pagination = null)
     : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<ContactJson>)>(baseUrl, Vpi.V2, MakePath(type, rowId))
 {

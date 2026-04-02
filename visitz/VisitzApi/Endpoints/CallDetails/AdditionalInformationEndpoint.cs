@@ -7,7 +7,6 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.CallDetails;
 
-#nullable enable
 internal class AdditionalInformationEndpoint(
     string baseUrl,
     ApiRecordType type,

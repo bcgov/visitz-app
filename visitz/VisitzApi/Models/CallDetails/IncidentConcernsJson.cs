@@ -1,5 +1,3 @@
-#nullable enable
-
 namespace VisitzApi.Models.CallDetails;
 
 public class IncidentConcernsJson
