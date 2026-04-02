@@ -13,6 +13,7 @@
     x:DataType="root:RootViewModel"
     NavigationPage.HasNavigationBar="False"
     BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+    SafeAreaEdges="Container"
 >
     <baseClasses:VisitzPage.Behaviors>
         <toolkit:StatusBarBehavior
