@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using VisitzApi.Models.CallDetails;
 using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.EntityTypes;

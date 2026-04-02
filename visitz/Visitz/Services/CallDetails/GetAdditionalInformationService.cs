@@ -1,6 +1,5 @@
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
-using Visitz.Services.People;
 using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models.CallDetails;
