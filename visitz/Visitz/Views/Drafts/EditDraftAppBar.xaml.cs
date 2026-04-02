@@ -3,6 +3,8 @@ using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.Drafts;
 
+#nullable enable
+
 public partial class EditDraftAppBar : ContentView
 {
     public static readonly BindableProperty AllowDiscardProperty = BindableProperty.Create(
