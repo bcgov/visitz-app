@@ -7,8 +7,6 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.SafetyAssess;
 
-#nullable enable
-
 internal class GetSafetyAssessmentsEndpoint(string baseUrl, string incidentId, Pagination? pagination = null)
     : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)>(baseUrl, Vpi.V2, MakePath(incidentId))
 {

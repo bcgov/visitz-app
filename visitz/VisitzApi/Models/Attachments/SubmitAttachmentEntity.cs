@@ -4,23 +4,23 @@ namespace VisitzApi.Models.Attachments;
 
 public class SubmitAttachmentEntity
 {
-    public string AttachmentId { get; set; }
-    public string EntityNumber { get; set; }
-    public string EntityType { get; set; }
-    public string CaseType { get; set; }
-    public string FormName { get; set; }
-    public string FileName { get; set; }
-    public string FormDescription { get; set; }
-    public string FormCategory { get; set; }
-    public string Section13Exists { get; set; }
-    public string InvestigationResponse { get; set; }
-    public Section13Payload Section13 { get; set; }
-    public CfaDetailsPayload CfaDetails { get; set; }
-    public AttachmentBlock Attachment { get; set; }
+    public string AttachmentId { get; set; } = string.Empty;
+    public string EntityNumber { get; set; } = string.Empty;
+    public string EntityType { get; set; } = string.Empty;
+    public string CaseType { get; set; } = string.Empty;
+    public string FormName { get; set; } = string.Empty;
+    public string FileName { get; set; } = string.Empty;
+    public string FormDescription { get; set; } = string.Empty;
+    public string FormCategory { get; set; } = string.Empty;
+    public string Section13Exists { get; set; } = string.Empty;
+    public string InvestigationResponse { get; set; } = string.Empty;
+    public Section13Payload? Section13 { get; set; }
+    public CfaDetailsPayload? CfaDetails { get; set; }
+    public AttachmentBlock? Attachment { get; set; }
 
     public class AttachmentBlock
     {
         [JsonPropertyName("PDFString")]
-        public string PdfString { get; set; }
+        public string PdfString { get; set; } = string.Empty;
     }
 }

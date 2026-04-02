@@ -5,8 +5,6 @@ using VisitzApi.Json;
 using VisitzApi.Models.CallDetails;
 using VisitzApi.Requests;
 
-#nullable enable
-
 namespace VisitzApi.Endpoints.CallDetails;
 
 internal class IncidentConcernsEndpoint(string baseUrl, string incidentId, Pagination? pagination = null)
