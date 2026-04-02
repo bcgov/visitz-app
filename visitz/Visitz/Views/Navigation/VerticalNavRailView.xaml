@@ -16,15 +16,13 @@
     WidthRequest="72"
 >
     <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
-        <ImageButton Command="{Binding OpenNavDrawerCommand}">
-            <ImageButton.Source>
-                <FontImageSource
-                    Glyph="{Static icons:MaterialIcons.Menu}"
-                    FontFamily="MaterialIconsRoundedUnfilled"
-                    Size="{OnPlatform iOS=31, Default=24}"
-                />
-            </ImageButton.Source>
-        </ImageButton>
+        <controls:FontIconButton
+            Command="{Binding OpenNavDrawerCommand}"
+            IsVisible="{Binding ShowMenuButton}"
+            Text="{Static icons:MaterialIcons.Menu}"
+            FontFamily="MaterialIconsRoundedUnfilled"
+            TextColor="White"
+        />
 
         <VerticalStackLayout Grid.Row="1">
             <VerticalStackLayout.Behaviors>

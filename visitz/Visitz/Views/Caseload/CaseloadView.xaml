@@ -26,19 +26,13 @@
         >
             <Grid>
                 <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
-                    <ImageButton
+                    <controls:FontIconButton
                         Command="{Binding OpenNavDrawerCommand}"
                         IsVisible="{Binding ShowMenuButton}"
-                    >
-                        <ImageButton.Source>
-                            <FontImageSource
-                                Glyph="{Static icons:MaterialIcons.Menu}"
-                                FontFamily="MaterialIconsRoundedUnfilled"
-                                Size="{OnPlatform iOS=31, Default=24}"
-                                Color="Black"
-                            />
-                        </ImageButton.Source>
-                    </ImageButton>
+                        Text="{Static icons:MaterialIcons.Menu}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        TextColor="Black"
+                    />
 
                     <Label
                         Text="{local:Localize Caseload}"
