@@ -56,6 +56,7 @@ internal partial class UserViewModel : VisitzViewModel
     {
         var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
         await Navigator.Navigation.PushModalAsync(noticeView, ViewModalSize.Fullscreen);
+        CloseNavDrawer();
     }
 
     [RelayCommand]
@@ -70,6 +71,7 @@ internal partial class UserViewModel : VisitzViewModel
                 Flags = BrowserLaunchFlags.PresentAsPageSheet,
             }
         );
+        CloseNavDrawer();
     }
 
     [RelayCommand]
@@ -111,9 +113,14 @@ internal partial class UserViewModel : VisitzViewModel
     {
         try
         {
-            StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: false));
+            CloseNavDrawer();
             await SessionPage.TryOpenAsync(animated: false);
         }
         catch (InvalidOperationException) { }
+    }
+
+    static void CloseNavDrawer()
+    {
+        StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: false));
     }
 }
