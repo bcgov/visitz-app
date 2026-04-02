@@ -60,7 +60,7 @@ namespace VisitzApi
             return await CallApi(new GetCaseloadEndpoint(BaseVisitzApiUrl, pagination));
         }
 
-        public async Task<(int TotalRecords, OfficeCaseloadJson)> GetOfficeCaseloadAsync(Pagination pagination = null)
+        public async Task<(int TotalRecords, OfficeCaseloadJson)> GetOfficeCaseloadAsync(Pagination? pagination = null)
         {
             return await CallApi(new GetOfficeCaseloadEndpoint(BaseVisitzApiUrl, pagination));
         }
@@ -84,7 +84,7 @@ namespace VisitzApi
 
         public async Task<(int TotalRecords, IEnumerable<VisitJson>)> GetVisitsAsync(
             string caseId,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(new GetVisitsEndpoint(BaseVisitzApiUrl, caseId, pagination));
@@ -98,7 +98,7 @@ namespace VisitzApi
         public async Task<(int TotalRecords, IEnumerable<ContactJson>)> GetContactsAsync(
             ApiRecordType type,
             string id,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(new GetContactsEndpoint(BaseVisitzApiUrl, type, id, pagination));
@@ -107,7 +107,7 @@ namespace VisitzApi
         public async Task<(int TotalRecords, IEnumerable<SupportNetworkJson>)> GetSupportNetworkAsync(
             ApiRecordType type,
             string id,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, pagination));
@@ -116,13 +116,13 @@ namespace VisitzApi
         public async Task<(int TotalRecords, IEnumerable<AttachmentJson>)> GetAttachmentsAsync(
             ApiRecordType type,
             string id,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(new GetAttachmentsEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
-        public async Task<AttachmentJson> GetAttachmentDetailsAsync(
+        public async Task<AttachmentJson?> GetAttachmentDetailsAsync(
             ApiRecordType type,
             string recordId,
             string attachmentId,
@@ -145,7 +145,7 @@ namespace VisitzApi
 
         public async Task<(int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)> GetSafetyAssessments(
             string incidentId,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(new GetSafetyAssessmentsEndpoint(BaseVisitzApiUrl, incidentId, pagination));
@@ -153,7 +153,7 @@ namespace VisitzApi
 
         public async Task<(int TotalRecords, IEnumerable<IncidentConcernsJson>)> GetIncidentConcerns(
             string incidentId,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(new IncidentConcernsEndpoint(BaseVisitzApiUrl, incidentId, pagination));
@@ -162,7 +162,7 @@ namespace VisitzApi
         public async Task<(int TotalRecords, IEnumerable<CallInformationJson>)> GetCallInformation(
             ApiRecordType type,
             string recordId,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(new CallInformationEndpoint(BaseVisitzApiUrl, type, recordId, pagination));
@@ -171,7 +171,7 @@ namespace VisitzApi
         public async Task<(int TotalRecords, IEnumerable<AdditionalInformationJson>)> GetAdditionalInformation(
             ApiRecordType type,
             string id,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(new AdditionalInformationEndpoint(BaseVisitzApiUrl, type, id, pagination));

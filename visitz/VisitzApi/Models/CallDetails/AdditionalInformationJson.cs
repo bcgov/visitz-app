@@ -1,6 +1,5 @@
 namespace VisitzApi.Models.CallDetails;
 
-#nullable enable
 public class AdditionalInformationJson
 {
     public string Id { get; set; } = string.Empty;

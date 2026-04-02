@@ -2,8 +2,6 @@ using System.Net.Http.Headers;
 
 namespace VisitzApi.Models.Attachments;
 
-#nullable enable
-
 public class AttachmentFormData : IDisposable
 {
     static readonly string ContentName = "Attachment Id";

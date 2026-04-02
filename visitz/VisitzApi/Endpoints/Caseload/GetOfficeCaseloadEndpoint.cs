@@ -4,8 +4,6 @@ using VisitzApi.Json;
 using VisitzApi.Models.Caseload;
 using VisitzApi.Requests;
 
-#nullable enable
-
 namespace VisitzApi.Endpoints.Caseload;
 
 internal class GetOfficeCaseloadEndpoint(string baseUrl, Pagination? pagination = null)
@@ -31,7 +29,7 @@ internal class GetOfficeCaseloadEndpoint(string baseUrl, Pagination? pagination 
     {
         var json =
             JsonSerializer.Deserialize<OfficeCaseloadJson>(responseContent, PayloadOptions.SiebelGet)
-            ?? OfficeCaseloadJson.Empty;
+            ?? new OfficeCaseloadJson();
 
         return (response.GetRecordCount(), json);
     }
