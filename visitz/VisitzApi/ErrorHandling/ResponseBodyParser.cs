@@ -3,8 +3,6 @@ using VisitzApi.Extensions;
 
 namespace VisitzApi.ErrorHandling;
 
-#nullable enable
-
 internal class ResponseBodyParser : IDisposable
 {
     const string StatusKey = "Status";

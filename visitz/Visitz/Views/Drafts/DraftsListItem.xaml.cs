@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Realms;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Views.BaseClasses;
@@ -44,7 +45,10 @@ public partial class DraftsListItem : BaseContentView
         try
         {
             bool isRunning =
-                BindingContext is IRecordInfo info && serviceHandler.IsAnyServiceRunning(info.RelatedEntityId);
+                BindingContext is IRealmObject realmObj
+                && realmObj.IsValid
+                && BindingContext is IRecordInfo info
+                && serviceHandler.IsAnyServiceRunning(info.RelatedEntityId);
 
             DownloadActivity.IsRunning = isRunning;
             DownloadActivity.IsVisible = isRunning;

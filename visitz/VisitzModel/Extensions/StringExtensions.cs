@@ -2,6 +2,8 @@ using System.Globalization;
 
 namespace VisitzModel.Extensions;
 
+#nullable enable
+
 public static class StringExtensions
 {
     public static string Format(this string stringToFormat, params object[] args)

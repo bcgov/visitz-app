@@ -7,6 +7,7 @@
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:todo="clr-namespace:Visitz.Views.Todo"
     xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
     xmlns:visitModels="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
     xmlns:views="clr-namespace:Visitz.Views"
@@ -16,11 +17,21 @@
 >
     <Grid RowDefinitions="Auto,*">
         <controls:TopAppBar Grid.Row="0">
-            <Label
-                Text="{local:Localize Todo}"
-                Style="{StaticResource HeadlineMedium}"
-                VerticalOptions="Center"
-            />
+            <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                <controls:FontIconButton
+                    Command="{Binding OpenNavDrawerCommand}"
+                    IsVisible="{Binding ShowMenuButton}"
+                    Text="{Static icons:MaterialIcons.Menu}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    TextColor="Black"
+                />
+
+                <Label
+                    Text="{local:Localize Todo}"
+                    Style="{StaticResource HeadlineMedium}"
+                    VerticalOptions="Center"
+                />
+            </HorizontalStackLayout>
         </controls:TopAppBar>
 
         <VerticalStackLayout Grid.Row="1">

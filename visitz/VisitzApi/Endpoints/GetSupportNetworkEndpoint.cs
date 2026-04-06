@@ -7,8 +7,6 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints;
 
-#nullable enable
-
 internal class GetSupportNetworkEndpoint(string baseUrl, ApiRecordType type, string id, Pagination? pagination = null)
     : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<SupportNetworkJson>)>(baseUrl, Vpi.V2, MakePath(type, id))
 {

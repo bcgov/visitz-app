@@ -40,10 +40,10 @@ namespace VisitzApi.Endpoints.Notes
 
         private static (bool success, string noteId) GetProperties(JsonElement json)
         {
-            bool gotStatus = json.TryGetProperty(JsonKey.Status, out var status);
-            bool gotNoteId = json.TryGetProperty(NoteIdKey, out var id);
+            string? status = json.GetProperty(JsonKey.Status).GetString();
+            string noteId = json.GetProperty(NoteIdKey).GetString() ?? "";
 
-            return gotStatus && gotNoteId ? (status.GetString() == JsonKey.Success, id.GetString()) : (false, null);
+            return (status == JsonKey.Success, noteId);
         }
     }
 }

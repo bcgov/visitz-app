@@ -50,6 +50,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetContactMedicalBehavioralService>();
             builder.Services.AddTransient<GetContactMedicalBehavioralByRangeService>();
 
+            builder.Services.AddTransient<GetAdditionalInformationService>();
+            builder.Services.AddTransient<GetAdditionalInformationByRangeService>();
             return builder;
         }
 

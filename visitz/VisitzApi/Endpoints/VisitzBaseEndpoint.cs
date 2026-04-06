@@ -5,8 +5,6 @@ using System.Web;
 using VisitzApi.ErrorHandling;
 using VisitzApi.Requests;
 
-#nullable enable
-
 namespace VisitzApi.Endpoints
 {
     internal abstract class VisitzBaseEndpoint<ResponseType>(string baseUrl, string version, string requestPath)
