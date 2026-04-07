@@ -5,8 +5,6 @@ using VisitzApi.Json;
 using VisitzApi.Models.People;
 using VisitzApi.Requests;
 
-#nullable enable
-
 namespace VisitzApi.Endpoints.People;
 
 internal class ContactMedicalBehavioralEndpoint(

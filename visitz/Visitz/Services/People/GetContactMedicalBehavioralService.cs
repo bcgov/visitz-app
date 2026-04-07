@@ -14,59 +14,51 @@ namespace Visitz.Services.People;
 
 internal class GetContactMedicalBehavioralService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
-    RecordServiceInfo Info => (RecordServiceInfo)Payload;
+    IcmContact Contact => (IcmContact)Payload;
 
     List<ContactMedicalBehavioralJson> ContactMedicalBehavioralData { get; } = [];
 
-    public static string MakeId(EntityType type, string id)
+    public static string MakeId(EntityType type, string parentId, string id)
     {
-        return $"{nameof(GetContactMedicalBehavioralService)}|{type}|{id}";
+        return $"{nameof(GetContactMedicalBehavioralService)}|{type}|{parentId}|{id}";
     }
 
-    public static StartServiceMessage MakeStartMessage(RecordServiceInfo info)
+    public static StartServiceMessage MakeStartMessage(IcmContact contact)
     {
         return new()
         {
-            ServiceId = MakeId(info.Type, info.Id),
+            ServiceId = MakeId(contact.ParentType, contact.ParentId, contact.Id),
             ServiceType = typeof(GetContactMedicalBehavioralService),
-            Payload = info,
+            Payload = contact,
         };
     }
 
     public override string GetId()
     {
-        return MakeId(Info.Type, Info.Id);
+        return MakeId(Contact.ParentType, Contact.ParentId, Contact.Id);
     }
 
     protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
-        using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+        var (totalCount, contactMedicalBehavioral) = await Vpi.GetContactMedicalBehavioral(
+            (ApiRecordType)Contact.ParentType,
+            Contact.ParentId,
+            Contact.Id,
+            pagination
+        );
 
-        List<(RecordServiceInfo, string)> contactList = [];
-        var total = 0;
-        var contacts = IcmContact.GetByParentIdAndType(realm, Info.Id, Info.Type);
-        foreach (var contact in contacts)
-        {
-            var contactTuple = (Info, contact.Id);
-            contactList.AddRange(contactTuple);
-
-            var (totalCount, contactMedicalBehavioral) = await Vpi.GetContactMedicalBehavioral(
-                (ApiRecordType)contact.ParentType,
-                contact.ParentId,
-                contact.Id,
-                pagination
-            );
-            ContactMedicalBehavioralData.AddRange(contactMedicalBehavioral);
-            total += totalCount;
-        }
-
-        return total;
+        return totalCount;
     }
 
     protected override async Task AfterRun()
     {
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await ContactMedicalBehavioral.SynchronizeAsync(realm, ContactMedicalBehavioralData, Info.Id, Info.Type)
+            await ContactMedicalBehavioral.SynchronizeAsync(
+                realm,
+                ContactMedicalBehavioralData,
+                Contact.Id,
+                Contact.ParentType
+            )
         );
     }
 }

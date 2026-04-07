@@ -11,7 +11,10 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
+
+#nullable enable
 
 namespace Visitz.Services.Caseload
 {
@@ -95,11 +98,26 @@ namespace Visitz.Services.Caseload
                 GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
             );
 
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+#pragma warning disable SS041 //Need IcmContact data to be fetched from DB only once and ensure we have a fixed collection to avoid incorrect thread error for realm
+            List<IcmContact> allContacts = realm
+                .All<IcmContact>()
+                .ToList()
+                .Select(x => new IcmContact
+                {
+                    Id = x.Id,
+                    ParentId = x.ParentId,
+                    ParentType = x.ParentType,
+                })
+                .ToList();
+#pragma warning restore SS041
+
+            //Get Contact related info AFTER fetching all contacts from DBs
+            await GetContactMedicalBehavioral(allContacts, exceptions);
+
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
-
-            await GetContactMedicalBehavioral(all, exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
@@ -289,14 +307,11 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetContactMedicalBehavioral(
-            IEnumerable<RecordServiceInfo> contactMedicalBehavioral,
-            List<Exception> exceptions
-        )
+        private async Task GetContactMedicalBehavioral(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
         {
             try
             {
-                var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(contactMedicalBehavioral);
+                var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(allContacts);
                 await ServiceHandler.TryRunServiceAsync(startMessage);
             }
             catch (Exception ex)

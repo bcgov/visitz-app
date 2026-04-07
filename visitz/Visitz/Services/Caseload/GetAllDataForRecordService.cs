@@ -8,8 +8,10 @@ using Visitz.Services.People;
 using Visitz.Services.SafetyAssessments;
 using Visitz.Services.Visits;
 using VisitzApi;
+using VisitzApi.Models.People;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
@@ -67,11 +69,11 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAdditionalInformation(exceptions)
         );
 
+        await GetContactMedicalBehavioral(exceptions);
+
         // Get attachment files AFTER other dependent info so we
         // complete text-only downloads sooner
         await GetPartialAttachments(exceptions);
-
-        await GetContactMedicalBehavioral(exceptions);
 
         if (exceptions.Count > 1)
             throw new AggregateException(exceptions);
@@ -272,7 +274,9 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
     {
         try
         {
-            var startMessage = GetContactMedicalBehavioralService.MakeStartMessage(new(BusinessObject));
+            var startMessage = GetContactMedicalBehavioralService.MakeStartMessage(
+                new IcmContact(new ContactJson(), "", EntityType.Unknown)
+            );
             return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)

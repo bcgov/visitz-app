@@ -16,7 +16,7 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     public string ContactFirstName { get; set; } = string.Empty;
     public string ContactRowNum { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
-    public DateTimeOffset? Updated { get; set; }
+    public DateTimeOffset Updated { get; set; } = DateTimeOffset.UtcNow;
     public string Comments { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public string ParentCaseNum { get; set; } = string.Empty;
@@ -28,7 +28,7 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     public string Category { get; set; } = string.Empty;
     public DateTimeOffset? DiagnosisDate { get; set; }
     public string UpdatedByName { get; set; } = string.Empty;
-    public DateTimeOffset? Created { get; set; }
+    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
     public string Condition { get; set; } = string.Empty;
     public string ContactLastName { get; set; } = string.Empty;
     public string UpdatedBy { get; set; } = string.Empty;
@@ -65,10 +65,10 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
         Category = json.Category;
         UpdatedByName = json.UpdatedByName;
         Condition = json.Condition;
-        Created = Timestamp.ParseDateTimeOffsetNullable(json.Created);
+        Created = DateTimeOffset.Parse(json.Created);
         StartDate = Timestamp.ParseDateTimeOffsetNullable(json.StartDate);
         EndDate = Timestamp.ParseDateTimeOffsetNullable(json.EndDate);
-        Updated = Timestamp.ParseDateTimeOffsetNullable(json.Updated);
+        Updated = DateTimeOffset.Parse(json.Updated);
         DiagnosisDate = Timestamp.ParseDateTimeOffsetNullable(json.DiagnosisDate);
         ParentType = type;
         ParentId = parentId;
@@ -79,10 +79,10 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
         return new ContactMedicalBehavioralJson()
         {
             Id = Id,
-            Created = Created?.ToString(dateFormat) ?? string.Empty,
+            Created = Created.ToString(dateFormat) ?? string.Empty,
             CreatedBy = CreatedBy,
             CreatedByName = CreatedByName,
-            Updated = Updated?.ToString(dateFormat) ?? string.Empty,
+            Updated = Updated.ToString(dateFormat) ?? string.Empty,
             UpdatedBy = UpdatedBy,
             UpdatedByName = UpdatedByName,
             ContactFirstName = ContactFirstName,
