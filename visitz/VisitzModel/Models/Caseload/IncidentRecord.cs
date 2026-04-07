@@ -371,12 +371,12 @@ public partial class IncidentRecord
         return AssignedTo == username || Assignees.Contains(username);
     }
 
-    public bool Equals(IncidentRecord other)
+    public bool Equals(IncidentRecord? other)
     {
         return other != null && Id == other.Id && EntityType == other.EntityType;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is IncidentRecord info ? Equals(info) : base.Equals(obj);
     }

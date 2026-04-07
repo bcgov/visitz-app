@@ -12,8 +12,11 @@ public partial class SafetyFactors
 {
     private const string Binding = "Binding";
 
-    partial void OnPropertyChanged(string propertyName)
+    partial void OnPropertyChanged(string? propertyName)
     {
+        if (propertyName == null)
+            return;
+
         bool notBound = !propertyName.EndsWith(Binding);
 
         if (notBound)
@@ -30,7 +33,7 @@ public partial class SafetyFactors
 
     private bool IsQuestionPrompt(string propertyName)
     {
-        return GetType().GetProperty(propertyName).PropertyType == typeof(bool?);
+        return GetType().GetProperty(propertyName)?.PropertyType == typeof(bool?);
     }
 
     public bool? PhysicalHarmBinding

@@ -102,9 +102,10 @@ public static class IBusinessObjectExtensions
         return $"{subtype} {type}";
     }
 
-    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm? realm = null)
+    public static IcmContact? GetKeyPlayer(this IBusinessObject businessObject, Realm? realm = null)
     {
-        return IcmContact.GetKeyPlayerFor(realm ?? businessObject.Realm, businessObject);
+        realm ??= businessObject.Realm ?? throw new InvalidOperationException("Attached Realm is null");
+        return IcmContact.GetKeyPlayerFor(realm, businessObject);
     }
 
     public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm? realm = null)

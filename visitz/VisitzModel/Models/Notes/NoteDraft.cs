@@ -9,7 +9,7 @@ namespace VisitzModel.Models.Notes
     {
         // Only allow one note draft per parent entity.
         [PrimaryKey]
-        public string ParentEntityId { get; set; }
+        public string ParentEntityId { get; set; } = Guid.NewGuid().ToString();
 
         public string RelatedEntityId
         {

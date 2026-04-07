@@ -12,9 +12,9 @@ public partial class ProtectiveCapacity
 {
     private const string Binding = "Binding";
 
-    partial void OnPropertyChanged(string propertyName)
+    partial void OnPropertyChanged(string? propertyName)
     {
-        if (!propertyName.EndsWith(Binding))
+        if (propertyName != null && !propertyName.EndsWith(Binding))
             RaisePropertyChanged($"{propertyName}{Binding}");
     }
 
