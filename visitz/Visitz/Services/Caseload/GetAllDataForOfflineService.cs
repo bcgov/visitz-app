@@ -1,3 +1,4 @@
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -99,18 +100,7 @@ namespace Visitz.Services.Caseload
             );
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-#pragma warning disable SS041 //Need IcmContact data to be fetched from DB only once and ensure we have a fixed collection to avoid incorrect thread error for realm
-            List<IcmContact> allContacts = realm
-                .All<IcmContact>()
-                .ToList()
-                .Select(x => new IcmContact
-                {
-                    Id = x.Id,
-                    ParentId = x.ParentId,
-                    ParentType = x.ParentType,
-                })
-                .ToList();
-#pragma warning restore SS041
+            var allContacts = realm.All<IcmContact>().Freeze();
 
             //Get Contact related info AFTER fetching all contacts from DBs
             await GetContactMedicalBehavioral(allContacts, exceptions);

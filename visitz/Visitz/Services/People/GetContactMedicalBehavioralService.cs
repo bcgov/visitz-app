@@ -47,6 +47,8 @@ internal class GetContactMedicalBehavioralService(Vpi vpi, LastUpdatedPrefs pref
             pagination
         );
 
+        ContactMedicalBehavioralData.AddRange(contactMedicalBehavioral);
+
         return totalCount;
     }
 
