@@ -92,10 +92,13 @@ public partial class PublishPage : VisitzPage
     {
         var nav = Navigator.Navigation;
 
+#pragma warning disable SS004 // Implement Equals() and GetHashcode() methods for a type used in a collection.
+        //Disabling SS004 because Page is a MAUI framework type and we cannot add these methods
         if (nav.NavigationStack.Contains(this))
             await nav.PopAsync();
         else if (nav.ModalStack.Contains(this))
             await nav.PopModalAsync();
+#pragma warning restore SS004 // Implement Equals() and GetHashcode() methods for a type used in a collection.
     }
 
     private async void DismissButton_Clicked(object sender, EventArgs e)
