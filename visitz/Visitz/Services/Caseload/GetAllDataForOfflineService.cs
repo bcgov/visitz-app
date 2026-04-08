@@ -98,6 +98,8 @@ namespace Visitz.Services.Caseload
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
+
+            await GetContactLegalAuthority(all, exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
@@ -284,6 +286,22 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.AdditionalInformation, ex));
+            }
+        }
+
+        private async Task GetContactLegalAuthority(
+            IEnumerable<RecordServiceInfo> contactLegalAuthority,
+            List<Exception> exceptions
+        )
+        {
+            try
+            {
+                var startMessage = GetContactLegalAuthorityByRangeService.MakeStartMessage(contactLegalAuthority);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLegalAuthority, ex));
             }
         }
     }

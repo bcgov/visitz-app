@@ -71,6 +71,8 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         // complete text-only downloads sooner
         await GetPartialAttachments(exceptions);
 
+        await GetContactLegalAuthority(exceptions);
+
         if (exceptions.Count > 1)
             throw new AggregateException(exceptions);
         else if (exceptions.Count > 0)
@@ -264,5 +266,19 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             return Result.Error;
         }
         return Result.NoOperation;
+    }
+
+    async Task<Result> GetContactLegalAuthority(List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactLegalAuthorityService.MakeStartMessage(new(BusinessObject));
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLegalAuthority, ex));
+            return Result.Error;
+        }
     }
 }
