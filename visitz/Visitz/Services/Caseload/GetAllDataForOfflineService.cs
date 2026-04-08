@@ -1,3 +1,4 @@
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -11,6 +12,7 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload
@@ -95,11 +97,15 @@ namespace Visitz.Services.Caseload
                 GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
             );
 
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            var allContacts = realm.All<IcmContact>().Freeze();
+
+            //Get Contact related info AFTER fetching all contacts from DBs
+            await GetContactLegalAuthority(allContacts, exceptions);
+
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
-
-            await GetContactLegalAuthority(all, exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
@@ -289,14 +295,11 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetContactLegalAuthority(
-            IEnumerable<RecordServiceInfo> contactLegalAuthority,
-            List<Exception> exceptions
-        )
+        private async Task GetContactLegalAuthority(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
         {
             try
             {
-                var startMessage = GetContactLegalAuthorityByRangeService.MakeStartMessage(contactLegalAuthority);
+                var startMessage = GetContactLegalAuthorityByRangeService.MakeStartMessage(allContacts);
                 await ServiceHandler.TryRunServiceAsync(startMessage);
             }
             catch (Exception ex)

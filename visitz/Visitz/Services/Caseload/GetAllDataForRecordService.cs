@@ -10,6 +10,7 @@ using Visitz.Services.Visits;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
@@ -67,11 +68,12 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAdditionalInformation(exceptions)
         );
 
+        var contacts = BusinessObject.Contacts.ToList();
+        await GetContactLegalAuthority(contacts, exceptions);
+
         // Get attachment files AFTER other dependent info so we
         // complete text-only downloads sooner
         await GetPartialAttachments(exceptions);
-
-        await GetContactLegalAuthority(exceptions);
 
         if (exceptions.Count > 1)
             throw new AggregateException(exceptions);
@@ -268,11 +270,11 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         return Result.NoOperation;
     }
 
-    async Task<Result> GetContactLegalAuthority(List<Exception> exceptions)
+    async Task<Result> GetContactLegalAuthority(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
     {
         try
         {
-            var startMessage = GetContactLegalAuthorityService.MakeStartMessage(new(BusinessObject));
+            var startMessage = GetContactLegalAuthorityByRangeService.MakeStartMessage(contacts);
             return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)
