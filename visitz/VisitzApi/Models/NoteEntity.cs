@@ -6,12 +6,12 @@ namespace VisitzApi.Models
     {
         private const string NotesKey = "notes";
 
-        public string NotePeriod { get; set; } // Intentionally a string, not DateTime
+        public string NotePeriod { get; set; } = string.Empty; // Intentionally a string, not DateTime
 
-        public string CreatedDate { get; set; }
+        public string CreatedDate { get; set; } = string.Empty;
 
         [JsonPropertyName(NotesKey)]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
         public static DateTime NotePeriodDateTimeTransform(NoteEntity note, bool ascending)
         {

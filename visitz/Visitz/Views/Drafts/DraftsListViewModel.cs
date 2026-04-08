@@ -21,6 +21,8 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
 
+#nullable enable
+
 internal partial class DraftsListViewModel : VisitzViewModel
 {
     bool _disposed;
@@ -30,11 +32,11 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
     readonly ObservableRealmQueryMap queryMap = new();
 
-    Realm DataRealm { get; set; }
+    Realm? DataRealm { get; set; }
 
     EntitySection SectionToOpen { get; set; }
 
-    public event EventHandler<IDraftItem> SelectedItemRelatedMissing;
+    public event EventHandler<IDraftItem>? SelectedItemRelatedMissing;
 
     protected override async Task InitAsync()
     {
@@ -104,7 +106,7 @@ internal partial class DraftsListViewModel : VisitzViewModel
         queryMap.Subscribe(realm, sortedQuery);
     }
 
-    private void QueryMap_ItemsChanged(object _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void QueryMap_ItemsChanged(object? _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
     {
         foreach (var draft in DraftItems)
             draft.Dispose();
@@ -123,6 +125,12 @@ internal partial class DraftsListViewModel : VisitzViewModel
     [RelayCommand]
     private async Task DraftItemSelected(IDraftItem draftItem)
     {
+        if (DataRealm == null)
+        {
+            Logger.LogWarning("Realm unexpectedly null");
+            return;
+        }
+
         if (draftItem.GetRelatedBusinessObjectFrom(DataRealm) is IBusinessObject bobj)
             await MarkForDownloadAndTryOpen(bobj, draftItem);
         else
@@ -163,9 +171,15 @@ internal partial class DraftsListViewModel : VisitzViewModel
         StrongReferenceMessenger.Default.Send(caseloadNav);
     }
 
-    public static async Task DeleteDraft(IDraftItem draft)
+    public async Task DeleteDraftAsync(IDraftItem draft)
     {
         var realm = draft.Realm;
+
+        if (realm == null)
+        {
+            Logger.LogWarning("Realm unexpectedly null");
+            return;
+        }
 
         await realm.WriteAsync(async () =>
         {

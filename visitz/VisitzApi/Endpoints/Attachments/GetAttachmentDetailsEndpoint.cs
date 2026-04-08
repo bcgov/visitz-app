@@ -12,7 +12,7 @@ internal class GetAttachmentDetailsEndpoint(
     string rowId,
     string attachmentId,
     DateTimeOffset? after = null
-) : VisitzBaseEndpoint<AttachmentJson>(baseUrl, Vpi.V2, MakePath(type, rowId, attachmentId))
+) : VisitzBaseEndpoint<AttachmentJson?>(baseUrl, Vpi.V2, MakePath(type, rowId, attachmentId))
 {
     static readonly string AttachmentsPath = "/{0}/{1}/attachments/{2}";
 
@@ -28,7 +28,7 @@ internal class GetAttachmentDetailsEndpoint(
         return new HttpRequestMessage() { Method = HttpMethod.Get, RequestUri = WithQueryParams(after: After) };
     }
 
-    public override AttachmentJson HandleResponse(HttpResponseMessage response, string responseContent)
+    public override AttachmentJson? HandleResponse(HttpResponseMessage response, string responseContent)
     {
         return response.StatusCode == HttpStatusCode.NoContent
             ? default

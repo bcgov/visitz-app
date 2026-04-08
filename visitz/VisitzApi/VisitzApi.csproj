@@ -3,6 +3,7 @@
 		<TargetFrameworks>net10.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Version>$(VisitzVersion)</Version>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<Import Project="..\Visitz\Visitz.props" />

@@ -28,8 +28,9 @@ internal class SubmitSafetyAssessmentEndpoint(string baseUrl, SubmitSafetyAssess
     {
         var json = JsonDocument.Parse(responseContent).RootElement;
 
-        var status = json.GetProperty(JsonKey.Status).GetString();
+        string statusText = json.GetProperty(JsonKey.Status).GetString() ?? "";
+        bool status = statusText == JsonKey.Success;
 
-        return (status.Equals(JsonKey.Success), status);
+        return (status, statusText);
     }
 }

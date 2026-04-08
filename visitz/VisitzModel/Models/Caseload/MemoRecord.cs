@@ -217,6 +217,7 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
         CallInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
         ContactLanguage.RemoveByParent(fromRealm, EntityType.Memo, Id);
 
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

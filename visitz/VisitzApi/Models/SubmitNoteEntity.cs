@@ -5,15 +5,15 @@ namespace VisitzApi.Models
     public class SubmitNoteEntity
     {
         [JsonPropertyName("entityNumber")]
-        public string EntityNumber { get; set; }
+        public string EntityNumber { get; set; } = string.Empty;
 
         [JsonPropertyName("entityType")]
-        public string EntityType { get; set; }
+        public string EntityType { get; set; } = string.Empty;
 
         [JsonPropertyName("notePeriod")]
-        public string NotePeriod { get; set; }
+        public string NotePeriod { get; set; } = string.Empty;
 
         [JsonPropertyName("notes")]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
     }
 }

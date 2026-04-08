@@ -5,8 +5,6 @@ using VisitzApi.Json;
 using VisitzApi.Models.CallDetails;
 using VisitzApi.Requests;
 
-#nullable enable
-
 namespace VisitzApi.Endpoints.CallDetails;
 
 internal class CallInformationEndpoint(string baseUrl, ApiRecordType type, string rowId, Pagination? pagination = null)

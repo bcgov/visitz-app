@@ -2,10 +2,12 @@ using Visitz.Views.SplitView;
 
 namespace Visitz.Views.Drafts;
 
+#nullable enable
+
 public partial class DraftsContainerView : SplitLayoutView
 {
-    static IView StartView;
-    static IView EndView;
+    readonly IView StartView;
+    readonly IView EndView;
 
     public DraftsContainerView()
     {
