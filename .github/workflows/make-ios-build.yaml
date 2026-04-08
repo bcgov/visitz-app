@@ -29,6 +29,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
 
+      - name: Get build version
+        run: |
+          OUTPUT_VERSION=(xmllint --xpath 'string(/Project/PropertyGroup/VisitzVersion)' ${{ env.PROJPATH }}/Visitz.props)
+          echo "OUTPUT_VERSION=$OUTPUT_VERSION" >> "$GITHUB_ENV"
+
       - name: Set build name
         run: |
           BUILD_NUM=$(($BUILD_NUM_OFFSET + $RUN_NUMBER))
@@ -36,7 +41,7 @@ jobs:
           
           # TODO: read "MCFD Mobility" app name from MSBuild instead
 
-          OUTPUT_NAME="MCFD Mobility-iOS-${{ github.event.inputs.environment }}-build_$BUILD_NUM"
+          OUTPUT_NAME="MCFD Mobility-iOS-${{ github.event.inputs.environment }}-$OUTPUT_VERSION.$BUILD_NUM"
           echo "OUTPUT_NAME=$OUTPUT_NAME" >> "$GITHUB_ENV"
 
       - name: Setup Xcode version
