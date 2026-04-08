@@ -2,8 +2,6 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Extensions;
 
-#nullable enable
-
 internal static class HttpResponseMessageExtensions
 {
     public static int GetRecordCount(this HttpResponseMessage message)

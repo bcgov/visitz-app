@@ -1057,7 +1057,11 @@ Do you want to download information for this record?</value>
   <data name="CallInformation" xml:space="preserve">
     <value>Call information</value>
   </data>
+	<data name="AdditionalInformation" xml:space="preserve">
+    <value>AdditionalInformation</value>
+  </data>
   <data name="ContactLanguageAuditTrail" xml:space="preserve">
     <value>Contact language audit trail</value>
   </data>
 </root>
+ 

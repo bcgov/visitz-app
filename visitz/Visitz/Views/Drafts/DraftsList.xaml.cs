@@ -5,9 +5,11 @@ using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.Drafts;
 
+#nullable enable
+
 public partial class DraftsList : ViewModelContentView
 {
-    new DraftsListViewModel ViewModel => base.ViewModel as DraftsListViewModel;
+    new DraftsListViewModel ViewModel => (DraftsListViewModel)base.ViewModel;
 
     public DraftsList()
         : base(ServiceProvider.GetService<DraftsListViewModel>())
@@ -37,15 +39,15 @@ public partial class DraftsList : ViewModelContentView
         base.Dispose(disposing);
     }
 
-    void ViewModel_SelectedItemRelatedMissing(object sender, IDraftItem draft)
+    void ViewModel_SelectedItemRelatedMissing(object? sender, IDraftItem draft)
     {
         _ = DoPromptDiscardAsync(draft);
     }
 
-    static async Task DoPromptDiscardAsync(IDraftItem draft)
+    async Task DoPromptDiscardAsync(IDraftItem draft)
     {
         if (await PromptDiscardDraftAsync(draft))
-            await DraftsListViewModel.DeleteDraft(draft);
+            await ViewModel.DeleteDraftAsync(draft);
     }
 
     static async Task<bool> PromptDiscardDraftAsync(IDraftItem draft)

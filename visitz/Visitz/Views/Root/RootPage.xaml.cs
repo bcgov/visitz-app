@@ -21,6 +21,9 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
         BindingContext = ViewModel;
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
+        StrongReferenceMessenger.Default.Register<NavDrawerMessage>(this, ReceiveNavDrawerMessage);
+        StrongReferenceMessenger.Default.Register<GetNavPositionMessage>(this, SendNavPosition);
+
         HideSoftInputOnTapped = true;
     }
 
@@ -35,6 +38,12 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
 
             SetContent(content);
         }
+    }
+
+    private void ReceiveNavDrawerMessage(object _, NavDrawerMessage message)
+    {
+        if (NavDrawer.IsOpen != message.Value)
+            NavDrawer.ToggleDrawer();
     }
 
     private void SetContent(IView view)
@@ -86,6 +95,15 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
     private void TwoPaneView_ModeChanged(object sender, EventArgs e)
     {
         if (ViewModel is RootViewModel rvm && sender is TwoPaneView paneView)
+        {
             rvm.UpdateOrientationVisibility(paneView.Mode);
+            StrongReferenceMessenger.Default.Send(new NavPositionMessage((int)paneView.Mode));
+        }
+    }
+
+    private static void SendNavPosition(object recipient, GetNavPositionMessage message)
+    {
+        if (recipient is RootPage root)
+            message.Reply((int)root.TwoPane.Mode);
     }
 }

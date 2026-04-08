@@ -7,8 +7,6 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.Visits;
 
-#nullable enable
-
 internal class GetVisitsEndpoint(string baseUrl, string caseId, Pagination? pagination = null)
     : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<VisitJson>)>(baseUrl, Vpi.V2, string.Format(VisitsPath, caseId))
 {

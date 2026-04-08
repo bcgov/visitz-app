@@ -13,17 +13,17 @@ public class SectionJson<RecordType>
 
     [JsonRequired]
     [JsonPropertyName("assignedIds")]
-    public List<string> AssignedIds { get; set; }
+    public List<string> AssignedIds { get; set; } = [];
 
     [JsonRequired]
     [JsonPropertyName("status")]
     public int Status { get; set; }
 
     [JsonPropertyName("message")] // Not using const 'messageFieldName' so it is decoupled
-    public JsonObject Message { get; set; }
+    public JsonObject Message { get; set; } = [];
 
     [JsonPropertyName("items")]
-    public List<RecordType> Items { get; set; }
+    public List<RecordType> Items { get; set; } = [];
 
     public string GetFirstMessage()
     {
@@ -42,8 +42,11 @@ public class SectionJson<RecordType>
 
     static string FindFirstStringByFieldName(string fieldName, JsonObject obj)
     {
-        foreach (KeyValuePair<string, JsonNode> fieldPair in obj)
+        foreach (KeyValuePair<string, JsonNode?> fieldPair in obj)
         {
+            if (fieldPair.Value == null)
+                continue;
+
             if (
                 fieldPair.Value.GetValueKind() == JsonValueKind.String
                 && string.Equals(fieldPair.Key, fieldName, StringComparison.InvariantCultureIgnoreCase)
