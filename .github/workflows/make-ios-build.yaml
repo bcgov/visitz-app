@@ -110,12 +110,24 @@ jobs:
           JF_USER: ${{ secrets.ARTIFACTORY_SERVICE_ACCOUNT_USER }}
           JF_PASSWORD: ${{ secrets.ARTIFACTORY_SERVICE_ACCOUNT_PWD }}
 
+      - name: Cache .NET SDK
+        id: cache-dotnet-sdk
+        uses: actions/cache@v4.2.4
+        if: always()
+        with:
+          path: ~/.dotnet
+          key: ${{ runner.os }}-dotnet-sdk-${{ hashFiles('${{ env.GLOBAL_JSON_PATH }}') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-sdk-
+
       - name: Setup .NET SDK
+        if: ${{ steps.cache-dotnet-sdk.outputs.cache-hit != 'true' }}
         uses: actions/setup-dotnet@v4.3.0
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Cache .NET dependencies
+        id: cache-dotnet-dependencies
         uses: actions/cache@v4.2.4
         if: always()
         with:
@@ -124,16 +136,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Cache .NET workloads
-        uses: actions/cache@v4.2.4
-        if: always()
-        with:
-          path: ~/.dotnet
-          key: ${{ runner.os }}-dotnet-workloads-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-dotnet-workloads-
-
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
+        if: ${{ steps.cache-dotnet-dependencies.outputs.cache-hit != 'true' }}
         run: |
           dotnet workload install maui maui-ios --version ${{ env.DOTNET_SDK_VERSION }}
 
