@@ -31,7 +31,7 @@ jobs:
 
       - name: Get build version
         run: |
-          OUTPUT_VERSION=(xmllint --xpath 'string(/Project/PropertyGroup/VisitzVersion)' ${{ env.PROJPATH }}/Visitz.props)
+          OUTPUT_VERSION=$(xmllint --xpath 'string(/Project/PropertyGroup/VisitzVersion)' ${{ env.PROJPATH }}/Visitz.props)
           echo "OUTPUT_VERSION=$OUTPUT_VERSION" >> "$GITHUB_ENV"
 
       - name: Set build name
