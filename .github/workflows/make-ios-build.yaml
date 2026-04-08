@@ -116,7 +116,7 @@ jobs:
         if: always()
         with:
           path: ~/.dotnet
-          key: ${{ runner.os }}-dotnet-sdk-${{ hashFiles('${{ env.GLOBAL_JSON_PATH }}') }}
+          key: ${{ runner.os }}-dotnet-sdk-${{ hashFiles('**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-dotnet-sdk-
 
