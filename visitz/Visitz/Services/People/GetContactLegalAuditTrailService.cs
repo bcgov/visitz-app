@@ -14,73 +14,46 @@ namespace Visitz.Services.People;
 
 internal class GetContactLegalAuditTrailService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
-    //private (RecordServiceInfo, string) ContactAuditTrailItem => ((RecordServiceInfo, string))Payload;
-
-    RecordServiceInfo Info => (RecordServiceInfo)Payload;
+    IcmContact Contact => (IcmContact)Payload;
     List<ContactLegalAuditTrailJson> AuditTrailData { get; } = [];
 
-    public static string MakeId(EntityType type, string id) //, string contactId)
+    public static string MakeId(EntityType type, string parentId, string id)
     {
-        return $"{nameof(GetContactLegalAuditTrailService)}|{type}|{id}";
+        return $"{nameof(GetContactLegalAuditTrailService)}|{type}|{parentId}|{id}";
     }
 
-    public static StartServiceMessage MakeStartMessage(RecordServiceInfo info)
+    public static StartServiceMessage MakeStartMessage(IcmContact contact)
     {
         return new()
         {
-            ServiceId = MakeId(info.Type, info.Id),
+            ServiceId = MakeId(contact.ParentType, contact.ParentId, contact.Id),
             ServiceType = typeof(GetContactLegalAuditTrailService),
-            Payload = info,
+            Payload = contact,
         };
     }
 
     public override string GetId()
     {
-        return MakeId(Info.Type, Info.Id);
+        return MakeId(Contact.ParentType, Contact.ParentId, Contact.Id);
     }
 
     protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
-        //var (info, contactId) = ContactAuditTrailItem;
-        //var (total, contactIds) = await Vpi.GetContactLegalAuditTrail(
-        //    (ApiRecordType)info.Type,
-        //    info.Id,
-        //    contactId,
-        //    pagination
-        //);
-        //AuditTrailData.AddRange(contactIds);
-
-        //return total;
-
-        using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-
-        List<(RecordServiceInfo, string)> contactList = [];
-        var total = 0;
-        var contacts = IcmContact.GetByParentIdAndType(realm, Info.Id, Info.Type);
-        foreach (var contact in contacts)
-        {
-            var contactTuple = (Info, contact.Id);
-            contactList.AddRange(contactTuple);
-
-            var (totalCount, contactLegalAuditTrail) = await Vpi.GetContactLegalAuditTrail(
-                (ApiRecordType)contact.ParentType,
-                contact.ParentId,
-                contact.Id,
-                pagination
-            );
-            AuditTrailData.AddRange(contactLegalAuditTrail);
-            total += totalCount;
-        }
+        var (total, contactLegalAuditTrail) = await Vpi.GetContactLegalAuditTrail(
+            (ApiRecordType)Contact.ParentType,
+            Contact.ParentId,
+            Contact.Id,
+            pagination
+        );
+        AuditTrailData.AddRange(contactLegalAuditTrail);
 
         return total;
     }
 
     protected override async Task AfterRun()
     {
-        //var (info, contactId) = ContactAuditTrailItem;
-
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await ContactLegalAuditTrail.SynchronizeAsync(realm, AuditTrailData, Info.Id, Info.Type)
+            await ContactLegalAuditTrail.SynchronizeAsync(realm, AuditTrailData, Contact.Id, Contact.ParentType)
         );
     }
 }

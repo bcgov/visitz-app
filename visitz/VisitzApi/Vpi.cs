@@ -182,7 +182,7 @@ namespace VisitzApi
             ApiRecordType type,
             string recordId,
             string contactId,
-            Pagination pagination = null
+            Pagination? pagination = null
         )
         {
             return await CallApi(

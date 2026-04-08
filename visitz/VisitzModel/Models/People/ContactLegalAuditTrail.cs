@@ -3,7 +3,6 @@ using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
-using VisitzModel.Utilities;
 
 #nullable enable
 
@@ -13,10 +12,10 @@ public partial class ContactLegalAuditTrail : IRealmObject, IApiJson<ContactLega
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public DateTimeOffset? Created { get; set; }
+    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
     public string OperationPerformed { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
-    public DateTimeOffset? Updated { get; set; }
+    public DateTimeOffset Updated { get; set; } = DateTimeOffset.UtcNow;
     public string UpdatedByName { get; set; } = string.Empty;
     public string Updatedby { get; set; } = string.Empty;
     public string CreatedBy { get; set; } = string.Empty;
@@ -40,9 +39,9 @@ public partial class ContactLegalAuditTrail : IRealmObject, IApiJson<ContactLega
         OperationPerformed = json.OperationPerformed;
         Type = json.Type;
         CreatedBy = json.CreatedBy;
-        Updated = Timestamp.ParseDateTimeOffsetNullable(json.Updated);
+        Updated = DateTimeOffset.Parse(json.Updated);
         Updatedby = json.Updatedby;
-        Created = Timestamp.ParseDateTimeOffsetNullable(json.Created);
+        Created = DateTimeOffset.Parse(json.Created);
         UpdatedByName = json.UpdatedByName;
         LegalAuthorityCode = json.LegalAuthorityCode;
         Type = json.Type;
@@ -58,10 +57,10 @@ public partial class ContactLegalAuditTrail : IRealmObject, IApiJson<ContactLega
         return new()
         {
             ID = Id,
-            Created = Created?.ToString(dateFormat) ?? string.Empty,
+            Created = Created.ToString(dateFormat) ?? string.Empty,
             CreatedBy = CreatedBy,
             CreatedbyName = CreatedbyName,
-            Updated = Updated?.ToString(dateFormat) ?? string.Empty,
+            Updated = Updated.ToString(dateFormat) ?? string.Empty,
             Updatedby = Updatedby,
             UpdatedByName = UpdatedByName,
             OperationPerformed = OperationPerformed,
