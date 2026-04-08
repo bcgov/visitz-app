@@ -290,19 +290,19 @@ namespace Visitz.Services.Caseload
         }
 
         private async Task GetContactLegalAuditTrail(
-            IEnumerable<RecordServiceInfo> contactLanguageAuditTrail,
+            IEnumerable<RecordServiceInfo> contactLegalAuditTrail,
             List<Exception> exceptions
         )
         {
             try
             {
-                IEnumerable<(RecordServiceInfo, string)> items = [];
-                var startMessage = GetContactLegalAuditTrailByRangeService.MakeStartMessage(items); //TODO
+                //IEnumerable<(RecordServiceInfo, string)> items = [];
+                var startMessage = GetContactLegalAuditTrailByRangeService.MakeStartMessage(contactLegalAuditTrail); //TODO
                 await ServiceHandler.TryRunServiceAsync(startMessage);
             }
             catch (Exception ex)
             {
-                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguageAuditTrail, ex));
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLegalAuditTrail, ex));
             }
         }
     }

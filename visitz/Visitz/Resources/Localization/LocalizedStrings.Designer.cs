@@ -535,11 +535,11 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contact language audit trail.
+        ///   Looks up a localized string similar to Contact legal audit trail.
         /// </summary>
-        public static string ContactLanguageAuditTrail {
+        public static string ContactLegalAuditTrail {
             get {
-                return ResourceManager.GetString("ContactLanguageAuditTrail", resourceCulture);
+                return ResourceManager.GetString("ContactLegalAuditTrail", resourceCulture);
             }
         }
         

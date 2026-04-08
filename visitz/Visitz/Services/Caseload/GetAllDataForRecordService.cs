@@ -271,12 +271,13 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
     {
         try
         {
-            var startMessage = GetContactLegalAuditTrailService.MakeStartMessage((new(BusinessObject), ""));
+            //var startMessage = GetContactLegalAuditTrailService.MakeStartMessage((new(BusinessObject), ""));
+            var startMessage = GetContactLegalAuditTrailService.MakeStartMessage(new(BusinessObject));
             return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)
         {
-            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguageAuditTrail, ex));
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLegalAuditTrail, ex));
             return Result.Error;
         }
     }
