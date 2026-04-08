@@ -39,35 +39,39 @@ jobs:
           field: sdk.version
           value: ${{ env.DOTNET_SDK_VERSION }}
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4.0.1
-        with:
-          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
-
       - name: Prepare NuGet
         run: |
           dotnet --version
           dotnet nuget locals all --clear
 
-      - name: Cache .NET dependencies
-        uses: actions/cache@v5.0.2
+      - name: Cache .NET SDK
+        id: cache-dotnet-sdk
+        uses: actions/cache@v4.2.4
         if: always()
         with:
-          path: ~/.nuget/packages
+          path: ~/.dotnet
+          key: ${{ runner.os }}-dotnet-sdk-${{ hashFiles('**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-sdk-
+
+      - name: Setup .NET SDK
+        if: ${{ steps.cache-dotnet-sdk.outputs.cache-hit != 'true' }}
+        uses: actions/setup-dotnet@v4.3.0
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+
+      - name: Cache .NET dependencies
+        id: cache-dotnet-dependencies
+        uses: actions/cache@v4.2.4
+        if: always()
+        with:
+          path: ~\.nuget\packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Cache .NET workloads
-        uses: actions/cache@v5.0.2
-        if: always()
-        with:
-          path: ~/.dotnet
-          key: ${{ runner.os }}-dotnet-workloads-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-dotnet-workloads-
-
       - name: Install .NET MAUI workload
+        if: ${{ steps.cache-dotnet-dependencies.outputs.cache-hit != 'true' }}
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
