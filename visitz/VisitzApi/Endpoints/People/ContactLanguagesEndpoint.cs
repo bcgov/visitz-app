@@ -11,21 +11,21 @@ internal class ContactLanguagesEndpoint(
     string baseUrl,
     ApiRecordType type,
     string rowId,
-    string contactrowId,
+    string contactId,
     Pagination? pagination = null
 )
     : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<ContactLanguageJson>)>(
         baseUrl,
         Vpi.V2,
-        MakePath(type, rowId, contactrowId)
+        MakePath(type, rowId, contactId)
     )
 {
-    static readonly string contactsPath = "/{0}/{1}/contact/{2}/languages";
+    static readonly string ContactsPath = "/{0}/{1}/contact/{2}/languages";
     readonly Pagination? Pagination = pagination;
 
-    static string MakePath(ApiRecordType recordType, string rowId, string contactrowId)
+    static string MakePath(ApiRecordType recordType, string rowId, string contactId)
     {
-        return string.Format(contactsPath, recordType.ToString().ToLowerInvariant(), rowId, contactrowId);
+        return string.Format(ContactsPath, recordType.ToString().ToLowerInvariant(), rowId, contactId);
     }
 
     public override HttpRequestMessage MakeRequest()

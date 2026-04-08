@@ -10,6 +10,7 @@ using Visitz.Services.Visits;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
@@ -67,10 +68,12 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAdditionalInformation(exceptions)
         );
 
+        var contacts = BusinessObject.Contacts.ToList();
+        await GetContactlanguages(contacts, exceptions);
+
         // Get attachment files AFTER other dependent info so we
         // complete text-only downloads sooner
         await GetPartialAttachments(exceptions);
-        await GetContactlanguages(exceptions);
 
         if (exceptions.Count > 1)
             throw new AggregateException(exceptions);
@@ -267,11 +270,11 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         return Result.NoOperation;
     }
 
-    async Task<Result> GetContactlanguages(List<Exception> exceptions)
+    async Task<Result> GetContactlanguages(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
     {
         try
         {
-            var startMessage = GetContactLanguagesService.MakeStartMessage((new(BusinessObject), ""));
+            var startMessage = GetContactLanguagesByRangeService.MakeStartMessage(contacts);
             return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)

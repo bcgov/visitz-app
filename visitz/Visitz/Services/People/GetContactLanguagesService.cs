@@ -13,50 +13,47 @@ namespace Visitz.Services.People;
 #nullable enable
 internal class GetContactLanguagesService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
-    // RecordServiceInfo Info => (RecordServiceInfo)Payload;
-    private (RecordServiceInfo, string) Info => ((RecordServiceInfo, string))Payload;
+    IcmContact Contact => (IcmContact)Payload;
 
     List<ContactLanguageJson> contactlanguageRecords { get; } = [];
 
-    public static string MakeId(EntityType type, string id, string contactId)
+    public static string MakeId(EntityType type, string parentId, string contactId)
     {
-        return $"{nameof(GetContactLanguagesService)}|{type}|{id}|{contactId}";
+        return $"{nameof(GetContactLanguagesService)}|{type}|{parentId}|{contactId}";
     }
 
-    public static StartServiceMessage MakeStartMessage((RecordServiceInfo recordServiceInfo, string contactId) tuple)
+    public static StartServiceMessage MakeStartMessage(IcmContact contact)
     {
         return new()
         {
-            ServiceId = MakeId(tuple.recordServiceInfo.Type, tuple.recordServiceInfo.Id, tuple.contactId),
+            ServiceId = MakeId(contact.ParentType, contact.ParentId, contact.Id),
             ServiceType = typeof(GetContactLanguagesService),
-            Payload = tuple,
+            Payload = contact,
         };
     }
 
     public override string GetId()
     {
-        var (recordServiceInfo, contactId) = Info;
-        return MakeId(recordServiceInfo.Type, recordServiceInfo.Id, contactId);
+        return MakeId(Contact.ParentType, Contact.ParentId, Contact.Id);
     }
 
     protected override async Task<int> RunPaginatedService(Pagination pagination)
     {
-        var (recordServiceInfo, contactId) = Info;
         var (total, contactlanguages) = await Vpi.GetContactLanguageAsync(
-            (ApiRecordType)recordServiceInfo.Type,
-            recordServiceInfo.Id,
-            contactId,
+            (ApiRecordType)Contact.ParentType,
+            Contact.ParentId,
+            Contact.Id,
             pagination
         );
         contactlanguageRecords.AddRange(contactlanguages);
+
         return total;
     }
 
     protected override async Task AfterRun()
     {
-        var (info, contactId) = Info;
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await ContactLanguage.SynchronizeAsync(realm, contactlanguageRecords, info.Id, info.Type)
+            await ContactLanguage.SynchronizeAsync(realm, contactlanguageRecords, Contact.Id, Contact.ParentType)
         );
     }
 }

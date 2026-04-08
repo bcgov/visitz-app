@@ -3,7 +3,6 @@ using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
-using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.People;
 
@@ -12,10 +11,10 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
-    public DateTimeOffset? Created { get; set; }
+    public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
     public string Type { get; set; } = string.Empty;
     public string SSAPrimaryField { get; set; } = string.Empty;
-    public DateTimeOffset? Updated { get; set; }
+    public DateTimeOffset Updated { get; set; } = DateTimeOffset.UtcNow;
     public string TranslatorReq { get; set; } = string.Empty;
     public string Comments { get; set; } = string.Empty;
     public string UpdatedByName { get; set; } = string.Empty;
@@ -40,11 +39,11 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
-        Created = Timestamp.ParseDateTimeOffsetNullable(json.Created);
+        Created = DateTimeOffset.Parse(json.Created);
         UpdatedBy = json.UpdatedBy;
         Type = json.Type;
         SSAPrimaryField = json.SSAPrimaryField;
-        Updated = Timestamp.ParseDateTimeOffsetNullable(json.Updated);
+        Updated = DateTimeOffset.Parse(json.Updated);
         TranslatorReq = json.TranslatorReq;
         Comments = json.Comments;
         UpdatedByName = json.UpdatedByName;
@@ -63,11 +62,11 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
         {
             Id = Id,
             CreatedBy = CreatedBy,
-            Created = Created?.ToString(dateFormat) ?? string.Empty,
+            Created = Created.ToString(dateFormat) ?? string.Empty,
             UpdatedBy = UpdatedBy,
             Type = Type,
             SSAPrimaryField = SSAPrimaryField,
-            Updated = Updated?.ToString(dateFormat) ?? string.Empty,
+            Updated = Updated.ToString(dateFormat) ?? string.Empty,
             TranslatorReq = TranslatorReq,
             Comments = Comments,
             UpdatedByName = UpdatedByName,

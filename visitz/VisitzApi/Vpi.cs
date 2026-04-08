@@ -181,13 +181,11 @@ namespace VisitzApi
         public async Task<(int TotalRecords, IEnumerable<ContactLanguageJson>)> GetContactLanguageAsync(
             ApiRecordType type,
             string recordId,
-            string contactrowid,
-            Pagination pagination = null
+            string contactId,
+            Pagination? pagination = null
         )
         {
-            return await CallApi(
-                new ContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactrowid, pagination)
-            );
+            return await CallApi(new ContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
         }
     }
 }

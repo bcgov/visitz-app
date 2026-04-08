@@ -1,3 +1,4 @@
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -96,11 +97,14 @@ namespace Visitz.Services.Caseload
                 GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
             );
 
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            var allContacts = realm.All<IcmContact>().Freeze();
+
+            await GetAllContactlanguages(allContacts, exceptions);
+
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
-
-            await GetAllContactlanguages(all, exceptions);
         }
 
         static async Task<IEnumerable<RecordServiceInfo>> GetRefreshableRecords<T>()
@@ -290,29 +294,12 @@ namespace Visitz.Services.Caseload
             }
         }
 
-        private async Task GetAllContactlanguages(IEnumerable<RecordServiceInfo> contactLanguages, List<Exception> exceptions)
+        private async Task GetAllContactlanguages(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
         {
             try
             {
-                using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-                var allContacts = realm.All<IcmContact>().AsEnumerable().ToList();
-                if (allContacts.Any())
-                {
-                    var languageTasks = allContacts.Select(contact =>
-                    {
-                        var parentInfo = new RecordServiceInfo(
-                            contact.ParentType,
-                            EntitySubtype.Unknown,
-                            contact.ParentId,
-                            string.Empty,
-                            string.Empty,
-                            string.Empty
-                        );
-                        var startMessage = GetContactLanguagesService.MakeStartMessage((parentInfo, contact.RowId));
-                        return ServiceHandler.TryRunServiceAsync(startMessage);
-                    });
-                    await Task.WhenAll(languageTasks);
-                }
+                var startMessage = GetContactLanguagesByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
             }
             catch (Exception ex)
             {

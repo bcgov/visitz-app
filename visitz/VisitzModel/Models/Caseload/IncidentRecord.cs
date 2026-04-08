@@ -320,8 +320,8 @@ public partial class IncidentRecord
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
         IncidentConcerns.RemoveByParent(fromRealm, Id);
         CallInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
-
         ContactLanguage.RemoveByParent(fromRealm, EntityType.Incident, Id);
+
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }
