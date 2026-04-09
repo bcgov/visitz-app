@@ -2,7 +2,6 @@ using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.People;
 
@@ -19,23 +18,16 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     public string Comments { get; set; } = string.Empty;
     public string UpdatedByName { get; set; } = string.Empty;
     public string UpdatedBy { get; set; } = string.Empty;
-    public string ContactId { get; set; } = string.Empty;
+    public string ParentContactId { get; set; } = string.Empty;
     public string CreatedBy { get; set; } = string.Empty;
     public string LanguageName { get; set; } = string.Empty;
     public string OtherLanguage { get; set; } = string.Empty;
     public string CreatedByName { get; set; } = string.Empty;
     public string ICMType { get; set; } = string.Empty;
-    public string ParentId { get; set; } = string.Empty;
-    private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
-    public EntityType ParentType
-    {
-        get => (EntityType)ParentTypeInt;
-        set => ParentTypeInt = (int)value;
-    }
 
     public ContactLanguage() { }
 
-    public ContactLanguage(ContactLanguageJson json, EntityType type, string parentId)
+    public ContactLanguage(ContactLanguageJson json, string parentContactId)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -47,13 +39,11 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
         TranslatorReq = json.TranslatorReq;
         Comments = json.Comments;
         UpdatedByName = json.UpdatedByName;
-        ContactId = json.ContactId;
+        ParentContactId = parentContactId;
         LanguageName = json.LanguageName;
         OtherLanguage = json.OtherLanguage;
         CreatedByName = json.CreatedByName;
         ICMType = json.ICMType;
-        ParentType = type;
-        ParentId = parentId;
     }
 
     public ContactLanguageJson ToApiJson(string dateFormat = "s")
@@ -70,7 +60,7 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
             TranslatorReq = TranslatorReq,
             Comments = Comments,
             UpdatedByName = UpdatedByName,
-            ContactId = ContactId,
+            ContactId = ParentContactId,
             LanguageName = LanguageName,
             OtherLanguage = OtherLanguage,
             CreatedByName = CreatedByName,
@@ -80,15 +70,14 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
 
     public static List<ContactLanguage> FromApiJsonArray(
         IEnumerable<ContactLanguageJson> jsonArray,
-        EntityType type,
-        string parentId
+        string parentContactId
     )
     {
         List<ContactLanguage> outList = [];
 
         if (jsonArray != null)
             foreach (var jsonItem in jsonArray)
-                outList.Add(new ContactLanguage(jsonItem, type, parentId));
+                outList.Add(new ContactLanguage(jsonItem, parentContactId));
 
         return outList;
     }
@@ -96,19 +85,16 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<ContactLanguageJson> newContactLanguages,
-        string parentId,
-        EntityType type
+        string parentContactId
     )
     {
         if (newContactLanguages == null)
             return;
 
-        var incomingContactLanguages = FromApiJsonArray(newContactLanguages, type, parentId);
+        var incomingContactLanguages = FromApiJsonArray(newContactLanguages, parentContactId);
         var incomingContactLanguageIds = incomingContactLanguages.Select(item => item.Id);
 
-        var allContactLanguages = realm
-            .All<ContactLanguage>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+        var allContactLanguages = realm.All<ContactLanguage>().Where(item => item.ParentContactId == parentContactId);
         var allContactLanguageIds = allContactLanguages.AsEnumerable().Select(item => item.Id);
 
         var contactLanguageIdsToDelete = allContactLanguageIds.Except(incomingContactLanguageIds);
@@ -133,11 +119,15 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
         );
     }
 
-    public static void RemoveByParent(Realm realm, EntityType type, string parentId)
+    public static void RemoveByParent(Realm realm, List<string> parentContactIdList)
     {
-        var visitItems = realm
-            .All<ContactLanguage>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
-        realm.RemoveRange(visitItems);
+        foreach (var contactId in parentContactIdList)
+        {
+            var contactLanguagesToBeDeleted = realm
+                .All<ContactLanguage>()
+                .Where(item => item.ParentContactId == contactId);
+
+            realm.RemoveRange(contactLanguagesToBeDeleted);
+        }
     }
 }

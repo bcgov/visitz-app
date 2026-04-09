@@ -276,7 +276,9 @@ public partial class CaseRecord
         IcmContact.RemoveByParent(fromRealm, EntityType.Case, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Case, Id, userIgnoredPrefs);
-        ContactLanguage.RemoveByParent(fromRealm, EntityType.Case, Id);
+
+        var contactIdList = IcmContact.GetContactIdByParentIdAndType(fromRealm, Id, EntityType.Case);
+        ContactLanguage.RemoveByParent(fromRealm, contactIdList.ToList());
 
         if (deleteLocalState)
             fromRealm.Remove(LocalState);

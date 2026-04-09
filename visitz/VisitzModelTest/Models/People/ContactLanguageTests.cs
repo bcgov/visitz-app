@@ -1,5 +1,4 @@
 using VisitzApi.Models.People;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 
 namespace VisitzModelTest.Models.People;
@@ -52,7 +51,7 @@ public class ContactLanguageTests
         var realm = await TestingUtilities.MakeRealm<ContactLanguageTests>();
         List<ContactLanguageJson> incidentCallInfo = GetContactlanguageInformation;
         var numberOfIncidentCallInformationBeforeInsertion = realm.All<ContactLanguage>().Count();
-        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123", EntityType.Incident);
+        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123");
         var numberOfIncidentCallInformationAfterInsertion = realm.All<ContactLanguage>().Count();
         Assert.Equal(0, numberOfIncidentCallInformationBeforeInsertion);
         Assert.Equal(2, numberOfIncidentCallInformationAfterInsertion);
@@ -63,10 +62,10 @@ public class ContactLanguageTests
     {
         var realm = await TestingUtilities.MakeRealm<ContactLanguageTests>();
         List<ContactLanguageJson> incidentCallInfo = [.. GetContactlanguageInformation];
-        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123", EntityType.Incident);
+        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123");
         var numberOfIncidentCallInfoBeforeDeletion = realm.All<ContactLanguage>().Count();
         incidentCallInfo.RemoveAll(item => item.Id == "11");
-        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123", EntityType.Incident);
+        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123");
         var numberOfIncidentCallInfoAfterDeletion = realm.All<ContactLanguage>().Count();
         var inc = realm.All<ContactLanguage>().ToList();
         Assert.Equal(2, numberOfIncidentCallInfoBeforeDeletion);

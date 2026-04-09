@@ -4,7 +4,6 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models.People;
 using VisitzApi.Requests;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
@@ -15,18 +14,18 @@ internal class GetContactLanguagesService(Vpi vpi, LastUpdatedPrefs prefs) : Api
 {
     IcmContact Contact => (IcmContact)Payload;
 
-    List<ContactLanguageJson> contactlanguageRecords { get; } = [];
+    List<ContactLanguageJson> ContactlanguageRecords { get; } = [];
 
-    public static string MakeId(EntityType type, string parentId, string contactId)
+    public static string MakeId(string parentContactId)
     {
-        return $"{nameof(GetContactLanguagesService)}|{type}|{parentId}|{contactId}";
+        return $"{nameof(GetContactLanguagesService)}|{parentContactId}";
     }
 
     public static StartServiceMessage MakeStartMessage(IcmContact contact)
     {
         return new()
         {
-            ServiceId = MakeId(contact.ParentType, contact.ParentId, contact.Id),
+            ServiceId = MakeId(contact.Id),
             ServiceType = typeof(GetContactLanguagesService),
             Payload = contact,
         };
@@ -34,7 +33,7 @@ internal class GetContactLanguagesService(Vpi vpi, LastUpdatedPrefs prefs) : Api
 
     public override string GetId()
     {
-        return MakeId(Contact.ParentType, Contact.ParentId, Contact.Id);
+        return MakeId(Contact.Id);
     }
 
     protected override async Task<int> RunPaginatedService(Pagination pagination)
@@ -45,7 +44,7 @@ internal class GetContactLanguagesService(Vpi vpi, LastUpdatedPrefs prefs) : Api
             Contact.Id,
             pagination
         );
-        contactlanguageRecords.AddRange(contactlanguages);
+        ContactlanguageRecords.AddRange(contactlanguages);
 
         return total;
     }
@@ -53,7 +52,7 @@ internal class GetContactLanguagesService(Vpi vpi, LastUpdatedPrefs prefs) : Api
     protected override async Task AfterRun()
     {
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await ContactLanguage.SynchronizeAsync(realm, contactlanguageRecords, Contact.Id, Contact.ParentType)
+            await ContactLanguage.SynchronizeAsync(realm, ContactlanguageRecords, Contact.Id)
         );
     }
 }
