@@ -3,6 +3,7 @@ using VisitzApi.Endpoints.Attachments;
 using VisitzApi.Endpoints.CallDetails;
 using VisitzApi.Endpoints.Caseload;
 using VisitzApi.Endpoints.Notes;
+using VisitzApi.Endpoints.People;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
 using VisitzApi.ErrorHandling;
@@ -175,6 +176,15 @@ namespace VisitzApi
         )
         {
             return await CallApi(new AdditionalInformationEndpoint(BaseVisitzApiUrl, type, id, pagination));
+        }
+
+        public async Task<bool> SubmitSupportNetworkItemAsync(
+            ApiRecordType type,
+            string id,
+            SubmitSupportNetworkJson supportNetwork
+        )
+        {
+            return await CallApi(new SubmitSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, supportNetwork));
         }
     }
 }
