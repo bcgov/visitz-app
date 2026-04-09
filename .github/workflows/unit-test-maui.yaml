@@ -70,6 +70,7 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Install .NET MAUI workload
+        if: ${{ steps.cache-dotnet-dependencies.outputs.cache-hit != 'true' }}
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
