@@ -215,9 +215,11 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
         IcmContact.RemoveByParent(fromRealm, EntityType.Memo, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Memo, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
-        ContactMedicalBehavioral.RemoveByParent(fromRealm, EntityType.Memo, Id);
-
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
+
+        var contactIdList = IcmContact.GetContactIdByParentIdAndType(fromRealm, Id, EntityType.Memo);
+        ContactMedicalBehavioral.RemoveByParent(fromRealm, contactIdList.ToList());
+
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

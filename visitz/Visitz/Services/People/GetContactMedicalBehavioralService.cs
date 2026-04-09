@@ -4,7 +4,6 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzApi.Models.People;
 using VisitzApi.Requests;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
@@ -18,16 +17,16 @@ internal class GetContactMedicalBehavioralService(Vpi vpi, LastUpdatedPrefs pref
 
     List<ContactMedicalBehavioralJson> ContactMedicalBehavioralData { get; } = [];
 
-    public static string MakeId(EntityType type, string parentId, string id)
+    public static string MakeId(string parentContactId)
     {
-        return $"{nameof(GetContactMedicalBehavioralService)}|{type}|{parentId}|{id}";
+        return $"{nameof(GetContactMedicalBehavioralService)}|{parentContactId}";
     }
 
     public static StartServiceMessage MakeStartMessage(IcmContact contact)
     {
         return new()
         {
-            ServiceId = MakeId(contact.ParentType, contact.ParentId, contact.Id),
+            ServiceId = MakeId(contact.Id),
             ServiceType = typeof(GetContactMedicalBehavioralService),
             Payload = contact,
         };
@@ -35,7 +34,7 @@ internal class GetContactMedicalBehavioralService(Vpi vpi, LastUpdatedPrefs pref
 
     public override string GetId()
     {
-        return MakeId(Contact.ParentType, Contact.ParentId, Contact.Id);
+        return MakeId(Contact.Id);
     }
 
     protected override async Task<int> RunPaginatedService(Pagination pagination)
@@ -55,12 +54,7 @@ internal class GetContactMedicalBehavioralService(Vpi vpi, LastUpdatedPrefs pref
     protected override async Task AfterRun()
     {
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await ContactMedicalBehavioral.SynchronizeAsync(
-                realm,
-                ContactMedicalBehavioralData,
-                Contact.Id,
-                Contact.ParentType
-            )
+            await ContactMedicalBehavioral.SynchronizeAsync(realm, ContactMedicalBehavioralData, Contact.Id)
         );
     }
 }

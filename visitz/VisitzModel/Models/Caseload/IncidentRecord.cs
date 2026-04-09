@@ -320,7 +320,9 @@ public partial class IncidentRecord
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
         IncidentConcerns.RemoveByParent(fromRealm, Id);
         CallInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
-        ContactMedicalBehavioral.RemoveByParent(fromRealm, EntityType.Incident, Id);
+
+        var contactIdList = IcmContact.GetContactIdByParentIdAndType(fromRealm, Id, EntityType.Incident);
+        ContactMedicalBehavioral.RemoveByParent(fromRealm, contactIdList.ToList());
 
         if (deleteLocalState)
             fromRealm.Remove(LocalState);

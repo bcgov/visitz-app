@@ -478,10 +478,11 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
             .FirstOrDefault();
     }
 
-    public static IQueryable<IcmContact> GetByParentIdAndType(Realm realm, string parentId, EntityType type)
+    public static IQueryable<string> GetContactIdByParentIdAndType(Realm realm, string parentId, EntityType type)
     {
         return realm
             .All<IcmContact>()
-            .Where(contact => contact.ParentId == parentId && contact.ParentTypeInt == (int)type);
+            .Where(contact => contact.ParentId == parentId && contact.ParentTypeInt == (int)type)
+            .Select(contact => contact.Id);
     }
 }

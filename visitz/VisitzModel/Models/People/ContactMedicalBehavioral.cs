@@ -2,7 +2,6 @@ using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Utilities;
 
 #nullable enable
@@ -32,20 +31,13 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     public string Condition { get; set; } = string.Empty;
     public string ContactLastName { get; set; } = string.Empty;
     public string UpdatedBy { get; set; } = string.Empty;
-    public string ContactId { get; set; } = string.Empty;
+    public string ParentContactId { get; set; } = string.Empty;
     public DateTimeOffset? StartDate { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
-    public string ParentId { get; set; } = string.Empty;
-    private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
-    public EntityType ParentType
-    {
-        get => (EntityType)ParentTypeInt;
-        set => ParentTypeInt = (int)value;
-    }
 
     public ContactMedicalBehavioral() { }
 
-    public ContactMedicalBehavioral(ContactMedicalBehavioralJson json, EntityType type, string parentId)
+    public ContactMedicalBehavioral(ContactMedicalBehavioralJson json, string parentContactId)
     {
         Id = json.Id;
         ContactFirstName = json.ContactFirstName;
@@ -54,7 +46,7 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
         ContactRowNum = json.ContactRowNum;
         Name = json.Name;
         UpdatedBy = json.UpdatedBy;
-        ContactId = json.ContactId;
+        ParentContactId = parentContactId;
         Comments = json.Comments;
         Type = json.Type;
         ParentCaseNum = json.ParentCaseNum;
@@ -70,8 +62,6 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
         EndDate = Timestamp.ParseDateTimeOffsetNullable(json.EndDate);
         Updated = DateTimeOffset.Parse(json.Updated);
         DiagnosisDate = Timestamp.ParseDateTimeOffsetNullable(json.DiagnosisDate);
-        ParentType = type;
-        ParentId = parentId;
     }
 
     public ContactMedicalBehavioralJson ToApiJson(string dateFormat = "s")
@@ -86,7 +76,7 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
             UpdatedBy = UpdatedBy,
             UpdatedByName = UpdatedByName,
             ContactFirstName = ContactFirstName,
-            ContactId = ContactId,
+            ContactId = ParentContactId,
             ContactLastName = ContactLastName,
             Comments = Comments,
             DiagnosedBy = DiagnosedBy,
@@ -106,15 +96,14 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
 
     public static List<ContactMedicalBehavioral> FromApiJsonArray(
         IEnumerable<ContactMedicalBehavioralJson> jsonArray,
-        EntityType type,
-        string parentId
+        string parentContactId
     )
     {
         List<ContactMedicalBehavioral> outList = [];
 
         if (jsonArray != null)
             foreach (var jsonItem in jsonArray)
-                outList.Add(new ContactMedicalBehavioral(jsonItem, type, parentId));
+                outList.Add(new ContactMedicalBehavioral(jsonItem, parentContactId));
 
         return outList;
     }
@@ -122,19 +111,18 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<ContactMedicalBehavioralJson> contactMedicalBehavioral,
-        string parentId,
-        EntityType type
+        string parentContactId
     )
     {
         if (contactMedicalBehavioral == null)
             return;
 
-        var incomingContactMedicalBehavioral = FromApiJsonArray(contactMedicalBehavioral, type, parentId);
+        var incomingContactMedicalBehavioral = FromApiJsonArray(contactMedicalBehavioral, parentContactId);
         var incomingContactMedicalBehavioralIds = incomingContactMedicalBehavioral.Select(item => item.Id);
 
         var allContactMedicalBehavioral = realm
             .All<ContactMedicalBehavioral>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+            .Where(item => item.ParentContactId == parentContactId);
         var allContactMedicalBehavioralIds = allContactMedicalBehavioral.AsEnumerable().Select(item => item.Id);
 
         var contactMedicalBehavioralIdsToDelete = allContactMedicalBehavioralIds.Except(
@@ -162,16 +150,19 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
         );
     }
 
-    public static void RemoveByParent(Realm realm, EntityType type, string parentId)
+    public static void RemoveByParent(Realm realm, List<string> parentContactIdList)
     {
-        var contactMedicalBehavioral = realm
-            .All<ContactMedicalBehavioral>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
-            .ToList();
-
-        foreach (var item in contactMedicalBehavioral)
+        foreach (var contactId in parentContactIdList)
         {
-            realm.Remove(item);
+            var contactMedicalBehavioral = realm
+                .All<ContactMedicalBehavioral>()
+                .Where(item => item.ParentContactId == contactId)
+                .ToList();
+
+            foreach (var item in contactMedicalBehavioral)
+            {
+                realm.Remove(item);
+            }
         }
     }
 }

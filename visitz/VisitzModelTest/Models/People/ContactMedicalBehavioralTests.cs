@@ -1,5 +1,4 @@
 using VisitzApi.Models.People;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 
 namespace VisitzModelTest.Models.People;
@@ -151,7 +150,7 @@ public class ContactMedicalBehavioralTests
         List<ContactMedicalBehavioralJson> contactMedicalBehavioral = medicalBehavioralJsons;
 
         var numberOfCaseContactMedicalBehavioralBeforeInsertion = realm.All<ContactMedicalBehavioral>().Count();
-        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, "10", EntityType.Case);
+        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, "10");
 
         var numberOfCaseContactMedicalBehavioralAfterInsertion = realm.All<ContactMedicalBehavioral>().Count();
 
@@ -166,12 +165,12 @@ public class ContactMedicalBehavioralTests
         List<ContactMedicalBehavioralJson> contactMedicalBehavioral = [.. medicalBehavioralJsons];
         string parentId = "10";
 
-        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, parentId, EntityType.Case);
+        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, parentId);
         var numberOfCaseContactMedicalBehavioralBeforeDeletion = realm.All<ContactMedicalBehavioral>().Count();
 
         contactMedicalBehavioral.RemoveAll(item => item.Id == "1");
 
-        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, parentId, EntityType.Case);
+        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, parentId);
         var numberOfCaseContactMedicalBehavioralAfterDeletion = realm.All<ContactMedicalBehavioral>().Count();
 
         Assert.Equal(2, numberOfCaseContactMedicalBehavioralBeforeDeletion);
@@ -188,12 +187,7 @@ public class ContactMedicalBehavioralTests
         List<ContactMedicalBehavioralJson> contactMedicalBehavioral = serviceRequestMedicalBehavioralJsons;
 
         var numberOfCaseContactMedicalBehavioralBeforeInsertion = realm.All<ContactMedicalBehavioral>().Count();
-        await ContactMedicalBehavioral.SynchronizeAsync(
-            realm,
-            contactMedicalBehavioral,
-            "12",
-            EntityType.ServiceRequest
-        );
+        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, "12");
 
         var numberOfCaseContactMedicalBehavioralAfterInsertion = realm.All<ContactMedicalBehavioral>().Count();
 
@@ -208,22 +202,12 @@ public class ContactMedicalBehavioralTests
         List<ContactMedicalBehavioralJson> contactMedicalBehavioral = [.. serviceRequestMedicalBehavioralJsons];
         string parentId = "12";
 
-        await ContactMedicalBehavioral.SynchronizeAsync(
-            realm,
-            contactMedicalBehavioral,
-            parentId,
-            EntityType.ServiceRequest
-        );
+        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, parentId);
         var numberOfCaseContactMedicalBehavioralBeforeDeletion = realm.All<ContactMedicalBehavioral>().Count();
 
         contactMedicalBehavioral.RemoveAll(item => item.Id == "22");
 
-        await ContactMedicalBehavioral.SynchronizeAsync(
-            realm,
-            contactMedicalBehavioral,
-            parentId,
-            EntityType.ServiceRequest
-        );
+        await ContactMedicalBehavioral.SynchronizeAsync(realm, contactMedicalBehavioral, parentId);
         var numberOfCaseContactMedicalBehavioralAfterDeletion = realm.All<ContactMedicalBehavioral>().Count();
 
         Assert.Equal(3, numberOfCaseContactMedicalBehavioralBeforeDeletion);
