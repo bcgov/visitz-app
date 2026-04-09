@@ -176,4 +176,4 @@ jobs:
             "${{ secrets.ARTIFACTORY_REPO_NAME }}/${{ vars.ENV_NAME }}-iOS/$OUTPUT_NAME.ipa" \
             --build-name="$OUTPUT_NAME" \
             --build-number="$OUTPUT_VERSION.$BUILD_NUM" \
-            --target-props="version=$OUTPUT_VERSION;commit=${{ github.sha }};action_url="$ACTION_URL"
+            --target-props="version=$OUTPUT_VERSION;commit=${{ github.sha }};action_url=$ACTION_URL"
