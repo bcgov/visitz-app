@@ -205,9 +205,11 @@ public partial class ServiceRequestRecord
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
-        ContactLegalAuthority.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
-
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
+
+        var contactIdList = IcmContact.GetContactIdByParentIdAndType(fromRealm, Id, EntityType.ServiceRequest);
+        ContactLegalAuthority.RemoveByParent(fromRealm, contactIdList.ToList());
+
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }

@@ -1,3 +1,4 @@
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -68,7 +69,7 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAdditionalInformation(exceptions)
         );
 
-        var contacts = BusinessObject.Contacts.ToList();
+        var contacts = BusinessObject.Contacts.Freeze();
         await GetContactLegalAuthority(contacts, exceptions);
 
         // Get attachment files AFTER other dependent info so we

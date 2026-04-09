@@ -2,7 +2,6 @@ using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Utilities;
 
 #nullable enable
@@ -31,12 +30,10 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
     public string DirectorsAuthority { get; set; } = string.Empty;
     public string ExpiryDateRequired { get; set; } = string.Empty;
     public string CreatedBy { get; set; } = string.Empty;
-    public string IncidentId { get; set; } = string.Empty;
     public string LegalAuthorityDescription { get; set; } = string.Empty;
     public DateTimeOffset? EffectiveDate { get; set; }
     public string Agreementwith { get; set; } = string.Empty;
     public string Comments { get; set; } = string.Empty;
-    public string CaseId { get; set; } = string.Empty;
     public DateTimeOffset? ExpiryDate { get; set; }
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? LastHearingDate { get; set; }
@@ -51,17 +48,10 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
     public string ReasonforService4 { get; set; } = string.Empty;
     public string ReasonforService3 { get; set; } = string.Empty;
     public string ReasonforService2 { get; set; } = string.Empty;
-    public string ParentId { get; set; } = string.Empty;
-    private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
-    public EntityType ParentType
-    {
-        get => (EntityType)ParentTypeInt;
-        set => ParentTypeInt = (int)value;
-    }
 
     public ContactLegalAuthority() { }
 
-    public ContactLegalAuthority(ContactLegalAuthorityJson json, EntityType type, string parentId)
+    public ContactLegalAuthority(ContactLegalAuthorityJson json, string parentContactId)
     {
         Id = json.Id;
         Updated = DateTimeOffset.Parse(json.Updated);
@@ -79,16 +69,14 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
         ByAgreementFlag = json.ByAgreementFlag;
         TermsandConditions = json.TermsandConditions;
         NextHearingDate = Timestamp.ParseDateTimeOffsetNullable(json.NextHearingDate);
-        ParentContactId = json.ParentContactId;
+        ParentContactId = parentContactId;
         DirectorsAuthority = json.DirectorsAuthority;
         ExpiryDateRequired = json.ExpiryDateRequired;
         CreatedBy = json.CreatedBy;
-        IncidentId = json.IncidentId;
         LegalAuthorityDescription = json.LegalAuthorityDescription;
         EffectiveDate = Timestamp.ParseDateTimeOffsetNullable(json.EffectiveDate);
         Agreementwith = json.Agreementwith;
         Comments = json.Comments;
-        CaseId = json.CaseId;
         ExpiryDate = Timestamp.ParseDateTimeOffsetNullable(json.ExpiryDate);
         Created = DateTimeOffset.Parse(json.Created);
         LastHearingDate = Timestamp.ParseDateTimeOffsetNullable(json.LastHearingDate);
@@ -102,8 +90,6 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
         ReasonforService2 = json.ReasonforService2;
         ReasonforService3 = json.ReasonforService3;
         ReasonforService4 = json.ReasonforService4;
-        ParentId = parentId;
-        ParentType = type;
     }
 
     public ContactLegalAuthorityJson ToApiJson(string dateFormat = "s")
@@ -116,7 +102,6 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
             ReasonforService2 = ReasonforService2,
             ReasonforService = ReasonforService,
             ByAgreementFlag = ByAgreementFlag,
-            CaseId = CaseId,
             Comments = Comments,
             CreatedBy = CreatedBy,
             Created = Created.ToString(dateFormat) ?? string.Empty,
@@ -131,7 +116,6 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
             ExpiryDateRequired = ExpiryDateRequired,
             Id = Id,
             InCare = InCare,
-            IncidentId = IncidentId,
             IndigenousComments = IndigenousComments,
             IndigenousCommunitiePartyAgreement = IndigenousCommunitiePartyAgreement,
             IndigenousCommunities = IndigenousCommunities,
@@ -154,15 +138,14 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
 
     public static List<ContactLegalAuthority> FromApiJsonArray(
         IEnumerable<ContactLegalAuthorityJson> jsonArray,
-        EntityType type,
-        string parentId
+        string parentContactId
     )
     {
         List<ContactLegalAuthority> outList = [];
 
         if (jsonArray != null)
             foreach (var jsonItem in jsonArray)
-                outList.Add(new ContactLegalAuthority(jsonItem, type, parentId));
+                outList.Add(new ContactLegalAuthority(jsonItem, parentContactId));
 
         return outList;
     }
@@ -170,19 +153,18 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
     public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<ContactLegalAuthorityJson> contactLegalAuthority,
-        string parentId,
-        EntityType type
+        string parentContactId
     )
     {
         if (contactLegalAuthority == null)
             return;
 
-        var incomingContactLegalAuthority = FromApiJsonArray(contactLegalAuthority, type, parentId);
+        var incomingContactLegalAuthority = FromApiJsonArray(contactLegalAuthority, parentContactId);
         var incomingContactLegalAuthorityIds = incomingContactLegalAuthority.Select(item => item.Id);
 
         var allContactLegalAuthority = realm
             .All<ContactLegalAuthority>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+            .Where(item => item.ParentContactId == parentContactId);
         var allContactLegalAuthorityIds = allContactLegalAuthority.AsEnumerable().Select(item => item.Id);
 
         var contactLegalAuthorityIdsToDelete = allContactLegalAuthorityIds.Except(incomingContactLegalAuthorityIds);
@@ -208,16 +190,15 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
         );
     }
 
-    public static void RemoveByParent(Realm realm, EntityType type, string parentId)
+    public static void RemoveByParent(Realm realm, List<string> parentContactIdList)
     {
-        var contactLegalAuthority = realm
-            .All<ContactLegalAuthority>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
-            .ToList();
-
-        foreach (var item in contactLegalAuthority)
+        foreach (var contactId in parentContactIdList)
         {
-            realm.Remove(item);
+            var contactLegalAuthorityToBeDeleted = realm
+                .All<ContactLegalAuthority>()
+                .Where(item => item.ParentContactId == contactId);
+
+            realm.RemoveRange(contactLegalAuthorityToBeDeleted);
         }
     }
 }

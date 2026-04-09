@@ -1,5 +1,4 @@
 using VisitzApi.Models.People;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 
 namespace VisitzModelTest.Models.People;
@@ -101,7 +100,7 @@ public class ContactLegalAuthorityTests
         List<ContactLegalAuthorityJson> legalAuthInfo = legalAuthJson;
 
         var numberOfLegalAuthorityInformationBeforeInsertion = realm.All<ContactLegalAuthority>().Count();
-        await ContactLegalAuthority.SynchronizeAsync(realm, legalAuthInfo, "123", EntityType.Incident);
+        await ContactLegalAuthority.SynchronizeAsync(realm, legalAuthInfo, "123");
 
         var numberOfLegalAuthorityInformationAfterInsertion = realm.All<ContactLegalAuthority>().Count();
 
@@ -115,11 +114,11 @@ public class ContactLegalAuthorityTests
         var realm = await TestingUtilities.MakeRealm<ContactLegalAuthorityTests>();
         List<ContactLegalAuthorityJson> legalAuthInfo = [.. legalAuthJson];
 
-        await ContactLegalAuthority.SynchronizeAsync(realm, legalAuthInfo, "123", EntityType.Incident);
+        await ContactLegalAuthority.SynchronizeAsync(realm, legalAuthInfo, "123");
         var numberOfLegalAuthorityInfoBeforeDeletion = realm.All<ContactLegalAuthority>().Count();
 
         legalAuthInfo.RemoveAll(item => item.Id == "2");
-        await ContactLegalAuthority.SynchronizeAsync(realm, legalAuthInfo, "123", EntityType.Incident);
+        await ContactLegalAuthority.SynchronizeAsync(realm, legalAuthInfo, "123");
 
         var numberOfLegalAuthorityInfoAfterDeletion = realm.All<ContactLegalAuthority>().Count();
         var inc = realm.All<ContactLegalAuthority>().ToList();
