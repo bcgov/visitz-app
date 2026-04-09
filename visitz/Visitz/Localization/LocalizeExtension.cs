@@ -3,6 +3,7 @@ using Visitz.Resources.Localization;
 
 namespace Visitz.Localization
 {
+    [RequireService([typeof(IStringLocalizer<LocalizedStrings>)])]
     [ContentProperty(nameof(Key))]
     // We will use this name in XML like so: Text="{local:Localize hello_world}"
     public class LocalizeExtension : IMarkupExtension
