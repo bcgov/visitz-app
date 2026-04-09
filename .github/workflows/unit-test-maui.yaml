@@ -44,7 +44,7 @@ jobs:
         uses: actions/cache@v4.2.4
         if: always()
         with:
-          path: ~\.dotnet
+          path: "C:\Program Files\dotnet\sdk\${{ env.DOTNET_SDK_VERSION }}"
           key: ${{ runner.os }}-dotnet-sdk-${{ hashFiles('**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-dotnet-sdk-
