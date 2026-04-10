@@ -150,19 +150,15 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
         );
     }
 
-    public static void RemoveByParent(Realm realm, List<string> parentContactIdList)
+    public static void RemoveByParent(Realm realm, IQueryable<IcmContact> parentContactList)
     {
-        foreach (var contactId in parentContactIdList)
+        foreach (var contact in parentContactList)
         {
             var contactMedicalBehavioral = realm
                 .All<ContactMedicalBehavioral>()
-                .Where(item => item.ParentContactId == contactId)
-                .ToList();
+                .Where(item => item.ParentContactId == contact.Id);
 
-            foreach (var item in contactMedicalBehavioral)
-            {
-                realm.Remove(item);
-            }
+            realm.RemoveRange(contactMedicalBehavioral);
         }
     }
 }
