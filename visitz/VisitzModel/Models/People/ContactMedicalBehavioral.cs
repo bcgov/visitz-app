@@ -150,7 +150,7 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
         );
     }
 
-    public static void RemoveByParent(Realm realm, IQueryable<IcmContact> parentContactList)
+    public static void RemoveByParent(Realm realm, IEnumerable<IcmContact> parentContactList)
     {
         foreach (var contact in parentContactList)
         {

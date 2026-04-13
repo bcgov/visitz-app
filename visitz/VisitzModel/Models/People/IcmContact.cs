@@ -463,12 +463,16 @@ public partial class IcmContact
     {
         var contacts = realm
             .All<IcmContact>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
+            .AsEnumerable()
+            .GroupBy(x => x.Id)
+            .Where(g => g.Count() == 1)
+            .Select(g => g.First());
 
-        //Remove dependent objects
-        ContactMedicalBehavioral.RemoveByParent(realm, contacts);
+        if (contacts.Count() == 1)
+            ContactMedicalBehavioral.RemoveByParent(realm, contacts);
 
-        realm.RemoveRange(contacts);
+        realm.RemoveRange(contacts.AsQueryable());
     }
 
     public static IQueryable<IcmContact> GetByParentObject(Realm realm, IBusinessObject businessObject)
