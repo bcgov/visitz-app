@@ -44,3 +44,4 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       build_number: ${{ needs.calculate-build-number.outputs.build_number }}
+    secrets: inherit
