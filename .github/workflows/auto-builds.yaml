@@ -42,5 +42,5 @@ jobs:
         target: [demo, project-team]
     uses: ./.github/workflows/make-ios-build.yaml
     with:
-      target: ${{ matrix.target }}
+      environment: ${{ matrix.target }}
       build_number: ${{ needs.calculate-build-number.outputs.build_number }}
