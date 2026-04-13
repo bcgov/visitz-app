@@ -7,8 +7,8 @@ on:
       - opened
       - synchronize
     paths:
-      .github/**/*
-      visitz/**/*
+      - '.github/**/*'
+      - 'visitz/**/*'
 
 permissions:
   contents: read
