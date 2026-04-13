@@ -32,7 +32,7 @@ jobs:
     timeout-minutes: 200
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Get build version
         run: |
@@ -47,12 +47,12 @@ jobs:
           echo "OUTPUT_NAME=$OUTPUT_NAME" >> "$GITHUB_ENV"
 
       - name: Setup Xcode version
-        uses: maxim-lobanov/setup-xcode@v1.6.0
+        uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1.7.0
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
       - name: Import code-signing certificates
-        uses: Apple-Actions/import-codesign-certs@v3
+        uses: Apple-Actions/import-codesign-certs@b610f78488812c1e56b20e6df63ec42d833f2d14 # v6.1.0
         with: 
           p12-file-base64: ${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64 }}
           p12-password: ${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_PASSWORD }}
@@ -96,14 +96,14 @@ jobs:
           cp ${{ env.GLOBAL_JSON_PATH }}.template ${{ env.GLOBAL_JSON_PATH }}
 
       - name: Force .NET SDK version ${{ env.DOTNET_SDK_VERSION }}
-        uses: jossef/action-set-json-field@v2.2
+        uses: jossef/action-set-json-field@890d7642122dbb2833dddd2003659bb71a2b21fe # v2.2
         with:
           file: ${{ env.GLOBAL_JSON_PATH }}
           field: sdk.version
           value: ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Setup JFrog CLI
-        uses: jfrog/setup-jfrog-cli@v4
+        uses: jfrog/setup-jfrog-cli@1641575d87647fb969c0545f0b6a76873e328b7c # v5.0.0
         with:
           disable-job-summary: true
         env:
@@ -114,7 +114,7 @@ jobs:
 
       - name: Cache .NET SDK
         id: cache-dotnet-sdk
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         if: always()
         with:
           path: ~/.dotnet
@@ -124,13 +124,13 @@ jobs:
 
       - name: Setup .NET SDK
         if: ${{ steps.cache-dotnet-sdk.outputs.cache-hit != 'true' }}
-        uses: actions/setup-dotnet@v4.3.0
+        uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # 5.2.0
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Cache .NET dependencies
         id: cache-dotnet-dependencies
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         if: always()
         with:
           path: ~/.nuget/packages
