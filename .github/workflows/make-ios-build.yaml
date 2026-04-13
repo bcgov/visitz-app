@@ -10,7 +10,7 @@ on:
         description: 'Environment to build package for'
         required: true
       build_number:
-        type: number
+        type: string
         required: true
 
 permissions:
