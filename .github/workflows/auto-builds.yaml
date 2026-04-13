@@ -1,0 +1,30 @@
+name: Auto builds
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      visitz/**/*
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Build number offset for incremental builds
+  # +246 => Last run number from previous repo before migration
+  # +112 => Last run number of Build iOS Release Package workflow before logic change
+  BUILD_NUM_OFFSET: 358
+
+jobs:
+  build-ios-per-environment:
+    strategy:
+      matrix:
+        target: [demo, project-team]
+    uses: ./.github/workflows/make-ios-build.yaml
+    with:
+      target: ${{ matrix.target }}
+      build_number: ${{ fromJSON(env.BUILD_NUM_OFFSET) + github.run_number }}

@@ -1,18 +1,20 @@
 name: Build iOS release package
 
-run-name: Build iOS release package (${{ github.event.inputs.environment }})
+run-name: Build iOS release package (${{ inputs.environment }} ${{ inputs.build_number}})
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       environment:
+        type: string
         description: 'Environment to build package for'
-        type: environment
+        required: true
+      build_number:
+        type: integer
         required: true
 
 env:
-  BUILD_NUM_OFFSET: 246 # Final run number from previous repo before migration
-  RUN_NUMBER: ${{ github.run_number }}
+  BUILD_NUM: ${{ inputs.build_number }}
   PROJPATH: "visitz/Visitz"
   DOTNET_SDK_VERSION: "10.0.102"
   GLOBAL_JSON_PATH: "global.json"
@@ -36,9 +38,6 @@ jobs:
 
       - name: Set build name
         run: |
-          BUILD_NUM=$(($BUILD_NUM_OFFSET + $RUN_NUMBER))
-          echo "BUILD_NUM=$BUILD_NUM" >> "$GITHUB_ENV"
-          
           # TODO: read "MCFD Mobility" app name from MSBuild instead
 
           OUTPUT_NAME="MCFD Mobility-iOS-${{ vars.ENV_NAME }}-$OUTPUT_VERSION.$BUILD_NUM"
