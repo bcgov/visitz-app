@@ -7,6 +7,7 @@ on:
       - opened
       - synchronize
     paths:
+      .github/**/*
       visitz/**/*
 
 concurrency:
