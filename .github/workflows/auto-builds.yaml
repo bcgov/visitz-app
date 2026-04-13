@@ -46,7 +46,7 @@ jobs:
       - run-unit-tests
     strategy:
       matrix:
-        target: [demo, project-team]
+        target: [demo, project-team, prod]
     uses: ./.github/workflows/make-ios-build.yaml
     with:
       environment: ${{ matrix.target }}
