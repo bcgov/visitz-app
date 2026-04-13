@@ -39,39 +39,41 @@ jobs:
           field: sdk.version
           value: ${{ env.DOTNET_SDK_VERSION }}
 
+      - name: Cache .NET SDK
+        id: cache-dotnet-sdk
+        uses: actions/cache@v4.2.4
+        if: always()
+        with:
+          path: C:\Program Files\dotnet\sdk\${{ env.DOTNET_SDK_VERSION }}
+          key: ${{ runner.os }}-dotnet-sdk-${{ hashFiles('**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-sdk-
+
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4.0.1
+        if: ${{ steps.cache-dotnet-sdk.outputs.cache-hit != 'true' }}
+        uses: actions/setup-dotnet@v4.3.0
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
-      - name: Prepare NuGet
-        run: |
-          dotnet --version
-          dotnet nuget locals all --clear
-
+      # TODO: Need to get cache working for Windows' dotnet dependency installs
       - name: Cache .NET dependencies
-        uses: actions/cache@v5.0.2
+        id: cache-dotnet-dependencies
+        uses: actions/cache@v4.2.4
         if: always()
         with:
-          path: ~/.nuget/packages
+          path: |
+            ~\.nuget\packages
+            ~\.dotnet
+            C:\ProgramData\dotnet\workloads
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-
-      - name: Cache .NET workloads
-        uses: actions/cache@v5.0.2
-        if: always()
-        with:
-          path: ~/.dotnet
-          key: ${{ runner.os }}-dotnet-workloads-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-dotnet-workloads-
 
       - name: Install .NET MAUI workload
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
-          dotnet workload install maui ios maccatalyst maui-ios maui-windows --version ${{ env.DOTNET_SDK_VERSION }}
+          dotnet workload install maui ios maccatalyst maui-ios maui-windows maui-maccatalyst --version ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}

@@ -29,6 +29,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
 
+      - name: Get build version
+        run: |
+          OUTPUT_VERSION=$(xmllint --xpath 'string(/Project/PropertyGroup/VisitzVersion)' ${{ env.PROJPATH }}/Visitz.props)
+          echo "OUTPUT_VERSION=$OUTPUT_VERSION" >> "$GITHUB_ENV"
+
       - name: Set build name
         run: |
           BUILD_NUM=$(($BUILD_NUM_OFFSET + $RUN_NUMBER))
@@ -36,7 +41,7 @@ jobs:
           
           # TODO: read "MCFD Mobility" app name from MSBuild instead
 
-          OUTPUT_NAME="MCFD Mobility-iOS-${{ github.event.inputs.environment }}-build_$BUILD_NUM"
+          OUTPUT_NAME="MCFD Mobility-iOS-${{ github.event.inputs.environment }}-$OUTPUT_VERSION.$BUILD_NUM"
           echo "OUTPUT_NAME=$OUTPUT_NAME" >> "$GITHUB_ENV"
 
       - name: Setup Xcode version
@@ -95,12 +100,34 @@ jobs:
           field: sdk.version
           value: ${{ env.DOTNET_SDK_VERSION }}
 
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        with:
+          disable-job-summary: true
+        env:
+          JF_PROJECT: ${{ secrets.ARTIFACTORY_PROJECT }}
+          JF_URL: ${{ vars.ARTIFACTORY_URL }}
+          JF_USER: ${{ secrets.ARTIFACTORY_SERVICE_ACCOUNT_USER }}
+          JF_PASSWORD: ${{ secrets.ARTIFACTORY_SERVICE_ACCOUNT_PWD }}
+
+      - name: Cache .NET SDK
+        id: cache-dotnet-sdk
+        uses: actions/cache@v4.2.4
+        if: always()
+        with:
+          path: ~/.dotnet
+          key: ${{ runner.os }}-dotnet-sdk-${{ hashFiles('**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-dotnet-sdk-
+
       - name: Setup .NET SDK
+        if: ${{ steps.cache-dotnet-sdk.outputs.cache-hit != 'true' }}
         uses: actions/setup-dotnet@v4.3.0
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
       - name: Cache .NET dependencies
+        id: cache-dotnet-dependencies
         uses: actions/cache@v4.2.4
         if: always()
         with:
@@ -109,16 +136,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Cache .NET workloads
-        uses: actions/cache@v4.2.4
-        if: always()
-        with:
-          path: ~/.dotnet
-          key: ${{ runner.os }}-dotnet-workloads-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-dotnet-workloads-
-
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
+        if: ${{ steps.cache-dotnet-dependencies.outputs.cache-hit != 'true' }}
         run: |
           dotnet workload install maui maui-ios --version ${{ env.DOTNET_SDK_VERSION }}
 
@@ -147,8 +166,9 @@ jobs:
           cd ${{ env.PROJPATH }}/bin/Release/net10.0-ios/ios-arm64/publish
           mv "MCFD Mobility.ipa" "$OUTPUT_NAME.ipa"
 
-      - name: Upload IPA archive (${{ inputs.environment }})
-        uses: actions/upload-artifact@v4.6.1
-        with:
-          name: ${{ env.OUTPUT_NAME }}
-          path: ${{ env.PROJPATH }}/bin/Release/net10.0-ios/ios-arm64/publish/*.ipa
+      - name: Push build to Artifactory
+        run: |
+          jf rt upload \
+            "${{ env.PROJPATH }}/bin/Release/net10.0-ios/ios-arm64/publish/$OUTPUT_NAME.ipa" \
+            "${{ secrets.ARTIFACTORY_REPO_NAME }}/${{ vars.ENV_NAME }}-iOS/$OUTPUT_NAME.ipa" \
+            --target-props="version=$OUTPUT_VERSION;build=$BUILD_NUM;commit=${{ github.sha }}"
