@@ -13,6 +13,9 @@ on:
         type: number
         required: true
 
+permissions:
+  contents: read
+
 env:
   BUILD_NUM: ${{ inputs.build_number }}
   PROJPATH: "visitz/Visitz"
