@@ -114,16 +114,12 @@ namespace Visitz.Services.Caseload
             where T : IBusinessObject
         {
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            IEnumerable<RecordServiceInfo> records = null;
 
-            records = realm
+            return realm
                 .All<T>()
                 .AsEnumerable()
                 .Where(bo => bo.LocalState.ShouldDownloadDuringRefresh)
-                .Select(bo => new RecordServiceInfo(bo))
-                .ToList();
-
-            return records;
+                .Select(bo => new RecordServiceInfo(bo));
         }
 
         private async Task GetPersonalCaseload()
