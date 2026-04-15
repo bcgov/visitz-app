@@ -255,8 +255,7 @@ namespace Visitz.Views.Caseload
             Realm?.Dispose();
             Realm = null;
 
-            if (SessionInfo != null)
-                SessionInfo.OfficesChanged -= SessionInfo_OfficesChanged;
+            SessionInfo?.OfficesChanged -= SessionInfo_OfficesChanged;
             SessionInfo = null;
         }
 
