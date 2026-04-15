@@ -69,9 +69,12 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAdditionalInformation(exceptions)
         );
 
+        //Get Contact related info AFTER fetching all contacts from DBs
         var contacts = BusinessObject.Contacts.Freeze();
-        await GetContactMedicalBehavioral(contacts, exceptions);
-        await GetContactlanguages(contacts, exceptions);
+        await Task.WhenAll(
+            GetContactMedicalBehavioral(contacts, exceptions),
+            GetContactlanguages(contacts, exceptions)
+        );
 
         // Get attachment files AFTER other dependent info so we
         // complete text-only downloads sooner

@@ -49,26 +49,26 @@ public class ContactLanguageTests
     public async Task SynchronizeAsyncAddcontactlanguageToRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactLanguageTests>();
-        List<ContactLanguageJson> incidentCallInfo = GetContactlanguageInformation;
-        var numberOfIncidentCallInformationBeforeInsertion = realm.All<ContactLanguage>().Count();
-        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123");
-        var numberOfIncidentCallInformationAfterInsertion = realm.All<ContactLanguage>().Count();
-        Assert.Equal(0, numberOfIncidentCallInformationBeforeInsertion);
-        Assert.Equal(2, numberOfIncidentCallInformationAfterInsertion);
+        List<ContactLanguageJson> contactLanguages = GetContactlanguageInformation;
+        var numberOfContactLanguagesBeforeInsertion = realm.All<ContactLanguage>().Count();
+        await ContactLanguage.SynchronizeAsync(realm, contactLanguages, "123");
+        var numberOfContactLanguagesAfterInsertion = realm.All<ContactLanguage>().Count();
+        Assert.Equal(0, numberOfContactLanguagesBeforeInsertion);
+        Assert.Equal(2, numberOfContactLanguagesAfterInsertion);
     }
 
     [Fact]
     public async Task SynchronizeAsyncDeletescontactlanguageDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<ContactLanguageTests>();
-        List<ContactLanguageJson> incidentCallInfo = [.. GetContactlanguageInformation];
-        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123");
-        var numberOfIncidentCallInfoBeforeDeletion = realm.All<ContactLanguage>().Count();
-        incidentCallInfo.RemoveAll(item => item.Id == "11");
-        await ContactLanguage.SynchronizeAsync(realm, incidentCallInfo, "123");
-        var numberOfIncidentCallInfoAfterDeletion = realm.All<ContactLanguage>().Count();
+        List<ContactLanguageJson> contactLanguages = [.. GetContactlanguageInformation];
+        await ContactLanguage.SynchronizeAsync(realm, contactLanguages, "123");
+        var numberOfContactLanguagesBeforeDeletion = realm.All<ContactLanguage>().Count();
+        contactLanguages.RemoveAll(item => item.Id == "11");
+        await ContactLanguage.SynchronizeAsync(realm, contactLanguages, "123");
+        var numberOfContactLanguagesAfterDeletion = realm.All<ContactLanguage>().Count();
         var inc = realm.All<ContactLanguage>().ToList();
-        Assert.Equal(2, numberOfIncidentCallInfoBeforeDeletion);
-        Assert.Equal(numberOfIncidentCallInfoBeforeDeletion - 1, numberOfIncidentCallInfoAfterDeletion);
+        Assert.Equal(2, numberOfContactLanguagesBeforeDeletion);
+        Assert.Equal(numberOfContactLanguagesBeforeDeletion - 1, numberOfContactLanguagesAfterDeletion);
     }
 }
