@@ -178,6 +178,18 @@ namespace VisitzApi
             return await CallApi(new AdditionalInformationEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
+        public async Task<(int TotalRecords, IEnumerable<ContactMedicalBehavioralJson>)> GetContactMedicalBehavioral(
+            ApiRecordType type,
+            string recordId,
+            string contactId,
+            Pagination? pagination = null
+        )
+        {
+            return await CallApi(
+                new ContactMedicalBehavioralEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
+            );
+        }
+
         public async Task<(int TotalRecords, IEnumerable<ContactLanguageJson>)> GetContactLanguageAsync(
             ApiRecordType type,
             string recordId,
