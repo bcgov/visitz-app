@@ -26,14 +26,14 @@ internal partial class ContentViewNavigationStack : ContentView
         await newView.TranslateToAsync(X, Y, easing: Easing.CubicInOut);
     }
 
-    public async Task<ContentView> PopAsync()
+    public async Task<ContentView?> PopAsync()
     {
-        ContentView view = _viewStack.Peek();
+        if (_viewStack.TryPop(out ContentView? view) && view != null)
+        {
+            await view.TranslateToAsync(X + view.Width, Y, easing: Easing.CubicInOut);
 
-        await view.TranslateToAsync(X + view.Width, Y, easing: Easing.CubicInOut);
-
-        _viewStack.Pop();
-        _layout.Remove(view);
+            _layout.Remove(view);
+        }
 
         return view;
     }
