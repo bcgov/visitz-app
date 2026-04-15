@@ -3,6 +3,7 @@ name: Run .NET MAUI tests
 run-name: Run .NET MAUI tests (${{ github.ref_name }})
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     paths:
@@ -26,54 +27,26 @@ jobs:
     env:
       TEST_RESULTS: "testResults"
     steps:
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Inflate ${{ env.GLOBAL_JSON_PATH }}
         run: |
           Copy-Item .\${{ env.GLOBAL_JSON_PATH }}.template .\${{ env.GLOBAL_JSON_PATH }}
 
       - name: Force .NET SDK version ${{ env.DOTNET_SDK_VERSION }}
-        uses: jossef/action-set-json-field@v2.2
+        uses: jossef/action-set-json-field@890d7642122dbb2833dddd2003659bb71a2b21fe # v2.2
         with:
           file: ${{ env.GLOBAL_JSON_PATH }}
           field: sdk.version
           value: ${{ env.DOTNET_SDK_VERSION }}
 
-      - name: Cache .NET SDK
-        id: cache-dotnet-sdk
-        uses: actions/cache@v4.2.4
-        if: always()
+      - name: Setup .NET SDK and workloads
+        uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # 5.2.0
         with:
-          path: C:\Program Files\dotnet\sdk\${{ env.DOTNET_SDK_VERSION }}
-          key: ${{ runner.os }}-dotnet-sdk-${{ hashFiles('**/global.json') }}
-          restore-keys: |
-            ${{ runner.os }}-dotnet-sdk-
-
-      - name: Setup .NET SDK
-        if: ${{ steps.cache-dotnet-sdk.outputs.cache-hit != 'true' }}
-        uses: actions/setup-dotnet@v4.3.0
-        with:
-          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
-
-      # TODO: Need to get cache working for Windows' dotnet dependency installs
-      - name: Cache .NET dependencies
-        id: cache-dotnet-dependencies
-        uses: actions/cache@v4.2.4
-        if: always()
-        with:
-          path: |
-            ~\.nuget\packages
-            ~\.dotnet
-            C:\ProgramData\dotnet\workloads
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Install .NET MAUI workload
-        working-directory: ${{ env.BASE_PROJPATH }}
-        run: |
-          dotnet --version
-          dotnet workload install maui ios maccatalyst maui-ios maui-windows maui-maccatalyst --version ${{ env.DOTNET_SDK_VERSION }}
+          cache-dependency-path: ${{ env.BASE_PROJPATH }}\Visitz\packages.lock.json
+          cache: true
+          global-json-file: ${{ env.GLOBAL_JSON_PATH }}
+          workloads: maui, ios, maccatalyst, maui-ios, maui-windows, maui-maccatalyst
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
@@ -94,7 +67,7 @@ jobs:
             --no-build
 
       - name: Report tests
-        uses: dorny/test-reporter@v1.8.0
+        uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v3.0.0
         if: success() || failure()
         with:
           name: Visitz MAUI Tests
