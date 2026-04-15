@@ -13,8 +13,6 @@ public partial class DraftsListItem : BaseContentView
 {
     readonly ServiceHandler serviceHandler = ServiceProvider.GetService<ServiceHandler>();
 
-    IRecordInfo? Previous { get; set; }
-
     public DraftsListItem()
     {
         InitializeComponent();

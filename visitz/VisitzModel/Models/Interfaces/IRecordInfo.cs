@@ -81,12 +81,8 @@ public static class IRecordInfoExtensions
     public static void SubscribeRelatedState(this IRecordInfo recordInfo, Realm? realm)
     {
         recordInfo.RelatedEntityRealm = realm;
-
-        if (recordInfo.RelatedEntitySubscriptionToken != null)
-        {
-            recordInfo.RelatedEntitySubscriptionToken.Dispose();
-            recordInfo.RelatedEntitySubscriptionToken = null;
-        }
+        recordInfo.RelatedEntitySubscriptionToken?.Dispose();
+        recordInfo.RelatedEntitySubscriptionToken = null;
 
         if (realm != null)
         {

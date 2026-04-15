@@ -113,9 +113,7 @@ public static class VisitzScreens
         builder.Services.AddTransient<CollectionNoticeView>();
 
         builder.Services.AddSingleton<DraftsContainerView>();
-
-        builder.Services.AddTransient<DraftsMasterList>();
-        builder.Services.AddTransient<DraftsMasterListViewModel>();
+        builder.Services.AddSingleton<DraftsContainerViewModel>();
 
         builder.Services.AddTransient<DraftsList>();
         builder.Services.AddTransient<DraftsListViewModel>();
