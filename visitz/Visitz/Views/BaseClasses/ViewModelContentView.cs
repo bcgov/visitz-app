@@ -10,7 +10,7 @@ public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseCont
     {
         await base.InitAsync();
 
-        _ = ViewModel.StartInitAsync();
+        await ViewModel.StartInitAsync();
     }
 
     protected override void Dispose(bool disposing)
