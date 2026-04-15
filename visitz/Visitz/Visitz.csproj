@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="Visitz.props" />
 
 	<PropertyGroup>
@@ -47,9 +47,6 @@
 		>
 		<AssemblyName>$(ApplicationTitle)</AssemblyName>
 		<DefaultLanguage>en</DefaultLanguage>
-		<DeployOnBuild>True</DeployOnBuild>
-		<!-- <IsPublishable>True</IsPublishable>-->
-		<WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
