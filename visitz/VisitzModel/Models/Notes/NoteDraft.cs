@@ -131,5 +131,10 @@ namespace VisitzModel.Models.Notes
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
+        public int CompareTo(IDraftItem other)
+        {
+            return this.CompareDraftItem(other);
+        }
     }
 }
