@@ -33,6 +33,9 @@ internal partial class ContentViewNavigationStack : ContentView
             await view.TranslateToAsync(X + view.Width, Y, easing: Easing.CubicInOut);
 
             _layout.Remove(view);
+
+            if (view is IDisposable disposable)
+                disposable.Dispose();
         }
 
         return view;
