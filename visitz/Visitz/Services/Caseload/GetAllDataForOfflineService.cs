@@ -1,3 +1,4 @@
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -11,7 +12,10 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
+
+#nullable enable
 
 namespace Visitz.Services.Caseload
 {
@@ -95,6 +99,11 @@ namespace Visitz.Services.Caseload
                 GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
             );
 
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            var allContacts = realm.All<IcmContact>().Freeze().ToList().Distinct();
+            //Get Contact related info AFTER fetching all contacts from DBs
+            await GetContactMedicalBehavioral(allContacts, exceptions);
+
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
@@ -109,7 +118,8 @@ namespace Visitz.Services.Caseload
                 .All<T>()
                 .AsEnumerable()
                 .Where(bo => bo.LocalState.ShouldDownloadDuringRefresh)
-                .Select(bo => new RecordServiceInfo(bo));
+                .Select(bo => new RecordServiceInfo(bo))
+                .ToList();
         }
 
         private async Task GetPersonalCaseload()
@@ -280,6 +290,19 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.AdditionalInformation, ex));
+            }
+        }
+
+        private async Task GetContactMedicalBehavioral(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
             }
         }
     }
