@@ -1,3 +1,4 @@
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -10,6 +11,7 @@ using Visitz.Services.Visits;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
@@ -66,6 +68,9 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetCallInformation(exceptions),
             GetAdditionalInformation(exceptions)
         );
+
+        var contacts = BusinessObject.Contacts.Freeze();
+        await GetContactMedicalBehavioral(contacts, exceptions);
 
         // Get attachment files AFTER other dependent info so we
         // complete text-only downloads sooner
@@ -264,5 +269,19 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             return Result.Error;
         }
         return Result.NoOperation;
+    }
+
+    async Task<Result> GetContactMedicalBehavioral(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(contacts);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
+            return Result.Error;
+        }
     }
 }

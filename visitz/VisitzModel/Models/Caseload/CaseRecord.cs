@@ -276,6 +276,7 @@ public partial class CaseRecord
         IcmContact.RemoveByParent(fromRealm, EntityType.Case, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Case, Id, userIgnoredPrefs);
+
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }
