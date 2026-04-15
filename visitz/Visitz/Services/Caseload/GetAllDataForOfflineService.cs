@@ -116,7 +116,8 @@ namespace Visitz.Services.Caseload
                 .All<T>()
                 .AsEnumerable()
                 .Where(bo => bo.LocalState.ShouldDownloadDuringRefresh)
-                .Select(bo => new RecordServiceInfo(bo));
+                .Select(bo => new RecordServiceInfo(bo))
+                .ToList();
         }
 
         private async Task GetPersonalCaseload()
