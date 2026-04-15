@@ -31,10 +31,9 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
     {
         if (message.Value is NavItem nav)
         {
-            var content = (ContentView)ServiceProvider.GetService(nav.ContentViewType);
-
-            if (content == null)
-                throw new InvalidOperationException("Requested navigation item was null");
+            var content =
+                ServiceProvider.GetService(nav.ContentViewType) as ContentView
+                ?? throw new InvalidOperationException("Requested navigation item was null");
 
             SetContent(content);
         }
