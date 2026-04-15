@@ -119,13 +119,15 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
         );
     }
 
-    public static void RemoveByParent(Realm realm, List<string> parentContactIdList)
+    public static void RemoveByParent(Realm realm, string parentContactId)
     {
-        foreach (var contactId in parentContactIdList)
+        var contacts = realm.All<IcmContact>().Where(item => item.Id == parentContactId);
+
+        if (contacts.Count() <= 1)
         {
             var contactLanguagesToBeDeleted = realm
                 .All<ContactLanguage>()
-                .Where(item => item.ParentContactId == contactId);
+                .Where(item => item.ParentContactId == parentContactId);
 
             realm.RemoveRange(contactLanguagesToBeDeleted);
         }

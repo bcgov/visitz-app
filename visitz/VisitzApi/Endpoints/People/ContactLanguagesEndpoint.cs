@@ -20,7 +20,7 @@ internal class ContactLanguagesEndpoint(
         MakePath(type, rowId, contactId)
     )
 {
-    static readonly string ContactsPath = "/{0}/{1}/contact/{2}/languages";
+    static readonly string ContactsPath = "/{0}/{1}/contacts/{2}/languages";
     readonly Pagination? Pagination = pagination;
 
     static string MakePath(ApiRecordType recordType, string rowId, string contactId)

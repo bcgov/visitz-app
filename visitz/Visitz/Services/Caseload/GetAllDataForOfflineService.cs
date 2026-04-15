@@ -98,7 +98,7 @@ namespace Visitz.Services.Caseload
             );
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            var allContacts = realm.All<IcmContact>().Freeze();
+            var allContacts = realm.All<IcmContact>().Freeze().ToList().Distinct();
 
             await GetAllContactlanguages(allContacts, exceptions);
 

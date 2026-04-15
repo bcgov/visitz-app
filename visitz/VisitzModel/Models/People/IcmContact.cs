@@ -459,6 +459,9 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
             .All<IcmContact>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
+        foreach (var contact in contacts)
+            ContactLanguage.RemoveByParent(realm, contact.Id);
+
         realm.RemoveRange(contacts);
     }
 

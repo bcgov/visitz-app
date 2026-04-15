@@ -207,9 +207,6 @@ public partial class ServiceRequestRecord
         CallInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
 
-        var contactIdList = IcmContact.GetContactIdByParentIdAndType(fromRealm, Id, EntityType.ServiceRequest);
-        ContactLanguage.RemoveByParent(fromRealm, contactIdList.ToList());
-
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }
