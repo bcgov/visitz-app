@@ -100,7 +100,7 @@ namespace Visitz.Services.Caseload
             );
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            var allContacts = realm.All<IcmContact>().Freeze().Distinct().ToList();
+            var allContacts = realm.All<IcmContact>().Freeze().ToList().Distinct();
 
             //Get Contact related info AFTER fetching all contacts from DBs
             await GetContactMedicalBehavioral(allContacts, exceptions);

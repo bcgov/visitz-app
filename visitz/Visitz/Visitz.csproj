@@ -47,6 +47,9 @@
 		>
 		<AssemblyName>$(ApplicationTitle)</AssemblyName>
 		<DefaultLanguage>en</DefaultLanguage>
+		<DeployOnBuild>True</DeployOnBuild>
+		<!-- <IsPublishable>True</IsPublishable>-->
+		<WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">

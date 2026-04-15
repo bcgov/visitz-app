@@ -20,7 +20,7 @@ internal class ContactMedicalBehavioralEndpoint(
         MakePath(type, rowId, contactId)
     )
 {
-    static readonly string ContactMedicalBehavioralPath = "/{0}/{1}/contact/{2}/medical-behavioral";
+    static readonly string ContactMedicalBehavioralPath = "/{0}/{1}/contacts/{2}/medical-behavioral";
 
     readonly Pagination? Pagination = pagination;
 
