@@ -112,7 +112,8 @@ public partial class CaseloadItemViewModel : VisitzViewModel
         UpdateStateVisibility();
 
         CanRemoveFromDevice =
-            !BusinessObject.IsAssigned(SessionInfo.Idir)
+            BusinessObject.IsValid
+            && !BusinessObject.IsAssigned(SessionInfo.Idir)
             && (BusinessObject.LocalState?.ShouldDownloadDuringRefresh ?? false)
             && !ServicesRunning();
     }
@@ -261,7 +262,8 @@ public partial class CaseloadItemViewModel : VisitzViewModel
                 UpdateRecordStates();
 
                 if (
-                    service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
+                    BusinessObject.IsValid
+                    && service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
                     && service.UncaughtException != null
                 )
                 {
