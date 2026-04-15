@@ -193,5 +193,11 @@
                 </CollectionView>
             </RefreshView>
         </AbsoluteLayout>
+
+        <views:LastUpdatedBanner
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            LastUpdated="{Binding LastUpdated}"
+        />
     </StackLayout>
 </baseClasses:ViewModelContentView>
