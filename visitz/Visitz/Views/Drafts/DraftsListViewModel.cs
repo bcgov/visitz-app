@@ -65,19 +65,25 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
     async Task SubscribeForDrafts()
     {
-        var assessmentsRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+        Task<Realm> assessmentsTask = VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+        Task<Realm> attachmentsTask = VisitzRealms.GetAttachmentDraftsRealmAsync();
+        Task<Realm> notesTask = VisitzRealms.GetNoteDraftsRealmAsync();
+        Task<Realm> visitsTask = VisitzRealms.GetPersonVisitDraftsRealmAsync();
+
+        Realm assessmentsRealm = await assessmentsTask;
+        Realm attachmentsRealm = await attachmentsTask;
+        Realm notesRealm = await notesTask;
+        Realm visitsRealm = await visitsTask;
+
         queryMap.Subscribe(assessmentsRealm, assessmentsRealm.All<AssessmentDraft>());
         AssessmentDrafts.CollectionChanged += DraftsLists_CollectionChanged;
 
-        var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
         queryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>());
         AttachmentDrafts.CollectionChanged += DraftsLists_CollectionChanged;
 
-        var notesRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
         queryMap.Subscribe(notesRealm, notesRealm.All<NoteDraft>());
         NoteDrafts.CollectionChanged += DraftsLists_CollectionChanged;
 
-        var visitsRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
         queryMap.Subscribe(visitsRealm, visitsRealm.All<PersonVisitDraft>());
         VisitDrafts.CollectionChanged += DraftsLists_CollectionChanged;
     }
