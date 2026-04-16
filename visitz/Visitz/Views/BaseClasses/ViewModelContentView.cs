@@ -10,6 +10,8 @@ public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseCont
     {
         await base.InitAsync();
 
+        ArgumentNullException.ThrowIfNull(ViewModel);
+
         await ViewModel.StartInitAsync();
     }
 
