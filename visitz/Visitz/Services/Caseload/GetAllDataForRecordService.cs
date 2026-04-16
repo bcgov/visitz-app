@@ -70,8 +70,11 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         );
 
         var contacts = BusinessObject.Contacts.Freeze();
-        await GetContactMedicalBehavioral(contacts, exceptions);
-        await GetContactLegalAuthority(contacts, exceptions);
+
+        await Task.WhenAll(
+            GetContactMedicalBehavioral(contacts, exceptions),
+            GetContactLegalAuthority(contacts, exceptions)
+        );
 
         // Get attachment files AFTER other dependent info so we
         // complete text-only downloads sooner

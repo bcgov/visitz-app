@@ -321,9 +321,6 @@ public partial class IncidentRecord
         IncidentConcerns.RemoveByParent(fromRealm, Id);
         CallInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
 
-        var contactIdList = IcmContact.GetContactIdByParentIdAndType(fromRealm, Id, EntityType.Incident);
-        ContactLegalAuthority.RemoveByParent(fromRealm, contactIdList.ToList());
-
         if (deleteLocalState)
             fromRealm.Remove(LocalState);
     }
