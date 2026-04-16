@@ -143,8 +143,6 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
     private void DraftsLists_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        Logger.LogInformation($"CollectionChanged action: '{e.Action}'");
-
         if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
         {
             foreach (var item in e.NewItems)
@@ -164,6 +162,10 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
                 DraftItems.Remove((IDraftItem)item);
             }
+        }
+        else
+        {
+            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
         }
     }
 
