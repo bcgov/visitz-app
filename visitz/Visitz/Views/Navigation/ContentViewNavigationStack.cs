@@ -4,6 +4,12 @@ namespace Visitz.Views.Navigation;
 
 internal partial class ContentViewNavigationStack : ContentView
 {
+    const uint _animationLength = 300;
+
+    const double _minimumOpacity = 0.2d;
+
+    static readonly Easing _fadeEasing = Easing.Linear;
+
     readonly Stack<ContentView> _viewStack = new();
 
     readonly AbsoluteLayout _layout = [];
@@ -15,6 +21,11 @@ internal partial class ContentViewNavigationStack : ContentView
 
     public async Task PushAsync(ContentView newView)
     {
+        Task currentViewAnimationTask =
+            _viewStack.TryPeek(out ContentView? currentView) && currentView != null
+                ? currentView.FadeToAsync(_minimumOpacity, _animationLength, _fadeEasing)
+                : Task.CompletedTask;
+
         _viewStack.Push(newView);
         _layout.Add(newView);
 
@@ -23,20 +34,32 @@ internal partial class ContentViewNavigationStack : ContentView
 
         newView.TranslationX = X + Width;
 
-        await newView.TranslateToAsync(X, Y, easing: Easing.CubicInOut);
+        await Task.WhenAll(currentViewAnimationTask, newView.TranslateToAsync(X, Y, _animationLength, Easing.CubicOut));
+
+        currentView?.Opacity = 1.0d;
     }
 
     public async Task<ContentView?> PopAsync()
     {
-        if (_viewStack.TryPop(out ContentView? view) && view != null)
+        if (!_viewStack.TryPop(out ContentView? view) || view == null)
+            return null;
+
+        Task underViewAnimationTask = Task.CompletedTask;
+        if (_viewStack.TryPeek(out ContentView? underView) && underView != null)
         {
-            await view.TranslateToAsync(X + view.Width, Y, easing: Easing.CubicInOut);
-
-            _layout.Remove(view);
-
-            if (view is IDisposable disposable)
-                disposable.Dispose();
+            underView.Opacity = _minimumOpacity;
+            underViewAnimationTask = underView.FadeToAsync(1.0d, _animationLength, _fadeEasing);
         }
+
+        await Task.WhenAll(
+            underViewAnimationTask,
+            view.TranslateToAsync(X + view.Width, Y, _animationLength, Easing.CubicInOut)
+        );
+
+        _layout.Remove(view);
+
+        if (view is IDisposable disposable)
+            disposable.Dispose();
 
         return view;
     }
