@@ -22,7 +22,7 @@ internal class ContactLegalAuthorityEndpoint(
         MakePath(type, rowId, contactId)
     )
 {
-    static readonly string ContactLegalAuthorityPath = "/{0}/{1}/contact/{2}/legal-authorities";
+    static readonly string ContactLegalAuthorityPath = "/{0}/{1}/contacts/{2}/legal-authorities";
 
     readonly Pagination? Pagination = pagination;
 
