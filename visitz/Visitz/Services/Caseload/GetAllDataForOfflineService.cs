@@ -15,6 +15,8 @@ using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
+#nullable enable
+
 namespace Visitz.Services.Caseload
 {
     public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
@@ -98,9 +100,9 @@ namespace Visitz.Services.Caseload
             );
 
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            var allContacts = realm.All<IcmContact>().Freeze();
-
+            var allContacts = realm.All<IcmContact>().Freeze().ToList().Distinct();
             //Get Contact related info AFTER fetching all contacts from DBs
+            await GetContactMedicalBehavioral(allContacts, exceptions);
             await GetContactLegalAuthority(allContacts, exceptions);
 
             // Get attachment files AFTER other dependent info so we
@@ -117,7 +119,8 @@ namespace Visitz.Services.Caseload
                 .All<T>()
                 .AsEnumerable()
                 .Where(bo => bo.LocalState.ShouldDownloadDuringRefresh)
-                .Select(bo => new RecordServiceInfo(bo));
+                .Select(bo => new RecordServiceInfo(bo))
+                .ToList();
         }
 
         private async Task GetPersonalCaseload()
@@ -288,6 +291,19 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.AdditionalInformation, ex));
+            }
+        }
+
+        private async Task GetContactMedicalBehavioral(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
             }
         }
 

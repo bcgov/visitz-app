@@ -70,6 +70,7 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         );
 
         var contacts = BusinessObject.Contacts.Freeze();
+        await GetContactMedicalBehavioral(contacts, exceptions);
         await GetContactLegalAuthority(contacts, exceptions);
 
         // Get attachment files AFTER other dependent info so we
@@ -269,6 +270,20 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             return Result.Error;
         }
         return Result.NoOperation;
+    }
+
+    async Task<Result> GetContactMedicalBehavioral(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(contacts);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
+            return Result.Error;
+        }
     }
 
     async Task<Result> GetContactLegalAuthority(IEnumerable<IcmContact> contacts, List<Exception> exceptions)

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Realms;
 using VisitzApi.Models.People;
@@ -11,7 +12,12 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.People;
 
-public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJson>, IParentRecord
+public partial class IcmContact
+    : IRealmObject,
+        IRowMetadata,
+        IApiJson<ContactJson>,
+        IParentRecord,
+        IEqualityComparer<IcmContact>
 {
     public static readonly int KeyPlayerSortPosition = 0;
     public static readonly int ParentCaregiverSortPosition = 1;
@@ -459,6 +465,9 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
             .All<IcmContact>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
+        foreach (var contact in contacts)
+            ContactMedicalBehavioral.RemoveByParent(realm, contact.Id);
+
         realm.RemoveRange(contacts);
     }
 
@@ -478,11 +487,22 @@ public partial class IcmContact : IRealmObject, IRowMetadata, IApiJson<ContactJs
             .FirstOrDefault();
     }
 
-    public static IQueryable<string> GetContactIdByParentIdAndType(Realm realm, string parentId, EntityType type)
+    public bool Equals(IcmContact x, IcmContact y)
     {
-        return realm
-            .All<IcmContact>()
-            .Where(contact => contact.ParentId == parentId && contact.ParentTypeInt == (int)type)
-            .Select(contact => contact.Id);
+        if (ReferenceEquals(x, y))
+            return true;
+
+        if (x is null || y is null)
+            return false;
+
+        return x.Id == y.Id;
+    }
+
+    public int GetHashCode([DisallowNull] IcmContact obj)
+    {
+        if (obj is null)
+            return 0;
+
+        return obj.Id.GetHashCode();
     }
 }

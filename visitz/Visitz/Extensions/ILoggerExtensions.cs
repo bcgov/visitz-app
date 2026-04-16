@@ -5,7 +5,9 @@ namespace Visitz.Extensions;
 
 public static class ILoggerExtensions
 {
+#if DEBUG
     static int TraceCount;
+#endif
 
     public static void TraceMethod<T>(
         this ILogger<T> logger,
