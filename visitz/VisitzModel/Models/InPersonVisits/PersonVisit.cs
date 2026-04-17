@@ -1,4 +1,6 @@
+
 using Realms;
+using System.Diagnostics.CodeAnalysis;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -8,7 +10,13 @@ using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.InPersonVisits;
 
-public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
+public partial class PersonVisit
+    : IRealmObject,
+        IApiJson<PostVisitJson>,
+        IParentRecord,
+        IComparable<ITodoItem>,
+        IEquatable<PersonVisit>,
+        IEqualityComparer<PersonVisit>
 {
     static readonly string _defaultType = "In Person Child Youth";
 
@@ -45,7 +53,8 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string UpdatedBy { get; set; }
 
-    public DateTimeOffset DueDate => DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info);
+    public DateTimeOffset DueDate =>
+        IsValid ? DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info) : DateTimeOffset.MinValue;
     public int DueDateDaysRemaining => (DueDate.Date - DateTimeOffset.Now.Date).Days;
 
     public VisitDaysThreshold CurrentDueDateThreshold
@@ -64,6 +73,9 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     }
 
     public string FirstVisitDetail => VisitDetails?.FirstOrDefault() ?? "";
+
+    [Ignored]
+    public int SortOrder => DueDateDaysRemaining;
 
     public PersonVisit() { }
 
@@ -122,20 +134,15 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits)
+    public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits, string parentId)
     {
         await RealmExtensions.CommitAsync(
             realm,
             () =>
             {
                 var incomingVisits = FromApiArray(visits);
-                var incomingVisitIds = incomingVisits.Select(item => item.Id);
-
-                var allPersonVisits = realm.All<PersonVisit>().ToList();
-                var allPersonVisitIds = allPersonVisits.Select(item => item.Id);
-
-                var visitIdsToDelete = allPersonVisitIds.Except(incomingVisitIds);
-                var visitsToDelete = allPersonVisits.Where(item => visitIdsToDelete.Contains(item.Id)).ToList();
+                var existingVisits = GetVisitsByCaseId(realm, parentId).ToList();
+                var visitsToDelete = existingVisits.Except(incomingVisits);
 
                 foreach (var item in visitsToDelete)
                 {
@@ -198,5 +205,25 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         });
 
         RaisePropertyChanged(nameof(VisitDetails));
+    }
+
+    public int CompareTo(ITodoItem other)
+    {
+        return other == null ? 1 : SortOrder.CompareTo(other.SortOrder);
+    }
+
+    public bool Equals(PersonVisit other)
+    {
+        return Equals(this, other);
+    }
+
+    public bool Equals(PersonVisit x, PersonVisit y)
+    {
+        return x?.Id == y?.Id;
+    }
+
+    public int GetHashCode([DisallowNull] PersonVisit obj)
+    {
+        return obj.Id.GetHashCode();
     }
 }

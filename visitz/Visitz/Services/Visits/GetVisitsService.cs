@@ -50,6 +50,8 @@ internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagination
 
     protected override async Task AfterRun()
     {
-        await VisitzRealms.EnqueueIcmDataActionAsync(async realm => await PersonVisit.SynchronizeAsync(realm, _visits));
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await PersonVisit.SynchronizeAsync(realm, _visits, CaseId)
+        );
     }
 }
