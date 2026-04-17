@@ -245,7 +245,7 @@ public class DebugOptions
 
         using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var latestVisits = PersonVisit.GetAllByType(icmData);
+        var latestVisits = icmData.All<PersonVisit>();
 
         var extraDay = threshold == VisitDaysThreshold.Critical ? 1 : 0;
         var targetDueDate = DateTimeOffset.Now.Date.AddDays((int)threshold - extraDay);

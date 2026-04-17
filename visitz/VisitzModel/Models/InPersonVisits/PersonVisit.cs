@@ -1,5 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
 using Realms;
+using System.Diagnostics.CodeAnalysis;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -172,14 +172,9 @@ public partial class PersonVisit
         realm.RemoveRange(visitItems);
     }
 
-    public static IQueryable<PersonVisit> GetAllByType(Realm realm, EntityType entityType = EntityType.Case)
+    public static IEnumerable<PersonVisit?> GetUpcomingVisits(Realm realm)
     {
-        return realm.All<PersonVisit>().Where(item => item.ParentTypeInt == (int)entityType);
-    }
-
-    public static IEnumerable<PersonVisit?> GetUpcomingVisits(Realm realm, EntityType entityType = EntityType.Case)
-    {
-        var latestVisitsPerCase = GetAllByType(realm, entityType)
+        var latestVisitsPerCase = realm.All<PersonVisit>()
             .AsEnumerable()
             .GroupBy(item => item.ParentId)
             .Select(group => group.OrderByDescending(item => item.DateOfVisit).FirstOrDefault())

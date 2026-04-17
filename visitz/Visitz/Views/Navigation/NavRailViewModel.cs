@@ -1,8 +1,8 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
+using System.Collections.ObjectModel;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Messaging;
@@ -143,7 +143,7 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         _icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var query = PersonVisit.GetAllByType(_icmDataRealm);
+        var query = _icmDataRealm.All<PersonVisit>();
         var collection = query.AsRealmCollection();
 
         _personVisitToken = collection.SubscribeForNotifications(
