@@ -130,7 +130,7 @@ internal partial class TodoListViewModel : VisitzViewModel
             {
                 ITodoItem todo = (ITodoItem)item;
 
-                TodoItems.InsertSorted(todo, ascending: false);
+                TodoItems.InsertSorted(todo, ascending: true);
             }
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
