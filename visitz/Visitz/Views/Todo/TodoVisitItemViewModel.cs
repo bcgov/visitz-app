@@ -12,21 +12,15 @@ namespace Visitz.Views.Todo;
 
 #nullable enable
 
-internal partial class TodoVisitItemViewModel : VisitzViewModel, ITodoItem
+internal partial class TodoVisitItemViewModel(PersonVisit visit) : VisitzViewModel, ITodoItem
 {
     public int SortOrder => Visit.IsValid ? Visit.DueDateDaysRemaining : int.MinValue;
 
-    public PersonVisit Visit { get; set; }
+    public PersonVisit Visit { get; set; } = visit;
 
-    public IBusinessObject BusinessObject { get; set; }
+    public IBusinessObject BusinessObject { get; set; } = CaseRecord.GetByPersonVisitItem(visit.Realm, visit);
 
     public bool IsOverdue => Visit.IsValid && DateTimeOffset.Now.Date > Visit.DueDate;
-
-    public TodoVisitItemViewModel(PersonVisit visit)
-    {
-        Visit = visit;
-        BusinessObject = CaseRecord.GetByPersonVisitItem(visit.Realm, visit);
-    }
 
     public int CompareTo(ITodoItem? other)
     {
