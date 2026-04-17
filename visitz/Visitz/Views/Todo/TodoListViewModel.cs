@@ -51,12 +51,15 @@ internal partial class TodoListViewModel : VisitzViewModel
         (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
     )
     {
-        if (e.Type == typeof(PersonVisit))
+        if (e.Type == typeof(PersonVisit) && DataRealm != null)
         {
             var dbVisits = PersonVisit.GetUpcomingVisits(DataRealm).ToList();
             var loadedVisits = _personVisits;
 
-            var addVisits = dbVisits.Except(loadedVisits.Select(vm => vm.Visit)).ToList();
+            List<PersonVisit> addVisits = dbVisits
+                .Except(loadedVisits.Select(vm => vm.Visit))
+                .OfType<PersonVisit>()
+                .ToList();
             var remVisits = loadedVisits.ExceptBy(dbVisits, vm => vm.Visit).ToList();
 
             UpdateSupportingList(
