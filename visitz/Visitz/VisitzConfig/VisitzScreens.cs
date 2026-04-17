@@ -129,12 +129,10 @@ public static class VisitzScreens
         builder.Services.AddTransient<TabItemView>();
 
         builder.Services.AddSingleton<TodoContainerView>();
+        builder.Services.AddSingleton<TodoContainerViewModel>();
 
-        builder.Services.AddTransient<TodoMasterList>();
-        builder.Services.AddTransient<TodoMasterListViewModel>();
-
-        builder.Services.AddTransient<TodoVisitsView>();
-        builder.Services.AddTransient<TodoVisitsViewModel>();
+        builder.Services.AddSingleton<TodoListView>();
+        builder.Services.AddSingleton<TodoListViewModel>();
 
         builder.Services.AddTransient<NavDrawerContentView>();
         builder.Services.AddTransient<NavDrawerContentViewModel>();

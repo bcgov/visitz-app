@@ -1,6 +1,5 @@
-
-using Realms;
 using System.Diagnostics.CodeAnalysis;
+using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
