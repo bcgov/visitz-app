@@ -1,5 +1,5 @@
-using Realms;
 using System.Diagnostics.CodeAnalysis;
+using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
@@ -174,10 +174,11 @@ public partial class PersonVisit
 
     public static IEnumerable<PersonVisit?> GetUpcomingVisits(Realm realm)
     {
-        var latestVisitsPerCase = realm.All<PersonVisit>()
+        var latestVisitsPerCase = realm
+            .All<PersonVisit>()
+            .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)")
+            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})")
             .AsEnumerable()
-            .GroupBy(item => item.ParentId)
-            .Select(group => group.OrderByDescending(item => item.DateOfVisit).FirstOrDefault())
             .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning);
 
         return latestVisitsPerCase;
