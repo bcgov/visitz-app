@@ -14,7 +14,7 @@ namespace Visitz.Views.Todo;
 
 internal partial class TodoVisitItemViewModel(PersonVisit visit) : VisitzViewModel, ITodoItem
 {
-    public int SortOrder => Visit.IsValid ? Visit.DueDateDaysRemaining : int.MinValue;
+    public int SortOrder => Visit.DueDateDaysRemaining;
 
     public PersonVisit Visit { get; set; } = visit;
 
