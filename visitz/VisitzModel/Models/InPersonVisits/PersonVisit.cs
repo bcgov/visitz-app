@@ -79,12 +79,6 @@ public partial class PersonVisit
 
     public PersonVisit() { }
 
-    public PersonVisit(params string[] visitDetails)
-    {
-        foreach (var detail in visitDetails)
-            VisitDetails.Add(detail);
-    }
-
     public PersonVisit(VisitJson json)
     {
         Id = json.Id;
