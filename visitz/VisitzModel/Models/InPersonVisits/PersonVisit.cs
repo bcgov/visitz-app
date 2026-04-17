@@ -9,6 +9,8 @@ using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.InPersonVisits;
 
+#nullable enable
+
 public partial class PersonVisit
     : IRealmObject,
         IApiJson<PostVisitJson>,
@@ -22,7 +24,7 @@ public partial class PersonVisit
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string ParentId { get; set; }
+    public string ParentId { get; set; } = string.Empty;
 
     private int ParentTypeInt { get; set; } = (int)EntityType.Case;
 
@@ -32,25 +34,25 @@ public partial class PersonVisit
         set => ParentTypeInt = (int)value;
     }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string VisitDescription { get; set; }
+    public string VisitDescription { get; set; } = string.Empty;
 
     public string Type { get; set; } = _defaultType;
 
     public DateTimeOffset DateOfVisit { get; set; } = DateTimeOffset.Now;
 
-    public IList<string> VisitDetails { get; }
+    public IList<string> VisitDetails { get; } = null!; // Realm inits this automatically
 
-    public string LoginName { get; set; }
+    public string LoginName { get; set; } = string.Empty;
 
     public DateTimeOffset Created { get; set; }
 
     public DateTimeOffset Updated { get; set; }
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
     public DateTimeOffset DueDate =>
         IsValid ? DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info) : DateTimeOffset.MinValue;
@@ -175,17 +177,13 @@ public partial class PersonVisit
         return realm.All<PersonVisit>().Where(item => item.ParentTypeInt == (int)entityType);
     }
 
-    public static IOrderedEnumerable<PersonVisit> GetUpcomingVisits(
-        Realm realm,
-        EntityType entityType = EntityType.Case
-    )
+    public static IEnumerable<PersonVisit?> GetUpcomingVisits(Realm realm, EntityType entityType = EntityType.Case)
     {
         var latestVisitsPerCase = GetAllByType(realm, entityType)
             .AsEnumerable()
             .GroupBy(item => item.ParentId)
             .Select(group => group.OrderByDescending(item => item.DateOfVisit).FirstOrDefault())
-            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning)
-            .OrderBy(item => item.DueDateDaysRemaining);
+            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning);
 
         return latestVisitsPerCase;
     }
@@ -206,17 +204,17 @@ public partial class PersonVisit
         RaisePropertyChanged(nameof(VisitDetails));
     }
 
-    public int CompareTo(ITodoItem other)
+    public int CompareTo(ITodoItem? other)
     {
         return other == null ? 1 : SortOrder.CompareTo(other.SortOrder);
     }
 
-    public bool Equals(PersonVisit other)
+    public bool Equals(PersonVisit? other)
     {
         return Equals(this, other);
     }
 
-    public bool Equals(PersonVisit x, PersonVisit y)
+    public bool Equals(PersonVisit? x, PersonVisit? y)
     {
         return x?.Id == y?.Id;
     }
