@@ -10,6 +10,8 @@ internal partial class ContentViewNavigationStack : ContentView
 
     static readonly Easing _fadeEasing = Easing.Linear;
 
+    static readonly Easing _translateEasing = Easing.CubicInOut;
+
     readonly Stack<ContentView> _viewStack = new();
 
     readonly AbsoluteLayout _layout = [];
@@ -34,7 +36,10 @@ internal partial class ContentViewNavigationStack : ContentView
 
         newView.TranslationX = X + Width;
 
-        await Task.WhenAll(currentViewAnimationTask, newView.TranslateToAsync(X, Y, _animationLength, Easing.CubicOut));
+        await Task.WhenAll(
+            currentViewAnimationTask,
+            newView.TranslateToAsync(X, Y, _animationLength, _translateEasing)
+        );
 
         currentView?.Opacity = 1.0d;
     }
@@ -53,7 +58,7 @@ internal partial class ContentViewNavigationStack : ContentView
 
         await Task.WhenAll(
             underViewAnimationTask,
-            view.TranslateToAsync(X + view.Width, Y, _animationLength, Easing.CubicInOut)
+            view.TranslateToAsync(X + view.Width, Y, _animationLength, _translateEasing)
         );
 
         _layout.Remove(view);
