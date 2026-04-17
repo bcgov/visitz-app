@@ -3,7 +3,6 @@ using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 
@@ -79,11 +78,6 @@ public partial class PersonVisit
     public int SortOrder => DueDateDaysRemaining;
 
     public PersonVisit() { }
-
-    public PersonVisit(CaseRecord @case)
-    {
-        ParentId = @case.Id;
-    }
 
     public PersonVisit(params string[] visitDetails)
     {
