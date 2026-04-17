@@ -122,10 +122,6 @@ namespace Visitz.Views.Caseload
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
 
-            StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
-            ShowMenuButton =
-                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
-
             SessionInfo = await OidcSession.GetInfoAsync();
             SetupOfficeNames();
             SessionInfo.OfficesChanged += SessionInfo_OfficesChanged;
@@ -143,6 +139,10 @@ namespace Visitz.Views.Caseload
 
             LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
             LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
+
+            StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
+            ShowMenuButton =
+                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == (int)TwoPaneViewMode.Tall;
 
             WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
         }
