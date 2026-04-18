@@ -75,18 +75,18 @@ public class PersonVisitTests
         //Adding new visits into the realm
         var realm = await TestingUtilities.MakeRealm<PersonVisitTests>();
         List<VisitJson> visits = initialVisitJsonList;
+        string parentId = "123";
 
-        await PersonVisit.SynchronizeAsync(realm, visits);
+        await PersonVisit.SynchronizeAsync(realm, visits, parentId);
         var numberOfPersonVisitsBeforeDeletion = realm.All<PersonVisit>().Count();
 
         //Checking deletion of realm objects
-        visits.RemoveAll(item => item.Id == "123");
         visits.RemoveAll(item => item.Id == "86");
-        await PersonVisit.SynchronizeAsync(realm, visits);
+        await PersonVisit.SynchronizeAsync(realm, visits, parentId);
 
         var numberOfPersonVisitsAfterDeletion = realm.All<PersonVisit>().Count();
 
         Assert.Equal(4, numberOfPersonVisitsBeforeDeletion);
-        Assert.Equal(numberOfPersonVisitsBeforeDeletion - 2, numberOfPersonVisitsAfterDeletion);
+        Assert.Equal(numberOfPersonVisitsBeforeDeletion - 1, numberOfPersonVisitsAfterDeletion);
     }
 }

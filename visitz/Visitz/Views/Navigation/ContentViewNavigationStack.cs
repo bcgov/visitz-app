@@ -1,99 +1,71 @@
-using Microsoft.Maui.Controls.Foldable;
-
 namespace Visitz.Views.Navigation;
 
 #nullable enable
 
-public partial class ContentViewNavigationStack : ContentView
+internal partial class ContentViewNavigationStack : ContentView
 {
-    readonly Stack<TwoPaneView> _viewStack = new();
+    const uint _animationLength = 300;
 
-    public double MinWideModeWidth { get; set; }
+    const double _minimumOpacity = 0.2d;
 
-    public int PaneCount
+    static readonly Easing _fadeEasing = Easing.Linear;
+
+    static readonly Easing _translateEasing = Easing.CubicInOut;
+
+    readonly Stack<ContentView> _viewStack = new();
+
+    readonly AbsoluteLayout _layout = [];
+
+    public ContentViewNavigationStack()
     {
-        get
-        {
-            if (_viewStack.Count > 0)
-            {
-                int panes = _viewStack.Count * 2;
-
-                // -2 to account for a potentially half-full *Two*PaneView
-                return panes - 2 + _viewStack.Peek().Children.Count;
-            }
-            else
-                return 0;
-        }
+        Content = _layout;
     }
 
-    TwoPaneView NewTwoPane(ContentView? view = null)
+    public async Task PushAsync(ContentView newView)
     {
-        return new TwoPaneView()
-        {
-            TallModeConfiguration = TwoPaneViewTallModeConfiguration.SinglePane,
-            WideModeConfiguration = TwoPaneViewWideModeConfiguration.SinglePane,
-            MinWideModeWidth = MinWideModeWidth,
-            HorizontalOptions = LayoutOptions.Fill,
-            VerticalOptions = LayoutOptions.Fill,
-            Pane1 = view,
-        };
+        Task currentViewAnimationTask =
+            _viewStack.TryPeek(out ContentView? currentView) && currentView != null
+                ? currentView.FadeToAsync(_minimumOpacity, _animationLength, _fadeEasing)
+                : Task.CompletedTask;
+
+        _viewStack.Push(newView);
+        _layout.Add(newView);
+
+        AbsoluteLayout.SetLayoutBounds(newView, new Rect(0, 0, 1, 1));
+        AbsoluteLayout.SetLayoutFlags(newView, Microsoft.Maui.Layouts.AbsoluteLayoutFlags.All);
+
+        newView.TranslationX = X + Width;
+
+        await Task.WhenAll(
+            currentViewAnimationTask,
+            newView.TranslateToAsync(X, Y, _animationLength, _translateEasing)
+        );
+
+        currentView?.Opacity = 1.0d;
     }
 
-    public void Push(ContentView view, GridLength? paneLength = null)
+    public async Task<ContentView?> PopAsync()
     {
-        GridLength length = paneLength ?? GridLength.Star;
-
-        view.HorizontalOptions = LayoutOptions.Fill;
-        view.VerticalOptions = LayoutOptions.Fill;
-
-        if (_viewStack.Count <= 0)
-            _viewStack.Push(NewTwoPane());
-
-        TwoPaneView twoPane = _viewStack.Peek();
-
-        if (twoPane.Pane1 == null)
-        {
-            twoPane.Pane1 = view;
-            twoPane.Pane1Length = length;
-            twoPane.PanePriority = TwoPaneViewPriority.Pane1;
-            twoPane.WideModeConfiguration = TwoPaneViewWideModeConfiguration.SinglePane;
-        }
-        else if (twoPane.Pane2 == null)
-        {
-            twoPane.Pane2 = view;
-            twoPane.Pane2Length = length;
-            twoPane.PanePriority = TwoPaneViewPriority.Pane2;
-            twoPane.WideModeConfiguration = TwoPaneViewWideModeConfiguration.LeftRight;
-        }
-        else
-            _viewStack.Push(NewTwoPane(view));
-
-        Content = _viewStack.Peek();
-    }
-
-    public ContentView? Pop()
-    {
-        TwoPaneView twoPane = _viewStack.Peek();
-
-        if (twoPane.Pane2 is ContentView view2)
-        {
-            twoPane.Pane2 = null;
-            twoPane.PanePriority = TwoPaneViewPriority.Pane1;
-            twoPane.WideModeConfiguration = TwoPaneViewWideModeConfiguration.SinglePane;
-            return view2;
-        }
-        else if (twoPane.Pane1 is ContentView view1)
-        {
-            twoPane.Pane1 = null;
-            _viewStack.Pop();
-            Content = _viewStack.Peek();
-            return view1;
-        }
-        else
-        {
-            _viewStack.Pop();
-            Content = _viewStack.Peek();
+        if (!_viewStack.TryPop(out ContentView? view) || view == null)
             return null;
+
+        Task underViewAnimationTask = Task.CompletedTask;
+        if (_viewStack.TryPeek(out ContentView? underView) && underView != null)
+        {
+            underView.Opacity = _minimumOpacity;
+            underViewAnimationTask = underView.FadeToAsync(1.0d, _animationLength, _fadeEasing);
         }
+
+        await Task.WhenAll(
+            underViewAnimationTask,
+            view.TranslateToAsync(X + view.Width, Y, _animationLength, _translateEasing)
+        );
+
+        _layout.Remove(view);
+
+        if (view is IDisposable disposable)
+            disposable.Dispose();
+
+        return view;
     }
 }

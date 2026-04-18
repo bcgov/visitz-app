@@ -14,10 +14,12 @@ using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.SegmentedButtons;
+using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 using IBusinessObjectExtensions = VisitzModel.Models.Caseload.IBusinessObjectExtensions;
 
 namespace Visitz.Views.Caseload
@@ -111,13 +113,14 @@ namespace Visitz.Views.Caseload
 
         OidcSessionInfo SessionInfo { get; set; }
 
+        LastUpdatedPrefs LastUpdatedPrefs { get; set; } = ServiceProvider.GetService<LastUpdatedPrefs>();
+
+        [ObservableProperty]
+        public DateTime? lastUpdated;
+
         private async Task Setup()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
-
-            StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
-            ShowMenuButton =
-                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
 
             SessionInfo = await OidcSession.GetInfoAsync();
             SetupOfficeNames();
@@ -133,6 +136,13 @@ namespace Visitz.Views.Caseload
 
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
             ShowMenuButton = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
+
+            LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
+            LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
+
+            StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
+            ShowMenuButton =
+                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == (int)TwoPaneViewMode.Tall;
 
             WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
         }
@@ -245,8 +255,7 @@ namespace Visitz.Views.Caseload
             Realm?.Dispose();
             Realm = null;
 
-            if (SessionInfo != null)
-                SessionInfo.OfficesChanged -= SessionInfo_OfficesChanged;
+            SessionInfo?.OfficesChanged -= SessionInfo_OfficesChanged;
             SessionInfo = null;
         }
 
@@ -402,6 +411,12 @@ namespace Visitz.Views.Caseload
         void ReceiveNavBarPositionMessage(object recipient, NavPositionMessage message)
         {
             ShowMenuButton = ((TwoPaneViewMode)message.Value) == TwoPaneViewMode.Tall;
+        }
+
+        private void LastUpdatedPrefs_LastUpdatedChanged(object sender, LastUpdatedChangedEventArgs e)
+        {
+            if (e.Id.Equals(GetCaseloadService.MakeId()))
+                LastUpdated = (sender as LastUpdatedPrefs).Get(e.Id);
         }
     }
 }

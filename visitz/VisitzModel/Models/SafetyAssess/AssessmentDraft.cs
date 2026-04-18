@@ -155,4 +155,9 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+
+    public int CompareTo(IDraftItem other)
+    {
+        return this.CompareDraftItem(other);
+    }
 }

@@ -143,7 +143,7 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         _icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var query = PersonVisit.GetAllByType(_icmDataRealm);
+        var query = _icmDataRealm.All<PersonVisit>();
         var collection = query.AsRealmCollection();
 
         _personVisitToken = collection.SubscribeForNotifications(
