@@ -26,7 +26,7 @@ public abstract class BaseContentView : ContentView, IDisposable
         base.OnHandlerChanging(args);
 
         if (args.AttachingToHandler())
-            InitTask = InitAsync();
+            InitTask ??= InitAsync();
         else if (args.DetachingFromHandler())
             Dispose();
     }
@@ -42,6 +42,11 @@ public abstract class BaseContentView : ContentView, IDisposable
         Logger.TraceMethod(this);
 
         return Task.CompletedTask;
+    }
+
+    public async Task StartInitAsync()
+    {
+        await (InitTask ??= InitAsync());
     }
 
     protected virtual void Dispose(bool disposing)
