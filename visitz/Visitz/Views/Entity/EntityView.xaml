@@ -46,6 +46,7 @@
             ContentTransitionDuration="300"
             EnableVirtualization="True"
             Items="{Binding TabItems}"
+            SelectedIndex="{Binding SelectedIndex}"
         ></tabView:SfTabView>
     </Grid>
 </base:IcmRecordContentView>

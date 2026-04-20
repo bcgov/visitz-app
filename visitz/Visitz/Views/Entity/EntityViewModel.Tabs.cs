@@ -11,6 +11,7 @@ using Visitz.Views.Entity.SupportNetwork;
 using Visitz.VisitzConfig;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
@@ -21,10 +22,16 @@ public partial class EntityViewModel
     [ObservableProperty]
     public TabItemCollection tabItems = [];
 
-    readonly List<BaseContentView> _viewsToDispose = [];
+    [ObservableProperty]
+    public int selectedIndex;
+
+    [ObservableProperty]
+    public SfTabItem? selectedTab;
+
+    readonly List<ViewModelContentView> _viewsToDispose = [];
 
     SfTabItem MakeTab<V>()
-        where V : BaseContentView
+        where V : ViewModelContentView
     {
         V view = ServiceProvider.GetService<V>();
 
@@ -33,6 +40,12 @@ public partial class EntityViewModel
             info.RowId = RowId;
             info.EntityType = EntityType;
         }
+
+        if (view is IRequestedEntitySection sectionView)
+            sectionView.RequestedSection = RequestedSection ?? EntitySection.Unknown;
+
+        if (view is IFocusDraftItem focusView)
+            focusView.FocusedDraftItem = FocusedDraftItem;
 
         _viewsToDispose.Add(view);
 
@@ -70,6 +83,38 @@ public partial class EntityViewModel
             item.Dispose();
 
         TabItems.Clear();
+    }
+
+    SfTabItem? GetTabByType<T>()
+        where T : BaseContentView
+    {
+        return TabItems.FirstOrDefault(t => t.Content is T);
+    }
+
+    SfTabItem? GetMappedNavItem(EntitySection? section)
+    {
+        return section switch
+        {
+            EntitySection.Family => GetTabByType<EntityContactsView>(),
+            EntitySection.Notes or EntitySection.NoteEntry => GetTabByType<EntityNotesView>(),
+            EntitySection.Attachments => GetTabByType<AttachmentsView>(),
+            EntitySection.SafetyAssessment or EntitySection.SafetyAssessmentEntry =>
+                GetTabByType<SafetyAssessmentListView>(),
+            EntitySection.ChildYouthVisits or EntitySection.ChildYouthVisitsEntry =>
+                GetTabByType<ChildYouthVisitListView>(),
+            EntitySection.SupportNetwork => GetTabByType<SupportNetworkListView>(),
+            _ => GetTabByType<EntityDetailsView>(),
+        };
+    }
+
+    partial void OnSelectedIndexChanged(int value)
+    {
+        SelectedTab = value != -1 ? TabItems.ElementAt(value) : null;
+    }
+
+    partial void OnSelectedTabChanged(SfTabItem? value)
+    {
+        SelectedIndex = value != null ? TabItems.IndexOf(value) : -1;
     }
 
     bool ShouldShowSafetyAssessment()

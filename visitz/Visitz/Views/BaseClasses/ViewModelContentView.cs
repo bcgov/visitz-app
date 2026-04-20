@@ -4,7 +4,7 @@ namespace Visitz.Views.BaseClasses;
 
 public abstract class ViewModelContentView(VisitzViewModel viewModel, string title = "") : BaseContentView(title)
 {
-    protected VisitzViewModel ViewModel { get; set; } = viewModel;
+    public VisitzViewModel ViewModel { get; private set; } = viewModel;
 
     protected override async Task InitAsync()
     {

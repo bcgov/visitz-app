@@ -1,6 +1,4 @@
 using Visitz.Views.BaseClasses;
-using VisitzModel.Models.Drafts;
-using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
@@ -13,11 +11,5 @@ public partial class EntityView : IcmRecordContentView<EntityViewModel>
     {
         InitializeComponent();
         BindingContext = ViewModel;
-    }
-
-    public void SetRequestedSection(EntitySection sectionToOpen, IDraftItem focusedDraftItem)
-    {
-        ViewModel.RequestedSection = sectionToOpen;
-        ViewModel.FocusedDraftItem = focusedDraftItem;
     }
 }

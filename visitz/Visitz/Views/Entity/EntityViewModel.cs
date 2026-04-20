@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Extensions;
@@ -13,10 +12,7 @@ namespace Visitz.Views.Entity;
 
 public partial class EntityViewModel : IcmRecordViewModel
 {
-    [ObservableProperty]
-    public EntityNavItem? selectedEntityNavItem;
-
-    public EntitySection RequestedSection { get; set; }
+    public EntitySection? RequestedSection { get; set; }
 
     public IDraftItem? FocusedDraftItem { get; set; }
 
@@ -27,19 +23,14 @@ public partial class EntityViewModel : IcmRecordViewModel
         try
         {
             BuildNavList();
+
+            if (RequestedSection != null)
+                SelectedTab = GetMappedNavItem(RequestedSection);
         }
         catch (Exception ex)
         {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
-    }
-
-    public void SetRequestedSection(EntitySection section, IDraftItem focusedDraftItem)
-    {
-        RequestedSection = section;
-        FocusedDraftItem = focusedDraftItem;
-
-        //SelectedEntityNavItem = GetMappedNavItem(section);
     }
 
     [RelayCommand]
