@@ -2,7 +2,7 @@ namespace Visitz.Views.BaseClasses;
 
 #nullable enable
 
-public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseContentView
+public abstract class ViewModelContentView(VisitzViewModel viewModel, string title = "") : BaseContentView(title)
 {
     protected VisitzViewModel ViewModel { get; set; } = viewModel;
 

@@ -2,18 +2,15 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
 #nullable enable
 
-internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessObjectHolder
+public partial class SupportNetworkListViewModel : IcmRecordViewModel
 {
     private bool _disposed;
 
@@ -23,37 +20,29 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessO
     public ObservableCollection<SupportNetworkItemUi> supportNetworksList = [];
 
     [ObservableProperty]
-    public IBusinessObject? businessObject;
-
-    [ObservableProperty]
     public bool showEmptyIcon;
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
+        if (DataRealm == null || BusinessObject == null)
+            return;
 
-        if (BusinessObject != null)
-        {
-            realmQuery.Subscribe(
-                icmDataRealm,
-                SupportNetworkItem.GetSupportNetworkByCaseId(icmDataRealm, BusinessObject.Id)
-            );
-        }
+        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
+        realmQuery.Subscribe(DataRealm, SupportNetworkItem.GetSupportNetworkByCaseId(DataRealm, BusinessObject.Id));
     }
 
     private void RealmQuery_ItemsChanged(
         object? sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
     )
     {
         if (e.Type == typeof(SupportNetworkItem))
             UpdateSupportNetworkList(e.Items, e.Changes);
     }
 
-    private void UpdateSupportNetworkList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    private void UpdateSupportNetworkList(IRealmCollection<IRealmObject> items, ChangeSet? changes)
     {
         if (changes == null)
         {

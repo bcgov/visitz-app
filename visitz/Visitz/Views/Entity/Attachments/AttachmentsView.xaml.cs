@@ -1,41 +1,33 @@
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 using Tab = Visitz.Views.Navigation.Tab;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsView : ViewModelContentView, IBusinessObjectHolder, IFocusDraftItem
+#nullable enable
+
+public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel>, IFocusDraftItem
 {
     static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes.Concat(
         Attachment.AllowedDocumentTypes
     );
 
-    new AttachmentsViewModel ViewModel => base.ViewModel as AttachmentsViewModel;
+    Tab? DownloadedTab;
 
-    Tab DownloadedTab;
+    Tab? DraftsTab;
 
-    Tab DraftsTab;
-
-    public IBusinessObject BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
-
-    public IDraftItem FocusedDraftItem
+    public IDraftItem? FocusedDraftItem
     {
         get => ViewModel.FocusedDraftItem;
         set => ViewModel.FocusedDraftItem = value;
     }
 
     public AttachmentsView()
-        : base(ServiceProvider.GetService<AttachmentsViewModel>())
+        : base(ServiceProvider.GetService<AttachmentsViewModel>(), LocalizedStrings.Attachments)
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -45,32 +37,41 @@ public partial class AttachmentsView : ViewModelContentView, IBusinessObjectHold
     {
         await base.InitAsync();
 
-        DownloadedTab = new Tab(
-            LocalizedStrings.InIcm,
-            () =>
-            {
-                var listView = ServiceProvider.GetService<AttachmentsListView>();
-                listView.BusinessObject = BusinessObject;
-                return listView;
-            }
-        );
+        try
+        {
+            DownloadedTab = new Tab(
+                LocalizedStrings.InIcm,
+                () =>
+                {
+                    var listView = ServiceProvider.GetService<AttachmentsListView>();
+                    listView.BusinessObject = BusinessObject;
+                    return listView;
+                }
+            );
 
-        DraftsTab = new(
-            LocalizedStrings.OnMyDevice,
-            () =>
-            {
-                var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
-                draftsView.BusinessObject = BusinessObject;
-                draftsView.FocusedDraftItem = FocusedDraftItem;
-                return draftsView;
-            }
-        );
+            DraftsTab = new(
+                LocalizedStrings.OnMyDevice,
+                () =>
+                {
+                    var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
+                    draftsView.BusinessObject = BusinessObject;
+                    draftsView.FocusedDraftItem = FocusedDraftItem;
+                    return draftsView;
+                }
+            );
 
-        AttachmentsTabs.PairedDisplayView = TabDisplayView;
-        AttachmentsTabs.Tabs = [DownloadedTab, DraftsTab];
+            if (TabDisplayView != null)
+                AttachmentsTabs.PairedDisplayView = TabDisplayView;
 
-        if (FocusedDraftItem != null)
-            AttachmentsTabs.SelectedTab = DraftsTab;
+            AttachmentsTabs.Tabs = [DownloadedTab, DraftsTab];
+
+            if (FocusedDraftItem != null)
+                AttachmentsTabs.SelectedTab = DraftsTab;
+        }
+        catch (Exception ex)
+        {
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
     }
 
     bool disposed;
@@ -102,7 +103,8 @@ public partial class AttachmentsView : ViewModelContentView, IBusinessObjectHold
             }
         );
 
-        await SaveFile(result);
+        if (result != null)
+            await SaveFile(result);
     }
 
     private async Task SaveFile(FileResult result)

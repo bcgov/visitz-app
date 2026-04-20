@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Entity.Navigation;
+using Visitz.Views.Entity;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
@@ -65,9 +66,18 @@ public partial class CaseloadContainerView : BaseContentView
         EntitySection section = message.Section;
         IDraftItem draftItem = message.DraftItem;
 
-        var entityNav = ServiceProvider.GetService<EntityNavView>();
-        entityNav.BusinessObject = item;
-        entityNav.SetRequestedSection(section, draftItem);
-        await ContentStack.PushAsync(entityNav);
+        var entityView = ServiceProvider.GetService<EntityView>();
+        entityView.RowId = item.Id;
+        entityView.EntityType = item.EntityType;
+        entityView.SetRequestedSection(section, draftItem);
+
+        try
+        {
+            await ContentStack.PushAsync(entityView);
+        }
+        catch (Exception ex)
+        {
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
     }
 }

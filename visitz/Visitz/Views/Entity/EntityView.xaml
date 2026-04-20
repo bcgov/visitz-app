@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:IcmRecordContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:entityDetails="clr-namespace:Visitz.Views.Entity.Details"
+    xmlns:nav="clr-namespace:Visitz.Views.Entity.Navigation"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:tabView="clr-namespace:Syncfusion.Maui.Toolkit.TabView;assembly=Syncfusion.Maui.Toolkit"
+    x:Class="Visitz.Views.Entity.EntityView"
+    x:DataType="entity:EntityViewModel"
+    x:TypeArguments="entity:EntityViewModel"
+    BackgroundColor="{StaticResource Default_Background}"
+>
+    <Grid RowDefinitions="Auto,*">
+        <controls:TopAppBar Grid.Row="0" BackgroundColor="{StaticResource BuildBarBackgroundColor}">
+            <Button
+                FontSize="{StaticResource TitleMediumFontSize}"
+                ContentLayout="{OnPlatform iOS='Left,-2'}"
+                Padding="{OnPlatform iOS='0,0,5,0', Default='5,0,5,0'}"
+                Style="{StaticResource PrimaryButtonDark}"
+                Command="{Binding GoBackCommand}"
+                HorizontalOptions="Start"
+            >
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static icons:MaterialIcons.Chevron_left}"
+                        FontFamily="MaterialIconsRoundedFilled"
+                        Color="{StaticResource BC_TextColor}"
+                        Size="{OnPlatform iOS=32}"
+                    />
+                </Button.ImageSource>
+            </Button>
+        </controls:TopAppBar>
+
+        <tabView:SfTabView
+            x:Name="TabView"
+            Grid.Row="1"
+            TabBarPlacement="Top"
+            IndicatorWidthMode="Fit"
+            TabWidthMode="SizeToContent"
+            AnimationEasing="CubicInOut"
+            ContentTransitionDuration="300"
+            EnableVirtualization="True"
+            Items="{Binding TabItems}"
+        ></tabView:SfTabView>
+    </Grid>
+</base:IcmRecordContentView>

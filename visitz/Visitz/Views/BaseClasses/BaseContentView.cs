@@ -11,9 +11,12 @@ public abstract class BaseContentView : ContentView, IDisposable
 
     public Task InitTask { get; private set; }
 
-    public BaseContentView()
+    public string Title { get; protected set; }
+
+    public BaseContentView(string title = "")
     {
         Logger = MakeLogger();
+        Title = title;
     }
 
     protected virtual ILogger<BaseContentView> MakeLogger()
