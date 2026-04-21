@@ -12,12 +12,13 @@ namespace Visitz.Views.Navigation;
 /// <summary>
 /// Provides support for asynchronous lazy initialization of BaseContentViews. Loads once per BindingContext change.
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public partial class AsyncLazyContentView<T> : ContentView, IDisposable
-    where T : BaseContentView
+/// <typeparam name="TLazyBaseContentView"></typeparam>
+public partial class AsyncLazyContentView<TLazyBaseContentView> : ContentView, IDisposable, ILoadAsync
+    where TLazyBaseContentView : BaseContentView
 {
-    readonly SemaphoreSlim _semaphore = new(1);
-    readonly AsyncLazy<T> _lazyInit;
+    readonly SemaphoreSlim? _semaphore;
+    readonly AsyncLazy<TLazyBaseContentView> _lazyInit;
+    readonly bool _loadOnBindingContextChanged;
 
     BaseContentView? BaseContentView { get; set; }
 
@@ -31,16 +32,19 @@ public partial class AsyncLazyContentView<T> : ContentView, IDisposable
 
     bool loaded;
 
-    public AsyncLazyContentView(AsyncLazy<T> lazy, View? loadingView = null)
+    public AsyncLazyContentView(
+        AsyncLazy<TLazyBaseContentView> lazy,
+        View? loadingView = null,
+        SemaphoreSlim? semaphore = null,
+        bool loadOnBindingContextChanged = true
+    )
     {
         _lazyInit = lazy;
+        _semaphore = semaphore;
+        _loadOnBindingContextChanged = loadOnBindingContextChanged;
 
         ControlTemplate = new() { LoadTemplate = () => loadingView ?? _DefaultShimmer };
-
-        Loaded += AsyncLazyContentView_Loaded;
     }
-
-    private async void AsyncLazyContentView_Loaded(object? sender, EventArgs e) { }
 
     protected override async void OnBindingContextChanged()
     {
@@ -48,48 +52,52 @@ public partial class AsyncLazyContentView<T> : ContentView, IDisposable
 
         try
         {
-            await LoadContent();
+            if (_loadOnBindingContextChanged)
+                await LoadAsync();
         }
         catch (Exception ex)
         {
             try
             {
-                ServiceProvider.GetService<ILogger<AsyncLazyContentView<T>>>().LogError(ex, ex.Message);
+                ServiceProvider
+                    .GetService<ILogger<AsyncLazyContentView<TLazyBaseContentView>>>()
+                    .LogError(ex, ex.Message);
             }
             catch { }
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
 
-    async Task LoadContent()
+    public async Task LoadAsync()
     {
-        await _semaphore.WaitAsync();
+        if (_semaphore != null)
+            await _semaphore.WaitAsync();
+
+        if (loaded)
+            return;
 
         try
         {
-            if (loaded)
-                return;
-
             BaseContentView = await _lazyInit.Value;
-
-            await BaseContentView.StartInitAsync();
-
-            ControlTemplate = null;
-            Content = BaseContentView;
-
-            BaseContentView.Opacity = 0.0d;
-            await BaseContentView.FadeToAsync(1.0d);
-
-            loaded = true;
         }
         finally
         {
             try
             {
-                _semaphore.Release();
+                _semaphore?.Release();
             }
             catch { }
         }
+
+        await BaseContentView.StartInitAsync();
+
+        ControlTemplate = null;
+        Content = BaseContentView;
+
+        BaseContentView.Opacity = 0.0d;
+        await BaseContentView.FadeToAsync(1.0d);
+
+        loaded = true;
     }
 
     private bool disposed;
