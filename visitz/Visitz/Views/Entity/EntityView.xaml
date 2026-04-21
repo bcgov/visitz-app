@@ -69,9 +69,11 @@
         <tabView:SfTabView
             x:Name="TabView"
             Grid.Row="1"
+            TabBarBackground="{StaticResource Gray100}"
             AnimationEasing="CubicInOut"
             ContentTransitionDuration="300"
             EnableVirtualization="True"
+            FontAutoScalingEnabled="True"
             IndicatorWidthMode="Fit"
             Items="{Binding TabItems}"
             SelectedIndex="{Binding SelectedIndex}"
