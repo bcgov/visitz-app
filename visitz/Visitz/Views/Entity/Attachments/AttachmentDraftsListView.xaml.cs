@@ -6,9 +6,11 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.Attachments;
 
+#nullable enable
+
 public partial class AttachmentDraftsListView : ViewModelContentView, IBusinessObjectHolder, IFocusDraftItem
 {
-    new AttachmentDraftsListViewModel ViewModel => base.ViewModel as AttachmentDraftsListViewModel;
+    new AttachmentDraftsListViewModel ViewModel => (AttachmentDraftsListViewModel)base.ViewModel;
 
     public IBusinessObject BusinessObject
     {
@@ -16,7 +18,7 @@ public partial class AttachmentDraftsListView : ViewModelContentView, IBusinessO
         set => ViewModel.BusinessObject = value;
     }
 
-    public IDraftItem FocusedDraftItem { get; set; }
+    public IDraftItem? FocusedDraftItem { get; set; }
 
     readonly TaskCompletionSource loadingTcs = new();
 
@@ -29,7 +31,7 @@ public partial class AttachmentDraftsListView : ViewModelContentView, IBusinessO
         Loaded += AttachmentDraftsListView_Loaded;
     }
 
-    private void AttachmentDraftsListView_Loaded(object sender, EventArgs e)
+    private void AttachmentDraftsListView_Loaded(object? sender, EventArgs e)
     {
         loadingTcs.TrySetResult();
     }
@@ -65,6 +67,9 @@ public partial class AttachmentDraftsListView : ViewModelContentView, IBusinessO
             draftItem.Attachment.Draft.Preview == FocusedDraftItem.Preview
             && draftItem.Attachment.Draft.LastUpdated == FocusedDraftItem.LastUpdated
         );
+
+        if (draftItem == null)
+            return;
 
         ScrollToDraft(draftItem);
         ViewModel.OpenAttachment(draftItem.Attachment.Draft);
