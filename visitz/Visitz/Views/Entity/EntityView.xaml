@@ -71,7 +71,7 @@
             Grid.Row="1"
             TabBarBackground="{StaticResource Gray100}"
             AnimationEasing="CubicInOut"
-            ContentTransitionDuration="300"
+            ContentTransitionDuration="250"
             EnableVirtualization="True"
             FontAutoScalingEnabled="True"
             IndicatorWidthMode="Fit"
