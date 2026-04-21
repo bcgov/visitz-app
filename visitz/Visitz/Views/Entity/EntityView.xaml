@@ -6,7 +6,6 @@
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
     xmlns:entityDetails="clr-namespace:Visitz.Views.Entity.Details"
-    xmlns:nav="clr-namespace:Visitz.Views.Entity.Navigation"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:tabView="clr-namespace:Syncfusion.Maui.Toolkit.TabView;assembly=Syncfusion.Maui.Toolkit"
