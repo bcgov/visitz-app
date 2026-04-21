@@ -69,14 +69,14 @@
         <tabView:SfTabView
             x:Name="TabView"
             Grid.Row="1"
-            TabBarPlacement="Top"
-            IndicatorWidthMode="Fit"
-            TabWidthMode="SizeToContent"
             AnimationEasing="CubicInOut"
             ContentTransitionDuration="300"
             EnableVirtualization="True"
+            IndicatorWidthMode="Fit"
             Items="{Binding TabItems}"
             SelectedIndex="{Binding SelectedIndex}"
+            TabBarPlacement="Top"
+            TabWidthMode="SizeToContent"
         ></tabView:SfTabView>
     </Grid>
 </base:IcmRecordContentView>
