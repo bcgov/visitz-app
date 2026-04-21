@@ -16,6 +16,16 @@
     x:TypeArguments="entity:EntityViewModel"
     BackgroundColor="{StaticResource Default_Background}"
 >
+    <base:IcmRecordContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="tabView:SfTabItem">
+                <Setter Property="ImageSize" Value="{StaticResource DefaultFontSize}" />
+                <Setter Property="ImagePosition" Value="Left" />
+                <Setter Property="ImageTextSpacing" Value="{StaticResource DefaultSpacingHalf}" />
+            </Style>
+        </ResourceDictionary>
+    </base:IcmRecordContentView.Resources>
+
     <Grid RowDefinitions="Auto,*">
         <controls:TopAppBar
             Grid.Row="0"

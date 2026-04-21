@@ -3,17 +3,31 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Realms;
+using Syncfusion.Maui.Toolkit.TabView;
 using Visitz.Extensions;
+using Visitz.FontIcons;
 using Visitz.Resources.Localization;
+using Visitz.Resources.Styles;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Entity.Attachments;
+using Visitz.Views.Entity.ChildYouthVisits;
+using Visitz.Views.Entity.Notes;
+using Visitz.Views.Entity.SafetyAssess;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
+using VisitzModel.Models;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
+using VisitzModel.Models.Notes;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity;
 
@@ -28,6 +42,8 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
     public EntitySection? RequestedSection { get; set; }
 
     public IDraftItem? FocusedDraftItem { get; set; }
+
+    readonly ObservableRealmQueryMap _queryMap = new();
 
     [ObservableProperty]
     public bool downloadActivity;
@@ -56,6 +72,8 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
             ServiceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
 
             UpdateLocalActivityTimestamp();
+
+            await SetupDraftIndicatorObservers();
         }
         catch (Exception ex)
         {
@@ -159,5 +177,80 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
     {
         if (BusinessObject != null && BusinessObject.IsValid)
             BusinessObject.LocalState.LastOpenedBinding = DateTimeOffset.UtcNow;
+    }
+
+    async Task SetupDraftIndicatorObservers()
+    {
+        if (BusinessObject == null)
+            return;
+
+        string fileNumber = BusinessObject.FileNumber;
+        _queryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
+
+        if (GetTabByType<EntityNotesView>() != null)
+        {
+            var noteRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
+            _queryMap.Subscribe(
+                noteRealm,
+                noteRealm.All<NoteDraft>().Where(draft => draft.ParentEntityId == fileNumber)
+            );
+        }
+
+        if (GetTabByType<AttachmentsView>() != null)
+        {
+            var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+            _queryMap.Subscribe(
+                attachmentsRealm,
+                attachmentsRealm.All<AttachmentDraft>().Where(draft => draft.RelatedEntityId == fileNumber)
+            );
+        }
+
+        if (GetTabByType<SafetyAssessmentListView>() != null)
+        {
+            var assessmentRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+            _queryMap.Subscribe(
+                assessmentRealm,
+                assessmentRealm.All<AssessmentDraft>().Where(draft => draft.DraftEntityId == fileNumber)
+            );
+        }
+
+        if (GetTabByType<ChildYouthVisitListView>() != null)
+        {
+            var visitsRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
+            _queryMap.Subscribe(
+                visitsRealm,
+                visitsRealm.All<PersonVisitDraft>().Where(draft => draft.RelatedEntityId == RowId)
+            );
+        }
+    }
+
+    void RealmQueryMap_ItemsChanged(
+        object? sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
+    )
+    {
+        if (e.Type == typeof(NoteDraft))
+            TrySetDraftIndicator<EntityNotesView>(e.Items.Any());
+        else if (e.Type == typeof(AssessmentDraft))
+            TrySetDraftIndicator<SafetyAssessmentListView>(e.Items.Any());
+        else if (e.Type == typeof(AttachmentDraft))
+            TrySetDraftIndicator<AttachmentsView>(e.Items.Any());
+        else if (e.Type == typeof(PersonVisitDraft))
+            TrySetDraftIndicator<ChildYouthVisitListView>(e.Items.Any());
+    }
+
+    void TrySetDraftIndicator<T>(bool hasDraft)
+        where T : BaseContentView
+    {
+        if (GetTabByType<T>() is not SfTabItem tab)
+            return;
+
+#pragma warning disable CS8601 // Possible null reference assignment.
+        // SfTabView.ImageSource is not declared nullable even though documentation suggests it should
+        // TODO: Remove suppression once fixed in library
+        tab.ImageSource = hasDraft
+            ? MaterialIcons.GetFilledMaterialIcon(MaterialIcons.Draft, VisitzColors.BC_Gold)
+            : null;
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 }
