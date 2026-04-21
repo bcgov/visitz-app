@@ -48,7 +48,7 @@ internal partial class TodoListViewModel : VisitzViewModel
 
     private void QueryMap_ItemsChanged(
         object? sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
     )
     {
         if (e.Type == typeof(PersonVisit) && DataRealm != null)

@@ -12,7 +12,7 @@ public partial class AttachmentDraftsListView : ViewModelContentView, IBusinessO
 {
     new AttachmentDraftsListViewModel ViewModel => (AttachmentDraftsListViewModel)base.ViewModel;
 
-    public IBusinessObject BusinessObject
+    public IBusinessObject? BusinessObject
     {
         get => ViewModel.BusinessObject;
         set => ViewModel.BusinessObject = value;

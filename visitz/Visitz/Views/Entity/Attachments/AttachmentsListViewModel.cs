@@ -76,14 +76,14 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
 
     private void RealmQuery_ItemsChanged(
         object? sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
     )
     {
         if (e.Type == typeof(Attachment))
             UpdateAttachmentsList(e.Items, e.Changes);
     }
 
-    private void UpdateAttachmentsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    private void UpdateAttachmentsList(IRealmCollection<IRealmObject> items, ChangeSet? changes)
     {
         if (changes == null)
         {
