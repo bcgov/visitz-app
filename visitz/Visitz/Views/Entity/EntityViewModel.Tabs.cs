@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Syncfusion.Maui.Toolkit.TabView;
+using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Entity.Attachments;
 using Visitz.Views.Entity.ChildYouthVisits;
@@ -8,10 +9,12 @@ using Visitz.Views.Entity.FamilyMembers;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
 using Visitz.Views.Entity.SupportNetwork;
+using Visitz.Views.Navigation;
 using Visitz.VisitzConfig;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Navigation;
+using VisitzModel.Utilities;
 
 namespace Visitz.Views.Entity;
 
@@ -30,29 +33,40 @@ public partial class EntityViewModel
 
     readonly List<ViewModelContentView> _viewsToDispose = [];
 
-    SfTabItem MakeTab<V>()
+    readonly SemaphoreSlim _lazySemaphore = new(1);
+
+    AsyncLazy<V> BuildTab<V>()
         where V : ViewModelContentView
     {
-        V view = ServiceProvider.GetService<V>();
-
-        if (view is IIcmRecordInfo info)
+        return new(async () =>
         {
-            info.RowId = RowId;
-            info.EntityType = EntityType;
-        }
+            V view = ServiceProvider.GetService<V>();
 
-        if (view is IRequestedEntitySection sectionView)
-            sectionView.RequestedSection = RequestedSection ?? EntitySection.Unknown;
+            if (view is IIcmRecordInfo info)
+            {
+                info.RowId = RowId;
+                info.EntityType = EntityType;
+            }
 
-        if (view is IFocusDraftItem focusView)
-            focusView.FocusedDraftItem = FocusedDraftItem;
+            if (view is IRequestedEntitySection sectionView)
+                sectionView.RequestedSection = RequestedSection ?? EntitySection.Unknown;
 
-        _viewsToDispose.Add(view);
+            if (view is IFocusDraftItem focusView)
+                focusView.FocusedDraftItem = FocusedDraftItem;
 
+            _viewsToDispose.Add(view);
+
+            return view;
+        });
+    }
+
+    SfTabItem MakeTab<V>(string title)
+        where V : ViewModelContentView
+    {
         return new()
         {
-            Header = view.Title,
-            Content = view,
+            Header = title,
+            Content = new AsyncLazyContentView<V>(BuildTab<V>(), semaphore: _lazySemaphore),
             FontFamily = VisitzFonts.BcSansRegularAlias,
         };
     }
@@ -62,19 +76,19 @@ public partial class EntityViewModel
         if (BusinessObject == null)
             return;
 
-        TabItems.Add(MakeTab<EntityDetailsView>());
-        TabItems.Add(MakeTab<EntityContactsView>());
-        TabItems.Add(MakeTab<EntityNotesView>());
-        TabItems.Add(MakeTab<AttachmentsView>());
+        TabItems.Add(MakeTab<EntityDetailsView>(LocalizedStrings.Details));
+        TabItems.Add(MakeTab<EntityContactsView>(LocalizedStrings.FamilyMembers));
+        TabItems.Add(MakeTab<EntityNotesView>(LocalizedStrings.Notes));
+        TabItems.Add(MakeTab<AttachmentsView>(LocalizedStrings.Attachments));
 
         if (ShouldShowSafetyAssessment())
-            TabItems.Add(MakeTab<SafetyAssessmentListView>());
+            TabItems.Add(MakeTab<SafetyAssessmentListView>(LocalizedStrings.SafetyAssessment));
 
         if (ShouldShowChildYouthVisits())
-            TabItems.Add(MakeTab<ChildYouthVisitListView>());
+            TabItems.Add(MakeTab<ChildYouthVisitListView>(LocalizedStrings.ChildYouthVisits));
 
         if (ShouldShowSupportNetwork())
-            TabItems.Add(MakeTab<SupportNetworkListView>());
+            TabItems.Add(MakeTab<SupportNetworkListView>(LocalizedStrings.SupportNetwork));
     }
 
     void DisposeTabViews()
@@ -88,7 +102,7 @@ public partial class EntityViewModel
     SfTabItem? GetTabByType<T>()
         where T : BaseContentView
     {
-        return TabItems.FirstOrDefault(t => t.Content is T);
+        return TabItems.FirstOrDefault(t => t.Content is AsyncLazyContentView<T>);
     }
 
     SfTabItem? GetMappedNavItem(EntitySection? section)
@@ -112,7 +126,7 @@ public partial class EntityViewModel
         SelectedTab = value != -1 ? TabItems.ElementAt(value) : null;
     }
 
-    partial void OnSelectedTabChanged(SfTabItem? value)
+    async partial void OnSelectedTabChanged(SfTabItem? value)
     {
         SelectedIndex = value != null ? TabItems.IndexOf(value) : -1;
     }
