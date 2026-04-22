@@ -16,6 +16,7 @@ using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Entity.Attachments;
 using Visitz.Views.Entity.ChildYouthVisits;
+using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
 using VisitzModel.Extensions.EntityTypes;
@@ -65,6 +66,8 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
 
             if (RequestedSection != null)
                 SelectedTab = GetMappedNavItem(RequestedSection);
+
+            SelectedTab ??= GetTabByType<EntityDetailsView>();
 
             UpdateDownloadActivity();
 

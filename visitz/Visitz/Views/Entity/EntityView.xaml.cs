@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Reflection;
 using Syncfusion.Maui.Toolkit.Popup;
 using Visitz.Views.BaseClasses;
@@ -47,6 +48,8 @@ public partial class EntityView : IcmRecordContentView<EntityViewModel>
             row.SizeChanged += EntityView_SizeChanged;
             ViewModel.TabBarHeight = row.Height.Value;
         }
+
+        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
 
     bool disposed;
@@ -62,22 +65,21 @@ public partial class EntityView : IcmRecordContentView<EntityViewModel>
         base.Dispose(disposing);
     }
 
-    private void EntityView_SizeChanged(object? sender, EventArgs e)
+    private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (sender is RowDefinition row)
-        {
-            ViewModel.TabBarHeight = row.Height.Value;
-        }
+        if (e.PropertyName == nameof(ViewModel.SelectedTab) && TabPopup.IsOpen)
+            TabPopup.Dismiss();
     }
 
-    private async void TabListButton_Clicked(object? sender, EventArgs e)
+    void EntityView_SizeChanged(object? sender, EventArgs e)
+    {
+        if (sender is RowDefinition row)
+            ViewModel.TabBarHeight = row.Height.Value;
+    }
+
+    async void TabListButton_Clicked(object? sender, EventArgs e)
     {
         if (sender != null)
             TabPopup.ShowRelativeToView((View)sender, PopupRelativePosition.AlignBottom);
-    }
-
-    private void PopupList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        TabPopup.Dismiss();
     }
 }
