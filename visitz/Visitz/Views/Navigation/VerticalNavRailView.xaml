@@ -8,7 +8,6 @@
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
-    xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Navigation.VerticalNavRailView"
     x:DataType="nav:NavRailViewModel"
