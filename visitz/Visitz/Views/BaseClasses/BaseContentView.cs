@@ -1,9 +1,10 @@
 using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
+using Visitz.Views.Entity;
 
 namespace Visitz.Views.BaseClasses;
 
-public abstract class BaseContentView : ContentView, IDisposable
+public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitialize
 {
     private bool _disposedValue;
 
