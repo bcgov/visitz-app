@@ -90,6 +90,7 @@
             SelectedIndex="{Binding SelectedIndex}"
             TabBarPlacement="Top"
             TabWidthMode="SizeToContent"
+            IndicatorBackground="{StaticResource BuildBarBackgroundColor}"
         ></tabView:SfTabView>
 
         <ContentView
@@ -157,13 +158,17 @@
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
                                     <HorizontalStackLayout Spacing="{StaticResource DefaultSpacingHalf}">
-                                        <ContentView WidthRequest="3">
+                                        <Border
+                                            WidthRequest="3"
+                                            StrokeShape="RoundRectangle 5"
+                                            StrokeThickness="0"
+                                        >
                                             <BoxView
                                                 x:Name="SelectionIndicator"
                                                 Color="{StaticResource BuildBarBackgroundColor}"
                                                 IsVisible="False"
                                             ></BoxView>
-                                        </ContentView>
+                                        </Border>
 
                                         <Label Text="{Binding Header}" HorizontalOptions="Start" />
 
