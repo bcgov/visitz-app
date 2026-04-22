@@ -130,7 +130,7 @@
             </popup:SfPopup.PopupStyle>
 
             <popup:SfPopup.ContentTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="entity:EntityViewModel">
                     <VerticalStackLayout x:Name="PopupList" HorizontalOptions="Start">
                         <VerticalStackLayout.Behaviors>
                             <behaviors:SelectionLayoutBehavior
