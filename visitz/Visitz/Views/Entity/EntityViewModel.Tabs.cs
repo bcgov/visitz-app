@@ -30,6 +30,12 @@ public partial class EntityViewModel
 
     readonly List<ViewModelContentView> _viewsToDispose = [];
 
+    [ObservableProperty]
+    public double tabBarHeight;
+
+    [ObservableProperty]
+    public double tabListButtonWidth;
+
     SfTabItem MakeTab<V>()
         where V : ViewModelContentView
     {

@@ -8,6 +8,7 @@
     xmlns:entityDetails="clr-namespace:Visitz.Views.Entity.Details"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:popup="clr-namespace:Syncfusion.Maui.Toolkit.Popup;assembly=Syncfusion.Maui.Toolkit"
     xmlns:tabView="clr-namespace:Syncfusion.Maui.Toolkit.TabView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:tagView="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Entity.EntityView"
@@ -89,5 +90,75 @@
             TabBarPlacement="Top"
             TabWidthMode="SizeToContent"
         ></tabView:SfTabView>
+
+        <ContentView
+            Grid.Row="1"
+            BackgroundColor="{StaticResource Gray100}"
+            VerticalOptions="Start"
+            HorizontalOptions="Start"
+            HeightRequest="{Binding TabBarHeight}"
+            WidthRequest="60"
+        >
+            <controls:FontIconButton
+                Text="{Static icons:MaterialIcons.Menu}"
+                TextColor="Black"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill"
+                HeightRequest="-1"
+                WidthRequest="-1"
+                Clicked="TabListButton_Clicked"
+            />
+        </ContentView>
+
+        <popup:SfPopup
+            x:Name="TabPopup"
+            AnimationDuration="75"
+            ShowHeader="False"
+            AutoSizeMode="Height"
+            ShowOverlayAlways="False"
+        >
+            <popup:SfPopup.PopupStyle>
+                <popup:PopupStyle
+                    PopupBackground="{StaticResource Gray100}"
+                    HasShadow="True"
+                    CornerRadius="5"
+                />
+            </popup:SfPopup.PopupStyle>
+
+            <popup:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <CollectionView
+                        x:Name="PopupList"
+                        Grid.RowSpan="2"
+                        ItemsSource="{Binding TabItems}"
+                        SelectedItem="{Binding SelectedTab}"
+                        SelectionMode="Single"
+                        SelectionChanged="PopupList_SelectionChanged"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalOptions="Start"
+                    >
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="tabView:SfTabItem">
+                                <ContentView Padding="{StaticResource DefaultPadding}">
+                                    <HorizontalStackLayout Spacing="{StaticResource DefaultSpacingHalf}">
+                                        <Label Text="{Binding Header}" HorizontalOptions="Start" />
+
+                                        <Image
+                                            HeightRequest="{Binding ImageSize}"
+                                            WidthRequest="{Binding ImageSize}"
+                                            Source="{Binding ImageSource}"
+                                        />
+                                    </HorizontalStackLayout>
+                                </ContentView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </DataTemplate>
+            </popup:SfPopup.ContentTemplate>
+        </popup:SfPopup>
     </Grid>
 </base:IcmRecordContentView>
