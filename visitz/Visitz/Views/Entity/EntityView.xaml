@@ -5,6 +5,7 @@
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
     xmlns:entityDetails="clr-namespace:Visitz.Views.Entity.Details"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -117,7 +118,7 @@
             x:Name="TabPopup"
             AnimationDuration="75"
             ShowHeader="False"
-            AutoSizeMode="Height"
+            AutoSizeMode="Both"
             ShowOverlayAlways="False"
         >
             <popup:SfPopup.PopupStyle>
@@ -141,7 +142,7 @@
 
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="tabView:SfTabItem">
-                                <ContentView Padding="{StaticResource DefaultPadding}">
+                                <ContentView>
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup Name="CommonStates">
                                             <VisualState Name="Normal" />
@@ -157,27 +158,40 @@
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-                                    <HorizontalStackLayout Spacing="{StaticResource DefaultSpacingHalf}">
-                                        <Border
-                                            WidthRequest="3"
-                                            StrokeShape="RoundRectangle 5"
-                                            StrokeThickness="0"
+
+                                    <effectsView:SfEffectsView
+                                        TouchDownEffects="Ripple"
+                                        HorizontalOptions="Fill"
+                                    >
+                                        <HorizontalStackLayout
+                                            HorizontalOptions="Fill"
+                                            Margin="{StaticResource DefaultMargin}"
+                                            Spacing="{StaticResource DefaultSpacingHalf}"
                                         >
-                                            <BoxView
-                                                x:Name="SelectionIndicator"
-                                                Color="{StaticResource BuildBarBackgroundColor}"
-                                                IsVisible="False"
-                                            ></BoxView>
-                                        </Border>
+                                            <Border
+                                                WidthRequest="3"
+                                                StrokeShape="RoundRectangle 5"
+                                                StrokeThickness="0"
+                                            >
+                                                <BoxView
+                                                    x:Name="SelectionIndicator"
+                                                    Color="{StaticResource BuildBarBackgroundColor}"
+                                                    IsVisible="False"
+                                                ></BoxView>
+                                            </Border>
 
-                                        <Label Text="{Binding Header}" HorizontalOptions="Start" />
+                                            <Label
+                                                Text="{Binding Header}"
+                                                HorizontalOptions="Start"
+                                            />
 
-                                        <Image
-                                            HeightRequest="{Binding ImageSize}"
-                                            WidthRequest="{Binding ImageSize}"
-                                            Source="{Binding ImageSource}"
-                                        />
-                                    </HorizontalStackLayout>
+                                            <Image
+                                                HeightRequest="{Binding ImageSize}"
+                                                WidthRequest="{Binding ImageSize}"
+                                                Source="{Binding ImageSource}"
+                                            />
+                                        </HorizontalStackLayout>
+                                    </effectsView:SfEffectsView>
                                 </ContentView>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
