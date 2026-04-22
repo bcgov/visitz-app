@@ -58,6 +58,7 @@ public partial class EntityView : IcmRecordContentView<EntityViewModel>
     {
         if (!disposed && disposing)
         {
+            ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
             TabsRow?.SizeChanged -= EntityView_SizeChanged;
 
             disposed = true;
