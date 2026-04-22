@@ -170,7 +170,7 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
             string msg = string.Format(LocalizedStrings.DownloadRecordErrorMessage, displayString);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(
                 msg,
-                message.UncaughtException?.ToString(),
+                message.UncaughtException?.ToString() ?? string.Empty,
                 LocalizedStrings.DownloadError
             );
         }
