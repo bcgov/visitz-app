@@ -122,6 +122,7 @@ jobs:
 
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |
+          dotnet --version
           dotnet publish $PROJPATH \
             --framework net10.0-ios \
             --configuration Release \
