@@ -105,8 +105,8 @@
                         Color="White"
                         HeightRequest="100"
                         WidthRequest="100"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
                         IsVisible="{Binding TryingAuthorization}"
                         IsRunning="{Binding TryingAuthorization}"
                     />

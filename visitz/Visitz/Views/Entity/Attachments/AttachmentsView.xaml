@@ -12,15 +12,11 @@
     x:DataType="attachments:AttachmentsViewModel"
     x:TypeArguments="attachments:AttachmentsViewModel"
 >
-    <Grid
-        HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand"
-        RowDefinitions="Auto, 0.5, *, 0.5, Auto"
-    >
+    <Grid RowDefinitions="Auto, 0.5, *, 0.5, Auto">
         <nav:TabView
             x:Name="AttachmentsTabs"
             Grid.Row="0"
-            HorizontalOptions="FillAndExpand"
+            HorizontalOptions="Fill"
             Padding="{Thickness
                 Left={StaticResource DefaultPadding},
                 Right={StaticResource DefaultPadding}}"
@@ -30,8 +26,8 @@
 
         <ContentView
             x:Name="TabDisplayView"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
             Grid.Row="2"
         />
 

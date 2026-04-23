@@ -15,8 +15,8 @@
     x:TypeArguments="childYouthVisit:ChildYouthVisitListViewModel"
 >
     <Grid
-        HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill"
         RowDefinitions="Auto, Auto, 0.5, *, 0.5, Auto"
     >
         <banners:InfoBanner
@@ -84,7 +84,7 @@
             Grid.Row="3"
             IsVisible="{Binding HasVisitData}"
             ItemsSource="{Binding PersonVisits}"
-            VerticalOptions="FillAndExpand"
+            VerticalOptions="Fill"
             SelectionMode="None"
         >
             <CollectionView.ItemTemplate>

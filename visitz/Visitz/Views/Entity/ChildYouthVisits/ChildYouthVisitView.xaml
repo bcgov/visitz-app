@@ -31,8 +31,8 @@
         <Grid
             Margin="5"
             Padding="20"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
             RowDefinitions="Auto, *"
         >
             <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
@@ -155,7 +155,7 @@
                         Text="{Binding RemainingCharacters, StringFormat={Static childYouthVisit:ChildYouthVisitViewModel.RemainingCharactersString}}"
                         Style="{StaticResource LabelSmall}"
                     />
-                    <AbsoluteLayout Grid.Row="1" VerticalOptions="FillAndExpand">
+                    <AbsoluteLayout Grid.Row="1">
                         <controls:EditorEx
                             x:Name="VisitsEditor"
                             AbsoluteLayout.LayoutFlags="All"
