@@ -191,7 +191,7 @@ namespace Visitz.Views.Entity.Notes
             return AllowPublish;
         }
 
-        private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        private void Current_ConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
         {
             InternetAvailable = NetworkHelper.InternetAvailable;
         }

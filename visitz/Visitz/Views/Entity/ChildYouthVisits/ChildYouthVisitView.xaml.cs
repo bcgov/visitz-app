@@ -36,13 +36,13 @@ public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObject
         DeviceDisplay.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
     }
 
-    private void OnKeyboardStateChanged(object sender, KeyboardStateChangedEventArgs e)
+    private void OnKeyboardStateChanged(object? sender, KeyboardStateChangedEventArgs e)
     {
         _isKeyboardOpen = e.IsKeyboardOpen;
         CheckAndApplyOrientation(_isKeyboardOpen);
     }
 
-    private void OnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+    private void OnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
     {
         CheckAndApplyOrientation(_isKeyboardOpen);
     }
@@ -57,7 +57,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObject
         ViewModel.ShowFullForm = !hideForm;
     }
 
-    private async void ViewModel_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
+    private async void ViewModel_DraftSaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
     {
         await DraftSavedIndicator.SetState(e.State);
     }
@@ -86,7 +86,7 @@ public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObject
         await vibrateErrorAnim.Animate(VisitsEditor);
     }
 
-    private async void Discard_Clicked(object sender, EventArgs e)
+    private async void Discard_Clicked(object? sender, EventArgs e)
     {
         if (await PromptDiscard())
         {
@@ -106,12 +106,12 @@ public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObject
         );
     }
 
-    private async void VisitsEditor_EmojiEntered(object sender, EventArgs e)
+    private async void VisitsEditor_EmojiEntered(object? sender, EventArgs e)
     {
         await ShowEditorError(LocalizedStrings.InvalidEntry);
     }
 
-    private async void VisitsEditor_SuggestedMaxLengthExceeded(object sender, EventArgs e)
+    private async void VisitsEditor_SuggestedMaxLengthExceeded(object? sender, EventArgs e)
     {
         await ShowEditorError(LocalizedStrings.CharacterLimitReached);
     }

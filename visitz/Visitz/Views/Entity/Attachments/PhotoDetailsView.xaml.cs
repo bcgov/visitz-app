@@ -77,7 +77,7 @@ public partial class PhotoDetailsView : ViewModelContentView, IBusinessObjectHol
         }
     }
 
-    private void CloseButton_Closing(object sender, Controls.ClosingEventArgs e)
+    private void CloseButton_Closing(object? sender, Controls.ClosingEventArgs e)
     {
         Unregister();
     }

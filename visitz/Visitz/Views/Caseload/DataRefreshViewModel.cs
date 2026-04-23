@@ -48,7 +48,7 @@ internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<Servic
         base.Dispose(disposing);
     }
 
-    private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+    private void Current_ConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
     {
         SetConnectivityMessage();
     }

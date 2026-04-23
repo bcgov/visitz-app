@@ -96,7 +96,7 @@ internal partial class UserViewModel : VisitzViewModel
         );
     }
 
-    async void OidcSession_SessionChanged(object sender, Oidc.Events.SessionChangedEventArgs e)
+    async void OidcSession_SessionChanged(object? sender, Oidc.Events.SessionChangedEventArgs e)
     {
         if (!await OidcSession.SessionExistsAsync())
         {

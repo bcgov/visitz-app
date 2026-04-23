@@ -115,7 +115,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
     }
 
     private void QueryMap_ItemsChanged(
-        object sender,
+        object? sender,
         (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
     )
     {

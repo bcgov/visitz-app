@@ -59,12 +59,12 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, IBusinessO
         canAutoScroll = true;
     }
 
-    private async void SaveStateHandler_SaveStateChanged(object sender, DraftSaveStatusEventArgs e)
+    private async void SaveStateHandler_SaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
     {
         await DraftAppBar.SetDraftState(e.State);
     }
 
-    private async void DiscardButton_Clicked(object sender, EventArgs e)
+    private async void DiscardButton_Clicked(object? sender, EventArgs e)
     {
         if (await PromptDiscard())
         {
@@ -84,7 +84,7 @@ public partial class SafetyAssessmentEditView : ViewModelContentView, IBusinessO
         );
     }
 
-    private async void SomeChildrenPlaced_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private async void SomeChildrenPlaced_CheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
         if (canAutoScroll && e.Value)
         {

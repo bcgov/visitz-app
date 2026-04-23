@@ -44,17 +44,17 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
         base.Dispose(disposing);
     }
 
-    private async void NoteEntryView_DraftError(object sender, DraftErrorEventArgs e)
+    private async void NoteEntryView_DraftError(object? sender, DraftErrorEventArgs e)
     {
         await ShowEditorError(e.ErrorMessage);
     }
 
-    private async void NoteEntryView_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
+    private async void NoteEntryView_DraftSaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
     {
         await DraftSavedIndicator.SetState(e.State);
     }
 
-    async void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
+    async void NotesEditor_TextChanged(object? sender, TextChangedEventArgs e)
     {
         await ViewModel.EditorTextChanged(e);
     }
@@ -83,7 +83,7 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
         await vibrateErrorAnim.Animate(NotesEditor);
     }
 
-    private async void Discard_Clicked(object sender, EventArgs e)
+    private async void Discard_Clicked(object? sender, EventArgs e)
     {
         if (await PromptDiscard())
         {
@@ -103,7 +103,7 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
         );
     }
 
-    private void NotesEditor_Loaded(object sender, EventArgs e)
+    private void NotesEditor_Loaded(object? sender, EventArgs e)
     {
 #if WINDOWS
         NotesEditor.Focus();

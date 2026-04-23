@@ -13,7 +13,7 @@ public partial class DebugOptionsView : ViewModelContentView
         BindingContext = ViewModel;
     }
 
-    private async void ShowDocumentsButton_Clicked(object sender, EventArgs e)
+    private async void ShowDocumentsButton_Clicked(object? sender, EventArgs e)
     {
         var popup = new Popup()
         {

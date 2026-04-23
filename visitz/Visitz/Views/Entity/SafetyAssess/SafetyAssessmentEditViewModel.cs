@@ -170,7 +170,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
             DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, BusinessObject.DisplayName);
     }
 
-    private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private async void Assessment_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         _ = TrySendSavedMessage(DraftSaveState.Saving);
 
@@ -319,7 +319,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
     }
 #endif
 
-    private void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void SelectedChildren_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         Assessment.Commit(() =>
         {

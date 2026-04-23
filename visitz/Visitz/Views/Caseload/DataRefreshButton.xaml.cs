@@ -37,7 +37,7 @@ public partial class DataRefreshButton : ViewModelContentView
         base.Dispose(disposing);
     }
 
-    private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+    private void Current_ConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
     {
         SetIconByNetworkAccess();
     }
