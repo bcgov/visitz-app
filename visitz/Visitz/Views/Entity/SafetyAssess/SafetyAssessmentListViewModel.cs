@@ -103,6 +103,8 @@ public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
         var view = ServiceProvider.GetService<SafetyAssessmentEditView>();
 
         view.BusinessObject = BusinessObject;
+        view.ViewModel.RowId = RowId;
+        view.ViewModel.EntityType = EntityType;
 
         if (assessment != null)
             view.ViewAssessment(assessment);

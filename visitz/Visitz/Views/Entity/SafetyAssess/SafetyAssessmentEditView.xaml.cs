@@ -2,15 +2,11 @@ using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Events;
-using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class SafetyAssessmentEditView
-    : ViewModelContentView<SafetyAssessmentEditViewModel>,
-        IBusinessObjectHolder
+public partial class SafetyAssessmentEditView : IcmRecordContentView<SafetyAssessmentEditViewModel>
 {
     // It's preferable to use lifecycle methods to determine when auto-scrolling is allowed, but MAUI's lifecycles can
     // be unreliable--so we'll use a time-delayed bool.
@@ -19,12 +15,6 @@ public partial class SafetyAssessmentEditView
     private bool canAutoScroll;
 
     private bool disposed;
-
-    public IBusinessObject BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
 
     public SafetyAssessmentEditView()
         : base(ServiceProvider.GetService<SafetyAssessmentEditViewModel>())

@@ -11,7 +11,6 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel;
 using VisitzModel.Extensions;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.People;
@@ -19,16 +18,13 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessObjectHolder
+public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
 {
     public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
 
     [ObservableProperty]
     public DateTime maxDate = DateTimeExtensions.LocalNow;
-
-    [ObservableProperty]
-    public IBusinessObject businessObject;
 
     [ObservableProperty]
     public SafetyAssessment assessment;
@@ -86,7 +82,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
     [ObservableProperty]
     public bool isReadOnly;
 
-    private Realm Realm;
+    private Realm DraftRealm;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
@@ -103,7 +99,10 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
     {
         await base.InitAsync();
 
-        Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+        if (DataRealm == null)
+            return;
+
+        DraftRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
 
@@ -130,8 +129,8 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
 
             Assessment = null;
 
-            Realm?.Dispose();
-            Realm = null;
+            DraftRealm?.Dispose();
+            DraftRealm = null;
 
             disposed = true;
         }
@@ -156,7 +155,8 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
     {
         DraftItem = null;
         Assessment =
-            SafetyAssessment.FindByIncidentNumber(Realm, BusinessObject.FileNumber) ?? await MakeNewSafetyAssessment();
+            SafetyAssessment.FindByIncidentNumber(DraftRealm, BusinessObject.FileNumber)
+            ?? await MakeNewSafetyAssessment();
 
         await TryAssociateDraftItem();
 
@@ -167,7 +167,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
     private async Task TryAssociateDraftItem()
     {
         if (Assessment.IsManaged)
-            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, BusinessObject.DisplayName);
+            DraftItem = await AssessmentDraft.Upsert(DraftRealm, Assessment, BusinessObject.DisplayName);
     }
 
     private async void Assessment_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -175,7 +175,7 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
         _ = TrySendSavedMessage(DraftSaveState.Saving);
 
         if (!Assessment.IsManaged)
-            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, BusinessObject.DisplayName);
+            DraftItem = await AssessmentDraft.Upsert(DraftRealm, Assessment, BusinessObject.DisplayName);
         else if (DraftItem?.IsValid ?? false)
             DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
