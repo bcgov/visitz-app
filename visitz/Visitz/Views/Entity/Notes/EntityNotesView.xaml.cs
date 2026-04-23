@@ -41,7 +41,7 @@ public partial class EntityNotesView : IcmRecordContentView<EntityNotesViewModel
         );
     }
 
-    private async void NotesCollectionView_Loaded(object sender, EventArgs e)
+    private async void NotesCollectionView_Loaded(object? sender, EventArgs e)
     {
         await ViewModel.notesLoadedTcs.Task;
 

@@ -91,7 +91,7 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
         SetSnackbar(null);
     }
 
-    private void TwoPaneView_ModeChanged(object sender, EventArgs e)
+    private void TwoPaneView_ModeChanged(object? sender, EventArgs e)
     {
         if (ViewModel is RootViewModel rvm && sender is TwoPaneView paneView)
         {

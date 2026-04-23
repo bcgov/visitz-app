@@ -40,7 +40,7 @@ public partial class PdfDetailsView : ViewModelContentView, IBusinessObjectHolde
         BindingContext = ViewModel;
     }
 
-    async void WebView_Navigated(object sender, WebNavigatedEventArgs e)
+    async void WebView_Navigated(object? sender, WebNavigatedEventArgs e)
     {
         ViewModel.ShowActivityIndicator = false;
 

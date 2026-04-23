@@ -87,12 +87,12 @@ public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel
         base.Dispose(disposing);
     }
 
-    private async void AddPhotos_Clicked(object sender, EventArgs e)
+    private async void AddPhotos_Clicked(object? sender, EventArgs e)
     {
         await OpenTakePhotoView();
     }
 
-    private async void Browse_Clicked(object sender, EventArgs e)
+    private async void Browse_Clicked(object? sender, EventArgs e)
     {
         var result = await FilePicker.Default.PickAsync(
             new()
