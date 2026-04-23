@@ -17,7 +17,6 @@
     <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
         <controls:FontIconButton
             Command="{Binding OpenNavDrawerCommand}"
-            IsVisible="{Binding ShowMenuButton}"
             Text="{Static icons:MaterialIcons.Menu}"
             FontFamily="MaterialIconsRoundedUnfilled"
             TextColor="White"
