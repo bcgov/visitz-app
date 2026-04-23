@@ -162,7 +162,8 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
     public async Task OpenVisitEntry(PersonVisit? personVisitObj = null)
     {
         var visitEntryView = ServiceProvider.GetService<ChildYouthVisitView>();
-        visitEntryView.BusinessObject = BusinessObject;
+        visitEntryView.ViewModel.RowId = RowId;
+        visitEntryView.ViewModel.EntityType = EntityType;
         visitEntryView.ViewModel.PersonVisitItem = personVisitObj;
         visitEntryView.ViewModel.IsUpdatingEnabled = personVisitObj == null;
         visitEntryView.ViewModel.HideElements = personVisitObj == null;
