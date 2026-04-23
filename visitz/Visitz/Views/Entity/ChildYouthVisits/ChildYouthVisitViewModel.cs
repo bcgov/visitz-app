@@ -1,8 +1,10 @@
 using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Oidc.Network;
 using Realms;
+using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
@@ -85,6 +87,14 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
 
         if (PersonVisitItem == null && IsUpdatingEnabled)
             Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
+
+        if (PersonVisitItem == null)
+        {
+            string error = "Unable to load visit record";
+            Logger.LogError(error);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(error);
+            return;
+        }
 
         DetailItems =
         [

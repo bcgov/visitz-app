@@ -87,7 +87,9 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
 
     private async Task AnimateCloseSnackbar()
     {
-        await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
+        if (Snackbar != null)
+            await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
+
         SetSnackbar(null);
     }
 

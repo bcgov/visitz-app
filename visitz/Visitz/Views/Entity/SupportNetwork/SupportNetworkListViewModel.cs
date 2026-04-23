@@ -47,7 +47,7 @@ public partial class SupportNetworkListViewModel : IcmRecordViewModel
         if (changes == null)
         {
             foreach (var item in items)
-                SupportNetworksList.Add(new SupportNetworkItemUi(item as SupportNetworkItem));
+                SupportNetworksList.Add(new SupportNetworkItemUi((SupportNetworkItem)item));
         }
         else
         {
@@ -55,7 +55,7 @@ public partial class SupportNetworkListViewModel : IcmRecordViewModel
                 SupportNetworksList.RemoveAt(deleted);
 
             foreach (int inserted in changes.InsertedIndices)
-                SupportNetworksList.Insert(inserted, new SupportNetworkItemUi(items[inserted] as SupportNetworkItem));
+                SupportNetworksList.Insert(inserted, new SupportNetworkItemUi((SupportNetworkItem)items[inserted]));
         }
 
         ShowEmptyIcon = SupportNetworksList.Count <= 0;

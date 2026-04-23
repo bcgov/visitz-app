@@ -7,6 +7,7 @@ internal class SnackbarHandler
 {
     public static readonly int DefaultTextOnlyDurationSeconds = 3;
     public static readonly int DefaultActionDurationSeconds = 5;
+    public static readonly int DefaultErrorDurationSeconds = 7;
 
     public static void ShowText(string snackPrompt, TimeSpan? duration = null)
     {
@@ -50,7 +51,7 @@ internal class SnackbarHandler
                     Message = ex.Message,
                     ActionText = LocalizedStrings.MoreInfo,
                     Action = async () => await Navigator.CurrentOpenPage.DisplayErrorAlert(ex),
-                    Duration = duration ?? TimeSpan.FromSeconds(DefaultActionDurationSeconds),
+                    Duration = duration ?? TimeSpan.FromSeconds(DefaultErrorDurationSeconds),
                 }
             );
     }

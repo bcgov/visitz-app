@@ -1,6 +1,4 @@
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
 
@@ -8,16 +6,8 @@ namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 
-public partial class AttachmentDraftsListView : ViewModelContentView, IBusinessObjectHolder, IFocusDraftItem
+public partial class AttachmentDraftsListView : IcmRecordContentView<AttachmentDraftsListViewModel>, IFocusDraftItem
 {
-    new AttachmentDraftsListViewModel ViewModel => (AttachmentDraftsListViewModel)base.ViewModel;
-
-    public IBusinessObject? BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
-
     public IDraftItem? FocusedDraftItem { get; set; }
 
     readonly TaskCompletionSource loadingTcs = new();

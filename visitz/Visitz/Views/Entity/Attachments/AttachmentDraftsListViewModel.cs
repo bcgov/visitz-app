@@ -9,20 +9,15 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Extensions;
-using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 
-internal partial class AttachmentDraftsListViewModel : VisitzViewModel, IBusinessObjectHolder
+public partial class AttachmentDraftsListViewModel : IcmRecordViewModel
 {
-    [ObservableProperty]
-    public IBusinessObject? businessObject;
-
     Realm? attachmentsRealm;
 
     readonly ObservableRealmQueryMap realmQuery = new();
@@ -42,7 +37,7 @@ internal partial class AttachmentDraftsListViewModel : VisitzViewModel, IBusines
     {
         await base.InitAsync();
 
-        if (BusinessObject == null)
+        if (DataRealm == null)
             return;
 
         attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
