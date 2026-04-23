@@ -3,22 +3,14 @@ using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Events;
-using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Notes;
 
-public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
+#nullable enable
+
+public partial class NoteEntryView : IcmRecordContentView<NoteEntryViewModel>
 {
     bool _disposed;
-
-    new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
-
-    public IBusinessObject BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
 
     public NoteEntryView()
         : base(ServiceProvider.GetService<NoteEntryViewModel>())
