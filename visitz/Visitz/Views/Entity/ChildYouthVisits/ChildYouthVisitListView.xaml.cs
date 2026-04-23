@@ -33,9 +33,6 @@ public partial class ChildYouthVisitListView
     {
         await base.InitAsync();
 
-        if (ViewModel.BusinessObject == null)
-            return;
-
         WeakReferenceMessenger.Default.Register(this, PostAndRefreshVisitService.MakeId(ViewModel.BusinessObject.Id));
     }
 

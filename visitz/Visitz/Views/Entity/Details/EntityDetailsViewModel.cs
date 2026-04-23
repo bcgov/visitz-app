@@ -16,7 +16,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
     {
         await base.InitAsync();
 
-        if (DataRealm == null || BusinessObject == null)
+        if (DataRealm == null)
             return;
 
         KeyPlayer = BusinessObject.GetKeyPlayer();

@@ -26,7 +26,7 @@ public partial class IcmRecordContentView<T>(T viewModel, string title = "")
         set => ViewModel.EntityType = value;
     }
 
-    public IBusinessObject? BusinessObject
+    public IBusinessObject BusinessObject
     {
         get => ViewModel.BusinessObject;
         set => ViewModel.BusinessObject = value;

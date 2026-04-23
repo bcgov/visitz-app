@@ -65,9 +65,6 @@ public partial class EntityViewModel
 
     void BuildNavList()
     {
-        if (BusinessObject == null)
-            return;
-
         TabItems.Add(MakeTab<EntityDetailsView>());
         TabItems.Add(MakeTab<EntityContactsView>());
         TabItems.Add(MakeTab<EntityNotesView>());
@@ -125,19 +122,19 @@ public partial class EntityViewModel
 
     bool ShouldShowSafetyAssessment()
     {
-        return BusinessObject?.EntityType == EntityType.Incident;
+        return BusinessObject.EntityType == EntityType.Incident;
     }
 
     bool ShouldShowChildYouthVisits()
     {
-        return BusinessObject?.EntityType == EntityType.Case
-            && BusinessObject?.EntitySubtype == EntitySubtype.ChildServices;
+        return BusinessObject.EntityType == EntityType.Case
+            && BusinessObject.EntitySubtype == EntitySubtype.ChildServices;
     }
 
     bool ShouldShowSupportNetwork()
     {
-        return BusinessObject?.EntityType == EntityType.Case
-            || BusinessObject?.EntityType == EntityType.Incident
-            || BusinessObject?.EntityType == EntityType.ServiceRequest;
+        return BusinessObject.EntityType == EntityType.Case
+            || BusinessObject.EntityType == EntityType.Incident
+            || BusinessObject.EntityType == EntityType.ServiceRequest;
     }
 }

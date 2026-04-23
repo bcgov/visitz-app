@@ -18,7 +18,7 @@ public partial class IcmRecordViewModel : VisitzViewModel, IIcmRecordInfo, IBusi
     public EntityType EntityType { get; set; }
 
     [ObservableProperty]
-    public IBusinessObject? businessObject;
+    public IBusinessObject businessObject = new CaseRecord();
 
     protected override async Task InitAsync()
     {
@@ -41,7 +41,6 @@ public partial class IcmRecordViewModel : VisitzViewModel, IIcmRecordInfo, IBusi
     {
         if (!disposed && disposing)
         {
-            BusinessObject = null;
             DataRealm?.Dispose();
 
             disposed = true;

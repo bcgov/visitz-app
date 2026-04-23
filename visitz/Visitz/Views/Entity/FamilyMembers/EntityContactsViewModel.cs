@@ -23,7 +23,7 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
     {
         await base.InitAsync();
 
-        if (DataRealm == null || BusinessObject == null)
+        if (DataRealm == null)
             return;
 
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;

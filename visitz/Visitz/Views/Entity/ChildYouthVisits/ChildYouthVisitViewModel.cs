@@ -77,7 +77,7 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
     {
         await base.InitAsync();
 
-        if (DataRealm == null || BusinessObject == null)
+        if (DataRealm == null)
             return;
 
         DraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();

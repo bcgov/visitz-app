@@ -41,7 +41,7 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
     {
         await base.InitAsync();
 
-        if (DataRealm == null || BusinessObject == null)
+        if (DataRealm == null)
             return;
 
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
@@ -106,9 +106,6 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
 
     private void UpdateNotesList(IRealmCollection<NoteItem> realmNotes, ChangeSet? changes)
     {
-        if (BusinessObject == null)
-            return;
-
         if (changes == null)
         {
             var groups = NoteItemGroup.GetGroupsFromNotesQuery(

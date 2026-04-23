@@ -53,9 +53,6 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
     {
         await base.InitAsync();
 
-        if (BusinessObject == null)
-            return;
-
         _cacheRemovedDisplayName = BusinessObject.DisplayName;
         BusinessObject.SubscribePropertyChanged(BusinessObject_PropertyChanged);
         WeakReferenceMessenger.Default.Register(this, GetAllDataForRecordService.MakeId(BusinessObject));
@@ -92,7 +89,7 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
         {
             DisposeTabViews();
 
-            BusinessObject?.UnsubscribePropertyChanged(BusinessObject_PropertyChanged);
+            BusinessObject.UnsubscribePropertyChanged(BusinessObject_PropertyChanged);
 
             ServiceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
             ServiceHandler.ServiceStarted -= ServiceHandler_ServiceStarted;
@@ -152,8 +149,7 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
 
     void UpdateDownloadActivity()
     {
-        if (BusinessObject != null)
-            DownloadActivity = BusinessObject.IsValid && ServiceHandler.IsAnyServiceRunning(BusinessObject.Id);
+        DownloadActivity = BusinessObject.IsValid && ServiceHandler.IsAnyServiceRunning(BusinessObject.Id);
     }
 
     [RelayCommand]
@@ -178,15 +174,12 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
 
     void UpdateLocalActivityTimestamp()
     {
-        if (BusinessObject != null && BusinessObject.IsValid)
+        if (BusinessObject.IsValid)
             BusinessObject.LocalState.LastOpenedBinding = DateTimeOffset.UtcNow;
     }
 
     async Task SetupDraftIndicatorObservers()
     {
-        if (BusinessObject == null)
-            return;
-
         string fileNumber = BusinessObject.FileNumber;
         _queryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
 

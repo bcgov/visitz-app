@@ -34,9 +34,6 @@ public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
     {
         await base.InitAsync();
 
-        if (BusinessObject == null)
-            return;
-
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
 
         var draftRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
