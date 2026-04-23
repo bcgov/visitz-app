@@ -4,10 +4,8 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-public partial class DataRefreshButton : ViewModelContentView
+public partial class DataRefreshButton : ViewModelContentView<DataRefreshViewModel>
 {
-    new DataRefreshViewModel ViewModel => base.ViewModel as DataRefreshViewModel;
-
     public StackOrientation Orientation
     {
         get => ViewModel.Orientation;

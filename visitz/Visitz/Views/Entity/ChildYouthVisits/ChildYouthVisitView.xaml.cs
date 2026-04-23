@@ -4,25 +4,15 @@ using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
 using VisitzModel.Events;
-using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-public partial class ChildYouthVisitView : ViewModelContentView, IBusinessObjectHolder
+public partial class ChildYouthVisitView : IcmRecordContentView<ChildYouthVisitViewModel>
 {
     private bool _disposed;
     private bool _isKeyboardOpen;
 
     private SoftKeyboardOpenHandler _keyboardOpenHandler;
-
-    public new ChildYouthVisitViewModel ViewModel => base.ViewModel as ChildYouthVisitViewModel;
-
-    public IBusinessObject BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
 
     public ChildYouthVisitView()
         : base(ServiceProvider.GetService<ChildYouthVisitViewModel>())

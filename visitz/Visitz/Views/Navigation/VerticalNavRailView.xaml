@@ -11,6 +11,7 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Navigation.VerticalNavRailView"
     x:DataType="nav:NavRailViewModel"
+    x:TypeArguments="nav:NavRailViewModel"
     BackgroundColor="{StaticResource BuildBarBackgroundColor}"
     WidthRequest="72"
 >

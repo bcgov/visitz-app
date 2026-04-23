@@ -9,6 +9,7 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.User.UserView"
     x:DataType="user:UserViewModel"
+    x:TypeArguments="user:UserViewModel"
     BackgroundColor="Black"
 >
     <AbsoluteLayout SafeAreaEdges="None">

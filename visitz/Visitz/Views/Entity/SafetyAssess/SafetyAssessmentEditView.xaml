@@ -17,6 +17,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.SafetyAssess.SafetyAssessmentEditView"
     x:DataType="safetyAssess:SafetyAssessmentEditViewModel"
+    x:TypeArguments="safetyAssess:SafetyAssessmentEditViewModel"
 >
     <baseClasses:ViewModelContentView.Behaviors>
         <behaviors:SoftKbResizeBehavior />

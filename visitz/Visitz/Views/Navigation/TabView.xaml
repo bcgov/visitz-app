@@ -7,6 +7,7 @@
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Navigation.TabView"
     x:DataType="nav:TabViewModel"
+    x:TypeArguments="nav:TabViewModel"
 >
     <HorizontalStackLayout>
         <HorizontalStackLayout.Behaviors>

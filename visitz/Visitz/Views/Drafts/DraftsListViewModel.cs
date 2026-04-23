@@ -25,7 +25,7 @@ namespace Visitz.Views.Drafts;
 
 #nullable enable
 
-internal partial class DraftsListViewModel : VisitzViewModel
+public partial class DraftsListViewModel : VisitzViewModel
 {
     bool _disposed;
 

@@ -8,10 +8,10 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class SafetyAssessmentEditView : ViewModelContentView, IBusinessObjectHolder
+public partial class SafetyAssessmentEditView
+    : ViewModelContentView<SafetyAssessmentEditViewModel>,
+        IBusinessObjectHolder
 {
-    protected new SafetyAssessmentEditViewModel ViewModel => (SafetyAssessmentEditViewModel)base.ViewModel;
-
     // It's preferable to use lifecycle methods to determine when auto-scrolling is allowed, but MAUI's lifecycles can
     // be unreliable--so we'll use a time-delayed bool.
     // TODO: Rework this so we don't allow a scroll until we guarantee all data

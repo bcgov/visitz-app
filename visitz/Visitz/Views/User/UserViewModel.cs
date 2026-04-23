@@ -10,7 +10,7 @@ using VisitzModel.Messaging;
 
 namespace Visitz.Views.User;
 
-internal partial class UserViewModel : VisitzViewModel
+public partial class UserViewModel : VisitzViewModel
 {
     [ObservableProperty]
     public string displayName;

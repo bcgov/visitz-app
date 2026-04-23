@@ -10,7 +10,7 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
+public partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]
     public bool superMessageVisible = false;

@@ -2,9 +2,10 @@ namespace Visitz.Views.BaseClasses;
 
 #nullable enable
 
-public abstract class ViewModelContentView(VisitzViewModel viewModel, string title = "") : BaseContentView(title)
+public abstract class ViewModelContentView<TViewModel>(TViewModel viewModel, string title = "") : BaseContentView(title)
+    where TViewModel : VisitzViewModel
 {
-    public VisitzViewModel ViewModel { get; private set; } = viewModel;
+    public TViewModel ViewModel { get; private set; } = viewModel;
 
     protected override async Task InitAsync()
     {

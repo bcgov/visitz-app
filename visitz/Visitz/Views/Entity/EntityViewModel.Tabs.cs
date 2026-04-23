@@ -28,7 +28,7 @@ public partial class EntityViewModel
     [ObservableProperty]
     public SfTabItem? selectedTab;
 
-    readonly List<ViewModelContentView> _viewsToDispose = [];
+    readonly List<BaseContentView> _viewsToDispose = [];
 
     [ObservableProperty]
     public double tabBarHeight;
@@ -36,10 +36,10 @@ public partial class EntityViewModel
     [ObservableProperty]
     public double tabListButtonWidth;
 
-    SfTabItem MakeTab<V>()
-        where V : ViewModelContentView
+    SfTabItem MakeTab<TContentView>()
+        where TContentView : BaseContentView
     {
-        V view = ServiceProvider.GetService<V>();
+        TContentView view = ServiceProvider.GetService<TContentView>();
 
         if (view is IIcmRecordInfo info)
         {

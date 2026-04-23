@@ -7,22 +7,13 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class TakePhotoView : ViewModelContentView, IBusinessObjectHolder
+public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
 {
     readonly VisibilityAnimation SnapshotFade = new(showView: false);
-
-    new TakePhotoViewModel ViewModel => base.ViewModel as TakePhotoViewModel;
-
-    public IBusinessObject BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
 
     public TakePhotoView()
         : base(ServiceProvider.GetService<TakePhotoViewModel>())

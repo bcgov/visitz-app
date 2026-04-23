@@ -6,14 +6,12 @@ namespace Visitz.Views.BaseClasses;
 
 #nullable enable
 
-public partial class IcmRecordContentView<T>(T viewModel, string title = "")
-    : ViewModelContentView(viewModel, title),
+public partial class IcmRecordContentView<TViewModel>(TViewModel viewModel, string title = "")
+    : ViewModelContentView<TViewModel>(viewModel, title),
         IIcmRecordInfo,
         IBusinessObjectHolder
-    where T : IcmRecordViewModel
+    where TViewModel : IcmRecordViewModel
 {
-    public new T ViewModel => (T)base.ViewModel;
-
     public string RowId
     {
         get => ViewModel.RowId;

@@ -14,7 +14,7 @@ namespace Visitz.Views.Todo;
 
 #nullable enable
 
-internal partial class TodoListViewModel : VisitzViewModel
+public partial class TodoListViewModel : VisitzViewModel
 {
     [ObservableProperty]
     public bool showEmptyView = true;

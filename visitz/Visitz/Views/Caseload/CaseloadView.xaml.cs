@@ -11,10 +11,8 @@ using CommunityToolkit.Maui.Core.Platform;
 
 namespace Visitz.Views.Caseload;
 
-public partial class CaseloadView : ViewModelContentView, IRecipient<ServiceStateMessage>
+public partial class CaseloadView : ViewModelContentView<CaseloadViewModel>, IRecipient<ServiceStateMessage>
 {
-    protected new CaseloadViewModel ViewModel => (CaseloadViewModel)base.ViewModel;
-
     public CaseloadView()
         : base(ServiceProvider.GetService<CaseloadViewModel>())
     {
