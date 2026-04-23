@@ -44,7 +44,8 @@ public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel
                 () =>
                 {
                     var listView = ServiceProvider.GetService<AttachmentsListView>();
-                    listView.BusinessObject = BusinessObject;
+                    listView.ViewModel.RowId = RowId;
+                    listView.ViewModel.EntityType = EntityType;
                     return listView;
                 }
             );
@@ -54,7 +55,6 @@ public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel
                 () =>
                 {
                     var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
-                    draftsView.BusinessObject = BusinessObject;
                     draftsView.ViewModel.RowId = RowId;
                     draftsView.ViewModel.EntityType = EntityType;
                     draftsView.FocusedDraftItem = FocusedDraftItem;
