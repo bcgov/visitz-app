@@ -6,6 +6,8 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
+#nullable enable
+
 public partial class SafetyAssessmentEditView : IcmRecordContentView<SafetyAssessmentEditViewModel>
 {
     // It's preferable to use lifecycle methods to determine when auto-scrolling is allowed, but MAUI's lifecycles can
