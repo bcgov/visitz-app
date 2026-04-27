@@ -11,6 +11,8 @@ using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
+#nullable enable
+
 public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
 {
     readonly VisibilityAnimation SnapshotFade = new(showView: false);
@@ -38,7 +40,7 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
         if (!disposed && disposing)
         {
             Camera.StopCameraPreview();
-            Camera.Handler.DisconnectHandler();
+            Camera.Handler?.DisconnectHandler();
 
             Camera.MediaCaptured -= Camera_MediaCaptured;
             Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
