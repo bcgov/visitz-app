@@ -27,9 +27,9 @@ public partial class PhotoDetailsView : IcmRecordContentView<PhotoDetailsViewMod
         BindingContext = ViewModel;
     }
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        var task = base.InitAsync();
+        await base.InitAsync();
 
         if (ViewModel.Attachment?.Draft is not null)
         {
@@ -37,8 +37,6 @@ public partial class PhotoDetailsView : IcmRecordContentView<PhotoDetailsViewMod
 
             WeakReferenceMessenger.Default.Register(this, id);
         }
-
-        return task;
     }
 
     bool disposed;

@@ -24,15 +24,13 @@ public partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceS
     [ObservableProperty]
     public bool caseloadActivity;
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        base.InitAsync();
+        await base.InitAsync();
 
         SetConnectivityMessage();
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
         WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
-
-        return Task.CompletedTask;
     }
 
     bool disposed;

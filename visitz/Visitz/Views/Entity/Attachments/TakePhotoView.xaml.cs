@@ -22,15 +22,13 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
         BindingContext = ViewModel;
     }
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        Task init = base.InitAsync();
+        await base.InitAsync();
 
         Unloaded += TakePhotoView_Unloaded;
         Camera.MediaCaptured += Camera_MediaCaptured;
         Camera.MediaCaptureFailed += Camera_MediaCaptureFailed;
-
-        return init;
     }
 
     bool disposed;
