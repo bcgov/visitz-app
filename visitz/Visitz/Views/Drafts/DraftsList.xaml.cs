@@ -16,13 +16,11 @@ public partial class DraftsList : ViewModelContentView<DraftsListViewModel>
         BindingContext = ViewModel;
     }
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        var init = base.InitAsync();
+        await base.InitAsync();
 
         ViewModel.SelectedItemRelatedMissing += ViewModel_SelectedItemRelatedMissing;
-
-        return init;
     }
 
     bool disposed;

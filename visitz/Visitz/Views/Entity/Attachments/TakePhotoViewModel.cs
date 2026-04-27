@@ -11,22 +11,24 @@ using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
+#nullable enable
+
 public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRecordViewModel
 {
     public static readonly string PictureFiletype = "jpg";
     public static readonly string PictureFilenamePrepend = "Pic";
 
-    Realm AttachmentsRealm { get; set; }
+    Realm? AttachmentsRealm { get; set; }
 
     readonly ObservableRealmQueryMap queryMap = new();
 
-    AttachmentFiler attachmentFiler;
+    AttachmentFiler? attachmentFiler;
 
     [ObservableProperty]
-    public IReadOnlyList<CameraInfo> cameras;
+    public IReadOnlyList<CameraInfo> cameras = [];
 
     [ObservableProperty]
-    public CameraInfo selectedCamera;
+    public CameraInfo? selectedCamera;
 
     int selectedCameraIndex;
 
@@ -37,7 +39,7 @@ public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRec
     public bool processing;
 
     [ObservableProperty]
-    public byte[] rollBytes;
+    public byte[]? rollBytes;
 
     protected override async Task InitAsync()
     {
@@ -59,7 +61,7 @@ public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRec
     {
         if (!disposed && disposing)
         {
-            AttachmentsRealm.Dispose();
+            AttachmentsRealm?.Dispose();
             queryMap.Dispose();
 
             disposed = true;
@@ -92,6 +94,9 @@ public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRec
 
     private void SetupCameraRoll()
     {
+        if (AttachmentsRealm == null)
+            return;
+
         queryMap.ItemsChanged += QueryMap_ItemsChanged;
 
         StringBuilder queryBuilder = new();
@@ -115,20 +120,23 @@ public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRec
 
     private void QueryMap_ItemsChanged(
         object? sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
     )
     {
         if (e.Changes == null)
         {
             if (e.Items.Any())
-                RollBytes = (e.Items[0] as AttachmentDraft).Attachment.ThumbnailBinding;
+                RollBytes = ((AttachmentDraft)e.Items[0]).Attachment.ThumbnailBinding;
         }
         else if (e.Changes.InsertedIndices.Length > 0)
-            RollBytes = (e.Items[e.Changes.InsertedIndices[0]] as AttachmentDraft).Attachment.ThumbnailBinding;
+            RollBytes = ((AttachmentDraft)e.Items[e.Changes.InsertedIndices[0]]).Attachment.ThumbnailBinding;
     }
 
     public async Task SavePicture(Stream stream)
     {
+        if (attachmentFiler == null)
+            return;
+
         WaitingToProcess = false;
 
         try

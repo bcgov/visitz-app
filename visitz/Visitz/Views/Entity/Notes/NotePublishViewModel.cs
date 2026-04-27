@@ -32,9 +32,9 @@ namespace Visitz.Views.Entity.Notes
             getNotesServiceId = GetNotesService.MakeId(id);
         }
 
-        protected override Task InitAsync()
+        protected override async Task InitAsync()
         {
-            var init = base.InitAsync();
+            await base.InitAsync();
 
             Wait(LocalizedStrings.LoginToSubmitNotes);
 
@@ -43,8 +43,6 @@ namespace Visitz.Views.Entity.Notes
             WeakReferenceMessenger.Default.Register(this, getNotesServiceId);
 
             Publish();
-
-            return init;
         }
 
         bool disposed;

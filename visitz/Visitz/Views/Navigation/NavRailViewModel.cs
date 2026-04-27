@@ -24,6 +24,8 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Navigation;
 
+#nullable enable
+
 public partial class NavRailViewModel : VisitzViewModel
 {
 #if IOS
@@ -33,13 +35,13 @@ public partial class NavRailViewModel : VisitzViewModel
 #endif
 
     [ObservableProperty]
-    public ObservableCollection<object> navigationItems = [];
+    public ObservableCollection<NavItem> navigationItems = [];
 
     [ObservableProperty]
-    public NavItem selectedNavItem;
+    public NavItem? selectedNavItem;
 
-    private IDisposable _personVisitToken;
-    private Realm _icmDataRealm;
+    private IDisposable? _personVisitToken;
+    private Realm? _icmDataRealm;
 
     public static double IconSize
     {
@@ -163,8 +165,11 @@ public partial class NavRailViewModel : VisitzViewModel
         SelectedNavItem = navItem;
     }
 
-    partial void OnSelectedNavItemChanged(NavItem value)
+    partial void OnSelectedNavItemChanged(NavItem? value)
     {
+        if (value == null)
+            return;
+
         StrongReferenceMessenger.Default.Send(new AppNavMessage(value));
         CloseNavDrawer();
     }
@@ -178,7 +183,7 @@ public partial class NavRailViewModel : VisitzViewModel
 
     private void RealmCount_CountChanged(object? sender, (Type Kind, int Count) e)
     {
-        DraftsNavItem.BadgeCount = (sender as ObservableRealmCount).Total;
+        DraftsNavItem.BadgeCount = (sender as ObservableRealmCount)?.Total ?? 0;
     }
 
     private void ReceiveAppNavMessage(object recipient, AppNavMessage message)
@@ -192,9 +197,9 @@ public partial class NavRailViewModel : VisitzViewModel
         TodoNavItem.BadgeCount = message.Value;
     }
 
-    private NavItem GetNavItemByType(Type contentViewType)
+    private NavItem? GetNavItemByType(Type contentViewType)
     {
-        return (NavItem)NavigationItems.FirstOrDefault(item => (item as NavItem).ContentViewType == contentViewType);
+        return NavigationItems.FirstOrDefault(item => item.ContentViewType == contentViewType);
     }
 
     [RelayCommand]

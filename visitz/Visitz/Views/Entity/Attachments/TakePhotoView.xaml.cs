@@ -11,6 +11,8 @@ using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
 
+#nullable enable
+
 public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
 {
     readonly VisibilityAnimation SnapshotFade = new(showView: false);
@@ -22,15 +24,13 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
         BindingContext = ViewModel;
     }
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        Task init = base.InitAsync();
+        await base.InitAsync();
 
         Unloaded += TakePhotoView_Unloaded;
         Camera.MediaCaptured += Camera_MediaCaptured;
         Camera.MediaCaptureFailed += Camera_MediaCaptureFailed;
-
-        return init;
     }
 
     bool disposed;
@@ -40,7 +40,7 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
         if (!disposed && disposing)
         {
             Camera.StopCameraPreview();
-            Camera.Handler.DisconnectHandler();
+            Camera.Handler?.DisconnectHandler();
 
             Camera.MediaCaptured -= Camera_MediaCaptured;
             Camera.MediaCaptureFailed -= Camera_MediaCaptureFailed;
@@ -97,7 +97,7 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
 
         if (status == PermissionStatus.Granted)
         {
-            TakePhotoView photoView = new() { BusinessObject = businessObject };
+            TakePhotoView photoView = new() { RowId = businessObject.Id, EntityType = businessObject.EntityType };
             await Navigator.Navigation.PushModalAsync(photoView, ViewModalSize.Fullscreen);
         }
         else

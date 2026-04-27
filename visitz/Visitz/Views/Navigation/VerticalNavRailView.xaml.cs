@@ -4,6 +4,8 @@ using Visitz.Views.Debugging;
 
 namespace Visitz.Views.Navigation;
 
+#nullable enable
+
 public partial class VerticalNavRailView : ViewModelContentView<NavRailViewModel>
 {
     public VerticalNavRailView()
@@ -20,9 +22,7 @@ public partial class VerticalNavRailView : ViewModelContentView<NavRailViewModel
     {
         var menu = new MenuFlyout();
 
-        NavRailViewModel vm = (NavRailViewModel)ViewModel;
-
-        var item = new MenuFlyoutItem() { Text = "Debug options", Command = vm.OpenDebugOptionsCommand };
+        var item = new MenuFlyoutItem() { Text = "Debug options", Command = ViewModel.OpenDebugOptionsCommand };
 
         item.KeyboardAccelerators.Add(new KeyboardAccelerator() { Key = "F2" });
 
@@ -35,7 +35,7 @@ public partial class VerticalNavRailView : ViewModelContentView<NavRailViewModel
             {
                 BindingContext = ViewModel,
                 LongPressDuration = 300,
-                LongPressCommand = vm.OpenDebugOptionsCommand,
+                LongPressCommand = ViewModel.OpenDebugOptionsCommand,
                 PressedAnimationDuration = 300,
                 PressedScale = 1.4d,
                 PressedAnimationEasing = Easing.BounceIn,

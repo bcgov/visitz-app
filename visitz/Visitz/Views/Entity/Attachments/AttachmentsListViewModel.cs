@@ -153,7 +153,7 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
 
         string path = listItem.Attachment.RelativePath.Trim();
 
-        ContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
+        BaseContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
             ? MakePdfDetailsView(listItem.Attachment)
             : MakePhotoDetailsView(listItem.Attachment);
 
@@ -165,7 +165,8 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         return new()
         {
             Attachment = attachment,
-            BusinessObject = BusinessObject,
+            RowId = RowId,
+            EntityType = EntityType,
             IsDownloadedAttachment = true,
         };
     }
@@ -175,7 +176,8 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         return new()
         {
             Attachment = attachment,
-            BusinessObject = BusinessObject,
+            RowId = RowId,
+            EntityType = EntityType,
             IsDownloadedAttachment = true,
         };
     }
