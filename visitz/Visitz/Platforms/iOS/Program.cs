@@ -19,9 +19,8 @@ public class Program
         }
         catch (Exception ex)
         {
-#if DEBUG
             Console.WriteLine(ex.StackTrace);
-#endif
+
             throw;
         }
     }

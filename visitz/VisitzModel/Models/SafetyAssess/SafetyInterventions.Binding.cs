@@ -8,6 +8,8 @@ using VisitzModel.Extensions;
 
 namespace VisitzModel.Models.SafetyAssess;
 
+#nullable enable
+
 public partial class SafetyInterventions
 {
     private const string Binding = "Binding";
@@ -116,7 +118,7 @@ public partial class SafetyInterventions
 
     public string CmtSafetyInterventionsBinding
     {
-        get => IsValid ? CmtSafetyInterventions : default;
+        get => IsValid ? CmtSafetyInterventions : string.Empty;
         set => this.Commit(() => CmtSafetyInterventions = value);
     }
 

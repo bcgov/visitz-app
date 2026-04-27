@@ -1,3 +1,4 @@
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
@@ -11,7 +12,10 @@ using Visitz.Storage;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
+
+#nullable enable
 
 namespace Visitz.Services.Caseload
 {
@@ -95,6 +99,16 @@ namespace Visitz.Services.Caseload
                 GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
             );
 
+            //Get Contact related info AFTER fetching all contacts from DBs
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            var allContacts = realm.All<IcmContact>().Freeze().AsEnumerable().Distinct();
+
+            await Task.WhenAll(
+                GetContactMedicalBehavioral(allContacts, exceptions),
+                GetContactLegalAuthority(allContacts, exceptions),
+                GetAllContactLanguages(allContacts, exceptions)
+            );
+
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
@@ -104,16 +118,13 @@ namespace Visitz.Services.Caseload
             where T : IBusinessObject
         {
             using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            IEnumerable<RecordServiceInfo> records = null;
 
-            records = realm
+            return realm
                 .All<T>()
                 .AsEnumerable()
                 .Where(bo => bo.LocalState.ShouldDownloadDuringRefresh)
                 .Select(bo => new RecordServiceInfo(bo))
                 .ToList();
-
-            return records;
         }
 
         private async Task GetPersonalCaseload()
@@ -284,6 +295,45 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.AdditionalInformation, ex));
+            }
+        }
+
+        private async Task GetContactMedicalBehavioral(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
+            }
+        }
+
+        private async Task GetContactLegalAuthority(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactLegalAuthorityByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLegalAuthority, ex));
+            }
+        }
+
+        private async Task GetAllContactLanguages(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactLanguagesByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguages, ex));
             }
         }
     }

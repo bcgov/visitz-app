@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:todo="clr-namespace:Visitz.Views.Todo"
+    x:Class="Visitz.Views.Todo.TodoVisitItemView"
+    x:DataType="todo:TodoVisitItemViewModel"
+>
+    <base:BaseContentView.Resources>
+        <Style TargetType="Grid" x:Key="SameWidth">
+            <Setter Property="ColumnDefinitions" Value="*, *, 0.75*, 0.3*" />
+            <Setter Property="ColumnSpacing" Value="8" />
+        </Style>
+    </base:BaseContentView.Resources>
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer
+            Command="{Binding Path=TodoItemSelectedCommand, Source={RelativeSource AncestorType={x:Type todo:TodoVisitItemViewModel}}}"
+            CommandParameter="{Binding .}"
+        />
+    </ContentView.GestureRecognizers>
+
+    <VerticalStackLayout>
+        <Grid RowDefinitions="*,Auto" Style="{StaticResource SameWidth}" Margin="10">
+            <Grid.Resources>
+                <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
+            </Grid.Resources>
+
+            <Label
+                Grid.Column="0"
+                VerticalOptions="Start"
+                Text="{Binding BusinessObject.DisplayName}"
+            />
+
+            <Label
+                Grid.Column="1"
+                VerticalOptions="Start"
+                Text="{Binding Visit.DateOfVisitBinding.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"
+                TextColor="{StaticResource BC_TextColor_Lighter}"
+            />
+
+            <Label
+                Grid.Column="2"
+                VerticalOptions="Start"
+                Text="{Binding Visit.DueDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"
+                TextColor="{StaticResource BC_TextColor_Lighter}"
+            />
+
+            <Label
+                IsVisible="{Binding IsOverdue}"
+                Grid.Column="3"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                FontSize="15"
+                TextColor="{StaticResource AlertBannerCriticalPrimary}"
+                Text="{Static icons:MaterialIcons.Warning}"
+            />
+        </Grid>
+
+        <BoxView Margin="10,0" HeightRequest="0.5" Color="{StaticResource Gray200}" />
+    </VerticalStackLayout>
+</base:BaseContentView>

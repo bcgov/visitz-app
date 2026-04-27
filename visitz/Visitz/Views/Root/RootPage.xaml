@@ -26,7 +26,8 @@
         <drawer:SfNavigationDrawer.DrawerSettings>
             <drawer:DrawerSettings
                 DrawerWidth="360"
-                Duration="150"
+                Duration="300"
+                AnimationEasing="{Static Easing.CubicInOut}"
                 DrawerHeaderHeight="100"
                 TouchThreshold="10"
             >

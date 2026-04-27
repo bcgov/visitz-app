@@ -10,7 +10,7 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
+public partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]
     public bool superMessageVisible = false;
@@ -24,15 +24,13 @@ internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<Servic
     [ObservableProperty]
     public bool caseloadActivity;
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        base.InitAsync();
+        await base.InitAsync();
 
         SetConnectivityMessage();
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
         WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
-
-        return Task.CompletedTask;
     }
 
     bool disposed;
@@ -48,7 +46,7 @@ internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<Servic
         base.Dispose(disposing);
     }
 
-    private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+    private void Current_ConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
     {
         SetConnectivityMessage();
     }

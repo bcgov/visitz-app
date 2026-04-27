@@ -1,0 +1,54 @@
+name: Auto builds
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - '.github/**/*'
+      - 'visitz/**/*'
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Build number offset for incremental builds
+  # +246 => Last run number from previous repo before migration
+  # +112 => Last run number of Build iOS Release Package workflow before logic change
+  BUILD_NUM_OFFSET: 358
+
+jobs:
+  calculate-build-number:
+    runs-on: ubuntu-latest
+    outputs:
+      build_number: ${{ steps.calc.outputs.build_number }}
+    steps:
+      - id: calc
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          echo "build_number=$(($BUILD_NUM_OFFSET + $RUN_NUMBER))" >> $GITHUB_OUTPUT
+
+  run-unit-tests:
+    uses: ./.github/workflows/unit-test-maui.yaml
+
+  build-ios-per-environment:
+    needs: 
+      - calculate-build-number
+      - run-unit-tests
+    strategy:
+      matrix:
+        target: [demo, project-team, prod]
+    uses: ./.github/workflows/make-ios-build.yaml
+    with:
+      environment: ${{ matrix.target }}
+      build_number: ${{ needs.calculate-build-number.outputs.build_number }}
+    secrets: inherit

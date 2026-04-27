@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
+using Visitz.Views.Debugging;
 using Grid = Microsoft.UI.Xaml.Controls.Grid;
 using Image = Microsoft.UI.Xaml.Controls.Image;
 using Window = Microsoft.Maui.Controls.Window;
@@ -41,6 +42,9 @@ public partial class VisitzWindow
 
     partial void OnWindowFocusChanged(bool focused)
     {
+        if (DebugOptions.DisablePrivacyScrim)
+            return;
+
         var nativeWindow = Handler?.PlatformView as Microsoft.UI.Xaml.Window;
         if (nativeWindow?.Content is not FrameworkElement root)
             return;
