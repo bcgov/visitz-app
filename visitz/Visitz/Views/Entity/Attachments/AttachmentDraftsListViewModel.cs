@@ -145,7 +145,7 @@ public partial class AttachmentDraftsListViewModel : IcmRecordViewModel
 
         string path = draft.Attachment.RelativePath.Trim();
 
-        ContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
+        BaseContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
             ? MakePdfDetailsView(draft.Attachment)
             : MakePhotoDetailsView(draft.Attachment);
 
@@ -154,11 +154,21 @@ public partial class AttachmentDraftsListViewModel : IcmRecordViewModel
 
     PhotoDetailsView MakePhotoDetailsView(Attachment attachment)
     {
-        return new() { Attachment = attachment, BusinessObject = BusinessObject };
+        return new()
+        {
+            Attachment = attachment,
+            RowId = RowId,
+            EntityType = EntityType,
+        };
     }
 
     PdfDetailsView MakePdfDetailsView(Attachment attachment)
     {
-        return new() { Attachment = attachment, BusinessObject = BusinessObject };
+        return new()
+        {
+            Attachment = attachment,
+            RowId = RowId,
+            EntityType = EntityType,
+        };
     }
 }
