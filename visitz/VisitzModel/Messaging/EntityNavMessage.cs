@@ -9,8 +9,8 @@ public class EntityNavMessage(
     EntityNavItem navItem,
     IBusinessObject businessObject,
     EntitySection? subsection = null,
-    IDraftItem selectedDraftItem = null
+    IDraftItem? selectedDraftItem = null
 )
-    : ValueChangedMessage<(EntityNavItem, IBusinessObject, EntitySection?, IDraftItem)>(
+    : ValueChangedMessage<(EntityNavItem, IBusinessObject, EntitySection?, IDraftItem?)>(
         (navItem, businessObject, subsection, selectedDraftItem)
     ) { }

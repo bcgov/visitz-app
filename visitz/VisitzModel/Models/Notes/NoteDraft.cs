@@ -33,7 +33,7 @@ namespace VisitzModel.Models.Notes
             set => RelatedEntitySubtypeInt = (int)value;
         }
 
-        public string Draft { get; set; }
+        public string Draft { get; set; } = string.Empty;
 
         public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
 
@@ -44,20 +44,20 @@ namespace VisitzModel.Models.Notes
             get => Draft;
         }
 
-        public string DraftLocation { get; set; }
+        public string DraftLocation { get; set; } = string.Empty;
 
         private bool disposedValue;
         private bool? relatedEntityAvailable;
         private bool? relatedEntityDownloaded;
 
         [Ignored]
-        public Realm RelatedEntityRealm { get; set; }
+        public Realm? RelatedEntityRealm { get; set; }
 
         [Ignored]
-        public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+        public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
 
         [Ignored]
-        public IDisposable RelatedEntitySubscriptionToken { get; set; }
+        public IDisposable? RelatedEntitySubscriptionToken { get; set; }
 
         /// <summary>
         /// Whether or not the related entity is available for the app to interact
@@ -94,7 +94,7 @@ namespace VisitzModel.Models.Notes
             return $"{parentEntityId}";
         }
 
-        public static NoteDraft FindByEntityId(Realm realm, string entityId)
+        public static NoteDraft? FindByEntityId(Realm realm, string entityId)
         {
             return realm.Find<NoteDraft>(MakeId(entityId));
         }
@@ -132,7 +132,7 @@ namespace VisitzModel.Models.Notes
             GC.SuppressFinalize(this);
         }
 
-        public int CompareTo(IDraftItem other)
+        public int CompareTo(IDraftItem? other)
         {
             return this.CompareDraftItem(other);
         }

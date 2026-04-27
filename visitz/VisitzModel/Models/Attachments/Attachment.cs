@@ -24,7 +24,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string RelatedEntityId { get; set; }
+    public string RelatedEntityId { get; set; } = string.Empty;
 
     private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
     public EntityType RelatedEntityType
@@ -40,65 +40,65 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         set => RelatedEntitySubtypeInt = (int)value;
     }
 
-    public string ServiceRequestNumber { get; set; }
-    public string Categorie { get; set; }
-    public string Category { get; set; }
-    public string ClientFlag { get; set; }
-    public string EndDate { get; set; }
-    public string FinalFlag { get; set; }
-    public string FormDescription { get; set; }
-    public string IncidentId { get; set; }
-    public string IncidentNo { get; set; }
-    public string Internal { get; set; }
-    public string CaseNumber { get; set; }
-    public string PortalVisible { get; set; }
-    public string ShowOnContact { get; set; }
-    public string Status { get; set; }
-    public string SubCategory { get; set; }
-    public string Template { get; set; }
-    public string TemplateType { get; set; }
-    public string CaseId { get; set; }
-    public string Comments { get; set; }
-    public string FileAutoUpdFlg { get; set; }
-    public string FileDate { get; set; }
-    public string FileDeferFlg { get; set; }
-    public string FileDockReqFlg { get; set; }
-    public string FileDockStatFlg { get; set; }
-    public string FileSize { get; set; }
-    public string FileSrcPath { get; set; }
-    public string FileSrcType { get; set; }
-    public string MemoId { get; set; }
-    public string MemoNumber { get; set; }
-    public string ServiceRequestId { get; set; }
-    public string CreatedBy { get; set; }
-    public DateTimeOffset CreatedDate { get; set; }
-    public DateTimeOffset UpdatedDate { get; set; }
-    public string UpdatedBy { get; set; }
+    public string ServiceRequestNumber { get; set; } = string.Empty;
+    public string Categorie { get; set; } = string.Empty;
+    public string Category { get; set; } = string.Empty;
+    public string ClientFlag { get; set; } = string.Empty;
+    public string EndDate { get; set; } = string.Empty;
+    public string FinalFlag { get; set; } = string.Empty;
+    public string FormDescription { get; set; } = string.Empty;
+    public string IncidentId { get; set; } = string.Empty;
+    public string IncidentNo { get; set; } = string.Empty;
+    public string Internal { get; set; } = string.Empty;
+    public string CaseNumber { get; set; } = string.Empty;
+    public string PortalVisible { get; set; } = string.Empty;
+    public string ShowOnContact { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
+    public string SubCategory { get; set; } = string.Empty;
+    public string Template { get; set; } = string.Empty;
+    public string TemplateType { get; set; } = string.Empty;
+    public string CaseId { get; set; } = string.Empty;
+    public string Comments { get; set; } = string.Empty;
+    public string FileAutoUpdFlg { get; set; } = string.Empty;
+    public string FileDate { get; set; } = string.Empty;
+    public string FileDeferFlg { get; set; } = string.Empty;
+    public string FileDockReqFlg { get; set; } = string.Empty;
+    public string FileDockStatFlg { get; set; } = string.Empty;
+    public string FileSize { get; set; } = string.Empty;
+    public string FileSrcPath { get; set; } = string.Empty;
+    public string FileSrcType { get; set; } = string.Empty;
+    public string MemoId { get; set; } = string.Empty;
+    public string MemoNumber { get; set; } = string.Empty;
+    public string ServiceRequestId { get; set; } = string.Empty;
+    public string CreatedBy { get; set; } = string.Empty;
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public byte[] Thumbnail { get; set; }
+    public byte[]? Thumbnail { get; set; }
 
     /// <summary>
     /// Relative path to file on virtualized file system. File name will be different than <see cref="Filename"/>.
     /// </summary>
-    public string RelativePath { get; set; }
+    public string RelativePath { get; set; } = string.Empty;
 
     /// <summary>
     /// Virtual name of the attachment as stored in ICM, without the file type extension.
     /// </summary>
-    public string Filename { get; set; }
+    public string Filename { get; set; } = string.Empty;
 
     /// <summary>
     /// The file type extension including the dot '.'
     /// </summary>
-    public string Extension { get; set; }
+    public string Extension { get; set; } = string.Empty;
 
     public bool FileExistsLocally => RelativePath?.Trim().Length > 0;
 
     [Backlink(nameof(AttachmentDraft.Attachment))]
-    public IQueryable<AttachmentDraft> AttachmentDrafts { get; }
+    public IQueryable<AttachmentDraft> AttachmentDrafts { get; } = null!;
 
 #pragma warning disable RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
-    public AttachmentDraft Draft => AttachmentDrafts.FirstOrDefault();
+    public AttachmentDraft? Draft => AttachmentDrafts.FirstOrDefault();
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
     public bool HasDraft => Draft != null;
@@ -136,13 +136,13 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     private bool? relatedEntityDownloaded;
 
     [Ignored]
-    public Realm RelatedEntityRealm { get; set; }
+    public Realm? RelatedEntityRealm { get; set; }
 
     [Ignored]
-    public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+    public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
 
     [Ignored]
-    public IDisposable RelatedEntitySubscriptionToken { get; set; }
+    public IDisposable? RelatedEntitySubscriptionToken { get; set; }
 
     /// <summary>
     /// Whether or not the related entity is available for the app to interact
@@ -176,6 +176,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
     public static async Task DeleteAsync(Realm realm, Attachment attachment, bool removeContent = true)
     {
+        ArgumentNullException.ThrowIfNull(realm);
+
         string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
 
         if (removeContent && File.Exists(fullpath))
@@ -183,7 +185,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
         await attachment.CommitAsync(() =>
         {
-            if (attachment.HasDraft)
+            if (attachment.HasDraft && attachment.Draft != null)
                 realm.Remove(attachment.Draft);
 
             realm.Remove(attachment);
@@ -192,7 +194,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
     public async Task DeleteAsync(bool removeContent = true)
     {
-        await DeleteAsync(Realm, this, removeContent);
+        if (Realm != null)
+            await DeleteAsync(Realm, this, removeContent);
     }
 
     public Attachment() { }
@@ -269,7 +272,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             FileDeferFlg = FileDeferFlg,
             FileDockReqFlg = FileDockReqFlg,
             FileDockStatFlg = FileDockStatFlg,
-            FileExt = Extension?.Trim('.'),
+            FileExt = Extension?.Trim('.') ?? string.Empty,
             FileSize = FileSize,
             FileSrcPath = FileSrcPath,
             FileSrcType = FileSrcType,

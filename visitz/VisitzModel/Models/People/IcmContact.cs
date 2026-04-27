@@ -491,7 +491,7 @@ public partial class IcmContact
             .FirstOrDefault();
     }
 
-    public bool Equals(IcmContact x, IcmContact y)
+    public bool Equals(IcmContact? x, IcmContact? y)
     {
         if (ReferenceEquals(x, y))
             return true;

@@ -52,9 +52,9 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         };
     }
 
-    public async Task<Realm> GetAsync(ILogger logger = null)
+    public async Task<Realm> GetAsync(ILogger? logger = null)
     {
-        RealmConfiguration realmConfig = null;
+        RealmConfiguration? realmConfig = null;
 
         try
         {
@@ -75,7 +75,10 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
                 logger?.LogError(invalidOpExeption, message);
 #if WINDOWS
             else
-                EventLogWriter.WriteEntry(LogLevel.Error, message, GetType().FullName, exception: invalidOpExeption);
+            {
+                string category = GetType()?.FullName ?? typeof(VisitzRealmBase).FullName ?? "<type not available>";
+                EventLogWriter.WriteEntry(LogLevel.Error, message, category, exception: invalidOpExeption);
+            }
 #endif
 
             throw invalidOpExeption;

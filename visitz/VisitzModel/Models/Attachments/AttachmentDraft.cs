@@ -14,7 +14,7 @@ namespace VisitzModel.Models.Attachments;
 
 public partial class AttachmentDraft : IRealmObject, IDraftItem
 {
-    public string RelatedEntityId { get; set; }
+    public string RelatedEntityId { get; set; } = string.Empty;
 
     private int RelatedEntityTypeInt { get; set; }
     public EntityType RelatedEntityType
@@ -34,24 +34,24 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-    public string Preview => Attachment.Filename;
+    public string Preview => Attachment?.Filename ?? string.Empty;
 
-    public string DraftLocation { get; set; }
+    public string DraftLocation { get; set; } = string.Empty;
 
-    public Attachment Attachment { get; set; }
+    public Attachment? Attachment { get; set; }
 
     private bool disposedValue;
     private bool? relatedEntityAvailable;
     private bool? relatedEntityDownloaded;
 
     [Ignored]
-    public Realm RelatedEntityRealm { get; set; }
+    public Realm? RelatedEntityRealm { get; set; }
 
     [Ignored]
-    public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+    public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
 
     [Ignored]
-    public IDisposable RelatedEntitySubscriptionToken { get; set; }
+    public IDisposable? RelatedEntitySubscriptionToken { get; set; }
 
     /// <summary>
     /// Whether or not the related entity is available for the app to interact
@@ -85,7 +85,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public AttachmentDraft() { }
 
-    AttachmentDraft(IBusinessObject businessObject, string filename, string relativePath, byte[] thumbnail)
+    AttachmentDraft(IBusinessObject businessObject, string filename, string relativePath, byte[]? thumbnail)
     {
         int dotIndex = filename.LastIndexOf('.');
 
@@ -138,7 +138,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         Realm realm,
         string filename,
         Stream stream,
-        byte[] thumbnail = null
+        byte[]? thumbnail = null
     )
     {
         if (stream.Length > Attachment.MaxFilesize)
@@ -170,13 +170,14 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public async Task<AttachmentFormData> ToAttachmentFormData(
         AttachmentFiler attachmentFiler,
-        string category = null,
-        string description = null,
-        string status = null,
-        string template = null,
+        string? category = null,
+        string? description = null,
+        string? status = null,
+        string? template = null,
         CancellationToken? token = null
     )
     {
+        ArgumentNullException.ThrowIfNull(Attachment);
         token ??= CancellationToken.None;
 
         var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
@@ -216,7 +217,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         GC.SuppressFinalize(this);
     }
 
-    public int CompareTo(IDraftItem other)
+    public int CompareTo(IDraftItem? other)
     {
         return this.CompareDraftItem(other);
     }

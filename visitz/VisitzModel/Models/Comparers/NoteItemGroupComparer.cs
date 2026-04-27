@@ -10,7 +10,7 @@ public class NoteItemGroupComparer(EntityType entityType) : IComparer<NoteItemGr
 
     public EntityType EntityType { get; set; } = entityType;
 
-    public int Compare(NoteItemGroup x, NoteItemGroup y)
+    public int Compare(NoteItemGroup? x, NoteItemGroup? y)
     {
         if (x == null)
             return y == null ? 0 : -1;

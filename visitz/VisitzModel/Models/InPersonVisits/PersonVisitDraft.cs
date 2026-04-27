@@ -10,7 +10,7 @@ namespace VisitzModel.Models.InPersonVisits;
 public partial class PersonVisitDraft : IRealmObject, IDraftItem
 {
     [PrimaryKey]
-    public string RelatedEntityId { get; set; }
+    public string RelatedEntityId { get; set; } = Guid.NewGuid().ToString();
 
     private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Case;
 
@@ -28,28 +28,28 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         set => RelatedEntitySubtypeInt = (int)value;
     }
 
-    public string Preview => string.Format(GeneralStrings.VisitDate, Visit.DateOfVisit.ToString("D"));
+    public string Preview => string.Format(GeneralStrings.VisitDate, Visit?.DateOfVisit.ToString("D"));
 
-    public string DraftLocation { get; set; }
+    public string DraftLocation { get; set; } = string.Empty;
 
     public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-    public PersonVisit Visit { get; set; } = new();
+    public PersonVisit? Visit { get; set; } = new();
 
     private bool disposedValue;
     private bool? relatedEntityAvailable;
     private bool? relatedEntityDownloaded;
 
     [Ignored]
-    public Realm RelatedEntityRealm { get; set; }
+    public Realm? RelatedEntityRealm { get; set; }
 
     [Ignored]
-    public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+    public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
 
     [Ignored]
-    public IDisposable RelatedEntitySubscriptionToken { get; set; }
+    public IDisposable? RelatedEntitySubscriptionToken { get; set; }
 
     /// <summary>
     /// Whether or not the related entity is available for the app to interact
@@ -89,7 +89,7 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         DraftLocation = @case.Name;
     }
 
-    public static PersonVisitDraft GetDraft(Realm realm, string caseId)
+    public static PersonVisitDraft? GetDraft(Realm realm, string caseId)
     {
         return realm.Find<PersonVisitDraft>(caseId);
     }
@@ -109,6 +109,9 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
                 DraftLocation = draftLocation,
                 Visit = visit ?? new(),
             };
+
+        if (draft.Visit == null)
+            throw new InvalidOperationException("Draft's visit was null");
 
         draft.Visit.ParentId = caseId;
 
@@ -142,7 +145,7 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         GC.SuppressFinalize(this);
     }
 
-    public int CompareTo(IDraftItem other)
+    public int CompareTo(IDraftItem? other)
     {
         return this.CompareDraftItem(other);
     }

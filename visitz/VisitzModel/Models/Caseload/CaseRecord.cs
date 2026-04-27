@@ -51,7 +51,7 @@ public partial class CaseRecord
 
     public string AssignedToId { get; set; } = string.Empty;
 
-    public IList<string> Assignees { get; }
+    public IList<string> Assignees { get; } = null!;
 
     public string DisplayAssignees
     {
@@ -203,7 +203,7 @@ public partial class CaseRecord
         };
     }
 
-    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> jsonArray, string currentUsername = null)
+    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> jsonArray, string? currentUsername = null)
     {
         List<CaseRecord> outList = [];
 

@@ -18,93 +18,93 @@ namespace VisitzModel.Models.Caseload;
 public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, IAssignedMetadata, IApiJson<MemoJson>
 {
     [PrimaryKey]
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string CreatedById { get; set; }
+    public string CreatedById { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public string UpdatedById { get; set; }
+    public string UpdatedById { get; set; } = string.Empty;
 
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public DateTimeOffset UpdatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public string FileNumber { get; set; }
+    public string FileNumber { get; set; } = string.Empty;
 
     public EntityType EntityType => EntityType.Memo;
 
-    public string GivenNames { get; set; }
+    public string GivenNames { get; set; } = string.Empty;
 
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
-    public string AssignedTo { get; set; }
+    public string AssignedTo { get; set; } = string.Empty;
 
-    public string AssignedToId { get; set; }
+    public string AssignedToId { get; set; } = string.Empty;
 
     public string DisplayAssignees => AssignedTo;
 
-    public string Address { get; set; }
+    public string Address { get; set; } = string.Empty;
 
-    public string AddressComments { get; set; }
+    public string AddressComments { get; set; } = string.Empty;
 
-    public string AreAnyOfTheFamilyMembersIndigenous { get; set; }
+    public string AreAnyOfTheFamilyMembersIndigenous { get; set; } = string.Empty;
 
     public DateTimeOffset? CallDate { get; set; }
 
     public DateTimeOffset? CallTime { get; set; }
 
-    public string CallerAddress { get; set; }
+    public string CallerAddress { get; set; } = string.Empty;
 
-    public string CallerEmail { get; set; }
+    public string CallerEmail { get; set; } = string.Empty;
 
-    public string CallerName { get; set; }
+    public string CallerName { get; set; } = string.Empty;
 
-    public string CallerPhone { get; set; }
+    public string CallerPhone { get; set; } = string.Empty;
 
-    public string CellPhone { get; set; }
+    public string CellPhone { get; set; } = string.Empty;
 
     public DateTimeOffset? ClosedDate { get; set; }
 
-    public string CreatedByOffice { get; set; }
+    public string CreatedByOffice { get; set; } = string.Empty;
 
-    public string HomePhone { get; set; }
+    public string HomePhone { get; set; } = string.Empty;
 
-    public string MedicalExamRequired { get; set; }
+    public string MedicalExamRequired { get; set; } = string.Empty;
 
-    public string MemoType { get; set; }
+    public string MemoType { get; set; } = string.Empty;
 
-    public string Method { get; set; }
+    public string Method { get; set; } = string.Empty;
 
-    public string NatureOfCall { get; set; }
+    public string NatureOfCall { get; set; } = string.Empty;
 
-    public string PccSummary { get; set; }
+    public string PccSummary { get; set; } = string.Empty;
 
-    public string PoliceForce { get; set; }
+    public string PoliceForce { get; set; } = string.Empty;
 
-    public string PoliceInvestigation { get; set; }
+    public string PoliceInvestigation { get; set; } = string.Empty;
 
     public DateTimeOffset? PoliceNotifiedDate { get; set; }
 
-    public string PoliceReportNumber { get; set; }
+    public string PoliceReportNumber { get; set; } = string.Empty;
 
-    public string PreferredContactMethod { get; set; }
+    public string PreferredContactMethod { get; set; } = string.Empty;
 
-    public string RecordedBy { get; set; }
+    public string RecordedBy { get; set; } = string.Empty;
 
-    public string Resolution { get; set; }
+    public string Resolution { get; set; } = string.Empty;
 
     public bool RestrictedFlag { get; set; }
 
-    public string ServiceOffice { get; set; }
+    public string ServiceOffice { get; set; } = string.Empty;
 
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
-    public string TypeOfCaller { get; set; }
+    public string TypeOfCaller { get; set; } = string.Empty;
 
-    public string Urgent { get; set; }
+    public string Urgent { get; set; } = string.Empty;
 
     private int SubtypeInt { get; set; } = (int)EntitySubtype.Screening;
     public EntitySubtype EntitySubtype
@@ -115,7 +115,7 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
 
     public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
 
-    public BoLocalState LocalState { get; set; }
+    public BoLocalState? LocalState { get; set; }
 
     public string DisplayDate =>
         CallDate?.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture) ?? "";
@@ -128,7 +128,7 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
 
     public MemoRecord() { }
 
-    public MemoRecord(MemoJson json, BoLocalState localState = null)
+    public MemoRecord(MemoJson json, BoLocalState? localState = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -206,29 +206,31 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
 
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm fromRealm = null,
+        Realm? fromRealm = null,
         bool deleteLocalState = true
     )
     {
         fromRealm ??= Realm;
+        ArgumentNullException.ThrowIfNull(fromRealm);
 
         IcmContact.RemoveByParent(fromRealm, EntityType.Memo, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Memo, Id, userIgnoredPrefs);
         CallInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
         AdditionalInformation.RemoveByParent(fromRealm, EntityType.Memo, Id);
 
-        if (deleteLocalState)
+        if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);
     }
 
     public void Delete(
         UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm fromRealm = null,
+        Realm? fromRealm = null,
         bool cascade = true,
         bool deleteLocalState = true
     )
     {
         fromRealm ??= Realm;
+        ArgumentNullException.ThrowIfNull(fromRealm);
 
         if (cascade)
             DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
@@ -266,14 +268,14 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
             Address = Address,
             AddressComments = AddressComments,
             AreAnyOfTheFamilyMembersIndigenous = AreAnyOfTheFamilyMembersIndigenous,
-            CallDate = CallDate?.ToString(dateFormat),
-            CallTime = CallTime?.ToString(dateFormat),
+            CallDate = CallDate?.ToString(dateFormat) ?? string.Empty,
+            CallTime = CallTime?.ToString(dateFormat) ?? string.Empty,
             CallerAddress = CallerAddress,
             CallerEmail = CallerEmail,
             CallerName = CallerName,
             CallerPhone = CallerPhone,
             CellPhone = CellPhone,
-            ClosedDate = ClosedDate?.ToString(dateFormat),
+            ClosedDate = ClosedDate?.ToString(dateFormat) ?? string.Empty,
             CreatedByOffice = CreatedByOffice,
             HomePhone = HomePhone,
             MedicalExamRequired = MedicalExamRequired,
@@ -283,7 +285,7 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
             PccSummary = PccSummary,
             PoliceForce = PoliceForce,
             PoliceInvestigation = PoliceInvestigation,
-            PoliceNotifiedDate = PoliceNotifiedDate?.ToString(dateFormat),
+            PoliceNotifiedDate = PoliceNotifiedDate?.ToString(dateFormat) ?? string.Empty,
             PoliceReportNumber = PoliceReportNumber,
             PreferredContactMethod = PreferredContactMethod,
             RecordedBy = RecordedBy,
@@ -296,7 +298,7 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
         };
     }
 
-    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    public static IBusinessObject? GetByDraftItem(Realm realm, IDraftItem draftItem)
     {
         return realm
             .All<MemoRecord>()

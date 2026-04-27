@@ -2,7 +2,7 @@ namespace VisitzModel.Models.People;
 
 public class IcmContactRelationshipComparer : IComparer<IcmContact>
 {
-    public int Compare(IcmContact x, IcmContact y)
+    public int Compare(IcmContact? x, IcmContact? y)
     {
         if (x == null || y == null)
             return 0;
