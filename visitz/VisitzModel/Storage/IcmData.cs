@@ -20,7 +20,6 @@ public class IcmData(byte[] encryptionKey) : VisitzRealmBase(Name, CurrentVersio
     {
         return new[]
         {
-            typeof(FamilyMember),
             typeof(CaseRecord),
             typeof(IncidentRecord),
             typeof(MemoRecord),
