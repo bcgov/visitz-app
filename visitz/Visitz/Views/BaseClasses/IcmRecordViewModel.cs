@@ -1,8 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Logging;
 using Realms;
 using Visitz.Storage;
-using Visitz.Views.Snackbar;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
@@ -26,17 +24,10 @@ public partial class IcmRecordViewModel : VisitzViewModel, IIcmRecordInfo, IBusi
     {
         await base.InitAsync();
 
-        // TODO: get rid of this once we properly handle async exceptions in the lifecycle
-        if (string.IsNullOrWhiteSpace(RowId) || EntityType == EntityType.Unknown)
-        {
-            string id = RowId.Length == 0 ? "empty" : RowId;
-            string error = $"Row ID '{id}' / entity type '{EntityType}' provided—can't load {GetType().Name}";
-            Logger.LogError(error);
-#if DEBUG
-            SnackbarHandler.ShowText(error);
-#endif
-            return;
-        }
+        ArgumentException.ThrowIfNullOrEmpty(RowId);
+
+        if (EntityType == EntityType.Unknown)
+            throw new ArgumentException($"EntityType should not be {EntityType.Unknown}");
 
         DataRealm =
             await VisitzRealms.GetIcmDataRealmAsync()

@@ -152,7 +152,8 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
     private async Task OpenNoteEntry()
     {
         var noteEntryView = ServiceProvider.GetService<NoteEntryView>();
-        noteEntryView.BusinessObject = BusinessObject;
+        noteEntryView.RowId = RowId;
+        noteEntryView.EntityType = EntityType;
 
         await Navigator.Navigation.PushModalAsync(noteEntryView, ViewModalSize.Wide);
     }
