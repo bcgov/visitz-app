@@ -2,7 +2,7 @@ namespace VisitzModel.Utilities;
 
 public static class PhoneNumberFormatter
 {
-    public static string Format(string phoneNumber)
+    public static string? Format(string phoneNumber)
     {
         if (phoneNumber == null)
             return null;

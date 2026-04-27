@@ -25,10 +25,12 @@ public static class IcmDataMigrations
         if (oldSchemaVersion < VisitzRealmBase.Version2_8_0)
         {
             foreach (var @case in migration.NewRealm.All<CaseRecord>())
-                @case.UpsertLocalState(@case.Realm, false);
+                if (@case.Realm != null)
+                    @case.UpsertLocalState(@case.Realm, false);
 
             foreach (var incident in migration.NewRealm.All<IncidentRecord>())
-                incident.UpsertLocalState(incident.Realm, false);
+                if (incident.Realm != null)
+                    incident.UpsertLocalState(incident.Realm, false);
         }
     }
 

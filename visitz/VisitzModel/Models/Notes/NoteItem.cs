@@ -34,7 +34,7 @@ namespace VisitzModel.Models.Notes
         /// </para>
         /// </remarks>
         [PrimaryKey]
-        public string FullID { get; set; }
+        public string FullID { get; set; } = string.Empty;
 
         /// <summary>
         /// Used app-only to associate Notes with parent records. As of 2023-06-05 the ICM API does
@@ -42,9 +42,9 @@ namespace VisitzModel.Models.Notes
         /// </summary>
         [Indexed]
         [MapTo("IcmId")]
-        public string ParentFileNumber { get; set; }
+        public string ParentFileNumber { get; set; } = string.Empty;
 
-        public string ParentId { get; set; }
+        public string ParentId { get; set; } = string.Empty;
 
         private int ParentTypeInt { get; set; }
         public EntityType ParentType
@@ -54,7 +54,7 @@ namespace VisitzModel.Models.Notes
         }
 
         [MapTo(NotePeriodName)]
-        private string NotePeriodField { get; set; }
+        private string NotePeriodField { get; set; } = string.Empty;
         public string NotePeriod
         {
             get => NotePeriodField;
@@ -67,7 +67,7 @@ namespace VisitzModel.Models.Notes
         }
 
         [MapTo(CreatedDateName)]
-        private string CreatedDateField { get; set; }
+        private string CreatedDateField { get; set; } = string.Empty;
         public string CreatedDate
         {
             get => CreatedDateField;
@@ -79,7 +79,7 @@ namespace VisitzModel.Models.Notes
             }
         }
 
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
         public int PageNumber { get; set; }
 
         public DateTimeOffset NotePeriodDateTime { get; set; }
@@ -180,7 +180,7 @@ namespace VisitzModel.Models.Notes
             return $"{Separator} {idir} {timestamp} {Separator}\n{content}";
         }
 
-        public static NoteItem GetLatestByEntityId(Realm realm, string parentFileNumber)
+        public static NoteItem? GetLatestByEntityId(Realm realm, string parentFileNumber)
         {
             return GetNotesByFileNumber(realm, parentFileNumber).LastOrDefault();
         }

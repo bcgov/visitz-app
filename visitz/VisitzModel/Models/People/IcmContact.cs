@@ -200,9 +200,9 @@ public partial class IcmContact
     public string DateOfBirthFormatted =>
         DateOfBirth?.ToString(IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture) ?? string.Empty;
 
-    public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone);
+    public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone) ?? string.Empty;
 
-    public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone);
+    public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone) ?? string.Empty;
 
     public bool IsKeyPlayer => Relationship == KeyPlayer;
 

@@ -116,7 +116,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         return groups;
     }
 
-    private static NoteItemGroup GetLastTargetGroup(
+    private static NoteItemGroup? GetLastTargetGroup(
         IList<NoteItemGroup> groups,
         NoteItem note,
         EntityType entityType,

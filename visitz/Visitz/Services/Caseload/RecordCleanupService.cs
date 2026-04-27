@@ -81,7 +81,7 @@ internal class RecordCleanupService : VisitzService
         try
         {
             businessObject.DeleteDependentData(ignoredPrefs, realm, deleteLocalState: false);
-            businessObject.LocalState.ShouldDownloadDuringRefresh = false;
+            businessObject.LocalState?.ShouldDownloadDuringRefresh = false;
         }
         catch (Exception ex)
         {
