@@ -95,7 +95,7 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
 
         if (status == PermissionStatus.Granted)
         {
-            TakePhotoView photoView = new() { BusinessObject = businessObject };
+            TakePhotoView photoView = new() { RowId = businessObject.Id, EntityType = businessObject.EntityType };
             await Navigator.Navigation.PushModalAsync(photoView, ViewModalSize.Fullscreen);
         }
         else
