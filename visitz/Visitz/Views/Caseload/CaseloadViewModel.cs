@@ -14,11 +14,15 @@ using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.SegmentedButtons;
+using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 using IBusinessObjectExtensions = VisitzModel.Models.Caseload.IBusinessObjectExtensions;
+
+#nullable enable
 
 namespace Visitz.Views.Caseload
 {
@@ -66,30 +70,30 @@ namespace Visitz.Views.Caseload
         ];
 
         [ObservableProperty]
-        public CaseloadLister lister;
+        public CaseloadLister? lister;
 
         [ObservableProperty]
         public bool isRefreshing;
 
         [ObservableProperty]
-        public string searchQuery;
+        public string? searchQuery;
 
         [ObservableProperty]
         public bool showEmptyCaseloadMessage;
 
         [ObservableProperty]
-        public string collectionViewPrompt;
+        public string? collectionViewPrompt;
 
         [ObservableProperty]
         public bool isFilterActivated;
 
-        private Realm Realm { get; set; }
+        private Realm? Realm { get; set; }
 
         [ObservableProperty]
-        public SegmentedOptions activatedSortOption;
+        public SegmentedOptions? activatedSortOption;
 
         [ObservableProperty]
-        public SegmentedOptions activatedFilterOption;
+        public SegmentedOptions? activatedFilterOption;
 
         [ObservableProperty]
         public IList<SegmentedOptions> sortOptions = [SortKeyPlayer, SortOpenDate];
@@ -107,17 +111,18 @@ namespace Visitz.Views.Caseload
         public ObservableCollection<string> officeNames = [];
 
         [ObservableProperty]
-        public string selectedOffice;
+        public string? selectedOffice;
 
-        OidcSessionInfo SessionInfo { get; set; }
+        OidcSessionInfo? SessionInfo { get; set; }
+
+        LastUpdatedPrefs LastUpdatedPrefs { get; set; } = ServiceProvider.GetService<LastUpdatedPrefs>();
+
+        [ObservableProperty]
+        public DateTime? lastUpdated;
 
         private async Task Setup()
         {
             WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
-
-            StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
-            ShowMenuButton =
-                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == ((int)TwoPaneViewMode.Tall);
 
             SessionInfo = await OidcSession.GetInfoAsync();
             SetupOfficeNames();
@@ -134,10 +139,17 @@ namespace Visitz.Views.Caseload
             DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
             ShowMenuButton = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
 
+            LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
+            LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
+
+            StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
+            ShowMenuButton =
+                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == (int)TwoPaneViewMode.Tall;
+
             WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
         }
 
-        private void SetupOfficeNames(HashSet<string> newOffices = null)
+        private void SetupOfficeNames(HashSet<string>? newOffices = null)
         {
             if (newOffices == null)
             {
@@ -145,14 +157,15 @@ namespace Visitz.Views.Caseload
                 foreach (var starter in StartingOfficeFilterOptions)
                     OfficeNames.Add(starter);
 
-                foreach (var office in SessionInfo.OfficeNames.AsEnumerable().Order())
-                    OfficeNames.Add(office);
+                if (SessionInfo != null)
+                    foreach (var office in SessionInfo.OfficeNames.AsEnumerable().Order())
+                        OfficeNames.Add(office);
 
                 SelectedOffice = LocalizedStrings.MyCaseload;
             }
             else
             {
-                var currentSelected = SelectedOffice;
+                string currentSelected = SelectedOffice ?? LocalizedStrings.MyCaseload;
 
                 UpdateSortedOfficeNames(newOffices);
 
@@ -195,7 +208,7 @@ namespace Visitz.Views.Caseload
                 OfficeNames.Remove(removeOffice);
         }
 
-        private void SessionInfo_OfficesChanged(object sender, HashSet<string> offices)
+        private void SessionInfo_OfficesChanged(object? sender, HashSet<string> offices)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -210,24 +223,27 @@ namespace Visitz.Views.Caseload
 
             Realm = await VisitzRealms.GetIcmDataRealmAsync();
 
+            if (SessionInfo == null)
+                return;
+
             Lister = new CaseloadLister(
                 Realm,
                 IndicatorHelper,
                 SessionInfo,
                 list =>
                 {
-                    list = ApplySorting(list);
-                    list = ApplySearchQuery(list);
-                    list = ApplySubtypeFilter(list);
-                    list = ApplyOfficeFilter(list);
-                    return list;
+                    list = ApplySorting(list) ?? [];
+                    list = ApplySearchQuery(list) ?? [];
+                    list = ApplySubtypeFilter(list) ?? [];
+                    list = ApplyOfficeFilter(list) ?? [];
+                    return list ?? [];
                 }
             );
 
             Lister.Records.CollectionChanged += Records_CollectionChanged;
         }
 
-        private void Records_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void Records_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             ApplyCollectionViewPrompt();
         }
@@ -245,8 +261,7 @@ namespace Visitz.Views.Caseload
             Realm?.Dispose();
             Realm = null;
 
-            if (SessionInfo != null)
-                SessionInfo.OfficesChanged -= SessionInfo_OfficesChanged;
+            SessionInfo?.OfficesChanged -= SessionInfo_OfficesChanged;
             SessionInfo = null;
         }
 
@@ -270,7 +285,7 @@ namespace Visitz.Views.Caseload
             base.Dispose(disposing);
         }
 
-        private IEnumerable<IBusinessObject> ApplySorting(IEnumerable<IBusinessObject> query)
+        private IEnumerable<IBusinessObject>? ApplySorting(IEnumerable<IBusinessObject>? query)
         {
             if (query == null || ActivatedSortOption == null)
                 return query;
@@ -288,7 +303,7 @@ namespace Visitz.Views.Caseload
             return query;
         }
 
-        private IEnumerable<IBusinessObject> ApplySearchQuery(IEnumerable<IBusinessObject> query)
+        private IEnumerable<IBusinessObject>? ApplySearchQuery(IEnumerable<IBusinessObject>? query)
         {
             if (query == null || string.IsNullOrWhiteSpace(SearchQuery))
                 return query;
@@ -302,7 +317,7 @@ namespace Visitz.Views.Caseload
             });
         }
 
-        private IEnumerable<IBusinessObject> ApplySubtypeFilter(IEnumerable<IBusinessObject> query)
+        private IEnumerable<IBusinessObject>? ApplySubtypeFilter(IEnumerable<IBusinessObject>? query)
         {
             if (query == null || ActivatedFilterOption == null)
                 return query;
@@ -319,7 +334,7 @@ namespace Visitz.Views.Caseload
             return query.Where(item => item.EntityType == type);
         }
 
-        private IEnumerable<IBusinessObject> ApplyOfficeFilter(IEnumerable<IBusinessObject> query)
+        private IEnumerable<IBusinessObject>? ApplyOfficeFilter(IEnumerable<IBusinessObject> query)
         {
             if (
                 query == null
@@ -327,7 +342,7 @@ namespace Visitz.Views.Caseload
                 || SelectedOffice == LocalizedStrings.MyCaseload
             )
             {
-                return query.Where(bo => bo.IsAssigned(SessionInfo.Idir));
+                return query?.Where(bo => bo.IsAssigned(SessionInfo?.Idir ?? string.Empty));
             }
             else if (SelectedOffice == LocalizedStrings.All)
                 return query;
@@ -357,14 +372,14 @@ namespace Visitz.Views.Caseload
 
         public void SearchCaseload()
         {
-            Lister.ApplyWithFilter();
+            Lister?.ApplyWithFilter();
         }
 
         public void Receive(ServiceStateMessage message)
         {
             IsRefreshing = message.Status == VisitzService.State.Running;
 
-            if (message.FinishedSuccess)
+            if (message.FinishedSuccess && Realm != null)
             {
                 bool anyExist =
                     Realm.All<CaseRecord>().Any()
@@ -376,24 +391,26 @@ namespace Visitz.Views.Caseload
             }
         }
 
-        partial void OnActivatedSortOptionChanged(SegmentedOptions value)
+        partial void OnActivatedSortOptionChanged(SegmentedOptions? value)
         {
-            Preferences.Default.Set(SortOptionIndexPref, SortOptions.IndexOf(value));
-            Lister.ApplyWithFilter();
+            if (value != null)
+                Preferences.Default.Set(SortOptionIndexPref, SortOptions.IndexOf(value));
+
+            Lister?.ApplyWithFilter();
         }
 
-        partial void OnActivatedFilterOptionChanged(SegmentedOptions value)
+        partial void OnActivatedFilterOptionChanged(SegmentedOptions? value)
         {
-            Lister.ApplyWithFilter();
+            Lister?.ApplyWithFilter();
             IsFilterActivated = value != null;
         }
 
-        private void Current_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
+        private void Current_MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
         {
             ShowMenuButton = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
         }
 
-        partial void OnSelectedOfficeChanged(string value)
+        partial void OnSelectedOfficeChanged(string? value)
         {
             if (Lister != null)
                 Lister.ApplyWithFilter();
@@ -402,6 +419,12 @@ namespace Visitz.Views.Caseload
         void ReceiveNavBarPositionMessage(object recipient, NavPositionMessage message)
         {
             ShowMenuButton = ((TwoPaneViewMode)message.Value) == TwoPaneViewMode.Tall;
+        }
+
+        private void LastUpdatedPrefs_LastUpdatedChanged(object? sender, LastUpdatedChangedEventArgs e)
+        {
+            if (e.Id.Equals(GetCaseloadService.MakeId()))
+                LastUpdated = (sender as LastUpdatedPrefs)?.Get(e.Id);
         }
     }
 }

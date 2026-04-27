@@ -30,14 +30,16 @@ public static class IListTExtensions
         return ~lower;
     }
 
-    public static void InsertSortedAsc<T>(this IList<T> list, T newItem)
+    public static void InsertSorted<T>(this IList<T> list, T newItem, bool ascending = true)
         where T : IComparable<T>
     {
         if (list.Count == 0)
             list.Add(newItem);
         else
         {
-            var find = list.FirstOrDefault(item => item.CompareTo(newItem) >= 0);
+            T find = ascending
+                ? list.FirstOrDefault(item => item.CompareTo(newItem) >= 0)
+                : list.FirstOrDefault(item => item.CompareTo(newItem) < 0);
 
             if (find != null)
                 list.Insert(list.IndexOf(find), newItem);

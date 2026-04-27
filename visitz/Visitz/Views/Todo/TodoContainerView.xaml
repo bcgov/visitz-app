@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<split:SplitLayoutView
+<base:ViewModelContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:todo="clr-namespace:Visitz.Views.Todo"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:split="clr-namespace:Visitz.Views.SplitView"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Todo.TodoContainerView"
-    x:DataType="todo:TodoContainerView"
+    x:DataType="todo:TodoContainerViewModel"
+    x:TypeArguments="todo:TodoContainerViewModel"
     BackgroundColor="{StaticResource Default_Background}"
-/>
+>
+    <Grid RowDefinitions="Auto, *">
+        <controls:TopAppBar Grid.Row="0">
+            <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                <controls:FontIconButton
+                    Command="{Binding OpenNavDrawerCommand}"
+                    IsVisible="{Binding ShowMenuButton}"
+                    Text="{Static icons:MaterialIcons.Menu}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    TextColor="Black"
+                />
+
+                <Label
+                    Text="{local:Localize Todo}"
+                    Style="{StaticResource HeadlineMedium}"
+                    VerticalOptions="Center"
+                />
+            </HorizontalStackLayout>
+        </controls:TopAppBar>
+
+        <todo:TodoListView Grid.Row="1" />
+    </Grid>
+</base:ViewModelContentView>

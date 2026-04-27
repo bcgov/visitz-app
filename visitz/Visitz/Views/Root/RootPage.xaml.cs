@@ -31,10 +31,9 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
     {
         if (message.Value is NavItem nav)
         {
-            var content = (ContentView)ServiceProvider.GetService(nav.ContentViewType);
-
-            if (content == null)
-                throw new InvalidOperationException("Requested navigation item was null");
+            var content =
+                ServiceProvider.GetService(nav.ContentViewType) as ContentView
+                ?? throw new InvalidOperationException("Requested navigation item was null");
 
             SetContent(content);
         }
@@ -88,11 +87,13 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
 
     private async Task AnimateCloseSnackbar()
     {
-        await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
+        if (Snackbar != null)
+            await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
+
         SetSnackbar(null);
     }
 
-    private void TwoPaneView_ModeChanged(object sender, EventArgs e)
+    private void TwoPaneView_ModeChanged(object? sender, EventArgs e)
     {
         if (ViewModel is RootViewModel rvm && sender is TwoPaneView paneView)
         {

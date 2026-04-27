@@ -1,25 +1,18 @@
-using Visitz.Views.SplitView;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Drafts;
 
 #nullable enable
 
-public partial class DraftsContainerView : SplitLayoutView
+public partial class DraftsContainerView : ViewModelContentView<DraftsContainerViewModel>
 {
-    readonly IView StartView;
-    readonly IView EndView;
-
     public DraftsContainerView()
+        : base(ServiceProvider.GetService<DraftsContainerViewModel>())
     {
         InitializeComponent();
 
-        StartPaneColumnWidth = GridLength.Auto;
-        StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
+        BindingContext = ViewModel;
 
-        StartView ??= ServiceProvider.GetService<DraftsMasterList>();
-        SetStartPane(StartView);
-
-        EndView ??= ServiceProvider.GetService<DraftsList>();
-        SetEndPane(EndView);
+        MainContent.Content = ServiceProvider.GetService<DraftsList>();
     }
 }

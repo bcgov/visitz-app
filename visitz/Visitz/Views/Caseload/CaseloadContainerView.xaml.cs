@@ -1,18 +1,15 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Visitz.Extensions;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.Entity;
-using Visitz.Views.Entity.Navigation;
-using Visitz.Views.SplitView;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
-using VisitzModel.Models.Drafts;
-using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Caseload;
 
-public partial class CaseloadContainerView : SplitLayoutView
+public partial class CaseloadContainerView : BaseContentView
 {
-    static IView CaseloadView;
-    static IView CaseloadDetailView;
+    IView CaseloadView;
 
     public CaseloadContainerView()
     {
@@ -23,15 +20,10 @@ public partial class CaseloadContainerView : SplitLayoutView
     {
         await base.InitAsync();
 
-        StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
-        StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
-
         RegisterReceivers();
 
         CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
-        CaseloadDetailView ??= ServiceProvider.GetService<CaseloadDetailView>();
-
-        NavigateBack();
+        await ContentStack.PushAsync((ContentView)CaseloadView);
     }
 
     bool disposed;
@@ -51,44 +43,38 @@ public partial class CaseloadContainerView : SplitLayoutView
     {
         StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(
             this,
-            (recipient, message) =>
+            async (recipient, message) =>
             {
-                (recipient as CaseloadContainerView).OpenBusinessObject(message);
+                await (recipient as CaseloadContainerView).OpenBusinessObject(message);
             }
         );
 
         StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(
             this,
-            (recipient, message) =>
+            async (recipient, message) =>
             {
-                (recipient as CaseloadContainerView).NavigateBack();
+                await (recipient as CaseloadContainerView).ContentStack.PopAsync();
             }
         );
     }
 
-    private void OpenBusinessObject(BusinessObjectSelectedMessage message)
+    private async Task OpenBusinessObject(BusinessObjectSelectedMessage message)
     {
         IBusinessObject item = message.Value;
-        EntitySection section = message.Section;
-        IDraftItem draftItem = message.DraftItem;
+        var entityView = ServiceProvider.GetService<EntityView>();
 
-        var containerView = ServiceProvider.GetService<EntityContainerView>();
-        containerView.BusinessObject = item;
-        SetEndPane(containerView);
+        entityView.RowId = item.Id;
+        entityView.EntityType = item.EntityType;
+        entityView.ViewModel.RequestedSection = message.Section;
+        entityView.ViewModel.FocusedDraftItem = message.DraftItem;
 
-        var entityNav = ServiceProvider.GetService<EntityNavView>();
-        entityNav.BusinessObject = item;
-        entityNav.SetRequestedSection(section, draftItem);
-        SetStartPane(entityNav);
-
-        StartPaneColumnWidth = GridLength.Auto;
-    }
-
-    private void NavigateBack()
-    {
-        SetStartPane(CaseloadView);
-        SetEndPane(CaseloadDetailView);
-
-        StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
+        try
+        {
+            await ContentStack.PushAsync(entityView);
+        }
+        catch (Exception ex)
+        {
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
     }
 }

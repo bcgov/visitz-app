@@ -143,7 +143,7 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         _icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var query = PersonVisit.GetAllByType(_icmDataRealm);
+        var query = _icmDataRealm.All<PersonVisit>();
         var collection = query.AsRealmCollection();
 
         _personVisitToken = collection.SubscribeForNotifications(
@@ -176,7 +176,7 @@ public partial class NavRailViewModel : VisitzViewModel
         await Navigator.Navigation.PushModalAsync(userView);
     }
 
-    private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
+    private void RealmCount_CountChanged(object? sender, (Type Kind, int Count) e)
     {
         DraftsNavItem.BadgeCount = (sender as ObservableRealmCount).Total;
     }
