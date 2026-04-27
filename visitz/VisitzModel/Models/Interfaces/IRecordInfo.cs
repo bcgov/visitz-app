@@ -49,44 +49,11 @@ public static class IRecordInfoExtensions
         return item;
     }
 
-    public static bool? IsAvailable(this IRecordInfo recordInfo)
-    {
-        if (recordInfo.RelatedEntityRealm is Realm realm)
-        {
-            return IBusinessObjectExtensions.GetByIdType(
-                    realm,
-                    recordInfo.RelatedEntityId,
-                    recordInfo.RelatedEntityType
-                ) != null;
-        }
-        return null;
-    }
-
-    public static bool? IsDownloaded(this IRecordInfo recordInfo)
-    {
-        if (recordInfo.RelatedEntityRealm is Realm realm)
-        {
-            var bo = IBusinessObjectExtensions.GetByIdType(
-                realm,
-                recordInfo.RelatedEntityId,
-                recordInfo.RelatedEntityType
-            );
-
-            if (bo is IBusinessObject businessObject)
-                return businessObject.LocalState.ShouldDownloadDuringRefresh;
-        }
-        return null;
-    }
-
     public static void SubscribeRelatedState(this IRecordInfo recordInfo, Realm? realm)
     {
         recordInfo.RelatedEntityRealm = realm;
-
-        if (recordInfo.RelatedEntitySubscriptionToken != null)
-        {
-            recordInfo.RelatedEntitySubscriptionToken.Dispose();
-            recordInfo.RelatedEntitySubscriptionToken = null;
-        }
+        recordInfo.RelatedEntitySubscriptionToken?.Dispose();
+        recordInfo.RelatedEntitySubscriptionToken = null;
 
         if (realm != null)
         {

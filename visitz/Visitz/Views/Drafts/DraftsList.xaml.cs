@@ -7,10 +7,8 @@ namespace Visitz.Views.Drafts;
 
 #nullable enable
 
-public partial class DraftsList : ViewModelContentView
+public partial class DraftsList : ViewModelContentView<DraftsListViewModel>
 {
-    new DraftsListViewModel ViewModel => (DraftsListViewModel)base.ViewModel;
-
     public DraftsList()
         : base(ServiceProvider.GetService<DraftsListViewModel>())
     {
@@ -18,13 +16,11 @@ public partial class DraftsList : ViewModelContentView
         BindingContext = ViewModel;
     }
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        var init = base.InitAsync();
+        await base.InitAsync();
 
         ViewModel.SelectedItemRelatedMissing += ViewModel_SelectedItemRelatedMissing;
-
-        return init;
     }
 
     bool disposed;

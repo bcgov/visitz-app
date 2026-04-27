@@ -6,6 +6,7 @@
     xmlns:debug="clr-namespace:Visitz.Views.Debugging"
     x:Class="Visitz.Views.Debugging.DebugOptionsView"
     x:DataType="debug:DebugOptionsViewModel"
+    x:TypeArguments="debug:DebugOptionsViewModel"
     BackgroundColor="White"
 >
     <baseClasses:ViewModelContentView.Resources>
@@ -37,7 +38,27 @@
         <VerticalStackLayout>
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="General"
+            />
+
+            <Grid RowDefinitions="Auto">
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    Text="Disable privacy scrim"
+                />
+
+                <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding DisablePrivacyScrim}" />
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Session"
@@ -110,7 +131,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Database"
@@ -163,7 +184,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Preferences"
@@ -206,7 +227,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Attachments"
@@ -230,7 +251,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Services"
@@ -298,7 +319,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Child/youth visits"
@@ -360,7 +381,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Safety assessment"
@@ -384,7 +405,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="File system"
@@ -420,7 +441,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="App information"
@@ -458,7 +479,7 @@
 
             <Label
                 StyleClass="DebugLayout,DebugLabel"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
                 Text="Compile-time settings"
