@@ -4,15 +4,17 @@ using Visitz.Views.Entity;
 
 namespace Visitz.Views.BaseClasses;
 
+#nullable enable
+
 public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitialize
 {
     private bool _disposedValue;
 
     protected ILogger Logger { get; }
 
-    public Task InitTask { get; private set; }
+    public Task? InitTask { get; private set; }
 
-    public string Title { get; protected set; }
+    public string Title { get; protected set; } = "";
 
     public BaseContentView(string title = "")
     {
@@ -25,12 +27,23 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
         return ServiceProvider.GetService<ILogger<BaseContentView>>();
     }
 
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    protected override async void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
 
         if (args.AttachingToHandler())
-            InitTask ??= InitAsync();
+        {
+            try
+            {
+                await StartInitAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+                throw;
+            }
+        }
         else if (args.DetachingFromHandler())
             Dispose();
     }
