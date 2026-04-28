@@ -1060,7 +1060,7 @@ Do you want to download information for this record?</value>
 	<data name="AdditionalInformation" xml:space="preserve">
     <value>AdditionalInformation</value>
   </data>
-<data name="ContactMedicalBehavioral" xml:space="preserve">
+  <data name="ContactMedicalBehavioral" xml:space="preserve">
     <value>Contact medical behavioral</value>
   </data>
   <data name="ContactLegalAuthority" xml:space="preserve">
@@ -1068,6 +1068,9 @@ Do you want to download information for this record?</value>
   </data>
   <data name="ContactLanguages" xml:space="preserve">
     <value>ContactLanguages</value>
+  </data>
+  <data name="ContactEducation" xml:space="preserve">
+    <value>Contact education</value>
   </data>
 </root>
  

@@ -211,5 +211,15 @@ namespace VisitzApi
                 new ContactLegalAuthorityEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
             );
         }
+
+        public async Task<(int TotalRecords, IEnumerable<ContactEducationJson>)> GetContactEducation(
+            ApiRecordType type,
+            string recordId,
+            string contactId,
+            Pagination? pagination = null
+        )
+        {
+            return await CallApi(new ContactEducationEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+        }
     }
 }

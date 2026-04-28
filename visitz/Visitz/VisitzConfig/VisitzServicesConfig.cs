@@ -55,6 +55,8 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetContactLegalAuthorityByRangeService>();
             builder.Services.AddTransient<GetContactLanguagesService>();
             builder.Services.AddTransient<GetContactLanguagesByRangeService>();
+            builder.Services.AddTransient<GetContactEducationService>();
+            builder.Services.AddTransient<GetContactEducationByRangeService>();
             return builder;
         }
 

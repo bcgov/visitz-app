@@ -106,7 +106,8 @@ namespace Visitz.Services.Caseload
             await Task.WhenAll(
                 GetContactMedicalBehavioral(allContacts, exceptions),
                 GetContactLegalAuthority(allContacts, exceptions),
-                GetAllContactLanguages(allContacts, exceptions)
+                GetAllContactLanguages(allContacts, exceptions),
+                GetContactEducation(allContacts, exceptions)
             );
 
             // Get attachment files AFTER other dependent info so we
@@ -334,6 +335,19 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguages, ex));
+            }
+        }
+
+        private async Task GetContactEducation(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactEducationByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactEducation, ex));
             }
         }
     }
