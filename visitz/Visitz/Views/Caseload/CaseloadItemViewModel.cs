@@ -154,13 +154,14 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     [RelayCommand]
     public async Task BusinessObjectSelected()
     {
-        bool markForDownload = !BusinessObject.LocalState.ShouldDownloadDuringRefresh;
+        bool shouldDownload = BusinessObject.LocalState?.ShouldDownloadDuringRefresh ?? true;
+        bool markForDownload = !shouldDownload;
 
         if (markForDownload)
         {
             if (await BusinessObject.PromptCanDownloadDependentData())
             {
-                BusinessObject.LocalState.ShouldDownloadDuringRefreshBinding = true;
+                BusinessObject.LocalState?.ShouldDownloadDuringRefreshBinding = true;
 
                 var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
                 WeakReferenceMessenger.Default.Send(msg);
@@ -220,7 +221,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
             await BusinessObject.CommitAsync(() =>
             {
-                BusinessObject.LocalState.ShouldDownloadDuringRefresh = false;
+                BusinessObject.LocalState?.ShouldDownloadDuringRefresh = false;
                 BusinessObject.DeleteDependentData(ignoredPrefs, deleteLocalState: false);
             });
 

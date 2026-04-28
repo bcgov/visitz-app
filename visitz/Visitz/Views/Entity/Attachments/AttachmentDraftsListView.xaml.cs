@@ -54,15 +54,15 @@ public partial class AttachmentDraftsListView : IcmRecordContentView<AttachmentD
             return;
 
         var draftItem = ViewModel.AttachmentDrafts.FirstOrDefault(draftItem =>
-            draftItem.Attachment.Draft.Preview == FocusedDraftItem.Preview
+            draftItem.Attachment.Draft?.Preview == FocusedDraftItem.Preview
             && draftItem.Attachment.Draft.LastUpdated == FocusedDraftItem.LastUpdated
         );
 
-        if (draftItem == null)
-            return;
+        if (draftItem != null)
+            ScrollToDraft(draftItem);
 
-        ScrollToDraft(draftItem);
-        ViewModel.OpenAttachment(draftItem.Attachment.Draft);
+        if (draftItem?.Attachment.Draft != null)
+            ViewModel.OpenAttachment(draftItem.Attachment.Draft);
 
         FocusedDraftItem = null;
     }

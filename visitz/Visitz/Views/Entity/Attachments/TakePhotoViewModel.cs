@@ -126,15 +126,15 @@ public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRec
         if (e.Changes == null)
         {
             if (e.Items.Any())
-                RollBytes = ((AttachmentDraft)e.Items[0]).Attachment.ThumbnailBinding;
+                RollBytes = ((AttachmentDraft)e.Items[0]).Attachment?.ThumbnailBinding;
         }
         else if (e.Changes.InsertedIndices.Length > 0)
-            RollBytes = ((AttachmentDraft)e.Items[e.Changes.InsertedIndices[0]]).Attachment.ThumbnailBinding;
+            RollBytes = ((AttachmentDraft)e.Items[e.Changes.InsertedIndices[0]]).Attachment?.ThumbnailBinding;
     }
 
     public async Task SavePicture(Stream stream)
     {
-        if (attachmentFiler == null)
+        if (attachmentFiler == null || AttachmentsRealm == null)
             return;
 
         WaitingToProcess = false;

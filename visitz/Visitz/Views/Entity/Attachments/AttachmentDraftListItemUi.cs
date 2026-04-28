@@ -30,5 +30,5 @@ public partial class AttachmentDraftListItemUi : ObservableObject
     }
 
     public AttachmentDraftListItemUi(AttachmentDraft draft)
-        : this(draft.Attachment) { }
+        : this(draft.Attachment ?? new()) { }
 }

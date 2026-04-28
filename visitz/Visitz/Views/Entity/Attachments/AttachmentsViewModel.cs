@@ -43,6 +43,9 @@ public partial class AttachmentsViewModel : IcmRecordViewModel
 
     public async Task SaveFile(FileResult fileResult)
     {
+        ArgumentNullException.ThrowIfNull(AttachmentsRealm);
+        ArgumentNullException.ThrowIfNull(attachmentFiler);
+
         string extension = fileResult.FileName.GetFileExtension();
         await using Stream stream = await fileResult.OpenReadAsync();
 

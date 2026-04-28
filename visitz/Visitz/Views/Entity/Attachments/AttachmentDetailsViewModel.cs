@@ -7,6 +7,7 @@ using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
 
@@ -50,7 +51,8 @@ public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
             return;
         }
 
-        var keyPlayer = BusinessObject.GetKeyPlayer();
+        IcmContact keyPlayer =
+            BusinessObject.GetKeyPlayer() ?? throw new InvalidOperationException("Unable to load key player");
 
         Filer = await VisitzFiles.GetAsync(Attachment, keyPlayer.FirstName, keyPlayer.LastName);
 

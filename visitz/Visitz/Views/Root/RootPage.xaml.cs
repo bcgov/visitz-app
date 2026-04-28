@@ -29,7 +29,7 @@ public partial class RootPage : VisitzPage, ISnackbarPresenter
 
     private void ReceiveAppNavMessage(object recipient, AppNavMessage message)
     {
-        if (message.Value is NavItem nav)
+        if (message.Value is NavItem nav && nav.ContentViewType != null)
         {
             var content =
                 ServiceProvider.GetService(nav.ContentViewType) as ContentView

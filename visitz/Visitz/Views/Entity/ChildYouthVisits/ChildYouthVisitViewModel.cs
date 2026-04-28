@@ -215,7 +215,7 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
 
     private async Task HandleDraft()
     {
-        if (Draft == null)
+        if (Draft == null || DraftRealm == null)
             return;
 
         if (DraftInitTcs != null)

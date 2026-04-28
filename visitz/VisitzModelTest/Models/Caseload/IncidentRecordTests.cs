@@ -3,7 +3,9 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
+using VisitzModelTest.Storage;
 
 namespace VisitzModelTest.Models.Incidentload;
 
@@ -136,9 +138,10 @@ public class IncidentRecordTests
     {
         var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
         List<IncidentRecord> incidents = [new IncidentRecord(IncidentJson), new() { Id = "23456" }];
+        UserIgnoredContentPrefs prefs = new(new LocalPreferencesMock());
 
         await realm.Write(async () =>
-            await IncidentRecord.SynchronizeAsync(realm, incidents, null, PrimaryName, isPersonalCaseload)
+            await IncidentRecord.SynchronizeAsync(realm, incidents, prefs, PrimaryName, isPersonalCaseload)
         );
 
         return IncidentRecord.GetAllByAssignee(realm, name, isPersonalCaseload);
@@ -208,7 +211,7 @@ public class IncidentRecordTests
         realm.Write(() =>
         {
             incident.UpsertLocalState(realm);
-            incident.LocalState.ShouldDownloadDuringRefresh = true;
+            incident.LocalState?.ShouldDownloadDuringRefresh = true;
             realm.Add(incident);
         });
 
@@ -223,6 +226,6 @@ public class IncidentRecordTests
         IncidentRecord retrievedCase = realm.Find<IncidentRecord>(IncidentJson.Id)!;
 
         Assert.Equal(closed, retrievedCase.Status);
-        Assert.True(retrievedCase.LocalState.ShouldDownloadDuringRefresh);
+        Assert.True(retrievedCase.LocalState!.ShouldDownloadDuringRefresh);
     }
 }

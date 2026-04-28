@@ -110,7 +110,7 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
         {
             var groups = NoteItemGroup.GetGroupsFromNotesQuery(
                 BusinessObject.EntityType,
-                realmQueryMap[typeof(NoteItem)].Query as IQueryable<NoteItem>,
+                (IQueryable<NoteItem>)realmQueryMap[typeof(NoteItem)].Query,
                 LocalizedStrings.NotePageNumberHeader
             );
 
