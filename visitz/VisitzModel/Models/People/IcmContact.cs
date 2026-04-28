@@ -470,6 +470,7 @@ public partial class IcmContact
             ContactMedicalBehavioral.RemoveByParent(realm, contact.Id);
             ContactLegalAuthority.RemoveByParent(realm, contact.Id);
             ContactLanguage.RemoveByParent(realm, contact.Id);
+            ContactEducation.RemoveByParent(realm, contact.Id);
         }
 
         realm.RemoveRange(contacts);
