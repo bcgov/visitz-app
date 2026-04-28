@@ -1,9 +1,7 @@
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
-using VisitzApi.Models.People;
 using VisitzApi.Requests;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
@@ -45,7 +43,7 @@ internal class SubmitSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
         await Vpi.SubmitSupportNetworkItemAsync(
             (ApiRecordType)SupportNetworkItem.ParentType,
             SupportNetworkItem.ParentId,
-            ((IApiJson<SubmitSupportNetworkJson>)SupportNetworkItem).ToApiJson("yyyy-MM-dd")
+            SupportNetworkItem.ToApiJson("yyyy-MM-dd")
         );
 
         ResultCode = Result.Successful;
