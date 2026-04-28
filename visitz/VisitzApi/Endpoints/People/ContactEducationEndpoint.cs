@@ -20,7 +20,7 @@ internal class ContactEducationEndpoint(
         MakePath(type, rowId, contactId)
     )
 {
-    static readonly string ContactEducationPath = "/{0}/{1}/contact/{2}/education";
+    static readonly string ContactEducationPath = "/{0}/{1}/contacts/{2}/education";
 
     readonly Pagination? Pagination = pagination;
 
