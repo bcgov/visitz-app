@@ -4,7 +4,7 @@ using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
 using VisitzModel.Utilities;
-using VisitzModelTest.Storage;
+using VisitzModelTest.Mocks;
 
 namespace VisitzModelTest.Models.Caseload;
 
@@ -123,7 +123,7 @@ public class CaseRecordTests
         Assert.DoesNotContain(name, @case.Assignees);
     }
 
-    async Task<IEnumerable<CaseRecord>> GetByAssignee(string name, bool isPersonalCaseload)
+    static async Task<IEnumerable<CaseRecord>> GetByAssignee(string name, bool isPersonalCaseload)
     {
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
         List<CaseRecord> cases = [new CaseRecord(CaseJson), new() { Id = "23456" }];

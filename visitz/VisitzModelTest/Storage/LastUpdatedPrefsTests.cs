@@ -1,6 +1,7 @@
 using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Storage;
+using VisitzModelTest.Mocks;
 
 namespace VisitzModelTest.Storage;
 
