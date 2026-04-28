@@ -19,18 +19,18 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
     public string Comments { get; set; } = string.Empty;
     public string InstitutionId { get; set; } = string.Empty;
     public string CreatedByName { get; set; } = string.Empty;
-    public DateTimeOffset? EndDate { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? EndDate { get; set; }
     public string InstitutionName { get; set; } = string.Empty;
     public string Degree { get; set; } = string.Empty;
     public string ContactPersonRole { get; set; } = string.Empty;
-    public DateTimeOffset? Year { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? Year { get; set; }
     public string Address { get; set; } = string.Empty;
     public string University { get; set; } = string.Empty;
     public string UpdatedByName { get; set; } = string.Empty;
     public string ContactId { get; set; } = string.Empty;
-    public DateTimeOffset? StartDate { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? StartDate { get; set; }
     public string PhoneNum { get; set; } = string.Empty;
-    public DateTimeOffset? DateLastAttended { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? DateLastAttended { get; set; }
     public string ParentContactId { get; set; } = string.Empty;
 
     public ContactEducation() { }
