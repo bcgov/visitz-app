@@ -10,7 +10,6 @@ using Visitz.Views.Entity.Attachments;
 using Visitz.Views.Entity.ChildYouthVisits;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
-using Visitz.Views.Entity.Navigation;
 using Visitz.Views.Entity.Notes;
 using Visitz.Views.Entity.SafetyAssess;
 using Visitz.Views.Entity.SupportNetwork;
@@ -39,13 +38,9 @@ public static class VisitzScreens
         builder.Services.AddTransient<DataRefreshViewModel>();
 
         builder.Services.AddSingleton<CaseloadContainerView>();
-        builder.Services.AddSingleton<WatermarkView>();
 
         builder.Services.AddSingleton<CaseloadView>();
         builder.Services.AddSingleton<CaseloadViewModel>();
-
-        builder.Services.AddSingleton<CaseloadDetailView>();
-        builder.Services.AddSingleton<CaseloadDetailViewModel>();
 
         builder.Services.AddTransient<DeviceAuthenticator>();
         builder.Services.AddTransient<AppLockPage>();
@@ -56,11 +51,8 @@ public static class VisitzScreens
         builder.Services.AddTransient<PdfDetailsView>();
         builder.Services.AddTransient<PdfDetailsViewModel>();
 
-        builder.Services.AddTransient<EntityNavView>();
-        builder.Services.AddTransient<EntityNavViewModel>();
-
-        builder.Services.AddTransient<EntityContainerView>();
-        builder.Services.AddTransient<EntityContainerViewModel>();
+        builder.Services.AddTransient<EntityView>();
+        builder.Services.AddTransient<EntityViewModel>();
 
         builder.Services.AddTransient<EntityDetailsView>();
         builder.Services.AddTransient<EntityDetailsViewModel>();
@@ -117,9 +109,7 @@ public static class VisitzScreens
         builder.Services.AddTransient<CollectionNoticeView>();
 
         builder.Services.AddSingleton<DraftsContainerView>();
-
-        builder.Services.AddTransient<DraftsMasterList>();
-        builder.Services.AddTransient<DraftsMasterListViewModel>();
+        builder.Services.AddSingleton<DraftsContainerViewModel>();
 
         builder.Services.AddTransient<DraftsList>();
         builder.Services.AddTransient<DraftsListViewModel>();
@@ -135,12 +125,10 @@ public static class VisitzScreens
         builder.Services.AddTransient<TabItemView>();
 
         builder.Services.AddSingleton<TodoContainerView>();
+        builder.Services.AddSingleton<TodoContainerViewModel>();
 
-        builder.Services.AddTransient<TodoMasterList>();
-        builder.Services.AddTransient<TodoMasterListViewModel>();
-
-        builder.Services.AddTransient<TodoVisitsView>();
-        builder.Services.AddTransient<TodoVisitsViewModel>();
+        builder.Services.AddSingleton<TodoListView>();
+        builder.Services.AddSingleton<TodoListViewModel>();
 
         builder.Services.AddTransient<NavDrawerContentView>();
         builder.Services.AddTransient<NavDrawerContentViewModel>();

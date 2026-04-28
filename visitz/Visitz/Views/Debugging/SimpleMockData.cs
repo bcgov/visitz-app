@@ -7,9 +7,9 @@ internal static class SimpleMockData
 {
     public static List<PersonVisit> MockPersonVisits(string parentId = "1-0000000")
     {
-        return
+        List<PersonVisit> visits =
         [
-            new(PersonVisitDetails.Api_NotPrivatePlanning)
+            new()
             {
                 Id = "1-1A2B3C4",
                 ParentId = parentId,
@@ -23,7 +23,7 @@ internal static class SimpleMockData
                 CreatedBy = "SOMEUSER",
                 UpdatedBy = "SOMEUSER",
             },
-            new(PersonVisitDetails.Api_PrivateVisitNotInHome)
+            new()
             {
                 Id = "1-1A2B3C5",
                 ParentId = parentId,
@@ -37,7 +37,7 @@ internal static class SimpleMockData
                 CreatedBy = "SOMEUSER",
                 UpdatedBy = "SOMEUSER",
             },
-            new(PersonVisitDetails.Api_ExemptionChildDeclined)
+            new()
             {
                 Id = "1-1A2B3C6",
                 ParentId = parentId,
@@ -51,7 +51,7 @@ internal static class SimpleMockData
                 CreatedBy = "SOMEUSER",
                 UpdatedBy = "SOMEUSER",
             },
-            new(PersonVisitDetails.Api_PrivateVisitMedicalSupportNeeds)
+            new()
             {
                 Id = "1-1A2B3C7",
                 ParentId = parentId,
@@ -65,7 +65,7 @@ internal static class SimpleMockData
                 CreatedBy = "SOMEUSER",
                 UpdatedBy = "SOMEUSER",
             },
-            new(PersonVisitDetails.Api_NotPrivateWithCaregiver)
+            new()
             {
                 Id = "1-1A2B3C8",
                 ParentId = parentId,
@@ -80,5 +80,13 @@ internal static class SimpleMockData
                 UpdatedBy = "SOMEUSER",
             },
         ];
+
+        visits.ElementAt(0).VisitDetails.Add(PersonVisitDetails.Api_NotPrivatePlanning);
+        visits.ElementAt(1).VisitDetails.Add(PersonVisitDetails.Api_PrivateVisitNotInHome);
+        visits.ElementAt(2).VisitDetails.Add(PersonVisitDetails.Api_ExemptionChildDeclined);
+        visits.ElementAt(3).VisitDetails.Add(PersonVisitDetails.Api_PrivateVisitMedicalSupportNeeds);
+        visits.ElementAt(4).VisitDetails.Add(PersonVisitDetails.Api_NotPrivateWithCaregiver);
+
+        return visits;
     }
 }

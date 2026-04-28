@@ -5,32 +5,30 @@ using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : VisitzViewModel, IBusinessObjectHolder
+#nullable enable
+
+public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRecordViewModel
 {
     public static readonly string PictureFiletype = "jpg";
     public static readonly string PictureFilenamePrepend = "Pic";
 
-    Realm AttachmentsRealm { get; set; }
+    Realm? AttachmentsRealm { get; set; }
 
     readonly ObservableRealmQueryMap queryMap = new();
 
-    AttachmentFiler attachmentFiler;
-
-    public IBusinessObject BusinessObject { get; set; }
+    AttachmentFiler? attachmentFiler;
 
     [ObservableProperty]
-    public IReadOnlyList<CameraInfo> cameras;
+    public IReadOnlyList<CameraInfo> cameras = [];
 
     [ObservableProperty]
-    public CameraInfo selectedCamera;
+    public CameraInfo? selectedCamera;
 
     int selectedCameraIndex;
 
@@ -41,11 +39,14 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
     public bool processing;
 
     [ObservableProperty]
-    public byte[] rollBytes;
+    public byte[]? rollBytes;
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
+
+        if (DataRealm == null)
+            return;
 
         AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
         attachmentFiler = await VisitzFiles.GetAsync(BusinessObject);
@@ -60,7 +61,7 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
     {
         if (!disposed && disposing)
         {
-            AttachmentsRealm.Dispose();
+            AttachmentsRealm?.Dispose();
             queryMap.Dispose();
 
             disposed = true;
@@ -93,6 +94,9 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
     private void SetupCameraRoll()
     {
+        if (AttachmentsRealm == null)
+            return;
+
         queryMap.ItemsChanged += QueryMap_ItemsChanged;
 
         StringBuilder queryBuilder = new();
@@ -115,21 +119,24 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
     }
 
     private void QueryMap_ItemsChanged(
-        object sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+        object? sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
     )
     {
         if (e.Changes == null)
         {
             if (e.Items.Any())
-                RollBytes = (e.Items[0] as AttachmentDraft).Attachment.ThumbnailBinding;
+                RollBytes = ((AttachmentDraft)e.Items[0]).Attachment.ThumbnailBinding;
         }
         else if (e.Changes.InsertedIndices.Length > 0)
-            RollBytes = (e.Items[e.Changes.InsertedIndices[0]] as AttachmentDraft).Attachment.ThumbnailBinding;
+            RollBytes = ((AttachmentDraft)e.Items[e.Changes.InsertedIndices[0]]).Attachment.ThumbnailBinding;
     }
 
     public async Task SavePicture(Stream stream)
     {
+        if (attachmentFiler == null)
+            return;
+
         WaitingToProcess = false;
 
         try

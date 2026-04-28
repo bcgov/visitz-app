@@ -32,6 +32,7 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetContactsService>();
             builder.Services.AddTransient<GetContactsByRangeService>();
             builder.Services.AddTransient<GetSupportNetworkService>();
+            builder.Services.AddTransient<SubmitSupportNetworkService>();
             builder.Services.AddTransient<GetSupportNetworkByRangeService>();
             builder.Services.AddTransient<GetAttachmentsService>();
             builder.Services.AddTransient<GetAttachmentsByRangeService>();
@@ -49,11 +50,14 @@ namespace Visitz.VisitzConfig
             builder.Services.AddTransient<GetCallInformationByRangeService>();
             builder.Services.AddTransient<GetContactMedicalBehavioralService>();
             builder.Services.AddTransient<GetContactMedicalBehavioralByRangeService>();
-
             builder.Services.AddTransient<GetAdditionalInformationService>();
             builder.Services.AddTransient<GetAdditionalInformationByRangeService>();
-            builder.Services.AddTransient<SubmitSupportNetworkService>();
-
+            builder.Services.AddTransient<GetContactLegalAuthorityService>();
+            builder.Services.AddTransient<GetContactLegalAuthorityByRangeService>();
+            builder.Services.AddTransient<GetContactLanguagesService>();
+            builder.Services.AddTransient<GetContactLanguagesByRangeService>();
+            builder.Services.AddTransient<GetContactEducationService>();
+            builder.Services.AddTransient<GetContactEducationByRangeService>();
             return builder;
         }
 

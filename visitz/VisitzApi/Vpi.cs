@@ -114,6 +114,15 @@ namespace VisitzApi
             return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
+        public async Task<bool> SubmitSupportNetworkItemAsync(
+            ApiRecordType type,
+            string id,
+            SubmitSupportNetworkJson supportNetwork
+        )
+        {
+            return await CallApi(new SubmitSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, supportNetwork));
+        }
+
         public async Task<(int TotalRecords, IEnumerable<AttachmentJson>)> GetAttachmentsAsync(
             ApiRecordType type,
             string id,
@@ -190,13 +199,36 @@ namespace VisitzApi
             );
         }
 
-        public async Task<bool> SubmitSupportNetworkItemAsync(
+        public async Task<(int TotalRecords, IEnumerable<ContactLanguageJson>)> GetContactLanguageAsync(
             ApiRecordType type,
-            string id,
-            SubmitSupportNetworkJson supportNetwork
+            string recordId,
+            string contactId,
+            Pagination? pagination = null
         )
         {
-            return await CallApi(new SubmitSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, supportNetwork));
+            return await CallApi(new ContactLanguagesEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
+        }
+
+        public async Task<(int TotalRecords, IEnumerable<ContactLegalAuthorityJson>)> GetContactLegalAuthority(
+            ApiRecordType type,
+            string recordId,
+            string contactId,
+            Pagination? pagination = null
+        )
+        {
+            return await CallApi(
+                new ContactLegalAuthorityEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination)
+            );
+        }
+
+        public async Task<(int TotalRecords, IEnumerable<ContactEducationJson>)> GetContactEducation(
+            ApiRecordType type,
+            string recordId,
+            string contactId,
+            Pagination? pagination = null
+        )
+        {
+            return await CallApi(new ContactEducationEndpoint(BaseVisitzApiUrl, type, recordId, contactId, pagination));
         }
     }
 }

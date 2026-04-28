@@ -99,10 +99,16 @@ namespace Visitz.Services.Caseload
                 GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
             );
 
-            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            var allContacts = realm.All<IcmContact>().Freeze().ToList().Distinct();
             //Get Contact related info AFTER fetching all contacts from DBs
-            await GetContactMedicalBehavioral(allContacts, exceptions);
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            var allContacts = realm.All<IcmContact>().Freeze().AsEnumerable().Distinct();
+
+            await Task.WhenAll(
+                GetContactMedicalBehavioral(allContacts, exceptions),
+                GetContactLegalAuthority(allContacts, exceptions),
+                GetAllContactLanguages(allContacts, exceptions),
+                GetContactEducation(allContacts, exceptions)
+            );
 
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
@@ -303,6 +309,45 @@ namespace Visitz.Services.Caseload
             catch (Exception ex)
             {
                 exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
+            }
+        }
+
+        private async Task GetContactLegalAuthority(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactLegalAuthorityByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLegalAuthority, ex));
+            }
+        }
+
+        private async Task GetAllContactLanguages(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactLanguagesByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguages, ex));
+            }
+        }
+
+        private async Task GetContactEducation(IEnumerable<IcmContact> allContacts, List<Exception> exceptions)
+        {
+            try
+            {
+                var startMessage = GetContactEducationByRangeService.MakeStartMessage(allContacts);
+                await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactEducation, ex));
             }
         }
     }
