@@ -69,9 +69,12 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
             GetAdditionalInformation(exceptions)
         );
 
+        //Get Contact related info AFTER fetching all contacts from DBs
         var contacts = BusinessObject.Contacts.Freeze();
         await Task.WhenAll(
             GetContactMedicalBehavioral(contacts, exceptions),
+            GetContactLegalAuthority(contacts, exceptions),
+            GetContactLanguages(contacts, exceptions),
             GetContactEducation(contacts, exceptions)
         );
 
@@ -284,6 +287,35 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         catch (Exception ex)
         {
             exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
+            return Result.Error;
+        }
+    }
+
+    async Task<Result> GetContactLegalAuthority(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactLegalAuthorityByRangeService.MakeStartMessage(contacts);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLegalAuthority, ex));
+            return Result.Error;
+        }
+    }
+
+    async Task<Result> GetContactLanguages(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactLanguagesByRangeService.MakeStartMessage(contacts);
+
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguages, ex));
             return Result.Error;
         }
     }

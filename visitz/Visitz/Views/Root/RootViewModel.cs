@@ -37,17 +37,15 @@ internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage
         }
     }
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        base.InitAsync();
+        await base.InitAsync();
 
         UpdateOrientationVisibility(DeviceDisplay.Current.MainDisplayInfo.Orientation);
 
         DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
 
         StrongReferenceMessenger.Default.RegisterAll(this);
-
-        return Task.CompletedTask;
     }
 
     bool disposed;

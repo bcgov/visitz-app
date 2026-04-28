@@ -26,6 +26,7 @@ public class DebugOptions
     private static readonly string KeepSafetyAssessmentDraftOnPublishKey = "KeepSafetyAssessmentDraftOnPublish";
     private static readonly string AutoCaseloadRefreshDisabledKey = "AutoCaseloadRefreshDisabled";
     private static readonly string StaleThresholdMinutesKey = "StaleThresholdMinutes";
+    private static readonly string DisablePrivacyScrimKey = "EnableObscuringScrim";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -115,6 +116,12 @@ public class DebugOptions
     {
         get => Get(StaleThresholdMinutesKey, OidcSession.StaleThresholdMinutes);
         set => Set(StaleThresholdMinutesKey, value > 0.0d ? value : OidcSession.StaleThresholdMinutes);
+    }
+
+    public static bool DisablePrivacyScrim
+    {
+        get => Get(DisablePrivacyScrimKey, false);
+        set => Set(DisablePrivacyScrimKey, value);
     }
 
     public static async Task ClearRealmData()
@@ -238,7 +245,7 @@ public class DebugOptions
 
         using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var latestVisits = PersonVisit.GetAllByType(icmData);
+        var latestVisits = icmData.All<PersonVisit>();
 
         var extraDay = threshold == VisitDaysThreshold.Critical ? 1 : 0;
         var targetDueDate = DateTimeOffset.Now.Date.AddDays((int)threshold - extraDay);

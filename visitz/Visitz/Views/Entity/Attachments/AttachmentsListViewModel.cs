@@ -7,21 +7,18 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Attachments;
-using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
-using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
-using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Entity.Attachments;
 
 #nullable enable
 
-internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObjectHolder
+public partial class AttachmentsListViewModel : IcmRecordViewModel
 {
     private bool _disposed;
 
@@ -29,9 +26,6 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
 
     [ObservableProperty]
     public ObservableCollection<AttachmentsListItemUi> attachmentsList = [];
-
-    [ObservableProperty]
-    public IBusinessObject? businessObject;
 
     [ObservableProperty]
     public bool isEmpty;
@@ -47,15 +41,14 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
     {
         await base.InitAsync();
 
-        Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        if (DataRealm == null)
+            return;
+
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
 
-        if (BusinessObject == null)
-            throw new InvalidOperationException(nameof(IBusinessObject));
-
         realmQuery.Subscribe(
-            icmDataRealm,
-            Attachment.GetOrderedAttachments(icmDataRealm, BusinessObject.EntityType, BusinessObject.Id)
+            DataRealm,
+            Attachment.GetOrderedAttachments(DataRealm, BusinessObject.EntityType, BusinessObject.Id)
         );
     }
 
@@ -76,19 +69,19 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
 
     private void RealmQuery_ItemsChanged(
         object? sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
     )
     {
         if (e.Type == typeof(Attachment))
             UpdateAttachmentsList(e.Items, e.Changes);
     }
 
-    private void UpdateAttachmentsList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    private void UpdateAttachmentsList(IRealmCollection<IRealmObject> items, ChangeSet? changes)
     {
         if (changes == null)
         {
             foreach (var item in items)
-                AttachmentsList.Add(MakeItemUi(item as Attachment));
+                AttachmentsList.Add(MakeItemUi((Attachment)item));
         }
         else
         {
@@ -99,19 +92,15 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
             }
 
             foreach (int inserted in changes.InsertedIndices)
-                AttachmentsList.Insert(inserted, MakeItemUi(items[inserted] as Attachment));
+                AttachmentsList.Insert(inserted, MakeItemUi((Attachment)items[inserted]));
         }
 
         IsEmpty = !AttachmentsList.Any();
     }
 
-    AttachmentsListItemUi MakeItemUi(Attachment? attachment)
+    AttachmentsListItemUi MakeItemUi(Attachment attachment)
     {
-        return new AttachmentsListItemUi(
-            BusinessObject?.EntityType ?? EntityType.Unknown,
-            BusinessObject?.Id,
-            attachment
-        );
+        return new AttachmentsListItemUi(BusinessObject.EntityType, BusinessObject.Id, attachment);
     }
 
     [RelayCommand]
@@ -164,7 +153,7 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
 
         string path = listItem.Attachment.RelativePath.Trim();
 
-        ContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
+        BaseContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
             ? MakePdfDetailsView(listItem.Attachment)
             : MakePhotoDetailsView(listItem.Attachment);
 
@@ -176,7 +165,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
         return new()
         {
             Attachment = attachment,
-            BusinessObject = BusinessObject,
+            RowId = RowId,
+            EntityType = EntityType,
             IsDownloadedAttachment = true,
         };
     }
@@ -186,7 +176,8 @@ internal partial class AttachmentsListViewModel : VisitzViewModel, IBusinessObje
         return new()
         {
             Attachment = attachment,
-            BusinessObject = BusinessObject,
+            RowId = RowId,
+            EntityType = EntityType,
             IsDownloadedAttachment = true,
         };
     }

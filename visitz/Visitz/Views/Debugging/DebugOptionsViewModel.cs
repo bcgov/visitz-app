@@ -65,9 +65,12 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public double staleSessionMinutes;
 
-    protected override Task InitAsync()
+    [ObservableProperty]
+    public bool disablePrivacyScrim;
+
+    protected override async Task InitAsync()
     {
-        base.InitAsync();
+        await base.InitAsync();
 
         DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
         DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
@@ -99,7 +102,7 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 
         StaleSessionMinutes = DebugOptions.StaleThresholdMinutes;
 
-        return Task.CompletedTask;
+        DisablePrivacyScrim = DebugOptions.DisablePrivacyScrim;
     }
 
     partial void OnDryFireSubmitNotesChanged(bool value)
@@ -145,6 +148,11 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     partial void OnStaleSessionMinutesChanged(double value)
     {
         DebugOptions.StaleThresholdMinutes = value;
+    }
+
+    partial void OnDisablePrivacyScrimChanged(bool value)
+    {
+        DebugOptions.DisablePrivacyScrim = value;
     }
 
     [RelayCommand]

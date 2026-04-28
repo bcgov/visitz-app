@@ -1,19 +1,25 @@
 using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
+using Visitz.Views.Entity;
 
 namespace Visitz.Views.BaseClasses;
 
-public abstract class BaseContentView : ContentView, IDisposable
+#nullable enable
+
+public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitialize
 {
     private bool _disposedValue;
 
     protected ILogger Logger { get; }
 
-    public Task InitTask { get; private set; }
+    public Task? InitTask { get; private set; }
 
-    public BaseContentView()
+    public string Title { get; protected set; } = "";
+
+    public BaseContentView(string title = "")
     {
         Logger = MakeLogger();
+        Title = title;
     }
 
     protected virtual ILogger<BaseContentView> MakeLogger()
@@ -21,12 +27,23 @@ public abstract class BaseContentView : ContentView, IDisposable
         return ServiceProvider.GetService<ILogger<BaseContentView>>();
     }
 
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    protected override async void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
 
         if (args.AttachingToHandler())
-            InitTask = InitAsync();
+        {
+            try
+            {
+                await StartInitAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+                throw;
+            }
+        }
         else if (args.DetachingFromHandler())
             Dispose();
     }
@@ -42,6 +59,11 @@ public abstract class BaseContentView : ContentView, IDisposable
         Logger.TraceMethod(this);
 
         return Task.CompletedTask;
+    }
+
+    public async Task StartInitAsync()
+    {
+        await (InitTask ??= InitAsync());
     }
 
     protected virtual void Dispose(bool disposing)

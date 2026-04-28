@@ -1,21 +1,29 @@
+using System.Diagnostics.CodeAnalysis;
 using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.InPersonVisits;
 
-public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
+#nullable enable
+
+public partial class PersonVisit
+    : IRealmObject,
+        IApiJson<PostVisitJson>,
+        IParentRecord,
+        IComparable<ITodoItem>,
+        IEquatable<PersonVisit>,
+        IEqualityComparer<PersonVisit>
 {
     static readonly string _defaultType = "In Person Child Youth";
 
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string ParentId { get; set; }
+    public string ParentId { get; set; } = string.Empty;
 
     private int ParentTypeInt { get; set; } = (int)EntityType.Case;
 
@@ -25,27 +33,28 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         set => ParentTypeInt = (int)value;
     }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string VisitDescription { get; set; }
+    public string VisitDescription { get; set; } = string.Empty;
 
     public string Type { get; set; } = _defaultType;
 
     public DateTimeOffset DateOfVisit { get; set; } = DateTimeOffset.Now;
 
-    public IList<string> VisitDetails { get; }
+    public IList<string> VisitDetails { get; } = null!; // Realm inits this automatically
 
-    public string LoginName { get; set; }
+    public string LoginName { get; set; } = string.Empty;
 
     public DateTimeOffset Created { get; set; }
 
     public DateTimeOffset Updated { get; set; }
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public DateTimeOffset DueDate => DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info);
+    public DateTimeOffset DueDate =>
+        IsValid ? DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info) : DateTimeOffset.MinValue;
     public int DueDateDaysRemaining => (DueDate.Date - DateTimeOffset.Now.Date).Days;
 
     public VisitDaysThreshold CurrentDueDateThreshold
@@ -65,18 +74,10 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string FirstVisitDetail => VisitDetails?.FirstOrDefault() ?? "";
 
+    [Ignored]
+    public int SortOrder => DueDateDaysRemaining;
+
     public PersonVisit() { }
-
-    public PersonVisit(CaseRecord @case)
-    {
-        ParentId = @case.Id;
-    }
-
-    public PersonVisit(params string[] visitDetails)
-    {
-        foreach (var detail in visitDetails)
-            VisitDetails.Add(detail);
-    }
 
     public PersonVisit(VisitJson json)
     {
@@ -122,20 +123,15 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         return outList;
     }
 
-    public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits)
+    public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits, string parentId)
     {
         await RealmExtensions.CommitAsync(
             realm,
             () =>
             {
                 var incomingVisits = FromApiArray(visits);
-                var incomingVisitIds = incomingVisits.Select(item => item.Id);
-
-                var allPersonVisits = realm.All<PersonVisit>().ToList();
-                var allPersonVisitIds = allPersonVisits.Select(item => item.Id);
-
-                var visitIdsToDelete = allPersonVisitIds.Except(incomingVisitIds);
-                var visitsToDelete = allPersonVisits.Where(item => visitIdsToDelete.Contains(item.Id)).ToList();
+                var existingVisits = GetVisitsByCaseId(realm, parentId).ToList();
+                var visitsToDelete = existingVisits.Except(incomingVisits);
 
                 foreach (var item in visitsToDelete)
                 {
@@ -164,22 +160,14 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         realm.RemoveRange(visitItems);
     }
 
-    public static IQueryable<PersonVisit> GetAllByType(Realm realm, EntityType entityType = EntityType.Case)
+    public static IEnumerable<PersonVisit?> GetUpcomingVisits(Realm realm)
     {
-        return realm.All<PersonVisit>().Where(item => item.ParentTypeInt == (int)entityType);
-    }
-
-    public static IOrderedEnumerable<PersonVisit> GetUpcomingVisits(
-        Realm realm,
-        EntityType entityType = EntityType.Case
-    )
-    {
-        var latestVisitsPerCase = GetAllByType(realm, entityType)
+        var latestVisitsPerCase = realm
+            .All<PersonVisit>()
+            .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)")
+            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})")
             .AsEnumerable()
-            .GroupBy(item => item.ParentId)
-            .Select(group => group.OrderByDescending(item => item.DateOfVisit).FirstOrDefault())
-            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning)
-            .OrderBy(item => item.DueDateDaysRemaining);
+            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning);
 
         return latestVisitsPerCase;
     }
@@ -198,5 +186,25 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         });
 
         RaisePropertyChanged(nameof(VisitDetails));
+    }
+
+    public int CompareTo(ITodoItem? other)
+    {
+        return other == null ? 1 : SortOrder.CompareTo(other.SortOrder);
+    }
+
+    public bool Equals(PersonVisit? other)
+    {
+        return Equals(this, other);
+    }
+
+    public bool Equals(PersonVisit? x, PersonVisit? y)
+    {
+        return x?.Id == y?.Id;
+    }
+
+    public int GetHashCode([DisallowNull] PersonVisit obj)
+    {
+        return obj.Id.GetHashCode();
     }
 }
