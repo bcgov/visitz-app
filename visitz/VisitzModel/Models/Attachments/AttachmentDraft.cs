@@ -113,10 +113,10 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
     {
         var imgProc = new ImageProcessor(stream);
 
-        byte[] thumbnail = await (await imgProc.Downsize(Attachment.ThumbnailSize)).AsBytesAsync();
+        byte[] thumbnail = await (await imgProc.DownsizeImage(Attachment.ThumbnailSize)).AsBytesAsync();
 
         if (stream.Length > Attachment.MaxFilesize)
-            stream = await imgProc.DownsizeByFilesize(Attachment.MaxFilesize);
+            stream = await imgProc.DownsizeImageByFilesize(Attachment.MaxFilesize);
 
         return await MakeAndSaveDraft(businessObject, filer, realm, filename, stream, thumbnail);
     }

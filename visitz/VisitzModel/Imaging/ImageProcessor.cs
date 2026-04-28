@@ -12,42 +12,51 @@ public partial class ImageProcessor(Stream imageBytes)
 
     Stream ImageBytes { get; } = imageBytes;
 
-    public async Task<Stream> DownsizeByFilesize(int desiredMaxBytes)
+    public async Task<Stream> DownsizeImageByFilesize(int desiredMaxBytes)
     {
         if (ImageBytes.Length <= desiredMaxBytes)
             return ImageBytes;
 
-        Stream streamOut;
+        Stream stream = Stream.Null;
         float factor = InitialFactor;
         int loopCount = 0;
 
         do
         {
-            Task<Stream> task = default;
-            DownsizeByFilesize(ref task, (int)(desiredMaxBytes * factor));
-            streamOut = await task;
+            Task<Stream> downsizeTask = Task.FromResult(Stream.Null);
+            DownsizeByFilesize((int)(desiredMaxBytes * factor), workTask => downsizeTask = workTask);
+            stream = await downsizeTask;
+
+            if (stream.Length <= 0)
+                throw new InvalidOperationException("Unable to downsize image");
 
             factor *= ReductionFactor;
             loopCount++;
 
             if (loopCount >= FilesizeDownsizeLoopLimit)
             {
-                var error = string.Format(MaxLoopsError, FilesizeDownsizeLoopLimit, streamOut.Length);
+                var error = string.Format(MaxLoopsError, FilesizeDownsizeLoopLimit, stream.Length);
                 throw new InvalidOperationException(error);
             }
-        } while (streamOut.Length > desiredMaxBytes);
+        } while (stream.Length > desiredMaxBytes);
 
-        return streamOut;
+        return stream;
     }
 
-    public Task<Stream> Downsize(int maxWidthOrHeight)
+    public async Task<Stream> DownsizeImage(int maxWidthOrHeight)
     {
-        Task<Stream> task = default;
-        Downsize(ref task, maxWidthOrHeight);
-        return task;
+        Task<Stream> downsizeTask = Task.FromResult(Stream.Null);
+
+        Downsize(maxWidthOrHeight, workTask => downsizeTask = workTask);
+        Stream stream = await downsizeTask;
+
+        if (stream.Length <= 0)
+            throw new InvalidOperationException("Unable to downsize image");
+
+        return stream;
     }
 
-    partial void DownsizeByFilesize(ref Task<Stream> downsizeImageTask, int bytesLength);
+    partial void DownsizeByFilesize(int bytesLength, Action<Task<Stream>> provideTaskAction);
 
-    partial void Downsize(ref Task<Stream> downsizeImageTask, int maxWidthOrHeight);
+    partial void Downsize(int maxWidthOrHeight, Action<Task<Stream>> provideTaskAction);
 }
