@@ -114,6 +114,15 @@ namespace VisitzApi
             return await CallApi(new GetSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, pagination));
         }
 
+        public async Task<bool> SubmitSupportNetworkItemAsync(
+            ApiRecordType type,
+            string id,
+            SubmitSupportNetworkJson supportNetwork
+        )
+        {
+            return await CallApi(new SubmitSupportNetworkEndpoint(BaseVisitzApiUrl, type, id, supportNetwork));
+        }
+
         public async Task<(int TotalRecords, IEnumerable<AttachmentJson>)> GetAttachmentsAsync(
             ApiRecordType type,
             string id,

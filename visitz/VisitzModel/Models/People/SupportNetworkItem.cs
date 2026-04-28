@@ -1,5 +1,6 @@
 using Realms;
 using VisitzApi.Models;
+using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
@@ -7,7 +8,7 @@ using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.People;
 
-public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<SupportNetworkJson>, IParentRecord
+public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRecord, IApiJson<SubmitSupportNetworkJson>
 {
     [PrimaryKey]
     public string Id { get; set; }
@@ -87,24 +88,15 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IApiJson<S
         Relationship = json.Relationship;
     }
 
-    public SupportNetworkJson ToApiJson(string dateFormat = "s")
+    public SubmitSupportNetworkJson ToApiJson(string dateFormat = "s")
     {
-        return new()
+        return new SubmitSupportNetworkJson()
         {
-            Id = Id,
-            CreatedBy = CreatedBy,
-            CreatedById = CreatedById,
-            UpdatedBy = UpdatedBy,
-            UpdatedById = UpdatedById,
-            CreatedDate = CreatedDate.ToString(dateFormat),
-            UpdatedDate = UpdatedDate.ToString(dateFormat),
             Active = Active,
             Address = Address,
-            Agency = AgencyName,
+            AgencyName = AgencyName,
             Cell = CellPhoneNumber,
             Comments = Comments,
-            EntityId = EntityId,
-            EntityName = EntityName,
             Name = Name,
             Phone = PhoneNumber,
             Relationship = Relationship,
