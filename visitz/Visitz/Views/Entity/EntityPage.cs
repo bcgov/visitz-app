@@ -44,9 +44,9 @@ public partial class EntityPage(ILogger<EntityPage> logger) : VisitzPage<EntityP
         return entity;
     }
 
-    protected override async void OnCreated()
+    protected override async Task OnCreatedAsync()
     {
-        base.OnCreated();
+        await base.OnCreatedAsync();
 
         View view = await _createEntityView;
 

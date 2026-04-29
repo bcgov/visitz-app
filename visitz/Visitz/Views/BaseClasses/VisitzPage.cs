@@ -44,7 +44,7 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
         try
         {
             if (isCreating)
-                OnCreated();
+                await OnCreatedAsync();
             else if (isDestroying)
                 Dispose();
         }
@@ -55,11 +55,13 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
         }
     }
 
-    protected virtual void OnCreated()
+    protected virtual Task OnCreatedAsync()
     {
         Logger.TraceMethod(this);
 
         ViewModelInit = ViewModel.StartInitAsync();
+
+        return ViewModelInit;
     }
 
     protected virtual void OnDestroyed()

@@ -14,9 +14,9 @@ public partial class PublishPage : VisitzPage<PublishPage, PublishViewModel>
         BindingContext = ViewModel;
     }
 
-    protected override void OnCreated()
+    protected override async Task OnCreatedAsync()
     {
-        base.OnCreated();
+        await base.OnCreatedAsync();
 
         ViewModel.OnCompleted += PublishPage_OnCompleted;
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
