@@ -53,7 +53,7 @@ public partial class CaseloadContainerView : BaseContentView
             this,
             async (recipient, message) =>
             {
-                await (recipient as CaseloadContainerView).ContentStack.PopAsync();
+                await Navigator.Navigation.PopAsync();
             }
         );
     }
@@ -61,16 +61,16 @@ public partial class CaseloadContainerView : BaseContentView
     private async Task OpenBusinessObject(BusinessObjectSelectedMessage message)
     {
         IBusinessObject item = message.Value;
-        var entityView = ServiceProvider.GetService<EntityView>();
+        var entityPage = ServiceProvider.GetService<EntityPage>();
 
-        entityView.RowId = item.Id;
-        entityView.EntityType = item.EntityType;
-        entityView.ViewModel.RequestedSection = message.Section;
-        entityView.ViewModel.FocusedDraftItem = message.DraftItem;
+        entityPage.EntityView.RowId = item.Id;
+        entityPage.EntityView.EntityType = item.EntityType;
+        entityPage.EntityView.ViewModel.RequestedSection = message.Section;
+        entityPage.EntityView.ViewModel.FocusedDraftItem = message.DraftItem;
 
         try
         {
-            await ContentStack.PushAsync(entityView);
+            await Navigator.Navigation.PushAsync(entityPage);
         }
         catch (Exception ex)
         {
