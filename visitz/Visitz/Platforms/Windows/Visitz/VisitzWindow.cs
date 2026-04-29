@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -23,6 +24,12 @@ public partial class VisitzWindow
     {
         window.Height = InitialHeight;
         window.Width = window.Height * WidthRatio;
+
+        string deviceDims = $"{DeviceDisplay.MainDisplayInfo.Width}w,{DeviceDisplay.MainDisplayInfo.Height}";
+        string windowDims = $"{window.Width}w,{window.Height}h";
+        string dims = $"Device dimensions: {deviceDims} // Window dimensions: {windowDims}";
+
+        ServiceProvider.GetService<ILogger<VisitzWindow>>().LogInformation(dims);
 
         return window;
     }
