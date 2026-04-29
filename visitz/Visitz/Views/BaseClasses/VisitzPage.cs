@@ -32,10 +32,6 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
 
         NavigationPage.SetHasBackButton(this, false);
         NavigationPage.SetHasNavigationBar(this, false);
-
-#if IOS
-        Behaviors.Add(new StatusBarBehavior() { StatusBarStyle = StatusBarStyle.LightContent });
-#endif
     }
 
     protected override void OnParentChanging(ParentChangingEventArgs args)
