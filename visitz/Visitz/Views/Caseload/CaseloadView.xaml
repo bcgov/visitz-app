@@ -26,24 +26,15 @@
             Spacing="10"
             Padding="10"
         >
-            <Grid>
-                <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
-                    <controls:FontIconButton
-                        Command="{Binding OpenNavDrawerCommand}"
-                        IsVisible="{Binding ShowMenuButton}"
-                        Text="{Static icons:MaterialIcons.Menu}"
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        TextColor="Black"
-                    />
-
-                    <Label
-                        Text="{local:Localize Caseload}"
-                        Style="{StaticResource HeadlineMedium}"
-                        VerticalOptions="Center"
-                    />
-                </HorizontalStackLayout>
+            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="{StaticResource DefaultSpacing}">
+                <Label
+                    Text="{local:Localize Caseload}"
+                    Style="{StaticResource HeadlineMedium}"
+                    VerticalOptions="Center"
+                />
 
                 <controls:FontIconButton
+                    Grid.Column="1"
                     Style="{StaticResource FontIconButtonLightMode}"
                     HorizontalOptions="End"
                     VerticalOptions="Center"
@@ -51,6 +42,8 @@
                     FontFamily="MaterialIconsRoundedUnfilled"
                     Clicked="ListOptionsButton_Clicked"
                 />
+
+                <controls:VisitzAvatarView Grid.Column="2" />
             </Grid>
 
             <Border

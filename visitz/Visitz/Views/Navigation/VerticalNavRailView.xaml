@@ -15,17 +15,8 @@
     BackgroundColor="{StaticResource BuildBarBackgroundColor}"
     WidthRequest="72"
 >
-    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto">
-        <controls:FontIconButton
-            Command="{Binding OpenNavDrawerCommand}"
-            Text="{Static icons:MaterialIcons.Menu}"
-            FontFamily="MaterialIconsRoundedUnfilled"
-            TextColor="White"
-            HorizontalOptions="Fill"
-            WidthRequest="-1"
-        />
-
-        <VerticalStackLayout Grid.Row="1">
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
+        <VerticalStackLayout Grid.Row="0">
             <VerticalStackLayout.Behaviors>
                 <behaviors:SelectionLayoutBehavior
                     ItemsSource="{Binding NavigationItems}"
@@ -42,14 +33,14 @@
         </VerticalStackLayout>
 
         <caseload:DataRefreshButton
-            Grid.Row="3"
+            Grid.Row="2"
             Orientation="Vertical"
             HorizontalOptions="Center"
         />
 
         <Image
             x:Name="LogoImage"
-            Grid.Row="4"
+            Grid.Row="3"
             HorizontalOptions="Center"
             Source="bc_logo_vertical_reverse.png"
         />

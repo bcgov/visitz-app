@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Maui.Controls.Foldable;
 using Oidc;
 using Realms;
 using Visitz.FontIcons;
@@ -16,7 +15,6 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.SegmentedButtons;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
-using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
@@ -102,9 +100,6 @@ namespace Visitz.Views.Caseload
         public IList<SegmentedOptions> filterOptions = [FilterCase, FilterIncident];
 
         [ObservableProperty]
-        public bool showMenuButton;
-
-        [ObservableProperty]
         public DraftIndicatorHelper indicatorHelper = new();
 
         [ObservableProperty]
@@ -136,15 +131,8 @@ namespace Visitz.Views.Caseload
             ShowEmptyCaseloadMessage = false;
             CollectionViewPrompt = PromptText;
 
-            DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
-            ShowMenuButton = DeviceDisplay.Current.MainDisplayInfo.Orientation == DisplayOrientation.Portrait;
-
             LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
             LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
-
-            StrongReferenceMessenger.Default.Register<NavPositionMessage>(this, ReceiveNavBarPositionMessage);
-            ShowMenuButton =
-                StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()) == (int)TwoPaneViewMode.Tall;
 
             WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
         }
@@ -250,8 +238,6 @@ namespace Visitz.Views.Caseload
 
         private void Teardown()
         {
-            DeviceDisplay.Current.MainDisplayInfoChanged -= Current_MainDisplayInfoChanged;
-
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
             IndicatorHelper?.Dispose();
@@ -364,12 +350,6 @@ namespace Visitz.Views.Caseload
             ShowEmptyCaseloadMessage = false;
         }
 
-        [RelayCommand]
-        public static void OpenNavDrawer()
-        {
-            StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: true));
-        }
-
         public void SearchCaseload()
         {
             Lister?.ApplyWithFilter();
@@ -405,20 +385,10 @@ namespace Visitz.Views.Caseload
             IsFilterActivated = value != null;
         }
 
-        private void Current_MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
-        {
-            ShowMenuButton = e.DisplayInfo.Orientation == DisplayOrientation.Portrait;
-        }
-
         partial void OnSelectedOfficeChanged(string? value)
         {
             if (Lister != null)
                 Lister.ApplyWithFilter();
-        }
-
-        void ReceiveNavBarPositionMessage(object recipient, NavPositionMessage message)
-        {
-            ShowMenuButton = ((TwoPaneViewMode)message.Value) == TwoPaneViewMode.Tall;
         }
 
         private void LastUpdatedPrefs_LastUpdatedChanged(object? sender, LastUpdatedChangedEventArgs e)
