@@ -34,17 +34,25 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
         NavigationPage.SetHasNavigationBar(this, false);
     }
 
-    protected override void OnParentChanging(ParentChangingEventArgs args)
+    protected override async void OnParentChanging(ParentChangingEventArgs args)
     {
         base.OnParentChanging(args);
 
         var isCreating = args.AttachingToParent();
         var isDestroying = args.DetachingFromParent();
 
-        if (isCreating)
-            OnCreated();
-        else if (isDestroying)
-            Dispose();
+        try
+        {
+            if (isCreating)
+                OnCreated();
+            else if (isDestroying)
+                Dispose();
+        }
+        catch (Exception ex)
+        {
+            await this.DisplayErrorAlert(ex);
+            throw;
+        }
     }
 
     protected virtual void OnCreated()

@@ -1,15 +1,56 @@
 using Microsoft.Extensions.Logging;
+using Syncfusion.Maui.Toolkit.Shimmer;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Models.Drafts;
+using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
-public partial class EntityPage : VisitzPage<EntityPage, VisitzViewModel>
+public partial class EntityPage(ILogger<EntityPage> logger) : VisitzPage<EntityPage, VisitzViewModel>(new(), logger)
 {
-    public EntityView EntityView => (EntityView)base.Content;
+    Task<EntityView> _createEntityView;
 
-    public EntityPage(ILogger<EntityPage> logger, EntityView entityView)
-        : base(new(), logger)
+    public void Init(string rowId, EntityType type, EntitySection? section = null, IDraftItem? draft = null)
     {
-        Content = entityView;
+        _createEntityView = MakeEntityViewAsync(rowId, type, section, draft);
+        ControlTemplate = new(() =>
+        {
+            return new SfShimmer()
+            {
+                Type = ShimmerType.Shopping,
+                WidthRequest = 300,
+                HeightRequest = 300,
+            };
+        });
+    }
+
+    static async Task<EntityView> MakeEntityViewAsync(
+        string rowId,
+        EntityType type,
+        EntitySection? section,
+        IDraftItem? draft
+    )
+    {
+        var entity = ServiceProvider.GetService<EntityView>();
+
+        entity.RowId = rowId;
+        entity.EntityType = type;
+        entity.ViewModel.RequestedSection = section;
+        entity.ViewModel.FocusedDraftItem = draft;
+
+        await entity.StartInitAsync();
+
+        return entity;
+    }
+
+    protected override async void OnCreated()
+    {
+        base.OnCreated();
+
+        View view = await _createEntityView;
+
+        ControlTemplate = null;
+        Content = view;
     }
 }

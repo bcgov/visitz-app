@@ -63,10 +63,7 @@ public partial class CaseloadContainerView : BaseContentView
         IBusinessObject item = message.Value;
         var entityPage = ServiceProvider.GetService<EntityPage>();
 
-        entityPage.EntityView.RowId = item.Id;
-        entityPage.EntityView.EntityType = item.EntityType;
-        entityPage.EntityView.ViewModel.RequestedSection = message.Section;
-        entityPage.EntityView.ViewModel.FocusedDraftItem = message.DraftItem;
+        entityPage.Init(item.Id, item.EntityType, message.Section, message.DraftItem);
 
         try
         {
