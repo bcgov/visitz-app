@@ -87,7 +87,7 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         else if (exceptions.Count > 0)
             throw exceptions.First();
 
-        BusinessObject.LocalState.LastOpenedBinding = DateTimeOffset.UtcNow;
+        BusinessObject.LocalState?.LastOpenedBinding = DateTimeOffset.UtcNow;
 
         ResultCode = Result.Successful;
     }

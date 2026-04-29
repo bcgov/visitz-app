@@ -45,6 +45,7 @@ public static class RealmExtensions
         where T : IRealmObject
     {
         foreach (var id in ids)
-            realm.Remove(realm.Find<T>(id));
+            if (realm.Find<T>(id) is T found)
+                realm.Remove(found);
     }
 }

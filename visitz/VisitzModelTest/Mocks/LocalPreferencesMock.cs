@@ -1,4 +1,4 @@
-namespace VisitzModelTest.Storage;
+namespace VisitzModelTest.Mocks;
 
 internal class LocalPreferencesMock : IPreferences
 {

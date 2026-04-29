@@ -11,21 +11,21 @@ namespace VisitzModel.Models.People;
 public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRecord, IApiJson<SubmitSupportNetworkJson>
 {
     [PrimaryKey]
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string CreatedById { get; set; }
+    public string CreatedById { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public string UpdatedById { get; set; }
+    public string UpdatedById { get; set; } = string.Empty;
 
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public DateTimeOffset UpdatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public string ParentId { get; set; }
+    public string ParentId { get; set; } = string.Empty;
 
     private int ParentTypeInt { get; set; }
 
@@ -35,33 +35,33 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRec
         set => ParentTypeInt = (int)value;
     }
 
-    public string Active { get; set; }
+    public string Active { get; set; } = string.Empty;
 
-    public string Address { get; set; }
+    public string Address { get; set; } = string.Empty;
 
-    public string AgencyName { get; set; }
+    public string AgencyName { get; set; } = string.Empty;
 
-    public string ParentRecordId { get; set; }
+    public string ParentRecordId { get; set; } = string.Empty;
 
-    public string CellPhoneNumber { get; set; }
+    public string CellPhoneNumber { get; set; } = string.Empty;
 
-    public string Comments { get; set; }
+    public string Comments { get; set; } = string.Empty;
 
-    public string EmergencyContact { get; set; }
+    public string EmergencyContact { get; set; } = string.Empty;
 
-    public string EntityId { get; set; }
+    public string EntityId { get; set; } = string.Empty;
 
-    public string EntityName { get; set; }
+    public string EntityName { get; set; } = string.Empty;
 
-    public string IcmSncCaseConFlag { get; set; }
+    public string IcmSncCaseConFlag { get; set; } = string.Empty;
 
-    public string IcmSncSrConFlag { get; set; }
+    public string IcmSncSrConFlag { get; set; } = string.Empty;
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = string.Empty;
 
-    public string Relationship { get; set; }
+    public string Relationship { get; set; } = string.Empty;
 
     public SupportNetworkItem() { }
 

@@ -6,7 +6,7 @@ public class EagerActionQueue(CancellationToken? cancellationToken = null)
 {
     readonly CancellationToken cancelToken = cancellationToken ?? CancellationToken.None;
     readonly ConcurrentQueue<(TaskCompletionSource, Func<Task>)> taskQueue = new();
-    Task writeFromQueue;
+    Task? writeFromQueue;
 
     public bool HasCompleted => writeFromQueue?.IsCompleted ?? true;
 

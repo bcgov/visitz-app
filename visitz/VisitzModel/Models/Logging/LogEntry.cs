@@ -4,11 +4,11 @@ namespace VisitzModel.Models.Logging
 {
     public partial class LogEntry : IRealmObject
     {
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
 
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
-        public string Source { get; set; }
+        public string Source { get; set; } = string.Empty;
 
         public DateTimeOffset Timestamp { get; set; }
 

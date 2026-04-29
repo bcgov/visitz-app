@@ -2,7 +2,9 @@ using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
+using VisitzModelTest.Mocks;
 
 namespace VisitzModelTest.Models.Caseload;
 
@@ -121,13 +123,14 @@ public class CaseRecordTests
         Assert.DoesNotContain(name, @case.Assignees);
     }
 
-    async Task<IEnumerable<CaseRecord>> GetByAssignee(string name, bool isPersonalCaseload)
+    static async Task<IEnumerable<CaseRecord>> GetByAssignee(string name, bool isPersonalCaseload)
     {
         var realm = await TestingUtilities.MakeRealm<CaseRecordTests>();
         List<CaseRecord> cases = [new CaseRecord(CaseJson), new() { Id = "23456" }];
+        UserIgnoredContentPrefs prefs = new(new LocalPreferencesMock());
 
         await realm.Write(async () =>
-            await CaseRecord.SynchronizeAsync(realm, cases, null, PrimaryName, isPersonalCaseload)
+            await CaseRecord.SynchronizeAsync(realm, cases, prefs, PrimaryName, isPersonalCaseload)
         );
 
         return CaseRecord.GetAllByAssignee(realm, name, isPersonalCaseload);
@@ -197,7 +200,7 @@ public class CaseRecordTests
         realm.Write(() =>
         {
             @case.UpsertLocalState(realm);
-            @case.LocalState.ShouldDownloadDuringRefresh = true;
+            @case.LocalState?.ShouldDownloadDuringRefresh = true;
             realm.Add(@case);
         });
 
@@ -212,6 +215,6 @@ public class CaseRecordTests
         CaseRecord retrievedCase = realm.Find<CaseRecord>(CaseJson.Id)!;
 
         Assert.Equal(closed, retrievedCase.Status);
-        Assert.True(retrievedCase.LocalState.ShouldDownloadDuringRefresh);
+        Assert.True(retrievedCase.LocalState!.ShouldDownloadDuringRefresh);
     }
 }

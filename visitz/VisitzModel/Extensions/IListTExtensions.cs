@@ -4,7 +4,7 @@ namespace VisitzModel.Extensions;
 
 public static class IListTExtensions
 {
-    public static int BinarySearch<T>(this IList<T> list, T value, IComparer<T> comparer = null)
+    public static int BinarySearch<T>(this IList<T> list, T value, IComparer<T>? comparer = null)
     {
         if (list == null)
             throw new ArgumentException(null, nameof(list));
@@ -37,7 +37,7 @@ public static class IListTExtensions
             list.Add(newItem);
         else
         {
-            T find = ascending
+            T? find = ascending
                 ? list.FirstOrDefault(item => item.CompareTo(newItem) >= 0)
                 : list.FirstOrDefault(item => item.CompareTo(newItem) < 0);
 

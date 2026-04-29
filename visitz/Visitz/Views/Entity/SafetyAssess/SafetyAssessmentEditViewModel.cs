@@ -157,7 +157,11 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
     {
         var info = await OidcSessionInfo.GetAsync();
 
-        return SafetyAssessment.Make(BusinessObject.FileNumber, info.Idir, BusinessObject.GetKeyPlayer().LastName);
+        return SafetyAssessment.Make(
+            BusinessObject.FileNumber,
+            info.Idir,
+            BusinessObject.GetKeyPlayer()?.LastName ?? string.Empty
+        );
     }
 
     private async Task SetupAssessmentDraft()

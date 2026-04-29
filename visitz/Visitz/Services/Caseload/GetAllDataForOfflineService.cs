@@ -123,7 +123,7 @@ namespace Visitz.Services.Caseload
             return realm
                 .All<T>()
                 .AsEnumerable()
-                .Where(bo => bo.LocalState.ShouldDownloadDuringRefresh)
+                .Where(bo => bo.LocalState?.ShouldDownloadDuringRefresh ?? true)
                 .Select(bo => new RecordServiceInfo(bo))
                 .ToList();
         }

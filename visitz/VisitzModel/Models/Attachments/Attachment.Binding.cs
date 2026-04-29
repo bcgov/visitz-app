@@ -25,7 +25,7 @@ public partial class Attachment
         }
     }
 
-    public byte[] ThumbnailBinding
+    public byte[]? ThumbnailBinding
     {
         get => IsValid ? Thumbnail : default;
         set
@@ -37,7 +37,7 @@ public partial class Attachment
 
     public string RelativePathBinding
     {
-        get => IsValid ? RelativePath : default;
+        get => IsValid ? RelativePath : string.Empty;
         set
         {
             this.Commit(() => RelativePath = value);
@@ -48,7 +48,7 @@ public partial class Attachment
 
     public string FilenameBinding
     {
-        get => IsValid ? Filename : default;
+        get => IsValid ? Filename : string.Empty;
         set
         {
             if (Filename != value)
@@ -61,7 +61,7 @@ public partial class Attachment
 
     public string ExtensionBinding
     {
-        get => IsValid ? Extension : default;
+        get => IsValid ? Extension : string.Empty;
         set
         {
             if (Extension != value)

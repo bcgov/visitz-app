@@ -197,7 +197,7 @@ public partial class NavRailViewModel : VisitzViewModel
         TodoNavItem.BadgeCount = message.Value;
     }
 
-    private NavItem? GetNavItemByType(Type contentViewType)
+    private NavItem? GetNavItemByType(Type? contentViewType)
     {
         return NavigationItems.FirstOrDefault(item => item.ContentViewType == contentViewType);
     }

@@ -60,6 +60,9 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
         }
         else
         {
+            if (DataRealm == null)
+                return;
+
             // We can't rely on the indices provided by realm because we're
             // modifying the collection order outside the original query. So
             // we need to do another full query to see differences.

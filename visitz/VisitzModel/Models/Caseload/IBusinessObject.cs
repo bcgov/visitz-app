@@ -36,7 +36,7 @@ public interface IBusinessObject : IRealmObject
 
     public string ServiceOffice { get; set; }
 
-    public BoLocalState LocalState { get; set; }
+    public BoLocalState? LocalState { get; set; }
 
     public string DisplayDate { get; }
 
@@ -102,14 +102,17 @@ public static class IBusinessObjectExtensions
         return $"{subtype} {type}";
     }
 
-    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm? realm = null)
+    public static IcmContact? GetKeyPlayer(this IBusinessObject businessObject, Realm? realm = null)
     {
-        return IcmContact.GetKeyPlayerFor(realm ?? businessObject.Realm, businessObject);
+        realm ??= businessObject.Realm ?? throw new InvalidOperationException("Attached Realm is null");
+        return IcmContact.GetKeyPlayerFor(realm, businessObject);
     }
 
     public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm? realm = null)
     {
-        return IcmContact.GetByParentObject(realm ?? businessObject.Realm, businessObject);
+        realm ??= businessObject.Realm;
+        ArgumentNullException.ThrowIfNull(realm);
+        return IcmContact.GetByParentObject(realm, businessObject);
     }
 
     public static void SubscribePropertyChanged(this IBusinessObject business, PropertyChangedEventHandler handler)

@@ -12,15 +12,24 @@ namespace Visitz.Views.Todo;
 
 #nullable enable
 
-internal partial class TodoVisitItemViewModel(PersonVisit visit) : VisitzViewModel, ITodoItem
+internal partial class TodoVisitItemViewModel : VisitzViewModel, ITodoItem
 {
     public int SortOrder => Visit.DueDateDaysRemaining;
 
-    public PersonVisit Visit { get; set; } = visit;
+    public PersonVisit Visit { get; set; }
 
-    public IBusinessObject BusinessObject { get; set; } = CaseRecord.GetByPersonVisitItem(visit.Realm, visit);
+    public IBusinessObject? BusinessObject { get; set; }
 
     public bool IsOverdue => Visit.IsValid && DateTimeOffset.Now.Date > Visit.DueDate;
+
+    public TodoVisitItemViewModel(PersonVisit visit)
+    {
+        Visit = visit;
+
+        ArgumentNullException.ThrowIfNull(visit.Realm);
+
+        BusinessObject = CaseRecord.GetByPersonVisitItem(visit.Realm, visit);
+    }
 
     public int CompareTo(ITodoItem? other)
     {
@@ -30,7 +39,8 @@ internal partial class TodoVisitItemViewModel(PersonVisit visit) : VisitzViewMod
     [RelayCommand]
     private static void TodoItemSelected(TodoVisitItemViewModel item)
     {
-        NavigateTo(item.BusinessObject, EntitySection.ChildYouthVisits);
+        if (item.BusinessObject != null)
+            NavigateTo(item.BusinessObject, EntitySection.ChildYouthVisits);
     }
 
     static void NavigateTo(IBusinessObject businessObject, EntitySection section)

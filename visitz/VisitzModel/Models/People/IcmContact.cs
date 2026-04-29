@@ -27,25 +27,25 @@ public partial class IcmContact
     static readonly string KeyPlayer = "Key player";
 
     [PrimaryKey]
-    public string LocalId { get; set; }
+    public string LocalId { get; set; } = string.Empty;
 
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string CreatedById { get; set; }
+    public string CreatedById { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public string UpdatedById { get; set; }
+    public string UpdatedById { get; set; } = string.Empty;
 
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public DateTimeOffset UpdatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public string ParentId { get; set; }
+    public string ParentId { get; set; } = string.Empty;
 
-    private int ParentTypeInt { get; set; }
+    private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
 
     public EntityType ParentType
     {
@@ -53,47 +53,47 @@ public partial class IcmContact
         set => ParentTypeInt = (int)value;
     }
 
-    public string _921Agt { get; set; }
+    public string _921Agt { get; set; } = string.Empty;
 
     public int ActiveAddresses { get; set; }
 
     public int Age { get; set; }
 
-    public string AkaFirstName { get; set; }
+    public string AkaFirstName { get; set; } = string.Empty;
 
-    public string AkaLastName { get; set; }
+    public string AkaLastName { get; set; } = string.Empty;
 
-    public string Alerts { get; set; }
+    public string Alerts { get; set; } = string.Empty;
 
-    public string AutismFundingPaused { get; set; }
+    public string AutismFundingPaused { get; set; } = string.Empty;
 
-    public string BceIdUserName { get; set; }
+    public string BceIdUserName { get; set; } = string.Empty;
 
-    public string CanadianCitizen { get; set; }
+    public string CanadianCitizen { get; set; } = string.Empty;
 
-    public string CellPhone { get; set; }
+    public string CellPhone { get; set; } = string.Empty;
 
-    public string Citizen { get; set; }
+    public string Citizen { get; set; } = string.Empty;
 
-    public string Citizenship { get; set; }
+    public string Citizenship { get; set; } = string.Empty;
 
-    public string City { get; set; }
+    public string City { get; set; } = string.Empty;
 
-    public string CollaborateId { get; set; }
+    public string CollaborateId { get; set; } = string.Empty;
 
-    public string Comments { get; set; }
+    public string Comments { get; set; } = string.Empty;
 
-    public string ConcernsOutcome { get; set; }
+    public string ConcernsOutcome { get; set; } = string.Empty;
 
-    public string CoordinationAgtCa { get; set; }
+    public string CoordinationAgtCa { get; set; } = string.Empty;
 
-    public string Country { get; set; }
+    public string Country { get; set; } = string.Empty;
 
-    public string CountryOfBirth { get; set; }
+    public string CountryOfBirth { get; set; } = string.Empty;
 
     public DateTimeOffset? CurrentStartDate { get; set; }
 
-    public string Cysn { get; set; }
+    public string Cysn { get; set; } = string.Empty;
 
     public DateTimeOffset? DateOfBirth { get; set; }
 
@@ -101,108 +101,108 @@ public partial class IcmContact
 
     public DateTimeOffset? CitizenshipUpdatedDate { get; set; }
 
-    public string Deceased { get; set; }
+    public string Deceased { get; set; } = string.Empty;
 
     public DateTimeOffset? DeceasedDate { get; set; }
 
-    public string EndDate { get; set; }
+    public string EndDate { get; set; } = string.Empty;
 
-    public string FirstName { get; set; }
+    public string FirstName { get; set; } = string.Empty;
 
-    public string Gender { get; set; }
+    public string Gender { get; set; } = string.Empty;
 
-    public string GivenNames { get; set; }
+    public string GivenNames { get; set; } = string.Empty;
 
-    public string HomePhone { get; set; }
+    public string HomePhone { get; set; } = string.Empty;
 
-    public string ImmigrationStatus { get; set; }
+    public string ImmigrationStatus { get; set; } = string.Empty;
 
-    public string ImmigrationStatusUpdated { get; set; }
+    public string ImmigrationStatusUpdated { get; set; } = string.Empty;
 
-    public string Indigenous { get; set; }
+    public string Indigenous { get; set; } = string.Empty;
 
-    public string IntegrationState { get; set; }
+    public string IntegrationState { get; set; } = string.Empty;
 
-    public string InvestigationOutcomeSummary { get; set; }
+    public string InvestigationOutcomeSummary { get; set; } = string.Empty;
 
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
-    public string LegacyDependentSequence { get; set; }
+    public string LegacyDependentSequence { get; set; } = string.Empty;
 
-    public string LegalStatus { get; set; }
+    public string LegalStatus { get; set; } = string.Empty;
 
-    public string MessagePhone { get; set; }
+    public string MessagePhone { get; set; } = string.Empty;
 
-    public string MiddleNames { get; set; }
+    public string MiddleNames { get; set; } = string.Empty;
 
     public DateTimeOffset? OriginalStartDate { get; set; }
 
     public bool IsParentCaregiver { get; set; }
 
-    public string PersonIdIcm { get; set; }
+    public string PersonIdIcm { get; set; } = string.Empty;
 
-    public string PersonIdMis { get; set; }
+    public string PersonIdMis { get; set; } = string.Empty;
 
-    public bool ResponsibleForAllegedMaltreatment { get; set; }
+    public bool? ResponsibleForAllegedMaltreatment { get; set; }
 
-    public string PersonalHealthNumber { get; set; }
+    public string PersonalHealthNumber { get; set; } = string.Empty;
 
-    public string PersonalHealthNumberVerified { get; set; }
+    public string PersonalHealthNumberVerified { get; set; } = string.Empty;
 
-    public string PostalCode { get; set; }
+    public string PostalCode { get; set; } = string.Empty;
 
-    public string PotentialDuplicate { get; set; }
+    public string PotentialDuplicate { get; set; } = string.Empty;
 
-    public string PotentialDuplicateComments { get; set; }
+    public string PotentialDuplicateComments { get; set; } = string.Empty;
 
-    public string PreferredLanguage { get; set; }
+    public string PreferredLanguage { get; set; } = string.Empty;
 
-    public string Primary { get; set; }
+    public string Primary { get; set; } = string.Empty;
 
-    public string PrimaryAddress { get; set; }
+    public string PrimaryAddress { get; set; } = string.Empty;
 
-    public string PrimaryEmail { get; set; }
+    public string PrimaryEmail { get; set; } = string.Empty;
 
-    public string ProjectCode { get; set; }
+    public string ProjectCode { get; set; } = string.Empty;
 
-    public string Province { get; set; }
+    public string Province { get; set; } = string.Empty;
 
-    public string PstScore { get; set; }
+    public string PstScore { get; set; } = string.Empty;
 
-    public string Relationship { get; set; }
+    public string Relationship { get; set; } = string.Empty;
 
-    public string Role { get; set; }
+    public string Role { get; set; } = string.Empty;
 
-    public string RowId { get; set; }
+    public string RowId { get; set; } = string.Empty;
 
-    public string SaetPaused { get; set; }
+    public string SaetPaused { get; set; } = string.Empty;
 
-    public string SocialInsuranceNumber { get; set; }
+    public string SocialInsuranceNumber { get; set; } = string.Empty;
 
     public DateTimeOffset? StartDate { get; set; }
 
-    public string StreetAddress { get; set; }
+    public string StreetAddress { get; set; } = string.Empty;
 
-    public string StreetAddress2 { get; set; }
+    public string StreetAddress2 { get; set; } = string.Empty;
 
-    public string Subject { get; set; }
+    public string Subject { get; set; } = string.Empty;
 
     public bool IsSubjectChild { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
-    public string UnitNumber { get; set; }
+    public string UnitNumber { get; set; } = string.Empty;
 
-    public string WorkPhone { get; set; }
+    public string WorkPhone { get; set; } = string.Empty;
 
     public string FullDisplayName => string.Join(" ", FirstName, MiddleNames, LastName);
 
     public string DateOfBirthFormatted =>
-        DateOfBirth?.ToString(IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture);
+        DateOfBirth?.ToString(IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture) ?? string.Empty;
 
-    public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone);
+    public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone) ?? string.Empty;
 
-    public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone);
+    public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone) ?? string.Empty;
 
     public bool IsKeyPlayer => Relationship == KeyPlayer;
 
@@ -357,13 +357,13 @@ public partial class IcmContact
             CoordinationAGTCA = CoordinationAgtCa,
             Country = Country,
             CountryofBirth = CountryOfBirth,
-            CurrentStartDate = CurrentStartDate?.ToString(dateFormat),
+            CurrentStartDate = CurrentStartDate?.ToString(dateFormat) ?? string.Empty,
             CYSN = Cysn,
-            DateofBirth = DateOfBirth?.ToString(dateFormat),
-            DateUpdated_CitizenUpdatedDate = CitizenUpdatedDate?.ToString(dateFormat),
-            DateUpdated_CitizenshipUpdatedDate = CitizenshipUpdatedDate?.ToString(dateFormat),
+            DateofBirth = DateOfBirth?.ToString(dateFormat) ?? string.Empty,
+            DateUpdated_CitizenUpdatedDate = CitizenUpdatedDate?.ToString(dateFormat) ?? string.Empty,
+            DateUpdated_CitizenshipUpdatedDate = CitizenshipUpdatedDate?.ToString(dateFormat) ?? string.Empty,
             Deceased = Deceased,
-            DeceasedDate = DeceasedDate?.ToString(dateFormat),
+            DeceasedDate = DeceasedDate?.ToString(dateFormat) ?? string.Empty,
             EndDate = EndDate,
             FirstName = FirstName,
             Gender = Gender,
@@ -379,11 +379,11 @@ public partial class IcmContact
             LegalStatus = LegalStatus,
             MessagePhone = MessagePhone,
             MiddleNames = MiddleNames,
-            OriginalStartDate = OriginalStartDate?.ToString(dateFormat),
+            OriginalStartDate = OriginalStartDate?.ToString(dateFormat) ?? string.Empty,
             Parent_Caregiver = IsParentCaregiver.AsTruthyChar(),
             PersonIDICM = PersonIdIcm,
             PersonIDMIS = PersonIdMis,
-            PersonResponsibleforAllegedMaltreatment = ResponsibleForAllegedMaltreatment.AsTruthyChar(),
+            PersonResponsibleforAllegedMaltreatment = ResponsibleForAllegedMaltreatment?.AsTruthyChar() ?? string.Empty,
             PHN = PersonalHealthNumber,
             PHNVerified = PersonalHealthNumberVerified,
             PostalCode = PostalCode,
@@ -401,7 +401,7 @@ public partial class IcmContact
             RowId = RowId,
             SAETPaused = SaetPaused,
             SIN = SocialInsuranceNumber,
-            StartDate = StartDate?.ToString(dateFormat),
+            StartDate = StartDate?.ToString(dateFormat) ?? string.Empty,
             StreetAddress = StreetAddress,
             StreetAddress2 = StreetAddress2,
             Subject = Subject,
@@ -485,14 +485,14 @@ public partial class IcmContact
             );
     }
 
-    public static IcmContact GetKeyPlayerFor(Realm realm, IBusinessObject businessObject)
+    public static IcmContact? GetKeyPlayerFor(Realm realm, IBusinessObject businessObject)
     {
         return GetByParentObject(realm, businessObject)
             .Where(contact => contact.Relationship == KeyPlayer)
             .FirstOrDefault();
     }
 
-    public bool Equals(IcmContact x, IcmContact y)
+    public bool Equals(IcmContact? x, IcmContact? y)
     {
         if (ReferenceEquals(x, y))
             return true;

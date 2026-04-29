@@ -6,7 +6,7 @@ public partial class PersonVisit
 {
     public string VisitDescriptionBinding
     {
-        get => IsValid ? VisitDescription : default;
+        get => IsValid ? VisitDescription : string.Empty;
         set
         {
             this.Commit(() => VisitDescription = value);

@@ -25,62 +25,67 @@ public partial class CaseRecord
         IEquatable<CaseRecord>
 {
     [PrimaryKey]
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string CreatedById { get; set; }
+    public string CreatedById { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public string UpdatedById { get; set; }
+    public string UpdatedById { get; set; } = string.Empty;
 
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public DateTimeOffset UpdatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public string FileNumber { get; set; }
+    public string FileNumber { get; set; } = string.Empty;
 
     public EntityType EntityType => EntityType.Case;
 
-    public string GivenNames { get; set; }
+    public string GivenNames { get; set; } = string.Empty;
 
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
-    public string AssignedTo { get; set; }
+    public string AssignedTo { get; set; } = string.Empty;
 
-    public string AssignedToId { get; set; }
+    public string AssignedToId { get; set; } = string.Empty;
 
-    public IList<string> Assignees { get; }
+    public IList<string> Assignees { get; } = null!;
 
-    public string DisplayAssignees =>
-        Assignees.Any()
-            ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)?.Trim()
-            : AssignedTo;
+    public string DisplayAssignees
+    {
+        get
+        {
+            return Assignees.Any()
+                ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned).Trim()
+                : AssignedTo;
+        }
+    }
 
-    public string Caseload { get; set; }
+    public string Caseload { get; set; } = string.Empty;
 
     public DateTimeOffset? ClosedDate { get; set; }
 
-    public string CloseReason { get; set; }
+    public string CloseReason { get; set; } = string.Empty;
 
-    public string EarlyOpenReason { get; set; }
+    public string EarlyOpenReason { get; set; } = string.Empty;
 
-    public string IntegrationState { get; set; }
+    public string IntegrationState { get; set; } = string.Empty;
 
-    public string LegacyFileNumber { get; set; }
+    public string LegacyFileNumber { get; set; } = string.Empty;
 
-    public string MiddleName { get; set; }
+    public string MiddleName { get; set; } = string.Empty;
 
     public bool MyFSFlag { get; set; }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string ServiceOffice { get; set; }
+    public string ServiceOffice { get; set; } = string.Empty;
 
-    public string Organization { get; set; }
+    public string Organization { get; set; } = string.Empty;
 
-    public string RegionName { get; set; }
+    public string RegionName { get; set; } = string.Empty;
 
     public DateTimeOffset? RenewReviewDate { get; set; }
 
@@ -88,7 +93,7 @@ public partial class CaseRecord
 
     public bool RestrictedFlag { get; set; }
 
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     int TypeInt { get; set; }
     public EntitySubtype EntitySubtype
@@ -99,9 +104,9 @@ public partial class CaseRecord
 
     public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
 
-    public string WorkQueue { get; set; }
+    public string WorkQueue { get; set; } = string.Empty;
 
-    public BoLocalState LocalState { get; set; }
+    public BoLocalState? LocalState { get; set; }
 
     public string DisplayDate => CreatedDate.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
 
@@ -113,7 +118,7 @@ public partial class CaseRecord
 
     public CaseRecord() { }
 
-    public CaseRecord(CaseJson caseJson, string currentUsername = null)
+    public CaseRecord(CaseJson caseJson, string? currentUsername = null)
     {
         Id = caseJson.Id;
         CreatedBy = caseJson.CreatedBy;
@@ -128,15 +133,18 @@ public partial class CaseRecord
         AssignedTo = caseJson.AssignedTo;
         AssignedToId = caseJson.AssignedToId;
 
-        if (caseJson.Position?.Count > 0)
-            foreach (var position in caseJson.Position)
-                Assignees.Add(position.SalesRep);
+        if (Assignees != null)
+        {
+            if (caseJson.Position?.Count > 0)
+                foreach (var position in caseJson.Position)
+                    Assignees.Add(position.SalesRep);
 
-        if (!string.IsNullOrWhiteSpace(AssignedTo) && !Assignees.Contains(AssignedTo))
-            Assignees.Add(AssignedTo);
+            if (!string.IsNullOrWhiteSpace(AssignedTo) && !Assignees.Contains(AssignedTo))
+                Assignees.Add(AssignedTo);
 
-        if (!string.IsNullOrWhiteSpace(currentUsername) && !Assignees.Contains(currentUsername))
-            Assignees.Add(currentUsername);
+            if (!string.IsNullOrWhiteSpace(currentUsername) && !Assignees.Contains(currentUsername))
+                Assignees.Add(currentUsername);
+        }
 
         Caseload = caseJson.Caseload;
         ClosedDate = Timestamp.ParseDateTimeOffsetNullable(caseJson.ClosedDate);
@@ -195,7 +203,7 @@ public partial class CaseRecord
         };
     }
 
-    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> jsonArray, string currentUsername = null)
+    public static List<CaseRecord> FromApiJsonArray(IEnumerable<CaseJson> jsonArray, string? currentUsername = null)
     {
         List<CaseRecord> outList = [];
 
@@ -265,11 +273,11 @@ public partial class CaseRecord
 
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm fromRealm = null,
+        Realm? fromRealm = null,
         bool deleteLocalState = true
     )
     {
-        fromRealm ??= Realm;
+        fromRealm ??= Realm ?? throw new InvalidOperationException("Managed realm is null");
 
         NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.Case, FileNumber);
         PersonVisit.RemoveByParent(fromRealm, EntityType.Case, Id);
@@ -277,18 +285,18 @@ public partial class CaseRecord
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Case, Id, userIgnoredPrefs);
 
-        if (deleteLocalState)
+        if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);
     }
 
     public void Delete(
         UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm fromRealm = null,
+        Realm? fromRealm = null,
         bool cascade = true,
         bool deleteLocalState = true
     )
     {
-        fromRealm ??= Realm;
+        fromRealm ??= Realm ?? throw new InvalidOperationException("Managed realm is null");
 
         if (cascade)
             DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
@@ -306,7 +314,7 @@ public partial class CaseRecord
             @case.Delete(userIgnoredPrefs, fromRealm);
     }
 
-    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    public static IBusinessObject? GetByDraftItem(Realm realm, IDraftItem draftItem)
     {
         return realm
             .All<CaseRecord>()
@@ -315,7 +323,7 @@ public partial class CaseRecord
             );
     }
 
-    public static IBusinessObject GetByPersonVisitItem(Realm realm, PersonVisit item)
+    public static IBusinessObject? GetByPersonVisitItem(Realm realm, PersonVisit item)
     {
         return realm
             .All<CaseRecord>()
@@ -334,12 +342,12 @@ public partial class CaseRecord
         return AssignedTo == username || Assignees.Contains(username);
     }
 
-    public bool Equals(CaseRecord other)
+    public bool Equals(CaseRecord? other)
     {
         return other != null && Id == other.Id && EntityType == other.EntityType;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is CaseRecord info ? Equals(info) : base.Equals(obj);
     }

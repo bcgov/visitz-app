@@ -9,7 +9,7 @@ public class LastUpdatedPrefs(IPreferences prefs)
 
     IPreferences Preferences { get; set; } = prefs;
 
-    public event EventHandler<LastUpdatedChangedEventArgs> LastUpdatedChanged;
+    public event EventHandler<LastUpdatedChangedEventArgs>? LastUpdatedChanged;
 
     public void Set(string key, DateTime value)
     {

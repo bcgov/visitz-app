@@ -196,7 +196,8 @@ public partial class DraftsListViewModel : VisitzViewModel
 
     private async Task MarkForDownloadAndTryOpen(IBusinessObject bobj, IDraftItem draftItem)
     {
-        bool markForDownload = !bobj.LocalState.ShouldDownloadDuringRefresh;
+        bool shouldDownload = bobj.LocalState?.ShouldDownloadDuringRefresh ?? true;
+        bool markForDownload = !shouldDownload;
 
         if (markForDownload)
         {
@@ -250,7 +251,7 @@ public partial class DraftsListViewModel : VisitzViewModel
                 realm.Remove(draft);
             }
             else if (draft is AttachmentDraft attachmentDraft)
-                await attachmentDraft.Attachment.DeleteAsync();
+                await (attachmentDraft.Attachment?.DeleteAsync() ?? Task.CompletedTask);
             else
                 realm.Remove(draft);
         });

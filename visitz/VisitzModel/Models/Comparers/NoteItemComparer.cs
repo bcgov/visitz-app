@@ -6,7 +6,7 @@ public class NoteItemComparer : IComparer<NoteItem>
 {
     public static readonly NoteItemComparer Instance = new();
 
-    public int Compare(NoteItem x, NoteItem y)
+    public int Compare(NoteItem? x, NoteItem? y)
     {
         if (x == null)
             return y == null ? 0 : -1;

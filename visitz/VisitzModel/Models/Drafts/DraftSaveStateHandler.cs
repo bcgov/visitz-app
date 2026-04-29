@@ -5,10 +5,10 @@ namespace VisitzModel.Models.Drafts;
 
 public class DraftSaveStateHandler(TimeSpan? delay = null) : IDisposable
 {
-    Debouncer _debouncer = new(delay ?? Debouncer.AvgStoppedTypingDelay);
+    Debouncer? _debouncer = new(delay ?? Debouncer.AvgStoppedTypingDelay);
     bool _disposed;
 
-    public event EventHandler<DraftSaveStatusEventArgs> SaveStateChanged;
+    public event EventHandler<DraftSaveStatusEventArgs>? SaveStateChanged;
 
     void UpdateState(DraftSaveState newState)
     {
@@ -25,7 +25,7 @@ public class DraftSaveStateHandler(TimeSpan? delay = null) : IDisposable
     {
         UpdateState(DraftSaveState.Saving);
 
-        if (changeToSavedAfterDelay)
+        if (changeToSavedAfterDelay && _debouncer != null)
             await _debouncer.Debounce(() => UpdateState(DraftSaveState.Saved));
     }
 

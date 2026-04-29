@@ -18,6 +18,8 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class AttachmentDraftsListViewModel : IcmRecordViewModel
 {
+    private const string _noAttachmentError = "Selected draft does not have an attachment";
+
     Realm? attachmentsRealm;
 
     readonly ObservableRealmQueryMap realmQuery = new();
@@ -101,6 +103,9 @@ public partial class AttachmentDraftsListViewModel : IcmRecordViewModel
 
     static async Task PromptDiscardAttachmentDraftAsync(AttachmentDraft draft)
     {
+        if (draft.Attachment == null)
+            throw new InvalidOperationException(_noAttachmentError);
+
         bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardDraft,
             LocalizedStrings.DiscardAttachmentDraftDescription,
@@ -140,6 +145,9 @@ public partial class AttachmentDraftsListViewModel : IcmRecordViewModel
 
     async Task DoOpenAttachment(AttachmentDraft draft)
     {
+        if (draft.Attachment == null)
+            throw new InvalidOperationException(_noAttachmentError);
+
         if (!draft.Attachment.FileExistsLocally)
             return;
 

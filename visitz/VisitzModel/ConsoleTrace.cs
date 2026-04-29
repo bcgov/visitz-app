@@ -11,7 +11,7 @@ public static class ConsoleTrace
     public static void TraceMethod(
         object caller,
         Exception ex,
-        string prepend = null,
+        string? prepend = null,
         [CallerMemberName] string memberName = ""
     )
     {
@@ -20,8 +20,8 @@ public static class ConsoleTrace
 
     public static void TraceMethod(
         object caller,
-        string message = null,
-        string prepend = null,
+        string? message = null,
+        string? prepend = null,
         [CallerMemberName] string memberName = ""
     )
     {
@@ -30,8 +30,8 @@ public static class ConsoleTrace
 
     public static void TraceMethod(
         Type callerType,
-        string message = null,
-        string prepend = null,
+        string? message = null,
+        string? prepend = null,
         [CallerMemberName] string memberName = ""
     )
     {

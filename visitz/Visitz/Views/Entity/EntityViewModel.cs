@@ -175,7 +175,7 @@ public partial class EntityViewModel : IcmRecordViewModel, IRecipient<ServiceSta
     void UpdateLocalActivityTimestamp()
     {
         if (BusinessObject.IsValid)
-            BusinessObject.LocalState.LastOpenedBinding = DateTimeOffset.UtcNow;
+            BusinessObject.LocalState?.LastOpenedBinding = DateTimeOffset.UtcNow;
     }
 
     async Task SetupDraftIndicatorObservers()
