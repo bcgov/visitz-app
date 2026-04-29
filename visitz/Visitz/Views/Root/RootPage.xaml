@@ -30,6 +30,7 @@
                 AnimationEasing="{Static Easing.CubicInOut}"
                 DrawerHeaderHeight="100"
                 TouchThreshold="10"
+                Position="Right"
             >
                 <drawer:DrawerSettings.DrawerContentView>
                     <root:NavDrawerContentView />

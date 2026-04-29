@@ -13,48 +13,24 @@
     x:TypeArguments="root:NavDrawerContentViewModel"
 >
     <Grid RowDefinitions="*, Auto">
-        <views:FeaturedBackgroundUnderlay Grid.RowSpan="3" ImageDisplayOptions="TextReadable" />
+        <views:FeaturedBackgroundUnderlay Grid.RowSpan="2" ImageDisplayOptions="TextReadable" />
 
         <ScrollView Grid.Row="0" VerticalOptions="Fill">
             <VerticalStackLayout>
-                <VerticalStackLayout>
-                    <VerticalStackLayout.Margin>
-                        <Thickness Top="15" />
-                    </VerticalStackLayout.Margin>
+                <nav:NavDrawerItemView
+                    x:Name="CollectionNoticeItem"
+                    BindingContext="{Binding CollectionNoticeNavItem}"
+                />
 
-                    <VerticalStackLayout.Behaviors>
-                        <behaviors:SelectionLayoutBehavior
-                            ItemsSource="{Binding NavRailViewModel.NavigationItems}"
-                            SelectedItem="{Binding NavRailViewModel.SelectedNavItem}"
-                            StickySelection="True"
-                        />
-                    </VerticalStackLayout.Behaviors>
+                <nav:NavDrawerItemView
+                    x:Name="FeedbackItem"
+                    BindingContext="{Binding FeedbackNavItem}"
+                />
 
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <nav:NavDrawerItemView />
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </VerticalStackLayout>
-
-                <BoxView Color="White" HorizontalOptions="Fill" HeightRequest="1" Margin="28,16" />
-
-                <VerticalStackLayout>
-                    <nav:NavDrawerItemView
-                        x:Name="CollectionNoticeItem"
-                        BindingContext="{Binding CollectionNoticeNavItem}"
-                    />
-
-                    <nav:NavDrawerItemView
-                        x:Name="FeedbackItem"
-                        BindingContext="{Binding FeedbackNavItem}"
-                    />
-
-                    <nav:NavDrawerItemView
-                        x:Name="LogoutItem"
-                        BindingContext="{Binding LogoutNavItem}"
-                    />
-                </VerticalStackLayout>
+                <nav:NavDrawerItemView
+                    x:Name="LogoutItem"
+                    BindingContext="{Binding LogoutNavItem}"
+                />
             </VerticalStackLayout>
         </ScrollView>
 
