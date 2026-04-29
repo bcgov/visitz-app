@@ -1,6 +1,7 @@
 using Visitz.Device;
 using Visitz.Views;
 using Visitz.Views.AppLock;
+using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
@@ -26,6 +27,8 @@ public static class VisitzScreens
 {
     public static MauiAppBuilder ConfigureVisitzScreens(this MauiAppBuilder builder)
     {
+        builder.Services.AddTransient<WrapperPage>();
+
         builder.Services.AddSingleton<RootPage>();
         builder.Services.AddSingleton<RootViewModel>();
 

@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Foldable;
 using Visitz.Animations;
 using Visitz.Views.BaseClasses;
@@ -10,12 +11,12 @@ namespace Visitz.Views.Root;
 
 #nullable enable
 
-public partial class RootPage : VisitzPage, ISnackbarPresenter
+public partial class RootPage : VisitzPage<RootPage, RootViewModel>, ISnackbarPresenter
 {
     VisitzSnackbar? Snackbar { get; set; }
 
-    public RootPage()
-        : base(ServiceProvider.GetService<RootViewModel>())
+    public RootPage(RootViewModel viewModel, ILogger<RootPage> logger)
+        : base(viewModel, logger)
     {
         InitializeComponent();
         BindingContext = ViewModel;

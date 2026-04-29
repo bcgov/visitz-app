@@ -1,17 +1,42 @@
+using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
 using VisitzModel;
+#if IOS
+using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
+#endif
 
 namespace Visitz.Views.BaseClasses;
 
-public partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage(), IDisposable
+#nullable enable
+
+public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
+    where TView : ContentPage
+    where TViewModel : VisitzViewModel
 {
-    private bool _disposed;
+    bool _disposed;
 
-    protected VisitzViewModel ViewModel { get; set; } = visitzViewModel;
+    protected virtual ILogger<TView> Logger { get; set; }
 
-    protected Task ViewModelInit { get; private set; }
+    protected TViewModel ViewModel { get; set; }
+
+    protected Task? ViewModelInit { get; private set; }
 
     protected Window CurrentWindow => Window ?? GetParentWindow();
+
+    public VisitzPage(TViewModel visitzViewModel, ILogger<TView> logger)
+        : base()
+    {
+        Logger = logger;
+        ViewModel = visitzViewModel;
+
+        NavigationPage.SetHasBackButton(this, false);
+        NavigationPage.SetHasNavigationBar(this, false);
+
+#if IOS
+        Behaviors.Add(new StatusBarBehavior() { StatusBarStyle = StatusBarStyle.LightContent });
+#endif
+    }
 
     protected override void OnParentChanging(ParentChangingEventArgs args)
     {
@@ -28,18 +53,18 @@ public partial class VisitzPage(VisitzViewModel visitzViewModel) : ContentPage()
 
     protected virtual void OnCreated()
     {
-        ConsoleTrace.TraceMethod(this);
+        Logger.TraceMethod(this);
 
-        ViewModelInit = ViewModel?.StartInitAsync();
+        ViewModelInit = ViewModel.StartInitAsync();
     }
 
     protected virtual void OnDestroyed()
     {
-        ConsoleTrace.TraceMethod(this);
+        Logger.TraceMethod(this);
 
         Behaviors.Clear();
 
-        ViewModel?.Dispose();
+        ViewModel.Dispose();
 
         if (Content.FindFirstDisposable() is IDisposable disposable)
             disposable.Dispose();

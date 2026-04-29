@@ -1,15 +1,14 @@
 using System.ComponentModel;
+using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
 using Visitz.Views.Surveys;
 
 namespace Visitz.Views.BaseClasses.Publishing;
 
-public partial class PublishPage : VisitzPage
+public partial class PublishPage : VisitzPage<PublishPage, PublishViewModel>
 {
-    public new PublishViewModel ViewModel => base.ViewModel as PublishViewModel;
-
-    public PublishPage(PublishViewModel publishViewModel)
-        : base(publishViewModel)
+    public PublishPage(PublishViewModel publishViewModel, ILogger<PublishPage> logger)
+        : base(publishViewModel, logger)
     {
         InitializeComponent();
         BindingContext = ViewModel;

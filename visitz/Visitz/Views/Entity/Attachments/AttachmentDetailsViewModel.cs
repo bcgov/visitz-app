@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -121,11 +122,12 @@ public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
     async Task PublishAttachmentDraftAsync()
     {
         var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
+        var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
 
         if (Attachment?.Draft == null || attachmentPublishVm == null || Filer == null)
             return;
 
         await attachmentPublishVm.SetPayload(BusinessObject, Attachment.Draft, Filer);
-        await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
+        await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm, logger));
     }
 }

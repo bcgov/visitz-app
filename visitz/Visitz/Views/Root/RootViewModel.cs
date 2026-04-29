@@ -9,7 +9,7 @@ namespace Visitz.Views.Root;
 
 #nullable enable
 
-internal partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>
+public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>
 {
     [ObservableProperty]
     public bool isLandscape = false;

@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Realms;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
@@ -130,11 +131,12 @@ public partial class AttachmentDraftsListViewModel : IcmRecordViewModel
     async Task DoPublishAttachmentDraft(AttachmentDraft draft)
     {
         var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
+        var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
         if (attachmentPublishVm == null)
             return;
 
         await attachmentPublishVm.SetPayload(BusinessObject, draft);
-        await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
+        await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm, logger));
     }
 
     [RelayCommand]

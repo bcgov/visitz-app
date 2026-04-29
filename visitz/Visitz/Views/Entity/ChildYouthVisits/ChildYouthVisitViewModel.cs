@@ -185,12 +185,13 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
         if (!AllowPublish)
             return;
 
-        await Navigator.Navigation.PopModalAsync();
-
         var publishVm = ServiceProvider.GetService<ChildYouthVisitPublishViewModel>();
+        var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
+
         publishVm.BusinessObject = BusinessObject;
 
-        await Navigator.Navigation.PushAsync(new PublishPage(publishVm));
+        await Navigator.Navigation.PopModalAsync();
+        await Navigator.Navigation.PushAsync(new PublishPage(publishVm, logger));
     }
 
     public void DiscardDraft()
