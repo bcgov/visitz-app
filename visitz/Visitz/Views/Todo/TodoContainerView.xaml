@@ -14,22 +14,14 @@
     BackgroundColor="{StaticResource Default_Background}"
 >
     <Grid RowDefinitions="Auto, *">
-        <controls:TopAppBar Grid.Row="0">
-            <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
-                <controls:FontIconButton
-                    Command="{Binding OpenNavDrawerCommand}"
-                    IsVisible="{Binding ShowMenuButton}"
-                    Text="{Static icons:MaterialIcons.Menu}"
-                    FontFamily="MaterialIconsRoundedUnfilled"
-                    TextColor="Black"
-                />
+        <controls:TopAppBar Grid.Row="0" ColumnDefinitions="*,*">
+            <Label
+                Text="{local:Localize Todo}"
+                Style="{StaticResource HeadlineMedium}"
+                VerticalOptions="Center"
+            />
 
-                <Label
-                    Text="{local:Localize Todo}"
-                    Style="{StaticResource HeadlineMedium}"
-                    VerticalOptions="Center"
-                />
-            </HorizontalStackLayout>
+            <controls:VisitzAvatarView Grid.Column="1" HorizontalOptions="End" />
         </controls:TopAppBar>
 
         <todo:TodoListView Grid.Row="1" />

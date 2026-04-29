@@ -171,7 +171,6 @@ public partial class NavRailViewModel : VisitzViewModel
             return;
 
         StrongReferenceMessenger.Default.Send(new AppNavMessage(value));
-        CloseNavDrawer();
     }
 
     [RelayCommand]
@@ -207,16 +206,5 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         if (DebugOptions.Enabled)
             await Navigator.GoToPage<DebugOptionsPage>();
-    }
-
-    [RelayCommand]
-    private static void OpenNavDrawer()
-    {
-        StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: true));
-    }
-
-    private static void CloseNavDrawer()
-    {
-        StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: false));
     }
 }
