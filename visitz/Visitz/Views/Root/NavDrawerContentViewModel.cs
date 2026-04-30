@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Navigation;
 using Visitz.Views.User;
 using VisitzModel.Models.Navigation;
 
@@ -10,9 +9,6 @@ namespace Visitz.Views.Root;
 
 public partial class NavDrawerContentViewModel : VisitzViewModel
 {
-    [ObservableProperty]
-    public NavRailViewModel navRailViewModel = ServiceProvider.GetService<NavRailViewModel>();
-
     [ObservableProperty]
     public UserViewModel userViewModel = ServiceProvider.GetService<UserViewModel>();
 
