@@ -32,6 +32,8 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
 
         NavigationPage.SetHasBackButton(this, false);
         NavigationPage.SetHasNavigationBar(this, false);
+
+        Loaded += VisitzPage_Loaded;
     }
 
     protected override async void OnParentChanging(ParentChangingEventArgs args)
@@ -62,6 +64,25 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
         ViewModelInit = ViewModel.StartInitAsync();
 
         return ViewModelInit;
+    }
+
+    private async void VisitzPage_Loaded(object? sender, EventArgs e)
+    {
+        try
+        {
+            await OnLoadedAsync();
+        }
+        catch (Exception ex)
+        {
+            await this.DisplayErrorAlert(ex);
+            throw;
+        }
+    }
+
+    protected virtual Task OnLoadedAsync()
+    {
+        Logger.TraceMethod(this);
+        return Task.CompletedTask;
     }
 
     protected virtual void OnDestroyed()
