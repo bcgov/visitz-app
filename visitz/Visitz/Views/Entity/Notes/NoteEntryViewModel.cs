@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Network;
 using Realms;
@@ -88,6 +89,7 @@ namespace Visitz.Views.Entity.Notes
             if (UpdateAllowPublish())
             {
                 var notePublishVm = ServiceProvider.GetService<NotePublishViewModel>();
+                var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
 
 #pragma warning disable SS002 // DateTime.Now was referenced
                 var now = DateTime.Now; // API system does not use UTC times
@@ -105,7 +107,7 @@ namespace Visitz.Views.Entity.Notes
                 notePublishVm.Init(BusinessObject, submitNoteEntity);
 
                 await Navigator.Navigation.PopModalAsync();
-                await Navigator.Navigation.PushAsync(new PublishPage(notePublishVm));
+                await Navigator.Navigation.PushAsync(new PublishPage(notePublishVm, logger));
             }
         }
 

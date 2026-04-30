@@ -42,7 +42,8 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
 
     protected override Window CreateWindow(IActivationState activationState)
     {
-        return new VisitzWindow(new NavigationPage(new RootPage()));
+        var rootPage = ServiceProvider.GetService<RootPage>();
+        return new VisitzWindow(new NavigationPage(rootPage));
     }
 
     private static void TryStartDebugSensor()

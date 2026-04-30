@@ -11,7 +11,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Root.RootPage"
     x:DataType="root:RootViewModel"
-    NavigationPage.HasNavigationBar="False"
+    x:TypeArguments="root:RootPage,root:RootViewModel"
     BackgroundColor="{StaticResource BuildBarBackgroundColor}"
     SafeAreaEdges="Container"
 >

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Realms;
 using Visitz.Storage;
@@ -283,10 +284,11 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
         WriteSafetyAssessmentJson();
 #endif
         var saPublishVm = ServiceProvider.GetService<SafetyAssessmentPublishViewModel>();
+        var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
 
         saPublishVm.BusinessObject = BusinessObject;
 
-        var saPublish = new PublishPage(saPublishVm);
+        var saPublish = new PublishPage(saPublishVm, logger);
         await Navigator.Navigation.PushAsync(saPublish);
         await Navigator.Navigation.PopModalAsync();
     }

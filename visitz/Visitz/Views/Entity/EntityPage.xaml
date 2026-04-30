@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:VisitzPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:entity="clr-namespace:Visitz.Views.Entity"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:tagView="clr-namespace:Visitz.Views.TagViews"
+    x:Class="Visitz.Views.Entity.EntityPage"
+    x:DataType="entity:EntityPageViewModel"
+    x:TypeArguments="entity:EntityPage,entity:EntityPageViewModel"
+>
+    <Grid RowDefinitions="Auto,*">
+        <controls:TopAppBar
+            Grid.Row="0"
+            RowDefinitions="*, *"
+            ColumnDefinitions="Auto, *, Auto"
+            ColumnSpacing="{StaticResource DefaultSpacing}"
+            BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+        >
+            <controls:FontIconButton
+                Grid.RowSpan="2"
+                VerticalOptions="Center"
+                Text="{Static icons:MaterialIcons.Arrow_back}"
+                TextColor="White"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                Command="{Binding GoBackCommand}"
+            />
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                FontFamily="BCSansBold"
+                Text="{Binding DisplayName}"
+                TextColor="White"
+            />
+
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding FileNumber}" TextColor="White" />
+
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                IsRunning="{Binding DownloadActivity}"
+                IsVisible="{Binding DownloadActivity}"
+                HorizontalOptions="End"
+                Color="White"
+            />
+
+            <tagView:EntityTypeBadge
+                Grid.RowSpan="2"
+                Grid.Column="3"
+                BindingContext="{Binding BusinessObject}"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+            />
+        </controls:TopAppBar>
+        <ContentView Grid.Row="1" x:Name="MainContent" />
+    </Grid>
+</base:VisitzPage>

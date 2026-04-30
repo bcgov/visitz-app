@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
@@ -5,9 +6,9 @@ using Visitz.Views.Debugging;
 
 namespace Visitz.Views.User;
 
-public partial class SessionPage : VisitzPage
+public partial class SessionPage : VisitzPage<SessionPage, SessionViewModel>
 {
-    static SemaphoreSlim _semaphore = new(1);
+    static readonly SemaphoreSlim _semaphore = new(1);
 
     public static bool IsOpen
     {
@@ -19,8 +20,8 @@ public partial class SessionPage : VisitzPage
         }
     }
 
-    public SessionPage(SessionViewModel viewModel)
-        : base(viewModel)
+    public SessionPage(SessionViewModel viewModel, ILogger<SessionPage> logger)
+        : base(viewModel, logger)
     {
         InitializeComponent();
         BindingContext = viewModel;

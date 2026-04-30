@@ -7,6 +7,7 @@
     xmlns:webViewer="clr-namespace:Visitz.Views.WebViewer"
     x:Class="Visitz.Views.WebViewer.WebViewPage"
     x:DataType="webViewer:WebViewModel"
+    x:TypeArguments="webViewer:WebViewPage,webViewer:WebViewModel"
     Title="WebViewPage"
     MaximumHeightRequest="600"
     MaximumWidthRequest="500"

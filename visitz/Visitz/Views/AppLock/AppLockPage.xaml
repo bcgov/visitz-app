@@ -8,6 +8,7 @@
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.AppLock.AppLockPage"
     x:DataType="appLock:AppLockViewModel"
+    x:TypeArguments="appLock:AppLockPage,appLock:AppLockViewModel"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     SafeAreaEdges="None"
     Title=""

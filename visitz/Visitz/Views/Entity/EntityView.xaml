@@ -27,55 +27,6 @@
     </base:IcmRecordContentView.Resources>
 
     <Grid RowDefinitions="Auto,*">
-        <controls:TopAppBar
-            Grid.Row="0"
-            RowDefinitions="*, *"
-            ColumnDefinitions="Auto, *, Auto"
-            ColumnSpacing="{StaticResource DefaultSpacing}"
-            BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-        >
-            <controls:FontIconButton
-                Grid.RowSpan="2"
-                VerticalOptions="Center"
-                Text="{Static icons:MaterialIcons.Arrow_back}"
-                TextColor="White"
-                FontFamily="MaterialIconsRoundedUnfilled"
-                Command="{Binding GoBackCommand}"
-            />
-
-            <Label
-                Grid.Row="0"
-                Grid.Column="1"
-                FontFamily="BCSansBold"
-                Text="{Binding BusinessObject.DisplayName}"
-                TextColor="White"
-            />
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                Text="{Binding BusinessObject.FileNumber}"
-                TextColor="White"
-            />
-
-            <ActivityIndicator
-                Grid.RowSpan="2"
-                Grid.Column="1"
-                IsRunning="{Binding DownloadActivity}"
-                IsVisible="{Binding DownloadActivity}"
-                HorizontalOptions="End"
-                Color="White"
-            />
-
-            <tagView:EntityTypeBadge
-                Grid.RowSpan="2"
-                Grid.Column="3"
-                BindingContext="{Binding BusinessObject}"
-                HorizontalOptions="End"
-                VerticalOptions="Center"
-            />
-        </controls:TopAppBar>
-
         <tabView:SfTabView
             x:Name="TabView"
             Grid.Row="1"

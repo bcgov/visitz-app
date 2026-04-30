@@ -1,11 +1,12 @@
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
 
 namespace Visitz.Views.AppLock;
 
-public partial class AppLockPage : VisitzPage
+public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
 {
     /// <summary>
     /// Back button behavior disabled on purpose. We don't want to let users avoid this authentication check.
@@ -32,8 +33,8 @@ public partial class AppLockPage : VisitzPage
         }
     }
 
-    public AppLockPage(AppLockViewModel viewModel)
-        : base(viewModel)
+    public AppLockPage(AppLockViewModel viewModel, ILogger<AppLockPage> logger)
+        : base(viewModel, logger)
     {
         InitializeComponent();
         BindingContext = viewModel;

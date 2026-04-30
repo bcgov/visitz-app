@@ -8,10 +8,9 @@
     xmlns:publishing="clr-namespace:Visitz.Views.BaseClasses.Publishing"
     x:Class="Visitz.Views.BaseClasses.Publishing.PublishPage"
     x:DataType="publishing:PublishViewModel"
+    x:TypeArguments="publishing:PublishPage,publishing:PublishViewModel"
     Title="{Binding Title}"
     BackgroundColor="{StaticResource BC_Blue}"
-    NavigationPage.HasBackButton="False"
-    NavigationPage.HasNavigationBar="False"
 >
     <!--
         BUG (iOS, others unconfirmed): There seems to be an issue with Pages opened Modally. Opening another
