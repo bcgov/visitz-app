@@ -16,7 +16,17 @@
         <views:FeaturedBackgroundUnderlay Grid.RowSpan="2" ImageDisplayOptions="TextReadable" />
 
         <ScrollView Grid.Row="0" VerticalOptions="Fill">
-            <VerticalStackLayout>
+            <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                <Label
+                    HorizontalOptions="Center"
+                    Margin="16"
+                    Text="{Binding UserViewModel.DisplayName, StringFormat='Hello, {0}.'}"
+                    FontSize="{StaticResource HeadlineSmallFontSize}"
+                    TextColor="White"
+                />
+
+                <BoxView Color="White" HorizontalOptions="Fill" HeightRequest="1" Margin="28,0" />
+
                 <nav:NavDrawerItemView
                     x:Name="CollectionNoticeItem"
                     BindingContext="{Binding CollectionNoticeNavItem}"
