@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:entity="clr-namespace:Visitz.Views.Entity"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
     xmlns:tagView="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Entity.EntityPage"
     x:DataType="entity:EntityPageViewModel"
@@ -55,6 +56,14 @@
                 VerticalOptions="Center"
             />
         </controls:TopAppBar>
-        <ContentView Grid.Row="1" x:Name="MainContent" />
+
+        <Grid Grid.Row="1" x:Name="MainContent">
+            <shimmer:SfShimmer
+                x:Name="Shimmer"
+                WidthRequest="300"
+                HeightRequest="300"
+                Type="Shopping"
+            />
+        </Grid>
     </Grid>
 </base:VisitzPage>
