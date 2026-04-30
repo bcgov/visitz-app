@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Syncfusion.Maui.Toolkit.Shimmer;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Drafts;
@@ -31,16 +30,6 @@ public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, I
     {
         InitializeComponent();
         BindingContext = ViewModel;
-
-        MainContent.ControlTemplate = new(() =>
-        {
-            return new SfShimmer()
-            {
-                Type = ShimmerType.Shopping,
-                WidthRequest = 300,
-                HeightRequest = 300,
-            };
-        });
     }
 
     public void Init(
@@ -79,7 +68,7 @@ public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, I
         return entity;
     }
 
-    protected override async Task OnCreatedAsync()
+    protected override async Task OnLoadedAsync()
     {
         await base.OnCreatedAsync();
 
@@ -90,8 +79,23 @@ public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, I
         }
 
         View view = await _createEntityView;
+        view.Opacity = 0.0d;
+        view.Loaded += EntityView_Loaded;
 
-        MainContent.ControlTemplate = null;
-        MainContent.Content = view;
+        MainContent.Add(view);
+    }
+
+    private async void EntityView_Loaded(object? sender, EventArgs e)
+    {
+        if (sender is not View view)
+            return;
+
+        await Task.WhenAll(
+            Shimmer.FadeToAsync(0.0d, easing: Easing.Linear),
+            view.FadeToAsync(1.0d, easing: Easing.Linear)
+        );
+
+        MainContent.Remove(Shimmer);
+        view.Loaded -= EntityView_Loaded;
     }
 }
