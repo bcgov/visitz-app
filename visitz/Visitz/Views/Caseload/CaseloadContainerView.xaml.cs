@@ -22,7 +22,7 @@ public partial class CaseloadContainerView : BaseContentView
 
         RegisterReceivers();
 
-        CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
+        CaseloadView ??= ServiceProvider.GetService<CaseloadListView>();
         await ContentStack.PushAsync((ContentView)CaseloadView);
     }
 

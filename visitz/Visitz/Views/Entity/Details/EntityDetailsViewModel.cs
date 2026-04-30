@@ -28,6 +28,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
     {
         if (!disposed && disposing)
         {
+            KeyPlayer = null;
             disposed = true;
         }
         base.Dispose(disposing);

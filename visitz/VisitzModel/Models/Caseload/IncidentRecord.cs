@@ -21,7 +21,8 @@ public partial class IncidentRecord
         IRowMetadata,
         IBusinessObject,
         IAssignedMetadata,
-        IApiJson<IncidentJson>
+        IApiJson<IncidentJson>,
+        IEquatable<IncidentRecord>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -375,7 +376,7 @@ public partial class IncidentRecord
 
     public bool Equals(IncidentRecord? other)
     {
-        return other != null && Id == other.Id && EntityType == other.EntityType;
+        return IBusinessObjectExtensions.Equals(this, other);
     }
 
     public override bool Equals(object? obj)
@@ -385,8 +386,11 @@ public partial class IncidentRecord
 
     public override int GetHashCode()
     {
-#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
-        return EntityType.GetHashCode() * Id.GetHashCode();
-#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
+        return IBusinessObjectExtensions.GetHashCode(this);
+    }
+
+    public void RaisePropertyChangedEvent(string propertyName)
+    {
+        RaisePropertyChanged(propertyName);
     }
 }

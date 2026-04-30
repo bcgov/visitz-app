@@ -14,6 +14,7 @@ using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
@@ -87,6 +88,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             serviceHandler.ServiceStarted -= ServiceHandler_ServiceStarted;
             serviceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
 
+            BusinessObject = new CaseRecord();
             disposed = true;
         }
         base.Dispose(disposing);
@@ -94,9 +96,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
     void UpdateDraftIndicatorVisibility()
     {
-        var draftItems = IndicatorHelper.DraftedItems;
-
-        if (draftItems != null)
+        if (
+            BusinessObject.IsValid
+            && IndicatorHelper.DraftedItems is HashSet<(string EntityId, EntityType Type)> draftItems
+        )
         {
             var idType = (BusinessObject.Id, BusinessObject.EntityType);
             var numType = (BusinessObject.FileNumber, BusinessObject.EntityType);

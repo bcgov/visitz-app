@@ -47,4 +47,10 @@ public static class IListTExtensions
                 list.Add(newItem);
         }
     }
+
+    public static void AddAll<T>(this IList<T> list, IEnumerable<T> itemsToAdd)
+    {
+        foreach (var item in itemsToAdd)
+            list.Add(item);
+    }
 }

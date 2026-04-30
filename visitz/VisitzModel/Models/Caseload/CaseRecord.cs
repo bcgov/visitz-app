@@ -57,6 +57,9 @@ public partial class CaseRecord
     {
         get
         {
+            if (!IsValid)
+                return string.Empty;
+
             return Assignees.Any()
                 ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned).Trim()
                 : AssignedTo;
@@ -108,7 +111,8 @@ public partial class CaseRecord
 
     public BoLocalState? LocalState { get; set; }
 
-    public string DisplayDate => CreatedDate.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
+    public string DisplayDate =>
+        this.CreatedDateBinding.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
 
     public string DisplayName => this.GetDisplayName();
 
@@ -344,7 +348,7 @@ public partial class CaseRecord
 
     public bool Equals(CaseRecord? other)
     {
-        return other != null && Id == other.Id && EntityType == other.EntityType;
+        return IBusinessObjectExtensions.Equals(this, other);
     }
 
     public override bool Equals(object? obj)
@@ -354,8 +358,11 @@ public partial class CaseRecord
 
     public override int GetHashCode()
     {
-#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
-        return EntityType.GetHashCode() * Id.GetHashCode();
-#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
+        return IBusinessObjectExtensions.GetHashCode(this);
+    }
+
+    public void RaisePropertyChangedEvent(string propertyName)
+    {
+        RaisePropertyChanged(propertyName);
     }
 }

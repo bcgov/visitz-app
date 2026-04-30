@@ -46,6 +46,7 @@ public partial class IcmRecordViewModel : VisitzViewModel, IIcmRecordInfo, IBusi
     {
         if (!disposed && disposing)
         {
+            BusinessObject = new CaseRecord();
             DataRealm?.Dispose();
 
             disposed = true;
