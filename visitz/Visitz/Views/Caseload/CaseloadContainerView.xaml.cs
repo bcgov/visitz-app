@@ -61,12 +61,20 @@ public partial class CaseloadContainerView : BaseContentView
     private async Task OpenBusinessObject(BusinessObjectSelectedMessage message)
     {
         IBusinessObject item = message.Value;
-        var entityPage = ServiceProvider.GetService<EntityPage>();
-
-        entityPage.Init(item.Id, item.EntityType, message.Section, message.DraftItem);
 
         try
         {
+            var entityPage = ServiceProvider.GetService<EntityPage>();
+
+            entityPage.Init(
+                item.Id,
+                item.EntityType,
+                item.DisplayName,
+                item.FileNumber,
+                message.Section,
+                message.DraftItem
+            );
+
             await Navigator.Navigation.PushAsync(entityPage);
         }
         catch (Exception ex)

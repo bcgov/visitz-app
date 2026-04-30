@@ -56,7 +56,9 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<EntityView>();
         builder.Services.AddTransient<EntityViewModel>();
+
         builder.Services.AddTransient<EntityPage>();
+        builder.Services.AddTransient<EntityPageViewModel>();
 
         builder.Services.AddTransient<EntityDetailsView>();
         builder.Services.AddTransient<EntityDetailsViewModel>();
