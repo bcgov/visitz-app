@@ -3,6 +3,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
     xmlns:controls="clr-namespace:Visitz.Controls"
 >
     <Style TargetType="ActivityIndicator">
@@ -1048,5 +1049,9 @@
             Property="SelectedTabColor"
             Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray950}}"
         />
+    </Style>
+
+    <Style TargetType="chips:SfChip">
+        <Setter Property="FontFamily" Value="BCSansRegular" />
     </Style>
 </ResourceDictionary>
