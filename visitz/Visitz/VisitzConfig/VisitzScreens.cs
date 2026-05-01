@@ -41,6 +41,7 @@ public static class VisitzScreens
         builder.Services.AddTransient<DataRefreshViewModel>();
 
         builder.Services.AddSingleton<CaseloadContainerView>();
+        builder.Services.AddSingleton<CaseloadContainerViewModel>();
 
         builder.Services.AddSingleton<CaseloadView>();
         builder.Services.AddSingleton<CaseloadViewModel>();

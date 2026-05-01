@@ -387,7 +387,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search by key player&apos;s name.
+        ///   Looks up a localized string similar to Search caseload by name or number.
         /// </summary>
         public static string CaseloadSearchHint {
             get {
@@ -544,11 +544,11 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contact medical behavioral.
+        ///   Looks up a localized string similar to ContactLanguages.
         /// </summary>
-        public static string ContactMedicalBehavioral {
+        public static string ContactLanguages {
             get {
-                return ResourceManager.GetString("ContactMedicalBehavioral", resourceCulture);
+                return ResourceManager.GetString("ContactLanguages", resourceCulture);
             }
         }
         
@@ -560,12 +560,13 @@ namespace Visitz.Resources.Localization {
                 return ResourceManager.GetString("ContactLegalAuthority", resourceCulture);
             }
         }
-
-        ///   Looks up a localized string similar to ContactLanguages.
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact medical behavioral.
         /// </summary>
-        public static string ContactLanguages {
+        public static string ContactMedicalBehavioral {
             get {
-                return ResourceManager.GetString("ContactLanguages", resourceCulture);
+                return ResourceManager.GetString("ContactMedicalBehavioral", resourceCulture);
             }
         }
         
