@@ -4,10 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
-    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
     x:Class="Visitz.Views.Caseload.CaseloadContainerView"
     x:DataType="caseload:CaseloadContainerView"
     BackgroundColor="White"
 >
-    <nav:ContentViewNavigationStack x:Name="ContentStack" />
+    <Grid x:Name="MainGrid">
+        <shimmer:SfShimmer x:Name="LoadingShimmer">
+            <shimmer:SfShimmer.CustomView>
+                <VerticalStackLayout x:Name="CustomShimmerContainer" />
+            </shimmer:SfShimmer.CustomView>
+        </shimmer:SfShimmer>
+    </Grid>
 </base:BaseContentView>

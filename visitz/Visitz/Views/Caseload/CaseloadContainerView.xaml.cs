@@ -9,21 +9,41 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadContainerView : BaseContentView
 {
-    IView CaseloadView;
+    readonly Task<CaseloadListView> _loadListView;
 
     public CaseloadContainerView()
     {
         InitializeComponent();
-    }
 
-    protected override async Task InitAsync()
-    {
-        await base.InitAsync();
+        _loadListView = InitListView();
+
+        for (int i = 0; i < 25; i++)
+            CustomShimmerContainer.Add(new CaseloadItemShimmerStencil());
 
         RegisterReceivers();
+    }
 
-        CaseloadView ??= ServiceProvider.GetService<CaseloadListView>();
-        await ContentStack.PushAsync((ContentView)CaseloadView);
+    static async Task<CaseloadListView> InitListView()
+    {
+        CaseloadListView listView = ServiceProvider.GetService<CaseloadListView>();
+
+        await listView.StartInitAsync();
+        listView.Opacity = 0.0d;
+
+        return listView;
+    }
+
+    protected override async Task OnLoadedAsync()
+    {
+        await base.OnLoadedAsync();
+
+        CaseloadListView listView = await _loadListView;
+        MainGrid.Add(listView);
+
+        await Task.WhenAll(
+            listView.FadeToAsync(1.0d, easing: Easing.Linear),
+            LoadingShimmer.FadeToAsync(0.0d, easing: Easing.Linear)
+        );
     }
 
     bool disposed;
