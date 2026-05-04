@@ -11,6 +11,19 @@ public static partial class IBusinessObjectExtensions
 {
     extension(IBusinessObject obj)
     {
+        public string IdBinding
+        {
+            get => obj.IsValid ? obj.Id : string.Empty;
+            set
+            {
+                if (!obj.IsValid)
+                    return;
+
+                obj.Commit(() => obj.Id = value);
+                obj.RaisePropertyChangedEvent(nameof(obj.Id));
+            }
+        }
+
         public DateTimeOffset CreatedDateBinding
         {
             get => obj.IsValid ? obj.CreatedDate : DateTimeOffset.MinValue;
@@ -154,11 +167,16 @@ public static partial class IBusinessObjectExtensions
     public static bool Equals(this IBusinessObject thiz, IBusinessObject? other)
     {
         return ReferenceEquals(thiz, other)
-            || (thiz != null && other != null && thiz.Id == other.Id && thiz.EntityType == other.EntityType);
+            || (
+                thiz != null
+                && other != null
+                && thiz.IdBinding == other.IdBinding
+                && thiz.EntityType == other.EntityType
+            );
     }
 
     public static int GetHashCode(this IBusinessObject obj)
     {
-        return obj.EntityType.GetHashCode() * obj.Id.GetHashCode();
+        return obj.EntityType.GetHashCode() * obj.IdBinding.GetHashCode();
     }
 }
