@@ -13,7 +13,7 @@ namespace Oidc
 {
     public class OidcSession
     {
-        private static readonly string IdirActiveKey = "idir_active_employee";
+        private static readonly string s_idirActiveKey = "idir_active_employee";
         private static readonly SemaphoreSlim s_validSession = new(1);
         private static readonly SemaphoreSlim s_canSetAuthorization = new(1);
 
@@ -196,7 +196,7 @@ namespace Oidc
 
         public static async Task<bool?> IsAuthorizedAsync()
         {
-            var status = await SecureStorage.Default.GetAsync(IdirActiveKey);
+            var status = await SecureStorage.Default.GetAsync(s_idirActiveKey);
             return status != null ? bool.Parse(status) : null;
         }
 
@@ -207,9 +207,9 @@ namespace Oidc
             try
             {
                 if (authorized is bool auth)
-                    await SecureStorage.Default.SetAsync(IdirActiveKey, auth.ToString());
+                    await SecureStorage.Default.SetAsync(s_idirActiveKey, auth.ToString());
                 else
-                    SecureStorage.Default.Remove(IdirActiveKey);
+                    SecureStorage.Default.Remove(s_idirActiveKey);
             }
             finally
             {
