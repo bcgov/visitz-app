@@ -22,6 +22,9 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     public bool showSearchBar = false;
 
     [ObservableProperty]
+    public bool showTitle = true;
+
+    [ObservableProperty]
     public LayoutOptions searchBarHorizontalOptions;
 
     [ObservableProperty]
@@ -71,5 +74,21 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     public void SearchByQuery()
     {
         ListViewModel?.SearchQuery = SearchQuery.Trim();
+    }
+
+    partial void OnSearchBarHorizontalOptionsChanged(LayoutOptions value)
+    {
+        ApplyTitleVisibility();
+    }
+
+    partial void OnShowSearchBarChanged(bool value)
+    {
+        ApplyTitleVisibility();
+    }
+
+    void ApplyTitleVisibility()
+    {
+        bool hideTitle = SearchBarHorizontalOptions == LayoutOptions.Fill && ShowSearchBar;
+        ShowTitle = !hideTitle;
     }
 }

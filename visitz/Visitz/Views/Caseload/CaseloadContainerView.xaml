@@ -6,6 +6,7 @@
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
     xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
@@ -15,6 +16,12 @@
     x:TypeArguments="caseload:CaseloadContainerViewModel"
     BackgroundColor="White"
 >
+    <base:ViewModelContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+    </base:ViewModelContentView.Resources>
+
     <Grid x:Name="MainGrid" RowDefinitions="Auto,*" IsClippedToBounds="True">
         <VerticalStackLayout
             Grid.Row="0"
@@ -29,6 +36,7 @@
                     Text="{local:Localize Caseload}"
                     Style="{StaticResource HeadlineMedium}"
                     VerticalOptions="Center"
+                    IsVisible="{Binding ShowTitle}"
                 />
 
                 <controls:FontIconButton
@@ -39,6 +47,7 @@
                     Text="{Static icons:MaterialIcons.Search}"
                     FontFamily="MaterialIconsRoundedUnfilled"
                     Clicked="SearchActionButton_Clicked"
+                    IsVisible="{Binding ShowSearchBar, Converter={StaticResource BoolNegationConverter}}"
                 />
 
                 <ContentView
