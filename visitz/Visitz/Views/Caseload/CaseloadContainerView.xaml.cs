@@ -43,6 +43,7 @@ public partial class CaseloadContainerView : ViewModelContentView<CaseloadContai
         await base.OnLoadedAsync();
 
         CaseloadListView listView = await _loadListView;
+        ViewModel.ListViewModel = listView.ViewModel;
         MainGrid.Add(listView, 0, 1);
 
         await Task.WhenAll(

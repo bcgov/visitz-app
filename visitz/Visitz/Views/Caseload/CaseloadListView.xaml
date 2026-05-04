@@ -5,18 +5,42 @@
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
     xmlns:caseloadModels="clr-namespace:VisitzModel.Models.Caseload;assembly=VisitzModel"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Caseload.CaseloadListView"
     x:DataType="caseload:CaseloadListViewModel"
     x:TypeArguments="caseload:CaseloadListViewModel"
 >
-    <CollectionView ItemsSource="{Binding FilteredItems}">
-        <CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical" />
-        </CollectionView.ItemsLayout>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="caseload:CaseloadItemViewModel">
-                <caseload:CaseloadItemView />
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <Grid RowDefinitions="*,Auto">
+        <CollectionView
+            Grid.Row="0"
+            ItemsSource="{Binding FilteredItems}"
+            ItemSizingStrategy="MeasureFirstItem"
+            ItemsUpdatingScrollMode="KeepScrollOffset"
+            SelectionMode="None"
+        >
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="caseload:CaseloadItemViewModel">
+                    <caseload:CaseloadItemView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Fill" Padding="20" Spacing="10">
+                    <Label
+                        HorizontalOptions="Fill"
+                        HorizontalTextAlignment="Center"
+                        FontSize="16"
+                        Text="{Binding CollectionViewPrompt}"
+                    />
+
+                    <Label HorizontalOptions="Center" FontSize="24" Text="↓" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
 </base:ViewModelContentView>

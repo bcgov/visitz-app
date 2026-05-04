@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Realms;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -16,6 +17,12 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadListViewModel : VisitzViewModel
 {
+#if WINDOWS
+    private static readonly string PromptText = LocalizedStrings.ButtonToRefreshCaseload;
+#else
+    private static readonly string PromptText = LocalizedStrings.PullToRefreshCaseload;
+#endif
+
     bool _disposed;
 
     DraftIndicatorHelper DraftIndicatorHelper { get; } = new();
@@ -32,6 +39,12 @@ public partial class CaseloadListViewModel : VisitzViewModel
 
     [ObservableProperty]
     public ObservableCollection<CaseloadItemViewModel> filteredItems = [];
+
+    [ObservableProperty]
+    public string searchQuery = string.Empty;
+
+    [ObservableProperty]
+    public string? collectionViewPrompt = PromptText;
 
     protected override async Task InitAsync()
     {
@@ -128,7 +141,8 @@ public partial class CaseloadListViewModel : VisitzViewModel
             IEnumerable<IBusinessObject> newItems = e.NewItems.Cast<IBusinessObject>();
 
             foreach (var item in newItems)
-                FilteredItems.Add(new CaseloadItemViewModel(DraftIndicatorHelper, item, SessionInfo));
+                if (MatchesFilters(item))
+                    FilteredItems.Add(new CaseloadItemViewModel(DraftIndicatorHelper, item, SessionInfo));
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
         {
@@ -142,5 +156,62 @@ public partial class CaseloadListViewModel : VisitzViewModel
         {
             Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
         }
+    }
+
+    partial void OnFilteredItemsChanging(
+        ObservableCollection<CaseloadItemViewModel>? oldValue,
+        ObservableCollection<CaseloadItemViewModel> newValue
+    )
+    {
+        if (oldValue != null)
+            oldValue.CollectionChanged -= FilteredItems_CollectionChanged;
+
+        newValue.CollectionChanged += FilteredItems_CollectionChanged;
+
+        ApplyEmptyViewPrompt();
+    }
+
+    void FilteredItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (sender is not ObservableCollection<CaseloadItemViewModel>)
+            return;
+
+        ApplyEmptyViewPrompt();
+    }
+
+    void ApplyEmptyViewPrompt()
+    {
+        CollectionViewPrompt =
+            FilteredItems.Count <= 0 && SearchQuery.Length > 0
+                ? LocalizedStrings.NoResultsForSearch.Format(SearchQuery)
+                : PromptText;
+    }
+
+    bool SearchQueryMatched(IBusinessObject item) =>
+        item.DisplayName.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase)
+        || item.FileNumberBinding.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase);
+
+    partial void OnSearchQueryChanged(string value)
+    {
+        ApplyFilter();
+    }
+
+    bool MatchesFilters(IBusinessObject item)
+    {
+        return SearchQueryMatched(item);
+    }
+
+    void ApplyFilter()
+    {
+        if (SessionInfo == null)
+            return;
+
+        IEnumerable<IBusinessObject> itemsMatchingFilter = AllItems.Where(SearchQueryMatched);
+
+        FilteredItems = new(
+            itemsMatchingFilter.Select(bo => new CaseloadItemViewModel(DraftIndicatorHelper, bo, SessionInfo))
+        );
+
+        // TODO: add/remove individual items instead of clobbering entire collection to improve performance
     }
 }

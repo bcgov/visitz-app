@@ -56,6 +56,16 @@ public static partial class IBusinessObjectExtensions
                 obj.RaisePropertyChangedEvent(nameof(obj.LastName));
             }
         }
+
+        public string FileNumberBinding
+        {
+            get => obj.IsValid ? obj.FileNumber : string.Empty;
+            set
+            {
+                obj.Commit(() => obj.FileNumber = value);
+                obj.RaisePropertyChangedEvent(nameof(obj.FileNumber));
+            }
+        }
     }
 
     public static string ToIdTypeString(this IBusinessObject businessObject)

@@ -13,6 +13,8 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
 {
     bool _disposed;
 
+    public CaseloadListViewModel? ListViewModel { get; set; }
+
     [ObservableProperty]
     public string searchQuery = string.Empty;
 
@@ -66,6 +68,8 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         SearchByQuery();
     }
 
-    public void SearchByQuery() { }
-
+    public void SearchByQuery()
+    {
+        ListViewModel?.SearchQuery = SearchQuery.Trim();
+    }
 }
