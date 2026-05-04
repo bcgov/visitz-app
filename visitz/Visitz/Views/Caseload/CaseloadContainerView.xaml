@@ -11,6 +11,7 @@
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Caseload.CaseloadContainerView"
     x:DataType="caseload:CaseloadContainerViewModel"
     x:TypeArguments="caseload:CaseloadContainerViewModel"
@@ -22,7 +23,7 @@
         </ResourceDictionary>
     </base:ViewModelContentView.Resources>
 
-    <Grid x:Name="MainGrid" RowDefinitions="Auto,*" IsClippedToBounds="True">
+    <Grid x:Name="MainGrid" RowDefinitions="Auto,*,Auto" IsClippedToBounds="True">
         <VerticalStackLayout
             Grid.Row="0"
             BackgroundColor="White"
@@ -75,6 +76,13 @@
                 <controls:VisitzAvatarView Grid.Column="2" />
             </Grid>
         </VerticalStackLayout>
+
+        <views:LastUpdatedBanner
+            Grid.Row="2"
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            LastUpdated="{Binding LastUpdated}"
+        />
 
         <shimmer:SfShimmer x:Name="LoadingShimmer" Grid.Row="0" Grid.RowSpan="2">
             <shimmer:SfShimmer.CustomView>

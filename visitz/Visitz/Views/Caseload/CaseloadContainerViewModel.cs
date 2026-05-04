@@ -2,8 +2,11 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.Foldable;
+using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Events;
 using VisitzModel.Messaging;
+using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
 
@@ -33,12 +36,20 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     [ObservableProperty]
     public string? selectedOffice;
 
+    LastUpdatedPrefs LastUpdatedPrefs { get; set; } = ServiceProvider.GetService<LastUpdatedPrefs>();
+
+    [ObservableProperty]
+    public DateTime? lastUpdated;
+
     public CaseloadContainerViewModel()
     {
         SetSearchBarHorizontalOptions(
             (TwoPaneViewMode)StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()).Response
         );
         StrongReferenceMessenger.Default.RegisterAll(this);
+
+        LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
+        LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
     }
 
     protected override void Dispose(bool disposing)
@@ -46,6 +57,8 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         if (!_disposed && disposing)
         {
             StrongReferenceMessenger.Default.UnregisterAll(this);
+            LastUpdatedPrefs.LastUpdatedChanged -= LastUpdatedPrefs_LastUpdatedChanged;
+
             _disposed = true;
         }
         base.Dispose(disposing);
@@ -90,5 +103,11 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     {
         bool hideTitle = SearchBarHorizontalOptions == LayoutOptions.Fill && ShowSearchBar;
         ShowTitle = !hideTitle;
+    }
+
+    private void LastUpdatedPrefs_LastUpdatedChanged(object? sender, LastUpdatedChangedEventArgs e)
+    {
+        if (e.Id.Equals(GetCaseloadService.MakeId()))
+            LastUpdated = (sender as LastUpdatedPrefs)?.Get(e.Id);
     }
 }
