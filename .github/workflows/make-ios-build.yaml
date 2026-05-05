@@ -115,8 +115,6 @@ jobs:
       - name: Setup .NET SDK and workloads
         uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # 5.2.0
         with:
-          cache-dependency-path: ${{ env.PROJPATH }}/packages.lock.json
-          cache: true
           global-json-file: ${{ env.GLOBAL_JSON_PATH }}
 
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
