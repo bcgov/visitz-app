@@ -7,11 +7,13 @@ on:
       - opened
       - synchronize
     paths:
-      .github/**/*
-      visitz/**/*
+      - '.github/**/*'
+      - 'visitz/**/*'
 
 permissions:
   contents: read
+  actions: read
+  checks: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -35,12 +37,18 @@ jobs:
         run: |
           echo "build_number=$(($BUILD_NUM_OFFSET + $RUN_NUMBER))" >> $GITHUB_OUTPUT
 
+  run-unit-tests:
+    uses: ./.github/workflows/unit-test-maui.yaml
+
   build-ios-per-environment:
-    needs: calculate-build-number
+    needs: 
+      - calculate-build-number
+      - run-unit-tests
     strategy:
       matrix:
-        target: [demo, project-team]
+        target: [demo, project-team, prod]
     uses: ./.github/workflows/make-ios-build.yaml
     with:
-      target: ${{ matrix.target }}
+      environment: ${{ matrix.target }}
       build_number: ${{ needs.calculate-build-number.outputs.build_number }}
+    secrets: inherit
