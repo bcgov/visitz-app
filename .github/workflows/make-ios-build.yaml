@@ -156,7 +156,7 @@ jobs:
           ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           jf rt upload \
-            "${{ env.PROJPATH }}/bin/Release/net10.0-ios/ios-arm64/publish/$OUTPUT_NAME.ipa" \
+            "${{ env.PROJPATH }}/bin/Release/net9.0-ios/ios-arm64/publish/$OUTPUT_NAME.ipa" \
             "${{ secrets.ARTIFACTORY_REPO_NAME }}/${{ vars.ENV_LABEL }}-iOS/$OUTPUT_NAME.ipa" \
             --build-name="$OUTPUT_NAME" \
             --build-number="$OUTPUT_VERSION.$BUILD_NUM" \
