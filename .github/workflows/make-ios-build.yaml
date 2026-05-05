@@ -64,7 +64,9 @@ jobs:
         run: |
           echo -n "$APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64" | base64 --decode -o $TEMP_CERT_PATH
 
-          SUBJECT=$(openssl pkcs12 -in "$TEMP_CERT_PATH" \
+          SUBJECT=$(openssl pkcs12 \
+            -legacy \
+            -in "$TEMP_CERT_PATH" \
             -password pass:"${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_PASSWORD }}" \
             -nodes -nokeys \
             | openssl x509 -noout -subject)
