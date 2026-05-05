@@ -21,7 +21,7 @@ env:
   PROJPATH: "visitz/Visitz"
   DOTNET_SDK_VERSION: "9.0.313"
   GLOBAL_JSON_PATH: "global.json"
-  XCODE_VERSION: "26.4.1"
+  XCODE_VERSION: "26.3"
 
 jobs:
 
