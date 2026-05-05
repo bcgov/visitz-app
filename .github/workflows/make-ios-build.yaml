@@ -27,7 +27,7 @@ jobs:
 
   build-ios-package:
     name: Building, archiving and uploading IPA to GitHub
-    runs-on: macOS-15
+    runs-on: macOS-26
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
     steps:
