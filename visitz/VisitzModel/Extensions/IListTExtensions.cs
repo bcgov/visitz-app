@@ -1,10 +1,24 @@
 // Adapted from https://stackoverflow.com/a/967098
-
 namespace VisitzModel.Extensions;
 
 public static class IListTExtensions
 {
-    public static int BinarySearch<T>(this IList<T> list, T value, IComparer<T>? comparer = null)
+    /// <summary>
+    /// <para>Searches the entire sorted IList for an element using the specified comparer and returns the zero-based index of the element.</para>
+    /// <para>Implemented here as an extension because there is no built-in support for IList.</para>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <param name="value"></param>
+    /// <param name="comparer"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static int BinarySearch<T>(
+        this IList<T> list,
+        T value,
+        IComparer<T>? comparer = null,
+        bool ascendingOrder = true
+    )
     {
         if (list == null)
             throw new ArgumentException(null, nameof(list));
@@ -17,7 +31,11 @@ public static class IListTExtensions
         while (lower <= upper)
         {
             int mid = lower + (upper - lower) / 2;
-            int comparisonResult = comparer.Compare(value, list[mid]);
+
+            // TODO: replace this ternary with something more performant
+            int comparisonResult = ascendingOrder
+                ? comparer.Compare(value, list[mid])
+                : comparer.Compare(list[mid], value);
 
             if (comparisonResult == 0)
                 return mid;
@@ -33,18 +51,21 @@ public static class IListTExtensions
     public static void InsertSorted<T>(this IList<T> list, T newItem, bool ascending = true)
         where T : IComparable<T>
     {
+        InsertSorted(list, newItem, Comparer<T>.Default, ascending);
+    }
+
+    public static void InsertSorted<T>(this IList<T> list, T newItem, IComparer<T> comparer, bool ascending = true)
+    {
         if (list.Count == 0)
             list.Add(newItem);
         else
         {
-            T? find = ascending
-                ? list.FirstOrDefault(item => item.CompareTo(newItem) >= 0)
-                : list.FirstOrDefault(item => item.CompareTo(newItem) < 0);
+            int index = list.BinarySearch(newItem, comparer, ascending);
 
-            if (find != null)
-                list.Insert(list.IndexOf(find), newItem);
-            else
-                list.Add(newItem);
+            if (index < 0)
+                index = ~index;
+
+            list.Insert(index, newItem);
         }
     }
 
