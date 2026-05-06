@@ -13,8 +13,9 @@ namespace Oidc
 {
     public class OidcSession
     {
-        private static readonly string IdirActiveKey = "idir_active_employee";
-        private static readonly SemaphoreSlim Semaphore = new(1);
+        private static readonly string s_idirActiveKey = "idir_active_employee";
+        private static readonly SemaphoreSlim s_validSession = new(1);
+        private static readonly SemaphoreSlim s_canSetAuthorization = new(1);
 
         public static readonly double StaleThresholdMinutes = 7 * TimeSpan.MinutesPerDay;
 
@@ -48,7 +49,7 @@ namespace Oidc
             string messageIfUnavailable,
             CancellationToken cancellationToken = default)
         {
-            await Semaphore.WaitAsync(cancellationToken);
+            await s_validSession.WaitAsync(cancellationToken);
 
             try
             {
@@ -58,7 +59,7 @@ namespace Oidc
             {
                 try
                 {
-                    Semaphore.Release();
+                    s_validSession.Release();
                 }
                 catch { }
             }
@@ -195,16 +196,32 @@ namespace Oidc
 
         public static async Task<bool?> IsAuthorizedAsync()
         {
-            var status = await SecureStorage.Default.GetAsync(IdirActiveKey);
+            var status = await SecureStorage.Default.GetAsync(s_idirActiveKey);
             return status != null ? bool.Parse(status) : null;
         }
 
         public static async Task SetAuthorization(bool? authorized)
         {
-            if (authorized is bool auth)
-                await SecureStorage.Default.SetAsync(IdirActiveKey, auth.ToString());
-            else
-                SecureStorage.Default.Remove(IdirActiveKey);
+            await s_canSetAuthorization.WaitAsync();
+
+            try
+            {
+                if (authorized is bool auth)
+                    await SecureStorage.Default.SetAsync(s_idirActiveKey, auth.ToString());
+                else
+                    SecureStorage.Default.Remove(s_idirActiveKey);
+            }
+            finally
+            {
+                try
+                {
+                    s_canSetAuthorization.Release();
+                }
+                catch
+                {
+                    
+                }
+            }
         }
     }
 }
