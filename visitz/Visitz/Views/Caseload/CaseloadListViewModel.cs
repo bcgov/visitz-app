@@ -23,6 +23,8 @@ public partial class CaseloadListViewModel : VisitzViewModel
     private static readonly string PromptText = LocalizedStrings.PullToRefreshCaseload;
 #endif
 
+    private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
+
     bool _disposed;
 
     DraftIndicatorHelper DraftIndicatorHelper { get; } = new();
@@ -46,6 +48,31 @@ public partial class CaseloadListViewModel : VisitzViewModel
     [ObservableProperty]
     public string? collectionViewPrompt = PromptText;
 
+    public List<SortOption<CaseloadItemViewModel>> SortOptions { get; private set; } =
+    [
+        new(
+            LocalizedStrings.KeyPlayer,
+            Comparer<CaseloadItemViewModel>.Create(
+                (a, b) =>
+                {
+                    return a.BusinessObject.DisplayName.CompareTo(b.BusinessObject.DisplayName);
+                }
+            )
+        ),
+        new(
+            LocalizedStrings.OpenDate,
+            Comparer<CaseloadItemViewModel>.Create(
+                (a, b) => a.BusinessObject.CreatedDateBinding.CompareTo(b.BusinessObject.CreatedDateBinding)
+            )
+        ),
+    ];
+
+    [ObservableProperty]
+    public SortOption<CaseloadItemViewModel> selectedSort = new(
+        LocalizedStrings.Id,
+        Comparer<CaseloadItemViewModel>.Default
+    );
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -62,6 +89,9 @@ public partial class CaseloadListViewModel : VisitzViewModel
         QueryMap.ItemsChanged += QueryMap_ItemsChanged;
         QueryMap.Subscribe(dataRealm, dataRealm.All<CaseRecord>());
         QueryMap.Subscribe(dataRealm, dataRealm.All<IncidentRecord>());
+
+        int savedSortIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
+        SelectedSort = SortOptions.ElementAt(Math.Clamp(savedSortIndex, 0, SortOptions.Count - 1));
     }
 
     protected override void Dispose(bool disposing)
@@ -142,7 +172,11 @@ public partial class CaseloadListViewModel : VisitzViewModel
 
             foreach (var item in newItems)
                 if (MatchesFilters(item))
-                    FilteredItems.Add(new CaseloadItemViewModel(DraftIndicatorHelper, item, SessionInfo));
+                {
+                    CaseloadItemViewModel vm = new(DraftIndicatorHelper, item, SessionInfo);
+
+                    FilteredItems.InsertSorted(vm, ascending: true, comparer: SelectedSort.Comparer);
+                }
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
         {
@@ -206,11 +240,12 @@ public partial class CaseloadListViewModel : VisitzViewModel
         if (SessionInfo == null)
             return;
 
-        IEnumerable<IBusinessObject> itemsMatchingFilter = AllItems.Where(SearchQueryMatched);
+        IOrderedEnumerable<CaseloadItemViewModel> itemsMatchingFilter = AllItems
+            .Where(SearchQueryMatched)
+            .Select(bo => new CaseloadItemViewModel(DraftIndicatorHelper, bo, SessionInfo))
+            .Order(SelectedSort.Comparer);
 
-        FilteredItems = new(
-            itemsMatchingFilter.Select(bo => new CaseloadItemViewModel(DraftIndicatorHelper, bo, SessionInfo))
-        );
+        FilteredItems = new(itemsMatchingFilter);
 
         // TODO: add/remove individual items instead of clobbering entire collection to improve performance
     }

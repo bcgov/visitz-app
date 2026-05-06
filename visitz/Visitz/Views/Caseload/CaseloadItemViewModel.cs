@@ -21,7 +21,7 @@ namespace Visitz.Views.Caseload;
 
 #nullable enable
 
-public partial class CaseloadItemViewModel : VisitzViewModel
+public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<CaseloadItemViewModel>
 {
     public static readonly FontImageSource RemoveImageSource = new()
     {
@@ -285,5 +285,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         return serviceHandler.IsAnyServiceRunning(nameof(GetAllDataForOfflineService))
             || serviceHandler.IsAnyServiceRunning(BusinessObject.ToIdTypeString());
+    }
+
+    public int CompareTo(CaseloadItemViewModel? other)
+    {
+        return BusinessObject.IdBinding.CompareTo(other?.BusinessObject.IdBinding);
     }
 }
