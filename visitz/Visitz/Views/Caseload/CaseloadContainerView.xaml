@@ -75,6 +75,46 @@
 
                 <controls:VisitzAvatarView Grid.Column="2" />
             </Grid>
+            <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                <chips:SfChip
+                    Text="My caseload"
+                    ShowIcon="True"
+                    HorizontalTextAlignment="Start"
+                    ImageSize="10"
+                    ImageAlignment="End"
+                >
+                    <chips:SfChip.ImageSource>
+                        <FontImageSource
+                            Glyph="{Static icons:MaterialIcons.Arrow_drop_down}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Color="{StaticResource BC_TextColor}"
+                            Size="100"
+                        />
+                    </chips:SfChip.ImageSource>
+                </chips:SfChip>
+
+                <chips:SfChip Text="Sort" ShowIcon="True" ImageSize="10" ImageAlignment="End">
+                    <chips:SfChip.ImageSource>
+                        <FontImageSource
+                            Glyph="{Static icons:MaterialIcons.Arrow_drop_down}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Color="{StaticResource BC_TextColor}"
+                            Size="100"
+                        />
+                    </chips:SfChip.ImageSource>
+                </chips:SfChip>
+
+                <chips:SfChip Text="Filter" ShowIcon="True" ImageSize="10" ImageAlignment="End">
+                    <chips:SfChip.ImageSource>
+                        <FontImageSource
+                            Glyph="{Static icons:MaterialIcons.Arrow_drop_down}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Color="{StaticResource BC_TextColor}"
+                            Size="100"
+                        />
+                    </chips:SfChip.ImageSource>
+                </chips:SfChip>
+            </HorizontalStackLayout>
         </VerticalStackLayout>
 
         <views:LastUpdatedBanner
