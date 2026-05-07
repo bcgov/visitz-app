@@ -110,7 +110,7 @@ public partial class CaseloadContainerView : ViewModelContentView<CaseloadContai
         }
     }
 
-    void SearchActionButton_Clicked(object sender, EventArgs e)
+    void SearchActionButton_Clicked(object? sender, EventArgs e)
     {
         ViewModel.ShowSearchBar = true;
         CaseloadSearchBar.Focus();
