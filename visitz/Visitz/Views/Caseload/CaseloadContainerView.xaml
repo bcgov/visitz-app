@@ -93,7 +93,7 @@
                     </chips:SfChip.ImageSource>
                 </chips:SfChip>
 
-                <chips:SfChip Text="Sort" ShowIcon="True" ImageSize="10" ImageAlignment="End">
+                <chips:SfChip Text="Filter" ShowIcon="True" ImageSize="10" ImageAlignment="End">
                     <chips:SfChip.ImageSource>
                         <FontImageSource
                             Glyph="{Static icons:MaterialIcons.Arrow_drop_down}"
@@ -104,7 +104,7 @@
                     </chips:SfChip.ImageSource>
                 </chips:SfChip>
 
-                <chips:SfChip Text="Filter" ShowIcon="True" ImageSize="10" ImageAlignment="End">
+                <chips:SfChip Text="Sort" ShowIcon="True" ImageSize="10" ImageAlignment="End">
                     <chips:SfChip.ImageSource>
                         <FontImageSource
                             Glyph="{Static icons:MaterialIcons.Arrow_drop_down}"
