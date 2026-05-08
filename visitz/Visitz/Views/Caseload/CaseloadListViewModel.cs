@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Realms;
+using Visitz.Controls;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -22,8 +23,6 @@ public partial class CaseloadListViewModel : VisitzViewModel
 #else
     private static readonly string PromptText = LocalizedStrings.PullToRefreshCaseload;
 #endif
-
-    private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 
     bool _disposed;
 
@@ -48,25 +47,6 @@ public partial class CaseloadListViewModel : VisitzViewModel
     [ObservableProperty]
     public string? collectionViewPrompt = PromptText;
 
-    public List<SortOption<CaseloadItemViewModel>> SortOptions { get; private set; } =
-    [
-        new(
-            LocalizedStrings.KeyPlayer,
-            Comparer<CaseloadItemViewModel>.Create(
-                (a, b) =>
-                {
-                    return a.BusinessObject.DisplayName.CompareTo(b.BusinessObject.DisplayName);
-                }
-            )
-        ),
-        new(
-            LocalizedStrings.OpenDate,
-            Comparer<CaseloadItemViewModel>.Create(
-                (a, b) => a.BusinessObject.CreatedDateBinding.CompareTo(b.BusinessObject.CreatedDateBinding)
-            )
-        ),
-    ];
-
     [ObservableProperty]
     public SortOption<CaseloadItemViewModel> selectedSort = new(
         LocalizedStrings.Id,
@@ -89,9 +69,6 @@ public partial class CaseloadListViewModel : VisitzViewModel
         QueryMap.ItemsChanged += QueryMap_ItemsChanged;
         QueryMap.Subscribe(dataRealm, dataRealm.All<CaseRecord>());
         QueryMap.Subscribe(dataRealm, dataRealm.All<IncidentRecord>());
-
-        int savedSortIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
-        SelectedSort = SortOptions.ElementAt(Math.Clamp(savedSortIndex, 0, SortOptions.Count - 1));
     }
 
     protected override void Dispose(bool disposing)
@@ -233,6 +210,11 @@ public partial class CaseloadListViewModel : VisitzViewModel
     bool MatchesFilters(IBusinessObject item)
     {
         return SearchQueryMatched(item);
+    }
+
+    partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
+    {
+        ApplyFilter();
     }
 
     void ApplyFilter()

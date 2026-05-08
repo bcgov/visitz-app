@@ -2,10 +2,13 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.Foldable;
+using Visitz.Controls;
+using Visitz.Resources.Localization;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Events;
 using VisitzModel.Messaging;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
@@ -14,6 +17,8 @@ namespace Visitz.Views.Caseload;
 
 public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<NavPositionMessage>
 {
+    private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
+
     bool _disposed;
 
     public CaseloadListViewModel? ListViewModel { get; set; }
@@ -41,6 +46,29 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     [ObservableProperty]
     public DateTime? lastUpdated;
 
+    static readonly SortOption<CaseloadItemViewModel> _keyPlayerSort = new(
+        LocalizedStrings.KeyPlayer,
+        Comparer<CaseloadItemViewModel>.Create(
+            (a, b) =>
+            {
+                return a.BusinessObject.DisplayName.CompareTo(b.BusinessObject.DisplayName);
+            }
+        )
+    );
+
+    static readonly SortOption<CaseloadItemViewModel> _openDateSort = new(
+        LocalizedStrings.OpenDate,
+        Comparer<CaseloadItemViewModel>.Create(
+            (a, b) => a.BusinessObject.CreatedDateBinding.CompareTo(b.BusinessObject.CreatedDateBinding)
+        )
+    );
+
+    [ObservableProperty]
+    public List<SortOption<CaseloadItemViewModel>> sortOptions = [_keyPlayerSort, _openDateSort];
+
+    [ObservableProperty]
+    public SortOption<CaseloadItemViewModel> selectedSort = _keyPlayerSort;
+
     public CaseloadContainerViewModel()
     {
         SetSearchBarHorizontalOptions(
@@ -50,6 +78,9 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
 
         LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
         LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
+
+        int savedSortIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
+        SelectedSort = SortOptions.ElementAt(ClampSortIndex(savedSortIndex));
     }
 
     protected override void Dispose(bool disposing)
@@ -109,5 +140,19 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     {
         if (e.Id.Equals(GetCaseloadService.MakeId()))
             LastUpdated = (sender as LastUpdatedPrefs)?.Get(e.Id);
+    }
+
+    int ClampSortIndex(int requestedIndex)
+    {
+        return Math.Clamp(requestedIndex, 0, SortOptions.Count - 1);
+    }
+
+    async partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
+    {
+        if (value == null)
+            return;
+
+        ListViewModel?.SelectedSort = value;
+        Preferences.Default.Set(SortOptionIndexPref, ClampSortIndex(SortOptions.IndexOf(value)));
     }
 }

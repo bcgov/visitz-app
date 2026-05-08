@@ -44,6 +44,8 @@ public partial class CaseloadContainerView : ViewModelContentView<CaseloadContai
 
         CaseloadListView listView = await _loadListView;
         ViewModel.ListViewModel = listView.ViewModel;
+        listView.ViewModel.SelectedSort = ViewModel.SelectedSort;
+
         MainGrid.Add(listView, 0, 1);
 
         await Task.WhenAll(
