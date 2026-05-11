@@ -14,7 +14,7 @@
 >
     <Grid BindingContext="{Reference self}">
         <chips:SfChip
-            Text="{Binding SelectedOption.Text, TargetNullValue={Binding Text}}"
+            Text="{Binding Text}"
             ShowIcon="True"
             HorizontalTextAlignment="Start"
             ImageSize="10"

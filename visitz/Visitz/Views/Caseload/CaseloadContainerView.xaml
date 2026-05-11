@@ -94,14 +94,14 @@
                 </chips:SfChip>
 
                 <controls:DropdownChip
-                    Text="{local:Localize Filter}"
                     Items="{Binding FilterOptions}"
+                    Placeholder="{local:Localize Filter}"
                     SelectedOption="{Binding SelectedFilter, Mode=TwoWay}"
                 />
 
                 <controls:DropdownChip
-                    Text="{local:Localize Sort}"
                     Items="{Binding SortOptions}"
+                    Placeholder="{local:Localize Sort}"
                     SelectedOption="{Binding SelectedSort, Mode=TwoWay}"
                     StickySelection="True"
                 />
