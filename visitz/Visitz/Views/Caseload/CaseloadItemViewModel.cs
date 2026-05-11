@@ -40,9 +40,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
     public DraftIndicatorHelper indicatorHelper;
 
     [ObservableProperty]
-    public bool showDate;
-
-    [ObservableProperty]
     public bool showDraftIndicator;
 
     [ObservableProperty]
@@ -144,8 +141,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
             ShowProgressIndicator = false;
             ShowDownloadIcon = false;
         }
-
-        ShowDate = !ShowDownloadIcon && !ShowProgressIndicator;
     }
 
     void OpenEntityView()

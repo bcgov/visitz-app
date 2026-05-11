@@ -45,7 +45,7 @@
                     </MenuFlyout>
                 </FlyoutBase.ContextFlyout>
 
-                <Grid Padding="0,10,10,10" RowDefinitions="*" RowSpacing="5" ColumnSpacing="10">
+                <Grid Padding="0,10,10,10" RowDefinitions="*,*" RowSpacing="5" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
                         <ColumnDefinition Width="70*" />
@@ -56,6 +56,7 @@
                     <BoxView
                         x:Name="DraftIndicator"
                         Grid.Column="0"
+                        Grid.RowSpan="2"
                         Margin="-1,-10,0,-10"
                         Color="{StaticResource BC_Gold}"
                         IsVisible="{Binding ShowDraftIndicator}"
@@ -72,17 +73,19 @@
 
                     <Label
                         x:Name="OpenDateLabel"
-                        Grid.Column="2"
+                        Grid.Row="1"
+                        Grid.Column="1"
                         Text="{Binding BusinessObject.DisplayDate}"
                         TextColor="{StaticResource BC_InputControlsTextColor}"
                         FontSize="12"
                         FontFamily="BCSansRegular"
-                        IsVisible="{Binding ShowDate}"
+                        IsVisible="True"
                         VerticalOptions="Center"
                     />
 
                     <Label
                         Grid.Column="2"
+                        Grid.RowSpan="2"
                         IsVisible="{Binding ShowDownloadIcon}"
                         TextColor="{StaticResource BC_InputControlsTextColor}"
                         FontSize="20"
@@ -93,21 +96,26 @@
 
                     <ActivityIndicator
                         Grid.Column="2"
+                        Grid.RowSpan="2"
                         HeightRequest="20"
                         WidthRequest="20"
                         IsRunning="{Binding ShowProgressIndicator}"
                         IsVisible="{Binding ShowProgressIndicator}"
+                        VerticalOptions="Center"
                     />
 
                     <tagview:EntityTypeBadge
                         Grid.Column="3"
+                        Grid.RowSpan="2"
                         EntityType="{Binding BusinessObject.EntityType}"
                         EntitySubtype="{Binding BusinessObject.EntitySubtype}"
+                        VerticalOptions="Center"
                     />
 
                     <BoxView
                         Grid.Column="0"
                         Grid.ColumnSpan="4"
+                        Grid.RowSpan="2"
                         Color="#55ffffff"
                         IsVisible="{Binding ShowDownloadIcon}"
                     />
