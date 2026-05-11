@@ -53,7 +53,9 @@ public partial class SelectionPopup : SfPopup
                 source: this
             );
 
-            return vsl;
+            ScrollView scroll = new() { Content = vsl };
+
+            return scroll;
         });
     }
 
