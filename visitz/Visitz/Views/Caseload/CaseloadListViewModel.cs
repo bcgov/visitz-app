@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Oidc;
 using Realms;
 using Visitz.Controls;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
@@ -66,6 +67,9 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
 
     [ObservableProperty]
     public bool isRefreshing;
+
+    [ObservableProperty]
+    public bool showEmptyCaseloadMessage;
 
     protected override async Task InitAsync()
     {
@@ -262,9 +266,32 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
         // TODO: add/remove individual items instead of clobbering entire collection to improve performance
     }
 
-    public void Receive(ServiceStateMessage message)
+    public async void Receive(ServiceStateMessage message)
     {
         IsRefreshing = message.Status == VisitzService.State.Running;
+
+        try
+        {
+            if (message.FinishedSuccess)
+                await TryShowEmptyMessage();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex.Message, ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
+    }
+
+    async Task TryShowEmptyMessage()
+    {
+        using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
+        bool anyExist =
+            realm.All<CaseRecord>().Any()
+            || realm.All<IncidentRecord>().Any()
+            || realm.All<MemoRecord>().Any()
+            || realm.All<ServiceRequestRecord>().Any();
+
+        ShowEmptyCaseloadMessage = !anyExist;
     }
 
     [RelayCommand]

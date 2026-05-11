@@ -12,6 +12,14 @@
     x:TypeArguments="caseload:CaseloadListViewModel"
 >
     <Grid RowDefinitions="*,Auto">
+        <views:EmptyCollectionMessage
+            Grid.Row="0"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Text="{local:Localize CaseloadIsEmpty}"
+            IsVisible="{Binding ShowEmptyCaseloadMessage}"
+        />
+
         <RefreshView
             Grid.Row="0"
             Command="{Binding RefreshCaseloadCommand}"
