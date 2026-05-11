@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui;
 using Syncfusion.Maui.Toolkit.Popup;
+using VisitzModel.Extensions;
 
 namespace Visitz.Controls;
 
@@ -7,6 +8,8 @@ namespace Visitz.Controls;
 
 public partial class DropdownChip : ContentView
 {
+    const int MaxTextLength = 15;
+
     [BindableProperty]
     public partial string Text { get; set; } = string.Empty;
 
@@ -50,6 +53,6 @@ public partial class DropdownChip : ContentView
 
     void ApplySelectionText()
     {
-        Text = SelectedOption?.Text ?? Placeholder;
+        Text = SelectedOption?.Text.TruncateEnd(MaxTextLength, true) ?? Placeholder;
     }
 }

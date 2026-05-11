@@ -39,9 +39,9 @@ public static class StringExtensions
         return addressPart?.Length > 0 ? addressPart + separator : string.Empty;
     }
 
-    public static string TruncateEnd(this string text, int length)
+    public static string TruncateEnd(this string text, int length, bool addEllipsis = false)
     {
-        return text[..Math.Min(text.Length, length)];
+        return text.Length > length ? text[..length] + (addEllipsis ? "…" : string.Empty) : text;
     }
 
     public static bool ParseWordTruthiness(this string text)
