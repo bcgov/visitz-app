@@ -64,6 +64,8 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         )
     );
 
+    static readonly FilterOption<IBusinessObject> s_allTypes = new(LocalizedStrings.AllTypes, _ => true);
+
     static readonly FilterOption<IBusinessObject> s_caseFilter = new(
         LocalizedStrings.Cases,
         businessObject => businessObject.EntityType == EntityType.Case
@@ -81,10 +83,10 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     public SortOption<CaseloadItemViewModel> selectedSort = s_keyPlayerSort;
 
     [ObservableProperty]
-    public List<FilterOption<IBusinessObject>> filterOptions = [s_caseFilter, s_incidentFilter];
+    public List<FilterOption<IBusinessObject>> filterOptions = [s_allTypes, s_caseFilter, s_incidentFilter];
 
     [ObservableProperty]
-    public FilterOption<IBusinessObject>? selectedFilter;
+    public FilterOption<IBusinessObject> selectedFilter = s_allTypes;
 
     public CaseloadContainerViewModel()
     {
@@ -164,12 +166,17 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         return Math.Clamp(requestedIndex, 0, SortOptions.Count - 1);
     }
 
-    async partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
+    partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
     {
         if (value == null)
             return;
 
         ListViewModel?.SelectedSort = value;
         Preferences.Default.Set(SortOptionIndexPref, ClampSortIndex(SortOptions.IndexOf(value)));
+    }
+
+    partial void OnSelectedFilterChanged(FilterOption<IBusinessObject> value)
+    {
+        ListViewModel?.SelectedFilter = value ?? s_allTypes;
     }
 }

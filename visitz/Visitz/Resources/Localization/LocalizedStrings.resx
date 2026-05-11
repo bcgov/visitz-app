@@ -1078,4 +1078,7 @@ Do you want to download information for this record?</value>
   <data name="Sort" xml:space="preserve">
     <value>Sort</value>
   </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>All types</value>
+  </data>
 </root>

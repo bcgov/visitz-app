@@ -178,6 +178,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All types.
+        /// </summary>
+        public static string AllTypes {
+            get {
+                return ResourceManager.GetString("AllTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approved by.
         /// </summary>
         public static string ApprovedBy {

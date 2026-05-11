@@ -97,6 +97,7 @@
                     Items="{Binding FilterOptions}"
                     Placeholder="{local:Localize Filter}"
                     SelectedOption="{Binding SelectedFilter, Mode=TwoWay}"
+                    StickySelection="True"
                 />
 
                 <controls:DropdownChip

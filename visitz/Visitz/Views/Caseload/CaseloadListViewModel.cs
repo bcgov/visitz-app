@@ -54,7 +54,7 @@ public partial class CaseloadListViewModel : VisitzViewModel
     );
 
     [ObservableProperty]
-    public FilterOption<IBusinessObject>? selectedFilter;
+    public FilterOption<IBusinessObject> selectedFilter = new(LocalizedStrings.AllTypes, _ => true);
 
     protected override async Task InitAsync()
     {
@@ -216,6 +216,11 @@ public partial class CaseloadListViewModel : VisitzViewModel
     }
 
     partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
+    {
+        ApplyFilter();
+    }
+
+    partial void OnSelectedFilterChanged(FilterOption<IBusinessObject> value)
     {
         ApplyFilter();
     }
