@@ -1072,4 +1072,10 @@ Do you want to download information for this record?</value>
   <data name="ContactEducation" xml:space="preserve">
     <value>Contact education</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
 </root>
