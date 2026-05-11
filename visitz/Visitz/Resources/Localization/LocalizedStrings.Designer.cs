@@ -1415,6 +1415,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My offices.
+        /// </summary>
+        public static string MyOffices {
+            get {
+                return ResourceManager.GetString("MyOffices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to N/A.
         /// </summary>
         public static string NA {

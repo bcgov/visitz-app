@@ -44,6 +44,7 @@ public partial class CaseloadContainerView : ViewModelContentView<CaseloadContai
 
         CaseloadListView listView = await _loadListView;
         ViewModel.ListViewModel = listView.ViewModel;
+        listView.ViewModel.SelectedOfficeFilter = ViewModel.SelectedOffice;
         listView.ViewModel.SelectedFilter = ViewModel.SelectedFilter;
         listView.ViewModel.SelectedSort = ViewModel.SelectedSort;
 

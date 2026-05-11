@@ -1081,4 +1081,7 @@ Do you want to download information for this record?</value>
   <data name="AllTypes" xml:space="preserve">
     <value>All types</value>
   </data>
+  <data name="MyOffices" xml:space="preserve">
+    <value>My offices</value>
+  </data>
 </root>

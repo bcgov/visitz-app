@@ -4,7 +4,9 @@ namespace Visitz.Controls;
 
 public class FilterOption<TItem>(string label, Func<TItem, bool> wherePredicate)
     : IOption,
-        IEquatable<FilterOption<TItem>>
+        IEquatable<FilterOption<TItem>>,
+        IComparer<FilterOption<TItem>>,
+        IComparable
 {
     public Func<TItem, bool> WherePredicate { get; set; } = wherePredicate;
 
@@ -29,5 +31,15 @@ public class FilterOption<TItem>(string label, Func<TItem, bool> wherePredicate)
     public override bool Equals(object? obj)
     {
         return obj is FilterOption<TItem> filter ? Equals(filter) : Equals(this, obj);
+    }
+
+    public int CompareTo(object? obj)
+    {
+        return obj is FilterOption<TItem> filter ? Text.CompareTo(filter.Text) : Text.CompareTo(obj?.ToString());
+    }
+
+    public int Compare(FilterOption<TItem>? x, FilterOption<TItem>? y)
+    {
+        return string.Compare(x?.Text, y?.Text);
     }
 }

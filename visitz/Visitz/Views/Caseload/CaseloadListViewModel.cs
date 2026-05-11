@@ -48,13 +48,16 @@ public partial class CaseloadListViewModel : VisitzViewModel
     public string? collectionViewPrompt = PromptText;
 
     [ObservableProperty]
+    public FilterOption<IBusinessObject>? selectedOfficeFilter;
+
+    [ObservableProperty]
+    public FilterOption<IBusinessObject> selectedFilter = new(LocalizedStrings.AllTypes, _ => true);
+
+    [ObservableProperty]
     public SortOption<CaseloadItemViewModel> selectedSort = new(
         LocalizedStrings.Id,
         Comparer<CaseloadItemViewModel>.Default
     );
-
-    [ObservableProperty]
-    public FilterOption<IBusinessObject> selectedFilter = new(LocalizedStrings.AllTypes, _ => true);
 
     protected override async Task InitAsync()
     {
@@ -212,7 +215,14 @@ public partial class CaseloadListViewModel : VisitzViewModel
 
     bool MatchesFilters(IBusinessObject item)
     {
-        return SearchQueryMatched(item) && (SelectedFilter?.WherePredicate(item) ?? true);
+        return SearchQueryMatched(item)
+            && (SelectedFilter?.WherePredicate(item) ?? true)
+            && (SelectedOfficeFilter?.WherePredicate(item) ?? true);
+    }
+
+    partial void OnSelectedOfficeFilterChanged(FilterOption<IBusinessObject>? value)
+    {
+        ApplyFilter();
     }
 
     partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
