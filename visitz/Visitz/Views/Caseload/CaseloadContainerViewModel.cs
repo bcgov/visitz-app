@@ -50,7 +50,7 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         businessObject => businessObject.EntityType == EntityType.Incident
     );
 
-    static readonly FilterOption<IBusinessObject> s_allOfficeFilter = new(LocalizedStrings.MyOffices, _ => true);
+    static readonly FilterOption<IBusinessObject> s_allOfficeFilter = new(LocalizedStrings.All, _ => true);
 
     bool _disposed;
 
