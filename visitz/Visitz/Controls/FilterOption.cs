@@ -8,11 +8,11 @@ public class FilterOption<TItem>(string label, Func<TItem, bool> wherePredicate)
         IComparer<FilterOption<TItem>>,
         IComparable
 {
-    public Func<TItem, bool> WherePredicate { get; set; } = wherePredicate;
+    public Func<TItem, bool> WherePredicate { get; } = wherePredicate;
 
     public bool Selected { get; set; }
 
-    public string Text { get; set; } = label;
+    public string Text { get; } = label;
 
     public bool Equals(FilterOption<TItem>? other)
     {

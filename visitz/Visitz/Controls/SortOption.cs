@@ -4,9 +4,9 @@ namespace Visitz.Controls;
 
 public class SortOption<TItem>(string label, IComparer<TItem> comparer) : IOption
 {
-    public string Text { get; set; } = label;
+    public string Text { get; } = label;
 
-    public IComparer<TItem> Comparer { get; private set; } = comparer;
+    public IComparer<TItem> Comparer { get; } = comparer;
 
     public bool Selected { get; set; }
 }
