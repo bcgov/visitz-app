@@ -255,6 +255,12 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     }
 
     [RelayCommand]
+    public static Task RemoveOneOffice()
+    {
+        return DebugOptions.RemoveOneOffice();
+    }
+
+    [RelayCommand]
     public static async Task RunRecordCleanup()
     {
         await DebugOptions.RunRecordCleanupService();

@@ -268,6 +268,15 @@ public class DebugOptions
         info.OfficeNames = [];
     }
 
+    public static async Task RemoveOneOffice()
+    {
+        if (!Enabled)
+            return;
+
+        var info = await OidcSession.GetInfoAsync();
+        info.OfficeNames = info.OfficeNames.Skip(1).ToHashSet();
+    }
+
     public static async Task RunRecordCleanupService()
     {
         if (!Enabled)

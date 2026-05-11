@@ -64,7 +64,7 @@
                 Text="Session"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="0"
@@ -112,16 +112,24 @@
                     Text="Clear office names"
                 />
 
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Command="{Binding RemoveOneOfficeCommand}"
+                    Text="Remove one office name"
+                />
+
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="5"
+                    Grid.Row="6"
                     Grid.Column="0"
                     IsEnabled="{Binding BuildingInDebug}"
                     Text="Stale sessions threshold in minutes (enter 0 to reset)"
                 />
 
                 <Entry
-                    Grid.Row="5"
+                    Grid.Row="6"
                     Grid.Column="1"
                     Text="{Binding StaleSessionMinutes, TargetNullValue='0'}"
                     HorizontalOptions="Start"
