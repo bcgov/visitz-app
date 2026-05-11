@@ -53,6 +53,9 @@ public partial class CaseloadListViewModel : VisitzViewModel
         Comparer<CaseloadItemViewModel>.Default
     );
 
+    [ObservableProperty]
+    public FilterOption<IBusinessObject>? selectedFilter;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -209,7 +212,7 @@ public partial class CaseloadListViewModel : VisitzViewModel
 
     bool MatchesFilters(IBusinessObject item)
     {
-        return SearchQueryMatched(item);
+        return SearchQueryMatched(item) && (SelectedFilter?.WherePredicate(item) ?? true);
     }
 
     partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
@@ -222,8 +225,8 @@ public partial class CaseloadListViewModel : VisitzViewModel
         if (SessionInfo == null)
             return;
 
-        IOrderedEnumerable<CaseloadItemViewModel> itemsMatchingFilter = AllItems
-            .Where(SearchQueryMatched)
+        var itemsMatchingFilter = AllItems
+            .Where(MatchesFilters)
             .Select(bo => new CaseloadItemViewModel(DraftIndicatorHelper, bo, SessionInfo))
             .Order(SelectedSort.Comparer);
 

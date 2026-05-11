@@ -9,6 +9,7 @@ using Visitz.Views.BaseClasses;
 using VisitzModel.Events;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
@@ -46,7 +47,7 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     [ObservableProperty]
     public DateTime? lastUpdated;
 
-    static readonly SortOption<CaseloadItemViewModel> _keyPlayerSort = new(
+    static readonly SortOption<CaseloadItemViewModel> s_keyPlayerSort = new(
         LocalizedStrings.KeyPlayer,
         Comparer<CaseloadItemViewModel>.Create(
             (a, b) =>
@@ -56,18 +57,34 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         )
     );
 
-    static readonly SortOption<CaseloadItemViewModel> _openDateSort = new(
+    static readonly SortOption<CaseloadItemViewModel> s_openDateSort = new(
         LocalizedStrings.OpenDate,
         Comparer<CaseloadItemViewModel>.Create(
             (a, b) => a.BusinessObject.CreatedDateBinding.CompareTo(b.BusinessObject.CreatedDateBinding)
         )
     );
 
-    [ObservableProperty]
-    public List<SortOption<CaseloadItemViewModel>> sortOptions = [_keyPlayerSort, _openDateSort];
+    static readonly FilterOption<IBusinessObject> s_caseFilter = new(
+        LocalizedStrings.Cases,
+        businessObject => businessObject.EntityType == EntityType.Case
+    );
+
+    static readonly FilterOption<IBusinessObject> s_incidentFilter = new(
+        LocalizedStrings.Incidents,
+        businessObject => businessObject.EntityType == EntityType.Incident
+    );
 
     [ObservableProperty]
-    public SortOption<CaseloadItemViewModel> selectedSort = _keyPlayerSort;
+    public List<SortOption<CaseloadItemViewModel>> sortOptions = [s_keyPlayerSort, s_openDateSort];
+
+    [ObservableProperty]
+    public SortOption<CaseloadItemViewModel> selectedSort = s_keyPlayerSort;
+
+    [ObservableProperty]
+    public List<FilterOption<IBusinessObject>> filterOptions = [s_caseFilter, s_incidentFilter];
+
+    [ObservableProperty]
+    public FilterOption<IBusinessObject>? selectedFilter;
 
     public CaseloadContainerViewModel()
     {
