@@ -89,6 +89,7 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
         QueryMap.Subscribe(dataRealm, dataRealm.All<IncidentRecord>());
 
         WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
+        WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
     }
 
     protected override void Dispose(bool disposing)
