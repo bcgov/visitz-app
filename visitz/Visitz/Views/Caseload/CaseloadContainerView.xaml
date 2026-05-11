@@ -103,6 +103,7 @@
                     Text="{local:Localize Sort}"
                     Items="{Binding SortOptions}"
                     SelectedOption="{Binding SelectedSort, Mode=TwoWay}"
+                    StickySelection="True"
                 />
             </HorizontalStackLayout>
         </VerticalStackLayout>

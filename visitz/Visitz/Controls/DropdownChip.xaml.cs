@@ -16,6 +16,9 @@ public partial class DropdownChip : ContentView
     [BindableProperty(PropertyChangedMethodName = nameof(OnSelectedItemChanged))]
     public partial IOption? SelectedOption { get; set; }
 
+    [BindableProperty]
+    public partial bool StickySelection { get; set; }
+
     static void OnSelectedItemChanged(BindableObject bindable, object _, object __)
     {
         ((DropdownChip)bindable).Popup.Dismiss();

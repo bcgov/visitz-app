@@ -19,6 +19,9 @@ public partial class SelectionPopup : SfPopup
     [BindableProperty]
     public partial DataTemplate? ItemDataTemplate { get; set; }
 
+    [BindableProperty]
+    public partial bool StickySelection { get; set; }
+
     public SelectionPopup()
     {
         AnimationDuration = 75;
@@ -56,8 +59,13 @@ public partial class SelectionPopup : SfPopup
 
     SelectionLayoutBehavior MakeSelectionBehavior()
     {
-        SelectionLayoutBehavior slb = new() { StickySelection = true };
+        SelectionLayoutBehavior slb = new();
 
+        slb.SetBinding(
+            SelectionLayoutBehavior.StickySelectionProperty,
+            static (SelectionPopup popup) => popup.StickySelection,
+            source: this
+        );
         slb.SetBinding(
             SelectionLayoutBehavior.ItemsSourceProperty,
             static (SelectionPopup popup) => popup.ItemsSource,
