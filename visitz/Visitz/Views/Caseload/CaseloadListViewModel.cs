@@ -1,11 +1,16 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Realms;
 using Visitz.Controls;
 using Visitz.Resources.Localization;
+using Visitz.Services;
+using Visitz.Services.Base;
+using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -16,7 +21,7 @@ namespace Visitz.Views.Caseload;
 
 #nullable enable
 
-public partial class CaseloadListViewModel : VisitzViewModel
+public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
 #if WINDOWS
     private static readonly string PromptText = LocalizedStrings.ButtonToRefreshCaseload;
@@ -59,6 +64,9 @@ public partial class CaseloadListViewModel : VisitzViewModel
         Comparer<CaseloadItemViewModel>.Default
     );
 
+    [ObservableProperty]
+    public bool isRefreshing;
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -75,6 +83,8 @@ public partial class CaseloadListViewModel : VisitzViewModel
         QueryMap.ItemsChanged += QueryMap_ItemsChanged;
         QueryMap.Subscribe(dataRealm, dataRealm.All<CaseRecord>());
         QueryMap.Subscribe(dataRealm, dataRealm.All<IncidentRecord>());
+
+        WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
     }
 
     protected override void Dispose(bool disposing)
@@ -88,6 +98,8 @@ public partial class CaseloadListViewModel : VisitzViewModel
             IncidentRecords.CollectionChanged -= SupportingRecordsCollection_CollectionChanged;
 
             DraftIndicatorHelper.Dispose();
+
+            WeakReferenceMessenger.Default.UnregisterAll(this);
 
             _disposed = true;
         }
@@ -248,5 +260,17 @@ public partial class CaseloadListViewModel : VisitzViewModel
         FilteredItems = new(itemsMatchingFilter);
 
         // TODO: add/remove individual items instead of clobbering entire collection to improve performance
+    }
+
+    public void Receive(ServiceStateMessage message)
+    {
+        IsRefreshing = message.Status == VisitzService.State.Running;
+    }
+
+    [RelayCommand]
+    public void RefreshCaseload()
+    {
+        WeakReferenceMessenger.Default.Send(GetAllDataForOfflineService.MakeStartMessage(forceDownload: true));
+        ShowEmptyCaseloadMessage = false;
     }
 }

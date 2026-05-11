@@ -12,35 +12,40 @@
     x:TypeArguments="caseload:CaseloadListViewModel"
 >
     <Grid RowDefinitions="*,Auto">
-        <CollectionView
+        <RefreshView
             Grid.Row="0"
-            ItemsSource="{Binding FilteredItems}"
-            ItemSizingStrategy="MeasureFirstItem"
-            ItemsUpdatingScrollMode="KeepScrollOffset"
-            SelectionMode="None"
+            Command="{Binding RefreshCaseloadCommand}"
+            IsRefreshing="{Binding IsRefreshing}"
         >
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" />
-            </CollectionView.ItemsLayout>
+            <CollectionView
+                ItemsSource="{Binding FilteredItems}"
+                ItemSizingStrategy="MeasureFirstItem"
+                ItemsUpdatingScrollMode="KeepScrollOffset"
+                SelectionMode="None"
+            >
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="caseload:CaseloadItemViewModel">
-                    <caseload:CaseloadItemView />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="caseload:CaseloadItemViewModel">
+                        <caseload:CaseloadItemView />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
-            <CollectionView.EmptyView>
-                <VerticalStackLayout HorizontalOptions="Fill" Padding="20" Spacing="10">
-                    <Label
-                        HorizontalOptions="Fill"
-                        HorizontalTextAlignment="Center"
-                        FontSize="16"
-                        Text="{Binding CollectionViewPrompt}"
-                    />
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Fill" Padding="20" Spacing="10">
+                        <Label
+                            HorizontalOptions="Fill"
+                            HorizontalTextAlignment="Center"
+                            FontSize="16"
+                            Text="{Binding CollectionViewPrompt}"
+                        />
 
-                    <Label HorizontalOptions="Center" FontSize="24" Text="↓" />
-                </VerticalStackLayout>
-            </CollectionView.EmptyView>
-        </CollectionView>
+                        <Label HorizontalOptions="Center" FontSize="24" Text="↓" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 </base:ViewModelContentView>
