@@ -20,6 +20,7 @@ namespace VisitzApi
     /// </summary>
     public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     {
+        internal static readonly string EmptyJsonBody = "{}";
         internal static readonly string V1 = "v1";
         internal static readonly string V2 = "v2";
 
@@ -43,6 +44,10 @@ namespace VisitzApi
 
             var response = await HttpClient.SendAsync(request);
             string content = await response.Content.ReadAsStringAsync();
+
+            if (content.Trim().Length <= 0)
+                content = EmptyJsonBody;
+
             using ResponseBodyParser bodyParser = new(content);
 
             endpoint.ThrowOnHttpErrors(response, bodyParser);
