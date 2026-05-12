@@ -13,15 +13,6 @@
     x:Name="self"
 >
     <Grid BindingContext="{Reference self}">
-        <visitzChips:VChip
-            x:Name="Chip"
-            Text="{Binding Text}">
-            <visitzChips:VChip.GestureRecognizers>
-                <TapGestureRecognizer
-                    Tapped="TapGestureRecognizer_Tapped" />
-            </visitzChips:VChip.GestureRecognizers>
-        </visitzChips:VChip>
-
         <controls:SelectionPopup
             x:Name="Popup"
             ItemsSource="{Binding Items}"
@@ -75,5 +66,11 @@
                 </DataTemplate>
             </controls:SelectionPopup.ItemDataTemplate>
         </controls:SelectionPopup>
+
+        <visitzChips:VChip x:Name="Chip" Text="{Binding Text}">
+            <visitzChips:VChip.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </visitzChips:VChip.GestureRecognizers>
+        </visitzChips:VChip>
     </Grid>
 </ContentView>
