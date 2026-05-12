@@ -19,15 +19,14 @@ permissions:
 env:
   BUILD_NUM: ${{ inputs.build_number }}
   PROJPATH: "visitz/Visitz"
-  DOTNET_SDK_VERSION: "10.0.102"
   GLOBAL_JSON_PATH: "global.json"
-  XCODE_VERSION: "26.2"
+  XCODE_VERSION: "26.4"
 
 jobs:
 
   build-ios-package:
     name: Building, archiving and uploading IPA to GitHub
-    runs-on: macOS-15
+    runs-on: macOS-26
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
     steps:
@@ -64,7 +63,9 @@ jobs:
         run: |
           echo -n "$APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64" | base64 --decode -o $TEMP_CERT_PATH
 
-          SUBJECT=$(openssl pkcs12 -in "$TEMP_CERT_PATH" \
+          SUBJECT=$(openssl pkcs12 \
+            -legacy \
+            -in "$TEMP_CERT_PATH" \
             -password pass:"${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_PASSWORD }}" \
             -nodes -nokeys \
             | openssl x509 -noout -subject)
@@ -91,17 +92,6 @@ jobs:
             -c 'Print Name' /dev/stdin \
             <<< $(security cms -D -i $PP_PATH))" >> "$GITHUB_ENV"
 
-      - name: Inflate ${{ env.GLOBAL_JSON_PATH }}
-        run: |
-          cp ${{ env.GLOBAL_JSON_PATH }}.template ${{ env.GLOBAL_JSON_PATH }}
-
-      - name: Force .NET SDK version ${{ env.DOTNET_SDK_VERSION }}
-        uses: jossef/action-set-json-field@890d7642122dbb2833dddd2003659bb71a2b21fe # v2.2
-        with:
-          file: ${{ env.GLOBAL_JSON_PATH }}
-          field: sdk.version
-          value: ${{ env.DOTNET_SDK_VERSION }}
-
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@1641575d87647fb969c0545f0b6a76873e328b7c # v5.0.0
         with:
@@ -115,14 +105,12 @@ jobs:
       - name: Setup .NET SDK and workloads
         uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # 5.2.0
         with:
-          cache-dependency-path: ${{ env.PROJPATH }}/packages.lock.json
-          cache: true
           global-json-file: ${{ env.GLOBAL_JSON_PATH }}
 
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
         run: |
           dotnet --version
-          dotnet workload install maui maui-ios --version ${{ env.DOTNET_SDK_VERSION }}
+          dotnet workload install maui maui-ios
 
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |

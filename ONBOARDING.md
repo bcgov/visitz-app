@@ -1,8 +1,8 @@
+### Read the document fully before following the steps.
+
 # Dev environment setup
 
 This document will help you set up your development environment to build and run the Visitz app.
-
-Read the document fully before following the steps.
 
 ## Enable developer mode (Windows only)
 
@@ -12,19 +12,9 @@ Go to https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode
 
 ## Install .NET
 
-> !! Note: if you have multiple versions of .NET installed or are using Visual Studio, you may need to pin the version of the runtime you want to use. See [.NET version pinning](#net-version-pinning) for details.
+> !! Note: this project pins an exact version of the .NET SDK to be used for development and CI/CD. You will need to install the exact SDK version listed in the [global.json](global.json) file or builds will not run. See [.NET version pinning](#net-version-pinning) for details.
 
-1. Navigate to [`visitz/Visitz/Visitz.csproj`](visitz/Visitz/Visitz.csproj) and look for the `TargetFrameworks` property to see which major .NET version to install.
-
-	As an example, if you find:
-
-	```xml
-	<TargetFrameworks>net10.0-maccatalyst;net10.0-ios</TargetFrameworks>
-	```
-
-	then you must install .NET 9.
-
-1. From the [.NET distribution site](https://dotnet.microsoft.com/en-us/download/dotnet), download the latest SDK for the matching major version for your platform.
+1. From the [.NET distribution site](https://dotnet.microsoft.com/en-us/download/dotnet), download the exact SDK for your platform listed in the global.json file.
 
 1. In CLI/terminal, Navigate to [`visitz/Visitz`](visitz/Visitz).
 
@@ -63,25 +53,8 @@ Go to https://learn.microsoft.com/en-us/windows/advanced-settings/developer-mode
 
 You can override the default dotnet SDK version used in terminal for a single project using a `global.json` file. This is sometimes necessary when using Visual Studio, as it ships with its own internal version of .NET—which may not match the SDK version currently used by the app.
 
-In the root directory of the repository, make a copy of [`global.json.template`](global.json.template), rename it to `global.json` in the same directory, and set the SDK version you wish to use in `"version": "DOTNET_SDK_VERSION"`.
+The [global.json](global.json) file for this project used to be made on-demand by devs or CI/CD, but it is now committed in version history for simplicity.
 
-An example could look like:
-
-```json
-{
-  "sdk": {
-    "version": "10.0.102", // Example only. This may not be the latest version
-    "allowPrerelease": false,
-    "rollForward": "disable"
-  }
-}
-```
-
-If you don't know the SDK version you want (it is different from the main version), you can find it on the [.NET distribution site](https://dotnet.microsoft.com/en-us/download/dotnet) or run a terminal command to see locally installed versions:
-
-```powershell
-dotnet --list-sdks
-```
 
 ## Windows setup
 
