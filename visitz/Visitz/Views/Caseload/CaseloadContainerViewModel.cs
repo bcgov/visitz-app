@@ -212,7 +212,7 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     {
         SearchBarHorizontalOptions = mode switch
         {
-            TwoPaneViewMode.Tall => LayoutOptions.Fill,
+            TwoPaneViewMode.Tall or TwoPaneViewMode.SinglePane => LayoutOptions.Fill,
             TwoPaneViewMode.Wide => LayoutOptions.End,
             _ => throw new InvalidOperationException($"{nameof(TwoPaneViewMode)} '{mode}' not supported"),
         };
