@@ -224,10 +224,7 @@ namespace Oidc
                 {
                     s_canSetAuthorization.Release();
                 }
-                catch
-                {
-                    
-                }
+                catch { }
             }
         }
     }
