@@ -45,7 +45,12 @@
                     </MenuFlyout>
                 </FlyoutBase.ContextFlyout>
 
-                <Grid Padding="0,10,10,10" RowDefinitions="*,*" RowSpacing="5" ColumnSpacing="10">
+                <Grid
+                    Padding="0,10,10,10"
+                    RowDefinitions="Auto,Auto"
+                    RowSpacing="5"
+                    ColumnSpacing="10"
+                >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{StaticResource DraftIndicatorWidth}" />
                         <ColumnDefinition Width="70*" />
