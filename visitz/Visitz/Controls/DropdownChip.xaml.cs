@@ -55,7 +55,7 @@ public partial class DropdownChip : ContentView
         Text = SelectedOption?.Text.TruncateEnd(MaxTextLength, true) ?? Placeholder;
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private void TapGestureRecognizer_Tapped(object? sender, TappedEventArgs e)
     {
         if (sender != null)
             Popup.ShowRelativeToView((View)sender, PopupRelativePosition.AlignBottom);
