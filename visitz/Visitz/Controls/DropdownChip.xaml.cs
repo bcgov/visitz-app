@@ -19,7 +19,10 @@ public partial class DropdownChip : ContentView
     [BindableProperty]
     public partial IEnumerable<IOption> Items { get; set; } = [];
 
-    [BindableProperty(PropertyChangedMethodName = nameof(OnSelectedItemChanged))]
+    [BindableProperty(
+        DefaultBindingMode = BindingMode.TwoWay,
+        PropertyChangedMethodName = nameof(OnSelectedItemChanged)
+    )]
     public partial IOption? SelectedOption { get; set; }
 
     [BindableProperty]

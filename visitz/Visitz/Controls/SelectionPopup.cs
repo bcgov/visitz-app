@@ -2,7 +2,6 @@ using System.Collections;
 using CommunityToolkit.Maui;
 using Syncfusion.Maui.Toolkit.Popup;
 using Visitz.Behaviors;
-using Visitz.Resources.Styles;
 
 namespace Visitz.Controls;
 
@@ -13,7 +12,7 @@ public partial class SelectionPopup : SfPopup
     [BindableProperty]
     public partial IEnumerable? ItemsSource { get; set; }
 
-    [BindableProperty]
+    [BindableProperty(DefaultBindingMode = BindingMode.TwoWay)]
     public partial object? SelectedItem { get; set; }
 
     [BindableProperty]
@@ -31,7 +30,7 @@ public partial class SelectionPopup : SfPopup
 
         PopupStyle = new()
         {
-            PopupBackground = VisitzColors.Gray100,
+            PopupBackground = Colors.White,
             HasShadow = true,
             CornerRadius = 5,
         };

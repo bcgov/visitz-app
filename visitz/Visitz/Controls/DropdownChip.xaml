@@ -16,7 +16,7 @@
         <controls:SelectionPopup
             x:Name="Popup"
             ItemsSource="{Binding Items}"
-            SelectedItem="{Binding SelectedOption, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedOption}"
             StickySelection="{Binding StickySelection}"
         >
             <controls:SelectionPopup.ItemDataTemplate>

@@ -81,21 +81,21 @@
                     <controls:DropdownChip
                         Items="{Binding OfficeOptions}"
                         Placeholder="{local:Localize MyOffices}"
-                        SelectedOption="{Binding SelectedOffice, Mode=TwoWay}"
+                        SelectedOption="{Binding SelectedOffice}"
                         StickySelection="True"
                     />
 
                     <controls:DropdownChip
                         Items="{Binding FilterOptions}"
                         Placeholder="{local:Localize Filter}"
-                        SelectedOption="{Binding SelectedFilter, Mode=TwoWay}"
+                        SelectedOption="{Binding SelectedFilter}"
                         StickySelection="True"
                     />
 
                     <controls:DropdownChip
                         Items="{Binding SortOptions}"
                         Placeholder="{local:Localize Sort}"
-                        SelectedOption="{Binding SelectedSort, Mode=TwoWay}"
+                        SelectedOption="{Binding SelectedSort}"
                         StickySelection="True"
                     />
                 </HorizontalStackLayout>
