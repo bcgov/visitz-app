@@ -2,17 +2,28 @@ namespace Visitz.Controls;
 
 #nullable enable
 
-public class FilterOption<TItem>(string label, Func<TItem, bool> wherePredicate)
-    : IOption,
-        IEquatable<FilterOption<TItem>>,
-        IComparer<FilterOption<TItem>>,
-        IComparable
+public class FilterOption<TItem>(
+    string label,
+    Func<TItem, bool> wherePredicate,
+    string startIconGlyph = "",
+    string startGlyphFontFamily = "",
+    string endIconGlyph = "",
+    string endGlyphFontFamily = ""
+) : IOption, IEquatable<FilterOption<TItem>>, IComparer<FilterOption<TItem>>, IComparable
 {
     public Func<TItem, bool> WherePredicate { get; } = wherePredicate;
 
     public bool Selected { get; set; }
 
     public string Text { get; } = label;
+
+    public string StartIconGlyph { get; set; } = startIconGlyph;
+
+    public string StartGlyphFontFamily { get; set; } = startGlyphFontFamily;
+
+    public string EndIconGlyph { get; set; } = endIconGlyph;
+
+    public string EndGlyphFontFamily { get; set; } = endGlyphFontFamily;
 
     public bool Equals(FilterOption<TItem>? other)
     {
