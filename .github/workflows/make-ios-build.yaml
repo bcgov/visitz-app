@@ -21,13 +21,13 @@ env:
   PROJPATH: "visitz/Visitz"
   DOTNET_SDK_VERSION: "10.0.102"
   GLOBAL_JSON_PATH: "global.json"
-  XCODE_VERSION: "26.2"
+  XCODE_VERSION: "26.3"
 
 jobs:
 
   build-ios-package:
     name: Building, archiving and uploading IPA to GitHub
-    runs-on: macOS-15
+    runs-on: macOS-26
     environment: ${{ inputs.environment }}
     timeout-minutes: 200
     steps:
@@ -64,7 +64,9 @@ jobs:
         run: |
           echo -n "$APPLE_ENTERPRISE_BUILD_CERTIFICATE_BASE_64" | base64 --decode -o $TEMP_CERT_PATH
 
-          SUBJECT=$(openssl pkcs12 -in "$TEMP_CERT_PATH" \
+          SUBJECT=$(openssl pkcs12 \
+            -legacy \
+            -in "$TEMP_CERT_PATH" \
             -password pass:"${{ secrets.APPLE_ENTERPRISE_BUILD_CERTIFICATE_PASSWORD }}" \
             -nodes -nokeys \
             | openssl x509 -noout -subject)
@@ -115,8 +117,6 @@ jobs:
       - name: Setup .NET SDK and workloads
         uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # 5.2.0
         with:
-          cache-dependency-path: ${{ env.PROJPATH }}/packages.lock.json
-          cache: true
           global-json-file: ${{ env.GLOBAL_JSON_PATH }}
 
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
