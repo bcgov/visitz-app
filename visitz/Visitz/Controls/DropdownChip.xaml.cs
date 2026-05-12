@@ -43,16 +43,28 @@ public partial class DropdownChip : ContentView
     public DropdownChip()
     {
         InitializeComponent();
-    }
-
-    void SfChip_Clicked(object? sender, EventArgs e)
-    {
-        if (sender != null)
-            Popup.ShowRelativeToView((View)sender, PopupRelativePosition.AlignBottom);
+        Popup.Opened += Popup_Opened;
+        Popup.Closed += Popup_Closed;
     }
 
     void ApplySelectionText()
     {
         Text = SelectedOption?.Text.TruncateEnd(MaxTextLength, true) ?? Placeholder;
+    }
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        if (sender != null)
+            Popup.ShowRelativeToView((View)sender, PopupRelativePosition.AlignBottom);
+    }
+
+    private void Popup_Opened(object? sender, EventArgs e)
+    {
+        Chip.IsOpen = true;
+    }
+
+    private void Popup_Closed(object? sender, EventArgs e)
+    {
+        Chip.IsOpen = false;
     }
 }

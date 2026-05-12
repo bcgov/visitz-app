@@ -3,33 +3,24 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
-    xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:popup="clr-namespace:Syncfusion.Maui.Toolkit.Popup;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:visitzChips="clr-namespace:Visitz.Controls.VisitzChips"
     x:Class="Visitz.Controls.DropdownChip"
     x:DataType="controls:DropdownChip"
     x:Name="self"
 >
     <Grid BindingContext="{Reference self}">
-        <chips:SfChip
-            Text="{Binding Text}"
-            ShowIcon="True"
-            HorizontalTextAlignment="Start"
-            ImageSize="10"
-            ImageAlignment="End"
-            Clicked="SfChip_Clicked"
-        >
-            <chips:SfChip.ImageSource>
-                <FontImageSource
-                    Glyph="{Static icons:MaterialIcons.Arrow_drop_down}"
-                    FontFamily="MaterialIconsRoundedUnfilled"
-                    Color="{StaticResource BC_TextColor}"
-                    Size="100"
-                />
-            </chips:SfChip.ImageSource>
-        </chips:SfChip>
+        <visitzChips:VChip
+            x:Name="Chip"
+            Text="{Binding Text}">
+            <visitzChips:VChip.GestureRecognizers>
+                <TapGestureRecognizer
+                    Tapped="TapGestureRecognizer_Tapped" />
+            </visitzChips:VChip.GestureRecognizers>
+        </visitzChips:VChip>
 
         <controls:SelectionPopup
             x:Name="Popup"
