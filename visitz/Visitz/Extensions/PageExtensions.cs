@@ -47,8 +47,14 @@ internal static class PageExtensions
             }
     }
 
-    public static async Task DisplayErrorAlert(this Page page, Exception exception)
+    public static async Task DisplayErrorAlert(
+        this Page page,
+        Exception exception,
+        string? title = "",
+        string? message = ""
+    )
     {
-        await DisplayErrorAlert(page, exception.Message, exception.Message + " -> " + exception.StackTrace);
+        message += Environment.NewLine + Environment.NewLine + exception.Message;
+        await DisplayErrorAlert(page, message.Trim(), exception.Message + " -> " + exception.ToString(), title);
     }
 }

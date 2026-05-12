@@ -15,7 +15,13 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, IAssignedMetadata, IApiJson<MemoJson>
+public partial class MemoRecord
+    : IRealmObject,
+        IRowMetadata,
+        IBusinessObject,
+        IAssignedMetadata,
+        IApiJson<MemoJson>,
+        IEquatable<MemoRecord>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -317,5 +323,15 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
     public bool IsAssigned(string username)
     {
         return AssignedTo == username;
+    }
+
+    public bool Equals(MemoRecord? other)
+    {
+        return IBusinessObjectExtensions.Equals(this, other);
+    }
+
+    public void RaisePropertyChangedEvent(string propertyName)
+    {
+        RaisePropertyChanged(propertyName);
     }
 }

@@ -14,13 +14,14 @@ using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
 
 #nullable enable
 
-public partial class CaseloadItemViewModel : VisitzViewModel
+public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<CaseloadItemViewModel>
 {
     public static readonly FontImageSource RemoveImageSource = new()
     {
@@ -37,9 +38,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
     [ObservableProperty]
     public DraftIndicatorHelper indicatorHelper;
-
-    [ObservableProperty]
-    public bool showDate;
 
     [ObservableProperty]
     public bool showDraftIndicator;
@@ -87,6 +85,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             serviceHandler.ServiceStarted -= ServiceHandler_ServiceStarted;
             serviceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
 
+            BusinessObject = new CaseRecord();
             disposed = true;
         }
         base.Dispose(disposing);
@@ -94,9 +93,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
 
     void UpdateDraftIndicatorVisibility()
     {
-        var draftItems = IndicatorHelper.DraftedItems;
-
-        if (draftItems != null)
+        if (
+            BusinessObject.IsValid
+            && IndicatorHelper.DraftedItems is HashSet<(string EntityId, EntityType Type)> draftItems
+        )
         {
             var idType = (BusinessObject.Id, BusinessObject.EntityType);
             var numType = (BusinessObject.FileNumber, BusinessObject.EntityType);
@@ -141,8 +141,6 @@ public partial class CaseloadItemViewModel : VisitzViewModel
             ShowProgressIndicator = false;
             ShowDownloadIcon = false;
         }
-
-        ShowDate = !ShowDownloadIcon && !ShowProgressIndicator;
     }
 
     void OpenEntityView()
@@ -282,5 +280,10 @@ public partial class CaseloadItemViewModel : VisitzViewModel
     {
         return serviceHandler.IsAnyServiceRunning(nameof(GetAllDataForOfflineService))
             || serviceHandler.IsAnyServiceRunning(BusinessObject.ToIdTypeString());
+    }
+
+    public int CompareTo(CaseloadItemViewModel? other)
+    {
+        return BusinessObject.IdBinding.CompareTo(other?.BusinessObject.IdBinding);
     }
 }

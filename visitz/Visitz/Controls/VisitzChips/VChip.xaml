@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:effects="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    x:Class="Visitz.Controls.VisitzChips.VChip"
+    x:Name="self"
+    VerticalOptions="Start"
+>
+    <Border BindingContext="{Reference self}" StrokeThickness="0" StrokeShape="RoundRectangle 8">
+        <effects:SfEffectsView TouchDownEffects="Ripple">
+            <Grid VerticalOptions="Center">
+                <Button
+                    Grid.ColumnSpan="3"
+                    Background="Transparent"
+                    TextColor="Transparent"
+                    CornerRadius="8"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                    BorderWidth="1"
+                    MinimumHeightRequest="-1"
+                    BorderColor="#CAC4D0"
+                />
+
+                <Grid
+                    ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="5"
+                    Padding="5,0"
+                    MinimumHeightRequest="{StaticResource MinimumTapDimension}"
+                >
+                    <Label
+                        Grid.Column="1"
+                        VerticalOptions="Center"
+                        Margin="0,0"
+                        FontSize="14"
+                        Text="{Binding Text}"
+                        TextColor="{StaticResource BC_TextColor}"
+                    />
+
+                    <Label
+                        x:Name="Arrow"
+                        Grid.Column="2"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontAutoScalingEnabled="False"
+                        FontSize="22"
+                        Text="{Static fonticons:MaterialIcons.Arrow_drop_down}"
+                        VerticalOptions="Center"
+                    />
+                </Grid>
+            </Grid>
+        </effects:SfEffectsView>
+    </Border>
+</ContentView>

@@ -18,6 +18,8 @@
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
 
+		<NoWarn>MCTEXP001</NoWarn>
+
 		<!-- Display name -->
 		<ApplicationTitle>MCFD Mobility</ApplicationTitle>
 
@@ -103,8 +105,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="14.0.1" />
-		<PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="14.1.0" />
+		<PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="$(CommunityToolkitMvvmVersion)" />
 		<PackageReference Include="CSharpier.MsBuild" Version="$(CSharpierVersion)">
 			<PrivateAssets>all</PrivateAssets>

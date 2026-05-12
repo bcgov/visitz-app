@@ -21,7 +21,8 @@ public partial class ServiceRequestRecord
         IRowMetadata,
         IBusinessObject,
         IAssignedMetadata,
-        IApiJson<ServiceRequestJson>
+        IApiJson<ServiceRequestJson>,
+        IEquatable<ServiceRequestRecord>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -300,5 +301,15 @@ public partial class ServiceRequestRecord
     public bool IsAssigned(string username)
     {
         return AssignedTo == username;
+    }
+
+    public bool Equals(ServiceRequestRecord? other)
+    {
+        return IBusinessObjectExtensions.Equals(this, other);
+    }
+
+    public void RaisePropertyChangedEvent(string propertyName)
+    {
+        RaisePropertyChanged(propertyName);
     }
 }

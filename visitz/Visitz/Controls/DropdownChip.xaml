@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:popup="clr-namespace:Syncfusion.Maui.Toolkit.Popup;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:visitzChips="clr-namespace:Visitz.Controls.VisitzChips"
+    x:Class="Visitz.Controls.DropdownChip"
+    x:DataType="controls:DropdownChip"
+    x:Name="self"
+>
+    <Grid BindingContext="{Reference self}">
+        <controls:SelectionPopup
+            x:Name="Popup"
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding SelectedOption}"
+            StickySelection="{Binding StickySelection}"
+        >
+            <controls:SelectionPopup.ItemDataTemplate>
+                <DataTemplate x:DataType="controls:IOption">
+                    <ContentView>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal" />
+
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter
+                                            TargetName="SelectionIndicator"
+                                            Property="IsVisible"
+                                            Value="True"
+                                        />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <effectsView:SfEffectsView
+                            TouchDownEffects="Ripple"
+                            HorizontalOptions="Fill"
+                        >
+                            <HorizontalStackLayout
+                                HorizontalOptions="Fill"
+                                Margin="{StaticResource DefaultMargin}"
+                                Spacing="{StaticResource DefaultSpacingHalf}"
+                            >
+                                <Border
+                                    WidthRequest="3"
+                                    StrokeShape="RoundRectangle 5"
+                                    StrokeThickness="0"
+                                >
+                                    <BoxView
+                                        x:Name="SelectionIndicator"
+                                        Color="{StaticResource BuildBarBackgroundColor}"
+                                        IsVisible="False"
+                                    ></BoxView>
+                                </Border>
+
+                                <Label Text="{Binding Text}" HorizontalOptions="Start" />
+                            </HorizontalStackLayout>
+                        </effectsView:SfEffectsView>
+                    </ContentView>
+                </DataTemplate>
+            </controls:SelectionPopup.ItemDataTemplate>
+        </controls:SelectionPopup>
+
+        <visitzChips:VChip x:Name="Chip" Text="{Binding Text}">
+            <visitzChips:VChip.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </visitzChips:VChip.GestureRecognizers>
+        </visitzChips:VChip>
+    </Grid>
+</ContentView>

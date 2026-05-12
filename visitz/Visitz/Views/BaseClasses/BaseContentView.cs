@@ -10,6 +10,8 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
 {
     private bool _disposedValue;
 
+    private bool loaded;
+
     protected ILogger Logger { get; }
 
     public Task? InitTask { get; private set; }
@@ -20,6 +22,8 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
     {
         Logger = MakeLogger();
         Title = title;
+
+        Loaded += BaseContentView_Loaded;
     }
 
     protected virtual ILogger<BaseContentView> MakeLogger()
@@ -46,6 +50,30 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
         }
         else if (args.DetachingFromHandler())
             Dispose();
+    }
+
+    private async void BaseContentView_Loaded(object? sender, EventArgs e)
+    {
+        try
+        {
+            if (!loaded)
+            {
+                await OnLoadedAsync();
+                loaded = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex.Message, ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+            throw;
+        }
+    }
+
+    protected virtual Task OnLoadedAsync()
+    {
+        Logger.TraceMethod(this);
+        return Task.CompletedTask;
     }
 
     public void Dispose()

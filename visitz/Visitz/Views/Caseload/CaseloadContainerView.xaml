@@ -1,13 +1,118 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<base:BaseContentView
+<base:ViewModelContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
-    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:chips="clr-namespace:Syncfusion.Maui.Toolkit.Chips;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:shimmer="clr-namespace:Syncfusion.Maui.Toolkit.Shimmer;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Caseload.CaseloadContainerView"
-    x:DataType="caseload:CaseloadContainerView"
+    x:DataType="caseload:CaseloadContainerViewModel"
+    x:TypeArguments="caseload:CaseloadContainerViewModel"
     BackgroundColor="White"
 >
-    <nav:ContentViewNavigationStack x:Name="ContentStack" />
-</base:BaseContentView>
+    <base:ViewModelContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        </ResourceDictionary>
+    </base:ViewModelContentView.Resources>
+
+    <Grid x:Name="MainGrid" RowDefinitions="Auto,*,Auto" IsClippedToBounds="True">
+        <VerticalStackLayout
+            Grid.Row="0"
+            BackgroundColor="White"
+            Shadow="{StaticResource RestingLevel2}"
+            ZIndex="2"
+            Spacing="10"
+            Padding="10"
+        >
+            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="{StaticResource DefaultSpacing}">
+                <Label
+                    Text="{local:Localize Caseload}"
+                    Style="{StaticResource HeadlineMedium}"
+                    VerticalOptions="Center"
+                    IsVisible="{Binding ShowTitle}"
+                />
+
+                <controls:FontIconButton
+                    Grid.Column="1"
+                    Style="{StaticResource FontIconButtonLightMode}"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Text="{Static icons:MaterialIcons.Search}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    Clicked="SearchActionButton_Clicked"
+                    IsVisible="{Binding ShowSearchBar, Converter={StaticResource BoolNegationConverter}}"
+                />
+
+                <ContentView
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    IsVisible="{Binding ShowSearchBar}"
+                >
+                    <SearchBar
+                        BackgroundColor="{StaticResource BC_Background_Light}"
+                        CancelButtonColor="{StaticResource BC_TextColor}"
+                        HorizontalOptions="{Binding SearchBarHorizontalOptions}"
+                        ios:SearchBar.SearchBarStyle="Minimal"
+                        Margin="{OnPlatform iOS='-9', Default=0}"
+                        MinimumWidthRequest="300"
+                        Placeholder="{local:Localize CaseloadSearchHint}"
+                        SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+                        Text="{Binding SearchQuery}"
+                        TextChanged="CaseloadSearchBar_TextChanged"
+                        TextColor="{StaticResource BC_TextColor}"
+                        Unfocused="CaseloadSearchBar_Unfocused"
+                        x:Name="CaseloadSearchBar"
+                    />
+                </ContentView>
+
+                <controls:VisitzAvatarView Grid.Column="2" />
+            </Grid>
+
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                    <controls:DropdownChip
+                        Items="{Binding OfficeOptions}"
+                        Placeholder="{local:Localize MyOffices}"
+                        SelectedOption="{Binding SelectedOffice}"
+                        StickySelection="True"
+                    />
+
+                    <controls:DropdownChip
+                        Items="{Binding FilterOptions}"
+                        Placeholder="{local:Localize Filter}"
+                        SelectedOption="{Binding SelectedFilter}"
+                        StickySelection="True"
+                    />
+
+                    <controls:DropdownChip
+                        Items="{Binding SortOptions}"
+                        Placeholder="{local:Localize Sort}"
+                        SelectedOption="{Binding SelectedSort}"
+                        StickySelection="True"
+                    />
+                </HorizontalStackLayout>
+            </ScrollView>
+        </VerticalStackLayout>
+
+        <views:LastUpdatedBanner
+            Grid.Row="2"
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            LastUpdated="{Binding LastUpdated}"
+        />
+
+        <shimmer:SfShimmer x:Name="LoadingShimmer" Grid.Row="0" Grid.RowSpan="2">
+            <shimmer:SfShimmer.CustomView>
+                <VerticalStackLayout x:Name="CustomShimmerContainer" />
+            </shimmer:SfShimmer.CustomView>
+        </shimmer:SfShimmer>
+    </Grid>
+</base:ViewModelContentView>

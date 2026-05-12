@@ -1,0 +1,83 @@
+using System.Collections;
+using CommunityToolkit.Maui;
+using Syncfusion.Maui.Toolkit.Popup;
+using Visitz.Behaviors;
+
+namespace Visitz.Controls;
+
+#nullable enable
+
+public partial class SelectionPopup : SfPopup
+{
+    [BindableProperty]
+    public partial IEnumerable? ItemsSource { get; set; }
+
+    [BindableProperty(DefaultBindingMode = BindingMode.TwoWay)]
+    public partial object? SelectedItem { get; set; }
+
+    [BindableProperty]
+    public partial DataTemplate? ItemDataTemplate { get; set; }
+
+    [BindableProperty]
+    public partial bool StickySelection { get; set; }
+
+    public SelectionPopup()
+    {
+        AnimationDuration = 75;
+        ShowHeader = false;
+        AutoSizeMode = PopupAutoSizeMode.Both;
+        ShowOverlayAlways = false;
+
+        PopupStyle = new()
+        {
+            PopupBackground = Colors.White,
+            HasShadow = true,
+            CornerRadius = 5,
+        };
+
+        ContentTemplate = new DataTemplate(() =>
+        {
+            VerticalStackLayout vsl = new()
+            {
+                MinimumHeightRequest = 10,
+                MinimumWidthRequest = 10,
+                HorizontalOptions = LayoutOptions.Start,
+            };
+
+            vsl.Behaviors.Add(MakeSelectionBehavior());
+
+            vsl.SetBinding(
+                BindableLayout.ItemTemplateProperty,
+                static (SelectionPopup popup) => popup.ItemDataTemplate,
+                source: this
+            );
+
+            ScrollView scroll = new() { Content = vsl };
+
+            return scroll;
+        });
+    }
+
+    SelectionLayoutBehavior MakeSelectionBehavior()
+    {
+        SelectionLayoutBehavior slb = new();
+
+        slb.SetBinding(
+            SelectionLayoutBehavior.StickySelectionProperty,
+            static (SelectionPopup popup) => popup.StickySelection,
+            source: this
+        );
+        slb.SetBinding(
+            SelectionLayoutBehavior.ItemsSourceProperty,
+            static (SelectionPopup popup) => popup.ItemsSource,
+            source: this
+        );
+        slb.SetBinding(
+            SelectionLayoutBehavior.SelectedItemProperty,
+            static (SelectionPopup popup) => popup.SelectedItem,
+            source: this
+        );
+
+        return slb;
+    }
+}

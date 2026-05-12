@@ -41,9 +41,10 @@ public static class VisitzScreens
         builder.Services.AddTransient<DataRefreshViewModel>();
 
         builder.Services.AddSingleton<CaseloadContainerView>();
+        builder.Services.AddSingleton<CaseloadContainerViewModel>();
 
-        builder.Services.AddSingleton<CaseloadView>();
-        builder.Services.AddSingleton<CaseloadViewModel>();
+        builder.Services.AddSingleton<CaseloadListView>();
+        builder.Services.AddSingleton<CaseloadListViewModel>();
 
         builder.Services.AddTransient<DeviceAuthenticator>();
         builder.Services.AddTransient<AppLockPage>();

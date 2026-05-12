@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
+    x:Class="Visitz.Views.Caseload.CaseloadItemShimmerStencil"
+    x:DataType="caseload:CaseloadItemShimmerStencil"
+>
+    <Grid
+        x:Name="CustomShimmerLayout"
+        RowDefinitions="*,1"
+        ColumnDefinitions="*,Auto,Auto"
+        Padding="{StaticResource DefaultPadding}"
+        ColumnSpacing="{StaticResource DefaultSpacing}"
+    >
+        <BoxView
+            x:Name="MainLabelBox"
+            Grid.Column="0"
+            BackgroundColor="Gray"
+            HorizontalOptions="Start"
+            HeightRequest="20"
+            WidthRequest="200"
+        />
+
+        <BoxView
+            Grid.Column="1"
+            BackgroundColor="Gray"
+            HorizontalOptions="Start"
+            HeightRequest="20"
+            WidthRequest="80"
+        />
+
+        <BoxView
+            Grid.Column="2"
+            BackgroundColor="Gray"
+            HorizontalOptions="Start"
+            HeightRequest="20"
+            WidthRequest="40"
+        />
+
+        <BoxView
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            BackgroundColor="Gray"
+            HorizontalOptions="Fill"
+            HeightRequest="1"
+        >
+            <BoxView.Margin>
+                <Thickness Top="{StaticResource DefaultSpacing}" />
+            </BoxView.Margin>
+        </BoxView>
+    </Grid>
+</ContentView>

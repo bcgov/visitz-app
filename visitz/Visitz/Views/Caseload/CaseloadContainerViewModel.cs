@@ -1,0 +1,276 @@
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.Foldable;
+using Oidc;
+using Visitz.Controls;
+using Visitz.Resources.Localization;
+using Visitz.Services.Caseload;
+using Visitz.Views.BaseClasses;
+using VisitzModel.Events;
+using VisitzModel.Messaging;
+using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
+
+namespace Visitz.Views.Caseload;
+
+#nullable enable
+
+public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<NavPositionMessage>
+{
+    private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
+
+    static readonly SortOption<CaseloadItemViewModel> s_keyPlayerSort = new(
+        LocalizedStrings.KeyPlayer,
+        Comparer<CaseloadItemViewModel>.Create(
+            (a, b) =>
+            {
+                return a.BusinessObject.DisplayName.CompareTo(b.BusinessObject.DisplayName);
+            }
+        )
+    );
+
+    static readonly SortOption<CaseloadItemViewModel> s_openDateSort = new(
+        LocalizedStrings.OpenDate,
+        Comparer<CaseloadItemViewModel>.Create(
+            (a, b) => a.BusinessObject.CreatedDateBinding.CompareTo(b.BusinessObject.CreatedDateBinding)
+        )
+    );
+
+    static readonly FilterOption<IBusinessObject> s_allTypesFilter = new(LocalizedStrings.AllTypes, _ => true);
+
+    static readonly FilterOption<IBusinessObject> s_caseFilter = new(
+        LocalizedStrings.Cases,
+        businessObject => businessObject.EntityType == EntityType.Case
+    );
+
+    static readonly FilterOption<IBusinessObject> s_incidentFilter = new(
+        LocalizedStrings.Incidents,
+        businessObject => businessObject.EntityType == EntityType.Incident
+    );
+
+    static readonly FilterOption<IBusinessObject> s_allOfficeFilter = new(LocalizedStrings.All, _ => true);
+
+    bool _disposed;
+
+    OidcSessionInfo? SessionInfo { get; set; }
+
+    LastUpdatedPrefs LastUpdatedPrefs { get; set; } = ServiceProvider.GetService<LastUpdatedPrefs>();
+
+    FilterOption<IBusinessObject> _myCaseloadFilter = s_allOfficeFilter; // Default All filter to satisfy nullability
+
+    public CaseloadListViewModel? ListViewModel { get; set; }
+
+    public List<FilterOption<IBusinessObject>> _startingOfficeFilters = [];
+
+    [ObservableProperty]
+    public string searchQuery = string.Empty;
+
+    [ObservableProperty]
+    public bool showSearchBar = false;
+
+    [ObservableProperty]
+    public bool showTitle = true;
+
+    [ObservableProperty]
+    public LayoutOptions searchBarHorizontalOptions;
+
+    [ObservableProperty]
+    public DateTime? lastUpdated;
+
+    [ObservableProperty]
+    public List<SortOption<CaseloadItemViewModel>> sortOptions = [s_keyPlayerSort, s_openDateSort];
+
+    [ObservableProperty]
+    public SortOption<CaseloadItemViewModel> selectedSort = s_keyPlayerSort;
+
+    [ObservableProperty]
+    public List<FilterOption<IBusinessObject>> filterOptions = [s_allTypesFilter, s_caseFilter, s_incidentFilter];
+
+    [ObservableProperty]
+    public FilterOption<IBusinessObject> selectedFilter = s_allTypesFilter;
+
+    [ObservableProperty]
+    public ObservableCollection<FilterOption<IBusinessObject>> officeOptions = [];
+
+    [ObservableProperty]
+    public FilterOption<IBusinessObject>? selectedOffice;
+
+    public CaseloadContainerViewModel()
+    {
+        SetSearchBarHorizontalOptions(
+            (TwoPaneViewMode)StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()).Response
+        );
+        StrongReferenceMessenger.Default.RegisterAll(this);
+
+        LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
+        LastUpdatedPrefs.LastUpdatedChanged += LastUpdatedPrefs_LastUpdatedChanged;
+
+        int savedSortIndex = Preferences.Default.Get(SortOptionIndexPref, 0);
+        SelectedSort = SortOptions.ElementAt(ClampSortIndex(savedSortIndex));
+    }
+
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
+
+        SessionInfo = await OidcSessionInfo.GetAsync();
+
+        _myCaseloadFilter = new(
+            LocalizedStrings.MyCaseload,
+            businessObject => businessObject.IsAssigned(SessionInfo?.Idir ?? string.Empty)
+        );
+        _startingOfficeFilters.Add(s_allOfficeFilter);
+        _startingOfficeFilters.Add(_myCaseloadFilter);
+
+        SetupOfficeNames();
+        SessionInfo.OfficesChanged += SessionInfo_OfficesChanged;
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            StrongReferenceMessenger.Default.UnregisterAll(this);
+            LastUpdatedPrefs.LastUpdatedChanged -= LastUpdatedPrefs_LastUpdatedChanged;
+            SessionInfo?.OfficesChanged -= SessionInfo_OfficesChanged;
+
+            _disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
+    void SetupOfficeNames()
+    {
+        OfficeOptions.Clear();
+        foreach (var starter in _startingOfficeFilters)
+            OfficeOptions.Add(starter);
+
+        if (SessionInfo != null)
+            foreach (var office in SessionInfo.OfficeNames.AsEnumerable().Order())
+                OfficeOptions.Add(new(office, businessObject => OfficeEqual(businessObject, office)));
+
+        SelectedOffice = _myCaseloadFilter;
+    }
+
+    void UpdateSortedOfficeNames(HashSet<string> incomingOfficeNames)
+    {
+        FilterOption<IBusinessObject> currentSelected = SelectedOffice ?? _myCaseloadFilter;
+
+        // Skip to account for always-available options
+        int offset = _startingOfficeFilters.Count;
+
+        var incomingOffices = incomingOfficeNames.Select(officeName => new FilterOption<IBusinessObject>(
+            officeName,
+            businessObject => OfficeEqual(businessObject, officeName)
+        ));
+
+        List<FilterOption<IBusinessObject>> current = OfficeOptions.Skip(offset).ToList();
+
+        foreach (var removeOffice in current.Except(incomingOffices))
+            OfficeOptions.Remove(removeOffice);
+
+        foreach (var addOffice in incomingOffices.Except(current))
+        {
+            // TODO: Use improved binary search with bounds set instead of needing a sibling collection
+            int index = current.BinarySearch(addOffice);
+            if (index < 0)
+                index = ~index;
+            int insertOffset = index + offset;
+
+            if (insertOffset < OfficeOptions.Count)
+            {
+                current.Insert(index, addOffice);
+                OfficeOptions.Insert(insertOffset, addOffice);
+            }
+            else
+            {
+                current.Add(addOffice);
+                OfficeOptions.Add(addOffice);
+            }
+        }
+
+        if (currentSelected != SelectedOffice)
+            SelectedOffice = OfficeOptions.Contains(currentSelected) ? currentSelected : _myCaseloadFilter;
+    }
+
+    static bool OfficeEqual(IBusinessObject businessObject, string officeToCheck) =>
+        businessObject.ServiceOffice.Equals(officeToCheck, StringComparison.InvariantCultureIgnoreCase);
+
+    void SessionInfo_OfficesChanged(object? sender, HashSet<string> newOffices)
+    {
+        MainThread.BeginInvokeOnMainThread(() => UpdateSortedOfficeNames(newOffices));
+    }
+
+    public void Receive(NavPositionMessage message)
+    {
+        SetSearchBarHorizontalOptions((TwoPaneViewMode)message.Value);
+    }
+
+    void SetSearchBarHorizontalOptions(TwoPaneViewMode mode)
+    {
+        SearchBarHorizontalOptions = mode switch
+        {
+            TwoPaneViewMode.Tall or TwoPaneViewMode.SinglePane => LayoutOptions.Fill,
+            TwoPaneViewMode.Wide => LayoutOptions.End,
+            _ => throw new InvalidOperationException($"{nameof(TwoPaneViewMode)} '{mode}' not supported"),
+        };
+    }
+
+    partial void OnSearchQueryChanged(string value)
+    {
+        SearchByQuery();
+    }
+
+    public void SearchByQuery()
+    {
+        ListViewModel?.SearchQuery = SearchQuery.Trim();
+    }
+
+    partial void OnSearchBarHorizontalOptionsChanged(LayoutOptions value)
+    {
+        ApplyTitleVisibility();
+    }
+
+    partial void OnShowSearchBarChanged(bool value)
+    {
+        ApplyTitleVisibility();
+    }
+
+    void ApplyTitleVisibility()
+    {
+        bool hideTitle = SearchBarHorizontalOptions == LayoutOptions.Fill && ShowSearchBar;
+        ShowTitle = !hideTitle;
+    }
+
+    private void LastUpdatedPrefs_LastUpdatedChanged(object? sender, LastUpdatedChangedEventArgs e)
+    {
+        if (e.Id.Equals(GetCaseloadService.MakeId()))
+            LastUpdated = (sender as LastUpdatedPrefs)?.Get(e.Id);
+    }
+
+    int ClampSortIndex(int requestedIndex)
+    {
+        return Math.Clamp(requestedIndex, 0, SortOptions.Count - 1);
+    }
+
+    partial void OnSelectedOfficeChanged(FilterOption<IBusinessObject>? value)
+    {
+        ListViewModel?.SelectedOfficeFilter = value;
+    }
+
+    partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
+    {
+        if (value == null)
+            return;
+
+        ListViewModel?.SelectedSort = value;
+        Preferences.Default.Set(SortOptionIndexPref, ClampSortIndex(SortOptions.IndexOf(value)));
+    }
+
+    partial void OnSelectedFilterChanged(FilterOption<IBusinessObject> value)
+    {
+        ListViewModel?.SelectedFilter = value ?? s_allTypesFilter;
+    }
+}

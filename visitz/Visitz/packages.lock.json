@@ -1,24 +1,24 @@
 {
   "version": 1,
   "dependencies": {
-    "net10.0-ios26.2": {
+    "net10.0-ios26.4": {
       "CommunityToolkit.Maui": {
         "type": "Direct",
-        "requested": "[14.0.1, )",
-        "resolved": "14.0.1",
-        "contentHash": "edQCjYChucj7IzmIIw76xAjLVBBBQKq+/5pBP3Vc3jathbmsOWqLMI4jkv6YKtuv/ajQaJHPhSGWXcCKVoPACQ==",
+        "requested": "[14.1.0, )",
+        "resolved": "14.1.0",
+        "contentHash": "ycbecVj342+2LIwkZsq5IMdTASfWwxp3lIhf/UCOxPsPsbMjD58uj7u5XY/hG4NQ33XofnL3TYA2H8Vly8CIHA==",
         "dependencies": {
-          "CommunityToolkit.Maui.Core": "14.0.1",
+          "CommunityToolkit.Maui.Core": "14.1.0",
           "Microsoft.Maui.Controls": "10.0.41"
         }
       },
       "CommunityToolkit.Maui.Camera": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "YjiivKJL3QXCEqtJg66gus2fEqSiQnoA6iVo9PTLGNV4NJa/jeNK1P17YWdAcIONK+WP7VHRLd4/14zTJCcS0A==",
+        "requested": "[6.0.1, )",
+        "resolved": "6.0.1",
+        "contentHash": "DL9v+O6YUMF36NN32xXxIrMEDHpSqQbXJ7KmJEoj8PhbdlEdyZyB4SII2jNwTyZPTP4O1yJBVCUo65Pf7j3uFA==",
         "dependencies": {
-          "Microsoft.Maui.Controls": "10.0.30"
+          "Microsoft.Maui.Controls": "10.0.41"
         }
       },
       "CommunityToolkit.Mvvm": {
@@ -139,9 +139,9 @@
       },
       "Microsoft.NET.ILLink.Tasks": {
         "type": "Direct",
-        "requested": "[10.0.3, )",
-        "resolved": "10.0.3",
-        "contentHash": "0B6nZyCHWXnvmlB559oduOspVdNOnpNXPjhpWVMovLPAsDVG7A4jJR9rzECf67JUzxP8/ee/wA8clwIzJcWNFA=="
+        "requested": "[10.0.7, )",
+        "resolved": "10.0.7",
+        "contentHash": "AA/yhzFHNtQZXLdqjzujPy25G8EWwGWsAnxOE2zYSBoT/8QHP6ketN3CToD3DFreO653ipUwnKHo22B8AlBMCw=="
       },
       "PDFsharp": {
         "type": "Direct",
@@ -193,8 +193,8 @@
       },
       "CommunityToolkit.Maui.Core": {
         "type": "Transitive",
-        "resolved": "14.0.1",
-        "contentHash": "hlIInY0AKVSZicbYQOUuX8AMEtmFvsEDceLi2Jo5N0kuYX642XbJVIehs/fxs9yiP9RHQaRY/pjB3mM10fZtRg==",
+        "resolved": "14.1.0",
+        "contentHash": "ENnBjEbaaCm6par4BHVaLThWM5WNflBjo1HquPreowfvFYhQWmppz3DABIvZYnez+qBeHyut2+bWGTbeh3uJHw==",
         "dependencies": {
           "Microsoft.Maui.Core": "10.0.41",
           "Microsoft.Maui.Essentials": "10.0.41"
@@ -533,7 +533,7 @@
         }
       }
     },
-    "net10.0-ios26.2/iossimulator-x64": {
+    "net10.0-ios26.4/iossimulator-x64": {
       "Realm": {
         "type": "Direct",
         "requested": "[20.1.0, )",
@@ -551,7 +551,7 @@
         "contentHash": "CoCRHFym33aUSf/NtWSVSZa99dkd0Hm7OCZUxORBjRB16LNhIEOf8THPqzIYlvKM0nNDAPTRBa1FxEECrgaxxA=="
       }
     },
-    "net10.0-ios26.2/win-x64": {
+    "net10.0-ios26.4/win-x64": {
       "Realm": {
         "type": "Direct",
         "requested": "[20.1.0, )",
@@ -572,21 +572,21 @@
     "net10.0-windows10.0.19041": {
       "CommunityToolkit.Maui": {
         "type": "Direct",
-        "requested": "[14.0.1, )",
-        "resolved": "14.0.1",
-        "contentHash": "edQCjYChucj7IzmIIw76xAjLVBBBQKq+/5pBP3Vc3jathbmsOWqLMI4jkv6YKtuv/ajQaJHPhSGWXcCKVoPACQ==",
+        "requested": "[14.1.0, )",
+        "resolved": "14.1.0",
+        "contentHash": "ycbecVj342+2LIwkZsq5IMdTASfWwxp3lIhf/UCOxPsPsbMjD58uj7u5XY/hG4NQ33XofnL3TYA2H8Vly8CIHA==",
         "dependencies": {
-          "CommunityToolkit.Maui.Core": "14.0.1",
+          "CommunityToolkit.Maui.Core": "14.1.0",
           "Microsoft.Maui.Controls": "10.0.41"
         }
       },
       "CommunityToolkit.Maui.Camera": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "YjiivKJL3QXCEqtJg66gus2fEqSiQnoA6iVo9PTLGNV4NJa/jeNK1P17YWdAcIONK+WP7VHRLd4/14zTJCcS0A==",
+        "requested": "[6.0.1, )",
+        "resolved": "6.0.1",
+        "contentHash": "DL9v+O6YUMF36NN32xXxIrMEDHpSqQbXJ7KmJEoj8PhbdlEdyZyB4SII2jNwTyZPTP4O1yJBVCUo65Pf7j3uFA==",
         "dependencies": {
-          "Microsoft.Maui.Controls": "10.0.30"
+          "Microsoft.Maui.Controls": "10.0.41"
         }
       },
       "CommunityToolkit.Mvvm": {
@@ -752,8 +752,8 @@
       },
       "CommunityToolkit.Maui.Core": {
         "type": "Transitive",
-        "resolved": "14.0.1",
-        "contentHash": "hlIInY0AKVSZicbYQOUuX8AMEtmFvsEDceLi2Jo5N0kuYX642XbJVIehs/fxs9yiP9RHQaRY/pjB3mM10fZtRg==",
+        "resolved": "14.1.0",
+        "contentHash": "ENnBjEbaaCm6par4BHVaLThWM5WNflBjo1HquPreowfvFYhQWmppz3DABIvZYnez+qBeHyut2+bWGTbeh3uJHw==",
         "dependencies": {
           "Microsoft.Maui.Core": "10.0.41",
           "Microsoft.Maui.Essentials": "10.0.41",

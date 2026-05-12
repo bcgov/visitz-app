@@ -201,7 +201,7 @@ Logging out won't affect your unpublished drafts.</value>
     <value>Your profile is not active in ICM—please contact your Office Manager to resolve this issue.</value>
   </data>
   <data name="CaseloadSearchHint" xml:space="preserve">
-    <value>Search by key player's name</value>
+    <value>Search caseload by name or number</value>
   </data>
   <data name="CaseloadIsEmpty" xml:space="preserve">
     <value>All clear! Nothing is assigned to you.</value>
@@ -1057,7 +1057,7 @@ Do you want to download information for this record?</value>
   <data name="CallInformation" xml:space="preserve">
     <value>Call information</value>
   </data>
-	<data name="AdditionalInformation" xml:space="preserve">
+  <data name="AdditionalInformation" xml:space="preserve">
     <value>AdditionalInformation</value>
   </data>
   <data name="ContactMedicalBehavioral" xml:space="preserve">
@@ -1072,5 +1072,16 @@ Do you want to download information for this record?</value>
   <data name="ContactEducation" xml:space="preserve">
     <value>Contact education</value>
   </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>All types</value>
+  </data>
+  <data name="MyOffices" xml:space="preserve">
+    <value>My offices</value>
+  </data>
 </root>
- 
