@@ -70,7 +70,7 @@ public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, I
 
     protected override async Task OnLoadedAsync()
     {
-        await base.OnCreatedAsync();
+        await base.OnLoadedAsync();
 
         if (_createEntityView == null)
         {
