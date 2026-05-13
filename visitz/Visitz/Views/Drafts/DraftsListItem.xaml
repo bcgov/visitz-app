@@ -26,13 +26,20 @@
         <VerticalStackLayout>
             <Grid
                 RowDefinitions="Auto,Auto,Auto"
-                ColumnDefinitions="30, *, Auto,Auto"
+                ColumnDefinitions="30, *, Auto"
                 ColumnSpacing="{StaticResource DefaultSpacing}"
                 Margin="{StaticResource DefaultMargin}"
             >
                 <Grid.Resources>
                     <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
                     <converters:BoolNegationConverter x:Key="BoolConverter" />
+
+                    <Style x:Key="Indicator" TargetType="View">
+                        <Setter Property="Grid.Row" Value="3" />
+                        <Setter Property="Grid.Column" Value="2" />
+                        <Setter Property="HorizontalOptions" Value="End" />
+                        <Setter Property="VerticalOptions" Value="Center" />
+                    </Style>
                 </Grid.Resources>
 
                 <Label
@@ -74,36 +81,29 @@
 
                 <Label
                     x:DataType="interfaces:IRecordInfo"
-                    Grid.Column="2"
-                    Grid.RowSpan="3"
+                    Style="{StaticResource Indicator}"
                     FontSize="20"
                     FontFamily="MaterialIconsRoundedUnfilled"
                     Text="{Static icons:MaterialIcons.Download}"
-                    VerticalOptions="Center"
                     IsVisible="{Binding RelatedEntityDownloaded,
                             Converter={StaticResource BoolConverter}}"
                 />
 
                 <Label
                     x:DataType="interfaces:IRecordInfo"
-                    Grid.Column="2"
-                    Grid.RowSpan="3"
+                    Style="{StaticResource Indicator}"
                     FontSize="20"
                     BackgroundColor="White"
                     FontFamily="MaterialIconsRoundedUnfilled"
                     Text="{Static icons:MaterialIcons.Link_off}"
-                    VerticalOptions="Center"
                     IsVisible="{Binding RelatedEntityAvailable,
                             Converter={StaticResource BoolConverter}}"
                 />
 
                 <ActivityIndicator
                     x:Name="DownloadActivity"
-                    Grid.Column="2"
-                    Grid.RowSpan="3"
+                    Style="{StaticResource Indicator}"
                     BackgroundColor="White"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"
                     HeightRequest="20"
                     WidthRequest="20"
                 />
@@ -111,7 +111,6 @@
                 <tagViews:EntityTypeBadge
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="3"
-                    Grid.RowSpan="3"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     EntityType="{Binding RelatedEntityType}"
