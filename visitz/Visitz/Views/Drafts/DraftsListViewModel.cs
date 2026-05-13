@@ -8,7 +8,6 @@ using Realms;
 using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
@@ -222,9 +221,6 @@ public partial class DraftsListViewModel : VisitzViewModel
 
     static void NavigateTo(IBusinessObject businessObject, EntitySection section, IDraftItem draftItem)
     {
-        var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
-        StrongReferenceMessenger.Default.Send(appNav);
-
         var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section, draftItem);
         StrongReferenceMessenger.Default.Send(caseloadNav);
     }
