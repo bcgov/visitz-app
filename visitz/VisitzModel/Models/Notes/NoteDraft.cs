@@ -2,6 +2,7 @@ using Realms;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.Notes
 {
@@ -39,10 +40,7 @@ namespace VisitzModel.Models.Notes
 
         public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-        public string Preview
-        {
-            get => Draft;
-        }
+        public string Preview => GeneralStrings.Note;
 
         public string DraftLocation { get; set; } = string.Empty;
 

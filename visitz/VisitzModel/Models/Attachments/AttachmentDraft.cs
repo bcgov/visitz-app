@@ -34,7 +34,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-    public string Preview => Attachment?.Filename ?? string.Empty;
+    public string Preview => GeneralStrings.Attachment;
 
     public string DraftLocation { get; set; } = string.Empty;
 
