@@ -14,12 +14,27 @@
     BackgroundColor="{StaticResource Default_Background}"
 >
     <Grid RowDefinitions="Auto, *">
-        <controls:TopAppBar Grid.Row="0" ColumnDefinitions="*,*">
+        <controls:TopAppBar Grid.Row="0" RowDefinitions="*,*" ColumnDefinitions="*,*">
             <Label
+                Grid.Row="0"
                 Text="{local:Localize Drafts}"
                 Style="{StaticResource HeadlineMedium}"
                 VerticalOptions="Center"
             />
+
+            <HorizontalStackLayout
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                VerticalOptions="Center"
+                HorizontalOptions="Fill"
+            >
+                <controls:DropdownChip
+                    Items="{Binding FilterOptions}"
+                    Placeholder="{local:Localize FilterDrafts}"
+                    SelectedOption="{Binding SelectedFilter}"
+                    StickySelection="True"
+                />
+            </HorizontalStackLayout>
 
             <controls:VisitzAvatarView Grid.Column="1" HorizontalOptions="End" />
         </controls:TopAppBar>

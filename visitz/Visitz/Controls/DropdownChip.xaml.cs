@@ -46,6 +46,9 @@ public partial class DropdownChip : ContentView
     public DropdownChip()
     {
         InitializeComponent();
+
+        HorizontalOptions = LayoutOptions.Start;
+
         Popup.Opened += Popup_Opened;
         Popup.Closed += Popup_Closed;
     }
