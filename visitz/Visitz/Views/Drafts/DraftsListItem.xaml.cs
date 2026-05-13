@@ -41,7 +41,7 @@ public partial class DraftsListItem : BaseContentView
         if (item is PersonVisitDraft)
             return MaterialIcons.Person_pin_circle;
         else if (item is NoteDraft)
-            return MaterialIcons.Notes;
+            return MaterialIcons.Edit_document;
         else if (item is AssessmentDraft)
             return MaterialIcons.Assignment;
         else if (item is AttachmentDraft)
