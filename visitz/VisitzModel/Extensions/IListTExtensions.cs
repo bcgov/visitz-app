@@ -97,6 +97,11 @@ public static class IListTExtensions
     {
         Comparison<T> comparison = ascending ? (a, b) => a.CompareTo(b) : (a, b) => a.CompareTo(b) * -1;
 
-        ArrayList.Adapter((IList)list).Sort(Comparer<T>.Create(comparison));
+        Sort(list, Comparer<T>.Create(comparison));
+    }
+
+    public static void Sort<T>(this IList<T> list, IComparer<T> comparer)
+    {
+        ArrayList.Adapter((IList)list).Sort((IComparer?)comparer);
     }
 }

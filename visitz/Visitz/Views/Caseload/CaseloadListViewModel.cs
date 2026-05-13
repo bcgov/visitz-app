@@ -235,7 +235,7 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
 
     partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
     {
-        ApplyFilter();
+        FilteredItems.Sort(SelectedSort.Comparer);
     }
 
     partial void OnSelectedFilterChanged(FilterOption<IBusinessObject> value)
