@@ -1,8 +1,10 @@
-// Adapted from https://stackoverflow.com/a/967098
+using System.Collections;
+
 namespace VisitzModel.Extensions;
 
 public static class IListTExtensions
 {
+    // Adapted from https://stackoverflow.com/a/967098
     /// <summary>
     /// <para>Searches the entire sorted IList for an element using the specified comparer and returns the zero-based index of the element.</para>
     /// <para>Implemented here as an extension because there is no built-in support for IList.</para>
@@ -88,5 +90,13 @@ public static class IListTExtensions
     {
         foreach (var item in itemsToAdd)
             list.Add(item);
+    }
+
+    public static void Sort<T>(this IList<T> list, bool ascending = true)
+        where T : IComparable<T>
+    {
+        Comparison<T> comparison = ascending ? (a, b) => a.CompareTo(b) : (a, b) => a.CompareTo(b) * -1;
+
+        ArrayList.Adapter((IList)list).Sort(Comparer<T>.Create(comparison));
     }
 }
