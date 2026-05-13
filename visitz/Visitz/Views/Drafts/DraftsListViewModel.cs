@@ -135,8 +135,7 @@ public partial class DraftsListViewModel : VisitzViewModel
     {
         if (changes == null)
         {
-            foreach (var realmObj in items)
-                draftsList.Add((T)realmObj);
+            draftsList.AddAll(items.Cast<T>());
         }
         else
         {
