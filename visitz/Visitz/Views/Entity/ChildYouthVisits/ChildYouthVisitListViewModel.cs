@@ -24,34 +24,34 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
     public EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
-    ObservableCollection<PersonVisit> personVisits = [];
+    public partial ObservableCollection<PersonVisit> PersonVisits { get; set; } = [];
 
     [ObservableProperty]
-    public DateTimeOffset dateOfVisit;
+    public partial DateTimeOffset DateOfVisit { get; set; }
 
     [ObservableProperty]
-    public string type = string.Empty;
+    public partial string Type { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public string visitDescription = string.Empty;
+    public partial string VisitDescription { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public string createdBy = string.Empty;
+    public partial string CreatedBy { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public AlertLevel bannerLevel;
+    public partial AlertLevel BannerLevel { get; set; }
 
     [ObservableProperty]
-    public string bannerText = string.Empty;
+    public partial string BannerText { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public bool hasVisitData = true;
+    public partial bool HasVisitData { get; set; } = true;
 
     [ObservableProperty]
-    public bool showEmptyIcon = false;
+    public partial bool ShowEmptyIcon { get; set; } = false;
 
     [ObservableProperty]
-    public string openAddVisitText = string.Empty;
+    public partial string OpenAddVisitText { get; set; } = string.Empty;
 
     protected override async Task InitAsync()
     {

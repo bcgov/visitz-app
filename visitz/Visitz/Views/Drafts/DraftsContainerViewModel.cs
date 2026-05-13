@@ -12,10 +12,10 @@ namespace Visitz.Views.Drafts;
 public partial class DraftsContainerViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public ObservableCollection<FilterOption<IDraftItem>> filterOptions = [];
+    public partial ObservableCollection<FilterOption<IDraftItem>> FilterOptions { get; set; } = [];
 
     [ObservableProperty]
-    public FilterOption<IDraftItem>? selectedFilter;
+    public partial FilterOption<IDraftItem>? SelectedFilter { get; set; }
 
     protected override async Task InitAsync()
     {

@@ -18,10 +18,10 @@ namespace Visitz.Views.Entity.Notes;
 public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntitySection
 {
     [ObservableProperty]
-    public ObservableCollection<NoteItemGroup> notes = [];
+    public partial ObservableCollection<NoteItemGroup> Notes { get; set; } = [];
 
     [ObservableProperty]
-    public bool isNotesEmtpy;
+    public partial bool IsNotesEmtpy { get; set; }
 
     private readonly ObservableRealmQueryMap realmQueryMap = new();
 
@@ -30,10 +30,10 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
     public NoteItem? LastNoteItem => LastNoteItemGroup?.LastOrDefault();
 
     [ObservableProperty]
-    public EntitySection requestedSection;
+    public partial EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
-    public string openNoteEntryText = "";
+    public partial string OpenNoteEntryText { get; set; } = "";
 
     public readonly TaskCompletionSource notesLoadedTcs = new();
 

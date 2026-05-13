@@ -8,11 +8,10 @@ namespace Visitz.Views.Navigation;
 public partial class TabViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public IEnumerable<Tab>? tabs;
+    public partial IEnumerable<Tab>? Tabs { get; set; }
 
     [ObservableProperty]
-    public Tab? selectedTab;
-
+    public partial Tab? SelectedTab { get; set; }
     public ContentView? PairedDisplayView { get; set; }
 
     partial void OnTabsChanged(IEnumerable<Tab>? value)

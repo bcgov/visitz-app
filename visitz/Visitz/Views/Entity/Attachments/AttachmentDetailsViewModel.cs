@@ -19,23 +19,22 @@ namespace Visitz.Views.Entity.Attachments;
 public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
 {
     [ObservableProperty]
-    public Attachment? attachment;
+    public partial Attachment? Attachment { get; set; }
 
     [ObservableProperty]
-    public bool showActivityIndicator = true;
+    public partial bool ShowActivityIndicator { get; set; } = true;
 
     [ObservableProperty]
-    public bool showDraftButtons;
+    public partial bool ShowDraftButtons { get; set; }
 
     [ObservableProperty]
-    public bool isRemovable;
+    public partial bool IsRemovable { get; set; }
 
     [ObservableProperty]
-    public string? errorText;
+    public partial string? ErrorText { get; set; }
 
     [ObservableProperty]
-    public bool hasError;
-
+    public partial bool HasError { get; set; }
     protected AttachmentFiler? Filer { get; set; }
 
     public bool IsDownloadedAttachment { get; set; }

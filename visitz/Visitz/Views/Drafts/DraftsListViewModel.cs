@@ -30,10 +30,10 @@ public partial class DraftsListViewModel : VisitzViewModel
     bool _disposed;
 
     [ObservableProperty]
-    public bool showEmptyView;
+    public partial bool ShowEmptyView { get; set; }
 
     [ObservableProperty]
-    public ObservableCollection<IDraftItem> draftItems = [];
+    public partial ObservableCollection<IDraftItem> DraftItems { get; set; } = [];
 
     ObservableCollection<AssessmentDraft> AssessmentDrafts { get; set; } = [];
 

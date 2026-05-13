@@ -22,19 +22,19 @@ public partial class DraftIndicatorHelper : ObservableObject, IDisposable
     public Task InitTask { get; }
 
     [ObservableProperty]
-    public HashSet<(string EntityId, EntityType Type)> draftedNotes = [];
+    public partial HashSet<(string EntityId, EntityType Type)> DraftedNotes { get; set; } = [];
 
     [ObservableProperty]
-    public HashSet<(string EntityId, EntityType Type)> draftedAssessments = [];
+    public partial HashSet<(string EntityId, EntityType Type)> DraftedAssessments { get; set; } = [];
 
     [ObservableProperty]
-    public HashSet<(string EntityId, EntityType Type)> draftedAttachments = [];
+    public partial HashSet<(string EntityId, EntityType Type)> DraftedAttachments { get; set; } = [];
 
     [ObservableProperty]
-    public HashSet<(string EntityId, EntityType Type)> draftedVisits = [];
+    public partial HashSet<(string EntityId, EntityType Type)> DraftedVisits { get; set; } = [];
 
     [ObservableProperty]
-    public HashSet<(string EntityId, EntityType Type)> draftedItems = [];
+    public partial HashSet<(string EntityId, EntityType Type)> DraftedItems { get; set; } = [];
 
     public DraftIndicatorHelper()
     {

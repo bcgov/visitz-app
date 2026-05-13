@@ -10,7 +10,7 @@ namespace Visitz.Views.Entity.Details;
 public partial class EntityDetailsViewModel : IcmRecordViewModel
 {
     [ObservableProperty]
-    public IcmContact? keyPlayer;
+    public partial IcmContact? KeyPlayer { get; set; }
 
     protected override async Task InitAsync()
     {

@@ -12,22 +12,22 @@ namespace Visitz.Views.Entity.Attachments;
 public partial class AttachmentsListItemUi : ObservableObject, IRecipient<ServiceStateMessage>, IDisposable
 {
     [ObservableProperty]
-    Attachment attachment;
+    public partial Attachment Attachment { get; set; }
 
     [ObservableProperty]
-    public bool showDeleteButton;
+    public partial bool ShowDeleteButton { get; set; }
 
     [ObservableProperty]
-    public bool isDownloading;
+    public partial bool IsDownloading { get; set; }
 
     [ObservableProperty]
-    public bool showDownloadButton;
+    public partial bool ShowDownloadButton { get; set; }
 
     [ObservableProperty]
-    public Color toDownloadTextColor;
+    public partial Color ToDownloadTextColor { get; set; }
 
     [ObservableProperty]
-    public bool showTemplate;
+    public partial bool ShowTemplate { get; set; }
 
     private bool disposedValue;
 
@@ -41,7 +41,7 @@ public partial class AttachmentsListItemUi : ObservableObject, IRecipient<Servic
 
     public AttachmentsListItemUi(EntityType type, string recordId, Attachment item)
     {
-        attachment = item;
+        Attachment = item;
         ShowDeleteButton = Attachment.FileExistsLocally;
         ShowDownloadButton = !ShowDeleteButton;
         if (ShowDeleteButton)
@@ -52,7 +52,7 @@ public partial class AttachmentsListItemUi : ObservableObject, IRecipient<Servic
         EntityType = type;
         RecordId = recordId;
 
-        ShowTemplate = attachment.Template?.Trim().Length > 0;
+        ShowTemplate = Attachment.Template?.Trim().Length > 0;
 
         ServiceId = GetAttachmentContentService.MakeId(EntityType, RecordId, Attachment.Id);
         WeakReferenceMessenger.Default.Register(this, ServiceId);

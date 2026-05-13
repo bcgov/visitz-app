@@ -14,8 +14,7 @@ namespace Visitz.Views.Entity.Attachments;
 public partial class AttachmentsViewModel : IcmRecordViewModel
 {
     [ObservableProperty]
-    public IDraftItem? focusedDraftItem;
-
+    public partial IDraftItem? FocusedDraftItem { get; set; }
     Realm? AttachmentsRealm { get; set; }
 
     AttachmentFiler? attachmentFiler;

@@ -13,22 +13,22 @@ namespace Visitz.Views.Entity.FamilyMembers;
 public partial class ContactItemViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public IcmContact contact;
+    public partial IcmContact Contact { get; set; }
 
     [ObservableProperty]
-    public bool expanded;
+    public partial bool Expanded { get; set; }
 
     [ObservableProperty]
-    public Color? tagBgColor;
+    public partial Color? TagBgColor { get; set; }
 
     [ObservableProperty]
-    public Color? tagTextColor;
+    public partial Color? TagTextColor { get; set; }
 
     [ObservableProperty]
-    public string expandedChevronGlyph = MaterialIcons.Keyboard_arrow_down;
+    public partial string ExpandedChevronGlyph { get; set; } = MaterialIcons.Keyboard_arrow_down;
 
     [ObservableProperty]
-    public string deceasedText = LocalizedStrings.Deceased;
+    public partial string DeceasedText { get; set; } = LocalizedStrings.Deceased;
 
     public ContactItemViewModel(IcmContact icmContact)
     {

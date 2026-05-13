@@ -34,23 +34,22 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
     OidcSessionInfo SessionInfo { get; }
 
     [ObservableProperty]
-    public IBusinessObject businessObject;
+    public partial IBusinessObject BusinessObject { get; set; }
 
     [ObservableProperty]
-    public DraftIndicatorHelper indicatorHelper;
+    public partial DraftIndicatorHelper IndicatorHelper { get; set; }
 
     [ObservableProperty]
-    public bool showDraftIndicator;
+    public partial bool ShowDraftIndicator { get; set; }
 
     [ObservableProperty]
-    public bool showDownloadIcon;
+    public partial bool ShowDownloadIcon { get; set; }
 
     [ObservableProperty]
-    public bool showProgressIndicator;
+    public partial bool ShowProgressIndicator { get; set; }
 
     [ObservableProperty]
-    public bool canRemoveFromDevice;
-
+    public partial bool CanRemoveFromDevice { get; set; }
     protected override ILogger<VisitzViewModel> Logger { get; } =
         ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
 

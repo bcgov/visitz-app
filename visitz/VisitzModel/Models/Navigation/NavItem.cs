@@ -58,10 +58,10 @@ public partial class NavItem : ObservableObject
     public Type? ContentViewType { get; set; }
 
     [ObservableProperty]
-    public int badgeCount;
+    public partial int BadgeCount { get; set; }
 
     [ObservableProperty]
-    public bool showBadge = false;
+    public partial bool ShowBadge { get; set; } = false;
 
     partial void OnBadgeCountChanged(int oldValue, int newValue)
     {

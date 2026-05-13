@@ -18,7 +18,7 @@ public partial class IcmRecordViewModel : VisitzViewModel, IIcmRecordInfo, IBusi
     public EntityType EntityType { get; set; }
 
     [ObservableProperty]
-    public IBusinessObject businessObject = new CaseRecord();
+    public partial IBusinessObject BusinessObject { get; set; } = new CaseRecord();
 
     protected override async Task InitAsync()
     {

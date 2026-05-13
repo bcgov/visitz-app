@@ -65,37 +65,39 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     public List<FilterOption<IBusinessObject>> _startingOfficeFilters = [];
 
     [ObservableProperty]
-    public string searchQuery = string.Empty;
+    public partial string SearchQuery { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public bool showSearchBar = false;
+    public partial bool ShowSearchBar { get; set; } = false;
 
     [ObservableProperty]
-    public bool showTitle = true;
+    public partial bool ShowTitle { get; set; } = true;
 
     [ObservableProperty]
-    public LayoutOptions searchBarHorizontalOptions;
+    public partial LayoutOptions SearchBarHorizontalOptions { get; set; }
 
     [ObservableProperty]
-    public DateTime? lastUpdated;
+    public partial DateTime? LastUpdated { get; set; }
 
     [ObservableProperty]
-    public List<SortOption<CaseloadItemViewModel>> sortOptions = [s_keyPlayerSort, s_openDateSort];
+    public partial List<SortOption<CaseloadItemViewModel>> SortOptions { get; set; } =
+    [s_keyPlayerSort, s_openDateSort];
 
     [ObservableProperty]
-    public SortOption<CaseloadItemViewModel> selectedSort = s_keyPlayerSort;
+    public partial SortOption<CaseloadItemViewModel> SelectedSort { get; set; } = s_keyPlayerSort;
 
     [ObservableProperty]
-    public List<FilterOption<IBusinessObject>> filterOptions = [s_allTypesFilter, s_caseFilter, s_incidentFilter];
+    public partial List<FilterOption<IBusinessObject>> FilterOptions { get; set; } =
+    [s_allTypesFilter, s_caseFilter, s_incidentFilter];
 
     [ObservableProperty]
-    public FilterOption<IBusinessObject> selectedFilter = s_allTypesFilter;
+    public partial FilterOption<IBusinessObject> SelectedFilter { get; set; } = s_allTypesFilter;
 
     [ObservableProperty]
-    public ObservableCollection<FilterOption<IBusinessObject>> officeOptions = [];
+    public partial ObservableCollection<FilterOption<IBusinessObject>> OfficeOptions { get; set; } = [];
 
     [ObservableProperty]
-    public FilterOption<IBusinessObject>? selectedOffice;
+    public partial FilterOption<IBusinessObject>? SelectedOffice { get; set; }
 
     public CaseloadContainerViewModel()
     {

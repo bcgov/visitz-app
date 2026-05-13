@@ -26,13 +26,13 @@ public partial class AttachmentDraftsListViewModel : IcmRecordViewModel
     readonly ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
-    ObservableCollection<AttachmentDraftListItemUi> attachmentDrafts = [];
+    public partial ObservableCollection<AttachmentDraftListItemUi> AttachmentDrafts { get; set; } = [];
 
     [ObservableProperty]
-    public bool isLoading = true;
+    public partial bool IsLoading { get; set; } = true;
 
     [ObservableProperty]
-    public bool isEmpty;
+    public partial bool IsEmpty { get; set; }
 
     public readonly TaskCompletionSource attachmentsLoadedTcs = new();
 

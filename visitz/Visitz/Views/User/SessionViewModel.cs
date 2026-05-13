@@ -25,47 +25,46 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger)
         IRecipient<AppLockMessage>
 {
     [ObservableProperty]
-    public string buildNumber = AppInfo.Current.BuildString;
+    public partial string BuildNumber { get; set; } = AppInfo.Current.BuildString;
 
     [ObservableProperty]
-    public string appVersion = AppInfo.Current.VersionString;
+    public partial string AppVersion { get; set; } = AppInfo.Current.VersionString;
 
     [ObservableProperty]
-    public DisplayOptions bgDisplayOptions = DisplayOptions.Clear;
+    public partial DisplayOptions BgDisplayOptions { get; set; } = DisplayOptions.Clear;
 
     [ObservableProperty]
-    public bool showLoginLayout;
+    public partial bool ShowLoginLayout { get; set; }
 
     [ObservableProperty]
-    public string displayName;
+    public partial string DisplayName { get; set; }
 
     [ObservableProperty]
-    public bool showAuthStatusLayout;
+    public partial bool ShowAuthStatusLayout { get; set; }
 
     [ObservableProperty]
-    public string authStatus;
+    public partial string AuthStatus { get; set; }
 
     [ObservableProperty]
-    public bool showAuthStatus;
+    public partial bool ShowAuthStatus { get; set; }
 
     [ObservableProperty]
-    public bool isAuthorized;
+    public partial bool IsAuthorized { get; set; }
 
     [ObservableProperty]
-    public bool isUnauthorized;
+    public partial bool IsUnauthorized { get; set; }
 
     [ObservableProperty]
-    public bool tryingAuthorization;
+    public partial bool TryingAuthorization { get; set; }
 
     [ObservableProperty]
-    public bool showButtons;
+    public partial bool ShowButtons { get; set; }
 
     [ObservableProperty]
-    public bool showUnknown;
+    public partial bool ShowUnknown { get; set; }
 
     [ObservableProperty]
-    public bool staleSession;
-
+    public partial bool StaleSession { get; set; }
     public Action AuthorizationSuccess { get; set; }
 
     private OidcSessionInfo SessionInfo;

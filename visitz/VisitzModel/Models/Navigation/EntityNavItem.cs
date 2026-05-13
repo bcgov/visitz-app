@@ -7,5 +7,5 @@ public partial class EntityNavItem : NavItem
     public EntitySection Section { get; set; } = EntitySection.Details;
 
     [ObservableProperty]
-    public bool hasDraft;
+    public partial bool HasDraft { get; set; }
 }

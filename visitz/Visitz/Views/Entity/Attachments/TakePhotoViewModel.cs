@@ -25,21 +25,21 @@ public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRec
     AttachmentFiler? attachmentFiler;
 
     [ObservableProperty]
-    public IReadOnlyList<CameraInfo> cameras = [];
+    public partial IReadOnlyList<CameraInfo> Cameras { get; set; } = [];
 
     [ObservableProperty]
-    public CameraInfo? selectedCamera;
+    public partial CameraInfo? SelectedCamera { get; set; }
 
     int selectedCameraIndex;
 
     [ObservableProperty]
-    public bool waitingToProcess = true;
+    public partial bool WaitingToProcess { get; set; } = true;
 
     [ObservableProperty]
-    public bool processing;
+    public partial bool Processing { get; set; }
 
     [ObservableProperty]
-    public byte[]? rollBytes;
+    public partial byte[]? RollBytes { get; set; }
 
     protected override async Task InitAsync()
     {

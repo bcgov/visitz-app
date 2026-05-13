@@ -9,16 +9,16 @@ namespace Visitz.Views.Entity.Attachments;
 public partial class AttachmentDraftListItemUi : ObservableObject
 {
     [ObservableProperty]
-    public Attachment attachment;
+    public partial Attachment Attachment { get; set; }
 
     [ObservableProperty]
-    public bool hasThumbnail;
+    public partial bool HasThumbnail { get; set; }
 
     [ObservableProperty]
-    public string fontFamily = string.Empty;
+    public partial string FontFamily { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public string iconGlyph = string.Empty;
+    public partial string IconGlyph { get; set; } = string.Empty;
 
     public AttachmentDraftListItemUi(Attachment attachment)
     {

@@ -17,10 +17,10 @@ public partial class SupportNetworkListViewModel : IcmRecordViewModel
     readonly ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
-    public ObservableCollection<SupportNetworkItemUi> supportNetworksList = [];
+    public partial ObservableCollection<SupportNetworkItemUi> SupportNetworksList { get; set; } = [];
 
     [ObservableProperty]
-    public bool showEmptyIcon;
+    public partial bool ShowEmptyIcon { get; set; }
 
     protected override async Task InitAsync()
     {

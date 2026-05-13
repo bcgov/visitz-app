@@ -27,76 +27,75 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
 
     [ObservableProperty]
-    public DateTime maxDate = DateTimeExtensions.LocalNow;
+    public partial DateTime MaxDate { get; set; } = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
-    public SafetyAssessment assessment = new();
-
+    public partial SafetyAssessment Assessment { get; set; } = new();
     public SafetyAssessment? ViewAssessment { get; set; }
 
     [ObservableProperty]
-    public FactorInfluence influence = new();
+    public partial FactorInfluence Influence { get; set; } = new();
 
     [ObservableProperty]
-    public ProtectiveCapacity capacity = new();
+    public partial ProtectiveCapacity Capacity { get; set; } = new();
 
     [ObservableProperty]
-    public SafetyDecisions decisions = new();
+    public partial SafetyDecisions Decisions { get; set; } = new();
 
     [ObservableProperty]
-    public SafetyFactors factors = new();
+    public partial SafetyFactors Factors { get; set; } = new();
 
     [ObservableProperty]
-    public SafetyInterventions interventions = new();
+    public partial SafetyInterventions Interventions { get; set; } = new();
 
     [ObservableProperty]
-    public IList<string> familyNames = [];
+    public partial IList<string> FamilyNames { get; set; } = [];
 
     [ObservableProperty]
-    public IEnumerable<IcmContact> availableChildrenInOutCare = [];
+    public partial IEnumerable<IcmContact> AvailableChildrenInOutCare { get; set; } = [];
 
     // Using object instead of IcmContact for generic as a workaround
     // see https://github.com/dotnet/maui/issues/8435#issuecomment-1365586648
     [ObservableProperty]
-    public ObservableCollection<object> selectedChildren = [];
+    public partial ObservableCollection<object> SelectedChildren { get; set; } = [];
 
-    [Obsolete("Workaround for RadioButton rendering issue https://github.com/dotnet/maui/issues/19437")]
+    [field: Obsolete("Workaround for RadioButton rendering issue https://github.com/dotnet/maui/issues/19437")]
     [ObservableProperty]
-    public bool safeChecked;
-
-    [ObservableProperty]
-    public bool safeWithInterventionsChecked;
+    public partial bool SafeChecked { get; set; }
 
     [ObservableProperty]
-    public bool unsafeChecked;
+    public partial bool SafeWithInterventionsChecked { get; set; }
 
     [ObservableProperty]
-    public bool allChildrenPlaced;
+    public partial bool UnsafeChecked { get; set; }
 
     [ObservableProperty]
-    public bool someChildrenPlaced;
+    public partial bool AllChildrenPlaced { get; set; }
 
     [ObservableProperty]
-    public bool canPublish;
+    public partial bool SomeChildrenPlaced { get; set; }
 
     [ObservableProperty]
-    public bool canDiscard;
+    public partial bool CanPublish { get; set; }
 
     [ObservableProperty]
-    public bool isReadOnly;
+    public partial bool CanDiscard { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsReadOnly { get; set; }
 
     private Realm? DraftRealm;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
     [ObservableProperty]
-    private AssessmentDraft? draftItem;
+    public partial AssessmentDraft? DraftItem { get; set; }
 
     // FIXME This is used to workaround DatePickers not being able to use null values.
     // https://github.com/dotnet/maui/issues/1100, https://github.com/dotnet/maui/pull/27921
     // We can revisit this after upgrading to MAUI 10.
     [ObservableProperty]
-    public bool showDateOfAssessment;
+    public partial bool ShowDateOfAssessment { get; set; }
 
     protected override async Task InitAsync()
     {

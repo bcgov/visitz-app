@@ -17,8 +17,7 @@ namespace Visitz.Views.Todo;
 public partial class TodoListViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public bool showEmptyView = true;
-
+    public partial bool ShowEmptyView { get; set; } = true;
     Realm? DataRealm { get; set; }
 
     readonly ObservableRealmQueryMap _queryMap = new();

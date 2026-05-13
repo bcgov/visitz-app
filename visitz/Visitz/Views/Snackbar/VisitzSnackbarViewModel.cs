@@ -7,16 +7,16 @@ namespace Visitz.Views.Snackbar;
 public partial class VisitzSnackbarViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public string message;
+    public partial string Message { get; set; }
 
     [ObservableProperty]
-    public string actionText;
+    public partial string ActionText { get; set; }
 
     [ObservableProperty]
-    public Action action;
+    public partial Action Action { get; set; }
 
     [ObservableProperty]
-    public bool actionVisible = false;
+    public partial bool ActionVisible { get; set; } = false;
 
     [RelayCommand]
     public void ActionButtonSelected()
