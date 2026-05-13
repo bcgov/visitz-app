@@ -68,9 +68,9 @@ public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, I
         return entity;
     }
 
-    protected override async Task OnLoadedAsync()
+    protected override async Task OnFirstLoadAsync()
     {
-        await base.OnLoadedAsync();
+        await base.OnFirstLoadAsync();
 
         if (_createEntityView == null)
         {
