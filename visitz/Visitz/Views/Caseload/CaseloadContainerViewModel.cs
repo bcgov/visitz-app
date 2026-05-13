@@ -8,6 +8,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Events;
+using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
@@ -168,30 +169,13 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
             businessObject => OfficeEqual(businessObject, officeName)
         ));
 
-        List<FilterOption<IBusinessObject>> current = OfficeOptions.Skip(offset).ToList();
+        IEnumerable<FilterOption<IBusinessObject>> current = OfficeOptions.Skip(offset);
 
         foreach (var removeOffice in current.Except(incomingOffices))
             OfficeOptions.Remove(removeOffice);
 
         foreach (var addOffice in incomingOffices.Except(current))
-        {
-            // TODO: Use improved binary search with bounds set instead of needing a sibling collection
-            int index = current.BinarySearch(addOffice);
-            if (index < 0)
-                index = ~index;
-            int insertOffset = index + offset;
-
-            if (insertOffset < OfficeOptions.Count)
-            {
-                current.Insert(index, addOffice);
-                OfficeOptions.Insert(insertOffset, addOffice);
-            }
-            else
-            {
-                current.Add(addOffice);
-                OfficeOptions.Add(addOffice);
-            }
-        }
+            OfficeOptions.InsertSorted(addOffice, startIndex: offset);
 
         if (currentSelected != SelectedOffice)
             SelectedOffice = OfficeOptions.Contains(currentSelected) ? currentSelected : _myCaseloadFilter;
