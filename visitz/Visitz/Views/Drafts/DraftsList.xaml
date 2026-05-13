@@ -13,7 +13,7 @@
     x:TypeArguments="drafts:DraftsListViewModel"
 >
     <Grid RowDefinitions="Auto,*">
-        <CollectionView Grid.Row="1" ItemsSource="{Binding DraftItems}">
+        <CollectionView Grid.Row="1" ItemsSource="{Binding FilteredItems}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="draftModels:IDraftItem">
                     <drafts:DraftsListItem />

@@ -40,11 +40,13 @@ public partial class DraftsContainerViewModel : VisitzViewModel
 
     readonly ObservableRealmCount _realmCount = new();
 
+    public DraftsListViewModel? DraftsListViewModel { get; set; }
+
     [ObservableProperty]
     public partial ObservableCollection<FilterOption<IDraftItem>> FilterOptions { get; set; } = [s_allDrafts];
 
     [ObservableProperty]
-    public partial FilterOption<IDraftItem>? SelectedFilter { get; set; }
+    public partial FilterOption<IDraftItem> SelectedFilter { get; set; } = s_allDrafts;
 
     protected override async Task InitAsync()
     {
@@ -92,5 +94,10 @@ public partial class DraftsContainerViewModel : VisitzViewModel
             FilterOptions.Remove(filter);
         else if (!FilterOptions.Contains(filter))
             FilterOptions.InsertSorted(filter, startIndex: 1);
+    }
+
+    partial void OnSelectedFilterChanged(FilterOption<IDraftItem> value)
+    {
+        DraftsListViewModel?.SelectedFilter = value;
     }
 }

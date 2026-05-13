@@ -5,7 +5,9 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Realms;
+using Visitz.Controls;
 using Visitz.Extensions;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
@@ -32,7 +34,10 @@ public partial class DraftsListViewModel : VisitzViewModel
     public partial bool ShowEmptyView { get; set; }
 
     [ObservableProperty]
-    public partial ObservableCollection<IDraftItem> DraftItems { get; set; } = [];
+    public partial ObservableCollection<IDraftItem> FilteredItems { get; set; } = [];
+
+    [ObservableProperty]
+    public partial ObservableCollection<IDraftItem> AllDraftItems { get; set; } = [];
 
     ObservableCollection<AssessmentDraft> AssessmentDrafts { get; set; } = [];
 
@@ -50,7 +55,8 @@ public partial class DraftsListViewModel : VisitzViewModel
 
     public event EventHandler<IDraftItem>? SelectedItemRelatedMissing;
 
-    // TODO: Use VisitzModel.Models.Drafts.MasterDraftItem to handle filtering the list
+    [ObservableProperty]
+    public partial FilterOption<IDraftItem> SelectedFilter { get; set; } = new(LocalizedStrings.AllTypes, _ => true);
 
     protected override async Task InitAsync()
     {
@@ -64,6 +70,8 @@ public partial class DraftsListViewModel : VisitzViewModel
 
     async Task SubscribeForDrafts()
     {
+        AllDraftItems.CollectionChanged += AllDraftItems_CollectionChanged;
+
         Task<Realm> assessmentsTask = VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
         Task<Realm> attachmentsTask = VisitzRealms.GetAttachmentDraftsRealmAsync();
         Task<Realm> notesTask = VisitzRealms.GetNoteDraftsRealmAsync();
@@ -75,16 +83,16 @@ public partial class DraftsListViewModel : VisitzViewModel
         Realm visitsRealm = await visitsTask;
 
         queryMap.Subscribe(assessmentsRealm, assessmentsRealm.All<AssessmentDraft>());
-        AssessmentDrafts.CollectionChanged += DraftsLists_CollectionChanged;
+        AssessmentDrafts.CollectionChanged += SupportingLists_CollectionChanged;
 
         queryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>());
-        AttachmentDrafts.CollectionChanged += DraftsLists_CollectionChanged;
+        AttachmentDrafts.CollectionChanged += SupportingLists_CollectionChanged;
 
         queryMap.Subscribe(notesRealm, notesRealm.All<NoteDraft>());
-        NoteDrafts.CollectionChanged += DraftsLists_CollectionChanged;
+        NoteDrafts.CollectionChanged += SupportingLists_CollectionChanged;
 
         queryMap.Subscribe(visitsRealm, visitsRealm.All<PersonVisitDraft>());
-        VisitDrafts.CollectionChanged += DraftsLists_CollectionChanged;
+        VisitDrafts.CollectionChanged += SupportingLists_CollectionChanged;
     }
 
     protected override void Dispose(bool disposing)
@@ -118,7 +126,7 @@ public partial class DraftsListViewModel : VisitzViewModel
             throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
     }
 
-    static void UpdateSupportingList<T>(
+    void UpdateSupportingList<T>(
         IRealmCollection<IRealmObject> items,
         ChangeSet? changes,
         ObservableCollection<T> draftsList
@@ -137,29 +145,55 @@ public partial class DraftsListViewModel : VisitzViewModel
 
             foreach (int insertIndex in changes.InsertedIndices)
                 draftsList.Add((T)items.ElementAt(insertIndex));
+
+            if (changes.NewModifiedIndices.Length > 0)
+                FilteredItems.Sort(ascending: false);
         }
     }
 
-    private void DraftsLists_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void SupportingLists_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
         {
-            foreach (var item in e.NewItems)
+            foreach (var draft in e.NewItems.Cast<IDraftItem>())
             {
-                IDraftItem draft = (IDraftItem)item;
                 draft.SubscribeRelatedState(DataRealm);
-
-                DraftItems.InsertSorted(draft, ascending: false);
+                AllDraftItems.Add(draft);
             }
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
         {
-            foreach (var item in e.OldItems)
+            foreach (var draft in e.OldItems.Cast<IDraftItem>())
             {
-                IDraftItem draft = (IDraftItem)item;
                 draft.RelatedEntitySubscriptionToken?.Dispose();
+                AllDraftItems.Remove(draft);
+            }
+        }
+        else
+        {
+            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
+        }
+    }
 
-                DraftItems.Remove((IDraftItem)item);
+    private void AllDraftItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+        {
+            foreach (var draft in e.NewItems.Cast<IDraftItem>())
+            {
+                if (SelectedFilter.WherePredicate(draft))
+                {
+                    draft.SubscribeRelatedState(DataRealm);
+                    FilteredItems.InsertSorted(draft, ascending: false);
+                }
+            }
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var draft in e.OldItems.Cast<IDraftItem>())
+            {
+                draft.RelatedEntitySubscriptionToken?.Dispose();
+                FilteredItems.Remove(draft);
             }
         }
         else
@@ -251,5 +285,10 @@ public partial class DraftsListViewModel : VisitzViewModel
             else
                 realm.Remove(draft);
         });
+    }
+
+    partial void OnSelectedFilterChanged(FilterOption<IDraftItem> value)
+    {
+        FilteredItems = new(AllDraftItems.Where(value.WherePredicate).OrderDescending());
     }
 }
