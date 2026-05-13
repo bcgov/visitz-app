@@ -169,10 +169,6 @@ public partial class DraftsListViewModel : VisitzViewModel
                 AllDraftItems.Remove(draft);
             }
         }
-        else
-        {
-            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
-        }
     }
 
     private void AllDraftItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -195,10 +191,6 @@ public partial class DraftsListViewModel : VisitzViewModel
                 draft.RelatedEntitySubscriptionToken?.Dispose();
                 FilteredItems.Remove(draft);
             }
-        }
-        else
-        {
-            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
         }
     }
 

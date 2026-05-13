@@ -155,10 +155,6 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
             foreach (var item in oldItems)
                 AllItems.Remove(item);
         }
-        else
-        {
-            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
-        }
     }
 
     private void AllItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -184,10 +180,6 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
             foreach (var item in oldItems)
                 if (FilteredItems.FirstOrDefault(vm => vm.BusinessObject == item) is CaseloadItemViewModel vm)
                     FilteredItems.Remove(vm);
-        }
-        else
-        {
-            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
         }
     }
 
