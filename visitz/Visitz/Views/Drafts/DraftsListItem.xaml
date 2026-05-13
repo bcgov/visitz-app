@@ -23,22 +23,38 @@
 
     <VerticalStackLayout>
         <Grid
-            RowDefinitions="*,Auto"
-            ColumnDefinitions="*, *, 0.75*, 0.2*, Auto"
-            ColumnSpacing="8"
-            Style="{StaticResource DraftsColumns}"
-            MinimumHeightRequest="25"
-            Margin="10"
+            RowDefinitions="Auto,Auto,Auto"
+            ColumnDefinitions="30, *, Auto,Auto"
+            ColumnSpacing="{StaticResource DefaultSpacing}"
+            Margin="{StaticResource DefaultMargin}"
         >
             <Grid.Resources>
                 <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
                 <converters:BoolNegationConverter x:Key="BoolConverter" />
             </Grid.Resources>
 
-            <Label Grid.Column="0" VerticalOptions="Center" Text="{Binding DraftLocation}" />
+            <Label
+                x:Name="Icon"
+                Grid.Column="0"
+                Grid.RowSpan="3"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                FontAutoScalingEnabled="False"
+                FontFamily="MaterialIconsRoundedUnfilled"
+                FontSize="24"
+            />
 
             <Label
                 Grid.Column="1"
+                Grid.Row="0"
+                VerticalOptions="Center"
+                FontFamily="BCSansBold"
+                Text="{Binding DraftLocation}"
+            />
+
+            <Label
+                Grid.Column="1"
+                Grid.Row="1"
                 VerticalOptions="Center"
                 Text="{Binding Preview}"
                 MaxLines="1"
@@ -46,25 +62,18 @@
             />
 
             <Label
-                Grid.Column="2"
+                Grid.Column="1"
+                Grid.Row="2"
                 VerticalOptions="Center"
                 Text="{Binding LastUpdated.LocalDateTime,
                         Converter={StaticResource ShortTimestampConverter}}"
                 TextColor="{StaticResource BC_TextColor_Lighter}"
             />
 
-            <tagViews:EntityTypeBadge
-                x:DataType="interfaces:IRecordInfo"
-                Grid.Column="3"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                EntityType="{Binding RelatedEntityType}"
-                EntitySubtype="{Binding RelatedEntitySubtype}"
-            />
-
             <Label
                 x:DataType="interfaces:IRecordInfo"
-                Grid.Column="4"
+                Grid.Column="2"
+                Grid.RowSpan="3"
                 FontSize="20"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Text="{Static icons:MaterialIcons.Download}"
@@ -75,7 +84,8 @@
 
             <Label
                 x:DataType="interfaces:IRecordInfo"
-                Grid.Column="4"
+                Grid.Column="2"
+                Grid.RowSpan="3"
                 FontSize="20"
                 BackgroundColor="White"
                 FontFamily="MaterialIconsRoundedUnfilled"
@@ -87,7 +97,8 @@
 
             <ActivityIndicator
                 x:Name="DownloadActivity"
-                Grid.Column="4"
+                Grid.Column="2"
+                Grid.RowSpan="3"
                 BackgroundColor="White"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
@@ -95,10 +106,22 @@
                 WidthRequest="20"
             />
 
+            <tagViews:EntityTypeBadge
+                x:DataType="interfaces:IRecordInfo"
+                Grid.Column="3"
+                Grid.RowSpan="3"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                EntityType="{Binding RelatedEntityType}"
+                EntitySubtype="{Binding RelatedEntitySubtype}"
+            />
+
             <ContentView
                 x:DataType="interfaces:IRecordInfo"
                 Grid.Column="0"
-                Grid.ColumnSpan="5"
+                Grid.ColumnSpan="4"
+                Grid.Row="0"
+                Grid.RowSpan="3"
                 CascadeInputTransparent="True"
             >
                 <BoxView
