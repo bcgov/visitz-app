@@ -124,6 +124,8 @@ public partial class DraftsListViewModel : VisitzViewModel
             UpdateSupportingList(e.Items, e.Changes, VisitDrafts);
         else
             throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
+
+        ShowEmptyView = !AllDraftItems.Any();
     }
 
     void UpdateSupportingList<T>(
