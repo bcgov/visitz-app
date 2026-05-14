@@ -15,6 +15,8 @@ namespace Visitz.Views.Todo;
 
 public partial class TodoListViewModel : VisitzViewModel
 {
+    const bool SortAscending = true;
+
     [ObservableProperty]
     public partial bool ShowEmptyView { get; set; } = true;
 
@@ -92,7 +94,7 @@ public partial class TodoListViewModel : VisitzViewModel
                 draftsList.Add((TItem)items.ElementAt(insertIndex));
 
             if (changes.ModifiedIndices.Length > 0)
-                AllTodoItems.Sort(ascending: true);
+                AllTodoItems.Sort(ascending: SortAscending);
         }
     }
 
@@ -143,7 +145,7 @@ public partial class TodoListViewModel : VisitzViewModel
         if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
         {
             foreach (var item in e.NewItems)
-                AllTodoItems.InsertSorted(MakeTodoItem(item), ascending: true);
+                AllTodoItems.InsertSorted(MakeTodoItem(item), ascending: SortAscending);
         }
         else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
         {
