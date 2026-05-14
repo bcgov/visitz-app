@@ -1,10 +1,5 @@
 using CommunityToolkit.Maui.Core.Platform;
-using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Entity;
-using VisitzModel.Messaging;
-using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Caseload;
 
@@ -24,8 +19,6 @@ public partial class CaseloadContainerView : ViewModelContentView<CaseloadContai
 
         for (int i = 0; i < 25; i++)
             CustomShimmerContainer.Add(new CaseloadItemShimmerStencil());
-
-        RegisterReceivers();
     }
 
     static async Task<CaseloadListView> InitListView()
@@ -63,55 +56,10 @@ public partial class CaseloadContainerView : ViewModelContentView<CaseloadContai
     {
         if (!disposed && disposing)
         {
-            StrongReferenceMessenger.Default.UnregisterAll(this);
             disposed = true;
         }
 
         base.Dispose(disposing);
-    }
-
-    void RegisterReceivers()
-    {
-        StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(
-            this,
-            async (recipient, message) =>
-            {
-                await ((CaseloadContainerView)recipient).OpenBusinessObject(message);
-            }
-        );
-
-        StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(
-            this,
-            async (recipient, message) =>
-            {
-                await Navigator.Navigation.PopAsync();
-            }
-        );
-    }
-
-    async Task OpenBusinessObject(BusinessObjectSelectedMessage message)
-    {
-        IBusinessObject item = message.Value;
-
-        try
-        {
-            var entityPage = ServiceProvider.GetService<EntityPage>();
-
-            entityPage.Init(
-                item.Id,
-                item.EntityType,
-                item.DisplayName,
-                item.FileNumber,
-                message.Section,
-                message.DraftItem
-            );
-
-            await Navigator.Navigation.PushAsync(entityPage);
-        }
-        catch (Exception ex)
-        {
-            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
-        }
     }
 
     void SearchActionButton_Clicked(object? sender, EventArgs e)

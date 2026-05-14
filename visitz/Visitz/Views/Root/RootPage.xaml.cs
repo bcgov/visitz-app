@@ -2,9 +2,12 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Foldable;
 using Visitz.Animations;
+using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Entity;
 using Visitz.Views.Snackbar;
 using VisitzModel.Messaging;
+using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Root;
@@ -24,6 +27,14 @@ public partial class RootPage : VisitzPage<RootPage, RootViewModel>, ISnackbarPr
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
         StrongReferenceMessenger.Default.Register<NavDrawerMessage>(this, ReceiveNavDrawerMessage);
         StrongReferenceMessenger.Default.Register<GetNavPositionMessage>(this, SendNavPosition);
+        StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(
+            this,
+            async (_, message) => await BusinessObjectSelected(message)
+        );
+        StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(
+            this,
+            async (_, message) => await EntityNavBack(message)
+        );
 
         HideSoftInputOnTapped = true;
     }
@@ -107,5 +118,42 @@ public partial class RootPage : VisitzPage<RootPage, RootViewModel>, ISnackbarPr
     {
         if (recipient is RootPage root)
             message.Reply((int)root.TwoPane.Mode);
+    }
+
+    static async Task BusinessObjectSelected(BusinessObjectSelectedMessage message)
+    {
+        IBusinessObject item = message.Value;
+
+        try
+        {
+            var entityPage = ServiceProvider.GetService<EntityPage>();
+
+            entityPage.Init(
+                item.Id,
+                item.EntityType,
+                item.DisplayName,
+                item.FileNumber,
+                message.Section,
+                message.DraftItem
+            );
+
+            await Navigator.Navigation.PushAsync(entityPage);
+        }
+        catch (Exception ex)
+        {
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
+    }
+
+    static async Task EntityNavBack(EntityNavBackMessage message)
+    {
+        try
+        {
+            await Navigator.Navigation.PopAsync();
+        }
+        catch (Exception ex)
+        {
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
     }
 }
