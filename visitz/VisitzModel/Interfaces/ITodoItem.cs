@@ -11,4 +11,6 @@ public interface ITodoItem : IComparable<ITodoItem>
     EntityType RelatedEntityType { get; }
 
     EntitySubtype RelatedEntitySubtype { get; }
+
+    string IconGlyph { get; }
 }

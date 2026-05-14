@@ -4,7 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:interfaces="clr-namespace:VisitzModel.Interfaces;assembly=VisitzModel"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
     xmlns:todo="clr-namespace:Visitz.Views.Todo"
     x:Class="Visitz.Views.Todo.TodoVisitItemView"
     x:DataType="todo:TodoVisitItemViewModel"
@@ -23,42 +27,83 @@
         />
     </ContentView.GestureRecognizers>
 
-    <VerticalStackLayout>
-        <Grid RowDefinitions="*,Auto" Style="{StaticResource SameWidth}" Margin="10">
-            <Grid.Resources>
-                <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
-            </Grid.Resources>
+    <effectsView:SfEffectsView TouchDownEffects="Ripple">
+        <VerticalStackLayout>
+            <Grid
+                RowDefinitions="Auto,Auto,Auto"
+                ColumnDefinitions="30, *, Auto"
+                Style="{StaticResource SameWidth}"
+                Margin="10"
+            >
+                <Grid.Resources>
+                    <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
+                </Grid.Resources>
 
-            <Label
-                Grid.Column="0"
-                VerticalOptions="Start"
-                Text="{Binding BusinessObject.DisplayName}"
-            />
+                <Label
+                    Grid.Column="0"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    FontAutoScalingEnabled="False"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    FontSize="24"
+                    Text="{Binding IconGlyph}"
+                />
 
-            <Label
-                Grid.Column="1"
-                VerticalOptions="Start"
-                Text="{Binding Visit.DateOfVisitBinding.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-            />
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    FontFamily="BCSansBold"
+                    VerticalOptions="Center"
+                    Text="{Binding BusinessObject.DisplayName}"
+                />
 
-            <Label
-                Grid.Column="2"
-                VerticalOptions="Start"
-                Text="{Binding Visit.DueDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-            />
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    VerticalOptions="Center"
+                    Text="{Binding Description}"
+                />
 
-            <Label
-                IsVisible="{Binding IsOverdue}"
-                Grid.Column="3"
-                FontFamily="MaterialIconsRoundedUnfilled"
-                FontSize="15"
-                TextColor="{StaticResource AlertBannerCriticalPrimary}"
-                Text="{Static icons:MaterialIcons.Warning}"
-            />
-        </Grid>
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    VerticalOptions="Center"
+                    Spacing="{StaticResource DefaultSpacingHalf}"
+                >
+                    <Label
+                        Text="{local:Localize Due}"
+                        TextColor="{StaticResource BC_TextColor_Lighter}"
+                    />
 
-        <BoxView Margin="10,0" HeightRequest="0.5" Color="{StaticResource Gray200}" />
-    </VerticalStackLayout>
+                    <Label
+                        FontFamily="BCSansBold"
+                        Text="{Binding DueDate.LocalDateTime, Converter={StaticResource ShortTimestampConverter}}"
+                        TextColor="{StaticResource BC_TextColor_Lighter}"
+                    />
+
+                    <Label
+                        IsVisible="{Binding IsOverdue}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontSize="15"
+                        TextColor="{StaticResource AlertBannerCriticalPrimary}"
+                        Text="{Static icons:MaterialIcons.Warning}"
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
+
+                <tagViews:EntityTypeBadge
+                    x:DataType="interfaces:ITodoItem"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    EntityType="{Binding RelatedEntityType}"
+                    EntitySubtype="{Binding RelatedEntitySubtype}"
+                />
+            </Grid>
+
+            <BoxView Margin="10,0" HeightRequest="0.5" Color="{StaticResource Gray200}" />
+        </VerticalStackLayout>
+    </effectsView:SfEffectsView>
 </base:BaseContentView>

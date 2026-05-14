@@ -145,8 +145,15 @@ public partial class TodoListViewModel : VisitzViewModel
         else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
         {
             foreach (var item in e.OldItems)
+            {
                 if (AllTodoItems.FirstOrDefault(todoItem => todoItem.Item == item) is ITodoItem todoItem)
+                {
                     AllTodoItems.Remove(todoItem);
+
+                    if (todoItem is IDisposable disposable)
+                        disposable.Dispose();
+                }
+            }
         }
     }
 
