@@ -4,6 +4,7 @@ using Visitz.Views.BaseClasses;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Models.Navigation;
 
@@ -13,9 +14,15 @@ namespace Visitz.Views.Todo;
 
 internal partial class TodoVisitItemViewModel : VisitzViewModel, ITodoItem
 {
+    public object Item { get; set; }
+
     public int SortOrder => Visit.DueDateDaysRemaining;
 
-    public PersonVisit Visit { get; set; }
+    public EntityType RelatedEntityType => BusinessObject?.EntityType ?? EntityType.Unknown;
+
+    public EntitySubtype RelatedEntitySubtype => BusinessObject?.EntitySubtypeBinding ?? EntitySubtype.Unknown;
+
+    public PersonVisit Visit => (PersonVisit)Item;
 
     public IBusinessObject? BusinessObject { get; set; }
 
@@ -23,7 +30,7 @@ internal partial class TodoVisitItemViewModel : VisitzViewModel, ITodoItem
 
     public TodoVisitItemViewModel(PersonVisit visit)
     {
-        Visit = visit;
+        Item = visit;
 
         ArgumentNullException.ThrowIfNull(visit.Realm);
 

@@ -11,7 +11,7 @@
     x:TypeArguments="todo:TodoListViewModel"
 >
     <Grid>
-        <CollectionView ItemsSource="{Binding TodoItems}">
+        <CollectionView ItemsSource="{Binding AllTodoItems}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <todo:TodoVisitItemView />

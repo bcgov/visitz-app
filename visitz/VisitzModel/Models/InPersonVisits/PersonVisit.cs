@@ -160,17 +160,27 @@ public partial class PersonVisit
         realm.RemoveRange(visitItems);
     }
 
-    public static IEnumerable<PersonVisit?> GetUpcomingVisits(Realm realm)
+    /// <summary>
+    /// Gets an <see cref="IQueryable"/> representing the latest visit for every distinct parent record currently in
+    /// the database.
+    /// </summary>
+    /// <param name="realm"></param>
+    /// <returns></returns>
+    public static IQueryable<PersonVisit> GetLatestVisitsPerParentRecord(Realm realm)
     {
-        var latestVisitsPerCase = realm
+        return realm
             .All<PersonVisit>()
             .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)")
-            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})")
-            .AsEnumerable()
-            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning);
-
-        return latestVisitsPerCase;
+            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})");
     }
+
+    /// <summary>
+    /// A predicate to check if a given visit is "upcoming" (are we approaching its due date or not).
+    /// </summary>
+    /// <param name="visit"></param>
+    /// <returns></returns>
+    public static bool IsUpcomingVisit(PersonVisit visit) =>
+        visit != null && visit.CurrentDueDateThreshold <= VisitDaysThreshold.Warning;
 
     public void ToggleVisitDetail(string detail, bool add)
     {
@@ -200,11 +210,11 @@ public partial class PersonVisit
 
     public bool Equals(PersonVisit? x, PersonVisit? y)
     {
-        return x?.Id == y?.Id;
+        return x?.IdBinding == y?.IdBinding;
     }
 
     public int GetHashCode([DisallowNull] PersonVisit obj)
     {
-        return obj.Id.GetHashCode();
+        return obj.IdBinding.GetHashCode();
     }
 }
