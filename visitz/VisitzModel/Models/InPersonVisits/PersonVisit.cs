@@ -53,8 +53,8 @@ public partial class PersonVisit
 
     public string UpdatedBy { get; set; } = string.Empty;
 
-    public DateTimeOffset DueDate =>
-        IsValid ? DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info) : DateTimeOffset.MinValue;
+    public DateTimeOffset DueDate => DateOfVisitBinding.Date.AddDays((int)VisitDaysThreshold.Info);
+
     public int DueDateDaysRemaining => (DueDate.Date - DateTimeOffset.Now.Date).Days;
 
     public VisitDaysThreshold CurrentDueDateThreshold
