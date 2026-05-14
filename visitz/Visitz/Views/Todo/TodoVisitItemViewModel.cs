@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Caseload;
 using VisitzModel.Interfaces;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
@@ -45,9 +44,6 @@ internal partial class TodoVisitItemViewModel : VisitzViewModel, ITodoItem
 
     static void NavigateTo(IBusinessObject businessObject, EntitySection section)
     {
-        var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
-        StrongReferenceMessenger.Default.Send(appNav);
-
         var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section);
         StrongReferenceMessenger.Default.Send(caseloadNav);
     }
