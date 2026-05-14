@@ -88,8 +88,13 @@ public static class IListTExtensions
 
     public static void AddAll<T>(this IList<T> list, IEnumerable<T> itemsToAdd)
     {
-        foreach (var item in itemsToAdd)
-            list.Add(item);
+        if (itemsToAdd is ICollection collection)
+            ArrayList.Adapter((IList)list).AddRange(collection);
+        else
+        {
+            foreach (var item in itemsToAdd)
+                list.Add(item);
+        }
     }
 
     public static void Sort<T>(this IList<T> list, bool ascending = true)
