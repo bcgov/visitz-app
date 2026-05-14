@@ -31,9 +31,9 @@ public partial class CaseloadContainerView : ViewModelContentView<CaseloadContai
         return listView;
     }
 
-    protected override async Task OnLoadedAsync()
+    protected override async Task OnFirstLoadAsync()
     {
-        await base.OnLoadedAsync();
+        await base.OnFirstLoadAsync();
 
         CaseloadListView listView = await _loadListView;
         ViewModel.ListViewModel = listView.ViewModel;
