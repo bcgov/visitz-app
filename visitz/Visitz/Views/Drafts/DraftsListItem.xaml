@@ -9,6 +9,7 @@
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:interfaces="clr-namespace:VisitzModel.Models.Interfaces;assembly=VisitzModel"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Drafts.DraftsListItem"
     x:DataType="draftsModels:IDraftItem"
@@ -70,14 +71,23 @@
                     LineBreakMode="TailTruncation"
                 />
 
-                <Label
+                <HorizontalStackLayout
                     Grid.Column="1"
                     Grid.Row="2"
                     VerticalOptions="Center"
-                    Text="{Binding LastUpdated.LocalDateTime,
-                            Converter={StaticResource ShortTimestampConverter}}"
-                    TextColor="{StaticResource BC_TextColor_Lighter}"
-                />
+                    Spacing="{StaticResource DefaultSpacingHalf}"
+                >
+                    <Label
+                        Text="{local:Localize Modified}"
+                        TextColor="{StaticResource BC_TextColor_Lighter}"
+                    />
+
+                    <Label
+                        Text="{Binding LastUpdated.LocalDateTime,
+                                Converter={StaticResource ShortTimestampConverter}}"
+                        TextColor="{StaticResource BC_TextColor_Lighter}"
+                    />
+                </HorizontalStackLayout>
 
                 <Label
                     x:DataType="interfaces:IRecordInfo"
