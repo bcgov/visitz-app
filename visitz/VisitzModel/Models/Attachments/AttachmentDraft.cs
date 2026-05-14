@@ -34,6 +34,19 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
+    public DateTimeOffset LastUpdatedBinding
+    {
+        get => IsValid ? LastUpdated : default;
+        set
+        {
+            if (!IsValid)
+                return;
+
+            LastUpdated = value;
+            RaisePropertyChanged(nameof(LastUpdated));
+        }
+    }
+
     public string Preview => GeneralStrings.Attachment;
 
     public string DraftLocation { get; set; } = string.Empty;
