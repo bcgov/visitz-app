@@ -74,7 +74,7 @@ public partial class TodoListViewModel : VisitzViewModel
     /// <param name="changes"></param>
     /// <param name="draftsList"></param>
     /// <param name="mapper"></param>
-    static void UpdateSupportingList<TItem>(
+    void UpdateSupportingList<TItem>(
         IRealmCollection<IRealmObject> items,
         ChangeSet? changes,
         ObservableCollection<TItem> draftsList
@@ -90,6 +90,9 @@ public partial class TodoListViewModel : VisitzViewModel
 
             foreach (int insertIndex in changes.InsertedIndices)
                 draftsList.Add((TItem)items.ElementAt(insertIndex));
+
+            if (changes.ModifiedIndices.Length > 0)
+                AllTodoItems.Sort(ascending: true);
         }
     }
 
