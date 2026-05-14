@@ -13,60 +13,60 @@ namespace Visitz.Views.Debugging;
 public partial class DebugOptionsViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public bool dryFireSubmitNotes;
+    public partial bool DryFireSubmitNotes { get; set; }
 
     [ObservableProperty]
-    public bool dryFireSubmitNotesSimulateSuccess;
+    public partial bool DryFireSubmitNotesSimulateSuccess { get; set; }
 
     [ObservableProperty]
-    public bool dryFirePostVisitService;
+    public partial bool DryFirePostVisitService { get; set; }
 
     [ObservableProperty]
-    public bool dryFirePostVisitServiceSimulateSuccess;
+    public partial bool DryFirePostVisitServiceSimulateSuccess { get; set; }
 
     [ObservableProperty]
-    public string appId;
+    public partial string AppId { get; set; }
 
     [ObservableProperty]
-    public string dotnetVersion;
+    public partial string DotnetVersion { get; set; }
 
     [ObservableProperty]
-    public string apiDomain;
+    public partial string ApiDomain { get; set; }
 
     [ObservableProperty]
-    public string authenticationDomain;
+    public partial string AuthenticationDomain { get; set; }
 
     [ObservableProperty]
-    public bool buildingInDebug;
+    public partial bool BuildingInDebug { get; set; }
 
     [ObservableProperty]
-    public bool skipLocalAuth;
+    public partial bool SkipLocalAuth { get; set; }
 
     [ObservableProperty]
-    public bool requireAttachmentFileContent;
+    public partial bool RequireAttachmentFileContent { get; set; }
 
     [ObservableProperty]
-    public bool keepSafetyAssessmentDraftOnPublish;
+    public partial bool KeepSafetyAssessmentDraftOnPublish { get; set; }
 
     readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
     [ObservableProperty]
-    public DateTime caseloadLastUpdated;
+    public partial DateTime CaseloadLastUpdated { get; set; }
 
     [ObservableProperty]
-    public DateTime maxDate = DateTimeExtensions.LocalNow;
+    public partial DateTime MaxDate { get; set; } = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
-    public string mockPersonVisitsParentId;
+    public partial string MockPersonVisitsParentId { get; set; }
 
     [ObservableProperty]
-    public bool autoCaseloadRefreshDisabled;
+    public partial bool AutoCaseloadRefreshDisabled { get; set; }
 
     [ObservableProperty]
-    public double staleSessionMinutes;
+    public partial double StaleSessionMinutes { get; set; }
 
     [ObservableProperty]
-    public bool disablePrivacyScrim;
+    public partial bool DisablePrivacyScrim { get; set; }
 
     protected override async Task InitAsync()
     {

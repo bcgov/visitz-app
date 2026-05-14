@@ -17,16 +17,16 @@ namespace Visitz.Views.Root;
 public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]
-    public bool isLandscape = false;
+    public partial bool IsLandscape { get; set; } = false;
 
     [ObservableProperty]
-    public bool isPortrait = false;
+    public partial bool IsPortrait { get; set; } = false;
 
     [ObservableProperty]
-    public bool showActivity = true;
+    public partial bool ShowActivity { get; set; } = true;
 
     [ObservableProperty]
-    public double minScreenSize = GetMinSize();
+    public partial double MinScreenSize { get; set; } = GetMinSize();
 
     public NavRailViewModel NavRailViewModel = ServiceProvider.GetService<NavRailViewModel>();
 

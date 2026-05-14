@@ -17,18 +17,18 @@ namespace Visitz.Views.Entity.SafetyAssess;
 public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
 {
     [ObservableProperty]
-    public string editViewButtonText = "";
+    public partial string EditViewButtonText { get; set; } = "";
 
     [ObservableProperty]
-    public string editViewButtonGlyph = "";
+    public partial string EditViewButtonGlyph { get; set; } = "";
 
     [ObservableProperty]
-    public ObservableCollection<SafetyAssessment> assessments = [];
+    public partial ObservableCollection<SafetyAssessment> Assessments { get; set; } = [];
 
     readonly ObservableRealmQueryMap realmQueryMap = new();
 
     [ObservableProperty]
-    public bool isEmpty;
+    public partial bool IsEmpty { get; set; }
 
     protected override async Task InitAsync()
     {

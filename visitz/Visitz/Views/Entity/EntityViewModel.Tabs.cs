@@ -20,21 +20,21 @@ namespace Visitz.Views.Entity;
 public partial class EntityViewModel
 {
     [ObservableProperty]
-    public TabItemCollection tabItems = [];
+    public partial TabItemCollection TabItems { get; set; } = [];
 
     [ObservableProperty]
-    public int selectedIndex;
+    public partial int SelectedIndex { get; set; }
 
     [ObservableProperty]
-    public SfTabItem? selectedTab;
+    public partial SfTabItem? SelectedTab { get; set; }
 
     readonly List<BaseContentView> _viewsToDispose = [];
 
     [ObservableProperty]
-    public double tabBarHeight;
+    public partial double TabBarHeight { get; set; }
 
     [ObservableProperty]
-    public double tabListButtonWidth;
+    public partial double TabListButtonWidth { get; set; }
 
     SfTabItem MakeTab<TContentView>()
         where TContentView : BaseContentView

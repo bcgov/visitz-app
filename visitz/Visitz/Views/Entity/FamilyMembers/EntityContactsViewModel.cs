@@ -14,10 +14,10 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
     readonly ObservableRealmQueryMap realmQueryMap = new();
 
     [ObservableProperty]
-    public ObservableCollection<ContactItemViewModel> contactViewModels = [];
+    public partial ObservableCollection<ContactItemViewModel> ContactViewModels { get; set; } = [];
 
     [ObservableProperty]
-    public bool isEmpty;
+    public partial bool IsEmpty { get; set; }
 
     protected override async Task InitAsync()
     {

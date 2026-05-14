@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Logging;
 using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -17,8 +16,7 @@ namespace Visitz.Views.Todo;
 public partial class TodoListViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public bool showEmptyView = true;
-
+    public partial bool ShowEmptyView { get; set; } = true;
     Realm? DataRealm { get; set; }
 
     readonly ObservableRealmQueryMap _queryMap = new();
@@ -140,10 +138,6 @@ public partial class TodoListViewModel : VisitzViewModel
         {
             foreach (var item in e.OldItems)
                 TodoItems.Remove((ITodoItem)item);
-        }
-        else
-        {
-            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
         }
     }
 

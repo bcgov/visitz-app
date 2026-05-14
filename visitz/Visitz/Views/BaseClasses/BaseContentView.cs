@@ -58,7 +58,7 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
         {
             if (!loaded)
             {
-                await OnLoadedAsync();
+                await OnFirstLoadAsync();
                 loaded = true;
             }
         }
@@ -70,7 +70,7 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
         }
     }
 
-    protected virtual Task OnLoadedAsync()
+    protected virtual Task OnFirstLoadAsync()
     {
         Logger.TraceMethod(this);
         return Task.CompletedTask;

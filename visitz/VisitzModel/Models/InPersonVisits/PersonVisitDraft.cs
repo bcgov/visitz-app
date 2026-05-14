@@ -28,7 +28,7 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         set => RelatedEntitySubtypeInt = (int)value;
     }
 
-    public string Preview => string.Format(GeneralStrings.VisitDate, Visit?.DateOfVisit.ToString("D"));
+    public string Preview => GeneralStrings.Visit;
 
     public string DraftLocation { get; set; } = string.Empty;
 

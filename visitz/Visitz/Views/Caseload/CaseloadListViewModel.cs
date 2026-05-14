@@ -45,31 +45,30 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
     ObservableCollection<IBusinessObject> AllItems { get; set; } = [];
 
     [ObservableProperty]
-    public ObservableCollection<CaseloadItemViewModel> filteredItems = [];
+    public partial ObservableCollection<CaseloadItemViewModel> FilteredItems { get; set; } = [];
 
     [ObservableProperty]
-    public string searchQuery = string.Empty;
+    public partial string SearchQuery { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public string? collectionViewPrompt = PromptText;
+    public partial string? CollectionViewPrompt { get; set; } = PromptText;
 
     [ObservableProperty]
-    public FilterOption<IBusinessObject>? selectedOfficeFilter;
+    public partial FilterOption<IBusinessObject>? SelectedOfficeFilter { get; set; }
 
     [ObservableProperty]
-    public FilterOption<IBusinessObject> selectedFilter = new(LocalizedStrings.AllTypes, _ => true);
+    public partial FilterOption<IBusinessObject> SelectedFilter { get; set; } =
+        new(LocalizedStrings.AllTypes, _ => true);
 
     [ObservableProperty]
-    public SortOption<CaseloadItemViewModel> selectedSort = new(
-        LocalizedStrings.Id,
-        Comparer<CaseloadItemViewModel>.Default
-    );
+    public partial SortOption<CaseloadItemViewModel> SelectedSort { get; set; } =
+        new(LocalizedStrings.Id, Comparer<CaseloadItemViewModel>.Default);
 
     [ObservableProperty]
-    public bool isRefreshing;
+    public partial bool IsRefreshing { get; set; }
 
     [ObservableProperty]
-    public bool showEmptyCaseloadMessage;
+    public partial bool ShowEmptyCaseloadMessage { get; set; }
 
     protected override async Task InitAsync()
     {
@@ -156,10 +155,6 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
             foreach (var item in oldItems)
                 AllItems.Remove(item);
         }
-        else
-        {
-            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
-        }
     }
 
     private void AllItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -186,14 +181,10 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
                 if (FilteredItems.FirstOrDefault(vm => vm.BusinessObject == item) is CaseloadItemViewModel vm)
                     FilteredItems.Remove(vm);
         }
-        else
-        {
-            Logger.LogInformation($"Unhandled CollectionChanged action: '{e.Action}'");
-        }
     }
 
     partial void OnFilteredItemsChanging(
-        ObservableCollection<CaseloadItemViewModel>? oldValue,
+        ObservableCollection<CaseloadItemViewModel> oldValue,
         ObservableCollection<CaseloadItemViewModel> newValue
     )
     {
@@ -244,7 +235,7 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
 
     partial void OnSelectedSortChanged(SortOption<CaseloadItemViewModel> value)
     {
-        ApplyFilter();
+        FilteredItems.Sort(SelectedSort.Comparer);
     }
 
     partial void OnSelectedFilterChanged(FilterOption<IBusinessObject> value)

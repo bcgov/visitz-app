@@ -6,13 +6,13 @@ namespace Visitz.Views.Entity.SupportNetwork;
 public partial class SupportNetworkItemUi : ObservableObject
 {
     [ObservableProperty]
-    bool isExpanded;
+    public partial bool IsExpanded { get; set; }
 
     [ObservableProperty]
-    SupportNetworkItem supportNetwork;
+    public partial SupportNetworkItem SupportNetwork { get; set; }
 
     [ObservableProperty]
-    public bool showRelationshipTag;
+    public partial bool ShowRelationshipTag { get; set; }
 
     public string CapitalizedRelationship
     {
@@ -31,7 +31,7 @@ public partial class SupportNetworkItemUi : ObservableObject
 
     public SupportNetworkItemUi(SupportNetworkItem item)
     {
-        supportNetwork = item;
+        SupportNetwork = item;
         ShowRelationshipTag = !string.IsNullOrWhiteSpace(item?.Relationship);
     }
 }

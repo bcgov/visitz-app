@@ -1,8 +1,10 @@
-// Adapted from https://stackoverflow.com/a/967098
+using System.Collections;
+
 namespace VisitzModel.Extensions;
 
 public static class IListTExtensions
 {
+    // Adapted from https://stackoverflow.com/a/967098
     /// <summary>
     /// <para>Searches the entire sorted IList for an element using the specified comparer and returns the zero-based index of the element.</para>
     /// <para>Implemented here as an extension because there is no built-in support for IList.</para>
@@ -17,7 +19,9 @@ public static class IListTExtensions
         this IList<T> list,
         T value,
         IComparer<T>? comparer = null,
-        bool ascendingOrder = true
+        bool ascendingOrder = true,
+        int startIndex = 0,
+        int length = -1
     )
     {
         if (list == null)
@@ -25,8 +29,8 @@ public static class IListTExtensions
 
         comparer ??= Comparer<T>.Default;
 
-        int lower = 0;
-        int upper = list.Count - 1;
+        int lower = startIndex;
+        int upper = (length > 0 ? lower + length : list.Count) - 1;
 
         while (lower <= upper)
         {
@@ -48,19 +52,32 @@ public static class IListTExtensions
         return ~lower;
     }
 
-    public static void InsertSorted<T>(this IList<T> list, T newItem, bool ascending = true)
+    public static void InsertSorted<T>(
+        this IList<T> list,
+        T newItem,
+        bool ascending = true,
+        int startIndex = 0,
+        int length = -1
+    )
         where T : IComparable<T>
     {
-        InsertSorted(list, newItem, Comparer<T>.Default, ascending);
+        InsertSorted(list, newItem, Comparer<T>.Default, ascending, startIndex, length);
     }
 
-    public static void InsertSorted<T>(this IList<T> list, T newItem, IComparer<T> comparer, bool ascending = true)
+    public static void InsertSorted<T>(
+        this IList<T> list,
+        T newItem,
+        IComparer<T> comparer,
+        bool ascending = true,
+        int startIndex = 0,
+        int length = -1
+    )
     {
         if (list.Count == 0)
             list.Add(newItem);
         else
         {
-            int index = list.BinarySearch(newItem, comparer, ascending);
+            int index = list.BinarySearch(newItem, comparer, ascending, startIndex, length);
 
             if (index < 0)
                 index = ~index;
@@ -73,5 +90,18 @@ public static class IListTExtensions
     {
         foreach (var item in itemsToAdd)
             list.Add(item);
+    }
+
+    public static void Sort<T>(this IList<T> list, bool ascending = true)
+        where T : IComparable<T>
+    {
+        Comparison<T> comparison = ascending ? (a, b) => a.CompareTo(b) : (a, b) => a.CompareTo(b) * -1;
+
+        Sort(list, Comparer<T>.Create(comparison));
+    }
+
+    public static void Sort<T>(this IList<T> list, IComparer<T> comparer)
+    {
+        ArrayList.Adapter((IList)list).Sort((IComparer?)comparer);
     }
 }

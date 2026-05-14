@@ -5,10 +5,10 @@ namespace VisitzModel.Models.Drafts;
 public partial class MasterDraftItem : ObservableObject, IComparable<MasterDraftItem>
 {
     [ObservableProperty]
-    public string name = string.Empty;
+    public partial string Name { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public int count;
+    public partial int Count { get; set; }
 
     public int CompareTo(MasterDraftItem? other)
     {

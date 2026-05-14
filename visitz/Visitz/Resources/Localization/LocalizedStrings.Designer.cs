@@ -1103,6 +1103,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter drafts.
+        /// </summary>
+        public static string FilterDrafts {
+            get {
+                return ResourceManager.GetString("FilterDrafts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string FirstName {

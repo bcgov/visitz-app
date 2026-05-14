@@ -14,7 +14,7 @@ public partial class PdfDetailsViewModel : AttachmentDetailsViewModel
     static readonly string EmbedHtmlPath = Path.Join("PDF", "pdf-embed.html");
 
     [ObservableProperty]
-    public WebViewSource? source;
+    public partial WebViewSource? Source { get; set; }
 
     protected override string LoadErrorText => LocalizedStrings.PdfContentMissing;
 

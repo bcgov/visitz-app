@@ -32,48 +32,47 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
     CaseRecord? Case { get; set; }
 
     [ObservableProperty]
-    PersonVisitDraft? draft;
+    public partial PersonVisitDraft? Draft { get; set; }
 
     [ObservableProperty]
-    public DateTime maxDate = DateTimeExtensions.LocalNow;
+    public partial DateTime MaxDate { get; set; } = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
-    public string visitDescription = "";
+    public partial string VisitDescription { get; set; } = "";
 
     [ObservableProperty]
-    public DateTimeOffset dateOfVisit;
+    public partial DateTimeOffset DateOfVisit { get; set; }
 
     [ObservableProperty]
-    public bool isUpdatingEnabled = true;
+    public partial bool IsUpdatingEnabled { get; set; } = true;
 
     [ObservableProperty]
-    public bool hideElements = true;
+    public partial bool HideElements { get; set; } = true;
 
     [ObservableProperty]
-    public bool allowDiscard;
+    public partial bool AllowDiscard { get; set; }
 
     [ObservableProperty]
-    public bool allowPublish;
+    public partial bool AllowPublish { get; set; }
 
     [ObservableProperty]
-    public int remainingCharacters = CharacterLimit;
+    public partial int RemainingCharacters { get; set; } = CharacterLimit;
 
     [ObservableProperty]
-    public int characterCount;
+    public partial int CharacterCount { get; set; }
 
     [ObservableProperty]
-    public PersonVisit? personVisitItem;
+    public partial PersonVisit? PersonVisitItem { get; set; }
 
     [ObservableProperty]
-    public bool showFullForm = true;
+    public partial bool ShowFullForm { get; set; } = true;
 
     [ObservableProperty]
-    public GridLength detailsRowHeight = GridLength.Star;
-
+    public partial GridLength DetailsRowHeight { get; set; } = GridLength.Star;
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
     [ObservableProperty]
-    public List<VisitDetailListItem> detailItems = [];
+    public partial List<VisitDetailListItem> DetailItems { get; set; } = [];
 
     protected override async Task InitAsync()
     {

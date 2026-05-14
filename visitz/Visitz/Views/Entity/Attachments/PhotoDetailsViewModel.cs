@@ -8,7 +8,7 @@ namespace Visitz.Views.Entity.Attachments;
 public partial class PhotoDetailsViewModel : AttachmentDetailsViewModel, IBusinessObjectHolder
 {
     [ObservableProperty]
-    public ImageSource detailImage;
+    public partial ImageSource DetailImage { get; set; }
 
     protected override string LoadErrorText => LocalizedStrings.ImageContentMissing;
 

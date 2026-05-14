@@ -15,6 +15,7 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
     where TViewModel : VisitzViewModel
 {
     bool _disposed;
+    bool _loaded;
 
     protected virtual ILogger<TView> Logger { get; set; }
 
@@ -70,7 +71,11 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
     {
         try
         {
-            await OnLoadedAsync();
+            if (!_loaded)
+            {
+                await OnFirstLoadAsync();
+                _loaded = true;
+            }
         }
         catch (Exception ex)
         {
@@ -79,7 +84,7 @@ public partial class VisitzPage<TView, TViewModel> : ContentPage, IDisposable
         }
     }
 
-    protected virtual Task OnLoadedAsync()
+    protected virtual Task OnFirstLoadAsync()
     {
         Logger.TraceMethod(this);
         return Task.CompletedTask;

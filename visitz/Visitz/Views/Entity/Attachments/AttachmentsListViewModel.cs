@@ -25,11 +25,10 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
     readonly ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
-    public ObservableCollection<AttachmentsListItemUi> attachmentsList = [];
+    public partial ObservableCollection<AttachmentsListItemUi> AttachmentsList { get; set; } = [];
 
     [ObservableProperty]
-    public bool isEmpty;
-
+    public partial bool IsEmpty { get; set; }
     public UserIgnoredContentPrefs? UserIgnoredContentPrefs { get; set; }
 
     public AttachmentsListViewModel()

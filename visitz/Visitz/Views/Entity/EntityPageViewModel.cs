@@ -26,13 +26,13 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
     ServiceHandler ServiceHandler { get; } = serviceHandler;
 
     [ObservableProperty]
-    public string displayName = string.Empty;
+    public partial string DisplayName { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public string fileNumber = string.Empty;
+    public partial string FileNumber { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public bool downloadActivity;
+    public partial bool DownloadActivity { get; set; }
 
     protected override async Task InitAsync()
     {

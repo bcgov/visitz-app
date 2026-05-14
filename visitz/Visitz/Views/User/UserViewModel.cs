@@ -13,16 +13,16 @@ namespace Visitz.Views.User;
 public partial class UserViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public string displayName;
+    public partial string DisplayName { get; set; }
 
     [ObservableProperty]
-    public string buildNumber = AppInfo.Current.BuildString;
+    public partial string BuildNumber { get; set; } = AppInfo.Current.BuildString;
 
     [ObservableProperty]
-    public string appVersion = AppInfo.Current.VersionString;
+    public partial string AppVersion { get; set; } = AppInfo.Current.VersionString;
 
     [ObservableProperty]
-    public string feedbackUrl;
+    public partial string FeedbackUrl { get; set; }
 
     OidcSessionInfo SessionInfo;
 

@@ -35,10 +35,10 @@ public partial class NavRailViewModel : VisitzViewModel
 #endif
 
     [ObservableProperty]
-    public ObservableCollection<NavItem> navigationItems = [];
+    public partial ObservableCollection<NavItem> NavigationItems { get; set; } = [];
 
     [ObservableProperty]
-    public NavItem? selectedNavItem;
+    public partial NavItem? SelectedNavItem { get; set; }
 
     private IDisposable? _personVisitToken;
     private Realm? _icmDataRealm;
@@ -56,37 +56,40 @@ public partial class NavRailViewModel : VisitzViewModel
     }
 
     [ObservableProperty]
-    public NavItem todoNavItem = new()
-    {
-        Text = LocalizedStrings.Todo,
-        ContentViewType = typeof(TodoContainerView),
-        Color = Colors.White,
-        IconSize = IconSize,
-        SelectedImageSource = MaterialIcons.Checklist.GetFilledMaterialIcon(Colors.White),
-        UnselectedImageSource = MaterialIcons.Checklist.GetUnfilledMaterialIcon(Colors.White),
-    };
+    public partial NavItem TodoNavItem { get; set; } =
+        new()
+        {
+            Text = LocalizedStrings.Todo,
+            ContentViewType = typeof(TodoContainerView),
+            Color = Colors.White,
+            IconSize = IconSize,
+            SelectedImageSource = MaterialIcons.Checklist.GetFilledMaterialIcon(Colors.White),
+            UnselectedImageSource = MaterialIcons.Checklist.GetUnfilledMaterialIcon(Colors.White),
+        };
 
     [ObservableProperty]
-    public NavItem caseloadNavItem = new()
-    {
-        Text = LocalizedStrings.Caseload,
-        ContentViewType = typeof(CaseloadContainerView),
-        Color = Colors.White,
-        IconSize = IconSize,
-        SelectedImageSource = MaterialIcons.Folder_open.GetFilledMaterialIcon(Colors.White),
-        UnselectedImageSource = MaterialIcons.Folder_open.GetUnfilledMaterialIcon(Colors.White),
-    };
+    public partial NavItem CaseloadNavItem { get; set; } =
+        new()
+        {
+            Text = LocalizedStrings.Caseload,
+            ContentViewType = typeof(CaseloadContainerView),
+            Color = Colors.White,
+            IconSize = IconSize,
+            SelectedImageSource = MaterialIcons.Folder_open.GetFilledMaterialIcon(Colors.White),
+            UnselectedImageSource = MaterialIcons.Folder_open.GetUnfilledMaterialIcon(Colors.White),
+        };
 
     [ObservableProperty]
-    public NavItem draftsNavItem = new()
-    {
-        Text = LocalizedStrings.Drafts,
-        ContentViewType = typeof(DraftsContainerView),
-        Color = Colors.White,
-        IconSize = IconSize,
-        SelectedImageSource = MaterialIcons.Draft.GetFilledMaterialIcon(Colors.White),
-        UnselectedImageSource = MaterialIcons.Draft.GetUnfilledMaterialIcon(Colors.White),
-    };
+    public partial NavItem DraftsNavItem { get; set; } =
+        new()
+        {
+            Text = LocalizedStrings.Drafts,
+            ContentViewType = typeof(DraftsContainerView),
+            Color = Colors.White,
+            IconSize = IconSize,
+            SelectedImageSource = MaterialIcons.Draft.GetFilledMaterialIcon(Colors.White),
+            UnselectedImageSource = MaterialIcons.Draft.GetUnfilledMaterialIcon(Colors.White),
+        };
 
     readonly ObservableRealmCount realmCount = new();
 

@@ -9,7 +9,7 @@ public class FilterOption<TItem>(
     string startGlyphFontFamily = "",
     string endIconGlyph = "",
     string endGlyphFontFamily = ""
-) : IOption, IEquatable<FilterOption<TItem>>, IComparer<FilterOption<TItem>>, IComparable
+) : IOption, IEquatable<FilterOption<TItem>>, IComparable<FilterOption<TItem>>
 {
     public Func<TItem, bool> WherePredicate { get; } = wherePredicate;
 
@@ -44,13 +44,8 @@ public class FilterOption<TItem>(
         return obj is FilterOption<TItem> filter ? Equals(filter) : Equals(this, obj);
     }
 
-    public int CompareTo(object? obj)
+    public int CompareTo(FilterOption<TItem>? other)
     {
-        return obj is FilterOption<TItem> filter ? Text.CompareTo(filter.Text) : Text.CompareTo(obj?.ToString());
-    }
-
-    public int Compare(FilterOption<TItem>? x, FilterOption<TItem>? y)
-    {
-        return string.Compare(x?.Text, y?.Text);
+        return Text.CompareTo(other?.Text);
     }
 }

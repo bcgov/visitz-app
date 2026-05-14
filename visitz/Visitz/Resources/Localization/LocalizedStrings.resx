@@ -1084,4 +1084,7 @@ Do you want to download information for this record?</value>
   <data name="MyOffices" xml:space="preserve">
     <value>My offices</value>
   </data>
+  <data name="FilterDrafts" xml:space="preserve">
+    <value>Filter drafts</value>
+  </data>
 </root>

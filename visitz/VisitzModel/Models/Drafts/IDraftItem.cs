@@ -13,6 +13,8 @@ public interface IDraftItem : IRealmObject, IRecordInfo, IComparable<IDraftItem>
 
     DateTimeOffset LastUpdated { get; set; }
 
+    DateTimeOffset LastUpdatedBinding { get; set; }
+
     string Preview { get; }
 
     string DraftLocation { get; set; }
@@ -53,7 +55,7 @@ public static class IDraftItemExtensions
             if (y == null)
                 return 1;
 
-            return x.LastUpdated.CompareTo(y.LastUpdated);
+            return x.LastUpdatedBinding.CompareTo(y.LastUpdatedBinding);
         }
     }
 }

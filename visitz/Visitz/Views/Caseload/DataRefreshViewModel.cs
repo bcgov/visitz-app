@@ -13,16 +13,16 @@ namespace Visitz.Views.Caseload;
 public partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]
-    public bool superMessageVisible = false;
+    public partial bool SuperMessageVisible { get; set; } = false;
 
     [ObservableProperty]
-    public string superMessage;
+    public partial string SuperMessage { get; set; }
 
     [ObservableProperty]
-    public StackOrientation orientation = StackOrientation.Vertical;
+    public partial StackOrientation Orientation { get; set; } = StackOrientation.Vertical;
 
     [ObservableProperty]
-    public bool caseloadActivity;
+    public partial bool CaseloadActivity { get; set; }
 
     protected override async Task InitAsync()
     {

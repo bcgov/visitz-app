@@ -26,23 +26,23 @@ namespace Visitz.Views.Entity.Notes
         public static readonly string RemainingCharactersString = "{0}/" + CharacterLimit;
 
         [ObservableProperty]
-        public NoteDraft noteDraft = new();
+        public partial NoteDraft NoteDraft { get; set; } = new();
 
         private string DraftOutput => NoteDraft.Draft?.Trim() ?? string.Empty;
 
         private bool _disposed;
 
         [ObservableProperty]
-        public bool allowPublish;
+        public partial bool AllowPublish { get; set; }
 
         [ObservableProperty]
-        public bool allowDiscard;
+        public partial bool AllowDiscard { get; set; }
 
         [ObservableProperty]
-        public int remainingCharacters = CharacterLimit;
+        public partial int RemainingCharacters { get; set; } = CharacterLimit;
 
         [ObservableProperty]
-        private bool internetAvailable = NetworkHelper.InternetAvailable;
+        public partial bool InternetAvailable { get; set; } = NetworkHelper.InternetAvailable;
 
         public event EventHandler<DraftErrorEventArgs>? DraftError;
 

@@ -19,7 +19,7 @@ namespace VisitzModel.Resources.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class GeneralStrings {
@@ -61,6 +61,15 @@ namespace VisitzModel.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attachment.
+        /// </summary>
+        internal static string Attachment {
+            get {
+                return ResourceManager.GetString("Attachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File too large ({0} MB).
         /// </summary>
         internal static string FileTooLarge {
@@ -70,11 +79,29 @@ namespace VisitzModel.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Note.
+        /// </summary>
+        internal static string Note {
+            get {
+                return ResourceManager.GetString("Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Safety assessment.
         /// </summary>
         internal static string SafetyAssessment {
             get {
                 return ResourceManager.GetString("SafetyAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Child/youth visit.
+        /// </summary>
+        internal static string Visit {
+            get {
+                return ResourceManager.GetString("Visit", resourceCulture);
             }
         }
         

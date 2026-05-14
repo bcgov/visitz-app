@@ -1,7 +1,7 @@
 <Project>
 	<PropertyGroup>
 		<CSharpierVersion>1.2.6</CSharpierVersion>
-		<CommunityToolkitMvvmVersion>8.4.0</CommunityToolkitMvvmVersion>
+		<CommunityToolkitMvvmVersion>8.4.2</CommunityToolkitMvvmVersion>
 		<CoverletCollectorVersion>6.0.4</CoverletCollectorVersion>
 		<MauiPackageVersion>10.0.51</MauiPackageVersion>
 		<NETTestSdkVersion>18.0.1</NETTestSdkVersion>
