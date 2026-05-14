@@ -30,6 +30,8 @@ public partial interface IBusinessObject : IRealmObject
 
     public EntitySubtype EntitySubtype { get; set; }
 
+    public EntitySubtype EntitySubtypeBinding { get; set; }
+
     public DateTimeOffset CreatedDate { get; set; }
 
     public DateTimeOffset UpdatedDate { get; set; }
