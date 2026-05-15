@@ -16,6 +16,11 @@ namespace Visitz.Services.Base
 {
     public abstract class VisitzApiService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzService
     {
+        protected static ulong CurrentRefreshCallAttemptsCount = 0L;
+        protected static ulong CurrentRefreshCallCompletedCount = 0L;
+        protected static ulong TotalApiAttemptCount = 0L;
+        protected static ulong TotalApiCompletedCount = 0L;
+
         protected Vpi Vpi { get; } = vpi;
 
         protected LastUpdatedPrefs LastUpdatedPrefs { get; } = prefs;
@@ -44,7 +49,13 @@ namespace Visitz.Services.Base
                     CancelTokenSource.Token
                 );
 
+                Interlocked.Increment(ref CurrentRefreshCallAttemptsCount);
+                Interlocked.Increment(ref TotalApiAttemptCount);
+
                 await RunApiServiceAsync();
+
+                Interlocked.Increment(ref CurrentRefreshCallCompletedCount);
+                Interlocked.Increment(ref TotalApiCompletedCount);
 
                 await OidcSession.SetAuthorization(authorized: true);
 

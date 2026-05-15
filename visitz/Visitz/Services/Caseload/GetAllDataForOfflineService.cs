@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
@@ -48,6 +49,9 @@ namespace Visitz.Services.Caseload
 
         protected override async Task RunApiServiceAsync()
         {
+            Interlocked.Exchange(ref CurrentRefreshCallAttemptsCount, 0L);
+            Interlocked.Exchange(ref CurrentRefreshCallCompletedCount, 0L);
+
             await Task.Run(async () =>
             {
                 List<Exception> exceptions = [];
@@ -68,6 +72,13 @@ namespace Visitz.Services.Caseload
             });
 
             ResultCode = Result.Successful;
+
+            Logger.LogInformation(
+                $"API counter: Call attempts in this refresh: {CurrentRefreshCallAttemptsCount}, Completed: {CurrentRefreshCallCompletedCount}"
+            );
+            Logger.LogInformation(
+                $"API counter: Total call attempts during instance lifetime: {TotalApiAttemptCount}, Completed: {TotalApiCompletedCount}"
+            );
         }
 
         async Task GetAllData(List<Exception> exceptions)
