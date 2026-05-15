@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
@@ -10,13 +9,7 @@ namespace VisitzModel.Models.InPersonVisits;
 
 #nullable enable
 
-public partial class PersonVisit
-    : IRealmObject,
-        IApiJson<PostVisitJson>,
-        IParentRecord,
-        IComparable<ITodoItem>,
-        IEquatable<PersonVisit>,
-        IEqualityComparer<PersonVisit>
+public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord, IComparable<ITodoItem>
 {
     static readonly string _defaultType = "In Person Child Youth";
 
@@ -131,7 +124,13 @@ public partial class PersonVisit
             {
                 var incomingVisits = FromApiArray(visits);
                 var existingVisits = GetVisitsByCaseId(realm, parentId).ToList();
-                var visitsToDelete = existingVisits.Except(incomingVisits);
+
+                var visitsToDelete = existingVisits
+                    .Except(
+                        incomingVisits,
+                        EqualityComparer<PersonVisit>.Create((l, r) => l?.Id == r?.Id, visit => visit.Id.GetHashCode())
+                    )
+                    .ToList();
 
                 foreach (var item in visitsToDelete)
                 {
@@ -201,20 +200,5 @@ public partial class PersonVisit
     public int CompareTo(ITodoItem? other)
     {
         return other == null ? 1 : SortOrder.CompareTo(other.SortOrder);
-    }
-
-    public bool Equals(PersonVisit? other)
-    {
-        return Equals(this, other);
-    }
-
-    public bool Equals(PersonVisit? x, PersonVisit? y)
-    {
-        return x?.IdBinding == y?.IdBinding;
-    }
-
-    public int GetHashCode([DisallowNull] PersonVisit obj)
-    {
-        return obj.IdBinding.GetHashCode();
     }
 }
