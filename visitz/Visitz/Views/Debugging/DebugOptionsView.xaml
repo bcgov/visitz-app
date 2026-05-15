@@ -265,38 +265,52 @@
                 Text="Services"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Write API timings to desktop (.csv)"
+                />
+
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsToggled="{Binding WriteApiTimings}"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="1"
                     Grid.Column="0"
                     Text="Dry-fire SubmitNotes"
                 />
 
                 <Switch
                     StyleClass="DebugLayout"
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="1"
                     IsToggled="{Binding DryFireSubmitNotes}"
                 />
 
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="0"
                     Text="Dry-fire SubmitNotes: simulate success"
                 />
 
                 <Switch
                     StyleClass="DebugLayout"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="1"
                     IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"
                 />
 
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="1"
                     Command="{Binding RunAutoCaseloadRefreshServiceCommand}"
                     Text="Run auto caseload refresh service"
@@ -304,7 +318,7 @@
 
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.Column="1"
                     Command="{Binding ResetAutoCaseloadRefreshCommand}"
                     Text="Reset auto caseload refresh cooldown"
@@ -312,14 +326,14 @@
 
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="4"
+                    Grid.Row="5"
                     Grid.Column="0"
                     Text="Dry-fire auto caseload refresh: run checks without refresh"
                 />
 
                 <Switch
                     StyleClass="DebugLayout"
-                    Grid.Row="4"
+                    Grid.Row="5"
                     Grid.Column="1"
                     IsToggled="{Binding AutoCaseloadRefreshDisabled}"
                 />

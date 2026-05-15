@@ -68,6 +68,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public partial bool DisablePrivacyScrim { get; set; }
 
+    [ObservableProperty]
+    public partial bool WriteApiTimings { get; set; }
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -103,6 +106,8 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         StaleSessionMinutes = DebugOptions.StaleThresholdMinutes;
 
         DisablePrivacyScrim = DebugOptions.DisablePrivacyScrim;
+
+        WriteApiTimings = DebugOptions.WriteApiTimings;
     }
 
     partial void OnDryFireSubmitNotesChanged(bool value)
@@ -153,6 +158,11 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     partial void OnDisablePrivacyScrimChanged(bool value)
     {
         DebugOptions.DisablePrivacyScrim = value;
+    }
+
+    partial void OnWriteApiTimingsChanged(bool value)
+    {
+        DebugOptions.WriteApiTimings = value;
     }
 
     [RelayCommand]
