@@ -1,3 +1,6 @@
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Globalization;
 using System.Net;
 using Microsoft.Extensions.Logging;
 using Oidc;
@@ -20,10 +23,13 @@ namespace Visitz.Services.Base
         protected static ulong CurrentRefreshCallCompletedCount = 0L;
         protected static ulong TotalApiAttemptCount = 0L;
         protected static ulong TotalApiCompletedCount = 0L;
+        protected static ConcurrentBag<(ulong RunNumber, string Id, Stopwatch)> CallTimings = [];
 
         protected Vpi Vpi { get; } = vpi;
 
         protected LastUpdatedPrefs LastUpdatedPrefs { get; } = prefs;
+
+        protected bool ShouldWriteStats { get; set; }
 
         protected sealed override async Task RunServiceAsync()
         {
@@ -50,12 +56,24 @@ namespace Visitz.Services.Base
                 );
 
                 Interlocked.Increment(ref CurrentRefreshCallAttemptsCount);
-                Interlocked.Increment(ref TotalApiAttemptCount);
+                ulong run = Interlocked.Increment(ref TotalApiAttemptCount);
 
-                await RunApiServiceAsync();
+                Stopwatch stopwatch = new();
+                stopwatch.Start();
 
-                Interlocked.Increment(ref CurrentRefreshCallCompletedCount);
-                Interlocked.Increment(ref TotalApiCompletedCount);
+                try
+                {
+                    await RunApiServiceAsync();
+                }
+                finally
+                {
+                    stopwatch.Stop();
+
+                    CallTimings.Add((run, GetId(), stopwatch));
+
+                    Interlocked.Increment(ref CurrentRefreshCallCompletedCount);
+                    Interlocked.Increment(ref TotalApiCompletedCount);
+                }
 
                 await OidcSession.SetAuthorization(authorized: true);
 
@@ -80,6 +98,11 @@ namespace Visitz.Services.Base
                 }
 
                 throw;
+            }
+            finally
+            {
+                if (ShouldWriteStats)
+                    WriteTimingsToDesktop();
             }
         }
 
@@ -123,6 +146,20 @@ namespace Visitz.Services.Base
             {
                 Logger.LogError(ex, ex.Message);
             }
+        }
+
+        static void WriteTimingsToDesktop()
+        {
+            (ulong runNumber, string Id, Stopwatch)[] snapshot = CallTimings.ToArray();
+
+            string date = DateTimeOffset.Now.ToString("yyyy-MM-dd_HH-mm-ss", CultureInfo.InvariantCulture);
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string filepath = Path.Combine(desktopPath, $"API call timings {date}.csv");
+
+            using var writer = new StreamWriter(filepath);
+
+            foreach (var (run, id, sw) in snapshot)
+                writer.WriteLine($"{run},{id},{sw.ElapsedMilliseconds}");
         }
     }
 }

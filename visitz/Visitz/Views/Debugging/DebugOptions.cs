@@ -27,6 +27,7 @@ public class DebugOptions
     private static readonly string AutoCaseloadRefreshDisabledKey = "AutoCaseloadRefreshDisabled";
     private static readonly string StaleThresholdMinutesKey = "StaleThresholdMinutes";
     private static readonly string DisablePrivacyScrimKey = "EnableObscuringScrim";
+    private static readonly string WriteApiTimingsKey = "WriteApiTimings";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -122,6 +123,12 @@ public class DebugOptions
     {
         get => Get(DisablePrivacyScrimKey, false);
         set => Set(DisablePrivacyScrimKey, value);
+    }
+
+    public static bool WriteApiTimings
+    {
+        get => Get(WriteApiTimingsKey, false);
+        set => Set(WriteApiTimingsKey, value);
     }
 
     public static async Task ClearRealmData()
