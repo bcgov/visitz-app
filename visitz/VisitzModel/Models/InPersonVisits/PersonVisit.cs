@@ -9,7 +9,7 @@ namespace VisitzModel.Models.InPersonVisits;
 
 #nullable enable
 
-public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord, IComparable<ITodoItem>
+public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
 {
     static readonly string _defaultType = "In Person Child Youth";
 
@@ -195,10 +195,5 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         });
 
         RaisePropertyChanged(nameof(VisitDetails));
-    }
-
-    public int CompareTo(ITodoItem? other)
-    {
-        return other == null ? 1 : SortOrder.CompareTo(other.SortOrder);
     }
 }
