@@ -5,6 +5,7 @@
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:views="clr-namespace:Visitz.Views"
     xmlns:details="clr-namespace:Visitz.Views.Entity.Details"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
@@ -13,117 +14,53 @@
     x:TypeArguments="details:EntityDetailsViewModel"
 >
     <ScrollView>
-        <Grid
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-            ColumnDefinitions="Auto,*"
-            RowSpacing="15"
-            ColumnSpacing="15"
-            Padding="10,20,10,20"
+        <VerticalStackLayout
+            Padding="{StaticResource DefaultPadding}"
+            Spacing="{StaticResource DefaultSpacing}"
         >
-            <Label
-                Grid.Row="0"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize OpenDate}"
-            />
+            <Border
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 5"
+                BackgroundColor="{StaticResource Gray100}"
+                Padding="{StaticResource DefaultPadding}"
+            >
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                    <Label FontFamily="BCSansBold" Text="{local:Localize RecordInformation}" />
 
-            <Label
-                Grid.Row="0"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding BusinessObject.DisplayDate}"
-            />
+                    <VerticalStackLayout
+                        BindableLayout.ItemsSource="{Binding RecordInfoItems}"
+                        Spacing="{StaticResource DefaultSpacing}"
+                    >
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="formControls:InfoItem">
+                                <formControls:InfoItemView />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
 
-            <Label
-                Grid.Row="1"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize Id}"
-            />
+            <Border
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 5"
+                BackgroundColor="{StaticResource Gray100}"
+                Padding="{StaticResource DefaultPadding}"
+            >
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                    <Label FontFamily="BCSansBold" Text="{local:Localize KeyPlayerInformation}" />
 
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding BusinessObject.FileNumber}"
-            />
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize AssignedTo}"
-            />
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding BusinessObject.DisplayAssignees}"
-            />
-
-            <Label
-                Grid.Row="3"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize ServiceOffice}"
-            />
-
-            <Label
-                Grid.Row="3"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding BusinessObject.ServiceOffice}"
-            />
-
-            <Label
-                Grid.Row="4"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize Address}"
-            />
-
-            <Label
-                Grid.Row="4"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding KeyPlayer.PrimaryAddress}"
-            />
-
-            <Label
-                Grid.Row="5"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize HomeNumber}"
-            />
-
-            <Label
-                Grid.Row="5"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding KeyPlayer.HomePhoneFormatted}"
-            />
-
-            <Label
-                Grid.Row="6"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize CellNumber}"
-            />
-
-            <Label
-                Grid.Row="6"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding KeyPlayer.CellPhoneFormatted}"
-            />
-        </Grid>
+                    <VerticalStackLayout
+                        BindableLayout.ItemsSource="{Binding ContactInfoItems}"
+                        Spacing="{StaticResource DefaultSpacing}"
+                    >
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="formControls:InfoItem">
+                                <formControls:InfoItemView />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
     </ScrollView>
 </baseClasses:IcmRecordContentView>

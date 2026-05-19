@@ -1099,4 +1099,10 @@ Do you want to download information for this record?</value>
   <data name="RefreshCaseload" xml:space="preserve">
     <value>Refresh caseload</value>
   </data>
+  <data name="RecordInformation" xml:space="preserve">
+    <value>Record information</value>
+  </data>
+  <data name="KeyPlayerInformation" xml:space="preserve">
+    <value>Key player information</value>
+  </data>
 </root>
