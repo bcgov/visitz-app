@@ -1096,4 +1096,7 @@ Do you want to download information for this record?</value>
   <data name="OverdueVisit" xml:space="preserve">
     <value>Overdue child/youth visit</value>
   </data>
+  <data name="RefreshCaseload" xml:space="preserve">
+    <value>Refresh caseload</value>
+  </data>
 </root>

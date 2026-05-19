@@ -1966,6 +1966,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh caseload.
+        /// </summary>
+        public static string RefreshCaseload {
+            get {
+                return ResourceManager.GetString("RefreshCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refreshed attachments on device.
         /// </summary>
         public static string RefreshedAttachmentsOnDevice {
