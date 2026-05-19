@@ -164,18 +164,19 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         // Skip to account for always-available options
         int offset = _startingOfficeFilters.Count;
 
-        var incomingOffices = incomingOfficeNames.Select(officeName => new FilterOption<IBusinessObject>(
-            officeName,
-            businessObject => OfficeEqual(businessObject, officeName)
-        ));
-
         IEnumerable<FilterOption<IBusinessObject>> current = OfficeOptions.Skip(offset);
 
-        foreach (var removeOffice in current.Except(incomingOffices))
+        foreach (var removeOffice in current.ExceptBy(incomingOfficeNames, option => option.Text))
             OfficeOptions.Remove(removeOffice);
 
-        foreach (var addOffice in incomingOffices.Except(current))
-            OfficeOptions.InsertSorted(addOffice, startIndex: offset);
+        foreach (var addOffice in incomingOfficeNames.Except(current.Select(option => option.Text)))
+        {
+            FilterOption<IBusinessObject> newFilter = new(
+                addOffice,
+                businessObject => OfficeEqual(businessObject, addOffice)
+            );
+            OfficeOptions.InsertSorted(newFilter, startIndex: offset);
+        }
 
         if (currentSelected != SelectedOffice)
             SelectedOffice = OfficeOptions.Contains(currentSelected) ? currentSelected : _myCaseloadFilter;

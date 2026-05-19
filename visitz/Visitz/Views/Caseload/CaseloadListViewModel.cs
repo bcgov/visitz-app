@@ -118,7 +118,7 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
             UpdateList(IncidentRecords, e.Items, e.Changes);
     }
 
-    void UpdateList<TRecord>(
+    static void UpdateList<TRecord>(
         ObservableCollection<TRecord> records,
         IRealmCollection<IRealmObject> items,
         ChangeSet? changes
