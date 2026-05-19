@@ -187,7 +187,7 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
         var publishVm = ServiceProvider.GetService<ChildYouthVisitPublishViewModel>();
         var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
 
-        publishVm.BusinessObject = BusinessObject;
+        publishVm.BusinessObjectId = BusinessObject.Id;
 
         await Navigator.Navigation.PopModalAsync();
         await Navigator.Navigation.PushAsync(new PublishPage(publishVm, logger));

@@ -15,89 +15,86 @@ namespace Visitz.Views.Todo;
 
 public partial class TodoListViewModel : VisitzViewModel
 {
+    const bool SortAscending = true;
+
     [ObservableProperty]
     public partial bool ShowEmptyView { get; set; } = true;
+
     Realm? DataRealm { get; set; }
 
     readonly ObservableRealmQueryMap _queryMap = new();
 
-    public ObservableCollection<ITodoItem> TodoItems { get; } = [];
+    readonly ObservableCollection<PersonVisit> _allVisits = [];
+    readonly ObservableCollection<PersonVisit> _filteredVisits = [];
 
-    readonly ObservableCollection<TodoVisitItemViewModel> _personVisits = [];
+    public ObservableCollection<ITodoItem> AllTodoItems { get; } = [];
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        TodoItems.CollectionChanged += TodoItems_CollectionChanged;
-
-        await SetupQueries();
-    }
-
-    async Task SetupQueries()
-    {
-        _queryMap.ItemsChanged += QueryMap_ItemsChanged;
+        _allVisits.CollectionChanged += AllVisits_CollectionChanged;
+        _filteredVisits.CollectionChanged += SupportingList_CollectionChanged;
+        AllTodoItems.CollectionChanged += TodoItems_CollectionChanged;
 
         DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        _personVisits.CollectionChanged += SupportingList_CollectionChanged;
-        _queryMap.Subscribe(DataRealm, DataRealm.All<PersonVisit>());
+        _queryMap.ItemsChanged += QueryMap_ItemsChanged;
+        _queryMap.Subscribe(DataRealm, PersonVisit.GetLatestVisitsPerParentRecord(DataRealm));
     }
 
-    private void QueryMap_ItemsChanged(
-        object? sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
-    )
+    bool disposed;
+
+    protected override void Dispose(bool disposing)
     {
-        if (e.Type == typeof(PersonVisit) && DataRealm != null)
+        if (!disposed && disposing)
         {
-            var dbVisits = PersonVisit.GetUpcomingVisits(DataRealm).ToList();
-            var loadedVisits = _personVisits;
+            _queryMap.Dispose();
+            DataRealm = null;
 
-            List<PersonVisit> addVisits = dbVisits
-                .Except(loadedVisits.Select(vm => vm.Visit))
-                .OfType<PersonVisit>()
-                .ToList();
-            var remVisits = loadedVisits.ExceptBy(dbVisits, vm => vm.Visit).ToList();
+            _queryMap.ItemsChanged -= QueryMap_ItemsChanged;
+            _allVisits.CollectionChanged -= AllVisits_CollectionChanged;
+            _filteredVisits.CollectionChanged -= SupportingList_CollectionChanged;
+            AllTodoItems.CollectionChanged -= TodoItems_CollectionChanged;
 
-            UpdateSupportingList(
-                addVisits,
-                remVisits,
-                _personVisits,
-                (item) => new TodoVisitItemViewModel((PersonVisit)item)
-            );
+            disposed = true;
         }
+        base.Dispose(disposing);
+    }
+
+    void QueryMap_ItemsChanged(object? sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e)
+    {
+        if (e.Type == typeof(PersonVisit))
+            UpdateSupportingList(e.Items, e.Changes, _allVisits);
     }
 
     /// <summary>
-    /// Processes incoming results from a realm query to insert into a supporting list for the main
-    /// ObservableCollection 'TodoItems'.
+    /// Processes incoming results from a realm query to insert into a supporting list for the main collections.
     /// </summary>
-    /// <typeparam name="VM"></typeparam>
+    /// <typeparam name="TItem"></typeparam>
     /// <param name="items"></param>
     /// <param name="changes"></param>
     /// <param name="draftsList"></param>
     /// <param name="mapper"></param>
-    static void UpdateSupportingList<VM>(
+    void UpdateSupportingList<TItem>(
         IRealmCollection<IRealmObject> items,
-        ChangeSet changes,
-        ObservableCollection<VM> draftsList,
-        Func<IRealmObject, VM> mapper
+        ChangeSet? changes,
+        ObservableCollection<TItem> draftsList
     )
-        where VM : VisitzViewModel
+        where TItem : IRealmObject
     {
         if (changes == null)
-        {
-            foreach (var realmObj in items)
-                draftsList.Add(mapper(realmObj));
-        }
+            draftsList.AddAll(items.Cast<TItem>());
         else
         {
             foreach (int deleteIndex in changes.DeletedIndices.Reverse())
                 draftsList.RemoveAt(deleteIndex);
 
             foreach (int insertIndex in changes.InsertedIndices)
-                draftsList.Add(mapper(items.ElementAt(insertIndex)));
+                draftsList.Add((TItem)items.ElementAt(insertIndex));
+
+            if (changes.ModifiedIndices.Length > 0)
+                AllTodoItems.Sort(ascending: SortAscending);
         }
     }
 
@@ -123,39 +120,54 @@ public partial class TodoListViewModel : VisitzViewModel
             draftsList.Add(mapper(add));
     }
 
-    private void SupportingList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
-        {
-            foreach (var item in e.NewItems)
-            {
-                ITodoItem todo = (ITodoItem)item;
-
-                TodoItems.InsertSorted(todo, ascending: true);
-            }
-        }
-        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
-        {
-            foreach (var item in e.OldItems)
-                TodoItems.Remove((ITodoItem)item);
-        }
-    }
-
-    private void TodoItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    void TodoItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         ShowEmptyView = sender is ObservableCollection<ITodoItem> { Count: <= 0 };
     }
 
-    bool disposed;
-
-    protected override void Dispose(bool disposing)
+    void AllVisits_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if (!disposed && disposing)
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
         {
-            _queryMap.Dispose();
-
-            disposed = true;
+            foreach (var visit in e.NewItems.Cast<PersonVisit>())
+                if (PersonVisit.IsUpcomingVisit(visit))
+                    _filteredVisits.Add(visit);
         }
-        base.Dispose(disposing);
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var visit in e.OldItems.Cast<PersonVisit>())
+                _filteredVisits.Remove(visit);
+        }
+    }
+
+    void SupportingList_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+        {
+            foreach (var item in e.NewItems)
+                AllTodoItems.InsertSorted(MakeTodoItem(item), ascending: SortAscending);
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var item in e.OldItems)
+            {
+                if (AllTodoItems.FirstOrDefault(todoItem => todoItem.Item == item) is ITodoItem todoItem)
+                {
+                    AllTodoItems.Remove(todoItem);
+
+                    if (todoItem is IDisposable disposable)
+                        disposable.Dispose();
+                }
+            }
+        }
+    }
+
+    // TODO: return type as ITodoItem once we support multiple types in this list
+    static TodoVisitItemViewModel MakeTodoItem(object item)
+    {
+        if (item is PersonVisit visit)
+            return new TodoVisitItemViewModel(visit);
+        else
+            throw new InvalidOperationException($"Type '{item.GetType()}' not supported");
     }
 }

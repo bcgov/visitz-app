@@ -905,6 +905,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Due:.
+        /// </summary>
+        public static string Due {
+            get {
+                return ResourceManager.GetString("Due", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
         public static string Ellipsis {
@@ -1663,6 +1672,15 @@ namespace Visitz.Resources.Localization {
         public static string Overdue {
             get {
                 return ResourceManager.GetString("Overdue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overdue child/youth visit.
+        /// </summary>
+        public static string OverdueVisit {
+            get {
+                return ResourceManager.GetString("OverdueVisit", resourceCulture);
             }
         }
         
@@ -2768,6 +2786,15 @@ namespace Visitz.Resources.Localization {
         public static string UnauthorizedForApi {
             get {
                 return ResourceManager.GetString("UnauthorizedForApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upcoming child/youth visit.
+        /// </summary>
+        public static string UpcomingVisit {
+            get {
+                return ResourceManager.GetString("UpcomingVisit", resourceCulture);
             }
         }
         

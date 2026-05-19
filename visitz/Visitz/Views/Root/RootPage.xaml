@@ -47,6 +47,7 @@
                     TallModeConfiguration="BottomTop"
                     Pane1Length="Auto"
                     MinWideModeWidth="{Binding MinScreenSize}"
+                    MinTallModeHeight="0"
                     ModeChanged="TwoPaneView_ModeChanged"
                 >
                     <foldable:TwoPaneView.Pane1>

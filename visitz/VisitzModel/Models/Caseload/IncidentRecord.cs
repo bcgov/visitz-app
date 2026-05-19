@@ -121,6 +121,19 @@ public partial class IncidentRecord
         set => TypeInt = (int)value;
     }
 
+    public EntitySubtype EntitySubtypeBinding
+    {
+        get => IsValid ? EntitySubtype : EntitySubtype.Unknown;
+        set
+        {
+            if (!IsValid)
+                return;
+
+            EntitySubtype = value;
+            RaisePropertyChanged(nameof(EntitySubtype));
+        }
+    }
+
     public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
 
     public string TypeOfCaller { get; set; } = string.Empty;

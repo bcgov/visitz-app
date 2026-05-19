@@ -125,7 +125,7 @@
 
             <Label
                 Grid.Row="1"
-                FontSize="14"
+                FontSize="{StaticResource LabelLargeFontSize}"
                 Text="{Binding Text}"
                 TextColor="{Binding Color}"
                 HorizontalOptions="Center"

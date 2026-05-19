@@ -13,7 +13,8 @@
     x:DataType="nav:NavRailViewModel"
     x:TypeArguments="nav:NavRailViewModel"
     BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-    WidthRequest="72"
+    MinimumWidthRequest="72"
+    Padding="2,0"
 >
     <Grid RowDefinitions="Auto,*,Auto,Auto">
         <VerticalStackLayout Grid.Row="0">
@@ -42,7 +43,11 @@
             x:Name="LogoImage"
             Grid.Row="3"
             HorizontalOptions="Center"
+            VerticalOptions="Center"
             Source="bc_logo_vertical_reverse.png"
+            WidthRequest="72"
+            HeightRequest="68"
+            Margin="0"
         />
     </Grid>
 </baseClasses:ViewModelContentView>

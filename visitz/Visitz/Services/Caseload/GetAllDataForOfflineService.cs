@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
@@ -9,6 +10,7 @@ using Visitz.Services.People;
 using Visitz.Services.SafetyAssessments;
 using Visitz.Services.Visits;
 using Visitz.Storage;
+using Visitz.Views.Debugging;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
@@ -48,13 +50,39 @@ namespace Visitz.Services.Caseload
 
         protected override async Task RunApiServiceAsync()
         {
+            Interlocked.Exchange(ref CurrentRefreshCallAttemptsCount, 1L);
+            Interlocked.Exchange(ref CurrentRefreshCallCompletedCount, 1L);
+            CallTimings.Clear();
+
+            try
+            {
+                await GetAllDataAsync();
+            }
+            finally
+            {
+                Logger.LogInformation(
+                    $"API counter: Call attempts in this refresh: {CurrentRefreshCallAttemptsCount},"
+                        + $" Completed: {CurrentRefreshCallCompletedCount}"
+                );
+                Logger.LogInformation(
+                    $"API counter: Total call attempts during instance lifetime: {TotalApiAttemptCount},"
+                        + $" Completed: {TotalApiCompletedCount}"
+                );
+
+                if (DebugOptions.WriteApiTimings)
+                    ShouldWriteStats = true;
+            }
+        }
+
+        async Task GetAllDataAsync()
+        {
             await Task.Run(async () =>
             {
                 List<Exception> exceptions = [];
 
                 try
                 {
-                    await GetAllData(exceptions);
+                    await DoGetAllDataAsync(exceptions);
                 }
                 catch (Exception ex)
                 {
@@ -70,7 +98,7 @@ namespace Visitz.Services.Caseload
             ResultCode = Result.Successful;
         }
 
-        async Task GetAllData(List<Exception> exceptions)
+        async Task DoGetAllDataAsync(List<Exception> exceptions)
         {
             // Synchronize both caseloads BEFORE getting any dependent info.
             // We don't want to start downloading dependent info before

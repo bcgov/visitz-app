@@ -6,30 +6,16 @@ using Visitz.Services.Visits;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzModel.Extensions;
-using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.InPersonVisits;
 using ServiceState = Visitz.Services.Base.VisitzService.State;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-internal partial class ChildYouthVisitPublishViewModel
-    : PublishViewModel,
-        IRecipient<ServiceStateMessage>,
-        IBusinessObjectHolder
+internal partial class ChildYouthVisitPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
     bool _disposed;
 
-    private IBusinessObject _businessObject;
-    public IBusinessObject BusinessObject
-    {
-        get => _businessObject;
-        set
-        {
-            _businessObject = value;
-            Title = _businessObject.DisplayName;
-        }
-    }
+    public string BusinessObjectId { get; set; }
 
     private PersonVisit _visit;
 
@@ -75,7 +61,7 @@ internal partial class ChildYouthVisitPublishViewModel
         await base.InitAsync();
 
         VisitDraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-        Visit = VisitDraftRealm.Find<PersonVisitDraft>(BusinessObject.Id).Visit;
+        Visit = VisitDraftRealm.Find<PersonVisitDraft>(BusinessObjectId).Visit;
 
         Publish();
     }

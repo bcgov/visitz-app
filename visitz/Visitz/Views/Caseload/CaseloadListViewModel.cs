@@ -212,9 +212,20 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
                 : PromptText;
     }
 
+    /// <summary>
+    /// Uses <see cref="SearchQuery"/> to find <see cref="IBusinessObject"/>s by searching their
+    /// <see cref="IBusinessObject.DisplayName"/> and <see cref="IBusinessObject.FileNumber"/> fields. Optionally, you
+    /// can start the search query with '@' to also search the <see cref="IBusinessObject.Id"/> field.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
     bool SearchQueryMatched(IBusinessObject item) =>
         item.DisplayName.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase)
-        || item.FileNumberBinding.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase);
+        || item.FileNumberBinding.Contains(SearchQuery, StringComparison.InvariantCultureIgnoreCase)
+        || (
+            SearchQuery.StartsWith('@')
+            && item.IdBinding.Contains(SearchQuery[1..], StringComparison.InvariantCultureIgnoreCase)
+        );
 
     partial void OnSearchQueryChanged(string value)
     {

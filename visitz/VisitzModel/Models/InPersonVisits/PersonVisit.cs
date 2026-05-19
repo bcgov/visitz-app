@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
@@ -10,13 +9,7 @@ namespace VisitzModel.Models.InPersonVisits;
 
 #nullable enable
 
-public partial class PersonVisit
-    : IRealmObject,
-        IApiJson<PostVisitJson>,
-        IParentRecord,
-        IComparable<ITodoItem>,
-        IEquatable<PersonVisit>,
-        IEqualityComparer<PersonVisit>
+public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
 {
     static readonly string _defaultType = "In Person Child Youth";
 
@@ -53,8 +46,8 @@ public partial class PersonVisit
 
     public string UpdatedBy { get; set; } = string.Empty;
 
-    public DateTimeOffset DueDate =>
-        IsValid ? DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info) : DateTimeOffset.MinValue;
+    public DateTimeOffset DueDate => DateOfVisitBinding.Date.AddDays((int)VisitDaysThreshold.Info);
+
     public int DueDateDaysRemaining => (DueDate.Date - DateTimeOffset.Now.Date).Days;
 
     public VisitDaysThreshold CurrentDueDateThreshold
@@ -131,7 +124,13 @@ public partial class PersonVisit
             {
                 var incomingVisits = FromApiArray(visits);
                 var existingVisits = GetVisitsByCaseId(realm, parentId).ToList();
-                var visitsToDelete = existingVisits.Except(incomingVisits);
+
+                var visitsToDelete = existingVisits
+                    .Except(
+                        incomingVisits,
+                        EqualityComparer<PersonVisit>.Create((l, r) => l?.Id == r?.Id, visit => visit.Id.GetHashCode())
+                    )
+                    .ToList();
 
                 foreach (var item in visitsToDelete)
                 {
@@ -160,17 +159,27 @@ public partial class PersonVisit
         realm.RemoveRange(visitItems);
     }
 
-    public static IEnumerable<PersonVisit?> GetUpcomingVisits(Realm realm)
+    /// <summary>
+    /// Gets an <see cref="IQueryable"/> representing the latest visit for every distinct parent record currently in
+    /// the database.
+    /// </summary>
+    /// <param name="realm"></param>
+    /// <returns></returns>
+    public static IQueryable<PersonVisit> GetLatestVisitsPerParentRecord(Realm realm)
     {
-        var latestVisitsPerCase = realm
+        return realm
             .All<PersonVisit>()
             .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)")
-            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})")
-            .AsEnumerable()
-            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning);
-
-        return latestVisitsPerCase;
+            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})");
     }
+
+    /// <summary>
+    /// A predicate to check if a given visit is "upcoming" (are we approaching its due date or not).
+    /// </summary>
+    /// <param name="visit"></param>
+    /// <returns></returns>
+    public static bool IsUpcomingVisit(PersonVisit visit) =>
+        visit != null && visit.CurrentDueDateThreshold <= VisitDaysThreshold.Warning;
 
     public void ToggleVisitDetail(string detail, bool add)
     {
@@ -186,25 +195,5 @@ public partial class PersonVisit
         });
 
         RaisePropertyChanged(nameof(VisitDetails));
-    }
-
-    public int CompareTo(ITodoItem? other)
-    {
-        return other == null ? 1 : SortOrder.CompareTo(other.SortOrder);
-    }
-
-    public bool Equals(PersonVisit? other)
-    {
-        return Equals(this, other);
-    }
-
-    public bool Equals(PersonVisit? x, PersonVisit? y)
-    {
-        return x?.Id == y?.Id;
-    }
-
-    public int GetHashCode([DisallowNull] PersonVisit obj)
-    {
-        return obj.Id.GetHashCode();
     }
 }
