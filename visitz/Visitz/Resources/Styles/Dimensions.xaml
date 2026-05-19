@@ -6,10 +6,14 @@
     <x:Double x:Key="TopAppBarHeight">64</x:Double>
     <x:Double x:Key="DraftIndicatorWidth">4</x:Double>
 
+    <x:Double x:Key="DefaultPaddingHalf">5</x:Double>
     <x:Double x:Key="DefaultPadding">10</x:Double>
     <x:Double x:Key="DefaultPaddingDouble">20</x:Double>
+
     <x:Double x:Key="DefaultSpacingHalf">5</x:Double>
     <x:Double x:Key="DefaultSpacing">10</x:Double>
+
+    <x:Double x:Key="DefaultMarginHalf">5</x:Double>
     <x:Double x:Key="DefaultMargin">10</x:Double>
     <x:Double x:Key="DefaultMarginDouble">20</x:Double>
 
