@@ -1,7 +1,5 @@
 namespace VisitzModel.Extensions;
 
-#nullable enable
-
 public static class BooleanExtensions
 {
     public static string AsTruthyChar(this bool value)

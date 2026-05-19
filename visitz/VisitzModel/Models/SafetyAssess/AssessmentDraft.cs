@@ -6,8 +6,6 @@ using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-#nullable enable
-
 public partial class AssessmentDraft : IRealmObject, IDraftItem
 {
     [PrimaryKey]

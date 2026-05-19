@@ -5,8 +5,6 @@ using VisitzModel.Models.Navigation;
 
 namespace VisitzModel.Messaging;
 
-#nullable enable
-
 public class BusinessObjectSelectedMessage(
     IBusinessObject value,
     EntitySection? section = null,

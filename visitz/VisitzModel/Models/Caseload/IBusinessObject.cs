@@ -6,8 +6,6 @@ using VisitzModel.Storage;
 
 namespace VisitzModel.Models.Caseload;
 
-#nullable enable
-
 public partial interface IBusinessObject : IRealmObject
 {
     public static readonly string DisplayDateFormat = IcmDateFormats.BasicTimestampShort;

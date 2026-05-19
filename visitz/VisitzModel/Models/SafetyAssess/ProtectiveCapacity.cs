@@ -5,8 +5,6 @@ using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-#nullable enable
-
 public partial class ProtectiveCapacity : IRealmObject, IApiJson<SubmitProtectiveCapacityJson>
 {
     public bool ChildCognitive { get; set; }

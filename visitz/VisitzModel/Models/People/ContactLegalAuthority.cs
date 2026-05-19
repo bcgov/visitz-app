@@ -4,8 +4,6 @@ using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Utilities;
 
-#nullable enable
-
 namespace VisitzModel.Models.People;
 
 public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegalAuthorityJson>

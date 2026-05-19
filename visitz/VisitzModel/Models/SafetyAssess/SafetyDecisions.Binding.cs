@@ -8,8 +8,6 @@ using VisitzModel.Extensions;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-#nullable enable
-
 public partial class SafetyDecisions
 {
     private const string Binding = "Binding";

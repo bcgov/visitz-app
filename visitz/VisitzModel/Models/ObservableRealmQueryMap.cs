@@ -2,8 +2,6 @@ using Realms;
 
 namespace VisitzModel.Models;
 
-#nullable enable
-
 public partial class ObservableRealmQueryMap : IDisposable
 {
     private bool disposedValue;

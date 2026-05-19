@@ -5,8 +5,6 @@ using VisitzModel.Interfaces;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Utilities;
 
-#nullable enable
-
 namespace VisitzModel.Models.CallDetails;
 
 public partial class CallInformation : IRealmObject, IApiJson<CallInformationJson>
