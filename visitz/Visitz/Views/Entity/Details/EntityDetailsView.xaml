@@ -18,7 +18,7 @@
             AlignItems="Start"
             AlignContent="Start"
             Direction="Row"
-            JustifyContent="Start"
+            JustifyContent="Center"
             Position="Absolute"
             Wrap="Wrap"
             Padding="{StaticResource DefaultPaddingHalf}"
