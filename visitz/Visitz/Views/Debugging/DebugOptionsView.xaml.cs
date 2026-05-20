@@ -32,4 +32,13 @@ public partial class DebugOptionsView : ViewModelContentView<DebugOptionsViewMod
 
         await Navigator.CurrentOpenPage.ShowPopupAsync(popup);
     }
+
+    private void Entry_HighlightWhenFocused(object sender, FocusEventArgs e)
+    {
+        if (sender is Entry entry)
+        {
+            entry.CursorPosition = 0;
+            entry.SelectionLength = entry.Text.Length;
+        }
+    }
 }

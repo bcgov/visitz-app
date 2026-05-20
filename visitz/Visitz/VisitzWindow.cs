@@ -6,6 +6,10 @@ namespace Visitz;
 
 public partial class VisitzWindow : Window
 {
+    // Arbitrarily chosen dimensions
+    public static readonly double InitialHeight = 800;
+    public static readonly double InitialWidthRatio = 1.5d;
+
     public VisitzWindow() { }
 
     public VisitzWindow(Page page)

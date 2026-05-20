@@ -13,8 +13,6 @@ public partial class VisitzWindow
 {
     const string HeightKey = $"VisitzApp.Height";
     const string WidthKey = $"VisitzApp.Width";
-    const double InitialHeight = 800;
-    const double WidthRatio = 1.5d;
 
     readonly Grid _scrimGrid = new() { Visibility = Microsoft.UI.Xaml.Visibility.Collapsed };
 
@@ -23,7 +21,7 @@ public partial class VisitzWindow
     void SetupForWindows()
     {
         Height = Preferences.Get(HeightKey, InitialHeight);
-        Width = Preferences.Get(WidthKey, Height * WidthRatio);
+        Width = Preferences.Get(WidthKey, Height * InitialWidthRatio);
 
         Destroying += VisitzWindow_Destroying;
         SetupScrimGrid();

@@ -71,6 +71,12 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public partial bool WriteApiTimings { get; set; }
 
+    [ObservableProperty]
+    public partial double WindowHeight { get; set; }
+
+    [ObservableProperty]
+    public partial double WindowWidth { get; set; }
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();
@@ -108,6 +114,36 @@ public partial class DebugOptionsViewModel : VisitzViewModel
         DisablePrivacyScrim = DebugOptions.DisablePrivacyScrim;
 
         WriteApiTimings = DebugOptions.WriteApiTimings;
+
+        if (Application.Current.Windows[0] is Window window)
+        {
+            WindowHeight = window.Height;
+            WindowWidth = window.Width;
+            window.SizeChanged += Window_SizeChanged;
+        }
+    }
+
+    bool _disposed;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            if (Application.Current.Windows[0] is Window window)
+                window.SizeChanged -= Window_SizeChanged;
+
+            _disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
+    private void Window_SizeChanged(object? sender, EventArgs e)
+    {
+        if (sender is Window window)
+        {
+            WindowHeight = window.Height;
+            WindowWidth = window.Width;
+        }
     }
 
     partial void OnDryFireSubmitNotesChanged(bool value)
@@ -286,5 +322,56 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public static void ResetAutoCaseloadRefresh()
     {
         DebugOptions.ResetAutoCaseloadRefresh();
+    }
+
+    [RelayCommand]
+    public void ApplyNewDimensions()
+    {
+        DebugOptions.WindowHeight = WindowHeight;
+        DebugOptions.WindowWidth = WindowWidth;
+
+        // Values may have been clamped, so refresh values in the bindings
+        WindowHeight = DebugOptions.WindowHeight;
+        WindowWidth = DebugOptions.WindowWidth;
+    }
+
+    [RelayCommand]
+    public void SwapWindowWidthAndHeight()
+    {
+        DebugOptions.SwapWindowWidthAndHeight();
+
+        // Values may have been clamped, so refresh values in the bindings
+        WindowHeight = DebugOptions.WindowHeight;
+        WindowWidth = DebugOptions.WindowWidth;
+    }
+
+    [RelayCommand]
+    public void ApplyPhoneDimensions()
+    {
+        DebugOptions.ApplyPhoneDimensions();
+
+        // Values may have been clamped, so refresh values in the bindings
+        WindowHeight = DebugOptions.WindowHeight;
+        WindowWidth = DebugOptions.WindowWidth;
+    }
+
+    [RelayCommand]
+    public void ApplyTabletDimensions()
+    {
+        DebugOptions.ApplyTabletDimensions();
+
+        // Values may have been clamped, so refresh values in the bindings
+        WindowHeight = DebugOptions.WindowHeight;
+        WindowWidth = DebugOptions.WindowWidth;
+    }
+
+    [RelayCommand]
+    public void ApplyDefaultDesktopDimensions()
+    {
+        DebugOptions.ApplyDefaultDesktopDimensions();
+
+        // Values may have been clamped, so refresh values in the bindings
+        WindowHeight = DebugOptions.WindowHeight;
+        WindowWidth = DebugOptions.WindowWidth;
     }
 }
