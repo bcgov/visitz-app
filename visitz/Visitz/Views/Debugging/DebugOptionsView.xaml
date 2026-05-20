@@ -354,6 +354,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Text="Write API timings to desktop (.csv)"
+                    IsEnabled="{OnIdiom Desktop=True, Default=False}"
                 />
 
                 <Switch
