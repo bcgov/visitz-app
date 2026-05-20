@@ -1256,6 +1256,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key player information.
+        /// </summary>
+        public static string KeyPlayerInformation {
+            get {
+                return ResourceManager.GetString("KeyPlayerInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Known app issue.
         /// </summary>
         public static string KnownAppIssue {
@@ -1946,6 +1955,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record information.
+        /// </summary>
+        public static string RecordInformation {
+            get {
+                return ResourceManager.GetString("RecordInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} &apos;{1}&apos; removed from device.
         /// </summary>
         public static string RecordRemovedFromCaseload {
@@ -1962,6 +1980,15 @@ namespace Visitz.Resources.Localization {
         public static string RecordRemovedFromCaseloadDetails {
             get {
                 return ResourceManager.GetString("RecordRemovedFromCaseloadDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh caseload.
+        /// </summary>
+        public static string RefreshCaseload {
+            get {
+                return ResourceManager.GetString("RefreshCaseload", resourceCulture);
             }
         }
         

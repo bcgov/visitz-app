@@ -5,8 +5,6 @@ using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-#nullable enable
-
 public partial class SafetyInterventions : IRealmObject, IApiJson<SubmitSafetyInterventionsJson>
 {
     public bool DirectIntervention { get; set; }

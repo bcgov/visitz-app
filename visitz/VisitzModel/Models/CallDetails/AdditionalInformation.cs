@@ -7,7 +7,6 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.CallDetails;
 
-#nullable enable
 public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalInformationJson>
 {
     [PrimaryKey]

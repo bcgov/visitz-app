@@ -1,6 +1,5 @@
 namespace VisitzApi.Models.People;
 
-#nullable enable
 public class ContactLanguageJson
 {
     public string Created { get; set; } = string.Empty;

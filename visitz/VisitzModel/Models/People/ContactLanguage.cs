@@ -5,7 +5,6 @@ using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.People;
 
-#nullable enable
 public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJson>
 {
     [PrimaryKey]

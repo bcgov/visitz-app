@@ -1,5 +1,3 @@
-#nullable enable
-
 namespace VisitzApi.Models.People;
 
 public class ContactLegalAuthorityJson

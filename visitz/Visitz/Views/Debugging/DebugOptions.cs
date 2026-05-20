@@ -7,6 +7,7 @@ using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 #if WINDOWS
 using Windows.Storage;
+using Microsoft.Maui.Controls.Internals;
 #endif
 
 #if WINDOWS || MACCATALYST
@@ -28,6 +29,8 @@ public class DebugOptions
     private static readonly string StaleThresholdMinutesKey = "StaleThresholdMinutes";
     private static readonly string DisablePrivacyScrimKey = "EnableObscuringScrim";
     private static readonly string WriteApiTimingsKey = "WriteApiTimings";
+    private static readonly string WindowHeightKey = "WindowHeight";
+    private static readonly string WindowWidthKey = "WindowWidth";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -129,6 +132,28 @@ public class DebugOptions
     {
         get => Get(WriteApiTimingsKey, false);
         set => Set(WriteApiTimingsKey, value);
+    }
+
+    public static double WindowHeight
+    {
+        get => Get(WindowHeightKey, Application.Current.Windows[0].Height);
+        set
+        {
+            double val = Math.Clamp(value, 100, DeviceDisplay.MainDisplayInfo.Height * 2);
+            Set(WindowHeightKey, val);
+            Application.Current.Windows[0].Height = val;
+        }
+    }
+
+    public static double WindowWidth
+    {
+        get => Get(WindowWidthKey, Application.Current.Windows[0].Width);
+        set
+        {
+            double val = Math.Clamp(value, 100, DeviceDisplay.MainDisplayInfo.Width * 2);
+            Set(WindowWidthKey, val);
+            Application.Current.Windows[0].Width = val;
+        }
     }
 
     public static async Task ClearRealmData()
@@ -308,5 +333,46 @@ public class DebugOptions
 
         LastUpdatedPrefs prefs = ServiceProvider.GetService<LastUpdatedPrefs>();
         prefs.Set(AutoRefreshService.CooldownTimestampUtc, DateTime.MinValue);
+    }
+
+    public static void SwapWindowWidthAndHeight()
+    {
+        if (!Enabled)
+            return;
+
+        Window window = Application.Current.Windows[0];
+        (window.Width, window.Height) = (window.Height, window.Width);
+
+        WindowWidth = window.Width;
+        WindowHeight = window.Height;
+    }
+
+    public static void ApplyPhoneDimensions()
+    {
+        if (!Enabled)
+            return;
+
+        // iPhone SE dims manually collected from runtime
+        WindowHeight = 667;
+        WindowWidth = 375;
+    }
+
+    public static void ApplyTabletDimensions()
+    {
+        if (!Enabled)
+            return;
+
+        // iPad Air 4 dims manually collected from runtime
+        WindowHeight = 820;
+        WindowWidth = 1180;
+    }
+
+    public static void ApplyDefaultDesktopDimensions()
+    {
+        if (!Enabled)
+            return;
+
+        WindowHeight = VisitzWindow.InitialHeight;
+        WindowWidth = VisitzWindow.InitialHeight * VisitzWindow.InitialWidthRatio;
     }
 }

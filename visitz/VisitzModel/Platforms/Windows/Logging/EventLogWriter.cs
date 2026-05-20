@@ -4,8 +4,6 @@ using Microsoft.Extensions.Logging;
 
 namespace VisitzModel.Platforms.Windows.Logging;
 
-#nullable enable
-
 public static class EventLogWriter
 {
     static readonly string _logSource = "Application";

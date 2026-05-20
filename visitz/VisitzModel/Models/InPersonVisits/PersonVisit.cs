@@ -7,8 +7,6 @@ using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.InPersonVisits;
 
-#nullable enable
-
 public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
 {
     static readonly string _defaultType = "In Person Child Youth";

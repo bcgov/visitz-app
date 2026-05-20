@@ -50,10 +50,89 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     IsEnabled="{Binding BuildingInDebug}"
-                    Text="Disable privacy scrim"
+                    Text="Disable privacy scrim (#DEBUG only)"
                 />
 
-                <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding DisablePrivacyScrim}" />
+                <Switch
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    IsToggled="{Binding DisablePrivacyScrim}"
+                />
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="General"
+            />
+
+            <Grid
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                IsEnabled="{OnIdiom Desktop=True, Default=False}"
+            >
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    Text="Set window dimensions (width, height)"
+                />
+
+                <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
+                    <Entry
+                        Text="{Binding WindowWidth}"
+                        Placeholder="Width"
+                        WidthRequest="50"
+                        VerticalOptions="Center"
+                        ReturnCommand="{Binding ApplyNewDimensionsCommand}"
+                        Focused="Entry_HighlightWhenFocused"
+                    />
+                    <Entry
+                        Text="{Binding WindowHeight}"
+                        Placeholder="Height"
+                        WidthRequest="50"
+                        VerticalOptions="Center"
+                        ReturnCommand="{Binding ApplyNewDimensionsCommand}"
+                        Focused="Entry_HighlightWhenFocused"
+                    />
+                    <Button
+                        Command="{Binding ApplyNewDimensionsCommand}"
+                        Text="Apply"
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding SwapWindowWidthAndHeightCommand}"
+                    Text="Swap window width and height"
+                />
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="Apply phone dimensions"
+                    Command="{Binding ApplyPhoneDimensionsCommand}"
+                />
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Text="Apply tablet dimensions"
+                    Command="{Binding ApplyTabletDimensionsCommand}"
+                />
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Text="Apply default desktop dimenions"
+                    Command="{Binding ApplyDefaultDesktopDimensionsCommand}"
+                />
             </Grid>
 
             <Label
@@ -134,6 +213,7 @@
                     Text="{Binding StaleSessionMinutes, TargetNullValue='0'}"
                     HorizontalOptions="Start"
                     WidthRequest="100"
+                    Focused="Entry_HighlightWhenFocused"
                 />
             </Grid>
 
@@ -179,7 +259,10 @@
                 />
 
                 <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="5">
-                    <Entry Text="{Binding MockPersonVisitsParentId, TargetNullValue='1-0000000'}" />
+                    <Entry
+                        Text="{Binding MockPersonVisitsParentId, TargetNullValue='1-0000000'}"
+                        Focused="Entry_HighlightWhenFocused"
+                    />
 
                     <Button
                         StyleClass="DebugLayout"
@@ -271,6 +354,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Text="Write API timings to desktop (.csv)"
+                    IsEnabled="{OnIdiom Desktop=True, Default=False}"
                 />
 
                 <Switch

@@ -7,8 +7,6 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-#nullable enable
-
 public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisionsJson>
 {
     public static readonly string AllChildrenPlaced = "All children placed";

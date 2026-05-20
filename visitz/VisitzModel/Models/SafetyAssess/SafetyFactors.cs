@@ -5,8 +5,6 @@ using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-#nullable enable
-
 public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJson>
 {
     public bool? PhysicalHarm { get; set; }

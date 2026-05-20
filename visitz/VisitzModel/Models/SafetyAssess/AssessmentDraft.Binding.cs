@@ -3,8 +3,6 @@ using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-#nullable enable
-
 public partial class AssessmentDraft
 {
     public EntityType RelatedEntityTypeBinding

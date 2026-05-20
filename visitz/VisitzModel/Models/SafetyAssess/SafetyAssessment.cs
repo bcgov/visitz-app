@@ -8,8 +8,6 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.SafetyAssess;
 
-#nullable enable
-
 public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<SubmitSafetyAssessmentJson>
 {
     static readonly string IdString = "{0}|{1}|{2}|LOCALONLY";

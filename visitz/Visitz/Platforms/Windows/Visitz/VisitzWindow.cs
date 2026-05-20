@@ -1,37 +1,59 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.Debugging;
 using Grid = Microsoft.UI.Xaml.Controls.Grid;
 using Image = Microsoft.UI.Xaml.Controls.Image;
-using Window = Microsoft.Maui.Controls.Window;
 
 namespace Visitz;
 
 public partial class VisitzWindow
 {
-    private static readonly double InitialHeight = 800;
-    private static readonly double WidthRatio = 1.5d;
-    Grid ScrimGrid;
-    Image ScrimImage;
-    bool AutoRefreshTriedOnce { get; set; }
+    const string HeightKey = $"VisitzApp.Height";
+    const string WidthKey = $"VisitzApp.Width";
 
-    private static partial Window ApplyDefaultWindowLayout(Window window)
+    readonly Grid _scrimGrid = new() { Visibility = Microsoft.UI.Xaml.Visibility.Collapsed };
+
+    bool _autoRefreshTriedOnce;
+
+    void SetupForWindows()
     {
-        window.Height = InitialHeight;
-        window.Width = window.Height * WidthRatio;
+        Height = Preferences.Get(HeightKey, InitialHeight);
+        Width = Preferences.Get(WidthKey, Height * InitialWidthRatio);
 
-        string deviceDims = $"{DeviceDisplay.MainDisplayInfo.Width}w,{DeviceDisplay.MainDisplayInfo.Height}";
-        string windowDims = $"{window.Width}w,{window.Height}h";
-        string dims = $"Device dimensions: {deviceDims} // Window dimensions: {windowDims}";
+        Destroying += VisitzWindow_Destroying;
+        SetupScrimGrid();
+    }
 
-        ServiceProvider.GetService<ILogger<VisitzWindow>>().LogInformation(dims);
+    void SetupScrimGrid()
+    {
+        var nativeWindow = Handler?.PlatformView as Microsoft.UI.Xaml.Window;
+        if (nativeWindow?.Content is not Microsoft.UI.Xaml.Controls.Panel panel)
+            return;
 
-        return window;
+        Image scrimImage = new()
+        {
+            Stretch = Microsoft.UI.Xaml.Media.Stretch.UniformToFill,
+            Source = new BitmapImage(new Uri($"ms-appx:///{BcGovAlbum.GetFeaturedPictureUri()}")),
+        };
+
+        _scrimGrid.Children.Add(scrimImage);
+        panel.Children.Add(_scrimGrid);
+    }
+
+    partial void Platform_OnActivated()
+    {
+        // Run in OnActivated instead of OnResumed to respond to window focus events
+        TryRunAutoRefresh();
+
+        OnWindowFocusChanged(true);
+    }
+
+    partial void Platform_OnDeactivated()
+    {
+        OnWindowFocusChanged(false);
     }
 
     /// <summary>
@@ -39,35 +61,26 @@ public partial class VisitzWindow
     /// is done as a workaround MAUI lifecycles—if we don't discard the first
     /// run the app will crash.
     /// </summary>
-    partial void TryRunAutoRefresh()
+    void TryRunAutoRefresh()
     {
-        if (AutoRefreshTriedOnce)
+        if (_autoRefreshTriedOnce)
             WeakReferenceMessenger.Default.Send(AutoRefreshService.MakeStartMessage());
         else
-            AutoRefreshTriedOnce = true;
+            _autoRefreshTriedOnce = true;
     }
 
-    partial void OnWindowFocusChanged(bool focused)
+    void OnWindowFocusChanged(bool focused)
     {
         if (DebugOptions.DisablePrivacyScrim)
             return;
 
-        var nativeWindow = Handler?.PlatformView as Microsoft.UI.Xaml.Window;
-        if (nativeWindow?.Content is not FrameworkElement root)
-            return;
-        if (ScrimGrid == null)
-        {
-            ScrimGrid = new Grid();
-            ScrimImage = new Image
-            {
-                Stretch = Microsoft.UI.Xaml.Media.Stretch.UniformToFill,
-                Source = new BitmapImage(new Uri($"ms-appx:///{BcGovAlbum.GetFeaturedPictureUri()}")),
-            };
-            ScrimGrid.Children.Add(ScrimImage);
-            var panel = root as Panel;
-            if (panel != null)
-                panel.Children.Add(ScrimGrid);
-        }
-        ScrimGrid.Visibility = focused ? Microsoft.UI.Xaml.Visibility.Collapsed : Microsoft.UI.Xaml.Visibility.Visible;
+        _scrimGrid.Visibility = focused ? Microsoft.UI.Xaml.Visibility.Collapsed : Microsoft.UI.Xaml.Visibility.Visible;
+    }
+
+    void VisitzWindow_Destroying(object? sender, EventArgs e)
+    {
+        Preferences.Set(HeightKey, Height);
+        Preferences.Set(WidthKey, Width);
+        ServiceProvider.GetService<ILogger<VisitzWindow>>().LogInformation($"Saved window dims ({Width},{Height})");
     }
 }

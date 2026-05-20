@@ -4,8 +4,6 @@ using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.Interfaces;
 
-#nullable enable
-
 public interface IRecordInfo : IDisposable
 {
     string RelatedEntityId { get; set; }

@@ -5,8 +5,6 @@ using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.Drafts;
 
-#nullable enable
-
 public interface IDraftItem : IRealmObject, IRecordInfo, IComparable<IDraftItem>
 {
     DateTimeOffset DraftCreated { get; set; }

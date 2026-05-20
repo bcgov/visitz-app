@@ -27,11 +27,7 @@ public class FilterOption<TItem>(
 
     public bool Equals(FilterOption<TItem>? other)
     {
-        return ReferenceEquals(this, other)
-            || (
-                Text.Equals(other?.Text, StringComparison.InvariantCultureIgnoreCase)
-                && WherePredicate == other?.WherePredicate
-            );
+        return ReferenceEquals(this, other) || (Text.Equals(other?.Text, StringComparison.InvariantCultureIgnoreCase));
     }
 
     public override int GetHashCode()

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Visitz.Views.AppLock;
 using Visitz.Views.User;
 
@@ -5,6 +6,10 @@ namespace Visitz;
 
 public partial class VisitzWindow : Window
 {
+    // Arbitrarily chosen dimensions
+    public static readonly double InitialHeight = 800;
+    public static readonly double InitialWidthRatio = 1.5d;
+
     public VisitzWindow() { }
 
     public VisitzWindow(Page page)
@@ -13,11 +18,15 @@ public partial class VisitzWindow : Window
     protected override async void OnCreated()
     {
         base.OnCreated();
+
 #if WINDOWS
-        ApplyDefaultWindowLayout(this);
+        SetupForWindows();
 #endif
+
         await SessionPage.TryOpenAsync(animated: false);
         await AppLockPage.TryPrompt(promptOnAppearing: true);
+
+        LogScreen();
     }
 
     protected override async void OnStopped()
@@ -27,13 +36,7 @@ public partial class VisitzWindow : Window
         await AppLockPage.TryPrompt(promptOnAppearing: false);
     }
 
-#if WINDOWS
-    private static partial Window ApplyDefaultWindowLayout(Window window);
-
-    partial void TryRunAutoRefresh();
-
-    partial void OnWindowFocusChanged(bool focused);
-#endif
+    partial void Platform_OnActivated();
 
     protected override async void OnActivated()
     {
@@ -41,18 +44,24 @@ public partial class VisitzWindow : Window
 
         await SessionPage.TryOpenAsync(animated: false);
 
-#if WINDOWS
-        // Run in OnActivated instead of OnResumed to respond to window focus events
-        TryRunAutoRefresh();
-        OnWindowFocusChanged(true);
-#endif
+        Platform_OnActivated();
     }
 
-#if WINDOWS
+    partial void Platform_OnDeactivated();
+
     protected override void OnDeactivated()
     {
         base.OnDeactivated();
-        OnWindowFocusChanged(false);
+
+        Platform_OnDeactivated();
     }
-#endif
+
+    void LogScreen()
+    {
+        string deviceDims = $"{DeviceDisplay.MainDisplayInfo.Width}w,{DeviceDisplay.MainDisplayInfo.Height}";
+        string windowDims = $"{Width}w,{Height}h";
+        string dims = $"Device dimensions: {deviceDims} // Window dimensions: {windowDims}";
+
+        ServiceProvider.GetService<ILogger<VisitzWindow>>().LogInformation(dims);
+    }
 }
