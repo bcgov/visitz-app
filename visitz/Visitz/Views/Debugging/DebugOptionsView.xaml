@@ -69,7 +69,10 @@
                 Text="General"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+            <Grid
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                IsEnabled="{OnIdiom Desktop=True, Default=False}"
+            >
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -82,7 +85,7 @@
                     <Entry
                         Text="{Binding WindowWidth}"
                         Placeholder="Width"
-                        WidthRequest="80"
+                        WidthRequest="50"
                         VerticalOptions="Center"
                         ReturnCommand="{Binding ApplyNewDimensionsCommand}"
                         Focused="Entry_HighlightWhenFocused"
@@ -90,7 +93,7 @@
                     <Entry
                         Text="{Binding WindowHeight}"
                         Placeholder="Height"
-                        WidthRequest="80"
+                        WidthRequest="50"
                         VerticalOptions="Center"
                         ReturnCommand="{Binding ApplyNewDimensionsCommand}"
                         Focused="Entry_HighlightWhenFocused"
