@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using Oidc;
 using Visitz.Services.Caseload;
 using Visitz.Settings;
+using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Surveys;
+using Visitz.Views.User;
 using VisitzModel.Extensions;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
@@ -380,5 +382,17 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public static async Task ShowFeedbackPopupAsync()
     {
         await Navigator.Navigation.PushModalAsync(new FeedbackSurveyPage());
+    }
+
+    [RelayCommand]
+    public static async Task OpenAppLockAsync()
+    {
+        await Navigator.Navigation.PushModalAsync(ServiceProvider.GetService<AppLockPage>());
+    }
+
+    [RelayCommand]
+    public static async Task OpenSessionPageAsync()
+    {
+        await Navigator.Navigation.PushModalAsync(ServiceProvider.GetService<SessionPage>());
     }
 }

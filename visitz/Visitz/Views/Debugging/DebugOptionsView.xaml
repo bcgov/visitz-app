@@ -44,7 +44,7 @@
                 Text="General"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -76,15 +76,31 @@
                     Text="Show feedback popup"
                 />
 
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding OpenAppLockCommand}"
+                    Text="Open app lock page"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Command="{Binding OpenSessionPageCommand}"
+                    Text="Open session page"
+                />
+
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="3"
+                    Grid.Row="5"
                     Grid.Column="0"
                     IsEnabled="{Binding BuildingInDebug}"
                     Text="Caseload last updated"
                 />
 
-                <HorizontalStackLayout Grid.Row="3" Grid.Column="1" Spacing="5">
+                <HorizontalStackLayout Grid.Row="5" Grid.Column="1" Spacing="5">
                     <DatePicker
                         Date="{Binding CaseloadLastUpdated}"
                         MaximumDate="{Binding MaxDate}"
@@ -99,7 +115,7 @@
 
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="4"
+                    Grid.Row="6"
                     Grid.Column="1"
                     Command="{Binding ClearSecureStorageCommand}"
                     Text="Clear secure storage"
