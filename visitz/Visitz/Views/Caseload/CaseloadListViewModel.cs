@@ -215,7 +215,8 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
     /// <summary>
     /// Uses <see cref="SearchQuery"/> to find <see cref="IBusinessObject"/>s by searching their
     /// <see cref="IBusinessObject.DisplayName"/> and <see cref="IBusinessObject.FileNumber"/> fields. Optionally, you
-    /// can start the search query with '#' to also search the <see cref="IBusinessObject.Id"/> field.
+    /// can start the search query with '#' to also search the <see cref="IBusinessObject.Id"/> field, '@' to search
+    /// assignees, or only write "!" to show all downloaded records.
     /// </summary>
     /// <param name="item"></param>
     /// <returns></returns>
@@ -225,6 +226,14 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
         || (
             SearchQuery.StartsWith('#')
             && item.IdBinding.Contains(SearchQuery[1..], StringComparison.InvariantCultureIgnoreCase)
+        )
+        || (
+            SearchQuery.StartsWith('@')
+            && item.DisplayAssignees.Contains(SearchQuery[1..], StringComparison.InvariantCultureIgnoreCase)
+        )
+        || (
+            SearchQuery.Equals("!", StringComparison.InvariantCultureIgnoreCase)
+            && (item.LocalState?.ShouldDownloadDuringRefresh ?? false)
         );
 
     partial void OnSearchQueryChanged(string value)
