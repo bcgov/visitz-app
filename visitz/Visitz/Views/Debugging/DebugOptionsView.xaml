@@ -111,7 +111,7 @@
                 HorizontalOptions="Fill"
                 FontSize="20"
                 Background="AliceBlue"
-                Text="General"
+                Text="Window"
             />
 
             <Grid
