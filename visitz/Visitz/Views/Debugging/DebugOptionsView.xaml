@@ -44,7 +44,7 @@
                 Text="General"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -68,26 +68,38 @@
                     Text="Clear feedback survey preferences"
                 />
 
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Command="{Binding ShowFeedbackPopupCommand}"
+                    Text="Show feedback popup"
+                />
+
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="0"
                     IsEnabled="{Binding BuildingInDebug}"
                     Text="Caseload last updated"
                 />
 
-                <HorizontalStackLayout Grid.Row="2" Grid.Column="1" Spacing="5">
+                <HorizontalStackLayout Grid.Row="3" Grid.Column="1" Spacing="5">
                     <DatePicker
                         Date="{Binding CaseloadLastUpdated}"
                         MaximumDate="{Binding MaxDate}"
                     />
 
-                    <Button Command="{Binding ApplyCaseloadLastUpdatedCommand}" Text="Apply" VerticalOptions="Center" />
+                    <Button
+                        Command="{Binding ApplyCaseloadLastUpdatedCommand}"
+                        Text="Apply"
+                        VerticalOptions="Center"
+                    />
                 </HorizontalStackLayout>
 
                 <Button
                     StyleClass="DebugLayout"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.Column="1"
                     Command="{Binding ClearSecureStorageCommand}"
                     Text="Clear secure storage"
