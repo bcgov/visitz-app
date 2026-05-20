@@ -37,7 +37,14 @@
                 TextColor="White"
             />
 
-            <Label Grid.Row="1" Grid.Column="1" Text="{Binding FileNumber}" TextColor="White" />
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding FileNumber}" TextColor="White">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding SwitchNumberAndIdCommand}"
+                        NumberOfTapsRequired="2"
+                    />
+                </Label.GestureRecognizers>
+            </Label>
 
             <ActivityIndicator
                 Grid.RowSpan="2"

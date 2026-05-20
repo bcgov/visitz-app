@@ -23,6 +23,8 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
 {
     bool _disposed;
 
+    bool _showId = true;
+
     ServiceHandler ServiceHandler { get; } = serviceHandler;
 
     [ObservableProperty]
@@ -140,5 +142,12 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
     {
         if (BusinessObject.IsValid)
             BusinessObject.LocalState?.LastOpenedBinding = DateTimeOffset.UtcNow;
+    }
+
+    [RelayCommand]
+    public void SwitchNumberAndId()
+    {
+        _showId = !_showId;
+        FileNumber = _showId ? BusinessObject.FileNumber : BusinessObject.Id;
     }
 }
