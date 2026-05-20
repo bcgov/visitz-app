@@ -212,4 +212,28 @@ public partial class NavRailViewModel : VisitzViewModel
         if (DebugOptions.Enabled)
             await Navigator.GoToPage<DebugOptionsPage>();
     }
+
+    [RelayCommand]
+    public static void SwapWindowDimensions()
+    {
+        DebugOptions.SwapWindowWidthAndHeight();
+    }
+
+    [RelayCommand]
+    public static void ApplyPhoneDimensions()
+    {
+        DebugOptions.ApplyPhoneDimensions();
+    }
+
+    [RelayCommand]
+    public static void ApplyTabletDimensions()
+    {
+        DebugOptions.ApplyTabletDimensions();
+    }
+
+    [RelayCommand]
+    public static void ApplyDefaultDesktopDimensions()
+    {
+        DebugOptions.ApplyDefaultDesktopDimensions();
+    }
 }

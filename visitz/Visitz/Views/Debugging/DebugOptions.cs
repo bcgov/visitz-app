@@ -250,11 +250,11 @@ public class DebugOptions
             result[$"({container.Name}), Key '{key}'"] = container.Values[key]?.ToString();
 
         foreach (var subContainer in container.Containers)
-            foreach (var valuesResult in GetAllValuesFrom(subContainer.Value))
-                if (result.ContainsKey(valuesResult.Key))
-                    result[subContainer.Key + " > " + valuesResult.Key + "+"] = valuesResult.Value;
-                else
-                    result[subContainer.Key + " > " + valuesResult.Key] = valuesResult.Value;
+        foreach (var valuesResult in GetAllValuesFrom(subContainer.Value))
+            if (result.ContainsKey(valuesResult.Key))
+                result[subContainer.Key + " > " + valuesResult.Key + "+"] = valuesResult.Value;
+            else
+                result[subContainer.Key + " > " + valuesResult.Key] = valuesResult.Value;
 
         return result;
     }
