@@ -8,6 +8,8 @@ namespace Visitz.Views.AppLock;
 
 public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
 {
+    bool _disposed;
+
     /// <summary>
     /// Back button behavior disabled on purpose. We don't want to let users avoid this authentication check.
     /// </summary>
@@ -38,6 +40,8 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
     {
         InitializeComponent();
         BindingContext = viewModel;
+
+        SizeChanged += AppLockPage_SizeChanged;
     }
 
     protected override async void OnAppearing()
@@ -59,6 +63,16 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
         base.OnDisappearing();
 
         CurrentWindow.Resumed -= AppLockPage_WindowResumed;
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            SizeChanged -= AppLockPage_SizeChanged;
+            _disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     public static async Task TryPrompt(bool promptOnAppearing)
@@ -86,5 +100,14 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
     public async void AppLockPage_WindowResumed(object? sender, EventArgs eventArgs)
     {
         await AppLockViewModel.PromptAuthentication();
+    }
+
+    private void AppLockPage_SizeChanged(object? sender, EventArgs e)
+    {
+        ViewModel.ShowHeroImage =
+            sender is AppLockPage page
+            && Resources.TryGetValue("MinHeightShowHero", out object val)
+            && val is double minHeight
+            && page.Height >= minHeight;
     }
 }

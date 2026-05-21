@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Plugin.Fingerprint.Abstractions;
 using Visitz.Device;
@@ -11,6 +12,25 @@ namespace Visitz.Views.AppLock;
 
 public partial class AppLockViewModel() : VisitzViewModel
 {
+    static readonly RowDefinitionCollection s_heroRows =
+    [
+        new() { Height = new GridLength(3, GridUnitType.Star) },
+        new() { Height = GridLength.Star },
+        new() { Height = GridLength.Star },
+    ];
+    static readonly RowDefinitionCollection s_nonHeroRows =
+    [
+        new() { Height = GridLength.Star },
+        new() { Height = GridLength.Star },
+        new() { Height = GridLength.Star },
+    ];
+
+    [ObservableProperty]
+    public partial bool ShowHeroImage { get; set; } = true;
+
+    [ObservableProperty]
+    public partial RowDefinitionCollection RowDefinitions { get; set; } = s_heroRows;
+
     public static async Task PromptAuthentication()
     {
         (bool available, _) = await DeviceAuthenticator.GetAvailabilityAsync();
@@ -67,5 +87,10 @@ public partial class AppLockViewModel() : VisitzViewModel
         await FeedbackSurveyPage.TryOpen();
 
         StrongReferenceMessenger.Default.Send(new AppLockMessage(AppLockStatus.Closed));
+    }
+
+    partial void OnShowHeroImageChanged(bool value)
+    {
+        RowDefinitions = value ? s_heroRows : s_nonHeroRows;
     }
 }

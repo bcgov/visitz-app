@@ -14,6 +14,12 @@
     Title=""
     BackgroundColor="{StaticResource Primary}"
 >
+    <baseClasses:VisitzPage.Resources>
+        <ResourceDictionary>
+            <x:Double x:Key="MinHeightShowHero">600</x:Double>
+        </ResourceDictionary>
+    </baseClasses:VisitzPage.Resources>
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
@@ -28,12 +34,13 @@
         <Grid
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
-            RowDefinitions="2*,Auto,*"
+            RowDefinitions="{Binding RowDefinitions}"
         >
             <views:DocumentHeroImage
                 Grid.Row="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
+                IsVisible="{Binding ShowHeroImage}"
             />
 
             <Button
