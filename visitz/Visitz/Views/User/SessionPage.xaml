@@ -23,7 +23,7 @@
             SafeAreaEdges="All"
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
-            RowDefinitions="Auto,*,Auto"
+            RowDefinitions="Auto,*,Auto,Auto"
         >
             <Label
                 Grid.Row="0"
@@ -35,75 +35,58 @@
                 TextColor="White"
             />
 
-            <Grid Grid.Row="1" Padding="16" RowDefinitions="*,*,Auto">
-                <Button
-                    Grid.Row="0"
-                    Grid.RowSpan="3"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"
-                    StyleClass="FeatureButton,GoldBorderButton"
-                    Text="{local:Localize Login}"
-                    Command="{Binding LoginCommand}"
-                    IsVisible="{Binding ShowLoginLayout}"
-                />
+            <Button
+                Grid.Row="1"
+                Grid.RowSpan="3"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                StyleClass="FeatureButton,GoldBorderButton"
+                Text="{local:Localize Login}"
+                Command="{Binding LoginCommand}"
+                IsVisible="{Binding ShowLoginLayout}"
+            />
 
-                <Grid
-                    Grid.Row="0"
-                    HeightRequest="200"
-                    WidthRequest="200"
-                    VerticalOptions="End"
-                    HorizontalOptions="Center"
-                    IsVisible="{Binding ShowAuthStatusLayout}"
-                >
-                    <Image
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"
+            <Grid
+                Grid.Row="1"
+                ColumnDefinitions="Auto,*"
+                VerticalOptions="Center"
+                ColumnSpacing="{StaticResource DefaultSpacing}"
+                HorizontalOptions="Center"
+                Margin="{StaticResource DefaultMargin}"
+            >
+                <Grid IsVisible="{Binding ShowAuthStatusLayout}">
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <x:Double x:Key="IndicatorSize">80</x:Double>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+
+                    <Label
+                        FontFamily="MaterialIconsRoundedFilled"
+                        FontSize="{StaticResource IndicatorSize}"
                         IsVisible="{Binding IsUnauthorized}"
-                    >
-                        <Image.Source>
-                            <FontImageSource
-                                Glyph="{Static fonticons:MaterialIcons.Shield_lock}"
-                                FontFamily="MaterialIconsRoundedFilled"
-                                Size="400"
-                                Color="{StaticResource BC_Semantic_Error}"
-                            />
-                        </Image.Source>
-                    </Image>
+                        Text="{Static fonticons:MaterialIcons.Shield_lock}"
+                        TextColor="{StaticResource BC_Semantic_Error}"
+                    />
 
-                    <Image
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"
+                    <Label
+                        FontFamily="MaterialIconsRoundedFilled"
+                        FontSize="{StaticResource IndicatorSize}"
                         IsVisible="{Binding ShowUnknown}"
-                    >
-                        <Image.Source>
-                            <FontImageSource
-                                Glyph="{Static fonticons:MaterialIcons.Security}"
-                                FontFamily="MaterialIconsRoundedFilled"
-                                Size="400"
-                                Color="White"
-                            />
-                        </Image.Source>
-                    </Image>
+                        Text="{Static fonticons:MaterialIcons.Security}"
+                        TextColor="White"
+                    />
 
-                    <Image
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"
+                    <Label
+                        FontFamily="MaterialIconsRoundedFilled"
+                        FontSize="{StaticResource IndicatorSize}"
                         IsVisible="{Binding StaleSession}"
-                    >
-                        <Image.Source>
-                            <FontImageSource
-                                Glyph="{Static fonticons:MaterialIcons.Cloud_off}"
-                                FontFamily="MaterialIconsRoundedFilled"
-                                Size="400"
-                                Color="White"
-                            />
-                        </Image.Source>
-                    </Image>
+                        Text="{Static fonticons:MaterialIcons.Cloud_off}"
+                        TextColor="White"
+                    />
 
                     <ActivityIndicator
                         Color="White"
-                        HeightRequest="100"
-                        WidthRequest="100"
                         VerticalOptions="Center"
                         HorizontalOptions="Center"
                         IsVisible="{Binding TryingAuthorization}"
@@ -112,49 +95,48 @@
                 </Grid>
 
                 <Label
-                    Grid.Row="1"
-                    FontSize="20"
+                    Grid.Column="1"
+                    FontSize="{StaticResource BodyLargeFontSize}"
                     TextColor="White"
-                    HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
+                    HorizontalOptions="Fill"
+                    HorizontalTextAlignment="Start"
                     IsVisible="{Binding ShowAuthStatus}"
                     FontFamily="BCSansBold"
                     Text="{Binding AuthStatus}"
                 />
-
-                <HorizontalStackLayout
-                    Grid.Row="2"
-                    HorizontalOptions="Center"
-                    IsVisible="{Binding ShowButtons}"
-                    Spacing="20"
-                >
-                    <Button
-                        Text="{local:Localize Logout}"
-                        Style="{StaticResource SecondaryButtonDark}"
-                        StyleClass="FeatureButton"
-                        Command="{Binding TryLogoutCommand}"
-                    />
-
-                    <Button
-                        StyleClass="FeatureButton,GoldBorderButton"
-                        Command="{Binding DownloadCaseloadAndSubscribeCommand}"
-                        Text="{local:Localize Retry}"
-                    >
-                        <Button.ImageSource>
-                            <FontImageSource
-                                Glyph="{Static fonticons:MaterialIcons.Refresh}"
-                                FontFamily="MaterialIconsRoundedFilled"
-                                Color="White"
-                            />
-                        </Button.ImageSource>
-                    </Button>
-                </HorizontalStackLayout>
             </Grid>
 
             <HorizontalStackLayout
                 Grid.Row="2"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ShowButtons}"
+                Spacing="20"
+            >
+                <Button
+                    Text="{local:Localize Logout}"
+                    Style="{StaticResource SecondaryButtonDark}"
+                    StyleClass="FeatureButton"
+                    Command="{Binding TryLogoutCommand}"
+                />
+
+                <Button
+                    StyleClass="FeatureButton,GoldBorderButton"
+                    Command="{Binding DownloadCaseloadAndSubscribeCommand}"
+                    Text="{local:Localize Retry}"
+                >
+                    <Button.ImageSource>
+                        <FontImageSource
+                            Glyph="{Static fonticons:MaterialIcons.Refresh}"
+                            FontFamily="MaterialIconsRoundedFilled"
+                            Color="White"
+                        />
+                    </Button.ImageSource>
+                </Button>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout
+                Grid.Row="3"
                 HorizontalOptions="Center"
                 VerticalOptions="End"
                 Spacing="30"
