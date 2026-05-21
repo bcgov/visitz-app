@@ -44,7 +44,9 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
     {
         base.OnAppearing();
 
+#if !WINDOWS
         CurrentWindow.Resumed += AppLockPage_WindowResumed;
+#endif
 
         StrongReferenceMessenger.Default.Send(new AppLockMessage(AppLockStatus.Opened));
 
