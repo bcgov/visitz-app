@@ -14,12 +14,6 @@
     Title=""
     BackgroundColor="{StaticResource Primary}"
 >
-    <baseClasses:VisitzPage.Resources>
-        <ResourceDictionary>
-            <x:Double x:Key="MinHeightShowHero">600</x:Double>
-        </ResourceDictionary>
-    </baseClasses:VisitzPage.Resources>
-
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
@@ -64,7 +58,7 @@
                 MaximumWidthRequest="500"
                 TextColor="White"
                 FontFamily="BCSansBold"
-                FontSize="20"
+                FontSize="{StaticResource HeroFontSize}"
             />
         </Grid>
     </AbsoluteLayout>

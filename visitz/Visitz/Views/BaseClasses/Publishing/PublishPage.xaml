@@ -28,6 +28,9 @@
     -->
 
     <baseClasses:VisitzPage.Resources>
+        <ResourceDictionary>
+            <x:Double x:Key="IndicatorSize">24</x:Double>
+        </ResourceDictionary>
         <Style TargetType="Border">
             <Setter Property="Stroke" Value="Transparent" />
             <Setter Property="Padding" Value="{OnPlatform WinUI=8, Default=0}" />
@@ -47,28 +50,30 @@
 
     <Grid
         x:Name="MainGrid"
-        Padding="32"
-        RowDefinitions="*,*,50,Auto"
+        RowDefinitions="*,*,*,5"
         RowSpacing="10"
         ColumnDefinitions="*,*"
         ColumnSpacing="10"
         MaximumWidthRequest="800"
+        Padding="{StaticResource DefaultSpacing}"
+        Margin="{StaticResource DefaultMarginDouble}"
     >
         <Image
+            x:Name="HeroImage"
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Source="note_publish.png"
-            Aspect="Center"
+            Aspect="AspectFit"
             HorizontalOptions="Center"
-            VerticalOptions="Center"
+            VerticalOptions="End"
         />
 
         <VerticalStackLayout
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            VerticalOptions="Center"
+            VerticalOptions="End"
             HorizontalOptions="Center"
-            Spacing="8"
+            Spacing="{StaticResource DefaultSpacing}"
         >
             <Grid Style="{StaticResource StatusGrid}">
                 <Grid.GestureRecognizers>
@@ -91,7 +96,10 @@
                     Background="{StaticResource BC_Semantic_Success}"
                     IsVisible="{Binding ShowPublishSuccessIcon}"
                 >
-                    <Image HeightRequest="32" WidthRequest="32">
+                    <Image
+                        HeightRequest="{StaticResource IndicatorSize}"
+                        WidthRequest="{StaticResource IndicatorSize}"
+                    >
                         <Image.Source>
                             <FontImageSource
                                 Glyph="{Static icons:MaterialIcons.Check}"
@@ -109,7 +117,10 @@
                     Background="{StaticResource BC_Semantic_Error}"
                     IsVisible="{Binding ShowPublishErrorIcon}"
                 >
-                    <Image HeightRequest="32" WidthRequest="32">
+                    <Image
+                        HeightRequest="{StaticResource IndicatorSize}"
+                        WidthRequest="{StaticResource IndicatorSize}"
+                    >
                         <Image.Source>
                             <FontImageSource
                                 Glyph="{Static icons:MaterialIcons.Error}"
@@ -132,7 +143,7 @@
                         TextColor="White"
                         FontFamily="BCSansBold"
                         HorizontalOptions="Start"
-                        FontSize="28"
+                        FontSize="{StaticResource HeroFontSize}"
                     />
                 </ScrollView>
             </Grid>
@@ -158,7 +169,10 @@
                     Background="{StaticResource BC_Semantic_Success}"
                     IsVisible="{Binding ShowRefreshSuccessIcon}"
                 >
-                    <Image HeightRequest="32" WidthRequest="32">
+                    <Image
+                        HeightRequest="{StaticResource IndicatorSize}"
+                        WidthRequest="{StaticResource IndicatorSize}"
+                    >
                         <Image.Source>
                             <FontImageSource
                                 Glyph="{Static icons:MaterialIcons.Check}"
@@ -176,7 +190,10 @@
                     Background="{StaticResource BC_Semantic_Error}"
                     IsVisible="{Binding ShowRefreshErrorIcon}"
                 >
-                    <Image HeightRequest="32" WidthRequest="32">
+                    <Image
+                        HeightRequest="{StaticResource IndicatorSize}"
+                        WidthRequest="{StaticResource IndicatorSize}"
+                    >
                         <Image.Source>
                             <FontImageSource
                                 Glyph="{Static icons:MaterialIcons.Error}"
@@ -199,7 +216,7 @@
                         TextColor="White"
                         FontFamily="BCSansBold"
                         HorizontalOptions="Start"
-                        FontSize="28"
+                        FontSize="{StaticResource HeroFontSize}"
                     />
                 </ScrollView>
             </Grid>
@@ -213,6 +230,9 @@
             Style="{StaticResource SecondaryButtonDark}"
             Clicked="DismissButton_Clicked"
             IsVisible="{Binding ShowDismissButton}"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            WidthRequest="90"
         />
 
         <Button
@@ -220,16 +240,18 @@
             Grid.Column="1"
             Text="{local:Localize Retry}"
             HorizontalOptions="Start"
+            VerticalOptions="End"
             Style="{StaticResource PrimaryButtonDark}"
             Command="{Binding PublishCommand}"
             IsEnabled="{Binding AllowRetry}"
             IsVisible="{Binding ShowRetryButton}"
+            WidthRequest="90"
         />
 
         <ProgressBar
             x:Name="DismissProgressBar"
             IsVisible="False"
-            Grid.Row="4"
+            Grid.Row="3"
             Grid.ColumnSpan="2"
             WidthRequest="100"
             ProgressColor="White"

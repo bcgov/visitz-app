@@ -31,7 +31,7 @@
                 HorizontalOptions="Center"
                 Text="{Binding DisplayName, StringFormat='Hello, {0}.'}"
                 IsVisible="{Binding ShowAuthStatusLayout}"
-                FontSize="30"
+                FontSize="{StaticResource HeadlineLargeFontSize}"
                 TextColor="White"
             />
 
@@ -96,7 +96,7 @@
 
                 <Label
                     Grid.Column="1"
-                    FontSize="{StaticResource BodyLargeFontSize}"
+                    FontSize="{StaticResource HeroFontSize}"
                     TextColor="White"
                     VerticalTextAlignment="Center"
                     HorizontalOptions="Fill"

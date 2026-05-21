@@ -8,6 +8,8 @@ namespace Visitz.Views.AppLock;
 
 public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
 {
+    const double MinHeightShowHero = 600;
+
     bool _disposed;
 
     /// <summary>
@@ -104,10 +106,6 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
 
     private void AppLockPage_SizeChanged(object? sender, EventArgs e)
     {
-        ViewModel.ShowHeroImage =
-            sender is AppLockPage page
-            && Resources.TryGetValue("MinHeightShowHero", out object val)
-            && val is double minHeight
-            && page.Height >= minHeight;
+        ViewModel.ShowHeroImage = Height >= MinHeightShowHero;
     }
 }
