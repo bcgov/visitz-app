@@ -8,6 +8,7 @@ using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Navigation;
+using Visitz.Views.User;
 using VisitzModel.Messaging;
 
 namespace Visitz.Views.Root;
@@ -99,7 +100,7 @@ public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>,
     {
         try
         {
-            if (message.FinishedError)
+            if (message.FinishedError && !SessionPage.IsOpen)
             {
                 Exception ex = message.UncaughtException;
                 Logger.LogError(ex.Message, ex);
