@@ -42,7 +42,7 @@ public partial class AppLockViewModel() : VisitzViewModel
     static async Task PromptBiometricAuth()
     {
         var result = await DeviceAuthenticator.Authenticate(
-            LocalizedStrings.DeviceAuthTitle,
+            LocalizedStrings.UnlockApp,
             LocalizedStrings.DeviceAuthReason
         );
 
