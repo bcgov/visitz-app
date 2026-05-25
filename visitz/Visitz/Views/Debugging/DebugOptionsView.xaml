@@ -57,7 +57,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     IsEnabled="{Binding BuildingInDebug}"
-                    IsToggled="{Binding DisablePrivacyScrim}"
+                    IsToggled="{Binding Options.DisablePrivacyScrim}"
                 />
 
                 <Button
@@ -117,7 +117,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="6"
                     Grid.Column="1"
-                    Command="{Binding ClearSecureStorageCommand}"
+                    Command="{Binding Options.ClearSecureStorageCommand}"
                     Text="Clear secure storage"
                 />
             </Grid>
@@ -144,25 +144,20 @@
 
                 <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
                     <Entry
-                        Text="{Binding WindowWidth}"
+                        Text="{Binding Options.WindowWidth, Mode=OneWay}"
                         Placeholder="Width"
                         WidthRequest="50"
                         VerticalOptions="Center"
-                        ReturnCommand="{Binding ApplyNewDimensionsCommand}"
                         Focused="Entry_HighlightWhenFocused"
+                        Unfocused="WindowWidthEntry_Unfocused"
                     />
                     <Entry
-                        Text="{Binding WindowHeight}"
+                        Text="{Binding Options.WindowHeight, Mode=OneWay}"
                         Placeholder="Height"
                         WidthRequest="50"
                         VerticalOptions="Center"
-                        ReturnCommand="{Binding ApplyNewDimensionsCommand}"
                         Focused="Entry_HighlightWhenFocused"
-                    />
-                    <Button
-                        Command="{Binding ApplyNewDimensionsCommand}"
-                        Text="Apply"
-                        VerticalOptions="Center"
+                        Unfocused="WindowHeightEntry_Unfocused"
                     />
                 </HorizontalStackLayout>
 
@@ -170,7 +165,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="1"
                     Grid.Column="1"
-                    Command="{Binding SwapWindowWidthAndHeightCommand}"
+                    Command="{Binding Options.SwapWindowWidthAndHeightCommand}"
                     Text="Swap window width and height"
                 />
                 <Button
@@ -178,21 +173,21 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     Text="Apply phone dimensions"
-                    Command="{Binding ApplyPhoneDimensionsCommand}"
+                    Command="{Binding Options.ApplyPhoneDimensionsCommand}"
                 />
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="3"
                     Grid.Column="1"
                     Text="Apply tablet dimensions"
-                    Command="{Binding ApplyTabletDimensionsCommand}"
+                    Command="{Binding Options.ApplyTabletDimensionsCommand}"
                 />
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="4"
                     Grid.Column="1"
                     Text="Apply default desktop dimenions"
-                    Command="{Binding ApplyDefaultDesktopDimensionsCommand}"
+                    Command="{Binding Options.ApplyDefaultDesktopDimensionsCommand}"
                 />
             </Grid>
 
@@ -241,14 +236,14 @@
                     Grid.Row="3"
                     Grid.Column="1"
                     IsEnabled="{Binding BuildingInDebug}"
-                    IsToggled="{Binding SkipLocalAuth}"
+                    IsToggled="{Binding Options.SkipLocalAuth}"
                 />
 
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="4"
                     Grid.Column="1"
-                    Command="{Binding ClearOfficeNamesCommand}"
+                    Command="{Binding Options.ClearOfficeNamesCommand}"
                     Text="Clear office names"
                 />
 
@@ -256,7 +251,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="5"
                     Grid.Column="1"
-                    Command="{Binding RemoveOneOfficeCommand}"
+                    Command="{Binding Options.RemoveOneOfficeCommand}"
                     Text="Remove one office name"
                 />
 
@@ -271,8 +266,9 @@
                 <Entry
                     Grid.Row="6"
                     Grid.Column="1"
-                    Text="{Binding StaleSessionMinutes, TargetNullValue='0'}"
+                    Text="{Binding Options.StaleThresholdMinutes, TargetNullValue='0'}"
                     HorizontalOptions="Start"
+                    VerticalOptions="Center"
                     WidthRequest="100"
                     Focused="Entry_HighlightWhenFocused"
                 />
@@ -291,7 +287,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="0"
                     Grid.Column="1"
-                    Command="{Binding ClearRealmDataCommand}"
+                    Command="{Binding Options.ClearRealmDataCommand}"
                     Text="Clear IcmDataRealm data"
                 />
 
@@ -299,7 +295,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="1"
                     Grid.Column="1"
-                    Command="{Binding ClearSafetyAssessmentDraftCommand}"
+                    Command="{Binding Options.ClearSafetyAssessmentDraftsRealmCommand}"
                     Text="Clear SafetyAssessmentDraft data"
                 />
 
@@ -307,7 +303,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="2"
                     Grid.Column="1"
-                    Command="{Binding ClearAttachmentDraftCommand}"
+                    Command="{Binding Options.ClearAttachmentDraftsRealmCommand}"
                     Text="Clear AttachmentDraft data"
                 />
 
@@ -315,7 +311,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="3"
                     Grid.Column="1"
-                    Command="{Binding RunRecordCleanupCommand}"
+                    Command="{Binding Options.RunRecordCleanupServiceCommand}"
                     Text="Run RecordCleanupService"
                 />
 
@@ -354,7 +350,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="0"
                     Grid.Column="1"
-                    IsToggled="{Binding RequireAttachmentFileContent}"
+                    IsToggled="{Binding Options.RequireAttachmentFileContent}"
                 />
             </Grid>
 
@@ -379,7 +375,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="0"
                     Grid.Column="1"
-                    IsToggled="{Binding WriteApiTimings}"
+                    IsToggled="{Binding Options.WriteApiTimings}"
                 />
 
                 <Label
@@ -393,7 +389,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="1"
                     Grid.Column="1"
-                    IsToggled="{Binding DryFireSubmitNotes}"
+                    IsToggled="{Binding Options.DryFireSubmitNotes}"
                 />
 
                 <Label
@@ -407,14 +403,14 @@
                     StyleClass="DebugLayout"
                     Grid.Row="2"
                     Grid.Column="1"
-                    IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"
+                    IsToggled="{Binding Options.DryFireSubmitNotesSimulateSuccess}"
                 />
 
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="3"
                     Grid.Column="1"
-                    Command="{Binding RunAutoCaseloadRefreshServiceCommand}"
+                    Command="{Binding Options.RunAutoCaseloadRefreshServiceCommand}"
                     Text="Run auto caseload refresh service"
                 />
 
@@ -422,7 +418,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="4"
                     Grid.Column="1"
-                    Command="{Binding ResetAutoCaseloadRefreshCommand}"
+                    Command="{Binding Options.ResetAutoCaseloadRefreshCommand}"
                     Text="Reset auto caseload refresh cooldown"
                 />
 
@@ -437,7 +433,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="5"
                     Grid.Column="1"
-                    IsToggled="{Binding AutoCaseloadRefreshDisabled}"
+                    IsToggled="{Binding Options.AutoCaseloadRefreshDisabled}"
                 />
             </Grid>
 
@@ -461,7 +457,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="0"
                     Grid.Column="1"
-                    IsToggled="{Binding DryFirePostVisitService}"
+                    IsToggled="{Binding Options.DryFirePostVisitService}"
                 />
 
                 <Label
@@ -475,7 +471,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="1"
                     Grid.Column="1"
-                    IsToggled="{Binding DryFirePostVisitServiceSimulateSuccess}"
+                    IsToggled="{Binding Options.DryFirePostVisitServiceSimulateSuccess}"
                 />
 
                 <Button
@@ -523,7 +519,7 @@
                     StyleClass="DebugLayout"
                     Grid.Row="0"
                     Grid.Column="1"
-                    IsToggled="{Binding KeepSafetyAssessmentDraftOnPublish}"
+                    IsToggled="{Binding Options.KeepSafetyAssessmentDraftOnPublish}"
                 />
             </Grid>
 
@@ -541,7 +537,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     IsEnabled="{OnIdiom Desktop=True, Default=False}"
-                    Command="{Binding OpenAppDataDirectoryCommand}"
+                    Command="{Binding Options.OpenAppDataDirectoryCommand}"
                     Text="Open AppDataDirectory"
                 />
 
@@ -550,7 +546,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     IsEnabled="{OnIdiom Desktop=True, Default=False}"
-                    Command="{Binding OpenCacheDirectoryCommand}"
+                    Command="{Binding Options.OpenCacheDirectoryCommand}"
                     Text="Open CacheDirectory"
                 />
 
