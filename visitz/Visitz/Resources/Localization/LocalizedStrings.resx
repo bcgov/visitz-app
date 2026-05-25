@@ -132,8 +132,8 @@
   <data name="DeviceAuthReason" xml:space="preserve">
     <value>MCFD Mobility contains Private Information and may only be accessed by authorized users.</value>
   </data>
-  <data name="DeviceAuthTitle" xml:space="preserve">
-    <value>Unlock MCFD Mobility</value>
+  <data name="UnlockApp" xml:space="preserve">
+    <value>Unlock app</value>
   </data>
   <data name="UserCancelledAuth" xml:space="preserve">
     <value>User cancelled IDIR login.</value>

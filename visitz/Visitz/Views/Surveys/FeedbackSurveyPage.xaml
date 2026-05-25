@@ -11,8 +11,8 @@
     Title="Feedback Survey"
     NavigationPage.HasNavigationBar="False"
     NavigationPage.HasBackButton="False"
-    WidthRequest="600"
-    HeightRequest="700"
+    MaximumWidthRequest="600"
+    MaximumHeightRequest="700"
     Background="Transparent"
 >
     <Border Background="Black" StrokeThickness="0" StrokeShape="RoundRectangle 10">

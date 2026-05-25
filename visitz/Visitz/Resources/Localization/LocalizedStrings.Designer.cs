@@ -697,15 +697,6 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unlock MCFD Mobility.
-        /// </summary>
-        public static string DeviceAuthTitle {
-            get {
-                return ResourceManager.GetString("DeviceAuthTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Device offline.
         /// </summary>
         public static string DeviceOffline {
@@ -2813,6 +2804,15 @@ namespace Visitz.Resources.Localization {
         public static string UnauthorizedForApi {
             get {
                 return ResourceManager.GetString("UnauthorizedForApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlock app.
+        /// </summary>
+        public static string UnlockApp {
+            get {
+                return ResourceManager.GetString("UnlockApp", resourceCulture);
             }
         }
         

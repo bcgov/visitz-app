@@ -7,11 +7,27 @@ namespace Visitz.Views.BaseClasses.Publishing;
 
 public partial class PublishPage : VisitzPage<PublishPage, PublishViewModel>
 {
+    const double MinHeightShowHero = 500;
+
+    bool _disposed;
+
     public PublishPage(PublishViewModel publishViewModel, ILogger<PublishPage> logger)
         : base(publishViewModel, logger)
     {
         InitializeComponent();
         BindingContext = ViewModel;
+
+        SizeChanged += PublishPage_SizeChanged;
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (_disposed && disposing)
+        {
+            SizeChanged -= PublishPage_SizeChanged;
+            _disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
     protected override async Task OnCreatedAsync()
@@ -20,6 +36,14 @@ public partial class PublishPage : VisitzPage<PublishPage, PublishViewModel>
 
         ViewModel.OnCompleted += PublishPage_OnCompleted;
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+    }
+
+    protected override void OnDestroyed()
+    {
+        ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
+        ViewModel.OnCompleted -= PublishPage_OnCompleted;
+
+        base.OnDestroyed();
     }
 
     private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -39,14 +63,6 @@ public partial class PublishPage : VisitzPage<PublishPage, PublishViewModel>
         int fullSpan = MainGrid.ColumnDefinitions.Count;
         int singleColumn = 1;
         Grid.SetColumnSpan(DismissButton, onlyDismiss ? fullSpan : singleColumn);
-    }
-
-    protected override void OnDestroyed()
-    {
-        ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
-        ViewModel.OnCompleted -= PublishPage_OnCompleted;
-
-        base.OnDestroyed();
     }
 
     private async void PublishPage_OnCompleted(object? sender, EventArgs e)
@@ -103,5 +119,11 @@ public partial class PublishPage : VisitzPage<PublishPage, PublishViewModel>
     private async void DismissButton_Clicked(object? sender, EventArgs e)
     {
         await TryPopAsync();
+    }
+
+    private void PublishPage_SizeChanged(object? sender, EventArgs e)
+    {
+        HeroImage.IsVisible = Height >= MinHeightShowHero;
+        MainGrid.RowDefinitions[0].Height = HeroImage.IsVisible ? GridLength.Star : 0;
     }
 }

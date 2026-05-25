@@ -28,18 +28,19 @@
         <Grid
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
-            RowDefinitions="2*,Auto,*"
+            RowDefinitions="{Binding RowDefinitions}"
         >
             <views:DocumentHeroImage
                 Grid.Row="0"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
+                IsVisible="{Binding ShowHeroImage}"
             />
 
             <Button
                 Grid.Row="1"
                 StyleClass="GoldBorderButton"
-                Text="{local:Localize DeviceAuthTitle}"
+                Text="{local:Localize UnlockApp}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Padding="50,20,50,20"
@@ -57,7 +58,7 @@
                 MaximumWidthRequest="500"
                 TextColor="White"
                 FontFamily="BCSansBold"
-                FontSize="20"
+                FontSize="{StaticResource LabelLargeFontSize}"
             />
         </Grid>
     </AbsoluteLayout>
