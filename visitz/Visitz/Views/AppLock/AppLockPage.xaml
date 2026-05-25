@@ -58,7 +58,7 @@
                 MaximumWidthRequest="500"
                 TextColor="White"
                 FontFamily="BCSansBold"
-                FontSize="{StaticResource HeroFontSize}"
+                FontSize="{StaticResource LabelLargeFontSize}"
             />
         </Grid>
     </AbsoluteLayout>
