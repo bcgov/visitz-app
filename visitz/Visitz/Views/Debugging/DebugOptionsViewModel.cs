@@ -84,11 +84,11 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     {
         await base.InitAsync();
 
-        DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
-        DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
+        DryFireSubmitNotes = DebugOptions.Default.DryFireSubmitNotes;
+        DryFireSubmitNotesSimulateSuccess = DebugOptions.Default.DryFireSubmitNotesSimulateSuccess;
 
-        DryFirePostVisitService = DebugOptions.DryFirePostVisitService;
-        DryFirePostVisitServiceSimulateSuccess = DebugOptions.DryFirePostVisitServiceSimulateSuccess;
+        DryFirePostVisitService = DebugOptions.Default.DryFirePostVisitService;
+        DryFirePostVisitServiceSimulateSuccess = DebugOptions.Default.DryFirePostVisitServiceSimulateSuccess;
 
         AppId = AppInfo.Current.PackageName;
         DotnetVersion = Environment.Version.ToString();
@@ -98,10 +98,10 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 #else
         BuildingInDebug = false;
 #endif
-        SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
+        SkipLocalAuth = BuildingInDebug && DebugOptions.Default.SkipLocalAuth;
 
-        RequireAttachmentFileContent = DebugOptions.RequireAttachmentFileContent;
-        KeepSafetyAssessmentDraftOnPublish = DebugOptions.KeepSafetyAssessmentDraftOnPublish;
+        RequireAttachmentFileContent = DebugOptions.Default.RequireAttachmentFileContent;
+        KeepSafetyAssessmentDraftOnPublish = DebugOptions.Default.KeepSafetyAssessmentDraftOnPublish;
 
         var settings = new AppSettings();
 
@@ -110,13 +110,13 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 
         CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
 
-        AutoCaseloadRefreshDisabled = DebugOptions.AutoCaseloadRefreshDisabled;
+        AutoCaseloadRefreshDisabled = DebugOptions.Default.AutoCaseloadRefreshDisabled;
 
-        StaleSessionMinutes = DebugOptions.StaleThresholdMinutes;
+        StaleSessionMinutes = DebugOptions.Default.StaleThresholdMinutes;
 
-        DisablePrivacyScrim = DebugOptions.DisablePrivacyScrim;
+        DisablePrivacyScrim = DebugOptions.Default.DisablePrivacyScrim;
 
-        WriteApiTimings = DebugOptions.WriteApiTimings;
+        WriteApiTimings = DebugOptions.Default.WriteApiTimings;
 
         if (Application.Current.Windows[0] is Window window)
         {
@@ -151,95 +151,95 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 
     partial void OnDryFireSubmitNotesChanged(bool value)
     {
-        DebugOptions.DryFireSubmitNotes = value;
+        DebugOptions.Default.DryFireSubmitNotes = value;
     }
 
     partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
     {
-        DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
+        DebugOptions.Default.DryFireSubmitNotesSimulateSuccess = value;
     }
 
     partial void OnDryFirePostVisitServiceChanged(bool value)
     {
-        DebugOptions.DryFirePostVisitService = value;
+        DebugOptions.Default.DryFirePostVisitService = value;
     }
 
     partial void OnDryFirePostVisitServiceSimulateSuccessChanged(bool value)
     {
-        DebugOptions.DryFirePostVisitServiceSimulateSuccess = value;
+        DebugOptions.Default.DryFirePostVisitServiceSimulateSuccess = value;
     }
 
     partial void OnSkipLocalAuthChanged(bool value)
     {
-        DebugOptions.SkipLocalAuth = value;
+        DebugOptions.Default.SkipLocalAuth = value;
     }
 
     partial void OnRequireAttachmentFileContentChanged(bool value)
     {
-        DebugOptions.RequireAttachmentFileContent = value;
+        DebugOptions.Default.RequireAttachmentFileContent = value;
     }
 
     partial void OnKeepSafetyAssessmentDraftOnPublishChanged(bool value)
     {
-        DebugOptions.KeepSafetyAssessmentDraftOnPublish = value;
+        DebugOptions.Default.KeepSafetyAssessmentDraftOnPublish = value;
     }
 
     partial void OnAutoCaseloadRefreshDisabledChanged(bool value)
     {
-        DebugOptions.AutoCaseloadRefreshDisabled = value;
+        DebugOptions.Default.AutoCaseloadRefreshDisabled = value;
     }
 
     partial void OnStaleSessionMinutesChanged(double value)
     {
-        DebugOptions.StaleThresholdMinutes = value;
+        DebugOptions.Default.StaleThresholdMinutes = value;
     }
 
     partial void OnDisablePrivacyScrimChanged(bool value)
     {
-        DebugOptions.DisablePrivacyScrim = value;
+        DebugOptions.Default.DisablePrivacyScrim = value;
     }
 
     partial void OnWriteApiTimingsChanged(bool value)
     {
-        DebugOptions.WriteApiTimings = value;
+        DebugOptions.Default.WriteApiTimings = value;
     }
 
     [RelayCommand]
     public static void DeleteAccessToken()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             TokenHolder.DeleteAccessToken();
     }
 
     [RelayCommand]
     public static void DeleteRefreshToken()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             TokenHolder.DeleteRefreshToken();
     }
 
     [RelayCommand]
     public static async Task ClearRealmData()
     {
-        await DebugOptions.ClearRealmData();
+        await DebugOptions.Default.ClearRealmData();
     }
 
     [RelayCommand]
     public static async Task ClearSafetyAssessmentDraft()
     {
-        await DebugOptions.ClearSafetyAssessmentDraftsRealm();
+        await DebugOptions.Default.ClearSafetyAssessmentDraftsRealm();
     }
 
     [RelayCommand]
     public static async Task ClearAttachmentDraft()
     {
-        await DebugOptions.ClearAttachmentDraftsRealm();
+        await DebugOptions.Default.ClearAttachmentDraftsRealm();
     }
 
     [RelayCommand]
     public static async Task Logout()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             await OidcSession.LogoutAsync();
     }
 
@@ -258,124 +258,124 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [RelayCommand]
     public static void OpenAppDataDirectory()
     {
-        DebugOptions.OpenAppDataDirectory();
+        DebugOptions.Default.OpenAppDataDirectory();
     }
 
     [RelayCommand]
     public static void OpenCacheDirectory()
     {
-        DebugOptions.OpenCacheDirectory();
+        DebugOptions.Default.OpenCacheDirectory();
     }
 
     [RelayCommand]
     public static void ClearSecureStorage()
     {
-        DebugOptions.ClearSecureStorage();
+        DebugOptions.Default.ClearSecureStorage();
     }
 
     [RelayCommand]
     public async Task LoadMockPersonVisits()
     {
-        await DebugOptions.LoadPersonVisitsMockData(MockPersonVisitsParentId);
+        await DebugOptions.Default.LoadPersonVisitsMockData(MockPersonVisitsParentId);
     }
 
     [RelayCommand]
     public static async Task SetWarning()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Warning);
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Warning);
     }
 
     [RelayCommand]
     public static async Task SetDanger()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Danger);
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Danger);
     }
 
     [RelayCommand]
     public static async Task SetCritical()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Critical);
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Critical);
     }
 
     [RelayCommand]
     public static Task ClearOfficeNames()
     {
-        return DebugOptions.ClearOfficeNames();
+        return DebugOptions.Default.ClearOfficeNames();
     }
 
     [RelayCommand]
     public static Task RemoveOneOffice()
     {
-        return DebugOptions.RemoveOneOffice();
+        return DebugOptions.Default.RemoveOneOffice();
     }
 
     [RelayCommand]
     public static async Task RunRecordCleanup()
     {
-        await DebugOptions.RunRecordCleanupService();
+        await DebugOptions.Default.RunRecordCleanupService();
     }
 
     [RelayCommand]
     public static void RunAutoCaseloadRefreshService()
     {
-        _ = DebugOptions.RunAutoCaseloadRefreshService();
+        _ = DebugOptions.Default.RunAutoCaseloadRefreshService();
     }
 
     [RelayCommand]
     public static void ResetAutoCaseloadRefresh()
     {
-        DebugOptions.ResetAutoCaseloadRefresh();
+        DebugOptions.Default.ResetAutoCaseloadRefresh();
     }
 
     [RelayCommand]
     public void ApplyNewDimensions()
     {
-        DebugOptions.WindowHeight = WindowHeight;
-        DebugOptions.WindowWidth = WindowWidth;
+        DebugOptions.Default.WindowHeight = WindowHeight;
+        DebugOptions.Default.WindowWidth = WindowWidth;
 
         // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
+        WindowHeight = DebugOptions.Default.WindowHeight;
+        WindowWidth = DebugOptions.Default.WindowWidth;
     }
 
     [RelayCommand]
     public void SwapWindowWidthAndHeight()
     {
-        DebugOptions.SwapWindowWidthAndHeight();
+        DebugOptions.Default.SwapWindowWidthAndHeight();
 
         // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
+        WindowHeight = DebugOptions.Default.WindowHeight;
+        WindowWidth = DebugOptions.Default.WindowWidth;
     }
 
     [RelayCommand]
     public void ApplyPhoneDimensions()
     {
-        DebugOptions.ApplyPhoneDimensions();
+        DebugOptions.Default.ApplyPhoneDimensions();
 
         // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
+        WindowHeight = DebugOptions.Default.WindowHeight;
+        WindowWidth = DebugOptions.Default.WindowWidth;
     }
 
     [RelayCommand]
     public void ApplyTabletDimensions()
     {
-        DebugOptions.ApplyTabletDimensions();
+        DebugOptions.Default.ApplyTabletDimensions();
 
         // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
+        WindowHeight = DebugOptions.Default.WindowHeight;
+        WindowWidth = DebugOptions.Default.WindowWidth;
     }
 
     [RelayCommand]
     public void ApplyDefaultDesktopDimensions()
     {
-        DebugOptions.ApplyDefaultDesktopDimensions();
+        DebugOptions.Default.ApplyDefaultDesktopDimensions();
 
         // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
+        WindowHeight = DebugOptions.Default.WindowHeight;
+        WindowWidth = DebugOptions.Default.WindowWidth;
     }
 
     [RelayCommand]

@@ -53,7 +53,7 @@ public partial class SessionPage : VisitzPage<SessionPage, SessionViewModel>
                 IsOpen
                 || await OidcSession.SessionExistsAsync()
                     && (await OidcSession.IsAuthorizedAsync() ?? false)
-                    && (!await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false)
+                    && (!await OidcSession.IsSessionStale(DebugOptions.Default.StaleThresholdMinutes) ?? false)
             )
                 return;
 

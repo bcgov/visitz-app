@@ -69,7 +69,7 @@ namespace Visitz.Services.Caseload
                         + $" Completed: {TotalApiCompletedCount}"
                 );
 
-                if (DebugOptions.WriteApiTimings)
+                if (DebugOptions.Default.WriteApiTimings)
                     ShouldWriteStats = true;
             }
         }

@@ -15,7 +15,7 @@ public partial class VerticalNavRailView : ViewModelContentView<NavRailViewModel
         InitializeComponent();
         BindingContext = ViewModel;
 
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             SetupDebugOptionsUsage();
     }
 

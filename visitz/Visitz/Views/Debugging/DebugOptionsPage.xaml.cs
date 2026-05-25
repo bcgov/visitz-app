@@ -11,7 +11,7 @@ public partial class DebugOptionsPage : ContentPage
 
     public static async Task TryOpen(Page fromPage = null)
     {
-        if (DebugOptions.Enabled && !IsOpen)
+        if (DebugOptions.Default.Enabled && !IsOpen)
             await Navigator.GoToPage<DebugOptionsPage>(fromPage);
     }
 }

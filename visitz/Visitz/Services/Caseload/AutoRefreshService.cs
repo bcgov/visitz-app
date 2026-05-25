@@ -79,7 +79,7 @@ internal class AutoRefreshService(LastUpdatedPrefs prefs, ServiceHandler service
             return;
         }
 
-        if (DebugOptions.AutoCaseloadRefreshDisabled)
+        if (DebugOptions.Default.AutoCaseloadRefreshDisabled)
         {
             SnackbarHandler.ShowText(LocalizedStrings.AutoRefreshDebugDisabled);
             ResultCode = Result.Cancelled;

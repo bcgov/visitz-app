@@ -82,7 +82,7 @@ internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : Vi
             recordServiceInfo.LastName
         );
 
-        if (DebugOptions.RequireAttachmentFileContent || !string.IsNullOrWhiteSpace(json.AttachmentId))
+        if (DebugOptions.Default.RequireAttachmentFileContent || !string.IsNullOrWhiteSpace(json.AttachmentId))
             await VisitzFiles.EnqueueAsync(async () =>
                 attachment.RelativePath = await attachmentFiler.SaveFileAsync(json.AttachmentId, json.FileExt)
             );

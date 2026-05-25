@@ -25,7 +25,7 @@ public partial class DebugOptionsView : ViewModelContentView<DebugOptionsViewMod
                 Content = new Label()
                 {
                     HorizontalOptions = LayoutOptions.Start,
-                    Text = DebugOptions.ListDocumentsFiles(),
+                    Text = DebugOptions.Default.ListDocumentsFiles(),
                 },
             },
         };
