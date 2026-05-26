@@ -11,7 +11,7 @@ using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models.Attachments;
 
-public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentJson>
+public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentJson>, IEquatable<Attachment>
 {
     public static readonly int MaxFilesize = 5 * Sizes.MB;
     public static readonly int ThumbnailSize = 400;
@@ -356,33 +356,24 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         EntityType type
     )
     {
+        // Issues with Realm object lifetime and IEnumerable, so materialize everything to lists instead
         var incomingAttachments = FromApiArray(items, parentId, type);
-        var incomingAttachmentIds = incomingAttachments.Select(item => item.Id);
+        var existingAttachments = GetAttachments(realm, type, parentId).ToList();
 
-        var existingAttachments = GetAttachments(realm, type, parentId);
-        var existingAttachmentIds = existingAttachments.AsEnumerable().Select(item => item.Id);
+        var add = incomingAttachments.Except(existingAttachments).ToList();
+        var remove = existingAttachments.Except(incomingAttachments).ToList();
+        var update = incomingAttachments.Intersect(existingAttachments).ToList();
 
-        var newAttachmentIds = incomingAttachmentIds.Except(existingAttachmentIds);
-        var newAttachments = incomingAttachments.Where(item => newAttachmentIds.Contains(item.Id));
-
-        var commonIds = incomingAttachmentIds.Except(newAttachmentIds);
-        var attachmentsToUpdate = incomingAttachments.Where(item => commonIds.Contains(item.Id));
-
-        var attachmentIdsToDeleteFromRealm = existingAttachmentIds.Except(incomingAttachmentIds);
-        var attachmentsToDeleteFromRealm = existingAttachments
-            .ToList()
-            .Where(item => attachmentIdsToDeleteFromRealm.Contains(item.Id));
-
-        if (!newAttachments.Any() && !attachmentsToUpdate.Any() && !attachmentsToDeleteFromRealm.Any())
+        if (add.Count == 0 && update.Count == 0 && remove.Count == 0)
             return;
 
         await RealmExtensions.CommitAsync(
             realm,
             () =>
             {
-                foreach (var item in attachmentsToDeleteFromRealm)
+                foreach (Attachment item in remove)
                 {
-                    if (item != null && item.IsValid)
+                    if (item.IsValid)
                     {
                         if (item.FileExistsLocally)
                             item.RemoveFileFromDevice();
@@ -390,10 +381,10 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
                     }
                 }
 
-                foreach (var attachment in newAttachments)
+                foreach (var attachment in add)
                     realm.Add(attachment);
 
-                foreach (var updatedAttachment in attachmentsToUpdate)
+                foreach (var updatedAttachment in update)
                 {
                     var existing = realm.Find<Attachment>(updatedAttachment.Id);
                     existing?.CopyFrom(updatedAttachment);
@@ -464,5 +455,23 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Attachment attachment ? Equals(attachment) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        // Id is not meant to change
+        return Id.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
+    }
+
+    public bool Equals(Attachment? other)
+    {
+        return ReferenceEquals(this, other) || Id == other?.Id;
     }
 }

@@ -219,13 +219,14 @@ public class AttachmentTests
     public async Task SynchronizeAsyncDeletesDifferenceFromRealm()
     {
         var realm = await TestingUtilities.MakeRealm<AttachmentTests>();
-        List<AttachmentJson> attachments = initialAttachmentJsonList;
+        List<AttachmentJson> attachments = new(initialAttachmentJsonList);
         string parentId = "12";
 
         await Attachment.SynchronizeAsync(realm, attachments, parentId, EntityType.Case);
         var numberOfAttachmentsBeforeDeletion = realm.All<Attachment>().Count();
 
         //Checking deletion of realm objects
+        attachments = new(initialAttachmentJsonList);
         attachments.RemoveAll(item => item.Id == "4");
 
         await Attachment.SynchronizeAsync(realm, attachments, parentId, EntityType.Case);
