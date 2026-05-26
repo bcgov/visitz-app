@@ -27,7 +27,7 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
             return;
 
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
-        realmQueryMap.Subscribe(DataRealm, IcmContact.GetByParentObject(DataRealm, BusinessObject));
+        realmQueryMap.Subscribe(DataRealm, IcmContact.GetByIdType(DataRealm, RowId, EntityType));
     }
 
     bool disposed;
@@ -68,7 +68,7 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
             // we need to do another full query to see differences.
 
             List<IcmContact> contactsCopy = ContactViewModels.Select(vm => vm.Contact).ToList();
-            var savedContacts = IcmContact.GetByParentObject(DataRealm, BusinessObject).ToList();
+            var savedContacts = IcmContact.GetByIdType(DataRealm, RowId, EntityType).ToList();
 
             var removed = contactsCopy.Except(savedContacts);
             var added = savedContacts.Except(contactsCopy);

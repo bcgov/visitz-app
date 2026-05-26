@@ -113,7 +113,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     IconGlyph = MaterialIcons.Home,
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.Address,
-                    Value = KeyPlayer.PrimaryAddress,
+                    Value = KeyPlayer.PrimaryAddressBinding,
                 },
             ];
         }
