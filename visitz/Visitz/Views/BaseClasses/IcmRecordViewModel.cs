@@ -34,7 +34,7 @@ public partial class IcmRecordViewModel : VisitzViewModel, IIcmRecordInfo, IBusi
             ?? throw new InvalidOperationException("Couldn't open IcmData Realm");
 
         BusinessObject =
-            IBusinessObjectExtensions.GetByIdType(DataRealm, RowId, EntityType)
+            IBusinessObject.GetByIdType(DataRealm, RowId, EntityType)
             ?? throw new InvalidOperationException(
                 $"Unable to retrieve BusinessObject (id '{RowId}', type '{EntityType}')"
             );

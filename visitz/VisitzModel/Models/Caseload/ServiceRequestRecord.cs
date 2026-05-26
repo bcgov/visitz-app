@@ -21,8 +21,7 @@ public partial class ServiceRequestRecord
         IRowMetadata,
         IBusinessObject,
         IAssignedMetadata,
-        IApiJson<ServiceRequestJson>,
-        IEquatable<ServiceRequestRecord>
+        IApiJson<ServiceRequestJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -128,10 +127,6 @@ public partial class ServiceRequestRecord
     public string DisplayDate => CreatedDate.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
 
     public string DisplayName => ServiceOffice;
-
-    public string FullType => this.GetFullType();
-
-    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public ServiceRequestRecord() { }
 
@@ -316,13 +311,13 @@ public partial class ServiceRequestRecord
         return AssignedTo == username;
     }
 
-    public bool Equals(ServiceRequestRecord? other)
-    {
-        return IBusinessObjectExtensions.Equals(this, other);
-    }
-
     public void RaisePropertyChangedEvent(string propertyName)
     {
         RaisePropertyChanged(propertyName);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
     }
 }

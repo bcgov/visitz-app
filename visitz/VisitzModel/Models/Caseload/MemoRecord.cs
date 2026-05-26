@@ -15,13 +15,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class MemoRecord
-    : IRealmObject,
-        IRowMetadata,
-        IBusinessObject,
-        IAssignedMetadata,
-        IApiJson<MemoJson>,
-        IEquatable<MemoRecord>
+public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, IAssignedMetadata, IApiJson<MemoJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -138,12 +132,6 @@ public partial class MemoRecord
 
     public string DisplayDate =>
         CallDate?.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture) ?? "";
-
-    public string DisplayName => this.GetDisplayName();
-
-    public string FullType => this.GetFullType();
-
-    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public MemoRecord() { }
 
@@ -338,13 +326,13 @@ public partial class MemoRecord
         return AssignedTo == username;
     }
 
-    public bool Equals(MemoRecord? other)
-    {
-        return IBusinessObjectExtensions.Equals(this, other);
-    }
-
     public void RaisePropertyChangedEvent(string propertyName)
     {
         RaisePropertyChanged(propertyName);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
     }
 }

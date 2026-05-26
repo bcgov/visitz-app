@@ -173,7 +173,7 @@ public class CaseRecordTests
         CaseRecord @case = new(CaseJson);
         realm.Write(() => realm.Add(@case));
 
-        Assert.Null(realm.Find<BoLocalState>(@case.ToIdTypeString()));
+        Assert.Null(realm.Find<BoLocalState>(((IBusinessObject)@case).ToIdTypeString()));
     }
 
     [Fact]
@@ -183,12 +183,12 @@ public class CaseRecordTests
         CaseRecord @case = new(CaseJson);
         realm.Write(() =>
         {
-            @case.UpsertLocalState(realm, false);
+            ((IBusinessObject)@case).UpsertLocalState(realm, false);
             realm.Add(@case);
         });
 
         Assert.NotNull(@case.LocalState);
-        Assert.NotNull(realm.Find<BoLocalState>(@case.ToIdTypeString()));
+        Assert.NotNull(realm.Find<BoLocalState>(((IBusinessObject)@case).ToIdTypeString()));
     }
 
     [Fact]
@@ -199,7 +199,7 @@ public class CaseRecordTests
         CaseRecord @case = new(CaseJson);
         realm.Write(() =>
         {
-            @case.UpsertLocalState(realm);
+            ((IBusinessObject)@case).UpsertLocalState(realm);
             @case.LocalState?.ShouldDownloadDuringRefresh = true;
             realm.Add(@case);
         });
@@ -209,7 +209,7 @@ public class CaseRecordTests
         realm.Write(() =>
         {
             realm.Add(upsertCase, update: true);
-            @case.UpsertLocalState(realm);
+            ((IBusinessObject)@case).UpsertLocalState(realm);
         });
 
         CaseRecord retrievedCase = realm.Find<CaseRecord>(CaseJson.Id)!;

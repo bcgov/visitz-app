@@ -26,11 +26,11 @@ public static class IcmDataMigrations
         {
             foreach (var @case in migration.NewRealm.All<CaseRecord>())
                 if (@case.Realm != null)
-                    @case.UpsertLocalState(@case.Realm, false);
+                    ((IBusinessObject)@case).UpsertLocalState(@case.Realm, false);
 
             foreach (var incident in migration.NewRealm.All<IncidentRecord>())
                 if (incident.Realm != null)
-                    incident.UpsertLocalState(incident.Realm, false);
+                    ((IBusinessObject)incident).UpsertLocalState(incident.Realm, false);
         }
     }
 

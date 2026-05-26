@@ -1,4 +1,7 @@
+using System.ComponentModel;
+using System.Globalization;
 using Realms;
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
@@ -40,13 +43,13 @@ public partial interface IBusinessObject : IRealmObject
 
     public BoLocalState? LocalState { get; set; }
 
-    public string DisplayDate { get; }
+    public string DisplayDate => CreatedDateBinding.ToString(DisplayDateFormat, CultureInfo.InvariantCulture);
 
-    public string DisplayName { get; }
+    public string DisplayName => $"{LastNameBinding}, {GivenNamesBinding}";
 
-    public string FullType { get; }
+    public string FullType => $"{EntitySubtype.GetDisplayString()} {EntityType.GetDisplayString()}";
 
-    public IQueryable<IcmContact> Contacts { get; }
+    public IQueryable<IcmContact> Contacts => GetContacts(Realm);
 
     public bool IsAssigned(string username);
 
@@ -80,4 +83,89 @@ public partial interface IBusinessObject : IRealmObject
     );
 
     void RaisePropertyChangedEvent(string propertyName);
+
+    string ToIdTypeString()
+    {
+        return $"{Id}||{(int)EntityType}";
+    }
+
+    IcmContact? GetKeyPlayer(Realm? realm = null)
+    {
+        realm ??= Realm ?? throw new InvalidOperationException("Attached Realm is null");
+        return IcmContact.GetKeyPlayerFor(realm, this);
+    }
+
+    IQueryable<IcmContact> GetContacts(Realm? realm = null)
+    {
+        realm ??= Realm;
+        ArgumentNullException.ThrowIfNull(realm);
+        return IcmContact.GetByParentObject(realm, this);
+    }
+
+    public void SubscribePropertyChanged(PropertyChangedEventHandler handler)
+    {
+        (this as INotifyPropertyChanged)?.PropertyChanged += handler;
+    }
+
+    public void UnsubscribePropertyChanged(PropertyChangedEventHandler handler)
+    {
+        (this as INotifyPropertyChanged)?.PropertyChanged -= handler;
+    }
+
+    public bool Equals(IBusinessObject? other)
+    {
+        return ReferenceEquals(this, other)
+            || (other != null && IdBinding == other.IdBinding && EntityType == other.EntityType);
+    }
+
+    public int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        // Id is not meant to change
+        return EntityType.GetHashCode() * IdBinding.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
+    }
+
+    void UpsertLocalState(Realm realm, bool? markForDownload = null)
+    {
+        if (realm.Find<BoLocalState>(ToIdTypeString()) is BoLocalState local)
+        {
+            if (!local.ShouldDownloadDuringRefresh && markForDownload is bool mark)
+                local.ShouldDownloadDuringRefresh = mark;
+
+            LocalState = local;
+            realm.Add(local, update: true);
+        }
+        else
+        {
+            LocalState = new(this) { ShouldDownloadDuringRefresh = markForDownload ?? false };
+            realm.Add(LocalState);
+        }
+    }
+
+    public static IQueryable<IBusinessObject> GetQueryableByRelaxedIdType(Realm realm, string id, EntityType type)
+    {
+        return type switch
+        {
+            EntityType.Case => realm.All<CaseRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.Incident => realm.All<IncidentRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.Memo => realm.All<MemoRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.ServiceRequest => realm
+                .All<ServiceRequestRecord>()
+                .Where(rec => rec.Id == id || rec.FileNumber == id),
+            _ => throw new InvalidOperationException($"'{type}' not supported"),
+        };
+    }
+
+    public static IBusinessObject? GetByIdType(Realm realm, string id, EntityType type)
+    {
+        return type switch
+        {
+            EntityType.Case => realm.Find<CaseRecord>(id),
+            EntityType.Incident => realm.Find<IncidentRecord>(id),
+            EntityType.Memo => realm.Find<MemoRecord>(id),
+            EntityType.ServiceRequest => realm.Find<ServiceRequestRecord>(id),
+            _ => throw new InvalidOperationException($"'{type}' not supported"),
+        };
+    }
 }

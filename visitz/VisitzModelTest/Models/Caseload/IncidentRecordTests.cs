@@ -184,7 +184,7 @@ public class IncidentRecordTests
         IncidentRecord incident = new(IncidentJson);
         realm.Write(() => realm.Add(incident));
 
-        Assert.Null(realm.Find<BoLocalState>(incident.ToIdTypeString()));
+        Assert.Null(realm.Find<BoLocalState>(((IBusinessObject)incident).ToIdTypeString()));
     }
 
     [Fact]
@@ -194,12 +194,12 @@ public class IncidentRecordTests
         IncidentRecord incident = new(IncidentJson);
         realm.Write(() =>
         {
-            incident.UpsertLocalState(realm);
+            ((IBusinessObject)incident).UpsertLocalState(realm);
             realm.Add(incident);
         });
 
         Assert.NotNull(incident.LocalState);
-        Assert.NotNull(realm.Find<BoLocalState>(incident.ToIdTypeString()));
+        Assert.NotNull(realm.Find<BoLocalState>(((IBusinessObject)incident).ToIdTypeString()));
     }
 
     [Fact]
@@ -210,7 +210,7 @@ public class IncidentRecordTests
         IncidentRecord incident = new(IncidentJson);
         realm.Write(() =>
         {
-            incident.UpsertLocalState(realm);
+            ((IBusinessObject)incident).UpsertLocalState(realm);
             incident.LocalState?.ShouldDownloadDuringRefresh = true;
             realm.Add(incident);
         });
@@ -220,7 +220,7 @@ public class IncidentRecordTests
         realm.Write(() =>
         {
             realm.Add(upsertCase, update: true);
-            incident.UpsertLocalState(realm);
+            ((IBusinessObject)incident).UpsertLocalState(realm);
         });
 
         IncidentRecord retrievedCase = realm.Find<IncidentRecord>(IncidentJson.Id)!;

@@ -1,4 +1,3 @@
-using System.Globalization;
 using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
@@ -16,13 +15,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class CaseRecord
-    : IRealmObject,
-        IRowMetadata,
-        IBusinessObject,
-        IAssignedMetadata,
-        IApiJson<CaseJson>,
-        IEquatable<CaseRecord>
+public partial class CaseRecord : IRealmObject, IRowMetadata, IBusinessObject, IAssignedMetadata, IApiJson<CaseJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -123,15 +116,6 @@ public partial class CaseRecord
     public string WorkQueue { get; set; } = string.Empty;
 
     public BoLocalState? LocalState { get; set; }
-
-    public string DisplayDate =>
-        this.CreatedDateBinding.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
-
-    public string DisplayName => this.GetDisplayName();
-
-    public string FullType => this.GetFullType();
-
-    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public CaseRecord() { }
 
@@ -265,7 +249,7 @@ public partial class CaseRecord
                 foreach (var item in incomingCases)
                 {
                     realm.Add(item, update: true);
-                    item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+                    ((IBusinessObject)item).UpsertLocalState(realm, markForDownload: isPersonalCaseload);
                 }
             }
         );
@@ -359,19 +343,9 @@ public partial class CaseRecord
         return AssignedTo == username || Assignees.Contains(username);
     }
 
-    public bool Equals(CaseRecord? other)
-    {
-        return IBusinessObjectExtensions.Equals(this, other);
-    }
-
     public override bool Equals(object? obj)
     {
-        return obj is CaseRecord info ? Equals(info) : base.Equals(obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return IBusinessObjectExtensions.GetHashCode(this);
+        return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
     }
 
     public void RaisePropertyChangedEvent(string propertyName)

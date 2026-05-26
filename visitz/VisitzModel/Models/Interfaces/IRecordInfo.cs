@@ -55,7 +55,7 @@ public static class IRecordInfoExtensions
 
         if (realm != null)
         {
-            recordInfo.RelatedEntitySubscriptionQuery = IBusinessObjectExtensions.GetQueryableByRelaxedIdType(
+            recordInfo.RelatedEntitySubscriptionQuery = IBusinessObject.GetQueryableByRelaxedIdType(
                 realm,
                 recordInfo.RelatedEntityId,
                 recordInfo.RelatedEntityType

@@ -21,8 +21,7 @@ public partial class IncidentRecord
         IRowMetadata,
         IBusinessObject,
         IAssignedMetadata,
-        IApiJson<IncidentJson>,
-        IEquatable<IncidentRecord>
+        IApiJson<IncidentJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -142,12 +141,6 @@ public partial class IncidentRecord
 
     public string DisplayDate =>
         DateReported?.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture) ?? "";
-
-    public string DisplayName => this.GetDisplayName();
-
-    public string FullType => this.GetFullType();
-
-    public IQueryable<IcmContact> Contacts => this.GetContacts();
 
     public IncidentRecord() { }
 
@@ -296,7 +289,7 @@ public partial class IncidentRecord
                 foreach (var item in incomingIncidents)
                 {
                     realm.Add(item, update: true);
-                    item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+                    ((IBusinessObject)item).UpsertLocalState(realm, markForDownload: isPersonalCaseload);
                 }
             }
         );
@@ -387,19 +380,9 @@ public partial class IncidentRecord
         return AssignedTo == username || Assignees.Contains(username);
     }
 
-    public bool Equals(IncidentRecord? other)
-    {
-        return IBusinessObjectExtensions.Equals(this, other);
-    }
-
     public override bool Equals(object? obj)
     {
-        return obj is IncidentRecord info ? Equals(info) : base.Equals(obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return IBusinessObjectExtensions.GetHashCode(this);
+        return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
     }
 
     public void RaisePropertyChangedEvent(string propertyName)
