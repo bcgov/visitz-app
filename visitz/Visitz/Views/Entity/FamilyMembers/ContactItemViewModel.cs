@@ -10,10 +10,10 @@ namespace Visitz.Views.Entity.FamilyMembers;
 
 #nullable enable
 
-public partial class ContactItemViewModel(IcmContact icmContact) : VisitzViewModel
+public partial class ContactItemViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public partial IcmContact Contact { get; set; } = icmContact;
+    public partial IcmContact Contact { get; set; }
 
     [ObservableProperty]
     public partial bool Expanded { get; set; }
@@ -29,6 +29,11 @@ public partial class ContactItemViewModel(IcmContact icmContact) : VisitzViewMod
 
     [ObservableProperty]
     public partial string DeceasedText { get; set; } = LocalizedStrings.Deceased;
+
+    public ContactItemViewModel(IcmContact icmContact)
+    {
+        Contact = icmContact;
+    }
 
     [RelayCommand]
     public void ItemTapped()
