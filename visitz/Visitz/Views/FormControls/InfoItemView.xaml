@@ -13,16 +13,16 @@
     >
         <Label
             FontFamily="{Binding FontFamily}"
-            FontSize="18"
+            FontSize="16"
             Text="{Binding IconGlyph}"
-            TextColor="{StaticResource Gray600}"
+            TextColor="{StaticResource Gray500}"
             VerticalOptions="Center"
         />
 
         <Label
             Grid.Row="0"
             Grid.Column="1"
-            FontFamily="BCSansBold"
+            TextColor="{StaticResource Gray600}"
             Text="{Binding Label}"
             VerticalOptions="Center"
         />
