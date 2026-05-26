@@ -25,7 +25,7 @@
         >
             <FlexLayout.Resources>
                 <Style TargetType="Border">
-                    <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+                    <Setter Property="BackgroundColor" Value="{StaticResource CardGrayBg}" />
                     <Setter Property="Margin" Value="{StaticResource DefaultMarginHalf}" />
                     <Setter Property="Padding" Value="{StaticResource DefaultPadding}" />
                     <Setter Property="StrokeShape" Value="RoundRectangle 12" />
