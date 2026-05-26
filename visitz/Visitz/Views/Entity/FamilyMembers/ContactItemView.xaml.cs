@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Entity.FamilyMembers;
@@ -13,14 +14,21 @@ public partial class ContactItemView : BaseContentView
 
     async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        if (
-            BindingContext is ContactItemViewModel vm
-            && sender is ContactItemView item
-            && item.Parent is CollectionView cv
-        )
+        try
         {
-            vm.ItemTapped();
-            _ = ScrollTo(cv, vm);
+            if (
+                BindingContext is ContactItemViewModel vm
+                && sender is ContactItemView item
+                && item.Parent is CollectionView cv
+            )
+            {
+                vm.ItemTapped();
+                await ScrollTo(cv, vm);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex.Message, ex);
         }
     }
 
