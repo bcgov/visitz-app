@@ -42,13 +42,13 @@ public partial class DebugOptionsView : ViewModelContentView<DebugOptionsViewMod
         }
     }
 
-    private void WindowWidthEntry_Unfocused(object sender, FocusEventArgs e)
+    private void WindowWidthEntry_Unfocused(object? sender, FocusEventArgs e)
     {
         if (sender is Entry entry && double.TryParse(entry.Text, out double width))
             DebugOptions.Default.WindowWidth = width;
     }
 
-    private void WindowHeightEntry_Unfocused(object sender, FocusEventArgs e)
+    private void WindowHeightEntry_Unfocused(object? sender, FocusEventArgs e)
     {
         if (sender is Entry entry && double.TryParse(entry.Text, out double height))
             DebugOptions.Default.WindowHeight = height;

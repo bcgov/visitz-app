@@ -12,7 +12,7 @@ public partial class ContactItemView : BaseContentView
         InitializeComponent();
     }
 
-    async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    async void TapGestureRecognizer_Tapped(object? sender, TappedEventArgs e)
     {
         try
         {
