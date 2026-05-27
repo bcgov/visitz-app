@@ -31,6 +31,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public partial string AuthenticationDomain { get; set; }
 
     [ObservableProperty]
+    public partial int LogicalProcessorCount { get; set; } = Environment.ProcessorCount;
+
+    [ObservableProperty]
     public partial bool BuildingInDebug { get; set; }
 
     readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();

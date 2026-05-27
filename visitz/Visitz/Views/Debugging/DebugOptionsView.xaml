@@ -605,7 +605,7 @@
                 Text="Compile-time settings"
             />
 
-            <Grid RowDefinitions="Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -632,6 +632,20 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Text="{Binding AuthenticationDomain}"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Logical processor count"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding LogicalProcessorCount}"
                 />
             </Grid>
         </VerticalStackLayout>
