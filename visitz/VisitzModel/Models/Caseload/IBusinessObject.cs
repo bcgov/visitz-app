@@ -241,4 +241,16 @@ public partial interface IBusinessObject : IRealmObject
             }
         });
     }
+
+    public string MakeToString()
+    {
+        try
+        {
+            return $"{GetType().Name}  {Id}  {DisplayName}  {(IsManaged ? "managed" : "unmanaged")}";
+        }
+        catch
+        {
+            return $"{GetType().Name}  {(IsManaged ? "managed" : "unmanaged")}";
+        }
+    }
 }

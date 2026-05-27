@@ -266,4 +266,9 @@ public partial class ServiceRequestRecord
     {
         return ((IBusinessObject)this).MakeHashCode();
     }
+
+    public override string ToString()
+    {
+        return ((IBusinessObject)this).MakeToString();
+    }
 }

@@ -331,4 +331,9 @@ public partial class IncidentRecord
     {
         RaisePropertyChanged(propertyName);
     }
+
+    public override string ToString()
+    {
+        return ((IBusinessObject)this).MakeToString();
+    }
 }
