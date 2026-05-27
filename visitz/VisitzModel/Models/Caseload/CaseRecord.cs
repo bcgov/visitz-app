@@ -263,15 +263,15 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IBusinessObject, I
             .FirstOrDefault(@case => @case.Id == item.ParentId || @case.FileNumber == item.ParentId);
     }
 
-    public static IQueryable<CaseRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
+    public static IQueryable<CaseRecord> GetAllByAssignee(Realm realm, string username, bool isAssignedTo = true)
     {
-        return GetAllByAssignee<CaseRecord>(realm, username, invert);
+        return GetAllByAssignee<CaseRecord>(realm, username, isAssignedTo);
     }
 
-    public static IQueryable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool invert = false)
+    public static IQueryable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool isAssignedTo = true)
         where TItem : IBusinessObject
     {
-        string operation = invert ? "NONE" : "ANY";
+        string operation = isAssignedTo ? "ANY" : "NONE";
 
         return (IQueryable<TItem>)realm.All<CaseRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }

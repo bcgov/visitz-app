@@ -188,12 +188,20 @@ public partial interface IBusinessObject : IRealmObject
         return businessObjects;
     }
 
-    static IEnumerable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool invert = false)
+    /// <summary>
+    /// Gets all records associated (or not!) with the provided username.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="realm"></param>
+    /// <param name="username"></param>
+    /// <param name="isAssignedTo">true to get all associated with username; false to get all NOT associated with username.</param>
+    /// <returns></returns>
+    static IEnumerable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool isAssignedTo = true)
         where TItem : IBusinessObject
     {
-        Func<TItem, bool> predicate = invert
-            ? item => item.AssignedTo != username
-            : item => item.AssignedTo == username;
+        Func<TItem, bool> predicate = isAssignedTo
+            ? item => item.AssignedTo == username
+            : item => item.AssignedTo != username;
         return realm.All<TItem>().Where(predicate);
     }
 
@@ -220,7 +228,7 @@ public partial interface IBusinessObject : IRealmObject
         bool isOfficeCaseload = !isPersonalCaseload;
 
         var filteredUpsertItems = FilterUnsupportedSubtypes(incomingItems);
-        var currentAssigned = GetAllByAssignee<TItem>(realm, currentUsername, isOfficeCaseload).ToList();
+        var currentAssigned = GetAllByAssignee<TItem>(realm, currentUsername, isPersonalCaseload).ToList();
         var unassigned = currentAssigned.Except(filteredUpsertItems);
 
         await realm.CommitAsync(() =>
