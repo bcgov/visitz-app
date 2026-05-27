@@ -85,12 +85,9 @@ internal class GetOfficeCaseloadService(
 
         try
         {
-            var assignedCases = CaseRecord.GetAllByAssignee(realm, username, isAssignedTo: false);
-            var officeCases = CaseRecords.Except(assignedCases);
-
             await IBusinessObject.SynchronizeAsync(
                 realm,
-                officeCases,
+                CaseRecords,
                 UserIgnoredPrefs,
                 username,
                 isPersonalCaseload: false
@@ -103,12 +100,9 @@ internal class GetOfficeCaseloadService(
 
         try
         {
-            var assignedIncidents = IncidentRecord.GetAllByAssignee(realm, username, isAssignedTo: false);
-            var officeIncidents = IncidentRecords.Except(assignedIncidents);
-
             await IBusinessObject.SynchronizeAsync(
                 realm,
-                officeIncidents,
+                IncidentRecords,
                 UserIgnoredPrefs,
                 username,
                 isPersonalCaseload: false
