@@ -12,16 +12,10 @@ namespace Visitz.Services.Caseload;
 
 #nullable enable
 
-internal class GetOfficeCaseloadService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    UserIgnoredContentPrefs ignoredPrefs,
-    ServiceHandler serviceHandler
-) : ApiPaginationService(vpi, prefs)
+internal class GetOfficeCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredContentPrefs ignoredPrefs)
+    : ApiPaginationService(vpi, prefs)
 {
     UserIgnoredContentPrefs UserIgnoredPrefs { get; } = ignoredPrefs;
-
-    ServiceHandler ServiceHandler { get; } = serviceHandler;
 
     bool Force => (bool)Payload;
 
