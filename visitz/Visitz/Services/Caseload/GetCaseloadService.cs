@@ -76,7 +76,7 @@ namespace Visitz.Services.Caseload
 
             try
             {
-                await CaseRecord.SynchronizeAsync(
+                await IBusinessObject.SynchronizeAsync(
                     realm,
                     CaseRecords,
                     UserIgnoredPrefs,
@@ -91,7 +91,7 @@ namespace Visitz.Services.Caseload
 
             try
             {
-                await IncidentRecord.SynchronizeAsync(
+                await IBusinessObject.SynchronizeAsync(
                     realm,
                     IncidentRecords,
                     UserIgnoredPrefs,

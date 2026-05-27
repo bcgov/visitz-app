@@ -53,11 +53,11 @@ internal class RecordCleanupService : VisitzService
         dateThreshold = DateTimeOffset.UtcNow.AddDays(-MaxDaysThreshold);
 
         IEnumerable<IBusinessObject> officeCases = CaseRecord
-            .GetAllByAssignee(realm, info.Idir, invert: true)
+            .GetAllByAssignee(realm, info.Idir, isAssignedTo: false)
             .Where(IsStaleRecord);
 
         IEnumerable<IBusinessObject> officeIncidents = IncidentRecord
-            .GetAllByAssignee(realm, info.Idir, invert: true)
+            .GetAllByAssignee(realm, info.Idir, isAssignedTo: false)
             .Where(IsStaleRecord);
 
         IEnumerable<IBusinessObject> staleOfficeRecords = officeCases.Concat(officeIncidents);

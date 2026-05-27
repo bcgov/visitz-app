@@ -187,7 +187,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger)
 
             if (isAuthorized is true)
             {
-                if (await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false)
+                if (await OidcSession.IsSessionStale(DebugOptions.Default.StaleThresholdMinutes) ?? false)
                     SetUiOptions(showButtons: true, staleSession: true);
             }
             else if (isAuthorized is false)

@@ -33,10 +33,10 @@ namespace Visitz.Services.Notes
 
         protected override async Task RunApiServiceAsync()
         {
-            if (DebugOptions.DryFireSubmitNotes)
+            if (DebugOptions.Default.DryFireSubmitNotes)
             {
                 await Task.Delay(2500); // Simulate network activity
-                ResultCode = DebugOptions.DryFireSubmitNotesSimulateSuccess ? Result.Successful : Result.Error;
+                ResultCode = DebugOptions.Default.DryFireSubmitNotesSimulateSuccess ? Result.Successful : Result.Error;
             }
             else
                 await SubmitNoteAsync();

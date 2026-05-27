@@ -12,16 +12,10 @@ namespace Visitz.Services.Caseload;
 
 #nullable enable
 
-internal class GetOfficeCaseloadService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    UserIgnoredContentPrefs ignoredPrefs,
-    ServiceHandler serviceHandler
-) : ApiPaginationService(vpi, prefs)
+internal class GetOfficeCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredContentPrefs ignoredPrefs)
+    : ApiPaginationService(vpi, prefs)
 {
     UserIgnoredContentPrefs UserIgnoredPrefs { get; } = ignoredPrefs;
-
-    ServiceHandler ServiceHandler { get; } = serviceHandler;
 
     bool Force => (bool)Payload;
 
@@ -85,12 +79,9 @@ internal class GetOfficeCaseloadService(
 
         try
         {
-            var assignedCases = CaseRecord.GetAllByAssignee(realm, username);
-            var officeCases = CaseRecords.Except(assignedCases);
-
-            await CaseRecord.SynchronizeAsync(
+            await IBusinessObject.SynchronizeAsync(
                 realm,
-                officeCases,
+                CaseRecords,
                 UserIgnoredPrefs,
                 username,
                 isPersonalCaseload: false
@@ -103,12 +94,9 @@ internal class GetOfficeCaseloadService(
 
         try
         {
-            var assignedIncidents = IncidentRecord.GetAllByAssignee(realm, username);
-            var officeIncidents = IncidentRecords.Except(assignedIncidents);
-
-            await IncidentRecord.SynchronizeAsync(
+            await IBusinessObject.SynchronizeAsync(
                 realm,
-                officeIncidents,
+                IncidentRecords,
                 UserIgnoredPrefs,
                 username,
                 isPersonalCaseload: false

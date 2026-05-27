@@ -200,9 +200,9 @@ public partial class IcmContact
     public string DateOfBirthFormatted =>
         DateOfBirth?.ToString(IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture) ?? string.Empty;
 
-    public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhone) ?? string.Empty;
+    public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhoneBinding) ?? string.Empty;
 
-    public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhone) ?? string.Empty;
+    public string CellPhoneFormatted => PhoneNumberFormatter.Format(CellPhoneBinding) ?? string.Empty;
 
     public bool IsKeyPlayer => Relationship == KeyPlayer;
 
@@ -474,6 +474,11 @@ public partial class IcmContact
         }
 
         realm.RemoveRange(contacts);
+    }
+
+    public static IQueryable<IcmContact> GetByIdType(Realm realm, string id, EntityType type)
+    {
+        return realm.All<IcmContact>().Where(contact => contact.ParentId == id && contact.ParentTypeInt == (int)type);
     }
 
     public static IQueryable<IcmContact> GetByParentObject(Realm realm, IBusinessObject businessObject)

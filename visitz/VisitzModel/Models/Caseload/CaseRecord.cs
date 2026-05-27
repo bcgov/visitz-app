@@ -1,4 +1,3 @@
-using System.Globalization;
 using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
@@ -16,13 +15,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class CaseRecord
-    : IRealmObject,
-        IRowMetadata,
-        IBusinessObject,
-        IAssignedMetadata,
-        IApiJson<CaseJson>,
-        IEquatable<CaseRecord>
+public partial class CaseRecord : IRealmObject, IRowMetadata, IBusinessObject, IAssignedMetadata, IApiJson<CaseJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -124,15 +117,6 @@ public partial class CaseRecord
 
     public BoLocalState? LocalState { get; set; }
 
-    public string DisplayDate =>
-        this.CreatedDateBinding.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
-
-    public string DisplayName => this.GetDisplayName();
-
-    public string FullType => this.GetFullType();
-
-    public IQueryable<IcmContact> Contacts => this.GetContacts();
-
     public CaseRecord() { }
 
     public CaseRecord(CaseJson caseJson, string? currentUsername = null)
@@ -231,60 +215,17 @@ public partial class CaseRecord
         return outList;
     }
 
-    static IEnumerable<CaseRecord> FilterUnsupportedSubtypes(IEnumerable<CaseRecord> cases)
+    public static IEnumerable<TItem> FilterUnsupportedSubtypes<TItem>(IEnumerable<TItem> businessObjects)
+        where TItem : IBusinessObject
     {
-        return cases.Where(@case =>
-            @case.EntitySubtype == EntitySubtype.ChildServices
-            || @case.EntitySubtype == EntitySubtype.FamilyServices
-            || @case.EntitySubtype == EntitySubtype.CysnFamilyServices
-            || @case.EntitySubtype == EntitySubtype.Resource
-        );
-    }
-
-    public static async Task SynchronizeAsync(
-        Realm realm,
-        IEnumerable<CaseRecord> newOfficeCases,
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        string currentUsername,
-        bool isPersonalCaseload
-    )
-    {
-        if (newOfficeCases == null)
-            return;
-
-        bool isOfficeCaseload = !isPersonalCaseload;
-        var incomingCases = FilterUnsupportedSubtypes(newOfficeCases);
-        var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
-        var unassigned = currentAssigned.Except(incomingCases);
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                CascadeDelete(realm, unassigned, userIgnoredPrefs);
-                foreach (var item in incomingCases)
-                {
-                    realm.Add(item, update: true);
-                    item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
-                }
-            }
-        );
-    }
-
-    public static Task SynchronizeAsync(
-        Realm realm,
-        IEnumerable<CaseJson> newAssignedCases,
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        string currentUsername,
-        bool isPersonalCaseload
-    )
-    {
-        return SynchronizeAsync(
-            realm,
-            FromApiJsonArray(newAssignedCases, currentUsername),
-            userIgnoredPrefs,
-            currentUsername,
-            isPersonalCaseload
+        return businessObjects.Where(item =>
+            item is CaseRecord
+            && (
+                item.EntitySubtype == EntitySubtype.ChildServices
+                || item.EntitySubtype == EntitySubtype.FamilyServices
+                || item.EntitySubtype == EntitySubtype.CysnFamilyServices
+                || item.EntitySubtype == EntitySubtype.Resource
+            )
         );
     }
 
@@ -306,31 +247,6 @@ public partial class CaseRecord
             fromRealm.Remove(LocalState);
     }
 
-    public void Delete(
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm? fromRealm = null,
-        bool cascade = true,
-        bool deleteLocalState = true
-    )
-    {
-        fromRealm ??= Realm ?? throw new InvalidOperationException("Managed realm is null");
-
-        if (cascade)
-            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
-
-        fromRealm.Remove(this);
-    }
-
-    static void CascadeDelete(
-        Realm fromRealm,
-        IEnumerable<CaseRecord> unassigned,
-        UserIgnoredContentPrefs userIgnoredPrefs
-    )
-    {
-        foreach (var @case in unassigned)
-            @case.Delete(userIgnoredPrefs, fromRealm);
-    }
-
     public static IBusinessObject? GetByDraftItem(Realm realm, IDraftItem draftItem)
     {
         return realm
@@ -347,11 +263,17 @@ public partial class CaseRecord
             .FirstOrDefault(@case => @case.Id == item.ParentId || @case.FileNumber == item.ParentId);
     }
 
-    public static IQueryable<CaseRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
+    public static IQueryable<CaseRecord> GetAllByAssignee(Realm realm, string username, bool isAssignedTo = true)
     {
-        string operation = invert ? "NONE" : "ANY";
+        return GetAllByAssignee<CaseRecord>(realm, username, isAssignedTo);
+    }
 
-        return realm.All<CaseRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
+    public static IQueryable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool isAssignedTo = true)
+        where TItem : IBusinessObject
+    {
+        string operation = isAssignedTo ? "ANY" : "NONE";
+
+        return (IQueryable<TItem>)realm.All<CaseRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }
 
     public bool IsAssigned(string username)
@@ -359,19 +281,14 @@ public partial class CaseRecord
         return AssignedTo == username || Assignees.Contains(username);
     }
 
-    public bool Equals(CaseRecord? other)
-    {
-        return IBusinessObjectExtensions.Equals(this, other);
-    }
-
     public override bool Equals(object? obj)
     {
-        return obj is CaseRecord info ? Equals(info) : base.Equals(obj);
+        return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
     }
 
     public override int GetHashCode()
     {
-        return IBusinessObjectExtensions.GetHashCode(this);
+        return ((IBusinessObject)this).MakeHashCode();
     }
 
     public void RaisePropertyChangedEvent(string propertyName)

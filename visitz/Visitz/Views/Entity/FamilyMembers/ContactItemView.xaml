@@ -14,206 +14,203 @@
     HorizontalOptions="Fill"
 >
     <base:BaseContentView.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding ItemTappedCommand}" />
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
     </base:BaseContentView.GestureRecognizers>
 
     <base:BaseContentView.Resources>
         <converter:TruthyStringToBoolConverter x:Key="StringToBool" />
     </base:BaseContentView.Resources>
 
-    <VerticalStackLayout
-        Padding="{Thickness
-            Left={StaticResource DefaultPadding},
-            Top={StaticResource DefaultPadding},
-            Right={StaticResource DefaultPadding}}"
-        Spacing="{StaticResource DefaultSpacing}"
+    <Border
+        BackgroundColor="{StaticResource CardGrayBg}"
+        Margin="{StaticResource DefaultMargin}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
     >
-        <Grid
-            ColumnDefinitions="5*,*"
-            ColumnSpacing="{StaticResource DefaultSpacing}"
-            RowDefinitions="*,*"
-            RowSpacing="{StaticResource DefaultSpacing}"
-        >
-            <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
-                <Label
-                    Text="{Binding Contact.FullDisplayName}"
-                    FontFamily="BCSansBold"
-                    FontSize="17"
-                />
+        <VerticalStackLayout>
+            <Grid
+                Grid.Row="0"
+                BackgroundColor="White"
+                ColumnDefinitions="5*,*"
+                ColumnSpacing="{StaticResource DefaultSpacing}"
+                RowDefinitions="*,*"
+                RowSpacing="{StaticResource DefaultSpacing}"
+                Padding="{StaticResource DefaultPadding}"
+            >
+                <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
+                    <Label
+                        Text="{Binding Contact.FullDisplayName}"
+                        FontFamily="BCSansBold"
+                        FontSize="{StaticResource BodyMediumFontSize}"
+                    />
 
-                <tagview:TagView
-                    Padding="8,0"
-                    BackgroundColor="{Binding TagBgColor}"
-                    Text="{Binding Contact.Relationship}"
-                    TextColor="{Binding TagTextColor}"
-                />
+                    <tagview:TagView
+                        Padding="8,0"
+                        BackgroundColor="{Binding TagBgColor}"
+                        Text="{Binding Contact.Relationship}"
+                        TextColor="{Binding TagTextColor}"
+                        VerticalOptions="Center"
+                    />
 
-                <tagview:TagView
-                    Padding="8,0"
-                    BackgroundColor="{StaticResource DeceasedBackground}"
-                    Text="{local:Localize Deceased}"
-                    TextColor="White"
-                    IsVisible="{Binding Contact.Deceased,
+                    <tagview:TagView
+                        Padding="8,0"
+                        BackgroundColor="{StaticResource DeceasedBackground}"
+                        Text="{local:Localize Deceased}"
+                        TextColor="White"
+                        IsVisible="{Binding Contact.Deceased,
                         Converter={StaticResource StringToBool}}"
-                />
-            </HorizontalStackLayout>
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout Grid.Row="1" Spacing="{StaticResource DefaultSpacingHalf}">
+                <HorizontalStackLayout Grid.Row="1" Spacing="{StaticResource DefaultSpacingHalf}">
+                    <Label
+                        FontFamily="BCSansBold"
+                        HorizontalOptions="Start"
+                        Text="{local:Localize Age}"
+                    />
+
+                    <Label
+                        HorizontalOptions="Start"
+                        FontFamily="BCSansRegular"
+                        Text="{Binding Contact.Age}"
+                    />
+
+                    <Label
+                        StyleClass="ExpanderHorizontalLabelLeftOffset"
+                        FontFamily="BCSansBold"
+                        HorizontalOptions="Start"
+                        Text="{local:Localize Gender}"
+                    />
+
+                    <Label
+                        HorizontalOptions="Start"
+                        FontFamily="BCSansRegular"
+                        Text="{Binding Contact.Gender}"
+                    />
+                </HorizontalStackLayout>
+
+                <Label
+                    Grid.Column="7"
+                    Grid.RowSpan="2"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    FontSize="30"
+                    Text="{Binding ExpandedChevronGlyph}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                />
+            </Grid>
+
+            <BoxView
+                Grid.Row="1"
+                Color="{StaticResource Gray100}"
+                HeightRequest="0.5"
+                IsVisible="{Binding Expanded}"
+            />
+
+            <VerticalStackLayout
+                Grid.Row="2"
+                Padding="{StaticResource DefaultPadding}"
+                IsVisible="{Binding Expanded}"
+            >
+                <VerticalStackLayout.Resources>
+                    <Style TargetType="Label" Class="MarginEnd">
+                        <Setter Property="Margin">
+                            <Thickness Bottom="{StaticResource DefaultSpacing}" />
+                        </Setter>
+                    </Style>
+                </VerticalStackLayout.Resources>
                 <Label
                     FontFamily="BCSansBold"
                     HorizontalOptions="Start"
-                    Text="{local:Localize Age}"
+                    Text="{local:Localize Birthdate}"
                 />
 
                 <Label
+                    StyleClass="MarginEnd"
                     HorizontalOptions="Start"
                     FontFamily="BCSansRegular"
-                    Text="{Binding Contact.Age}"
+                    Text="{Binding Contact.DateOfBirthFormatted}"
                 />
 
                 <Label
-                    StyleClass="ExpanderHorizontalLabelLeftOffset"
                     FontFamily="BCSansBold"
                     HorizontalOptions="Start"
-                    Text="{local:Localize Gender}"
+                    Text="{local:Localize Address}"
                 />
 
                 <Label
+                    StyleClass="MarginEnd"
                     HorizontalOptions="Start"
                     FontFamily="BCSansRegular"
-                    Text="{Binding Contact.Gender}"
+                    Text="{Binding Contact.PrimaryAddress}"
                 />
 
                 <Label
-                    StyleClass="ExpanderHorizontalLabelLeftOffset"
+                    FontFamily="BCSansBold"
+                    HorizontalOptions="Start"
+                    Text="{local:Localize HomeNumber}"
+                />
+
+                <Label
+                    StyleClass="MarginEnd"
+                    HorizontalOptions="Start"
+                    FontFamily="BCSansRegular"
+                    Text="{Binding Contact.HomePhoneFormatted}"
+                />
+
+                <Label
+                    FontFamily="BCSansBold"
+                    HorizontalOptions="Start"
+                    Text="{local:Localize CellNumber}"
+                />
+
+                <Label
+                    StyleClass="MarginEnd"
+                    HorizontalOptions="Start"
+                    FontFamily="BCSansRegular"
+                    Text="{Binding Contact.CellPhoneFormatted}"
+                />
+
+                <Label
                     FontFamily="BCSansBold"
                     HorizontalOptions="Start"
                     Text="{local:Localize Indigenous}"
                 />
 
                 <Label
+                    StyleClass="MarginEnd"
                     HorizontalOptions="Start"
                     FontFamily="BCSansRegular"
                     Text="{Binding Contact.Indigenous}"
                 />
-            </HorizontalStackLayout>
 
-            <Label
-                Grid.Column="7"
-                Grid.RowSpan="2"
-                FontFamily="MaterialIconsRoundedUnfilled"
-                FontSize="30"
-                Text="{Binding ExpandedChevronGlyph}"
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-            />
-        </Grid>
+                <Label
+                    FontFamily="BCSansBold"
+                    HorizontalOptions="Start"
+                    Text="{local:Localize AgtCoordinationCa}"
+                />
 
-        <Grid
-            ColumnDefinitions="Auto,*"
-            RowDefinitions="*,*,*,*,*,*"
-            RowSpacing="10"
-            ColumnSpacing="10"
-            HorizontalOptions="Fill"
-            IsVisible="{Binding Expanded}"
-        >
-            <Label
-                Grid.Row="0"
-                Grid.Column="0"
-                FontFamily="BCSansBold"
-                HorizontalOptions="Start"
-                Text="{local:Localize Birthdate}"
-            />
+                <Label
+                    StyleClass="MarginEnd"
+                    HorizontalOptions="Start"
+                    FontFamily="BCSansRegular"
+                    Text="{Binding Contact.DisplayCoordinationAgtCa}"
+                />
 
-            <Label
-                Grid.Row="0"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                FontFamily="BCSansRegular"
-                Text="{Binding Contact.DateOfBirthFormatted}"
-            />
+                <Label
+                    FontFamily="BCSansBold"
+                    HorizontalOptions="Start"
+                    Text="{local:Localize Agt921}"
+                />
 
-            <Label
-                Grid.Row="1"
-                Grid.Column="0"
-                FontFamily="BCSansBold"
-                HorizontalOptions="Start"
-                Text="{local:Localize Address}"
-            />
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                FontFamily="BCSansRegular"
-                Text="{Binding Contact.PrimaryAddress}"
-            />
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="0"
-                FontFamily="BCSansBold"
-                HorizontalOptions="Start"
-                Text="{local:Localize HomeNumber}"
-            />
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                FontFamily="BCSansRegular"
-                Text="{Binding Contact.HomePhoneFormatted}"
-            />
-
-            <Label
-                Grid.Row="3"
-                Grid.Column="0"
-                FontFamily="BCSansBold"
-                HorizontalOptions="Start"
-                Text="{local:Localize CellNumber}"
-            />
-
-            <Label
-                Grid.Row="3"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                FontFamily="BCSansRegular"
-                Text="{Binding Contact.CellPhoneFormatted}"
-            />
-
-            <Label
-                Grid.Row="4"
-                Grid.Column="0"
-                FontFamily="BCSansBold"
-                HorizontalOptions="Start"
-                Text="{local:Localize AgtCoordinationCa}"
-            />
-
-            <Label
-                Grid.Row="4"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                FontFamily="BCSansRegular"
-                Text="{Binding Contact.DisplayCoordinationAgtCa}"
-            />
-
-            <Label
-                Grid.Row="5"
-                Grid.Column="0"
-                FontFamily="BCSansBold"
-                HorizontalOptions="Start"
-                Text="{local:Localize Agt921}"
-            />
-
-            <Label
-                Grid.Row="5"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                FontFamily="BCSansRegular"
-                Text="{Binding Contact.Display_921Agt}"
-            />
-        </Grid>
-
-        <BoxView Color="{StaticResource Gray200}" HeightRequest="0.5" />
-    </VerticalStackLayout>
+                <Label
+                    HorizontalOptions="Start"
+                    FontFamily="BCSansRegular"
+                    Text="{Binding Contact.Display_921Agt}"
+                />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Border>
 </base:BaseContentView>

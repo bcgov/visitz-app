@@ -28,7 +28,7 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
             bool debugSkipActive = false;
             bool isWindows = false;
 #if DEBUG
-            debugSkipActive = DebugOptions.Enabled && DebugOptions.SkipLocalAuth;
+            debugSkipActive = DebugOptions.Default.SkipLocalAuth;
 #endif
 #if WINDOWS
             isWindows = true;

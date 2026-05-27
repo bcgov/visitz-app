@@ -124,7 +124,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
     private async Task DiscardSentDraft()
     {
-        if (DebugOptions.KeepSafetyAssessmentDraftOnPublish)
+        if (DebugOptions.Default.KeepSafetyAssessmentDraftOnPublish)
             return;
 
         await AssessmentDraft.TryDeleteAsync(Assessment);

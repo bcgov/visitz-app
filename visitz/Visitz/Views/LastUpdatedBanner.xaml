@@ -9,6 +9,15 @@
     x:Name="this"
     BackgroundColor="{StaticResource BC_Background_Light}"
 >
+    <FlyoutBase.ContextFlyout>
+        <MenuFlyout x:Name="Menu">
+            <MenuFlyoutItem
+                Text="{local:Localize LocalCaseloadStats}"
+                Clicked="MenuFlyoutItem_Clicked"
+            />
+        </MenuFlyout>
+    </FlyoutBase.ContextFlyout>
+
     <HorizontalStackLayout
         BindingContext="{Reference this}"
         Margin="8"

@@ -16,16 +16,7 @@ namespace Visitz.Views.Debugging;
 public partial class DebugOptionsViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public partial bool DryFireSubmitNotes { get; set; }
-
-    [ObservableProperty]
-    public partial bool DryFireSubmitNotesSimulateSuccess { get; set; }
-
-    [ObservableProperty]
-    public partial bool DryFirePostVisitService { get; set; }
-
-    [ObservableProperty]
-    public partial bool DryFirePostVisitServiceSimulateSuccess { get; set; }
+    public partial DebugOptions Options { get; set; } = DebugOptions.Default;
 
     [ObservableProperty]
     public partial string AppId { get; set; }
@@ -40,16 +31,10 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     public partial string AuthenticationDomain { get; set; }
 
     [ObservableProperty]
+    public partial int LogicalProcessorCount { get; set; } = Environment.ProcessorCount;
+
+    [ObservableProperty]
     public partial bool BuildingInDebug { get; set; }
-
-    [ObservableProperty]
-    public partial bool SkipLocalAuth { get; set; }
-
-    [ObservableProperty]
-    public partial bool RequireAttachmentFileContent { get; set; }
-
-    [ObservableProperty]
-    public partial bool KeepSafetyAssessmentDraftOnPublish { get; set; }
 
     readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
@@ -62,33 +47,9 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     [ObservableProperty]
     public partial string MockPersonVisitsParentId { get; set; }
 
-    [ObservableProperty]
-    public partial bool AutoCaseloadRefreshDisabled { get; set; }
-
-    [ObservableProperty]
-    public partial double StaleSessionMinutes { get; set; }
-
-    [ObservableProperty]
-    public partial bool DisablePrivacyScrim { get; set; }
-
-    [ObservableProperty]
-    public partial bool WriteApiTimings { get; set; }
-
-    [ObservableProperty]
-    public partial double WindowHeight { get; set; }
-
-    [ObservableProperty]
-    public partial double WindowWidth { get; set; }
-
     protected override async Task InitAsync()
     {
         await base.InitAsync();
-
-        DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
-        DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
-
-        DryFirePostVisitService = DebugOptions.DryFirePostVisitService;
-        DryFirePostVisitServiceSimulateSuccess = DebugOptions.DryFirePostVisitServiceSimulateSuccess;
 
         AppId = AppInfo.Current.PackageName;
         DotnetVersion = Environment.Version.ToString();
@@ -98,11 +59,6 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 #else
         BuildingInDebug = false;
 #endif
-        SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
-
-        RequireAttachmentFileContent = DebugOptions.RequireAttachmentFileContent;
-        KeepSafetyAssessmentDraftOnPublish = DebugOptions.KeepSafetyAssessmentDraftOnPublish;
-
         var settings = new AppSettings();
 
         ApiDomain = settings.Api.ApiDomain;
@@ -110,18 +66,8 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 
         CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
 
-        AutoCaseloadRefreshDisabled = DebugOptions.AutoCaseloadRefreshDisabled;
-
-        StaleSessionMinutes = DebugOptions.StaleThresholdMinutes;
-
-        DisablePrivacyScrim = DebugOptions.DisablePrivacyScrim;
-
-        WriteApiTimings = DebugOptions.WriteApiTimings;
-
         if (Application.Current.Windows[0] is Window window)
         {
-            WindowHeight = window.Height;
-            WindowWidth = window.Width;
             window.SizeChanged += Window_SizeChanged;
         }
     }
@@ -144,102 +90,29 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     {
         if (sender is Window window)
         {
-            WindowHeight = window.Height;
-            WindowWidth = window.Width;
+            Options.WindowHeight = window.Height;
+            Options.WindowWidth = window.Width;
         }
-    }
-
-    partial void OnDryFireSubmitNotesChanged(bool value)
-    {
-        DebugOptions.DryFireSubmitNotes = value;
-    }
-
-    partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
-    {
-        DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
-    }
-
-    partial void OnDryFirePostVisitServiceChanged(bool value)
-    {
-        DebugOptions.DryFirePostVisitService = value;
-    }
-
-    partial void OnDryFirePostVisitServiceSimulateSuccessChanged(bool value)
-    {
-        DebugOptions.DryFirePostVisitServiceSimulateSuccess = value;
-    }
-
-    partial void OnSkipLocalAuthChanged(bool value)
-    {
-        DebugOptions.SkipLocalAuth = value;
-    }
-
-    partial void OnRequireAttachmentFileContentChanged(bool value)
-    {
-        DebugOptions.RequireAttachmentFileContent = value;
-    }
-
-    partial void OnKeepSafetyAssessmentDraftOnPublishChanged(bool value)
-    {
-        DebugOptions.KeepSafetyAssessmentDraftOnPublish = value;
-    }
-
-    partial void OnAutoCaseloadRefreshDisabledChanged(bool value)
-    {
-        DebugOptions.AutoCaseloadRefreshDisabled = value;
-    }
-
-    partial void OnStaleSessionMinutesChanged(double value)
-    {
-        DebugOptions.StaleThresholdMinutes = value;
-    }
-
-    partial void OnDisablePrivacyScrimChanged(bool value)
-    {
-        DebugOptions.DisablePrivacyScrim = value;
-    }
-
-    partial void OnWriteApiTimingsChanged(bool value)
-    {
-        DebugOptions.WriteApiTimings = value;
     }
 
     [RelayCommand]
     public static void DeleteAccessToken()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             TokenHolder.DeleteAccessToken();
     }
 
     [RelayCommand]
     public static void DeleteRefreshToken()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             TokenHolder.DeleteRefreshToken();
-    }
-
-    [RelayCommand]
-    public static async Task ClearRealmData()
-    {
-        await DebugOptions.ClearRealmData();
-    }
-
-    [RelayCommand]
-    public static async Task ClearSafetyAssessmentDraft()
-    {
-        await DebugOptions.ClearSafetyAssessmentDraftsRealm();
-    }
-
-    [RelayCommand]
-    public static async Task ClearAttachmentDraft()
-    {
-        await DebugOptions.ClearAttachmentDraftsRealm();
     }
 
     [RelayCommand]
     public static async Task Logout()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             await OidcSession.LogoutAsync();
     }
 
@@ -256,126 +129,27 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    public static void OpenAppDataDirectory()
-    {
-        DebugOptions.OpenAppDataDirectory();
-    }
-
-    [RelayCommand]
-    public static void OpenCacheDirectory()
-    {
-        DebugOptions.OpenCacheDirectory();
-    }
-
-    [RelayCommand]
-    public static void ClearSecureStorage()
-    {
-        DebugOptions.ClearSecureStorage();
-    }
-
-    [RelayCommand]
     public async Task LoadMockPersonVisits()
     {
-        await DebugOptions.LoadPersonVisitsMockData(MockPersonVisitsParentId);
+        await DebugOptions.Default.LoadPersonVisitsMockData(MockPersonVisitsParentId);
     }
 
     [RelayCommand]
     public static async Task SetWarning()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Warning);
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Warning);
     }
 
     [RelayCommand]
     public static async Task SetDanger()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Danger);
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Danger);
     }
 
     [RelayCommand]
     public static async Task SetCritical()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Critical);
-    }
-
-    [RelayCommand]
-    public static Task ClearOfficeNames()
-    {
-        return DebugOptions.ClearOfficeNames();
-    }
-
-    [RelayCommand]
-    public static Task RemoveOneOffice()
-    {
-        return DebugOptions.RemoveOneOffice();
-    }
-
-    [RelayCommand]
-    public static async Task RunRecordCleanup()
-    {
-        await DebugOptions.RunRecordCleanupService();
-    }
-
-    [RelayCommand]
-    public static void RunAutoCaseloadRefreshService()
-    {
-        _ = DebugOptions.RunAutoCaseloadRefreshService();
-    }
-
-    [RelayCommand]
-    public static void ResetAutoCaseloadRefresh()
-    {
-        DebugOptions.ResetAutoCaseloadRefresh();
-    }
-
-    [RelayCommand]
-    public void ApplyNewDimensions()
-    {
-        DebugOptions.WindowHeight = WindowHeight;
-        DebugOptions.WindowWidth = WindowWidth;
-
-        // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
-    }
-
-    [RelayCommand]
-    public void SwapWindowWidthAndHeight()
-    {
-        DebugOptions.SwapWindowWidthAndHeight();
-
-        // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
-    }
-
-    [RelayCommand]
-    public void ApplyPhoneDimensions()
-    {
-        DebugOptions.ApplyPhoneDimensions();
-
-        // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
-    }
-
-    [RelayCommand]
-    public void ApplyTabletDimensions()
-    {
-        DebugOptions.ApplyTabletDimensions();
-
-        // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
-    }
-
-    [RelayCommand]
-    public void ApplyDefaultDesktopDimensions()
-    {
-        DebugOptions.ApplyDefaultDesktopDimensions();
-
-        // Values may have been clamped, so refresh values in the bindings
-        WindowHeight = DebugOptions.WindowHeight;
-        WindowWidth = DebugOptions.WindowWidth;
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Critical);
     }
 
     [RelayCommand]

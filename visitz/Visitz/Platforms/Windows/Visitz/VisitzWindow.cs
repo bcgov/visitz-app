@@ -71,7 +71,7 @@ public partial class VisitzWindow
 
     void OnWindowFocusChanged(bool focused)
     {
-        if (DebugOptions.DisablePrivacyScrim)
+        if (DebugOptions.Default.DisablePrivacyScrim)
             return;
 
         _scrimGrid.Visibility = focused ? Microsoft.UI.Xaml.Visibility.Collapsed : Microsoft.UI.Xaml.Visibility.Visible;

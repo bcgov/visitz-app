@@ -1301,6 +1301,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Local caseload statistics.
+        /// </summary>
+        public static string LocalCaseloadStats {
+            get {
+                return ResourceManager.GetString("LocalCaseloadStats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {

@@ -21,8 +21,7 @@ public partial class IncidentRecord
         IRowMetadata,
         IBusinessObject,
         IAssignedMetadata,
-        IApiJson<IncidentJson>,
-        IEquatable<IncidentRecord>
+        IApiJson<IncidentJson>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -143,12 +142,6 @@ public partial class IncidentRecord
     public string DisplayDate =>
         DateReported?.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture) ?? "";
 
-    public string DisplayName => this.GetDisplayName();
-
-    public string FullType => this.GetFullType();
-
-    public IQueryable<IcmContact> Contacts => this.GetContacts();
-
     public IncidentRecord() { }
 
     public IncidentRecord(IncidentJson json, string? currentUsername = null)
@@ -267,55 +260,11 @@ public partial class IncidentRecord
         return outList;
     }
 
-    static IEnumerable<IncidentRecord> FilterUnsupportedSubtypes(IEnumerable<IncidentRecord> incidents)
+    public static IEnumerable<TItem> FilterUnsupportedSubtypes<TItem>(IEnumerable<TItem> businessObjects)
+        where TItem : IBusinessObject
     {
-        return incidents.Where(incident => incident.EntitySubtype == EntitySubtype.ChildProtection);
-    }
-
-    public static async Task SynchronizeAsync(
-        Realm realm,
-        IEnumerable<IncidentRecord> newOfficeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        string currentUsername,
-        bool isPersonalCaseload
-    )
-    {
-        if (newOfficeIncidents == null)
-            return;
-
-        bool isOfficeCaseload = !isPersonalCaseload;
-        var incomingIncidents = FilterUnsupportedSubtypes(newOfficeIncidents);
-        var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
-        var unassigned = currentAssigned.Except(incomingIncidents);
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                CascadeDelete(realm, unassigned, userIgnoredPrefs);
-                foreach (var item in incomingIncidents)
-                {
-                    realm.Add(item, update: true);
-                    item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
-                }
-            }
-        );
-    }
-
-    public static Task SynchronizeAsync(
-        Realm realm,
-        IEnumerable<IncidentJson> newOfficeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        string currentUsername,
-        bool isPersonalCaseload
-    )
-    {
-        return SynchronizeAsync(
-            realm,
-            FromApiJsonArray(newOfficeIncidents, currentUsername),
-            userIgnoredPrefs,
-            currentUsername,
-            isPersonalCaseload
+        return businessObjects.Where(incident =>
+            incident is IncidentRecord && incident.EntitySubtype == EntitySubtype.ChildProtection
         );
     }
 
@@ -340,32 +289,6 @@ public partial class IncidentRecord
             fromRealm.Remove(LocalState);
     }
 
-    public void Delete(
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm? fromRealm = null,
-        bool cascade = true,
-        bool deleteLocalState = true
-    )
-    {
-        fromRealm ??= Realm;
-        ArgumentNullException.ThrowIfNull(fromRealm);
-
-        if (cascade)
-            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
-
-        fromRealm.Remove(this);
-    }
-
-    static void CascadeDelete(
-        Realm fromRealm,
-        IEnumerable<IncidentRecord> removeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs
-    )
-    {
-        foreach (var incident in removeIncidents)
-            incident.Delete(userIgnoredPrefs, fromRealm);
-    }
-
     public static IBusinessObject? GetByDraftItem(Realm realm, IDraftItem draftItem)
     {
         return realm
@@ -375,11 +298,18 @@ public partial class IncidentRecord
             );
     }
 
-    public static IQueryable<IncidentRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
+    public static IQueryable<IncidentRecord> GetAllByAssignee(Realm realm, string username, bool isAssignedTo = true)
     {
-        string operation = invert ? "NONE" : "ANY";
+        return GetAllByAssignee<IncidentRecord>(realm, username, isAssignedTo);
+    }
 
-        return realm.All<IncidentRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
+    public static IQueryable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool isAssignedTo = true)
+        where TItem : IBusinessObject
+    {
+        string operation = isAssignedTo ? "ANY" : "NONE";
+
+        return (IQueryable<TItem>)
+            realm.All<IncidentRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }
 
     public bool IsAssigned(string username)
@@ -387,19 +317,14 @@ public partial class IncidentRecord
         return AssignedTo == username || Assignees.Contains(username);
     }
 
-    public bool Equals(IncidentRecord? other)
-    {
-        return IBusinessObjectExtensions.Equals(this, other);
-    }
-
     public override bool Equals(object? obj)
     {
-        return obj is IncidentRecord info ? Equals(info) : base.Equals(obj);
+        return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
     }
 
     public override int GetHashCode()
     {
-        return IBusinessObjectExtensions.GetHashCode(this);
+        return ((IBusinessObject)this).MakeHashCode();
     }
 
     public void RaisePropertyChangedEvent(string propertyName)

@@ -32,7 +32,6 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
         KeyPlayer = BusinessObject.GetKeyPlayer();
 
         SetupRecordInfo();
-
         BusinessObject.SubscribePropertyChanged(BusinessObject_PropertyChanged);
     }
 
@@ -87,7 +86,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                 IconGlyph = MaterialIcons.Corporate_fare,
                 FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                 Label = LocalizedStrings.ServiceOffice,
-                Value = BusinessObject.ServiceOffice,
+                Value = BusinessObject.ServiceOfficeBinding,
             },
         ];
 
@@ -114,7 +113,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     IconGlyph = MaterialIcons.Home,
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.Address,
-                    Value = KeyPlayer.PrimaryAddress,
+                    Value = KeyPlayer.PrimaryAddressBinding,
                 },
             ];
         }

@@ -11,7 +11,7 @@ using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models.Attachments;
 
-public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentJson>
+public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentJson>, IEquatable<Attachment>
 {
     public static readonly int MaxFilesize = 5 * Sizes.MB;
     public static readonly int ThumbnailSize = 400;
@@ -174,30 +174,6 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         }
     }
 
-    public static async Task DeleteAsync(Realm realm, Attachment attachment, bool removeContent = true)
-    {
-        ArgumentNullException.ThrowIfNull(realm);
-
-        string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
-
-        if (removeContent && File.Exists(fullpath))
-            File.Delete(fullpath);
-
-        await attachment.CommitAsync(() =>
-        {
-            if (attachment.HasDraft && attachment.Draft != null)
-                realm.Remove(attachment.Draft);
-
-            realm.Remove(attachment);
-        });
-    }
-
-    public async Task DeleteAsync(bool removeContent = true)
-    {
-        if (Realm != null)
-            await DeleteAsync(Realm, this, removeContent);
-    }
-
     public Attachment() { }
 
     public Attachment(AttachmentJson json, string parentId, EntityType type)
@@ -356,33 +332,18 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         EntityType type
     )
     {
+        // Issues with Realm object lifetime and IEnumerable, so materialize everything to lists instead
         var incomingAttachments = FromApiArray(items, parentId, type);
-        var incomingAttachmentIds = incomingAttachments.Select(item => item.Id);
-
-        var existingAttachments = GetAttachments(realm, type, parentId);
-        var existingAttachmentIds = existingAttachments.AsEnumerable().Select(item => item.Id);
-
-        var newAttachmentIds = incomingAttachmentIds.Except(existingAttachmentIds);
-        var newAttachments = incomingAttachments.Where(item => newAttachmentIds.Contains(item.Id));
-
-        var commonIds = incomingAttachmentIds.Except(newAttachmentIds);
-        var attachmentsToUpdate = incomingAttachments.Where(item => commonIds.Contains(item.Id));
-
-        var attachmentIdsToDeleteFromRealm = existingAttachmentIds.Except(incomingAttachmentIds);
-        var attachmentsToDeleteFromRealm = existingAttachments
-            .ToList()
-            .Where(item => attachmentIdsToDeleteFromRealm.Contains(item.Id));
-
-        if (!newAttachments.Any() && !attachmentsToUpdate.Any() && !attachmentsToDeleteFromRealm.Any())
-            return;
+        var existingAttachments = GetAttachments(realm, type, parentId).ToList();
+        var remove = existingAttachments.Except(incomingAttachments).ToList();
 
         await RealmExtensions.CommitAsync(
             realm,
             () =>
             {
-                foreach (var item in attachmentsToDeleteFromRealm)
+                foreach (Attachment item in remove)
                 {
-                    if (item != null && item.IsValid)
+                    if (item.IsValid)
                     {
                         if (item.FileExistsLocally)
                             item.RemoveFileFromDevice();
@@ -390,13 +351,12 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
                     }
                 }
 
-                foreach (var attachment in newAttachments)
-                    realm.Add(attachment);
-
-                foreach (var updatedAttachment in attachmentsToUpdate)
+                foreach (var upsertAttachment in incomingAttachments)
                 {
-                    var existing = realm.Find<Attachment>(updatedAttachment.Id);
-                    existing?.CopyFrom(updatedAttachment);
+                    if (realm.Find<Attachment>(upsertAttachment.Id) is Attachment existing)
+                        existing.CopyFrom(upsertAttachment);
+                    else
+                        realm.Add(upsertAttachment);
                 }
             }
         );
@@ -412,6 +372,30 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public static IOrderedQueryable<Attachment> GetOrderedAttachments(Realm realm, EntityType type, string recordId)
     {
         return GetAttachments(realm, type, recordId).OrderByDescending(item => item.CreatedDate);
+    }
+
+    public static async Task DeleteAsync(Realm realm, Attachment attachment, bool removeContent = true)
+    {
+        ArgumentNullException.ThrowIfNull(realm);
+
+        string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
+
+        if (removeContent && File.Exists(fullpath))
+            File.Delete(fullpath);
+
+        await attachment.CommitAsync(() =>
+        {
+            if (attachment.HasDraft && attachment.Draft != null)
+                realm.Remove(attachment.Draft);
+
+            realm.Remove(attachment);
+        });
+    }
+
+    public async Task DeleteAsync(bool removeContent = true)
+    {
+        if (Realm != null)
+            await DeleteAsync(Realm, this, removeContent);
     }
 
     public void RemoveFileFromDevice()
@@ -464,5 +448,23 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Attachment attachment ? Equals(attachment) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        // Id is not meant to change
+        return Id.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
+    }
+
+    public bool Equals(Attachment? other)
+    {
+        return ReferenceEquals(this, other) || Id == other?.Id;
     }
 }

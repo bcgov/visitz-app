@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Realms;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Models.People;
 
@@ -11,7 +13,16 @@ namespace Visitz.Views.Entity.FamilyMembers;
 
 public partial class EntityContactsViewModel : IcmRecordViewModel
 {
-    readonly ObservableRealmQueryMap realmQueryMap = new();
+    readonly ObservableRealmQueryMap _realmQueryMap = new();
+
+    static readonly IcmContactRelationshipComparer _contactComparer = new();
+
+    readonly IComparer<ContactItemViewModel> _itemComparer = Comparer<ContactItemViewModel>.Create(
+        (l, r) => _contactComparer.Compare(l.Contact, r.Contact)
+    );
+
+    [ObservableProperty]
+    public partial ObservableCollection<IcmContact> Contacts { get; set; } = [];
 
     [ObservableProperty]
     public partial ObservableCollection<ContactItemViewModel> ContactViewModels { get; set; } = [];
@@ -26,8 +37,9 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
         if (DataRealm == null)
             return;
 
-        realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
-        realmQueryMap.Subscribe(DataRealm, IcmContact.GetByParentObject(DataRealm, BusinessObject));
+        Contacts.CollectionChanged += Contacts_CollectionChanged;
+        _realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
+        _realmQueryMap.Subscribe(DataRealm, IcmContact.GetByIdType(DataRealm, RowId, EntityType));
     }
 
     bool disposed;
@@ -36,8 +48,9 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
     {
         if (!disposed && disposing)
         {
-            realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
-            realmQueryMap.Dispose();
+            Contacts.CollectionChanged -= Contacts_CollectionChanged;
+            _realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
+            _realmQueryMap.Dispose();
 
             disposed = true;
         }
@@ -49,48 +62,34 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
         (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
     )
     {
-        var comparer = new IcmContactRelationshipComparer();
-
         if (e.Changes == null)
         {
-            var ordered = e.Items.Cast<IcmContact>().ToList().Order(comparer);
-
-            foreach (var contact in ordered)
-                ContactViewModels.Add(new ContactItemViewModel(contact));
+            Contacts.AddAll(e.Items.Cast<IcmContact>());
         }
         else
         {
-            if (DataRealm == null)
-                return;
+            foreach (var removeIndex in e.Changes.DeletedIndices.Reverse())
+                Contacts.RemoveAt(removeIndex);
 
-            // We can't rely on the indices provided by realm because we're
-            // modifying the collection order outside the original query. So
-            // we need to do another full query to see differences.
-
-            List<IcmContact> contactsCopy = ContactViewModels.Select(vm => vm.Contact).ToList();
-            var savedContacts = IcmContact.GetByParentObject(DataRealm, BusinessObject).ToList();
-
-            var removed = contactsCopy.Except(savedContacts);
-            var added = savedContacts.Except(contactsCopy);
-            var removeVms = ContactViewModels.Where(vm => removed.Contains(vm.Contact)).ToList();
-
-            foreach (var vm in removeVms)
-            {
-                contactsCopy.Remove(vm.Contact);
-                ContactViewModels.Remove(vm);
-            }
-
-            foreach (IcmContact contact in added)
-            {
-                int index = contactsCopy.BinarySearch(contact, comparer);
-                if (index < 0)
-                    index = ~index;
-
-                contactsCopy.Insert(index, contact);
-                ContactViewModels.Insert(index, new ContactItemViewModel(contact));
-            }
+            foreach (var insertIndex in e.Changes.InsertedIndices)
+                Contacts.Add((IcmContact)e.Items[insertIndex]);
         }
 
         IsEmpty = !ContactViewModels.Any();
+    }
+
+    private void Contacts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+        {
+            foreach (var item in e.NewItems.Cast<IcmContact>())
+                ContactViewModels.InsertSorted(new(item), _itemComparer);
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var item in e.OldItems.Cast<IcmContact>())
+                if (ContactViewModels.FirstOrDefault(vm => vm.Contact == item) is ContactItemViewModel found)
+                    ContactViewModels.Remove(found);
+        }
     }
 }

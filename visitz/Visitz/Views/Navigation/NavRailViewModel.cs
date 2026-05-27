@@ -209,31 +209,31 @@ public partial class NavRailViewModel : VisitzViewModel
     [RelayCommand]
     private static async Task OpenDebugOptions()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             await Navigator.GoToPage<DebugOptionsPage>();
     }
 
     [RelayCommand]
     public static void SwapWindowDimensions()
     {
-        DebugOptions.SwapWindowWidthAndHeight();
+        DebugOptions.Default.SwapWindowWidthAndHeight();
     }
 
     [RelayCommand]
     public static void ApplyPhoneDimensions()
     {
-        DebugOptions.ApplyPhoneDimensions();
+        DebugOptions.Default.ApplyPhoneDimensions();
     }
 
     [RelayCommand]
     public static void ApplyTabletDimensions()
     {
-        DebugOptions.ApplyTabletDimensions();
+        DebugOptions.Default.ApplyTabletDimensions();
     }
 
     [RelayCommand]
     public static void ApplyDefaultDesktopDimensions()
     {
-        DebugOptions.ApplyDefaultDesktopDimensions();
+        DebugOptions.Default.ApplyDefaultDesktopDimensions();
     }
 }

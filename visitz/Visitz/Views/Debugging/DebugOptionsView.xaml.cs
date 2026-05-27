@@ -25,7 +25,7 @@ public partial class DebugOptionsView : ViewModelContentView<DebugOptionsViewMod
                 Content = new Label()
                 {
                     HorizontalOptions = LayoutOptions.Start,
-                    Text = DebugOptions.ListDocumentsFiles(),
+                    Text = DebugOptions.Default.ListDocumentsFiles(),
                 },
             },
         };
@@ -40,5 +40,17 @@ public partial class DebugOptionsView : ViewModelContentView<DebugOptionsViewMod
             entry.CursorPosition = 0;
             entry.SelectionLength = entry.Text.Length;
         }
+    }
+
+    private void WindowWidthEntry_Unfocused(object? sender, FocusEventArgs e)
+    {
+        if (sender is Entry entry && double.TryParse(entry.Text, out double width))
+            DebugOptions.Default.WindowWidth = width;
+    }
+
+    private void WindowHeightEntry_Unfocused(object? sender, FocusEventArgs e)
+    {
+        if (sender is Entry entry && double.TryParse(entry.Text, out double height))
+            DebugOptions.Default.WindowHeight = height;
     }
 }

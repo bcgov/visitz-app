@@ -48,7 +48,7 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
 
     private static void TryStartDebugSensor()
     {
-        DebugOptions.TryStartShakeDetector(actionOnShake: async () => await DebugOptionsPage.TryOpen());
+        DebugOptions.Default.TryStartShakeDetector(actionOnShake: async () => await DebugOptionsPage.TryOpen());
     }
 
     private void OidcSession_SessionChanged(object? sender, SessionChangedEventArgs e)
