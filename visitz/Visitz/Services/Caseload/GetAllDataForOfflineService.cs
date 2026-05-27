@@ -103,7 +103,11 @@ namespace Visitz.Services.Caseload
             // Synchronize both caseloads BEFORE getting any dependent info.
             // We don't want to start downloading dependent info before
             // caseload state is fully refreshed
-            await Task.WhenAll(GetPersonalCaseload(), GetOfficeCaseload(exceptions));
+            await GetOfficeCaseload(exceptions);
+
+            // Get personal caseload after office caseload--the office caseload API is incomplete and will
+            // clobber Assignee information if it is run after personal caseload
+            await GetPersonalCaseload(exceptions);
 
             var cases = await GetRefreshableRecords<CaseRecord>();
             var incidents = await GetRefreshableRecords<IncidentRecord>();
@@ -145,10 +149,17 @@ namespace Visitz.Services.Caseload
                 .ToList();
         }
 
-        private async Task GetPersonalCaseload()
+        private async Task GetPersonalCaseload(List<Exception> exceptions)
         {
-            var caseloadMessage = GetCaseloadService.MakeStartMessage(ShouldForceDownload);
-            await ServiceHandler.TryRunServiceAsync(caseloadMessage);
+            try
+            {
+                var caseloadMessage = GetCaseloadService.MakeStartMessage(ShouldForceDownload);
+                await ServiceHandler.TryRunServiceAsync(caseloadMessage);
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(MakeDownloadEx(LocalizedStrings.Caseload, ex));
+            }
         }
 
         private async Task GetOfficeCaseload(List<Exception> exceptions)
