@@ -174,30 +174,6 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         }
     }
 
-    public static async Task DeleteAsync(Realm realm, Attachment attachment, bool removeContent = true)
-    {
-        ArgumentNullException.ThrowIfNull(realm);
-
-        string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
-
-        if (removeContent && File.Exists(fullpath))
-            File.Delete(fullpath);
-
-        await attachment.CommitAsync(() =>
-        {
-            if (attachment.HasDraft && attachment.Draft != null)
-                realm.Remove(attachment.Draft);
-
-            realm.Remove(attachment);
-        });
-    }
-
-    public async Task DeleteAsync(bool removeContent = true)
-    {
-        if (Realm != null)
-            await DeleteAsync(Realm, this, removeContent);
-    }
-
     public Attachment() { }
 
     public Attachment(AttachmentJson json, string parentId, EntityType type)
@@ -396,6 +372,30 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public static IOrderedQueryable<Attachment> GetOrderedAttachments(Realm realm, EntityType type, string recordId)
     {
         return GetAttachments(realm, type, recordId).OrderByDescending(item => item.CreatedDate);
+    }
+
+    public static async Task DeleteAsync(Realm realm, Attachment attachment, bool removeContent = true)
+    {
+        ArgumentNullException.ThrowIfNull(realm);
+
+        string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
+
+        if (removeContent && File.Exists(fullpath))
+            File.Delete(fullpath);
+
+        await attachment.CommitAsync(() =>
+        {
+            if (attachment.HasDraft && attachment.Draft != null)
+                realm.Remove(attachment.Draft);
+
+            realm.Remove(attachment);
+        });
+    }
+
+    public async Task DeleteAsync(bool removeContent = true)
+    {
+        if (Realm != null)
+            await DeleteAsync(Realm, this, removeContent);
     }
 
     public void RemoveFileFromDevice()
