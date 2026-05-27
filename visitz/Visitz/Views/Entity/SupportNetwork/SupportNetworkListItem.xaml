@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView
+<base:BaseContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
@@ -12,118 +13,97 @@
     x:Class="Visitz.Views.Entity.SupportNetwork.SupportNetworkListItem"
     x:DataType="supportNetwork:SupportNetworkItemUi"
 >
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        </ResourceDictionary>
-    </ContentView.Resources>
+    <base:BaseContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </base:BaseContentView.GestureRecognizers>
 
-    <ContentView.GestureRecognizers>
-        <TapGestureRecognizer
-            Command="{Binding Path=SelectedSupportNetworkItemCommand, Source={RelativeSource AncestorType={x:Type supportNetwork:SupportNetworkListViewModel}}}"
-            CommandParameter="{Binding .}"
-        />
-    </ContentView.GestureRecognizers>
-
-    <VerticalStackLayout
-        Padding="{Thickness
-        Left={StaticResource DefaultPadding},
-        Top={StaticResource DefaultPadding},
-        Right={StaticResource DefaultPadding}}"
-        Spacing="{StaticResource DefaultSpacing}"
+    <Border
+        BackgroundColor="{StaticResource CardGrayBg}"
+        Margin="{StaticResource DefaultMargin}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
     >
-        <Grid
-            ColumnDefinitions="*,Auto"
-            ColumnSpacing="{StaticResource DefaultSpacing}"
-            RowDefinitions="*,*"
-            RowSpacing="{StaticResource DefaultSpacing}"
-        >
-            <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
-                <Label
-                    Text="{Binding SupportNetwork.Name}"
-                    FontFamily="BCSansBold"
-                    VerticalOptions="Center"
-                    FontSize="17"
-                />
-
-                <tagview:TagView
-                    Padding="8,0"
-                    Text="{Binding CapitalizedRelationship}"
-                    BackgroundColor="{StaticResource ContactRelationshipTagBackground}"
-                    TextColor="{StaticResource ContactRelationshipTagText}"
-                    IsVisible="{Binding ShowRelationshipTag}"
-                />
-            </HorizontalStackLayout>
-
-            <HorizontalStackLayout
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                Grid.Column="1"
-                VerticalOptions="Center"
+        <VerticalStackLayout>
+            <Grid
+                BackgroundColor="White"
+                ColumnDefinitions="*,Auto"
+                ColumnSpacing="{StaticResource DefaultSpacing}"
+                RowDefinitions="Auto,Auto"
+                Padding="{StaticResource DefaultPadding}"
             >
-                <Label
-                    IsVisible="{Binding IsExpanded, Converter={StaticResource BoolNegationConverter}}"
-                    FontFamily="MaterialIconsRoundedUnfilled"
-                    FontSize="30"
-                    Text="{Static fonticons:MaterialIcons.Keyboard_arrow_down}"
-                />
-                <Label
-                    IsVisible="{Binding IsExpanded}"
-                    FontFamily="MaterialIconsRoundedUnfilled"
-                    FontSize="30"
-                    Text="{Static fonticons:MaterialIcons.Keyboard_arrow_up}"
-                />
-            </HorizontalStackLayout>
-            <HorizontalStackLayout Grid.Row="1" Spacing="{StaticResource DefaultSpacingHalf}">
-                <Label FontFamily="BCSansBold" Text="{local:Localize Active}" />
-                <Label Text="{Binding SupportNetwork.Active}" />
+                <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
+                    <Label
+                        Text="{Binding SupportNetwork.Name}"
+                        FontFamily="BCSansBold"
+                        VerticalOptions="Center"
+                        FontSize="{StaticResource BodyMediumFontSize}"
+                    />
 
-                <Label
-                    StyleClass="ExpanderHorizontalLabelLeftOffset"
-                    FontFamily="BCSansBold"
-                    Text="{local:Localize HomeNumber}"
-                />
-                <Label Text="{Binding SupportNetwork.PhoneNumber}" />
+                    <tagview:TagView
+                        Padding="8,0"
+                        BackgroundColor="{Binding ActiveColor}"
+                        Text="{Binding ActiveText}"
+                        TextColor="{StaticResource BC_TextColor}"
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
 
-                <Label
-                    StyleClass="ExpanderHorizontalLabelLeftOffset"
-                    FontFamily="BCSansBold"
-                    Text="{local:Localize CellNumber}"
-                />
-                <Label Text="{Binding SupportNetwork.CellPhoneNumber}" />
-            </HorizontalStackLayout>
-        </Grid>
-        <Grid
-            RowSpacing="{StaticResource DefaultSpacing}"
-            ColumnSpacing="{StaticResource DefaultSpacing}"
-            IsVisible="{Binding IsExpanded}"
-            RowDefinitions="*,*,*"
-            ColumnDefinitions="Auto,*"
-        >
-            <Label
-                Grid.Row="0"
-                Grid.Column="0"
-                Text="{local:Localize Agency}"
-                FontFamily="BCSansBold"
-            />
-            <Label Grid.Row="0" Grid.Column="1" Text="{Binding SupportNetwork.AgencyName}" />
+                <HorizontalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                    <Label
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontSize="{StaticResource LayoutChevronFontSize}"
+                        Text="{Binding ExpandedChevronGlyph}"
+                    />
+                </HorizontalStackLayout>
 
-            <Label
+                <Label Grid.Row="1" Text="{Binding SupportNetwork.Relationship}" />
+            </Grid>
+
+            <BoxView
                 Grid.Row="1"
-                Grid.Column="0"
-                Text="{local:Localize Address}"
-                FontFamily="BCSansBold"
+                Color="{StaticResource Gray100}"
+                HeightRequest="0.5"
+                IsVisible="{Binding IsExpanded}"
             />
-            <Label Grid.Row="1" Grid.Column="1" Text="{Binding SupportNetwork.Address}" />
 
-            <Label
-                Grid.Row="2"
-                Grid.Column="0"
-                Text="{local:Localize Comments}"
-                FontFamily="BCSansBold"
-            />
-            <Label Grid.Row="2" Grid.Column="1" Text="{Binding SupportNetwork.Comments}" />
-        </Grid>
-        <BoxView Color="{StaticResource Gray200}" HeightRequest="0.5" />
-    </VerticalStackLayout>
-</ContentView>
+            <VerticalStackLayout
+                IsVisible="{Binding IsExpanded}"
+                Padding="{StaticResource DefaultPadding}"
+            >
+                <VerticalStackLayout.Resources>
+                    <Style TargetType="Label" Class="MarginEnd">
+                        <Setter Property="Margin">
+                            <Thickness Bottom="{StaticResource DefaultSpacing}" />
+                        </Setter>
+                    </Style>
+                </VerticalStackLayout.Resources>
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="{local:Localize Agency}"
+                    FontFamily="BCSansBold"
+                />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.AgencyName}" />
+
+                <Label Text="{local:Localize Address}" FontFamily="BCSansBold" />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.Address}" />
+
+                <Label FontFamily="BCSansBold" Text="{local:Localize HomeNumber}" />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.PhoneNumber}" />
+
+                <Label FontFamily="BCSansBold" Text="{local:Localize CellNumber}" />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.CellPhoneNumber}" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="{local:Localize Comments}"
+                    FontFamily="BCSansBold"
+                />
+                <Label Text="{Binding SupportNetwork.Comments}" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</base:BaseContentView>

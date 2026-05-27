@@ -114,6 +114,7 @@ public static class VisitzColors
 
     public static readonly Color SeparatorColor = TryGetColor(nameof(SeparatorColor));
 
+    public static readonly Color CardGrayBg = TryGetColor(nameof(CardGrayBg));
     public static readonly Color Gray100 = TryGetColor(nameof(Gray100));
     public static readonly Color Gray200 = TryGetColor(nameof(Gray200));
     public static readonly Color Gray300 = TryGetColor(nameof(Gray300));
@@ -139,4 +140,6 @@ public static class VisitzColors
     public static readonly Color ClearButtonColor = TryGetColor(nameof(ClearButtonColor));
 
     public static readonly Color DeceasedBackground = TryGetColor(nameof(DeceasedBackground));
+
+    public static readonly Color IsActiveTagBackground = TryGetColor(nameof(IsActiveTagBackground));
 }

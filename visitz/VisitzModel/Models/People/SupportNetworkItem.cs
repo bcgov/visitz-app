@@ -37,6 +37,8 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRec
 
     public string Active { get; set; } = string.Empty;
 
+    public bool IsActive => ActiveBinding.ParseWordTruthiness();
+
     public string Address { get; set; } = string.Empty;
 
     public string AgencyName { get; set; } = string.Empty;
