@@ -127,17 +127,6 @@ namespace Visitz.Services.Caseload
                 GetAllAdditionalInformation(memosIncidentsSrs, exceptions)
             );
 
-            //Get Contact related info AFTER fetching all contacts from DBs
-            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
-            var allContacts = realm.All<IcmContact>().Freeze().AsEnumerable().Distinct();
-
-            await Task.WhenAll(
-                GetContactMedicalBehavioral(allContacts, exceptions),
-                GetContactLegalAuthority(allContacts, exceptions),
-                GetAllContactLanguages(allContacts, exceptions),
-                GetContactEducation(allContacts, exceptions)
-            );
-
             // Get attachment files AFTER other dependent info so we
             // complete text-only downloads sooner
             await GetPartialAttachments(all, exceptions);
@@ -220,6 +209,17 @@ namespace Visitz.Services.Caseload
             {
                 var startMessage = GetContactsByRangeService.MakeStartMessage(all);
                 await ServiceHandler.TryRunServiceAsync(startMessage);
+
+                using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+                var allContacts = realm.All<IcmContact>().Freeze().AsEnumerable().Distinct();
+
+                //Get Contact related info AFTER fetching all contacts from DBs
+                await Task.WhenAll(
+                    GetContactMedicalBehavioral(allContacts, exceptions),
+                    GetContactLegalAuthority(allContacts, exceptions),
+                    GetAllContactLanguages(allContacts, exceptions),
+                    GetContactEducation(allContacts, exceptions)
+                );
             }
             catch (Exception ex)
             {
