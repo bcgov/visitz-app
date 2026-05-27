@@ -359,13 +359,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         // Issues with Realm object lifetime and IEnumerable, so materialize everything to lists instead
         var incomingAttachments = FromApiArray(items, parentId, type);
         var existingAttachments = GetAttachments(realm, type, parentId).ToList();
-
-        var add = incomingAttachments.Except(existingAttachments).ToList();
         var remove = existingAttachments.Except(incomingAttachments).ToList();
-        var update = incomingAttachments.Intersect(existingAttachments).ToList();
-
-        if (add.Count == 0 && update.Count == 0 && remove.Count == 0)
-            return;
 
         await RealmExtensions.CommitAsync(
             realm,
@@ -381,13 +375,12 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
                     }
                 }
 
-                foreach (var attachment in add)
-                    realm.Add(attachment);
-
-                foreach (var updatedAttachment in update)
+                foreach (var upsertAttachment in incomingAttachments)
                 {
-                    var existing = realm.Find<Attachment>(updatedAttachment.Id);
-                    existing?.CopyFrom(updatedAttachment);
+                    if (realm.Find<Attachment>(upsertAttachment.Id) is Attachment existing)
+                        existing.CopyFrom(upsertAttachment);
+                    else
+                        realm.Add(upsertAttachment);
                 }
             }
         );
