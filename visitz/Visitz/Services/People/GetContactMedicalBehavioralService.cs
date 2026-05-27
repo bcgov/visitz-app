@@ -37,7 +37,7 @@ internal class GetContactMedicalBehavioralService(Vpi vpi, LastUpdatedPrefs pref
         return MakeId(Contact.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (totalCount, contactMedicalBehavioral) = await Vpi.GetContactMedicalBehavioral(
             (ApiRecordType)Contact.ParentType,

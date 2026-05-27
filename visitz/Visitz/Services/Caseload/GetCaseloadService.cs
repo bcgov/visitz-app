@@ -42,7 +42,7 @@ namespace Visitz.Services.Caseload
             return MakeId();
         }
 
-        protected override async Task<int> RunPaginatedService(Pagination pagination)
+        protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
         {
             pagination.After = Force ? null : (DateTimeOffset?)LastUpdatedPrefs.Get(GetId());
 

@@ -39,7 +39,7 @@ internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagination
         return MakeId(CaseId);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, visits) = await Vpi.GetVisitsAsync(CaseId, pagination);
 

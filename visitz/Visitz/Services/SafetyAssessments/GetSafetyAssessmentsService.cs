@@ -38,7 +38,7 @@ internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs) : Ap
         return MakeId(Info);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, assessmentJson) = await Vpi.GetSafetyAssessments(Info.Id, pagination);
 

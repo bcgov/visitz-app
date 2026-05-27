@@ -40,7 +40,7 @@ internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPa
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, supportNetworks) = await Vpi.GetSupportNetworkAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 

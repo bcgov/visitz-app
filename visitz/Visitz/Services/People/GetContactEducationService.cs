@@ -37,7 +37,7 @@ internal class GetContactEducationService(Vpi vpi, LastUpdatedPrefs prefs) : Api
         return MakeId(Contact.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (totalCount, contactEducation) = await Vpi.GetContactEducation(
             (ApiRecordType)Contact.ParentType,

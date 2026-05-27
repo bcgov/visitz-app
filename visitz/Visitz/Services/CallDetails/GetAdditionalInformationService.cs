@@ -36,7 +36,7 @@ internal class GetAdditionalInformationService(Vpi vpi, LastUpdatedPrefs prefs) 
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, contacts) = await Vpi.GetAdditionalInformation((ApiRecordType)Info.Type, Info.Id, pagination);
         AdditionalInformationRecords.AddRange(contacts);

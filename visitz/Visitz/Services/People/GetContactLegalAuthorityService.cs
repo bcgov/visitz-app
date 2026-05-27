@@ -37,7 +37,7 @@ internal class GetContactLegalAuthorityService(Vpi vpi, LastUpdatedPrefs prefs) 
         return MakeId(Contact.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, contactLegalAuthority) = await Vpi.GetContactLegalAuthority(
             (ApiRecordType)Contact.ParentType,

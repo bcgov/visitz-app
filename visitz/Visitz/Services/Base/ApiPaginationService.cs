@@ -48,7 +48,7 @@ internal abstract class ApiPaginationService : VisitzApiService
     {
         try
         {
-            return await RunPaginatedService(pagination);
+            return await RunPageInParallelAsync(pagination);
         }
         catch (Exception ex)
         {
@@ -57,7 +57,7 @@ internal abstract class ApiPaginationService : VisitzApiService
         }
     }
 
-    protected abstract Task<int> RunPaginatedService(Pagination pagination);
+    protected abstract Task<int> RunPageInParallelAsync(Pagination pagination);
 
     protected virtual Task AfterRun()
     {
