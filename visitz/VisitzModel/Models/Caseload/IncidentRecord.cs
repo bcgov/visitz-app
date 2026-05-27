@@ -260,55 +260,11 @@ public partial class IncidentRecord
         return outList;
     }
 
-    static IEnumerable<IncidentRecord> FilterUnsupportedSubtypes(IEnumerable<IncidentRecord> incidents)
+    public static IEnumerable<TItem> FilterUnsupportedSubtypes<TItem>(IEnumerable<TItem> businessObjects)
+        where TItem : IBusinessObject
     {
-        return incidents.Where(incident => incident.EntitySubtype == EntitySubtype.ChildProtection);
-    }
-
-    public static async Task SynchronizeAsync(
-        Realm realm,
-        IEnumerable<IncidentRecord> newOfficeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        string currentUsername,
-        bool isPersonalCaseload
-    )
-    {
-        if (newOfficeIncidents == null)
-            return;
-
-        bool isOfficeCaseload = !isPersonalCaseload;
-        var incomingIncidents = FilterUnsupportedSubtypes(newOfficeIncidents);
-        var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
-        var unassigned = currentAssigned.Except(incomingIncidents);
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                CascadeDelete(realm, unassigned, userIgnoredPrefs);
-                foreach (var item in incomingIncidents)
-                {
-                    realm.Add(item, update: true);
-                    ((IBusinessObject)item).UpsertLocalState(realm, markForDownload: isPersonalCaseload);
-                }
-            }
-        );
-    }
-
-    public static Task SynchronizeAsync(
-        Realm realm,
-        IEnumerable<IncidentJson> newOfficeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        string currentUsername,
-        bool isPersonalCaseload
-    )
-    {
-        return SynchronizeAsync(
-            realm,
-            FromApiJsonArray(newOfficeIncidents, currentUsername),
-            userIgnoredPrefs,
-            currentUsername,
-            isPersonalCaseload
+        return businessObjects.Where(incident =>
+            incident is IncidentRecord && incident.EntitySubtype == EntitySubtype.ChildProtection
         );
     }
 
@@ -333,32 +289,6 @@ public partial class IncidentRecord
             fromRealm.Remove(LocalState);
     }
 
-    public void Delete(
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm? fromRealm = null,
-        bool cascade = true,
-        bool deleteLocalState = true
-    )
-    {
-        fromRealm ??= Realm;
-        ArgumentNullException.ThrowIfNull(fromRealm);
-
-        if (cascade)
-            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
-
-        fromRealm.Remove(this);
-    }
-
-    static void CascadeDelete(
-        Realm fromRealm,
-        IEnumerable<IncidentRecord> removeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs
-    )
-    {
-        foreach (var incident in removeIncidents)
-            incident.Delete(userIgnoredPrefs, fromRealm);
-    }
-
     public static IBusinessObject? GetByDraftItem(Realm realm, IDraftItem draftItem)
     {
         return realm
@@ -370,9 +300,16 @@ public partial class IncidentRecord
 
     public static IQueryable<IncidentRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
     {
+        return GetAllByAssignee<IncidentRecord>(realm, username, invert);
+    }
+
+    public static IQueryable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool invert = false)
+        where TItem : IBusinessObject
+    {
         string operation = invert ? "NONE" : "ANY";
 
-        return realm.All<IncidentRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
+        return (IQueryable<TItem>)
+            realm.All<IncidentRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }
 
     public bool IsAssigned(string username)
@@ -383,6 +320,11 @@ public partial class IncidentRecord
     public override bool Equals(object? obj)
     {
         return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return ((IBusinessObject)this).MakeHashCode();
     }
 
     public void RaisePropertyChangedEvent(string propertyName)

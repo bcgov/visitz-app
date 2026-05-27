@@ -191,26 +191,6 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
         return outList;
     }
 
-    public static async Task SynchronizeAsync(
-        Realm realm,
-        SectionJson<MemoJson> section,
-        UserIgnoredContentPrefs userIgnoredPrefs
-    )
-    {
-        var currentAssignedIds = realm.All<MemoRecord>().AsEnumerable().Select(memo => memo.Id);
-        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
-        var memos = FromApiArray(section.Items ?? []);
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-                realm.Upsert(memos);
-            }
-        );
-    }
-
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm? fromRealm = null,
@@ -227,33 +207,6 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
 
         if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);
-    }
-
-    public void Delete(
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm? fromRealm = null,
-        bool cascade = true,
-        bool deleteLocalState = true
-    )
-    {
-        fromRealm ??= Realm;
-        ArgumentNullException.ThrowIfNull(fromRealm);
-
-        if (cascade)
-            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
-
-        fromRealm.Remove(this);
-    }
-
-    static void CascadeDelete(
-        Realm fromRealm,
-        IEnumerable<string> unassignedIds,
-        UserIgnoredContentPrefs userIgnoredPrefs
-    )
-    {
-        foreach (var id in unassignedIds)
-            if (fromRealm.Find<MemoRecord>(id) is MemoRecord memo)
-                memo.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public MemoJson ToApiJson(string dateFormat = "s")
@@ -314,18 +267,6 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
             );
     }
 
-    public static IQueryable<MemoRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
-    {
-        string operation = invert ? "!=" : "==";
-
-        return realm.All<MemoRecord>().Filter($"$0 {operation} {nameof(AssignedTo)}", username);
-    }
-
-    public bool IsAssigned(string username)
-    {
-        return AssignedTo == username;
-    }
-
     public void RaisePropertyChangedEvent(string propertyName)
     {
         RaisePropertyChanged(propertyName);
@@ -334,5 +275,10 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
     public override bool Equals(object? obj)
     {
         return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return ((IBusinessObject)this).MakeHashCode();
     }
 }

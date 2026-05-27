@@ -130,7 +130,7 @@ public class CaseRecordTests
         UserIgnoredContentPrefs prefs = new(new LocalPreferencesMock());
 
         await realm.Write(async () =>
-            await CaseRecord.SynchronizeAsync(realm, cases, prefs, PrimaryName, isPersonalCaseload)
+            await IBusinessObject.SynchronizeAsync(realm, cases, prefs, PrimaryName, isPersonalCaseload)
         );
 
         return CaseRecord.GetAllByAssignee(realm, name, isPersonalCaseload);

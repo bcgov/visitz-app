@@ -181,26 +181,6 @@ public partial class ServiceRequestRecord
         return outList;
     }
 
-    public static async Task SynchronizeAsync(
-        Realm realm,
-        SectionJson<ServiceRequestJson> section,
-        UserIgnoredContentPrefs userIgnoredPrefs
-    )
-    {
-        var currentAssignedIds = realm.All<ServiceRequestRecord>().AsEnumerable().Select(sr => sr.Id);
-        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
-        var serviceRequests = FromApiArray(section.Items ?? []);
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-                realm.Upsert(serviceRequests);
-            }
-        );
-    }
-
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm? fromRealm = null,
@@ -219,33 +199,6 @@ public partial class ServiceRequestRecord
 
         if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);
-    }
-
-    public void Delete(
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm? fromRealm = null,
-        bool cascade = true,
-        bool deleteLocalState = true
-    )
-    {
-        fromRealm ??= Realm;
-        ArgumentNullException.ThrowIfNull(fromRealm);
-
-        if (cascade)
-            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
-
-        fromRealm.Remove(this);
-    }
-
-    static void CascadeDelete(
-        Realm fromRealm,
-        IEnumerable<string> unassignedIds,
-        UserIgnoredContentPrefs userIgnoredPrefs
-    )
-    {
-        foreach (var id in unassignedIds)
-            if (fromRealm.Find<ServiceRequestRecord>(id) is ServiceRequestRecord sr)
-                sr.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public ServiceRequestJson ToApiJson(string dateFormat = "s")
@@ -299,18 +252,6 @@ public partial class ServiceRequestRecord
             .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId || sr.FileNumber == draftItem.RelatedEntityId);
     }
 
-    public static IQueryable<ServiceRequestRecord> GetAllByAssignee(Realm realm, string username, bool invert = false)
-    {
-        string operation = invert ? "!=" : "==";
-
-        return realm.All<ServiceRequestRecord>().Filter($"$0 {operation} {nameof(AssignedTo)}", username);
-    }
-
-    public bool IsAssigned(string username)
-    {
-        return AssignedTo == username;
-    }
-
     public void RaisePropertyChangedEvent(string propertyName)
     {
         RaisePropertyChanged(propertyName);
@@ -319,5 +260,10 @@ public partial class ServiceRequestRecord
     public override bool Equals(object? obj)
     {
         return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return ((IBusinessObject)this).MakeHashCode();
     }
 }

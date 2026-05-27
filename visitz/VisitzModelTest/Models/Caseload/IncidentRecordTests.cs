@@ -141,7 +141,7 @@ public class IncidentRecordTests
         UserIgnoredContentPrefs prefs = new(new LocalPreferencesMock());
 
         await realm.Write(async () =>
-            await IncidentRecord.SynchronizeAsync(realm, incidents, prefs, PrimaryName, isPersonalCaseload)
+            await IBusinessObject.SynchronizeAsync(realm, incidents, prefs, PrimaryName, isPersonalCaseload)
         );
 
         return IncidentRecord.GetAllByAssignee(realm, name, isPersonalCaseload);

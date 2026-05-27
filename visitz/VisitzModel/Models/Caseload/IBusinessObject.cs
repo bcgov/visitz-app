@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using Realms;
+using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
@@ -51,7 +52,10 @@ public partial interface IBusinessObject : IRealmObject
 
     public IQueryable<IcmContact> Contacts => GetContacts(Realm);
 
-    public bool IsAssigned(string username);
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username;
+    }
 
     /// <summary>
     /// Deletes most of the dependent data for a BusinessObject.
@@ -80,7 +84,16 @@ public partial interface IBusinessObject : IRealmObject
         Realm? fromRealm = null,
         bool cascade = true,
         bool deleteLocalState = true
-    );
+    )
+    {
+        fromRealm ??= Realm;
+        ArgumentNullException.ThrowIfNull(fromRealm);
+
+        if (cascade)
+            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
+
+        fromRealm.Remove(this);
+    }
 
     void RaisePropertyChangedEvent(string propertyName);
 
@@ -118,7 +131,7 @@ public partial interface IBusinessObject : IRealmObject
             || (other != null && IdBinding == other.IdBinding && EntityType == other.EntityType);
     }
 
-    public int GetHashCode()
+    public int MakeHashCode()
     {
 #pragma warning disable SS008 // GetHashCode() refers to mutable or static member
         // Id is not meant to change
@@ -167,5 +180,57 @@ public partial interface IBusinessObject : IRealmObject
             EntityType.ServiceRequest => realm.Find<ServiceRequestRecord>(id),
             _ => throw new InvalidOperationException($"'{type}' not supported"),
         };
+    }
+
+    static IEnumerable<TItem> FilterUnsupportedSubtypes<TItem>(IEnumerable<TItem> businessObjects)
+        where TItem : IBusinessObject
+    {
+        return businessObjects;
+    }
+
+    static IEnumerable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool invert = false)
+        where TItem : IBusinessObject
+    {
+        Func<TItem, bool> predicate = invert
+            ? item => item.AssignedTo != username
+            : item => item.AssignedTo == username;
+        return realm.All<TItem>().Where(predicate);
+    }
+
+    static void CascadeDelete<TItem>(
+        Realm realm,
+        IEnumerable<TItem> unassigned,
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
+        where TItem : IBusinessObject
+    {
+        foreach (var item in unassigned)
+            item.Delete(userIgnoredPrefs, realm);
+    }
+
+    public static async Task SynchronizeAsync<TItem>(
+        Realm realm,
+        IEnumerable<TItem> incomingItems,
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        string currentUsername,
+        bool isPersonalCaseload
+    )
+        where TItem : IBusinessObject
+    {
+        bool isOfficeCaseload = !isPersonalCaseload;
+
+        var filteredUpsertItems = FilterUnsupportedSubtypes(incomingItems);
+        var currentAssigned = GetAllByAssignee<TItem>(realm, currentUsername, isOfficeCaseload).ToList();
+        var unassigned = currentAssigned.Except(filteredUpsertItems);
+
+        await realm.CommitAsync(() =>
+        {
+            CascadeDelete(realm, unassigned, userIgnoredPrefs);
+            foreach (var item in filteredUpsertItems)
+            {
+                realm.Add(item, update: true);
+                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+            }
+        });
     }
 }
