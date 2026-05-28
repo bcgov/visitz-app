@@ -34,7 +34,7 @@
             >
                 <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
                     <Label
-                        Text="{Binding SupportNetwork.Name}"
+                        Text="{Binding SupportNetwork.NameBinding}"
                         FontFamily="BCSansBold"
                         VerticalOptions="Center"
                         FontSize="{StaticResource BodyMediumFontSize}"
@@ -57,7 +57,7 @@
                     />
                 </HorizontalStackLayout>
 
-                <Label Grid.Row="1" Text="{Binding SupportNetwork.Relationship}" />
+                <Label Grid.Row="1" Text="{Binding SupportNetwork.RelationshipBinding}" />
             </Grid>
 
             <BoxView
@@ -85,16 +85,19 @@
                     Text="{local:Localize Agency}"
                     FontFamily="BCSansBold"
                 />
-                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.AgencyName}" />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.AgencyNameBinding}" />
 
                 <Label Text="{local:Localize Address}" FontFamily="BCSansBold" />
-                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.Address}" />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.AddressBinding}" />
 
                 <Label FontFamily="BCSansBold" Text="{local:Localize HomeNumber}" />
-                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.PhoneNumber}" />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.PhoneNumberBinding}" />
 
                 <Label FontFamily="BCSansBold" Text="{local:Localize CellNumber}" />
-                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.CellPhoneNumber}" />
+                <Label
+                    StyleClass="MarginEnd"
+                    Text="{Binding SupportNetwork.CellPhoneNumberBinding}"
+                />
 
                 <Label
                     Grid.Row="2"
@@ -102,7 +105,7 @@
                     Text="{local:Localize Comments}"
                     FontFamily="BCSansBold"
                 />
-                <Label Text="{Binding SupportNetwork.Comments}" />
+                <Label Text="{Binding SupportNetwork.CommentsBinding}" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </Border>
