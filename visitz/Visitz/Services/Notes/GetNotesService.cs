@@ -8,57 +8,56 @@ using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 using VisitzModel.Storage;
 
-namespace Visitz.Services.Notes
+namespace Visitz.Services.Notes;
+
+public class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
-    public class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+    public static string MakeId(string caseIncidentId)
     {
-        public static string MakeId(string caseIncidentId)
+        return nameof(GetNotesService) + caseIncidentId;
+    }
+
+    public static StartServiceMessage MakeStartMessage(string caseIncidentId, EntityType entityType)
+    {
+        return MakeStartMessage((caseIncidentId, entityType));
+    }
+
+    public static StartServiceMessage MakeStartMessage(ValueTuple<string, EntityType> idEntityItem)
+    {
+        return new StartServiceMessage()
         {
-            return nameof(GetNotesService) + caseIncidentId;
-        }
+            ServiceId = MakeId(idEntityItem.Item1),
+            ServiceType = typeof(GetNotesService),
+            Payload = idEntityItem,
+        };
+    }
 
-        public static StartServiceMessage MakeStartMessage(string caseIncidentId, EntityType entityType)
-        {
-            return MakeStartMessage((caseIncidentId, entityType));
-        }
+    private ValueTuple<string, EntityType> PayloadTuple => (ValueTuple<string, EntityType>)Payload;
 
-        public static StartServiceMessage MakeStartMessage(ValueTuple<string, EntityType> idEntityItem)
-        {
-            return new StartServiceMessage()
-            {
-                ServiceId = MakeId(idEntityItem.Item1),
-                ServiceType = typeof(GetNotesService),
-                Payload = idEntityItem,
-            };
-        }
+    public override string GetId()
+    {
+        var (caseIncidentId, _) = PayloadTuple;
+        return MakeId(caseIncidentId);
+    }
 
-        private ValueTuple<string, EntityType> PayloadTuple => (ValueTuple<string, EntityType>)Payload;
+    protected override async Task RunApiServiceAsync()
+    {
+        await GetNotesAsync();
+    }
 
-        public override string GetId()
-        {
-            var (caseIncidentId, _) = PayloadTuple;
-            return MakeId(caseIncidentId);
-        }
+    private async Task GetNotesAsync()
+    {
+        var (id, entityType) = PayloadTuple;
 
-        protected override async Task RunApiServiceAsync()
-        {
-            await GetNotesAsync();
-        }
+        string casedType = entityType.GetDisplayString().ToTitleCase();
+        var notesFromApi = await Vpi.GetNotesAsync(id, casedType);
 
-        private async Task GetNotesAsync()
-        {
-            var (id, entityType) = PayloadTuple;
+        var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
 
-            string casedType = entityType.GetDisplayString().ToTitleCase();
-            var notesFromApi = await Vpi.GetNotesAsync(id, casedType);
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes)
+        );
 
-            var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
-
-            await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-                await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes)
-            );
-
-            ResultCode = Result.Successful;
-        }
+        ResultCode = Result.Successful;
     }
 }

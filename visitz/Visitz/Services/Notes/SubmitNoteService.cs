@@ -5,51 +5,50 @@ using VisitzApi;
 using VisitzApi.Models;
 using VisitzModel.Storage;
 
-namespace Visitz.Services.Notes
+namespace Visitz.Services.Notes;
+
+public class SubmitNoteService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
-    public class SubmitNoteService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+    public static string MakeId(string entityNumber, string notePeriod)
     {
-        public static string MakeId(string entityNumber, string notePeriod)
+        return $"{nameof(SubmitNoteService)}-{entityNumber}-{notePeriod}";
+    }
+
+    public static StartServiceMessage MakeStartMessage(SubmitNoteEntity submitEntity)
+    {
+        return new StartServiceMessage()
         {
-            return $"{nameof(SubmitNoteService)}-{entityNumber}-{notePeriod}";
-        }
+            Payload = submitEntity,
+            ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.NotePeriod),
+            ServiceType = typeof(SubmitNoteService),
+        };
+    }
 
-        public static StartServiceMessage MakeStartMessage(SubmitNoteEntity submitEntity)
+    private new SubmitNoteEntity Payload => (SubmitNoteEntity)base.Payload;
+
+    public override string GetId()
+    {
+        return MakeId(Payload.EntityNumber, Payload.NotePeriod);
+    }
+
+    protected override async Task RunApiServiceAsync()
+    {
+        if (DebugOptions.Default.DryFireSubmitNotes)
         {
-            return new StartServiceMessage()
-            {
-                Payload = submitEntity,
-                ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.NotePeriod),
-                ServiceType = typeof(SubmitNoteService),
-            };
+            await Task.Delay(2500); // Simulate network activity
+            ResultCode = DebugOptions.Default.DryFireSubmitNotesSimulateSuccess ? Result.Successful : Result.Error;
         }
+        else
+            await SubmitNoteAsync();
+    }
 
-        private new SubmitNoteEntity Payload => (SubmitNoteEntity)base.Payload;
+    private async Task SubmitNoteAsync()
+    {
+        var (status, _) = await Vpi.SubmitNotesAsync(Payload);
 
-        public override string GetId()
-        {
-            return MakeId(Payload.EntityNumber, Payload.NotePeriod);
-        }
+        ResultCode = status ? Result.Successful : Result.Error;
 
-        protected override async Task RunApiServiceAsync()
-        {
-            if (DebugOptions.Default.DryFireSubmitNotes)
-            {
-                await Task.Delay(2500); // Simulate network activity
-                ResultCode = DebugOptions.Default.DryFireSubmitNotesSimulateSuccess ? Result.Successful : Result.Error;
-            }
-            else
-                await SubmitNoteAsync();
-        }
-
-        private async Task SubmitNoteAsync()
-        {
-            var (status, _) = await Vpi.SubmitNotesAsync(Payload);
-
-            ResultCode = status ? Result.Successful : Result.Error;
-
-            if (ResultCode.Equals(Result.Successful))
-                new SurveyFeedbackTracker(Preferences.Default).SetHasPublishedAnything();
-        }
+        if (ResultCode.Equals(Result.Successful))
+            new SurveyFeedbackTracker(Preferences.Default).SetHasPublishedAnything();
     }
 }

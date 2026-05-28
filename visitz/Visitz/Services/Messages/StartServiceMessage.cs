@@ -1,7 +1,6 @@
-namespace Visitz.Services.Messages
+namespace Visitz.Services.Messages;
+
+public class StartServiceMessage : ServiceInfoMessage
 {
-    public class StartServiceMessage : ServiceInfoMessage
-    {
-        public object Payload { get; set; }
-    }
+    public object Payload { get; set; }
 }

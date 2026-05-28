@@ -1,48 +1,47 @@
-namespace Visitz.Device
+namespace Visitz.Device;
+
+public class KeyboardStateChangedEventArgs(bool isKeyboardOpen) : EventArgs
 {
-    public class KeyboardStateChangedEventArgs(bool isKeyboardOpen) : EventArgs
+    public bool IsKeyboardOpen { get; } = isKeyboardOpen;
+}
+
+public partial class SoftKeyboardOpenHandler : IDisposable
+{
+    public event EventHandler<KeyboardStateChangedEventArgs> KeyboardStateChanged;
+
+    private bool _isKeyboardOpen;
+    private bool disposedValue;
+
+    public SoftKeyboardOpenHandler()
     {
-        public bool IsKeyboardOpen { get; } = isKeyboardOpen;
+        SubscribeToKeyboardEvents();
     }
 
-    public partial class SoftKeyboardOpenHandler : IDisposable
+    partial void SubscribeToKeyboardEvents();
+
+    partial void UnsubscribeFromKeyboardEvents();
+
+    private void OnKeyboardStateChanged(bool isKeyboardOpen)
     {
-        public event EventHandler<KeyboardStateChangedEventArgs> KeyboardStateChanged;
+        _isKeyboardOpen = isKeyboardOpen;
+        KeyboardStateChanged?.Invoke(this, new KeyboardStateChangedEventArgs(isKeyboardOpen));
+    }
 
-        private bool _isKeyboardOpen;
-        private bool disposedValue;
-
-        public SoftKeyboardOpenHandler()
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
         {
-            SubscribeToKeyboardEvents();
-        }
-
-        partial void SubscribeToKeyboardEvents();
-
-        partial void UnsubscribeFromKeyboardEvents();
-
-        private void OnKeyboardStateChanged(bool isKeyboardOpen)
-        {
-            _isKeyboardOpen = isKeyboardOpen;
-            KeyboardStateChanged?.Invoke(this, new KeyboardStateChangedEventArgs(isKeyboardOpen));
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    UnsubscribeFromKeyboardEvents();
-                }
-                disposedValue = true;
+                UnsubscribeFromKeyboardEvents();
             }
+            disposedValue = true;
         }
+    }
 
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }
