@@ -35,7 +35,7 @@ internal class GetContactsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, Servic
         await ServiceHandler.TryRunServiceAsync(GetContactsService.MakeStartMessage(item));
     }
 
-    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
+    protected override Exception MakeOverallException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
     {
         return exceptions.CombineIntoException();
     }

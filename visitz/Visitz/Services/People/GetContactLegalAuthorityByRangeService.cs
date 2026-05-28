@@ -36,7 +36,7 @@ internal class GetContactLegalAuthorityByRangeService(Vpi vpi, LastUpdatedPrefs 
         await serviceHandler.TryRunServiceAsync(GetContactLegalAuthorityService.MakeStartMessage(item));
     }
 
-    protected override Exception MakePartialException(List<ApiRangeItemException<IcmContact>> exceptions)
+    protected override Exception MakeOverallException(List<ApiRangeItemException<IcmContact>> exceptions)
     {
         var outString = exceptions
             .Select(ex =>

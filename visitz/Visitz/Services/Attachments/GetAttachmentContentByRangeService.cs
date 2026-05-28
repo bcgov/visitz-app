@@ -43,7 +43,7 @@ internal class GetAttachmentContentByRangeService(Vpi vpi, LastUpdatedPrefs pref
         await ServiceHandler.TryRunServiceAsync(GetAttachmentContentService.MakeStartMessage(tuple));
     }
 
-    protected override Exception MakePartialException(
+    protected override Exception MakeOverallException(
         List<ApiRangeItemException<(RecordServiceInfo, string, bool)>> exceptions
     )
     {

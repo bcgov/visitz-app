@@ -31,7 +31,7 @@ internal abstract class VisitzApiRangeService<Item>(
     {
         await Parallel.ForEachAsync(Items, ParalellOptions, RunForItemParallelAsync);
 
-        ResultCode = Exceptions.Count <= 0 ? Result.Successful : throw MakePartialException(Exceptions);
+        ResultCode = Exceptions.Count <= 0 ? Result.Successful : throw MakeOverallException(Exceptions);
     }
 
     async ValueTask RunForItemParallelAsync(Item item, CancellationToken token)
@@ -49,5 +49,5 @@ internal abstract class VisitzApiRangeService<Item>(
 
     protected abstract Task RunInParallelAsync(ServiceHandler serviceHandler, Item item);
 
-    protected abstract Exception MakePartialException(List<ApiRangeItemException<Item>> exceptions);
+    protected abstract Exception MakeOverallException(List<ApiRangeItemException<Item>> exceptions);
 }

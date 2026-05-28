@@ -36,7 +36,7 @@ internal class GetContactEducationByRangeService(Vpi vpi, LastUpdatedPrefs prefs
         await serviceHandler.TryRunServiceAsync(GetContactEducationService.MakeStartMessage(item));
     }
 
-    protected override Exception MakePartialException(List<ApiRangeItemException<IcmContact>> exceptions)
+    protected override Exception MakeOverallException(List<ApiRangeItemException<IcmContact>> exceptions)
     {
         var outString = exceptions
             .Select(ex =>
