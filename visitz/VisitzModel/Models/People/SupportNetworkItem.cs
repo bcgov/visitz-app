@@ -151,11 +151,11 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRec
         );
     }
 
-    public static IQueryable<SupportNetworkItem> GetSupportNetworkByIdType(Realm realm, string id, EntityType type)
+    public static IQueryable<SupportNetworkItem> GetByParentIdType(Realm realm, string id, EntityType type)
     {
         return realm
             .All<SupportNetworkItem>()
-            .Where(item => item.EntityId == id && item.ParentTypeInt == (int)type)
+            .Where(item => item.ParentId == id && item.ParentTypeInt == (int)type)
             .Filter($"TRUEPREDICATE SORT({nameof(Active)} DESC, {nameof(Name)} ASC)");
     }
 

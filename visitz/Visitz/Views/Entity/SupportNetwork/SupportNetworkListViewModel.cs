@@ -32,7 +32,7 @@ public partial class SupportNetworkListViewModel : IcmRecordViewModel
         realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
         realmQuery.Subscribe(
             DataRealm,
-            SupportNetworkItem.GetSupportNetworkByIdType(DataRealm, BusinessObject.Id, BusinessObject.EntityType)
+            SupportNetworkItem.GetByParentIdType(DataRealm, BusinessObject.Id, BusinessObject.EntityType)
         );
     }
 
