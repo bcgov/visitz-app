@@ -3,6 +3,7 @@ using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
+using Visitz.Services.Messages;
 using Visitz.Services.SafetyAssessments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;

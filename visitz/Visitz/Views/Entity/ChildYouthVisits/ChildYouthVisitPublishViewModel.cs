@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
 using Visitz.Resources.Localization;
-using Visitz.Services;
+using Visitz.Services.Messages;
 using Visitz.Services.Visits;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;

@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Visitz.Services.Messages;
 
 namespace Visitz.Services.Base
 {

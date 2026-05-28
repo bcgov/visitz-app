@@ -1,4 +1,4 @@
-namespace Visitz.Services
+namespace Visitz.Services.Messages
 {
     public class ServiceInfoMessage
     {

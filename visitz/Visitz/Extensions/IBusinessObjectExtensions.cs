@@ -6,6 +6,7 @@ using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.CallDetails;
 using Visitz.Services.Caseload;
+using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
 using Visitz.Services.SafetyAssessments;

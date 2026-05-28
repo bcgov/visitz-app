@@ -1,6 +1,6 @@
 using Visitz.Services.Base;
 
-namespace Visitz.Services;
+namespace Visitz.Services.Messages;
 
 #nullable enable
 
