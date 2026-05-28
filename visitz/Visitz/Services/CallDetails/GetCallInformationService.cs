@@ -38,7 +38,7 @@ internal class GetCallInformationService(Vpi vpi, LastUpdatedPrefs prefs) : ApiP
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, callInformation) = await Vpi.GetCallInformation((ApiRecordType)Info.Type, Info.Id, pagination);
         CallInformationData.AddRange(callInformation);

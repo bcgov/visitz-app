@@ -40,7 +40,7 @@ internal class GetContactsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginati
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, contacts) = await Vpi.GetContactsAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 

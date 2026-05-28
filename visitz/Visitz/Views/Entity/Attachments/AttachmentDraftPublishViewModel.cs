@@ -4,6 +4,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Services.Messages;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;

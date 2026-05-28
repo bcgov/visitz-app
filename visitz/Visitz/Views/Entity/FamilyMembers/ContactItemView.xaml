@@ -30,11 +30,10 @@
     >
         <VerticalStackLayout>
             <Grid
-                Grid.Row="0"
                 BackgroundColor="White"
                 ColumnDefinitions="5*,*"
                 ColumnSpacing="{StaticResource DefaultSpacing}"
-                RowDefinitions="*,*"
+                RowDefinitions="Auto,Auto"
                 RowSpacing="{StaticResource DefaultSpacing}"
                 Padding="{StaticResource DefaultPadding}"
             >
@@ -43,6 +42,7 @@
                         Text="{Binding Contact.FullDisplayName}"
                         FontFamily="BCSansBold"
                         FontSize="{StaticResource BodyMediumFontSize}"
+                        VerticalOptions="Center"
                     />
 
                     <tagview:TagView
@@ -92,10 +92,9 @@
                 </HorizontalStackLayout>
 
                 <Label
-                    Grid.Column="7"
-                    Grid.RowSpan="2"
+                    Grid.Column="1"
                     FontFamily="MaterialIconsRoundedUnfilled"
-                    FontSize="30"
+                    FontSize="{StaticResource LayoutChevronFontSize}"
                     Text="{Binding ExpandedChevronGlyph}"
                     VerticalOptions="Start"
                     HorizontalOptions="End"
@@ -103,14 +102,12 @@
             </Grid>
 
             <BoxView
-                Grid.Row="1"
                 Color="{StaticResource Gray100}"
                 HeightRequest="0.5"
                 IsVisible="{Binding Expanded}"
             />
 
             <VerticalStackLayout
-                Grid.Row="2"
                 Padding="{StaticResource DefaultPadding}"
                 IsVisible="{Binding Expanded}"
             >

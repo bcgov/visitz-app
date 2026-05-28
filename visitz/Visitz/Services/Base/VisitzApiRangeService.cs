@@ -4,27 +4,34 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Base;
 
+#nullable enable
+
 internal abstract class VisitzApiRangeService<Item>(
     Vpi vpi,
     LastUpdatedPrefs prefs,
     ServiceHandler serviceHandler,
-    ParallelOptions options = null
+    CancellationToken? cancellationToken = null,
+    int? maxDegreeOfParallelism = null
 ) : VisitzApiService(vpi, prefs)
 {
     protected ServiceHandler ServiceHandler => serviceHandler;
 
     IEnumerable<Item> Items => (IEnumerable<Item>)Payload;
 
+    public ParallelOptions ParalellOptions { get; } =
+        new()
+        {
+            MaxDegreeOfParallelism = maxDegreeOfParallelism ?? ParallelServiceDefaults.MaxParallelism,
+            CancellationToken = cancellationToken ?? CancellationToken.None,
+        };
+
     List<ApiRangeItemException<Item>> Exceptions { get; } = [];
 
     protected sealed override async Task RunApiServiceAsync()
     {
-        if (options == null)
-            await Parallel.ForEachAsync(Items, RunForItemParallelAsync);
-        else
-            await Parallel.ForEachAsync(Items, options, RunForItemParallelAsync);
+        await Parallel.ForEachAsync(Items, ParalellOptions, RunForItemParallelAsync);
 
-        ResultCode = Exceptions.Count <= 0 ? Result.Successful : throw MakePartialException(Exceptions);
+        ResultCode = Exceptions.Count <= 0 ? Result.Successful : throw MakeOverallException(Exceptions);
     }
 
     async ValueTask RunForItemParallelAsync(Item item, CancellationToken token)
@@ -42,5 +49,8 @@ internal abstract class VisitzApiRangeService<Item>(
 
     protected abstract Task RunInParallelAsync(ServiceHandler serviceHandler, Item item);
 
-    protected abstract Exception MakePartialException(List<ApiRangeItemException<Item>> exceptions);
+    static Exception MakeOverallException(List<ApiRangeItemException<Item>> exceptions)
+    {
+        return exceptions.Count == 1 ? exceptions[0] : new AggregateException(exceptions);
+    }
 }

@@ -7,9 +7,9 @@ using Oidc;
 using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
-using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
+using Visitz.Services.Messages;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
 using VisitzModel.Messaging;
@@ -21,7 +21,10 @@ namespace Visitz.Views.Caseload;
 
 #nullable enable
 
-public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<CaseloadItemViewModel>
+public partial class CaseloadItemViewModel
+    : VisitzViewModel,
+        IComparable<CaseloadItemViewModel>,
+        IRecipient<ServiceStateMessage>
 {
     public static readonly FontImageSource RemoveImageSource = new()
     {
@@ -29,9 +32,9 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
         Glyph = FluentIcons.Subtract_circle_20_regular,
     };
 
-    readonly ServiceHandler serviceHandler;
-
     OidcSessionInfo SessionInfo { get; }
+
+    readonly ServiceActivityListener _activityListener = new();
 
     [ObservableProperty]
     public partial IBusinessObject BusinessObject { get; set; }
@@ -50,6 +53,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
 
     [ObservableProperty]
     public partial bool CanRemoveFromDevice { get; set; }
+
     protected override ILogger<VisitzViewModel> Logger { get; } =
         ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
 
@@ -63,11 +67,13 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
         IndicatorHelper = indicatorHelper;
         BusinessObject = businessObject;
         SessionInfo = sessionInfo;
-        serviceHandler = ServiceProvider.GetService<ServiceHandler>();
 
         IndicatorHelper.PropertyChanged += IndicatorHelper_PropertyChanged;
-        serviceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
-        serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
+
+        WeakReferenceMessenger.Default.Register(this, GetAllDataForRecordService.MakeId(BusinessObject));
+
+        if (BusinessObject.LocalState?.ShouldDownloadDuringRefresh ?? false)
+            RegisterForActivity();
 
         UpdateRecordStates();
         UpdateDraftIndicatorVisibility();
@@ -80,14 +86,34 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
     {
         if (!disposed && disposing)
         {
+            UnregisterFromActivity();
+            _activityListener.Dispose();
+
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+
             IndicatorHelper.PropertyChanged -= IndicatorHelper_PropertyChanged;
-            serviceHandler.ServiceStarted -= ServiceHandler_ServiceStarted;
-            serviceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
 
             BusinessObject = new CaseRecord();
             disposed = true;
         }
         base.Dispose(disposing);
+    }
+
+    void RegisterForActivity()
+    {
+        if (BusinessObject.IsValid && !_activityListener.IsRegistered)
+        {
+            _activityListener.RegisterForMessages(BusinessObject);
+            _activityListener.Started += ActivityListener_ServicesStarted;
+            _activityListener.Stopped += ActivityListener_ServicesStopped;
+        }
+    }
+
+    void UnregisterFromActivity()
+    {
+        _activityListener.UnregisterFromMessages();
+        _activityListener.Started -= ActivityListener_ServicesStarted;
+        _activityListener.Stopped -= ActivityListener_ServicesStopped;
     }
 
     void UpdateDraftIndicatorVisibility()
@@ -114,7 +140,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
             BusinessObject.IsValid
             && !BusinessObject.IsAssigned(SessionInfo.Idir)
             && (BusinessObject.LocalState?.ShouldDownloadDuringRefresh ?? false)
-            && !ServicesRunning();
+            && !_activityListener.HasActivity;
     }
 
     void UpdateStateVisibility()
@@ -122,10 +148,9 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
         if (!BusinessObject.IsValid)
             return;
 
-        var isRunning = serviceHandler.IsAnyServiceRunning(BusinessObject.Id);
         bool isntMarkedForDownload = !(BusinessObject.LocalState?.ShouldDownloadDuringRefresh ?? false);
 
-        if (isRunning)
+        if (_activityListener.HasActivity)
         {
             ShowProgressIndicator = true;
             ShowDownloadIcon = !ShowProgressIndicator;
@@ -159,6 +184,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
             if (await BusinessObject.PromptCanDownloadDependentData())
             {
                 BusinessObject.LocalState?.ShouldDownloadDuringRefreshBinding = true;
+                RegisterForActivity();
 
                 var msg = GetAllDataForRecordService.MakeStartMessage(BusinessObject);
                 WeakReferenceMessenger.Default.Send(msg);
@@ -212,7 +238,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
             LocalizedStrings.Cancel
         );
 
-        if (shouldRemove && !ServicesRunning())
+        if (shouldRemove && !_activityListener.HasActivity)
         {
             var ignoredPrefs = ServiceProvider.GetService<UserIgnoredContentPrefs>();
 
@@ -221,6 +247,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
                 BusinessObject.LocalState?.ShouldDownloadDuringRefresh = false;
                 BusinessObject.DeleteDependentData(ignoredPrefs, deleteLocalState: false);
             });
+            UnregisterFromActivity();
 
             UpdateRecordStates();
         }
@@ -239,7 +266,7 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
         }
     }
 
-    void ServiceHandler_ServiceStarted(object? sender, string e)
+    async void ActivityListener_ServicesStarted(object? sender, EventArgs empty)
     {
         try
         {
@@ -248,41 +275,42 @@ public partial class CaseloadItemViewModel : VisitzViewModel, IComparable<Caselo
         catch (Exception ex)
         {
             Logger.LogError(ex, ex.Message);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
 
-    void ServiceHandler_ServiceFinished(object? sender, VisitzService service)
+    async void ActivityListener_ServicesStopped(object? sender, EventArgs empty)
     {
         try
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                UpdateRecordStates();
-
-                if (
-                    BusinessObject.IsValid
-                    && service.GetId() == GetAllDataForRecordService.MakeId(BusinessObject)
-                    && service.UncaughtException != null
-                )
-                {
-                    _ = Navigator.CurrentOpenPage.DisplayErrorAlert(service.UncaughtException);
-                }
-            });
+            MainThread.BeginInvokeOnMainThread(UpdateRecordStates);
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogError(ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
-    }
-
-    bool ServicesRunning()
-    {
-        return serviceHandler.IsAnyServiceRunning(nameof(GetAllDataForOfflineService))
-            || serviceHandler.IsAnyServiceRunning(BusinessObject.ToIdTypeString());
     }
 
     public int CompareTo(CaseloadItemViewModel? other)
     {
         return BusinessObject.IdBinding.CompareTo(other?.BusinessObject.IdBinding);
+    }
+
+    public async void Receive(ServiceStateMessage message)
+    {
+        try
+        {
+            if (message.FinishedError && message.UncaughtException != null)
+            {
+                Logger.LogError(message.UncaughtException);
+                await Navigator.CurrentOpenPage.DisplayErrorAlert(message.UncaughtException);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
     }
 }

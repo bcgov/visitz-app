@@ -8,6 +8,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
+using Visitz.Services.Messages;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
@@ -27,6 +28,8 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
 
     ServiceHandler ServiceHandler { get; } = serviceHandler;
 
+    readonly ServiceActivityListener _activityListener = new();
+
     [ObservableProperty]
     public partial string DisplayName { get; set; } = string.Empty;
 
@@ -45,8 +48,9 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
 
         WeakReferenceMessenger.Default.Register(this, GetAllDataForRecordService.MakeId(BusinessObject));
 
-        ServiceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
-        ServiceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
+        _activityListener.Started += ActivityListener_Started;
+        _activityListener.Stopped += ActivityListener_Stopped;
+        _activityListener.RegisterForMessages(BusinessObject);
 
         UpdateLocalActivityTimestamp();
     }
@@ -55,8 +59,9 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
     {
         if (!_disposed && disposing)
         {
-            ServiceHandler.ServiceFinished -= ServiceHandler_ServiceFinished;
-            ServiceHandler.ServiceStarted -= ServiceHandler_ServiceStarted;
+            _activityListener.Started -= ActivityListener_Started;
+            _activityListener.Stopped -= ActivityListener_Stopped;
+            _activityListener.Dispose();
 
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
@@ -67,7 +72,7 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
         base.Dispose(disposing);
     }
 
-    void ServiceHandler_ServiceStarted(object? sender, string e)
+    void ActivityListener_Started(object? sender, EventArgs empty)
     {
         try
         {
@@ -79,7 +84,7 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
         }
     }
 
-    void ServiceHandler_ServiceFinished(object? sender, VisitzService e)
+    void ActivityListener_Stopped(object? sender, EventArgs empty)
     {
         try
         {

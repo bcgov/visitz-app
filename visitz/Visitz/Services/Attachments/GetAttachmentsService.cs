@@ -40,7 +40,7 @@ internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagin
         return MakeId(Info.Type, Info.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, attachments) = await Vpi.GetAttachmentsAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 

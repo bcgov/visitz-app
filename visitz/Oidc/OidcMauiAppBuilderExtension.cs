@@ -1,19 +1,18 @@
-namespace Oidc
+namespace Oidc;
+
+public static class OidcMauiAppBuilderExtension
 {
-    public static class OidcMauiAppBuilderExtension
+    public static MauiAppBuilder ConfigureOidcSettings(this MauiAppBuilder builder, OidcSettings settings)
     {
-        public static MauiAppBuilder ConfigureOidcSettings(this MauiAppBuilder builder, OidcSettings settings)
+        var options = new AuthenticationClient.Options()
         {
-            var options = new AuthenticationClient.Options()
-            {
-                Domain = settings.AuthenticationDomain,
-                ClientId = settings.ClientId,
-                RedirectUri = settings.RedirectUri,
-            };
+            Domain = settings.AuthenticationDomain,
+            ClientId = settings.ClientId,
+            RedirectUri = settings.RedirectUri,
+        };
 
-            builder.Services.AddSingleton(new AuthenticationClient(options));
+        builder.Services.AddSingleton(new AuthenticationClient(options));
 
-            return builder;
-        }
+        return builder;
     }
 }

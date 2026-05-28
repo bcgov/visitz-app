@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:supportNetwork="clr-namespace:Visitz.Views.Entity.SupportNetwork"
+    xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
+    xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
+    x:Class="Visitz.Views.Entity.SupportNetwork.SupportNetworkListItem"
+    x:DataType="supportNetwork:SupportNetworkItemUi"
+>
+    <base:BaseContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </base:BaseContentView.GestureRecognizers>
+
+    <Border
+        BackgroundColor="{StaticResource CardGrayBg}"
+        Margin="{StaticResource DefaultMargin}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
+    >
+        <VerticalStackLayout>
+            <Grid
+                BackgroundColor="White"
+                ColumnDefinitions="*,Auto"
+                ColumnSpacing="{StaticResource DefaultSpacing}"
+                RowDefinitions="Auto,Auto"
+                Padding="{StaticResource DefaultPadding}"
+            >
+                <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
+                    <Label
+                        Text="{Binding SupportNetwork.NameBinding}"
+                        FontFamily="BCSansBold"
+                        VerticalOptions="Center"
+                        FontSize="{StaticResource BodyMediumFontSize}"
+                    />
+
+                    <tagview:TagView
+                        Padding="8,0"
+                        BackgroundColor="{Binding ActiveColor}"
+                        Text="{Binding ActiveText}"
+                        TextColor="{StaticResource BC_TextColor}"
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                    <Label
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontSize="{StaticResource LayoutChevronFontSize}"
+                        Text="{Binding ExpandedChevronGlyph}"
+                    />
+                </HorizontalStackLayout>
+
+                <Label Grid.Row="1" Text="{Binding SupportNetwork.RelationshipBinding}" />
+            </Grid>
+
+            <BoxView
+                Grid.Row="1"
+                Color="{StaticResource Gray100}"
+                HeightRequest="0.5"
+                IsVisible="{Binding IsExpanded}"
+            />
+
+            <VerticalStackLayout
+                IsVisible="{Binding IsExpanded}"
+                Padding="{StaticResource DefaultPadding}"
+            >
+                <VerticalStackLayout.Resources>
+                    <Style TargetType="Label" Class="MarginEnd">
+                        <Setter Property="Margin">
+                            <Thickness Bottom="{StaticResource DefaultSpacing}" />
+                        </Setter>
+                    </Style>
+                </VerticalStackLayout.Resources>
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="{local:Localize Agency}"
+                    FontFamily="BCSansBold"
+                />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.AgencyNameBinding}" />
+
+                <Label Text="{local:Localize Address}" FontFamily="BCSansBold" />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.AddressBinding}" />
+
+                <Label FontFamily="BCSansBold" Text="{local:Localize HomeNumber}" />
+                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.PhoneNumberBinding}" />
+
+                <Label FontFamily="BCSansBold" Text="{local:Localize CellNumber}" />
+                <Label
+                    StyleClass="MarginEnd"
+                    Text="{Binding SupportNetwork.CellPhoneNumberBinding}"
+                />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="{local:Localize Comments}"
+                    FontFamily="BCSansBold"
+                />
+                <Label Text="{Binding SupportNetwork.CommentsBinding}" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</base:BaseContentView>

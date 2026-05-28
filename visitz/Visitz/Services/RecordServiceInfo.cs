@@ -1,7 +1,10 @@
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Services;
+
+#nullable enable
 
 internal class RecordServiceInfo(
     EntityType type,
@@ -34,12 +37,12 @@ internal class RecordServiceInfo(
             record.LastName
         ) { }
 
-    public bool Equals(RecordServiceInfo other)
+    public bool Equals(RecordServiceInfo? other)
     {
-        return Type == other.Type && Id == other.Id;
+        return Type == other?.Type && Id == other?.Id;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is RecordServiceInfo info ? Equals(info) : base.Equals(obj);
     }
@@ -48,18 +51,16 @@ internal class RecordServiceInfo(
     {
         return Type.GetHashCode() * Id.GetHashCode();
     }
-}
 
-internal static class RecordServiceInfoExtensions
-{
-    public static Exception CombineIntoException(this List<ApiRangeItemException<RecordServiceInfo>> list)
+    public override string ToString()
     {
-        var outString = list.Select(ex =>
-            {
-                return $"• {ex.Item.Type} {ex.Item.FileNumber} -> {ex.Message}";
-            })
-            .Aggregate((accum, item) => accum + Environment.NewLine + item);
-
-        return new Exception(outString);
+        try
+        {
+            return $"{Subtype.GetDisplayInitials()} {Type} {FileNumber} {LastName}, {FirstName}";
+        }
+        catch
+        {
+            return $"{Type} {FileNumber} {LastName}, {FirstName}";
+        }
     }
 }

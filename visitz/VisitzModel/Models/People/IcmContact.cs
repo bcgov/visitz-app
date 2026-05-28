@@ -515,4 +515,9 @@ public partial class IcmContact
 
         return obj.Id.GetHashCode();
     }
+
+    public override string ToString()
+    {
+        return $"{nameof(IcmContact)}  {Id}";
+    }
 }

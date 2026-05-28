@@ -37,7 +37,7 @@ internal class GetIncidentConcernsService(Vpi vpi, LastUpdatedPrefs prefs) : Api
         return MakeId(Info.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, incidentConcerns) = await Vpi.GetIncidentConcerns(Info.Id, pagination);
 

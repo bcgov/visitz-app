@@ -7,35 +7,34 @@ using MicrosoftLogLevel = Microsoft.Extensions.Logging.LogLevel;
 using Visitz.Platforms.Windows.Visitz.Storage;
 #endif
 
-namespace Visitz.VisitzConfig
+namespace Visitz.VisitzConfig;
+
+public static class VisitzLogging
 {
-    public static class VisitzLogging
+    public static MauiAppBuilder ConfigureVisitzLogging(this MauiAppBuilder builder)
     {
-        public static MauiAppBuilder ConfigureVisitzLogging(this MauiAppBuilder builder)
-        {
-            // IStringLocalizer appears to be dependent on a logging service
-            builder.Services.AddLogging();
+        // IStringLocalizer appears to be dependent on a logging service
+        builder.Services.AddLogging();
 
 #if DEBUG
-            builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
-            builder
-                .Logging.SetMinimumLevel((MicrosoftLogLevel)MetroLogLevel.Trace)
-                .AddTraceLogger(options =>
-                {
-                    options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
-                })
-                .AddConsoleLogger(options =>
-                {
-                    options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
-                });
+        builder
+            .Logging.SetMinimumLevel((MicrosoftLogLevel)MetroLogLevel.Trace)
+            .AddTraceLogger(options =>
+            {
+                options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
+            })
+            .AddConsoleLogger(options =>
+            {
+                options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
+            });
 
-            builder.Logging.Services.AddSingleton<ILoggerProvider, RealmAsyncTarget>();
+        builder.Logging.Services.AddSingleton<ILoggerProvider, RealmAsyncTarget>();
 
 #if WINDOWS
-            builder.Logging.Services.AddSingleton<ILoggerProvider, EventViewerLoggingProvider>();
+        builder.Logging.Services.AddSingleton<ILoggerProvider, EventViewerLoggingProvider>();
 #endif
-            return builder;
-        }
+        return builder;
     }
 }

@@ -5,6 +5,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;
 
+#nullable enable
+
 internal class GetVisitsByRangeService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
     : VisitzApiService(vpi, prefs)
 {

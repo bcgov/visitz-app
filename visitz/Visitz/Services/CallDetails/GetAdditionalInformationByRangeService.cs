@@ -5,6 +5,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.CallDetails;
 
+#nullable enable
+
 internal class GetAdditionalInformationByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
@@ -31,10 +33,5 @@ internal class GetAdditionalInformationByRangeService(Vpi vpi, LastUpdatedPrefs 
     protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
     {
         await serviceHandler.TryRunServiceAsync(GetAdditionalInformationService.MakeStartMessage(item));
-    }
-
-    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
     }
 }

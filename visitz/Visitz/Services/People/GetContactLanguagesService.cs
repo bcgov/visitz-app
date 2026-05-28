@@ -36,7 +36,7 @@ internal class GetContactLanguagesService(Vpi vpi, LastUpdatedPrefs prefs) : Api
         return MakeId(Contact.Id);
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, contactlanguages) = await Vpi.GetContactLanguageAsync(
             (ApiRecordType)Contact.ParentType,

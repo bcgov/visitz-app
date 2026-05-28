@@ -1,7 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Visitz.FontIcons;
+using Visitz.Resources.Localization;
+using Visitz.Resources.Styles;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;
+
+#nullable enable
 
 public partial class SupportNetworkItemUi : ObservableObject
 {
@@ -13,6 +18,13 @@ public partial class SupportNetworkItemUi : ObservableObject
 
     [ObservableProperty]
     public partial bool ShowRelationshipTag { get; set; }
+
+    [ObservableProperty]
+    public partial string ExpandedChevronGlyph { get; set; } = MaterialIcons.Keyboard_arrow_down;
+
+    public string ActiveText => SupportNetwork.IsActive ? LocalizedStrings.Active : LocalizedStrings.Inactive;
+
+    public Color ActiveColor => SupportNetwork.IsActive ? VisitzColors.IsActiveTagBackground : VisitzColors.Gray100;
 
     public string CapitalizedRelationship
     {
@@ -32,6 +44,20 @@ public partial class SupportNetworkItemUi : ObservableObject
     public SupportNetworkItemUi(SupportNetworkItem item)
     {
         SupportNetwork = item;
-        ShowRelationshipTag = !string.IsNullOrWhiteSpace(item?.Relationship);
+    }
+
+    public void ToggleExpanded()
+    {
+        IsExpanded = !IsExpanded;
+    }
+
+    partial void OnSupportNetworkChanged(SupportNetworkItem value)
+    {
+        ShowRelationshipTag = !string.IsNullOrWhiteSpace(value?.Relationship);
+    }
+
+    partial void OnIsExpandedChanged(bool value)
+    {
+        ExpandedChevronGlyph = value ? MaterialIcons.Keyboard_arrow_up : MaterialIcons.Keyboard_arrow_down;
     }
 }

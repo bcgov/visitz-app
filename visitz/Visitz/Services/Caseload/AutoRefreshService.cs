@@ -14,6 +14,8 @@ using Visitz.Views.AppLock;
 
 namespace Visitz.Services.Caseload;
 
+#nullable enable
+
 internal class AutoRefreshService(LastUpdatedPrefs prefs, ServiceHandler serviceHandler) : VisitzService()
 {
     private static readonly string Id = nameof(AutoRefreshService);
@@ -27,7 +29,7 @@ internal class AutoRefreshService(LastUpdatedPrefs prefs, ServiceHandler service
 
     ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
-    static VisitzWindow Window => Application.Current.Windows[0] as VisitzWindow;
+    static VisitzWindow? Window => Application.Current?.Windows[0] as VisitzWindow;
 
     public static string MakeId()
     {
@@ -61,7 +63,7 @@ internal class AutoRefreshService(LastUpdatedPrefs prefs, ServiceHandler service
         }
 
         bool sessionInvalid = !await OidcSession.IsSessionValid();
-        if (sessionInvalid)
+        if (sessionInvalid && Window?.Page != null)
             await Window.Page.DisplayAlertAsync(
                 LocalizedStrings.CaseloadRefresh,
                 LocalizedStrings.AutoCaseloadRefreshDesc,
@@ -142,7 +144,7 @@ internal class AutoRefreshService(LastUpdatedPrefs prefs, ServiceHandler service
     static bool AppUnlockedOrFocused()
     {
 #if WINDOWS
-        return Window.IsActivated;
+        return Window?.IsActivated ?? false;
 #else
         return !AppLockPage.IsOpen;
 #endif

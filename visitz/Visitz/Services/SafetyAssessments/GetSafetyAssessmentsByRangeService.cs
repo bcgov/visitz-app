@@ -5,6 +5,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.SafetyAssessments;
 
+#nullable enable
+
 internal class GetSafetyAssessmentsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
@@ -32,10 +34,5 @@ internal class GetSafetyAssessmentsByRangeService(Vpi vpi, LastUpdatedPrefs pref
     {
         var msg = GetSafetyAssessmentsService.MakeStartMessage(item);
         await ServiceHandler.TryRunServiceAsync(msg);
-    }
-
-    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
     }
 }

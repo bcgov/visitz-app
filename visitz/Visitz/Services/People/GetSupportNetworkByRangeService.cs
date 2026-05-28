@@ -5,6 +5,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
+#nullable enable
+
 internal class GetSupportNetworkByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
@@ -31,10 +33,5 @@ internal class GetSupportNetworkByRangeService(Vpi vpi, LastUpdatedPrefs prefs, 
     protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
     {
         await serviceHandler.TryRunServiceAsync(GetSupportNetworkService.MakeStartMessage(item));
-    }
-
-    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
     }
 }

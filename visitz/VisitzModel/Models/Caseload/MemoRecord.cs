@@ -281,4 +281,9 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
     {
         return ((IBusinessObject)this).MakeHashCode();
     }
+
+    public override string ToString()
+    {
+        return ((IBusinessObject)this).MakeToString();
+    }
 }

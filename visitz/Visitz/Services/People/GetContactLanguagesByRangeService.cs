@@ -34,16 +34,4 @@ internal class GetContactLanguagesByRangeService(Vpi vpi, LastUpdatedPrefs prefs
     {
         await serviceHandler.TryRunServiceAsync(GetContactLanguagesService.MakeStartMessage(item));
     }
-
-    protected override Exception MakePartialException(List<ApiRangeItemException<IcmContact>> exceptions)
-    {
-        var outString = exceptions
-            .Select(ex =>
-            {
-                return $"• {ex.Item.ParentType} {ex.Item.ParentId} {ex.Item.Id} -> {ex.Message}";
-            })
-            .Aggregate((accum, item) => accum + Environment.NewLine + item);
-
-        return new Exception(outString);
-    }
 }

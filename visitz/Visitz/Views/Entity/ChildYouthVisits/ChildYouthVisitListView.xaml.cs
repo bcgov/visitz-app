@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
-using Visitz.Services;
+using Visitz.Services.Messages;
 using Visitz.Services.Visits;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models.Navigation;

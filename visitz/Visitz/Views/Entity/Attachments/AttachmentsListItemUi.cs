@@ -4,6 +4,7 @@ using Visitz.Resources.Styles;
 using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Services.Messages;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 

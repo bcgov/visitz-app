@@ -47,7 +47,7 @@ internal class GetOfficeCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgn
         return MakeId();
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         bool downloadAfter = !Force;
 

@@ -1108,4 +1108,7 @@ Do you want to download information for this record?</value>
   <data name="LocalCaseloadStats" xml:space="preserve">
     <value>Local caseload statistics</value>
   </data>
+  <data name="Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
 </root>

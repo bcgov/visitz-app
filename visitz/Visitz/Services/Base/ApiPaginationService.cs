@@ -6,38 +6,20 @@ namespace Visitz.Services.Base;
 
 #nullable enable
 
-internal abstract class ApiPaginationService : VisitzApiService
+internal abstract class ApiPaginationService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     // TODO: Rearchitect services and start messages with generics to make it
     // easier to pass things like Pagination in
     public Pagination? Pagination { get; set; }
 
-    ParallelOptions ParallelOptions { get; }
+    public ParallelOptions ParallelOptions { get; } =
+        new()
+        {
+            CancellationToken = CancellationToken.None,
+            MaxDegreeOfParallelism = ParallelServiceDefaults.MaxParallelism,
+        };
 
     protected List<Exception> Exceptions { get; } = [];
-
-    protected ApiPaginationService(Vpi vpi, LastUpdatedPrefs prefs, ParallelOptions? parallelOptions = null)
-        : base(vpi, prefs)
-    {
-        if (
-            parallelOptions != null
-            && (
-                parallelOptions.CancellationToken == default
-                || parallelOptions.CancellationToken == CancellationToken.None
-            )
-        )
-        {
-            parallelOptions.CancellationToken = CancelTokenSource.Token;
-        }
-
-        ParallelOptions =
-            parallelOptions
-            ?? new()
-            {
-                CancellationToken = CancelTokenSource.Token,
-                MaxDegreeOfParallelism = Environment.ProcessorCount,
-            };
-    }
 
     protected virtual Task BeforeRun()
     {
@@ -48,7 +30,7 @@ internal abstract class ApiPaginationService : VisitzApiService
     {
         try
         {
-            return await RunPaginatedService(pagination);
+            return await RunPageInParallelAsync(pagination);
         }
         catch (Exception ex)
         {
@@ -57,7 +39,7 @@ internal abstract class ApiPaginationService : VisitzApiService
         }
     }
 
-    protected abstract Task<int> RunPaginatedService(Pagination pagination);
+    protected abstract Task<int> RunPageInParallelAsync(Pagination pagination);
 
     protected virtual Task AfterRun()
     {

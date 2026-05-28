@@ -295,4 +295,9 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IBusinessObject, I
     {
         RaisePropertyChanged(propertyName);
     }
+
+    public override string ToString()
+    {
+        return ((IBusinessObject)this).MakeToString();
+    }
 }
