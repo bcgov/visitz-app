@@ -156,7 +156,7 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRec
         return realm
             .All<SupportNetworkItem>()
             .Where(item => item.EntityId == caseId)
-            .Filter($"TRUEPREDICATE SORT({nameof(Name)} ASC)");
+            .Filter($"TRUEPREDICATE SORT({nameof(Active)} DESC, {nameof(Name)} ASC)");
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)
