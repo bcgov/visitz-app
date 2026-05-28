@@ -8,7 +8,12 @@ using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.People;
 
-public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRecord, IApiJson<SubmitSupportNetworkJson>
+public partial class SupportNetworkItem
+    : IRealmObject,
+        IRowMetadata,
+        IParentRecord,
+        IApiJson<SubmitSupportNetworkJson>,
+        IEquatable<SupportNetworkItem>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -121,32 +126,25 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRec
 
     public static async Task SynchronizeAsync(
         Realm realm,
-        IEnumerable<SupportNetworkJson> items,
+        IEnumerable<SupportNetworkJson> jsonItems,
         string parentId,
         EntityType type
     )
     {
-        var incomingSupportNetworkItems = FromApiArray(items, parentId, type);
-        var incomingSupportNetworkItemIds = incomingSupportNetworkItems.Select(item => item.Id);
-        var supportNetworks = realm
-            .All<SupportNetworkItem>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
-            .ToList();
-        var supportNetworkIds = supportNetworks.Select(item => item.Id);
-
-        var networkItemIdsToDelete = supportNetworkIds.Except(incomingSupportNetworkItemIds);
-        var networkItemsToDelete = supportNetworks.Where(item => networkItemIdsToDelete.Contains(item.Id));
+        var upsertItems = FromApiArray(jsonItems, parentId, type);
+        var currentItems = GetByParentIdType(realm, parentId, type).ToList();
+        var removeItems = currentItems.Except(upsertItems).ToList();
 
         await RealmExtensions.CommitAsync(
             realm,
             () =>
             {
-                foreach (var item in supportNetworks)
+                foreach (SupportNetworkItem item in removeItems)
                 {
-                    if (item != null && item.IsValid)
+                    if (item.IsValid)
                         realm.Remove(item);
                 }
-                realm.Upsert(incomingSupportNetworkItems);
+                realm.Upsert(upsertItems);
             }
         );
     }
@@ -166,5 +164,24 @@ public partial class SupportNetworkItem : IRealmObject, IRowMetadata, IParentRec
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(networkItems);
+    }
+
+    public bool Equals(SupportNetworkItem? other)
+    {
+        return ReferenceEquals(this, other) || IdBinding == other?.IdBinding;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return ReferenceEquals(this, obj)
+            || (obj is SupportNetworkItem item ? IdBinding == item.IdBinding : base.Equals(obj));
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        // Id is not meant to change
+        return IdBinding.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
     }
 }
