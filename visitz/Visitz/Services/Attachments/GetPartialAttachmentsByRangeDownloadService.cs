@@ -8,6 +8,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
+#nullable enable
+
 internal class GetPartialAttachmentsByRangeDownloadService(
     Vpi vpi,
     LastUpdatedPrefs prefs,

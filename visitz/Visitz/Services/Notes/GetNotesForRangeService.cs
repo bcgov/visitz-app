@@ -6,6 +6,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes;
 
+#nullable enable
+
 public class GetNotesForRangeService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
     : VisitzApiService(vpi, prefs)
 {

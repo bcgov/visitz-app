@@ -4,6 +4,8 @@ using Visitz.Services.Messages;
 
 namespace Visitz.Services.Base;
 
+#nullable enable
+
 public abstract class VisitzService
 {
     public enum State
@@ -49,13 +51,13 @@ public abstract class VisitzService
     // Services must explicitly set ResultCode when they complete their tasks.
     public Result ResultCode { get; protected set; } = Result.Error;
 
-    public string ResultMessage { get; protected set; }
+    public string? ResultMessage { get; protected set; }
 
-    public object Payload { get; set; }
+    public object Payload { get; set; } = new();
 
-    public object ReturnPayload { get; protected set; }
+    public object? ReturnPayload { get; protected set; }
 
-    public Exception UncaughtException { get; protected set; }
+    public Exception? UncaughtException { get; protected set; }
 
     protected virtual ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<VisitzService>>();
 
@@ -79,7 +81,7 @@ public abstract class VisitzService
         if (status == State.Stopped)
         {
             stateMsg.Result = ResultCode;
-            stateMsg.Message = ResultMessage;
+            stateMsg.Message = ResultMessage ?? string.Empty;
         }
 
         WeakReferenceMessenger.Default.Send(stateMsg, GetId());

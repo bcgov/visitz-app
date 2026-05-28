@@ -3,6 +3,8 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Services;
 
+#nullable enable
+
 internal class RecordServiceInfo(
     EntityType type,
     EntitySubtype subtype,
@@ -34,12 +36,12 @@ internal class RecordServiceInfo(
             record.LastName
         ) { }
 
-    public bool Equals(RecordServiceInfo other)
+    public bool Equals(RecordServiceInfo? other)
     {
-        return Type == other.Type && Id == other.Id;
+        return Type == other?.Type && Id == other?.Id;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is RecordServiceInfo info ? Equals(info) : base.Equals(obj);
     }

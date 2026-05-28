@@ -5,6 +5,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.SafetyAssessments;
 
+#nullable enable
+
 internal class GetSafetyAssessmentsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {

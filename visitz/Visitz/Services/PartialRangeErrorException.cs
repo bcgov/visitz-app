@@ -2,6 +2,8 @@ using System.Text;
 
 namespace Visitz.Services;
 
+#nullable enable
+
 internal class PartialRangeErrorException(string serviceName, List<string> successIds, List<string> errors)
     : Exception(MakeMessage(serviceName, errors))
 {

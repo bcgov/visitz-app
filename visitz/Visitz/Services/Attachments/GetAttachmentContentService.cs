@@ -12,6 +12,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
+#nullable enable
+
 internal class GetAttachmentContentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     private (RecordServiceInfo, string, bool) AttachmentDetailsItem => ((RecordServiceInfo, string, bool))Payload;

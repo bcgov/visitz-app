@@ -5,6 +5,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
+#nullable enable
+
 internal class GetSupportNetworkByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {

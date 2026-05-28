@@ -8,6 +8,8 @@ using VisitzModel;
 
 namespace Visitz.Services;
 
+#nullable enable
+
 public class ServiceHandler : IRecipient<StartServiceMessage>
 {
     readonly ConcurrentDictionary<string, VisitzService> Services = [];
@@ -86,14 +88,14 @@ public class ServiceHandler : IRecipient<StartServiceMessage>
 
     public VisitzService.State GetServiceState(string serviceId)
     {
-        return Services.TryGetValue(serviceId, out VisitzService service)
+        return Services.TryGetValue(serviceId, out VisitzService? service)
             ? service.Status
             : VisitzService.State.Stopped;
     }
 
     public bool IsAnyServiceRunning(string serviceIdContains)
     {
-        string key = Services.Keys.FirstOrDefault(key => key.Contains(serviceIdContains));
+        string? key = Services.Keys.FirstOrDefault(key => key.Contains(serviceIdContains));
         return key is not null
             && Services.TryGetValue(key, out var service)
             && service.Status == VisitzService.State.Running;

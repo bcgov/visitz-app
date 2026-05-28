@@ -8,6 +8,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
+#nullable enable
+
 internal class SubmitAttachmentService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     public static string MakeId(EntityType type, string recordId)

@@ -17,6 +17,8 @@ using Visitz.WinUI;
 
 namespace Visitz.Services.Base;
 
+#nullable enable
+
 public abstract class VisitzApiService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzService
 {
     protected static ulong CurrentRefreshCallAttemptsCount = 0L;
@@ -48,7 +50,7 @@ public abstract class VisitzApiService(Vpi vpi, LastUpdatedPrefs prefs) : Visitz
         try
         {
 #if WINDOWS
-            (MauiWinUIApplication.Current as App).AuthCancelTokenSource = CancelTokenSource;
+            ((App)MauiWinUIApplication.Current).AuthCancelTokenSource = CancelTokenSource;
 #endif
             await OidcSession.AssertValidSessionAsync(
                 messageIfUnavailable: LocalizedStrings.NoInternet,
@@ -106,7 +108,7 @@ public abstract class VisitzApiService(Vpi vpi, LastUpdatedPrefs prefs) : Visitz
         }
     }
 
-    static VisitzApiException FindApiException(Exception ex)
+    static VisitzApiException? FindApiException(Exception ex)
     {
         if (ex is VisitzApiException vex)
             return vex;

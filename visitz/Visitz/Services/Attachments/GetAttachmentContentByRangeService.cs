@@ -5,6 +5,8 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
+#nullable enable
+
 internal class GetAttachmentContentByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<(RecordServiceInfo, string, bool)>(vpi, prefs, serviceHandler, maxDegreeOfParallelism: 2)
 {
