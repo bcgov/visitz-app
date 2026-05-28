@@ -46,7 +46,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
 
     protected override async Task RunApiServiceAsync()
     {
-        IEnumerable<(RecordServiceInfo, string, bool)> allFilteredAttachments = [];
+        IEnumerable<(RecordServiceInfo, string, bool force)> allFilteredAttachments = [];
 
         foreach (var item in Items)
         {
@@ -91,7 +91,7 @@ internal class GetPartialAttachmentsByRangeDownloadService(
             .Select(att => (recordInfo, att.Id, false));
     }
 
-    private async Task FetchAttachmentContents(IEnumerable<(RecordServiceInfo, string, bool)> filteredAttachments)
+    private async Task FetchAttachmentContents(IEnumerable<(RecordServiceInfo, string, bool force)> filteredAttachments)
     {
         var startMessage = GetAttachmentContentByRangeService.MakeStartMessage(filteredAttachments);
         await ServiceHandler.TryRunServiceAsync(startMessage);

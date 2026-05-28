@@ -49,5 +49,8 @@ internal abstract class VisitzApiRangeService<Item>(
 
     protected abstract Task RunInParallelAsync(ServiceHandler serviceHandler, Item item);
 
-    protected abstract Exception MakeOverallException(List<ApiRangeItemException<Item>> exceptions);
+    static Exception MakeOverallException(List<ApiRangeItemException<Item>> exceptions)
+    {
+        return exceptions.Count == 1 ? exceptions[0] : new AggregateException(exceptions);
+    }
 }

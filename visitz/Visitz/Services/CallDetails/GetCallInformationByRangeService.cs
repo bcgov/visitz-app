@@ -34,9 +34,4 @@ internal class GetCallInformationByRangeService(Vpi vpi, LastUpdatedPrefs prefs,
     {
         await serviceHandler.TryRunServiceAsync(GetCallInformationService.MakeStartMessage(item));
     }
-
-    protected override Exception MakeOverallException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
-    }
 }

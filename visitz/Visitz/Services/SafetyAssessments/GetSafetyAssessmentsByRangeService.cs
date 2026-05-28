@@ -35,9 +35,4 @@ internal class GetSafetyAssessmentsByRangeService(Vpi vpi, LastUpdatedPrefs pref
         var msg = GetSafetyAssessmentsService.MakeStartMessage(item);
         await ServiceHandler.TryRunServiceAsync(msg);
     }
-
-    protected override Exception MakeOverallException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
-    }
 }

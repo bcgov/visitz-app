@@ -34,9 +34,4 @@ internal class GetAttachmentsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, Ser
     {
         await serviceHandler.TryRunServiceAsync(GetAttachmentsService.MakeStartMessage(item));
     }
-
-    protected override Exception MakeOverallException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
-    }
 }
