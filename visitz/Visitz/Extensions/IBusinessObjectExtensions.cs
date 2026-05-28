@@ -1,11 +1,21 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Oidc.Network;
 using Visitz.Resources.Localization;
 using Visitz.Services;
+using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Services.CallDetails;
 using Visitz.Services.Caseload;
+using Visitz.Services.Notes;
+using Visitz.Services.People;
+using Visitz.Services.SafetyAssessments;
+using Visitz.Services.Visits;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Extensions;
+
+#nullable enable
 
 internal static class IBusinessObjectExtensions
 {
@@ -52,7 +62,7 @@ internal static class IBusinessObjectExtensions
         /// <returns>ID of the service that was started</returns>
         public async Task<VisitzService.Result> DownloadDependentData()
         {
-            businessObject.LocalState.ShouldDownloadDuringRefreshBinding = true;
+            businessObject.LocalState?.ShouldDownloadDuringRefreshBinding = true;
 
             try
             {
@@ -63,9 +73,46 @@ internal static class IBusinessObjectExtensions
             }
             catch
             {
-                businessObject.LocalState.ShouldDownloadDuringRefreshBinding = false;
+                businessObject.LocalState?.ShouldDownloadDuringRefreshBinding = false;
                 throw;
             }
         }
+
+        public void RegisterActivityListeners(IRecipient<ServiceStateMessage> recipient)
+        {
+            Register(recipient, GetAttachmentsService.MakeId(businessObject.EntityType, businessObject.Id));
+            Register(recipient, GetContactsService.MakeId(businessObject.EntityType, businessObject.Id));
+            Register(recipient, GetSupportNetworkService.MakeId(businessObject.EntityType, businessObject.Id));
+
+            if (businessObject.EntityType == EntityType.Case)
+            {
+                Register(recipient, GetVisitsService.MakeId(businessObject.Id));
+            }
+
+            if (businessObject.EntityType == EntityType.Incident)
+            {
+                Register(recipient, GetIncidentConcernsService.MakeId(businessObject.Id));
+                Register(recipient, GetSafetyAssessmentsService.MakeId(new(businessObject)));
+            }
+
+            if (businessObject.EntityType is EntityType.Case or EntityType.Incident or EntityType.ServiceRequest)
+            {
+                Register(recipient, GetNotesService.MakeId(businessObject.FileNumber));
+            }
+
+            if (businessObject.EntityType is EntityType.Incident or EntityType.Memo or EntityType.ServiceRequest)
+            {
+                Register(recipient, GetCallInformationService.MakeId(businessObject.EntityType, businessObject.Id));
+                Register(
+                    recipient,
+                    GetAdditionalInformationService.MakeId(businessObject.EntityType, businessObject.Id)
+                );
+            }
+        }
+    }
+
+    static void Register(IRecipient<ServiceStateMessage> recipient, string token)
+    {
+        WeakReferenceMessenger.Default.Register(recipient, token);
     }
 }

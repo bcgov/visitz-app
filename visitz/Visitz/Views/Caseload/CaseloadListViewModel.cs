@@ -179,7 +179,10 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
 
             foreach (var item in oldItems)
                 if (FilteredItems.FirstOrDefault(vm => vm.BusinessObject == item) is CaseloadItemViewModel vm)
+                {
                     FilteredItems.Remove(vm);
+                    vm.Dispose();
+                }
         }
     }
 

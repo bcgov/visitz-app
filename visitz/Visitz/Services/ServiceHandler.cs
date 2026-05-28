@@ -14,10 +14,6 @@ namespace Visitz.Services
 
         ILogger<ServiceHandler> Logger { get; } = ServiceProvider.GetService<ILogger<ServiceHandler>>();
 
-        public event EventHandler<string> ServiceStarted;
-
-        public event EventHandler<VisitzService> ServiceFinished;
-
         public ServiceHandler()
         {
             WeakReferenceMessenger.Default.Register(this);
@@ -56,14 +52,12 @@ namespace Visitz.Services
 
                 try
                 {
-                    ServiceStarted?.Invoke(this, startMessage.ServiceId);
                     await RunServiceAsync(service);
                     return service.ResultCode;
                 }
                 finally
                 {
                     Services.TryRemove(startMessage.ServiceId, out var _);
-                    ServiceFinished?.Invoke(this, service);
                 }
             }
             else
