@@ -100,9 +100,8 @@ public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>,
     {
         try
         {
-            if (message.FinishedError && !SessionPage.IsOpen)
+            if (message.FinishedError && !SessionPage.IsOpen && message.UncaughtException is Exception ex)
             {
-                Exception ex = message.UncaughtException;
                 Logger.LogError(ex.Message, ex);
                 await Navigator.CurrentOpenPage.DisplayErrorAlert(
                     ex,

@@ -10,7 +10,7 @@ public partial class SupportNetworkListItem : BaseContentView
         InitializeComponent();
     }
 
-    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private async void TapGestureRecognizer_Tapped(object? sender, TappedEventArgs e)
     {
         try
         {
