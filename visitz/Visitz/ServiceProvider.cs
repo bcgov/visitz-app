@@ -13,9 +13,7 @@ public class ServiceProvider
 
     public static object GetService(Type serviceType) =>
         Current.GetService(serviceType)
-        ?? throw new InvalidOperationException(
-            $"Type '{serviceType.GetType().Name}' not registered or unavailable"
-        );
+        ?? throw new InvalidOperationException($"Type '{serviceType.GetType().Name}' not registered or unavailable");
 
     public static IServiceProvider Current =>
         IPlatformApplication.Current?.Services ?? throw new InvalidOperationException("Services unavailable");

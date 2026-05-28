@@ -128,10 +128,7 @@ public class OidcSession
             );
 #endif
             var info = await OidcSessionInfo.GetAsync();
-            SessionChanged?.Invoke(
-                info,
-                new RefreshChangedEventArgs() { Success = !refreshResult?.IsError ?? false }
-            );
+            SessionChanged?.Invoke(info, new RefreshChangedEventArgs() { Success = !refreshResult?.IsError ?? false });
         }
     }
 

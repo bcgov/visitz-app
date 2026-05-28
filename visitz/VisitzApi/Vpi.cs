@@ -144,9 +144,7 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
         DateTimeOffset? after = null
     )
     {
-        return await CallApi(
-            new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, recordId, attachmentId, after)
-        );
+        return await CallApi(new GetAttachmentDetailsEndpoint(BaseVisitzApiUrl, type, recordId, attachmentId, after));
     }
 
     public async Task<(bool TotalCount, string AttachmentId)> SubmitAttachmentAsync(

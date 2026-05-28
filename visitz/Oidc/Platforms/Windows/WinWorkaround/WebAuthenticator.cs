@@ -50,8 +50,7 @@ public sealed class WebAuthenticator
 
     private static readonly WebAuthenticator Instance = new WebAuthenticator();
 
-    private Dictionary<string, TaskCompletionSource<Uri>> tasks =
-        new Dictionary<string, TaskCompletionSource<Uri>>();
+    private Dictionary<string, TaskCompletionSource<Uri>> tasks = new Dictionary<string, TaskCompletionSource<Uri>>();
 
     private WebAuthenticator()
     {
@@ -218,10 +217,7 @@ public sealed class WebAuthenticator
         return false;
     }
 
-    private void CurrentAppInstance_Activated(
-        object? sender,
-        Microsoft.Windows.AppLifecycle.AppActivationArguments e
-    )
+    private void CurrentAppInstance_Activated(object? sender, Microsoft.Windows.AppLifecycle.AppActivationArguments e)
     {
         if (e.Kind == Microsoft.Windows.AppLifecycle.ExtendedActivationKind.Protocol)
         {
@@ -260,9 +256,7 @@ public sealed class WebAuthenticator
         }
         if (!Helpers.IsAppPackaged)
         {
-            throw new InvalidOperationException(
-                "The WebAuthenticator requires a packaged app with an AppxManifest"
-            );
+            throw new InvalidOperationException("The WebAuthenticator requires a packaged app with an AppxManifest");
         }
         if (!IsUriProtocolDeclared(callbackUri.Scheme))
         {

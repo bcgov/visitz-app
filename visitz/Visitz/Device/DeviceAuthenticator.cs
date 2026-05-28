@@ -10,10 +10,7 @@ public class DeviceAuthenticator
 {
     public static async Task<FingerprintAuthenticationResult> Authenticate(string title, string reason)
     {
-        var request = new AuthenticationRequestConfiguration(title, reason)
-        {
-            AllowAlternativeAuthentication = true,
-        };
+        var request = new AuthenticationRequestConfiguration(title, reason) { AllowAlternativeAuthentication = true };
 
         return await CrossFingerprint.Current.AuthenticateAsync(request);
     }

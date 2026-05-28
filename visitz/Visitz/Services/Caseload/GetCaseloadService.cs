@@ -57,9 +57,7 @@ internal class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredCo
             CaseRecords.AddRange(CaseRecord.FromApiJsonArray(caseloadFromApi.Cases.Items, session.Idir));
 
         if (CaseloadHelper.CanSynchronize(caseloadFromApi.Incidents, invalidOps))
-            IncidentRecords.AddRange(
-                IncidentRecord.FromApiJsonArray(caseloadFromApi.Incidents.Items, session.Idir)
-            );
+            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(caseloadFromApi.Incidents.Items, session.Idir));
 
         // TODO: synchronize memos and service requests once we have official UI support
 

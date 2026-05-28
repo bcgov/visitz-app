@@ -306,10 +306,7 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
         }
     }
 
-    private async Task GetCallInformation(
-        IEnumerable<RecordServiceInfo> callInformation,
-        List<Exception> exceptions
-    )
+    private async Task GetCallInformation(IEnumerable<RecordServiceInfo> callInformation, List<Exception> exceptions)
     {
         try
         {

@@ -19,9 +19,7 @@ public static class VisitzApiConfig
         builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<AppendAcceptLanguageHandler>();
         builder.Services.AddHttpClient(HttpClientName).AddHttpMessageHandler<ClientSideRateLimitedHandler>();
 
-        builder.Services.AddSingleton(sp =>
-            sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName)
-        );
+        builder.Services.AddSingleton(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName));
 
         // TODO: Get AppSettings working correctly with DI
         var apiConfig = new AppSettings().Api.ApiDomain;

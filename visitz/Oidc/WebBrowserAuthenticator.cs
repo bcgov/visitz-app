@@ -11,10 +11,7 @@ public class WebBrowserAuthenticator : IdentityModel.OidcClient.Browser.IBrowser
 {
     private const string EncodedHashtag = "%23";
 
-    public async Task<BrowserResult> InvokeAsync(
-        BrowserOptions options,
-        CancellationToken cancellationToken = default
-    )
+    public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -50,11 +47,7 @@ public class WebBrowserAuthenticator : IdentityModel.OidcClient.Browser.IBrowser
 #endif
             var url = new RequestUrl(options.EndUrl).Create(new Parameters(result.Properties));
 
-            return new BrowserResult
-            {
-                Response = FixEncodedResponseUrl(url),
-                ResultType = BrowserResultType.Success,
-            };
+            return new BrowserResult { Response = FixEncodedResponseUrl(url), ResultType = BrowserResultType.Success };
         }
         catch (Exception ex)
         {
@@ -65,11 +58,7 @@ public class WebBrowserAuthenticator : IdentityModel.OidcClient.Browser.IBrowser
                     ErrorDescription = BrowserResultType.UserCancel.ToString(),
                 };
             else
-                return new BrowserResult
-                {
-                    ResultType = BrowserResultType.UnknownError,
-                    ErrorDescription = ex.Message,
-                };
+                return new BrowserResult { ResultType = BrowserResultType.UnknownError, ErrorDescription = ex.Message };
         }
     }
 

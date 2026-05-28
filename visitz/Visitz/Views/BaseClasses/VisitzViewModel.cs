@@ -10,8 +10,7 @@ namespace Visitz.Views.BaseClasses;
 /// </summary>
 public partial class VisitzViewModel : ObservableObject, IDisposable, IAsyncInitialize
 {
-    protected virtual ILogger<VisitzViewModel> Logger { get; } =
-        ServiceProvider.GetService<ILogger<VisitzViewModel>>();
+    protected virtual ILogger<VisitzViewModel> Logger { get; } = ServiceProvider.GetService<ILogger<VisitzViewModel>>();
 
     bool _disposedValue;
 
