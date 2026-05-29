@@ -1,4 +1,5 @@
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
 using UIKit;
 
 namespace Visitz.Controls.Handlers;
@@ -10,7 +11,10 @@ public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UIT
         SelectableLabelHandler
     >(ViewMapper)
     {
-        [nameof(SelectableLabel.Text)] = MapProperties,
+        [nameof(SelectableLabel.BackgroundColor)] = MapBackgroundColor,
+        [nameof(SelectableLabel.Text)] = MapText,
+        [nameof(ITextStyle.TextColor)] = MapTextColor,
+        [nameof(ITextStyle.Font)] = MapFont,
     };
 
     protected override UITextView CreatePlatformView()
@@ -30,9 +34,24 @@ public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UIT
         platformView.Text = VirtualView.Text;
     }
 
-    static void MapProperties(SelectableLabelHandler handler, SelectableLabel label)
+    static void MapBackgroundColor(SelectableLabelHandler handler, SelectableLabel label)
+    {
+        handler.PlatformView.BackgroundColor = label.BackgroundColor.ToPlatform();
+    }
+
+    static void MapText(SelectableLabelHandler handler, SelectableLabel label)
     {
         handler.PlatformView.Text = label.Text;
-        handler.PlatformView.TextColor = UIColor.Black;
+    }
+
+    static void MapTextColor(SelectableLabelHandler handler, SelectableLabel label)
+    {
+        handler.PlatformView.TextColor = label.TextColor.ToPlatform();
+    }
+
+    static void MapFont(SelectableLabelHandler handler, SelectableLabel label)
+    {
+        var fontManager = handler.GetRequiredService<IFontManager>();
+        handler.PlatformView.UpdateFont(label, fontManager);
     }
 }
