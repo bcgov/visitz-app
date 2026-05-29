@@ -147,7 +147,7 @@
             >
                 <Button.ImageSource>
                     <FontImageSource
-                        Glyph="{Static icons:MaterialIcons.Edit}"
+                        Glyph="{Binding OpenAddVisitIconGlyph}"
                         FontFamily="MaterialIconsRoundedUnfilled"
                         Size="20"
                     />

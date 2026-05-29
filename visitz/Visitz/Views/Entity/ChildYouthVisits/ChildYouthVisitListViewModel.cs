@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Extensions;
+using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Banners;
@@ -51,6 +52,12 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
     public partial bool ShowEmptyIcon { get; set; } = false;
 
     [ObservableProperty]
+    public partial bool IsDraftAvailable { get; set; }
+
+    [ObservableProperty]
+    public partial string OpenAddVisitIconGlyph { get; set; } = string.Empty;
+
+    [ObservableProperty]
     public partial string OpenAddVisitText { get; set; } = string.Empty;
 
     protected override async Task InitAsync()
@@ -70,6 +77,8 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
             visitDraftRealm,
             visitDraftRealm.All<PersonVisitDraft>().Where(visit => visit.RelatedEntityId == BusinessObject.Id)
         );
+
+        OnIsDraftAvailableChanged(false);
 
         if (RequestedSection == EntitySection.ChildYouthVisitsEntry)
             await OpenVisitEntry();
@@ -131,7 +140,7 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
         if (e.Type == typeof(PersonVisit))
             UpdateVisitsList(e.Items, e.Changes);
         else if (e.Type == typeof(PersonVisitDraft))
-            UpdateOpenAddVisitText(e.Items.Any());
+            IsDraftAvailable = e.Items.Any();
 
         UpdatePersonVisitRelatedInfo(PersonVisits);
     }
@@ -153,9 +162,10 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
         }
     }
 
-    private void UpdateOpenAddVisitText(bool draftAvailable)
+    partial void OnIsDraftAvailableChanged(bool value)
     {
-        OpenAddVisitText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddVisit;
+        OpenAddVisitIconGlyph = value ? MaterialIcons.Edit : MaterialIcons.Add;
+        OpenAddVisitText = value ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddVisit;
     }
 
     [RelayCommand]

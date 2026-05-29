@@ -84,7 +84,7 @@
             >
                 <Button.ImageSource>
                     <FontImageSource
-                        Glyph="{Static icons:MaterialIcons.Edit}"
+                        Glyph="{Binding OpenNoteEntryIconGlyph}"
                         FontFamily="MaterialIconsRoundedUnfilled"
                         Size="20"
                     />

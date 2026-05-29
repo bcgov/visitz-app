@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Extensions;
+using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
@@ -33,7 +34,13 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
     public partial EntitySection RequestedSection { get; set; }
 
     [ObservableProperty]
-    public partial string OpenNoteEntryText { get; set; } = "";
+    public partial bool IsDraftAvailable { get; set; }
+
+    [ObservableProperty]
+    public partial string OpenNoteEntryIconGlyph { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string OpenNoteEntryText { get; set; } = string.Empty;
 
     public readonly TaskCompletionSource notesLoadedTcs = new();
 
@@ -53,6 +60,8 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
             noteDraftRealm,
             noteDraftRealm.All<NoteDraft>().Where(draft => draft.ParentEntityId == BusinessObject.FileNumber)
         );
+
+        OnIsDraftAvailableChanged(false);
 
         if (RequestedSection == EntitySection.NoteEntry)
             await OpenNoteEntry();
@@ -101,7 +110,7 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
         if (e.Type == typeof(NoteItem))
             UpdateNotesList((IRealmCollection<NoteItem>)e.Items, e.Changes);
         else if (e.Type == typeof(NoteDraft))
-            UpdateOpenNoteEntryText(e.Items.Any());
+            IsDraftAvailable = e.Items.Any();
     }
 
     private void UpdateNotesList(IRealmCollection<NoteItem> realmNotes, ChangeSet? changes)
@@ -138,9 +147,10 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
             );
     }
 
-    private void UpdateOpenNoteEntryText(bool draftAvailable)
+    partial void OnIsDraftAvailableChanged(bool value)
     {
-        OpenNoteEntryText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddNotes;
+        OpenNoteEntryIconGlyph = value ? MaterialIcons.Edit : MaterialIcons.Add;
+        OpenNoteEntryText = value ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddNotes;
     }
 
     [RelayCommand]
