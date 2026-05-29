@@ -60,17 +60,21 @@
             >
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="models:NoteItemGroup">
-                        <!-- Fonts in Windows seem to have extra padding -->
-                        <ContentView Padding="{OnPlatform WinUI='0', Default='10'}">
+                        <Border
+                            Background="{StaticResource CardGrayBg}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 20"
+                            Padding="10,0"
+                            Margin="{OnPlatform WinUI='0', Default='10'}"
+                        >
                             <Label
                                 VerticalOptions="Center"
                                 VerticalTextAlignment="Center"
                                 Text="{Binding Name}"
                                 FontFamily="BCSansBold"
-                                Padding="0"
-                                FontSize="20"
+                                FontSize="{StaticResource TitleLargeFontSize}"
                             />
-                        </ContentView>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
 
