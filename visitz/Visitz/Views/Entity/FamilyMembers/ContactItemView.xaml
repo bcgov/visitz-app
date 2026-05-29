@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:converter="clr-namespace:Visitz.Converters"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:family="clr-namespace:Visitz.Views.Entity.FamilyMembers"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
@@ -29,77 +30,85 @@
         Shadow="{StaticResource RestingLevel2}"
     >
         <VerticalStackLayout>
-            <Grid
-                BackgroundColor="White"
-                ColumnDefinitions="5*,*"
-                ColumnSpacing="{StaticResource DefaultSpacing}"
-                RowDefinitions="Auto,Auto"
-                RowSpacing="{StaticResource DefaultSpacing}"
-                Padding="{StaticResource DefaultPadding}"
-            >
-                <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
-                    <Label
-                        Text="{Binding Contact.FullDisplayName}"
-                        FontFamily="BCSansBold"
-                        FontSize="{StaticResource BodyMediumFontSize}"
-                        VerticalOptions="Center"
-                    />
+            <effectsView:SfEffectsView TouchDownEffects="Ripple">
+                <Grid
+                    BackgroundColor="White"
+                    ColumnDefinitions="5*,*"
+                    ColumnSpacing="{StaticResource DefaultSpacing}"
+                    RowDefinitions="Auto,Auto"
+                    RowSpacing="{StaticResource DefaultSpacing}"
+                    Padding="{StaticResource DefaultPadding}"
+                >
+                    <HorizontalStackLayout
+                        Grid.Row="0"
+                        Spacing="{StaticResource DefaultSpacingHalf}"
+                    >
+                        <Label
+                            Text="{Binding Contact.FullDisplayName}"
+                            FontFamily="BCSansBold"
+                            FontSize="{StaticResource BodyMediumFontSize}"
+                            VerticalOptions="Center"
+                        />
 
-                    <tagview:TagView
-                        Padding="8,0"
-                        BackgroundColor="{Binding TagBgColor}"
-                        Text="{Binding Contact.Relationship}"
-                        TextColor="{Binding TagTextColor}"
-                        VerticalOptions="Center"
-                    />
+                        <tagview:TagView
+                            Padding="8,0"
+                            BackgroundColor="{Binding TagBgColor}"
+                            Text="{Binding Contact.Relationship}"
+                            TextColor="{Binding TagTextColor}"
+                            VerticalOptions="Center"
+                        />
 
-                    <tagview:TagView
-                        Padding="8,0"
-                        BackgroundColor="{StaticResource DeceasedBackground}"
-                        Text="{local:Localize Deceased}"
-                        TextColor="White"
-                        IsVisible="{Binding Contact.Deceased,
+                        <tagview:TagView
+                            Padding="8,0"
+                            BackgroundColor="{StaticResource DeceasedBackground}"
+                            Text="{local:Localize Deceased}"
+                            TextColor="White"
+                            IsVisible="{Binding Contact.Deceased,
                         Converter={StaticResource StringToBool}}"
-                        VerticalOptions="Center"
-                    />
-                </HorizontalStackLayout>
+                            VerticalOptions="Center"
+                        />
+                    </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="1" Spacing="{StaticResource DefaultSpacingHalf}">
+                    <HorizontalStackLayout
+                        Grid.Row="1"
+                        Spacing="{StaticResource DefaultSpacingHalf}"
+                    >
+                        <Label
+                            FontFamily="BCSansBold"
+                            HorizontalOptions="Start"
+                            Text="{local:Localize Age}"
+                        />
+
+                        <Label
+                            HorizontalOptions="Start"
+                            FontFamily="BCSansRegular"
+                            Text="{Binding Contact.Age}"
+                        />
+
+                        <Label
+                            StyleClass="ExpanderHorizontalLabelLeftOffset"
+                            FontFamily="BCSansBold"
+                            HorizontalOptions="Start"
+                            Text="{local:Localize Gender}"
+                        />
+
+                        <Label
+                            HorizontalOptions="Start"
+                            FontFamily="BCSansRegular"
+                            Text="{Binding Contact.Gender}"
+                        />
+                    </HorizontalStackLayout>
+
                     <Label
-                        FontFamily="BCSansBold"
-                        HorizontalOptions="Start"
-                        Text="{local:Localize Age}"
+                        Grid.Column="1"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontSize="{StaticResource LayoutChevronFontSize}"
+                        Text="{Binding ExpandedChevronGlyph}"
+                        VerticalOptions="Start"
+                        HorizontalOptions="End"
                     />
-
-                    <Label
-                        HorizontalOptions="Start"
-                        FontFamily="BCSansRegular"
-                        Text="{Binding Contact.Age}"
-                    />
-
-                    <Label
-                        StyleClass="ExpanderHorizontalLabelLeftOffset"
-                        FontFamily="BCSansBold"
-                        HorizontalOptions="Start"
-                        Text="{local:Localize Gender}"
-                    />
-
-                    <Label
-                        HorizontalOptions="Start"
-                        FontFamily="BCSansRegular"
-                        Text="{Binding Contact.Gender}"
-                    />
-                </HorizontalStackLayout>
-
-                <Label
-                    Grid.Column="1"
-                    FontFamily="MaterialIconsRoundedUnfilled"
-                    FontSize="{StaticResource LayoutChevronFontSize}"
-                    Text="{Binding ExpandedChevronGlyph}"
-                    VerticalOptions="Start"
-                    HorizontalOptions="End"
-                />
-            </Grid>
+                </Grid>
+            </effectsView:SfEffectsView>
 
             <BoxView
                 Color="{StaticResource Gray100}"
