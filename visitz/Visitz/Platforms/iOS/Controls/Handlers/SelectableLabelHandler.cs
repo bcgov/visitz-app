@@ -4,6 +4,8 @@ using UIKit;
 
 namespace Visitz.Controls.Handlers;
 
+#nullable enable
+
 public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UITextView>(s_mapper, null)
 {
     static readonly IPropertyMapper<SelectableLabel, SelectableLabelHandler> s_mapper = new PropertyMapper<
@@ -11,10 +13,11 @@ public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UIT
         SelectableLabelHandler
     >(ViewMapper)
     {
-        [nameof(SelectableLabel.BackgroundColor)] = MapBackgroundColor,
-        [nameof(SelectableLabel.Text)] = MapText,
+        [nameof(ITextStyle.CharacterSpacing)] = MapCharacterSpacing,
         [nameof(ITextStyle.TextColor)] = MapTextColor,
         [nameof(ITextStyle.Font)] = MapFont,
+        [nameof(SelectableLabel.BackgroundColor)] = MapBackgroundColor,
+        [nameof(SelectableLabel.Text)] = MapText,
     };
 
     protected override UITextView CreatePlatformView()
@@ -36,22 +39,27 @@ public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UIT
 
     static void MapBackgroundColor(SelectableLabelHandler handler, SelectableLabel label)
     {
-        handler.PlatformView.BackgroundColor = label.BackgroundColor?.ToPlatform();
+        handler.PlatformView?.BackgroundColor = label.BackgroundColor?.ToPlatform();
     }
 
     static void MapText(SelectableLabelHandler handler, SelectableLabel label)
     {
-        handler.PlatformView.Text = label.Text;
+        handler.PlatformView?.Text = label.Text;
     }
 
     static void MapTextColor(SelectableLabelHandler handler, SelectableLabel label)
     {
-        handler.PlatformView.TextColor = label.TextColor?.ToPlatform();
+        handler.PlatformView?.TextColor = label.TextColor?.ToPlatform();
     }
 
     static void MapFont(SelectableLabelHandler handler, SelectableLabel label)
     {
         var fontManager = handler.GetRequiredService<IFontManager>();
-        handler.PlatformView.UpdateFont(label, fontManager);
+        handler.PlatformView?.UpdateFont(label, fontManager);
+    }
+
+    static void MapCharacterSpacing(SelectableLabelHandler handler, SelectableLabel label)
+    {
+        handler.PlatformView?.UpdateCharacterSpacing(label);
     }
 }
