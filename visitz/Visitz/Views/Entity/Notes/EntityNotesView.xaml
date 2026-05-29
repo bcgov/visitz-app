@@ -14,39 +14,11 @@
 >
     <Grid RowDefinitions="*, 0.5, Auto">
         <AbsoluteLayout Grid.Row="0" VerticalOptions="Fill">
-            <VerticalStackLayout
+            <controls:EmptyIcon
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 AbsoluteLayout.LayoutBounds="0.5,0.5"
                 IsVisible="{Binding IsNotesEmtpy}"
-            >
-                <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Command="{Binding AddNoteCommand}"
-                        CommandParameter="{Binding .}"
-                    />
-                </VerticalStackLayout.GestureRecognizers>
-
-                <controls:EmptyIcon />
-
-                <!-- TapGestureRecognizer isn't working in this instance, so hide the prompt for now.
-                    TODO: Get taps working here so we can show this prompt. -->
-                <HorizontalStackLayout IsVisible="False" HorizontalOptions="Center" Spacing="5">
-                    <Label
-                        VerticalOptions="Center"
-                        FontSize="16"
-                        TextColor="{StaticResource SkyBlueText}"
-                        Text="Add notes"
-                    />
-
-                    <Label
-                        VerticalOptions="Center"
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        FontSize="28"
-                        TextColor="{StaticResource SkyBlueText}"
-                        Text="{Static icons:MaterialIcons.Add_notes}"
-                    />
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
+            />
 
             <CollectionView
                 AbsoluteLayout.LayoutFlags="All"
