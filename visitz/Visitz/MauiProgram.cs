@@ -1,6 +1,8 @@
 using CommunityToolkit.Maui;
 using Oidc;
 using Syncfusion.Maui.Toolkit.Hosting;
+using Visitz.Controls;
+using Visitz.Controls.Handlers;
 using Visitz.Settings;
 using Visitz.VisitzConfig;
 #if IOS
@@ -30,6 +32,10 @@ public static class MauiProgram
             .ConfigureEssentials(essentials =>
             {
                 essentials.UseVersionTracking();
+            })
+            .ConfigureMauiHandlers(handlers =>
+            {
+                handlers.AddHandler<SelectableLabel, SelectableLabelHandler>();
             })
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
