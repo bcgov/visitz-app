@@ -36,7 +36,7 @@ public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UIT
 
     static void MapBackgroundColor(SelectableLabelHandler handler, SelectableLabel label)
     {
-        handler.PlatformView.BackgroundColor = label.BackgroundColor.ToPlatform();
+        handler.PlatformView.BackgroundColor = label.BackgroundColor?.ToPlatform();
     }
 
     static void MapText(SelectableLabelHandler handler, SelectableLabel label)
@@ -46,7 +46,7 @@ public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UIT
 
     static void MapTextColor(SelectableLabelHandler handler, SelectableLabel label)
     {
-        handler.PlatformView.TextColor = label.TextColor.ToPlatform();
+        handler.PlatformView.TextColor = label.TextColor?.ToPlatform();
     }
 
     static void MapFont(SelectableLabelHandler handler, SelectableLabel label)
