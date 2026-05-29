@@ -53,22 +53,11 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:NoteItem">
                         <ContentView>
-                            <Border
-                                Stroke="Transparent"
-                                StrokeThickness="0"
-                                Padding="8"
-                                BackgroundColor="Transparent"
-                            >
-                                <Editor
-                                    Margin="0,0,0,0"
-                                    IsReadOnly="True"
-                                    TextColor="Black"
-                                    Text="{Binding Content, Mode=OneWay}"
-                                    AutoSize="TextChanges"
-                                    Placeholder="Edit note..."
-                                    BackgroundColor="Transparent"
-                                />
-                            </Border>
+                            <controls:SelectableLabel
+                                Margin="10,0"
+                                Text="{Binding Content}"
+                                TextColor="{StaticResource BC_TextColor}"
+                            />
                         </ContentView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
