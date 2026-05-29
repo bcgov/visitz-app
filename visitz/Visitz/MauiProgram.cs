@@ -35,7 +35,9 @@ public static class MauiProgram
             })
             .ConfigureMauiHandlers(handlers =>
             {
+#if IOS
                 handlers.AddHandler<SelectableLabel, SelectableLabelHandler>();
+#endif
             })
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
