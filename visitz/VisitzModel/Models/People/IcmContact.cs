@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Realms;
 using VisitzApi.Models.People;
@@ -17,7 +16,7 @@ public partial class IcmContact
         IRowMetadata,
         IApiJson<ContactJson>,
         IParentRecord,
-        IEqualityComparer<IcmContact>
+        IEquatable<IcmContact>
 {
     public static readonly int KeyPlayerSortPosition = 0;
     public static readonly int ParentCaregiverSortPosition = 1;
@@ -433,30 +432,20 @@ public partial class IcmContact
         EntityType type
     )
     {
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
+        await realm.CommitAsync(() =>
+        {
+            var incomingContacts = FromApiArray(contacts, parentId, type);
+            var existingContacts = GetByParentIdType(realm, parentId, type).ToList();
+            var contactsToDelete = existingContacts.Except(incomingContacts).ToList();
+
+            foreach (var item in contactsToDelete)
             {
-                var incomingContacts = FromApiArray(contacts, parentId, type);
-                var incomingContactsIds = incomingContacts.Select(item => item.Id);
-                var allIcmContacts = realm
-                    .All<IcmContact>()
-                    .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
-                    .ToList();
-                var allIcmContactIds = allIcmContacts.Select(item => item.Id);
-
-                var contactIdsToDelete = allIcmContactIds.Except(incomingContactsIds);
-                var contactsToDelete = allIcmContacts.Where(item => contactIdsToDelete.Contains(item.Id));
-
-                foreach (var item in contactsToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-
-                realm.Upsert(incomingContacts);
+                if (item != null && item.IsValid)
+                    realm.Remove(item);
             }
-        );
+
+            realm.Upsert(incomingContacts);
+        });
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)
@@ -476,7 +465,7 @@ public partial class IcmContact
         realm.RemoveRange(contacts);
     }
 
-    public static IQueryable<IcmContact> GetByIdType(Realm realm, string id, EntityType type)
+    public static IQueryable<IcmContact> GetByParentIdType(Realm realm, string id, EntityType type)
     {
         return realm.All<IcmContact>().Where(contact => contact.ParentId == id && contact.ParentTypeInt == (int)type);
     }
@@ -497,23 +486,22 @@ public partial class IcmContact
             .FirstOrDefault();
     }
 
-    public bool Equals(IcmContact? x, IcmContact? y)
+    public bool Equals(IcmContact? other)
     {
-        if (ReferenceEquals(x, y))
-            return true;
-
-        if (x is null || y is null)
-            return false;
-
-        return x.Id == y.Id;
+        return ReferenceEquals(this, other) || this?.Id == other?.Id;
     }
 
-    public int GetHashCode([DisallowNull] IcmContact obj)
+    public override bool Equals(object? other)
     {
-        if (obj is null)
-            return 0;
+        return other is IcmContact contact ? Equals(contact) : base.Equals(other);
+    }
 
-        return obj.Id.GetHashCode();
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        // Id is not meant to change
+        return Id.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
     }
 
     public override string ToString()

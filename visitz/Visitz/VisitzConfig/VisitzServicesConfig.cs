@@ -1,5 +1,6 @@
 using Visitz.Services;
 using Visitz.Services.Attachments;
+using Visitz.Services.Base;
 using Visitz.Services.CallDetails;
 using Visitz.Services.Caseload;
 using Visitz.Services.Notes;
@@ -16,6 +17,7 @@ public static class VisitzServicesConfig
     {
         builder.Services.AddSingleton<ServiceHandler>();
 
+        builder.Services.AddTransient<ServiceActivityListener>();
         builder.Services.AddTransient<GetCaseloadService>();
         builder.Services.AddTransient<GetNotesService>();
         builder.Services.AddTransient<GetNotesForRangeService>();

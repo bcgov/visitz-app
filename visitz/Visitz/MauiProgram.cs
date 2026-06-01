@@ -1,6 +1,8 @@
 using CommunityToolkit.Maui;
 using Oidc;
 using Syncfusion.Maui.Toolkit.Hosting;
+using Visitz.Controls;
+using Visitz.Controls.Handlers;
 using Visitz.Settings;
 using Visitz.VisitzConfig;
 #if IOS
@@ -31,6 +33,12 @@ public static class MauiProgram
             {
                 essentials.UseVersionTracking();
             })
+#if IOS
+            .ConfigureMauiHandlers(handlers =>
+            {
+                handlers.AddHandler<SelectableLabel, SelectableLabelHandler>();
+            })
+#endif
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
             // TODO: Get AppSettings working correctly with DI

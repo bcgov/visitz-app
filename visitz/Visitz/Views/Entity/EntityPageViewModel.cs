@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
-using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Services.Messages;
@@ -18,7 +17,7 @@ namespace Visitz.Views.Entity;
 
 #nullable enable
 
-public partial class EntityPageViewModel(ServiceHandler serviceHandler)
+public partial class EntityPageViewModel(ServiceActivityListener activityListener)
     : IcmRecordViewModel,
         IRecipient<ServiceStateMessage>
 {
@@ -26,9 +25,7 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
 
     bool _showId = true;
 
-    ServiceHandler ServiceHandler { get; } = serviceHandler;
-
-    readonly ServiceActivityListener _activityListener = new();
+    readonly ServiceActivityListener _activityListener = activityListener;
 
     [ObservableProperty]
     public partial string DisplayName { get; set; } = string.Empty;
@@ -44,13 +41,13 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
         await base.InitAsync();
 
         BusinessObject.SubscribePropertyChanged(BusinessObject_PropertyChanged);
-        UpdateDownloadActivity();
 
         WeakReferenceMessenger.Default.Register(this, GetAllDataForRecordService.MakeId(BusinessObject));
 
         _activityListener.Started += ActivityListener_Started;
         _activityListener.Stopped += ActivityListener_Stopped;
         _activityListener.RegisterForMessages(BusinessObject);
+        DownloadActivity = _activityListener.HasActivity;
 
         UpdateLocalActivityTimestamp();
     }
@@ -76,7 +73,7 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
     {
         try
         {
-            MainThread.BeginInvokeOnMainThread(UpdateDownloadActivity);
+            MainThread.BeginInvokeOnMainThread(() => DownloadActivity = true);
         }
         catch (Exception ex)
         {
@@ -88,17 +85,12 @@ public partial class EntityPageViewModel(ServiceHandler serviceHandler)
     {
         try
         {
-            MainThread.BeginInvokeOnMainThread(UpdateDownloadActivity);
+            MainThread.BeginInvokeOnMainThread(() => DownloadActivity = false);
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, ex.Message);
         }
-    }
-
-    void UpdateDownloadActivity()
-    {
-        DownloadActivity = BusinessObject.IsValid && ServiceHandler.IsAnyServiceRunning(BusinessObject.Id);
     }
 
     public async void Receive(ServiceStateMessage message)

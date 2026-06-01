@@ -44,6 +44,8 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
 
     public string AssignedToId { get; set; } = string.Empty;
 
+    public IList<string> Assignees { get; } = null!;
+
     public string DisplayAssignees => AssignedTo;
 
     public string Address { get; set; } = string.Empty;
@@ -149,6 +151,10 @@ public partial class MemoRecord : IRealmObject, IRowMetadata, IBusinessObject, I
         LastName = json.LastName;
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
+
+        if (Assignees != null && !string.IsNullOrWhiteSpace(AssignedTo) && !Assignees.Contains(AssignedTo))
+            Assignees.Add(AssignedTo);
+
         Address = json.Address;
         AddressComments = json.AddressComments;
         AreAnyOfTheFamilyMembersIndigenous = json.AreAnyOfTheFamilyMembersIndigenous;

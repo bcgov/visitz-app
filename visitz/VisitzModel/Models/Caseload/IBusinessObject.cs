@@ -26,6 +26,8 @@ public partial interface IBusinessObject : IRealmObject
 
     public string AssignedToId { get; set; }
 
+    public IList<string> Assignees { get; }
+
     public string DisplayAssignees { get; }
 
     public EntityType EntityType { get; }
@@ -234,10 +236,22 @@ public partial interface IBusinessObject : IRealmObject
         await realm.CommitAsync(() =>
         {
             CascadeDelete(realm, unassigned, userIgnoredPrefs);
-            foreach (var item in filteredUpsertItems)
+            foreach (var upsertItem in filteredUpsertItems)
             {
-                realm.Add(item, update: true);
-                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+                if (
+                    isOfficeCaseload
+                    && currentAssigned.Find(current => current.Id == upsertItem.Id) is TItem currentItem
+                )
+                {
+                    // Office caseload's assignee information is incomplete, so we can't blindly overwrite existing
+                    // assignee information on update. Instead, we'll just union with existing info.
+                    var unionAssignees = upsertItem.Assignees.Union(currentItem.Assignees);
+                    upsertItem.Assignees.Clear();
+                    upsertItem.Assignees.AddAll(unionAssignees);
+                }
+
+                realm.Add(upsertItem, update: true);
+                upsertItem.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
             }
         });
     }

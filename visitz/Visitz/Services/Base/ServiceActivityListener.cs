@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Extensions;
 using Visitz.Services.Messages;
@@ -7,11 +8,11 @@ namespace Visitz.Services.Base;
 
 #nullable enable
 
-internal partial class ServiceActivityListener : IRecipient<ServiceStateMessage>, IDisposable
+public partial class ServiceActivityListener : IRecipient<ServiceStateMessage>, IDisposable
 {
     private bool _disposedValue;
 
-    public HashSet<string> RunningServiceIds { get; } = [];
+    public ConcurrentDictionary<string, byte> RunningServiceIds { get; } = [];
 
     public bool HasActivity { get; private set; }
 
@@ -37,16 +38,16 @@ internal partial class ServiceActivityListener : IRecipient<ServiceStateMessage>
     public void Receive(ServiceStateMessage message)
     {
         if (message.IsRunning)
-            RunningServiceIds.Add(message.ServiceId);
+            RunningServiceIds.TryAdd(message.ServiceId, 0);
         else
-            RunningServiceIds.Remove(message.ServiceId);
+            RunningServiceIds.TryRemove(message.ServiceId, out _);
 
-        if (!HasActivity && RunningServiceIds.Count > 0)
+        if (!HasActivity && RunningServiceIds.Keys.Count > 0)
         {
             HasActivity = true;
             Started?.Invoke(this, EventArgs.Empty);
         }
-        else
+        else if (HasActivity && RunningServiceIds.Keys.Count <= 0)
         {
             HasActivity = false;
             Stopped?.Invoke(this, EventArgs.Empty);

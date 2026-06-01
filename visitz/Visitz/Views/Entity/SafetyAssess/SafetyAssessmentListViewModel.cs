@@ -17,10 +17,10 @@ namespace Visitz.Views.Entity.SafetyAssess;
 public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
 {
     [ObservableProperty]
-    public partial string EditViewButtonText { get; set; } = "";
+    public partial string EditViewButtonText { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string EditViewButtonGlyph { get; set; } = "";
+    public partial string EditViewButtonGlyph { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial ObservableCollection<SafetyAssessment> Assessments { get; set; } = [];

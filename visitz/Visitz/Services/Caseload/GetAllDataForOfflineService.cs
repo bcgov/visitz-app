@@ -103,11 +103,8 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
         // Synchronize both caseloads BEFORE getting any dependent info.
         // We don't want to start downloading dependent info before
         // caseload state is fully refreshed
-        await GetOfficeCaseload(exceptions);
-
-        // Get personal caseload after office caseload--the office caseload API is incomplete and will
-        // clobber Assignee information if it is run after personal caseload
         await GetPersonalCaseload(exceptions);
+        await GetOfficeCaseload(exceptions);
 
         var cases = await GetRefreshableRecords<CaseRecord>();
         var incidents = await GetRefreshableRecords<IncidentRecord>();

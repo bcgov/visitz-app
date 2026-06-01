@@ -3,8 +3,11 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Handlers.Items;
+using Microsoft.Maui.Handlers;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Oidc.WinWorkaround;
+using Visitz.Controls;
 using Visitz.Platforms.Windows.Visitz;
 using Visitz.Views.WebViewer;
 using VisitzModel.Platforms.Windows.Logging;
@@ -55,6 +58,15 @@ public partial class App : MauiWinUIApplication
             (handler, view) =>
             {
                 handler.PlatformView.IsMultiSelectCheckBoxEnabled = false;
+            }
+        );
+
+        LabelHandler.Mapper.AppendToMapping(
+            nameof(SelectableLabel),
+            (handler, view) =>
+            {
+                if (view is SelectableLabel && handler.PlatformView is TextBlock textBlock)
+                    textBlock.IsTextSelectionEnabled = true;
             }
         );
     }

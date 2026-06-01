@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
@@ -25,40 +26,45 @@
         Shadow="{StaticResource RestingLevel2}"
     >
         <VerticalStackLayout>
-            <Grid
-                BackgroundColor="White"
-                ColumnDefinitions="*,Auto"
-                ColumnSpacing="{StaticResource DefaultSpacing}"
-                RowDefinitions="Auto,Auto"
-                Padding="{StaticResource DefaultPadding}"
-            >
-                <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
-                    <Label
-                        Text="{Binding SupportNetwork.NameBinding}"
-                        FontFamily="BCSansBold"
-                        VerticalOptions="Center"
-                        FontSize="{StaticResource BodyMediumFontSize}"
-                    />
+            <effectsView:SfEffectsView TouchDownEffects="Ripple">
+                <Grid
+                    BackgroundColor="White"
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="{StaticResource DefaultSpacing}"
+                    RowDefinitions="Auto,Auto"
+                    Padding="{StaticResource DefaultPadding}"
+                >
+                    <HorizontalStackLayout
+                        Grid.Row="0"
+                        Spacing="{StaticResource DefaultSpacingHalf}"
+                    >
+                        <Label
+                            Text="{Binding SupportNetwork.NameBinding}"
+                            FontFamily="BCSansBold"
+                            VerticalOptions="Center"
+                            FontSize="{StaticResource BodyMediumFontSize}"
+                        />
 
-                    <tagview:TagView
-                        Padding="8,0"
-                        BackgroundColor="{Binding ActiveColor}"
-                        Text="{Binding ActiveText}"
-                        TextColor="{StaticResource BC_TextColor}"
-                        VerticalOptions="Center"
-                    />
-                </HorizontalStackLayout>
+                        <tagview:TagView
+                            Padding="8,0"
+                            BackgroundColor="{Binding ActiveColor}"
+                            Text="{Binding ActiveText}"
+                            TextColor="{StaticResource BC_TextColor}"
+                            VerticalOptions="Center"
+                        />
+                    </HorizontalStackLayout>
 
-                <HorizontalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
-                    <Label
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        FontSize="{StaticResource LayoutChevronFontSize}"
-                        Text="{Binding ExpandedChevronGlyph}"
-                    />
-                </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
+                        <Label
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            FontSize="{StaticResource LayoutChevronFontSize}"
+                            Text="{Binding ExpandedChevronGlyph}"
+                        />
+                    </HorizontalStackLayout>
 
-                <Label Grid.Row="1" Text="{Binding SupportNetwork.RelationshipBinding}" />
-            </Grid>
+                    <Label Grid.Row="1" Text="{Binding SupportNetwork.RelationshipBinding}" />
+                </Grid>
+            </effectsView:SfEffectsView>
 
             <BoxView
                 Grid.Row="1"
