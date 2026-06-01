@@ -33,12 +33,12 @@ public static class MauiProgram
             {
                 essentials.UseVersionTracking();
             })
+#if IOS
             .ConfigureMauiHandlers(handlers =>
             {
-#if IOS
                 handlers.AddHandler<SelectableLabel, SelectableLabelHandler>();
-#endif
             })
+#endif
             .ConfigureVisitzLocalization()
             .ConfigureVisitzFonts()
             // TODO: Get AppSettings working correctly with DI
