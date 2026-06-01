@@ -46,7 +46,7 @@ internal partial class ServiceActivityListener : IRecipient<ServiceStateMessage>
             HasActivity = true;
             Started?.Invoke(this, EventArgs.Empty);
         }
-        else
+        else if (HasActivity && RunningServiceIds.Count <= 0)
         {
             HasActivity = false;
             Stopped?.Invoke(this, EventArgs.Empty);
