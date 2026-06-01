@@ -8,7 +8,7 @@ namespace Visitz.Services.Base;
 
 #nullable enable
 
-internal partial class ServiceActivityListener : IRecipient<ServiceStateMessage>, IDisposable
+public partial class ServiceActivityListener : IRecipient<ServiceStateMessage>, IDisposable
 {
     private bool _disposedValue;
 
