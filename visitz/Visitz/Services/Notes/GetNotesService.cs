@@ -2,8 +2,6 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 using VisitzModel.Storage;
@@ -51,8 +49,7 @@ public class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService
     {
         var (id, entityType) = PayloadTuple;
 
-        string casedType = entityType.GetDisplayString().ToTitleCase();
-        var notesFromApi = await Vpi.GetNotesAsync(id, casedType);
+        var notesFromApi = await Vpi.GetCaseNotesAsync(id, pagination: null);
 
         var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
 
