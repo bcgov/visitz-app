@@ -39,7 +39,7 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
 
         Contacts.CollectionChanged += Contacts_CollectionChanged;
         _realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
-        _realmQueryMap.Subscribe(DataRealm, IcmContact.GetByIdType(DataRealm, RowId, EntityType));
+        _realmQueryMap.Subscribe(DataRealm, IcmContact.GetByParentIdType(DataRealm, RowId, EntityType));
     }
 
     bool disposed;
