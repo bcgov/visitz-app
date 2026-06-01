@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using VisitzApi.Json;
-using VisitzApi.Models;
+using VisitzApi.Models.Notes;
 
 namespace VisitzApi.Endpoints.Notes;
 

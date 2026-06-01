@@ -2,10 +2,10 @@ using System.Net;
 using System.Text.Json;
 using VisitzApi.Extensions;
 using VisitzApi.Json;
-using VisitzApi.Models;
+using VisitzApi.Models.People;
 using VisitzApi.Requests;
 
-namespace VisitzApi.Endpoints;
+namespace VisitzApi.Endpoints.People;
 
 internal class GetSupportNetworkEndpoint(string baseUrl, ApiRecordType type, string id, Pagination? pagination = null)
     : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<SupportNetworkJson>)>(baseUrl, Vpi.V2, MakePath(type, id))

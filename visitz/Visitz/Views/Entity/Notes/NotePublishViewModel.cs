@@ -5,7 +5,7 @@ using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
-using VisitzApi.Models;
+using VisitzApi.Models.Notes;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Notes;
 

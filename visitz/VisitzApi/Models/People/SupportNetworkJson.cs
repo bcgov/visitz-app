@@ -1,6 +1,6 @@
 using VisitzApi.Models.Base;
 
-namespace VisitzApi.Models;
+namespace VisitzApi.Models.People;
 
 public class SupportNetworkJson : BaseRecordJson
 {

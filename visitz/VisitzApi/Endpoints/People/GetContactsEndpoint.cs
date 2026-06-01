@@ -5,7 +5,7 @@ using VisitzApi.Json;
 using VisitzApi.Models.People;
 using VisitzApi.Requests;
 
-namespace VisitzApi.Endpoints;
+namespace VisitzApi.Endpoints.People;
 
 internal class GetContactsEndpoint(string baseUrl, ApiRecordType type, string rowId, Pagination? pagination = null)
     : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<ContactJson>)>(baseUrl, Vpi.V2, MakePath(type, rowId))

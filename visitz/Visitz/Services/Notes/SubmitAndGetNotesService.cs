@@ -1,7 +1,7 @@
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
-using VisitzApi.Models;
+using VisitzApi.Models.Notes;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Storage;
 

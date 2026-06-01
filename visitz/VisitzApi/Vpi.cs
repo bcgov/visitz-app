@@ -7,7 +7,6 @@ using VisitzApi.Endpoints.People;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
 using VisitzApi.ErrorHandling;
-using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.CallDetails;
 using VisitzApi.Models.Caseload;
