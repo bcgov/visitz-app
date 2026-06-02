@@ -1,8 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace VisitzApi.Models.Notes;
 
-public class ResponseNarrativeJson
+public class ResponseNarrativeJson : INoteJson
 {
-    public string Created { get; set; } = string.Empty;
+    public DateTimeOffset Created { get; set; }
 
     public string CreatedBy { get; set; } = string.Empty;
 
@@ -14,9 +16,13 @@ public class ResponseNarrativeJson
 
     public string IncidentId { get; set; } = string.Empty;
 
-    public string Response { get; set; } = string.Empty;
+    [JsonPropertyName("SR Id")]
+    public string SrId { get; set; } = string.Empty;
 
-    public string Updated { get; set; } = string.Empty;
+    [JsonPropertyName("Response")]
+    public string Text { get; set; } = string.Empty;
+
+    public DateTimeOffset Updated { get; set; }
 
     public string UpdatedBy { get; set; } = string.Empty;
 

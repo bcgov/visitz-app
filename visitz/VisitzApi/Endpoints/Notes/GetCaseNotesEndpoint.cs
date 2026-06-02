@@ -36,14 +36,6 @@ internal class GetCaseNotesEndpoint(string baseUrl, string caseId, Pagination? p
 
         JsonElement items = JsonDocument.Parse(responseContent).RootElement.GetProperty("items");
 
-        return (
-            response.GetRecordCount(),
-            items.Deserialize<List<CaseNoteJson>>(PayloadOptions.SiebelGet)?.SkipWhile(IsInvalidNote) ?? []
-        );
-    }
-
-    bool IsInvalidNote(CaseNoteJson entity)
-    {
-        return entity.Created?.Trim().Length <= 0;
+        return (response.GetRecordCount(), items.Deserialize<List<CaseNoteJson>>(PayloadOptions.SiebelGet) ?? []);
     }
 }

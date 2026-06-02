@@ -1,28 +1,33 @@
+using System.Text.Json.Serialization;
+
 namespace VisitzApi.Models.Notes;
 
-public class CaseNoteJson
+public class CaseNoteJson : INoteJson
 {
-    public string ActualDateNoted { get; set; } = string.Empty;
+    public DateTimeOffset? ActualDateNoted { get; set; }
 
-    public string Created { get; set; } = string.Empty;
+    public DateTimeOffset Created { get; set; }
 
     public string CreatedBy { get; set; } = string.Empty;
 
     public string CreatedByName { get; set; } = string.Empty;
 
-    public string CreatedByOfficeName { get; set; } = string.Empty;
+    [JsonPropertyName("Created By Office Name")]
+    public string CreatedByOffice { get; set; } = string.Empty;
 
     public string Id { get; set; } = string.Empty;
 
     public string Keywords { get; set; } = string.Empty;
 
-    public string LastUpdatedByName { get; set; } = string.Empty;
-
-    public string Note { get; set; } = string.Empty;
-
     public string NotePeriod { get; set; } = string.Empty;
 
-    public string Updated { get; set; } = string.Empty;
+    [JsonPropertyName("Note")]
+    public string Text { get; set; } = string.Empty;
+
+    public DateTimeOffset Updated { get; set; }
 
     public string UpdatedBy { get; set; } = string.Empty;
+
+    [JsonPropertyName("Last Updated By Name")]
+    public string UpdatedByName { get; set; } = string.Empty;
 }
