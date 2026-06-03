@@ -105,10 +105,7 @@ public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, Service
         {
             if (BusinessObject.EntityType != EntityType.Memo)
             {
-                var startMessage = GetNotesService.MakeStartMessage(
-                    BusinessObject.FileNumber,
-                    BusinessObject.EntityType
-                );
+                var startMessage = GetNotesService.MakeStartMessage(new(BusinessObject));
                 return await ServiceHandler.TryRunServiceAsync(startMessage);
             }
         }

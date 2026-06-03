@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
+using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
@@ -14,6 +15,7 @@ namespace Visitz.Views.Entity.Notes;
 public partial class NotePublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
     private SubmitNoteEntity submitNoteEntity;
+    private RecordServiceInfo parentInfo;
 
     private string submitAndGetNotesServiceId;
     private string submitNotesServiceId;
@@ -23,6 +25,7 @@ public partial class NotePublishViewModel : PublishViewModel, IRecipient<Service
     {
         Title = businessObject.DisplayName;
         submitNoteEntity = submitNote;
+        parentInfo = new(businessObject);
 
         var id = businessObject.FileNumber;
         var notePeriod = submitNoteEntity.NotePeriod;
@@ -60,7 +63,7 @@ public partial class NotePublishViewModel : PublishViewModel, IRecipient<Service
 
     public override void Publish()
     {
-        WeakReferenceMessenger.Default.Send(SubmitAndGetNotesService.MakeStartMessage(submitNoteEntity));
+        WeakReferenceMessenger.Default.Send(SubmitAndGetNotesService.MakeStartMessage(submitNoteEntity, parentInfo));
     }
 
     public async void Receive(ServiceStateMessage message)

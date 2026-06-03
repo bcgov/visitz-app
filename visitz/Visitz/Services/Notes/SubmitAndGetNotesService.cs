@@ -2,43 +2,46 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzApi.Models.Notes;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes;
 
 #nullable enable
 
-public class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
+internal class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
     : VisitzApiService(vpi, prefs)
 {
-    public static string MakeId(string entityNumber, string notePeriod)
+    public static string MakeId(string parentId, string notePeriod)
     {
-        return $"{nameof(SubmitAndGetNotesService)}-{entityNumber}-{notePeriod}";
+        return $"{nameof(SubmitAndGetNotesService)}-{parentId}-{notePeriod}";
     }
 
-    public static StartServiceMessage MakeStartMessage(SubmitNoteEntity submitEntity)
+    public static StartServiceMessage MakeStartMessage(SubmitNoteEntity submitEntity, RecordServiceInfo info)
     {
         return new StartServiceMessage()
         {
             ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.NotePeriod),
             ServiceType = typeof(SubmitAndGetNotesService),
-            Payload = submitEntity,
+            Payload = (submitEntity, info),
         };
     }
 
-    private new SubmitNoteEntity Payload => (SubmitNoteEntity)base.Payload;
+    private new (SubmitNoteEntity, RecordServiceInfo) Payload => ((SubmitNoteEntity, RecordServiceInfo))base.Payload;
+
+    SubmitNoteEntity SubmitEntity => Payload.Item1;
+
+    RecordServiceInfo ParentInfo => Payload.Item2;
 
     private ServiceHandler ServiceHandler { get; set; } = serviceHandler;
 
     public override string GetId()
     {
-        return MakeId(Payload.EntityNumber, Payload.NotePeriod);
+        return MakeId(SubmitEntity.EntityNumber, SubmitEntity.NotePeriod);
     }
 
     protected override async Task RunApiServiceAsync()
     {
-        if (await SubmitNote(Payload) && await GetNotes(Payload.EntityNumber, Payload.EntityType))
+        if (await SubmitNote(SubmitEntity) && await GetNotes())
             ResultCode = Result.Successful;
     }
 
@@ -48,9 +51,9 @@ public class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler, La
         return result == Result.Successful;
     }
 
-    private async Task<bool> GetNotes(string caseIncidentId, string entityType)
+    private async Task<bool> GetNotes()
     {
-        var startMessage = GetNotesService.MakeStartMessage(caseIncidentId, entityType.ParseEntityType());
+        var startMessage = GetNotesService.MakeStartMessage(ParentInfo);
         var result = await ServiceHandler.TryRunServiceAsync(startMessage);
         return result == Result.Successful;
     }

@@ -55,7 +55,7 @@
                         <ContentView>
                             <controls:SelectableLabel
                                 Margin="10,0"
-                                Text="{Binding Content}"
+                                Text="{Binding ContentBinding}"
                                 TextColor="{StaticResource BC_TextColor}"
                             />
                         </ContentView>

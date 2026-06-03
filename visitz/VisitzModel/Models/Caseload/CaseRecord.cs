@@ -237,7 +237,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IBusinessObject, I
     {
         fromRealm ??= Realm ?? throw new InvalidOperationException("Managed realm is null");
 
-        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.Case, FileNumber);
+        NoteItem.RemoveByParent(fromRealm, EntityType.Case, Id);
         PersonVisit.RemoveByParent(fromRealm, EntityType.Case, Id);
         IcmContact.RemoveByParent(fromRealm, EntityType.Case, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Case, Id);

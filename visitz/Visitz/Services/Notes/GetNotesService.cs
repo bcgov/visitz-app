@@ -1,7 +1,10 @@
+using System.Collections.Concurrent;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Requests;
+using VisitzModel.Extensions;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 using VisitzModel.Storage;
@@ -10,51 +13,62 @@ namespace Visitz.Services.Notes;
 
 #nullable enable
 
-public class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+internal class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
+    readonly ConcurrentBag<NoteItem> Notes = [];
+
     public static string MakeId(string caseIncidentId)
     {
         return nameof(GetNotesService) + caseIncidentId;
     }
 
-    public static StartServiceMessage MakeStartMessage(string caseIncidentId, EntityType entityType)
-    {
-        return MakeStartMessage((caseIncidentId, entityType));
-    }
-
-    public static StartServiceMessage MakeStartMessage(ValueTuple<string, EntityType> idEntityItem)
+    public static StartServiceMessage MakeStartMessage(RecordServiceInfo info)
     {
         return new StartServiceMessage()
         {
-            ServiceId = MakeId(idEntityItem.Item1),
+            ServiceId = MakeId(info.Id),
             ServiceType = typeof(GetNotesService),
-            Payload = idEntityItem,
+            Payload = info,
         };
     }
 
-    private ValueTuple<string, EntityType> PayloadTuple => (ValueTuple<string, EntityType>)Payload;
+    private RecordServiceInfo ParentInfo => (RecordServiceInfo)Payload;
 
     public override string GetId()
     {
-        var (caseIncidentId, _) = PayloadTuple;
-        return MakeId(caseIncidentId);
+        return MakeId(ParentInfo.Id);
     }
 
-    protected override async Task RunApiServiceAsync()
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
-        await GetNotesAsync();
+        int total;
+
+        if (ParentInfo.Type == EntityType.Case)
+        {
+            (total, var notesFromApi) = await Vpi.GetCaseNotesAsync(ParentInfo.Id, pagination: pagination);
+            Notes.AddAll(NoteItem.FromApiEntities(ParentInfo.Id, notesFromApi));
+        }
+        else if (ParentInfo.Type is EntityType.Incident or EntityType.ServiceRequest)
+        {
+            (total, var notesFromApi) = await Vpi.GetResponseNarrativesAsync(
+                (ApiRecordType)ParentInfo.Type,
+                ParentInfo.Id,
+                pagination
+            );
+            Notes.AddAll(NoteItem.FromApiEntities(ParentInfo.Type, ParentInfo.Id, notesFromApi));
+        }
+        else
+            throw new InvalidOperationException($"Type '{ParentInfo.Type}' not allowed for notes");
+
+        return total;
     }
 
-    private async Task GetNotesAsync()
+    protected override async Task AfterRun()
     {
-        var (id, entityType) = PayloadTuple;
-
-        var notesFromApi = await Vpi.GetCaseNotesAsync(id, pagination: null);
-
-        var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
+        await base.AfterRun();
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes)
+            await NoteItem.UpsertNotesAsync(realm, ParentInfo.Id, ParentInfo.Type, Notes)
         );
 
         ResultCode = Result.Successful;

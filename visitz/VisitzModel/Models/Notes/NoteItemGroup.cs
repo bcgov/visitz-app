@@ -72,7 +72,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         var notesForPeriod = entityNotesQuery
             .Where(item => item.NotePeriod == notePeriod)
             .AsEnumerable()
-            .OrderBy(item => DateTime.Parse(item.CreatedDate))
+            .OrderBy(item => item.CreatedDate)
             .ToList();
 
         return new NoteItemGroup(notesForPeriod, EntityType.Case, string.Empty);
@@ -87,7 +87,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         var notesForPage = entityNotesQuery
             .Where(item => item.PageNumber == pageNumber)
             .AsEnumerable()
-            .OrderBy(item => DateTime.Parse(item.CreatedDate))
+            .OrderBy(item => item.CreatedDate)
             .ToList();
 
         string groupName = MakePageNumberHeader(notePageNumberHeaderTemplate, pageNumber);
