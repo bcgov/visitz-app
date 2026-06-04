@@ -78,7 +78,6 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
             NotePeriodDateTimeField = value;
         }
     }
-    public DateTimeOffset CreatedDateTime { get; set; }
 
     public string CreatedBy { get; set; } = string.Empty;
 
@@ -241,7 +240,7 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
         return realm
             .All<NoteItem>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)parentType)
-            .Filter($"TRUEPREDICATE SORT({nameof(NotePeriodDateTime)} ASC, {nameof(CreatedDateTime)} ASC)");
+            .Filter($"TRUEPREDICATE SORT({nameof(NotePeriodDateTime)} ASC, {nameof(CreatedDate)} ASC)");
     }
 
     public static void RemoveByParent(Realm realm, EntityType parentType, string parentId)

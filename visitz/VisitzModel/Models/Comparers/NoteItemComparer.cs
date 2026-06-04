@@ -21,7 +21,7 @@ public class NoteItemComparer : IComparer<NoteItem>
                 else if (x.PageNumber.CompareTo(y.PageNumber) is int pageCompare && pageCompare != 0)
                     return pageCompare;
                 else
-                    return x.CreatedDateTime.CompareTo(y.CreatedDateTime);
+                    return x.CreatedDate.CompareTo(y.CreatedDate);
             }
         }
     }
