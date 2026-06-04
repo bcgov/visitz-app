@@ -160,7 +160,7 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
             .ToList();
     }
 
-    public static async Task UpsertNotesAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         string parentId,
         EntityType parentType,

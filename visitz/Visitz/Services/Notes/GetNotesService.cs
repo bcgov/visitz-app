@@ -68,7 +68,7 @@ internal class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationS
         await base.AfterRun();
 
         await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await NoteItem.UpsertNotesAsync(realm, ParentInfo.Id, ParentInfo.Type, Notes)
+            await NoteItem.SynchronizeAsync(realm, ParentInfo.Id, ParentInfo.Type, Notes)
         );
 
         ResultCode = Result.Successful;
