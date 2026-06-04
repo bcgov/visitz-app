@@ -129,13 +129,7 @@ public partial class NoteItemGroup : ObservableCollection<NoteItem>
     {
         if (GetLastTargetGroup(groups, note, entityType) is NoteItemGroup targetGroup)
         {
-            var notes = (ObservableCollection<NoteItem>)targetGroup;
-
-            int noteIndex = notes.BinarySearch(note, NoteItemComparer.Instance);
-            if (noteIndex < 0)
-                noteIndex = ~noteIndex;
-
-            notes.Insert(noteIndex, note);
+            targetGroup.InsertSorted(note, NoteItemComparer.Instance);
         }
         else
         {
@@ -146,11 +140,7 @@ public partial class NoteItemGroup : ObservableCollection<NoteItem>
                     ? NoteItemGroupComparer.NotePeriodInstance
                     : NoteItemGroupComparer.PageNumberInstance;
 
-            int groupIndex = groups.BinarySearch(targetGroup, comparer);
-            if (groupIndex < 0)
-                groupIndex = ~groupIndex;
-
-            groups.Insert(groupIndex, targetGroup);
+            groups.InsertSorted(targetGroup, comparer);
         }
     }
 
