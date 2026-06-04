@@ -142,13 +142,10 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
         return note;
     }
 
-    public static IList<NoteItem> FromApiEntities(string parentId, IEnumerable<CaseNoteJson> noteEntities)
+    public static IEnumerable<NoteItem> FromApiEntities(string parentId, IEnumerable<CaseNoteJson> noteEntities)
     {
-        return noteEntities
-            .Order(Comparer<CaseNoteJson>.Create((l, r) => l.NotePeriod.CompareTo(r.NotePeriod)))
-            .ThenBy(note => note.Created)
-            .Select(note => FromApiEntity(parentId, EntityType.Case, note, 0))
-            .ToList();
+        // Case notes do not need to be sorted for page numbers like response narrative notes do
+        return noteEntities.Select(note => FromApiEntity(parentId, EntityType.Case, note, 0));
     }
 
     public static IList<NoteItem> FromApiEntities(
