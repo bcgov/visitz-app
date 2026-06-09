@@ -3,7 +3,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
-using VisitzApi.Models;
+using VisitzApi.Models.People;
 using VisitzApi.Requests;
 using VisitzModel.Extensions;
 using VisitzModel.Models.EntityTypes;

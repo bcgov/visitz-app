@@ -183,9 +183,7 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
     {
         try
         {
-            var allIdEntities = casesIncidentsSrs.Select(item => (item.FileNumber, item.Type));
-
-            var startMessage = GetNotesForRangeService.MakeStartMessage(allIdEntities);
+            var startMessage = GetNotesForRangeService.MakeStartMessage(casesIncidentsSrs);
             await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)

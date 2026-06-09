@@ -1,6 +1,6 @@
 using System.Globalization;
 using Realms;
-using VisitzApi.Models;
+using VisitzApi.Models.Notes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -10,10 +10,10 @@ namespace VisitzModel.Models.Notes;
 /// <summary>
 /// The business object that would be used by the app source.
 /// </summary>
-public partial class NoteItem : IRealmObject, IParentRecord
+public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem>
 {
     private const string NotePeriodName = "NotePeriod";
-    private const string CreatedDateName = "CreatedDate";
+    private const string NotePeriodDateTimeName = "NotePeriodDateTime";
 
     private static readonly string IcmNotePeriodDateFormat = IcmDateFormats.NotePeriod;
     private static readonly string NoteWrapperTimestampFormat = IcmDateFormats.BasicTimestamp;
@@ -36,16 +36,10 @@ public partial class NoteItem : IRealmObject, IParentRecord
     [PrimaryKey]
     public string FullID { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Used app-only to associate Notes with parent records. As of 2023-06-05 the ICM API does
-    /// not return PK/FK information about notes.
-    /// </summary>
     [Indexed]
-    [MapTo("IcmId")]
-    public string ParentFileNumber { get; set; } = string.Empty;
-
     public string ParentId { get; set; } = string.Empty;
 
+    [Indexed]
     private int ParentTypeInt { get; set; }
     public EntityType ParentType
     {
@@ -60,94 +54,132 @@ public partial class NoteItem : IRealmObject, IParentRecord
         get => NotePeriodField;
         set
         {
+            NotePeriodDateTimeField = DateTimeOffset.Parse(value, CultureInfo.InvariantCulture);
             NotePeriodField = value;
-
-            NotePeriodDateTime = value?.Length > 0 ? DateTimeOffset.Parse(value) : DateTimeOffset.MinValue;
         }
     }
 
-    [MapTo(CreatedDateName)]
-    private string CreatedDateField { get; set; } = string.Empty;
-    public string CreatedDate
-    {
-        get => CreatedDateField;
-        set
-        {
-            CreatedDateField = value;
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.MinValue;
 
-            CreatedDateTime = value?.Length > 0 ? DateTimeOffset.Parse(value) : DateTimeOffset.MinValue;
-        }
-    }
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.MinValue;
 
     public string Content { get; set; } = string.Empty;
     public int PageNumber { get; set; }
 
-    public DateTimeOffset NotePeriodDateTime { get; set; }
-    public DateTimeOffset CreatedDateTime { get; set; }
+    [MapTo(NotePeriodDateTimeName)]
+    private DateTimeOffset NotePeriodDateTimeField { get; set; }
+    public DateTimeOffset NotePeriodDateTime
+    {
+        get =>
+            DateTimeOffset.TryParse(NotePeriodField, out DateTimeOffset dateTime) ? dateTime : DateTimeOffset.MinValue;
+        set
+        {
+            NotePeriodField = value.ToString(IcmNotePeriodDateFormat, CultureInfo.InvariantCulture);
+            NotePeriodDateTimeField = value;
+        }
+    }
+
+    public string CreatedBy { get; set; } = string.Empty;
+
+    public string CreatedByName { get; set; } = string.Empty;
+
+    public string CreatedByOffice { get; set; } = string.Empty;
+
+    public string UpdatedBy { get; set; } = string.Empty;
+
+    public string UpdatedByName { get; set; } = string.Empty;
 
     public string PeriodOrPageNumber => NotePeriod?.Length > 0 ? NotePeriod : $"Page {PageNumber}";
 
-    public static string MakeFullID(string icmId, NoteEntity note)
+    public NoteItem() { }
+
+    NoteItem(INoteJson note)
     {
-        return MakeFullID(icmId, note.NotePeriod, note.CreatedDate);
+        CreatedDate = note.Created;
+        CreatedBy = note.CreatedBy;
+        CreatedByName = note.CreatedByName;
+        CreatedByOffice = note.CreatedByOffice;
+        FullID = note.Id;
+        Content = note.Text;
+        UpdatedDate = note.Updated;
+        UpdatedBy = note.UpdatedBy;
+        UpdatedByName = note.UpdatedByName;
     }
 
-    public static string MakeFullID(string icmId, string notePeriod, string createdDate)
+    public NoteItem(CaseNoteJson caseNote, string parentId)
+        : this(caseNote)
     {
-        return $"{icmId}-{notePeriod}-{createdDate}";
+        NotePeriod = caseNote.NotePeriod;
+        ParentId = parentId;
+        ParentType = EntityType.Case;
     }
 
-    public static NoteItem FromApiEntity(
-        string parentFileNumber,
-        EntityType parentType,
-        NoteEntity note,
-        int pageNumber
-    )
+    public NoteItem(ResponseNarrativeJson narrativeJson, EntityType parentType, string parentId)
+        : this(narrativeJson)
     {
-        return new NoteItem()
+        if (!(parentType is EntityType.Incident or EntityType.ServiceRequest))
+            throw new InvalidOperationException($"Type '{parentType}' not allowed");
+
+        ParentId = parentId;
+        ParentType = parentType;
+    }
+
+    public static NoteItem FromApiEntity(string parentId, EntityType parentType, INoteJson noteJson, int pageNumber)
+    {
+        if (!(parentType is EntityType.Case or EntityType.Incident or EntityType.ServiceRequest))
+            throw new InvalidOperationException($"Type '{parentType}' not allowed");
+
+        NoteItem note = new(noteJson)
         {
-            FullID = MakeFullID(parentFileNumber, note),
             ParentType = parentType,
-            ParentFileNumber = parentFileNumber,
-            NotePeriod = note.NotePeriod,
-            CreatedDate = note.CreatedDate,
-            Content = note.Content,
+            ParentId = parentId,
             PageNumber = pageNumber,
         };
+
+        if (noteJson is CaseNoteJson caseNote)
+            note.NotePeriod = caseNote.NotePeriod;
+
+        return note;
     }
 
-    public static IEnumerable<NoteItem> FromApiEntities(
-        string parentFileNumber,
+    public static IEnumerable<NoteItem> FromApiEntities(string parentId, IEnumerable<CaseNoteJson> noteEntities)
+    {
+        // Case notes do not need to be sorted for page numbers like response narrative notes do
+        return noteEntities.Select(note => FromApiEntity(parentId, EntityType.Case, note, 0));
+    }
+
+    public static IList<NoteItem> FromApiEntities(
         EntityType parentType,
-        IEnumerable<NoteEntity> noteEntities
+        string parentId,
+        IEnumerable<ResponseNarrativeJson> noteEntities
     )
     {
         return noteEntities
-            .OrderBy(item => NoteEntity.NotePeriodDateTimeTransform(item, true))
-            .ThenBy(item => NoteEntity.CreatedDateTimeTransform(item, true))
-            .Select((note, index) => FromApiEntity(parentFileNumber, parentType, note, index + 1));
+            .OrderBy(note => note.Created)
+            .Select((note, index) => FromApiEntity(parentId, parentType, note, index + 1))
+            .ToList();
     }
 
-    public static async Task UpsertNotesAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
-        string parentFileNumber,
-        EntityType parentEntityType,
-        IEnumerable<NoteItem> newNotes
+        string parentId,
+        EntityType parentType,
+        IEnumerable<NoteItem> upsertNotes
     )
     {
-        if (parentEntityType == EntityType.Case)
+        if (parentType == EntityType.Case)
             // Case notes older <= 2012 may have a blank note period.
-            newNotes = SimulateNotePeriods(newNotes);
+            upsertNotes = SimulateNotePeriods(upsertNotes);
 
-        var currentNotes = GetNotesByFileNumber(realm, parentFileNumber);
-        var deletedNotes = currentNotes.ExceptBy(newNotes.Select(NoteSelector), NoteSelector);
+        var currentNotes = GetNotesByParent(realm, parentType, parentId).ToList();
+        var deletedNotes = currentNotes.Except(upsertNotes);
 
         await realm.WriteAsync(() =>
         {
             foreach (var deletedNote in deletedNotes)
                 realm.Remove(deletedNote);
 
-            realm.Add(newNotes, update: true);
+            realm.Add(upsertNotes, update: true);
         });
     }
 
@@ -157,12 +189,27 @@ public partial class NoteItem : IRealmObject, IParentRecord
 
         foreach (var note in simulatedPeriodNotes)
             if (string.IsNullOrWhiteSpace(note.NotePeriod))
-                note.NotePeriod = NotePeriodFrom(DateTimeOffset.Parse(note.CreatedDate));
+                note.NotePeriod = NotePeriodFrom(note.CreatedDate);
 
         return simulatedPeriodNotes;
     }
 
-    static string NoteSelector(NoteItem note) => note.FullID;
+    public bool Equals(NoteItem? other)
+    {
+        return ReferenceEquals(this, other) || FullID == other?.FullID;
+    }
+
+    public override bool Equals(object? other)
+    {
+        return other is NoteItem note && Equals(note) || base.Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        return FullID.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
+    }
 
     public static string NotePeriodFrom(DateTime dateTime)
     {
@@ -180,24 +227,24 @@ public partial class NoteItem : IRealmObject, IParentRecord
         return $"{Separator} {idir} {timestamp} {Separator}\n{content}";
     }
 
-    public static NoteItem? GetLatestByEntityId(Realm realm, string parentFileNumber)
+    public static NoteItem? GetLatestByEntityId(Realm realm, EntityType parentType, string parentId)
     {
-        return GetNotesByFileNumber(realm, parentFileNumber).LastOrDefault();
+        return GetNotesByParent(realm, parentType, parentId).LastOrDefault();
     }
 
-    public static IQueryable<NoteItem> GetNotesByFileNumber(Realm realm, string parentFileNumber)
+    public static IQueryable<NoteItem> GetNotesByParent(Realm realm, EntityType parentType, string parentId)
     {
         return realm
             .All<NoteItem>()
-            .Where(item => item.ParentFileNumber == parentFileNumber)
-            .Filter($"TRUEPREDICATE SORT({nameof(NotePeriodDateTime)} ASC, {nameof(CreatedDateTime)} ASC)");
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)parentType)
+            .Filter($"TRUEPREDICATE SORT({nameof(NotePeriodDateTime)} ASC, {nameof(CreatedDate)} ASC)");
     }
 
-    public static void RemoveByParentFileNumber(Realm realm, EntityType type, string fileNumber)
+    public static void RemoveByParent(Realm realm, EntityType parentType, string parentId)
     {
         var noteItems = realm
             .All<NoteItem>()
-            .Where(item => item.ParentFileNumber == fileNumber && item.ParentTypeInt == (int)type);
+            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)parentType);
 
         realm.RemoveRange(noteItems);
     }

@@ -1,5 +1,4 @@
 using Realms;
-using VisitzApi.Models;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;

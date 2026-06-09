@@ -196,7 +196,7 @@ public partial class ServiceRequestRecord
         fromRealm ??= Realm;
         ArgumentNullException.ThrowIfNull(fromRealm);
 
-        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.ServiceRequest, FileNumber);
+        NoteItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         IcmContact.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);

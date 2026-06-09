@@ -7,10 +7,10 @@ using VisitzApi.Endpoints.People;
 using VisitzApi.Endpoints.SafetyAssess;
 using VisitzApi.Endpoints.Visits;
 using VisitzApi.ErrorHandling;
-using VisitzApi.Models;
 using VisitzApi.Models.Attachments;
 using VisitzApi.Models.CallDetails;
 using VisitzApi.Models.Caseload;
+using VisitzApi.Models.Notes;
 using VisitzApi.Models.People;
 using VisitzApi.Models.SafetyAssess;
 using VisitzApi.Models.Visits;
@@ -71,9 +71,21 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
         return await CallApi(new GetOfficeCaseloadEndpoint(BaseVisitzApiUrl, pagination));
     }
 
-    public async Task<IEnumerable<NoteEntity>> GetNotesAsync(string entityNumber, string entityType)
+    public async Task<(int TotalRecords, IEnumerable<CaseNoteJson>)> GetCaseNotesAsync(
+        string entityNumber,
+        Pagination? pagination = null
+    )
     {
-        return await CallApi(new GetNotesEndpoint(BaseVisitzApiUrl, entityNumber, entityType));
+        return await CallApi(new GetCaseNotesEndpoint(BaseVisitzApiUrl, entityNumber, pagination));
+    }
+
+    public async Task<(int TotalRecords, IEnumerable<ResponseNarrativeJson>)> GetResponseNarrativesAsync(
+        ApiRecordType type,
+        string rowId,
+        Pagination? pagination = null
+    )
+    {
+        return await CallApi(new GetResponseNarrativeEndpoint(BaseVisitzApiUrl, type, rowId, pagination));
     }
 
     public async Task<(bool success, string noteId)> SubmitNotesAsync(SubmitNoteEntity noteToSubmit)

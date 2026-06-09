@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace VisitzApi.Models;
+namespace VisitzApi.Models.Notes;
 
 public class SubmitNoteEntity
 {

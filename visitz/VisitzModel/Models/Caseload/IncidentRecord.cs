@@ -277,7 +277,7 @@ public partial class IncidentRecord
         fromRealm ??= Realm;
         ArgumentNullException.ThrowIfNull(fromRealm);
 
-        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.Incident, FileNumber);
+        NoteItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
         IcmContact.RemoveByParent(fromRealm, EntityType.Incident, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);

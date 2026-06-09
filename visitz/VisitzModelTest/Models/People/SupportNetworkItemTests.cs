@@ -1,4 +1,4 @@
-using VisitzApi.Models;
+using VisitzApi.Models.People;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 

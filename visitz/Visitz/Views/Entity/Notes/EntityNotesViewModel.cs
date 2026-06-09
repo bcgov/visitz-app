@@ -52,7 +52,10 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
             return;
 
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
-        realmQueryMap.Subscribe(DataRealm, NoteItem.GetNotesByFileNumber(DataRealm, BusinessObject.FileNumber));
+        realmQueryMap.Subscribe(
+            DataRealm,
+            NoteItem.GetNotesByParent(DataRealm, BusinessObject.EntityType, BusinessObject.Id)
+        );
 
         var noteDraftRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
 

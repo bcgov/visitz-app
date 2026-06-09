@@ -6,9 +6,9 @@ using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.Notes;
 
-public class NoteItemGroup : ObservableCollection<NoteItem>
+public partial class NoteItemGroup : ObservableCollection<NoteItem>
 {
-    private static readonly string DistinctQuery = "TRUEPREDICATE DISTINCT({0})";
+    private const string DistinctQuery = "TRUEPREDICATE DISTINCT({0})";
 
     private string NotePageNumberHeaderTemplate { get; set; }
 
@@ -22,16 +22,6 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
     public int PageNumber { get; private set; }
 
     public EntityType EntityType { get; private set; }
-
-    public NoteItemGroup(NoteItem note, EntityType entityType, string notePageNumberHeaderTemplate)
-        : base()
-    {
-        NotePeriodDateTime = note.NotePeriodDateTime;
-        NotePageNumberHeaderTemplate = notePageNumberHeaderTemplate;
-        PageNumber = note.PageNumber;
-        EntityType = entityType;
-        Add(note);
-    }
 
     public NoteItemGroup(List<NoteItem> notes, EntityType entityType, string notePageNumberHeaderTemplate)
         : base(notes)
@@ -72,7 +62,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         var notesForPeriod = entityNotesQuery
             .Where(item => item.NotePeriod == notePeriod)
             .AsEnumerable()
-            .OrderBy(item => DateTime.Parse(item.CreatedDate))
+            .OrderBy(item => item.CreatedDate)
             .ToList();
 
         return new NoteItemGroup(notesForPeriod, EntityType.Case, string.Empty);
@@ -87,7 +77,7 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         var notesForPage = entityNotesQuery
             .Where(item => item.PageNumber == pageNumber)
             .AsEnumerable()
-            .OrderBy(item => DateTime.Parse(item.CreatedDate))
+            .OrderBy(item => item.CreatedDate)
             .ToList();
 
         string groupName = MakePageNumberHeader(notePageNumberHeaderTemplate, pageNumber);
@@ -137,32 +127,20 @@ public class NoteItemGroup : ObservableCollection<NoteItem>
         string notePageNumberHeaderTemplate
     )
     {
-        var targetGroup = GetLastTargetGroup(groups, note, entityType);
-
-        if (targetGroup == null)
+        if (GetLastTargetGroup(groups, note, entityType) is NoteItemGroup targetGroup)
         {
-            targetGroup = new NoteItemGroup(note, entityType, notePageNumberHeaderTemplate);
+            targetGroup.InsertSorted(note, NoteItemComparer.Instance);
+        }
+        else
+        {
+            targetGroup = new NoteItemGroup([note], entityType, notePageNumberHeaderTemplate);
 
             var comparer =
                 entityType == EntityType.Case
                     ? NoteItemGroupComparer.NotePeriodInstance
                     : NoteItemGroupComparer.PageNumberInstance;
 
-            int groupIndex = groups.BinarySearch(targetGroup, comparer);
-            if (groupIndex < 0)
-                groupIndex = ~groupIndex;
-
-            groups.Insert(groupIndex, targetGroup);
-        }
-        else
-        {
-            var notes = (ObservableCollection<NoteItem>)targetGroup;
-
-            int noteIndex = notes.BinarySearch(note, NoteItemComparer.Instance);
-            if (noteIndex < 0)
-                noteIndex = ~noteIndex;
-
-            notes.Insert(noteIndex, note);
+            groups.InsertSorted(targetGroup, comparer);
         }
     }
 
