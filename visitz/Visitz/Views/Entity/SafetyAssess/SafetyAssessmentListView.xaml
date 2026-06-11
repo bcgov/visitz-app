@@ -14,78 +14,21 @@
     x:TypeArguments="safety:SafetyAssessmentListViewModel"
 >
     <base:IcmRecordContentView.Resources>
-        <converters:DateTimeOffsetShortTimestampConverter x:Key="ShortTimestampConverter" />
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </base:IcmRecordContentView.Resources>
 
     <Grid RowDefinitions="*,0.5,Auto">
-        <VerticalStackLayout IsVisible="{Binding IsEmpty, Converter={StaticResource BoolNegationConverter}}">
-            <Grid ColumnDefinitions="*,*,*,*" Padding="{StaticResource DefaultPadding}">
-                <Label
-                    Grid.Column="0"
-                    FontFamily="BCSansBold"
-                    Text="{local:Localize CreatedDate}"
-                />
-
-                <Label Grid.Column="1" FontFamily="BCSansBold" Text="{local:Localize CreatedBy}" />
-
-                <Label
-                    Grid.Column="2"
-                    FontFamily="BCSansBold"
-                    Text="{local:Localize ApprovedDate}"
-                />
-
-                <Label Grid.Column="3" FontFamily="BCSansBold" Text="{local:Localize ApprovedBy}" />
-            </Grid>
-
-            <BoxView HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
-
-            <CollectionView Grid.Row="0" ItemsSource="{Binding Assessments}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="safetyModels:SafetyAssessment">
-                        <ContentView>
-                            <ContentView.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding OpenSafetyAssessmentViewCommand,
-                                        Source={RelativeSource
-                                            AncestorType={x:Type safety:SafetyAssessmentListViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                />
-                            </ContentView.GestureRecognizers>
-
-                            <VerticalStackLayout>
-                                <Grid
-                                    ColumnDefinitions="*,*,*,*"
-                                    Padding="{StaticResource DefaultPadding}"
-                                >
-                                    <Label
-                                        Grid.Column="0"
-                                        Text="{Binding CreatedDate, Converter={StaticResource ShortTimestampConverter}}"
-                                    />
-
-                                    <Label Grid.Column="1" Text="{Binding CreatedBy}" />
-
-                                    <Label
-                                        Grid.Column="2"
-                                        Text="{Binding ApprovedDate, Converter={StaticResource ShortTimestampConverter}}"
-                                    />
-
-                                    <Label Grid.Column="3" Text="{Binding ApprovedBy}" />
-                                </Grid>
-
-                                <BoxView
-                                    HeightRequest="0.5"
-                                    Color="{StaticResource SeparatorColor}"
-                                    Margin="{Thickness
-                                        Left={StaticResource DefaultMargin},
-                                        Right={StaticResource DefaultMargin}}"
-                                />
-                            </VerticalStackLayout>
-                        </ContentView>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
+        <CollectionView
+            Grid.Row="0"
+            ItemsSource="{Binding Assessments}"
+            IsVisible="{Binding IsEmpty, Converter={StaticResource BoolNegationConverter}}"
+        >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="safetyModels:SafetyAssessment">
+                    <safety:SafetyAssessmentListItem />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
         <controls:EmptyIcon IsVisible="{Binding IsEmpty}" />
 

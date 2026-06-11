@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:safety="clr-namespace:Visitz.Views.Entity.SafetyAssess"
+    x:Class="Visitz.Views.Entity.SafetyAssess.SafetyAssessmentListItem"
+    x:DataType="safety:SafetyAssessmentListItemViewModel"
+>
+    <ContentView.Resources>
+        <converters:DateTimeOffsetShortTimestampConverter x:Key="ShortTimestampConverter" />
+    </ContentView.Resources>
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer
+            Command="{Binding OpenSafetyAssessmentViewCommand,
+            Source={RelativeSource
+                AncestorType={x:Type safety:SafetyAssessmentListViewModel}}}"
+            CommandParameter="{Binding SafetyAssessment}"
+        />
+    </ContentView.GestureRecognizers>
+
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,*,*,*" Padding="{StaticResource DefaultPadding}">
+            <Label
+                Grid.Column="0"
+                Text="{Binding SafetyAssessment.CreatedDate, Converter={StaticResource ShortTimestampConverter}}"
+            />
+
+            <Label Grid.Column="1" Text="{Binding SafetyAssessment.CreatedBy}" />
+
+            <Label
+                Grid.Column="2"
+                Text="{Binding SafetyAssessment.ApprovedDate, Converter={StaticResource ShortTimestampConverter}}"
+            />
+
+            <Label Grid.Column="3" Text="{Binding SafetyAssessment.ApprovedBy}" />
+        </Grid>
+
+        <BoxView
+            HeightRequest="0.5"
+            Color="{StaticResource SeparatorColor}"
+            Margin="{Thickness
+            Left={StaticResource DefaultMargin},
+            Right={StaticResource DefaultMargin}}"
+        />
+    </VerticalStackLayout>
+</ContentView>
