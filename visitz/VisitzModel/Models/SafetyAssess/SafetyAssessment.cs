@@ -83,6 +83,8 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public string Type { get; set; } = string.Empty;
 
+    public bool IsApproved => ApprovedToFinalize.ParseWordTruthiness();
+
     public static SafetyAssessment FromApiJson(string fileNumber, GetSafetyAsessmentJson json)
     {
         var safetyAssessment = new SafetyAssessment()

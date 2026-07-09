@@ -1111,4 +1111,18 @@ Do you want to download information for this record?</value>
   <data name="Inactive" xml:space="preserve">
     <value>Inactive</value>
   </data>
+  <data name="DateLabel" xml:space="preserve">
+    <value>Date: {0}</value>
+    <comment>0 = Date to display</comment>
+  </data>
+  <data name="CreatedByLabel" xml:space="preserve">
+    <value>Created by: {0}</value>
+    <comment>0 = Username of who created a resource</comment>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In progress</value>
+  </data>
 </root>

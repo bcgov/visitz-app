@@ -89,6 +89,9 @@ public static class VisitzColors
     public static readonly Color EntityUnknownTypeBackground = TryGetColor(nameof(EntityUnknownTypeBackground));
     public static readonly Color EntityUnknownTypeTagText = TryGetColor(nameof(EntityUnknownTypeTagText));
 
+    public static readonly Color TagGreenBackground = TryGetColor(nameof(TagGreenBackground));
+    public static readonly Color TagGreenText = TryGetColor(nameof(TagGreenText));
+
     // Family Information Colors
     public static readonly Color KeyPlayerInfoPurpleBackground = TryGetColor(nameof(KeyPlayerInfoPurpleBackground));
     public static readonly Color FamilyMemberInfoGrayBorder = TryGetColor(nameof(FamilyMemberInfoGrayBorder));
@@ -140,6 +143,4 @@ public static class VisitzColors
     public static readonly Color ClearButtonColor = TryGetColor(nameof(ClearButtonColor));
 
     public static readonly Color DeceasedBackground = TryGetColor(nameof(DeceasedBackground));
-
-    public static readonly Color IsActiveTagBackground = TryGetColor(nameof(IsActiveTagBackground));
 }

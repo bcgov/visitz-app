@@ -54,6 +54,12 @@ public partial class SafetyAssessment
         }
     }
 
+    public DateTimeOffset CreatedDateBinding
+    {
+        get => IsValid ? CreatedDate : default;
+        set => this.Commit(() => CreatedDate = value);
+    }
+
     public string OperationBinding
     {
         get => IsValid ? Operation : string.Empty;
