@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
@@ -7,6 +8,7 @@ using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Models.SafetyAssess;
 
@@ -22,10 +24,17 @@ public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
     [ObservableProperty]
     public partial string EditViewButtonGlyph { get; set; } = string.Empty;
 
-    [ObservableProperty]
-    public partial ObservableCollection<SafetyAssessment> Assessments { get; set; } = [];
+    readonly ObservableCollection<SafetyAssessment> _queriedAssessments = [];
 
-    readonly ObservableRealmQueryMap realmQueryMap = new();
+    [ObservableProperty]
+    public partial ObservableCollection<SafetyAssessmentListItemViewModel> Assessments { get; set; } = [];
+
+    readonly IComparer<SafetyAssessmentListItemViewModel> _insertComparer =
+        Comparer<SafetyAssessmentListItemViewModel>.Create(
+            (l, r) => l.SafetyAssessment.CreatedDate.CompareTo(r.SafetyAssessment.CreatedDate)
+        );
+
+    readonly ObservableRealmQueryMap _realmQueryMap = new();
 
     [ObservableProperty]
     public partial bool IsEmpty { get; set; }
@@ -34,17 +43,16 @@ public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
     {
         await base.InitAsync();
 
-        realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
+        _realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
+        _queriedAssessments.CollectionChanged += QueriedAssessments_CollectionChanged;
 
         var draftRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
         var draftQuery = AssessmentDraft.GetAllByFileNumber(draftRealm, BusinessObject.FileNumber);
-        realmQueryMap.Subscribe(draftRealm, draftQuery);
+        _realmQueryMap.Subscribe(draftRealm, draftQuery);
 
         var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        var dataQuery = SafetyAssessment
-            .GetAllByFileNumber(dataRealm, BusinessObject.FileNumber)
-            .OrderByDescending(sa => sa.CreatedDate);
-        realmQueryMap.Subscribe(dataRealm, dataQuery);
+        var dataQuery = SafetyAssessment.GetAllByFileNumber(dataRealm, BusinessObject.FileNumber);
+        _realmQueryMap.Subscribe(dataRealm, dataQuery);
     }
 
     bool disposed;
@@ -53,7 +61,7 @@ public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
     {
         if (!disposed && disposing)
         {
-            realmQueryMap?.Dispose();
+            _realmQueryMap?.Dispose();
 
             disposed = true;
         }
@@ -67,28 +75,48 @@ public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
     )
     {
         if (e.Type == typeof(SafetyAssessment))
-            UpdateSafetyAssessmentsList(e.Items, e.Changes);
+            UpdateQueriedAssessmentsList(e.Items, e.Changes);
         if (e.Type == typeof(AssessmentDraft))
             UpdateEditViewButtonText(e.Items.Any());
     }
 
-    void UpdateSafetyAssessmentsList(IRealmCollection<IRealmObject> items, ChangeSet? changes)
+    void UpdateQueriedAssessmentsList(IRealmCollection<IRealmObject> items, ChangeSet? changes)
     {
         if (changes == null)
         {
-            foreach (var item in items)
-                Assessments.Add((SafetyAssessment)item);
+            _queriedAssessments.AddAll(items.Cast<SafetyAssessment>());
         }
         else
         {
             foreach (var i in changes.DeletedIndices.Reverse())
-                Assessments.RemoveAt(i);
+                _queriedAssessments.RemoveAt(i);
 
             foreach (var i in changes.InsertedIndices)
-                Assessments.Add((SafetyAssessment)items.ElementAt(i));
+                _queriedAssessments.Add((SafetyAssessment)items.ElementAt(i));
         }
 
         IsEmpty = !Assessments.Any();
+    }
+
+    void QueriedAssessments_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+        {
+            foreach (var item in e.NewItems.Cast<SafetyAssessment>())
+                Assessments.InsertSorted(new(item), _insertComparer, ascending: false);
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var item in e.OldItems.Cast<SafetyAssessment>())
+                TryRemove(item);
+        }
+    }
+
+    void TryRemove(SafetyAssessment item)
+    {
+        SafetyAssessmentListItemViewModel? found = Assessments.FirstOrDefault(vm => vm.SafetyAssessment.Id == item.Id);
+        if (found != null)
+            Assessments.Remove(found);
     }
 
     void UpdateEditViewButtonText(bool draftAvailable)

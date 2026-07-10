@@ -47,9 +47,9 @@
 
                         <tagview:TagView
                             Padding="8,0"
-                            BackgroundColor="{Binding ActiveColor}"
-                            Text="{Binding ActiveText}"
-                            TextColor="{StaticResource BC_TextColor}"
+                            BackgroundColor="{Binding ActiveTagBackgroundColor}"
+                            Text="{Binding ActiveTagText}"
+                            TextColor="{Binding ActiveTagTextColor}"
                             VerticalOptions="Center"
                         />
                     </HorizontalStackLayout>

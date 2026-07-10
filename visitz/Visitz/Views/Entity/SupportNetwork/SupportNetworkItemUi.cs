@@ -22,9 +22,12 @@ public partial class SupportNetworkItemUi : ObservableObject
     [ObservableProperty]
     public partial string ExpandedChevronGlyph { get; set; } = MaterialIcons.Keyboard_arrow_down;
 
-    public string ActiveText => SupportNetwork.IsActive ? LocalizedStrings.Active : LocalizedStrings.Inactive;
+    public string ActiveTagText => SupportNetwork.IsActive ? LocalizedStrings.Active : LocalizedStrings.Inactive;
 
-    public Color ActiveColor => SupportNetwork.IsActive ? VisitzColors.IsActiveTagBackground : VisitzColors.Gray100;
+    public Color ActiveTagBackgroundColor =>
+        SupportNetwork.IsActive ? VisitzColors.TagGreenBackground : VisitzColors.Gray100;
+
+    public Color ActiveTagTextColor => SupportNetwork.IsActive ? VisitzColors.TagGreenText : VisitzColors.BC_TextColor;
 
     public string CapitalizedRelationship
     {

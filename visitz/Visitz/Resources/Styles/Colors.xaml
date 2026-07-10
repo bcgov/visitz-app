@@ -74,6 +74,9 @@
     <Color x:Key="EntityUnknownTypeBackground">#c9c9c9</Color>
     <Color x:Key="EntityUnknownTypeTagText">#383838</Color>
 
+    <Color x:Key="TagGreenBackground">#86E49F</Color>
+    <Color x:Key="TagGreenText">#00422E</Color>
+
     <!-- Family Information Colors -->
     <Color x:Key="KeyPlayerInfoPurpleBackground">#FBF8FF</Color>
     <Color x:Key="FamilyMemberInfoGrayBorder">#DFDFE1</Color>
@@ -142,6 +145,4 @@
     <Color x:Key="Black55Scrim">#55000000</Color>
 
     <Color x:Key="DeceasedBackground">#B30000</Color>
-
-    <Color x:Key="IsActiveTagBackground">#78FCA0</Color>
 </ResourceDictionary>
