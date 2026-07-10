@@ -29,11 +29,14 @@
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                     </Grid.GestureRecognizers>
-                    <Label
-                        Grid.Row="0"
-                        FontFamily="BCSansBold"
-                        Text="{Binding Visit.FirstVisitDetail}"
-                    />
+                    <Label Grid.Row="0" FontFamily="BCSansBold">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Visit.FirstVisitDetail}" />
+                                <Span Text="{Binding MoreVisitDetailsIndicator}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                     <Label
                         Grid.Row="1"
                         FontSize="{StaticResource BodySmallFontSize}"
