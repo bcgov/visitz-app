@@ -5,9 +5,8 @@
     x:Class="Visitz.Views.Entity.ChildYouthVisits.ChildYouthVisitListItemView"
     xmlns:childYouthVisit="clr-namespace:Visitz.Views.Entity.ChildYouthVisits"
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
-    xmlns:models="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
     xmlns:local="clr-namespace:Visitz.Localization"
-    x:DataType="models:PersonVisit"
+    x:DataType="childYouthVisit:ChildYouthVisitListItemViewModel"
 >
     <Border
         BackgroundColor="{StaticResource CardGrayBg}"
@@ -26,11 +25,15 @@
                     RowSpacing="{StaticResource DefaultSpacing}"
                     Padding="{StaticResource DefaultPadding}"
                 >
-                    <Label Grid.Row="0" FontFamily="BCSansBold" Text="{Binding FirstVisitDetail}" />
+                    <Label
+                        Grid.Row="0"
+                        FontFamily="BCSansBold"
+                        Text="{Binding Visit.FirstVisitDetail}"
+                    />
                     <Label
                         Grid.Row="1"
                         FontSize="{StaticResource BodySmallFontSize}"
-                        Text="{Binding DateOfVisitBinding, StringFormat='Visit date: {0:yyyy-MMM-dd}'}"
+                        Text="{Binding Visit.DateOfVisitBinding, StringFormat='Visit date: {0:yyyy-MMM-dd}'}"
                     />
                 </Grid>
             </effectsView:SfEffectsView>
@@ -39,21 +42,21 @@
 
             <VerticalStackLayout Padding="{StaticResource DefaultPadding}">
                 <Label FontFamily="BCSansBold" Text="{local:Localize CreatedBy}" />
-                <Label Text="{Binding CreatedByBinding}" />
+                <Label Text="{Binding Visit.CreatedByBinding}" />
 
                 <Label FontFamily="BCSansBold" Text="{local:Localize VisitDetails}">
                     <Label.Margin>
                         <Thickness Top="{StaticResource DefaultMargin}" />
                     </Label.Margin>
                 </Label>
-                <Label Text="{Binding VisitDetailDisplay}" />
+                <Label Text="{Binding Visit.VisitDetailDisplay}" />
 
                 <Label FontFamily="BCSansBold" Text="{local:Localize Description}">
                     <Label.Margin>
                         <Thickness Top="{StaticResource DefaultMargin}" />
                     </Label.Margin>
                 </Label>
-                <Label Text="{Binding VisitDescriptionBinding}" />
+                <Label Text="{Binding Visit.VisitDescriptionBinding}" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </Border>

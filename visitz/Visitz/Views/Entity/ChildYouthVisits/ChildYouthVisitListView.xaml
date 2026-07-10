@@ -8,7 +8,6 @@
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:models="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.ChildYouthVisits.ChildYouthVisitListView"
     x:DataType="childYouthVisit:ChildYouthVisitListViewModel"
@@ -32,7 +31,7 @@
             SelectionMode="None"
         >
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:PersonVisit">
+                <DataTemplate x:DataType="childYouthVisit:ChildYouthVisitListItemViewModel">
                     <childYouthVisit:ChildYouthVisitListItemView />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
