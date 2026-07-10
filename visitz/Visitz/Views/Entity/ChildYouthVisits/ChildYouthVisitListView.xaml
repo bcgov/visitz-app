@@ -89,42 +89,7 @@
         >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:PersonVisit">
-                    <ContentView>
-                        <ContentView.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Path=OpenVisitEntryCommand, Source={RelativeSource AncestorType={x:Type childYouthVisit:ChildYouthVisitListViewModel}}}"
-                                CommandParameter="{Binding .}"
-                            />
-                        </ContentView.GestureRecognizers>
-                        <VerticalStackLayout>
-                            <Grid
-                                ColumnSpacing="{StaticResource DefaultSpacing}"
-                                Padding="{StaticResource DefaultPadding}"
-                            >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <Label
-                                    Text="{Binding DateOfVisit, StringFormat='{0:MMMM dd, yyyy}'}"
-                                    FontFamily="BCSansBold"
-                                    Grid.Column="0"
-                                />
-                                <Label Text="{Binding FirstVisitDetail}" Grid.Column="1" />
-                                <Label
-                                    Text="{Binding VisitDescription}"
-                                    Grid.Column="2"
-                                    MaxLines="10"
-                                    LineBreakMode="TailTruncation"
-                                />
-                                <Label Text="{Binding CreatedBy}" Grid.Column="3" />
-                            </Grid>
-                            <BoxView Color="{StaticResource Gray200}" HeightRequest="0.5" />
-                        </VerticalStackLayout>
-                    </ContentView>
+                    <childYouthVisit:ChildYouthVisitListItemView />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
