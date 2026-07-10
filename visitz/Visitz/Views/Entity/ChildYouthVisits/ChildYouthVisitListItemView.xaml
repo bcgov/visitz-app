@@ -33,7 +33,10 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="{Binding Visit.FirstVisitDetail}" />
-                                <Span Text="{Binding MoreVisitDetailsIndicator}" />
+                                <Span
+                                    Text="{Binding MoreVisitDetailsIndicator}"
+                                    TextColor="{StaticResource Gray500}"
+                                />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
