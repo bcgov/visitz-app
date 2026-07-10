@@ -14,11 +14,7 @@
     x:DataType="childYouthVisit:ChildYouthVisitListViewModel"
     x:TypeArguments="childYouthVisit:ChildYouthVisitListViewModel"
 >
-    <Grid
-        HorizontalOptions="Fill"
-        VerticalOptions="Fill"
-        RowDefinitions="Auto, Auto, 0.5, *, 0.5, Auto"
-    >
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill" RowDefinitions="Auto, Auto, *, 0.5, Auto">
         <banners:InfoBanner
             Grid.Row="0"
             Margin="{StaticResource DefaultMargin}"
@@ -27,61 +23,9 @@
             Text="{Binding BannerText}"
         />
 
-        <Grid
-            Grid.Row="1"
-            Margin="{StaticResource DefaultMargin}"
-            ColumnSpacing="{StaticResource DefaultSpacing}"
-            IsVisible="{Binding HasVisitData}"
-        >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Label
-                Text="{local:Localize Date}"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-                FontFamily="BCSansBold"
-            />
-            <Label
-                Text="{local:Localize Details}"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                Grid.Column="1"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-                FontFamily="BCSansBold"
-            />
-            <Label
-                Text="{local:Localize Description}"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                Grid.Column="2"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-                FontFamily="BCSansBold"
-            />
-            <Label
-                Text="{local:Localize CreatedBy}"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                Grid.Column="3"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-                FontFamily="BCSansBold"
-            />
-        </Grid>
-        <BoxView
-            Grid.Row="2"
-            HeightRequest="0.5"
-            IsVisible="{Binding HasVisitData}"
-            Color="{StaticResource SeparatorColor}"
-        />
-
         <CollectionView
             x:Name="VisitsCollectionView"
-            Grid.Row="3"
+            Grid.Row="2"
             IsVisible="{Binding HasVisitData}"
             ItemsSource="{Binding PersonVisits}"
             VerticalOptions="Fill"
@@ -94,12 +38,12 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <controls:EmptyIcon Grid.Row="3" IsVisible="{Binding ShowEmptyIcon}" />
+        <controls:EmptyIcon Grid.Row="2" IsVisible="{Binding ShowEmptyIcon}" />
 
-        <BoxView Grid.Row="4" HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
+        <BoxView Grid.Row="3" HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
 
         <Grid
-            Grid.Row="5"
+            Grid.Row="4"
             Padding="{StaticResource DefaultPadding}"
             RowDefinitions="Auto"
             ColumnSpacing="{StaticResource DefaultSpacing}"

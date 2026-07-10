@@ -169,14 +169,11 @@ public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequest
     }
 
     [RelayCommand]
-    public async Task OpenVisitEntry(PersonVisit? personVisitObj = null)
+    public async Task OpenVisitEntry()
     {
         var visitEntryView = ServiceProvider.GetService<ChildYouthVisitView>();
         visitEntryView.ViewModel.RowId = RowId;
         visitEntryView.ViewModel.EntityType = EntityType;
-        visitEntryView.ViewModel.PersonVisitItem = personVisitObj;
-        visitEntryView.ViewModel.IsUpdatingEnabled = personVisitObj == null;
-        visitEntryView.ViewModel.HideElements = personVisitObj == null;
 
         await Navigator.Navigation.PushModalAsync(visitEntryView, ViewModalSize.Wide);
     }
