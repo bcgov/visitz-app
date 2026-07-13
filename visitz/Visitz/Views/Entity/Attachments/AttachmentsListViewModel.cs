@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -7,9 +8,10 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Attachments;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
-using VisitzModel.Models;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
@@ -22,10 +24,30 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
 {
     private bool _disposed;
 
-    readonly ObservableRealmQueryMap realmQuery = new();
+    Realm? _draftRealm;
+
+    IQueryable<Attachment>? _draftQuery;
+
+    IQueryable<Attachment>? _downloadedQuery;
+
+    IDisposable? _draftQueryToken;
+
+    IDisposable? _downloadedQueryToken;
+
+    readonly ObservableCollection<Attachment> _draftAttachments = [];
+
+    readonly ObservableCollection<Attachment> _downloadedAttachments = [];
 
     [ObservableProperty]
     public partial ObservableCollection<AttachmentsListItemUi> AttachmentsList { get; set; } = [];
+
+    readonly IComparer<AttachmentsListItemUi> _insertComparer = Comparer<AttachmentsListItemUi>.Create(
+        (l, r) =>
+        {
+            int draftCompare = l.Attachment.HasDraft.CompareTo(r.Attachment.HasDraft);
+            return draftCompare != 0 ? draftCompare : l.Attachment.CreatedDate.CompareTo(r.Attachment.CreatedDate);
+        }
+    );
 
     [ObservableProperty]
     public partial bool IsEmpty { get; set; }
@@ -43,55 +65,88 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         if (DataRealm == null)
             return;
 
-        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
+        _draftAttachments.CollectionChanged += SubListAttachments_CollectionChanged;
+        _downloadedAttachments.CollectionChanged += SubListAttachments_CollectionChanged;
 
-        realmQuery.Subscribe(
-            DataRealm,
-            Attachment.GetOrderedAttachments(DataRealm, BusinessObject.EntityType, BusinessObject.Id)
-        );
+        _draftRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
+        _draftQuery = Attachment.GetAttachments(_draftRealm, EntityType, RowId);
+        _draftQueryToken = _draftQuery.SubscribeForNotifications(DraftAttachments_ItemsChanged);
+
+        _downloadedQuery = Attachment.GetAttachments(DataRealm, EntityType, RowId);
+        _downloadedQueryToken = _downloadedQuery.SubscribeForNotifications(DownloadedAttachments_ItemsChanged);
     }
 
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
         {
-            realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
-            realmQuery.Dispose();
+            _draftAttachments.CollectionChanged -= SubListAttachments_CollectionChanged;
+            _downloadedAttachments.CollectionChanged -= SubListAttachments_CollectionChanged;
+
+            _draftRealm?.Dispose();
+            _draftQueryToken?.Dispose();
+            _downloadedQueryToken?.Dispose();
+
+            _draftQuery = null;
+            _downloadedQuery = null;
 
             foreach (var item in AttachmentsList)
                 item.Dispose();
+
+            _draftAttachments.Clear();
+            _downloadedAttachments.Clear();
+            AttachmentsList.Clear();
 
             _disposed = true;
         }
         base.Dispose(disposing);
     }
 
-    private void RealmQuery_ItemsChanged(
-        object? sender,
-        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
-    )
+    void DraftAttachments_ItemsChanged(IRealmCollection<Attachment> sender, ChangeSet? changes)
     {
-        if (e.Type == typeof(Attachment))
-            UpdateAttachmentsList(e.Items, e.Changes);
+        UpdateList(sender, changes, _draftAttachments);
     }
 
-    private void UpdateAttachmentsList(IRealmCollection<IRealmObject> items, ChangeSet? changes)
+    void DownloadedAttachments_ItemsChanged(IRealmCollection<Attachment> sender, ChangeSet? changes)
+    {
+        UpdateList(sender, changes, _downloadedAttachments);
+    }
+
+    static void UpdateList(
+        IRealmCollection<IRealmObject> items,
+        ChangeSet? changes,
+        ObservableCollection<Attachment> listToUpdate
+    )
     {
         if (changes == null)
         {
-            foreach (var item in items)
-                AttachmentsList.Add(MakeItemUi((Attachment)item));
+            listToUpdate.AddAll(items.Cast<Attachment>());
         }
         else
         {
             foreach (int deleted in changes.DeletedIndices.Reverse())
             {
-                AttachmentsList.ElementAt(deleted).Dispose();
-                AttachmentsList.RemoveAt(deleted);
+                listToUpdate.ElementAt(deleted).Dispose();
+                listToUpdate.RemoveAt(deleted);
             }
 
             foreach (int inserted in changes.InsertedIndices)
-                AttachmentsList.Insert(inserted, MakeItemUi((Attachment)items[inserted]));
+                listToUpdate.Insert(inserted, (Attachment)items[inserted]);
+        }
+    }
+
+    private void SubListAttachments_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+        {
+            foreach (var attachment in e.NewItems.Cast<Attachment>())
+                AttachmentsList.InsertSorted(MakeItemUi(attachment), _insertComparer, ascending: false);
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var attachment in e.OldItems.Cast<Attachment>())
+                if (GetItemUiById(attachment.Id) is AttachmentsListItemUi found)
+                    AttachmentsList.Remove(found);
         }
 
         IsEmpty = !AttachmentsList.Any();
@@ -102,13 +157,24 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         return new AttachmentsListItemUi(BusinessObject.EntityType, BusinessObject.Id, attachment);
     }
 
+    AttachmentsListItemUi? GetItemUiById(string id)
+    {
+        return AttachmentsList.FirstOrDefault(attachmentVm => attachmentVm.Attachment.Id == id);
+    }
+
     [RelayCommand]
     public void DeleteDownloadedAttachmentFromDevice(AttachmentsListItemUi item)
     {
-        _ = PromptRemoveAttachmentAsync(item);
+        _ = PromptRemoveCachedAttachmentAsync(item);
     }
 
-    public async Task PromptRemoveAttachmentAsync(AttachmentsListItemUi item)
+    /// <summary>
+    /// Removes the cached file for a given attachment row that was downloaded
+    /// from upstream server. Does not delete the file from that server.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public async Task PromptRemoveCachedAttachmentAsync(AttachmentsListItemUi item)
     {
         bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.RemoveAttachmentFromDevice,
