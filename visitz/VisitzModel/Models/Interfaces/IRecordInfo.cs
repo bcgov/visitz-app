@@ -40,7 +40,7 @@ public static class IRecordInfoExtensions
 {
     public static IRecordInfo InitWith(this IRecordInfo item, IBusinessObject businessObject)
     {
-        item.RelatedEntityId = businessObject.FileNumber;
+        item.RelatedEntityId = businessObject.Id;
         item.RelatedEntityType = businessObject.EntityType;
         item.RelatedEntitySubtype = businessObject.EntitySubtype;
 
