@@ -4,6 +4,7 @@ using VisitzApi.Models.Notes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
+using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Notes;
 
@@ -54,7 +55,7 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
         get => NotePeriodField;
         set
         {
-            NotePeriodDateTimeField = DateTimeOffset.Parse(value, CultureInfo.InvariantCulture);
+            NotePeriodDateTimeField = Timestamp.ParseDateTimeOffsetNullable(value, CultureInfo.InvariantCulture);
             NotePeriodField = value;
         }
     }
@@ -67,7 +68,7 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
     public int PageNumber { get; set; }
 
     [MapTo(NotePeriodDateTimeName)]
-    private DateTimeOffset NotePeriodDateTimeField { get; set; }
+    private DateTimeOffset? NotePeriodDateTimeField { get; set; }
     public DateTimeOffset NotePeriodDateTime
     {
         get =>
