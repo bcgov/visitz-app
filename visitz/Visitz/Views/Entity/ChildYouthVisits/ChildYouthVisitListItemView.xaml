@@ -5,6 +5,7 @@
     x:Class="Visitz.Views.Entity.ChildYouthVisits.ChildYouthVisitListItemView"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthVisit="clr-namespace:Visitz.Views.Entity.ChildYouthVisits"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:local="clr-namespace:Visitz.Localization"
     x:DataType="childYouthVisit:ChildYouthVisitListItemViewModel"
@@ -70,22 +71,31 @@
                 Padding="{StaticResource DefaultPadding}"
                 IsVisible="{Binding Expanded}"
             >
-                <Label FontFamily="BCSansBold" Text="{local:Localize CreatedBy}" />
-                <Label Text="{Binding Visit.CreatedByBinding}" />
+                <controls:SelectableLabel
+                    FontFamily="BCSansBold"
+                    Text="{local:Localize CreatedBy}"
+                />
+                <controls:SelectableLabel Text="{Binding Visit.CreatedByBinding}" />
 
-                <Label FontFamily="BCSansBold" Text="{local:Localize VisitDetails}">
-                    <Label.Margin>
+                <controls:SelectableLabel
+                    FontFamily="BCSansBold"
+                    Text="{local:Localize VisitDetails}"
+                >
+                    <controls:SelectableLabel.Margin>
                         <Thickness Top="{StaticResource DefaultMargin}" />
-                    </Label.Margin>
-                </Label>
-                <Label Text="{Binding Visit.VisitDetailDisplay}" />
+                    </controls:SelectableLabel.Margin>
+                </controls:SelectableLabel>
+                <controls:SelectableLabel Text="{Binding Visit.VisitDetailDisplay}" />
 
-                <Label FontFamily="BCSansBold" Text="{local:Localize Description}">
-                    <Label.Margin>
+                <controls:SelectableLabel
+                    FontFamily="BCSansBold"
+                    Text="{local:Localize Description}"
+                >
+                    <controls:SelectableLabel.Margin>
                         <Thickness Top="{StaticResource DefaultMargin}" />
-                    </Label.Margin>
-                </Label>
-                <Label Text="{Binding Visit.VisitDescriptionBinding}" />
+                    </controls:SelectableLabel.Margin>
+                </controls:SelectableLabel>
+                <controls:SelectableLabel Text="{Binding Visit.VisitDescriptionBinding}" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </Border>
