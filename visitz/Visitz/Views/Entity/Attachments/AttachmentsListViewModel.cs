@@ -46,7 +46,15 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         (l, r) =>
         {
             int draftCompare = l.Attachment.HasDraft.CompareTo(r.Attachment.HasDraft);
-            return draftCompare != 0 ? draftCompare : l.Attachment.CreatedDate.CompareTo(r.Attachment.CreatedDate);
+            if (draftCompare != 0)
+                return draftCompare;
+
+            int downloadedCompare = l.Attachment.FileExistsLocally.CompareTo(r.Attachment.FileExistsLocally);
+            if (downloadedCompare != 0)
+                return downloadedCompare;
+
+            int createdCompare = l.Attachment.CreatedDate.CompareTo(r.Attachment.CreatedDate);
+            return createdCompare;
         }
     );
 
