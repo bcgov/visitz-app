@@ -9,28 +9,32 @@ namespace Visitz.Services.Notes;
 
 #nullable enable
 
-public class SubmitNoteService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+internal class SubmitNoteService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
-    public static string MakeId(string entityNumber, string notePeriod)
+    public static string MakeId(RecordServiceInfo info, string notePeriod)
     {
-        return $"{nameof(SubmitNoteService)}-{entityNumber}-{notePeriod}";
+        return $"{nameof(SubmitNoteService)}-{info.Type}-{info.Id}-{notePeriod}";
     }
 
-    public static StartServiceMessage MakeStartMessage(SubmitNoteEntity submitEntity)
+    public static StartServiceMessage MakeStartMessage(RecordServiceInfo info, SubmitNoteEntity submitEntity)
     {
         return new StartServiceMessage()
         {
-            Payload = submitEntity,
-            ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.NotePeriod),
+            Payload = (info, submitEntity),
+            ServiceId = MakeId(info, submitEntity.NotePeriod),
             ServiceType = typeof(SubmitNoteService),
         };
     }
 
-    private new SubmitNoteEntity Payload => (SubmitNoteEntity)base.Payload;
+    private new (RecordServiceInfo, SubmitNoteEntity) Payload => ((RecordServiceInfo, SubmitNoteEntity))base.Payload;
+
+    private RecordServiceInfo ParentInfo => Payload.Item1;
+
+    private SubmitNoteEntity SubmitNoteEntity => Payload.Item2;
 
     public override string GetId()
     {
-        return MakeId(Payload.EntityNumber, Payload.NotePeriod);
+        return MakeId(ParentInfo, SubmitNoteEntity.NotePeriod);
     }
 
     protected override async Task RunApiServiceAsync()
@@ -46,7 +50,7 @@ public class SubmitNoteService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiServi
 
     private async Task SubmitNoteAsync()
     {
-        var (status, _) = await Vpi.SubmitNotesAsync(Payload);
+        var (status, _) = await Vpi.SubmitNotesAsync(SubmitNoteEntity);
 
         ResultCode = status ? Result.Successful : Result.Error;
 

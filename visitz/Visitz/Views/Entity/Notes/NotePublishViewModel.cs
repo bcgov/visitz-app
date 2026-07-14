@@ -12,14 +12,16 @@ using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
+#nullable enable
+
 public partial class NotePublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
-    private SubmitNoteEntity submitNoteEntity;
-    private RecordServiceInfo parentInfo;
+    private SubmitNoteEntity? submitNoteEntity;
+    private RecordServiceInfo? parentInfo;
 
-    private string submitAndGetNotesServiceId;
-    private string submitNotesServiceId;
-    private string getNotesServiceId;
+    private string? submitAndGetNotesServiceId;
+    private string? submitNotesServiceId;
+    private string? getNotesServiceId;
 
     public void Init(IBusinessObject businessObject, SubmitNoteEntity submitNote)
     {
@@ -27,12 +29,12 @@ public partial class NotePublishViewModel : PublishViewModel, IRecipient<Service
         submitNoteEntity = submitNote;
         parentInfo = new(businessObject);
 
-        var id = businessObject.FileNumber;
+        var info = new RecordServiceInfo(businessObject);
         var notePeriod = submitNoteEntity.NotePeriod;
 
-        submitAndGetNotesServiceId = SubmitAndGetNotesService.MakeId(id, notePeriod);
-        submitNotesServiceId = SubmitNoteService.MakeId(id, notePeriod);
-        getNotesServiceId = GetNotesService.MakeId(id);
+        submitAndGetNotesServiceId = SubmitAndGetNotesService.MakeId(info, notePeriod);
+        submitNotesServiceId = SubmitNoteService.MakeId(info, notePeriod);
+        getNotesServiceId = GetNotesService.MakeId(info);
     }
 
     protected override async Task InitAsync()
@@ -40,6 +42,10 @@ public partial class NotePublishViewModel : PublishViewModel, IRecipient<Service
         await base.InitAsync();
 
         Wait(LocalizedStrings.LoginToSubmitNotes);
+
+        ArgumentNullException.ThrowIfNull(submitAndGetNotesServiceId);
+        ArgumentNullException.ThrowIfNull(submitNotesServiceId);
+        ArgumentNullException.ThrowIfNull(getNotesServiceId);
 
         WeakReferenceMessenger.Default.Register(this, submitAndGetNotesServiceId);
         WeakReferenceMessenger.Default.Register(this, submitNotesServiceId);
@@ -63,6 +69,9 @@ public partial class NotePublishViewModel : PublishViewModel, IRecipient<Service
 
     public override void Publish()
     {
+        ArgumentNullException.ThrowIfNull(submitNoteEntity);
+        ArgumentNullException.ThrowIfNull(parentInfo);
+
         WeakReferenceMessenger.Default.Send(SubmitAndGetNotesService.MakeStartMessage(submitNoteEntity, parentInfo));
     }
 
@@ -102,6 +111,8 @@ public partial class NotePublishViewModel : PublishViewModel, IRecipient<Service
 
     private async Task DiscardPublishedDraft()
     {
+        ArgumentNullException.ThrowIfNull(submitNoteEntity);
+
         using var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
         await NoteDraft.Delete(realm, submitNoteEntity.EntityNumber);
     }
