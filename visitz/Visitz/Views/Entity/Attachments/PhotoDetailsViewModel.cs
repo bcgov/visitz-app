@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
@@ -14,9 +15,18 @@ public partial class PhotoDetailsViewModel : AttachmentDetailsViewModel, IBusine
 
     protected override async Task InitAsync()
     {
-        await base.InitAsync();
+        try
+        {
+            await base.InitAsync();
 
-        DetailImage = ImageSource.FromStream(GetPhoto);
+            DetailImage = ImageSource.FromStream(GetPhoto);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+            await Navigator.Navigation.PopAsync();
+        }
     }
 
     async Task<Stream> GetPhoto(CancellationToken token)

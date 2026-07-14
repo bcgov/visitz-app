@@ -15,6 +15,7 @@ using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
+using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -213,7 +214,10 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
     [RelayCommand]
     public async Task OpenAttachment(AttachmentsListItemUi listItem)
     {
-        if (!listItem.Attachment.FileExistsLocally)
+        if (
+            !listItem.Attachment.FileExistsLocally
+            || !File.Exists(AttachmentFiler.GetFullPath(listItem.Attachment.RelativePath))
+        )
         {
             string desc = listItem.Attachment.HasDraft
                 ? LocalizedStrings.RelatedDraftAttachmentMissingDesc

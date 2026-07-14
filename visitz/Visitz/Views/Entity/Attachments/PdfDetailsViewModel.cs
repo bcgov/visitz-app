@@ -1,6 +1,7 @@
 using System.Reflection;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
@@ -22,17 +23,26 @@ public partial class PdfDetailsViewModel : AttachmentDetailsViewModel
     {
         await base.InitAsync();
 
-        if (Assembly.GetEntryAssembly() is Assembly entry)
-            Source = GetEmbedPath(entry);
-        else
+        try
         {
-            ErrorText = LocalizedStrings.UnableToLoadPdf;
+            if (Assembly.GetEntryAssembly() is Assembly entry)
+                Source = GetEmbedPath(entry);
+            else
+            {
+                ErrorText = LocalizedStrings.UnableToLoadPdf;
 
-            ServiceProvider
-                .GetService<ILogger<PdfDetailsViewModel>>()
-                .LogError("{ErrorText} -> Couldn't load entry assembly", ErrorText);
+                ServiceProvider
+                    .GetService<ILogger<PdfDetailsViewModel>>()
+                    .LogError("{ErrorText} -> Couldn't load entry assembly", ErrorText);
 
-            return;
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+            await Navigator.Navigation.PopAsync();
         }
     }
 
