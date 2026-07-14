@@ -15,6 +15,7 @@ public partial class AttachmentsViewModel : IcmRecordViewModel
 {
     [ObservableProperty]
     public partial IDraftItem? FocusedDraftItem { get; set; }
+
     Realm? AttachmentsRealm { get; set; }
 
     AttachmentFiler? attachmentFiler;

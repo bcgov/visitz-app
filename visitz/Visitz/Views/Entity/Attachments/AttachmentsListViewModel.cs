@@ -214,7 +214,14 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
     public async Task OpenAttachment(AttachmentsListItemUi listItem)
     {
         if (!listItem.Attachment.FileExistsLocally)
+        {
+            string desc = listItem.Attachment.HasDraft
+                ? LocalizedStrings.RelatedDraftAttachmentMissingDesc
+                : LocalizedStrings.RelatedIcmAttachmentMissingDesc;
+
+            await Navigator.CurrentOpenPage.DisplayAlertAsync(LocalizedStrings.FileMissing, desc, LocalizedStrings.Ok);
             return;
+        }
 
         string path = listItem.Attachment.RelativePath.Trim();
 

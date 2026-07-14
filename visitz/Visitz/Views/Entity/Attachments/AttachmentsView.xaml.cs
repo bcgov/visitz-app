@@ -4,7 +4,6 @@ using Visitz.Views.BaseClasses;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
-using Tab = Visitz.Views.Navigation.Tab;
 
 namespace Visitz.Views.Entity.Attachments;
 
@@ -16,9 +15,7 @@ public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel
         Attachment.AllowedDocumentTypes
     );
 
-    Tab? DownloadedTab;
-
-    Tab? DraftsTab;
+    AttachmentsListView? _attachmentsListView;
 
     public IDraftItem? FocusedDraftItem
     {
@@ -35,40 +32,16 @@ public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel
 
     protected override async Task InitAsync()
     {
-        await base.InitAsync();
-
         try
         {
-            DownloadedTab = new Tab(
-                LocalizedStrings.InIcm,
-                () =>
-                {
-                    var listView = ServiceProvider.GetService<AttachmentsListView>();
-                    listView.ViewModel.RowId = RowId;
-                    listView.ViewModel.EntityType = EntityType;
-                    return listView;
-                }
-            );
+            await base.InitAsync();
 
-            DraftsTab = new(
-                LocalizedStrings.OnMyDevice,
-                () =>
-                {
-                    var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
-                    draftsView.ViewModel.RowId = RowId;
-                    draftsView.ViewModel.EntityType = EntityType;
-                    draftsView.FocusedDraftItem = FocusedDraftItem;
-                    return draftsView;
-                }
-            );
+            _attachmentsListView = ServiceProvider.GetService<AttachmentsListView>();
+            _attachmentsListView.RowId = RowId;
+            _attachmentsListView.EntityType = EntityType;
+            _attachmentsListView.FocusedDraftItem = FocusedDraftItem;
 
-            if (TabDisplayView != null)
-                AttachmentsTabs.PairedDisplayView = TabDisplayView;
-
-            AttachmentsTabs.Tabs = [DownloadedTab, DraftsTab];
-
-            if (FocusedDraftItem != null)
-                AttachmentsTabs.SelectedTab = DraftsTab;
+            MainGrid.Add(_attachmentsListView, 0, 0);
         }
         catch (Exception ex)
         {
@@ -82,8 +55,8 @@ public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel
     {
         if (!disposed && disposing)
         {
-            AttachmentsTabs.Dispose();
-
+            _attachmentsListView?.Dispose();
+            _attachmentsListView = null;
             disposed = true;
         }
         base.Dispose(disposing);
@@ -117,9 +90,6 @@ public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel
         try
         {
             await ViewModel.SaveFile(result);
-            // TODO: Switch to drafts tab on successful save.
-            // Had some weird issues where Realm was getting disposed seemingly randomly.
-            // Don't have time to debug it right now, so leaving this TODO here.
         }
         catch (Exception ex)
         {

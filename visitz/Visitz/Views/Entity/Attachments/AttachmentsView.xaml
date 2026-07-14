@@ -12,29 +12,13 @@
     x:DataType="attachments:AttachmentsViewModel"
     x:TypeArguments="attachments:AttachmentsViewModel"
 >
-    <Grid RowDefinitions="Auto, 0.5, *, 0.5, Auto">
-        <nav:TabView
-            x:Name="AttachmentsTabs"
-            Grid.Row="0"
-            HorizontalOptions="Fill"
-            Padding="{Thickness
-                Left={StaticResource DefaultPadding},
-                Right={StaticResource DefaultPadding}}"
-        />
+    <Grid x:Name="MainGrid" RowDefinitions="*, 0.5, Auto">
+        <!-- Content view added in code-behind -->
 
         <BoxView Grid.Row="1" Color="{StaticResource SeparatorColor}" />
 
-        <ContentView
-            x:Name="TabDisplayView"
-            HorizontalOptions="Fill"
-            VerticalOptions="Fill"
-            Grid.Row="2"
-        />
-
-        <BoxView Grid.Row="3" Color="{StaticResource SeparatorColor}" />
-
         <Grid
-            Grid.Row="4"
+            Grid.Row="2"
             Padding="{StaticResource DefaultPadding}"
             RowDefinitions="Auto"
             ColumnSpacing="{StaticResource DefaultSpacing}"

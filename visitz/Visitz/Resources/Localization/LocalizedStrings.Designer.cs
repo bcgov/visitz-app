@@ -1121,6 +1121,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File missing.
+        /// </summary>
+        public static string FileMissing {
+            get {
+                return ResourceManager.GetString("FileMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string Filter {
@@ -2124,6 +2133,28 @@ namespace Visitz.Resources.Localization {
         public static string RefreshInterruptedDesc {
             get {
                 return ResourceManager.GetString("RefreshInterruptedDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file for this draft attachment is missing from the device.
+        ///
+        ///It is unlikely that the file can be recovered..
+        /// </summary>
+        public static string RelatedDraftAttachmentMissingDesc {
+            get {
+                return ResourceManager.GetString("RelatedDraftAttachmentMissingDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file for this attachment is missing from the device.
+        ///
+        ///Refreshing your caseload may fix this error..
+        /// </summary>
+        public static string RelatedIcmAttachmentMissingDesc {
+            get {
+                return ResourceManager.GetString("RelatedIcmAttachmentMissingDesc", resourceCulture);
             }
         }
         

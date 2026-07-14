@@ -13,6 +13,7 @@
 >
     <AbsoluteLayout>
         <CollectionView
+            x:Name="AttachmentsCollection"
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             ItemsSource="{Binding AttachmentsList}"
