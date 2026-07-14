@@ -10,7 +10,7 @@
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentDraftsListItemView"
-    x:DataType="attachments:AttachmentDraftListItemUi"
+    x:DataType="attachments:AttachmentsListItemUi"
 >
     <baseClasses:BaseContentView.Resources>
         <ResourceDictionary>
@@ -23,8 +23,8 @@
         <VerticalStackLayout.GestureRecognizers>
             <TapGestureRecognizer
                 Command="{Binding OpenAttachmentCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
-                CommandParameter="{Binding Attachment.Draft}"
+                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                CommandParameter="{Binding .}"
             />
         </VerticalStackLayout.GestureRecognizers>
 
@@ -83,7 +83,7 @@
                 TextColor="{StaticResource Gray500}"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Command="{Binding DeleteAttachmentDraftCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
+                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
                 CommandParameter="{Binding Attachment.Draft}"
             />
 
@@ -95,7 +95,7 @@
                 Text="{Static icons:MaterialIcons.Publish}"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 Command="{Binding PublishAttachmentDraftCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
+                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
                 CommandParameter="{Binding Attachment.Draft}"
             />
         </Grid>

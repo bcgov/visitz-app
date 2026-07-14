@@ -51,7 +51,11 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
     );
 
     [ObservableProperty]
+    public partial bool IsLoading { get; set; } = true;
+
+    [ObservableProperty]
     public partial bool IsEmpty { get; set; }
+
     public UserIgnoredContentPrefs? UserIgnoredContentPrefs { get; set; }
 
     public AttachmentsListViewModel()
@@ -113,12 +117,14 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         UpdateList(sender, changes, _downloadedAttachments);
     }
 
-    static void UpdateList(
+    void UpdateList(
         IRealmCollection<IRealmObject> items,
         ChangeSet? changes,
         ObservableCollection<Attachment> listToUpdate
     )
     {
+        IsLoading = false;
+
         if (changes == null)
         {
             listToUpdate.AddAll(items.Cast<Attachment>());
@@ -214,12 +220,11 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
     [RelayCommand]
     public async Task OpenAttachment(AttachmentsListItemUi listItem)
     {
-        if (
-            !listItem.Attachment.FileExistsLocally
-            || !File.Exists(AttachmentFiler.GetFullPath(listItem.Attachment.RelativePath))
-        )
+        Attachment attachment = listItem.Attachment;
+
+        if (!attachment.FileExistsLocally || !File.Exists(AttachmentFiler.GetFullPath(attachment.RelativePath)))
         {
-            string desc = listItem.Attachment.HasDraft
+            string desc = attachment.HasDraft
                 ? LocalizedStrings.RelatedDraftAttachmentMissingDesc
                 : LocalizedStrings.RelatedIcmAttachmentMissingDesc;
 
@@ -227,11 +232,11 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
             return;
         }
 
-        string path = listItem.Attachment.RelativePath.Trim();
+        string path = attachment.RelativePath.Trim();
 
         BaseContentView view = path.EndsWith(Attachment.Pdf.Trim('.'))
-            ? MakePdfDetailsView(listItem.Attachment)
-            : MakePhotoDetailsView(listItem.Attachment);
+            ? MakePdfDetailsView(attachment)
+            : MakePhotoDetailsView(attachment);
 
         await Navigator.Navigation.PushAsync(view);
     }
