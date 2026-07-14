@@ -588,7 +588,7 @@
         <Setter Property="ColumnSpacing" Value="8" />
     </Style>
 
-    <Style TargetType="Label" x:Key="BaseLabelStyle">
+    <Style TargetType="Label" x:Key="BaseLabelStyle" ApplyToDerivedTypes="True">
         <Setter
             Property="TextColor"
             Value="{AppThemeBinding Light={StaticResource BC_TextColor}, Dark={StaticResource BC_TextColor}}"
@@ -612,69 +612,73 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-    <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}" />
+    <Style
+        TargetType="Label"
+        BasedOn="{StaticResource BaseLabelStyle}"
+        ApplyToDerivedTypes="True"
+    />
 
-    <Style TargetType="Label" x:Key="DisplayLarge">
+    <Style TargetType="Label" x:Key="DisplayLarge" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource DisplayLargeFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="DisplayMedium">
+    <Style TargetType="Label" x:Key="DisplayMedium" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource DisplayMediumFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="DisplaySmall">
+    <Style TargetType="Label" x:Key="DisplaySmall" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource DisplaySmallFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="HeadlineLarge">
+    <Style TargetType="Label" x:Key="HeadlineLarge" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource HeadlineLargeFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="HeadlineMedium">
+    <Style TargetType="Label" x:Key="HeadlineMedium" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource HeadlineMediumFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="HeadlineSmall">
+    <Style TargetType="Label" x:Key="HeadlineSmall" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource HeadlineSmallFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="TitleLarge">
+    <Style TargetType="Label" x:Key="TitleLarge" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource TitleLargeFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="TitleMedium">
+    <Style TargetType="Label" x:Key="TitleMedium" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource TitleMediumFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="TitleSmall">
+    <Style TargetType="Label" x:Key="TitleSmall" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource TitleSmallFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="BodyLarge">
+    <Style TargetType="Label" x:Key="BodyLarge" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource BodyLargeFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="BodyMedium">
+    <Style TargetType="Label" x:Key="BodyMedium" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource BodyMediumFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="BodySmall">
+    <Style TargetType="Label" x:Key="BodySmall" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource BodySmallFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="LabelLarge">
+    <Style TargetType="Label" x:Key="LabelLarge" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource LabelLargeFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="LabelMedium">
+    <Style TargetType="Label" x:Key="LabelMedium" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource LabelMediumFontSize}" />
     </Style>
 
-    <Style TargetType="Label" x:Key="LabelSmall">
+    <Style TargetType="Label" x:Key="LabelSmall" ApplyToDerivedTypes="True">
         <Setter Property="FontSize" Value="{DynamicResource LabelSmallFontSize}" />
     </Style>
 
-    <Style TargetType="Label" Class="ExpanderHorizontalLabelLeftOffset">
+    <Style TargetType="Label" Class="ExpanderHorizontalLabelLeftOffset" ApplyToDerivedTypes="True">
         <Setter Property="Margin" Value="{Thickness Left={StaticResource DefaultMarginDouble}}" />
     </Style>
 
