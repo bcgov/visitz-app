@@ -160,7 +160,7 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
         {
             foreach (var attachment in e.OldItems.Cast<Attachment>())
-                if (GetItemUiById(attachment.Id) is AttachmentsListItemUi found)
+                if (AttachmentsList.FirstOrDefault(vm => vm.Attachment == attachment) is AttachmentsListItemUi found)
                     AttachmentsList.Remove(found);
         }
 
@@ -170,11 +170,6 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
     AttachmentsListItemUi MakeItemUi(Attachment attachment)
     {
         return new AttachmentsListItemUi(BusinessObject.EntityType, BusinessObject.Id, attachment);
-    }
-
-    AttachmentsListItemUi? GetItemUiById(string id)
-    {
-        return AttachmentsList.FirstOrDefault(attachmentVm => attachmentVm.Attachment.Id == id);
     }
 
     [RelayCommand]
