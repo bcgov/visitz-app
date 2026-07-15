@@ -90,8 +90,7 @@ public partial class AttachmentsListItemUi : ObservableObject, IRecipient<Servic
             _ => FluentIcons.Document_20_regular,
         };
 
-        if (Attachment.SizeBytes is int size)
-            FileSizeDisplay = Sizes.BytesToString(size);
+        FileSizeDisplay = Attachment.SizeBytes is int size ? Sizes.BytesToString(size) : "-";
     }
 
     public void Receive(ServiceStateMessage message)
