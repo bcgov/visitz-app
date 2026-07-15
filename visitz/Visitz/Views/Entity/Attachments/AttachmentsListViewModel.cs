@@ -251,7 +251,6 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
             Attachment = attachment,
             RowId = RowId,
             EntityType = EntityType,
-            IsDownloadedAttachment = true,
         };
     }
 
@@ -262,7 +261,6 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
             Attachment = attachment,
             RowId = RowId,
             EntityType = EntityType,
-            IsDownloadedAttachment = true,
         };
     }
 }

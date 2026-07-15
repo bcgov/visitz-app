@@ -7,7 +7,6 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
@@ -37,8 +36,6 @@ public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
     public partial bool HasError { get; set; }
     protected AttachmentFiler? Filer { get; set; }
 
-    public bool IsDownloadedAttachment { get; set; }
-
     protected abstract string LoadErrorText { get; }
 
     protected override async Task InitAsync()
@@ -56,9 +53,10 @@ public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
 
         Filer = await VisitzFiles.GetAsync(Attachment, keyPlayer.FirstName, keyPlayer.LastName);
 
-        ShowDraftButtons = Attachment.FileExistsLocally && !IsDownloadedAttachment && Attachment.HasDraft;
-
-        IsRemovable = Attachment.FileExistsLocally && IsDownloadedAttachment;
+        if (Attachment.HasDraft)
+            ShowDraftButtons = Attachment.FileExistsLocally;
+        else
+            IsRemovable = Attachment.FileExistsLocally;
     }
 
     partial void OnErrorTextChanged(string? value)
