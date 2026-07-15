@@ -98,7 +98,13 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public AttachmentDraft() { }
 
-    AttachmentDraft(IBusinessObject businessObject, string filename, string relativePath, byte[]? thumbnail)
+    AttachmentDraft(
+        IBusinessObject businessObject,
+        string filename,
+        string relativePath,
+        long fileSize,
+        byte[]? thumbnail
+    )
     {
         int dotIndex = filename.LastIndexOf('.');
 
@@ -108,6 +114,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
             RelativePath = relativePath,
             Thumbnail = thumbnail,
+            FileSize = fileSize.ToString(),
         };
 
         this.InitDraftWith(businessObject);
@@ -154,11 +161,13 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         byte[]? thumbnail = null
     )
     {
-        if (stream.Length > Attachment.MaxFilesize)
+        long streamLength = stream.Length;
+
+        if (streamLength > Attachment.MaxFilesize)
             ThrowSizeError(stream);
 
         string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
-        var draft = new AttachmentDraft(businessObject, filename, fullpath, thumbnail);
+        var draft = new AttachmentDraft(businessObject, filename, fullpath, streamLength, thumbnail);
 
         try
         {
