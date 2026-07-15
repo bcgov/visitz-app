@@ -71,4 +71,17 @@ public partial class Attachment
             }
         }
     }
+
+    public DateTimeOffset CreatedDateBinding
+    {
+        get => IsValid ? CreatedDate : DateTimeOffset.MinValue;
+        set
+        {
+            if (CreatedDate != value)
+            {
+                this.Commit(() => CreatedDate = value);
+                RaisePropertyChanged(nameof(CreatedDateBinding));
+            }
+        }
+    }
 }
