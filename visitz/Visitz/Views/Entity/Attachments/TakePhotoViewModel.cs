@@ -114,7 +114,7 @@ public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRec
                 .All<AttachmentDraft>()
                 .Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
                 .Filter(filetypeQuery)
-                .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber)
+                .Where(draft => draft.RelatedEntityId == BusinessObject.Id)
         );
     }
 
