@@ -15,9 +15,17 @@
         HorizontalOptions="Fill"
         StrokeShape="RoundRectangle 4"
         StrokeThickness="2"
-        Padding="20"
     >
-        <Grid Padding="8" ColumnDefinitions="Auto,*" ColumnSpacing="16">
+        <Border.Padding>
+            <Thickness
+                Left="{StaticResource DefaultPadding}"
+                Right="{StaticResource DefaultPadding}"
+                Top="{StaticResource DefaultPaddingHalf}"
+                Bottom="{StaticResource DefaultPaddingHalf}"
+            />
+        </Border.Padding>
+
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="{StaticResource DefaultSpacing}">
             <Label
                 x:Name="IconLabel"
                 Grid.Column="0"
@@ -28,10 +36,10 @@
 
             <Label
                 Grid.Column="1"
-                Padding="3"
                 FontFamily="BCSansBold"
-                FontSize="{StaticResource BodyLargeFontSize}"
+                FontSize="{StaticResource BodyMediumFontSize}"
                 Text="{Binding Text}"
+                VerticalOptions="Center"
             />
         </Grid>
     </Border>

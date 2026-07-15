@@ -34,6 +34,21 @@ public partial class PersonVisit
         }
     }
 
+    public string CreatedByBinding
+    {
+        get => IsValid ? CreatedBy : string.Empty;
+        set
+        {
+            this.Commit(() => CreatedBy = value);
+            RaisePropertyChanged(nameof(CreatedBy));
+        }
+    }
+
+    public IList<string> VisitDetailsBinding
+    {
+        get => IsValid ? VisitDetails : [];
+    }
+
     public DateTimeOffset DateOfVisitBinding
     {
         get => IsValid ? DateOfVisit : default;

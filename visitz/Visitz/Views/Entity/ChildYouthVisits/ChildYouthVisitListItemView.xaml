@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Visitz.Views.Entity.ChildYouthVisits.ChildYouthVisitListItemView"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:childYouthVisit="clr-namespace:Visitz.Views.Entity.ChildYouthVisits"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    x:DataType="childYouthVisit:ChildYouthVisitListItemViewModel"
+>
+    <Border
+        BackgroundColor="{StaticResource CardGrayBg}"
+        Margin="{StaticResource DefaultMargin}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
+    >
+        <VerticalStackLayout>
+            <effectsView:SfEffectsView TouchDownEffects="Ripple">
+                <Grid
+                    RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="*,Auto"
+                    BackgroundColor="White"
+                    ColumnSpacing="{StaticResource DefaultSpacingHalf}"
+                    RowSpacing="{StaticResource DefaultSpacingHalf}"
+                    Padding="{StaticResource DefaultPadding}"
+                >
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </Grid.GestureRecognizers>
+                    <Label Grid.Row="0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span
+                                    FontFamily="BCSansBold"
+                                    Text="{Binding Visit.FirstVisitDetail}"
+                                />
+                                <Span
+                                    Text="{Binding MoreVisitDetailsIndicator}"
+                                    TextColor="{StaticResource Gray500}"
+                                />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label
+                        Grid.Row="1"
+                        FontSize="{StaticResource BodySmallFontSize}"
+                        Text="{Binding Visit.DateOfVisitBinding, StringFormat='Visit date: {0:yyyy-MMM-dd}'}"
+                    />
+                    <Label
+                        Grid.Column="1"
+                        Grid.RowSpan="2"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontSize="{StaticResource LayoutChevronFontSize}"
+                        Text="{Binding ExpandedChevronGlyph}"
+                        VerticalOptions="Start"
+                        HorizontalOptions="End"
+                    />
+                </Grid>
+            </effectsView:SfEffectsView>
+
+            <BoxView
+                Color="{StaticResource Gray100}"
+                HeightRequest="0.5"
+                IsVisible="{Binding Expanded}"
+            />
+
+            <VerticalStackLayout
+                Padding="{StaticResource DefaultPadding}"
+                IsVisible="{Binding Expanded}"
+            >
+                <Label FontFamily="BCSansBold" Text="{local:Localize CreatedBy}" />
+                <Label Text="{Binding Visit.CreatedByBinding}" />
+
+                <Label FontFamily="BCSansBold" Text="{local:Localize VisitDetails}">
+                    <Label.Margin>
+                        <Thickness Top="{StaticResource DefaultMargin}" />
+                    </Label.Margin>
+                </Label>
+                <Label Text="{Binding Visit.VisitDetailDisplay}" />
+
+                <Label FontFamily="BCSansBold" Text="{local:Localize Description}">
+                    <Label.Margin>
+                        <Thickness Top="{StaticResource DefaultMargin}" />
+                    </Label.Margin>
+                </Label>
+                <Label Text="{Binding Visit.VisitDescriptionBinding}" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</base:BaseContentView>

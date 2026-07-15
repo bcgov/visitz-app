@@ -63,7 +63,10 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         }
     }
 
-    public string FirstVisitDetail => VisitDetails?.FirstOrDefault() ?? "";
+    public string FirstVisitDetail => VisitDetailsBinding.FirstOrDefault() ?? "";
+
+    public string VisitDetailDisplay =>
+        VisitDetailsBinding.Order().Aggregate("", (accum, next) => $"{accum}{Environment.NewLine}• {next}").Trim();
 
     [Ignored]
     public int SortOrder => DueDateDaysRemaining;
