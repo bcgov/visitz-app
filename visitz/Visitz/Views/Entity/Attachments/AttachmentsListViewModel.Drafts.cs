@@ -53,4 +53,25 @@ public partial class AttachmentsListViewModel
         await attachmentPublishVm.SetPayload(BusinessObject, draft);
         await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm, logger));
     }
+
+    [RelayCommand]
+    public static void RenameAttachment(Attachment attachment)
+    {
+        _ = DoRenameAttachment(attachment);
+    }
+
+    static async Task DoRenameAttachment(Attachment attachment)
+    {
+        string previous = attachment.FilenameBinding;
+
+        string newName = await Navigator.CurrentOpenPage.DisplayPromptAsync(
+            LocalizedStrings.Rename,
+            null,
+            placeholder: previous,
+            initialValue: previous
+        );
+
+        if (newName != previous && newName?.Trim()?.Length > 0)
+            attachment.FilenameBinding = newName;
+    }
 }
