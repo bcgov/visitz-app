@@ -115,6 +115,7 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             RelativePath = relativePath,
             Thumbnail = thumbnail,
             FileSize = fileSize.ToString(),
+            CreatedDate = DateTimeOffset.Now,
         };
 
         this.InitDraftWith(businessObject);
