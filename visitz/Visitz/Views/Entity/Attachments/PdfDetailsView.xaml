@@ -54,8 +54,8 @@
             IsVisible="{Binding ShowDraftButtons}"
             Style="{StaticResource PrimaryButtonLight}"
             Padding="0"
-            Text="{Static icons:MaterialIcons.Publish}"
-            FontFamily="MaterialIconsRoundedUnfilled"
+            Text="{Static icons:FluentIcons.Send_20_regular}"
+            FontFamily="FluentIconsRegular"
             Command="{Binding PublishAttachmentDraftCommand}"
         />
 
