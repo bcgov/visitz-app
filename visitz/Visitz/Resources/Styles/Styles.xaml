@@ -250,6 +250,15 @@
 
     <Style
         TargetType="Button"
+        x:Key="SecondaryChipLight"
+        BasedOn="{StaticResource SecondaryButtonLight}"
+    >
+        <Setter Property="MinimumHeightRequest" Value="36" />
+        <Setter Property="Padding" Value="10,0" />
+    </Style>
+
+    <Style
+        TargetType="Button"
         x:Key="SecondaryButtonDark"
         BasedOn="{StaticResource BaseButtonStyle}"
     >

@@ -40,35 +40,34 @@
                 WidthRequest="{StaticResource DraftIndicatorWidth}"
                 HorizontalOptions="Start"
             />
-        
-        <effectsView:SfEffectsView TouchDownEffects="Ripple">
-            <VerticalStackLayout
-                Spacing="{StaticResource DefaultSpacing}"
-                Padding="{StaticResource DefaultPadding}"
-            >
-                <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Command="{Binding OpenAttachmentCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                        CommandParameter="{Binding .}"
-                    />
-                </VerticalStackLayout.GestureRecognizers>
 
-                <Grid
-                    ColumnSpacing="{StaticResource DefaultSpacing}"
-                    ColumnDefinitions="Auto,*,Auto"
-                    RowDefinitions="Auto,Auto"
+            <effectsView:SfEffectsView TouchDownEffects="Ripple">
+                <VerticalStackLayout
+                    Spacing="{StaticResource DefaultSpacing}"
+                    Padding="{StaticResource DefaultPadding}"
                 >
-                    <controls:LabelIcon
-                        Grid.Column="0"
-                        Grid.RowSpan="2"
-                        FontFamily="FluentIconsRegular"
-                        Text="{Binding FileIconGlyph}"
-                        TextColor="{Binding ToDownloadTextColor}"
-                        VerticalOptions="Center"
-                        FontSize="36"
-                    />
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenAttachmentCommand,
+                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                            CommandParameter="{Binding .}"
+                        />
+                    </VerticalStackLayout.GestureRecognizers>
 
+                    <Grid
+                        ColumnSpacing="{StaticResource DefaultSpacing}"
+                        ColumnDefinitions="Auto,*,Auto"
+                        RowDefinitions="Auto,Auto"
+                    >
+                        <controls:LabelIcon
+                            Grid.Column="0"
+                            Grid.RowSpan="2"
+                            FontFamily="FluentIconsRegular"
+                            Text="{Binding FileIconGlyph}"
+                            TextColor="{Binding ToDownloadTextColor}"
+                            VerticalOptions="Center"
+                            FontSize="36"
+                        />
 
                         <Label
                             Grid.Column="1"
@@ -78,77 +77,77 @@
                             VerticalOptions="Center"
                         />
 
-                    <HorizontalStackLayout
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        Spacing="{StaticResource DefaultSpacingHalf}"
-                    >
-                        <Label
-                            Text="{Binding FileSizeDisplay}"
-                            TextColor="{StaticResource Gray500}"
-                        />
-                        <Label Text="•" TextColor="{StaticResource Gray500}" />
-                        <Label
-                            Text="{Binding Attachment.CreatedDateBinding, Converter={converters:DateTimeOffsetShortTimestampConverter}}"
-                            TextColor="{StaticResource Gray500}"
-                        />
-                    </HorizontalStackLayout>
+                        <HorizontalStackLayout
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Spacing="{StaticResource DefaultSpacingHalf}"
+                        >
+                            <Label
+                                Text="{Binding FileSizeDisplay}"
+                                TextColor="{StaticResource Gray500}"
+                            />
+                            <Label Text="•" TextColor="{StaticResource Gray500}" />
+                            <Label
+                                Text="{Binding Attachment.CreatedDateBinding, Converter={converters:DateTimeOffsetShortTimestampConverter}}"
+                                TextColor="{StaticResource Gray500}"
+                            />
+                        </HorizontalStackLayout>
 
-                    <controls:FontIconButton
-                        Grid.Column="2"
-                        Grid.RowSpan="2"
-                        Style="{StaticResource PrimaryButton}"
-                        Padding="0"
-                        VerticalOptions="Center"
-                        Text="{Static icons:MaterialIcons.Send}"
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        Command="{Binding PublishAttachmentDraftCommand,
+                        <controls:FontIconButton
+                            Grid.Column="2"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource PrimaryButton}"
+                            Padding="0"
+                            VerticalOptions="Center"
+                            Text="{Static icons:MaterialIcons.Send}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Command="{Binding PublishAttachmentDraftCommand,
                             Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                        CommandParameter="{Binding Attachment.Draft}"
-                    />
-                </Grid>
+                            CommandParameter="{Binding Attachment.Draft}"
+                        />
+                    </Grid>
 
-                <BoxView HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
+                    <BoxView HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
 
-                <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
-                    <Button
-                        Command="{Binding RenameAttachmentCommand,
+                    <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                        <Button
+                            Command="{Binding RenameAttachmentCommand,
                                 Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                        CommandParameter="{Binding Attachment}"
-                        Style="{StaticResource SecondaryButtonLight}"
-                        Text="{local:Localize Rename}"
-                        VerticalOptions="Center"
-                    >
-                        <Button.ImageSource>
-                            <FontImageSource
-                                Glyph="{Static fonticons:MaterialIcons.Edit}"
-                                FontFamily="MaterialIconsRoundedUnfilled"
-                                Color="{StaticResource Primary}"
-                                Size="20"
-                            />
-                        </Button.ImageSource>
-                    </Button>
+                            CommandParameter="{Binding Attachment}"
+                            Style="{StaticResource SecondaryChipLight}"
+                            Text="{local:Localize Rename}"
+                            VerticalOptions="Center"
+                        >
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    Glyph="{Static fonticons:MaterialIcons.Edit}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="{StaticResource Primary}"
+                                    Size="18"
+                                />
+                            </Button.ImageSource>
+                        </Button>
 
-                    <Button
-                        Command="{Binding DeleteAttachmentDraftCommand,
+                        <Button
+                            Command="{Binding DeleteAttachmentDraftCommand,
                             Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                        CommandParameter="{Binding Attachment.Draft}"
-                        Style="{StaticResource SecondaryButtonLight}"
-                        Text="{local:Localize Discard}"
-                        VerticalOptions="Center"
-                    >
-                        <Button.ImageSource>
-                            <FontImageSource
-                                Glyph="{Static fonticons:MaterialIcons.Delete}"
-                                FontFamily="MaterialIconsRoundedUnfilled"
-                                Color="{StaticResource Primary}"
-                                Size="20"
-                            />
-                        </Button.ImageSource>
-                    </Button>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-        </effectsView:SfEffectsView>
-            </Grid>
+                            CommandParameter="{Binding Attachment.Draft}"
+                            Style="{StaticResource SecondaryChipLight}"
+                            Text="{local:Localize Discard}"
+                            VerticalOptions="Center"
+                        >
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    Glyph="{Static fonticons:MaterialIcons.Delete}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="{StaticResource Primary}"
+                                    Size="18"
+                                />
+                            </Button.ImageSource>
+                        </Button>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </effectsView:SfEffectsView>
+        </Grid>
     </Border>
 </baseClasses:BaseContentView>
