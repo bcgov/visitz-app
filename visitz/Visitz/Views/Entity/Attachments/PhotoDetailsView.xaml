@@ -25,7 +25,12 @@
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
         >
-            <Image Aspect="AspectFit" Source="{Binding DetailImage}" />
+            <Image
+                Aspect="{OnPlatform WinUI=AspectFill, Default=AspectFit}"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill"
+                Source="{Binding DetailImage}"
+            />
         </controls:PanPinchContainer>
 
         <Grid
