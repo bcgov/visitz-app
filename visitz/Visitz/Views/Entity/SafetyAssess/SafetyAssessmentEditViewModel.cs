@@ -7,12 +7,14 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Realms;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
+using Visitz.Views.Snackbar;
 using VisitzModel;
+using VisitzModel.Events;
 using VisitzModel.Extensions;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
@@ -84,6 +86,9 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
     [ObservableProperty]
     public partial bool IsReadOnly { get; set; }
 
+    [ObservableProperty]
+    public partial DraftSaveState DraftSaveState { get; set; } = DraftSaveState.None;
+
     private Realm? DraftRealm;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
@@ -115,6 +120,9 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
 
         SetDatePickerVisibility();
         SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
+
+        SaveStateHandler.SaveStateChanged += SaveStateHandler_SaveStateChanged;
+        SaveStateHandler.Clear();
     }
 
     bool disposed;
@@ -123,6 +131,7 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
     {
         if (!disposed && disposing)
         {
+            SaveStateHandler.SaveStateChanged -= SaveStateHandler_SaveStateChanged;
             SaveStateHandler.Dispose();
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
@@ -292,9 +301,22 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
         await Navigator.Navigation.PopModalAsync();
     }
 
-    [RelayCommand]
-    public async Task Reset()
+    private static async Task<bool> PromptDiscard()
     {
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
+            LocalizedStrings.DiscardDraftQuestion,
+            LocalizedStrings.DiscardSafetyAssessmentDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel
+        );
+    }
+
+    [RelayCommand]
+    public async Task DiscardDraftAsync()
+    {
+        if (!await PromptDiscard())
+            return;
+
         UnsubscribeFromAssessment();
         await AssessmentDraft.TryDeleteAsync(Assessment);
 
@@ -302,6 +324,9 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
 
         await SetupAssessmentDraft();
         SelectedChildren?.Clear();
+
+        await Navigator.Navigation.PopModalAsync();
+        SnackbarHandler.ShowText(LocalizedStrings.DiscardedSafetyAssessmentDraft);
     }
 
 #if DEBUG
@@ -382,5 +407,10 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
         if (value)
             foreach (var child in AvailableChildrenInOutCare)
                 SelectedChildren.Add(child);
+    }
+
+    async void SaveStateHandler_SaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
+    {
+        DraftSaveState = e.State;
     }
 }
