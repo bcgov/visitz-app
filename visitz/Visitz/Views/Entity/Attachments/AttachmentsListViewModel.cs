@@ -227,11 +227,15 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
 
         if (!attachment.FileExistsLocally || !File.Exists(AttachmentFiler.GetFullPath(attachment.RelativePath)))
         {
-            string desc = attachment.HasDraft
-                ? LocalizedStrings.RelatedDraftAttachmentMissingDesc
-                : LocalizedStrings.RelatedIcmAttachmentMissingDesc;
+            if (attachment.HasDraft)
+            {
+                await Navigator.CurrentOpenPage.DisplayAlertAsync(
+                    LocalizedStrings.FileMissing,
+                    LocalizedStrings.RelatedDraftAttachmentMissingDesc,
+                    LocalizedStrings.Ok
+                );
+            }
 
-            await Navigator.CurrentOpenPage.DisplayAlertAsync(LocalizedStrings.FileMissing, desc, LocalizedStrings.Ok);
             return;
         }
 
