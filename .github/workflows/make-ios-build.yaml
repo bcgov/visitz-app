@@ -20,7 +20,7 @@ env:
   BUILD_NUM: ${{ inputs.build_number }}
   PROJPATH: "visitz/Visitz"
   GLOBAL_JSON_PATH: "global.json"
-  XCODE_VERSION: "26.5"
+  XCODE_VERSION: "26.6"
 
 jobs:
 
