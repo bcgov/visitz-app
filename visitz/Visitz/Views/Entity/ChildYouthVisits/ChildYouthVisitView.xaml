@@ -36,48 +36,15 @@
             VerticalOptions="Fill"
             RowDefinitions="Auto, *"
         >
-            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
-                <controls:CloseButton
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    VerticalOptions="Center"
-                    TextColor="{StaticResource Gray600}"
-                />
-
-                <views:DraftSavedView
-                    x:Name="DraftSavedIndicator"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    VerticalOptions="Center"
-                />
-
-                <HorizontalStackLayout Grid.Row="0" Grid.Column="2" Spacing="10">
-                    <views:InternetInfoView />
-
-                    <Button
-                        Style="{StaticResource SecondaryButtonLight}"
-                        Text="{local:Localize DiscardDraft}"
-                        Clicked="Discard_Clicked"
-                        IsEnabled="{Binding AllowDiscard}"
-                        IsVisible="{Binding HideElements}"
-                    />
-
-                    <Button
-                        Text="{local:Localize PublishToIcm}"
-                        Command="{Binding PublishInPersonVisitCommand}"
-                        IsEnabled="{Binding AllowPublish}"
-                        IsVisible="{Binding HideElements}"
-                    />
-
-                    <Label
-                        Text="{local:Localize ReadOnly}"
-                        FontFamily="BCSansItalic"
-                        VerticalOptions="Center"
-                        IsVisible="{Binding IsUpdatingEnabled, Converter={StaticResource BoolNegationConverter}}"
-                    />
-                </HorizontalStackLayout>
-            </Grid>
-
+            <formctls:FormAppBar
+                x:Name="FormAppBar"
+                Grid.Row="0"
+                AllowDiscard="{Binding AllowDiscard}"
+                AllowPublish="{Binding AllowPublish}"
+                DiscardCommand="{Binding DiscardDraftCommand}"
+                PublishCommand="{Binding PublishInPersonVisitCommand}"
+                DraftSaveState="{Binding DraftSaveState}"
+            />
             <Grid Grid.Row="1" RowSpacing="15" ColumnDefinitions="*">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

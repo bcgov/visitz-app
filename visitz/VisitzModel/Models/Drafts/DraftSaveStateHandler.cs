@@ -3,7 +3,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Drafts;
 
-public class DraftSaveStateHandler(TimeSpan? delay = null) : IDisposable
+public partial class DraftSaveStateHandler(TimeSpan? delay = null) : IDisposable
 {
     Debouncer? _debouncer = new(delay ?? Debouncer.AvgStoppedTypingDelay);
     bool _disposed;

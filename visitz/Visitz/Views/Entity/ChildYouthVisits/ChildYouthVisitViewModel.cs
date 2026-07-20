@@ -5,9 +5,12 @@ using Microsoft.Extensions.Logging;
 using Oidc.Network;
 using Realms;
 using Visitz.Extensions;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
+using Visitz.Views.Snackbar;
+using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
@@ -69,6 +72,10 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
 
     [ObservableProperty]
     public partial GridLength DetailsRowHeight { get; set; } = GridLength.Star;
+
+    [ObservableProperty]
+    public partial DraftSaveState DraftSaveState { get; set; }
+
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
     [ObservableProperty]
@@ -114,6 +121,7 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
         if (!IsUpdatingEnabled)
             DetailItems = DetailItems.Where(item => item.IsChecked).ToList();
 
+        SaveStateHandler.SaveStateChanged += ViewModel_DraftSaveStateChanged;
         SaveStateHandler.Clear();
         UpdateAllowPublish();
 
@@ -141,6 +149,7 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
             Draft = null;
             PersonVisitItem = null;
 
+            SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
             SaveStateHandler.Dispose();
 
             DraftRealm?.Dispose();
@@ -150,6 +159,11 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
         }
 
         base.Dispose(disposing);
+    }
+
+    private async void ViewModel_DraftSaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
+    {
+        DraftSaveState = e.State;
     }
 
     partial void OnPersonVisitItemChanged(PersonVisit? oldValue, PersonVisit? newValue)
@@ -193,13 +207,30 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
         await Navigator.Navigation.PushAsync(new PublishPage(publishVm, logger));
     }
 
-    public void DiscardDraft()
+    [RelayCommand]
+    public async Task DiscardDraft()
     {
-        string? id = Draft?.RelatedEntityId;
-        Draft = null;
+        if (!await PromptDiscard())
+            return;
 
-        if (id != null)
-            DraftRealm?.Write(() => DraftRealm.DeleteByIds<PersonVisitDraft>([id]));
+        if (Draft != null && DraftRealm != null)
+        {
+            await DraftRealm.WriteAsync(() => DraftRealm.Remove(Draft));
+            Draft = null;
+        }
+
+        await Navigator.Navigation.PopModalAsync();
+        SnackbarHandler.ShowText(LocalizedStrings.DiscardedVisitDraft);
+    }
+
+    private static async Task<bool> PromptDiscard()
+    {
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
+            LocalizedStrings.DiscardDraftQuestion,
+            LocalizedStrings.DiscardVisitDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel
+        );
     }
 
     private void UpdateAllowPublish()

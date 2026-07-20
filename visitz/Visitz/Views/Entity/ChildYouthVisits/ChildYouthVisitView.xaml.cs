@@ -2,8 +2,6 @@ using Visitz.Animations.Haptic;
 using Visitz.Device;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Snackbar;
-using VisitzModel.Events;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
@@ -19,7 +17,6 @@ public partial class ChildYouthVisitView : IcmRecordContentView<ChildYouthVisitV
     {
         InitializeComponent();
         BindingContext = ViewModel;
-        ViewModel.SaveStateHandler.SaveStateChanged += ViewModel_DraftSaveStateChanged;
 
         _keyboardOpenHandler = new SoftKeyboardOpenHandler();
         _keyboardOpenHandler.KeyboardStateChanged += OnKeyboardStateChanged;
@@ -47,11 +44,6 @@ public partial class ChildYouthVisitView : IcmRecordContentView<ChildYouthVisitV
         ViewModel.ShowFullForm = !hideForm;
     }
 
-    private async void ViewModel_DraftSaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
-    {
-        await DraftSavedIndicator.SetState(e.State);
-    }
-
     public async Task ShowEditorError(string text)
     {
         await Task.WhenAll(ShowErrorText(text), AnimateEditorError());
@@ -76,26 +68,6 @@ public partial class ChildYouthVisitView : IcmRecordContentView<ChildYouthVisitV
         await vibrateErrorAnim.Animate(VisitsEditor);
     }
 
-    private async void Discard_Clicked(object? sender, EventArgs e)
-    {
-        if (await PromptDiscard())
-        {
-            ViewModel.DiscardDraft();
-            await Navigator.Navigation.PopModalAsync();
-            SnackbarHandler.ShowText(LocalizedStrings.DiscardedVisitDraft);
-        }
-    }
-
-    private static async Task<bool> PromptDiscard()
-    {
-        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
-            LocalizedStrings.DiscardDraftQuestion,
-            LocalizedStrings.DiscardVisitDraftDescription,
-            LocalizedStrings.Discard,
-            LocalizedStrings.Cancel
-        );
-    }
-
     private async void VisitsEditor_EmojiEntered(object? sender, EventArgs e)
     {
         await ShowEditorError(LocalizedStrings.InvalidEntry);
@@ -110,7 +82,6 @@ public partial class ChildYouthVisitView : IcmRecordContentView<ChildYouthVisitV
     {
         if (!_disposed && disposing)
         {
-            ViewModel.SaveStateHandler.SaveStateChanged -= ViewModel_DraftSaveStateChanged;
             ViewModel.SaveStateHandler.Dispose();
             _keyboardOpenHandler.Dispose();
             DeviceDisplay.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
