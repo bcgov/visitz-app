@@ -1,7 +1,5 @@
 using Visitz.Animations.Haptic;
-using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Snackbar;
 using VisitzModel.Events;
 
 namespace Visitz.Views.Entity.Notes;
@@ -19,14 +17,12 @@ public partial class NoteEntryView : IcmRecordContentView<NoteEntryViewModel>
         BindingContext = ViewModel;
 
         ViewModel.DraftError += NoteEntryView_DraftError;
-        ViewModel.SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
     }
 
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
         {
-            ViewModel.SaveStateHandler.SaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
             ViewModel.SaveStateHandler.Dispose();
             ViewModel.DraftError -= NoteEntryView_DraftError;
 
@@ -39,11 +35,6 @@ public partial class NoteEntryView : IcmRecordContentView<NoteEntryViewModel>
     private async void NoteEntryView_DraftError(object? sender, DraftErrorEventArgs e)
     {
         await ShowEditorError(e.ErrorMessage);
-    }
-
-    private async void NoteEntryView_DraftSaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
-    {
-        await DraftSavedIndicator.SetState(e.State);
     }
 
     async void NotesEditor_TextChanged(object? sender, TextChangedEventArgs e)
@@ -73,26 +64,6 @@ public partial class NoteEntryView : IcmRecordContentView<NoteEntryViewModel>
     {
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(NotesEditor);
-    }
-
-    private async void Discard_Clicked(object? sender, EventArgs e)
-    {
-        if (await PromptDiscard())
-        {
-            await ViewModel.ResetDraftAsync();
-            await Navigator.Navigation.PopModalAsync();
-            SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
-        }
-    }
-
-    private static async Task<bool> PromptDiscard()
-    {
-        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
-            LocalizedStrings.DiscardDraftQuestion,
-            LocalizedStrings.DiscardNoteDraftDescription,
-            LocalizedStrings.Discard,
-            LocalizedStrings.Cancel
-        );
     }
 
     private void NotesEditor_Loaded(object? sender, EventArgs e)

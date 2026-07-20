@@ -45,7 +45,7 @@
             <Button
                 Text="{local:Localize PublishToIcm}"
                 Command="{Binding PublishCommand}"
-                IsEnabled="{Binding AllowPublish}"
+                IsEnabled="{Binding EnablePublish}"
                 IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
             />
 

@@ -2,7 +2,6 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Oidc.Network;
 using Realms;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
@@ -124,8 +123,6 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
         SaveStateHandler.SaveStateChanged += ViewModel_DraftSaveStateChanged;
         SaveStateHandler.Clear();
         UpdateAllowPublish();
-
-        Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
     }
 
     void AddOtherVisitDetails()
@@ -144,8 +141,6 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
     {
         if (!_disposed && disposing)
         {
-            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
-
             Draft = null;
             PersonVisitItem = null;
 
@@ -236,8 +231,7 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
     private void UpdateAllowPublish()
     {
         AllowPublish =
-            NetworkHelper.InternetAvailable
-            && PersonVisitItem?.VisitDetails.Count > 0
+            PersonVisitItem?.VisitDetails.Count > 0
             && PersonVisitItem?.VisitDescription?.Length > 0
             && CharacterCount <= CharacterLimit;
     }
@@ -281,10 +275,5 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
     partial void OnShowFullFormChanged(bool value)
     {
         DetailsRowHeight = value ? GridLength.Star : 0;
-    }
-
-    private void Current_ConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
-    {
-        UpdateAllowPublish();
     }
 }
