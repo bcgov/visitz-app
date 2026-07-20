@@ -94,7 +94,7 @@ public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
     [RelayCommand]
     async Task PromptDiscardAttachmentDraftAsync()
     {
-        if (Attachment == null || !Attachment.HasDraft)
+        if (Attachment == null || Attachment.Draft == null)
             return;
 
         bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlertAsync(
@@ -108,7 +108,7 @@ public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
         {
             string filename = Attachment.Filename;
 
-            await Attachment.DeleteAsync();
+            await Attachment.Draft.DeleteAsync(deleteAttachment: true);
             await Navigator.Navigation.PopAsync();
 
             SnackbarHandler.ShowText(string.Format(LocalizedStrings.FileDiscarded, filename));

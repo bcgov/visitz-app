@@ -16,7 +16,7 @@ using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
+internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
     AttachmentDraft attachmentDraft;
 
@@ -120,9 +120,11 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
+
                 relativePath = attachmentDraft.Attachment.RelativePath;
                 submittedAttachmentId = message.ReturnPayload as string;
-                await DiscardAttachmentDraft();
+
+                await MoveAttachmentToIcmDataRealm(submittedAttachmentId);
                 CallGetService();
             }
             else if (message.FinishedCancelled)
@@ -137,16 +139,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Refreshed(LocalizedStrings.RefreshedAttachmentsOnDevice);
-
-                using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
-
-                if (realm.Find<Attachment>(submittedAttachmentId) is Attachment newAttachment)
-                    // TODO: sometimes we can't find the new attachment.
-                    // Need to look into this, but since the user can just
-                    // refresh their caseload normally it's not the highest
-                    // priority.
-                    newAttachment.RelativePathBinding = relativePath;
-
                 Complete();
             }
             else if (message.FinishedError)
@@ -157,8 +149,14 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         }
     }
 
-    async Task DiscardAttachmentDraft()
+    async Task MoveAttachmentToIcmDataRealm(string newDatabaseId)
     {
-        await attachmentDraft.Attachment.DeleteAsync(removeContent: false);
+        using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
+
+        Attachment attachment = new() { Id = newDatabaseId, RelativePath = attachmentDraft.Attachment.RelativePath };
+        attachment.CopyFrom(attachmentDraft.Attachment);
+
+        await attachmentDraft.DeleteAsync(deleteAttachment: true, deleteAttachmentFile: false);
+        await realm.CommitAsync(() => realm.Add(attachment));
     }
 }

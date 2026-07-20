@@ -32,7 +32,7 @@ public partial class AttachmentsListViewModel
         if (shouldDiscard)
         {
             string filename = draft.Attachment.Filename;
-            await draft.Attachment.DeleteAsync();
+            await draft.DeleteAsync(deleteAttachment: true);
             SnackbarHandler.ShowText(string.Format(LocalizedStrings.FileDiscarded, filename));
         }
     }

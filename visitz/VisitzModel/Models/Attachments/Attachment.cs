@@ -387,9 +387,6 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
         await attachment.CommitAsync(() =>
         {
-            if (attachment.HasDraft && attachment.Draft != null)
-                realm.Remove(attachment.Draft);
-
             realm.Remove(attachment);
         });
     }

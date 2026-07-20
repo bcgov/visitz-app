@@ -23,6 +23,14 @@
         </ResourceDictionary>
     </baseClasses:BaseContentView.Resources>
 
+    <baseClasses:BaseContentView.GestureRecognizers>
+        <TapGestureRecognizer
+            Command="{Binding OpenAttachmentCommand,
+                Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+            CommandParameter="{Binding .}"
+        />
+    </baseClasses:BaseContentView.GestureRecognizers>
+
     <Border
         BackgroundColor="White"
         Margin="{StaticResource DefaultMargin}"
@@ -46,14 +54,6 @@
                     Spacing="{StaticResource DefaultSpacing}"
                     Padding="{StaticResource DefaultPadding}"
                 >
-                    <VerticalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding OpenAttachmentCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
-                            CommandParameter="{Binding .}"
-                        />
-                    </VerticalStackLayout.GestureRecognizers>
-
                     <Grid
                         ColumnSpacing="{StaticResource DefaultSpacing}"
                         ColumnDefinitions="Auto,*,Auto"

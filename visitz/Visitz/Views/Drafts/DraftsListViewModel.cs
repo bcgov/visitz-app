@@ -274,7 +274,7 @@ public partial class DraftsListViewModel : VisitzViewModel
                 realm.Remove(draft);
             }
             else if (draft is AttachmentDraft attachmentDraft)
-                await (attachmentDraft.Attachment?.DeleteAsync() ?? Task.CompletedTask);
+                await (attachmentDraft?.DeleteAsync(deleteAttachment: true) ?? Task.CompletedTask);
             else
                 realm.Remove(draft);
         });
