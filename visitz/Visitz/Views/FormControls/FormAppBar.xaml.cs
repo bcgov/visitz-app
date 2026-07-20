@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using CommunityToolkit.Maui;
+using Visitz.Resources.Localization;
 using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.FormControls;
@@ -42,7 +43,9 @@ public partial class FormAppBar : ContentView, IDisposable
     {
         InitializeComponent();
         _networkAccess = Connectivity.Current.NetworkAccess;
+
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+        SizeChanged += FormAppBar_SizeChanged;
     }
 
     protected virtual void Dispose(bool disposing)
@@ -52,6 +55,7 @@ public partial class FormAppBar : ContentView, IDisposable
             if (disposing)
             {
                 Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
+                SizeChanged -= FormAppBar_SizeChanged;
             }
 
             _disposedValue = true;
@@ -80,5 +84,22 @@ public partial class FormAppBar : ContentView, IDisposable
     void UpdateEnablePublish()
     {
         EnablePublish = _networkAccess == NetworkAccess.Internet && AllowPublish;
+    }
+
+    private void FormAppBar_SizeChanged(object? sender, EventArgs e)
+    {
+        InternetInfoView.ShowText = Width >= 650;
+        DraftSavedView.ShowText = Width >= 600;
+
+        if (Width >= 475)
+        {
+            DiscardButton.Text = LocalizedStrings.Discard;
+            PublishButton.Text = LocalizedStrings.PublishToIcm;
+        }
+        else
+        {
+            DiscardButton.Text = string.Empty;
+            PublishButton.Text = string.Empty;
+        }
     }
 }

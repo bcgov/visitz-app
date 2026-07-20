@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
@@ -32,22 +33,41 @@
         />
 
         <HorizontalStackLayout Grid.Column="2" Spacing="{StaticResource DefaultSpacing}">
-            <views:InternetInfoView />
+            <views:InternetInfoView x:Name="InternetInfoView" />
 
             <Button
+                x:Name="DiscardButton"
                 Style="{StaticResource SecondaryButtonLight}"
-                Text="{local:Localize DiscardDraft}"
                 Command="{Binding DiscardCommand}"
                 IsEnabled="{Binding AllowDiscard}"
                 IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
-            />
+            >
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static fonticons:MaterialIcons.Delete}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Color="{StaticResource Primary}"
+                        Size="18"
+                    />
+                </Button.ImageSource>
+            </Button>
 
             <Button
-                Text="{local:Localize PublishToIcm}"
+                x:Name="PublishButton"
                 Command="{Binding PublishCommand}"
                 IsEnabled="{Binding EnablePublish}"
                 IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
-            />
+                ContentLayout="Right"
+            >
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static fonticons:MaterialIcons.Send}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Color="White"
+                        Size="18"
+                    />
+                </Button.ImageSource>
+            </Button>
 
             <Label
                 Text="{local:Localize ReadOnly}"
