@@ -544,6 +544,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concerns.
+        /// </summary>
+        public static string Concerns {
+            get {
+                return ResourceManager.GetString("Concerns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect to the internet before trying again..
         /// </summary>
         public static string ConnectBeforeRetry {
@@ -955,6 +964,15 @@ namespace Visitz.Resources.Localization {
         public static string EnableDeviceSecurity {
             get {
                 return ResourceManager.GetString("EnableDeviceSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date.
+        /// </summary>
+        public static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
             }
         }
         
@@ -2789,6 +2807,15 @@ namespace Visitz.Resources.Localization {
         public static string StaleSessionDesc {
             get {
                 return ResourceManager.GetString("StaleSessionDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start date.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
             }
         }
         

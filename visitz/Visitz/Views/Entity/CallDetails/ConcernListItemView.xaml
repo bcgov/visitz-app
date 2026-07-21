@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:callDetails="clr-namespace:Visitz.Views.Entity.CallDetails"
+    xmlns:callDetailsModels="clr-namespace:VisitzModel.Models.CallDetails;assembly=VisitzModel"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    x:Class="Visitz.Views.Entity.CallDetails.ConcernListItemView"
+    x:DataType="callDetailsModels:IncidentConcerns"
+>
+    <Border
+        BackgroundColor="{StaticResource CardGrayBg}"
+        Margin="{StaticResource DefaultMargin}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
+    >
+        <VerticalStackLayout>
+            <effectsView:SfEffectsView TouchDownEffects="Ripple">
+                <Grid
+                    RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="*,Auto"
+                    BackgroundColor="White"
+                    ColumnSpacing="{StaticResource DefaultSpacingHalf}"
+                    RowSpacing="{StaticResource DefaultSpacingHalf}"
+                    Padding="{StaticResource DefaultPadding}"
+                >
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </Grid.GestureRecognizers>
+                    <Label Grid.Row="0" FontFamily="BCSansBold" Text="{Binding ConcernBinding}" />
+
+                    <Label
+                        Grid.Row="1"
+                        FontSize="{StaticResource BodySmallFontSize}"
+                        Text="{Binding CreatedBinding, StringFormat='{0:yyyy-MMM-dd}'}"
+                    />
+                    <Label
+                        Grid.Column="1"
+                        Grid.RowSpan="2"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontSize="{StaticResource LayoutChevronFontSize}"
+                        Text="{Binding ExpandedChevronGlyph, Source={RelativeSource AncestorType=callDetails:ConcernListItemView}}"
+                        VerticalOptions="Start"
+                        HorizontalOptions="End"
+                    />
+                </Grid>
+            </effectsView:SfEffectsView>
+
+            <BoxView
+                Color="{StaticResource Gray100}"
+                HeightRequest="0.5"
+                IsVisible="{Binding Expanded, Source={RelativeSource AncestorType=callDetails:ConcernListItemView}}"
+            />
+
+            <VerticalStackLayout
+                Padding="{StaticResource DefaultPadding}"
+                IsVisible="{Binding Expanded, Source={RelativeSource AncestorType=callDetails:ConcernListItemView}}"
+            >
+                <controls:SelectableLabel
+                    FontFamily="BCSansBold"
+                    Text="{local:Localize Concerns}"
+                />
+                <controls:SelectableLabel Text="{Binding ConcernBinding}" />
+
+                <controls:SelectableLabel FontFamily="BCSansBold" Text="{local:Localize StartDate}">
+                    <controls:SelectableLabel.Margin>
+                        <Thickness Top="{StaticResource DefaultMargin}" />
+                    </controls:SelectableLabel.Margin>
+                </controls:SelectableLabel>
+                <controls:SelectableLabel Text="{Binding StartDateBinding, StringFormat='{0:yyyy-MMM-dd}'}" />
+
+                <controls:SelectableLabel FontFamily="BCSansBold" Text="{local:Localize EndDate}">
+                    <controls:SelectableLabel.Margin>
+                        <Thickness Top="{StaticResource DefaultMargin}" />
+                    </controls:SelectableLabel.Margin>
+                </controls:SelectableLabel>
+                <controls:SelectableLabel Text="{Binding EndDateBinding, StringFormat='{0:yyyy-MMM-dd}'}" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

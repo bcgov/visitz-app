@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
@@ -24,7 +23,10 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
     public partial AdditionalInformation AdditionalInfo { get; set; } = new();
 
     [ObservableProperty]
-    public partial ObservableCollection<IncidentConcerns> Concerns { get; set; } = [];
+    public partial IEnumerable<IncidentConcerns> Concerns { get; set; } = [];
+
+    [ObservableProperty]
+    public partial bool ShowConcerns { get; set; }
 
     protected override async Task InitAsync()
     {
@@ -39,7 +41,10 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
         _realmQueryMap.Subscribe(DataRealm, AdditionalInformation.GetByParent(DataRealm, EntityType, RowId));
 
         if (EntityType == VisitzModel.Models.EntityTypes.EntityType.Incident)
+        {
             _realmQueryMap.Subscribe(DataRealm, IncidentConcerns.GetByParent(DataRealm, RowId));
+            ShowConcerns = true;
+        }
     }
 
     protected override void Dispose(bool disposing)
@@ -51,7 +56,7 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
 
             CallInfo = new();
             AdditionalInfo = new();
-            Concerns.Clear();
+            Concerns = [];
 
             _disposed = true;
         }
@@ -73,7 +78,10 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
             if (e.Changes == null && e.Items.Count > 0)
                 AdditionalInfo = (AdditionalInformation)e.Items[0];
         }
-        else if (e.Type == typeof(IncidentConcerns)) { }
+        else if (e.Type == typeof(IncidentConcerns))
+        {
+            Concerns = e.Items.Cast<IncidentConcerns>();
+        }
     }
 
     [RelayCommand]

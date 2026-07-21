@@ -1150,4 +1150,13 @@ It is unlikely that the file can be recovered.</value>
   <data name="ReadMore" xml:space="preserve">
     <value>Read more</value>
   </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="Concerns" xml:space="preserve">
+    <value>Concerns</value>
+  </data>
 </root>
