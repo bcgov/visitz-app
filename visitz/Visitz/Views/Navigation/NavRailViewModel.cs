@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Messaging;
 using Visitz.Resources.Localization;
@@ -12,7 +11,6 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
-using Visitz.Views.Root;
 using Visitz.Views.Todo;
 using Visitz.Views.User;
 using VisitzModel.Messaging;
@@ -190,13 +188,6 @@ public partial class NavRailViewModel : VisitzViewModel
             return;
 
         StrongReferenceMessenger.Default.Send(new AppNavMessage(value));
-    }
-
-    [RelayCommand]
-    private static async Task OpenSessionPage()
-    {
-        var userView = ServiceProvider.GetService<UserView>();
-        await Navigator.Navigation.PushModalAsync(userView);
     }
 
     private void RealmCount_CountChanged(object? sender, (Type Kind, int Count) e)

@@ -181,8 +181,5 @@
 		<MauiXaml Update="Views\Entity\Attachments\PdfDetailsView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="Views\User\UserView.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
 	</ItemGroup>
 </Project>

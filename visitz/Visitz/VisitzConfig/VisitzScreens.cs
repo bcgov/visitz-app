@@ -107,7 +107,6 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<SessionPage>();
         builder.Services.AddTransient<SessionViewModel>();
-        builder.Services.AddTransient<UserView>();
         builder.Services.AddTransient<UserViewModel>();
 
         builder.Services.AddTransient<CollectionNoticeView>();
