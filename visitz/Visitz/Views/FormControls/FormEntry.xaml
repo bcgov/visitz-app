@@ -48,6 +48,7 @@
                 Text="{Static fonticons:MaterialIcons.Error}"
                 TextColor="{StaticResource BC_Semantic_Error}"
                 Margin="5"
+                ZIndex="1"
             />
         </AbsoluteLayout>
 

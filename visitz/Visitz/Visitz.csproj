@@ -163,9 +163,6 @@
 		<MauiXaml Update="Views\Drafts\DraftsListItem.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="Views\Drafts\EditDraftAppBar.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
 		<MauiXaml Update="Views\Entity\Attachments\AttachmentsListItemView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

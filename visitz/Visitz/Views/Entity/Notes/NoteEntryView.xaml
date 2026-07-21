@@ -5,6 +5,7 @@
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:notes="clr-namespace:Visitz.Views.Entity.Notes"
@@ -19,55 +20,25 @@
     </baseClasses:IcmRecordContentView.Behaviors>
 
     <Border Background="White" Padding="-5" StrokeShape="RoundRectangle 10" StrokeThickness="0">
-        <Grid RowDefinitions="Auto,*" RowSpacing="5" Padding="20">
-            <Grid
+        <Grid RowDefinitions="Auto,Auto,*" RowSpacing="5" Padding="20">
+            <formControls:FormAppBar
                 Grid.Row="0"
-                ColumnDefinitions="Auto,*,Auto"
-                RowDefinitions="Auto,Auto"
-                RowSpacing="5"
-            >
-                <controls:CloseButton
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    VerticalOptions="Center"
-                    TextColor="{StaticResource Gray600}"
-                />
+                AllowDiscard="{Binding AllowDiscard}"
+                AllowPublish="{Binding AllowPublish}"
+                DiscardCommand="{Binding ResetDraftCommand}"
+                PublishCommand="{Binding PublishNotesCommand}"
+                DraftSaveState="{Binding DraftSaveState}"
+            />
 
-                <views:DraftSavedView
-                    x:Name="DraftSavedIndicator"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    VerticalOptions="Center"
-                />
+            <Label
+                Grid.Row="1"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Text="{Binding RemainingCharacters, StringFormat={Static notes:NoteEntryViewModel.RemainingCharactersString}}"
+                Style="{StaticResource LabelSmall}"
+            />
 
-                <HorizontalStackLayout Grid.Row="0" Grid.Column="2" Spacing="10">
-                    <views:InternetInfoView />
-
-                    <Button
-                        Style="{StaticResource SecondaryButtonLight}"
-                        Text="{local:Localize DiscardDraft}"
-                        Clicked="Discard_Clicked"
-                        IsEnabled="{Binding AllowDiscard}"
-                    />
-
-                    <Button
-                        Text="{local:Localize PublishToIcm}"
-                        Command="{Binding PublishNotesCommand}"
-                        IsEnabled="{Binding AllowPublish}"
-                    />
-                </HorizontalStackLayout>
-
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    HorizontalOptions="End"
-                    VerticalOptions="Center"
-                    Text="{Binding RemainingCharacters, StringFormat={Static notes:NoteEntryViewModel.RemainingCharactersString}}"
-                    Style="{StaticResource LabelSmall}"
-                />
-            </Grid>
-
-            <AbsoluteLayout Grid.Row="1">
+            <AbsoluteLayout Grid.Row="2">
                 <Editor
                     x:Name="NotesEditor"
                     AbsoluteLayout.LayoutFlags="All"

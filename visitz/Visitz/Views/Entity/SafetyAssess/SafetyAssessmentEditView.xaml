@@ -87,17 +87,26 @@
         </ResourceDictionary>
     </baseClasses:IcmRecordContentView.Resources>
 
-    <Border Background="White" Padding="-5" StrokeShape="RoundRectangle 10" StrokeThickness="0">
-        <Grid RowDefinitions="Auto,*,0.5,Auto">
-            <drafts:EditDraftAppBar
+    <Border Background="White" StrokeShape="RoundRectangle 10" StrokeThickness="0">
+        <Grid RowDefinitions="Auto,*">
+            <formctls:FormAppBar
                 x:Name="DraftAppBar"
                 Grid.Row="0"
                 AllowDiscard="{Binding CanDiscard}"
-                DiscardClicked="DiscardButton_Clicked"
-                AllowPublish="{Binding CanPublish, Mode=TwoWay}"
+                AllowPublish="{Binding CanPublish}"
+                DiscardCommand="{Binding DiscardDraftCommand}"
                 PublishCommand="{Binding PublishCommand}"
                 IsReadOnly="{Binding IsReadOnly}"
-            />
+                DraftSaveState="{Binding DraftSaveState}"
+            >
+                <formctls:FormAppBar.Padding>
+                    <Thickness
+                        Top="{StaticResource DefaultMarginDouble}"
+                        Left="{StaticResource DefaultMarginDouble}"
+                        Right="{StaticResource DefaultMarginDouble}"
+                    />
+                </formctls:FormAppBar.Padding>
+            </formctls:FormAppBar>
 
             <ScrollView x:Name="MainScrollView" Grid.Row="1">
                 <VerticalStackLayout Style="{StaticResource FormVsl}" MaximumWidthRequest="800">

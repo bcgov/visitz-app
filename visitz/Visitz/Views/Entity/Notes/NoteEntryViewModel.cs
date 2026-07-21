@@ -2,12 +2,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Oidc;
-using Oidc.Network;
 using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
+using Visitz.Views.Snackbar;
 using VisitzApi.Models.Notes;
 using VisitzModel.Events;
 using VisitzModel.Extensions;
@@ -41,10 +41,10 @@ public partial class NoteEntryViewModel : IcmRecordViewModel
     [ObservableProperty]
     public partial int RemainingCharacters { get; set; } = CharacterLimit;
 
-    [ObservableProperty]
-    public partial bool InternetAvailable { get; set; } = NetworkHelper.InternetAvailable;
-
     public event EventHandler<DraftErrorEventArgs>? DraftError;
+
+    [ObservableProperty]
+    public partial DraftSaveState DraftSaveState { get; set; }
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
@@ -54,11 +54,10 @@ public partial class NoteEntryViewModel : IcmRecordViewModel
     {
         await base.InitAsync();
 
-        Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
-
         DraftRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
         NoteDraft = NoteDraft.FindByEntityId(DraftRealm, BusinessObject.FileNumber) ?? CreateNoteDraft();
 
+        SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
         SaveStateHandler.Clear();
     }
 
@@ -66,8 +65,7 @@ public partial class NoteEntryViewModel : IcmRecordViewModel
     {
         if (!_disposed && disposing)
         {
-            Connectivity.Current.ConnectivityChanged -= Current_ConnectivityChanged;
-
+            SaveStateHandler.SaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
             SaveStateHandler.Dispose();
 
             DraftRealm?.Dispose();
@@ -178,29 +176,38 @@ public partial class NoteEntryViewModel : IcmRecordViewModel
         NoteDraft?.DraftBinding = e.OldTextValue;
     }
 
-    partial void OnInternetAvailableChanged(bool value)
-    {
-        UpdateAllowPublish();
-    }
-
     private bool UpdateAllowPublish(string? draftText = null)
     {
         draftText ??= DraftOutput;
-        AllowPublish = InternetAvailable && draftText?.Length > 0;
+        AllowPublish = draftText?.Length > 0;
         return AllowPublish;
     }
 
-    private void Current_ConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
+    private static async Task<bool> PromptDiscard()
     {
-        InternetAvailable = NetworkHelper.InternetAvailable;
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
+            LocalizedStrings.DiscardDraftQuestion,
+            LocalizedStrings.DiscardNoteDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel
+        );
     }
 
+    [RelayCommand]
     public async Task ResetDraftAsync()
     {
-        if (NoteDraft == null || !NoteDraft.IsManaged || DraftRealm == null)
+        if (NoteDraft == null || !NoteDraft.IsManaged || DraftRealm == null || !await PromptDiscard())
             return;
 
         await DraftRealm.WriteAsync(() => DraftRealm.Remove(NoteDraft));
         NoteDraft = CreateNoteDraft();
+
+        await Navigator.Navigation.PopModalAsync();
+        SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
+    }
+
+    private async void NoteEntryView_DraftSaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
+    {
+        DraftSaveState = e.State;
     }
 }

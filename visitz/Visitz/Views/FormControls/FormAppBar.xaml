@@ -2,19 +2,15 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:controls="clr-namespace:Visitz.Controls"
-    xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
-    x:Name="this"
-    x:Class="Visitz.Views.Drafts.EditDraftAppBar"
-    x:DataType="drafts:EditDraftAppBar"
-    Padding="{Thickness
-        Top={StaticResource DefaultPaddingDouble},
-        Left={StaticResource DefaultPaddingDouble},
-        Right={StaticResource DefaultPaddingDouble},
-        Bottom={StaticResource DefaultPadding}}"
+    x:Class="Visitz.Views.FormControls.FormAppBar"
+    x:DataType="formControls:FormAppBar"
+    x:Name="self"
 >
     <ContentView.Resources>
         <ResourceDictionary>
@@ -22,48 +18,56 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <Grid
-        BindingContext="{Reference this}"
-        ColumnDefinitions="Auto,*,Auto"
-        RowDefinitions="Auto,Auto"
-    >
+    <Grid ColumnDefinitions="Auto,*,Auto" BindingContext="{Reference self}">
         <controls:CloseButton
-            Grid.Row="0"
             Grid.Column="0"
             VerticalOptions="Center"
             TextColor="{StaticResource Gray600}"
         />
 
         <views:DraftSavedView
-            x:Name="DraftSavedIndicator"
-            Grid.Row="0"
+            x:Name="DraftSavedView"
             Grid.Column="1"
             VerticalOptions="Center"
+            SaveState="{Binding DraftSaveState}"
         />
 
-        <HorizontalStackLayout
-            Grid.Row="0"
-            Grid.Column="2"
-            Spacing="{StaticResource DefaultSpacing}"
-        >
-            <views:InternetInfoView />
+        <HorizontalStackLayout Grid.Column="2" Spacing="{StaticResource DefaultSpacing}">
+            <views:InternetInfoView x:Name="InternetInfoView" />
 
             <Button
                 x:Name="DiscardButton"
                 Style="{StaticResource SecondaryButtonLight}"
-                Text="{local:Localize DiscardDraft}"
                 Command="{Binding DiscardCommand}"
                 IsEnabled="{Binding AllowDiscard}"
                 IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
-            />
+            >
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static fonticons:MaterialIcons.Delete}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Color="{StaticResource Primary}"
+                        Size="18"
+                    />
+                </Button.ImageSource>
+            </Button>
 
             <Button
                 x:Name="PublishButton"
-                Text="{local:Localize PublishToIcm}"
                 Command="{Binding PublishCommand}"
-                IsEnabled="{Binding AllowPublish}"
+                IsEnabled="{Binding EnablePublish}"
                 IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
-            />
+                ContentLayout="Right"
+            >
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static fonticons:MaterialIcons.Send}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        Color="White"
+                        Size="18"
+                    />
+                </Button.ImageSource>
+            </Button>
 
             <Label
                 Text="{local:Localize ReadOnly}"

@@ -28,160 +28,97 @@
         <behaviors:SoftKbResizeBehavior />
     </baseClasses:IcmRecordContentView.Behaviors>
 
-    <Border Background="White" Padding="-5" StrokeShape="RoundRectangle 10" StrokeThickness="0">
-        <Grid
-            Margin="5"
-            Padding="20"
-            HorizontalOptions="Fill"
-            VerticalOptions="Fill"
-            RowDefinitions="Auto, *"
-        >
-            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
-                <controls:CloseButton
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    VerticalOptions="Center"
-                    TextColor="{StaticResource Gray600}"
-                />
+    <Border Background="White" StrokeShape="RoundRectangle 10" StrokeThickness="0">
+        <Grid RowDefinitions="Auto,*" Padding="{StaticResource DefaultPaddingDouble}">
+            <formctls:FormAppBar
+                x:Name="FormAppBar"
+                Grid.Row="0"
+                AllowDiscard="{Binding AllowDiscard}"
+                AllowPublish="{Binding AllowPublish}"
+                DiscardCommand="{Binding DiscardDraftCommand}"
+                PublishCommand="{Binding PublishInPersonVisitCommand}"
+                DraftSaveState="{Binding DraftSaveState}"
+            />
 
-                <views:DraftSavedView
-                    x:Name="DraftSavedIndicator"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    VerticalOptions="Center"
-                />
+            <ScrollView Grid.Row="1">
+                <StackLayout Orientation="Vertical" Margin="5">
+                    <Grid Grid.Row="1" RowSpacing="15" ColumnDefinitions="*">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="{Binding DetailsRowHeight}" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                <HorizontalStackLayout Grid.Row="0" Grid.Column="2" Spacing="10">
-                    <views:InternetInfoView />
+                        <Grid
+                            Grid.Row="0"
+                            IsVisible="{Binding ShowFullForm}"
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto, Auto"
+                            ColumnSpacing="10"
+                        >
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Text="{local:Localize DateOfVisit}"
+                            />
 
-                    <Button
-                        Style="{StaticResource SecondaryButtonLight}"
-                        Text="{local:Localize DiscardDraft}"
-                        Clicked="Discard_Clicked"
-                        IsEnabled="{Binding AllowDiscard}"
-                        IsVisible="{Binding HideElements}"
-                    />
+                            <DatePicker
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0,0"
+                                Format="MMMM dd, yyyy"
+                                MaximumDate="{Binding MaxDate}"
+                                IsEnabled="{Binding IsUpdatingEnabled}"
+                                Date="{Binding PersonVisitItem.DateOfVisitBinding, Converter={StaticResource DateTimeOffsetConverter}}"
+                            >
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal" />
+                                            <VisualState x:Name="Disabled" />
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </DatePicker>
+                        </Grid>
 
-                    <Button
-                        Text="{local:Localize PublishToIcm}"
-                        Command="{Binding PublishInPersonVisitCommand}"
-                        IsEnabled="{Binding AllowPublish}"
-                        IsVisible="{Binding HideElements}"
-                    />
+                        <Grid
+                            Grid.Row="1"
+                            IsVisible="{Binding ShowFullForm}"
+                            RowDefinitions="Auto, *"
+                            ColumnSpacing="40"
+                        >
+                            <Label Text="{local:Localize VisitDetails}" />
 
-                    <Label
-                        Text="{local:Localize ReadOnly}"
-                        FontFamily="BCSansItalic"
-                        VerticalOptions="Center"
-                        IsVisible="{Binding IsUpdatingEnabled, Converter={StaticResource BoolNegationConverter}}"
-                    />
-                </HorizontalStackLayout>
-            </Grid>
-
-            <Grid Grid.Row="1" RowSpacing="15" ColumnDefinitions="*">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="{Binding DetailsRowHeight}" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-
-                <Grid
-                    Grid.Row="0"
-                    IsVisible="{Binding ShowFullForm}"
-                    ColumnDefinitions="*,*"
-                    RowDefinitions="Auto, Auto"
-                    ColumnSpacing="10"
-                >
-                    <Label Grid.Row="0" Grid.Column="0" Text="{local:Localize DateOfVisit}" />
-
-                    <DatePicker
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Margin="0,0"
-                        Format="MMMM dd, yyyy"
-                        MaximumDate="{Binding MaxDate}"
-                        IsEnabled="{Binding IsUpdatingEnabled}"
-                        Date="{Binding PersonVisitItem.DateOfVisitBinding, Converter={StaticResource DateTimeOffsetConverter}}"
-                    >
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="Disabled" />
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </VisualStateManager.VisualStateGroups>
-                    </DatePicker>
-                </Grid>
-
-                <Grid
-                    Grid.Row="1"
-                    IsVisible="{Binding ShowFullForm}"
-                    RowDefinitions="Auto, *"
-                    ColumnSpacing="40"
-                >
-                    <Label Text="{local:Localize VisitDetails}" />
-
-                    <CollectionView Grid.Row="1" ItemsSource="{Binding DetailItems}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="childYouthVisit:VisitDetailListItem">
-                                <formctls:FormCheckBox
-                                    Background="White"
-                                    HorizontalOptions="Fill"
-                                    IsReadOnly="{Binding IsUpdatingEnabled,
+                            <CollectionView Grid.Row="1" ItemsSource="{Binding DetailItems}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="childYouthVisit:VisitDetailListItem">
+                                        <formctls:FormCheckBox
+                                            Background="White"
+                                            HorizontalOptions="Fill"
+                                            IsReadOnly="{Binding IsUpdatingEnabled,
                                         Source={RelativeSource AncestorType={x:Type childYouthVisit:ChildYouthVisitViewModel}},
                                         Converter={StaticResource BoolNegationConverter}}"
-                                    IsChecked="{Binding IsChecked}"
-                                    Text="{Binding DetailValue}"
-                                />
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </Grid>
+                                            IsChecked="{Binding IsChecked}"
+                                            Text="{Binding DetailValue}"
+                                        />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </Grid>
 
-                <Grid
-                    Grid.Row="2"
-                    VerticalOptions="Fill"
-                    HorizontalOptions="Fill"
-                    RowDefinitions="Auto, *"
-                    ColumnSpacing="10"
-                >
-                    <Label Grid.Row="0" Grid.Column="0" Text="{local:Localize VisitDescription}" />
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        HorizontalOptions="End"
-                        VerticalOptions="Center"
-                        IsVisible="{Binding HideElements}"
-                        Text="{Binding RemainingCharacters, StringFormat={Static childYouthVisit:ChildYouthVisitViewModel.RemainingCharactersString}}"
-                        Style="{StaticResource LabelSmall}"
-                    />
-                    <AbsoluteLayout Grid.Row="1">
-                        <controls:EditorEx
+                        <formctls:FormEntry
                             x:Name="VisitsEditor"
-                            AbsoluteLayout.LayoutFlags="All"
-                            AbsoluteLayout.LayoutBounds="0,0,1,1"
-                            CharacterCount="{Binding CharacterCount}"
-                            CountStyle="JsonForRestApi"
-                            EmojiEntered="VisitsEditor_EmojiEntered"
-                            SuggestedMaxLength="{Static childYouthVisit:ChildYouthVisitViewModel.CharacterLimit}"
-                            SuggestedMaxLengthExceeded="VisitsEditor_SuggestedMaxLengthExceeded"
+                            Grid.Row="2"
+                            FieldNameIsVisible="True"
+                            FieldName="{local:Localize VisitDescription}"
+                            Placeholder="{local:Localize Description}"
                             Text="{Binding PersonVisitItem.VisitDescriptionBinding}"
-                            TextColor="{StaticResource BlackishText}"
-                            FontFamily="BCSansRegular"
-                            IsReadOnly="{Binding IsUpdatingEnabled, Converter={StaticResource BoolNegationConverter}}"
-                            FontSize="17"
-                        ></controls:EditorEx>
-
-                        <views:ErrorTooltip
-                            x:Name="EditorError"
-                            AbsoluteLayout.LayoutFlags="PositionProportional"
-                            AbsoluteLayout.LayoutBounds="0.5,-.08"
-                            IsVisible="False"
+                            MaxLength="{Static childYouthVisit:ChildYouthVisitViewModel.CharacterLimit}"
                         />
-                    </AbsoluteLayout>
-                </Grid>
-            </Grid>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
         </Grid>
     </Border>
 </baseClasses:IcmRecordContentView>
