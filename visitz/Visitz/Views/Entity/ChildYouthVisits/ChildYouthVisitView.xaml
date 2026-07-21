@@ -29,7 +29,10 @@
     </baseClasses:IcmRecordContentView.Behaviors>
 
     <Border Background="White" StrokeShape="RoundRectangle 10" StrokeThickness="0">
-        <Grid RowDefinitions="Auto,*" Padding="{StaticResource DefaultPadding}">
+        <Grid
+            RowDefinitions="Auto,*"
+            Padding="{OnPlatform iOS={StaticResource DefaultPaddingDouble}, Default={StaticResource DefaultPadding}}"
+        >
             <formctls:FormAppBar
                 x:Name="FormAppBar"
                 Grid.Row="0"
