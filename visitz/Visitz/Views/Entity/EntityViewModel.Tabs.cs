@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Syncfusion.Maui.Toolkit.TabView;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Entity.Attachments;
+using Visitz.Views.Entity.CallDetails;
 using Visitz.Views.Entity.ChildYouthVisits;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
@@ -66,6 +67,10 @@ public partial class EntityViewModel
     void BuildNavList()
     {
         TabItems.Add(MakeTab<EntityDetailsView>());
+
+        if (ShouldShowCallDetails())
+            TabItems.Add(MakeTab<CallDetailsView>());
+
         TabItems.Add(MakeTab<EntityContactsView>());
         TabItems.Add(MakeTab<EntityNotesView>());
         TabItems.Add(MakeTab<AttachmentsView>());
@@ -118,6 +123,11 @@ public partial class EntityViewModel
     partial void OnSelectedTabChanged(SfTabItem? value)
     {
         SelectedIndex = value != null ? TabItems.IndexOf(value) : -1;
+    }
+
+    bool ShouldShowCallDetails()
+    {
+        return BusinessObject.EntityType is EntityType.Incident or EntityType.Memo or EntityType.ServiceRequest;
     }
 
     bool ShouldShowSafetyAssessment()

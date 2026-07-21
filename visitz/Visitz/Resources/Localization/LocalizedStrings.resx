@@ -1141,4 +1141,7 @@ It is unlikely that the file can be recovered.</value>
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="CallDetails" xml:space="preserve">
+    <value>Call details</value>
+  </data>
 </root>

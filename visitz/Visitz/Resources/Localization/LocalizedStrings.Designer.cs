@@ -313,6 +313,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Call details.
+        /// </summary>
+        public static string CallDetails {
+            get {
+                return ResourceManager.GetString("CallDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Call information.
         /// </summary>
         public static string CallInformation {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:IcmRecordContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:callDetails="clr-namespace:Visitz.Views.Entity.CallDetails"
+    x:Class="Visitz.Views.Entity.CallDetails.CallDetailsView"
+    x:DataType="callDetails:CallDetailsViewModel"
+    x:TypeArguments="callDetails:CallDetailsViewModel"
+></base:IcmRecordContentView>
