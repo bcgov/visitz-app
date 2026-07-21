@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
-    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.DraftSavedView"
@@ -14,7 +13,7 @@
         <tagview:TagView
             x:Name="DraftSavedTagView"
             HorizontalOptions="Start"
-            Text="{local:Localize DraftSaved}"
+            Text="{Binding SavedText}"
             Padding="{Binding TagPadding}"
             IconHeightRequest="24"
             IconWidthRequest="24"
@@ -33,7 +32,7 @@
         <tagview:TagView
             x:Name="SavingDraftTagView"
             HorizontalOptions="Start"
-            Text="{local:Localize Ellipsis}"
+            Text="{Binding SavingText}"
             Padding="{Binding TagPadding}"
             IconHeightRequest="24"
             IconWidthRequest="24"

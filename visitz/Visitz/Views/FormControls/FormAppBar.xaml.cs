@@ -88,6 +88,7 @@ public partial class FormAppBar : ContentView, IDisposable
 
     private void FormAppBar_SizeChanged(object? sender, EventArgs e)
     {
+        // Numbers arbitrarily chosen
         InternetInfoView.ShowText = Width >= 650;
         DraftSavedView.ShowText = Width >= 600;
 
