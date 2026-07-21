@@ -32,7 +32,7 @@
             Spacing="10"
             Padding="10"
         >
-            <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="{StaticResource DefaultSpacing}">
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="{StaticResource DefaultSpacing}">
                 <Label
                     Text="{local:Localize Caseload}"
                     Style="{StaticResource HeadlineMedium}"
@@ -72,8 +72,6 @@
                         x:Name="CaseloadSearchBar"
                     />
                 </ContentView>
-
-                <controls:VisitzAvatarView Grid.Column="2" />
             </Grid>
 
             <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">

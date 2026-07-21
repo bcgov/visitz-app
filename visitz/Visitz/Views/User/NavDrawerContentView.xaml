@@ -5,12 +5,12 @@
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:root="clr-namespace:Visitz.Views.Root"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:user="clr-namespace:Visitz.Views.User"
     xmlns:views="clr-namespace:Visitz.Views"
-    x:Class="Visitz.Views.Root.NavDrawerContentView"
-    x:DataType="root:NavDrawerContentViewModel"
-    x:TypeArguments="root:NavDrawerContentViewModel"
+    x:Class="Visitz.Views.User.NavDrawerContentView"
+    x:DataType="user:NavDrawerContentViewModel"
+    x:TypeArguments="user:NavDrawerContentViewModel"
 >
     <Grid RowDefinitions="*, Auto">
         <views:FeaturedBackgroundUnderlay Grid.RowSpan="2" ImageDisplayOptions="TextReadable" />

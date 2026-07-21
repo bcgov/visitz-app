@@ -1,6 +1,6 @@
 using Visitz.Views.BaseClasses;
 
-namespace Visitz.Views.Root;
+namespace Visitz.Views.User;
 
 public partial class NavDrawerContentView : ViewModelContentView<NavDrawerContentViewModel>
 {

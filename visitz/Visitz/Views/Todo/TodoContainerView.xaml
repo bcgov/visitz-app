@@ -14,14 +14,12 @@
     BackgroundColor="{StaticResource Default_Background}"
 >
     <Grid RowDefinitions="Auto, *">
-        <controls:TopAppBar Grid.Row="0" ColumnDefinitions="*,*">
+        <controls:TopAppBar Grid.Row="0">
             <Label
                 Text="{local:Localize Todo}"
                 Style="{StaticResource HeadlineMedium}"
                 VerticalOptions="Center"
             />
-
-            <controls:VisitzAvatarView Grid.Column="1" HorizontalOptions="End" />
         </controls:TopAppBar>
 
         <todo:TodoListView Grid.Row="1" />

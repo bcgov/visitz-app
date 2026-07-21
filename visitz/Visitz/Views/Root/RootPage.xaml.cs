@@ -25,7 +25,6 @@ public partial class RootPage : VisitzPage<RootPage, RootViewModel>, ISnackbarPr
         BindingContext = ViewModel;
 
         StrongReferenceMessenger.Default.Register<AppNavMessage>(this, ReceiveAppNavMessage);
-        StrongReferenceMessenger.Default.Register<NavDrawerMessage>(this, ReceiveNavDrawerMessage);
         StrongReferenceMessenger.Default.Register<GetNavPositionMessage>(this, SendNavPosition);
         StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(
             this,
@@ -49,12 +48,6 @@ public partial class RootPage : VisitzPage<RootPage, RootViewModel>, ISnackbarPr
 
             SetContent(content);
         }
-    }
-
-    private void ReceiveNavDrawerMessage(object _, NavDrawerMessage message)
-    {
-        if (NavDrawer.IsOpen != message.Value)
-            NavDrawer.ToggleDrawer();
     }
 
     private void SetContent(IView view)

@@ -2,10 +2,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.User;
 using VisitzModel.Models.Navigation;
 
-namespace Visitz.Views.Root;
+namespace Visitz.Views.User;
 
 public partial class NavDrawerContentViewModel : VisitzViewModel
 {
