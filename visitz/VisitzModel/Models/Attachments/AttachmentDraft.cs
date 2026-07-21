@@ -98,7 +98,13 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public AttachmentDraft() { }
 
-    AttachmentDraft(IBusinessObject businessObject, string filename, string relativePath, byte[]? thumbnail)
+    AttachmentDraft(
+        IBusinessObject businessObject,
+        string filename,
+        string relativePath,
+        long fileSize,
+        byte[]? thumbnail
+    )
     {
         int dotIndex = filename.LastIndexOf('.');
 
@@ -108,6 +114,8 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
             RelativePath = relativePath,
             Thumbnail = thumbnail,
+            FileSize = fileSize.ToString(),
+            CreatedDate = DateTimeOffset.Now,
         };
 
         this.InitDraftWith(businessObject);
@@ -154,11 +162,13 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         byte[]? thumbnail = null
     )
     {
-        if (stream.Length > Attachment.MaxFilesize)
+        long streamLength = stream.Length;
+
+        if (streamLength > Attachment.MaxFilesize)
             ThrowSizeError(stream);
 
         string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
-        var draft = new AttachmentDraft(businessObject, filename, fullpath, thumbnail);
+        var draft = new AttachmentDraft(businessObject, filename, fullpath, streamLength, thumbnail);
 
         try
         {
@@ -203,6 +213,37 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             status,
             template
         );
+    }
+
+    /// <summary>
+    /// Deletes a draft, and optionally, its paired attachment.
+    /// </summary>
+    /// <param name="deleteAttachment">Whether or not to delete the paired attachment</param>
+    /// <param name="deleteAttachmentFile">If deleteAttechment is true, whether or not to also delete the attachment's file on disk.</param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public async Task DeleteAsync(bool deleteAttachment, bool deleteAttachmentFile = true)
+    {
+        ArgumentNullException.ThrowIfNull(Realm);
+
+        Exception? exception = null;
+        await Realm.CommitAsync(async () =>
+        {
+            try
+            {
+                if (deleteAttachment && Attachment != null)
+                    await Attachment.DeleteAsync(removeContent: deleteAttachmentFile);
+
+                Realm.Remove(this);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+        });
+
+        if (exception != null)
+            throw new Exception("Failed to delete attachment", exception);
     }
 
     protected virtual void Dispose(bool disposing)

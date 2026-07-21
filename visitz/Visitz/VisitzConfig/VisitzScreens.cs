@@ -75,9 +75,6 @@ public static class VisitzScreens
         builder.Services.AddTransient<AttachmentsView>();
         builder.Services.AddTransient<AttachmentsViewModel>();
 
-        builder.Services.AddTransient<AttachmentDraftsListView>();
-        builder.Services.AddTransient<AttachmentDraftsListViewModel>();
-
         builder.Services.AddTransient<AttachmentsListView>();
         builder.Services.AddTransient<AttachmentsListViewModel>();
 

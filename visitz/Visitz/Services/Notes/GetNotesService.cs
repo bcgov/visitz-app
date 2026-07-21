@@ -17,18 +17,18 @@ internal class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationS
 {
     readonly ConcurrentBag<NoteItem> Notes = [];
 
-    public static string MakeId(string caseIncidentId)
+    public static string MakeId(RecordServiceInfo parentInfo)
     {
-        return nameof(GetNotesService) + caseIncidentId;
+        return $"{nameof(GetNotesService)}-{parentInfo.Type}-{parentInfo.Id}";
     }
 
-    public static StartServiceMessage MakeStartMessage(RecordServiceInfo info)
+    public static StartServiceMessage MakeStartMessage(RecordServiceInfo parentInfo)
     {
         return new StartServiceMessage()
         {
-            ServiceId = MakeId(info.Id),
+            ServiceId = MakeId(parentInfo),
             ServiceType = typeof(GetNotesService),
-            Payload = info,
+            Payload = parentInfo,
         };
     }
 
@@ -36,7 +36,7 @@ internal class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationS
 
     public override string GetId()
     {
-        return MakeId(ParentInfo.Id);
+        return MakeId(ParentInfo);
     }
 
     protected override async Task<int> RunPageInParallelAsync(Pagination pagination)

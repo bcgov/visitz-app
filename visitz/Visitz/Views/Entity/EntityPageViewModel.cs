@@ -146,5 +146,6 @@ public partial class EntityPageViewModel(ServiceActivityListener activityListene
     {
         _showId = !_showId;
         FileNumber = _showId ? BusinessObject.FileNumber : BusinessObject.Id;
+        _ = Clipboard.SetTextAsync(FileNumber);
     }
 }

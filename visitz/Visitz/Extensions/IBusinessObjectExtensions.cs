@@ -81,6 +81,8 @@ internal static class IBusinessObjectExtensions
 
         public void RegisterActivityListeners(IRecipient<ServiceStateMessage> recipient)
         {
+            RecordServiceInfo info = new(businessObject);
+
             Register(recipient, GetAttachmentsService.MakeId(businessObject.EntityType, businessObject.Id));
             Register(recipient, GetContactsService.MakeId(businessObject.EntityType, businessObject.Id));
             Register(recipient, GetSupportNetworkService.MakeId(businessObject.EntityType, businessObject.Id));
@@ -98,7 +100,7 @@ internal static class IBusinessObjectExtensions
 
             if (businessObject.EntityType is EntityType.Case or EntityType.Incident or EntityType.ServiceRequest)
             {
-                Register(recipient, GetNotesService.MakeId(businessObject.FileNumber));
+                Register(recipient, GetNotesService.MakeId(info));
             }
 
             if (businessObject.EntityType is EntityType.Incident or EntityType.Memo or EntityType.ServiceRequest)

@@ -11,16 +11,16 @@ namespace Visitz.Services.Notes;
 internal class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
     : VisitzApiService(vpi, prefs)
 {
-    public static string MakeId(string parentId, string notePeriod)
+    public static string MakeId(RecordServiceInfo parentInfo, string notePeriod)
     {
-        return $"{nameof(SubmitAndGetNotesService)}-{parentId}-{notePeriod}";
+        return $"{nameof(SubmitAndGetNotesService)}-{parentInfo.Type}-{parentInfo.Id}-{notePeriod}";
     }
 
     public static StartServiceMessage MakeStartMessage(SubmitNoteEntity submitEntity, RecordServiceInfo info)
     {
         return new StartServiceMessage()
         {
-            ServiceId = MakeId(submitEntity.EntityNumber, submitEntity.NotePeriod),
+            ServiceId = MakeId(info, submitEntity.NotePeriod),
             ServiceType = typeof(SubmitAndGetNotesService),
             Payload = (submitEntity, info),
         };
@@ -36,7 +36,7 @@ internal class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler, 
 
     public override string GetId()
     {
-        return MakeId(SubmitEntity.EntityNumber, SubmitEntity.NotePeriod);
+        return MakeId(ParentInfo, SubmitEntity.NotePeriod);
     }
 
     protected override async Task RunApiServiceAsync()
@@ -47,7 +47,9 @@ internal class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler, 
 
     private async Task<bool> SubmitNote(SubmitNoteEntity noteEntity)
     {
-        var result = await ServiceHandler.TryRunServiceAsync(SubmitNoteService.MakeStartMessage(noteEntity));
+        var result = await ServiceHandler.TryRunServiceAsync(
+            SubmitNoteService.MakeStartMessage(ParentInfo, noteEntity)
+        );
         return result == Result.Successful;
     }
 

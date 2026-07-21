@@ -1125,4 +1125,17 @@ Do you want to download information for this record?</value>
   <data name="InProgress" xml:space="preserve">
     <value>In progress</value>
   </data>
+  <data name="FileMissing" xml:space="preserve">
+    <value>File missing</value>
+  </data>
+  <data name="RelatedIcmAttachmentMissingDesc" xml:space="preserve">
+    <value>The file for this attachment is missing from the device.
+
+Refreshing your caseload may fix this error.</value>
+  </data>
+  <data name="RelatedDraftAttachmentMissingDesc" xml:space="preserve">
+    <value>The file for this draft attachment is missing from the device.
+
+It is unlikely that the file can be recovered.</value>
+  </data>
 </root>

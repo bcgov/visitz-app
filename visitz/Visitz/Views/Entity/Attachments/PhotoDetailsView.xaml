@@ -25,7 +25,12 @@
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
         >
-            <Image Aspect="AspectFit" Source="{Binding DetailImage}" />
+            <Image
+                Aspect="{OnPlatform WinUI=AspectFill, Default=AspectFit}"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill"
+                Source="{Binding DetailImage}"
+            />
         </controls:PanPinchContainer>
 
         <Grid
@@ -71,7 +76,7 @@
                 Grid.Column="4"
                 VerticalOptions="Center"
                 IsVisible="{Binding Attachment.HasDraft}"
-                Text="{Static icons:MaterialIcons.Publish}"
+                Text="{Static icons:MaterialIcons.Send}"
                 FontFamily="MaterialIconsRoundedUnfilled"
                 TextColor="{StaticResource White}"
                 Command="{Binding PublishAttachmentDraftCommand}"

@@ -94,6 +94,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
     public bool FileExistsLocally => RelativePath?.Trim().Length > 0;
 
+    public int? SizeBytes => int.TryParse(FileSize, out int size) ? size : null;
+
     [Backlink(nameof(AttachmentDraft.Attachment))]
     public IQueryable<AttachmentDraft> AttachmentDrafts { get; } = null!;
 
@@ -385,9 +387,6 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
         await attachment.CommitAsync(() =>
         {
-            if (attachment.HasDraft && attachment.Draft != null)
-                realm.Remove(attachment.Draft);
-
             realm.Remove(attachment);
         });
     }

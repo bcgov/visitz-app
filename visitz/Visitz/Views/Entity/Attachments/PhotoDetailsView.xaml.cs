@@ -14,12 +14,6 @@ public partial class PhotoDetailsView : IcmRecordContentView<PhotoDetailsViewMod
         set => ViewModel.Attachment = value;
     }
 
-    public bool IsDownloadedAttachment
-    {
-        get => ViewModel.IsDownloadedAttachment;
-        set => ViewModel.IsDownloadedAttachment = value;
-    }
-
     public PhotoDetailsView()
         : base(ServiceProvider.GetService<PhotoDetailsViewModel>())
     {

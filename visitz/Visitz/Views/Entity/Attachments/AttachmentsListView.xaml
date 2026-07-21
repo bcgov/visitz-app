@@ -11,19 +11,43 @@
     x:TypeArguments="attachments:AttachmentsListViewModel"
     VerticalOptions="Fill"
 >
+    <baseClasses:IcmRecordContentView.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="DraftItem" x:DataType="attachments:AttachmentsListItemUi">
+                <attachments:AttachmentDraftsListItemView />
+            </DataTemplate>
+            <DataTemplate x:Key="DownloadedItem" x:DataType="attachments:AttachmentsListItemUi">
+                <attachments:AttachmentsListItemView />
+            </DataTemplate>
+            <attachments:AttachmentDataTemplateSelector
+                x:Key="AttachmentItemSelector"
+                DraftTemplate="{StaticResource DraftItem}"
+                DownloadedTemplate="{StaticResource DownloadedItem}"
+            />
+        </ResourceDictionary>
+    </baseClasses:IcmRecordContentView.Resources>
+
     <AbsoluteLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsRunning="{Binding IsLoading}"
+        />
+
         <CollectionView
+            x:Name="AttachmentsCollection"
             AbsoluteLayout.LayoutFlags="All"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             ItemsSource="{Binding AttachmentsList}"
-            SelectionMode="None"
             ItemsUpdatingScrollMode="KeepScrollOffset"
+            ItemTemplate="{StaticResource AttachmentItemSelector}"
+            SelectionMode="None"
         >
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="attachments:AttachmentsListItemUi">
-                    <attachments:AttachmentsListItemView />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
         </CollectionView>
 
         <controls:EmptyIcon IsVisible="{Binding IsEmpty}" />

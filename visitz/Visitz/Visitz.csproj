@@ -147,9 +147,6 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>LocalizedStrings.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Views\Entity\Attachments\AttachmentDraftsListItemView.xaml.cs">
-			<DependentUpon>AttachmentDraftsListItemView.xaml</DependentUpon>
-		</Compile>
 		<Compile Update="Views\Entity\ChildYouthVisits\ChildYouthVisitListView.xaml.cs">
 			<DependentUpon>ChildYouthVisitListView.xaml</DependentUpon>
 		</Compile>
