@@ -278,7 +278,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IBusinessObject, I
 
     public bool IsAssigned(string username)
     {
-        return AssignedTo == username || Assignees.Contains(username);
+        return AssignedTo == username || (Assignees?.Contains(username) ?? false);
     }
 
     public override bool Equals(object? obj)
