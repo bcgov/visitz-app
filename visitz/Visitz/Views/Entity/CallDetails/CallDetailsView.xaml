@@ -12,13 +12,15 @@
 >
     <base:IcmRecordContentView.Resources>
         <Style TargetType="Border">
-            <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+            <Setter Property="BackgroundColor" Value="{StaticResource CardGrayBg}" />
             <Setter Property="Padding" Value="{StaticResource DefaultPaddingHalf}" />
             <Setter Property="StrokeThickness" Value="0" />
             <Setter Property="StrokeShape" Value="RoundRectangle 5" />
         </Style>
         <Style TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
             <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="BorderWidth" Value="0" />
+            <Setter Property="Padding" Value="0" />
         </Style>
     </base:IcmRecordContentView.Resources>
 
@@ -48,7 +50,6 @@
 
             <Border>
                 <VerticalStackLayout
-                    BackgroundColor="{StaticResource Gray100}"
                     Spacing="{StaticResource DefaultSpacingHalf}"
                 >
                     <controls:SelectableLabel
