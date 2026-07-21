@@ -4,7 +4,67 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:callDetails="clr-namespace:Visitz.Views.Entity.CallDetails"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Views.Entity.CallDetails.CallDetailsView"
     x:DataType="callDetails:CallDetailsViewModel"
     x:TypeArguments="callDetails:CallDetailsViewModel"
-></base:IcmRecordContentView>
+>
+    <base:IcmRecordContentView.Resources>
+        <Style TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+            <Setter Property="Padding" Value="{StaticResource DefaultPaddingHalf}" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
+            <Setter Property="HorizontalOptions" Value="Start" />
+        </Style>
+    </base:IcmRecordContentView.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="{StaticResource DefaultSpacing}"
+            Margin="{StaticResource DefaultMargin}"
+        >
+            <Label FontFamily="BCSansBold" Text="{local:Localize CallInformation}" />
+
+            <Border>
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacingHalf}">
+                    <controls:SelectableLabel
+                        Text="{Binding CallInfo.InformationBinding}"
+                        MaxLines="7"
+                        LineBreakMode="TailTruncation"
+                    />
+                    <Button
+                        Command="{Binding OpenFullInfoDetailsCommand}"
+                        CommandParameter="{Binding CallInfo.InformationBinding}"
+                        Text="{local:Localize ReadMore}"
+                    />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label FontFamily="BCSansBold" Text="{local:Localize AdditionalInformation}" />
+
+            <Border>
+                <VerticalStackLayout
+                    BackgroundColor="{StaticResource Gray100}"
+                    Spacing="{StaticResource DefaultSpacingHalf}"
+                >
+                    <controls:SelectableLabel
+                        Text="{Binding AdditionalInfo.AdditionalInformationsBinding}"
+                        MaxLines="7"
+                        LineBreakMode="TailTruncation"
+                    />
+                    <Button
+                        Command="{Binding OpenFullInfoDetailsCommand}"
+                        CommandParameter="{Binding AdditionalInfo.AdditionalInformationsBinding}"
+                        Text="{local:Localize ReadMore}"
+                    />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label FontFamily="BCSansBold" Text="{local:Localize Section13Concerns}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</base:IcmRecordContentView>

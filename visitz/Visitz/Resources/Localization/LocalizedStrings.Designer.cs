@@ -70,7 +70,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AdditionalInformation.
+        ///   Looks up a localized string similar to Additional information.
         /// </summary>
         public static string AdditionalInformation {
             get {
@@ -1991,6 +1991,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read more.
+        /// </summary>
+        public static string ReadMore {
+            get {
+                return ResourceManager.GetString("ReadMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Read-only.
         /// </summary>
         public static string ReadOnly {
@@ -2708,6 +2717,15 @@ namespace Visitz.Resources.Localization {
         public static string SAPublishedSuccess {
             get {
                 return ResourceManager.GetString("SAPublishedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Section 13 concerns.
+        /// </summary>
+        public static string Section13Concerns {
+            get {
+                return ResourceManager.GetString("Section13Concerns", resourceCulture);
             }
         }
         

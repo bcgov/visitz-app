@@ -131,4 +131,10 @@ public partial class IncidentConcerns : IRealmObject, IApiJson<IncidentConcernsJ
             realm.Remove(item);
         }
     }
+
+    public static IQueryable<IncidentConcerns> GetByParent(Realm realm, string parentIncidentId)
+    {
+        ArgumentNullException.ThrowIfNull(realm);
+        return realm.All<IncidentConcerns>().Where(concern => concern.IncidentId == parentIncidentId);
+    }
 }

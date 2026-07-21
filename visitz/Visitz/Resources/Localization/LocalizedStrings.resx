@@ -1058,7 +1058,7 @@ Do you want to download information for this record?</value>
     <value>Call information</value>
   </data>
   <data name="AdditionalInformation" xml:space="preserve">
-    <value>AdditionalInformation</value>
+    <value>Additional information</value>
   </data>
   <data name="ContactMedicalBehavioral" xml:space="preserve">
     <value>Contact medical behavioral</value>
@@ -1143,5 +1143,11 @@ It is unlikely that the file can be recovered.</value>
   </data>
   <data name="CallDetails" xml:space="preserve">
     <value>Call details</value>
+  </data>
+  <data name="Section13Concerns" xml:space="preserve">
+    <value>Section 13 concerns</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>Read more</value>
   </data>
 </root>

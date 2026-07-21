@@ -19,7 +19,21 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
         set => ParentTypeInt = (int)value;
     }
     private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
+
     public string AdditionalInformations { get; set; } = string.Empty;
+
+    public string AdditionalInformationsBinding
+    {
+        get => IsValid ? AdditionalInformations : string.Empty;
+        set
+        {
+            if (IsValid)
+            {
+                this.Commit(() => AdditionalInformations = value);
+                RaisePropertyChanged(nameof(AdditionalInformations));
+            }
+        }
+    }
 
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
 
@@ -144,5 +158,13 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(visitItems);
+    }
+
+    public static IQueryable<AdditionalInformation> GetByParent(Realm realm, EntityType type, string parentId)
+    {
+        ArgumentNullException.ThrowIfNull(realm);
+        return realm
+            .All<AdditionalInformation>()
+            .Where(addtl => addtl.ParentId == parentId && addtl.ParentTypeInt == (int)type);
     }
 }

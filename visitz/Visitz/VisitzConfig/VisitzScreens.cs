@@ -67,6 +67,7 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<CallDetailsView>();
         builder.Services.AddTransient<CallDetailsViewModel>();
+        builder.Services.AddTransient<FullDetailsView>();
 
         builder.Services.AddTransient<EntityContactsView>();
         builder.Services.AddTransient<EntityContactsViewModel>();
