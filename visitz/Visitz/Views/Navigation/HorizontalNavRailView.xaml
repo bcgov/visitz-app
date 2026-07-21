@@ -19,7 +19,7 @@
     <Grid HorizontalOptions="{OnIdiom Phone=Fill, Default=Center}">
         <BindableLayout.ItemTemplate>
             <DataTemplate>
-                <nav:NavItemView MinimumWidthRequest="{OnIdiom Phone=-1, Default=120}" />
+                <nav:NavItemView MinimumWidthRequest="{OnIdiom Phone=-1, Default=80}" />
             </DataTemplate>
         </BindableLayout.ItemTemplate>
 
