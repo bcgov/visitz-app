@@ -12,6 +12,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Caseload;
 using Visitz.Views.Debugging;
 using Visitz.Views.Drafts;
+using Visitz.Views.Root;
 using Visitz.Views.Todo;
 using Visitz.Views.User;
 using VisitzModel.Messaging;
@@ -91,6 +92,18 @@ public partial class NavRailViewModel : VisitzViewModel
             UnselectedImageSource = MaterialIcons.Draft.GetUnfilledMaterialIcon(Colors.White),
         };
 
+    [ObservableProperty]
+    public partial NavItem UserNavItem { get; set; } =
+        new()
+        {
+            Text = LocalizedStrings.User,
+            ContentViewType = typeof(NavDrawerContentView),
+            Color = Colors.White,
+            IconSize = IconSize,
+            SelectedImageSource = MaterialIcons.Account_circle.GetFilledMaterialIcon(Colors.White),
+            UnselectedImageSource = MaterialIcons.Account_circle.GetUnfilledMaterialIcon(Colors.White),
+        };
+
     readonly ObservableRealmCount realmCount = new();
 
     protected override async Task InitAsync()
@@ -132,6 +145,7 @@ public partial class NavRailViewModel : VisitzViewModel
         NavigationItems.Add(TodoNavItem);
         NavigationItems.Add(CaseloadNavItem);
         NavigationItems.Add(DraftsNavItem);
+        NavigationItems.Add(UserNavItem);
     }
 
     private async Task SubscribeToAllDraftCounts()

@@ -14,7 +14,7 @@
     BackgroundColor="{StaticResource Default_Background}"
 >
     <Grid RowDefinitions="Auto, *">
-        <controls:TopAppBar Grid.Row="0" RowDefinitions="*,*" ColumnDefinitions="*,*">
+        <controls:TopAppBar Grid.Row="0" RowDefinitions="*,*">
             <Label
                 Grid.Row="0"
                 Text="{local:Localize Drafts}"
@@ -22,12 +22,7 @@
                 VerticalOptions="Center"
             />
 
-            <HorizontalStackLayout
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                VerticalOptions="Center"
-                HorizontalOptions="Fill"
-            >
+            <HorizontalStackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Fill">
                 <controls:DropdownChip
                     Items="{Binding FilterOptions}"
                     Placeholder="{local:Localize FilterDrafts}"
@@ -35,8 +30,6 @@
                     StickySelection="True"
                 />
             </HorizontalStackLayout>
-
-            <controls:VisitzAvatarView Grid.Column="1" HorizontalOptions="End" />
         </controls:TopAppBar>
 
         <ContentView x:Name="MainContent" Grid.Row="1" />
