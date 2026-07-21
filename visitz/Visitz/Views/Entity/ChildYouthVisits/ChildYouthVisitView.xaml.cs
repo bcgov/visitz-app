@@ -1,9 +1,9 @@
-using Visitz.Animations.Haptic;
 using Visitz.Device;
-using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
+
+#nullable enable
 
 public partial class ChildYouthVisitView : IcmRecordContentView<ChildYouthVisitViewModel>
 {
@@ -37,45 +37,11 @@ public partial class ChildYouthVisitView : IcmRecordContentView<ChildYouthVisitV
     private void CheckAndApplyOrientation(bool isKeyboardOpen)
     {
         bool hideForm =
-            VisitsEditor.IsFocused
+            VisitsEditor.EditorView.IsFocused
             && DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape
             && isKeyboardOpen;
 
         ViewModel.ShowFullForm = !hideForm;
-    }
-
-    public async Task ShowEditorError(string text)
-    {
-        await Task.WhenAll(ShowErrorText(text), AnimateEditorError());
-    }
-
-    private async Task ShowErrorText(string text)
-    {
-        if (EditorError.IsVisible)
-            return;
-
-        EditorError.Text = text;
-        EditorError.Show = true;
-
-        await Task.Delay(2000);
-
-        EditorError.Show = false;
-    }
-
-    private async Task AnimateEditorError()
-    {
-        var vibrateErrorAnim = new ErrorVibrateAnimation();
-        await vibrateErrorAnim.Animate(VisitsEditor);
-    }
-
-    private async void VisitsEditor_EmojiEntered(object? sender, EventArgs e)
-    {
-        await ShowEditorError(LocalizedStrings.InvalidEntry);
-    }
-
-    private async void VisitsEditor_SuggestedMaxLengthExceeded(object? sender, EventArgs e)
-    {
-        await ShowEditorError(LocalizedStrings.CharacterLimitReached);
     }
 
     protected override void Dispose(bool disposing)
