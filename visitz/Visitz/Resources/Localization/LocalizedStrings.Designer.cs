@@ -70,7 +70,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AdditionalInformation.
+        ///   Looks up a localized string similar to Additional information.
         /// </summary>
         public static string AdditionalInformation {
             get {
@@ -313,6 +313,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Call details.
+        /// </summary>
+        public static string CallDetails {
+            get {
+                return ResourceManager.GetString("CallDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Call information.
         /// </summary>
         public static string CallInformation {
@@ -531,6 +540,15 @@ namespace Visitz.Resources.Localization {
         public static string CommentsClarificationPrompt {
             get {
                 return ResourceManager.GetString("CommentsClarificationPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Concerns.
+        /// </summary>
+        public static string Concerns {
+            get {
+                return ResourceManager.GetString("Concerns", resourceCulture);
             }
         }
         
@@ -946,6 +964,15 @@ namespace Visitz.Resources.Localization {
         public static string EnableDeviceSecurity {
             get {
                 return ResourceManager.GetString("EnableDeviceSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date.
+        /// </summary>
+        public static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
             }
         }
         
@@ -1982,6 +2009,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read more.
+        /// </summary>
+        public static string ReadMore {
+            get {
+                return ResourceManager.GetString("ReadMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Read-only.
         /// </summary>
         public static string ReadOnly {
@@ -2703,6 +2739,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Section 13 concerns.
+        /// </summary>
+        public static string Section13Concerns {
+            get {
+                return ResourceManager.GetString("Section13Concerns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
         public static string SecureDeviceAndTryAgain {
@@ -2762,6 +2807,15 @@ namespace Visitz.Resources.Localization {
         public static string StaleSessionDesc {
             get {
                 return ResourceManager.GetString("StaleSessionDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start date.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
             }
         }
         

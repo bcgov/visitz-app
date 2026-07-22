@@ -19,13 +19,13 @@ public partial class IncidentConcerns : IRealmObject, IApiJson<IncidentConcernsJ
 
     public DateTimeOffset? EndDate { get; set; }
 
-    public string Created { get; set; } = string.Empty;
+    public DateTimeOffset Created { get; set; }
 
     public string CreatedBy { get; set; } = string.Empty;
 
     public string CreatedByName { get; set; } = string.Empty;
 
-    public string Updated { get; set; } = string.Empty;
+    public DateTimeOffset Updated { get; set; }
 
     public string UpdatedBy { get; set; } = string.Empty;
 
@@ -42,10 +42,10 @@ public partial class IncidentConcerns : IRealmObject, IApiJson<IncidentConcernsJ
         Concern = json.Concern;
         StartDate = Timestamp.ParseDateTimeOffsetNullable(json.StartDate);
         EndDate = Timestamp.ParseDateTimeOffsetNullable(json.EndDate);
-        Created = json.Created;
+        Created = DateTimeOffset.Parse(json.Created);
         CreatedBy = json.CreatedBy;
         CreatedByName = json.CreatedByName;
-        Updated = json.Updated;
+        Updated = DateTimeOffset.Parse(json.Updated);
         UpdatedBy = json.UpdatedBy;
         UpdatedByName = json.UpdatedByName;
         IncidentId = json.IncidentId;
@@ -56,10 +56,10 @@ public partial class IncidentConcerns : IRealmObject, IApiJson<IncidentConcernsJ
         return new()
         {
             Concern = Concern,
-            Created = Created,
+            Created = Created.ToString(dateFormat),
             CreatedBy = CreatedBy,
             CreatedByName = CreatedByName,
-            Updated = Updated,
+            Updated = Updated.ToString(dateFormat),
             UpdatedBy = UpdatedBy,
             IncidentId = IncidentId,
             EndDate = EndDate?.ToString(dateFormat) ?? string.Empty,
@@ -130,5 +130,11 @@ public partial class IncidentConcerns : IRealmObject, IApiJson<IncidentConcernsJ
         {
             realm.Remove(item);
         }
+    }
+
+    public static IQueryable<IncidentConcerns> GetByParent(Realm realm, string parentIncidentId)
+    {
+        ArgumentNullException.ThrowIfNull(realm);
+        return realm.All<IncidentConcerns>().Where(concern => concern.IncidentId == parentIncidentId);
     }
 }

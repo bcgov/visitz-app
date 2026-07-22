@@ -168,6 +168,7 @@ public partial interface IBusinessObject : IRealmObject
             EntityType.ServiceRequest => realm
                 .All<ServiceRequestRecord>()
                 .Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.Unknown => Enumerable.Empty<IBusinessObject>().AsQueryable(),
             _ => throw new InvalidOperationException($"'{type}' not supported"),
         };
     }

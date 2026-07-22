@@ -314,7 +314,7 @@ public partial class IncidentRecord
 
     public bool IsAssigned(string username)
     {
-        return AssignedTo == username || Assignees.Contains(username);
+        return AssignedTo == username || (Assignees?.Contains(username) ?? false);
     }
 
     public override bool Equals(object? obj)

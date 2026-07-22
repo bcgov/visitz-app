@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:IcmRecordContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:callDetails="clr-namespace:Visitz.Views.Entity.CallDetails"
+    xmlns:callDetailsModels="clr-namespace:VisitzModel.Models.CallDetails;assembly=VisitzModel"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    x:Class="Visitz.Views.Entity.CallDetails.CallDetailsView"
+    x:DataType="callDetails:CallDetailsViewModel"
+    x:TypeArguments="callDetails:CallDetailsViewModel"
+>
+    <base:IcmRecordContentView.Resources>
+        <Style TargetType="Border" x:Key="CallDetailsBorder">
+            <Setter Property="BackgroundColor" Value="{StaticResource CardGrayBg}" />
+            <Setter Property="Padding" Value="{StaticResource DefaultPaddingHalf}" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        </Style>
+        <Style
+            TargetType="Button"
+            BasedOn="{StaticResource SecondaryButton}"
+            x:Key="CallDetailsButton"
+        >
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="BorderWidth" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </base:IcmRecordContentView.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="{StaticResource DefaultSpacing}"
+            Margin="{StaticResource DefaultMargin}"
+        >
+            <Label FontFamily="BCSansBold" Text="{local:Localize CallInformation}" />
+
+            <Border Style="{StaticResource CallDetailsBorder}">
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacingHalf}">
+                    <controls:SelectableLabel
+                        Text="{Binding CallInfo.InformationBinding}"
+                        MaxLines="7"
+                        LineBreakMode="TailTruncation"
+                    />
+                    <Button
+                        Command="{Binding OpenFullInfoDetailsCommand}"
+                        CommandParameter="{Binding CallInfo.InformationBinding}"
+                        Style="{StaticResource CallDetailsButton}"
+                        Text="{local:Localize ReadMore}"
+                    />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label FontFamily="BCSansBold" Text="{local:Localize AdditionalInformation}" />
+
+            <Border Style="{StaticResource CallDetailsBorder}">
+                <VerticalStackLayout Spacing="{StaticResource DefaultSpacingHalf}">
+                    <controls:SelectableLabel
+                        Text="{Binding AdditionalInfo.AdditionalInformationsBinding}"
+                        MaxLines="7"
+                        LineBreakMode="TailTruncation"
+                    />
+                    <Button
+                        Command="{Binding OpenFullInfoDetailsCommand}"
+                        CommandParameter="{Binding AdditionalInfo.AdditionalInformationsBinding}"
+                        Style="{StaticResource CallDetailsButton}"
+                        Text="{local:Localize ReadMore}"
+                    />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label
+                FontFamily="BCSansBold"
+                Text="{local:Localize Section13Concerns}"
+                IsVisible="{Binding ShowConcerns}"
+            />
+
+            <CollectionView
+                ItemsSource="{Binding Concerns}"
+                ItemSizingStrategy="MeasureFirstItem"
+                IsVisible="{Binding ShowConcerns}"
+            >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="callDetailsModels:IncidentConcerns">
+                        <callDetails:ConcernListItemView />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</base:IcmRecordContentView>

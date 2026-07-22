@@ -26,6 +26,19 @@ public partial class CallInformation : IRealmObject, IApiJson<CallInformationJso
     }
     public string Information { get; set; } = string.Empty;
 
+    public string InformationBinding
+    {
+        get => IsValid ? Information : string.Empty;
+        set
+        {
+            if (IsValid)
+            {
+                this.Commit(() => Information = value);
+                RaisePropertyChanged(nameof(Information));
+            }
+        }
+    }
+
     public CallInformation() { }
 
     public CallInformation(CallInformationJson json, EntityType type, string parentId)
@@ -150,5 +163,11 @@ public partial class CallInformation : IRealmObject, IApiJson<CallInformationJso
         {
             realm.Remove(item);
         }
+    }
+
+    public static IQueryable<CallInformation> GetByParent(Realm realm, EntityType type, string parentId)
+    {
+        ArgumentNullException.ThrowIfNull(realm);
+        return realm.All<CallInformation>().Where(call => call.ParentId == parentId && call.ParentTypeInt == (int)type);
     }
 }
