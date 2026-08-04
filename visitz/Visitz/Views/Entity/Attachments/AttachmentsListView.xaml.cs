@@ -25,7 +25,7 @@ public partial class AttachmentsListView : IcmRecordContentView<AttachmentsListV
     {
         await base.InitAsync();
 
-        await Task.WhenAll(loadingTcs.Task, ViewModel.InitTask);
+        await Task.WhenAll(loadingTcs.Task, ViewModel.AttachmentsLoadedTcs.Task);
 
         await TryNavigateToFocusDraft();
     }
