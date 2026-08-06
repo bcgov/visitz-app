@@ -180,11 +180,7 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
 
         await HandleDraft();
 
-        if (e.PropertyName != nameof(PersonVisit.VisitDescription))
-            // Skip VisitDescription updates, because we want to use EditorEx's
-            // character count instead of a race condition from directly reading
-            // VisitDescription.Length.
-            UpdateAllowPublish();
+        UpdateAllowPublish();
     }
 
     [RelayCommand]
