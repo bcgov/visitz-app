@@ -31,7 +31,7 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
 
     Realm? DraftRealm { get; set; }
 
-    CaseRecord? Case { get; set; }
+    CaseRecord Case => (CaseRecord)BusinessObject;
 
     [ObservableProperty]
     public partial PersonVisitDraft? Draft { get; set; }
@@ -88,7 +88,6 @@ public partial class ChildYouthVisitViewModel : IcmRecordViewModel
             return;
 
         DraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-        Case = DataRealm.All<CaseRecord>().Where(@case => @case.FileNumber == BusinessObject.FileNumber).First();
 
         if (PersonVisitItem == null && IsUpdatingEnabled)
             Draft = PersonVisitDraft.GetDraft(DraftRealm, Case.Id) ?? new(Case);
