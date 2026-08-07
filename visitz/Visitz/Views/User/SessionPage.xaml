@@ -106,6 +106,7 @@
                 </Grid>
 
                 <Label
+                    FontAutoScalingEnabled="False"
                     FontSize="{StaticResource HeroFontSize}"
                     TextColor="White"
                     VerticalTextAlignment="Center"
