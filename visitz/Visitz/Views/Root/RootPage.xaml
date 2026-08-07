@@ -71,8 +71,15 @@
             x:Name="SnackbarContainer"
             HorizontalOptions="Center"
             VerticalOptions="End"
-            Margin="48"
             IsVisible="False"
-        />
+        >
+            <ContentView.Margin>
+                <Thickness
+                    Left="{StaticResource DefaultMargin}"
+                    Right="{StaticResource DefaultMargin}"
+                    Bottom="48"
+                />
+            </ContentView.Margin>
+        </ContentView>
     </Grid>
 </baseClasses:VisitzPage>
