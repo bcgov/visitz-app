@@ -44,7 +44,7 @@
                 Text="General"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -119,6 +119,14 @@
                     Grid.Column="1"
                     Command="{Binding Options.ClearSecureStorageCommand}"
                     Text="Clear secure storage"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Command="{Binding Options.ShowSnackbarCommand}"
+                    Text="Show snackbar"
                 />
             </Grid>
 

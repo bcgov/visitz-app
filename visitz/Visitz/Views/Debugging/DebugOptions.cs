@@ -6,6 +6,7 @@ using Oidc;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
+using Visitz.Views.Snackbar;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 #if WINDOWS
@@ -402,5 +403,17 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
 
         WindowHeight = VisitzWindow.InitialHeight;
         WindowWidth = VisitzWindow.InitialHeight * VisitzWindow.InitialWidthRatio;
+    }
+
+    [RelayCommand]
+    public static void ShowSnackbar(string? text = null)
+    {
+        text ??= $"An example string of text written for this snackbar to display for {int.MaxValue} seconds.";
+        SnackbarHandler.ShowTextWithDetails(
+            text,
+            "testing title",
+            "testing message",
+            TimeSpan.FromSeconds(int.MaxValue)
+        );
     }
 }
