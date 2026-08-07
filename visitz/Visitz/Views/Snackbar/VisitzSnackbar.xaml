@@ -17,8 +17,9 @@
         StrokeThickness="0"
         StrokeShape="RoundRectangle 4"
     >
-        <HorizontalStackLayout Padding="16" Spacing="8">
+        <Grid Padding="16" ColumnSpacing="8" ColumnDefinitions="*,Auto">
             <Label
+                Grid.Column="0"
                 Text="{Binding Message}"
                 TextColor="White"
                 VerticalOptions="Center"
@@ -26,6 +27,7 @@
             />
 
             <Button
+                Grid.Column="1"
                 Style="{StaticResource SecondaryButtonDark}"
                 Padding="8, -1"
                 BorderWidth="0"
@@ -34,7 +36,8 @@
                 Command="{Binding ActionButtonSelectedCommand}"
                 Text="{Binding ActionText}"
                 IsVisible="{Binding ActionVisible}"
+                VerticalOptions="Center"
             />
-        </HorizontalStackLayout>
+        </Grid>
     </Border>
 </baseClasses:ViewModelContentView>
