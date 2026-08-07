@@ -7,5 +7,15 @@
     x:DataType="debug:DebugOptionsViewModel"
     Title="Debug Options"
 >
-    <debug:DebugOptionsView />
+    <Grid x:Name="RootGrid">
+        <debug:DebugOptionsView />
+
+        <ContentView
+            x:Name="SnackbarContainer"
+            VerticalOptions="End"
+            HorizontalOptions="Center"
+            Margin="48"
+            IsVisible="False"
+        />
+    </Grid>
 </ContentPage>
