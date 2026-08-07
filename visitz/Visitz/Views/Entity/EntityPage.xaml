@@ -72,5 +72,14 @@
                 Type="Shopping"
             />
         </Grid>
+
+        <ContentView
+            x:Name="SnackbarContainer"
+            Grid.RowSpan="2"
+            Margin="48"
+            IsVisible="False"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+        />
     </Grid>
 </base:VisitzPage>

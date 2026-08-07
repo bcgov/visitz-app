@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Logging;
+using Visitz.Animations;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Snackbar;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
@@ -9,9 +11,11 @@ namespace Visitz.Views.Entity;
 
 #nullable enable
 
-public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, IIcmRecordInfo
+public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, IIcmRecordInfo, ISnackbarPresenter
 {
     Task<EntityView>? _createEntityView;
+
+    VisitzSnackbar? Snackbar { get; set; }
 
     public string RowId
     {
@@ -97,5 +101,36 @@ public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, I
 
         MainContent.Remove(Shimmer);
         view.Loaded -= EntityView_Loaded;
+    }
+
+    public void SetSnackbar(VisitzSnackbar? snackbar)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            Snackbar?.ShouldClose -= Snackbar_ShouldClose;
+
+            Snackbar = snackbar;
+            SnackbarContainer.Content = Snackbar;
+            SnackbarContainer.IsVisible = Snackbar != null;
+
+            if (Snackbar != null)
+            {
+                Snackbar.ShouldClose += Snackbar_ShouldClose;
+                _ = new VisibilityAnimation(showView: true, 150).Animate(Snackbar);
+            }
+        });
+    }
+
+    public void Snackbar_ShouldClose(object? sender, EventArgs e)
+    {
+        _ = AnimateCloseSnackbar();
+    }
+
+    private async Task AnimateCloseSnackbar()
+    {
+        if (Snackbar != null)
+            await new VisibilityAnimation(showView: false, 150).Animate(Snackbar);
+
+        SetSnackbar(null);
     }
 }
