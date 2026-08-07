@@ -12,10 +12,17 @@
 
         <ContentView
             x:Name="SnackbarContainer"
-            VerticalOptions="End"
             HorizontalOptions="Center"
-            Margin="48"
+            VerticalOptions="End"
             IsVisible="False"
-        />
+        >
+            <ContentView.Margin>
+                <Thickness
+                    Left="{StaticResource DefaultMargin}"
+                    Right="{StaticResource DefaultMargin}"
+                    Bottom="48"
+                />
+            </ContentView.Margin>
+        </ContentView>
     </Grid>
 </ContentPage>
