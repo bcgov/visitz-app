@@ -32,13 +32,7 @@
             >
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="models:NoteItemGroup">
-                        <Border
-                            Background="{StaticResource CardGrayBg}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 20"
-                            Padding="10,0"
-                            Margin="{OnPlatform WinUI='0', Default='10'}"
-                        >
+                        <ContentView Padding="{OnPlatform WinUI='0', Default='10'}">
                             <Label
                                 VerticalOptions="Center"
                                 VerticalTextAlignment="Center"
@@ -46,7 +40,7 @@
                                 FontFamily="BCSansBold"
                                 FontSize="{StaticResource TitleLargeFontSize}"
                             />
-                        </Border>
+                        </ContentView>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
 

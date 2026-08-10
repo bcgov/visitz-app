@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView
+<base:BaseContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:callDetails="clr-namespace:Visitz.Views.Entity.CallDetails"
-    xmlns:callDetailsModels="clr-namespace:VisitzModel.Models.CallDetails;assembly=VisitzModel"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Views.Entity.CallDetails.ConcernListItemView"
-    x:DataType="callDetailsModels:IncidentConcerns"
+    x:DataType="callDetails:ConcernListItemViewModel"
 >
     <Border
         BackgroundColor="{StaticResource CardGrayBg}"
@@ -30,19 +30,23 @@
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                     </Grid.GestureRecognizers>
-                    <Label Grid.Row="0" FontFamily="BCSansBold" Text="{Binding ConcernBinding}" />
+                    <Label
+                        Grid.Row="0"
+                        FontFamily="BCSansBold"
+                        Text="{Binding Concerns.ConcernBinding}"
+                    />
 
                     <Label
                         Grid.Row="1"
                         FontSize="{StaticResource BodySmallFontSize}"
-                        Text="{Binding CreatedBinding, StringFormat='{0:yyyy-MMM-dd}'}"
+                        Text="{Binding Concerns.CreatedBinding, StringFormat='{0:yyyy-MMM-dd}'}"
                     />
                     <Label
                         Grid.Column="1"
                         Grid.RowSpan="2"
                         FontFamily="MaterialIconsRoundedUnfilled"
                         FontSize="{StaticResource LayoutChevronFontSize}"
-                        Text="{Binding ExpandedChevronGlyph, Source={RelativeSource AncestorType=callDetails:ConcernListItemView}}"
+                        Text="{Binding ExpandedChevronGlyph}"
                         VerticalOptions="Start"
                         HorizontalOptions="End"
                     />
@@ -52,33 +56,33 @@
             <BoxView
                 Color="{StaticResource Gray100}"
                 HeightRequest="0.5"
-                IsVisible="{Binding Expanded, Source={RelativeSource AncestorType=callDetails:ConcernListItemView}}"
+                IsVisible="{Binding Expanded}"
             />
 
             <VerticalStackLayout
                 Padding="{StaticResource DefaultPadding}"
-                IsVisible="{Binding Expanded, Source={RelativeSource AncestorType=callDetails:ConcernListItemView}}"
+                IsVisible="{Binding Expanded}"
             >
                 <controls:SelectableLabel
                     FontFamily="BCSansBold"
                     Text="{local:Localize Concerns}"
                 />
-                <controls:SelectableLabel Text="{Binding ConcernBinding}" />
+                <controls:SelectableLabel Text="{Binding Concerns.ConcernBinding}" />
 
                 <controls:SelectableLabel FontFamily="BCSansBold" Text="{local:Localize StartDate}">
                     <controls:SelectableLabel.Margin>
                         <Thickness Top="{StaticResource DefaultMargin}" />
                     </controls:SelectableLabel.Margin>
                 </controls:SelectableLabel>
-                <controls:SelectableLabel Text="{Binding StartDateBinding, StringFormat='{0:yyyy-MMM-dd}'}" />
+                <controls:SelectableLabel Text="{Binding Concerns.StartDateBinding, StringFormat='{0:yyyy-MMM-dd}'}" />
 
                 <controls:SelectableLabel FontFamily="BCSansBold" Text="{local:Localize EndDate}">
                     <controls:SelectableLabel.Margin>
                         <Thickness Top="{StaticResource DefaultMargin}" />
                     </controls:SelectableLabel.Margin>
                 </controls:SelectableLabel>
-                <controls:SelectableLabel Text="{Binding EndDateBinding, StringFormat='{0:yyyy-MMM-dd}'}" />
+                <controls:SelectableLabel Text="{Binding Concerns.EndDateBinding, StringFormat='{0:yyyy-MMM-dd}'}" />
             </VerticalStackLayout>
         </VerticalStackLayout>
     </Border>
-</ContentView>
+</base:BaseContentView>

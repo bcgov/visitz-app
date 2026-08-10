@@ -139,6 +139,7 @@
                     MaximumHeightRequest="180"
                 >
                     <Label
+                        FontAutoScalingEnabled="False"
                         Text="{Binding PublishingStatus}"
                         TextColor="White"
                         FontFamily="BCSansBold"
@@ -212,6 +213,7 @@
                     MaximumHeightRequest="180"
                 >
                     <Label
+                        FontAutoScalingEnabled="False"
                         Text="{Binding RefreshingStatus}"
                         TextColor="White"
                         FontFamily="BCSansBold"

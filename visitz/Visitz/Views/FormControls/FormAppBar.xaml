@@ -18,7 +18,11 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <Grid ColumnDefinitions="Auto,*,Auto" BindingContext="{Reference self}">
+    <Grid
+        ColumnDefinitions="Auto,*,Auto,Auto"
+        ColumnSpacing="{StaticResource DefaultSpacing}"
+        BindingContext="{Reference self}"
+    >
         <controls:CloseButton
             Grid.Column="0"
             VerticalOptions="Center"
@@ -32,49 +36,51 @@
             SaveState="{Binding DraftSaveState}"
         />
 
-        <HorizontalStackLayout Grid.Column="2" Spacing="{StaticResource DefaultSpacing}">
-            <views:InternetInfoView x:Name="InternetInfoView" />
+        <views:InternetInfoView x:Name="InternetInfoView" Grid.Column="1" HorizontalOptions="End" />
 
-            <Button
-                x:Name="DiscardButton"
-                Style="{StaticResource SecondaryButtonLight}"
-                Command="{Binding DiscardCommand}"
-                IsEnabled="{Binding AllowDiscard}"
-                IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
-            >
-                <Button.ImageSource>
-                    <FontImageSource
-                        Glyph="{Static fonticons:MaterialIcons.Delete}"
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        Color="{StaticResource Primary}"
-                        Size="18"
-                    />
-                </Button.ImageSource>
-            </Button>
+        <Button
+            x:Name="DiscardButton"
+            Grid.Column="2"
+            Style="{StaticResource SecondaryButtonLight}"
+            Command="{Binding DiscardCommand}"
+            IsEnabled="{Binding AllowDiscard}"
+            IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+        >
+            <Button.ImageSource>
+                <FontImageSource
+                    Glyph="{Static fonticons:MaterialIcons.Delete}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    Color="{StaticResource Primary}"
+                    Size="18"
+                />
+            </Button.ImageSource>
+        </Button>
 
-            <Button
-                x:Name="PublishButton"
-                Command="{Binding PublishCommand}"
-                IsEnabled="{Binding EnablePublish}"
-                IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
-                ContentLayout="Right"
-            >
-                <Button.ImageSource>
-                    <FontImageSource
-                        Glyph="{Static fonticons:MaterialIcons.Send}"
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        Color="White"
-                        Size="18"
-                    />
-                </Button.ImageSource>
-            </Button>
+        <Button
+            x:Name="PublishButton"
+            Grid.Column="3"
+            Command="{Binding PublishCommand}"
+            IsEnabled="{Binding EnablePublish}"
+            IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+            ContentLayout="Right"
+        >
+            <Button.ImageSource>
+                <FontImageSource
+                    Glyph="{Static fonticons:MaterialIcons.Send}"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    Color="White"
+                    Size="18"
+                />
+            </Button.ImageSource>
+        </Button>
 
-            <Label
-                Text="{local:Localize ReadOnly}"
-                FontFamily="BCSansItalic"
-                VerticalOptions="Center"
-                IsVisible="{Binding IsReadOnly}"
-            />
-        </HorizontalStackLayout>
+        <Label
+            Text="{local:Localize ReadOnly}"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            FontFamily="BCSansItalic"
+            VerticalOptions="Center"
+            IsVisible="{Binding IsReadOnly}"
+        />
     </Grid>
 </ContentView>

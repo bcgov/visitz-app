@@ -66,6 +66,8 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
 
     public UserIgnoredContentPrefs? UserIgnoredContentPrefs { get; set; }
 
+    public TaskCompletionSource AttachmentsLoadedTcs { get; } = new();
+
     public AttachmentsListViewModel()
     {
         UserIgnoredContentPrefs = new UserIgnoredContentPrefs(Preferences.Default);
@@ -165,6 +167,7 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         }
 
         IsEmpty = !AttachmentsList.Any();
+        AttachmentsLoadedTcs.TrySetResult();
     }
 
     AttachmentsListItemUi MakeItemUi(Attachment attachment)

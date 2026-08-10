@@ -1,7 +1,10 @@
 using Visitz.Views.BaseClasses;
+using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.Entity.Attachments;
+
+#nullable enable
 
 public partial class AttachmentsListView : IcmRecordContentView<AttachmentsListViewModel>
 {
@@ -22,7 +25,7 @@ public partial class AttachmentsListView : IcmRecordContentView<AttachmentsListV
     {
         await base.InitAsync();
 
-        await Task.WhenAll(loadingTcs.Task, ViewModel.InitTask);
+        await Task.WhenAll(loadingTcs.Task, ViewModel.AttachmentsLoadedTcs.Task);
 
         await TryNavigateToFocusDraft();
     }
@@ -48,19 +51,20 @@ public partial class AttachmentsListView : IcmRecordContentView<AttachmentsListV
 
     async Task TryNavigateToFocusDraft()
     {
-        if (FocusedDraftItem == null)
+        if (FocusedDraftItem is not AttachmentDraft draft)
             return;
 
         var found = ViewModel.AttachmentsList.FirstOrDefault(attachmentVm =>
-            attachmentVm.Attachment.Draft?.Preview == FocusedDraftItem.Preview
-            && attachmentVm.Attachment.Draft.LastUpdated == FocusedDraftItem.LastUpdated
+            attachmentVm.Attachment.Id == draft.Attachment?.Id
         );
 
         if (found != null)
+        {
             ScrollToAttachment(found);
 
-        if (found?.Attachment.Draft != null)
-            await ViewModel.OpenAttachment(found);
+            if (found.Attachment.Draft != null)
+                await ViewModel.OpenAttachment(found);
+        }
 
         FocusedDraftItem = null;
     }

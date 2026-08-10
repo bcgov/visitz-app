@@ -11,6 +11,7 @@ public partial class VisitDetailListItem : VisitzViewModel
 
     [ObservableProperty]
     public partial bool IsChecked { get; set; }
+
     PersonVisit Visit { get; }
 
     public VisitDetailListItem(string detailValue, PersonVisit visit)

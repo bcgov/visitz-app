@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:callDetails="clr-namespace:Visitz.Views.Entity.CallDetails"
-    xmlns:callDetailsModels="clr-namespace:VisitzModel.Models.CallDetails;assembly=VisitzModel"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Views.Entity.CallDetails.CallDetailsView"
@@ -48,6 +47,7 @@
                         CommandParameter="{Binding CallInfo.InformationBinding}"
                         Style="{StaticResource CallDetailsButton}"
                         Text="{local:Localize ReadMore}"
+                        IsVisible="{Binding HasCallInfo}"
                     />
                 </VerticalStackLayout>
             </Border>
@@ -66,6 +66,7 @@
                         CommandParameter="{Binding AdditionalInfo.AdditionalInformationsBinding}"
                         Style="{StaticResource CallDetailsButton}"
                         Text="{local:Localize ReadMore}"
+                        IsVisible="{Binding HasAdditionalInfo}"
                     />
                 </VerticalStackLayout>
             </Border>
@@ -76,17 +77,16 @@
                 IsVisible="{Binding ShowConcerns}"
             />
 
-            <CollectionView
-                ItemsSource="{Binding Concerns}"
-                ItemSizingStrategy="MeasureFirstItem"
+            <VerticalStackLayout
+                BindableLayout.ItemsSource="{Binding Concerns}"
                 IsVisible="{Binding ShowConcerns}"
             >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="callDetailsModels:IncidentConcerns">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="callDetails:ConcernListItemViewModel">
                         <callDetails:ConcernListItemView />
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </base:IcmRecordContentView>

@@ -1,26 +1,36 @@
-using CommunityToolkit.Maui;
-using Visitz.FontIcons;
+using Microsoft.Extensions.Logging;
+using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 
 namespace Visitz.Views.Entity.CallDetails;
 
 #nullable enable
 
-public partial class ConcernListItemView : ContentView
+public partial class ConcernListItemView : BaseContentView
 {
-    [BindableProperty]
-    public partial bool Expanded { get; set; }
-
-    [BindableProperty]
-    public partial string ExpandedChevronGlyph { get; set; } = MaterialIcons.Keyboard_arrow_down;
-
     public ConcernListItemView()
     {
         InitializeComponent();
     }
 
-    private void TapGestureRecognizer_Tapped(object? sender, TappedEventArgs e)
+    async void TapGestureRecognizer_Tapped(object? sender, TappedEventArgs e)
     {
-        Expanded = !Expanded;
-        ExpandedChevronGlyph = Expanded ? MaterialIcons.Keyboard_arrow_up : MaterialIcons.Keyboard_arrow_down;
+        try
+        {
+            if (BindingContext is ConcernListItemViewModel vm && Parent.FindFirstParent<ScrollView>() is ScrollView sv)
+            {
+                vm.ToggleExpanded();
+
+                if (vm.Expanded)
+                {
+                    await Task.Delay(100); // not a fan but it's the easiest way to let the layout settle
+                    await sv.ScrollToAsync(this, ScrollToPosition.Start, true);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex.Message, ex);
+        }
     }
 }
