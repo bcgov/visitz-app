@@ -5,8 +5,6 @@ using Visitz.Resources.Localization;
 
 namespace Visitz.Views;
 
-#nullable enable
-
 public partial class InternetInfoView : ContentView, IDisposable
 {
     bool _disposedValue;

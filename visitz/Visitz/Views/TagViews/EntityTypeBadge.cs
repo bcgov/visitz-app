@@ -5,8 +5,6 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.TagViews;
 
-#nullable enable
-
 public class EntityTypeBadge : TagView
 {
     public static readonly BindableProperty EntityTypeProperty = BindableProperty.Create(

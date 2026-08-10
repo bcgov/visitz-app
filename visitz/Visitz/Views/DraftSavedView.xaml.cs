@@ -5,8 +5,6 @@ using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views;
 
-#nullable enable
-
 public partial class DraftSavedView : ContentView
 {
     [BindableProperty]

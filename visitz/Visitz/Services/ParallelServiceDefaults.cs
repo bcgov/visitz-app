@@ -1,7 +1,5 @@
 namespace Visitz.Services;
 
-#nullable enable
-
 internal static class ParallelServiceDefaults
 {
     /// <summary>

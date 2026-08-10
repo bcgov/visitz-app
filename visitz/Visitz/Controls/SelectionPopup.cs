@@ -5,8 +5,6 @@ using Visitz.Behaviors;
 
 namespace Visitz.Controls;
 
-#nullable enable
-
 public partial class SelectionPopup : SfPopup
 {
     [BindableProperty]

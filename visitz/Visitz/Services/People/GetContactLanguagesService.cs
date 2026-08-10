@@ -9,7 +9,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
-#nullable enable
 internal class GetContactLanguagesService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     IcmContact Contact => (IcmContact)Payload;

@@ -1,7 +1,5 @@
 namespace Visitz.Views.Navigation;
 
-#nullable enable
-
 internal partial class ContentViewNavigationStack : ContentView
 {
     const uint _animationLength = 250;

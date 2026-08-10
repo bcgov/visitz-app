@@ -1,7 +1,5 @@
 namespace Visitz.Controls;
 
-#nullable enable
-
 public class FilterOption<TItem>(
     string label,
     Func<TItem, bool> wherePredicate,

@@ -16,8 +16,6 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
-#nullable enable
-
 public partial class EntityViewModel
 {
     [ObservableProperty]

@@ -7,8 +7,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;
 
-#nullable enable
-
 internal class PostVisitService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     PersonVisit Visit => (PersonVisit)Payload;

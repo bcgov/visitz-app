@@ -6,8 +6,6 @@ using VisitzModel.Extensions;
 
 namespace Visitz.Views.Entity.FamilyMembers;
 
-#nullable enable
-
 public partial class ContactItemView : BaseContentView
 {
     ContactItemViewModel? ViewModel => BindingContext as ContactItemViewModel;

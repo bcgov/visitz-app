@@ -19,8 +19,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
 
-#nullable enable
-
 public partial class CaseloadItemViewModel
     : VisitzViewModel,
         IComparable<CaseloadItemViewModel>,

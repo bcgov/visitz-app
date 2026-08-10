@@ -16,8 +16,6 @@ using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 
-#nullable enable
-
 namespace Visitz.Views.Entity.Notes;
 
 public partial class NoteEntryViewModel : IcmRecordViewModel

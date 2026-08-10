@@ -24,8 +24,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
 
-#nullable enable
-
 public partial class DraftsListViewModel : VisitzViewModel
 {
     bool _disposed;

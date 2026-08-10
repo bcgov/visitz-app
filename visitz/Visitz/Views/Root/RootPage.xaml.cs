@@ -12,8 +12,6 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Root;
 
-#nullable enable
-
 public partial class RootPage : VisitzPage<RootPage, RootViewModel>, ISnackbarPresenter
 {
     VisitzSnackbar? Snackbar { get; set; }

@@ -5,8 +5,6 @@ using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.Drafts;
 
-#nullable enable
-
 public partial class DraftsList : ViewModelContentView<DraftsListViewModel>
 {
     public DraftsList()

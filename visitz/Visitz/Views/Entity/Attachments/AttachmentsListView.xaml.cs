@@ -4,8 +4,6 @@ using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.Entity.Attachments;
 
-#nullable enable
-
 public partial class AttachmentsListView : IcmRecordContentView<AttachmentsListViewModel>
 {
     public IDraftItem? FocusedDraftItem { get; set; }

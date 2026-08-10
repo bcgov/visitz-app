@@ -8,8 +8,6 @@ using VisitzModel.Models.Attachments;
 
 namespace Visitz.Views.Entity.Attachments;
 
-#nullable enable
-
 public partial class PdfDetailsViewModel : AttachmentDetailsViewModel
 {
     static readonly string EmbedHtmlPath = Path.Join("PDF", "pdf-embed.html");

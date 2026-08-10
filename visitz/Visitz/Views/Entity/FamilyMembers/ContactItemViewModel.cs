@@ -8,8 +8,6 @@ using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;
 
-#nullable enable
-
 public partial class ContactItemViewModel : VisitzViewModel
 {
     [ObservableProperty]

@@ -5,8 +5,6 @@ using VisitzModel.Models.Drafts;
 
 namespace Visitz.Views.FormControls;
 
-#nullable enable
-
 public partial class FormAppBar : ContentView, IDisposable
 {
     bool _disposedValue;

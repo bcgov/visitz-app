@@ -11,8 +11,6 @@ using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-#nullable enable
-
 public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRecordViewModel
 {
     public static readonly string PictureFiletype = "jpg";

@@ -3,8 +3,6 @@ using Visitz.Views.Snackbar;
 
 namespace Visitz.Views.Debugging;
 
-#nullable enable
-
 public partial class DebugOptionsPage : ContentPage, ISnackbarPresenter
 {
     VisitzSnackbar? Snackbar { get; set; }

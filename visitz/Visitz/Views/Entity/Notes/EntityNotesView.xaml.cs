@@ -6,8 +6,6 @@ using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
-#nullable enable
-
 public partial class EntityNotesView : IcmRecordContentView<EntityNotesViewModel>, IRequestedEntitySection
 {
     public EntitySection RequestedSection

@@ -13,8 +13,6 @@ using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-#nullable enable
-
 public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
 {
     [ObservableProperty]

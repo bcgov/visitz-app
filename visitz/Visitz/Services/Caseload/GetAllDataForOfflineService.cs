@@ -17,8 +17,6 @@ using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
-#nullable enable
-
 namespace Visitz.Services.Caseload;
 
 public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)

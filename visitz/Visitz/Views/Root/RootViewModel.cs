@@ -13,8 +13,6 @@ using VisitzModel.Messaging;
 
 namespace Visitz.Views.Root;
 
-#nullable enable
-
 public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]

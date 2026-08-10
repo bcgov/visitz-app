@@ -8,8 +8,6 @@ using VisitzModel;
 
 namespace Visitz.Services;
 
-#nullable enable
-
 public class ServiceHandler : IRecipient<StartServiceMessage>
 {
     readonly ConcurrentDictionary<string, VisitzService> Services = [];

@@ -11,8 +11,6 @@ using VisitzModel.Models.CallDetails;
 
 namespace Visitz.Views.Entity.CallDetails;
 
-#nullable enable
-
 public partial class CallDetailsViewModel : IcmRecordViewModel
 {
     bool _disposed;

@@ -11,8 +11,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Caseload;
 
-#nullable enable
-
 public partial class DraftIndicatorHelper : ObservableObject, IDisposable
 {
     readonly ObservableRealmQueryMap realmQueryMap = new();

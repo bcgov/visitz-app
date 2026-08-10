@@ -16,8 +16,6 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Extensions;
 
-#nullable enable
-
 internal static class IBusinessObjectExtensions
 {
     extension(IBusinessObject businessObject)

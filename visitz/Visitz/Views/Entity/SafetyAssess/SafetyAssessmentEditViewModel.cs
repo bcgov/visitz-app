@@ -21,8 +21,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-#nullable enable
-
 public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
 {
     public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";

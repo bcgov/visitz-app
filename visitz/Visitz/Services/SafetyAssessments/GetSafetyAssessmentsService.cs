@@ -10,8 +10,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.SafetyAssessments;
 
-#nullable enable
-
 internal class GetSafetyAssessmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     public RecordServiceInfo Info => (RecordServiceInfo)Payload;

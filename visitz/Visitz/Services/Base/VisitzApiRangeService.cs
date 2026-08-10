@@ -4,8 +4,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Base;
 
-#nullable enable
-
 internal abstract class VisitzApiRangeService<Item>(
     Vpi vpi,
     LastUpdatedPrefs prefs,

@@ -4,8 +4,6 @@ using VisitzModel.Events;
 
 namespace Visitz.Views.Entity.Notes;
 
-#nullable enable
-
 public partial class NoteEntryView : IcmRecordContentView<NoteEntryViewModel>
 {
     bool _disposed;

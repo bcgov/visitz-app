@@ -4,8 +4,6 @@ using Visitz.Views.Entity;
 
 namespace Visitz.Views.BaseClasses;
 
-#nullable enable
-
 public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitialize
 {
     private bool _disposedValue;

@@ -5,8 +5,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Entity;
 
-#nullable enable
-
 public partial class EntityView : IcmRecordContentView<EntityViewModel>
 {
     Grid? TabsGrid => TabView.Content as Grid;

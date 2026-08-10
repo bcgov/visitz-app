@@ -4,8 +4,6 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.BaseClasses;
 
-#nullable enable
-
 public partial class IcmRecordContentView<TViewModel>(TViewModel viewModel, string title = "")
     : ViewModelContentView<TViewModel>(viewModel, title),
         IIcmRecordInfo,

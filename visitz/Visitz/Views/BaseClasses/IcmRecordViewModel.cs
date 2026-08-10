@@ -7,8 +7,6 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.BaseClasses;
 
-#nullable enable
-
 public partial class IcmRecordViewModel : VisitzViewModel, IIcmRecordInfo, IBusinessObjectHolder
 {
     protected Realm? DataRealm { get; private set; }

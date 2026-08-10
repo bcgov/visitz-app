@@ -2,8 +2,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Todo;
 
-#nullable enable
-
 public partial class TodoListView : ViewModelContentView<TodoListViewModel>
 {
     public TodoListView()

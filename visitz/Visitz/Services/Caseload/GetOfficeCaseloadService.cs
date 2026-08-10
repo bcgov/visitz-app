@@ -10,8 +10,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
 
-#nullable enable
-
 internal class GetOfficeCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredContentPrefs ignoredPrefs)
     : ApiPaginationService(vpi, prefs)
 {

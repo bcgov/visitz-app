@@ -9,8 +9,6 @@ using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.Details;
 
-#nullable enable
-
 public partial class EntityDetailsViewModel : IcmRecordViewModel
 {
     [ObservableProperty]

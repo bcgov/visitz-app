@@ -14,8 +14,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-#nullable enable
-
 public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
 {
     [ObservableProperty]

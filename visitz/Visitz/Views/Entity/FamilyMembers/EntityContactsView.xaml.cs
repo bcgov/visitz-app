@@ -3,8 +3,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Entity.FamilyMembers;
 
-#nullable enable
-
 public partial class EntityContactsView : IcmRecordContentView<EntityContactsViewModel>
 {
     public EntityContactsView()

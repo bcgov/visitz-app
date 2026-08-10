@@ -7,8 +7,6 @@ using VisitzApi.Requests;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Storage;
 
-#nullable enable
-
 namespace Visitz.Services.Caseload;
 
 internal class GetCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredContentPrefs userIgnoredContentPrefs)

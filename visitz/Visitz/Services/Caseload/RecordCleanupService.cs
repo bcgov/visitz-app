@@ -10,8 +10,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
 
-#nullable enable
-
 internal class RecordCleanupService : VisitzService
 {
     static readonly int MaxDaysThreshold = 7;

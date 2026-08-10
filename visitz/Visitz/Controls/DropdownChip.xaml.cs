@@ -4,8 +4,6 @@ using VisitzModel.Extensions;
 
 namespace Visitz.Controls;
 
-#nullable enable
-
 public partial class DropdownChip : ContentView
 {
     const int MaxTextLength = 15;

@@ -11,8 +11,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes;
 
-#nullable enable
-
 internal class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     readonly ConcurrentBag<NoteItem> Notes = [];

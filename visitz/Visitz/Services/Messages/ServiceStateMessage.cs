@@ -2,8 +2,6 @@ using Visitz.Services.Base;
 
 namespace Visitz.Services.Messages;
 
-#nullable enable
-
 public class ServiceStateMessage : ServiceInfoMessage
 {
     public VisitzService.State Status { get; set; }

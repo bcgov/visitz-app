@@ -3,8 +3,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
-#nullable enable
-
 public partial class SupportNetworkListItem : BaseContentView
 {
     public SupportNetworkListItem()

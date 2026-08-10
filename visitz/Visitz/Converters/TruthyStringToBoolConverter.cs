@@ -3,8 +3,6 @@ using VisitzModel.Extensions;
 
 namespace Visitz.Converters;
 
-#nullable enable
-
 internal class TruthyStringToBoolConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

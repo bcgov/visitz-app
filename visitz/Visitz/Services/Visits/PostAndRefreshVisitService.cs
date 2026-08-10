@@ -6,8 +6,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;
 
-#nullable enable
-
 internal class PostAndRefreshVisitService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiService(vpi, prefs)
 {

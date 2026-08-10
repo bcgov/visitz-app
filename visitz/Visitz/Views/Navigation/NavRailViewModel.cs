@@ -23,8 +23,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Navigation;
 
-#nullable enable
-
 public partial class NavRailViewModel : VisitzViewModel
 {
 #if IOS

@@ -8,8 +8,6 @@ using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
-#nullable enable
-
 namespace Visitz.Services.CallDetails;
 
 internal class GetCallInformationService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)

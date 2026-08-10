@@ -2,8 +2,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Navigation;
 
-#nullable enable
-
 public partial class TabView : ViewModelContentView<TabViewModel>
 {
     public static readonly BindableProperty TabsProperty = BindableProperty.Create(

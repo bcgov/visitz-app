@@ -16,8 +16,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
 
-#nullable enable
-
 /// <summary>
 /// Gets all dependent info for a given BusinessObject by concurrently
 /// executing individual services. Collects exceptions and rethrows them when

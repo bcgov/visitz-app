@@ -20,8 +20,6 @@ using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Caseload;
 
-#nullable enable
-
 public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
 #if WINDOWS

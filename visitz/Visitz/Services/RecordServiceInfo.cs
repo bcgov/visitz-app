@@ -4,8 +4,6 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Services;
 
-#nullable enable
-
 internal class RecordServiceInfo(
     EntityType type,
     EntitySubtype subtype,

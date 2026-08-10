@@ -3,8 +3,6 @@ using Visitz.Services.Messages;
 using VisitzApi;
 using VisitzModel.Storage;
 
-#nullable enable
-
 namespace Visitz.Services.CallDetails;
 
 internal class GetCallInformationByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)

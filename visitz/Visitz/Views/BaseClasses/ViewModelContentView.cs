@@ -1,7 +1,5 @@
 namespace Visitz.Views.BaseClasses;
 
-#nullable enable
-
 public abstract class ViewModelContentView<TViewModel>(TViewModel viewModel, string title = "") : BaseContentView(title)
     where TViewModel : VisitzViewModel
 {

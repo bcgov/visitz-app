@@ -12,8 +12,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
-#nullable enable
-
 internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;

@@ -9,8 +9,6 @@ using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;
 
-#nullable enable
-
 public partial class EntityContactsViewModel : IcmRecordViewModel
 {
     readonly ObservableRealmQueryMap _realmQueryMap = new();

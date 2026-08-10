@@ -4,8 +4,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Base;
 
-#nullable enable
-
 internal abstract class ApiPaginationService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     // TODO: Rearchitect services and start messages with generics to make it
