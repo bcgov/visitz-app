@@ -33,6 +33,22 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
     [ObservableProperty]
     public partial bool ShowConcerns { get; set; }
 
+    [ObservableProperty]
+    public partial bool HasCallInfo { get; set; }
+
+    partial void OnCallInfoChanged(CallInformation value)
+    {
+        HasCallInfo = value.InformationBinding.Trim().Length > 0;
+    }
+
+    [ObservableProperty]
+    public partial bool HasAdditionalInfo { get; set; }
+
+    partial void OnAdditionalInfoChanged(AdditionalInformation value)
+    {
+        HasAdditionalInfo = value.AdditionalInformationsBinding.Trim().Length > 0;
+    }
+
     protected override async Task InitAsync()
     {
         await base.InitAsync();

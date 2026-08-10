@@ -47,6 +47,7 @@
                         CommandParameter="{Binding CallInfo.InformationBinding}"
                         Style="{StaticResource CallDetailsButton}"
                         Text="{local:Localize ReadMore}"
+                        IsVisible="{Binding HasCallInfo}"
                     />
                 </VerticalStackLayout>
             </Border>
@@ -65,6 +66,7 @@
                         CommandParameter="{Binding AdditionalInfo.AdditionalInformationsBinding}"
                         Style="{StaticResource CallDetailsButton}"
                         Text="{local:Localize ReadMore}"
+                        IsVisible="{Binding HasAdditionalInfo}"
                     />
                 </VerticalStackLayout>
             </Border>
