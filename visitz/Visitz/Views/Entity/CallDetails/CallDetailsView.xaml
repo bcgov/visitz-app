@@ -75,17 +75,16 @@
                 IsVisible="{Binding ShowConcerns}"
             />
 
-            <CollectionView
-                ItemsSource="{Binding Concerns}"
-                ItemSizingStrategy="MeasureFirstItem"
+            <VerticalStackLayout
+                BindableLayout.ItemsSource="{Binding Concerns}"
                 IsVisible="{Binding ShowConcerns}"
             >
-                <CollectionView.ItemTemplate>
+                <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="callDetails:ConcernListItemViewModel">
                         <callDetails:ConcernListItemView />
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </base:IcmRecordContentView>
