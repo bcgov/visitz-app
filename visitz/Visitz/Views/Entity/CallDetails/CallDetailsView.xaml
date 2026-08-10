@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:callDetails="clr-namespace:Visitz.Views.Entity.CallDetails"
-    xmlns:callDetailsModels="clr-namespace:VisitzModel.Models.CallDetails;assembly=VisitzModel"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:local="clr-namespace:Visitz.Localization"
     x:Class="Visitz.Views.Entity.CallDetails.CallDetailsView"
@@ -82,7 +81,7 @@
                 IsVisible="{Binding ShowConcerns}"
             >
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="callDetailsModels:IncidentConcerns">
+                    <DataTemplate x:DataType="callDetails:ConcernListItemViewModel">
                         <callDetails:ConcernListItemView />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

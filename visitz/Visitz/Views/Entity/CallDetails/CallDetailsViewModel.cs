@@ -1,8 +1,11 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Models;
 using VisitzModel.Models.CallDetails;
 
@@ -22,8 +25,10 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
     [ObservableProperty]
     public partial AdditionalInformation AdditionalInfo { get; set; } = new();
 
+    readonly ObservableCollection<IncidentConcerns> _queriedConcerns = [];
+
     [ObservableProperty]
-    public partial IEnumerable<IncidentConcerns> Concerns { get; set; } = [];
+    public partial ObservableCollection<ConcernListItemViewModel> Concerns { get; set; } = [];
 
     [ObservableProperty]
     public partial bool ShowConcerns { get; set; }
@@ -35,6 +40,7 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
         if (DataRealm == null)
             return;
 
+        _queriedConcerns.CollectionChanged += QueriedConcerns_CollectionChanged;
         _realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
 
         _realmQueryMap.Subscribe(DataRealm, CallInformation.GetByParent(DataRealm, EntityType, RowId));
@@ -51,6 +57,7 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
     {
         if (!_disposed && disposing)
         {
+            _queriedConcerns.CollectionChanged -= QueriedConcerns_CollectionChanged;
             _realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
             _realmQueryMap.Dispose();
 
@@ -80,7 +87,31 @@ public partial class CallDetailsViewModel : IcmRecordViewModel
         }
         else if (e.Type == typeof(IncidentConcerns))
         {
-            Concerns = e.Items.Cast<IncidentConcerns>();
+            if (e.Changes == null)
+                _queriedConcerns.AddAll(e.Items.Cast<IncidentConcerns>());
+            else
+            {
+                foreach (var delete in e.Changes.DeletedIndices.Reverse())
+                    _queriedConcerns.RemoveAt(delete);
+
+                foreach (var insert in e.Changes.InsertedIndices)
+                    _queriedConcerns.Add((IncidentConcerns)e.Items[insert]);
+            }
+        }
+    }
+
+    private void QueriedConcerns_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+        {
+            foreach (var newItem in e.NewItems.Cast<IncidentConcerns>())
+                Concerns.InsertSorted(new() { Concerns = newItem });
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var removeItem in e.OldItems.Cast<IncidentConcerns>())
+                if (Concerns.FirstOrDefault(vm => vm.Concerns.Id == removeItem.Id) is ConcernListItemViewModel found)
+                    Concerns.Remove(found);
         }
     }
 
