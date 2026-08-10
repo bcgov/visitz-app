@@ -5,9 +5,9 @@ using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace Visitz.Controls;
 
-internal class CloseButton : FontIconButton
+internal partial class CloseButton : FontIconButton
 {
-    public event EventHandler<ClosingEventArgs> Closing;
+    public event EventHandler<ClosingEventArgs>? Closing;
 
     public CloseButton()
         : base()

@@ -13,7 +13,7 @@ internal class WindowUtil
         IntPtr lpEventAttributes,
         bool bManualReset,
         bool bInitialState,
-        string lpName
+        string? lpName
     );
 
     [DllImport("kernel32.dll")]

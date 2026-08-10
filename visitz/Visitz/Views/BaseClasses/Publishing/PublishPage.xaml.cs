@@ -48,7 +48,7 @@ public partial class PublishPage : VisitzPage<PublishPage, PublishViewModel>
 
     private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        string name = e.PropertyName;
+        string? name = e.PropertyName;
 
         if (name == nameof(ViewModel.ShowDismissButton) || name == nameof(ViewModel.ShowRetryButton))
             AdjustDismissButtonStyles();

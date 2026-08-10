@@ -12,7 +12,7 @@ namespace Visitz.Controls;
 
 internal partial class VisitzAvatarView : AvatarView, IAsyncInitialize
 {
-    OidcSessionInfo SessionInfo { get; set; }
+    OidcSessionInfo? SessionInfo { get; set; }
 
     public Task? InitTask { get; }
 
@@ -48,6 +48,9 @@ internal partial class VisitzAvatarView : AvatarView, IAsyncInitialize
 
     private async void OidcSession_SessionChanged(object? sender, SessionChangedEventArgs e)
     {
+        if (InitTask == null)
+            return;
+
         try
         {
             await InitTask;

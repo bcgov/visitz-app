@@ -43,7 +43,7 @@ public partial class SessionPage : VisitzPage<SessionPage, SessionViewModel>
         base.Dispose(disposing);
     }
 
-    public static async Task TryOpenAsync(Page fromPage = null, bool modal = false, bool animated = true)
+    public static async Task TryOpenAsync(Page? fromPage = null, bool modal = false, bool animated = true)
     {
         await s_semaphore.WaitAsync();
 

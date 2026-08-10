@@ -7,7 +7,7 @@ public class KeyboardStateChangedEventArgs(bool isKeyboardOpen) : EventArgs
 
 public partial class SoftKeyboardOpenHandler : IDisposable
 {
-    public event EventHandler<KeyboardStateChangedEventArgs> KeyboardStateChanged;
+    public event EventHandler<KeyboardStateChangedEventArgs>? KeyboardStateChanged;
 
     private bool _isKeyboardOpen;
     private bool disposedValue;

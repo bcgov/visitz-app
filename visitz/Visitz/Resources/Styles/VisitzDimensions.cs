@@ -14,7 +14,7 @@ internal static class VisitzDimensions
 {
     public static double TryGetDimension(string name, double? fallback = null)
     {
-        return Application.Current.Resources.TryGetDimension(name, fallback)
+        return Application.Current?.Resources.TryGetDimension(name, fallback)
             ?? throw new InvalidOperationException($"Dimension '{name}' not found in resources");
     }
 

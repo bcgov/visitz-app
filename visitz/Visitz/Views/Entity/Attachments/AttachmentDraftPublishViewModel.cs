@@ -18,7 +18,7 @@ namespace Visitz.Views.Entity.Attachments;
 
 internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
-    AttachmentDraft attachmentDraft;
+    AttachmentDraft? attachmentDraft;
 
     public AttachmentDraft AttachmentDraft
     {
@@ -32,30 +32,34 @@ internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IReci
 
     public EntityType EntityType { get; private set; }
 
-    public string RecordId { get; private set; }
+    public string RecordId { get; private set; } = string.Empty;
 
-    string getAttachmentsServiceId;
-    string submitAttachmentsServiceId;
-    RecordServiceInfo recordServiceInfo;
+    string getAttachmentsServiceId = string.Empty;
+    string submitAttachmentsServiceId = string.Empty;
+    RecordServiceInfo? recordServiceInfo;
 
-    string relativePath;
+    string relativePath = string.Empty;
 
-    string submittedAttachmentId;
+    string? submittedAttachmentId;
 
-    string AttachmentName => attachmentDraft.Attachment.Filename;
+    string AttachmentName => attachmentDraft?.Attachment?.Filename ?? string.Empty;
 
-    public AttachmentFiler AttachmentFiler { get; private set; }
+    public AttachmentFiler? AttachmentFiler { get; private set; }
 
-    public AttachmentFormData AttachmentToSubmit { get; private set; }
+    public AttachmentFormData? AttachmentToSubmit { get; private set; }
 
-    public async Task SetPayload(IBusinessObject item, AttachmentDraft draft, AttachmentFiler filer = null)
+    public async Task SetPayload(IBusinessObject item, AttachmentDraft draft, AttachmentFiler? filer = null)
     {
+        ArgumentNullException.ThrowIfNull(draft.Attachment);
+
         RecordId = item.Id;
         EntityType = item.EntityType;
         attachmentDraft = draft;
 
         AttachmentFiler = filer ?? await VisitzFiles.GetAsync(item);
         var keyPlayer = item.GetKeyPlayer();
+
+        ArgumentNullException.ThrowIfNull(keyPlayer);
 
         recordServiceInfo = new RecordServiceInfo(
             attachmentDraft.RelatedEntityType,
@@ -70,6 +74,9 @@ internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IReci
     protected override async Task InitAsync()
     {
         await base.InitAsync();
+
+        ArgumentNullException.ThrowIfNull(attachmentDraft);
+        ArgumentNullException.ThrowIfNull(AttachmentFiler);
 
         getAttachmentsServiceId = GetAttachmentsService.MakeId(attachmentDraft.RelatedEntityType, RecordId);
 
@@ -100,6 +107,8 @@ internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IReci
 
     public override void Publish()
     {
+        ArgumentNullException.ThrowIfNull(AttachmentToSubmit);
+
         var startMessage = SubmitAttachmentService.MakeStartMessage(EntityType, RecordId, AttachmentToSubmit);
 
         WeakReferenceMessenger.Default.Send(startMessage);
@@ -107,6 +116,8 @@ internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IReci
 
     private void CallGetService()
     {
+        ArgumentNullException.ThrowIfNull(recordServiceInfo);
+
         var startMessage = GetAttachmentsService.MakeStartMessage(recordServiceInfo);
         WeakReferenceMessenger.Default.Send(startMessage);
     }
@@ -121,7 +132,7 @@ internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IReci
             {
                 Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
 
-                relativePath = attachmentDraft.Attachment.RelativePath;
+                relativePath = attachmentDraft?.Attachment?.RelativePath ?? string.Empty;
                 submittedAttachmentId = message.ReturnPayload as string;
 
                 await MoveAttachmentToIcmDataRealm(submittedAttachmentId);
@@ -149,8 +160,11 @@ internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IReci
         }
     }
 
-    async Task MoveAttachmentToIcmDataRealm(string newDatabaseId)
+    async Task MoveAttachmentToIcmDataRealm(string? newDatabaseId)
     {
+        if (newDatabaseId == null || attachmentDraft == null || attachmentDraft.Attachment == null)
+            return;
+
         using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
 
         Attachment attachment = new() { Id = newDatabaseId, RelativePath = attachmentDraft.Attachment.RelativePath };

@@ -8,7 +8,7 @@ namespace Visitz.Views.Entity.Attachments;
 
 public partial class PhotoDetailsView : IcmRecordContentView<PhotoDetailsViewModel>, IRecipient<ServiceStateMessage>
 {
-    public Attachment Attachment
+    public Attachment? Attachment
     {
         get => ViewModel.Attachment;
         set => ViewModel.Attachment = value;

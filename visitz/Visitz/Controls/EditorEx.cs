@@ -42,9 +42,9 @@ internal partial class EditorEx : Editor
         set => SetValue(SuggestedMaxLengthProperty, value);
     }
 
-    public event EventHandler EmojiEntered;
+    public event EventHandler? EmojiEntered;
 
-    public event EventHandler SuggestedMaxLengthExceeded;
+    public event EventHandler? SuggestedMaxLengthExceeded;
 
     public EditorEx()
     {

@@ -7,13 +7,13 @@ namespace Visitz.Views.Snackbar;
 public partial class VisitzSnackbarViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public partial string Message { get; set; }
+    public partial string Message { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string ActionText { get; set; }
+    public partial string? ActionText { get; set; }
 
     [ObservableProperty]
-    public partial Action Action { get; set; }
+    public partial Action? Action { get; set; }
 
     [ObservableProperty]
     public partial bool ActionVisible { get; set; } = false;
@@ -24,12 +24,12 @@ public partial class VisitzSnackbarViewModel : VisitzViewModel
         Action?.Invoke();
     }
 
-    partial void OnActionChanged(Action value)
+    partial void OnActionChanged(Action? value)
     {
         UpdateActionVisible();
     }
 
-    partial void OnActionTextChanged(string value)
+    partial void OnActionTextChanged(string? value)
     {
         UpdateActionVisible();
     }

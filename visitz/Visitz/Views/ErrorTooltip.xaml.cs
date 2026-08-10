@@ -8,7 +8,7 @@ public partial class ErrorTooltip : ContentView
         nameof(Text),
         typeof(string),
         typeof(ErrorTooltip),
-        propertyChanged: (boundObj, _, _) => (boundObj as ErrorTooltip).UpdateUI()
+        propertyChanged: (boundObj, _, _) => (boundObj as ErrorTooltip)?.UpdateUI()
     );
 
     public static readonly BindableProperty ShowProperty = BindableProperty.Create(

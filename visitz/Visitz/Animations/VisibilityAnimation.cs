@@ -2,7 +2,7 @@ using CommunityToolkit.Maui.Animations;
 
 namespace Visitz.Animations;
 
-public class VisibilityAnimation : BaseAnimation
+public partial class VisibilityAnimation : BaseAnimation
 {
     private const uint DefaultDuration = 250;
 
@@ -10,7 +10,7 @@ public class VisibilityAnimation : BaseAnimation
 
     public uint Duration { get; } = DefaultDuration;
 
-    public VisibilityAnimation(bool showView, uint duration = DefaultDuration, Easing easing = null)
+    public VisibilityAnimation(bool showView, uint duration = DefaultDuration, Easing? easing = null)
         : base(DefaultDuration)
     {
         ShowView = showView;

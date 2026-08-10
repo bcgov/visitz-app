@@ -148,23 +148,23 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
 
     public double WindowHeight
     {
-        get => Get(WindowHeightKey, Application.Current.Windows[0].Height);
+        get => Get(WindowHeightKey, Application.Current?.Windows[0].Height ?? 0.0d);
         set
         {
             double val = Math.Clamp(value, 100, DeviceDisplay.MainDisplayInfo.Height * 2);
             Set(WindowHeightKey, val);
-            Application.Current.Windows[0].Height = val;
+            Application.Current?.Windows[0].Height = val;
         }
     }
 
     public double WindowWidth
     {
-        get => Get(WindowWidthKey, Application.Current.Windows[0].Width);
+        get => Get(WindowWidthKey, Application.Current?.Windows[0].Width ?? 0.0d);
         set
         {
             double val = Math.Clamp(value, 100, DeviceDisplay.MainDisplayInfo.Width * 2);
             Set(WindowWidthKey, val);
-            Application.Current.Windows[0].Width = val;
+            Application.Current?.Windows[0].Width = val;
         }
     }
 
@@ -253,7 +253,7 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
     public Dictionary<string, string> GetAllValuesFromLocalSettings()
     {
         if (!Enabled)
-            return default;
+            return [];
 
         return GetAllValuesFrom(ApplicationData.Current.LocalSettings);
     }
@@ -265,7 +265,7 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
         Dictionary<string, string> result = [];
 
         foreach (var key in container.Values.Keys)
-            result[$"({container.Name}), Key '{key}'"] = container.Values[key]?.ToString();
+            result[$"({container.Name}), Key '{key}'"] = container.Values[key]?.ToString() ?? string.Empty;
 
         foreach (var subContainer in container.Containers)
         foreach (var valuesResult in GetAllValuesFrom(subContainer.Value))
@@ -366,11 +366,13 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
         if (!Enabled)
             return;
 
-        Window window = Application.Current.Windows[0];
-        (window.Width, window.Height) = (window.Height, window.Width);
+        if (Application.Current?.Windows[0] is Window window)
+        {
+            (window.Width, window.Height) = (window.Height, window.Width);
 
-        WindowWidth = window.Width;
-        WindowHeight = window.Height;
+            WindowWidth = window.Width;
+            WindowHeight = window.Height;
+        }
     }
 
     [RelayCommand]

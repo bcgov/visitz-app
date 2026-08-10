@@ -52,7 +52,7 @@ public abstract partial class PublishViewModel : VisitzViewModel
     public partial bool ShowPublishErrorIcon { get; set; }
 
     [ObservableProperty]
-    public partial string PublishErrorDetail { get; set; }
+    public partial string? PublishErrorDetail { get; set; }
 
     [ObservableProperty]
     public partial bool ShowRefreshSuccessIcon { get; set; }
@@ -61,12 +61,12 @@ public abstract partial class PublishViewModel : VisitzViewModel
     public partial bool ShowRefreshErrorIcon { get; set; }
 
     [ObservableProperty]
-    public partial string RefreshErrorDetail { get; set; }
+    public partial string? RefreshErrorDetail { get; set; }
 
     [ObservableProperty]
     public partial bool AllowRetry { get; set; }
 
-    public event EventHandler OnCompleted;
+    public event EventHandler? OnCompleted;
 
     private void SetState(State state)
     {

@@ -13,7 +13,7 @@ namespace Visitz;
 
 public partial class VisitzApp : Application, IRecipient<AppLockMessage>
 {
-    public ServiceHandler ServiceHandler { get; private set; }
+    public ServiceHandler? ServiceHandler { get; private set; }
 
     private readonly ILogger<VisitzApp> _logger;
 
@@ -40,7 +40,7 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
         CleanupStaleRecords();
     }
 
-    protected override Window CreateWindow(IActivationState activationState)
+    protected override Window CreateWindow(IActivationState? activationState)
     {
         var rootPage = ServiceProvider.GetService<RootPage>();
         return new VisitzWindow(new NavigationPage(rootPage));

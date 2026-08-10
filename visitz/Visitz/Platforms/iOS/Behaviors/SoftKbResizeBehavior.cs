@@ -9,30 +9,36 @@ namespace Visitz.Behaviors;
 
 public partial class SoftKbResizeBehavior
 {
-    UIView UIView { get; set; }
+    UIView? UIView { get; set; }
 
-    NSObject ObserveWillChangeFrameToken { get; set; }
+    NSObject? ObserveWillChangeFrameToken { get; set; }
 
     partial void Attach()
     {
-        UIView = (View.Handler as ViewHandler).PlatformView;
+        UIView = (View?.Handler as ViewHandler)?.PlatformView;
+
+        ArgumentNullException.ThrowIfNull(UIView);
 
         ObserveWillChangeFrameToken = UIKeyboard.Notifications.ObserveWillChangeFrame(OnKeyboardWillChangeFrame);
     }
 
     partial void Detach()
     {
-        ObserveWillChangeFrameToken.Dispose();
+        ObserveWillChangeFrameToken?.Dispose();
+        ObserveWillChangeFrameToken = null;
     }
 
     void OnKeyboardWillChangeFrame(object? sender, UIKeyboardEventArgs e)
     {
+        ArgumentNullException.ThrowIfNull(UIView);
+        ArgumentNullException.ThrowIfNull(UIView.Window);
+
         var intersection = CGRect.Intersect(UIView.Frame, e.FrameEnd);
 
         if (intersection.IsEmpty)
         {
-            View.HeightRequest = -1;
-            View.VerticalOptions = LayoutOptions.Fill;
+            View?.HeightRequest = -1;
+            View?.VerticalOptions = LayoutOptions.Fill;
         }
         else
         {
@@ -46,8 +52,8 @@ public partial class SoftKbResizeBehavior
 
             var offset = viewMaxY - intMinY;
 
-            View.HeightRequest = View.Height - offset;
-            View.VerticalOptions = LayoutOptions.Start;
+            View?.HeightRequest = View.Height - offset;
+            View?.VerticalOptions = LayoutOptions.Start;
         }
     }
 }

@@ -65,9 +65,10 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger)
 
     [ObservableProperty]
     public partial bool StaleSession { get; set; }
-    public Action AuthorizationSuccess { get; set; }
 
-    private OidcSessionInfo SessionInfo;
+    public Action? AuthorizationSuccess { get; set; }
+
+    private OidcSessionInfo? SessionInfo;
 
     protected override ILogger<VisitzViewModel> Logger { get; } = logger;
 
@@ -175,7 +176,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger)
     private async void OidcSession_SessionChanged(object? sender, SessionChangedEventArgs e)
     {
         SessionInfo = sender as OidcSessionInfo;
-        DisplayName = SessionInfo.GivenName;
+        DisplayName = SessionInfo?.GivenName ?? "--";
         await ApplyLayoutByStatus();
     }
 
@@ -217,7 +218,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger)
         {
             var cancelToken = new CancellationTokenSource();
 #if WINDOWS
-            (MauiWinUIApplication.Current as App).AuthCancelTokenSource = cancelToken;
+            (MauiWinUIApplication.Current as App)?.AuthCancelTokenSource = cancelToken;
 #endif
             await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
 
@@ -293,7 +294,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger)
                 WeakReferenceMessenger.Default.UnregisterAll(this);
 
                 if (message.Result == VisitzService.Result.Successful)
-                    AuthorizationSuccess();
+                    AuthorizationSuccess?.Invoke();
                 else
                 {
                     SetUiOptions(showAuthStatusLayout: true, showAuthStatus: true, isUnauthorized: true);
