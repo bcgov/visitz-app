@@ -18,8 +18,6 @@ using VisitzModel.Resources.Localization;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-#nullable enable
-
 public partial class ChildYouthVisitViewModel : IcmRecordViewModel
 {
     public static readonly string VisitTypeGroup = "VisitTypeGroup";

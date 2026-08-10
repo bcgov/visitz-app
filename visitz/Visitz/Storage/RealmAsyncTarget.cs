@@ -7,10 +7,10 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Visitz.Storage;
 
-public class RealmAsyncTarget : AsyncTarget, ILoggerProvider
+public partial class RealmAsyncTarget : AsyncTarget, ILoggerProvider
 {
     public RealmAsyncTarget()
-        : base(default) { }
+        : base(new VisitzLogLayout()) { }
 
     public Logger CreateLogger(string categoryName)
     {

@@ -5,8 +5,8 @@ namespace Visitz.Device;
 
 public partial class SoftKeyboardOpenHandler
 {
-    private NSObject _keyboardWillShowToken;
-    private NSObject _keyboardWillHideToken;
+    private NSObject? _keyboardWillShowToken;
+    private NSObject? _keyboardWillHideToken;
 
     partial void SubscribeToKeyboardEvents()
     {
@@ -16,8 +16,11 @@ public partial class SoftKeyboardOpenHandler
 
     partial void UnsubscribeFromKeyboardEvents()
     {
-        _keyboardWillShowToken.Dispose();
-        _keyboardWillHideToken.Dispose();
+        _keyboardWillShowToken?.Dispose();
+        _keyboardWillHideToken?.Dispose();
+
+        _keyboardWillShowToken = null;
+        _keyboardWillHideToken = null;
     }
 
     private void OnKeyboardWillShow(object? sender, UIKeyboardEventArgs e)

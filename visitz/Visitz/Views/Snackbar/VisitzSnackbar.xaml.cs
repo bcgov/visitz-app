@@ -10,13 +10,13 @@ public partial class VisitzSnackbar : ViewModelContentView<VisitzSnackbarViewMod
         set => ViewModel.Message = value;
     }
 
-    public string ActionText
+    public string? ActionText
     {
         get => ViewModel.ActionText;
         set => ViewModel.ActionText = value;
     }
 
-    public Action Action
+    public Action? Action
     {
         get => ViewModel.Action;
         set
@@ -29,7 +29,7 @@ public partial class VisitzSnackbar : ViewModelContentView<VisitzSnackbarViewMod
         }
     }
 
-    public event EventHandler ShouldClose;
+    public event EventHandler? ShouldClose;
 
     TimeSpan _duration;
 

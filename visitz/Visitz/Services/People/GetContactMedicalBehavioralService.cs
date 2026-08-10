@@ -7,8 +7,6 @@ using VisitzApi.Requests;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
-#nullable enable
-
 namespace Visitz.Services.People;
 
 internal class GetContactMedicalBehavioralService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)

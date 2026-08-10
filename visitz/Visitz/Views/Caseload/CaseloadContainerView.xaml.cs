@@ -3,8 +3,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-#nullable enable
-
 public partial class CaseloadContainerView : ViewModelContentView<CaseloadContainerViewModel>
 {
     readonly Task<CaseloadListView> _loadListView;

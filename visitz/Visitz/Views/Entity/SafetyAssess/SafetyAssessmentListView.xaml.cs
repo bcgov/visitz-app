@@ -4,8 +4,6 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-#nullable enable
-
 public partial class SafetyAssessmentListView
     : IcmRecordContentView<SafetyAssessmentListViewModel>,
         IRequestedEntitySection

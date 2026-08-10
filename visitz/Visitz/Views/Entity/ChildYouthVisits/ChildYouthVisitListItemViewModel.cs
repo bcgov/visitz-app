@@ -6,8 +6,6 @@ using VisitzModel.Models.InPersonVisits;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-#nullable enable
-
 public partial class ChildYouthVisitListItemViewModel(PersonVisit visit) : VisitzViewModel
 {
     [ObservableProperty]

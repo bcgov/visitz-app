@@ -6,8 +6,6 @@ using Visitz.Animations.Haptic;
 using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
 
-#nullable enable
-
 public partial class FormEntry : ContentView
 {
     [BindableProperty]

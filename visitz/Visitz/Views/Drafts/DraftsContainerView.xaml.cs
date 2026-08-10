@@ -2,8 +2,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Drafts;
 
-#nullable enable
-
 public partial class DraftsContainerView : ViewModelContentView<DraftsContainerViewModel>
 {
     bool _disposed;

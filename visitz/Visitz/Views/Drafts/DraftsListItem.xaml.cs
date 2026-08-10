@@ -12,8 +12,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
 
-#nullable enable
-
 public partial class DraftsListItem : BaseContentView
 {
     readonly ServiceActivityListener _activityListener = new();

@@ -5,8 +5,6 @@ using VisitzApi.Models.Caseload;
 
 namespace Visitz.Services.Caseload;
 
-#nullable enable
-
 internal static class CaseloadHelper
 {
     static bool HasCode<T>(SectionJson<T> section, params HttpStatusCode[] codes)

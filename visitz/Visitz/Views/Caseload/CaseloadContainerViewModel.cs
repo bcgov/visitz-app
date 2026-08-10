@@ -16,8 +16,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
 
-#nullable enable
-
 public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<NavPositionMessage>
 {
     private static readonly string SortOptionIndexPref = "SortOptionIndexPref";

@@ -15,11 +15,11 @@ internal partial class ChildYouthVisitPublishViewModel : PublishViewModel, IReci
 {
     bool _disposed;
 
-    public string BusinessObjectId { get; set; }
+    public string BusinessObjectId { get; set; } = string.Empty;
 
-    private PersonVisit _visit;
+    private PersonVisit? _visit;
 
-    public PersonVisit Visit
+    public PersonVisit? Visit
     {
         get => _visit;
         set
@@ -45,11 +45,11 @@ internal partial class ChildYouthVisitPublishViewModel : PublishViewModel, IReci
         }
     }
 
-    string _getVisitsId;
-    string _postVisitId;
-    string _postAndRefreshId;
+    string _getVisitsId = string.Empty;
+    string _postVisitId = string.Empty;
+    string _postAndRefreshId = string.Empty;
 
-    Realm VisitDraftRealm { get; set; }
+    Realm? VisitDraftRealm { get; set; }
 
     public ChildYouthVisitPublishViewModel()
     {
@@ -61,7 +61,9 @@ internal partial class ChildYouthVisitPublishViewModel : PublishViewModel, IReci
         await base.InitAsync();
 
         VisitDraftRealm = await VisitzRealms.GetPersonVisitDraftsRealmAsync();
-        Visit = VisitDraftRealm.Find<PersonVisitDraft>(BusinessObjectId).Visit;
+        Visit = VisitDraftRealm.Find<PersonVisitDraft>(BusinessObjectId)?.Visit;
+
+        ArgumentNullException.ThrowIfNull(Visit);
 
         Publish();
     }
@@ -83,6 +85,8 @@ internal partial class ChildYouthVisitPublishViewModel : PublishViewModel, IReci
 
     public override void Publish()
     {
+        ArgumentNullException.ThrowIfNull(Visit);
+
         WeakReferenceMessenger.Default.Send(PostAndRefreshVisitService.MakeStartMessage(Visit));
     }
 
@@ -122,6 +126,9 @@ internal partial class ChildYouthVisitPublishViewModel : PublishViewModel, IReci
 
     async Task DiscardPublishedDraft()
     {
+        ArgumentNullException.ThrowIfNull(VisitDraftRealm);
+        ArgumentNullException.ThrowIfNull(Visit);
+
         await VisitDraftRealm.WriteAsync(() => VisitDraftRealm.DeleteByIds<PersonVisitDraft>([Visit.ParentId]));
     }
 }

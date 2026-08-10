@@ -6,7 +6,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
-#nullable enable
 internal class GetContactLanguagesByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<IcmContact>(vpi, prefs, serviceHandler)
 {

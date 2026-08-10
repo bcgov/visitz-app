@@ -10,7 +10,7 @@ public partial class TagView : ContentView
         newValue
     ) =>
     {
-        (boundObj as TagView).UpdateUI();
+        (boundObj as TagView)?.UpdateUI();
     };
 
     static readonly BindableProperty.BindingPropertyChangedDelegate SetBorderThickness = (

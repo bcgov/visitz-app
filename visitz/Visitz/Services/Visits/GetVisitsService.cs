@@ -11,8 +11,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;
 
-#nullable enable
-
 internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     readonly ConcurrentBag<VisitJson> _visits = [];

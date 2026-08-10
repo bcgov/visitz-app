@@ -2,8 +2,6 @@ using CommunityToolkit.Maui;
 
 namespace Visitz.Views.Entity.CallDetails;
 
-#nullable enable
-
 public partial class FullDetailsView : ContentView
 {
     [BindableProperty]

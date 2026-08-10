@@ -14,7 +14,7 @@ internal static class VisitzFiles
 
     static readonly EagerActionQueue eagerFilesQueue = new();
 
-    public static async Task<AttachmentFiler> GetAsync(IBusinessObject businessObject, string keyName = null)
+    public static async Task<AttachmentFiler> GetAsync(IBusinessObject businessObject, string? keyName = null)
     {
         return await GetAsync(
             businessObject.EntityType,
@@ -30,7 +30,7 @@ internal static class VisitzFiles
         string caseIncidentNumber,
         string firstName,
         string lastName,
-        string keyName = null
+        string? keyName = null
     )
     {
         keyName ??= DefaultFilesKeyName;
@@ -40,6 +40,7 @@ internal static class VisitzFiles
             firstName,
             lastName,
             await VisitzKey.GetKey(keyName, Aes256KeySize)
+                ?? throw new InvalidOperationException($"Missing key for {nameof(AttachmentFiler)}")
         );
     }
 
@@ -47,7 +48,7 @@ internal static class VisitzFiles
         Attachment attachment,
         string firstName,
         string lastName,
-        string keyname = null
+        string? keyname = null
     )
     {
         return GetAsync(attachment.RelatedEntityType, attachment.FileNumber, firstName, lastName, keyname);

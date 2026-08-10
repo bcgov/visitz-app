@@ -24,7 +24,10 @@ public static class VisitzApiConfig
         // TODO: Get AppSettings working correctly with DI
         var apiConfig = new AppSettings().Api.ApiDomain;
 
-        builder.Services.AddSingleton(sp => new Vpi(sp.GetService<HttpClient>(), apiConfig));
+        builder.Services.AddSingleton(sp => new Vpi(
+            sp.GetService<HttpClient>() ?? throw new InvalidOperationException("HttpClient missing"),
+            apiConfig
+        ));
 
         return builder;
     }

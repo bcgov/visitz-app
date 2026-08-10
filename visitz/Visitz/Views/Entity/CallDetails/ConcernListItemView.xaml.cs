@@ -4,8 +4,6 @@ using VisitzModel.Extensions;
 
 namespace Visitz.Views.Entity.CallDetails;
 
-#nullable enable
-
 public partial class ConcernListItemView : BaseContentView
 {
     public ConcernListItemView()

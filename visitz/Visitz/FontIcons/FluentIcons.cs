@@ -8,7 +8,7 @@ public static partial class FluentIcons
         public static readonly string FontFamily = "FluentIconsRegular";
     }
 
-    public static ImageSource GetFluentIcon(this string glyph, Color color = null)
+    public static ImageSource GetFluentIcon(this string glyph, Color? color = null)
     {
         return IconStringToFontImageSource.Make(glyph, FontConfig.FontFamily, color);
     }

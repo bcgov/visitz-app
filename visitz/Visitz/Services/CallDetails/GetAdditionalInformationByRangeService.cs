@@ -5,8 +5,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.CallDetails;
 
-#nullable enable
-
 internal class GetAdditionalInformationByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {

@@ -6,8 +6,6 @@ using VisitzModel.Models.Caseload;
 
 namespace Visitz.Services.Base;
 
-#nullable enable
-
 public partial class ServiceActivityListener : IRecipient<ServiceStateMessage>, IDisposable
 {
     private bool _disposedValue;

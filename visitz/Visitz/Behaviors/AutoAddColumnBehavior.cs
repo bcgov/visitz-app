@@ -18,6 +18,8 @@ public partial class AutoAddColumnBehavior : Behavior<Grid>
 
     private void Bindable_ChildAdded(object? sender, ElementEventArgs e)
     {
+        ArgumentNullException.ThrowIfNull(sender);
+
         Grid grid = (Grid)sender;
 
         grid.AddColumnDefinition(new ColumnDefinition());

@@ -3,8 +3,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-#nullable enable
-
 public partial class CaseloadItemView : BaseContentView
 {
     public CaseloadItemView()

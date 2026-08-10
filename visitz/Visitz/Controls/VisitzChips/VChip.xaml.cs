@@ -2,8 +2,6 @@ using CommunityToolkit.Maui;
 
 namespace Visitz.Controls.VisitzChips;
 
-#nullable enable
-
 public partial class VChip : ContentView
 {
     [BindableProperty]

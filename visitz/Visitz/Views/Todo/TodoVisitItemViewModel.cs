@@ -14,8 +14,6 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Todo;
 
-#nullable enable
-
 internal partial class TodoVisitItemViewModel : VisitzViewModel, ITodoItem
 {
     [ObservableProperty]

@@ -21,7 +21,8 @@ public abstract class TagStyleBehavior : Behavior<TagView>
 
     private void TagView_OnBindingContextChanged(object? sender, EventArgs e)
     {
-        ApplyTagStyle(sender as TagView);
+        if (sender != null)
+            ApplyTagStyle((TagView)sender);
     }
 
     protected abstract void ApplyTagStyle(TagView tag);

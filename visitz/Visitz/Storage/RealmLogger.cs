@@ -16,7 +16,8 @@ public class RealmLogger : Logger
         _categoryName = categoryName;
     }
 
-    public IDisposable BeginScope<TState>(TState state) => null;
+    public IDisposable? BeginScope<TState>(TState state)
+        where TState : notnull => null;
 
     public bool IsEnabled(LogLevel logLevel) => true;
 
@@ -24,8 +25,8 @@ public class RealmLogger : Logger
         LogLevel logLevel,
         EventId eventId,
         TState state,
-        Exception exception,
-        Func<TState, Exception, string> formatter
+        Exception? exception,
+        Func<TState, Exception?, string> formatter
     )
     {
         if (_target != null && _target.IsEnabled(logLevel))

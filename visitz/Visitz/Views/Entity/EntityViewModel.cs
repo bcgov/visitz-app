@@ -20,8 +20,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity;
 
-#nullable enable
-
 public partial class EntityViewModel : IcmRecordViewModel
 {
     public EntitySection? RequestedSection { get; set; }

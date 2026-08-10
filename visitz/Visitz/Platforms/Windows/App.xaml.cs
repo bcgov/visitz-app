@@ -13,8 +13,6 @@ using Visitz.Views.WebViewer;
 using VisitzModel.Platforms.Windows.Logging;
 using WebAuthenticator = Oidc.WinWorkaround.WebAuthenticator;
 
-#nullable enable
-
 namespace Visitz.WinUI;
 
 /// <summary>

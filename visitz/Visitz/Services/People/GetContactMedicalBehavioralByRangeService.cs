@@ -4,8 +4,6 @@ using VisitzApi;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
-#nullable enable
-
 namespace Visitz.Services.People;
 
 internal class GetContactMedicalBehavioralByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)

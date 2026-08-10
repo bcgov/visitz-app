@@ -6,8 +6,6 @@ using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
-#nullable enable
-
 public partial class SupportNetworkItemUi : ObservableObject
 {
     [ObservableProperty]

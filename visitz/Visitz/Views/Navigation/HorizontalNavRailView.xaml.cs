@@ -2,8 +2,6 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Navigation;
 
-#nullable enable
-
 public partial class HorizontalNavRailView : ViewModelContentView<NavRailViewModel>
 {
     public HorizontalNavRailView()

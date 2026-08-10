@@ -4,8 +4,6 @@ using Visitz.Services.Messages;
 
 namespace Visitz.Services.Base;
 
-#nullable enable
-
 public abstract class VisitzService
 {
     public enum State

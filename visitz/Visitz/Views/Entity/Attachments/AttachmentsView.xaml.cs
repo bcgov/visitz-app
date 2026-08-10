@@ -7,8 +7,6 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.Attachments;
 
-#nullable enable
-
 public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel>, IFocusDraftItem
 {
     static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes.Concat(

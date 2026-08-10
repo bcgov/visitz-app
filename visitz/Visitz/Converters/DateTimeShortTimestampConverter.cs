@@ -5,7 +5,7 @@ namespace Visitz.Converters;
 
 internal class DateTimeShortTimestampConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value == null)
             return null;
@@ -15,7 +15,7 @@ internal class DateTimeShortTimestampConverter : IValueConverter
         return timestamp.ToString(IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture);
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return null; // Not converting back, only displaying
     }

@@ -12,8 +12,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
-#nullable enable
-
 internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;

@@ -15,8 +15,6 @@ using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity;
 
-#nullable enable
-
 public partial class EntityPageViewModel(ServiceActivityListener activityListener)
     : IcmRecordViewModel,
         IRecipient<ServiceStateMessage>

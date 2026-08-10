@@ -5,7 +5,7 @@ namespace Visitz.Extensions;
 
 internal static class PageExtensions
 {
-    static async Task<bool> MessagePrompt(Page page, string message, bool promptDetails, string title = null)
+    static async Task<bool> MessagePrompt(Page page, string message, bool promptDetails, string? title = null)
     {
         if (promptDetails)
             return await page.DisplayAlertAsync(
@@ -20,8 +20,9 @@ internal static class PageExtensions
         return false;
     }
 
-    static async Task<bool> DetailedMessagePrompt(Page page, string detailedMessage, string title = null)
+    static async Task<bool> DetailedMessagePrompt(Page page, string? detailedMessage, string? title = null)
     {
+        detailedMessage ??= string.Empty;
         string prompt = LocalizedStrings.ErrorDialogCopyPrompt + Environment.NewLine + Environment.NewLine;
         return await page.DisplayAlertAsync(
             title,
@@ -34,8 +35,8 @@ internal static class PageExtensions
     public static async Task DisplayErrorAlert(
         this Page page,
         string message,
-        string detailedMessage = null,
-        string title = null
+        string? detailedMessage = null,
+        string? title = null
     )
     {
         string displayTitle = !string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error;

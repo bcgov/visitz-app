@@ -4,8 +4,6 @@ using VisitzModel.Models.Attachments;
 
 namespace Visitz.Views.Entity.Attachments;
 
-#nullable enable
-
 public partial class PdfDetailsView : IcmRecordContentView<PdfDetailsViewModel>
 {
     static readonly string LoadPdfFromBase64Js = "loadPdfFromBase64('{0}')";

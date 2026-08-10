@@ -16,8 +16,6 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-#nullable enable
-
 public partial class ChildYouthVisitListViewModel : IcmRecordViewModel, IRequestedEntitySection
 {
     private bool _disposed;

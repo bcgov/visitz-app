@@ -5,8 +5,6 @@ using Visitz.Views.Debugging;
 
 namespace Visitz.Views.Navigation;
 
-#nullable enable
-
 public partial class VerticalNavRailView : ViewModelContentView<NavRailViewModel>
 {
     public VerticalNavRailView()

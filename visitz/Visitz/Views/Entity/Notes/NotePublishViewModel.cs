@@ -12,8 +12,6 @@ using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
-#nullable enable
-
 public partial class NotePublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
     private SubmitNoteEntity? submitNoteEntity;

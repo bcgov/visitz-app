@@ -1,7 +1,5 @@
 namespace Visitz.Views.Navigation;
 
-#nullable enable
-
 public class Tab(string label, Func<ContentView> viewBuilder) : IDisposable
 {
     public string Label { get; private set; } = label;

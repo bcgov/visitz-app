@@ -14,7 +14,7 @@ public static class VisitzColors
 {
     public static Color TryGetColor(string name)
     {
-        return Application.Current.Resources.TryGetColor(name, null)
+        return Application.Current?.Resources.TryGetColor(name, null)
             ?? throw new InvalidOperationException($"Color '{name}' not found in resources");
     }
 

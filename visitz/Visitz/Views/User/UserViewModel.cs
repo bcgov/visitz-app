@@ -24,7 +24,7 @@ public partial class UserViewModel : VisitzViewModel
     [ObservableProperty]
     public partial string FeedbackUrl { get; set; }
 
-    OidcSessionInfo SessionInfo;
+    OidcSessionInfo? SessionInfo;
 
     protected override async Task InitAsync()
     {

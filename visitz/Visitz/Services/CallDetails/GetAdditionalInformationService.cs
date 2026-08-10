@@ -10,7 +10,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.CallDetails;
 
-#nullable enable
 internal class GetAdditionalInformationService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;

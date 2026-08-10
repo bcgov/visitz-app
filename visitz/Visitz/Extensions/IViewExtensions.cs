@@ -1,7 +1,5 @@
 namespace Visitz.Extensions;
 
-#nullable enable
-
 public static class IViewExtensions
 {
     public static IEnumerable<IDisposable> FindDisposables(this IView view)

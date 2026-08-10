@@ -11,8 +11,6 @@ using VisitzModel.Models.InPersonVisits;
 
 namespace Visitz.Views.Todo;
 
-#nullable enable
-
 public partial class TodoListViewModel : VisitzViewModel
 {
     const bool SortAscending = true;

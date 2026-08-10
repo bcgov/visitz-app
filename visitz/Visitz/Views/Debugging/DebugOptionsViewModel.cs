@@ -66,7 +66,7 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 
         CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
 
-        if (Application.Current.Windows[0] is Window window)
+        if (Application.Current?.Windows[0] is Window window)
         {
             window.SizeChanged += Window_SizeChanged;
         }
@@ -78,7 +78,7 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     {
         if (!_disposed && disposing)
         {
-            if (Application.Current.Windows[0] is Window window)
+            if (Application.Current?.Windows[0] is Window window)
                 window.SizeChanged -= Window_SizeChanged;
 
             _disposed = true;

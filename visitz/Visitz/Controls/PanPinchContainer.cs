@@ -1,7 +1,5 @@
 namespace Visitz.Controls;
 
-#nullable enable
-
 /// <summary>
 /// From https://github.com/CodingOctocat/MauiPanPinchContainer
 /// <para><see href="https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/gestures/pan"/></para>

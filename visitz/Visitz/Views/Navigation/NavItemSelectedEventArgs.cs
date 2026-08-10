@@ -4,5 +4,5 @@ namespace Visitz.Views.Navigation;
 
 public class NavItemSelectedEventArgs : EventArgs
 {
-    public NavItem NavItem { get; set; }
+    public required NavItem NavItem { get; set; }
 }

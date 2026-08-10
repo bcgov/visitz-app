@@ -8,8 +8,6 @@ using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
-#nullable enable
-
 public partial class SupportNetworkListViewModel : IcmRecordViewModel
 {
     private bool _disposed;

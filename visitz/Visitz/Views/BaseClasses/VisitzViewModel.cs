@@ -14,7 +14,7 @@ public partial class VisitzViewModel : ObservableObject, IDisposable, IAsyncInit
 
     bool _disposedValue;
 
-    public Task InitTask { get; private set; }
+    public Task? InitTask { get; private set; }
 
     public virtual Task StartInitAsync()
     {

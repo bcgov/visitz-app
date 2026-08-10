@@ -7,8 +7,6 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-#nullable enable
-
 public partial class ChildYouthVisitListView
     : IcmRecordContentView<ChildYouthVisitListViewModel>,
         IRequestedEntitySection,

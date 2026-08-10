@@ -2,8 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Visitz.Views.FormControls;
 
-#nullable enable
-
 public partial class InfoItem : ObservableObject
 {
     [ObservableProperty]

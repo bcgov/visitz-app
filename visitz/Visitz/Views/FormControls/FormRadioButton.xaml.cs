@@ -33,7 +33,7 @@ public partial class FormRadioButton : ContentView
         typeof(FormEntry)
     );
 
-    public event EventHandler<CheckedChangedEventArgs> CheckedChanged;
+    public event EventHandler<CheckedChangedEventArgs>? CheckedChanged;
 
     public string Text
     {

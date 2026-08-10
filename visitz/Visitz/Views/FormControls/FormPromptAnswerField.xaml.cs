@@ -141,6 +141,8 @@ public partial class FormPromptAnswerField : ContentView
 
     private void RadioButton_CheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
+        ArgumentNullException.ThrowIfNull(sender);
+
         var rb = (RadioButton)sender;
 
         if (rb.IsChecked)

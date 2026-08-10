@@ -15,8 +15,6 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
 
-#nullable enable
-
 public partial class DraftsContainerViewModel : VisitzViewModel
 {
     static readonly FilterOption<IDraftItem> s_allDrafts = new(LocalizedStrings.AllTypes, _ => true);

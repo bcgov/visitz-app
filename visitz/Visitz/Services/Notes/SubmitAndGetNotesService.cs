@@ -6,8 +6,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Notes;
 
-#nullable enable
-
 internal class SubmitAndGetNotesService(Vpi vpi, ServiceHandler serviceHandler, LastUpdatedPrefs prefs)
     : VisitzApiService(vpi, prefs)
 {

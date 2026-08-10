@@ -4,8 +4,6 @@ using System.Windows.Input;
 
 namespace Visitz.Behaviors;
 
-#nullable enable
-
 internal partial class SelectionLayoutBehavior : Behavior<Layout>
 {
     const string SelectedState = "Selected";

@@ -4,8 +4,6 @@ using UIKit;
 
 namespace Visitz.Controls.Handlers;
 
-#nullable enable
-
 public partial class SelectableLabelHandler() : ViewHandler<SelectableLabel, UITextView>(s_mapper, null)
 {
     static readonly IPropertyMapper<SelectableLabel, SelectableLabelHandler> s_mapper = new PropertyMapper<

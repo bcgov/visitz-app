@@ -1,7 +1,5 @@
 namespace Visitz.Controls;
 
-#nullable enable
-
 public class SortOption<TItem>(
     string label,
     IComparer<TItem> comparer,

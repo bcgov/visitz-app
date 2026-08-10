@@ -9,8 +9,6 @@ using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity;
 
-#nullable enable
-
 public partial class EntityPage : VisitzPage<EntityPage, EntityPageViewModel>, IIcmRecordInfo, ISnackbarPresenter
 {
     Task<EntityView>? _createEntityView;

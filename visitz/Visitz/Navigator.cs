@@ -2,8 +2,6 @@ using VisitzModel;
 
 namespace Visitz;
 
-#nullable enable
-
 public class Navigator
 {
     public static INavigation Navigation =>

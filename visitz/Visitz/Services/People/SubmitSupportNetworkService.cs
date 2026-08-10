@@ -5,8 +5,6 @@ using VisitzApi.Requests;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
-#nullable enable
-
 namespace Visitz.Services.People;
 
 internal class SubmitSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
