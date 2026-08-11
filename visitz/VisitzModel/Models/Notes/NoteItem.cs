@@ -20,7 +20,7 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
     private static readonly string NoteWrapperTimestampFormat = IcmDateFormats.BasicTimestamp;
     private static readonly string Separator = "────";
 
-    private static IComparer<NoteItem> _shouldUpdateComparer = Comparer<NoteItem>.Create(
+    private static readonly IComparer<NoteItem> _fullIdComparer = Comparer<NoteItem>.Create(
         (l, r) => l.FullID.CompareTo(r.FullID)
     );
 
@@ -176,7 +176,7 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
             // Case notes older <= 2012 may have a blank note period.
             incomingNotes = SimulateNotePeriods(incomingNotes);
 
-        var currentNotes = GetNotesByParent(realm, parentType, parentId).OrderBy(note => note.UpdatedDate).ToList();
+        var currentNotes = GetNotesByParent(realm, parentType, parentId).ToList().Order(_fullIdComparer).ToList();
 
         // ToList required because of Realm object lifecycles
         var updateNotes = incomingNotes
@@ -201,9 +201,9 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
 
     static bool ShouldUpdate(List<NoteItem> currentNotes, NoteItem updateNote)
     {
-        int index = currentNotes.BinarySearch(updateNote, _shouldUpdateComparer);
+        int index = currentNotes.BinarySearch(updateNote, _fullIdComparer);
         if (index < 0)
-            // updateNote not in currentNotes, fail early
+            // updateNote not in currentNotes, fail early. If it's not here, it should've been added from insertNotes.
             return false;
 
         NoteItem currentNote = currentNotes[index];
