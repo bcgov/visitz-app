@@ -146,6 +146,12 @@ public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntity
                 BusinessObject.EntityType,
                 LocalizedStrings.NotePageNumberHeader
             );
+
+        foreach (var changedIndex in changes.NewModifiedIndices)
+        {
+            (int groupIndex, int noteIndex) = NoteItemGroup.GetJaggedIndex(Notes, changedIndex);
+            Notes[groupIndex][noteIndex] = realmNotes[changedIndex];
+        }
     }
 
     partial void OnIsDraftAvailableChanged(bool value)

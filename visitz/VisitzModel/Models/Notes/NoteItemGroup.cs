@@ -144,7 +144,7 @@ public partial class NoteItemGroup : ObservableCollection<NoteItem>
         }
     }
 
-    private static (int, int) GetJaggedIndex(ObservableCollection<NoteItemGroup> groups, int flattenedIndex)
+    public static (int, int) GetJaggedIndex(ObservableCollection<NoteItemGroup> groups, int flattenedIndex)
     {
         int matchIndex = 0;
 
