@@ -1,6 +1,10 @@
 using Visitz.Animations.Haptic;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Debugging;
 using VisitzModel.Events;
+using VisitzModel.Extensions;
+using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
@@ -15,6 +19,9 @@ public partial class NoteEntryView : IcmRecordContentView<NoteEntryViewModel>
         BindingContext = ViewModel;
 
         ViewModel.DraftError += NoteEntryView_DraftError;
+
+        if (DebugOptions.Default.Enabled)
+            AddDebugContextMenu();
     }
 
     protected override void Dispose(bool disposing)
@@ -72,5 +79,25 @@ public partial class NoteEntryView : IcmRecordContentView<NoteEntryViewModel>
         if (!string.IsNullOrEmpty(NotesEditor.Text))
             NotesEditor.CursorPosition = NotesEditor.Text.Length;
 #endif
+    }
+
+    void AddDebugContextMenu()
+    {
+        MenuFlyoutItem item = new() { Text = "Write without upload" };
+        item.Clicked += async (s, e) =>
+        {
+            var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+            if (
+                ViewModel != null
+                && NoteItem.GetNotesByParent(dataRealm, BusinessObject.EntityType, BusinessObject.Id).LastOrDefault()
+                    is NoteItem latest
+            )
+            {
+                await dataRealm.CommitAsync(() => latest.Content += ViewModel.NoteDraft.Draft);
+            }
+        };
+
+        MenuFlyout menu = [item];
+        FlyoutBase.SetContextFlyout(this, menu);
     }
 }
