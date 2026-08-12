@@ -371,6 +371,21 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             .Where(item => item.RelatedEntityTypeInt == (int)type && item.RelatedEntityId == recordId);
     }
 
+    public static IQueryable<Attachment> GetAttachmentsByIdOrFileNumber(
+        Realm realm,
+        EntityType type,
+        string recordId,
+        string fileNumber
+    )
+    {
+        return realm
+            .All<Attachment>()
+            .Where(item =>
+                item.RelatedEntityTypeInt == (int)type
+                && (item.RelatedEntityId == recordId || item.RelatedEntityId == fileNumber)
+            );
+    }
+
     public static IOrderedQueryable<Attachment> GetOrderedAttachments(Realm realm, EntityType type, string recordId)
     {
         return GetAttachments(realm, type, recordId).OrderByDescending(item => item.CreatedDate);

@@ -81,7 +81,11 @@ public partial class EntityViewModel : IcmRecordViewModel
             var attachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
             _queryMap.Subscribe(
                 attachmentsRealm,
-                attachmentsRealm.All<AttachmentDraft>().Where(draft => draft.RelatedEntityId == RowId)
+                attachmentsRealm
+                    .All<AttachmentDraft>()
+                    .Where(draft =>
+                        draft.RelatedEntityId == RowId || draft.RelatedEntityId == BusinessObject.FileNumberBinding
+                    )
             );
         }
 
