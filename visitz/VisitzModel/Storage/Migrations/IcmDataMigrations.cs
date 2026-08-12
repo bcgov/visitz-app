@@ -9,8 +9,8 @@ public static class IcmDataMigrations
     public static void MigrateRealm(Migration migration, ulong oldSchemaVersion)
     {
         MigrateCaseloadItems(migration, oldSchemaVersion);
-        MigratePersonVisits(migration, oldSchemaVersion);
         MigrateNoteItems(migration, oldSchemaVersion);
+        PersonVisitMigrations.MigrateRealm(migration, oldSchemaVersion);
         MigrateContacts(migration, oldSchemaVersion);
     }
 
@@ -169,12 +169,6 @@ public static class IcmDataMigrations
                 }
             );
         }
-    }
-
-    private static void MigratePersonVisits(Migration migration, ulong oldSchemaVersion)
-    {
-        if (oldSchemaVersion < VisitzRealmBase.Version2_7_1)
-            PersonVisitMigrations.Migrate_2_7_1(migration);
     }
 
     static void MigrateContacts(Migration migration, ulong oldSchemaVersion)
