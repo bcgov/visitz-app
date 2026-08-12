@@ -95,4 +95,18 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
     {
         Realm.DeleteRealm(new RealmConfiguration(GetRealmPath(RealmName)));
     }
+
+    internal static void MapAll<TNewType>(
+        string oldTypeName,
+        Migration migration,
+        Action<TNewType, IRealmObject> mapper
+    )
+        where TNewType : IRealmObject
+    {
+        var olds = migration.OldRealm.DynamicApi.All(oldTypeName).ToList();
+        var news = migration.NewRealm.All<TNewType>().ToList();
+
+        for (int i = 0; i < news.Count; i++)
+            mapper(news[i], olds[i]);
+    }
 }
