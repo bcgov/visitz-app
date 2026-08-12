@@ -7,7 +7,7 @@ namespace VisitzModel.Storage;
 public class LogRealm : VisitzRealmBase
 {
     public static readonly string Name = "LogRealm.realm";
-    public static readonly ulong CurrentVersion = Version2_3_3;
+    public static readonly ulong CurrentVersion = Version3_0_0;
 
     public LogRealm(byte[] encryptionKey)
         : base(Name, CurrentVersion, encryptionKey)
@@ -20,5 +20,21 @@ public class LogRealm : VisitzRealmBase
         return new[] { typeof(LogEntry) };
     }
 
-    protected override void MigrateRealm(Migration migration, ulong oldSchemaVersion) { }
+    protected override void MigrateRealm(Migration migration, ulong oldSchemaVersion)
+    {
+        if (oldSchemaVersion < Version3_0_0)
+        {
+            MapAll<LogEntry>(
+                "LogEntry",
+                migration,
+                (n, o) =>
+                {
+                    n.Type = o.DynamicApi.Get<string>("Type");
+                    n.Message = o.DynamicApi.Get<string>("Message");
+                    n.Source = o.DynamicApi.Get<string>("Source");
+                    n.Timestamp = o.DynamicApi.Get<DateTimeOffset>("Timestamp");
+                }
+            );
+        }
+    }
 }
