@@ -10,6 +10,7 @@ public static class IcmDataMigrations
     {
         MigrateCaseloadItems(migration, oldSchemaVersion);
         MigratePersonVisits(migration, oldSchemaVersion);
+        MigrateNoteItems(migration, oldSchemaVersion);
         MigrateContacts(migration, oldSchemaVersion);
     }
 
@@ -133,6 +134,38 @@ public static class IcmDataMigrations
                     n.TypeInt = o.DynamicApi.Get<int>("TypeInt");
                     n.TypeOfCaller = o.DynamicApi.Get<string>("TypeOfCaller") ?? string.Empty;
                     ((IBusinessObject)n).UpsertLocalState(migration.NewRealm);
+                }
+            );
+        }
+    }
+
+    static void MigrateNoteItems(Migration migration, ulong oldSchemaVersion)
+    {
+        if (oldSchemaVersion < VisitzRealmBase.Version3_0_0)
+        {
+            VisitzRealmBase.MapAll<NoteItem>(
+                "NoteItem",
+                migration,
+                (n, o) =>
+                {
+                    n.FullID = o.DynamicApi.Get<string>("FullID") ?? string.Empty;
+                    n.ParentId = o.DynamicApi.Get<string>("ParentId") ?? string.Empty;
+                    n.ParentTypeInt = o.DynamicApi.Get<int>("ParentTypeInt");
+                    n.CreatedDate = DateTimeOffset.TryParse(o.DynamicApi.Get<string>("CreatedDate"), out var created)
+                        ? created
+                        : DateTimeOffset.MinValue;
+                    n.Content = o.DynamicApi.Get<string>("Content") ?? string.Empty;
+                    n.PageNumber = o.DynamicApi.Get<int>("PageNumber");
+                    n.NotePeriod = o.DynamicApi.Get<string>("NotePeriod") ?? string.Empty;
+                    // NotePeriodDateTime is set by the NotePeriod setter
+
+                    // Set new fields with defaults/copies
+                    n.UpdatedDate = n.CreatedDate;
+                    n.CreatedBy = string.Empty;
+                    n.CreatedByName = string.Empty;
+                    n.CreatedByOffice = string.Empty;
+                    n.UpdatedBy = string.Empty;
+                    n.UpdatedByName = string.Empty;
                 }
             );
         }
