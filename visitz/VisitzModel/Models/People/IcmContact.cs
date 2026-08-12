@@ -44,7 +44,7 @@ public partial class IcmContact
 
     public string ParentId { get; set; } = string.Empty;
 
-    private int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
+    internal int ParentTypeInt { get; set; } = (int)EntityType.Unknown;
 
     public EntityType ParentType
     {
