@@ -12,6 +12,7 @@ public static class IcmDataMigrations
         MigrateNoteItems(migration, oldSchemaVersion);
         PersonVisitMigrations.MigrateRealm(migration, oldSchemaVersion);
         MigrateContacts(migration, oldSchemaVersion);
+        MigrateSupportNetwork(migration, oldSchemaVersion);
     }
 
     static void MigrateCaseloadItems(Migration migration, ulong oldSchemaVersion)
@@ -264,6 +265,43 @@ public static class IcmDataMigrations
                     n.Title = o.DynamicApi.Get<string>("Title") ?? string.Empty;
                     n.UnitNumber = o.DynamicApi.Get<string>("UnitNumber") ?? string.Empty;
                     n.WorkPhone = o.DynamicApi.Get<string>("WorkPhone") ?? string.Empty;
+                }
+            );
+        }
+    }
+
+    static void MigrateSupportNetwork(Migration migration, ulong oldSchemaVersion)
+    {
+        if (oldSchemaVersion < VisitzRealmBase.Version3_0_0)
+        {
+            VisitzRealmBase.MapAll<SupportNetworkItem>(
+                "SupportNetworkItem",
+                migration,
+                (n, o) =>
+                {
+                    n.Id = o.DynamicApi.Get<string>("Id") ?? string.Empty;
+                    n.CreatedBy = o.DynamicApi.Get<string>("CreatedBy") ?? string.Empty;
+                    n.CreatedById = o.DynamicApi.Get<string>("CreatedById") ?? string.Empty;
+                    n.UpdatedBy = o.DynamicApi.Get<string>("UpdatedBy") ?? string.Empty;
+                    n.UpdatedById = o.DynamicApi.Get<string>("UpdatedById") ?? string.Empty;
+                    n.CreatedDate = o.DynamicApi.Get<DateTimeOffset>("CreatedDate");
+                    n.UpdatedDate = o.DynamicApi.Get<DateTimeOffset>("UpdatedDate");
+                    n.ParentId = o.DynamicApi.Get<string>("ParentId") ?? string.Empty;
+                    n.ParentTypeInt = o.DynamicApi.Get<int>("ParentTypeInt");
+                    n.Active = o.DynamicApi.Get<string>("Active") ?? string.Empty;
+                    n.Address = o.DynamicApi.Get<string>("Address") ?? string.Empty;
+                    n.AgencyName = o.DynamicApi.Get<string>("AgencyName") ?? string.Empty;
+                    n.ParentRecordId = o.DynamicApi.Get<string>("ParentRecordId") ?? string.Empty;
+                    n.CellPhoneNumber = o.DynamicApi.Get<string>("CellPhoneNumber") ?? string.Empty;
+                    n.Comments = o.DynamicApi.Get<string>("Comments") ?? string.Empty;
+                    n.EmergencyContact = o.DynamicApi.Get<string>("EmergencyContact") ?? string.Empty;
+                    n.EntityId = o.DynamicApi.Get<string>("EntityId") ?? string.Empty;
+                    n.EntityName = o.DynamicApi.Get<string>("EntityName") ?? string.Empty;
+                    n.IcmSncCaseConFlag = o.DynamicApi.Get<string>("IcmSncCaseConFlag") ?? string.Empty;
+                    n.IcmSncSrConFlag = o.DynamicApi.Get<string>("IcmSncSrConFlag") ?? string.Empty;
+                    n.Name = o.DynamicApi.Get<string>("Name") ?? string.Empty;
+                    n.PhoneNumber = o.DynamicApi.Get<string>("PhoneNumber") ?? string.Empty;
+                    n.Relationship = o.DynamicApi.Get<string>("Relationship") ?? string.Empty;
                 }
             );
         }

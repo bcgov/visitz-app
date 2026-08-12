@@ -31,7 +31,7 @@ public partial class SupportNetworkItem
 
     public string ParentId { get; set; } = string.Empty;
 
-    private int ParentTypeInt { get; set; }
+    internal int ParentTypeInt { get; set; }
 
     public EntityType ParentType
     {
