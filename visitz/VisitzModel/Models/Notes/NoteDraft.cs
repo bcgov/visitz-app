@@ -18,7 +18,7 @@ public partial class NoteDraft : IRealmObject, IDraftItem
         set { }
     }
 
-    private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
 
     public EntityType RelatedEntityType
     {
@@ -26,7 +26,7 @@ public partial class NoteDraft : IRealmObject, IDraftItem
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    private int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
 
     public EntitySubtype RelatedEntitySubtype
     {
