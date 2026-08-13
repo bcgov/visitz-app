@@ -1,5 +1,8 @@
 using System.ComponentModel;
+using System.Web;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Visitz.Device;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
@@ -112,6 +115,21 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.Address,
                     Value = KeyPlayer.PrimaryAddressBinding,
+                    ValueColor = Colors.Blue,
+                    ValueTextDecorations = TextDecorations.Underline,
+                    TapAction = async () =>
+                    {
+                        try
+                        {
+                            if (KeyPlayer.PrimaryAddressBinding.Trim().Length > 0)
+                                await MapsHelper.OpenAddress(HttpUtility.UrlEncode(KeyPlayer.PrimaryAddressBinding));
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.LogError(ex);
+                            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+                        }
+                    },
                 },
             ];
         }

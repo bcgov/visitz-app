@@ -93,8 +93,18 @@
                 />
                 <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.AgencyNameBinding}" />
 
-                <Label Text="{local:Localize Address}" FontFamily="BCSansBold" />
-                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.AddressBinding}" />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenInMapsCommand}" />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label Text="{local:Localize Address}" FontFamily="BCSansBold" />
+                    <Label
+                        StyleClass="MarginEnd"
+                        Text="{Binding SupportNetwork.AddressBinding}"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                    />
+                </VerticalStackLayout>
 
                 <Label FontFamily="BCSansBold" Text="{local:Localize HomeNumber}" />
                 <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.PhoneNumberBinding}" />

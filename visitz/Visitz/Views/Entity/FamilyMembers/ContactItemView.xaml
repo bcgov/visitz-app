@@ -140,18 +140,26 @@
                     Text="{Binding Contact.DateOfBirthFormatted}"
                 />
 
-                <Label
-                    FontFamily="BCSansBold"
-                    HorizontalOptions="Start"
-                    Text="{local:Localize Address}"
-                />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenInMapsCommand}" />
+                    </VerticalStackLayout.GestureRecognizers>
 
-                <Label
-                    StyleClass="MarginEnd"
-                    HorizontalOptions="Start"
-                    FontFamily="BCSansRegular"
-                    Text="{Binding Contact.PrimaryAddress}"
-                />
+                    <Label
+                        FontFamily="BCSansBold"
+                        HorizontalOptions="Start"
+                        Text="{local:Localize Address}"
+                    />
+
+                    <Label
+                        StyleClass="MarginEnd"
+                        HorizontalOptions="Start"
+                        FontFamily="BCSansRegular"
+                        Text="{Binding Contact.PrimaryAddress}"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                    />
+                </VerticalStackLayout>
 
                 <Label
                     FontFamily="BCSansBold"

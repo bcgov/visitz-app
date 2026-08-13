@@ -1,5 +1,8 @@
+using System.Web;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Visitz.Device;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
@@ -51,5 +54,20 @@ public partial class ContactItemViewModel : VisitzViewModel
     partial void OnExpandedChanged(bool value)
     {
         ExpandedChevronGlyph = value ? MaterialIcons.Keyboard_arrow_up : MaterialIcons.Keyboard_arrow_down;
+    }
+
+    [RelayCommand]
+    public async Task OpenInMaps()
+    {
+        try
+        {
+            if (Contact.PrimaryAddressBinding.Trim().Length > 0)
+                await MapsHelper.OpenAddress(HttpUtility.UrlEncode(Contact.PrimaryAddressBinding));
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
     }
 }

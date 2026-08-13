@@ -1159,4 +1159,19 @@ It is unlikely that the file can be recovered.</value>
   <data name="Concerns" xml:space="preserve">
     <value>Concerns</value>
   </data>
+  <data name="GoogleMaps" xml:space="preserve">
+    <value>Google Maps</value>
+  </data>
+  <data name="AppleMaps" xml:space="preserve">
+    <value>Apple Maps</value>
+  </data>
+  <data name="OpenStreetMap" xml:space="preserve">
+    <value>OpenStreetMap</value>
+  </data>
+  <data name="BingMaps" xml:space="preserve">
+    <value>Bing Maps</value>
+  </data>
+  <data name="OpenInMap" xml:space="preserve">
+    <value>Open in map</value>
+  </data>
 </root>
