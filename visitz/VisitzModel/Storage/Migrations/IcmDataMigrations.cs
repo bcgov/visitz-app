@@ -1,5 +1,6 @@
 using Realms;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 
@@ -153,8 +154,27 @@ public static class IcmDataMigrations
                 (n, o) =>
                 {
                     n.FullID = o.DynamicApi.Get<string>("FullID") ?? string.Empty;
-                    n.ParentId = o.DynamicApi.Get<string>("ParentId") ?? string.Empty;
                     n.ParentTypeInt = o.DynamicApi.Get<int>("ParentTypeInt");
+
+                    string fileNumber = o.DynamicApi.Get<string?>("IcmId") ?? string.Empty;
+
+                    n.ParentId = n.ParentType switch
+                    {
+                        EntityType.Case => migration
+                            .NewRealm.All<CaseRecord>()
+                            .Where(row => row.FileNumber == fileNumber)
+                            .FirstOrDefault()
+                            ?.Id
+                            ?? fileNumber,
+                        EntityType.Incident => migration
+                            .NewRealm.All<IncidentRecord>()
+                            .Where(row => row.FileNumber == fileNumber)
+                            .FirstOrDefault()
+                            ?.Id
+                            ?? fileNumber,
+                        _ => fileNumber,
+                    };
+
                     n.CreatedDate = DateTimeOffset.TryParse(o.DynamicApi.Get<string>("CreatedDate"), out var created)
                         ? created
                         : DateTimeOffset.MinValue;
