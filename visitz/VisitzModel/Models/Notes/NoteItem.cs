@@ -20,6 +20,10 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
     private static readonly string NoteWrapperTimestampFormat = IcmDateFormats.BasicTimestamp;
     private static readonly string Separator = "────";
 
+    private static readonly IComparer<NoteItem> _fullIdComparer = Comparer<NoteItem>.Create(
+        (l, r) => l.FullID.CompareTo(r.FullID)
+    );
+
     /// <summary>
     /// Used app-only to uniquely ID NoteItems.
     /// </summary>
@@ -165,23 +169,45 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
         Realm realm,
         string parentId,
         EntityType parentType,
-        IEnumerable<NoteItem> upsertNotes
+        IEnumerable<NoteItem> incomingNotes
     )
     {
         if (parentType == EntityType.Case)
             // Case notes older <= 2012 may have a blank note period.
-            upsertNotes = SimulateNotePeriods(upsertNotes);
+            incomingNotes = SimulateNotePeriods(incomingNotes);
 
-        var currentNotes = GetNotesByParent(realm, parentType, parentId).ToList();
-        var deletedNotes = currentNotes.Except(upsertNotes);
+        var currentNotes = GetNotesByParent(realm, parentType, parentId).ToList().Order(_fullIdComparer).ToList();
+
+        // ToList required because of Realm object lifecycles
+        var updateNotes = incomingNotes
+            .Intersect(currentNotes)
+            .Where(incoming => ShouldUpdate(currentNotes, incoming))
+            .ToList();
+        var deletedNotes = currentNotes.Except(incomingNotes).ToList();
+        var insertNotes = incomingNotes.Except(currentNotes).ToList();
 
         await realm.WriteAsync(() =>
         {
             foreach (var deletedNote in deletedNotes)
                 realm.Remove(deletedNote);
 
-            realm.Add(upsertNotes, update: true);
+            foreach (var insertNote in insertNotes)
+                realm.Add(insertNote);
+
+            foreach (var updateNote in updateNotes)
+                realm.Add(updateNote, update: true);
         });
+    }
+
+    static bool ShouldUpdate(List<NoteItem> currentNotes, NoteItem updateNote)
+    {
+        int index = currentNotes.BinarySearch(updateNote, _fullIdComparer);
+        if (index < 0)
+            // updateNote not in currentNotes, fail early. If it's not here, it should've been added from insertNotes.
+            return false;
+
+        NoteItem currentNote = currentNotes[index];
+        return !currentNote.DeepEquals(updateNote);
     }
 
     static List<NoteItem> SimulateNotePeriods(IEnumerable<NoteItem> notes)
@@ -193,6 +219,20 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
                 note.NotePeriod = NotePeriodFrom(note.CreatedDate);
 
         return simulatedPeriodNotes;
+    }
+
+    public bool DeepEquals(NoteItem other)
+    {
+        return Equals(other)
+            && ParentType == other.ParentType
+            && NotePeriod == other.NotePeriod
+            && CreatedDate == other.CreatedDate
+            && CreatedBy == other.CreatedBy
+            && UpdatedDate == other.UpdatedDate
+            && UpdatedBy == other.UpdatedBy
+            && Content == other.Content
+            && PageNumber == other.PageNumber
+            && NotePeriodDateTime == other.NotePeriodDateTime;
     }
 
     public bool Equals(NoteItem? other)

@@ -14,6 +14,7 @@
     x:Class="Visitz.Views.Entity.Notes.NoteEntryView"
     x:DataType="notes:NoteEntryViewModel"
     x:TypeArguments="notes:NoteEntryViewModel"
+    x:Name="EntryView"
 >
     <baseClasses:IcmRecordContentView.Behaviors>
         <behaviors:SoftKbResizeBehavior />
