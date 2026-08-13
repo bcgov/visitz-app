@@ -31,6 +31,8 @@ internal class MapsHelper
             return;
 
         await Browser.Default.OpenAsync(mapEngine + address);
+#elif IOS
+        await Launcher.Default.OpenAsync($"maps://?q={address}");
 #endif
     }
 }
