@@ -1,12 +1,13 @@
 using Realms;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.Notes;
 using VisitzModel.Models.People;
 
 namespace VisitzModel.Storage.Migrations;
 
 public static class IcmDataMigrations
 {
-    public static void MigrateRealm(Migration migration, ulong oldSchemaVersion)
+    internal static void MigrateRealm(Migration migration, ulong oldSchemaVersion)
     {
         MigrateCaseloadItems(migration, oldSchemaVersion);
         MigrateNoteItems(migration, oldSchemaVersion);
