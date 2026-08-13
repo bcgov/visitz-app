@@ -113,7 +113,7 @@ public partial class IncidentRecord
 
     public string Status { get; set; } = string.Empty;
 
-    private int TypeInt { get; set; }
+    internal int TypeInt { get; set; }
     public EntitySubtype EntitySubtype
     {
         get => (EntitySubtype)TypeInt;

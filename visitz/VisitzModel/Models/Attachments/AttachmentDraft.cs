@@ -16,14 +16,14 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 {
     public string RelatedEntityId { get; set; } = string.Empty;
 
-    private int RelatedEntityTypeInt { get; set; }
+    internal int RelatedEntityTypeInt { get; set; }
     public EntityType RelatedEntityType
     {
         get => (EntityType)RelatedEntityTypeInt;
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    private int RelatedEntitySubtypeInt { get; set; }
+    internal int RelatedEntitySubtypeInt { get; set; }
     public EntitySubtype RelatedEntitySubtype
     {
         get => (EntitySubtype)RelatedEntitySubtypeInt;

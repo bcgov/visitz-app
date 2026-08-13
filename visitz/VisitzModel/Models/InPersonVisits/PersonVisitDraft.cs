@@ -12,7 +12,7 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
     [PrimaryKey]
     public string RelatedEntityId { get; set; } = Guid.NewGuid().ToString();
 
-    private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Case;
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Case;
 
     public EntityType RelatedEntityType
     {
@@ -20,7 +20,7 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    private int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.ChildServices;
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.ChildServices;
 
     public EntitySubtype RelatedEntitySubtype
     {

@@ -16,7 +16,7 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public string ParentId { get; set; } = string.Empty;
 
-    private int ParentTypeInt { get; set; } = (int)EntityType.Case;
+    internal int ParentTypeInt { get; set; } = (int)EntityType.Case;
 
     public EntityType ParentType
     {

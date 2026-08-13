@@ -82,7 +82,12 @@ public partial class AttachmentsListViewModel : IcmRecordViewModel
         _downloadedAttachments.CollectionChanged += SubListAttachments_CollectionChanged;
 
         _draftRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
-        _draftQuery = Attachment.GetAttachments(_draftRealm, EntityType, RowId);
+        _draftQuery = Attachment.GetAttachmentsByIdOrFileNumber(
+            _draftRealm,
+            EntityType,
+            RowId,
+            BusinessObject.FileNumber
+        );
         _draftQueryToken = _draftQuery.SubscribeForNotifications(DraftAttachments_ItemsChanged);
 
         _downloadedQuery = Attachment.GetAttachments(DataRealm, EntityType, RowId);

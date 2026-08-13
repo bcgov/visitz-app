@@ -45,7 +45,7 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
     public string ParentId { get; set; } = string.Empty;
 
     [Indexed]
-    private int ParentTypeInt { get; set; }
+    internal int ParentTypeInt { get; set; }
     public EntityType ParentType
     {
         get => (EntityType)ParentTypeInt;

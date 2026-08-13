@@ -91,7 +91,7 @@ public partial class CaseRecord : IRealmObject, IRowMetadata, IBusinessObject, I
 
     public string Status { get; set; } = string.Empty;
 
-    int TypeInt { get; set; }
+    internal int TypeInt { get; set; }
     public EntitySubtype EntitySubtype
     {
         get => (EntitySubtype)TypeInt;
