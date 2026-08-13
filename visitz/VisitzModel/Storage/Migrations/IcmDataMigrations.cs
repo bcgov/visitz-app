@@ -13,6 +13,7 @@ public static class IcmDataMigrations
         PersonVisitMigrations.MigrateRealm(migration, oldSchemaVersion);
         MigrateContacts(migration, oldSchemaVersion);
         MigrateSupportNetwork(migration, oldSchemaVersion);
+        AttachmentMigrations.MigrateRealm(migration, oldSchemaVersion);
     }
 
     static void MigrateCaseloadItems(Migration migration, ulong oldSchemaVersion)

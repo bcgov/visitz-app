@@ -26,14 +26,14 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
 
     public string RelatedEntityId { get; set; } = string.Empty;
 
-    private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
     public EntityType RelatedEntityType
     {
         get => (EntityType)RelatedEntityTypeInt;
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    private int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
     public EntitySubtype RelatedEntitySubtype
     {
         get => (EntitySubtype)RelatedEntitySubtypeInt;
