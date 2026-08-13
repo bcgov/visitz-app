@@ -15,7 +15,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
     public static readonly int CommentsMaxLength = 16000;
     public static readonly int NarrativeMaxLength = 2000;
 
-    private bool NoSafetyFactors { get; set; }
+    internal bool NoSafetyFactors { get; set; }
     private bool Safe
     {
         get => NoSafetyFactors;
@@ -26,7 +26,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
         }
     }
 
-    private bool SafeInterventions { get; set; }
+    internal bool SafeInterventions { get; set; }
     private bool SafeWithInterventions
     {
         get => SafeInterventions;
@@ -37,7 +37,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
         }
     }
 
-    private bool UnsafeSafetyFactors { get; set; }
+    internal bool UnsafeSafetyFactors { get; set; }
     private bool Unsafe
     {
         get => UnsafeSafetyFactors;

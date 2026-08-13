@@ -24,14 +24,14 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
 
     public string DraftLocation { get; set; } = string.Empty;
 
-    int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
     public EntityType RelatedEntityType
     {
         get => (EntityType)RelatedEntityTypeInt;
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
     public EntitySubtype RelatedEntitySubtype
     {
         get => (EntitySubtype)RelatedEntitySubtypeInt;

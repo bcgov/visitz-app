@@ -14,6 +14,7 @@ public static class IcmDataMigrations
         MigrateContacts(migration, oldSchemaVersion);
         MigrateSupportNetwork(migration, oldSchemaVersion);
         AttachmentMigrations.MigrateRealm(migration, oldSchemaVersion);
+        SafetyAssessmentMigrations.MigrateRealm(migration, oldSchemaVersion);
     }
 
     static void MigrateCaseloadItems(Migration migration, ulong oldSchemaVersion)
