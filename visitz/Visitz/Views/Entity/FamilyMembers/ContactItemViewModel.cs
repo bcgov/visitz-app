@@ -70,4 +70,19 @@ public partial class ContactItemViewModel : VisitzViewModel
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
+
+    [RelayCommand]
+    public void OpenInDialer(string phoneNumber)
+    {
+        try
+        {
+            if (phoneNumber.Trim().Length > 0)
+                PhoneDialer.Default.Open(phoneNumber);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            _ = Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
+    }
 }

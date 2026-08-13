@@ -101,6 +101,9 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.HomeNumber,
                     Value = KeyPlayer.HomePhoneFormatted,
+                    ValueColor = Colors.Blue,
+                    ValueTextDecorations = TextDecorations.Underline,
+                    TapAction = () => TryDial(KeyPlayer.HomePhoneFormatted),
                 },
                 new()
                 {
@@ -108,6 +111,9 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.CellNumber,
                     Value = KeyPlayer.CellPhoneFormatted,
+                    ValueColor = Colors.Blue,
+                    ValueTextDecorations = TextDecorations.Underline,
+                    TapAction = () => TryDial(KeyPlayer.CellPhoneFormatted),
                 },
                 new()
                 {
@@ -132,6 +138,20 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     },
                 },
             ];
+        }
+    }
+
+    void TryDial(string phoneNumber)
+    {
+        try
+        {
+            if (phoneNumber.Trim().Length > 0)
+                PhoneDialer.Default.Open(phoneNumber);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            _ = Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
 }

@@ -161,31 +161,51 @@
                     />
                 </VerticalStackLayout>
 
-                <Label
-                    FontFamily="BCSansBold"
-                    HorizontalOptions="Start"
-                    Text="{local:Localize HomeNumber}"
-                />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenInDialerCommand}"
+                            CommandParameter="{Binding Contact.HomePhoneBinding}"
+                        />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        FontFamily="BCSansBold"
+                        HorizontalOptions="Start"
+                        Text="{local:Localize HomeNumber}"
+                    />
 
-                <Label
-                    StyleClass="MarginEnd"
-                    HorizontalOptions="Start"
-                    FontFamily="BCSansRegular"
-                    Text="{Binding Contact.HomePhoneFormatted}"
-                />
+                    <Label
+                        StyleClass="MarginEnd"
+                        HorizontalOptions="Start"
+                        FontFamily="BCSansRegular"
+                        Text="{Binding Contact.HomePhoneFormatted}"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                    />
+                </VerticalStackLayout>
 
-                <Label
-                    FontFamily="BCSansBold"
-                    HorizontalOptions="Start"
-                    Text="{local:Localize CellNumber}"
-                />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenInDialerCommand}"
+                            CommandParameter="{Binding Contact.CellPhoneBinding}"
+                        />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        FontFamily="BCSansBold"
+                        HorizontalOptions="Start"
+                        Text="{local:Localize CellNumber}"
+                    />
 
-                <Label
-                    StyleClass="MarginEnd"
-                    HorizontalOptions="Start"
-                    FontFamily="BCSansRegular"
-                    Text="{Binding Contact.CellPhoneFormatted}"
-                />
+                    <Label
+                        StyleClass="MarginEnd"
+                        HorizontalOptions="Start"
+                        FontFamily="BCSansRegular"
+                        Text="{Binding Contact.CellPhoneFormatted}"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                    />
+                </VerticalStackLayout>
 
                 <Label
                     FontFamily="BCSansBold"

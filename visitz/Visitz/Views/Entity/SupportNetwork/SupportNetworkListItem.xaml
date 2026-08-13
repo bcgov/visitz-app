@@ -106,14 +106,37 @@
                     />
                 </VerticalStackLayout>
 
-                <Label FontFamily="BCSansBold" Text="{local:Localize HomeNumber}" />
-                <Label StyleClass="MarginEnd" Text="{Binding SupportNetwork.PhoneNumberBinding}" />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenInDialerCommand}"
+                            CommandParameter="{Binding SupportNetwork.PhoneNumberBinding}"
+                        />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label FontFamily="BCSansBold" Text="{local:Localize HomeNumber}" />
+                    <Label
+                        StyleClass="MarginEnd"
+                        Text="{Binding SupportNetwork.PhoneNumberBinding}"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                    />
+                </VerticalStackLayout>
 
-                <Label FontFamily="BCSansBold" Text="{local:Localize CellNumber}" />
-                <Label
-                    StyleClass="MarginEnd"
-                    Text="{Binding SupportNetwork.CellPhoneNumberBinding}"
-                />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenInDialerCommand}"
+                            CommandParameter="{Binding SupportNetwork.CellPhoneNumberBinding}"
+                        />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label FontFamily="BCSansBold" Text="{local:Localize CellNumber}" />
+                    <Label
+                        StyleClass="MarginEnd"
+                        Text="{Binding SupportNetwork.CellPhoneNumberBinding}"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                    />
+                </VerticalStackLayout>
 
                 <Label
                     Grid.Row="2"
