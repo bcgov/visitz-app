@@ -7,6 +7,8 @@ namespace Visitz.Views.Caseload;
 
 public partial class DataRefreshButton : ViewModelContentView<DataRefreshViewModel>
 {
+    public static readonly string RefreshGlyph = MaterialIcons.Refresh;
+
     public StackOrientation Orientation
     {
         get => ViewModel.Orientation;
@@ -57,8 +59,6 @@ public partial class DataRefreshButton : ViewModelContentView<DataRefreshViewMod
 
     private void SetIconByNetworkAccess()
     {
-        RefreshButton.Text = NetworkHelper.InternetAvailable
-            ? MaterialIcons.Download_for_offline
-            : MaterialIcons.File_download_off;
+        RefreshButton.Text = NetworkHelper.InternetAvailable ? RefreshGlyph : MaterialIcons.File_download_off;
     }
 }
