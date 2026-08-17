@@ -59,6 +59,6 @@ public partial class DataRefreshButton : ViewModelContentView<DataRefreshViewMod
 
     private void SetIconByNetworkAccess()
     {
-        RefreshButton.Text = NetworkHelper.InternetAvailable ? RefreshGlyph : MaterialIcons.File_download_off;
+        RefreshButton.Text = NetworkHelper.InternetAvailable ? RefreshGlyph : MaterialIcons.Wifi_off;
     }
 }
