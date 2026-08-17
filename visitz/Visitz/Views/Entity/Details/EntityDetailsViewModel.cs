@@ -101,9 +101,11 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.HomeNumber,
                     Value = KeyPlayer.HomePhoneFormatted,
+#if IOS
                     ValueColor = Colors.Blue,
                     ValueTextDecorations = TextDecorations.Underline,
                     TapAction = () => TryDial(KeyPlayer.HomePhoneFormatted),
+#endif
                 },
                 new()
                 {
@@ -111,9 +113,11 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.CellNumber,
                     Value = KeyPlayer.CellPhoneFormatted,
+#if IOS
                     ValueColor = Colors.Blue,
                     ValueTextDecorations = TextDecorations.Underline,
                     TapAction = () => TryDial(KeyPlayer.CellPhoneFormatted),
+#endif
                 },
                 new()
                 {

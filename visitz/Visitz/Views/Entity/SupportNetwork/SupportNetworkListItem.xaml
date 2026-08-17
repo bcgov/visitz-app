@@ -117,8 +117,8 @@
                     <Label
                         StyleClass="MarginEnd"
                         Text="{Binding SupportNetwork.PhoneNumberBinding}"
-                        TextColor="Blue"
-                        TextDecorations="Underline"
+                        TextColor="{OnPlatform iOS=Blue, Default={StaticResource BC_TextColor}}"
+                        TextDecorations="{OnPlatform iOS=Underline}"
                     />
                 </VerticalStackLayout>
 
@@ -133,8 +133,8 @@
                     <Label
                         StyleClass="MarginEnd"
                         Text="{Binding SupportNetwork.CellPhoneNumberBinding}"
-                        TextColor="Blue"
-                        TextDecorations="Underline"
+                        TextColor="{OnPlatform iOS=Blue, Default={StaticResource BC_TextColor}}"
+                        TextDecorations="{OnPlatform iOS=Underline}"
                     />
                 </VerticalStackLayout>
 

@@ -179,8 +179,8 @@
                         HorizontalOptions="Start"
                         FontFamily="BCSansRegular"
                         Text="{Binding Contact.HomePhoneFormatted}"
-                        TextColor="Blue"
-                        TextDecorations="Underline"
+                        TextColor="{OnPlatform iOS=Blue, Default={StaticResource BC_TextColor}}"
+                        TextDecorations="{OnPlatform iOS=Underline}"
                     />
                 </VerticalStackLayout>
 
@@ -202,8 +202,8 @@
                         HorizontalOptions="Start"
                         FontFamily="BCSansRegular"
                         Text="{Binding Contact.CellPhoneFormatted}"
-                        TextColor="Blue"
-                        TextDecorations="Underline"
+                        TextColor="{OnPlatform iOS=Blue, Default={StaticResource BC_TextColor}}"
+                        TextDecorations="{OnPlatform iOS=Underline}"
                     />
                 </VerticalStackLayout>
 
