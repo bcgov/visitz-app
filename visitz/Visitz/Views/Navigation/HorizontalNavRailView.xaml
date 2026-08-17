@@ -16,21 +16,29 @@
     BackgroundColor="{StaticResource BuildBarBackgroundColor}"
     MinimumHeightRequest="64"
 >
-    <Grid HorizontalOptions="{OnIdiom Phone=Fill, Default=Center}">
-        <BindableLayout.ItemTemplate>
-            <DataTemplate>
-                <nav:NavItemView MinimumWidthRequest="{OnIdiom Phone=-1, Default=80}" />
-            </DataTemplate>
-        </BindableLayout.ItemTemplate>
+    <Grid x:Name="ProgressContainer">
+        <views:IndeterminateProgressView
+            x:Name="ProgressIndicator"
+            Color="{StaticResource BC_Gold}"
+            HeightRequest="4"
+            VerticalOptions="Start"
+        />
+        <Grid HorizontalOptions="{OnIdiom Phone=Fill, Default=Center}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <nav:NavItemView MinimumWidthRequest="{OnIdiom Phone=-1, Default=80}" />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
 
-        <Grid.Behaviors>
-            <behaviors:SelectionLayoutBehavior
-                ItemsSource="{Binding NavigationItems}"
-                SelectedItem="{Binding SelectedNavItem}"
-                StickySelection="True"
-            />
+            <Grid.Behaviors>
+                <behaviors:SelectionLayoutBehavior
+                    ItemsSource="{Binding NavigationItems}"
+                    SelectedItem="{Binding SelectedNavItem}"
+                    StickySelection="True"
+                />
 
-            <behaviors:AutoAddColumnBehavior />
-        </Grid.Behaviors>
+                <behaviors:AutoAddColumnBehavior />
+            </Grid.Behaviors>
+        </Grid>
     </Grid>
 </baseClasses:ViewModelContentView>

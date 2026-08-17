@@ -9,5 +9,7 @@ public partial class HorizontalNavRailView : ViewModelContentView<NavRailViewMod
     {
         InitializeComponent();
         BindingContext = ViewModel;
+
+        ProgressIndicator.IsRunning = true;
     }
 }
