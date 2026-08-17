@@ -1391,6 +1391,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last refreshed.
+        /// </summary>
+        public static string LastRefreshed {
+            get {
+                return ResourceManager.GetString("LastRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last updated.
         /// </summary>
         public static string LastUpdated {

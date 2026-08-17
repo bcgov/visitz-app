@@ -4,7 +4,6 @@ using CommunityToolkit.Maui.Core;
 using Oidc;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
-using VisitzModel.Formats;
 using VisitzModel.Storage;
 #if IOS
 using CommunityToolkit.Maui.Behaviors;
@@ -47,9 +46,9 @@ public partial class LastUpdatedBanner : ContentView
 
     private void SetLastUpdated(DateTime? lastUpdated)
     {
-        LastUpdatedLabel.Text = lastUpdated is DateTime last
-            ? last.ToString(IcmDateFormats.BasicTimestamp, CultureInfo.InvariantCulture)
-            : LastUpdatedLabel.Text = FallbackText;
+        LastUpdatedSpan.Text = lastUpdated is DateTime last
+            ? last.ToString("yyyy-MMM-dd h:mm tt", CultureInfo.InvariantCulture)
+            : LastUpdatedSpan.Text = FallbackText;
     }
 
     async void MenuFlyoutItem_Clicked(object? sender, EventArgs e)
