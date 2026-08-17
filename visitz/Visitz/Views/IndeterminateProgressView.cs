@@ -48,7 +48,7 @@ internal partial class IndeterminateProgressView : ContentView
 
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            while (!_animationCts.IsCancellationRequested)
+            while (_animationCts != null && !_animationCts.IsCancellationRequested)
             {
                 double containerWidth = ((VisualElement)Parent).Width;
 

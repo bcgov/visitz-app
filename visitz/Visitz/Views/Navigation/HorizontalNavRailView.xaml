@@ -16,7 +16,7 @@
     BackgroundColor="{StaticResource BuildBarBackgroundColor}"
     MinimumHeightRequest="64"
 >
-    <Grid x:Name="ProgressContainer">
+    <Grid>
         <views:IndeterminateProgressView
             x:Name="ProgressIndicator"
             Color="{StaticResource BC_Gold}"
