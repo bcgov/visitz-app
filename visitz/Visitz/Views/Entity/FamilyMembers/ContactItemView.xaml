@@ -140,44 +140,72 @@
                     Text="{Binding Contact.DateOfBirthFormatted}"
                 />
 
-                <Label
-                    FontFamily="BCSansBold"
-                    HorizontalOptions="Start"
-                    Text="{local:Localize Address}"
-                />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenInMapsCommand}" />
+                    </VerticalStackLayout.GestureRecognizers>
 
-                <Label
-                    StyleClass="MarginEnd"
-                    HorizontalOptions="Start"
-                    FontFamily="BCSansRegular"
-                    Text="{Binding Contact.PrimaryAddress}"
-                />
+                    <Label
+                        FontFamily="BCSansBold"
+                        HorizontalOptions="Start"
+                        Text="{local:Localize Address}"
+                    />
 
-                <Label
-                    FontFamily="BCSansBold"
-                    HorizontalOptions="Start"
-                    Text="{local:Localize HomeNumber}"
-                />
+                    <Label
+                        StyleClass="MarginEnd"
+                        HorizontalOptions="Start"
+                        FontFamily="BCSansRegular"
+                        Text="{Binding Contact.PrimaryAddress}"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                    />
+                </VerticalStackLayout>
 
-                <Label
-                    StyleClass="MarginEnd"
-                    HorizontalOptions="Start"
-                    FontFamily="BCSansRegular"
-                    Text="{Binding Contact.HomePhoneFormatted}"
-                />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenInDialerCommand}"
+                            CommandParameter="{Binding Contact.HomePhoneBinding}"
+                        />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        FontFamily="BCSansBold"
+                        HorizontalOptions="Start"
+                        Text="{local:Localize HomeNumber}"
+                    />
 
-                <Label
-                    FontFamily="BCSansBold"
-                    HorizontalOptions="Start"
-                    Text="{local:Localize CellNumber}"
-                />
+                    <Label
+                        StyleClass="MarginEnd"
+                        HorizontalOptions="Start"
+                        FontFamily="BCSansRegular"
+                        Text="{Binding Contact.HomePhoneFormatted}"
+                        TextColor="{OnPlatform iOS=Blue, Default={StaticResource BC_TextColor}}"
+                        TextDecorations="{OnPlatform iOS=Underline}"
+                    />
+                </VerticalStackLayout>
 
-                <Label
-                    StyleClass="MarginEnd"
-                    HorizontalOptions="Start"
-                    FontFamily="BCSansRegular"
-                    Text="{Binding Contact.CellPhoneFormatted}"
-                />
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenInDialerCommand}"
+                            CommandParameter="{Binding Contact.CellPhoneBinding}"
+                        />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label
+                        FontFamily="BCSansBold"
+                        HorizontalOptions="Start"
+                        Text="{local:Localize CellNumber}"
+                    />
+
+                    <Label
+                        StyleClass="MarginEnd"
+                        HorizontalOptions="Start"
+                        FontFamily="BCSansRegular"
+                        Text="{Binding Contact.CellPhoneFormatted}"
+                        TextColor="{OnPlatform iOS=Blue, Default={StaticResource BC_TextColor}}"
+                        TextDecorations="{OnPlatform iOS=Underline}"
+                    />
+                </VerticalStackLayout>
 
                 <Label
                     FontFamily="BCSansBold"

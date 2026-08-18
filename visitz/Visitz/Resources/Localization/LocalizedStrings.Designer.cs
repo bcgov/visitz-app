@@ -187,6 +187,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apple Maps.
+        /// </summary>
+        public static string AppleMaps {
+            get {
+                return ResourceManager.GetString("AppleMaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approved.
         /// </summary>
         public static string Approved {
@@ -282,6 +291,15 @@ namespace Visitz.Resources.Localization {
         public static string AutoRefreshDebugDisabled {
             get {
                 return ResourceManager.GetString("AutoRefreshDebugDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bing Maps.
+        /// </summary>
+        public static string BingMaps {
+            get {
+                return ResourceManager.GetString("BingMaps", resourceCulture);
             }
         }
         
@@ -1193,6 +1211,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Google Maps.
+        /// </summary>
+        public static string GoogleMaps {
+            get {
+                return ResourceManager.GetString("GoogleMaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have an unpublished draft.
         /// </summary>
         public static string HaveUnpublishedDraft {
@@ -1744,6 +1771,24 @@ namespace Visitz.Resources.Localization {
         public static string OpenDate {
             get {
                 return ResourceManager.GetString("OpenDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open in map.
+        /// </summary>
+        public static string OpenInMap {
+            get {
+                return ResourceManager.GetString("OpenInMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OpenStreetMap.
+        /// </summary>
+        public static string OpenStreetMap {
+            get {
+                return ResourceManager.GetString("OpenStreetMap", resourceCulture);
             }
         }
         

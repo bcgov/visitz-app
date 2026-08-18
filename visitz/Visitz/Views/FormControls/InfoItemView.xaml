@@ -6,6 +6,9 @@
     x:Class="Visitz.Views.FormControls.InfoItemView"
     x:DataType="form:InfoItem"
 >
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </ContentView.GestureRecognizers>
     <Grid
         ColumnDefinitions="Auto,*"
         RowDefinitions="Auto,Auto"
@@ -27,6 +30,13 @@
             VerticalOptions="Center"
         />
 
-        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Value}" VerticalOptions="Center" />
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding Value}"
+            VerticalOptions="Center"
+            TextDecorations="{Binding ValueTextDecorations}"
+            TextColor="{Binding ValueColor, TargetNullValue={StaticResource BC_TextColor}}"
+        />
     </Grid>
 </ContentView>

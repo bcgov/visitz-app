@@ -1,5 +1,8 @@
 using System.ComponentModel;
+using System.Web;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Visitz.Device;
+using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
@@ -98,6 +101,11 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.HomeNumber,
                     Value = KeyPlayer.HomePhoneFormatted,
+#if IOS
+                    ValueColor = Colors.Blue,
+                    ValueTextDecorations = TextDecorations.Underline,
+                    TapAction = () => TryDial(KeyPlayer.HomePhoneFormatted),
+#endif
                 },
                 new()
                 {
@@ -105,6 +113,11 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.CellNumber,
                     Value = KeyPlayer.CellPhoneFormatted,
+#if IOS
+                    ValueColor = Colors.Blue,
+                    ValueTextDecorations = TextDecorations.Underline,
+                    TapAction = () => TryDial(KeyPlayer.CellPhoneFormatted),
+#endif
                 },
                 new()
                 {
@@ -112,8 +125,37 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.Address,
                     Value = KeyPlayer.PrimaryAddressBinding,
+                    ValueColor = Colors.Blue,
+                    ValueTextDecorations = TextDecorations.Underline,
+                    TapAction = async () =>
+                    {
+                        try
+                        {
+                            if (KeyPlayer.PrimaryAddressBinding.Trim().Length > 0)
+                                await MapsHelper.OpenAddress(HttpUtility.UrlEncode(KeyPlayer.PrimaryAddressBinding));
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.LogError(ex);
+                            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+                        }
+                    },
                 },
             ];
+        }
+    }
+
+    void TryDial(string phoneNumber)
+    {
+        try
+        {
+            if (phoneNumber.Trim().Length > 0)
+                PhoneDialer.Default.Open(phoneNumber);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            _ = Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
 }
