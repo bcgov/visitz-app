@@ -10,6 +10,8 @@ internal partial class IndeterminateProgressView : ContentView
 
     readonly BoxView _progressIndicator;
 
+    double ParentWidth => ((VisualElement)Parent).Width;
+
     [BindableProperty(PropertyChangedMethodName = nameof(IsRunningChanged))]
     public partial bool IsRunning { get; set; }
 
@@ -42,23 +44,21 @@ internal partial class IndeterminateProgressView : ContentView
 
     public void StartAnimation()
     {
-        StopAnimation();
-
-        _animationCts = new CancellationTokenSource();
-
         MainThread.BeginInvokeOnMainThread(async () =>
         {
+            StopAnimation();
+
+            _animationCts = new CancellationTokenSource();
+
             while (_animationCts != null && !_animationCts.IsCancellationRequested)
             {
-                double containerWidth = ((VisualElement)Parent).Width;
-
-                if (containerWidth <= 0)
+                if (Parent == null || ParentWidth <= 0)
                 {
                     await Task.Delay(50);
                     continue;
                 }
 
-                await Task.WhenAll(SizeAndMoveAsync(containerWidth), GrowAndShrink());
+                await Task.WhenAll(SizeAndMoveAsync(ParentWidth), GrowAndShrink());
 
                 await Task.Delay(200);
             }
@@ -77,7 +77,7 @@ internal partial class IndeterminateProgressView : ContentView
 
     async Task SizeAndMoveAsync(double containerWidth)
     {
-        double indicatorWidth = Math.Min(80, containerWidth * 0.3);
+        double indicatorWidth = Math.Min(80, containerWidth * 0.1);
 
         _progressIndicator.WidthRequest = indicatorWidth;
         _progressIndicator.TranslationX = -indicatorWidth;
@@ -88,6 +88,6 @@ internal partial class IndeterminateProgressView : ContentView
     async Task GrowAndShrink()
     {
         await _progressIndicator.ScaleXToAsync(3.0d, s_animationDuration / 2, Easing.Linear);
-        await _progressIndicator.ScaleXToAsync(0.5d, s_animationDuration / 4, Easing.Linear);
+        await _progressIndicator.ScaleXToAsync(1.0d, s_animationDuration / 4, Easing.Linear);
     }
 }
