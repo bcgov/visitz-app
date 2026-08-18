@@ -18,17 +18,16 @@
         </MenuFlyout>
     </FlyoutBase.ContextFlyout>
 
-    <HorizontalStackLayout
-        BindingContext="{Reference this}"
-        Margin="8"
-        Spacing="5"
-        HorizontalOptions="End"
-    >
-        <Label
-            TextColor="{StaticResource BC_InputControlsTextColor}"
-            Text="{local:Localize LastUpdated}"
-        />
-
-        <Label x:Name="LastUpdatedLabel" />
-    </HorizontalStackLayout>
+    <Label BindingContext="{Reference this}" Margin="8" HorizontalOptions="End">
+        <Label.FormattedText>
+            <FormattedString>
+                <Span
+                    TextColor="{StaticResource BC_InputControlsTextColor}"
+                    Text="{local:Localize LastRefreshed}"
+                />
+                <Span Text=" " />
+                <Span x:Name="LastUpdatedSpan" />
+            </FormattedString>
+        </Label.FormattedText>
+    </Label>
 </ContentView>

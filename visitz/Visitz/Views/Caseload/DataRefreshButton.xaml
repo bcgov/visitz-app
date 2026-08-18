@@ -32,7 +32,7 @@
             VerticalOptions="Center"
             FontFamily="MaterialIconsRoundedUnfilled"
             Command="{Binding RefreshDataCommand}"
-            Text="{Static icons:MaterialIcons.Download_for_offline}"
+            Text="{Static caseload:DataRefreshButton.RefreshGlyph}"
             IsVisible="{Binding CaseloadActivity, Converter={StaticResource BoolNegation}}"
         />
 

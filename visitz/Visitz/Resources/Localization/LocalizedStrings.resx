@@ -1174,4 +1174,7 @@ It is unlikely that the file can be recovered.</value>
   <data name="OpenInMap" xml:space="preserve">
     <value>Open in map</value>
   </data>
+  <data name="LastRefreshed" xml:space="preserve">
+    <value>Last refreshed</value>
+  </data>
 </root>

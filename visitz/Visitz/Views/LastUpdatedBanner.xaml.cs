@@ -1,9 +1,9 @@
 using System.Globalization;
+using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Core;
 using Oidc;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
-using VisitzModel.Formats;
 using VisitzModel.Storage;
 #if IOS
 using CommunityToolkit.Maui.Behaviors;
@@ -15,39 +15,11 @@ namespace Visitz.Views;
 
 public partial class LastUpdatedBanner : ContentView
 {
-    public static readonly BindableProperty LastUpdatedProperty = BindableProperty.Create(
-        nameof(LastUpdated),
-        typeof(DateTime?),
-        typeof(LastUpdatedBanner),
-        propertyChanged: SetUpdatedText
-    );
+    [BindableProperty(PropertyChangedMethodName = nameof(SetUpdatedText))]
+    public partial DateTime? LastUpdated { get; set; }
 
-    public static readonly BindableProperty FallbackTextProperty = BindableProperty.Create(
-        nameof(FallbackText),
-        typeof(string),
-        typeof(LastUpdatedBanner),
-        propertyChanged: SetUpdatedText,
-        defaultValue: LocalizedStrings.NA
-    );
-
-    private static void SetUpdatedText(object boundObj, object _, object newVal)
-    {
-        var thiz = (LastUpdatedBanner)boundObj;
-
-        thiz.SetLastUpdated(newVal as DateTime?);
-    }
-
-    public DateTime? LastUpdated
-    {
-        get => (DateTime?)GetValue(LastUpdatedProperty);
-        set => SetValue(LastUpdatedProperty, value);
-    }
-
-    public string FallbackText
-    {
-        get => (string)GetValue(FallbackTextProperty);
-        set => SetValue(FallbackTextProperty, value);
-    }
+    [BindableProperty(PropertyChangedMethodName = nameof(SetUpdatedText))]
+    public partial string FallbackText { get; set; } = LocalizedStrings.NA;
 
     public LastUpdatedBanner()
     {
@@ -65,11 +37,18 @@ public partial class LastUpdatedBanner : ContentView
 #endif
     }
 
+    private static void SetUpdatedText(object boundObj, object _, object newVal)
+    {
+        var thiz = (LastUpdatedBanner)boundObj;
+
+        thiz.SetLastUpdated(newVal as DateTime?);
+    }
+
     private void SetLastUpdated(DateTime? lastUpdated)
     {
-        LastUpdatedLabel.Text = lastUpdated is DateTime last
-            ? last.ToString(IcmDateFormats.BasicTimestamp, CultureInfo.InvariantCulture)
-            : LastUpdatedLabel.Text = FallbackText;
+        LastUpdatedSpan.Text = lastUpdated is DateTime last
+            ? last.ToString("yyyy-MMM-dd h:mm tt", CultureInfo.InvariantCulture)
+            : LastUpdatedSpan.Text = FallbackText;
     }
 
     async void MenuFlyoutItem_Clicked(object? sender, EventArgs e)
