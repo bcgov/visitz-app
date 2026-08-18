@@ -575,18 +575,23 @@
                             />
                         </Grid>
 
-                        <CollectionView
-                            ItemsSource="{Binding AvailableChildrenInOutCare}"
-                            SelectionMode="Multiple"
-                            SelectedItems="{Binding SelectedChildren}"
-                            IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
-                        >
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="peopleModels:IcmContact">
-                                    <safetyAssess:ChildInOutCareItem />
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                        <Grid RowDefinitions="Auto">
+                            <!-- FIXME: Wrapping CollectionView with an auto-sizing Grid to work
+                            around a layout issue on iOS where the CollectionView usually renders
+                            with a size of 0 even though it has elements it can display. -->
+                            <CollectionView
+                                ItemsSource="{Binding AvailableChildrenInOutCare}"
+                                SelectionMode="Multiple"
+                                SelectedItems="{Binding SelectedChildren}"
+                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+                            >
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="peopleModels:IcmContact">
+                                        <safetyAssess:ChildInOutCareItem />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </Grid>
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Style="{StaticResource FormVsl}">
