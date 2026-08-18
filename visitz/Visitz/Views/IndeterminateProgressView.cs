@@ -67,12 +67,15 @@ internal partial class IndeterminateProgressView : ContentView
 
     public void StopAnimation()
     {
-        _animationCts?.Cancel();
-        _animationCts?.Dispose();
-        _animationCts = null;
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            _animationCts?.Cancel();
+            _animationCts?.Dispose();
+            _animationCts = null;
 
-        _progressIndicator.CancelAnimations();
-        _progressIndicator.TranslationX = 0;
+            _progressIndicator.CancelAnimations();
+            _progressIndicator.TranslationX = 0;
+        });
     }
 
     async Task SizeAndMoveAsync(double containerWidth)
