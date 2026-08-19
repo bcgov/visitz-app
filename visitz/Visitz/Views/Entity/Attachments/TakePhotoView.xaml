@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -56,29 +57,31 @@
         </HorizontalStackLayout>
 
         <Grid
-            AbsoluteLayout.LayoutFlags="XProportional,YProportional,HeightProportional"
-            AbsoluteLayout.LayoutBounds="1,0,-1,1"
-            RowDefinitions="*,Auto,*"
-            RowSpacing="{StaticResource DefaultSpacing}"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,1,-1,-1"
+            ColumnDefinitions="*,Auto,*"
+            ColumnSpacing="{StaticResource DefaultSpacing}"
         >
-            <VerticalStackLayout Grid.Row="0" VerticalOptions="End">
-                <Button
-                    Style="{StaticResource MinimalButton}"
-                    BorderWidth="0"
-                    HorizontalOptions="Center"
-                    Command="{Binding SelectNextCameraCommand}"
-                >
-                    <Button.ImageSource>
-                        <FontImageSource
-                            Glyph="{Static icons:MaterialIcons.Camera_rear}"
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                        />
-                    </Button.ImageSource>
-                </Button>
+            <Grid.Behaviors>
+                <behaviors:StickToEdgeBehavior StickToEdge="Bottom" />
+            </Grid.Behaviors>
+
+            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                <Border HorizontalOptions="Center" Stroke="White" StrokeThickness="2">
+                    <ImageButton
+                        x:Name="CameraRollButton"
+                        HeightRequest="48"
+                        WidthRequest="48"
+                        Aspect="AspectFill"
+                        Clicked="CameraRollButton_Clicked"
+                        CornerRadius="0"
+                        Source="{Binding RollBytes, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                    />
+                </Border>
             </VerticalStackLayout>
 
             <Border
-                Grid.Row="1"
+                Grid.Column="1"
                 StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
                 Stroke="White"
                 StrokeThickness="2"
@@ -116,18 +119,20 @@
                 </Grid>
             </Border>
 
-            <VerticalStackLayout Grid.Row="2" VerticalOptions="Start">
-                <Border HorizontalOptions="Center" Stroke="White" StrokeThickness="2">
-                    <ImageButton
-                        x:Name="CameraRollButton"
-                        HeightRequest="48"
-                        WidthRequest="48"
-                        Aspect="AspectFill"
-                        Clicked="CameraRollButton_Clicked"
-                        CornerRadius="0"
-                        Source="{Binding RollBytes, Converter={StaticResource ByteArrayToImageSourceConverter}}"
-                    />
-                </Border>
+            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                <Button
+                    Style="{StaticResource MinimalButton}"
+                    BorderWidth="0"
+                    HorizontalOptions="Center"
+                    Command="{Binding SelectNextCameraCommand}"
+                >
+                    <Button.ImageSource>
+                        <FontImageSource
+                            Glyph="{Static icons:MaterialIcons.Camera_rear}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                        />
+                    </Button.ImageSource>
+                </Button>
             </VerticalStackLayout>
         </Grid>
     </AbsoluteLayout>
