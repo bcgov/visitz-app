@@ -33,4 +33,44 @@ public partial class IcmContact
             RaisePropertyChanged(nameof(CellPhone));
         }
     }
+
+    public string LastNameBinding
+    {
+        get => IsValid ? LastName : string.Empty;
+        set
+        {
+            this.Commit(() => LastName = value);
+            RaisePropertyChanged(nameof(LastName));
+        }
+    }
+
+    public string FirstNameBinding
+    {
+        get => IsValid ? FirstName : string.Empty;
+        set
+        {
+            this.Commit(() => FirstName = value);
+            RaisePropertyChanged(nameof(FirstName));
+        }
+    }
+
+    public string GenderBinding
+    {
+        get => IsValid ? Gender : string.Empty;
+        set
+        {
+            this.Commit(() => Gender = value);
+            RaisePropertyChanged(nameof(Gender));
+        }
+    }
+
+    public DateTimeOffset? DateOfBirthBinding
+    {
+        get => IsValid ? DateOfBirth : null;
+        set
+        {
+            this.Commit(() => DateOfBirth = value);
+            RaisePropertyChanged(nameof(DateOfBirth));
+        }
+    }
 }

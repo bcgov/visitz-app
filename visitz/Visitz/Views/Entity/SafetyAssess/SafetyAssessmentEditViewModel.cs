@@ -134,6 +134,8 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
             SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
+            SelectedChildren.Clear();
+            AvailableChildrenInOutCare = [];
             UnsubscribeFromAssessment();
 
             Assessment = new()

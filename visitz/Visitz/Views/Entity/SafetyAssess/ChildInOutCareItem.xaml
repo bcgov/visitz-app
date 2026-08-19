@@ -49,12 +49,12 @@
             Setting BackgroundColor explicitly on each Label because of a layout issue. The labels don't render unless
             it's set.
         -->
-        <Label Grid.Column="1" BackgroundColor="White" Text="{Binding LastName}" />
+        <Label Grid.Column="1" BackgroundColor="White" Text="{Binding LastNameBinding}" />
 
-        <Label Grid.Column="2" BackgroundColor="White" Text="{Binding FirstName}" />
+        <Label Grid.Column="2" BackgroundColor="White" Text="{Binding FirstNameBinding}" />
 
         <Label Grid.Column="3" BackgroundColor="White" Text="{Binding DateOfBirthFormatted}" />
 
-        <Label Grid.Column="4" BackgroundColor="White" Text="{Binding Gender}" />
+        <Label Grid.Column="4" BackgroundColor="White" Text="{Binding GenderBinding}" />
     </Grid>
 </ContentView>

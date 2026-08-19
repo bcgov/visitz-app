@@ -197,7 +197,7 @@ public partial class IcmContact
     public string FullDisplayName => string.Join(" ", FirstName, MiddleNames, LastName);
 
     public string DateOfBirthFormatted =>
-        DateOfBirth?.ToString(IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture) ?? string.Empty;
+        DateOfBirthBinding?.ToString(IcmDateFormats.BasicTimestampShort, CultureInfo.InvariantCulture) ?? string.Empty;
 
     public string HomePhoneFormatted => PhoneNumberFormatter.Format(HomePhoneBinding) ?? string.Empty;
 
