@@ -49,7 +49,7 @@ internal partial class StickToEdgeBehavior : Behavior<View>
 
     void MoveViewToEdge(ScreenEdge newEdge)
     {
-        if (View == null)
+        if (View == null || newEdge == ScreenEdge.Unknown)
             return;
 
         if (View.Parent is AbsoluteLayout)

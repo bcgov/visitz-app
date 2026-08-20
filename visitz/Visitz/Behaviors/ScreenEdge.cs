@@ -1,12 +1,10 @@
 namespace Visitz.Behaviors;
 
-#pragma warning disable SS039 // An enum should specify a default value
-// "Bottom" is the default value
 internal enum ScreenEdge
 {
-    Bottom = 0,
-    Top = 1,
-    Left = 2,
-    Right = 3,
+    Unknown = 0,
+    Bottom = 1,
+    Right = 2,
+    Top = 3,
+    Left = 4,
 }
-#pragma warning restore SS039 // An enum should specify a default value
