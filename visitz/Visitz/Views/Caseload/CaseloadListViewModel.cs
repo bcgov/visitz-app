@@ -240,6 +240,7 @@ public partial class CaseloadListViewModel : VisitzViewModel, IRecipient<Service
     partial void OnSearchQueryChanged(string value)
     {
         ApplyFilter();
+        ApplyEmptyViewPrompt();
     }
 
     bool MatchesFilters(IBusinessObject item)
