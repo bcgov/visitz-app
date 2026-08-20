@@ -66,7 +66,6 @@ internal partial class StickToEdgeBehavior : Behavior<View>
                 DisplayRotation.Rotation270 => ScreenEdge.Top, // 3 -> 2
                 _ => ScreenEdge.Unknown,
             };
-            actualEdge = (ScreenEdge)(int)rotation - 1;
         }
         else if (EdgeRequest == ScreenEdge.Top)
         {
