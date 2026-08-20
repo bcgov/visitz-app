@@ -22,50 +22,39 @@
         </ResourceDictionary>
     </baseClasses:BaseContentView.Resources>
 
-    <AbsoluteLayout>
+    <Grid>
         <ActivityIndicator
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
             HeightRequest="{StaticResource ButtonSize}"
             WidthRequest="{StaticResource ButtonSize}"
             Color="{StaticResource BC_Gold}"
             IsRunning="True"
         />
 
-        <toolkit:CameraView
-            x:Name="Camera"
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
-            SelectedCamera="{Binding SelectedCamera}"
-        />
+        <toolkit:CameraView x:Name="Camera" SelectedCamera="{Binding SelectedCamera}" />
 
         <BoxView
             x:Name="SnapshotLayer"
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
             Color="Black"
             IsVisible="False"
         />
 
-        <HorizontalStackLayout
-            AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
-            AbsoluteLayout.LayoutBounds="0,0,1,-1"
-            BackgroundColor="{StaticResource Black55Scrim}"
-            Padding="{StaticResource DefaultPadding}"
-        >
-            <HorizontalStackLayout.Behaviors>
+        <Border StrokeThickness="0" StrokeShape="RoundRectangle 40,40,40,40">
+            <Border.Behaviors>
                 <behaviors:StickToEdgeBehavior EdgeRequest="Top" />
-            </HorizontalStackLayout.Behaviors>
+            </Border.Behaviors>
+            <Grid
+                BackgroundColor="{StaticResource Black55Scrim}"
+                Padding="{StaticResource DefaultPadding}"
+            >
+                <controls:CloseButton />
+            </Grid>
+        </Border>
 
-            <controls:CloseButton />
-        </HorizontalStackLayout>
-
-        <Grid
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,1,-1,-1"
-            ColumnDefinitions="*,Auto,*"
-            ColumnSpacing="{StaticResource DefaultSpacing}"
-        >
+        <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="{StaticResource DefaultSpacing}">
             <Grid.Behaviors>
                 <behaviors:StickToEdgeBehavior EdgeRequest="Bottom" />
             </Grid.Behaviors>
@@ -139,5 +128,5 @@
                 </Button>
             </VerticalStackLayout>
         </Grid>
-    </AbsoluteLayout>
+    </Grid>
 </baseClasses:IcmRecordContentView>
