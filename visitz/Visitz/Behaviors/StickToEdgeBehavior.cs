@@ -170,7 +170,7 @@ internal partial class StickToEdgeBehavior : Behavior<View>
         if (View == null)
             throw new InvalidOperationException(nameof(View) + " should not be null");
 
-        double correction = View.Height / 2;
+        double correction = View.Height == View.Width ? 0.0d : View.Height / 2;
 
         return edge switch
         {
