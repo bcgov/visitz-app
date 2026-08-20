@@ -71,6 +71,9 @@
                 Stroke="White"
                 StrokeThickness="2"
             >
+                <Border.Behaviors>
+                    <behaviors:StayUprightBehavior />
+                </Border.Behaviors>
                 <ImageButton
                     x:Name="CameraRollButton"
                     HeightRequest="48"
@@ -129,6 +132,9 @@
                 VerticalOptions="Center"
                 Command="{Binding SelectNextCameraCommand}"
             >
+                <Button.Behaviors>
+                    <behaviors:StayUprightBehavior />
+                </Button.Behaviors>
                 <Button.ImageSource>
                     <FontImageSource
                         Glyph="{Static icons:MaterialIcons.Camera_rear}"
