@@ -4,6 +4,14 @@ using Microsoft.Maui.Layouts;
 
 namespace Visitz.Behaviors;
 
+/// <summary>
+/// <para>"Pins" a View to a specific physical edge of the screen, allowing it to "move with" the device and stay on
+/// that edge as it rotates. Views with this behavior should default to the "bottom" state, as the behavior will use it
+/// as a starting point for rotations.</para>
+/// 
+/// <para>This behavior uses the <see cref="VisualElement.Rotation"/> property, so view orientations generally should
+/// not need to be changed.</para>
+/// </summary>
 internal partial class StickToEdgeBehavior : Behavior<View>
 {
     View? View { get; set; }
