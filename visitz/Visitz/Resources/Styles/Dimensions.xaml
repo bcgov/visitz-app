@@ -12,6 +12,7 @@
 
     <x:Double x:Key="DefaultSpacingHalf">5</x:Double>
     <x:Double x:Key="DefaultSpacing">10</x:Double>
+    <x:Double x:Key="DefaultSpacingDouble">20</x:Double>
 
     <x:Double x:Key="DefaultMarginHalf">5</x:Double>
     <x:Double x:Key="DefaultMargin">10</x:Double>
