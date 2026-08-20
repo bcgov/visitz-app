@@ -8,7 +8,7 @@ namespace Visitz.Behaviors;
 /// <para>"Pins" a View to a specific physical edge of the screen, allowing it to "move with" the device and stay on
 /// that edge as it rotates. Views with this behavior should default to the "bottom" state, as the behavior will use it
 /// as a starting point for rotations.</para>
-/// 
+///
 /// <para>This behavior uses the <see cref="VisualElement.Rotation"/> property, so view orientations generally should
 /// not need to be changed.</para>
 /// </summary>
@@ -16,7 +16,7 @@ internal partial class StickToEdgeBehavior : Behavior<View>
 {
     View? View { get; set; }
 
-    [BindableProperty(PropertyChangedMethodName = nameof(StickToEdgeChanged))]
+    [BindableProperty(PropertyChangedMethodName = nameof(EdgeRequestChanged))]
     public partial ScreenEdge EdgeRequest { get; set; }
 
     protected override void OnAttachedTo(View bindable)
@@ -108,7 +108,7 @@ internal partial class StickToEdgeBehavior : Behavior<View>
             ApplyDeviceRotation(DeviceDisplay.Current.MainDisplayInfo.Rotation);
     }
 
-    static void StickToEdgeChanged(BindableObject bound, object _, object newValue)
+    static void EdgeRequestChanged(BindableObject bound, object _, object newValue)
     {
         StickToEdgeBehavior b = (StickToEdgeBehavior)bound;
         ScreenEdge newEdge = (ScreenEdge)newValue;
