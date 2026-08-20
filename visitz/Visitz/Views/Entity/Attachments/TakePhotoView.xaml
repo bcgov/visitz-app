@@ -53,6 +53,10 @@
             BackgroundColor="{StaticResource Black55Scrim}"
             Padding="{StaticResource DefaultPadding}"
         >
+            <HorizontalStackLayout.Behaviors>
+                <behaviors:StickToEdgeBehavior EdgeRequest="Top" />
+            </HorizontalStackLayout.Behaviors>
+
             <controls:CloseButton />
         </HorizontalStackLayout>
 
