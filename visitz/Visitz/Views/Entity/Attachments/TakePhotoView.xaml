@@ -63,7 +63,7 @@
             ColumnSpacing="{StaticResource DefaultSpacing}"
         >
             <Grid.Behaviors>
-                <behaviors:StickToEdgeBehavior StickToEdge="Bottom" />
+                <behaviors:StickToEdgeBehavior EdgeRequest="Bottom" />
             </Grid.Behaviors>
 
             <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">

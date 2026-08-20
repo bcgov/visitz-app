@@ -9,7 +9,7 @@ internal partial class StickToEdgeBehavior : Behavior<View>
     View? View { get; set; }
 
     [BindableProperty(PropertyChangedMethodName = nameof(StickToEdgeChanged))]
-    public partial ScreenEdge StickToEdge { get; set; }
+    public partial ScreenEdge EdgeRequest { get; set; }
 
     protected override void OnAttachedTo(View bindable)
     {
@@ -35,7 +35,7 @@ internal partial class StickToEdgeBehavior : Behavior<View>
     private void View_ParentChanged(object? sender, EventArgs e)
     {
         if (sender is View view && view.Parent != null)
-            MoveViewToEdge(StickToEdge);
+            MoveViewToEdge(EdgeRequest);
     }
 
     static void StickToEdgeChanged(BindableObject bound, object _, object newValue)
@@ -43,7 +43,7 @@ internal partial class StickToEdgeBehavior : Behavior<View>
         StickToEdgeBehavior b = (StickToEdgeBehavior)bound;
         ScreenEdge newEdge = (ScreenEdge)newValue;
 
-        if (b.StickToEdge != newEdge)
+        if (b.EdgeRequest != newEdge)
             b.MoveViewToEdge(newEdge);
     }
 
@@ -126,6 +126,6 @@ internal partial class StickToEdgeBehavior : Behavior<View>
             return;
 
         if (e.PropertyName == nameof(view.Height))
-            view.TranslationX = GetTranslationCorrection(StickToEdge);
+            view.TranslationX = GetTranslationCorrection(EdgeRequest);
     }
 }
