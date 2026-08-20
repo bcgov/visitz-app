@@ -20,7 +20,7 @@ internal partial class StickToEdgeBehavior : Behavior<View>
         View.ParentChanged += View_ParentChanged;
         View.PropertyChanged += View_PropertyChanged;
 
-        // TODO: set up listeners to keep View stuck to edge based on device rotation
+        DeviceDisplay.Current.MainDisplayInfoChanged += Current_MainDisplayInfoChanged;
     }
 
     protected override void OnDetachingFrom(View bindable)
@@ -32,10 +32,73 @@ internal partial class StickToEdgeBehavior : Behavior<View>
         View = null;
     }
 
+    private void Current_MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        ApplyDeviceRotation(e.DisplayInfo.Rotation);
+    }
+
+    void ApplyDeviceRotation(DisplayRotation rotation)
+    {
+        // I spent too much time trying to figure out a mathy/elegant way to do this...
+        // but it ended up not working and the code itself was inscrutable and way
+        // less readable/resonable than just doing a menagerie of switch statements.
+
+        ScreenEdge actualEdge = ScreenEdge.Unknown;
+
+        if (EdgeRequest == ScreenEdge.Bottom)
+        {
+            actualEdge = rotation switch
+            {
+                DisplayRotation.Rotation0 => ScreenEdge.Bottom, // 0 -> 0
+                DisplayRotation.Rotation90 => ScreenEdge.Right, // 1 -> 1
+                DisplayRotation.Rotation180 => ScreenEdge.Top, // 2 -> 2
+                DisplayRotation.Rotation270 => ScreenEdge.Left, // 3-> 3
+                _ => ScreenEdge.Unknown,
+            };
+        }
+        else if (EdgeRequest == ScreenEdge.Left)
+        {
+            actualEdge = rotation switch
+            {
+                DisplayRotation.Rotation0 => ScreenEdge.Left, // 0 -> 3
+                DisplayRotation.Rotation90 => ScreenEdge.Bottom, // 1 -> 0
+                DisplayRotation.Rotation180 => ScreenEdge.Right, // 2 -> 1
+                DisplayRotation.Rotation270 => ScreenEdge.Top, // 3 -> 2
+                _ => ScreenEdge.Unknown,
+            };
+            actualEdge = (ScreenEdge)(int)rotation - 1;
+        }
+        else if (EdgeRequest == ScreenEdge.Top)
+        {
+            actualEdge = rotation switch
+            {
+                DisplayRotation.Rotation0 => ScreenEdge.Top, // 0 -> 2
+                DisplayRotation.Rotation90 => ScreenEdge.Left, // 1 -> 3
+                DisplayRotation.Rotation180 => ScreenEdge.Bottom, // 2 -> 0
+                DisplayRotation.Rotation270 => ScreenEdge.Right, // 3 -> 1
+                _ => ScreenEdge.Unknown,
+            };
+        }
+        else if (EdgeRequest == ScreenEdge.Right)
+        {
+            actualEdge = rotation switch
+            {
+                DisplayRotation.Rotation0 => ScreenEdge.Right, // 0 -> 1
+                DisplayRotation.Rotation90 => ScreenEdge.Top, // 1 -> 2
+                DisplayRotation.Rotation180 => ScreenEdge.Left, // 2 -> 3
+                DisplayRotation.Rotation270 => ScreenEdge.Bottom, // 3 -> 0
+                _ => ScreenEdge.Unknown,
+            };
+        }
+
+        if (actualEdge != ScreenEdge.Unknown)
+            MoveViewToEdge(actualEdge);
+    }
+
     private void View_ParentChanged(object? sender, EventArgs e)
     {
         if (sender is View view && view.Parent != null)
-            MoveViewToEdge(EdgeRequest);
+            ApplyDeviceRotation(DeviceDisplay.Current.MainDisplayInfo.Rotation);
     }
 
     static void StickToEdgeChanged(BindableObject bound, object _, object newValue)
