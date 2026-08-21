@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
+using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
 
@@ -57,7 +58,23 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
         StrongReferenceMessenger.Default.Send(new AppLockMessage(AppLockStatus.Opened));
 
         if (PromptOnAppearing)
+            _ = DelayPromptAuthentication();
+    }
+
+    async Task DelayPromptAuthentication()
+    {
+        try
+        {
+            // Not a fan of delays for this but I do not have time to properly dig into why the app lock page does not
+            // properly obscure the underlying page on first app launch, and this fixes it.
+            await Task.Delay(500);
             await AppLockViewModel.PromptAuthentication();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex.Message);
+        }
     }
 
     protected override void OnDisappearing()
@@ -86,7 +103,7 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
 
         var lockPage = ServiceProvider.Current.GetRequiredService<AppLockPage>();
         lockPage.PromptOnAppearing = promptOnAppearing;
-        await Navigator.Navigation.PushModalAsync(lockPage, false);
+        await Navigator.Navigation.PushModalAsync(lockPage, true);
     }
 
     protected override bool OnBackButtonPressed()
