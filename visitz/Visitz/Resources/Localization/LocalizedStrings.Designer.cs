@@ -1391,7 +1391,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last refreshed.
+        ///   Looks up a localized string similar to Refreshed.
         /// </summary>
         public static string LastRefreshed {
             get {

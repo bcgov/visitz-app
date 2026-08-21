@@ -47,7 +47,7 @@ public partial class LastUpdatedBanner : ContentView
     private void SetLastUpdated(DateTime? lastUpdated)
     {
         LastUpdatedSpan.Text = lastUpdated is DateTime last
-            ? last.ToString("yyyy-MMM-dd h:mm tt", CultureInfo.InvariantCulture)
+            ? last.ToString("MMM dd h:mm tt", CultureInfo.InvariantCulture)
             : LastUpdatedSpan.Text = FallbackText;
     }
 
