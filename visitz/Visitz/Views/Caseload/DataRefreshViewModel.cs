@@ -13,6 +13,9 @@ namespace Visitz.Views.Caseload;
 public partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]
+    public partial bool CanShowSuperMessage { get; set; } = true;
+
+    [ObservableProperty]
     public partial bool SuperMessageVisible { get; set; } = false;
 
     [ObservableProperty]
@@ -64,7 +67,17 @@ public partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceS
 
     partial void OnSuperMessageChanged(string value)
     {
-        SuperMessageVisible = !string.IsNullOrWhiteSpace(value);
+        ApplyVisibility();
+    }
+
+    partial void OnCanShowSuperMessageChanged(bool value)
+    {
+        ApplyVisibility();
+    }
+
+    void ApplyVisibility()
+    {
+        SuperMessageVisible = CanShowSuperMessage && !string.IsNullOrWhiteSpace(SuperMessage);
     }
 
     public void Receive(ServiceStateMessage message)
