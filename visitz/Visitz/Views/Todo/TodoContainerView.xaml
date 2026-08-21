@@ -5,6 +5,7 @@
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:todo="clr-namespace:Visitz.Views.Todo"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:views="clr-namespace:Visitz.Views"
@@ -14,11 +15,19 @@
     BackgroundColor="{StaticResource Default_Background}"
 >
     <Grid RowDefinitions="Auto, *">
-        <controls:TopAppBar Grid.Row="0">
+        <controls:TopAppBar Grid.Row="0" ColumnDefinitions="*,0">
             <Label
                 Text="{local:Localize Todo}"
                 Style="{StaticResource HeadlineMedium}"
                 VerticalOptions="Center"
+            />
+
+            <!-- Adding a dummy search bar so the main label's layout spacings match Caseload and Drafts -->
+            <SearchBar
+                Grid.Column="1"
+                ios:SearchBar.SearchBarStyle="Minimal"
+                Margin="{OnPlatform iOS='-9', Default=0}"
+                TextColor="{StaticResource BC_TextColor}"
             />
         </controls:TopAppBar>
 

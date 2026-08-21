@@ -679,6 +679,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created {0} by {1}.
+        /// </summary>
+        public static string CreatedWhenByUserLabel {
+            get {
+                return ResourceManager.GetString("CreatedWhenByUserLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {
@@ -1391,7 +1400,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last refreshed.
+        ///   Looks up a localized string similar to Refreshed.
         /// </summary>
         public static string LastRefreshed {
             get {

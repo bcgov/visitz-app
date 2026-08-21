@@ -12,13 +12,10 @@ public partial class SafetyAssessmentListItemViewModel(SafetyAssessment safetyAs
     [ObservableProperty]
     public partial SafetyAssessment SafetyAssessment { get; set; } = safetyAssessment;
 
-    public string CreatedDate =>
-        string.Format(
-            LocalizedStrings.DateLabel,
-            SafetyAssessment.CreatedDateBinding.ToString(IcmDateFormats.BasicTimestampShort)
-        );
+    string CreatedDate => SafetyAssessment.CreatedDateBinding.ToString(IcmDateFormats.BasicTimestampShort);
 
-    public string CreatedBy => string.Format(LocalizedStrings.CreatedByLabel, SafetyAssessment.WorkerId);
+    public string Metadata =>
+        string.Format(LocalizedStrings.CreatedWhenByUserLabel, CreatedDate, SafetyAssessment.WorkerId);
 
     public string TagText => SafetyAssessment.IsApproved ? LocalizedStrings.Approved : LocalizedStrings.InProgress;
 

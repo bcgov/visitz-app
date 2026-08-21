@@ -34,6 +34,7 @@
         </VerticalStackLayout>
 
         <caseload:DataRefreshButton
+            x:Name="RefreshButton"
             Grid.Row="2"
             Orientation="Vertical"
             HorizontalOptions="Center"

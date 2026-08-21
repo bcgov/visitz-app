@@ -15,6 +15,12 @@ public partial class DataRefreshButton : ViewModelContentView<DataRefreshViewMod
         set => ViewModel.Orientation = value;
     }
 
+    public bool CanShowSuperMessage
+    {
+        get => ViewModel.CanShowSuperMessage;
+        set => ViewModel.CanShowSuperMessage = value;
+    }
+
     public DataRefreshButton()
         : base(ServiceProvider.GetService<DataRefreshViewModel>())
     {

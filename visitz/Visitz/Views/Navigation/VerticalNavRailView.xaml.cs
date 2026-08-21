@@ -13,8 +13,25 @@ public partial class VerticalNavRailView : ViewModelContentView<NavRailViewModel
         InitializeComponent();
         BindingContext = ViewModel;
 
+        DeviceDisplay.Current.MainDisplayInfoChanged += MainDisplayInfo_Changed;
+        ApplyLogoVisibility(DeviceDisplay.Current.MainDisplayInfo.Orientation);
+
         if (DebugOptions.Default.Enabled)
             SetupDebugOptionsUsage();
+    }
+
+    void MainDisplayInfo_Changed(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        ApplyLogoVisibility(e.DisplayInfo.Orientation);
+    }
+
+    void ApplyLogoVisibility(DisplayOrientation orientation)
+    {
+        bool shouldBeHidden = !(
+            DeviceInfo.Current.Idiom == DeviceIdiom.Phone && orientation == DisplayOrientation.Landscape
+        );
+        LogoImage.IsVisible = shouldBeHidden;
+        RefreshButton.CanShowSuperMessage = shouldBeHidden;
     }
 
     void SetupDebugOptionsUsage()

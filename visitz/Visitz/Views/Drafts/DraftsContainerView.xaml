@@ -7,6 +7,7 @@
     xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Drafts.DraftsContainerView"
     x:DataType="drafts:DraftsContainerViewModel"
@@ -14,7 +15,7 @@
     BackgroundColor="{StaticResource Default_Background}"
 >
     <Grid RowDefinitions="Auto, *">
-        <controls:TopAppBar Grid.Row="0" RowDefinitions="*,*">
+        <controls:TopAppBar Grid.Row="0" RowDefinitions="*,*" ColumnDefinitions="*,0">
             <Label
                 Grid.Row="0"
                 Text="{local:Localize Drafts}"
@@ -22,7 +23,20 @@
                 VerticalOptions="Center"
             />
 
-            <HorizontalStackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Fill">
+            <!-- Adding a dummy search bar so the main label's layout spacings match Caseload and Todo -->
+            <SearchBar
+                Grid.Column="1"
+                ios:SearchBar.SearchBarStyle="Minimal"
+                Margin="{OnPlatform iOS='-9', Default=0}"
+                TextColor="{StaticResource BC_TextColor}"
+            />
+
+            <HorizontalStackLayout
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                VerticalOptions="Center"
+                HorizontalOptions="Fill"
+            >
                 <controls:DropdownChip
                     Items="{Binding FilterOptions}"
                     Placeholder="{local:Localize FilterDrafts}"
