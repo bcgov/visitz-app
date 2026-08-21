@@ -16,7 +16,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Views.Caseload;
 
-public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<NavPositionMessage>
+public partial class CaseloadContainerViewModel : VisitzViewModel
 {
     private static readonly string SortOptionIndexPref = "SortOptionIndexPref";
 
@@ -73,9 +73,6 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
     public partial bool ShowTitle { get; set; } = true;
 
     [ObservableProperty]
-    public partial LayoutOptions SearchBarHorizontalOptions { get; set; }
-
-    [ObservableProperty]
     public partial DateTime? LastUpdated { get; set; }
 
     [ObservableProperty]
@@ -100,9 +97,6 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
 
     public CaseloadContainerViewModel()
     {
-        SetSearchBarHorizontalOptions(
-            (TwoPaneViewMode)StrongReferenceMessenger.Default.Send(new GetNavPositionMessage()).Response
-        );
         StrongReferenceMessenger.Default.RegisterAll(this);
 
         LastUpdated = LastUpdatedPrefs.Get(GetCaseloadService.MakeId());
@@ -188,21 +182,6 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         MainThread.BeginInvokeOnMainThread(() => UpdateSortedOfficeNames(newOffices));
     }
 
-    public void Receive(NavPositionMessage message)
-    {
-        SetSearchBarHorizontalOptions((TwoPaneViewMode)message.Value);
-    }
-
-    void SetSearchBarHorizontalOptions(TwoPaneViewMode mode)
-    {
-        SearchBarHorizontalOptions = mode switch
-        {
-            TwoPaneViewMode.Tall or TwoPaneViewMode.SinglePane => LayoutOptions.Fill,
-            TwoPaneViewMode.Wide => LayoutOptions.End,
-            _ => throw new InvalidOperationException($"{nameof(TwoPaneViewMode)} '{mode}' not supported"),
-        };
-    }
-
     partial void OnSearchQueryChanged(string value)
     {
         SearchByQuery();
@@ -213,11 +192,6 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
         ListViewModel?.SearchQuery = SearchQuery.Trim();
     }
 
-    partial void OnSearchBarHorizontalOptionsChanged(LayoutOptions value)
-    {
-        ApplyTitleVisibility();
-    }
-
     partial void OnShowSearchBarChanged(bool value)
     {
         ApplyTitleVisibility();
@@ -225,7 +199,7 @@ public partial class CaseloadContainerViewModel : VisitzViewModel, IRecipient<Na
 
     void ApplyTitleVisibility()
     {
-        bool hideTitle = SearchBarHorizontalOptions == LayoutOptions.Fill && ShowSearchBar;
+        bool hideTitle = ShowSearchBar;
         ShowTitle = !hideTitle;
     }
 

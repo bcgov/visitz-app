@@ -51,27 +51,24 @@
                     IsVisible="{Binding ShowSearchBar, Converter={StaticResource BoolNegationConverter}}"
                 />
 
-                <ContentView
+                <SearchBar
+                    x:Name="CaseloadSearchBar"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     IsVisible="{Binding ShowSearchBar}"
-                >
-                    <SearchBar
-                        BackgroundColor="{StaticResource BC_Background_Light}"
-                        CancelButtonColor="{StaticResource BC_TextColor}"
-                        HorizontalOptions="{Binding SearchBarHorizontalOptions}"
-                        ios:SearchBar.SearchBarStyle="Minimal"
-                        Margin="{OnPlatform iOS='-9', Default=0}"
-                        MinimumWidthRequest="300"
-                        Placeholder="{local:Localize CaseloadSearchHint}"
-                        SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
-                        Text="{Binding SearchQuery}"
-                        TextChanged="CaseloadSearchBar_TextChanged"
-                        TextColor="{StaticResource BC_TextColor}"
-                        Unfocused="CaseloadSearchBar_Unfocused"
-                        x:Name="CaseloadSearchBar"
-                    />
-                </ContentView>
+                    BackgroundColor="{StaticResource BC_Background_Light}"
+                    CancelButtonColor="{StaticResource BC_TextColor}"
+                    HorizontalOptions="Fill"
+                    ios:SearchBar.SearchBarStyle="Minimal"
+                    Margin="{OnPlatform iOS='-9', Default=0}"
+                    MinimumWidthRequest="300"
+                    Placeholder="{local:Localize CaseloadSearchHint}"
+                    SearchButtonPressed="CaseloadSearchBar_SearchButtonPressed"
+                    Text="{Binding SearchQuery}"
+                    TextChanged="CaseloadSearchBar_TextChanged"
+                    TextColor="{StaticResource BC_TextColor}"
+                    Unfocused="CaseloadSearchBar_Unfocused"
+                />
             </Grid>
 
             <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
