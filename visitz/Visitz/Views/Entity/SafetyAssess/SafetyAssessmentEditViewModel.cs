@@ -200,13 +200,12 @@ public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
         if (DraftRealm == null)
             return;
 
-        _ = TrySendSavedMessage(DraftSaveState.Saving);
-
         if (!Assessment.IsManaged)
             DraftItem = await AssessmentDraft.Upsert(DraftRealm, Assessment, BusinessObject.DisplayName);
         else if (DraftItem?.IsValid ?? false)
             DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
+        _ = TrySendSavedMessage(DraftSaveState.Saving);
         CanDiscard = Assessment.IsManaged;
         UpdateCanPublish();
     }
