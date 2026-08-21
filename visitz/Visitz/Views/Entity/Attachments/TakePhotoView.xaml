@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -21,69 +22,76 @@
         </ResourceDictionary>
     </baseClasses:BaseContentView.Resources>
 
-    <AbsoluteLayout>
+    <Grid>
         <ActivityIndicator
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
             HeightRequest="{StaticResource ButtonSize}"
             WidthRequest="{StaticResource ButtonSize}"
             Color="{StaticResource BC_Gold}"
             IsRunning="True"
         />
 
-        <toolkit:CameraView
-            x:Name="Camera"
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
-            SelectedCamera="{Binding SelectedCamera}"
-        />
+        <toolkit:CameraView x:Name="Camera" SelectedCamera="{Binding SelectedCamera}" />
 
         <BoxView
             x:Name="SnapshotLayer"
-            AbsoluteLayout.LayoutFlags="All"
-            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
             Color="Black"
             IsVisible="False"
         />
 
-        <HorizontalStackLayout
-            AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
-            AbsoluteLayout.LayoutBounds="0,0,1,-1"
+        <Border
             BackgroundColor="{StaticResource Black55Scrim}"
-            Padding="{StaticResource DefaultPadding}"
+            Margin="{StaticResource DefaultMargin}"
+            StrokeThickness="0"
+            StrokeShape="RoundRectangle 40"
         >
+            <Border.Behaviors>
+                <behaviors:StickToEdgeBehavior EdgeRequest="Top" />
+            </Border.Behaviors>
+
             <controls:CloseButton />
-        </HorizontalStackLayout>
+        </Border>
 
         <Grid
-            AbsoluteLayout.LayoutFlags="XProportional,YProportional,HeightProportional"
-            AbsoluteLayout.LayoutBounds="1,0,-1,1"
-            RowDefinitions="*,Auto,*"
-            RowSpacing="{StaticResource DefaultSpacing}"
+            ColumnDefinitions="*,Auto,*"
+            ColumnSpacing="{StaticResource DefaultSpacing}"
+            Margin="{StaticResource DefaultMargin}"
         >
-            <VerticalStackLayout Grid.Row="0" VerticalOptions="End">
-                <Button
-                    Style="{StaticResource MinimalButton}"
-                    BorderWidth="0"
-                    HorizontalOptions="Center"
-                    Command="{Binding SelectNextCameraCommand}"
-                >
-                    <Button.ImageSource>
-                        <FontImageSource
-                            Glyph="{Static icons:MaterialIcons.Camera_rear}"
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                        />
-                    </Button.ImageSource>
-                </Button>
-            </VerticalStackLayout>
+            <Grid.Behaviors>
+                <behaviors:StickToEdgeBehavior EdgeRequest="Bottom" />
+            </Grid.Behaviors>
 
             <Border
-                Grid.Row="1"
-                StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
+                Grid.Column="0"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
                 Stroke="White"
                 StrokeThickness="2"
+            >
+                <Border.Behaviors>
+                    <behaviors:StayUprightBehavior />
+                </Border.Behaviors>
+                <ImageButton
+                    x:Name="CameraRollButton"
+                    HeightRequest="48"
+                    WidthRequest="48"
+                    Aspect="AspectFill"
+                    Clicked="CameraRollButton_Clicked"
+                    CornerRadius="0"
+                    Source="{Binding RollBytes, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                />
+            </Border>
+
+            <Border
+                Grid.Column="1"
+                Stroke="White"
+                StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
+                StrokeThickness="2"
                 Padding="{StaticResource DefaultSpacing}"
-                Margin="20"
+                Margin="30,0,30,0"
             >
                 <Grid>
                     <BoxView
@@ -116,19 +124,24 @@
                 </Grid>
             </Border>
 
-            <VerticalStackLayout Grid.Row="2" VerticalOptions="Start">
-                <Border HorizontalOptions="Center" Stroke="White" StrokeThickness="2">
-                    <ImageButton
-                        x:Name="CameraRollButton"
-                        HeightRequest="48"
-                        WidthRequest="48"
-                        Aspect="AspectFill"
-                        Clicked="CameraRollButton_Clicked"
-                        CornerRadius="0"
-                        Source="{Binding RollBytes, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+            <Button
+                Grid.Column="2"
+                Style="{StaticResource MinimalButton}"
+                BorderWidth="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Command="{Binding SelectNextCameraCommand}"
+            >
+                <Button.Behaviors>
+                    <behaviors:StayUprightBehavior />
+                </Button.Behaviors>
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static icons:MaterialIcons.Camera_rear}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
                     />
-                </Border>
-            </VerticalStackLayout>
+                </Button.ImageSource>
+            </Button>
         </Grid>
-    </AbsoluteLayout>
+    </Grid>
 </baseClasses:IcmRecordContentView>
