@@ -1177,4 +1177,8 @@ It is unlikely that the file can be recovered.</value>
   <data name="LastRefreshed" xml:space="preserve">
     <value>Refreshed</value>
   </data>
+  <data name="CreatedWhenByUserLabel" xml:space="preserve">
+    <value>Created {0} by {1}</value>
+    <comment>0 = created date, 1 = username</comment>
+  </data>
 </root>

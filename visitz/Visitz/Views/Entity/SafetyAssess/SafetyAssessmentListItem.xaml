@@ -67,18 +67,12 @@
                     />
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout
+                <Label
                     Grid.Column="1"
                     Grid.Row="1"
-                    Spacing="{StaticResource DefaultSpacingHalf}"
                     VerticalOptions="Center"
-                >
-                    <Label Text="{Binding CreatedDate}" />
-
-                    <Label Text="•" />
-
-                    <Label Text="{Binding CreatedBy}" />
-                </HorizontalStackLayout>
+                    Text="{Binding Metadata}"
+                />
             </Grid>
         </effectsView:SfEffectsView>
     </Border>
