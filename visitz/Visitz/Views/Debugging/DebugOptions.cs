@@ -2,9 +2,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Visitz.Services;
 using Visitz.Services.Caseload;
+using Visitz.Services.AppLogs;
 using Visitz.Storage;
 using Visitz.Views.Snackbar;
 using VisitzModel.Models.InPersonVisits;
@@ -424,5 +426,11 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
             "testing message",
             TimeSpan.FromSeconds(int.MaxValue)
         );
+    }
+
+    [RelayCommand]
+    public static void RunSendAppLogsService()
+    {
+        WeakReferenceMessenger.Default.Send(SendAppLogsService.MakeStartMessage());
     }
 }

@@ -382,7 +382,7 @@
                 Text="Services"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -454,6 +454,14 @@
                     Grid.Row="5"
                     Grid.Column="1"
                     IsToggled="{Binding Options.AutoCaseloadRefreshDisabled}"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Command="{Binding Options.RunSendAppLogsServiceCommand}"
+                    Text="Run SendAppLogsService"
                 />
             </Grid>
 
