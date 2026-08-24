@@ -43,6 +43,7 @@ public class Vpi(HttpClient httpClient, string baseVisitzApiUrl)
     private async Task<T> CallApi<T>(VisitzBaseEndpoint<T> endpoint)
     {
         var request = endpoint.MakeRequest();
+        request.RequestUri ??= endpoint.RequestUri;
         request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
 
         var response = await HttpClient.SendAsync(request);
