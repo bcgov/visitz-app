@@ -4,10 +4,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
+using Visitz.Extensions;
 using Visitz.Services;
-using Visitz.Services.Caseload;
 using Visitz.Services.AppLogs;
+using Visitz.Services.Caseload;
 using Visitz.Storage;
+using Visitz.Views.AppLogs;
 using Visitz.Views.Snackbar;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
@@ -432,5 +434,11 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
     public static void RunSendAppLogsService()
     {
         WeakReferenceMessenger.Default.Send(SendAppLogsService.MakeStartMessage());
+    }
+
+    [RelayCommand]
+    public static async Task OpenLogsWindow()
+    {
+        await Navigator.Navigation.PushModalAsync(new AppLogsList(new()), ViewModalSize.Fullscreen);
     }
 }

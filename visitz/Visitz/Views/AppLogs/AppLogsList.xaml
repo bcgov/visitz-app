@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:ViewModelContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:applogs="clr-namespace:Visitz.Views.AppLogs"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:vmodels="clr-namespace:VisitzModel.Models.Logging;assembly=VisitzModel"
+    x:Class="Visitz.Views.AppLogs.AppLogsList"
+    x:DataType="applogs:AppLogsListViewModel"
+    x:TypeArguments="applogs:AppLogsListViewModel"
+    BackgroundColor="White"
+    Padding="{StaticResource DefaultPadding}"
+>
+    <Grid RowDefinitions="Auto,*">
+        <formControls:FormAppBar
+            Grid.Row="0"
+            AllowDiscard="False"
+            AllowPublish="False"
+            DraftSaveState="None"
+        />
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Logs}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vmodels:LogEntry">
+                    <Label Text="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</base:ViewModelContentView>
