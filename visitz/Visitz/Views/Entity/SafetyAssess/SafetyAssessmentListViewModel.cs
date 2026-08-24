@@ -59,7 +59,12 @@ public partial class SafetyAssessmentListViewModel : IcmRecordViewModel
     {
         if (!disposed && disposing)
         {
+            _realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
+            _queriedAssessments.CollectionChanged -= QueriedAssessments_CollectionChanged;
+
             _realmQueryMap?.Dispose();
+            _queriedAssessments.Clear();
+            Assessments.Clear();
 
             disposed = true;
         }

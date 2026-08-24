@@ -74,6 +74,7 @@ public partial class SupportNetworkListViewModel : IcmRecordViewModel
         {
             realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
             realmQuery.Dispose();
+            SupportNetworksList.Clear();
             _disposed = true;
         }
         base.Dispose(disposing);

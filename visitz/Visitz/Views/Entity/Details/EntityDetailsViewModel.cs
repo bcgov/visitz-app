@@ -45,6 +45,9 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
             KeyPlayer = null;
 
             BusinessObject.UnsubscribePropertyChanged(BusinessObject_PropertyChanged);
+            KeyPlayer = null;
+            RecordInfoItems.Clear();
+            ContactInfoItems.Clear();
 
             disposed = true;
         }
@@ -104,7 +107,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
 #if IOS
                     ValueColor = Colors.Blue,
                     ValueTextDecorations = TextDecorations.Underline,
-                    TapAction = () => TryDial(KeyPlayer.HomePhoneFormatted),
+                    TapAction = () => TryDial(KeyPlayer?.HomePhoneFormatted),
 #endif
                 },
                 new()
@@ -116,7 +119,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
 #if IOS
                     ValueColor = Colors.Blue,
                     ValueTextDecorations = TextDecorations.Underline,
-                    TapAction = () => TryDial(KeyPlayer.CellPhoneFormatted),
+                    TapAction = () => TryDial(KeyPlayer?.CellPhoneFormatted),
 #endif
                 },
                 new()
@@ -131,7 +134,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                     {
                         try
                         {
-                            if (KeyPlayer.PrimaryAddressBinding.Trim().Length > 0)
+                            if (KeyPlayer?.PrimaryAddressBinding.Trim().Length > 0)
                                 await MapsHelper.OpenAddress(HttpUtility.UrlEncode(KeyPlayer.PrimaryAddressBinding));
                         }
                         catch (Exception ex)
@@ -145,11 +148,11 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
         }
     }
 
-    void TryDial(string phoneNumber)
+    void TryDial(string? phoneNumber)
     {
         try
         {
-            if (phoneNumber.Trim().Length > 0)
+            if (phoneNumber?.Trim().Length > 0)
                 PhoneDialer.Default.Open(phoneNumber);
         }
         catch (Exception ex)
