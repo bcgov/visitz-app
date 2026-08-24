@@ -20,11 +20,6 @@ public static class VisitzLogging
         builder.Logging.AddDebug();
 #endif
         builder
-            .Logging.SetMinimumLevel((MicrosoftLogLevel)MetroLogLevel.Trace)
-            .AddTraceLogger(options =>
-            {
-                options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
-            })
             .AddConsoleLogger(options =>
             {
                 options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
