@@ -53,7 +53,7 @@
                         <tagview:TagView
                             Padding="8,0"
                             BackgroundColor="{Binding TagBgColor}"
-                            Text="{Binding Contact.Relationship}"
+                            Text="{Binding Contact.RelationshipBinding}"
                             TextColor="{Binding TagTextColor}"
                             VerticalOptions="Center"
                         />
@@ -63,7 +63,7 @@
                             BackgroundColor="{StaticResource DeceasedBackground}"
                             Text="{local:Localize Deceased}"
                             TextColor="White"
-                            IsVisible="{Binding Contact.Deceased,
+                            IsVisible="{Binding Contact.DeceasedBinding,
                         Converter={StaticResource StringToBool}}"
                             VerticalOptions="Center"
                         />
@@ -82,7 +82,7 @@
                         <Label
                             HorizontalOptions="Start"
                             FontFamily="BCSansRegular"
-                            Text="{Binding Contact.Age}"
+                            Text="{Binding Contact.AgeBinding}"
                         />
 
                         <Label
@@ -95,7 +95,7 @@
                         <Label
                             HorizontalOptions="Start"
                             FontFamily="BCSansRegular"
-                            Text="{Binding Contact.Gender}"
+                            Text="{Binding Contact.GenderBinding}"
                         />
                     </HorizontalStackLayout>
 
@@ -155,7 +155,7 @@
                         StyleClass="MarginEnd"
                         HorizontalOptions="Start"
                         FontFamily="BCSansRegular"
-                        Text="{Binding Contact.PrimaryAddress}"
+                        Text="{Binding Contact.PrimaryAddressBinding}"
                         TextColor="Blue"
                         TextDecorations="Underline"
                     />
@@ -217,7 +217,7 @@
                     StyleClass="MarginEnd"
                     HorizontalOptions="Start"
                     FontFamily="BCSansRegular"
-                    Text="{Binding Contact.Indigenous}"
+                    Text="{Binding Contact.IndigenousBinding}"
                 />
 
                 <Label

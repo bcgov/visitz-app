@@ -205,9 +205,9 @@ public partial class IcmContact
 
     public bool IsKeyPlayer => Relationship == KeyPlayer;
 
-    public string DisplayCoordinationAgtCa => CoordinationAgtCa?.ExtendYOrN() ?? string.Empty;
+    public string DisplayCoordinationAgtCa => CoordinationAgtCaBinding.ExtendYOrN() ?? string.Empty;
 
-    public string Display_921Agt => _921Agt?.ExtendYOrN() ?? string.Empty;
+    public string Display_921Agt => _921AgtBinding.ExtendYOrN() ?? string.Empty;
 
     public int SortPositionAsc
     {
