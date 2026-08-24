@@ -3,6 +3,7 @@ using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.CallDetails;
 using Visitz.Services.Caseload;
+using Visitz.Services.AppLogs;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
 using Visitz.Services.SafetyAssessments;
@@ -60,6 +61,7 @@ public static class VisitzServicesConfig
         builder.Services.AddTransient<GetContactLanguagesByRangeService>();
         builder.Services.AddTransient<GetContactEducationService>();
         builder.Services.AddTransient<GetContactEducationByRangeService>();
+        builder.Services.AddTransient<SendAppLogsService>();
         return builder;
     }
 
