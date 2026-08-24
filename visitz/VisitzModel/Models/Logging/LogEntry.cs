@@ -37,11 +37,6 @@ public partial class LogEntry : IRealmObject
         }
     }
 
-    public static List<LogEntry> GetLogEntries(Realm realm)
-    {
-        return realm.All<LogEntry>().ToList();
-    }
-
     public override string ToString()
     {
         return $"[{Timestamp}] {Type}: {Message} (Source: {Source})";
