@@ -52,9 +52,6 @@ public partial class CaseloadItemViewModel
     [ObservableProperty]
     public partial bool CanRemoveFromDevice { get; set; }
 
-    protected override ILogger<VisitzViewModel> Logger { get; } =
-        ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
-
     public CaseloadItemViewModel(
         DraftIndicatorHelper indicatorHelper,
         IBusinessObject businessObject,

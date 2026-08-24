@@ -24,9 +24,9 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
         Loaded += BaseContentView_Loaded;
     }
 
-    protected virtual ILogger<BaseContentView> MakeLogger()
+    protected virtual ILogger MakeLogger()
     {
-        return ServiceProvider.GetService<ILogger<BaseContentView>>();
+        return ServiceProvider.GetService<ILoggerFactory>().CreateLogger(GetType());
     }
 
     protected override async void OnHandlerChanging(HandlerChangingEventArgs args)

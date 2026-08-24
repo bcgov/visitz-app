@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
 using Oidc.Network;
@@ -19,10 +18,7 @@ using Visitz.WinUI;
 
 namespace Visitz.Views.User;
 
-public partial class SessionViewModel(ILogger<SessionViewModel> logger)
-    : VisitzViewModel,
-        IRecipient<ServiceStateMessage>,
-        IRecipient<AppLockMessage>
+public partial class SessionViewModel() : VisitzViewModel, IRecipient<ServiceStateMessage>, IRecipient<AppLockMessage>
 {
     [ObservableProperty]
     public partial string BuildNumber { get; set; } = AppInfo.Current.BuildString;
@@ -69,8 +65,6 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger)
     public Action? AuthorizationSuccess { get; set; }
 
     private OidcSessionInfo? SessionInfo;
-
-    protected override ILogger<VisitzViewModel> Logger { get; } = logger;
 
     protected override async Task InitAsync()
     {
