@@ -49,6 +49,8 @@ public partial class EntityContactsViewModel : IcmRecordViewModel
             Contacts.CollectionChanged -= Contacts_CollectionChanged;
             _realmQueryMap.ItemsChanged -= RealmQueryMap_ItemsChanged;
             _realmQueryMap.Dispose();
+            Contacts.Clear();
+            ContactViewModels.Clear();
 
             disposed = true;
         }

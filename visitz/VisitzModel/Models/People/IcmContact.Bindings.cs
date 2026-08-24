@@ -73,4 +73,64 @@ public partial class IcmContact
             RaisePropertyChanged(nameof(DateOfBirth));
         }
     }
+
+    public int AgeBinding
+    {
+        get => IsValid ? Age : int.MinValue;
+        set
+        {
+            this.Commit(() => Age = value);
+            RaisePropertyChanged(nameof(Age));
+        }
+    }
+
+    public string IndigenousBinding
+    {
+        get => IsValid ? Indigenous : string.Empty;
+        set
+        {
+            this.Commit(() => Indigenous = value);
+            RaisePropertyChanged(nameof(Indigenous));
+        }
+    }
+
+    public string CoordinationAgtCaBinding
+    {
+        get => IsValid ? CoordinationAgtCa : string.Empty;
+        set
+        {
+            this.Commit(() => CoordinationAgtCa = value);
+            RaisePropertyChanged(nameof(CoordinationAgtCa));
+        }
+    }
+
+    public string _921AgtBinding
+    {
+        get => IsValid ? _921Agt : string.Empty;
+        set
+        {
+            this.Commit(() => _921Agt = value);
+            RaisePropertyChanged(nameof(_921Agt));
+        }
+    }
+
+    public string DeceasedBinding
+    {
+        get => IsValid ? Deceased : string.Empty;
+        set
+        {
+            this.Commit(() => Deceased = value);
+            RaisePropertyChanged(nameof(Deceased));
+        }
+    }
+
+    public string RelationshipBinding
+    {
+        get => IsValid ? Relationship : string.Empty;
+        set
+        {
+            this.Commit(() => Relationship = value);
+            RaisePropertyChanged(nameof(Relationship));
+        }
+    }
 }
