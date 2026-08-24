@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net10.0-ios26.2": {
+    "net10.0-ios26.5": {
       "CommunityToolkit.Maui": {
         "type": "Direct",
         "requested": "[14.1.0, )",
@@ -139,9 +139,9 @@
       },
       "Microsoft.NET.ILLink.Tasks": {
         "type": "Direct",
-        "requested": "[10.0.8, )",
-        "resolved": "10.0.8",
-        "contentHash": "dVbSXGIFNR5nZcv2tOLoWI+a9T4jtFd77IYjuND+QVe360qWgAF7H0WtoopYhRw/+SgpGUTyrkrh+65+ClNnfw=="
+        "requested": "[10.0.11, )",
+        "resolved": "10.0.11",
+        "contentHash": "IBf7lbovvjGWVWXZX5cJ/cO0WXbId0Zq4BuSeT94mGZuOAP66oMeH9PTBZ9Jpp3Jb6jtK0qm/NyUbPRo1gC/wQ=="
       },
       "PDFsharp": {
         "type": "Direct",
@@ -533,7 +533,7 @@
         }
       }
     },
-    "net10.0-ios26.2/ios-arm64": {
+    "net10.0-ios26.5/ios-arm64": {
       "Realm": {
         "type": "Direct",
         "requested": "[20.1.0, )",
@@ -551,7 +551,7 @@
         "contentHash": "CoCRHFym33aUSf/NtWSVSZa99dkd0Hm7OCZUxORBjRB16LNhIEOf8THPqzIYlvKM0nNDAPTRBa1FxEECrgaxxA=="
       }
     },
-    "net10.0-ios26.2/win-x64": {
+    "net10.0-ios26.5/win-x64": {
       "Realm": {
         "type": "Direct",
         "requested": "[20.1.0, )",
