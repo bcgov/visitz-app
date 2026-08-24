@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
+using Visitz.Extensions;
 using Visitz.Resources.Styles;
 using Visitz.Views.Entity;
 using Visitz.VisitzConfig;
@@ -58,7 +59,7 @@ internal partial class VisitzAvatarView : AvatarView, IAsyncInitialize
         }
         catch (Exception ex)
         {
-            ServiceProvider.GetService<ILogger<VisitzAvatarView>>().LogError(ex.Message, ex);
+            ServiceProvider.GetService<ILogger<VisitzAvatarView>>().LogException(ex);
             Text = "??";
         }
     }

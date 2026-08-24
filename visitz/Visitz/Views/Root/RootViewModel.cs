@@ -105,7 +105,7 @@ public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>,
         {
             if (message.FinishedError && !SessionPage.IsOpen && message.UncaughtException is Exception ex)
             {
-                Logger.LogError(ex.Message, ex);
+                Logger.LogException(ex);
                 await Navigator.CurrentOpenPage.DisplayErrorAlert(
                     ex,
                     LocalizedStrings.CaseloadError,

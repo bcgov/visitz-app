@@ -73,7 +73,7 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
         catch (Exception ex)
         {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
     }
 
@@ -135,7 +135,7 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
         catch (Exception ex)
         {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
         finally
         {

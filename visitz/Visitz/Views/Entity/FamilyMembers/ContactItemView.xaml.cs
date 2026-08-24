@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
@@ -34,7 +35,7 @@ public partial class ContactItemView : BaseContentView
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex.Message, ex);
+            Logger.LogException(ex);
         }
     }
 

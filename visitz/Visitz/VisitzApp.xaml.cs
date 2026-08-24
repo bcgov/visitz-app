@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
+using Visitz.Extensions;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
@@ -70,7 +71,7 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            _logger.LogException(ex);
         }
     }
 

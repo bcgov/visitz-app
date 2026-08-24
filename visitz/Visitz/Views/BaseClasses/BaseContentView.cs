@@ -41,7 +41,7 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message, ex);
+                Logger.LogException(ex);
                 await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
                 throw;
             }
@@ -62,7 +62,7 @@ public abstract class BaseContentView : ContentView, IDisposable, IAsyncInitiali
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex.Message, ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
             throw;
         }

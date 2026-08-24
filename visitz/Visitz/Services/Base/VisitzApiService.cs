@@ -5,6 +5,7 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Network;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Snackbar;
@@ -146,7 +147,7 @@ public abstract class VisitzApiService(Vpi vpi, LastUpdatedPrefs prefs) : Visitz
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex);
         }
     }
 

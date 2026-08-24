@@ -66,7 +66,7 @@ public partial class ContactItemViewModel : VisitzViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
@@ -81,7 +81,7 @@ public partial class ContactItemViewModel : VisitzViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             _ = Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }

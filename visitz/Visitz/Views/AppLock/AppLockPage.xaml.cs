@@ -72,7 +72,7 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex.Message);
         }
     }

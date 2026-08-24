@@ -36,8 +36,13 @@ public static class ILoggerExtensions
 #endif
     }
 
-    public static void LogError<T>(this ILogger<T> logger, Exception exception)
+    public static void LogException<T>(this ILogger<T> logger, Exception exception, string? message = null)
     {
-        logger.LogError(exception, exception.Message);
+        LogException(logger, exception, message);
+    }
+
+    public static void LogException(this ILogger logger, Exception exception, string? message = null)
+    {
+        logger.LogError(exception, (message ?? exception.Message) + " -> " + exception.ToString());
     }
 }

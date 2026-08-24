@@ -75,7 +75,7 @@ public partial class EntityPageViewModel(ServiceActivityListener activityListene
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
     }
 
@@ -87,7 +87,7 @@ public partial class EntityPageViewModel(ServiceActivityListener activityListene
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
     }
 

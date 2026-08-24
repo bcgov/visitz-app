@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 namespace Visitz.Device;
 
 #if WINDOWS
+using Visitz.Extensions;
 using Windows.Media.Capture;
 using Windows.Security.Authorization.AppCapabilityAccess;
 #endif
@@ -38,7 +39,7 @@ public class DevicePermissions
         {
             // Other error (camera missing, in use, etc.)
             status = PermissionStatus.Unknown;
-            Logger.LogError(ex, $"Error using camera/microphone: {ex.Message}");
+            Logger.LogException(ex, $"Error using camera/microphone: {ex.Message}");
         }
 #else
 

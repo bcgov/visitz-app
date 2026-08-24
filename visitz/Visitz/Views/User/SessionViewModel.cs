@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Oidc.Events;
 using Oidc.Network;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
@@ -223,7 +224,7 @@ public partial class SessionViewModel() : VisitzViewModel, IRecipient<ServiceSta
         catch (Exception ex)
         {
             if (ex is not OperationCanceledException)
-                Logger.LogError(ex, ex.Message);
+                Logger.LogException(ex);
         }
     }
 

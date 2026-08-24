@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Visitz.Extensions;
 using VisitzApi;
 using VisitzModel.Storage;
 
@@ -41,7 +42,7 @@ internal abstract class VisitzApiRangeService<Item>(
         catch (Exception ex)
         {
             Exceptions.Add(new ApiRangeItemException<Item>(item, ex));
-            Logger.LogError(ex, ex.ToString());
+            Logger.LogException(ex);
         }
     }
 

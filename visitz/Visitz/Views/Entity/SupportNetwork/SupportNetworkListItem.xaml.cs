@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Entity.SupportNetwork;
@@ -26,7 +27,7 @@ public partial class SupportNetworkListItem : BaseContentView
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex.Message, ex);
+            Logger.LogException(ex);
         }
     }
 
