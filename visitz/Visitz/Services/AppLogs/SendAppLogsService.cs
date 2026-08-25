@@ -52,28 +52,24 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
                 Platform = DeviceInfo.Current.Platform.ToString(),
             },
             DotnetRuntime = Environment.Version.ToString(),
-            Level = MapType(log.Type),
+            Level = MapType(log.LogLevel),
             Message = log.Message,
             SourceName = log.Source,
             AppTimestamp = (ulong)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
         };
     }
 
-    static AppLogLevel MapType(string type)
+    static AppLogLevel MapType(LogLevel level)
     {
-        if (type == LogLevel.Trace.ToString())
-            return AppLogLevel.Verbose;
-        else if (type == LogLevel.Debug.ToString())
-            return AppLogLevel.Debug;
-        else if (type == LogLevel.Information.ToString())
-            return AppLogLevel.Info;
-        else if (type == LogLevel.Warning.ToString())
-            return AppLogLevel.Warning;
-        else if (type == LogLevel.Error.ToString())
-            return AppLogLevel.Error;
-        else if (type == LogLevel.Critical.ToString())
-            return AppLogLevel.Critical;
-        else
-            return AppLogLevel.Unknown;
+        return level switch
+        {
+            LogLevel.Debug => AppLogLevel.Debug,
+            LogLevel.Information => AppLogLevel.Info,
+            LogLevel.Warning => AppLogLevel.Warning,
+            LogLevel.Error => AppLogLevel.Error,
+            LogLevel.Critical => AppLogLevel.Critical,
+            LogLevel.Trace => AppLogLevel.Verbose,
+            _ => throw new InvalidOperationException($"Unsupported LogLevel '{level}'")
+        };
     }
 }

@@ -1,10 +1,20 @@
+using Microsoft.Extensions.Logging;
 using Realms;
 
 namespace VisitzModel.Models.Logging;
 
 public partial class LogEntry : IRealmObject
 {
-    public string Type { get; set; } = string.Empty;
+    [MapTo("Type")]
+    public string LevelText { get; set; } = string.Empty;
+
+    private int LogLevelInt { get; set; }
+
+    public LogLevel LogLevel
+    {
+        get => (LogLevel)LogLevelInt;
+        set => LogLevelInt = (int)value;
+    }
 
     public string Message { get; set; } = string.Empty;
 
@@ -39,6 +49,6 @@ public partial class LogEntry : IRealmObject
 
     public override string ToString()
     {
-        return $"[{Timestamp}] {Type}: {Message} (Source: {Source})";
+        return $"[{Timestamp}] {Source}: {LevelText}: {Message}";
     }
 }
