@@ -38,7 +38,7 @@ public static class ILoggerExtensions
 
     public static void LogException<T>(this ILogger<T> logger, Exception exception, string? message = null)
     {
-        LogException(logger, exception, message);
+        LogException((ILogger)logger, exception, message);
     }
 
     public static void LogException(this ILogger logger, Exception exception, string? message = null)
