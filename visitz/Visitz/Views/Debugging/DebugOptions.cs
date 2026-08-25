@@ -35,6 +35,7 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
     const string WriteApiTimingsKey = "WriteApiTimings";
     const string WindowHeightKey = "WindowHeight";
     const string WindowWidthKey = "WindowWidth";
+    const string ShowBottomNavOnWindowsKey = "ShowBottomNavOnWindows";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -166,6 +167,12 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
             Set(WindowWidthKey, val);
             Application.Current?.Windows[0].Width = val;
         }
+    }
+
+    public bool ShowBottomNavOnWindows
+    {
+        get => Get(ShowBottomNavOnWindowsKey, false);
+        set => Set(ShowBottomNavOnWindowsKey, value);
     }
 
     [RelayCommand]
