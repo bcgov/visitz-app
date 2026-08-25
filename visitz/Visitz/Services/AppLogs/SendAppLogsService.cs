@@ -69,7 +69,7 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
             LogLevel.Error => AppLogLevel.Error,
             LogLevel.Critical => AppLogLevel.Critical,
             LogLevel.Trace => AppLogLevel.Verbose,
-            _ => throw new InvalidOperationException($"Unsupported LogLevel '{level}'")
+            _ => throw new InvalidOperationException($"Unsupported LogLevel '{level}'"),
         };
     }
 }

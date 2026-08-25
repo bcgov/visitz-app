@@ -1,25 +1,18 @@
-using MetroLog;
 using Microsoft.Extensions.Logging;
-using Logger = Microsoft.Extensions.Logging.ILogger;
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using VisitzModel.Models.Logging;
 
 namespace Visitz.Storage;
 
-public class RealmLogger : Logger
+public class RealmLogger(string categoryName, Func<RealmLoggerConfiguration> getCurrentConfig) : ILogger
 {
-    private readonly RealmAsyncTarget _target;
-    private readonly string _categoryName;
-
-    public RealmLogger(RealmAsyncTarget target, string categoryName)
-    {
-        _target = target;
-        _categoryName = categoryName;
-    }
-
     public IDisposable? BeginScope<TState>(TState state)
         where TState : notnull => null;
 
-    public bool IsEnabled(LogLevel logLevel) => true;
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        RealmLoggerConfiguration config = getCurrentConfig();
+        return logLevel >= config.MinimumLogLevel && logLevel <= config.MaximumLogLevel;
+    }
 
     public async void Log<TState>(
         LogLevel logLevel,
@@ -29,14 +22,18 @@ public class RealmLogger : Logger
         Func<TState, Exception?, string> formatter
     )
     {
-        if (_target != null && _target.IsEnabled(logLevel))
+        if (!IsEnabled(logLevel))
+            return;
+
+        LogEntry log = new()
         {
-            var message = formatter(state, exception);
-            var logEvent = new LogEventInfo((MetroLog.LogLevel)logLevel, _categoryName, message, exception)
-            {
-                TimeStamp = DateTimeOffset.UtcNow,
-            };
-            await _target.WriteLogAsync(new LogWriteContext(), logEvent);
-        }
+            LogLevel = logLevel,
+            Message = formatter(state, exception),
+            Source = categoryName,
+            Timestamp = DateTimeOffset.UtcNow,
+        };
+
+        using var logRealm = await VisitzRealms.GetLogRealmAsync();
+        await logRealm.WriteAsync(() => logRealm.Add(log));
     }
 }
