@@ -37,8 +37,20 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
         }
 
         using Realm logRealm = await VisitzRealms.GetLogRealmAsync();
-
         IList<LogEntry> savedLogs = logRealm.All<LogEntry>().ToList();
+
+        if (savedLogs.Count <= 0)
+        {
+            ResultCode = Result.Cancelled;
+            ResultMessage = "No logs to send";
+            return;
+        }
+
+        (ResultCode, ResultMessage) = await UploadLogs(savedLogs, logRealm);
+    }
+
+    async Task<(Result, string?)> UploadLogs(IList<LogEntry> savedLogs, Realm logRealm)
+    {
         IList<AppLogJson> uploadLogs = savedLogs.Select(ToAppLogJson).ToList();
 
         Result? resultCode = null;
@@ -61,8 +73,7 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
             });
         }
 
-        ResultCode = resultCode ?? Result.Successful;
-        ResultMessage = resultMessage;
+        return (resultCode ?? Result.Successful, resultMessage);
     }
 
     AppLogJson ToAppLogJson(LogEntry log)
@@ -100,6 +111,8 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
         };
     }
 
+    // We don't want to spam upstream with test environment logs during
+    // development, but also need a way to override that to test this feature.
     bool ShouldRun()
     {
 #if DEBUG
