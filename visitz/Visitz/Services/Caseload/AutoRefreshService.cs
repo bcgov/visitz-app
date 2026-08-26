@@ -23,8 +23,6 @@ internal class AutoRefreshService(LastUpdatedPrefs prefs, ServiceHandler service
 
     public static readonly string CooldownTimestampUtc = "LastRefreshAttempt";
 
-    protected override ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<AutoRefreshService>>();
-
     readonly LastUpdatedPrefs LastUpdatedPrefs = prefs;
 
     ServiceHandler ServiceHandler { get; set; } = serviceHandler;

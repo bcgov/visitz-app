@@ -57,11 +57,16 @@ public abstract class VisitzService
 
     public Exception? UncaughtException { get; protected set; }
 
-    protected virtual ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<VisitzService>>();
+    protected ILogger Logger { get; }
 
     static readonly string LoggerTemplate = "{id} -> {stateMessage}";
 
     protected CancellationTokenSource CancelTokenSource { get; } = new();
+
+    public VisitzService()
+    {
+        Logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger(GetType());
+    }
 
     private void PublishCurrentState(State status)
     {
