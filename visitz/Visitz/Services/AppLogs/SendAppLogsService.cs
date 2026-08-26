@@ -71,7 +71,7 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
             },
             DotnetRuntime = Environment.Version.ToString(),
             Level = MapType(log.LogLevel),
-            Message = log.Message,
+            Message = new { Content = log.Message },
             SourceName = log.Source,
             AppTimestamp = (ulong)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
         };
