@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Realms;
 using Visitz.Resources.Localization;
+using Visitz.Services.AppLogs;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
 using Visitz.Services.CallDetails;
@@ -12,6 +13,7 @@ using Visitz.Services.Visits;
 using Visitz.Storage;
 using Visitz.Views.Debugging;
 using VisitzApi;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
@@ -72,6 +74,12 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
         }
     }
 
+    protected override async Task FinishServiceAsync()
+    {
+        // Send logs after getting all data so we can send any new logs we might've generated
+        await SendLogsAsync();
+    }
+
     async Task GetAllDataAsync()
     {
         await Task.Run(async () =>
@@ -94,6 +102,20 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
         });
 
         ResultCode = Result.Successful;
+    }
+
+    async Task SendLogsAsync()
+    {
+        try
+        {
+            await ServiceHandler.TryRunServiceAsync(SendAppLogsService.MakeStartMessage());
+        }
+        catch (Exception ex)
+        {
+            // We'll log this exception instead of aggregating it, users won't
+            // care if we had issues sending logs.
+            Logger.LogException(ex);
+        }
     }
 
     async Task DoGetAllDataAsync(List<Exception> exceptions)
