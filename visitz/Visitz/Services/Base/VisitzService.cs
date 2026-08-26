@@ -61,7 +61,7 @@ public abstract class VisitzService
     protected ILogger Logger { get; }
 
 #if DEBUG
-    static readonly string LoggerTemplate = "Id '{0}' -> {1}";
+    static readonly string LoggerTemplate = "Id '{id}' -> {stateMessage}";
 #endif
 
     protected CancellationTokenSource CancelTokenSource { get; } = new();
