@@ -41,8 +41,16 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
         IList<LogEntry> savedLogs = logRealm.All<LogEntry>().ToList();
         IList<AppLogJson> uploadLogs = savedLogs.Select(ToAppLogJson).ToList();
 
+        Result? resultCode = null;
+        string? resultMessage = null;
+
         if (!DebugOptions.Default.DryFireSendAppLogs)
-            await Vpi.SendAppLogs(uploadLogs);
+        {
+            HttpResponseMessage response = await Vpi.SendAppLogs(uploadLogs);
+
+            resultCode = response.IsSuccessStatusCode ? Result.Successful : Result.Error;
+            resultMessage = $"HTTP {response.StatusCode} -> {await response.Content.ReadAsStringAsync()}";
+        }
 
         if (!DebugOptions.Default.KeepLogsAfterSending)
         {
@@ -53,7 +61,8 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
             });
         }
 
-        ResultCode = Result.Successful;
+        ResultCode = resultCode ?? Result.Successful;
+        ResultMessage = resultMessage;
     }
 
     AppLogJson ToAppLogJson(LogEntry log)
