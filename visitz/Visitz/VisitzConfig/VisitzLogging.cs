@@ -14,7 +14,7 @@ public static class VisitzLogging
         // IStringLocalizer appears to be dependent on a logging service
         builder.Services.AddLogging();
 
-        LogLevel minimumLogLevel;
+        LogLevel minimumLogLevel = LogLevel.Error;
 
 #if DEBUG
         minimumLogLevel = LogLevel.Debug;
@@ -26,9 +26,8 @@ public static class VisitzLogging
                 options.MinLevel = minimumLogLevel;
                 options.MaxLevel = LogLevel.Critical;
             });
-#else
-        minimumLogLevel = LogLevel.Error;
 #endif
+
         builder
             .Logging.SetMinimumLevel(minimumLogLevel)
             .AddRealmLogger(options =>
