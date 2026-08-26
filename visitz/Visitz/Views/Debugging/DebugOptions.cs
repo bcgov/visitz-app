@@ -18,7 +18,6 @@ using VisitzModel.Storage;
 #if WINDOWS
 using Windows.Storage;
 using Microsoft.Maui.Controls.Internals;
-using VisitzModel.Extensions;
 #endif
 
 #if WINDOWS || MACCATALYST
