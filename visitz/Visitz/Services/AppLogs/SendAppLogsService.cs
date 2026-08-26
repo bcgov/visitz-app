@@ -3,6 +3,7 @@ using Realms;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
+using Visitz.Views.Debugging;
 using VisitzApi;
 using VisitzApi.Models.AppLogs;
 using VisitzModel.Models.Logging;
@@ -29,13 +30,30 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
 
     protected override async Task RunApiServiceAsync()
     {
+        if (!ShouldRun())
+        {
+            ResultCode = Result.Cancelled;
+            return;
+        }
+
         using Realm logRealm = await VisitzRealms.GetLogRealmAsync();
 
-        IEnumerable<AppLogJson> logs = logRealm.All<LogEntry>().AsEnumerable().Select(ToAppLogJson);
+        IList<LogEntry> savedLogs = logRealm.All<LogEntry>().ToList();
+        IList<AppLogJson> uploadLogs = savedLogs.Select(ToAppLogJson).ToList();
 
-        // TODO: send logs upstream
+        if (!DebugOptions.Default.DryFireSendAppLogs)
+            await Vpi.SendAppLogs(uploadLogs);
 
-        // TODO: Remove sent logs from DB
+        if (!DebugOptions.Default.KeepLogsAfterSending)
+        {
+            await logRealm.WriteAsync(() =>
+            {
+                foreach (var log in savedLogs)
+                    logRealm.Remove(log);
+            });
+        }
+
+        ResultCode = Result.Successful;
     }
 
     AppLogJson ToAppLogJson(LogEntry log)
@@ -71,5 +89,22 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
             LogLevel.Trace => AppLogLevel.Verbose,
             _ => throw new InvalidOperationException($"Unsupported LogLevel '{level}'"),
         };
+    }
+
+    bool ShouldRun()
+    {
+#if DEBUG
+        bool isDebug = true;
+#else
+        bool isDebug = false;
+#endif
+        string name = nameof(DebugOptions.Default.RunAppLogsServiceInDebug);
+        bool runInDebug = DebugOptions.Default.RunAppLogsServiceInDebug;
+
+#if DEBUG
+        Logger.LogDebug(nameof(ShouldRun) + $" -> isDebug: {isDebug}, {name}: {runInDebug}");
+#endif
+
+        return !isDebug || runInDebug;
     }
 }
