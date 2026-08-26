@@ -122,11 +122,12 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
 #endif
         string name = nameof(DebugOptions.Default.RunAppLogsServiceInDebug);
         bool runInDebug = DebugOptions.Default.RunAppLogsServiceInDebug;
+        bool result = !isDebug || runInDebug;
 
 #if DEBUG
-        Logger.LogDebug(nameof(ShouldRun) + $" -> isDebug: {isDebug}, {name}: {runInDebug}");
+        Logger.LogDebug(nameof(ShouldRun) + $"? {result} -> isDebug: {isDebug}, {name}: {runInDebug}");
 #endif
 
-        return !isDebug || runInDebug;
+        return result;
     }
 }
