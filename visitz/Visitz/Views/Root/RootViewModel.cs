@@ -10,6 +10,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
 using Visitz.Views.Navigation;
 using Visitz.Views.User;
+using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 
 namespace Visitz.Views.Root;

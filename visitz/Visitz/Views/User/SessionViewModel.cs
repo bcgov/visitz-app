@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
 using Oidc.Events;
 using Oidc.Network;
-using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
@@ -12,6 +11,7 @@ using Visitz.Services.Messages;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
+using VisitzModel.Extensions;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
 #if WINDOWS
 using Visitz.WinUI;

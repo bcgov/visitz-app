@@ -4,6 +4,7 @@ namespace Visitz.Device;
 
 #if WINDOWS
 using Visitz.Extensions;
+using VisitzModel.Extensions;
 using Windows.Media.Capture;
 using Windows.Security.Authorization.AppCapabilityAccess;
 #endif

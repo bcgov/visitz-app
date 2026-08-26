@@ -2,13 +2,13 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Events;
-using Visitz.Extensions;
 using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
 using Visitz.Views.AppLock;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
+using VisitzModel.Extensions;
 
 namespace Visitz;
 

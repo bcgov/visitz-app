@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;

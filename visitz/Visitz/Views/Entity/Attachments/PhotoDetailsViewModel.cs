@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
+using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Storage.Filesystem;

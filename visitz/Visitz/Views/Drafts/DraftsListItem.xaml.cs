@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
-using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Services.Base;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;

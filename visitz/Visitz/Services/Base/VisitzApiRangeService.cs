@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
-using Visitz.Extensions;
 using VisitzApi;
+using VisitzModel.Extensions;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Base;

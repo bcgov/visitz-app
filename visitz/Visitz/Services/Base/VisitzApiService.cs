@@ -5,12 +5,12 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using Oidc;
 using Oidc.Network;
-using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
+using VisitzModel.Extensions;
 using VisitzModel.Storage;
 #if WINDOWS
 using Visitz.WinUI;

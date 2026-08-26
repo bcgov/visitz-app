@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
-using Visitz.Extensions;
 using Visitz.Views.Entity;
+using VisitzModel.Extensions;
 
 namespace Visitz.Views.BaseClasses;
 

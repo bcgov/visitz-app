@@ -4,6 +4,7 @@ using Oidc;
 using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
+using VisitzModel.Extensions;
 
 namespace Visitz.Views.AppLock;
 

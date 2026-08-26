@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
 using VisitzModel;
+using VisitzModel.Extensions;
 #if IOS
 using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core;

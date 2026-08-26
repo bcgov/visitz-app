@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
-using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 

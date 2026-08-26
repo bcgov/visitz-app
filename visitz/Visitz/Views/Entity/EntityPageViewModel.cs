@@ -9,6 +9,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Services.Messages;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
