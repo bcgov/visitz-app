@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
+using Visitz.Extensions;
 using Visitz.Services.Messages;
 
 namespace Visitz.Services.Base;
@@ -59,7 +60,9 @@ public abstract class VisitzService
 
     protected ILogger Logger { get; }
 
-    static readonly string LoggerTemplate = "{id} -> {stateMessage}";
+#if DEBUG
+    static readonly string LoggerTemplate = "Id '{0}' -> {1}";
+#endif
 
     protected CancellationTokenSource CancelTokenSource { get; } = new();
 
@@ -108,13 +111,15 @@ public abstract class VisitzService
             if (ex is OperationCanceledException)
             {
                 ResultCode = Result.Cancelled;
+#if DEBUG
                 Logger.LogDebug(LoggerTemplate, GetId(), "Service cancelled");
+#endif
             }
             else
             {
                 UncaughtException = ex;
                 ResultCode = Result.Error;
-                Logger.LogError(LoggerTemplate, GetId(), ex.ToString());
+                Logger.LogException(ex, $"Id '{GetId()}'");
             }
 
             ResultMessage = ex.Message;
