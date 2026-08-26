@@ -398,7 +398,7 @@
                 Text="Services"
             />
 
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                 <Label
                     StyleClass="DebugLayout,DebugLabel"
                     Grid.Row="0"
@@ -478,6 +478,50 @@
                     Grid.Column="1"
                     Command="{Binding Options.RunSendAppLogsServiceCommand}"
                     Text="Run SendAppLogsService"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    Text="Run SendAppLogsService in #DEBUG"
+                />
+
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    IsToggled="{Binding Options.RunAppLogsServiceInDebug}"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Text="Dry-fire SendAppLogsService"
+                />
+
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.DryFireSendAppLogs}"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    Text="Dry-fire SendAppLogsService: Keep logs after sending"
+                />
+
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.KeepLogsAfterSending}"
                 />
             </Grid>
 

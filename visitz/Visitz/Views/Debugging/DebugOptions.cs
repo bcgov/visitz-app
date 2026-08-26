@@ -41,6 +41,9 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
     const string WindowHeightKey = "WindowHeight";
     const string WindowWidthKey = "WindowWidth";
     const string ShowBottomNavOnWindowsKey = "ShowBottomNavOnWindows";
+    const string RunAppLogsServiceInDebugKey = "RunAppLogsServiceInDebug";
+    const string DryFireSendAppLogsKey = "DryFireSendAppLogs";
+    const string KeepLogsAfterSendingKey = "DeleteLogsAfterSending";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -178,6 +181,24 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
     {
         get => Get(ShowBottomNavOnWindowsKey, false);
         set => Set(ShowBottomNavOnWindowsKey, value);
+    }
+
+    public bool RunAppLogsServiceInDebug
+    {
+        get => Get(RunAppLogsServiceInDebugKey, false);
+        set => Set(RunAppLogsServiceInDebugKey, value);
+    }
+
+    public bool DryFireSendAppLogs
+    {
+        get => Get(DryFireSendAppLogsKey, false);
+        set => Set(DryFireSendAppLogsKey, value);
+    }
+
+    public bool KeepLogsAfterSending
+    {
+        get => Get(KeepLogsAfterSendingKey, false);
+        set => Set(KeepLogsAfterSendingKey, value);
     }
 
     [RelayCommand]
