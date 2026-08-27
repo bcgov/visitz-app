@@ -3,53 +3,66 @@ using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
+using Visitz.Services.Messages;
 using Visitz.Services.SafetyAssessments;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Debugging;
 using VisitzModel.Models.Caseload;
+using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
 internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
-    string getAssessmentsServiceId;
-    string submitAssessmentsServiceId;
-    RecordServiceInfo recordServiceInfo;
-    SafetyAssessment assessment;
+    string? getAssessmentsServiceId;
 
-    SafetyAssessment Assessment
+    string? submitAssessmentsServiceId;
+
+    RecordServiceInfo? recordServiceInfo;
+
+    SafetyAssessment? Assessment
     {
-        get => assessment;
+        get;
         set
         {
-            assessment = value;
-            var date = assessment.DateOfAssessment?.ToString(SafetyAssessment.DateFormat);
+            field = value;
+            var date = field?.DateOfAssessment?.ToString(SafetyAssessment.DateFormat);
 
-            Title = string.Format(LocalizedStrings.PublishSATitle, assessment.FamilyName, date);
+            if (field != null)
+                Title = string.Format(LocalizedStrings.PublishSATitle, field.FamilyName, date);
         }
     }
 
-    Realm Realm { get; set; }
+    Realm? Realm { get; set; }
 
-    public IBusinessObject BusinessObject { get; set; }
+    public IBusinessObject? BusinessObject { get; set; }
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
-        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, BusinessObject.FileNumber);
+        if (BusinessObject == null)
+            throw new InvalidOperationException("BusinessObject is null");
 
-        var keyPlayer = BusinessObject.GetKeyPlayer();
+        Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+        Assessment =
+            SafetyAssessment.FindByIncidentNumber(Realm, BusinessObject.FileNumberBinding)
+            ?? throw new InvalidOperationException(
+                $"Safety assessment for '{BusinessObject.FileNumberBinding}' missing"
+            );
+
+        IcmContact keyPlayer =
+            BusinessObject.GetKeyPlayer() ?? throw new InvalidOperationException("Missing key player");
         recordServiceInfo = new RecordServiceInfo(
-                BusinessObject.EntityType,
-                BusinessObject.EntitySubtype,
-                BusinessObject.Id,
-                Assessment.IncidentNumber,
-                keyPlayer.FirstName,
-                keyPlayer.LastName);
+            BusinessObject.EntityType,
+            BusinessObject.EntitySubtype,
+            BusinessObject.Id,
+            Assessment.IncidentNumber,
+            keyPlayer.FirstName,
+            keyPlayer.LastName
+        );
 
         submitAssessmentsServiceId = SubmitSafetyAssessmentService.MakeId(Assessment.IncidentNumber);
         getAssessmentsServiceId = GetSafetyAssessmentsService.MakeId(recordServiceInfo);
@@ -63,6 +76,7 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -79,12 +93,16 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
     public override void Publish()
     {
+        ArgumentNullException.ThrowIfNull(Assessment);
+
         var msg = SubmitSafetyAssessmentService.MakeStartMessage(Assessment);
         WeakReferenceMessenger.Default.Send(msg);
     }
 
     private void CallGetService()
     {
+        ArgumentNullException.ThrowIfNull(recordServiceInfo);
+
         var startMessage = GetSafetyAssessmentsService.MakeStartMessage(recordServiceInfo);
         WeakReferenceMessenger.Default.Send(startMessage);
     }
@@ -122,8 +140,10 @@ internal partial class SafetyAssessmentPublishViewModel : PublishViewModel, IRec
 
     private async Task DiscardSentDraft()
     {
-        if (DebugOptions.KeepSafetyAssessmentDraftOnPublish)
+        if (DebugOptions.Default.KeepSafetyAssessmentDraftOnPublish)
             return;
+
+        ArgumentNullException.ThrowIfNull(Assessment);
 
         await AssessmentDraft.TryDeleteAsync(Assessment);
     }

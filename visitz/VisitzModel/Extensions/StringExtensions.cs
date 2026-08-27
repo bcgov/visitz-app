@@ -12,12 +12,14 @@ public static class StringExtensions
     //from https://stackoverflow.com/questions/63760445/c-sharp-get-initials-of-displayname
 
     private static readonly char[] separator = [' ', ','];
+
     public static string GetInitials(this string text)
     {
-        return string.Concat(text
-            .Split(separator, StringSplitOptions.RemoveEmptyEntries)
-            .Where(split => split.Length >= 1 && char.IsLetter(split[0]))
-            .Select(split => char.ToUpper(split[0])));
+        return string.Concat(
+            text.Split(separator, StringSplitOptions.RemoveEmptyEntries)
+                .Where(split => split.Length >= 1 && char.IsLetter(split[0]))
+                .Select(split => char.ToUpper(split[0]))
+        );
     }
 
     public static string GetInitialsOrTruncate(this string text)
@@ -35,9 +37,9 @@ public static class StringExtensions
         return addressPart?.Length > 0 ? addressPart + separator : string.Empty;
     }
 
-    public static string TruncateEnd(this string text, int length)
+    public static string TruncateEnd(this string text, int length, bool addEllipsis = false)
     {
-        return text[..Math.Min(text.Length, length)];
+        return text.Length > length ? text[..length] + (addEllipsis ? "…" : string.Empty) : text;
     }
 
     public static bool ParseWordTruthiness(this string text)

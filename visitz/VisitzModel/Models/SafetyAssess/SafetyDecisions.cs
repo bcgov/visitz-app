@@ -1,13 +1,11 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.SafetyAssess;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.SafetyAssess;
-
-#nullable enable
 
 public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisionsJson>
 {
@@ -17,7 +15,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
     public static readonly int CommentsMaxLength = 16000;
     public static readonly int NarrativeMaxLength = 2000;
 
-    private bool NoSafetyFactors { get; set; }
+    internal bool NoSafetyFactors { get; set; }
     private bool Safe
     {
         get => NoSafetyFactors;
@@ -28,7 +26,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
         }
     }
 
-    private bool SafeInterventions { get; set; }
+    internal bool SafeInterventions { get; set; }
     private bool SafeWithInterventions
     {
         get => SafeInterventions;
@@ -39,7 +37,7 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
         }
     }
 
-    private bool UnsafeSafetyFactors { get; set; }
+    internal bool UnsafeSafetyFactors { get; set; }
     private bool Unsafe
     {
         get => UnsafeSafetyFactors;
@@ -90,8 +88,8 @@ public partial class SafetyDecisions : IRealmObject, IApiJson<SubmitSafetyDecisi
 
     public DateTimeOffset? ReadyFinalizeDate { get; set; } // Only date, no time
 
-    public bool IsAnswered => Decision != null
-        && (Decision != SafetyDecisionOption.Unsafe || DecisionUnsafe?.Length > 0);
+    public bool IsAnswered =>
+        Decision != null && (Decision != SafetyDecisionOption.Unsafe || DecisionUnsafe?.Length > 0);
 
     public static SafetyDecisions FromApiJson(GetSafetyAsessmentJson entity)
     {

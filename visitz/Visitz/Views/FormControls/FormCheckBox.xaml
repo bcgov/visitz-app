@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:formctls="clr-namespace:Visitz.Views.FormControls"
     x:Class="Visitz.Views.FormControls.FormCheckBox"
     x:DataType="formctls:FormCheckBox"
-    x:Name="this">
-
+    x:Name="this"
+>
     <ContentView.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </ContentView.Resources>
@@ -16,23 +16,21 @@
         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
     </ContentView.GestureRecognizers>
 
-    <Grid 
-        ColumnDefinitions="Auto,*"
-        BindingContext="{Reference this}"
-        HorizontalOptions="Start">
-        
+    <Grid ColumnDefinitions="Auto,*" BindingContext="{Reference this}" HorizontalOptions="Start">
         <CheckBox
             Grid.Column="0"
             x:Name="CheckBox"
             VerticalOptions="Center"
             IsChecked="{Binding IsChecked}"
-            IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
+            IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+        />
 
         <Label
             Grid.Column="1"
             HorizontalOptions="Start"
             VerticalOptions="Fill"
             VerticalTextAlignment="Center"
-            Text="{Binding Text}" />
+            Text="{Binding Text}"
+        />
     </Grid>
 </ContentView>

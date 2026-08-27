@@ -3,21 +3,25 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
-    xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     x:Class="Visitz.Views.Navigation.TabView"
-    x:DataType="nav:TabViewModel">
-    
-    <selView:SelectionList
-        ItemsSource="{Binding Tabs}"
-        Orientation="Horizontal"
-        SelectedItem="{Binding SelectedTab}">
+    x:DataType="nav:TabViewModel"
+    x:TypeArguments="nav:TabViewModel"
+>
+    <HorizontalStackLayout>
+        <HorizontalStackLayout.Behaviors>
+            <behaviors:SelectionLayoutBehavior
+                ItemsSource="{Binding Tabs}"
+                SelectedItem="{Binding SelectedTab}"
+                StickySelection="True"
+            />
+        </HorizontalStackLayout.Behaviors>
 
-        <selView:SelectionList.ItemTemplate>
+        <BindableLayout.ItemTemplate>
             <DataTemplate x:DataType="nav:Tab">
                 <nav:TabItemView BindingContext="{Binding .}" />
             </DataTemplate>
-        </selView:SelectionList.ItemTemplate>
-
-    </selView:SelectionList>
+        </BindableLayout.ItemTemplate>
+    </HorizontalStackLayout>
 </base:ViewModelContentView>

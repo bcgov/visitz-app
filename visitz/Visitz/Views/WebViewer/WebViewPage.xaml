@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <baseClasses:VisitzPage
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:webViewer="clr-namespace:Visitz.Views.WebViewer"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:webViewer="clr-namespace:Visitz.Views.WebViewer"
     x:Class="Visitz.Views.WebViewer.WebViewPage"
-	x:DataType="webViewer:WebViewModel"
+    x:DataType="webViewer:WebViewModel"
+    x:TypeArguments="webViewer:WebViewPage,webViewer:WebViewModel"
     Title="WebViewPage"
-	MaximumHeightRequest="600"
-	MaximumWidthRequest="500"
-	BackgroundColor="Transparent">
+    MaximumHeightRequest="600"
+    MaximumWidthRequest="500"
+    BackgroundColor="Transparent"
+>
+    <Border BackgroundColor="White" StrokeShape="RoundRectangle 10" StrokeThickness="0">
+        <Grid RowDefinitions="Auto,1,*">
+            <controls:CloseButton
+                x:Name="CloseButton"
+                HorizontalOptions="Start"
+                Margin="4"
+                TextColor="{StaticResource BC_TextColor}"
+            />
 
-	<Border
-		BackgroundColor="White"
-		StrokeShape="RoundRectangle 10"
-		StrokeThickness="0">
+            <BoxView Grid.Row="1" Color="{StaticResource SeparatorColor}" />
 
-		<Grid RowDefinitions="Auto,1,*">
-			<controls:CloseButton
-				x:Name="CloseButton"
-				HorizontalOptions="Start"
-				Margin="4"
-				TextColor="{StaticResource BC_TextColor}" />
-
-			<BoxView
-				Grid.Row="1"
-				Color="{StaticResource SeparatorColor}" />
-
-			<WebView
-				Grid.Row="2"
-				x:Name="MainWebView" />
-		</Grid>
-	</Border>
+            <WebView Grid.Row="2" x:Name="MainWebView" />
+        </Grid>
+    </Border>
 </baseClasses:VisitzPage>

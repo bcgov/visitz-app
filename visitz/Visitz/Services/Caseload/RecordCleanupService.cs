@@ -10,8 +10,6 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
 
-#nullable enable
-
 internal class RecordCleanupService : VisitzService
 {
     static readonly int MaxDaysThreshold = 7;
@@ -20,11 +18,7 @@ internal class RecordCleanupService : VisitzService
 
     public static StartServiceMessage MakeStartMessage()
     {
-        return new()
-        {
-            ServiceId = MakeId(),
-            ServiceType = typeof(RecordCleanupService),
-        };
+        return new() { ServiceId = MakeId(), ServiceType = typeof(RecordCleanupService) };
     }
 
     public static string MakeId()
@@ -57,11 +51,11 @@ internal class RecordCleanupService : VisitzService
         dateThreshold = DateTimeOffset.UtcNow.AddDays(-MaxDaysThreshold);
 
         IEnumerable<IBusinessObject> officeCases = CaseRecord
-            .GetAllByAssignee(realm, info.Idir, invert: true)
+            .GetAllByAssignee(realm, info.Idir, isAssignedTo: false)
             .Where(IsStaleRecord);
 
         IEnumerable<IBusinessObject> officeIncidents = IncidentRecord
-            .GetAllByAssignee(realm, info.Idir, invert: true)
+            .GetAllByAssignee(realm, info.Idir, isAssignedTo: false)
             .Where(IsStaleRecord);
 
         IEnumerable<IBusinessObject> staleOfficeRecords = officeCases.Concat(officeIncidents);
@@ -77,19 +71,15 @@ internal class RecordCleanupService : VisitzService
 
     bool IsStaleRecord(IBusinessObject bo)
     {
-        return (bo.LocalState?.ShouldDownloadDuringRefresh ?? false)
-                && bo.LocalState?.LastOpened < dateThreshold;
+        return (bo.LocalState?.ShouldDownloadDuringRefresh ?? false) && bo.LocalState?.LastOpened < dateThreshold;
     }
 
-    void DeleteDependentData(
-        Realm realm,
-        IBusinessObject businessObject,
-        UserIgnoredContentPrefs ignoredPrefs)
+    void DeleteDependentData(Realm realm, IBusinessObject businessObject, UserIgnoredContentPrefs ignoredPrefs)
     {
         try
         {
             businessObject.DeleteDependentData(ignoredPrefs, realm, deleteLocalState: false);
-            businessObject.LocalState.ShouldDownloadDuringRefresh = false;
+            businessObject.LocalState?.ShouldDownloadDuringRefresh = false;
         }
         catch (Exception ex)
         {

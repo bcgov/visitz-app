@@ -1,7 +1,5 @@
 namespace Visitz.Controls;
 
-#nullable enable
-
 /// <summary>
 /// From https://github.com/CodingOctocat/MauiPanPinchContainer
 /// <para><see href="https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/gestures/pan"/></para>
@@ -35,10 +33,7 @@ public class PanPinchContainer : ContentView
         _pinchGestureRecognizer.PinchUpdated += OnPinchUpdatedAsync;
         GestureRecognizers.Add(_pinchGestureRecognizer);
 
-        _doubleTapGestureRecognizer = new TapGestureRecognizer
-        {
-            NumberOfTapsRequired = 2
-        };
+        _doubleTapGestureRecognizer = new TapGestureRecognizer { NumberOfTapsRequired = 2 };
 
         _doubleTapGestureRecognizer.Tapped += DoubleTappedAsync;
         GestureRecognizers.Add(_doubleTapGestureRecognizer);
@@ -259,13 +254,13 @@ public class PanPinchContainer : ContentView
 
     private async Task ScaleToAsync(double scale)
     {
-        await Content.ScaleTo(scale, 250, Easing.Linear);
+        await Content.ScaleToAsync(scale, 250, Easing.Linear);
         _currentScale = scale;
     }
 
     private async Task TranslateToAsync(double x, double y)
     {
-        await Content.TranslateTo(x, y, 250, Easing.Linear);
+        await Content.TranslateToAsync(x, y, 250, Easing.Linear);
         _panX = x;
         _panY = y;
     }

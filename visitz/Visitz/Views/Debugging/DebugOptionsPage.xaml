@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+<ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:debug="clr-namespace:Visitz.Views.Debugging"
     x:Class="Visitz.Views.Debugging.DebugOptionsPage"
-	x:DataType="debug:DebugOptionsViewModel"
+    x:DataType="debug:DebugOptionsViewModel"
     Title="Debug Options"
-    ControlTemplate="{StaticResource VisitzPageWrapper}">
+>
+    <Grid x:Name="RootGrid">
+        <debug:DebugOptionsView />
 
-    <debug:DebugOptionsView />
-
+        <ContentView
+            x:Name="SnackbarContainer"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            IsVisible="False"
+        >
+            <ContentView.Margin>
+                <Thickness
+                    Left="{StaticResource DefaultMargin}"
+                    Right="{StaticResource DefaultMargin}"
+                    Bottom="48"
+                />
+            </ContentView.Margin>
+        </ContentView>
+    </Grid>
 </ContentPage>

@@ -3,6 +3,7 @@ using VisitzApi.Json;
 using VisitzApi.Models.Base;
 
 namespace VisitzApiTest.Models.Base;
+
 public partial class BaseRecordJsonTests
 {
     internal const string ArbitraryId = "1-1A2B3C4";
@@ -14,7 +15,8 @@ public partial class BaseRecordJsonTests
     internal const string UpdatedDateValue = "12/19/2024 23:14:30";
 
     const string availableData =
-"{" + $"""
+        "{"
+        + $"""
     "Id": "{ArbitraryId}",
 	"Created By": "{OtherName}",
 	"Created By Id": "{OtherNameId}",
@@ -22,15 +24,18 @@ public partial class BaseRecordJsonTests
 	"Updated By": "{SomeName}",
 	"Updated By Id": "{SomeNameId}",
 	"Updated Date": "{UpdatedDateValue}"
-""" + "}";
+"""
+        + "}";
 
     const string missingIdFields =
-"{" + $"""
+        "{"
+        + $"""
 	"Created By": "{OtherName}",
 	"Created Date": "{CreatedDateValue}",
 	"Updated By": "{SomeName}",
 	"Updated Date": "{UpdatedDateValue}"
-""" + "}";
+"""
+        + "}";
 
     [Theory]
     [InlineData(ArbitraryId, nameof(BaseRecordJson.Id))]
@@ -43,7 +48,9 @@ public partial class BaseRecordJsonTests
     public void ParsesStringFieldsCorrectly(string expectedValue, string propertyName)
     {
         BaseRecordJson baseRecord = JsonSerializer.Deserialize<BaseRecordJson>(
-            availableData, PayloadOptions.SiebelGet)!;
+            availableData,
+            PayloadOptions.SiebelGet
+        )!;
 
         string actual = (string)baseRecord.GetType().GetProperty(propertyName)!.GetValue(baseRecord)!;
 
@@ -54,7 +61,6 @@ public partial class BaseRecordJsonTests
     [InlineData(missingIdFields)]
     public void ThrowWhenFieldsMissing(string json)
     {
-        Assert.ThrowsAny<Exception>(() => JsonSerializer.Deserialize<BaseRecordJson>(
-            json, PayloadOptions.SiebelGet));
+        Assert.ThrowsAny<Exception>(() => JsonSerializer.Deserialize<BaseRecordJson>(json, PayloadOptions.SiebelGet));
     }
 }

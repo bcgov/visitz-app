@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
-		<TargetFrameworks>net9.0</TargetFrameworks>
+		<TargetFrameworks>net10.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Version>$(VisitzVersion)</Version>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<Import Project="..\Visitz\Visitz.props" />
@@ -13,16 +13,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CSharpier.MsBuild" Version="$(CSharpierVersion)">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="MimeTypes" Version="2.5.2">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SecurityCodeScan.VS2019" Version="$(SecurityCodeScanVersion)">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
-		<PackageReference Include="System.Threading.RateLimiting" Version="9.0.9" />
+		<PackageReference Include="System.Threading.RateLimiting" Version="10.0.2" />
 	</ItemGroup>
-
 </Project>

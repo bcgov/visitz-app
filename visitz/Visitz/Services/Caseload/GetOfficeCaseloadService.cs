@@ -10,18 +10,10 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
 
-#nullable enable
-
-internal class GetOfficeCaseloadService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    UserIgnoredContentPrefs ignoredPrefs,
-    ServiceHandler serviceHandler)
+internal class GetOfficeCaseloadService(Vpi vpi, LastUpdatedPrefs prefs, UserIgnoredContentPrefs ignoredPrefs)
     : ApiPaginationService(vpi, prefs)
 {
     UserIgnoredContentPrefs UserIgnoredPrefs { get; } = ignoredPrefs;
-
-    ServiceHandler ServiceHandler { get; } = serviceHandler;
 
     bool Force => (bool)Payload;
 
@@ -53,7 +45,7 @@ internal class GetOfficeCaseloadService(
         return MakeId();
     }
 
-    protected override async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         bool downloadAfter = !Force;
 
@@ -64,12 +56,10 @@ internal class GetOfficeCaseloadService(
         var (total, officeCaseload) = await Vpi.GetOfficeCaseloadAsync(pagination: pagination);
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Cases, Exceptions))
-            CaseRecords.AddRange(CaseRecord.FromApiJsonArray(
-                officeCaseload.Cases.Items));
+            CaseRecords.AddRange(CaseRecord.FromApiJsonArray(officeCaseload.Cases.Items));
 
         if (CaseloadHelper.CanSynchronize(officeCaseload.Incidents, Exceptions))
-            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(
-                officeCaseload.Incidents.Items));
+            IncidentRecords.AddRange(IncidentRecord.FromApiJsonArray(officeCaseload.Incidents.Items));
 
         foreach (var office in officeCaseload.OfficeNames)
             Offices.Add(office);
@@ -87,15 +77,13 @@ internal class GetOfficeCaseloadService(
 
         try
         {
-            var assignedCases = CaseRecord.GetAllByAssignee(realm, username);
-            var officeCases = CaseRecords.Except(assignedCases);
-
-            await CaseRecord.SynchronizeAsync(
+            await IBusinessObject.SynchronizeAsync(
                 realm,
-                officeCases,
+                CaseRecords,
                 UserIgnoredPrefs,
                 username,
-                isPersonalCaseload: false);
+                isPersonalCaseload: false
+            );
         }
         catch (Exception ex)
         {
@@ -104,15 +92,13 @@ internal class GetOfficeCaseloadService(
 
         try
         {
-            var assignedIncidents = IncidentRecord.GetAllByAssignee(realm, username);
-            var officeIncidents = IncidentRecords.Except(assignedIncidents);
-
-            await IncidentRecord.SynchronizeAsync(
+            await IBusinessObject.SynchronizeAsync(
                 realm,
-                officeIncidents,
+                IncidentRecords,
                 UserIgnoredPrefs,
                 username,
-                isPersonalCaseload: false);
+                isPersonalCaseload: false
+            );
         }
         catch (Exception ex)
         {
@@ -123,11 +109,9 @@ internal class GetOfficeCaseloadService(
 
         try
         {
-            Offices.UnionWith(CaseRecords.Select(@case =>
-                @case.ServiceOffice).Distinct());
+            Offices.UnionWith(CaseRecords.Select(@case => @case.ServiceOffice).Distinct());
 
-            Offices.UnionWith(IncidentRecords.Select(incident =>
-                incident.ServiceOffice).Distinct());
+            Offices.UnionWith(IncidentRecords.Select(incident => incident.ServiceOffice).Distinct());
 
             // TODO: memos and SRs
 

@@ -12,7 +12,8 @@ internal static class ConsoleTrace
         object caller,
         string message = null,
         string prepend = null,
-        [CallerMemberName] string memberName = "")
+        [CallerMemberName] string memberName = ""
+    )
     {
         TraceMethod(caller.GetType(), message, prepend, memberName);
     }
@@ -21,7 +22,8 @@ internal static class ConsoleTrace
         Type callerType,
         string message = null,
         string prepend = null,
-        [CallerMemberName] string memberName = "")
+        [CallerMemberName] string memberName = ""
+    )
     {
 #if DEBUG
         if (prepend != null)

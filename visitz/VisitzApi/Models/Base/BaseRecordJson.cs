@@ -9,17 +9,17 @@ namespace VisitzApi.Models.Base;
 public class BaseRecordJson
 {
     [JsonRequired]
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string CreatedById { get; set; }
+    public string CreatedById { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public string UpdatedById { get; set; }
+    public string UpdatedById { get; set; } = string.Empty;
 
-    public string CreatedDate { get; set; }
+    public string CreatedDate { get; set; } = string.Empty;
 
-    public string UpdatedDate { get; set; }
+    public string UpdatedDate { get; set; } = string.Empty;
 }

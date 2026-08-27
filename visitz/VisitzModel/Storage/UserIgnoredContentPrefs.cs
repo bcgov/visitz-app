@@ -1,8 +1,13 @@
-using VisitzModel.Models.Caseload;
-
 namespace VisitzModel.Storage;
 
-[Obsolete($"Use {nameof(BoLocalState)} instead")]
+/// <summary>
+/// <para>Stores which attachments the user wants the app to ignore when
+/// refreshing data.</para>
+///
+/// <para>FIXME: When feasible, this class should be replaced by using
+/// BoLocalState instead—or when a new DB system is implemented.</para>
+/// </summary>
+/// <param name="prefs"></param>
 public class UserIgnoredContentPrefs(IPreferences prefs)
 {
     private const string IgnoredContentKeyPrefix = "UserIgnoredContent";
@@ -28,4 +33,3 @@ public class UserIgnoredContentPrefs(IPreferences prefs)
         Preferences.Remove(fullKey);
     }
 }
-

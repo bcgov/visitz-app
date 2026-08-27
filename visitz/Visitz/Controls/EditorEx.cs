@@ -5,15 +5,24 @@ namespace Visitz.Controls;
 
 internal partial class EditorEx : Editor
 {
-    public static readonly BindableProperty CharacterCountProperty =
-        BindableProperty.Create(nameof(CharacterCount), typeof(int), typeof(EditorEx),
-            defaultBindingMode: BindingMode.OneWayToSource);
+    public static readonly BindableProperty CharacterCountProperty = BindableProperty.Create(
+        nameof(CharacterCount),
+        typeof(int),
+        typeof(EditorEx),
+        defaultBindingMode: BindingMode.OneWayToSource
+    );
 
-    public static readonly BindableProperty CountStyleProperty =
-        BindableProperty.Create(nameof(CountStyle), typeof(CharacterCountStyle), typeof(EditorEx));
+    public static readonly BindableProperty CountStyleProperty = BindableProperty.Create(
+        nameof(CountStyle),
+        typeof(CharacterCountStyle),
+        typeof(EditorEx)
+    );
 
-    public static readonly BindableProperty SuggestedMaxLengthProperty =
-        BindableProperty.Create(nameof(SuggestedMaxLength), typeof(int), typeof(EditorEx));
+    public static readonly BindableProperty SuggestedMaxLengthProperty = BindableProperty.Create(
+        nameof(SuggestedMaxLength),
+        typeof(int),
+        typeof(EditorEx)
+    );
 
     public int CharacterCount
     {
@@ -33,9 +42,9 @@ internal partial class EditorEx : Editor
         set => SetValue(SuggestedMaxLengthProperty, value);
     }
 
-    public event EventHandler EmojiEntered;
+    public event EventHandler? EmojiEntered;
 
-    public event EventHandler SuggestedMaxLengthExceeded;
+    public event EventHandler? SuggestedMaxLengthExceeded;
 
     public EditorEx()
     {

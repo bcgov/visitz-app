@@ -6,50 +6,117 @@
     xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:draftsModels="clr-namespace:VisitzModel.Models.Drafts;assembly=VisitzModel"
     xmlns:drafts="clr-namespace:Visitz.Views.Drafts"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:interfaces="clr-namespace:VisitzModel.Models.Interfaces;assembly=VisitzModel"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:tagViews="clr-namespace:Visitz.Views.TagViews"
     x:Class="Visitz.Views.Drafts.DraftsListItem"
-    x:DataType="draftsModels:IDraftItem">
-
-        <ContentView.GestureRecognizers>
-            <TapGestureRecognizer 
-                Command="{Binding Source={RelativeSource
+    x:DataType="draftsModels:IDraftItem"
+>
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer
+            Command="{Binding Source={RelativeSource
                     AncestorType={x:Type drafts:DraftsListViewModel}},
                     Path=DraftItemSelectedCommand}"
-                CommandParameter="{Binding .}"/>
-        </ContentView.GestureRecognizers>
+            CommandParameter="{Binding .}"
+        />
+    </ContentView.GestureRecognizers>
 
+    <effectsView:SfEffectsView TouchDownEffects="Ripple">
         <VerticalStackLayout>
             <Grid
-                RowDefinitions="*,Auto"
-                Style="{StaticResource DraftsColumns}"
-                MinimumHeightRequest="25"
-                Margin="10">
-
+                RowDefinitions="Auto,Auto,Auto"
+                ColumnDefinitions="30, *, Auto"
+                ColumnSpacing="{StaticResource DefaultSpacing}"
+                Margin="{StaticResource DefaultMargin}"
+            >
                 <Grid.Resources>
                     <converters:DateTimeShortTimestampConverter x:Key="ShortTimestampConverter" />
                     <converters:BoolNegationConverter x:Key="BoolConverter" />
+
+                    <Style x:Key="Indicator" TargetType="View">
+                        <Setter Property="Grid.Row" Value="3" />
+                        <Setter Property="Grid.Column" Value="2" />
+                        <Setter Property="HorizontalOptions" Value="End" />
+                        <Setter Property="VerticalOptions" Value="Center" />
+                    </Style>
                 </Grid.Resources>
 
-                <Label 
+                <Label
+                    x:Name="Icon"
                     Grid.Column="0"
+                    Grid.RowSpan="3"
                     VerticalOptions="Center"
-                    Text="{Binding DraftLocation}" />
+                    HorizontalOptions="Center"
+                    FontAutoScalingEnabled="False"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    FontSize="24"
+                />
 
-                <Label 
+                <Label
                     Grid.Column="1"
+                    Grid.Row="0"
+                    VerticalOptions="Center"
+                    FontFamily="BCSansBold"
+                    Text="{Binding DraftLocation}"
+                />
+
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="1"
                     VerticalOptions="Center"
                     Text="{Binding Preview}"
                     MaxLines="1"
-                    LineBreakMode="TailTruncation" />
+                    LineBreakMode="TailTruncation"
+                />
 
-                <Label 
-                    Grid.Column="2"
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Grid.Row="2"
                     VerticalOptions="Center"
-                    Text="{Binding LastUpdated.LocalDateTime,
-                        Converter={StaticResource ShortTimestampConverter}}"
-                    TextColor="{StaticResource BC_TextColor_Lighter}" />
+                    Spacing="{StaticResource DefaultSpacingHalf}"
+                >
+                    <Label
+                        Text="{local:Localize Modified}"
+                        TextColor="{StaticResource BC_TextColor_Lighter}"
+                    />
+
+                    <Label
+                        Text="{Binding LastUpdated.LocalDateTime,
+                                Converter={StaticResource ShortTimestampConverter}}"
+                        TextColor="{StaticResource BC_TextColor_Lighter}"
+                    />
+                </HorizontalStackLayout>
+
+                <Label
+                    x:DataType="interfaces:IRecordInfo"
+                    Style="{StaticResource Indicator}"
+                    FontSize="20"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    Text="{Static icons:MaterialIcons.Download}"
+                    IsVisible="{Binding RelatedEntityDownloaded,
+                            Converter={StaticResource BoolConverter}}"
+                />
+
+                <Label
+                    x:DataType="interfaces:IRecordInfo"
+                    Style="{StaticResource Indicator}"
+                    FontSize="20"
+                    BackgroundColor="White"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    Text="{Static icons:MaterialIcons.Link_off}"
+                    IsVisible="{Binding RelatedEntityAvailable,
+                            Converter={StaticResource BoolConverter}}"
+                />
+
+                <ActivityIndicator
+                    x:Name="DownloadActivity"
+                    Style="{StaticResource Indicator}"
+                    BackgroundColor="White"
+                    HeightRequest="20"
+                    WidthRequest="20"
+                />
 
                 <tagViews:EntityTypeBadge
                     x:DataType="interfaces:IRecordInfo"
@@ -57,54 +124,26 @@
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     EntityType="{Binding RelatedEntityType}"
-                    EntitySubtype="{Binding RelatedEntitySubtype}" />
-
-                <Label
-                    x:DataType="interfaces:IRecordInfo"
-                    Grid.Column="4"
-                    FontSize="20"
-                    FontFamily="MaterialIconsRoundedUnfilled"
-                    Text="{Static icons:MaterialIcons.Download}"
-                    VerticalOptions="Center"
-                    IsVisible="{Binding RelatedEntityDownloaded,
-                        Converter={StaticResource BoolConverter}}"/>
-
-                <Label
-                    x:DataType="interfaces:IRecordInfo"
-                    Grid.Column="4"
-                    FontSize="20"
-                    BackgroundColor="White"
-                    FontFamily="MaterialIconsRoundedUnfilled"
-                    Text="{Static icons:MaterialIcons.Link_off}"
-                    VerticalOptions="Center"
-                    IsVisible="{Binding RelatedEntityAvailable,
-                        Converter={StaticResource BoolConverter}}"/>
-
-                <ActivityIndicator
-                    x:Name="DownloadActivity"
-                    Grid.Column="4"
-                    BackgroundColor="White"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"
-                    HeightRequest="20"
-                    WidthRequest="20" />
+                    EntitySubtype="{Binding RelatedEntitySubtype}"
+                />
 
                 <ContentView
                     x:DataType="interfaces:IRecordInfo"
                     Grid.Column="0"
-                    Grid.ColumnSpan="5"
-                    CascadeInputTransparent="True">
-                        <BoxView    
-                            Color="#55ffffff"
-                            IsVisible="{Binding RelatedEntityDownloaded,
-                                Converter={StaticResource BoolConverter}}" />
-                    </ContentView>
+                    Grid.ColumnSpan="4"
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    CascadeInputTransparent="True"
+                >
+                    <BoxView
+                        Color="#55ffffff"
+                        IsVisible="{Binding RelatedEntityDownloaded,
+                                    Converter={StaticResource BoolConverter}}"
+                    />
+                </ContentView>
             </Grid>
 
-            <BoxView
-                Margin="10,0"
-                HeightRequest="0.5"
-                Color="{StaticResource Gray200}" />
+            <BoxView Margin="10,0" HeightRequest="0.5" Color="{StaticResource Gray200}" />
         </VerticalStackLayout>
-
+    </effectsView:SfEffectsView>
 </base:BaseContentView>

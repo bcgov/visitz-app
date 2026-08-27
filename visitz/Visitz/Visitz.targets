@@ -1,8 +1,8 @@
-<Project 
+<Project
 	InitialTargets="CopyAppSettings;SetAppxManifestValues;SetAppBuildTypeColor"
 	DefaultTargets="DoAppSettings"
-	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+>
 	<PropertyGroup Condition="'$(Configuration)' == 'Release' And '$(DeploymentEnvironment)' != ''">
 		<ApplicationIdTemp>$(ApplicationId)-$(DeploymentEnvironment)</ApplicationIdTemp>
 		<ApplicationId>$(ApplicationIdTemp)</ApplicationId>
@@ -11,11 +11,11 @@
 		<ApplicationTitle>$(ApplicationTitleTemp)</ApplicationTitle>
 	</PropertyGroup>
 
-	<UsingTask 
-		TaskName="ReplaceFileText" 
-		TaskFactory="RoslynCodeTaskFactory" 
-		AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
-
+	<UsingTask
+		TaskName="ReplaceFileText"
+		TaskFactory="RoslynCodeTaskFactory"
+		AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll"
+	>
 		<ParameterGroup>
 			<InputFilename ParameterType="System.String" Required="true" />
 			<OutputFilename ParameterType="System.String" Required="true" />
@@ -38,100 +38,105 @@
 		</Task>
 	</UsingTask>
 
-	<Target 
-		Name="CopyAppSettings" 
-		Condition="'$(Configuration)' == 'Release' And '$(UseAppSettings)' == 'true'">
-
-		<Copy 
-			SourceFiles="appSettings.json.template"
-			DestinationFiles="appSettings.json" />
-
+	<Target
+		Name="CopyAppSettings"
+		Condition="'$(Configuration)' == 'Release' And '$(UseAppSettings)' == 'true'"
+	>
+		<Copy SourceFiles="appSettings.json.template" DestinationFiles="appSettings.json" />
 	</Target>
 
-	<Target 
-		Name="DoAppSettings" 
-		AfterTargets="CopyAppSettings" 
-		Condition="'$(Configuration)' == 'Release' And '$(UseAppSettings)' == 'true'">
-		
-		<ReplaceFileText 
+	<Target
+		Name="DoAppSettings"
+		AfterTargets="CopyAppSettings"
+		Condition="'$(Configuration)' == 'Release' And '$(UseAppSettings)' == 'true'"
+	>
+		<ReplaceFileText
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{AuthenticationDomain}}"
-			ReplacementText="$(Oidc_AuthenticationDomain)" />
+			ReplacementText="$(Oidc_AuthenticationDomain)"
+		/>
 
-		<ReplaceFileText 
+		<ReplaceFileText
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{ClientId}}"
-			ReplacementText="$(Oidc_ClientId)" />
+			ReplacementText="$(Oidc_ClientId)"
+		/>
 
-		<ReplaceFileText 
+		<ReplaceFileText
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{RedirectUri}}"
-			ReplacementText="$(Oidc_RedirectUri)" />
+			ReplacementText="$(Oidc_RedirectUri)"
+		/>
 
-		<ReplaceFileText 
+		<ReplaceFileText
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{HttpsApiDomain}}"
-			ReplacementText="$(Api_HttpsApiDomain)" />
+			ReplacementText="$(Api_HttpsApiDomain)"
+		/>
 
-		<ReplaceFileText 
+		<ReplaceFileText
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{MailToAuthorize}}"
-			ReplacementText="$(ContactInfo_MailToAuthorize)" />
+			ReplacementText="$(ContactInfo_MailToAuthorize)"
+		/>
 
-		<ReplaceFileText 
+		<ReplaceFileText
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{AccessRequestFormUrl}}"
-			ReplacementText="$(ContactInfo_AccessRequestFormUrl)" />
+			ReplacementText="$(ContactInfo_AccessRequestFormUrl)"
+		/>
 
 		<ReplaceFileText
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{FeedbackSurveyUrl}}"
-			ReplacementText="$(ContactInfo_FeedbackSurveyUrl)" />
+			ReplacementText="$(ContactInfo_FeedbackSurveyUrl)"
+		/>
 
-		<ReplaceFileText 
+		<ReplaceFileText
 			InputFilename="$(ProjectDir)appSettings.json"
 			OutputFilename="$(ProjectDir)appSettings.json"
 			MatchExpression="{{EnableDebugOptions}}"
-			ReplacementText="$(Debug_EnableDebugOptions)" />
-
+			ReplacementText="$(Debug_EnableDebugOptions)"
+		/>
 	</Target>
 
 	<PropertyGroup>
 		<Namespace>
 			<Namespace Prefix="dn" Uri="http://schemas.microsoft.com/dotnet/2021/maui" />
 			<Namespace Prefix="x" Uri="http://schemas.microsoft.com/winfx/2009/xaml" />
-			<Namespace Prefix="appx" Uri="http://schemas.microsoft.com/appx/manifest/foundation/windows10" />
+			<Namespace
+				Prefix="appx"
+				Uri="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+			/>
 			<Namespace Prefix="uap" Uri="http://schemas.microsoft.com/appx/manifest/uap/windows10" />
 		</Namespace>
-		
+
 		<VisitzColorsXamlPath>$(MSBuildProjectDirectory)\Resources\Styles\Colors.xaml</VisitzColorsXamlPath>
 		<AppxManifestPath>$(MSBuildProjectDirectory)\Platforms\Windows\Package.appxmanifest</AppxManifestPath>
 	</PropertyGroup>
 
-	<Target 
-		Name="SetAppBuildTypeColor"
-		Condition="'$(Configuration)' == 'Release'">
-
+	<Target Name="SetAppBuildTypeColor" Condition="'$(Configuration)' == 'Release'">
 		<Message Importance="high" Text="Setting BuildTypeColor '$(BuildTypeColor)' in Colors.xaml" />
 
 		<XmlPoke
 			XmlInputPath="$(VisitzColorsXamlPath)"
 			Value="$(BuildTypeColor)"
 			Query="/dn:ResourceDictionary/dn:Color[@x:Key='BuildBarBackgroundColor']"
-			Namespaces="$(Namespace)" />
+			Namespaces="$(Namespace)"
+		/>
 	</Target>
 
 	<Target
 		Name="SetAppxManifestValues"
-		Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'">
-
+		Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' and '$(Configuration)' == 'Release'"
+	>
 		<!--
 
 			Windows docs for version numbering (https://learn.microsoft.com/en-gb/windows/apps/publish/publish-your-app/package-version-numbering?pivots=store-installer-msix#version-numbering-for-windows10-and-11-packages)
@@ -146,35 +151,47 @@
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(ApplicationId)"
 			Query="/appx:Package/appx:Identity/@Name"
-			Namespaces="$(Namespace)" />
+			Namespaces="$(Namespace)"
+		/>
 
-		<Message Importance="high" Text="Setting AppxManifest version '$(ApplicationDisplayVersion).$(ApplicationVersion)'" />
+		<Message
+			Importance="high"
+			Text="Setting AppxManifest version '$(ApplicationDisplayVersion).$(ApplicationVersion)'"
+		/>
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(ApplicationDisplayVersion).$(ApplicationVersion)"
 			Query="/appx:Package/appx:Identity/@Version"
-			Namespaces="$(Namespace)" />
+			Namespaces="$(Namespace)"
+		/>
 
-		<Message Importance="high" Text="Setting AppxManifest certificate subject ($(AppxCertificateSubject))" />
+		<Message
+			Importance="high"
+			Text="Setting AppxManifest certificate subject ($(AppxCertificateSubject))"
+		/>
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(AppxCertificateSubject)"
 			Query="/appx:Package/appx:Identity/@Publisher"
-			Namespaces="$(Namespace)" />
+			Namespaces="$(Namespace)"
+		/>
 
-		<Message Importance="high" Text="Setting AppxManifest background colors to '$(BuildTypeColor)'" />
+		<Message
+			Importance="high"
+			Text="Setting AppxManifest background colors to '$(BuildTypeColor)'"
+		/>
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(BuildTypeColor)"
 			Query="/appx:Package/appx:Applications/appx:Application/uap:VisualElements/@BackgroundColor"
-			Namespaces="$(Namespace)" />
+			Namespaces="$(Namespace)"
+		/>
 
 		<XmlPoke
 			XmlInputPath="$(AppxManifestPath)"
 			Value="$(BuildTypeColor)"
 			Query="/appx:Package/appx:Applications/appx:Application/uap:VisualElements/uap:SplashScreen/@BackgroundColor"
-			Namespaces="$(Namespace)" />
-
+			Namespaces="$(Namespace)"
+		/>
 	</Target>
-
 </Project>

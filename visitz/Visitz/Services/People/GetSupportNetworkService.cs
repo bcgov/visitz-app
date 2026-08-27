@@ -1,20 +1,22 @@
+using System.Collections.Concurrent;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Models.People;
 using VisitzApi.Requests;
+using VisitzModel.Extensions;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
-#nullable enable
-
-internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs)
-    : ApiPaginationService(vpi, prefs)
+internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
+
+    readonly ConcurrentBag<SupportNetworkJson> _supportNetworks = [];
 
     public static string MakeId(EntityType type, string id)
     {
@@ -36,16 +38,19 @@ internal class GetSupportNetworkService(Vpi vpi, LastUpdatedPrefs prefs)
         return MakeId(Info.Type, Info.Id);
     }
 
-    override protected async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
-        var (total, supportNetwork) = await Vpi.GetSupportNetworkAsync(
-            (ApiRecordType)Info.Type,
-            Info.Id,
-            pagination);
+        var (total, supportNetworks) = await Vpi.GetSupportNetworkAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 
-        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await SupportNetworkItem.SaveSupportNetworkItemsAsync(realm, supportNetwork, Info.Id, Info.Type));
+        _supportNetworks.AddAll(supportNetworks);
 
         return total;
+    }
+
+    protected override async Task AfterRun()
+    {
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await SupportNetworkItem.SynchronizeAsync(realm, _supportNetworks, Info.Id, Info.Type)
+        );
     }
 }

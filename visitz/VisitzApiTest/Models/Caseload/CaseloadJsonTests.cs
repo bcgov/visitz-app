@@ -7,7 +7,7 @@ namespace VisitzApiTest.Models.Caseload;
 public partial class CaseloadJsonTests
 {
     const string caseloadJson =
-@$"{{
+        @$"{{
     ""cases"": {SectionJsonTests.sectionJsonSuccess},
     ""incidents"": {SectionJsonTests.sectionJsonSuccess},
     ""srs"":null,

@@ -78,7 +78,8 @@ public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJ
     /// </summary>
     public bool? CurretAbuse { get; set; }
 
-    public bool AnyTrue => (PhysicalHarm ?? false)
+    public bool AnyTrue =>
+        (PhysicalHarm ?? false)
         || (CurrentCircumstances ?? false)
         || (SexAbuse ?? false)
         || (UnableToProtect ?? false)
@@ -93,7 +94,8 @@ public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJ
         || (ChildFearful ?? false)
         || (OtherFactors ?? false);
 
-    public bool AllAnswered => PhysicalHarm != null
+    public bool AllAnswered =>
+        PhysicalHarm != null
         && CurrentCircumstances != null
         && SexAbuse != null
         && UnableToProtect != null
@@ -153,40 +155,40 @@ public partial class SafetyFactors : IRealmObject, IApiJson<SubmitSafetyFactorsJ
     {
         return new SubmitSafetyFactorsJson()
         {
-            PhysicalHarm = PhysicalHarm?.AsTruthyWord(),
+            PhysicalHarm = PhysicalHarm?.AsTruthyWord() ?? string.Empty,
             SeriousInjuryAbuse = SeriousInjuryAbuse.AsTruthyChar(),
             FearsMaltreatChild = FearsMaltreatChild.AsTruthyChar(),
             ThreatAgainstChild = ThreatAgainstChild.AsTruthyChar(),
             ExcessiveForce = ExcessiveForce.AsTruthyChar(),
             SubsExposedInfant = SubsExposedInfant.AsTruthyChar(),
             CmtClarification = CmtClarification,
-            CurrentCircumstances = CurrentCircumstances?.AsTruthyWord(),
+            CurrentCircumstances = CurrentCircumstances?.AsTruthyWord() ?? string.Empty,
             CmtCircumstances = CmtCircumstances,
-            SexAbuse = SexAbuse?.AsTruthyWord(),
+            SexAbuse = SexAbuse?.AsTruthyWord() ?? string.Empty,
             CmtAbuse = CmtAbuse,
-            UnableToProtect = UnableToProtect?.AsTruthyWord(),
+            UnableToProtect = UnableToProtect?.AsTruthyWord() ?? string.Empty,
             CmtProtect = CmtProtect,
-            InjuryExplanation = InjuryExplanation?.AsTruthyWord(),
+            InjuryExplanation = InjuryExplanation?.AsTruthyWord() ?? string.Empty,
             CmtExplanation = CmtExplanation,
-            RefuseAccess = RefuseAccess?.AsTruthyWord(),
+            RefuseAccess = RefuseAccess?.AsTruthyWord() ?? string.Empty,
             CmtAccess = CmtAccess,
-            ImmediateNeeds = ImmediateNeeds?.AsTruthyWord(),
+            ImmediateNeeds = ImmediateNeeds?.AsTruthyWord() ?? string.Empty,
             CmtNeeds = CmtNeeds,
-            PhysicalCondition = PhysicalCondition?.AsTruthyWord(),
+            PhysicalCondition = PhysicalCondition?.AsTruthyWord() ?? string.Empty,
             CmtCondition = CmtCondition,
-            CurrentAbuse = CurrentAbuse?.AsTruthyWord(),
+            CurrentAbuse = CurrentAbuse?.AsTruthyWord() ?? string.Empty,
             CmtCurrent = CmtCurrent,
-            PartnerViolence = PartnerViolence?.AsTruthyWord(),
+            PartnerViolence = PartnerViolence?.AsTruthyWord() ?? string.Empty,
             CmtViolence = CmtViolence,
-            PredominantlyNegative = PredominantlyNegative?.AsTruthyWord(),
+            PredominantlyNegative = PredominantlyNegative?.AsTruthyWord() ?? string.Empty,
             CmtNegative = CmtNegative,
-            EmotionalStability = EmotionalStability?.AsTruthyWord(),
+            EmotionalStability = EmotionalStability?.AsTruthyWord() ?? string.Empty,
             CmtEmotional = CmtEmotional,
-            ChildFearful = ChildFearful?.AsTruthyWord(),
+            ChildFearful = ChildFearful?.AsTruthyWord() ?? string.Empty,
             CmtFearful = CmtFearful,
-            OtherFactors = OtherFactors?.AsTruthyWord(),
+            OtherFactors = OtherFactors?.AsTruthyWord() ?? string.Empty,
             CmtOtherFactors = CmtOtherFactors,
-            CurretAbuse = CurretAbuse?.AsTruthyWord(),
+            CurretAbuse = CurretAbuse?.AsTruthyWord() ?? string.Empty,
         };
     }
 }

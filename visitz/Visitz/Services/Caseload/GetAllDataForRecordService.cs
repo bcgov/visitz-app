@@ -1,6 +1,8 @@
+using Realms;
 using Visitz.Resources.Localization;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Services.CallDetails;
 using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Services.People;
@@ -9,11 +11,10 @@ using Visitz.Services.Visits;
 using VisitzApi;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Caseload;
-
-#nullable enable
 
 /// <summary>
 /// Gets all dependent info for a given BusinessObject by concurrently
@@ -23,10 +24,7 @@ namespace Visitz.Services.Caseload;
 /// <param name="vpi"></param>
 /// <param name="prefs"></param>
 /// <param name="serviceHandler"></param>
-public class GetAllDataForRecordService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+public class GetAllDataForRecordService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiService(vpi, prefs)
 {
     ServiceHandler ServiceHandler { get; set; } = serviceHandler;
@@ -35,9 +33,7 @@ public class GetAllDataForRecordService(
 
     public static string MakeId(IBusinessObject businessObject)
     {
-        return nameof(GetAllDataForRecordService) +
-            "|" + businessObject.Id +
-            "|" + businessObject.EntityType;
+        return nameof(GetAllDataForRecordService) + "|" + businessObject.Id + "|" + businessObject.EntityType;
     }
 
     public static StartServiceMessage MakeStartMessage(IBusinessObject businessObject)
@@ -65,7 +61,19 @@ public class GetAllDataForRecordService(
             GetContacts(exceptions),
             GetSupportNetworkItems(exceptions),
             GetAttachments(exceptions),
-            GetSafetyAssessments(exceptions)
+            GetSafetyAssessments(exceptions),
+            GetIncidentConcerns(exceptions),
+            GetCallInformation(exceptions),
+            GetAdditionalInformation(exceptions)
+        );
+
+        //Get Contact related info AFTER fetching all contacts from DBs
+        var contacts = BusinessObject.Contacts.Freeze();
+        await Task.WhenAll(
+            GetContactMedicalBehavioral(contacts, exceptions),
+            GetContactLegalAuthority(contacts, exceptions),
+            GetContactLanguages(contacts, exceptions),
+            GetContactEducation(contacts, exceptions)
         );
 
         // Get attachment files AFTER other dependent info so we
@@ -77,16 +85,14 @@ public class GetAllDataForRecordService(
         else if (exceptions.Count > 0)
             throw exceptions.First();
 
-        BusinessObject.LocalState.LastOpenedBinding = DateTimeOffset.UtcNow;
+        BusinessObject.LocalState?.LastOpenedBinding = DateTimeOffset.UtcNow;
 
         ResultCode = Result.Successful;
     }
 
     static Exception MakeDownloadEx(string kind, Exception ex)
     {
-        var msg = string.Format(
-            LocalizedStrings.CaseloadErrorDownload,
-            kind.ToLower());
+        var msg = string.Format(LocalizedStrings.CaseloadErrorDownload, kind.ToLower());
 
         return new(msg, ex);
     }
@@ -97,7 +103,7 @@ public class GetAllDataForRecordService(
         {
             if (BusinessObject.EntityType != EntityType.Memo)
             {
-                var startMessage = GetNotesService.MakeStartMessage(BusinessObject.FileNumber, BusinessObject.EntityType);
+                var startMessage = GetNotesService.MakeStartMessage(new(BusinessObject));
                 return await ServiceHandler.TryRunServiceAsync(startMessage);
             }
         }
@@ -113,8 +119,10 @@ public class GetAllDataForRecordService(
     {
         try
         {
-            if (BusinessObject.EntityType == EntityType.Case
-                && BusinessObject.EntitySubtype == EntitySubtype.ChildServices)
+            if (
+                BusinessObject.EntityType == EntityType.Case
+                && BusinessObject.EntitySubtype == EntitySubtype.ChildServices
+            )
             {
                 var startMessage = GetVisitsService.MakeStartMessage(BusinessObject.Id);
                 return await ServiceHandler.TryRunServiceAsync(startMessage);
@@ -178,8 +186,7 @@ public class GetAllDataForRecordService(
     {
         try
         {
-            var startMessage = GetPartialAttachmentsByRangeDownloadService
-                .MakeStartMessage([new(BusinessObject)]);
+            var startMessage = GetPartialAttachmentsByRangeDownloadService.MakeStartMessage([new(BusinessObject)]);
             return await ServiceHandler.TryRunServiceAsync(startMessage);
         }
         catch (Exception ex)
@@ -205,5 +212,120 @@ public class GetAllDataForRecordService(
             return Result.Error;
         }
         return Result.NoOperation;
+    }
+
+    async Task<Result> GetIncidentConcerns(List<Exception> exceptions)
+    {
+        try
+        {
+            if (BusinessObject.EntityType == EntityType.Incident)
+            {
+                var startMessage = GetIncidentConcernsService.MakeStartMessage(new(BusinessObject));
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.IncidentConcern, ex));
+            return Result.Error;
+        }
+        return Result.NoOperation;
+    }
+
+    async Task<Result> GetCallInformation(List<Exception> exceptions)
+    {
+        try
+        {
+            if (BusinessObject.EntityType != EntityType.Case)
+            {
+                var startMessage = GetCallInformationService.MakeStartMessage(new(BusinessObject));
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.CallInformation, ex));
+            return Result.Error;
+        }
+        return Result.NoOperation;
+    }
+
+    async Task<Result> GetAdditionalInformation(List<Exception> exceptions)
+    {
+        try
+        {
+            if (
+                (BusinessObject.EntityType == EntityType.Incident)
+                || (BusinessObject.EntityType == EntityType.Memo)
+                || (BusinessObject.EntityType == EntityType.ServiceRequest)
+            )
+            {
+                var startMessage = GetAdditionalInformationService.MakeStartMessage(new(BusinessObject));
+                return await ServiceHandler.TryRunServiceAsync(startMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.AdditionalInformation, ex));
+            return Result.Error;
+        }
+        return Result.NoOperation;
+    }
+
+    async Task<Result> GetContactMedicalBehavioral(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactMedicalBehavioralByRangeService.MakeStartMessage(contacts);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactMedicalBehavioral, ex));
+            return Result.Error;
+        }
+    }
+
+    async Task<Result> GetContactLegalAuthority(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactLegalAuthorityByRangeService.MakeStartMessage(contacts);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLegalAuthority, ex));
+            return Result.Error;
+        }
+    }
+
+    async Task<Result> GetContactLanguages(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactLanguagesByRangeService.MakeStartMessage(contacts);
+
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactLanguages, ex));
+            return Result.Error;
+        }
+    }
+
+    async Task<Result> GetContactEducation(IEnumerable<IcmContact> contacts, List<Exception> exceptions)
+    {
+        try
+        {
+            var startMessage = GetContactEducationByRangeService.MakeStartMessage(contacts);
+            return await ServiceHandler.TryRunServiceAsync(startMessage);
+        }
+        catch (Exception ex)
+        {
+            exceptions.Add(MakeDownloadEx(LocalizedStrings.ContactEducation, ex));
+            return Result.Error;
+        }
     }
 }

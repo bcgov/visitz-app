@@ -16,19 +16,15 @@ The production branch requires all tests succeed before allowing a PR merge.
 
 # iOS release builds
 
-1. Run "Build iOS release package" workflow manually
+"Auto builds" workflow runs automatically every pull request `synchronize` event.
 
-2. Choose branch to build from
+You can also run "Auto builds" workflow manually. Choose branch to build from:
 
-	- **production** branch for production and demo builds
+- **production** branch for production and demo builds
 
-	- **dev\*** or working branches for project-team builds
+- **dev\*** or working branches for project-team builds
 
-3. Choose a GitHub Environment to build with
-
-4. Run workflow
-
-5. On success, manually distribute GH Action artifacts as required
+On success, artifacts for all environments are uploaded to BC Gov's Artifactory instance
 
 ## Update iOS secrets
 
@@ -40,7 +36,7 @@ A base64-encoded copy of the distribution provisioning profile. You can base64 e
 base64 -i <provisioning profile name>.mobileprovision | pbcopy
 ```
 
-`pbcopy` takes output and sets it to the clipboard. You can then directly paste into GH secrets **without** quotes.
+`pbcopy` takes output and sets it to the clipboard. You can then directly paste into GH secrets **without** quotes. Remove the newline after pasting.
 
 The workflow will automatically read certificate and provisioning profile names. 
 
@@ -63,7 +59,7 @@ The name of the distribution provisioning profile.
 It should be wrapped in quotes when saved in secrets, e.g. `"Provisioning Profile - Name"`
 </details>
 
-# Windows release builds
+# Windows release builds (UNUSED: only local builds are currently supported)
 
 Until we are allowed to use CI/CD pipelines to build as per Certificate Authority policies, Windows builds must be made manually by developers.
 

@@ -1,63 +1,74 @@
+using System.Collections.Concurrent;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Requests;
 using VisitzModel.Extensions;
-using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Notes;
 using VisitzModel.Storage;
 
-namespace Visitz.Services.Notes
+namespace Visitz.Services.Notes;
+
+internal class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
-    public class GetNotesService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+    readonly ConcurrentBag<NoteItem> Notes = [];
+
+    public static string MakeId(RecordServiceInfo parentInfo)
     {
-        public static string MakeId(string caseIncidentId)
+        return $"{nameof(GetNotesService)}-{parentInfo.Type}-{parentInfo.Id}";
+    }
+
+    public static StartServiceMessage MakeStartMessage(RecordServiceInfo parentInfo)
+    {
+        return new StartServiceMessage()
         {
-            return nameof(GetNotesService) + caseIncidentId;
-        }
+            ServiceId = MakeId(parentInfo),
+            ServiceType = typeof(GetNotesService),
+            Payload = parentInfo,
+        };
+    }
 
-        public static StartServiceMessage MakeStartMessage(string caseIncidentId, EntityType entityType)
+    private RecordServiceInfo ParentInfo => (RecordServiceInfo)Payload;
+
+    public override string GetId()
+    {
+        return MakeId(ParentInfo);
+    }
+
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
+    {
+        int total;
+
+        if (ParentInfo.Type == EntityType.Case)
         {
-            return MakeStartMessage((caseIncidentId, entityType));
+            (total, var notesFromApi) = await Vpi.GetCaseNotesAsync(ParentInfo.Id, pagination: pagination);
+            Notes.AddAll(NoteItem.FromApiEntities(ParentInfo.Id, notesFromApi));
         }
-
-        public static StartServiceMessage MakeStartMessage(ValueTuple<string, EntityType> idEntityItem)
+        else if (ParentInfo.Type is EntityType.Incident or EntityType.ServiceRequest)
         {
-            return new StartServiceMessage()
-            {
-                ServiceId = MakeId(idEntityItem.Item1),
-                ServiceType = typeof(GetNotesService),
-                Payload = idEntityItem
-            };
+            (total, var notesFromApi) = await Vpi.GetResponseNarrativesAsync(
+                (ApiRecordType)ParentInfo.Type,
+                ParentInfo.Id,
+                pagination
+            );
+            Notes.AddAll(NoteItem.FromApiEntities(ParentInfo.Type, ParentInfo.Id, notesFromApi));
         }
+        else
+            throw new InvalidOperationException($"Type '{ParentInfo.Type}' not allowed for notes");
 
-        private ValueTuple<string, EntityType> PayloadTuple => (ValueTuple<string, EntityType>)Payload;
+        return total;
+    }
 
-        public override string GetId()
-        {
-            var (caseIncidentId, _) = PayloadTuple;
-            return MakeId(caseIncidentId);
-        }
+    protected override async Task AfterRun()
+    {
+        await base.AfterRun();
 
-        protected override async Task RunApiServiceAsync()
-        {
-            await GetNotesAsync();
-        }
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await NoteItem.SynchronizeAsync(realm, ParentInfo.Id, ParentInfo.Type, Notes)
+        );
 
-        private async Task GetNotesAsync()
-        {
-            var (id, entityType) = PayloadTuple;
-
-            string casedType = entityType.GetDisplayString().ToTitleCase();
-            var notesFromApi = await Vpi.GetNotesAsync(id, casedType);
-
-            var newNotes = NoteItem.FromApiEntities(id, entityType, notesFromApi);
-
-            await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-                await NoteItem.UpsertNotesAsync(realm, id, entityType, newNotes));
-
-            ResultCode = Result.Successful;
-        }
+        ResultCode = Result.Successful;
     }
 }

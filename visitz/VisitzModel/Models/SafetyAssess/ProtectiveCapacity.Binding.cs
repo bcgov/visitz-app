@@ -1,7 +1,7 @@
-﻿/*
-	Partial class implementation of a Realm + compiled bindings workaround.
+/*
+    Partial class implementation of a Realm + compiled bindings workaround.
 
-	https://github.com/realm/realm-dotnet/issues/2270#issuecomment-786720318
+    https://github.com/realm/realm-dotnet/issues/2270#issuecomment-786720318
  */
 
 using VisitzModel.Extensions;
@@ -12,9 +12,9 @@ public partial class ProtectiveCapacity
 {
     private const string Binding = "Binding";
 
-    partial void OnPropertyChanged(string propertyName)
+    partial void OnPropertyChanged(string? propertyName)
     {
-        if (!propertyName.EndsWith(Binding))
+        if (propertyName != null && !propertyName.EndsWith(Binding))
             RaisePropertyChanged($"{propertyName}{Binding}");
     }
 
@@ -30,7 +30,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentCognitive = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -40,7 +41,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentWillingness = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -50,7 +52,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentResources = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -60,7 +63,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentSupportive = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -70,7 +74,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentProtect = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -80,7 +85,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentAccept = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -90,7 +96,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentRelationship = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -100,7 +107,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentAware = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -110,7 +118,8 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => ParentProbSolving = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
@@ -126,19 +135,20 @@ public partial class ProtectiveCapacity
         set
         {
             this.Commit(() => CapacitiesOther = value);
-            if (value) ClearNoProCapPresent();
+            if (value)
+                ClearNoProCapPresent();
         }
     }
 
     public string CmtProtectiveCapacity01Binding
     {
-        get => IsValid ? CmtProtectiveCapacity01 : default;
+        get => IsValid ? CmtProtectiveCapacity01 : string.Empty;
         set => this.Commit(() => CmtProtectiveCapacity01 = value);
     }
 
     public string CmtProtectiveCapacity02Binding
     {
-        get => IsValid ? CmtProtectiveCapacity02 : default;
+        get => IsValid ? CmtProtectiveCapacity02 : string.Empty;
         set => this.Commit(() => CmtProtectiveCapacity02 = value);
     }
 }

@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:icons="clr-namespace:Visitz.FontIcons"
-	xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.EmptyCollectionMessage"
-	x:DataType="views:EmptyCollectionMessage"
-	x:Name="this">
-	
-	<Grid
-		BindingContext="{Reference this}"
-		RowDefinitions="*,Auto"
-		RowSpacing="{OnPlatform WinUI=0, Default=40}"
-		HorizontalOptions="Center">
-		<Label
-			Grid.Row="0"
-			HorizontalOptions="Center"
-			FontAutoScalingEnabled="False"
-			FontFamily="FluentIconsRegular"
-			FontSize="160"
-			TextColor="{StaticResource Primary}"
-			Text="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}" />
+    x:DataType="views:EmptyCollectionMessage"
+    x:Name="this"
+>
+    <Grid
+        BindingContext="{Reference this}"
+        RowDefinitions="*,Auto"
+        RowSpacing="{OnPlatform WinUI=0, Default=40}"
+        HorizontalOptions="Center"
+    >
+        <Label
+            Grid.Row="0"
+            HorizontalOptions="Center"
+            FontAutoScalingEnabled="False"
+            FontFamily="FluentIconsRegular"
+            FontSize="160"
+            TextColor="{StaticResource Primary}"
+            Text="{Static icons:FluentIcons.Clipboard_task_list_ltr_20_filled}"
+        />
 
-		<Label
-			Grid.Row="1"
-			HorizontalTextAlignment="Center"
-			FontSize="20"
-			MaximumWidthRequest="290"
-			Text="{Binding Text}"
-			LineBreakMode="WordWrap"/>
-	</Grid>
+        <Label
+            Grid.Row="1"
+            HorizontalTextAlignment="Center"
+            FontSize="20"
+            MaximumWidthRequest="290"
+            Text="{Binding Text}"
+            LineBreakMode="WordWrap"
+        />
+    </Grid>
 </ContentView>

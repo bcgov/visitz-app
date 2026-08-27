@@ -5,7 +5,7 @@ namespace Visitz.Converters;
 
 internal class DateTimeOffsetThatDayConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value == null)
             return null;
@@ -18,7 +18,7 @@ internal class DateTimeOffsetThatDayConverter : IValueConverter
         return value == null ? null : new ThatDay(then.LocalDateTime, now.LocalDateTime).ToString();
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         return null; // Not converting back, only displaying
     }

@@ -3,7 +3,6 @@ using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
-using VisitzModel.Models.Interfaces;
 using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.InPersonVisits;
@@ -11,9 +10,9 @@ namespace VisitzModel.Models.InPersonVisits;
 public partial class PersonVisitDraft : IRealmObject, IDraftItem
 {
     [PrimaryKey]
-    public string RelatedEntityId { get; set; }
+    public string RelatedEntityId { get; set; } = Guid.NewGuid().ToString();
 
-    private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Case;
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Case;
 
     public EntityType RelatedEntityType
     {
@@ -21,7 +20,7 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    private int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.ChildServices;
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.ChildServices;
 
     public EntitySubtype RelatedEntitySubtype
     {
@@ -29,28 +28,28 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         set => RelatedEntitySubtypeInt = (int)value;
     }
 
-    public string Preview => string.Format(GeneralStrings.VisitDate, Visit.DateOfVisit.ToString("D"));
+    public string Preview => GeneralStrings.Visit;
 
-    public string DraftLocation { get; set; }
+    public string DraftLocation { get; set; } = string.Empty;
 
     public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-    public PersonVisit Visit { get; set; } = new();
+    public PersonVisit? Visit { get; set; } = new();
 
     private bool disposedValue;
     private bool? relatedEntityAvailable;
     private bool? relatedEntityDownloaded;
 
     [Ignored]
-    public Realm RelatedEntityRealm { get; set; }
+    public Realm? RelatedEntityRealm { get; set; }
 
     [Ignored]
-    public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+    public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
 
     [Ignored]
-    public IDisposable RelatedEntitySubscriptionToken { get; set; }
+    public IDisposable? RelatedEntitySubscriptionToken { get; set; }
 
     /// <summary>
     /// Whether or not the related entity is available for the app to interact
@@ -90,7 +89,7 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         DraftLocation = @case.Name;
     }
 
-    public static PersonVisitDraft GetDraft(Realm realm, string caseId)
+    public static PersonVisitDraft? GetDraft(Realm realm, string caseId)
     {
         return realm.Find<PersonVisitDraft>(caseId);
     }
@@ -99,14 +98,20 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         Realm realm,
         string caseId,
         PersonVisit visit,
-        string draftLocation)
+        string draftLocation
+    )
     {
-        var draft = realm.Find<PersonVisitDraft>(caseId) ?? new()
-        {
-            RelatedEntityId = caseId,
-            DraftLocation = draftLocation,
-            Visit = visit ?? new(),
-        };
+        var draft =
+            realm.Find<PersonVisitDraft>(caseId)
+            ?? new()
+            {
+                RelatedEntityId = caseId,
+                DraftLocation = draftLocation,
+                Visit = visit ?? new(),
+            };
+
+        if (draft.Visit == null)
+            throw new InvalidOperationException("Draft's visit was null");
 
         draft.Visit.ParentId = caseId;
 
@@ -138,5 +143,10 @@ public partial class PersonVisitDraft : IRealmObject, IDraftItem
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    public int CompareTo(IDraftItem? other)
+    {
+        return this.CompareDraftItem(other);
     }
 }

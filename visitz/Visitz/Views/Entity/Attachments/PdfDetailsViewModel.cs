@@ -1,21 +1,19 @@
+using System.Reflection;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using VisitzModel.Extensions;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
 
 namespace Visitz.Views.Entity.Attachments;
 
-#nullable enable
-
-internal partial class PdfDetailsViewModel : AttachmentDetailsViewModel, IBusinessObjectHolder
+public partial class PdfDetailsViewModel : AttachmentDetailsViewModel
 {
     static readonly string EmbedHtmlPath = Path.Join("PDF", "pdf-embed.html");
 
     [ObservableProperty]
-    public WebViewSource? source;
+    public partial WebViewSource? Source { get; set; }
 
     protected override string LoadErrorText => LocalizedStrings.PdfContentMissing;
 
@@ -23,16 +21,26 @@ internal partial class PdfDetailsViewModel : AttachmentDetailsViewModel, IBusine
     {
         await base.InitAsync();
 
-        if (Assembly.GetEntryAssembly() is Assembly entry)
-            Source = GetEmbedPath(entry);
-        else
+        try
         {
-            ErrorText = LocalizedStrings.UnableToLoadPdf;
+            if (Assembly.GetEntryAssembly() is Assembly entry)
+                Source = GetEmbedPath(entry);
+            else
+            {
+                ErrorText = LocalizedStrings.UnableToLoadPdf;
 
-            ServiceProvider.GetService<ILogger<PdfDetailsViewModel>>()
-                .LogError("{ErrorText} -> Couldn't load entry assembly", ErrorText);
+                ServiceProvider
+                    .GetService<ILogger<PdfDetailsViewModel>>()
+                    .LogError("{ErrorText} -> Couldn't load entry assembly", ErrorText);
 
-            return;
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+            await Navigator.Navigation.PopAsync();
         }
     }
 

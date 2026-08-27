@@ -1,3 +1,3 @@
-﻿namespace Oidc.Events;
+namespace Oidc.Events;
 
 public class LoginChangedEventArgs : SessionChangedEventArgs { }

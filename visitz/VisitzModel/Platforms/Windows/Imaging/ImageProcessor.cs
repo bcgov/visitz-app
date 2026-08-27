@@ -7,34 +7,43 @@ namespace VisitzModel.Imaging;
 
 public partial class ImageProcessor
 {
-    partial void DownsizeByFilesize(ref Task<Stream> downsizeImageTask, int bytesLength)
+    async partial void DownsizeByFilesize(int bytesLength, Action<Task<Stream>> provideTaskAction)
     {
-        downsizeImageTask = bytesLength >= ImageBytes.Length
-            ? Task.FromResult(ImageBytes)
-            : Task.Run(async () =>
-            {
-                using var image = await ConvertToImageAsync(ImageBytes);
-                var newMax = ResizeImageValues.MaxNewDimensionByFileSize(image.Width, image.Height, bytesLength);
+        if (bytesLength >= ImageBytes.Length)
+        {
+            provideTaskAction(Task.FromResult(ImageBytes));
+        }
+        else
+        {
+            provideTaskAction(
+                Task.Run(async () =>
+                {
+                    using var image = await ConvertToImageAsync(ImageBytes);
+                    var newMax = ResizeImageValues.MaxNewDimensionByFileSize(image.Width, image.Height, bytesLength);
 
-                ResizeImage(image, (int)newMax);
-                return await ConvertToStreamAsync(image);
-            });
+                    ResizeImage(image, (int)newMax);
+                    return await ConvertToStreamAsync(image);
+                })
+            );
+        }
     }
 
-    partial void Downsize(ref Task<Stream> downsizeImageTask, int maxWidthOrHeight)
+    partial void Downsize(int maxWidthOrHeight, Action<Task<Stream>> provideTaskAction)
     {
-        downsizeImageTask = Task.Run(async () =>
-        {
-            using var image = await ConvertToImageAsync(ImageBytes);
-
-            if (Math.Max(image.Width, image.Height) > maxWidthOrHeight)
+        provideTaskAction(
+            Task.Run(async () =>
             {
-                ResizeImage(image, maxWidthOrHeight);
-                return await ConvertToStreamAsync(image);
-            }
-            else
-                return ImageBytes;
-        });
+                using var image = await ConvertToImageAsync(ImageBytes);
+
+                if (Math.Max(image.Width, image.Height) > maxWidthOrHeight)
+                {
+                    ResizeImage(image, maxWidthOrHeight);
+                    return await ConvertToStreamAsync(image);
+                }
+                else
+                    return ImageBytes;
+            })
+        );
     }
 
     static async Task<Image> ConvertToImageAsync(Stream imageBytes, CancellationToken? token = null)
@@ -53,11 +62,13 @@ public partial class ImageProcessor
     {
         image.Mutate(i =>
         {
-            i.Resize(new ResizeOptions
-            {
-                Size = new SixLabors.ImageSharp.Size(maxWidthOrHeight),
-                Mode = SixLabors.ImageSharp.Processing.ResizeMode.Max,
-            });
+            i.Resize(
+                new ResizeOptions
+                {
+                    Size = new SixLabors.ImageSharp.Size(maxWidthOrHeight),
+                    Mode = SixLabors.ImageSharp.Processing.ResizeMode.Max,
+                }
+            );
         });
     }
 

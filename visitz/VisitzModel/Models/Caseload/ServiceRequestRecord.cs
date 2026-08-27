@@ -1,10 +1,11 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -15,87 +16,89 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class ServiceRequestRecord :
-    IRealmObject,
-    IRowMetadata,
-    IBusinessObject,
-    IAssignedMetadata,
-    IApiJson<ServiceRequestJson>
+public partial class ServiceRequestRecord
+    : IRealmObject,
+        IRowMetadata,
+        IBusinessObject,
+        IAssignedMetadata,
+        IApiJson<ServiceRequestJson>
 {
     [PrimaryKey]
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string CreatedById { get; set; }
+    public string CreatedById { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public string UpdatedById { get; set; }
+    public string UpdatedById { get; set; } = string.Empty;
 
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public DateTimeOffset UpdatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public string FileNumber { get; set; }
+    public string FileNumber { get; set; } = string.Empty;
 
     public EntityType EntityType => EntityType.ServiceRequest;
 
-    public string GivenNames { get; set; }
+    public string GivenNames { get; set; } = string.Empty;
 
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
-    public string AssignedTo { get; set; }
+    public string AssignedTo { get; set; } = string.Empty;
 
-    public string AssignedToId { get; set; }
+    public string AssignedToId { get; set; } = string.Empty;
+
+    public IList<string> Assignees { get; } = null!;
 
     public string DisplayAssignees => AssignedTo;
 
-    public string Address { get; set; }
+    public string Address { get; set; } = string.Empty;
 
-    public string AddressComments { get; set; }
+    public string AddressComments { get; set; } = string.Empty;
 
-    public string AreAnyOfTheFamilyMembersIndigenous { get; set; }
+    public string AreAnyOfTheFamilyMembersIndigenous { get; set; } = string.Empty;
 
     public DateTimeOffset? CallDate { get; set; }
 
-    public string CallerAddress { get; set; }
+    public string CallerAddress { get; set; } = string.Empty;
 
-    public string CallerEmail { get; set; }
+    public string CallerEmail { get; set; } = string.Empty;
 
-    public string CallerName { get; set; }
+    public string CallerName { get; set; } = string.Empty;
 
-    public string CallerPhone { get; set; }
+    public string CallerPhone { get; set; } = string.Empty;
 
-    public string CellPhone { get; set; }
+    public string CellPhone { get; set; } = string.Empty;
 
     public DateTimeOffset? ClosedDate { get; set; }
 
-    public string CreatedByOffice { get; set; }
+    public string CreatedByOffice { get; set; } = string.Empty;
 
-    public string HomePhone { get; set; }
+    public string HomePhone { get; set; } = string.Empty;
 
-    public string IntegrationId { get; set; }
+    public string IntegrationId { get; set; } = string.Empty;
 
-    public string Method { get; set; }
+    public string Method { get; set; } = string.Empty;
 
-    public string NatureOfCall { get; set; }
+    public string NatureOfCall { get; set; } = string.Empty;
 
-    public string PccSummary { get; set; }
+    public string PccSummary { get; set; } = string.Empty;
 
-    public string PreferredContactMethod { get; set; }
+    public string PreferredContactMethod { get; set; } = string.Empty;
 
-    public string Priority { get; set; }
+    public string Priority { get; set; } = string.Empty;
 
-    public string Resolution { get; set; }
+    public string Resolution { get; set; } = string.Empty;
 
     public bool RestrictedFlag { get; set; }
 
-    public string RowId { get; set; }
+    public string RowId { get; set; } = string.Empty;
 
-    public string ServiceOffice { get; set; }
+    public string ServiceOffice { get; set; } = string.Empty;
 
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
     private int TypeInt { get; set; }
     public EntitySubtype EntitySubtype
@@ -104,27 +107,32 @@ public partial class ServiceRequestRecord :
         set => TypeInt = (int)value;
     }
 
+    public EntitySubtype EntitySubtypeBinding
+    {
+        get => IsValid ? EntitySubtype : EntitySubtype.Unknown;
+        set
+        {
+            if (!IsValid)
+                return;
+
+            EntitySubtype = value;
+            RaisePropertyChanged(nameof(EntitySubtype));
+        }
+    }
+
     public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
 
-    public string TypeOfCaller { get; set; }
+    public string TypeOfCaller { get; set; } = string.Empty;
 
-    public BoLocalState LocalState { get; set; }
+    public BoLocalState? LocalState { get; set; }
 
-    public string DisplayDate => CreatedDate.ToString(
-        IBusinessObject.DisplayDateFormat,
-        CultureInfo.InvariantCulture);
+    public string DisplayDate => CreatedDate.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture);
 
     public string DisplayName => ServiceOffice;
 
-    public string FullType => this.GetFullType();
-
-    public IQueryable<IcmContact> Contacts => this.GetContacts();
-
     public ServiceRequestRecord() { }
 
-    public ServiceRequestRecord(
-        ServiceRequestJson json,
-        BoLocalState localState = null)
+    public ServiceRequestRecord(ServiceRequestJson json, BoLocalState? localState = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -138,6 +146,10 @@ public partial class ServiceRequestRecord :
         LastName = json.LastName;
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
+
+        if (Assignees != null && !string.IsNullOrWhiteSpace(AssignedTo) && !Assignees.Contains(AssignedTo))
+            Assignees.Add(AssignedTo);
+
         Address = json.Address;
         AddressComments = json.AddressComments;
         AreAnyOfTheFamilyMembersIndigenous = json.AreAnyOfTheFamilyMembersIndigenous;
@@ -175,59 +187,24 @@ public partial class ServiceRequestRecord :
         return outList;
     }
 
-    public static async Task SynchronizeAsync(
-        Realm realm,
-        SectionJson<ServiceRequestJson> section,
-        UserIgnoredContentPrefs userIgnoredPrefs)
-    {
-        var currentAssignedIds = realm.All<ServiceRequestRecord>().AsEnumerable().Select(sr => sr.Id);
-        var unassignedIds = currentAssignedIds.Except(section.AssignedIds);
-        var serviceRequests = FromApiArray(section.Items ?? []);
-
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            CascadeDelete(realm, unassignedIds, userIgnoredPrefs);
-            realm.Upsert(serviceRequests);
-        });
-    }
-
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm fromRealm = null,
-        bool deleteLocalState = true)
+        Realm? fromRealm = null,
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
+        ArgumentNullException.ThrowIfNull(fromRealm);
 
-        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.ServiceRequest, FileNumber);
+        NoteItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         IcmContact.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id, userIgnoredPrefs);
+        CallInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.ServiceRequest, Id);
 
-        if (deleteLocalState)
+        if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);
-    }
-
-    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm fromRealm = null,
-        bool cascade = true,
-        bool deleteLocalState = true)
-    {
-        fromRealm ??= Realm;
-
-        if (cascade)
-            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
-
-        fromRealm.Remove(this);
-    }
-
-    static void CascadeDelete(
-        Realm fromRealm,
-        IEnumerable<string> unassignedIds,
-        UserIgnoredContentPrefs userIgnoredPrefs)
-    {
-        foreach (var id in unassignedIds)
-            if (fromRealm.Find<ServiceRequestRecord>(id) is ServiceRequestRecord sr)
-                sr.Delete(userIgnoredPrefs, fromRealm);
     }
 
     public ServiceRequestJson ToApiJson(string dateFormat = "s")
@@ -249,13 +226,13 @@ public partial class ServiceRequestRecord :
             Address = Address,
             AddressComments = AddressComments,
             AreAnyOfTheFamilyMembersIndigenous = AreAnyOfTheFamilyMembersIndigenous,
-            CallDate = CallDate?.ToString(dateFormat),
+            CallDate = CallDate?.ToString(dateFormat) ?? string.Empty,
             CallerAddress = CallerAddress,
             CallerEmail = CallerEmail,
             CallerName = CallerName,
             CallerPhone = CallerPhone,
             CellPhone = CellPhone,
-            ClosedDate = ClosedDate?.ToString(dateFormat),
+            ClosedDate = ClosedDate?.ToString(dateFormat) ?? string.Empty,
             CreatedByOffice = CreatedByOffice,
             HomePhone = HomePhone,
             IntegrationId = IntegrationId,
@@ -274,28 +251,30 @@ public partial class ServiceRequestRecord :
         };
     }
 
-    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    public static IBusinessObject? GetByDraftItem(Realm realm, IDraftItem draftItem)
     {
         return realm
             .All<ServiceRequestRecord>()
-            .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId
-                        || sr.FileNumber == draftItem.RelatedEntityId);
+            .FirstOrDefault(sr => sr.Id == draftItem.RelatedEntityId || sr.FileNumber == draftItem.RelatedEntityId);
     }
 
-    public static IQueryable<ServiceRequestRecord> GetAllByAssignee(
-        Realm realm,
-        string username,
-        bool invert = false)
+    public void RaisePropertyChangedEvent(string propertyName)
     {
-        string operation = invert ? "!=" : "==";
-
-        return realm
-            .All<ServiceRequestRecord>()
-            .Filter($"$0 {operation} {nameof(AssignedTo)}", username);
+        RaisePropertyChanged(propertyName);
     }
 
-    public bool IsAssigned(string username)
+    public override bool Equals(object? obj)
     {
-        return AssignedTo == username;
+        return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return ((IBusinessObject)this).MakeHashCode();
+    }
+
+    public override string ToString()
+    {
+        return ((IBusinessObject)this).MakeToString();
     }
 }

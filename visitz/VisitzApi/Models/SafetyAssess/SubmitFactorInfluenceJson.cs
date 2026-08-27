@@ -1,7 +1,5 @@
 namespace VisitzApi.Models.SafetyAssess;
 
-#nullable enable
-
 public class SubmitFactorInfluenceJson
 {
     public string AgeUptoFive { get; set; } = string.Empty;

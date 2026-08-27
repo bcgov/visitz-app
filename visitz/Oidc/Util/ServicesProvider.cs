@@ -1,4 +1,4 @@
-﻿namespace Oidc.Util;
+namespace Oidc.Util;
 
 public class ServicesProvider
 {

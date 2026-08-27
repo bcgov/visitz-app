@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -7,70 +6,69 @@ using Oidc;
 using Oidc.Events;
 using Oidc.Network;
 using Visitz.Resources.Localization;
-using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
+using Visitz.Services.Messages;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
 using DisplayOptions = Visitz.Views.FeaturedBackgroundUnderlay.DisplayOptions;
-
 #if WINDOWS
 using Visitz.WinUI;
 #endif
 
 namespace Visitz.Views.User;
 
-public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
-    VisitzViewModel,
-    IRecipient<ServiceStateMessage>,
-    IRecipient<AppLockMessage>
+public partial class SessionViewModel(ILogger<SessionViewModel> logger)
+    : VisitzViewModel,
+        IRecipient<ServiceStateMessage>,
+        IRecipient<AppLockMessage>
 {
     [ObservableProperty]
-    public string buildNumber = AppInfo.Current.BuildString;
+    public partial string BuildNumber { get; set; } = AppInfo.Current.BuildString;
 
     [ObservableProperty]
-    public string appVersion = AppInfo.Current.VersionString;
+    public partial string AppVersion { get; set; } = AppInfo.Current.VersionString;
 
     [ObservableProperty]
-    public DisplayOptions bgDisplayOptions = DisplayOptions.Clear;
+    public partial DisplayOptions BgDisplayOptions { get; set; } = DisplayOptions.Clear;
 
     [ObservableProperty]
-    public bool showLoginLayout;
+    public partial bool ShowLoginLayout { get; set; }
 
     [ObservableProperty]
-    public string displayName;
+    public partial string DisplayName { get; set; }
 
     [ObservableProperty]
-    public bool showAuthStatusLayout;
+    public partial bool ShowAuthStatusLayout { get; set; }
 
     [ObservableProperty]
-    public string authStatus;
+    public partial string AuthStatus { get; set; }
 
     [ObservableProperty]
-    public bool showAuthStatus;
+    public partial bool ShowAuthStatus { get; set; }
 
     [ObservableProperty]
-    public bool isAuthorized;
+    public partial bool IsAuthorized { get; set; }
 
     [ObservableProperty]
-    public bool isUnauthorized;
+    public partial bool IsUnauthorized { get; set; }
 
     [ObservableProperty]
-    public bool tryingAuthorization;
+    public partial bool TryingAuthorization { get; set; }
 
     [ObservableProperty]
-    public bool showButtons;
+    public partial bool ShowButtons { get; set; }
 
     [ObservableProperty]
-    public bool showUnknown;
+    public partial bool ShowUnknown { get; set; }
 
     [ObservableProperty]
-    public bool staleSession;
+    public partial bool StaleSession { get; set; }
 
-    public Action AuthorizationSuccess { get; set; }
+    public Action? AuthorizationSuccess { get; set; }
 
-    private OidcSessionInfo SessionInfo;
+    private OidcSessionInfo? SessionInfo;
 
     protected override ILogger<VisitzViewModel> Logger { get; } = logger;
 
@@ -88,9 +86,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             // it wonderfully. Not ideal but it works.
             await Task.Delay(100);
 #endif
-            if (!AppLockPage.IsOpen 
-                && sessionStatus.SessionExists
-                && NetworkHelper.InternetAvailable)
+            if (!AppLockPage.IsOpen && sessionStatus.SessionExists && NetworkHelper.InternetAvailable)
                 // If AppLockPage is open, it will auto prompt to authenticate.
                 // This will cause an error if VisitzApiService needs to prompt
                 // user for login, and the user will be stuck at a blank screen
@@ -103,6 +99,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -124,7 +121,8 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         bool tryingAuthorization = false,
         bool? showButtons = null,
         bool showUnknown = false,
-        bool staleSession = false)
+        bool staleSession = false
+    )
     {
         ShowLoginLayout = showLoginLayout;
         IsAuthorized = isAuthorized;
@@ -134,9 +132,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         ShowUnknown = showUnknown;
         StaleSession = staleSession;
 
-        BgDisplayOptions = showLoginLayout
-            ? DisplayOptions.Clear
-            : DisplayOptions.TextReadable;
+        BgDisplayOptions = showLoginLayout ? DisplayOptions.Clear : DisplayOptions.TextReadable;
 
         if (tryingAuthorization)
             AuthStatus = LocalizedStrings.CheckingIcmProfile;
@@ -161,9 +157,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         }
     }
 
-    private async Task<bool?> ApplyAuthStatusLayout(
-        bool? showUnknown = null,
-        bool? isAuthorized = null)
+    private async Task<bool?> ApplyAuthStatusLayout(bool? showUnknown = null, bool? isAuthorized = null)
     {
         bool? authorized = isAuthorized ?? await OidcSession.IsAuthorizedAsync();
 
@@ -173,15 +167,16 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
             isAuthorized: authorized ?? false,
             isUnauthorized: !authorized ?? false,
             showUnknown: showUnknown ?? authorized == null,
-            showButtons: true);
+            showButtons: true
+        );
 
         return authorized;
     }
 
-    private async void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
+    private async void OidcSession_SessionChanged(object? sender, SessionChangedEventArgs e)
     {
         SessionInfo = sender as OidcSessionInfo;
-        DisplayName = SessionInfo.GivenName;
+        DisplayName = SessionInfo?.GivenName ?? "--";
         await ApplyLayoutByStatus();
     }
 
@@ -193,7 +188,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
             if (isAuthorized is true)
             {
-                if (await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false)
+                if (await OidcSession.IsSessionStale(DebugOptions.Default.StaleThresholdMinutes) ?? false)
                     SetUiOptions(showButtons: true, staleSession: true);
             }
             else if (isAuthorized is false)
@@ -223,7 +218,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         {
             var cancelToken = new CancellationTokenSource();
 #if WINDOWS
-            (MauiWinUIApplication.Current as App).AuthCancelTokenSource = cancelToken;
+            (MauiWinUIApplication.Current as App)?.AuthCancelTokenSource = cancelToken;
 #endif
             await OidcSession.LoginAsync(messageIfUnavailable: LocalizedStrings.NoInternet, cancelToken.Token);
 
@@ -255,11 +250,12 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     private static async Task<bool> PromptLogout()
     {
-        return await Navigator.CurrentOpenPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.LogoutAndClearData,
             LocalizedStrings.LogoutAndClearDataDesc,
             LocalizedStrings.Logout,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
     }
 
     [RelayCommand]
@@ -267,14 +263,14 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
     {
         if (!NetworkHelper.InternetAvailable)
         {
-            await Navigator.CurrentOpenPage.DisplayAlert(
+            await Navigator.CurrentOpenPage.DisplayAlertAsync(
                 LocalizedStrings.NoInternet,
                 LocalizedStrings.ConnectBeforeRetry,
                 LocalizedStrings.Ok
             );
             return;
         }
-        
+
         WeakReferenceMessenger.Default.Register<ServiceStateMessage, string>(this, GetCaseloadService.MakeId());
 
         var msg = GetAllDataForOfflineService.MakeStartMessage(forceDownload: true);
@@ -282,10 +278,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
         // extra SetUiOptions call before Receive() so "unauthorized" UI
         // doesn't flash
-        SetUiOptions(
-            showAuthStatusLayout: true,
-            showAuthStatus: true,
-            tryingAuthorization: true);
+        SetUiOptions(showAuthStatusLayout: true, showAuthStatus: true, tryingAuthorization: true);
     }
 
     public void Receive(ServiceStateMessage message)
@@ -294,23 +287,17 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
         {
             if (message.Status == VisitzService.State.Running)
             {
-                SetUiOptions(
-                    showAuthStatusLayout: true,
-                    showAuthStatus: true,
-                    tryingAuthorization: true);
+                SetUiOptions(showAuthStatusLayout: true, showAuthStatus: true, tryingAuthorization: true);
             }
             else
             {
                 WeakReferenceMessenger.Default.UnregisterAll(this);
 
                 if (message.Result == VisitzService.Result.Successful)
-                    AuthorizationSuccess();
+                    AuthorizationSuccess?.Invoke();
                 else
                 {
-                    SetUiOptions(
-                        showAuthStatusLayout: true,
-                        showAuthStatus: true,
-                        isUnauthorized: true);
+                    SetUiOptions(showAuthStatusLayout: true, showAuthStatus: true, isUnauthorized: true);
                 }
             }
         });
@@ -318,8 +305,7 @@ public partial class SessionViewModel(ILogger<SessionViewModel> logger) :
 
     public void Receive(AppLockMessage message)
     {
-        if (message.Value == AppLockStatus.Closed 
-            && NetworkHelper.InternetAvailable)
+        if (message.Value == AppLockStatus.Closed && NetworkHelper.InternetAvailable)
             _ = DownloadCaseloadAndSubscribeAsync();
     }
 }

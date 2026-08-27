@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:ViewModelContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:todo="clr-namespace:Visitz.Views.Todo"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Todo.TodoListView"
+    x:DataType="todo:TodoListViewModel"
+    x:TypeArguments="todo:TodoListViewModel"
+>
+    <Grid>
+        <CollectionView ItemsSource="{Binding AllTodoItems}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <todo:TodoVisitItemView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <views:EmptyCollectionMessage
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsVisible="{Binding ShowEmptyView}"
+            Text="{local:Localize TodoIsEmpty}"
+        />
+    </Grid>
+</base:ViewModelContentView>

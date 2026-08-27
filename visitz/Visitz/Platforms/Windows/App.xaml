@@ -1,20 +1,7 @@
-﻿<maui:MauiWinUIApplication
+<maui:MauiWinUIApplication
     x:Class="Visitz.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:Visitz.WinUI">
-
-    <maui:MauiWinUIApplication.Resources>
-        <!--
-            Hiding Windows' default style for multiselect CollectionViews
-        
-            More info at https://github.com/dotnet/maui/issues/16066#issuecomment-1744837289.
-        -->
-        <StaticResource x:Key="ListViewItemCheckBrush" ResourceKey="ControlAltFillColorTransparent" />
-        <StaticResource x:Key="ListViewItemCheckBoxBrush" ResourceKey="ControlAltFillColorTransparent" />
-        <ListViewItemPresenterCheckMode x:Key="ListViewItemCheckMode">Overlay</ListViewItemPresenterCheckMode>
-    </maui:MauiWinUIApplication.Resources>
-
-</maui:MauiWinUIApplication>
-
+    xmlns:local="using:Visitz.WinUI"
+></maui:MauiWinUIApplication>

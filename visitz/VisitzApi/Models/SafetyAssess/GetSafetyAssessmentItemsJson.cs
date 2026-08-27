@@ -5,5 +5,5 @@ namespace VisitzApi.Models.SafetyAssess;
 internal class GetSafetyAssessmentItemsJson
 {
     [JsonPropertyName("items")]
-    public IList<GetSafetyAssessmentItemJson> Items { get; set; }
+    public IList<GetSafetyAssessmentItemJson> Items { get; set; } = [];
 }

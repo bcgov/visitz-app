@@ -6,16 +6,13 @@
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.FormControls.FormEntry"
     x:DataType="formctls:FormEntry"
-    x:Name="this">
-
-    <Grid
-        BindingContext="{Reference this}"
-        ColumnDefinitions="*,*">
-
+    x:Name="this"
+>
+    <Grid BindingContext="{Reference this}" ColumnDefinitions="*,*">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="FieldNameRow"/>
-            <RowDefinition/>
-            <RowDefinition x:Name="SubRow"/>
+            <RowDefinition x:Name="FieldNameRow" />
+            <RowDefinition />
+            <RowDefinition x:Name="SubRow" />
         </Grid.RowDefinitions>
 
         <Label
@@ -23,12 +20,10 @@
             Grid.ColumnSpan="2"
             IsVisible="{Binding FieldNameIsVisible}"
             Text="{Binding FieldName}"
-            HorizontalOptions="Start"/>
+            HorizontalOptions="Start"
+        />
 
-        <AbsoluteLayout
-            VerticalOptions="FillAndExpand"
-            Grid.Row="1"
-            Grid.ColumnSpan="2">
+        <AbsoluteLayout Grid.Row="1" Grid.ColumnSpan="2">
             <Editor
                 x:Name="Editor"
                 AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
@@ -39,7 +34,8 @@
                 MaxLength="{Binding MaxLength}"
                 Text="{Binding Text}"
                 TextChanged="Editor_TextChanged"
-                IsReadOnly="{Binding IsReadOnly}" />
+                IsReadOnly="{Binding IsReadOnly}"
+            />
             <Label
                 x:Name="EditorError"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -51,7 +47,9 @@
                 FontAutoScalingEnabled="False"
                 Text="{Static fonticons:MaterialIcons.Error}"
                 TextColor="{StaticResource BC_Semantic_Error}"
-                Margin="5"/>
+                Margin="5"
+                ZIndex="1"
+            />
         </AbsoluteLayout>
 
         <Label
@@ -62,14 +60,15 @@
             Text="{Binding LeadingSupportingText}"
             Style="{StaticResource LabelSmall}"
             FontFamily="BCSansBold"
-            TextColor="{StaticResource BC_Semantic_Error}"/>
+            TextColor="{StaticResource BC_Semantic_Error}"
+        />
 
         <Label
             Grid.Row="2"
             Grid.Column="1"
             HorizontalOptions="End"
             Text="{Binding TrailingSupportingText}"
-            Style="{StaticResource LabelSmall}"/>
+            Style="{StaticResource LabelSmall}"
+        />
     </Grid>
-
 </ContentView>

@@ -16,7 +16,6 @@ permissions:
 
 env:
   BASE_PROJPATH: "./visitz"
-  DOTNET_SDK_VERSION: "9.0.313"
   GLOBAL_JSON_PATH: "global.json"
 
 jobs:
@@ -29,17 +28,6 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Inflate ${{ env.GLOBAL_JSON_PATH }}
-        run: |
-          Copy-Item .\${{ env.GLOBAL_JSON_PATH }}.template .\${{ env.GLOBAL_JSON_PATH }}
-
-      - name: Force .NET SDK version ${{ env.DOTNET_SDK_VERSION }}
-        uses: jossef/action-set-json-field@890d7642122dbb2833dddd2003659bb71a2b21fe # v2.2
-        with:
-          file: ${{ env.GLOBAL_JSON_PATH }}
-          field: sdk.version
-          value: ${{ env.DOTNET_SDK_VERSION }}
-
       - name: Setup .NET SDK and workloads
         uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # 5.2.0
         with:
@@ -49,13 +37,13 @@ jobs:
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
-          dotnet workload install maui ios maccatalyst maui-ios maui-windows maui-maccatalyst --version ${{ env.DOTNET_SDK_VERSION }}
+          dotnet workload install maui ios maccatalyst maui-ios maui-windows maui-maccatalyst
 
       - name: Build solution
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
-          dotnet build --framework net9.0
+          dotnet build --framework net10.0
 
       # Running with --no-build to work around an MSBuild targets issue.
       # (Details: build throws an error about a missing "Visitz.appSettings.json" file. That file should only exist
@@ -65,7 +53,7 @@ jobs:
         run: |
           dotnet --version
           dotnet test `
-            --framework net9.0 `
+            --framework net10.0 `
             --logger "trx;LogFilePrefix=${{ env.TEST_RESULTS }}" `
             --no-build
 

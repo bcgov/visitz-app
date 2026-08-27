@@ -4,18 +4,16 @@ namespace VisitzModel.Models.Navigation;
 
 public partial class NavItem : ObservableObject
 {
-    private ImageSource selectedImageSource;
-    private ImageSource unselectedImageSource;
     private double iconSize;
 
-    public ImageSource SelectedImageSource
+    public ImageSource? SelectedImageSource
     {
-        get => selectedImageSource;
+        get => field;
         set
         {
-            selectedImageSource = value;
+            field = value;
 
-            if (selectedImageSource is FontImageSource icon)
+            if (field is FontImageSource icon)
             {
                 icon.Color = Color;
                 icon.Size = IconSize * 2;
@@ -23,14 +21,14 @@ public partial class NavItem : ObservableObject
         }
     }
 
-    public ImageSource UnselectedImageSource
+    public ImageSource? UnselectedImageSource
     {
-        get => unselectedImageSource;
+        get => field;
         set
         {
-            unselectedImageSource = value;
+            field = value;
 
-            if (unselectedImageSource is FontImageSource icon)
+            if (field is FontImageSource icon)
             {
                 icon.Color = Color;
                 icon.Size = IconSize * 2;
@@ -38,9 +36,9 @@ public partial class NavItem : ObservableObject
         }
     }
 
-    public string Text { get; set; }
+    public string Text { get; set; } = string.Empty;
 
-    public Color Color { get; set; }
+    public Color? Color { get; set; }
 
     public double IconSize
     {
@@ -49,21 +47,21 @@ public partial class NavItem : ObservableObject
         {
             iconSize = value;
 
-            if (selectedImageSource is FontImageSource selectedIcon)
+            if (SelectedImageSource is FontImageSource selectedIcon)
                 selectedIcon.Size = iconSize * 2;
 
-            if (unselectedImageSource is FontImageSource unselectedIcon)
+            if (UnselectedImageSource is FontImageSource unselectedIcon)
                 unselectedIcon.Size = iconSize * 2;
         }
     }
 
-    public Type ContentViewType { get; set; }
+    public Type? ContentViewType { get; set; }
 
     [ObservableProperty]
-    public int badgeCount;
+    public partial int BadgeCount { get; set; }
 
     [ObservableProperty]
-    public bool showBadge = false;
+    public partial bool ShowBadge { get; set; } = false;
 
     partial void OnBadgeCountChanged(int oldValue, int newValue)
     {

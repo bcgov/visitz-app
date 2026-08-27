@@ -1,4 +1,4 @@
-﻿using Foundation;
+using Foundation;
 
 namespace Visitz;
 
@@ -7,4 +7,3 @@ public class AppDelegate : MauiUIApplicationDelegate
 {
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 }
-

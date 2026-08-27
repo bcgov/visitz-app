@@ -19,9 +19,8 @@ permissions:
 env:
   BUILD_NUM: ${{ inputs.build_number }}
   PROJPATH: "visitz/Visitz"
-  DOTNET_SDK_VERSION: "9.0.313"
   GLOBAL_JSON_PATH: "global.json"
-  XCODE_VERSION: "26.3"
+  XCODE_VERSION: "26.6"
 
 jobs:
 
@@ -93,17 +92,6 @@ jobs:
             -c 'Print Name' /dev/stdin \
             <<< $(security cms -D -i $PP_PATH))" >> "$GITHUB_ENV"
 
-      - name: Inflate ${{ env.GLOBAL_JSON_PATH }}
-        run: |
-          cp ${{ env.GLOBAL_JSON_PATH }}.template ${{ env.GLOBAL_JSON_PATH }}
-
-      - name: Force .NET SDK version ${{ env.DOTNET_SDK_VERSION }}
-        uses: jossef/action-set-json-field@890d7642122dbb2833dddd2003659bb71a2b21fe # v2.2
-        with:
-          file: ${{ env.GLOBAL_JSON_PATH }}
-          field: sdk.version
-          value: ${{ env.DOTNET_SDK_VERSION }}
-
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@1641575d87647fb969c0545f0b6a76873e328b7c # v5.0.0
         with:
@@ -122,13 +110,13 @@ jobs:
       - name: Install .NET MAUI ${{ env.MAUI_WORKLOAD_VERSION }} workloads
         run: |
           dotnet --version
-          dotnet workload install maui maui-ios --version ${{ env.DOTNET_SDK_VERSION }}
+          dotnet workload install maui maui-ios
 
       - name: .NET release build for iOS (${{ inputs.environment }})
         run: |
           dotnet --version
           dotnet publish $PROJPATH \
-            --framework net9.0-ios \
+            --framework net10.0-ios \
             --configuration Release \
             -p:ApplicationVersion=${{ env.BUILD_NUM }} \
             -p:DeploymentEnvironment=${{ vars.ENV_NAME }} \
@@ -147,7 +135,7 @@ jobs:
 
       - name: Prepare output package
         run: |
-          cd ${{ env.PROJPATH }}/bin/Release/net9.0-ios/ios-arm64/publish
+          cd ${{ env.PROJPATH }}/bin/Release/net10.0-ios/ios-arm64/publish
           mv "MCFD Mobility.ipa" "$OUTPUT_NAME.ipa"
 
       - name: Push build to Artifactory
@@ -156,7 +144,7 @@ jobs:
           ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           jf rt upload \
-            "${{ env.PROJPATH }}/bin/Release/net9.0-ios/ios-arm64/publish/$OUTPUT_NAME.ipa" \
+            "${{ env.PROJPATH }}/bin/Release/net10.0-ios/ios-arm64/publish/$OUTPUT_NAME.ipa" \
             "${{ secrets.ARTIFACTORY_REPO_NAME }}/${{ vars.ENV_LABEL }}-iOS/$OUTPUT_NAME.ipa" \
             --build-name="$OUTPUT_NAME" \
             --build-number="$OUTPUT_VERSION.$BUILD_NUM" \

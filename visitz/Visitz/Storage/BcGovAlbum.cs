@@ -40,7 +40,7 @@ public class BcGovAlbum
 
     public static string GetFeaturedPictureUri()
     {
-        // Currently just hardcoding for a specific picture. 
+        // Currently just hardcoding for a specific picture.
         // TODO: When time allows, implement some kind of schedule to change the featured picture,
         // with a proper fallback mechanism if the new picture can't be downloaded.
 

@@ -37,14 +37,14 @@ public partial class NoteDraft
 
     public string DraftBinding
     {
-        get => IsValid ? Draft : default;
+        get => IsValid ? Draft : string.Empty;
         set
         {
             bool canSet = !value?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? true;
 
             if (canSet)
             {
-                this.Commit(() => Draft = value);
+                this.Commit(() => Draft = value ?? string.Empty);
                 RaisePropertyChanged(nameof(DraftBinding));
                 LastUpdatedBinding = DateTimeOffset.Now;
             }
@@ -53,7 +53,7 @@ public partial class NoteDraft
 
     public string DraftLocationBinding
     {
-        get => IsValid ? DraftLocation : default;
+        get => IsValid ? DraftLocation : string.Empty;
         set
         {
             this.Commit(() => DraftLocation = value);

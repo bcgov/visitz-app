@@ -13,9 +13,10 @@ namespace Visitz;
 
 public partial class VisitzApp : Application, IRecipient<AppLockMessage>
 {
-    public ServiceHandler ServiceHandler { get; private set; }
+    public ServiceHandler? ServiceHandler { get; private set; }
 
     private readonly ILogger<VisitzApp> _logger;
+
     public VisitzApp(ILogger<VisitzApp> logger)
     {
         _logger = logger;
@@ -39,19 +40,18 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
         CleanupStaleRecords();
     }
 
-
-
-    protected override Window CreateWindow(IActivationState activationState)
+    protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new VisitzWindow(new NavigationPage(new RootPage()));
+        var rootPage = ServiceProvider.GetService<RootPage>();
+        return new VisitzWindow(new NavigationPage(rootPage));
     }
 
     private static void TryStartDebugSensor()
     {
-        DebugOptions.TryStartShakeDetector(actionOnShake: async () => await DebugOptionsPage.TryOpen());
+        DebugOptions.Default.TryStartShakeDetector(actionOnShake: async () => await DebugOptionsPage.TryOpen());
     }
 
-    private void OidcSession_SessionChanged(object sender, SessionChangedEventArgs e)
+    private void OidcSession_SessionChanged(object? sender, SessionChangedEventArgs e)
     {
         if (e is LogoutChangedEventArgs args && args.Success)
             _ = ClearIcmData();

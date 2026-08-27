@@ -3,25 +3,20 @@ using Realms;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Extensions;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class AttachmentsViewModel : VisitzViewModel, IBusinessObjectHolder
+public partial class AttachmentsViewModel : IcmRecordViewModel
 {
     [ObservableProperty]
-    public IBusinessObject businessObject;
+    public partial IDraftItem? FocusedDraftItem { get; set; }
 
-    [ObservableProperty]
-    public IDraftItem focusedDraftItem;
+    Realm? AttachmentsRealm { get; set; }
 
-    Realm AttachmentsRealm { get; set; }
-
-    AttachmentFiler attachmentFiler;
+    AttachmentFiler? attachmentFiler;
 
     protected override async Task InitAsync()
     {
@@ -32,6 +27,7 @@ internal partial class AttachmentsViewModel : VisitzViewModel, IBusinessObjectHo
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -45,12 +41,27 @@ internal partial class AttachmentsViewModel : VisitzViewModel, IBusinessObjectHo
 
     public async Task SaveFile(FileResult fileResult)
     {
+        ArgumentNullException.ThrowIfNull(AttachmentsRealm);
+        ArgumentNullException.ThrowIfNull(attachmentFiler);
+
         string extension = fileResult.FileName.GetFileExtension();
         await using Stream stream = await fileResult.OpenReadAsync();
 
         if (Attachment.AllowedImageTypes.Contains(extension.ToLowerInvariant()))
-            await AttachmentDraft.SaveNewPhoto(BusinessObject, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+            await AttachmentDraft.SaveNewPhoto(
+                BusinessObject,
+                attachmentFiler,
+                AttachmentsRealm,
+                fileResult.FileName,
+                stream
+            );
         else
-            await AttachmentDraft.SaveNewFile(BusinessObject, attachmentFiler, AttachmentsRealm, fileResult.FileName, stream);
+            await AttachmentDraft.SaveNewFile(
+                BusinessObject,
+                attachmentFiler,
+                AttachmentsRealm,
+                fileResult.FileName,
+                stream
+            );
     }
 }

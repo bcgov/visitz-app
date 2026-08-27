@@ -2,15 +2,24 @@ namespace Visitz.Views.FormControls;
 
 public partial class FormCheckBox : ContentView
 {
-    public static readonly BindableProperty IsCheckedProperty =
-        BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(FormCheckBox),
-            defaultBindingMode: BindingMode.TwoWay);
+    public static readonly BindableProperty IsCheckedProperty = BindableProperty.Create(
+        nameof(IsChecked),
+        typeof(bool),
+        typeof(FormCheckBox),
+        defaultBindingMode: BindingMode.TwoWay
+    );
 
-    public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(FormCheckBox));
+    public static readonly BindableProperty TextProperty = BindableProperty.Create(
+        nameof(Text),
+        typeof(string),
+        typeof(FormCheckBox)
+    );
 
-    public static readonly BindableProperty IsReadOnlyProperty =
-        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
+    public static readonly BindableProperty IsReadOnlyProperty = BindableProperty.Create(
+        nameof(IsReadOnly),
+        typeof(bool),
+        typeof(FormEntry)
+    );
 
     public bool IsChecked
     {
@@ -35,7 +44,7 @@ public partial class FormCheckBox : ContentView
         InitializeComponent();
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private void TapGestureRecognizer_Tapped(object? sender, TappedEventArgs e)
     {
         if (!IsReadOnly)
             IsChecked = !IsChecked;

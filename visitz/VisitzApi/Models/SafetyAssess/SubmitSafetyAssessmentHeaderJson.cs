@@ -2,8 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VisitzApi.Models.SafetyAssess;
 
-#nullable enable
-
 public class SubmitSafetyAssessmentHeaderJson
 {
     [Required]

@@ -12,11 +12,10 @@ namespace Visitz.Resources.Styles;
 
 internal static class VisitzShadows
 {
-    public static Shadow TryGetShadow(string name, Shadow fallback = null)
+    public static Shadow TryGetShadow(string name, Shadow? fallback = null)
     {
-        return Application.Current.Resources.TryGetShadow(name, fallback)
-            ??
-            throw new InvalidOperationException($"Shadow '{name}' not found in resources");
+        return Application.Current?.Resources.TryGetShadow(name, fallback)
+            ?? throw new InvalidOperationException($"Shadow '{name}' not found in resources");
     }
 
     public static readonly Shadow RestingLevel1 = TryGetShadow(nameof(RestingLevel1));

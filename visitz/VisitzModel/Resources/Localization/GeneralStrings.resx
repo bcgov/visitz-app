@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,12 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Attachment" xml:space="preserve">
+    <value>Attachment</value>
+  </data>
   <data name="FileTooLarge" xml:space="preserve">
     <value>File too large ({0} MB)</value>
     <comment>0 = Size in MB</comment>
   </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
   <data name="SafetyAssessment" xml:space="preserve">
     <value>Safety assessment</value>
+  </data>
+  <data name="Visit" xml:space="preserve">
+    <value>Child/youth visit</value>
   </data>
   <data name="VisitDate" xml:space="preserve">
     <value>Visit date: {0}</value>

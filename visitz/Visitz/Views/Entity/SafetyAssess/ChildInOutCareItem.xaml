@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:safetyAssess="clr-namespace:Visitz.Views.Entity.SafetyAssess"
     xmlns:models="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.SafetyAssess.ChildInOutCareItem"
-    x:DataType="models:IcmContact">
-
+    x:DataType="models:IcmContact"
+>
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroupList>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState Name="Normal">
                     <VisualState.Setters>
-                        <Setter TargetName="ItemCheckBox" Property="CheckBox.IsChecked" Value="False" />
+                        <Setter
+                            TargetName="ItemCheckBox"
+                            Property="CheckBox.IsChecked"
+                            Value="False"
+                        />
                         <Setter Property="BackgroundColor" Value="White" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState Name="Selected">
                     <VisualState.Setters>
-                        <Setter TargetName="ItemCheckBox" Property="CheckBox.IsChecked" Value="True" />
+                        <Setter
+                            TargetName="ItemCheckBox"
+                            Property="CheckBox.IsChecked"
+                            Value="True"
+                        />
                         <Setter Property="BackgroundColor" Value="White" />
                     </VisualState.Setters>
                 </VisualState>
@@ -26,10 +34,7 @@
         </VisualStateGroupList>
     </VisualStateManager.VisualStateGroups>
 
-    <Grid
-        ColumnSpacing="5"
-        RowSpacing="5">
-        
+    <Grid ColumnSpacing="5" RowSpacing="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.CheckBoxGridLength}" />
             <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.LastNameGridLength}" />
@@ -37,35 +42,19 @@
             <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.DateOfBirthGridLength}" />
             <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.GenderGridLength}" />
         </Grid.ColumnDefinitions>
-        
-        <CheckBox 
-            x:Name="ItemCheckBox"
-            Grid.Column="0"
-            InputTransparent="True" />
+
+        <CheckBox x:Name="ItemCheckBox" Grid.Column="0" InputTransparent="True" />
 
         <!-- 
             Setting BackgroundColor explicitly on each Label because of a layout issue. The labels don't render unless
             it's set.
         -->
-        <Label
-            Grid.Column="1"
-            BackgroundColor="White"
-            Text="{Binding LastName}" />
+        <Label Grid.Column="1" BackgroundColor="White" Text="{Binding LastNameBinding}" />
 
-        <Label
-            Grid.Column="2"
-            BackgroundColor="White"
-            Text="{Binding FirstName}" />
+        <Label Grid.Column="2" BackgroundColor="White" Text="{Binding FirstNameBinding}" />
 
-        <Label
-            Grid.Column="3"
-            BackgroundColor="White"
-            Text="{Binding DateOfBirthFormatted}" />
+        <Label Grid.Column="3" BackgroundColor="White" Text="{Binding DateOfBirthFormatted}" />
 
-        <Label
-            Grid.Column="4"
-            BackgroundColor="White"
-            Text="{Binding Gender}" />
+        <Label Grid.Column="4" BackgroundColor="White" Text="{Binding GenderBinding}" />
     </Grid>
-    
 </ContentView>

@@ -1,14 +1,17 @@
 namespace Visitz.Views.BaseClasses;
 
-public abstract class ViewModelContentView(VisitzViewModel viewModel) : BaseContentView
+public abstract class ViewModelContentView<TViewModel>(TViewModel viewModel, string title = "") : BaseContentView(title)
+    where TViewModel : VisitzViewModel
 {
-    protected VisitzViewModel ViewModel { get; set; } = viewModel;
+    public TViewModel ViewModel { get; private set; } = viewModel;
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        _ = ViewModel.StartInitAsync();
+        ArgumentNullException.ThrowIfNull(ViewModel);
+
+        await ViewModel.StartInitAsync();
     }
 
     protected override void Dispose(bool disposing)

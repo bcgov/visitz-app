@@ -1,7 +1,6 @@
-﻿namespace Visitz.Settings
+namespace Visitz.Settings;
+
+public class DebugSettings
 {
-    public class DebugSettings
-    {
-        public bool EnableDebugSettings { get; set; }
-    }
+    public bool EnableDebugSettings { get; set; }
 }

@@ -2,8 +2,6 @@ using System.Text.Json.Serialization;
 
 namespace VisitzApi.Models.SafetyAssess;
 
-#nullable enable
-
 public class SubmitSafetyDecisionsJson
 {
     public string NoSafetyFactors { get; set; } = string.Empty;

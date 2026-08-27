@@ -1,5 +1,7 @@
-using Realms;
 using System.ComponentModel;
+using System.Globalization;
+using Realms;
+using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
@@ -8,9 +10,7 @@ using VisitzModel.Storage;
 
 namespace VisitzModel.Models.Caseload;
 
-#nullable enable
-
-public interface IBusinessObject : IRealmObject
+public partial interface IBusinessObject : IRealmObject
 {
     public static readonly string DisplayDateFormat = IcmDateFormats.BasicTimestampShort;
 
@@ -26,27 +26,38 @@ public interface IBusinessObject : IRealmObject
 
     public string AssignedToId { get; set; }
 
+    public IList<string> Assignees { get; }
+
     public string DisplayAssignees { get; }
 
     public EntityType EntityType { get; }
 
     public EntitySubtype EntitySubtype { get; set; }
 
+    public EntitySubtype EntitySubtypeBinding { get; set; }
+
+    public DateTimeOffset CreatedDate { get; set; }
+
+    public DateTimeOffset UpdatedDate { get; set; }
+
     public string EntitySubtypeInitials { get; }
 
     public string ServiceOffice { get; set; }
 
-    public BoLocalState LocalState { get; set; }
+    public BoLocalState? LocalState { get; set; }
 
-    public string DisplayDate { get; }
+    public string DisplayDate => CreatedDateBinding.ToString(DisplayDateFormat, CultureInfo.InvariantCulture);
 
-    public string DisplayName { get; }
+    public string DisplayName => $"{LastNameBinding}, {GivenNamesBinding}";
 
-    public string FullType { get; }
+    public string FullType => $"{EntitySubtype.GetDisplayString()} {EntityType.GetDisplayString()}";
 
-    public IQueryable<IcmContact> Contacts { get; }
+    public IQueryable<IcmContact> Contacts => GetContacts(Realm);
 
-    public bool IsAssigned(string username);
+    public bool IsAssigned(string username)
+    {
+        return AssignedTo == username;
+    }
 
     /// <summary>
     /// Deletes most of the dependent data for a BusinessObject.
@@ -57,7 +68,8 @@ public interface IBusinessObject : IRealmObject
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm? fromRealm = null,
-        bool deleteLocalState = false);
+        bool deleteLocalState = false
+    );
 
     /// <summary>
     /// Deletes a BusinessObject and all its dependent data.
@@ -73,94 +85,76 @@ public interface IBusinessObject : IRealmObject
         UserIgnoredContentPrefs userIgnoredPrefs,
         Realm? fromRealm = null,
         bool cascade = true,
-        bool deleteLocalState = true);
-}
-
-public static class IBusinessObjectExtensions
-{
-    public static string ToIdTypeString(this IBusinessObject businessObject)
+        bool deleteLocalState = true
+    )
     {
-        return $"{businessObject.Id}||{(int)businessObject.EntityType}";
+        fromRealm ??= Realm;
+        ArgumentNullException.ThrowIfNull(fromRealm);
+
+        if (cascade)
+            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
+
+        fromRealm.Remove(this);
     }
 
-    public static DateTime DisplayDateTransform(this IBusinessObject businessObject)
+    void RaisePropertyChangedEvent(string propertyName);
+
+    string ToIdTypeString()
     {
-        return businessObject.DisplayDate?.Length > 0
-            ? DateTime.Parse(businessObject.DisplayDate)
-            : DateTime.MinValue;
+        return $"{Id}||{(int)EntityType}";
     }
 
-    public static string GetDisplayName(this IBusinessObject businessObject)
+    IcmContact? GetKeyPlayer(Realm? realm = null)
     {
-        return $"{businessObject.LastName}, {businessObject.GivenNames}";
+        realm ??= Realm ?? throw new InvalidOperationException("Attached Realm is null");
+        return IcmContact.GetKeyPlayerFor(realm, this);
     }
 
-    public static string GetFullType(this IBusinessObject businessObject)
+    IQueryable<IcmContact> GetContacts(Realm? realm = null)
     {
-        string subtype = businessObject.EntitySubtype.GetDisplayString();
-        string type = businessObject.EntityType.GetDisplayString();
-        return $"{subtype} {type}";
+        realm ??= Realm;
+        ArgumentNullException.ThrowIfNull(realm);
+        return IcmContact.GetByParentObject(realm, this);
     }
 
-    public static IcmContact GetKeyPlayer(this IBusinessObject businessObject, Realm? realm = null)
+    public void SubscribePropertyChanged(PropertyChangedEventHandler handler)
     {
-        return IcmContact.GetKeyPlayerFor(realm ?? businessObject.Realm, businessObject);
+        (this as INotifyPropertyChanged)?.PropertyChanged += handler;
     }
 
-    public static IQueryable<IcmContact> GetContacts(this IBusinessObject businessObject, Realm? realm = null)
+    public void UnsubscribePropertyChanged(PropertyChangedEventHandler handler)
     {
-        return IcmContact.GetByParentObject(realm ?? businessObject.Realm, businessObject);
+        (this as INotifyPropertyChanged)?.PropertyChanged -= handler;
     }
 
-    public static void SubscribePropertyChanged(
-        this IBusinessObject business,
-        PropertyChangedEventHandler handler)
+    public bool Equals(IBusinessObject? other)
     {
-        if (business is CaseRecord @case)
-            @case.PropertyChanged += handler;
-        else if (business is IncidentRecord incident)
-            incident.PropertyChanged += handler;
-        else if (business is MemoRecord memo)
-            memo.PropertyChanged += handler;
-        else if (business is ServiceRequestRecord sr)
-            sr.PropertyChanged += handler;
-        else
-            throw new NotImplementedException($"Type '{business.GetType()}' not implemented for subscription");
+        return ReferenceEquals(this, other)
+            || (other != null && IdBinding == other.IdBinding && EntityType == other.EntityType);
     }
 
-    public static void UnsubscribePropertyChanged(
-        this IBusinessObject business,
-        PropertyChangedEventHandler handler)
+    public int MakeHashCode()
     {
-        if (business is CaseRecord @case)
-            @case.PropertyChanged -= handler;
-        else if (business is IncidentRecord incident)
-            incident.PropertyChanged -= handler;
-        else if (business is MemoRecord memo)
-            memo.PropertyChanged -= handler;
-        else if (business is ServiceRequestRecord sr)
-            sr.PropertyChanged -= handler;
-        else
-            throw new NotImplementedException($"Type '{business.GetType()}' not implemented for unsubscription");
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        // Id is not meant to change
+        return EntityType.GetHashCode() * IdBinding.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
     }
 
-    public static void UpsertLocalState(
-        this IBusinessObject item,
-        Realm realm,
-        bool? markForDownload = null)
+    void UpsertLocalState(Realm realm, bool? markForDownload = null)
     {
-        if (realm.Find<BoLocalState>(item.ToIdTypeString()) is BoLocalState local)
+        if (realm.Find<BoLocalState>(ToIdTypeString()) is BoLocalState local)
         {
             if (!local.ShouldDownloadDuringRefresh && markForDownload is bool mark)
                 local.ShouldDownloadDuringRefresh = mark;
 
-            item.LocalState = local;
+            LocalState = local;
             realm.Add(local, update: true);
         }
         else
         {
-            item.LocalState = new(item) { ShouldDownloadDuringRefresh = markForDownload ?? false };
-            realm.Add(item.LocalState);
+            LocalState = new(this) { ShouldDownloadDuringRefresh = markForDownload ?? false };
+            realm.Add(LocalState);
         }
     }
 
@@ -171,8 +165,11 @@ public static class IBusinessObjectExtensions
             EntityType.Case => realm.All<CaseRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
             EntityType.Incident => realm.All<IncidentRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
             EntityType.Memo => realm.All<MemoRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
-            EntityType.ServiceRequest => realm.All<ServiceRequestRecord>().Where(rec => rec.Id == id || rec.FileNumber == id),
-            _ => throw new InvalidOperationException($"'{type}' not supported")
+            EntityType.ServiceRequest => realm
+                .All<ServiceRequestRecord>()
+                .Where(rec => rec.Id == id || rec.FileNumber == id),
+            EntityType.Unknown => Enumerable.Empty<IBusinessObject>().AsQueryable(),
+            _ => throw new InvalidOperationException($"'{type}' not supported"),
         };
     }
 
@@ -184,7 +181,91 @@ public static class IBusinessObjectExtensions
             EntityType.Incident => realm.Find<IncidentRecord>(id),
             EntityType.Memo => realm.Find<MemoRecord>(id),
             EntityType.ServiceRequest => realm.Find<ServiceRequestRecord>(id),
-            _ => throw new InvalidOperationException($"'{type}' not supported")
+            _ => throw new InvalidOperationException($"'{type}' not supported"),
         };
+    }
+
+    static IEnumerable<TItem> FilterUnsupportedSubtypes<TItem>(IEnumerable<TItem> businessObjects)
+        where TItem : IBusinessObject
+    {
+        return businessObjects;
+    }
+
+    /// <summary>
+    /// Gets all records associated (or not!) with the provided username.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    /// <param name="realm"></param>
+    /// <param name="username"></param>
+    /// <param name="isAssignedTo">true to get all associated with username; false to get all NOT associated with username.</param>
+    /// <returns></returns>
+    static IEnumerable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool isAssignedTo = true)
+        where TItem : IBusinessObject
+    {
+        Func<TItem, bool> predicate = isAssignedTo
+            ? item => item.AssignedTo == username
+            : item => item.AssignedTo != username;
+        return realm.All<TItem>().Where(predicate);
+    }
+
+    static void CascadeDelete<TItem>(
+        Realm realm,
+        IEnumerable<TItem> unassigned,
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
+        where TItem : IBusinessObject
+    {
+        foreach (var item in unassigned)
+            item.Delete(userIgnoredPrefs, realm);
+    }
+
+    public static async Task SynchronizeAsync<TItem>(
+        Realm realm,
+        IEnumerable<TItem> incomingItems,
+        UserIgnoredContentPrefs userIgnoredPrefs,
+        string currentUsername,
+        bool isPersonalCaseload
+    )
+        where TItem : IBusinessObject
+    {
+        bool isOfficeCaseload = !isPersonalCaseload;
+
+        var filteredUpsertItems = FilterUnsupportedSubtypes(incomingItems);
+        var currentAssigned = GetAllByAssignee<TItem>(realm, currentUsername, isPersonalCaseload).ToList();
+        var unassigned = currentAssigned.Except(filteredUpsertItems);
+
+        await realm.CommitAsync(() =>
+        {
+            CascadeDelete(realm, unassigned, userIgnoredPrefs);
+            foreach (var upsertItem in filteredUpsertItems)
+            {
+                if (
+                    isOfficeCaseload
+                    && currentAssigned.Find(current => current.Id == upsertItem.Id) is TItem currentItem
+                )
+                {
+                    // Office caseload's assignee information is incomplete, so we can't blindly overwrite existing
+                    // assignee information on update. Instead, we'll just union with existing info.
+                    var unionAssignees = upsertItem.Assignees.Union(currentItem.Assignees);
+                    upsertItem.Assignees.Clear();
+                    upsertItem.Assignees.AddAll(unionAssignees);
+                }
+
+                realm.Add(upsertItem, update: true);
+                upsertItem.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
+            }
+        });
+    }
+
+    public string MakeToString()
+    {
+        try
+        {
+            return $"{GetType().Name}  {Id}  {DisplayName}  {(IsManaged ? "managed" : "unmanaged")}";
+        }
+        catch
+        {
+            return $"{GetType().Name}  {(IsManaged ? "managed" : "unmanaged")}";
+        }
     }
 }

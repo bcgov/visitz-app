@@ -1,51 +1,50 @@
+using System.Text;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Text;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : VisitzViewModel, IBusinessObjectHolder
+public partial class TakePhotoViewModel(ICameraProvider cameraProvider) : IcmRecordViewModel
 {
     public static readonly string PictureFiletype = "jpg";
     public static readonly string PictureFilenamePrepend = "Pic";
 
-    Realm AttachmentsRealm { get; set; }
+    Realm? AttachmentsRealm { get; set; }
 
     readonly ObservableRealmQueryMap queryMap = new();
 
-    AttachmentFiler attachmentFiler;
-
-    public IBusinessObject BusinessObject { get; set; }
+    AttachmentFiler? attachmentFiler;
 
     [ObservableProperty]
-    public IReadOnlyList<CameraInfo> cameras;
+    public partial IReadOnlyList<CameraInfo> Cameras { get; set; } = [];
 
     [ObservableProperty]
-    public CameraInfo selectedCamera;
+    public partial CameraInfo? SelectedCamera { get; set; }
 
     int selectedCameraIndex;
 
     [ObservableProperty]
-    public bool waitingToProcess = true;
+    public partial bool WaitingToProcess { get; set; } = true;
 
     [ObservableProperty]
-    public bool processing;
+    public partial bool Processing { get; set; }
 
     [ObservableProperty]
-    public byte[] rollBytes;
+    public partial byte[]? RollBytes { get; set; }
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
+
+        if (DataRealm == null)
+            return;
 
         AttachmentsRealm = await VisitzRealms.GetAttachmentDraftsRealmAsync();
         attachmentFiler = await VisitzFiles.GetAsync(BusinessObject);
@@ -55,11 +54,12 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
         {
-            AttachmentsRealm.Dispose();
+            AttachmentsRealm?.Dispose();
             queryMap.Dispose();
 
             disposed = true;
@@ -92,6 +92,9 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
 
     private void SetupCameraRoll()
     {
+        if (AttachmentsRealm == null)
+            return;
+
         queryMap.ItemsChanged += QueryMap_ItemsChanged;
 
         StringBuilder queryBuilder = new();
@@ -103,27 +106,35 @@ internal partial class TakePhotoViewModel(ICameraProvider cameraProvider) : Visi
         string filetypeQuery = queryBuilder.ToString();
         filetypeQuery = filetypeQuery[..filetypeQuery.LastIndexOf("OR")];
 
-        queryMap.Subscribe(AttachmentsRealm, AttachmentsRealm
-            .All<AttachmentDraft>()
-            .Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
-            .Filter(filetypeQuery)
-            .Where(draft => draft.RelatedEntityId == BusinessObject.FileNumber)
+        queryMap.Subscribe(
+            AttachmentsRealm,
+            AttachmentsRealm
+                .All<AttachmentDraft>()
+                .Filter($"TRUEPREDICATE SORT({nameof(AttachmentDraft.DraftCreated)} DESC) LIMIT(1)")
+                .Filter(filetypeQuery)
+                .Where(draft => draft.RelatedEntityId == BusinessObject.Id)
         );
     }
 
-    private void QueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void QueryMap_ItemsChanged(
+        object? sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
+    )
     {
         if (e.Changes == null)
         {
             if (e.Items.Any())
-                RollBytes = (e.Items[0] as AttachmentDraft).Attachment.ThumbnailBinding;
+                RollBytes = ((AttachmentDraft)e.Items[0]).Attachment?.ThumbnailBinding;
         }
         else if (e.Changes.InsertedIndices.Length > 0)
-            RollBytes = (e.Items[e.Changes.InsertedIndices[0]] as AttachmentDraft).Attachment.ThumbnailBinding;
+            RollBytes = ((AttachmentDraft)e.Items[e.Changes.InsertedIndices[0]]).Attachment?.ThumbnailBinding;
     }
 
     public async Task SavePicture(Stream stream)
     {
+        if (attachmentFiler == null || AttachmentsRealm == null)
+            return;
+
         WaitingToProcess = false;
 
         try

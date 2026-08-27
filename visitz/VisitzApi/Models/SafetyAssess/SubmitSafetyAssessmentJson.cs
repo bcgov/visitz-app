@@ -3,8 +3,6 @@ using System.Text.Json.Serialization;
 
 namespace VisitzApi.Models.SafetyAssess;
 
-#nullable enable
-
 public class SubmitSafetyAssessmentJson
 {
     [Required]

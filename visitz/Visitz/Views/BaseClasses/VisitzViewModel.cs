@@ -1,50 +1,49 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Visitz.Extensions;
+using Visitz.Views.Entity;
 
-namespace Visitz.Views.BaseClasses
+namespace Visitz.Views.BaseClasses;
+
+/// <summary>
+/// The base class for all the view models. Common functionality can be defined here.
+/// </summary>
+public partial class VisitzViewModel : ObservableObject, IDisposable, IAsyncInitialize
 {
-    /// <summary>
-    /// The base class for all the view models. Common functionality can be defined here.
-    /// </summary>
-    public partial class VisitzViewModel : ObservableObject, IDisposable
+    protected virtual ILogger<VisitzViewModel> Logger { get; } = ServiceProvider.GetService<ILogger<VisitzViewModel>>();
+
+    bool _disposedValue;
+
+    public Task? InitTask { get; private set; }
+
+    public virtual Task StartInitAsync()
     {
-        protected virtual ILogger<VisitzViewModel> Logger { get; }
-            = ServiceProvider.GetService<ILogger<VisitzViewModel>>();
+        InitTask ??= InitAsync();
 
-        bool _disposedValue;
+        return InitTask;
+    }
 
-        public Task InitTask { get; private set; }
+    protected virtual Task InitAsync()
+    {
+        Logger.TraceMethod(this);
 
-        public virtual Task StartInitAsync()
-        {
-            InitTask ??= InitAsync();
+        return Task.CompletedTask;
+    }
 
-            return InitTask;
-        }
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposedValue)
+            return;
 
-        protected virtual Task InitAsync()
-        {
+        if (disposing)
             Logger.TraceMethod(this);
 
-            return Task.CompletedTask;
-        }
+        _disposedValue = true;
+    }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposedValue)
-                return;
-
-            if (disposing)
-                Logger.TraceMethod(this);
-
-            _disposedValue = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

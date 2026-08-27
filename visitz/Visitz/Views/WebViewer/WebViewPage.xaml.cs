@@ -1,20 +1,20 @@
+using Microsoft.Extensions.Logging;
 using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.WebViewer;
 
-public partial class WebViewPage : VisitzPage
+public partial class WebViewPage : VisitzPage<WebViewPage, WebViewModel>
 {
-    new WebViewModel ViewModel => base.ViewModel as WebViewModel;
-
     public Uri AuthUri
     {
         get => ViewModel.AuthUri;
         set => ViewModel.AuthUri = value;
     }
 
-    public CancellationTokenSource CancelTokenSource { get; set; }
+    public CancellationTokenSource? CancelTokenSource { get; set; }
 
-    public WebViewPage() : base(ServiceProvider.GetService<WebViewModel>())
+    public WebViewPage(WebViewModel viewModel, ILogger<WebViewPage> logger)
+        : base(viewModel, logger)
     {
         InitializeComponent();
         Setup();

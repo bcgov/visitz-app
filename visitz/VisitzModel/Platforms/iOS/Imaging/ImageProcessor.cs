@@ -5,31 +5,38 @@ namespace VisitzModel.Imaging;
 
 public partial class ImageProcessor
 {
-    partial void DownsizeByFilesize(ref Task<Stream> downsizeImageTask, int bytesLength)
+    partial void DownsizeByFilesize(int bytesLength, Action<Task<Stream>> provideTaskAction)
     {
-        downsizeImageTask = bytesLength >= ImageBytes.Length
-            ? Task.FromResult(ImageBytes)
-            : Task.Run(() =>
-            {
-                ImageBytes.Seek(0, SeekOrigin.Begin);
+        if (bytesLength >= ImageBytes.Length)
+        {
+            provideTaskAction(Task.FromResult(ImageBytes));
+        }
+        else
+        {
+            ImageBytes.Seek(0, SeekOrigin.Begin);
 
-                var image = PlatformImage.FromStream(ImageBytes, ImageFormat.Jpeg);
-                var newMax = ResizeImageValues.MaxNewDimensionByFileSize(image.Width, image.Height, bytesLength);
+            provideTaskAction(
+                Task.Run(async () =>
+                {
+                    var image = PlatformImage.FromStream(ImageBytes, ImageFormat.Jpeg);
+                    var newMax = ResizeImageValues.MaxNewDimensionByFileSize(image.Width, image.Height, bytesLength);
 
-                return image.Downsize(newMax).AsStream();
-            });
+                    return image.Downsize(newMax).AsStream();
+                })
+            );
+        }
     }
 
-    partial void Downsize(ref Task<Stream> downsizeImageTask, int maxWidthOrHeight)
+    async partial void Downsize(int maxWidthOrHeight, Action<Task<Stream>> provideTaskAction)
     {
-        downsizeImageTask = Task.Run(() =>
-        {
-            var image = PlatformImage.FromStream(ImageBytes, ImageFormat.Jpeg);
-            var maxImageDimension = Math.Max(image.Width, image.Height);
+        provideTaskAction(
+            Task.Run(() =>
+            {
+                var image = PlatformImage.FromStream(ImageBytes, ImageFormat.Jpeg);
+                var maxImageDimension = Math.Max(image.Width, image.Height);
 
-            return maxWidthOrHeight < maxImageDimension
-                ? image.Downsize(maxWidthOrHeight).AsStream()
-                : ImageBytes;
-        });
+                return maxWidthOrHeight < maxImageDimension ? image.Downsize(maxWidthOrHeight).AsStream() : ImageBytes;
+            })
+        );
     }
 }

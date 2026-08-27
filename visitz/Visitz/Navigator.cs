@@ -4,18 +4,20 @@ namespace Visitz;
 
 public class Navigator
 {
-    public static INavigation Navigation => Application.Current.MainPage.Navigation;
+    public static INavigation Navigation =>
+        Application.Current?.Windows[0].Page?.Navigation
+        ?? throw new InvalidOperationException(nameof(Navigator) + ": main window is null");
 
     public static Page CurrentOpenPage
     {
         get
         {
             int last = Navigation.NavigationStack.Count - 1;
-            return last >= 0 ? Navigation.NavigationStack[last] : null;
+            return last >= 0 ? Navigation.NavigationStack[last] : throw new InvalidOperationException("No pages open");
         }
     }
 
-    public static Page CurrentOpenModal
+    public static Page? CurrentOpenModal
     {
         get
         {
@@ -24,12 +26,10 @@ public class Navigator
         }
     }
 
-    public static async Task GoToPage<T>(
-        Page fromPage = null,
-        bool modal = false,
-        bool animated = true) where T : ContentPage
+    public static async Task GoToPage<T>(Page? fromPage = null, bool modal = false, bool animated = true)
+        where T : ContentPage
     {
-        fromPage ??= CurrentOpenPage ?? CurrentOpenModal;
+        fromPage ??= CurrentOpenPage ?? CurrentOpenModal ?? throw new ArgumentNullException(nameof(fromPage));
 
         ConsoleTrace.TraceMethod(typeof(Navigator), $"Navigating from '{fromPage}' to {typeof(T)}");
 

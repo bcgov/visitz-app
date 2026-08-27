@@ -4,17 +4,23 @@ namespace Visitz.Views;
 
 public partial class ErrorTooltip : ContentView
 {
-    public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(ErrorTooltip),
-            propertyChanged: (boundObj, _, _) => (boundObj as ErrorTooltip).UpdateUI());
+    public static readonly BindableProperty TextProperty = BindableProperty.Create(
+        nameof(Text),
+        typeof(string),
+        typeof(ErrorTooltip),
+        propertyChanged: (boundObj, _, _) => (boundObj as ErrorTooltip)?.UpdateUI()
+    );
 
-    public static readonly BindableProperty ShowProperty =
-        BindableProperty.Create(nameof(Show), typeof(bool), typeof(ErrorTooltip),
-            propertyChanged: (boundObj, _, newValue) =>
-            {
-                var fade = new VisibilityAnimation((bool)newValue, 100);
-                _ = fade.Animate((VisualElement)boundObj);
-            });
+    public static readonly BindableProperty ShowProperty = BindableProperty.Create(
+        nameof(Show),
+        typeof(bool),
+        typeof(ErrorTooltip),
+        propertyChanged: (boundObj, _, newValue) =>
+        {
+            var fade = new VisibilityAnimation((bool)newValue, 100);
+            _ = fade.Animate((VisualElement)boundObj);
+        }
+    );
 
     public string Text
     {

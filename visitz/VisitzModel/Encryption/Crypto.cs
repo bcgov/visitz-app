@@ -31,7 +31,7 @@ internal class Crypto(byte[] key)
         aes.Key = _key;
 
         var iv = new byte[aes.IV.Length];
-        await fileStream.ReadAsync(iv);
+        await fileStream.ReadExactlyAsync(iv);
         aes.IV = iv;
 
         return new CryptoStream(fileStream, aes.CreateDecryptor(), CryptoStreamMode.Read);

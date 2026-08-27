@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
-<ResourceDictionary 
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+>
     <!-- https://developer.gov.bc.ca/Colour-Palette -->
     <Color x:Key="BC_Blue">#003366</Color>
     <Color x:Key="BC_Blue_Disabled">#CDDADF</Color>
     <Color x:Key="BC_Gold">#FCBA19</Color>
     <Color x:Key="BC_TextColor">#313132</Color>
-	<Color x:Key="BC_TextColor_Lighter">#727272</Color>
+    <Color x:Key="BC_TextColor_Lighter">#727272</Color>
     <Color x:Key="BC_TextColor_Disabled">#424242</Color>
     <Color x:Key="BC_Hyperlink">#1A5A96</Color>
     <Color x:Key="BC_Background_Dark">#38598A</Color>
@@ -21,7 +21,7 @@
     <Color x:Key="BC_Semantic_Warning">#F9F1C6</Color>
     <Color x:Key="EmptyIconView_Color">#919197</Color>
 
-	<Color x:Key="Default_Background">White</Color>
+    <Color x:Key="Default_Background">White</Color>
 
     <Color x:Key="Semantic_Warning_LargeText">#B38600</Color>
 
@@ -36,7 +36,7 @@
 
     <!-- ProductionBuildColor uses color 'Primary' -->
     <Color x:Key="ProductionBuildColor">#003366</Color>
-    
+
     <!-- Other build colors arbitrarily chosen -->
     <Color x:Key="BetaBuildColor">#005724</Color>
     <Color x:Key="TeamBuildColor">#66004b</Color>
@@ -53,9 +53,9 @@
     <!-- Tags Colors -->
     <Color x:Key="EntityCaseTagBackground">#C2E0FF</Color>
     <Color x:Key="EntityCaseTagText">#00478F</Color>
-	<Color x:Key="EntityIncidentTagBackground">#34FEDC</Color>
+    <Color x:Key="EntityIncidentTagBackground">#34FEDC</Color>
     <Color x:Key="EntityIncidentTagText">#004C3F</Color>
-    
+
     <Color x:Key="ContactRelationshipTagBackground">#E2CCF8</Color>
     <Color x:Key="ContactRelationshipTagText">#5702AF</Color>
 
@@ -71,10 +71,13 @@
     <Color x:Key="EntitySubTypeBackground">#E2CCF8</Color>
     <Color x:Key="EntitySubTypeTagTextBackground">#5702AF</Color>
 
-	<Color x:Key="EntityUnknownTypeBackground">#c9c9c9</Color>
-	<Color x:Key="EntityUnknownTypeTagText">#383838</Color>
+    <Color x:Key="EntityUnknownTypeBackground">#c9c9c9</Color>
+    <Color x:Key="EntityUnknownTypeTagText">#383838</Color>
 
-	<!-- Family Information Colors -->
+    <Color x:Key="TagGreenBackground">#86E49F</Color>
+    <Color x:Key="TagGreenText">#00422E</Color>
+
+    <!-- Family Information Colors -->
     <Color x:Key="KeyPlayerInfoPurpleBackground">#FBF8FF</Color>
     <Color x:Key="FamilyMemberInfoGrayBorder">#DFDFE1</Color>
 
@@ -86,21 +89,22 @@
     <Color x:Key="LightGrayBackground">#F9F9F9</Color>
     <Color x:Key="SkyBlueText">#005CB8</Color>
 
-	<!-- Alert banner colors -->
-	<Color x:Key="AlertBannerInfoPrimary">#053662</Color>
-	<Color x:Key="AlertBannerInfoBackground">#F7F9FC</Color>
-	<Color x:Key="AlertBannerWarningPrimary">#F8BB47</Color>
-	<Color x:Key="AlertBannerWarningBackground">#FEF1D8</Color>
-	<Color x:Key="AlertBannerDangerPrimary">#CE3E39</Color>
-	<Color x:Key="AlertBannerDangerBackground">#F4E1E2</Color>
-	<Color x:Key="AlertBannerCriticalPrimary">#CE3E39</Color>
-	<Color x:Key="AlertBannerCriticalBackground">#F4E1E2</Color>
+    <!-- Alert banner colors -->
+    <Color x:Key="AlertBannerInfoPrimary">#053662</Color>
+    <Color x:Key="AlertBannerInfoBackground">#F7F9FC</Color>
+    <Color x:Key="AlertBannerWarningPrimary">#F8BB47</Color>
+    <Color x:Key="AlertBannerWarningBackground">#FEF1D8</Color>
+    <Color x:Key="AlertBannerDangerPrimary">#CE3E39</Color>
+    <Color x:Key="AlertBannerDangerBackground">#F4E1E2</Color>
+    <Color x:Key="AlertBannerCriticalPrimary">#CE3E39</Color>
+    <Color x:Key="AlertBannerCriticalBackground">#F4E1E2</Color>
 
     <!-- References Gray200 -->
     <Color x:Key="SeparatorColor">#C8C8C8</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
+    <Color x:Key="CardGrayBg">#F9FAFb</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
     <Color x:Key="Gray300">#ACACAC</Color>
@@ -109,19 +113,19 @@
     <Color x:Key="Gray600">#404040</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
-    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
-    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
-    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
-    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
-    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
-    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
-    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
-    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}"/>
-    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}"/>
-    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}"/>
-    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
-    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
-    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}" />
+    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}" />
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}" />
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}" />
+    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}" />
+    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}" />
+    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}" />
+    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}" />
+    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}" />
+    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}" />
+    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}" />
+    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}" />
 
     <Color x:Key="Yellow100Accent">#F7B548</Color>
     <Color x:Key="Yellow200Accent">#FFD590</Color>
@@ -138,8 +142,7 @@
 
     <Color x:Key="ClearButtonColor">#6b6669</Color>
 
-	<Color x:Key="Black55Scrim">#55000000</Color>
+    <Color x:Key="Black55Scrim">#55000000</Color>
 
     <Color x:Key="DeceasedBackground">#B30000</Color>
-
 </ResourceDictionary>

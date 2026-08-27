@@ -37,7 +37,7 @@ public partial class AssessmentDraft
 
     public string DraftLocationBinding
     {
-        get => IsValid ? DraftLocation : default;
+        get => IsValid ? DraftLocation : string.Empty;
         set
         {
             this.Commit(() => DraftLocation = value);

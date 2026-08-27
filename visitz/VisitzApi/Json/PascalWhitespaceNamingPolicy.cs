@@ -10,10 +10,8 @@ public partial class PascalWhitespaceNamingPolicy : JsonNamingPolicy
     const string UpperThenNumber = @"(?<1>[A-Z])(?<2>[0-9])";
     const string UpperThenPascal = @"(?<1>[A-Z])(?<2>[A-Z](?=[a-z]))"; // ABCItem -> ABC Item
 
-    const string PascalWhitespaceBoundary = LowerThenUpperNumber
-        + "|" + NumberThenUpper
-        + "|" + UpperThenNumber
-        + "|" + UpperThenPascal;
+    const string PascalWhitespaceBoundary =
+        LowerThenUpperNumber + "|" + NumberThenUpper + "|" + UpperThenNumber + "|" + UpperThenPascal;
 
     [GeneratedRegex(PascalWhitespaceBoundary)]
     internal static partial Regex PascalBoundaryRegex();

@@ -4,6 +4,4 @@ using Realms;
 namespace VisitzModel.Messaging;
 
 public class DraftMasterSelectedMessage(Type draftType, Realm realm)
-    : ValueChangedMessage<(Type, Realm)>((draftType, realm))
-{
-}
+    : ValueChangedMessage<(Type, Realm)>((draftType, realm)) { }

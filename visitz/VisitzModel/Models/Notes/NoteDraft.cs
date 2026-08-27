@@ -2,128 +2,136 @@ using Realms;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
-using VisitzModel.Models.Interfaces;
+using VisitzModel.Resources.Localization;
 
-namespace VisitzModel.Models.Notes
+namespace VisitzModel.Models.Notes;
+
+public partial class NoteDraft : IRealmObject, IDraftItem
 {
-    public partial class NoteDraft : IRealmObject, IDraftItem
+    // Only allow one note draft per parent entity.
+    [PrimaryKey]
+    public string ParentEntityId { get; set; } = Guid.NewGuid().ToString();
+
+    public string RelatedEntityId
     {
-        // Only allow one note draft per parent entity.
-        [PrimaryKey]
-        public string ParentEntityId { get; set; }
+        get => ParentEntityId;
+        set { }
+    }
 
-        public string RelatedEntityId { get => ParentEntityId; set { } }
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
 
-        private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
+    public EntityType RelatedEntityType
+    {
+        get => (EntityType)RelatedEntityTypeInt;
+        set => RelatedEntityTypeInt = (int)value;
+    }
 
-        public EntityType RelatedEntityType
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
+
+    public EntitySubtype RelatedEntitySubtype
+    {
+        get => (EntitySubtype)RelatedEntitySubtypeInt;
+        set => RelatedEntitySubtypeInt = (int)value;
+    }
+
+    public string Draft { get; set; } = string.Empty;
+
+    public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
+
+    public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
+
+    public string Preview => GeneralStrings.Note;
+
+    public string DraftLocation { get; set; } = string.Empty;
+
+    private bool disposedValue;
+    private bool? relatedEntityAvailable;
+    private bool? relatedEntityDownloaded;
+
+    [Ignored]
+    public Realm? RelatedEntityRealm { get; set; }
+
+    [Ignored]
+    public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
+
+    [Ignored]
+    public IDisposable? RelatedEntitySubscriptionToken { get; set; }
+
+    /// <summary>
+    /// Whether or not the related entity is available for the app to interact
+    /// with at all.
+    /// </summary>
+    [Ignored]
+    public bool? RelatedEntityAvailable
+    {
+        get => relatedEntityAvailable;
+        set
         {
-            get => (EntityType)RelatedEntityTypeInt;
-            set => RelatedEntityTypeInt = (int)value;
+            relatedEntityAvailable = value;
+            RaisePropertyChanged(nameof(RelatedEntityAvailable));
         }
+    }
 
-        private int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
-
-        public EntitySubtype RelatedEntitySubtype
+    /// <summary>
+    /// Whether or not the related entity's depdendent data has been
+    /// downloaded (or marked for download).
+    /// </summary>
+    [Ignored]
+    public bool? RelatedEntityDownloaded
+    {
+        get => relatedEntityDownloaded;
+        set
         {
-            get => (EntitySubtype)RelatedEntitySubtypeInt;
-            set => RelatedEntitySubtypeInt = (int)value;
+            relatedEntityDownloaded = value;
+            RaisePropertyChanged(nameof(RelatedEntityDownloaded));
         }
+    }
 
-        public string Draft { get; set; }
+    public static string MakeId(string parentEntityId)
+    {
+        return $"{parentEntityId}";
+    }
 
-        public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
+    public static NoteDraft? FindByEntityId(Realm realm, string entityId)
+    {
+        return realm.Find<NoteDraft>(MakeId(entityId));
+    }
 
-        public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
+    public static async Task Delete(Realm realm, string entityNumber)
+    {
+        var draft = FindByEntityId(realm, entityNumber);
 
-        public string Preview { get => Draft; }
+        if (draft != null)
+            await realm.WriteAsync(() => realm.Remove(draft));
+    }
 
-        public string DraftLocation { get; set; }
-
-        private bool disposedValue;
-        private bool? relatedEntityAvailable;
-        private bool? relatedEntityDownloaded;
-
-        [Ignored]
-        public Realm RelatedEntityRealm { get; set; }
-
-        [Ignored]
-        public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
-
-        [Ignored]
-        public IDisposable RelatedEntitySubscriptionToken { get; set; }
-
-        /// <summary>
-        /// Whether or not the related entity is available for the app to interact
-        /// with at all.
-        /// </summary>
-        [Ignored]
-        public bool? RelatedEntityAvailable
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
         {
-            get => relatedEntityAvailable;
-            set
+            if (disposing)
             {
-                relatedEntityAvailable = value;
-                RaisePropertyChanged(nameof(RelatedEntityAvailable));
+                RelatedEntitySubscriptionToken?.Dispose();
+                RelatedEntitySubscriptionToken = null;
+                RelatedEntitySubscriptionQuery = null;
+                RelatedEntityRealm = null;
+                RelatedEntityAvailable = null;
+                RelatedEntityDownloaded = null;
             }
+
+            disposedValue = true;
         }
+    }
 
-        /// <summary>
-        /// Whether or not the related entity's depdendent data has been
-        /// downloaded (or marked for download).
-        /// </summary>
-        [Ignored]
-        public bool? RelatedEntityDownloaded
-        {
-            get => relatedEntityDownloaded;
-            set
-            {
-                relatedEntityDownloaded = value;
-                RaisePropertyChanged(nameof(RelatedEntityDownloaded));
-            }
-        }
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 
-        public static string MakeId(string parentEntityId)
-        {
-            return $"{parentEntityId}";
-        }
-
-        public static NoteDraft FindByEntityId(Realm realm, string entityId)
-        {
-            return realm.Find<NoteDraft>(MakeId(entityId));
-        }
-
-        public static async Task Delete(Realm realm, string entityNumber)
-        {
-            var draft = FindByEntityId(realm, entityNumber);
-
-            if (draft != null)
-                await realm.WriteAsync(() => realm.Remove(draft));
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    RelatedEntitySubscriptionToken?.Dispose();
-                    RelatedEntitySubscriptionToken = null;
-                    RelatedEntitySubscriptionQuery = null;
-                    RelatedEntityRealm = null;
-                    RelatedEntityAvailable = null;
-                    RelatedEntityDownloaded = null;
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+    public int CompareTo(IDraftItem? other)
+    {
+        return this.CompareDraftItem(other);
     }
 }

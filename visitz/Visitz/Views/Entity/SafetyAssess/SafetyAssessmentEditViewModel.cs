@@ -1,136 +1,154 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using Oidc;
-using Realms;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
+using Oidc;
+using Realms;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
+using Visitz.Views.Snackbar;
 using VisitzModel;
+using VisitzModel.Events;
 using VisitzModel.Extensions;
-using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.People;
 using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Entity.SafetyAssess;
 
-public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessObjectHolder
+public partial class SafetyAssessmentEditViewModel : IcmRecordViewModel
 {
     public static readonly string SafetyDecisionGroup = "SafetyDecisionGroup";
     public static readonly string WhichChildrenPlaced = "WhichChildrenPlaced";
 
     [ObservableProperty]
-    public DateTime maxDate = DateTimeExtensions.LocalNow;
+    public partial DateTime MaxDate { get; set; } = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
-    public IBusinessObject businessObject;
+    public partial SafetyAssessment Assessment { get; set; } = new();
+    public SafetyAssessment? ViewAssessment { get; set; }
 
     [ObservableProperty]
-    public SafetyAssessment assessment;
-
-    public SafetyAssessment ViewAssessment { get; set; }
+    public partial FactorInfluence Influence { get; set; } = new();
 
     [ObservableProperty]
-    public FactorInfluence influence;
+    public partial ProtectiveCapacity Capacity { get; set; } = new();
 
     [ObservableProperty]
-    public ProtectiveCapacity capacity;
+    public partial SafetyDecisions Decisions { get; set; } = new();
 
     [ObservableProperty]
-    public SafetyDecisions decisions;
+    public partial SafetyFactors Factors { get; set; } = new();
 
     [ObservableProperty]
-    public SafetyFactors factors;
+    public partial SafetyInterventions Interventions { get; set; } = new();
 
     [ObservableProperty]
-    public SafetyInterventions interventions;
+    public partial IList<string> FamilyNames { get; set; } = [];
 
     [ObservableProperty]
-    public IList<string> familyNames;
-
-    [ObservableProperty]
-    public IEnumerable<IcmContact> availableChildrenInOutCare;
+    public partial IEnumerable<IcmContact> AvailableChildrenInOutCare { get; set; } = [];
 
     // Using object instead of IcmContact for generic as a workaround
     // see https://github.com/dotnet/maui/issues/8435#issuecomment-1365586648
     [ObservableProperty]
-    public ObservableCollection<object> selectedChildren = [];
+    public partial ObservableCollection<object> SelectedChildren { get; set; } = [];
 
-    [Obsolete("Workaround for RadioButton rendering issue https://github.com/dotnet/maui/issues/19437")]
+    [field: Obsolete("Workaround for RadioButton rendering issue https://github.com/dotnet/maui/issues/19437")]
     [ObservableProperty]
-    public bool safeChecked;
-
-    [ObservableProperty]
-    public bool safeWithInterventionsChecked;
+    public partial bool SafeChecked { get; set; }
 
     [ObservableProperty]
-    public bool unsafeChecked;
+    public partial bool SafeWithInterventionsChecked { get; set; }
 
     [ObservableProperty]
-    public bool allChildrenPlaced;
+    public partial bool UnsafeChecked { get; set; }
 
     [ObservableProperty]
-    public bool someChildrenPlaced;
+    public partial bool AllChildrenPlaced { get; set; }
 
     [ObservableProperty]
-    public bool canPublish;
+    public partial bool SomeChildrenPlaced { get; set; }
 
     [ObservableProperty]
-    public bool canDiscard;
+    public partial bool CanPublish { get; set; }
 
     [ObservableProperty]
-    public bool isReadOnly;
+    public partial bool CanDiscard { get; set; }
 
-    private Realm Realm;
+    [ObservableProperty]
+    public partial bool IsReadOnly { get; set; }
+
+    [ObservableProperty]
+    public partial DraftSaveState DraftSaveState { get; set; } = DraftSaveState.None;
+
+    private Realm? DraftRealm;
 
     public DraftSaveStateHandler SaveStateHandler { get; } = new();
 
     [ObservableProperty]
-    private AssessmentDraft draftItem;
+    public partial AssessmentDraft? DraftItem { get; set; }
 
     // FIXME This is used to workaround DatePickers not being able to use null values.
     // https://github.com/dotnet/maui/issues/1100, https://github.com/dotnet/maui/pull/27921
     // We can revisit this after upgrading to MAUI 10.
     [ObservableProperty]
-    public bool showDateOfAssessment;
+    public partial bool ShowDateOfAssessment { get; set; }
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        Realm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+        if (DataRealm == null)
+            return;
+
+        DraftRealm = await VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
         SetupFamilyNamePicker();
         SetupChildrenInOutCare();
 
-        if (IsReadOnly)
+        if (IsReadOnly && ViewAssessment != null)
             Assessment = ViewAssessment;
         else
             await SetupAssessmentDraft();
 
         SetDatePickerVisibility();
         SelectedChildren.CollectionChanged += SelectedChildren_CollectionChanged;
+
+        SaveStateHandler.SaveStateChanged += SaveStateHandler_SaveStateChanged;
+        SaveStateHandler.Clear();
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
         {
+            SaveStateHandler.SaveStateChanged -= SaveStateHandler_SaveStateChanged;
             SaveStateHandler.Dispose();
             WeakReferenceMessenger.Default.UnregisterAll(this);
 
             SelectedChildren.CollectionChanged -= SelectedChildren_CollectionChanged;
+            SelectedChildren.Clear();
+            AvailableChildrenInOutCare = [];
             UnsubscribeFromAssessment();
 
-            Assessment = null;
+            Assessment = new()
+            {
+                FactorInfluence = new(),
+                ProtectiveCapacity = new(),
+                SafetyDecisions = new(),
+                SafetyFactors = new(),
+                SafetyInterventions = new(),
+            };
 
-            Realm?.Dispose();
-            Realm = null;
+            DraftRealm?.Dispose();
+            DraftRealm = null;
 
             disposed = true;
         }
@@ -151,14 +169,18 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
         return SafetyAssessment.Make(
             BusinessObject.FileNumber,
             info.Idir,
-            BusinessObject.GetKeyPlayer().LastName
+            BusinessObject.GetKeyPlayer()?.LastName ?? string.Empty
         );
     }
 
     private async Task SetupAssessmentDraft()
     {
-        DraftItem = null;
-        Assessment = SafetyAssessment.FindByIncidentNumber(Realm, BusinessObject.FileNumber)
+        if (DraftRealm == null)
+            return;
+
+        DraftItem = new();
+        Assessment =
+            SafetyAssessment.FindByIncidentNumber(DraftRealm, BusinessObject.FileNumber)
             ?? await MakeNewSafetyAssessment();
 
         await TryAssociateDraftItem();
@@ -169,19 +191,21 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
 
     private async Task TryAssociateDraftItem()
     {
-        if (Assessment.IsManaged)
-            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, BusinessObject.DisplayName);
+        if (Assessment.IsManaged && DraftRealm != null)
+            DraftItem = await AssessmentDraft.Upsert(DraftRealm, Assessment, BusinessObject.DisplayName);
     }
 
-    private async void Assessment_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private async void Assessment_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        _ = TrySendSavedMessage(DraftSaveState.Saving);
+        if (DraftRealm == null)
+            return;
 
         if (!Assessment.IsManaged)
-            DraftItem = await AssessmentDraft.Upsert(Realm, Assessment, BusinessObject.DisplayName);
+            DraftItem = await AssessmentDraft.Upsert(DraftRealm, Assessment, BusinessObject.DisplayName);
         else if (DraftItem?.IsValid ?? false)
             DraftItem.LastUpdatedBinding = DateTimeOffset.Now;
 
+        _ = TrySendSavedMessage(DraftSaveState.Saving);
         CanDiscard = Assessment.IsManaged;
         UpdateCanPublish();
     }
@@ -219,25 +243,22 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
 
     private void SetupBindings(SafetyAssessment value)
     {
-        if (FamilyNames?.Count > 0 && value != null && !value.IsManaged)
+        if (FamilyNames?.Count > 0 && !value.IsManaged)
             value.FamilyName = FamilyNames[0];
 
-        Influence = value?.FactorInfluence;
-        Capacity = value?.ProtectiveCapacity;
-        Decisions = value?.SafetyDecisions;
-        Factors = value?.SafetyFactors;
-        Interventions = value?.SafetyInterventions;
+        Influence = value.FactorInfluence ?? new();
+        Capacity = value.ProtectiveCapacity ?? new();
+        Decisions = value.SafetyDecisions ?? new();
+        Factors = value.SafetyFactors ?? new();
+        Interventions = value.SafetyInterventions ?? new();
 
-        if (value == null)
-            SelectedChildren.Clear();
-        else if (AvailableChildrenInOutCare != null)
-        {
-            foreach (var child in AvailableChildrenInOutCare)
-                if (value.ChildsInOutCare.Contains(child.Id))
-                    SelectedChildren.Add(child);
-        }
+        SelectedChildren.Clear();
 
-        CanDiscard = value?.IsManaged ?? false;
+        foreach (var child in AvailableChildrenInOutCare)
+            if (value.ChildsInOutCare.Contains(child.Id))
+                SelectedChildren.Add(child);
+
+        CanDiscard = value.IsManaged;
     }
 
     private void SubscribeToAssessment()
@@ -252,27 +273,15 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
 
     private void UnsubscribeFromAssessment()
     {
-        if (Assessment != null)
-            Assessment.PropertyChanged -= Assessment_PropertyChanged;
+        ClearDecisionBools();
+        ClearDecisionUnsafeBools();
 
-        if (Influence != null)
-            Influence.PropertyChanged -= Assessment_PropertyChanged;
-
-        if (Capacity != null)
-            Capacity.PropertyChanged -= Assessment_PropertyChanged;
-
-        if (Decisions != null)
-        {
-            ClearDecisionBools();
-            ClearDecisionUnsafeBools();
-            Decisions.PropertyChanged -= Assessment_PropertyChanged;
-        }
-
-        if (Factors != null)
-            Factors.PropertyChanged -= Assessment_PropertyChanged;
-
-        if (Interventions != null)
-            Interventions.PropertyChanged -= Assessment_PropertyChanged;
+        Assessment.PropertyChanged -= Assessment_PropertyChanged;
+        Influence.PropertyChanged -= Assessment_PropertyChanged;
+        Capacity.PropertyChanged -= Assessment_PropertyChanged;
+        Decisions.PropertyChanged -= Assessment_PropertyChanged;
+        Factors.PropertyChanged -= Assessment_PropertyChanged;
+        Interventions.PropertyChanged -= Assessment_PropertyChanged;
     }
 
     [RelayCommand]
@@ -281,17 +290,32 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
 #if DEBUG
         WriteSafetyAssessmentJson();
 #endif
-        var saPublishVm = ServiceProvider.Current.GetService<SafetyAssessmentPublishViewModel>();
+        var saPublishVm = ServiceProvider.GetService<SafetyAssessmentPublishViewModel>();
+        var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
+
         saPublishVm.BusinessObject = BusinessObject;
 
-        var saPublish = new PublishPage(saPublishVm);
+        var saPublish = new PublishPage(saPublishVm, logger);
         await Navigator.Navigation.PushAsync(saPublish);
         await Navigator.Navigation.PopModalAsync();
     }
 
-    [RelayCommand]
-    public async Task Reset()
+    private static async Task<bool> PromptDiscard()
     {
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
+            LocalizedStrings.DiscardDraftQuestion,
+            LocalizedStrings.DiscardSafetyAssessmentDraftDescription,
+            LocalizedStrings.Discard,
+            LocalizedStrings.Cancel
+        );
+    }
+
+    [RelayCommand]
+    public async Task DiscardDraftAsync()
+    {
+        if (!await PromptDiscard())
+            return;
+
         UnsubscribeFromAssessment();
         await AssessmentDraft.TryDeleteAsync(Assessment);
 
@@ -299,6 +323,9 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
 
         await SetupAssessmentDraft();
         SelectedChildren?.Clear();
+
+        await Navigator.Navigation.PopModalAsync();
+        SnackbarHandler.ShowText(LocalizedStrings.DiscardedSafetyAssessmentDraft);
     }
 
 #if DEBUG
@@ -307,30 +334,33 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
         var entity = Assessment.ToApiJson();
 
 #pragma warning disable CA1869 // Cache and reuse 'JsonSerializerOptions' instances
-        var json = System.Text.Json.JsonSerializer.Serialize(entity, new System.Text.Json.JsonSerializerOptions
-        {
-            AllowTrailingCommas = true,
-            PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
-            WriteIndented = true,
-        });
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            entity,
+            new System.Text.Json.JsonSerializerOptions
+            {
+                AllowTrailingCommas = true,
+                PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase,
+                WriteIndented = true,
+            }
+        );
 #pragma warning restore CA1869 // Cache and reuse 'JsonSerializerOptions' instances
 
         ConsoleTrace.TraceMethod(this, json);
     }
 #endif
 
-    private void SelectedChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void SelectedChildren_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         Assessment.Commit(() =>
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (IcmContact child in e.NewItems.Cast<IcmContact>())
+                foreach (IcmContact child in e.NewItems?.Cast<IcmContact>() ?? [])
                     Assessment.ChildsInOutCare.Add(child.Id);
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                foreach (IcmContact child in e.OldItems.Cast<IcmContact>())
+                foreach (IcmContact child in e.OldItems?.Cast<IcmContact>() ?? [])
                     Assessment.ChildsInOutCare.Remove(child.Id);
             }
             else if (e.Action == NotifyCollectionChangedAction.Reset)
@@ -376,5 +406,10 @@ public partial class SafetyAssessmentEditViewModel : VisitzViewModel, IBusinessO
         if (value)
             foreach (var child in AvailableChildrenInOutCare)
                 SelectedChildren.Add(child);
+    }
+
+    async void SaveStateHandler_SaveStateChanged(object? sender, DraftSaveStatusEventArgs e)
+    {
+        DraftSaveState = e.State;
     }
 }

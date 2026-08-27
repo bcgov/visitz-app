@@ -25,48 +25,48 @@ public abstract partial class PublishViewModel : VisitzViewModel
     public State CurrentState { get; private set; } = State.Waiting;
 
     [ObservableProperty]
-    public string title;
+    public partial string Title { get; set; }
 
     [ObservableProperty]
-    public bool showPublishingIndicator;
+    public partial bool ShowPublishingIndicator { get; set; }
 
     [ObservableProperty]
-    public string publishingStatus;
+    public partial string PublishingStatus { get; set; }
 
     [ObservableProperty]
-    public bool showRefreshingIndicator;
+    public partial bool ShowRefreshingIndicator { get; set; }
 
     [ObservableProperty]
-    public string refreshingStatus;
+    public partial string RefreshingStatus { get; set; }
 
     [ObservableProperty]
-    public bool showRetryButton;
+    public partial bool ShowRetryButton { get; set; }
 
     [ObservableProperty]
-    public bool showDismissButton;
+    public partial bool ShowDismissButton { get; set; }
 
     [ObservableProperty]
-    public bool showPublishSuccessIcon;
+    public partial bool ShowPublishSuccessIcon { get; set; }
 
     [ObservableProperty]
-    public bool showPublishErrorIcon;
+    public partial bool ShowPublishErrorIcon { get; set; }
 
     [ObservableProperty]
-    public string publishErrorDetail;
+    public partial string? PublishErrorDetail { get; set; }
 
     [ObservableProperty]
-    public bool showRefreshSuccessIcon;
+    public partial bool ShowRefreshSuccessIcon { get; set; }
 
     [ObservableProperty]
-    public bool showRefreshErrorIcon;
+    public partial bool ShowRefreshErrorIcon { get; set; }
 
     [ObservableProperty]
-    public string refreshErrorDetail;
+    public partial string? RefreshErrorDetail { get; set; }
 
     [ObservableProperty]
-    public bool allowRetry;
+    public partial bool AllowRetry { get; set; }
 
-    public event EventHandler OnCompleted;
+    public event EventHandler? OnCompleted;
 
     private void SetState(State state)
     {
@@ -93,13 +93,15 @@ public abstract partial class PublishViewModel : VisitzViewModel
                 SetFlags(
                     showPublishSuccessIcon: ShowPublishSuccessIcon,
                     showPublishErrorIcon: ShowPublishErrorIcon,
-                    showRefreshingIndicator: true);
+                    showRefreshingIndicator: true
+                );
                 break;
             case State.Refreshed:
                 SetFlags(
                     showPublishSuccessIcon: ShowPublishSuccessIcon,
                     showPublishErrorIcon: ShowPublishErrorIcon,
-                    showRefreshSuccessIcon: true);
+                    showRefreshSuccessIcon: true
+                );
                 break;
             case State.RefreshError:
                 SetFlags(
@@ -108,7 +110,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
                     showRefreshErrorIcon: true,
                     showRetryButton: true,
                     allowRetry: false,
-                    showDismissButton: true);
+                    showDismissButton: true
+                );
                 break;
             case State.Completed:
                 SetFlags(
@@ -116,7 +119,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
                     showPublishErrorIcon: ShowPublishErrorIcon,
                     showRefreshSuccessIcon: ShowRefreshSuccessIcon,
                     showRefreshErrorIcon: ShowRefreshErrorIcon,
-                    showDismissButton: true);
+                    showDismissButton: true
+                );
                 break;
             case State.Unknown:
                 ConsoleTrace.TraceMethod(this, $"Reached {nameof(State.Unknown)} enum");
@@ -135,7 +139,8 @@ public abstract partial class PublishViewModel : VisitzViewModel
         bool showPublishErrorIcon = false,
         bool showRefreshSuccessIcon = false,
         bool showRefreshErrorIcon = false,
-        bool allowRetry = true)
+        bool allowRetry = true
+    )
     {
         ShowPublishingIndicator = showPublishingIndicator;
         ShowRefreshingIndicator = showRefreshingIndicator;

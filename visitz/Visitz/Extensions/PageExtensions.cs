@@ -5,37 +5,40 @@ namespace Visitz.Extensions;
 
 internal static class PageExtensions
 {
-    static async Task<bool> MessagePrompt(Page page, string message, bool promptDetails, string title = null)
+    static async Task<bool> MessagePrompt(Page page, string message, bool promptDetails, string? title = null)
     {
         if (promptDetails)
-            return await page.DisplayAlert(
+            return await page.DisplayAlertAsync(
                 !string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error,
                 message,
                 LocalizedStrings.Details,
-                LocalizedStrings.Ok);
+                LocalizedStrings.Ok
+            );
         else
-            await page.DisplayAlert(LocalizedStrings.Error, message, LocalizedStrings.Ok);
+            await page.DisplayAlertAsync(LocalizedStrings.Error, message, LocalizedStrings.Ok);
 
         return false;
     }
 
-    static async Task<bool> DetailedMessagePrompt(Page page, string detailedMessage, string title = null)
+    static async Task<bool> DetailedMessagePrompt(Page page, string? detailedMessage, string? title = null)
     {
+        detailedMessage ??= string.Empty;
         string prompt = LocalizedStrings.ErrorDialogCopyPrompt + Environment.NewLine + Environment.NewLine;
-        return await page.DisplayAlert(
+        return await page.DisplayAlertAsync(
             title,
             prompt + detailedMessage,
             LocalizedStrings.CopyToClipboard,
-            LocalizedStrings.Ok);
+            LocalizedStrings.Ok
+        );
     }
 
     public static async Task DisplayErrorAlert(
         this Page page,
         string message,
-        string detailedMessage = null,
-        string title = null)
+        string? detailedMessage = null,
+        string? title = null
+    )
     {
-
         string displayTitle = !string.IsNullOrEmpty(title) ? title : LocalizedStrings.Error;
         if (await MessagePrompt(page, message, detailedMessage != null, displayTitle))
             if (await DetailedMessagePrompt(page, detailedMessage, displayTitle))
@@ -45,8 +48,14 @@ internal static class PageExtensions
             }
     }
 
-    public static async Task DisplayErrorAlert(this Page page, Exception exception)
+    public static async Task DisplayErrorAlert(
+        this Page page,
+        Exception exception,
+        string? title = "",
+        string? message = ""
+    )
     {
-        await DisplayErrorAlert(page, exception.Message, exception.Message + " -> " + exception.StackTrace);
+        message += Environment.NewLine + Environment.NewLine + exception.Message;
+        await DisplayErrorAlert(page, message.Trim(), exception.Message + " -> " + exception.ToString(), title);
     }
 }

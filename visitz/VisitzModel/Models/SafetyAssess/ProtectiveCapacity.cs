@@ -78,8 +78,8 @@ public partial class ProtectiveCapacity : IRealmObject, IApiJson<SubmitProtectiv
     }
 
     /// <summary>
-    /// Used for form business logic: "Protective Capacities section - Checking 'No protective capacities present' 
-    /// unchecks all other Protective Capacities checkboxes. Checking any other checkbox unchecks "No protective 
+    /// Used for form business logic: "Protective Capacities section - Checking 'No protective capacities present'
+    /// unchecks all other Protective Capacities checkboxes. Checking any other checkbox unchecks "No protective
     /// capacities present" checkbox".
     /// </summary>
     private void ClearNoProCapPresent()
@@ -88,8 +88,8 @@ public partial class ProtectiveCapacity : IRealmObject, IApiJson<SubmitProtectiv
     }
 
     /// <summary>
-    /// Used for form business logic: "Protective Capacities section - Checking 'No protective capacities present' 
-    /// unchecks all other Protective Capacities checkboxes. Checking any other checkbox unchecks "No protective 
+    /// Used for form business logic: "Protective Capacities section - Checking 'No protective capacities present'
+    /// unchecks all other Protective Capacities checkboxes. Checking any other checkbox unchecks "No protective
     /// capacities present" checkbox".
     /// </summary>
     /// <param name="newVal">Assigned directly to NoProCapPresent</param>
@@ -100,15 +100,16 @@ public partial class ProtectiveCapacity : IRealmObject, IApiJson<SubmitProtectiv
         if (NoProCapPresent)
         {
             ParentCognitive =
-            ParentWillingness =
-            ParentResources =
-            ParentSupportive =
-            ParentProtect =
-            ParentAccept =
-            ParentRelationship =
-            ParentAware =
-            ParentProbSolving =
-            CapacitiesOther = false;
+                ParentWillingness =
+                ParentResources =
+                ParentSupportive =
+                ParentProtect =
+                ParentAccept =
+                ParentRelationship =
+                ParentAware =
+                ParentProbSolving =
+                CapacitiesOther =
+                    false;
         }
     }
 }

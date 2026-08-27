@@ -2,7 +2,6 @@ using Realms;
 using VisitzApi.Models.Visits;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
 
@@ -15,9 +14,9 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string ParentId { get; set; }
+    public string ParentId { get; set; } = string.Empty;
 
-    private int ParentTypeInt { get; set; } = (int)EntityType.Case;
+    internal int ParentTypeInt { get; set; } = (int)EntityType.Case;
 
     public EntityType ParentType
     {
@@ -25,27 +24,28 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         set => ParentTypeInt = (int)value;
     }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string VisitDescription { get; set; }
+    public string VisitDescription { get; set; } = string.Empty;
 
     public string Type { get; set; } = _defaultType;
 
     public DateTimeOffset DateOfVisit { get; set; } = DateTimeOffset.Now;
 
-    public IList<string> VisitDetails { get; }
+    public IList<string> VisitDetails { get; } = null!; // Realm inits this automatically
 
-    public string LoginName { get; set; }
+    public string LoginName { get; set; } = string.Empty;
 
     public DateTimeOffset Created { get; set; }
 
     public DateTimeOffset Updated { get; set; }
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public DateTimeOffset DueDate => DateOfVisit.Date.AddDays((int)VisitDaysThreshold.Info);
+    public DateTimeOffset DueDate => DateOfVisitBinding.Date.AddDays((int)VisitDaysThreshold.Info);
+
     public int DueDateDaysRemaining => (DueDate.Date - DateTimeOffset.Now.Date).Days;
 
     public VisitDaysThreshold CurrentDueDateThreshold
@@ -63,20 +63,15 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         }
     }
 
-    public string FirstVisitDetail => VisitDetails?.FirstOrDefault() ?? "";
+    public string FirstVisitDetail => VisitDetailsBinding.FirstOrDefault() ?? "";
+
+    public string VisitDetailDisplay =>
+        VisitDetailsBinding.Order().Aggregate("", (accum, next) => $"{accum}{Environment.NewLine}• {next}").Trim();
+
+    [Ignored]
+    public int SortOrder => DueDateDaysRemaining;
 
     public PersonVisit() { }
-
-    public PersonVisit(CaseRecord @case)
-    {
-        ParentId = @case.Id;
-    }
-
-    public PersonVisit(params string[] visitDetails)
-    {
-        foreach (var detail in visitDetails)
-            VisitDetails.Add(detail);
-    }
 
     public PersonVisit(VisitJson json)
     {
@@ -122,44 +117,70 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         return outList;
     }
 
-    public static async Task SaveVisitsAsync(Realm realm, IEnumerable<VisitJson> visits)
+    public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits, string parentId)
     {
-        await RealmExtensions.CommitAsync(realm, () => realm.Upsert(FromApiArray(visits)));
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
+            {
+                var incomingVisits = FromApiArray(visits);
+                var existingVisits = GetVisitsByCaseId(realm, parentId).ToList();
+
+                var visitsToDelete = existingVisits
+                    .Except(
+                        incomingVisits,
+                        EqualityComparer<PersonVisit>.Create((l, r) => l?.Id == r?.Id, visit => visit.Id.GetHashCode())
+                    )
+                    .ToList();
+
+                foreach (var item in visitsToDelete)
+                {
+                    if (item != null && item.IsValid)
+                        realm.Remove(item);
+                }
+                realm.Upsert(incomingVisits);
+            }
+        );
     }
 
     public static IQueryable<PersonVisit> GetVisitsByCaseId(Realm realm, string caseId)
     {
-        return realm.All<PersonVisit>()
+        return realm
+            .All<PersonVisit>()
             .Where(person => person.ParentId == caseId)
             .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)");
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)
     {
-        var visitItems = realm.All<PersonVisit>()
+        var visitItems = realm
+            .All<PersonVisit>()
             .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
 
         realm.RemoveRange(visitItems);
     }
 
-    public static IQueryable<PersonVisit> GetAllByType(Realm realm, EntityType entityType = EntityType.Case)
+    /// <summary>
+    /// Gets an <see cref="IQueryable"/> representing the latest visit for every distinct parent record currently in
+    /// the database.
+    /// </summary>
+    /// <param name="realm"></param>
+    /// <returns></returns>
+    public static IQueryable<PersonVisit> GetLatestVisitsPerParentRecord(Realm realm)
     {
-        return realm.All<PersonVisit>().Where(item => item.ParentTypeInt == (int)entityType);
+        return realm
+            .All<PersonVisit>()
+            .Filter($"TRUEPREDICATE SORT({nameof(DateOfVisit)} DESC, {nameof(Created)} DESC)")
+            .Filter($"TRUEPREDICATE DISTINCT({nameof(ParentId)})");
     }
 
-    public static IOrderedEnumerable<PersonVisit> GetUpcomingVisits(Realm realm, EntityType entityType = EntityType.Case)
-    {
-        var latestVisitsPerCase = GetAllByType(realm, entityType)
-            .AsEnumerable()
-            .GroupBy(item => item.ParentId)
-            .Select(group => group
-                .OrderByDescending(item => item.DateOfVisit)
-                .FirstOrDefault())
-            .Where(item => item != null && item.CurrentDueDateThreshold <= VisitDaysThreshold.Warning)
-            .OrderBy(item => item.DueDateDaysRemaining);
-
-        return latestVisitsPerCase;
-    }
+    /// <summary>
+    /// A predicate to check if a given visit is "upcoming" (are we approaching its due date or not).
+    /// </summary>
+    /// <param name="visit"></param>
+    /// <returns></returns>
+    public static bool IsUpcomingVisit(PersonVisit visit) =>
+        visit != null && visit.CurrentDueDateThreshold <= VisitDaysThreshold.Warning;
 
     public void ToggleVisitDetail(string detail, bool add)
     {

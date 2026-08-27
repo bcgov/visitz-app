@@ -1,20 +1,16 @@
 using System.Text.Json;
+using VisitzApi.Json.Converters;
 
 namespace VisitzApi.Json;
 
 public static class PayloadOptions
 {
-    public static readonly JsonSerializerOptions Default = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    };
+    public static readonly JsonSerializerOptions Default = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    static readonly JsonSerializerOptions _siebelGet = new()
+    public static readonly JsonSerializerOptions SiebelGet = new()
     {
         PropertyNamingPolicy = new PascalWhitespaceNamingPolicy(),
     };
-
-    public static JsonSerializerOptions SiebelGet => _siebelGet;
 
     static readonly JsonSerializerOptions _middlewarePost = new()
     {
@@ -22,4 +18,10 @@ public static class PayloadOptions
     };
 
     public static JsonSerializerOptions MiddlewarePost => _middlewarePost;
+
+    static PayloadOptions()
+    {
+        SiebelGet.Converters.Add(new SiebelDateTimeConverter());
+        SiebelGet.Converters.Add(new SiebelDateTimeNullableConverter());
+    }
 }

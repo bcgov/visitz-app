@@ -5,13 +5,9 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
-internal class GetAttachmentsByRangeService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+internal class GetAttachmentsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
-
     public static string MakeId()
     {
         return nameof(GetAttachmentsByRangeService);
@@ -35,10 +31,5 @@ internal class GetAttachmentsByRangeService(
     protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
     {
         await serviceHandler.TryRunServiceAsync(GetAttachmentsService.MakeStartMessage(item));
-    }
-
-    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
     }
 }

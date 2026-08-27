@@ -11,7 +11,7 @@ using VisitzModel.Storage.Filesystem;
 
 namespace VisitzModel.Models.Attachments;
 
-public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentJson>
+public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<AttachmentJson>, IEquatable<Attachment>
 {
     public static readonly int MaxFilesize = 5 * Sizes.MB;
     public static readonly int ThumbnailSize = 400;
@@ -24,81 +24,83 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string RelatedEntityId { get; set; }
+    public string RelatedEntityId { get; set; } = string.Empty;
 
-    private int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
     public EntityType RelatedEntityType
     {
         get => (EntityType)RelatedEntityTypeInt;
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    private int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
     public EntitySubtype RelatedEntitySubtype
     {
         get => (EntitySubtype)RelatedEntitySubtypeInt;
         set => RelatedEntitySubtypeInt = (int)value;
     }
 
-    public string ServiceRequestNumber { get; set; }
-    public string Categorie { get; set; }
-    public string Category { get; set; }
-    public string ClientFlag { get; set; }
-    public string EndDate { get; set; }
-    public string FinalFlag { get; set; }
-    public string FormDescription { get; set; }
-    public string IncidentId { get; set; }
-    public string IncidentNo { get; set; }
-    public string Internal { get; set; }
-    public string CaseNumber { get; set; }
-    public string PortalVisible { get; set; }
-    public string ShowOnContact { get; set; }
-    public string Status { get; set; }
-    public string SubCategory { get; set; }
-    public string Template { get; set; }
-    public string TemplateType { get; set; }
-    public string CaseId { get; set; }
-    public string Comments { get; set; }
-    public string FileAutoUpdFlg { get; set; }
-    public string FileDate { get; set; }
-    public string FileDeferFlg { get; set; }
-    public string FileDockReqFlg { get; set; }
-    public string FileDockStatFlg { get; set; }
-    public string FileSize { get; set; }
-    public string FileSrcPath { get; set; }
-    public string FileSrcType { get; set; }
-    public string MemoId { get; set; }
-    public string MemoNumber { get; set; }
-    public string ServiceRequestId { get; set; }
-    public string CreatedBy { get; set; }
-    public DateTimeOffset CreatedDate { get; set; }
-    public DateTimeOffset UpdatedDate { get; set; }
-    public string UpdatedBy { get; set; }
+    public string ServiceRequestNumber { get; set; } = string.Empty;
+    public string Categorie { get; set; } = string.Empty;
+    public string Category { get; set; } = string.Empty;
+    public string ClientFlag { get; set; } = string.Empty;
+    public string EndDate { get; set; } = string.Empty;
+    public string FinalFlag { get; set; } = string.Empty;
+    public string FormDescription { get; set; } = string.Empty;
+    public string IncidentId { get; set; } = string.Empty;
+    public string IncidentNo { get; set; } = string.Empty;
+    public string Internal { get; set; } = string.Empty;
+    public string CaseNumber { get; set; } = string.Empty;
+    public string PortalVisible { get; set; } = string.Empty;
+    public string ShowOnContact { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
+    public string SubCategory { get; set; } = string.Empty;
+    public string Template { get; set; } = string.Empty;
+    public string TemplateType { get; set; } = string.Empty;
+    public string CaseId { get; set; } = string.Empty;
+    public string Comments { get; set; } = string.Empty;
+    public string FileAutoUpdFlg { get; set; } = string.Empty;
+    public string FileDate { get; set; } = string.Empty;
+    public string FileDeferFlg { get; set; } = string.Empty;
+    public string FileDockReqFlg { get; set; } = string.Empty;
+    public string FileDockStatFlg { get; set; } = string.Empty;
+    public string FileSize { get; set; } = string.Empty;
+    public string FileSrcPath { get; set; } = string.Empty;
+    public string FileSrcType { get; set; } = string.Empty;
+    public string MemoId { get; set; } = string.Empty;
+    public string MemoNumber { get; set; } = string.Empty;
+    public string ServiceRequestId { get; set; } = string.Empty;
+    public string CreatedBy { get; set; } = string.Empty;
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public byte[] Thumbnail { get; set; }
+    public byte[]? Thumbnail { get; set; }
 
     /// <summary>
     /// Relative path to file on virtualized file system. File name will be different than <see cref="Filename"/>.
     /// </summary>
-    public string RelativePath { get; set; }
+    public string RelativePath { get; set; } = string.Empty;
 
     /// <summary>
     /// Virtual name of the attachment as stored in ICM, without the file type extension.
     /// </summary>
-    public string Filename { get; set; }
+    public string Filename { get; set; } = string.Empty;
 
     /// <summary>
     /// The file type extension including the dot '.'
     /// </summary>
-    public string Extension { get; set; }
+    public string Extension { get; set; } = string.Empty;
 
     public bool FileExistsLocally => RelativePath?.Trim().Length > 0;
 
+    public int? SizeBytes => int.TryParse(FileSize, out int size) ? size : null;
+
     [Backlink(nameof(AttachmentDraft.Attachment))]
-    public IQueryable<AttachmentDraft> AttachmentDrafts { get; }
+    public IQueryable<AttachmentDraft> AttachmentDrafts { get; } = null!;
 
 #pragma warning disable RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
-    public AttachmentDraft Draft => AttachmentDrafts.FirstOrDefault();
+    public AttachmentDraft? Draft => AttachmentDrafts.FirstOrDefault();
 #pragma warning restore RLM025 // RealmObject/EmbeddedObject properties usually indicate a relationship
 
     public bool HasDraft => Draft != null;
@@ -113,7 +115,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
                 EntityType.Incident => IncidentNo,
                 EntityType.Memo => MemoNumber,
                 EntityType.ServiceRequest => ServiceRequestNumber,
-                _ => throw new NotImplementedException($"'{RelatedEntityType}' not implemented")
+                _ => throw new NotImplementedException($"'{RelatedEntityType}' not implemented"),
             };
         }
         set
@@ -136,13 +138,13 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     private bool? relatedEntityDownloaded;
 
     [Ignored]
-    public Realm RelatedEntityRealm { get; set; }
+    public Realm? RelatedEntityRealm { get; set; }
 
     [Ignored]
-    public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+    public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
 
     [Ignored]
-    public IDisposable RelatedEntitySubscriptionToken { get; set; }
+    public IDisposable? RelatedEntitySubscriptionToken { get; set; }
 
     /// <summary>
     /// Whether or not the related entity is available for the app to interact
@@ -172,27 +174,6 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             relatedEntityDownloaded = value;
             RaisePropertyChanged(nameof(RelatedEntityDownloaded));
         }
-    }
-
-    public static async Task DeleteAsync(Realm realm, Attachment attachment, bool removeContent = true)
-    {
-        string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
-
-        if (removeContent && File.Exists(fullpath))
-            File.Delete(fullpath);
-
-        await attachment.CommitAsync(() =>
-        {
-            if (attachment.HasDraft)
-                realm.Remove(attachment.Draft);
-
-            realm.Remove(attachment);
-        });
-    }
-
-    public async Task DeleteAsync(bool removeContent = true)
-    {
-        await DeleteAsync(Realm, this, removeContent);
     }
 
     public Attachment() { }
@@ -269,7 +250,7 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
             FileDeferFlg = FileDeferFlg,
             FileDockReqFlg = FileDockReqFlg,
             FileDockStatFlg = FileDockStatFlg,
-            FileExt = Extension?.Trim('.'),
+            FileExt = Extension?.Trim('.') ?? string.Empty,
             FileSize = FileSize,
             FileSrcPath = FileSrcPath,
             FileSrcType = FileSrcType,
@@ -292,7 +273,8 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     public static IEnumerable<Attachment> FromApiArray(
         IEnumerable<AttachmentJson> items,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
         List<Attachment> outList = [];
 
@@ -345,50 +327,89 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         UpdatedDate = source.UpdatedDate;
     }
 
-    public static async Task SaveAttachmentsAsync(
+    public static async Task SynchronizeAsync(
         Realm realm,
         IEnumerable<AttachmentJson> items,
         string parentId,
-        EntityType type)
+        EntityType type
+    )
     {
+        // Issues with Realm object lifetime and IEnumerable, so materialize everything to lists instead
         var incomingAttachments = FromApiArray(items, parentId, type);
-        var incomingAttachmentIds = incomingAttachments.Select(item => item.Id);
+        var existingAttachments = GetAttachments(realm, type, parentId).ToList();
+        var remove = existingAttachments.Except(incomingAttachments).ToList();
 
-        var existingAttachments = realm.All<Attachment>();
-        var existingAttachmentIds = existingAttachments.AsEnumerable().Select(item => item.Id);
-
-        var newAttachmentIds = incomingAttachmentIds.Except(existingAttachmentIds);
-        var newAttachments = incomingAttachments.Where(item => newAttachmentIds.Contains(item.Id));
-
-        var commonIds = incomingAttachmentIds.Except(newAttachmentIds);
-        var attachmentsToUpdate = incomingAttachments.Where(item => commonIds.Contains(item.Id));
-
-        if (!newAttachments.Any() && !attachmentsToUpdate.Any())
-            return;
-
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            foreach (var attachment in newAttachments)
-                realm.Add(attachment);
-
-            foreach (var updatedAttachment in attachmentsToUpdate)
+        await RealmExtensions.CommitAsync(
+            realm,
+            () =>
             {
-                var existing = realm.Find<Attachment>(updatedAttachment.Id);
-                existing?.CopyFrom(updatedAttachment);
+                foreach (Attachment item in remove)
+                {
+                    if (item.IsValid)
+                    {
+                        if (item.FileExistsLocally)
+                            item.RemoveFileFromDevice();
+                        realm.Remove(item);
+                    }
+                }
+
+                foreach (var upsertAttachment in incomingAttachments)
+                {
+                    if (realm.Find<Attachment>(upsertAttachment.Id) is Attachment existing)
+                        existing.CopyFrom(upsertAttachment);
+                    else
+                        realm.Add(upsertAttachment);
+                }
             }
-        });
+        );
     }
 
     public static IQueryable<Attachment> GetAttachments(Realm realm, EntityType type, string recordId)
     {
-        return realm.All<Attachment>()
+        return realm
+            .All<Attachment>()
             .Where(item => item.RelatedEntityTypeInt == (int)type && item.RelatedEntityId == recordId);
+    }
+
+    public static IQueryable<Attachment> GetAttachmentsByIdOrFileNumber(
+        Realm realm,
+        EntityType type,
+        string recordId,
+        string fileNumber
+    )
+    {
+        return realm
+            .All<Attachment>()
+            .Where(item =>
+                item.RelatedEntityTypeInt == (int)type
+                && (item.RelatedEntityId == recordId || item.RelatedEntityId == fileNumber)
+            );
     }
 
     public static IOrderedQueryable<Attachment> GetOrderedAttachments(Realm realm, EntityType type, string recordId)
     {
-        return GetAttachments(realm, type, recordId)
-            .OrderByDescending(item => item.CreatedDate);
+        return GetAttachments(realm, type, recordId).OrderByDescending(item => item.CreatedDate);
+    }
+
+    public static async Task DeleteAsync(Realm realm, Attachment attachment, bool removeContent = true)
+    {
+        ArgumentNullException.ThrowIfNull(realm);
+
+        string fullpath = AttachmentFiler.GetFullPath(attachment.RelativePath);
+
+        if (removeContent && File.Exists(fullpath))
+            File.Delete(fullpath);
+
+        await attachment.CommitAsync(() =>
+        {
+            realm.Remove(attachment);
+        });
+    }
+
+    public async Task DeleteAsync(bool removeContent = true)
+    {
+        if (Realm != null)
+            await DeleteAsync(Realm, this, removeContent);
     }
 
     public void RemoveFileFromDevice()
@@ -397,9 +418,15 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         RelativePathBinding = string.Empty;
     }
 
-    public static void RemoveByParent(Realm realm, EntityType type, string parentId, UserIgnoredContentPrefs userIgnoredPrefs)
+    public static void RemoveByParent(
+        Realm realm,
+        EntityType type,
+        string parentId,
+        UserIgnoredContentPrefs userIgnoredPrefs
+    )
     {
-        var attachmentItems = realm.All<Attachment>()
+        var attachmentItems = realm
+            .All<Attachment>()
             .Where(item => item.RelatedEntityId == parentId && item.RelatedEntityTypeInt == (int)type)
             .ToList();
 
@@ -435,5 +462,23 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Attachment attachment ? Equals(attachment) : base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        // Id is not meant to change
+        return Id.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
+    }
+
+    public bool Equals(Attachment? other)
+    {
+        return ReferenceEquals(this, other) || Id == other?.Id;
     }
 }

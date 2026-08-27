@@ -7,10 +7,10 @@ namespace Visitz.Views.Entity.ChildYouthVisits;
 public partial class VisitDetailListItem : VisitzViewModel
 {
     [ObservableProperty]
-    public string detailValue;
+    public partial string DetailValue { get; set; }
 
     [ObservableProperty]
-    public bool isChecked;
+    public partial bool IsChecked { get; set; }
 
     PersonVisit Visit { get; }
 

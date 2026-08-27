@@ -4,12 +4,12 @@
 
 namespace VisitzModel.Utilities;
 
-public sealed class Debouncer(TimeSpan? delay) : IDisposable
+public sealed partial class Debouncer(TimeSpan? delay) : IDisposable
 {
     public static readonly TimeSpan AvgStoppedTypingDelay = TimeSpan.FromMilliseconds(700);
 
     private readonly TimeSpan _delay = delay ?? TimeSpan.FromSeconds(2);
-    private CancellationTokenSource previousCancellationToken = null;
+    private CancellationTokenSource? previousCancellationToken = null;
 
     public async Task Debounce(Action action)
     {
@@ -21,18 +21,21 @@ public sealed class Debouncer(TimeSpan? delay) : IDisposable
             await Task.Delay(_delay, previousCancellationToken.Token);
             await Task.Run(action, previousCancellationToken.Token);
         }
-        catch (TaskCanceledException) { } // can swallow exception as nothing more to do if task cancelled
+        catch { } // can swallow exception as nothing more to do if task cancelled/token disposed
     }
 
     public void Cancel()
     {
-        if (previousCancellationToken != null && !previousCancellationToken.IsCancellationRequested)
+        if (previousCancellationToken == null || previousCancellationToken.IsCancellationRequested)
+            return;
+
+        try
         {
             previousCancellationToken.Cancel();
             previousCancellationToken.Dispose();
         }
+        catch { } // discard exception, nothing to handle
     }
 
     public void Dispose() => Cancel();
-
 }

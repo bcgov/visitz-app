@@ -1,4 +1,4 @@
-﻿namespace VisitzModel.Models.SafetyAssess;
+namespace VisitzModel.Models.SafetyAssess;
 
 public enum SafetyDecisionOption
 {

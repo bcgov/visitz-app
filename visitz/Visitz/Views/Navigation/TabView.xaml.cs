@@ -2,25 +2,23 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Navigation;
 
-#nullable enable
-
-public partial class TabView : ViewModelContentView
+public partial class TabView : ViewModelContentView<TabViewModel>
 {
-    public static readonly BindableProperty TabsProperty =
-        BindableProperty.Create(
-            nameof(Tabs),
-            typeof(IEnumerable<Tab>),
-            typeof(TabView),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: TabsChanged);
+    public static readonly BindableProperty TabsProperty = BindableProperty.Create(
+        nameof(Tabs),
+        typeof(IEnumerable<Tab>),
+        typeof(TabView),
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: TabsChanged
+    );
 
-    public static readonly BindableProperty SelectedTabProperty =
-        BindableProperty.Create(nameof(SelectedTab), typeof(Tab), typeof(TabView),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: TabChanged);
-
-    new TabViewModel ViewModel => base.ViewModel as TabViewModel
-        ?? throw new InvalidOperationException("ViewModel is null");
+    public static readonly BindableProperty SelectedTabProperty = BindableProperty.Create(
+        nameof(SelectedTab),
+        typeof(Tab),
+        typeof(TabView),
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: TabChanged
+    );
 
     internal TabViewModel PublicVm => ViewModel;
 
@@ -45,7 +43,8 @@ public partial class TabView : ViewModelContentView
         set => ViewModel.PairedDisplayView = value;
     }
 
-    public TabView() : base(ServiceProvider.GetService<TabViewModel>())
+    public TabView()
+        : base(ServiceProvider.GetService<TabViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -68,6 +67,7 @@ public partial class TabView : ViewModelContentView
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)

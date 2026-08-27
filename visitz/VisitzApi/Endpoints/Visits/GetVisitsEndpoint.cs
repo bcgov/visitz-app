@@ -7,16 +7,8 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.Visits;
 
-#nullable enable
-
-internal class GetVisitsEndpoint(
-    string baseUrl,
-    string caseId,
-    Pagination? pagination = null)
-    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<VisitJson>)>(
-        baseUrl,
-        Vpi.V2,
-        string.Format(VisitsPath, caseId))
+internal class GetVisitsEndpoint(string baseUrl, string caseId, Pagination? pagination = null)
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<VisitJson>)>(baseUrl, Vpi.V2, string.Format(VisitsPath, caseId))
 {
     static readonly string VisitsPath = "/case/{0}/visits";
 
@@ -31,19 +23,16 @@ internal class GetVisitsEndpoint(
         };
     }
 
-    public override (int TotalRecords, IEnumerable<VisitJson>)
-        HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (int TotalRecords, IEnumerable<VisitJson>) HandleResponse(
+        HttpResponseMessage response,
+        string responseContent
+    )
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
             return (-1, []);
 
-        JsonElement items = JsonDocument.Parse(responseContent)
-                .RootElement
-                .GetProperty("items");
+        JsonElement items = JsonDocument.Parse(responseContent).RootElement.GetProperty("items");
 
-        return (
-            response.GetRecordCount(),
-            items.Deserialize<IEnumerable<VisitJson>>(PayloadOptions.SiebelGet) ?? []
-        );
+        return (response.GetRecordCount(), items.Deserialize<IEnumerable<VisitJson>>(PayloadOptions.SiebelGet) ?? []);
     }
 }

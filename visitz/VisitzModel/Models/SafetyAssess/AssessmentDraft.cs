@@ -2,7 +2,6 @@ using Realms;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
-using VisitzModel.Models.Interfaces;
 using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.SafetyAssess;
@@ -10,25 +9,29 @@ namespace VisitzModel.Models.SafetyAssess;
 public partial class AssessmentDraft : IRealmObject, IDraftItem
 {
     [PrimaryKey]
-    public string DraftEntityId { get; set; }
+    public string DraftEntityId { get; set; } = Guid.NewGuid().ToString();
 
-    public string RelatedEntityId { get => DraftEntityId; set { } }
+    public string RelatedEntityId
+    {
+        get => DraftEntityId;
+        set { }
+    }
 
     public DateTimeOffset DraftCreated { get; set; } = DateTimeOffset.Now;
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
     public string Preview => GeneralStrings.SafetyAssessment;
 
-    public string DraftLocation { get; set; }
+    public string DraftLocation { get; set; } = string.Empty;
 
-    int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
+    internal int RelatedEntityTypeInt { get; set; } = (int)EntityType.Unknown;
     public EntityType RelatedEntityType
     {
         get => (EntityType)RelatedEntityTypeInt;
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
+    internal int RelatedEntitySubtypeInt { get; set; } = (int)EntitySubtype.Unknown;
     public EntitySubtype RelatedEntitySubtype
     {
         get => (EntitySubtype)RelatedEntitySubtypeInt;
@@ -40,13 +43,13 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
     private bool? relatedEntityDownloaded;
 
     [Ignored]
-    public Realm RelatedEntityRealm { get; set; }
+    public Realm? RelatedEntityRealm { get; set; }
 
     [Ignored]
-    public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+    public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
 
     [Ignored]
-    public IDisposable RelatedEntitySubscriptionToken { get; set; }
+    public IDisposable? RelatedEntitySubscriptionToken { get; set; }
 
     /// <summary>
     /// Whether or not the related entity is available for the app to interact
@@ -88,12 +91,12 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
         SafetyAssessment assessment,
         string draftLocation,
         EntityType type = EntityType.Incident,
-        EntitySubtype subtype = EntitySubtype.ChildProtection)
+        EntitySubtype subtype = EntitySubtype.ChildProtection
+    )
     {
-        var draft = realm.Find<AssessmentDraft>(assessment.IncidentNumber) ?? new()
-        {
-            DraftEntityId = assessment.IncidentNumber,
-        };
+        var draft =
+            realm.Find<AssessmentDraft>(assessment.IncidentNumber)
+            ?? new() { DraftEntityId = assessment.IncidentNumber };
 
         await realm.WriteAsync(() =>
         {
@@ -151,5 +154,10 @@ public partial class AssessmentDraft : IRealmObject, IDraftItem
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    public int CompareTo(IDraftItem? other)
+    {
+        return this.CompareDraftItem(other);
     }
 }

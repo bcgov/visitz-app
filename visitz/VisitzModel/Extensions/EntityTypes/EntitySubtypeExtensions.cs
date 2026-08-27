@@ -86,14 +86,12 @@ public static class EntitySubtypeExtensions
             return EntitySubtype.Resource;
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.SupportNeedsChildrenYouth))
             return EntitySubtype.SupportNeedsChildrenYouth;
-
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.ChildProtection))
             return EntitySubtype.ChildProtection;
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.ProtocolInvestigation))
             return EntitySubtype.ProtocolInvestigation;
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.ReferralAndInquiry))
             return EntitySubtype.ReferralAndInquiry;
-
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.AfterHoursAction))
             return EntitySubtype.AfterHoursAction;
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.AfterHoursFrom))
@@ -112,7 +110,6 @@ public static class EntitySubtypeExtensions
             return EntitySubtype.Screening;
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.SupportNeedsRequest))
             return EntitySubtype.SupportNeedsRequest;
-
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.AfterHours))
             return EntitySubtype.AfterHours;
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.AutismFundingUnit))
@@ -135,7 +132,6 @@ public static class EntitySubtypeExtensions
             return EntitySubtype.RequestForInformation;
         else if (EntityTypeExtensions.Matches(str, EntitySubtypeStrings.YouthServices))
             return EntitySubtype.YouthServices;
-
         else
             return EntitySubtype.Unknown;
     }

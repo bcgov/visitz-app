@@ -6,12 +6,16 @@
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:fonticons="clr-namespace:Visitz.FontIcons"
     xmlns:model="clr-namespace:VisitzModel.Models.Attachments;assembly=VisitzModel"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:tagView="clr-namespace:Visitz.Views.TagViews"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.Attachments.AttachmentDraftsListItemView"
-    x:DataType="attachments:AttachmentDraftListItemUi">
-
+    x:DataType="attachments:AttachmentsListItemUi"
+>
     <baseClasses:BaseContentView.Resources>
         <ResourceDictionary>
             <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
@@ -19,82 +23,131 @@
         </ResourceDictionary>
     </baseClasses:BaseContentView.Resources>
 
-    <VerticalStackLayout Padding="10,10,10,0">
-        <VerticalStackLayout.GestureRecognizers>
-            <TapGestureRecognizer
-                Command="{Binding OpenAttachmentCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
-                CommandParameter="{Binding Attachment.Draft}" />
-        </VerticalStackLayout.GestureRecognizers>
+    <baseClasses:BaseContentView.GestureRecognizers>
+        <TapGestureRecognizer
+            Command="{Binding OpenAttachmentCommand,
+                Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+            CommandParameter="{Binding .}"
+        />
+    </baseClasses:BaseContentView.GestureRecognizers>
 
-        <Grid
-            HorizontalOptions="Fill"
-            ColumnDefinitions="Auto, *, Auto, Auto, Auto"
-            ColumnSpacing="{StaticResource DefaultSpacing}">
-
-            <Border
+    <Border
+        BackgroundColor="White"
+        Margin="{StaticResource DefaultMargin}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
+    >
+        <Grid>
+            <BoxView
+                x:Name="DraftIndicator"
                 Grid.Column="0"
-                VerticalOptions="Center"
-                StrokeShape="RoundRectangle 5"
-                StrokeThickness="0">
-                <Grid>
-                    <Image
-                        Aspect="AspectFill"
-                        HeightRequest="100"
-                        WidthRequest="100"
-                        Source="{Binding Attachment.ThumbnailBinding,
-                            Converter={StaticResource ByteArrayToImageSourceConverter}}"
-                        IsVisible="{Binding HasThumbnail}"/>
+                Grid.RowSpan="2"
+                Margin="-1,-10,0,-10"
+                Color="{StaticResource BC_Gold}"
+                WidthRequest="{StaticResource DraftIndicatorWidth}"
+                HorizontalOptions="Start"
+            />
 
-                    <Label
-                        HeightRequest="100"
-                        WidthRequest="100"
-                        VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Center"
-                        FontAutoScalingEnabled="False"
-                        FontFamily="{Binding FontFamily}"
-                        FontSize="90"
-                        Text="{Binding IconGlyph}"
-                        IsVisible="{Binding HasThumbnail, Converter={StaticResource BoolNegationConverter}}"/>
-                </Grid>
-            </Border>
+            <effectsView:SfEffectsView TouchDownEffects="Ripple">
+                <VerticalStackLayout
+                    Spacing="{StaticResource DefaultSpacing}"
+                    Padding="{StaticResource DefaultPadding}"
+                >
+                    <Grid
+                        ColumnSpacing="{StaticResource DefaultSpacing}"
+                        ColumnDefinitions="Auto,*,Auto"
+                        RowDefinitions="Auto,Auto"
+                    >
+                        <controls:LabelIcon
+                            Grid.Column="0"
+                            Grid.RowSpan="2"
+                            FontFamily="FluentIconsRegular"
+                            Text="{Binding FileIconGlyph}"
+                            TextColor="{Binding ToDownloadTextColor}"
+                            VerticalOptions="Center"
+                            FontSize="36"
+                        />
 
-            <Label
-                Grid.Column="1"
-                VerticalOptions="Center"
-                Text="{Binding Attachment.FilenameBinding}" />
+                        <Label
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="{Binding Attachment.FilenameBinding}"
+                            FontFamily="BCSansBold"
+                            VerticalOptions="Center"
+                        />
 
-            <controls:RenameButton
-                Grid.Column="2"
-                VerticalOptions="Center"
-                Renaming="{Binding Attachment.FilenameBinding}"
-                TextColor="{StaticResource Gray500}" />
+                        <HorizontalStackLayout
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Spacing="{StaticResource DefaultSpacingHalf}"
+                        >
+                            <Label
+                                Text="{Binding FileSizeDisplay}"
+                                TextColor="{StaticResource Gray500}"
+                            />
+                            <Label Text="•" TextColor="{StaticResource Gray500}" />
+                            <Label
+                                Text="{Binding Attachment.CreatedDateBinding, Converter={converters:DateTimeOffsetShortTimestampConverter}}"
+                                TextColor="{StaticResource Gray500}"
+                            />
+                        </HorizontalStackLayout>
 
-            <controls:FontIconButton
-                Grid.Column="3"
-                VerticalOptions="Center"
-                Text="{Static icons:MaterialIcons.Delete}"
-                TextColor="{StaticResource Gray500}"
-                FontFamily="MaterialIconsRoundedUnfilled"
-                Command="{Binding DeleteAttachmentDraftCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
-                CommandParameter="{Binding Attachment.Draft}" />
+                        <controls:FontIconButton
+                            Grid.Column="2"
+                            Grid.RowSpan="2"
+                            Style="{StaticResource PrimaryButton}"
+                            Padding="0"
+                            VerticalOptions="Center"
+                            Text="{Static icons:MaterialIcons.Send}"
+                            FontFamily="MaterialIconsRoundedUnfilled"
+                            Command="{Binding PublishAttachmentDraftCommand,
+                            Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                            CommandParameter="{Binding Attachment.Draft}"
+                        />
+                    </Grid>
 
-            <controls:FontIconButton
-                Grid.Column="4"
-                Style="{StaticResource PrimaryButtonLight}"
-                Padding="0"
-                VerticalOptions="Center"
-                Text="{Static icons:MaterialIcons.Publish}"
-                FontFamily="MaterialIconsRoundedUnfilled"
-                Command="{Binding PublishAttachmentDraftCommand,
-                    Source={RelativeSource AncestorType={x:Type attachments:AttachmentDraftsListViewModel}}}"
-                CommandParameter="{Binding Attachment.Draft}" />
+                    <BoxView HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
+
+                    <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                        <Button
+                            Command="{Binding RenameAttachmentCommand,
+                                Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                            CommandParameter="{Binding Attachment}"
+                            Style="{StaticResource SecondaryChipLight}"
+                            Text="{local:Localize Rename}"
+                            VerticalOptions="Center"
+                        >
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    Glyph="{Static fonticons:MaterialIcons.Edit}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="{StaticResource Primary}"
+                                    Size="18"
+                                />
+                            </Button.ImageSource>
+                        </Button>
+
+                        <Button
+                            Command="{Binding DeleteAttachmentDraftCommand,
+                            Source={RelativeSource AncestorType={x:Type attachments:AttachmentsListViewModel}}}"
+                            CommandParameter="{Binding Attachment.Draft}"
+                            Style="{StaticResource SecondaryChipLight}"
+                            Text="{local:Localize Discard}"
+                            VerticalOptions="Center"
+                        >
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    Glyph="{Static fonticons:MaterialIcons.Delete}"
+                                    FontFamily="MaterialIconsRoundedUnfilled"
+                                    Color="{StaticResource Primary}"
+                                    Size="18"
+                                />
+                            </Button.ImageSource>
+                        </Button>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </effectsView:SfEffectsView>
         </Grid>
-
-        <BoxView
-            Margin="0,10,0,0"
-            HeightRequest="0.5"
-            Color="{StaticResource SeparatorColor}" />
-    </VerticalStackLayout>
+    </Border>
 </baseClasses:BaseContentView>

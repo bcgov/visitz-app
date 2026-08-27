@@ -1,70 +1,60 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.BaseClasses.Publishing;
 using Visitz.Views.Snackbar;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Models.Caseload;
+using VisitzModel.Models.People;
 using VisitzModel.Storage;
 using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-#nullable enable
-
-internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
+public abstract partial class AttachmentDetailsViewModel : IcmRecordViewModel
 {
     [ObservableProperty]
-    public Attachment? attachment;
+    public partial Attachment? Attachment { get; set; }
 
     [ObservableProperty]
-    public IBusinessObject? businessObject;
+    public partial bool ShowActivityIndicator { get; set; } = true;
 
     [ObservableProperty]
-    public bool showActivityIndicator = true;
+    public partial bool ShowDraftButtons { get; set; }
 
     [ObservableProperty]
-    public bool showDraftButtons;
+    public partial bool IsRemovable { get; set; }
 
     [ObservableProperty]
-    public bool isRemovable;
+    public partial string? ErrorText { get; set; }
 
     [ObservableProperty]
-    public string? errorText;
-
-    [ObservableProperty]
-    public bool hasError;
-
+    public partial bool HasError { get; set; }
     protected AttachmentFiler? Filer { get; set; }
 
-    public bool IsDownloadedAttachment { get; set; }
-
-    abstract protected string LoadErrorText { get; }
+    protected abstract string LoadErrorText { get; }
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        if (Attachment == null || BusinessObject == null)
+        if (Attachment == null)
         {
             ErrorText = LoadErrorText;
             return;
         }
 
-        var keyPlayer = BusinessObject.GetKeyPlayer();
+        IcmContact keyPlayer =
+            BusinessObject.GetKeyPlayer() ?? throw new InvalidOperationException("Unable to load key player");
 
-        Filer = await VisitzFiles.GetAsync(
-            Attachment,
-            keyPlayer.FirstName,
-            keyPlayer.LastName);
+        Filer = await VisitzFiles.GetAsync(Attachment, keyPlayer.FirstName, keyPlayer.LastName);
 
-        ShowDraftButtons = Attachment.FileExistsLocally
-            && !IsDownloadedAttachment
-            && Attachment.HasDraft;
-
-        IsRemovable = Attachment.FileExistsLocally && IsDownloadedAttachment;
+        if (Attachment.HasDraft)
+            ShowDraftButtons = Attachment.FileExistsLocally;
+        else
+            IsRemovable = Attachment.FileExistsLocally;
     }
 
     partial void OnErrorTextChanged(string? value)
@@ -78,11 +68,12 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
         if (Attachment == null)
             return;
 
-        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlert(
+        bool shouldRemove = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.RemoveAttachmentFromDevice,
             LocalizedStrings.RemoveAttachmentDescription,
             LocalizedStrings.Remove,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
 
         if (shouldRemove)
         {
@@ -91,9 +82,7 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
 
             Attachment.RemoveFileFromDevice();
 
-            string removedText = string.Format(
-                LocalizedStrings.RemovedAttachmentFromDevice,
-                Attachment.Filename);
+            string removedText = string.Format(LocalizedStrings.RemovedAttachmentFromDevice, Attachment.Filename);
 
             await Navigator.Navigation.PopAsync();
             SnackbarHandler.ShowText(removedText);
@@ -103,20 +92,21 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
     [RelayCommand]
     async Task PromptDiscardAttachmentDraftAsync()
     {
-        if (Attachment == null || !Attachment.HasDraft)
+        if (Attachment == null || Attachment.Draft == null)
             return;
 
-        bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlert(
+        bool shouldDiscard = await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.DiscardDraft,
             LocalizedStrings.DiscardAttachmentDraftDescription,
             LocalizedStrings.Discard,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
 
         if (shouldDiscard)
         {
             string filename = Attachment.Filename;
 
-            await Attachment.DeleteAsync();
+            await Attachment.Draft.DeleteAsync(deleteAttachment: true);
             await Navigator.Navigation.PopAsync();
 
             SnackbarHandler.ShowText(string.Format(LocalizedStrings.FileDiscarded, filename));
@@ -127,11 +117,12 @@ internal abstract partial class AttachmentDetailsViewModel : VisitzViewModel
     async Task PublishAttachmentDraftAsync()
     {
         var attachmentPublishVm = ServiceProvider.Current.GetService<AttachmentDraftPublishViewModel>();
+        var logger = ServiceProvider.GetService<ILogger<PublishPage>>();
 
         if (Attachment?.Draft == null || attachmentPublishVm == null || Filer == null)
             return;
 
         await attachmentPublishVm.SetPayload(BusinessObject, Attachment.Draft, Filer);
-        await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm));
+        await Navigator.Navigation.PushModalAsync(new PublishPage(attachmentPublishVm, logger));
     }
 }

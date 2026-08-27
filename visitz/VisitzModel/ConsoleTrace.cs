@@ -11,26 +11,29 @@ public static class ConsoleTrace
     public static void TraceMethod(
         object caller,
         Exception ex,
-        string prepend = null,
-        [CallerMemberName] string memberName = "")
+        string? prepend = null,
+        [CallerMemberName] string memberName = ""
+    )
     {
         TraceMethod(caller.GetType(), ex.Message + " => " + ex.StackTrace, prepend, memberName);
     }
 
     public static void TraceMethod(
         object caller,
-        string message = null,
-        string prepend = null,
-        [CallerMemberName] string memberName = "")
+        string? message = null,
+        string? prepend = null,
+        [CallerMemberName] string memberName = ""
+    )
     {
         TraceMethod(caller.GetType(), message, prepend, memberName);
     }
 
     public static void TraceMethod(
         Type callerType,
-        string message = null,
-        string prepend = null,
-        [CallerMemberName] string memberName = "")
+        string? message = null,
+        string? prepend = null,
+        [CallerMemberName] string memberName = ""
+    )
     {
 #if DEBUG
         if (prepend != null)

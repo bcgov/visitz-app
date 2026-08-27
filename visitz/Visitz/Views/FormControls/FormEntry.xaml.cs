@@ -1,5 +1,6 @@
 namespace Visitz.Views.FormControls;
 
+using CommunityToolkit.Maui;
 using Visitz.Animations;
 using Visitz.Animations.Haptic;
 using Visitz.Resources.Localization;
@@ -7,99 +8,58 @@ using VisitzModel.Extensions;
 
 public partial class FormEntry : ContentView
 {
-    public static readonly BindableProperty FieldNameProperty =
-        BindableProperty.Create(nameof(FieldName), typeof(string), typeof(FormEntry));
+    [BindableProperty]
+    public partial string FieldName { get; set; }
 
-    public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(FormEntry),
-            defaultBindingMode: BindingMode.TwoWay,
-            propertyChanged: (boundObj, oldVal, newVal) => (boundObj as FormEntry).UpdateCharacterCount());
+    [BindableProperty(
+        DefaultBindingMode = BindingMode.TwoWay,
+        PropertyChangedMethodName = nameof(TextProperty_Changed)
+    )]
+    public partial string Text { get; set; }
 
-    public static readonly BindableProperty LeadingSupportingTextProperty =
-        BindableProperty.Create(nameof(LeadingSupportingText), typeof(string), typeof(FormEntry));
+    [BindableProperty]
+    public partial string LeadingSupportingText { get; set; }
 
-    public static readonly BindableProperty TrailingSupportingTextProperty =
-        BindableProperty.Create(nameof(TrailingSupportingText), typeof(string), typeof(FormEntry));
+    [BindableProperty]
+    public partial string TrailingSupportingText { get; set; }
 
-    public static readonly BindableProperty FieldNameIsVisibleProperty =
-        BindableProperty.Create(nameof(FieldNameIsVisible), typeof(bool), typeof(FormEntry),
-            defaultValue: true,
-            propertyChanged: (boundObj, oldVal, newVal) =>
-        {
-            var formEntry = (FormEntry)boundObj;
-            var isVisible = (bool)newVal;
+    [BindableProperty(PropertyChangedMethodName = nameof(FieldNameIsVisibleProperty_Changed))]
+    public partial bool FieldNameIsVisible { get; set; } = true;
 
-            formEntry.FieldNameRow.Height = isVisible ? GridLength.Star : 0.0;
-        });
+    [BindableProperty]
+    public partial string Placeholder { get; set; }
 
-    public static readonly BindableProperty PlaceholderProperty =
-        BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(FormEntry));
+    [BindableProperty(PropertyChangedMethodName = nameof(MaxLengthProperty_Changed))]
+    public partial int MaxLength { get; set; } = int.MaxValue;
 
-    public static readonly BindableProperty MaxLengthProperty =
-        BindableProperty.Create(nameof(MaxLength), typeof(int), typeof(FormEntry),
-            defaultValue: int.MaxValue, propertyChanged: (boundObj, oldVal, newVal) =>
-            {
-                var formEntry = (FormEntry)boundObj;
-                int newLength = (int)newVal;
+    [BindableProperty]
+    public partial bool IsReadOnly { get; set; }
 
-                formEntry.UpdateBottomRowVisibility(newLength);
-                formEntry.UpdateCharacterCount();
-            });
-
-    public static readonly BindableProperty IsReadOnlyProperty =
-        BindableProperty.Create(nameof(IsReadOnly), typeof(bool), typeof(FormEntry));
-
-    public string FieldName
-    {
-        get => (string)GetValue(FieldNameProperty);
-        set => SetValue(FieldNameProperty, value);
-    }
-
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
-
-    public string LeadingSupportingText
-    {
-        get => (string)GetValue(LeadingSupportingTextProperty);
-        set => SetValue(LeadingSupportingTextProperty, value);
-    }
-
-    public string TrailingSupportingText
-    {
-        get => (string)GetValue(TrailingSupportingTextProperty);
-        set => SetValue(TrailingSupportingTextProperty, value);
-    }
-
-    public bool FieldNameIsVisible
-    {
-        get => (bool)GetValue(FieldNameIsVisibleProperty);
-        set => SetValue(FieldNameIsVisibleProperty, value);
-    }
-
-    public string Placeholder
-    {
-        get => (string)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
-
-    public int MaxLength
-    {
-        get => (int)GetValue(MaxLengthProperty);
-        set => SetValue(MaxLengthProperty, value);
-    }
-
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
+    public Editor EditorView => Editor;
 
     public FormEntry()
     {
         InitializeComponent();
+    }
+
+    static void TextProperty_Changed(BindableObject obj, object _, object __) =>
+        ((FormEntry)obj).UpdateCharacterCount();
+
+    static void FieldNameIsVisibleProperty_Changed(BindableObject obj, object _, object newValue)
+    {
+        var formEntry = (FormEntry)obj;
+        var isVisible = (bool)newValue;
+
+        formEntry.FieldNameRow.Height = isVisible ? GridLength.Star : 0.0;
+    }
+
+    static void MaxLengthProperty_Changed(BindableObject obj, object _, object newValue)
+    {
+        var formEntry = (FormEntry)obj;
+        int newLength = (int)newValue;
+
+        formEntry.UpdateBottomRowVisibility(newLength);
+        formEntry.UpdateCharacterCount();
     }
 
     private void UpdateBottomRowVisibility(int maxLength)
@@ -112,12 +72,13 @@ public partial class FormEntry : ContentView
         TrailingSupportingText = $"{Text?.Length ?? 0}/{MaxLength}";
     }
 
-    private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+    private void Editor_TextChanged(object? sender, TextChangedEventArgs e)
     {
+        ArgumentNullException.ThrowIfNull(sender, nameof(sender));
 
         if (ContainEmojis(e))
         {
-            CancelTextChangedEvent(sender, e);
+            CancelTextChangedEvent((Editor)sender, e);
             var ErrorMessage = LocalizedStrings.InvalidEntry;
             _ = ShowEditorError(ErrorMessage);
             return;
@@ -129,10 +90,9 @@ public partial class FormEntry : ContentView
         return e.NewTextValue?.ContainsUnicodeSurrogatesAndOtherSymbols() ?? false;
     }
 
-    private void CancelTextChangedEvent(object sender, TextChangedEventArgs e)
+    private static void CancelTextChangedEvent(Editor editor, TextChangedEventArgs e)
     {
-        var textBox = sender as Editor;
-        textBox.Text = e.OldTextValue;
+        editor.Text = e.OldTextValue;
     }
 
     public async Task ShowEditorError(string text)
@@ -145,13 +105,13 @@ public partial class FormEntry : ContentView
         if (EditorError.IsVisible)
             return;
 
-        var showAnimation = new VisibilityAnimation(true, 1000);
+        var showAnimation = new VisibilityAnimation(true, 300);
         LeadingSupportingText = text;
         await Task.WhenAll(showAnimation.Animate(EditorError), showAnimation.Animate(LeadingSupportingLabel));
 
-        await Task.Delay(2000);
+        await Task.Delay(2500);
 
-        var hideAnimation = new VisibilityAnimation(false, 1000);
+        var hideAnimation = new VisibilityAnimation(false, 300);
         await Task.WhenAll(hideAnimation.Animate(EditorError), hideAnimation.Animate(LeadingSupportingLabel));
     }
 
@@ -159,7 +119,5 @@ public partial class FormEntry : ContentView
     {
         var vibrateErrorAnim = new ErrorVibrateAnimation();
         await vibrateErrorAnim.Animate(Editor);
-
     }
-
 }

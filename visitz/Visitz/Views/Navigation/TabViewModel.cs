@@ -3,16 +3,13 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Navigation;
 
-#nullable enable
-
-internal partial class TabViewModel : VisitzViewModel
+public partial class TabViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public IEnumerable<Tab>? tabs;
+    public partial IEnumerable<Tab>? Tabs { get; set; }
 
     [ObservableProperty]
-    public Tab? selectedTab;
-
+    public partial Tab? SelectedTab { get; set; }
     public ContentView? PairedDisplayView { get; set; }
 
     partial void OnTabsChanged(IEnumerable<Tab>? value)
@@ -28,6 +25,7 @@ internal partial class TabViewModel : VisitzViewModel
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)

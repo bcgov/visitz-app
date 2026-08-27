@@ -3,60 +3,63 @@ using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
+using VisitzModel.Storage;
 using VisitzModel.Utilities;
+using VisitzModelTest.Mocks;
 
-namespace VisitzModelTest.Models.Incidentload;
+namespace VisitzModelTest.Models.Caseload;
 
 public class IncidentRecordTests
 {
     const string PrimaryName = "USER";
     const string SecondaryName = "USER2";
 
-    static IncidentJson IncidentJson => new()
-    {
-        Id = "",
-        CreatedBy = "",
-        CreatedById = "",
-        UpdatedBy = "",
-        UpdatedById = "",
-        CreatedDate = "12/10/2018 13:50:02",
-        UpdatedDate = "12/10/2018 13:50:02",
-        IncidentNumber = "",
-        GivenNames = "",
-        LastName = "",
-        AssignedTo = "",
-        AssignedToId = "",
-        AddressComments = "",
-        Address = "",
-        AreAnyOfTheFamilyMembersIndigenous = "",
-        CallerAddress = "",
-        CallerEmail = "",
-        CallerName = "",
-        CallerPhone = "",
-        Caseload = "",
-        CellPhone = "",
-        ClosedDate = "",
-        CreatedByOffice = "",
-        DateReported = "",
-        HomePhone = "",
-        MedicalExamRequired = "",
-        Method = "",
-        NatureOfCall = "",
-        PccSummary = "",
-        PoliceForce = "",
-        PoliceInvestigation = "",
-        PoliceNotifiedDate = "",
-        PoliceReportNumber = "",
-        PreferredContactMethod = "",
-        ProtectionResponse = "",
-        Resolution = "",
-        ResponsePriority = "",
-        RestrictedFlag = "N",
-        ServiceOffice = "",
-        Status = "",
-        Type = "",
-        TypeOfCaller = "",
-    };
+    static IncidentJson IncidentJson =>
+        new()
+        {
+            Id = "",
+            CreatedBy = "",
+            CreatedById = "",
+            UpdatedBy = "",
+            UpdatedById = "",
+            CreatedDate = "12/10/2018 13:50:02",
+            UpdatedDate = "12/10/2018 13:50:02",
+            IncidentNumber = "",
+            GivenNames = "",
+            LastName = "",
+            AssignedTo = "",
+            AssignedToId = "",
+            AddressComments = "",
+            Address = "",
+            AreAnyOfTheFamilyMembersIndigenous = "",
+            CallerAddress = "",
+            CallerEmail = "",
+            CallerName = "",
+            CallerPhone = "",
+            Caseload = "",
+            CellPhone = "",
+            ClosedDate = "",
+            CreatedByOffice = "",
+            DateReported = "",
+            HomePhone = "",
+            MedicalExamRequired = "",
+            Method = "",
+            NatureOfCall = "",
+            PccSummary = "",
+            PoliceForce = "",
+            PoliceInvestigation = "",
+            PoliceNotifiedDate = "",
+            PoliceReportNumber = "",
+            PreferredContactMethod = "",
+            ProtectionResponse = "",
+            Resolution = "",
+            ResponsePriority = "",
+            RestrictedFlag = "N",
+            ServiceOffice = "",
+            Status = "",
+            Type = "",
+            TypeOfCaller = "",
+        };
 
     [Fact]
     public void InstanceFromJsonIsEqualIgnoreAssignees()
@@ -94,7 +97,10 @@ public class IncidentRecordTests
         Assert.Equal(IncidentJson.PccSummary, incident.PccSummary);
         Assert.Equal(IncidentJson.PoliceForce, incident.PoliceForce);
         Assert.Equal(IncidentJson.PoliceInvestigation, incident.PoliceInvestigation);
-        Assert.Equal(Timestamp.ParseDateTimeOffsetNullable(IncidentJson.PoliceNotifiedDate), incident.PoliceNotifiedDate);
+        Assert.Equal(
+            Timestamp.ParseDateTimeOffsetNullable(IncidentJson.PoliceNotifiedDate),
+            incident.PoliceNotifiedDate
+        );
         Assert.Equal(IncidentJson.PoliceReportNumber, incident.PoliceReportNumber);
         Assert.Equal(IncidentJson.PreferredContactMethod, incident.PreferredContactMethod);
         Assert.Equal(IncidentJson.ProtectionResponse, incident.ProtectionResponse);
@@ -128,17 +134,15 @@ public class IncidentRecordTests
         Assert.DoesNotContain(name, incident.Assignees);
     }
 
-    async Task<IEnumerable<IncidentRecord>> GetByAssignee(string name, bool isPersonalCaseload)
+    static async Task<IEnumerable<IncidentRecord>> GetByAssignee(string name, bool isPersonalCaseload)
     {
         var realm = await TestingUtilities.MakeRealm<IncidentRecordTests>();
         List<IncidentRecord> incidents = [new IncidentRecord(IncidentJson), new() { Id = "23456" }];
+        UserIgnoredContentPrefs prefs = new(new LocalPreferencesMock());
 
-        await realm.Write(async () => await IncidentRecord.SynchronizeAsync(
-            realm,
-            incidents,
-            null,
-            PrimaryName,
-            isPersonalCaseload));
+        await realm.Write(async () =>
+            await IBusinessObject.SynchronizeAsync(realm, incidents, prefs, PrimaryName, isPersonalCaseload)
+        );
 
         return IncidentRecord.GetAllByAssignee(realm, name, isPersonalCaseload);
     }
@@ -180,7 +184,7 @@ public class IncidentRecordTests
         IncidentRecord incident = new(IncidentJson);
         realm.Write(() => realm.Add(incident));
 
-        Assert.Null(realm.Find<BoLocalState>(incident.ToIdTypeString()));
+        Assert.Null(realm.Find<BoLocalState>(((IBusinessObject)incident).ToIdTypeString()));
     }
 
     [Fact]
@@ -190,12 +194,12 @@ public class IncidentRecordTests
         IncidentRecord incident = new(IncidentJson);
         realm.Write(() =>
         {
-            incident.UpsertLocalState(realm);
+            ((IBusinessObject)incident).UpsertLocalState(realm);
             realm.Add(incident);
         });
 
         Assert.NotNull(incident.LocalState);
-        Assert.NotNull(realm.Find<BoLocalState>(incident.ToIdTypeString()));
+        Assert.NotNull(realm.Find<BoLocalState>(((IBusinessObject)incident).ToIdTypeString()));
     }
 
     [Fact]
@@ -206,8 +210,8 @@ public class IncidentRecordTests
         IncidentRecord incident = new(IncidentJson);
         realm.Write(() =>
         {
-            incident.UpsertLocalState(realm);
-            incident.LocalState.ShouldDownloadDuringRefresh = true;
+            ((IBusinessObject)incident).UpsertLocalState(realm);
+            incident.LocalState?.ShouldDownloadDuringRefresh = true;
             realm.Add(incident);
         });
 
@@ -216,12 +220,12 @@ public class IncidentRecordTests
         realm.Write(() =>
         {
             realm.Add(upsertCase, update: true);
-            incident.UpsertLocalState(realm);
+            ((IBusinessObject)incident).UpsertLocalState(realm);
         });
 
         IncidentRecord retrievedCase = realm.Find<IncidentRecord>(IncidentJson.Id)!;
 
         Assert.Equal(closed, retrievedCase.Status);
-        Assert.True(retrievedCase.LocalState.ShouldDownloadDuringRefresh);
+        Assert.True(retrievedCase.LocalState!.ShouldDownloadDuringRefresh);
     }
 }

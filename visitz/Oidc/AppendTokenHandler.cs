@@ -1,20 +1,21 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 
-namespace Oidc
+namespace Oidc;
+
+/// <summary>
+/// Injects the access token into each HTTP request to the API
+/// </summary>
+public class AppendTokenHandler : DelegatingHandler
 {
-    /// <summary>
-    /// Injects the access token into each HTTP request to the API
-    /// </summary>
-	public class AppendTokenHandler : DelegatingHandler
-    {
-        private static readonly string Bearer = "Bearer";
+    private static readonly string Bearer = "Bearer";
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            var jwtToken = await TokenHolder.GetAccessTokenStringAsync();
-            request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, jwtToken);
-            return await base.SendAsync(request, cancellationToken);
-        }
+    protected override async Task<HttpResponseMessage> SendAsync(
+        HttpRequestMessage request,
+        CancellationToken cancellationToken
+    )
+    {
+        var jwtToken = await TokenHolder.GetAccessTokenStringAsync();
+        request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, jwtToken);
+        return await base.SendAsync(request, cancellationToken);
     }
 }
-

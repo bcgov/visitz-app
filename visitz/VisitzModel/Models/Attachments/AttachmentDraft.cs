@@ -14,16 +14,16 @@ namespace VisitzModel.Models.Attachments;
 
 public partial class AttachmentDraft : IRealmObject, IDraftItem
 {
-    public string RelatedEntityId { get; set; }
+    public string RelatedEntityId { get; set; } = string.Empty;
 
-    private int RelatedEntityTypeInt { get; set; }
+    internal int RelatedEntityTypeInt { get; set; }
     public EntityType RelatedEntityType
     {
         get => (EntityType)RelatedEntityTypeInt;
         set => RelatedEntityTypeInt = (int)value;
     }
 
-    private int RelatedEntitySubtypeInt { get; set; }
+    internal int RelatedEntitySubtypeInt { get; set; }
     public EntitySubtype RelatedEntitySubtype
     {
         get => (EntitySubtype)RelatedEntitySubtypeInt;
@@ -34,24 +34,37 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.Now;
 
-    public string Preview => Attachment.Filename;
+    public DateTimeOffset LastUpdatedBinding
+    {
+        get => IsValid ? LastUpdated : default;
+        set
+        {
+            if (!IsValid)
+                return;
 
-    public string DraftLocation { get; set; }
+            LastUpdated = value;
+            RaisePropertyChanged(nameof(LastUpdated));
+        }
+    }
 
-    public Attachment Attachment { get; set; }
+    public string Preview => GeneralStrings.Attachment;
+
+    public string DraftLocation { get; set; } = string.Empty;
+
+    public Attachment? Attachment { get; set; }
 
     private bool disposedValue;
     private bool? relatedEntityAvailable;
     private bool? relatedEntityDownloaded;
 
     [Ignored]
-    public Realm RelatedEntityRealm { get; set; }
+    public Realm? RelatedEntityRealm { get; set; }
 
     [Ignored]
-    public IQueryable<IBusinessObject> RelatedEntitySubscriptionQuery { get; set; }
+    public IQueryable<IBusinessObject>? RelatedEntitySubscriptionQuery { get; set; }
 
     [Ignored]
-    public IDisposable RelatedEntitySubscriptionToken { get; set; }
+    public IDisposable? RelatedEntitySubscriptionToken { get; set; }
 
     /// <summary>
     /// Whether or not the related entity is available for the app to interact
@@ -89,7 +102,9 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         IBusinessObject businessObject,
         string filename,
         string relativePath,
-        byte[] thumbnail)
+        long fileSize,
+        byte[]? thumbnail
+    )
     {
         int dotIndex = filename.LastIndexOf('.');
 
@@ -99,6 +114,8 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             Extension = dotIndex != -1 ? filename[dotIndex..] : filename,
             RelativePath = relativePath,
             Thumbnail = thumbnail,
+            FileSize = fileSize.ToString(),
+            CreatedDate = DateTimeOffset.Now,
         };
 
         this.InitDraftWith(businessObject);
@@ -112,14 +129,15 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         AttachmentFiler filer,
         Realm realm,
         string filename,
-        Stream stream)
+        Stream stream
+    )
     {
         var imgProc = new ImageProcessor(stream);
 
-        byte[] thumbnail = await (await imgProc.Downsize(Attachment.ThumbnailSize)).AsBytesAsync();
+        byte[] thumbnail = await (await imgProc.DownsizeImage(Attachment.ThumbnailSize)).AsBytesAsync();
 
         if (stream.Length > Attachment.MaxFilesize)
-            stream = await imgProc.DownsizeByFilesize(Attachment.MaxFilesize);
+            stream = await imgProc.DownsizeImageByFilesize(Attachment.MaxFilesize);
 
         return await MakeAndSaveDraft(businessObject, filer, realm, filename, stream, thumbnail);
     }
@@ -129,7 +147,8 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         AttachmentFiler filer,
         Realm realm,
         string filename,
-        Stream stream)
+        Stream stream
+    )
     {
         return await MakeAndSaveDraft(businessObject, filer, realm, filename, stream);
     }
@@ -140,13 +159,16 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         Realm realm,
         string filename,
         Stream stream,
-        byte[] thumbnail = null)
+        byte[]? thumbnail = null
+    )
     {
-        if (stream.Length > Attachment.MaxFilesize)
+        long streamLength = stream.Length;
+
+        if (streamLength > Attachment.MaxFilesize)
             ThrowSizeError(stream);
 
         string fullpath = await filer.SaveFileAsync(stream, filename.GetFileExtension());
-        var draft = new AttachmentDraft(businessObject, filename, fullpath, thumbnail);
+        var draft = new AttachmentDraft(businessObject, filename, fullpath, streamLength, thumbnail);
 
         try
         {
@@ -171,17 +193,17 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
 
     public async Task<AttachmentFormData> ToAttachmentFormData(
         AttachmentFiler attachmentFiler,
-        string category = null,
-        string description = null,
-        string status = null,
-        string template = null,
-        CancellationToken? token = null)
+        string? category = null,
+        string? description = null,
+        string? status = null,
+        string? template = null,
+        CancellationToken? token = null
+    )
     {
+        ArgumentNullException.ThrowIfNull(Attachment);
         token ??= CancellationToken.None;
 
-        var attachmentStream = await attachmentFiler.GetAppDataFileAsync(
-            Attachment.RelativePath,
-            token);
+        var attachmentStream = await attachmentFiler.GetAppDataFileAsync(Attachment.RelativePath, token);
 
         return new AttachmentFormData(
             Attachment.Filename + Attachment.Extension,
@@ -189,7 +211,39 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
             category,
             description,
             status,
-            template);
+            template
+        );
+    }
+
+    /// <summary>
+    /// Deletes a draft, and optionally, its paired attachment.
+    /// </summary>
+    /// <param name="deleteAttachment">Whether or not to delete the paired attachment</param>
+    /// <param name="deleteAttachmentFile">If deleteAttechment is true, whether or not to also delete the attachment's file on disk.</param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    public async Task DeleteAsync(bool deleteAttachment, bool deleteAttachmentFile = true)
+    {
+        ArgumentNullException.ThrowIfNull(Realm);
+
+        Exception? exception = null;
+        await Realm.CommitAsync(async () =>
+        {
+            try
+            {
+                if (deleteAttachment && Attachment != null)
+                    await Attachment.DeleteAsync(removeContent: deleteAttachmentFile);
+
+                Realm.Remove(this);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+        });
+
+        if (exception != null)
+            throw new Exception("Failed to delete attachment", exception);
     }
 
     protected virtual void Dispose(bool disposing)
@@ -215,5 +269,10 @@ public partial class AttachmentDraft : IRealmObject, IDraftItem
         // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    public int CompareTo(IDraftItem? other)
+    {
+        return this.CompareDraftItem(other);
     }
 }

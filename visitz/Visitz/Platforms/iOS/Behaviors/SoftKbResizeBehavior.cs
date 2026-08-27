@@ -9,43 +9,51 @@ namespace Visitz.Behaviors;
 
 public partial class SoftKbResizeBehavior
 {
-    UIView UIView { get; set; }
+    UIView? UIView { get; set; }
 
-    NSObject ObserveWillChangeFrameToken { get; set; }
+    NSObject? ObserveWillChangeFrameToken { get; set; }
 
     partial void Attach()
     {
-        UIView = (View.Handler as ViewHandler).PlatformView;
+        UIView = (View?.Handler as ViewHandler)?.PlatformView;
+
+        ArgumentNullException.ThrowIfNull(UIView);
 
         ObserveWillChangeFrameToken = UIKeyboard.Notifications.ObserveWillChangeFrame(OnKeyboardWillChangeFrame);
     }
 
     partial void Detach()
     {
-        ObserveWillChangeFrameToken.Dispose();
+        ObserveWillChangeFrameToken?.Dispose();
+        ObserveWillChangeFrameToken = null;
     }
 
-    void OnKeyboardWillChangeFrame(object sender, UIKeyboardEventArgs e)
+    void OnKeyboardWillChangeFrame(object? sender, UIKeyboardEventArgs e)
     {
+        ArgumentNullException.ThrowIfNull(UIView);
+        ArgumentNullException.ThrowIfNull(UIView.Window);
+
         var intersection = CGRect.Intersect(UIView.Frame, e.FrameEnd);
 
         if (intersection.IsEmpty)
         {
-            View.HeightRequest = -1;
-            View.VerticalOptions = LayoutOptions.Fill;
+            View?.HeightRequest = -1;
+            View?.VerticalOptions = LayoutOptions.Fill;
         }
         else
         {
             var uiViewFrameInWindowCoordinateSpace = UIView.CoordinateSpace.ConvertRectToCoordinateSpace(
-                UIView.Frame, UIView.Window.CoordinateSpace);
+                UIView.Frame,
+                UIView.Window.CoordinateSpace
+            );
 
             var viewMaxY = uiViewFrameInWindowCoordinateSpace.GetMaxY();
             var intMinY = intersection.GetMinY();
 
             var offset = viewMaxY - intMinY;
 
-            View.HeightRequest = View.Height - offset;
-            View.VerticalOptions = LayoutOptions.Start;
+            View?.HeightRequest = View.Height - offset;
+            View?.VerticalOptions = LayoutOptions.Start;
         }
     }
 }

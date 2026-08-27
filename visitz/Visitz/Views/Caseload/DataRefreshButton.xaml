@@ -8,8 +8,9 @@
     xmlns:converters="clr-namespace:Visitz.Converters"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Caseload.DataRefreshButton"
-    x:DataType="caseload:DataRefreshViewModel">
-
+    x:DataType="caseload:DataRefreshViewModel"
+    x:TypeArguments="caseload:DataRefreshViewModel"
+>
     <baseClasses:ViewModelContentView.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegation" />
     </baseClasses:ViewModelContentView.Resources>
@@ -20,7 +21,8 @@
             VerticalOptions="Center"
             Text="{Binding SuperMessage}"
             TextColor="White"
-            IsVisible="{Binding SuperMessageVisible}" />
+            IsVisible="{Binding SuperMessageVisible}"
+        />
 
         <controls:FontIconButton
             x:Name="RefreshButton"
@@ -30,28 +32,30 @@
             VerticalOptions="Center"
             FontFamily="MaterialIconsRoundedUnfilled"
             Command="{Binding RefreshDataCommand}"
-            Text="{Static icons:MaterialIcons.Download_for_offline}"
-            IsVisible="{Binding CaseloadActivity, Converter={StaticResource BoolNegation}}"/>
+            Text="{Static caseload:DataRefreshButton.RefreshGlyph}"
+            IsVisible="{Binding CaseloadActivity, Converter={StaticResource BoolNegation}}"
+        />
 
         <ContentView
             HeightRequest="{Static controls:FontIconButton.LargerDimension}"
             WidthRequest="{Static controls:FontIconButton.LargerDimension}"
             HorizontalOptions="Center"
-            IsVisible="{Binding CaseloadActivity}">
+            IsVisible="{Binding CaseloadActivity}"
+        >
+            <ContentView.GestureRecognizers></ContentView.GestureRecognizers>
 
-            <ContentView.GestureRecognizers>
-            </ContentView.GestureRecognizers>
-            
             <ActivityIndicator
                 x:Name="Activity"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Color="White"
-                IsRunning="{Binding CaseloadActivity}">
+                IsRunning="{Binding CaseloadActivity}"
+            >
                 <ActivityIndicator.GestureRecognizers>
                     <TapGestureRecognizer
                         Command="{Binding HideIndicatorCommand}"
-                        NumberOfTapsRequired="2" />
+                        NumberOfTapsRequired="2"
+                    />
                 </ActivityIndicator.GestureRecognizers>
             </ActivityIndicator>
         </ContentView>

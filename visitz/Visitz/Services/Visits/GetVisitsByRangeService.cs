@@ -40,9 +40,10 @@ internal class GetVisitsByRangeService(Vpi vpi, ServiceHandler serviceHandler, L
     {
         await Parallel.ForEachAsync(CaseIds, GetVisitsForCase);
 
-        ResultCode = erroredIds.Count <= 0
-            ? Result.Successful
-            : throw new PartialRangeErrorException(nameof(GetVisitsByRangeService), successIds, erroredIds);
+        ResultCode =
+            erroredIds.Count <= 0
+                ? Result.Successful
+                : throw new PartialRangeErrorException(nameof(GetVisitsByRangeService), successIds, erroredIds);
     }
 
     async ValueTask GetVisitsForCase(string caseId, CancellationToken token)

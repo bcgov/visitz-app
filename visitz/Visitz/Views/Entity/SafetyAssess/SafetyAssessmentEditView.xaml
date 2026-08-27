@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<baseClasses:ViewModelContentView 
+<baseClasses:IcmRecordContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
@@ -16,13 +16,14 @@
     xmlns:safetyAssess="clr-namespace:Visitz.Views.Entity.SafetyAssess"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.SafetyAssess.SafetyAssessmentEditView"
-    x:DataType="safetyAssess:SafetyAssessmentEditViewModel">
+    x:DataType="safetyAssess:SafetyAssessmentEditViewModel"
+    x:TypeArguments="safetyAssess:SafetyAssessmentEditViewModel"
+>
+    <baseClasses:IcmRecordContentView.Behaviors>
+        <behaviors:SoftKbResizeBehavior />
+    </baseClasses:IcmRecordContentView.Behaviors>
 
-    <baseClasses:ViewModelContentView.Behaviors>
-		<behaviors:SoftKbResizeBehavior />
-	</baseClasses:ViewModelContentView.Behaviors>
-
-    <baseClasses:ViewModelContentView.Resources>
+    <baseClasses:IcmRecordContentView.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}">
             <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="VerticalOptions" Value="Center" />
@@ -33,7 +34,7 @@
         </Style>
 
         <Style x:Key="AssessmentHeader" TargetType="Label" BasedOn="{StaticResource TitleMedium}">
-            <Setter Property="BackgroundColor" Value="AliceBlue"/>
+            <Setter Property="BackgroundColor" Value="AliceBlue" />
             <Setter Property="Padding" Value="10,10" />
             <Setter Property="Margin" Value="-10,0" />
             <Setter Property="HorizontalOptions" Value="Fill" />
@@ -41,12 +42,18 @@
         </Style>
 
         <Style TargetType="formctls:FormPromptAnswerField">
-            <Setter Property="AnswerContextExplanation" Value="{local:Localize CommentsClarificationPrompt}" />
+            <Setter
+                Property="AnswerContextExplanation"
+                Value="{local:Localize CommentsClarificationPrompt}"
+            />
             <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
         </Style>
 
         <Style TargetType="formctls:FormEntry">
-            <Setter Property="MaxLength" Value="{Static safetyModels:SafetyAssessment.CommentsMaxLength}" />
+            <Setter
+                Property="MaxLength"
+                Value="{Static safetyModels:SafetyAssessment.CommentsMaxLength}"
+            />
             <Setter Property="Placeholder" Value="{local:Localize Comments}" />
             <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
         </Style>
@@ -78,48 +85,47 @@
             <converters:YesNoAnswerToBoolConverter x:Key="YesNoToBool" />
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>
-    </baseClasses:ViewModelContentView.Resources>
+    </baseClasses:IcmRecordContentView.Resources>
 
-    <Border
-        Background="White"
-        Padding="-5"
-        StrokeShape="RoundRectangle 10"
-        StrokeThickness="0">
-
-        <Grid RowDefinitions="Auto,*,0.5,Auto">
-            
-            <drafts:EditDraftAppBar
+    <Border Background="White" StrokeShape="RoundRectangle 10" StrokeThickness="0">
+        <Grid RowDefinitions="Auto,*">
+            <formctls:FormAppBar
                 x:Name="DraftAppBar"
                 Grid.Row="0"
                 AllowDiscard="{Binding CanDiscard}"
-                DiscardClicked="DiscardButton_Clicked"
-                AllowPublish="{Binding CanPublish, Mode=TwoWay}"
+                AllowPublish="{Binding CanPublish}"
+                DiscardCommand="{Binding DiscardDraftCommand}"
                 PublishCommand="{Binding PublishCommand}"
-                IsReadOnly="{Binding IsReadOnly}" />
+                IsReadOnly="{Binding IsReadOnly}"
+                DraftSaveState="{Binding DraftSaveState}"
+            >
+                <formctls:FormAppBar.Padding>
+                    <Thickness
+                        Top="{StaticResource DefaultMarginDouble}"
+                        Left="{StaticResource DefaultMarginDouble}"
+                        Right="{StaticResource DefaultMarginDouble}"
+                    />
+                </formctls:FormAppBar.Padding>
+            </formctls:FormAppBar>
 
             <ScrollView x:Name="MainScrollView" Grid.Row="1">
-
-                <VerticalStackLayout Style="{StaticResource FormVsl}"
-                    MaximumWidthRequest="800">
-
-                    <banners:InfoBanner 
+                <VerticalStackLayout Style="{StaticResource FormVsl}" MaximumWidthRequest="800">
+                    <banners:InfoBanner
                         Margin="10"
                         Level="Info"
                         Text="{local:Localize SafetyAssessmentValidationRulesInfo}"
-                        IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
+                        IsVisible="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+                    />
 
                     <VerticalStackLayout Style="{StaticResource FormVsl}">
-
-                        <Grid
-                            RowDefinitions="Auto,Auto"
-                            ColumnDefinitions="*,*"
-                            ColumnSpacing="20">
-                            <Label 
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*" ColumnSpacing="20">
+                            <Label
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Text="{local:Localize DateOfAssessment}" />
+                                Text="{local:Localize DateOfAssessment}"
+                            />
 
-                            <DatePicker 
+                            <DatePicker
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Margin="0,0"
@@ -127,372 +133,425 @@
                                 MaximumDate="{Binding MaxDate}"
                                 Date="{Binding Assessment.DateOfAssessmentBindingDateTimeWrapper}"
                                 IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
-                                IsVisible="{Binding ShowDateOfAssessment}" />
+                                IsVisible="{Binding ShowDateOfAssessment}"
+                            />
 
                             <Entry
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 IsReadOnly="True"
                                 IsEnabled="False"
-                                IsVisible="{Binding ShowDateOfAssessment, Converter={StaticResource BoolNegationConverter}}" />
+                                IsVisible="{Binding ShowDateOfAssessment, Converter={StaticResource BoolNegationConverter}}"
+                            />
 
-                            <Label 
+                            <Label
                                 Grid.Row="0"
                                 Grid.Column="1"
-                                Text="{local:Localize FamilyName}" />
+                                Text="{local:Localize FamilyName}"
+                            />
 
-                            <Picker 
+                            <Picker
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 SelectedItem="{Binding Assessment.FamilyNameBinding}"
                                 ItemsSource="{Binding FamilyNames}"
-                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}" />
+                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+                            />
                         </Grid>
-
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Style="{StaticResource FormVsl}">
-
                         <Label
                             Style="{StaticResource AssessmentHeader}"
-                            Text="{local:Localize FactorsInfluencingChildVuln}" />
+                            Text="{local:Localize FactorsInfluencingChildVuln}"
+                        />
 
                         <Label Text="{local:Localize InabilityProtectSelfMarkAll}" />
 
                         <formctls:FormCheckBox
                             Text="{local:Localize FactorVuln_AgeUpToFive}"
-                            IsChecked="{Binding Influence.AgeUptoFiveBinding}" />
+                            IsChecked="{Binding Influence.AgeUptoFiveBinding}"
+                        />
 
                         <formctls:FormCheckBox
                             Text="{local:Localize FactorVuln_MedicalMentalDisorder}"
-                            IsChecked="{Binding Influence.MedicalMentalDisorderBinding}" />
+                            IsChecked="{Binding Influence.MedicalMentalDisorderBinding}"
+                        />
 
                         <formctls:FormCheckBox
                             Text="{local:Localize FactorVuln_NotReadilyAccessible}"
-                            IsChecked="{Binding Influence.NotReadilyAccessibleBinding}" />
+                            IsChecked="{Binding Influence.NotReadilyAccessibleBinding}"
+                        />
 
                         <formctls:FormCheckBox
                             Text="{local:Localize FactorVuln_DiminishedMental}"
-                            IsChecked="{Binding Influence.DiminishedMentalBinding}" />
+                            IsChecked="{Binding Influence.DiminishedMentalBinding}"
+                        />
 
                         <formctls:FormCheckBox
                             Text="{local:Localize FactorVuln_DiminishedPhysical}"
-                            IsChecked="{Binding Influence.DiminishedPhysicalBinding}" />
+                            IsChecked="{Binding Influence.DiminishedPhysicalBinding}"
+                        />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Style="{StaticResource FormVsl}">
-
                         <Label
                             Style="{StaticResource AssessmentHeader}"
-                            Text="{local:Localize SafetyFactors}" />
+                            Text="{local:Localize SafetyFactors}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
+                        <formctls:FormPromptAnswerField
                             QuestionPrompt="{local:Localize SafetyFactor1_PhysicalHarm}"
                             Answer="{Binding Factors.PhysicalHarmBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtClarificationBinding}">
-
+                            AnswerContext="{Binding Factors.CmtClarificationBinding}"
+                        >
                             <Border Style="{StaticResource AssessmentBorder}">
                                 <VerticalStackLayout>
-
                                     <formctls:FormCheckBox
                                         Text="{local:Localize SafetyFactor1_SeriousInjury}"
-                                        IsChecked="{Binding Factors.SeriousInjuryAbuseBinding}" />
+                                        IsChecked="{Binding Factors.SeriousInjuryAbuseBinding}"
+                                    />
                                     <formctls:FormCheckBox
                                         Text="{local:Localize SafetyFactor1_ProviderFears}"
-                                        IsChecked="{Binding Factors.FearsMaltreatChildBinding}" />
+                                        IsChecked="{Binding Factors.FearsMaltreatChildBinding}"
+                                    />
                                     <formctls:FormCheckBox
                                         Text="{local:Localize SafetyFactor1_ThreatOfHarm}"
-                                        IsChecked="{Binding Factors.ThreatAgainstChildBinding}" />
+                                        IsChecked="{Binding Factors.ThreatAgainstChildBinding}"
+                                    />
                                     <formctls:FormCheckBox
                                         Text="{local:Localize SafetyFactor1_Discipline}"
-                                        IsChecked="{Binding Factors.ExcessiveForceBinding}" />
+                                        IsChecked="{Binding Factors.ExcessiveForceBinding}"
+                                    />
                                     <formctls:FormCheckBox
                                         Text="{local:Localize SafetyFactor1_Substance}"
-                                        IsChecked="{Binding Factors.SubsExposedInfantBinding}" />
+                                        IsChecked="{Binding Factors.SubsExposedInfantBinding}"
+                                    />
                                 </VerticalStackLayout>
                             </Border>
                         </formctls:FormPromptAnswerField>
 
                         <formctls:FormPromptAnswerField
-                            QuestionPrompt="{local:Localize SafetyFactor2_CurrentCircumstances}" 
+                            QuestionPrompt="{local:Localize SafetyFactor2_CurrentCircumstances}"
                             Answer="{Binding Factors.CurrentCircumstancesBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtCircumstancesBinding}" />
+                            AnswerContext="{Binding Factors.CmtCircumstancesBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor3_SexAbuse}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor3_SexAbuse}"
                             Answer="{Binding Factors.SexAbuseBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtAbuseBinding}" />
+                            AnswerContext="{Binding Factors.CmtAbuseBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor4_UnableToProtect}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor4_UnableToProtect}"
                             Answer="{Binding Factors.UnableToProtectBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtProtectBinding}" />
+                            AnswerContext="{Binding Factors.CmtProtectBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor5_InjuryExplanation}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor5_InjuryExplanation}"
                             Answer="{Binding Factors.InjuryExplanationBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtExplanationBinding}" />
+                            AnswerContext="{Binding Factors.CmtExplanationBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor6_RefuseAccess}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor6_RefuseAccess}"
                             Answer="{Binding Factors.RefuseAccessBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtAccessBinding}" />
+                            AnswerContext="{Binding Factors.CmtAccessBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor7_ImmediateNeeds}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor7_ImmediateNeeds}"
                             Answer="{Binding Factors.ImmediateNeedsBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtNeedsBinding}" />
+                            AnswerContext="{Binding Factors.CmtNeedsBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor8_PhysicalCondition}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor8_PhysicalCondition}"
                             Answer="{Binding Factors.PhysicalConditionBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtConditionBinding}" />
+                            AnswerContext="{Binding Factors.CmtConditionBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor9_CurrentAbuse}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor9_CurrentAbuse}"
                             Answer="{Binding Factors.CurrentAbuseBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtCurrentBinding}" />
+                            AnswerContext="{Binding Factors.CmtCurrentBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor10_PartnerViolence}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor10_PartnerViolence}"
                             Answer="{Binding Factors.PartnerViolenceBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtViolenceBinding}" />
+                            AnswerContext="{Binding Factors.CmtViolenceBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor11_PredominantlyNegative}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor11_PredominantlyNegative}"
                             Answer="{Binding Factors.PredominantlyNegativeBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtNegativeBinding}" />
+                            AnswerContext="{Binding Factors.CmtNegativeBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor12_EmotionalStability}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor12_EmotionalStability}"
                             Answer="{Binding Factors.EmotionalStabilityBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtEmotionalBinding}" />
+                            AnswerContext="{Binding Factors.CmtEmotionalBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
-                            QuestionPrompt="{local:Localize SafetyFactor13_ChildFearful}" 
+                        <formctls:FormPromptAnswerField
+                            QuestionPrompt="{local:Localize SafetyFactor13_ChildFearful}"
                             Answer="{Binding Factors.ChildFearfulBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtFearfulBinding}" />
+                            AnswerContext="{Binding Factors.CmtFearfulBinding}"
+                        />
 
-                        <formctls:FormPromptAnswerField 
+                        <formctls:FormPromptAnswerField
                             QuestionPrompt="{local:Localize SafetyFactor14_OtherFactors}"
                             AnswerContextExplanation="{local:Localize SafetyFactor14_Context}"
                             Answer="{Binding Factors.OtherFactorsBinding, Converter={StaticResource YesNoToBool}}"
-                            AnswerContext="{Binding Factors.CmtOtherFactorsBinding}" />
-
+                            AnswerContext="{Binding Factors.CmtOtherFactorsBinding}"
+                        />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Style="{StaticResource FormVsl}">
-
                         <Label
                             Style="{StaticResource AssessmentHeader}"
-                            Text="{local:Localize ProtectiveCapacities}" />
+                            Text="{local:Localize ProtectiveCapacities}"
+                        />
 
                         <Label Text="{local:Localize MarkAllThatApply}" />
 
-
                         <Label
                             Style="{StaticResource MidsectionHeader}"
-                            Text="{local:Localize Child}" />
+                            Text="{local:Localize Child}"
+                        />
 
-                        <formctls:FormCheckBox 
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ChildCognitiveBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ChildCognitive}" />
-
+                            Text="{local:Localize ProtectiveCapacity_ChildCognitive}"
+                        />
 
                         <Label
                             Style="{StaticResource MidsectionHeader}"
-                            Text="{local:Localize ParentCareProvider}" />
+                            Text="{local:Localize ParentCareProvider}"
+                        />
 
-                        <formctls:FormCheckBox 
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentCognitiveBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentCognitive }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentCognitive }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentWillingnessBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentWillingness }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentWillingness }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentResourcesBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentResources }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentResources }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentSupportiveBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentSupportive }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentSupportive }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentProtectBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentProtect }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentProtect }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentAcceptBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentAccept }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentAccept }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentRelationshipBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentRelationship }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentRelationship }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentAwareBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentAware }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentAware }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.ParentProbSolvingBinding}"
-                            Text="{local:Localize ProtectiveCapacity_ParentProbSolving }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_ParentProbSolving }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.NoProCapPresentBinding}"
-                            Text="{local:Localize ProtectiveCapacity_NoProCapPresent }" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize ProtectiveCapacity_NoProCapPresent }"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Capacity.CapacitiesOtherBinding}"
-                            Text="{local:Localize ProtectiveCapacity_Comments1 }" />
+                            Text="{local:Localize ProtectiveCapacity_Comments1 }"
+                        />
 
                         <formctls:FormEntry
                             IsVisible="{Binding Capacity.CapacitiesOtherBinding}"
                             FieldNameIsVisible="False"
                             Placeholder="{local:Localize Other}"
-                            Text="{Binding Capacity.CmtProtectiveCapacity01Binding}" />
+                            Text="{Binding Capacity.CmtProtectiveCapacity01Binding}"
+                        />
 
-                        <formctls:FormEntry 
+                        <formctls:FormEntry
                             FieldName="{local:Localize ProtectiveCapacity_Comments2 }"
-                            Text="{Binding Capacity.CmtProtectiveCapacity02Binding}"/>
-
+                            Text="{Binding Capacity.CmtProtectiveCapacity02Binding}"
+                        />
                     </VerticalStackLayout>
 
-                    <VerticalStackLayout 
+                    <VerticalStackLayout
                         Style="{StaticResource FormVsl}"
-                        IsVisible="{Binding Factors.AnyTrue}">
-
+                        IsVisible="{Binding Factors.AnyTrue}"
+                    >
                         <Label
                             Style="{StaticResource AssessmentHeader}"
-                            Text="{local:Localize SafetyInterventions}" />
+                            Text="{local:Localize SafetyInterventions}"
+                        />
 
                         <Label Text="{local:Localize SafetyIntervention_Prompt}" />
 
                         <Label Text="{local:Localize SafetyIntervention_Description}" />
 
-                        <formctls:FormCheckBox 
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.DirectInterventionBinding}"
-                            Text="{local:Localize SafetyIntervention1_DirectIntervention}" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize SafetyIntervention1_DirectIntervention}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.UseOfIndividualsBinding}"
-                            Text="{local:Localize SafetyIntervention2_UseOfIndividuals}" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize SafetyIntervention2_UseOfIndividuals}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.UseCommAgenciesBinding}"
-                            Text="{local:Localize SafetyIntervention3_UseCommAgencies}" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize SafetyIntervention3_UseCommAgencies}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.ProtectVictimBinding}"
-                            Text="{local:Localize SafetyIntervention4_ProtectVictim}" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize SafetyIntervention4_ProtectVictim}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.LeaveHomeBinding}"
-                            Text="{local:Localize SafetyIntervention5_LeaveHome}" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize SafetyIntervention5_LeaveHome}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.NonOffendingParentBinding}"
-                            Text="{local:Localize SafetyIntervention6_NonOffendingParent}" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize SafetyIntervention6_NonOffendingParent}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.LegalIntPlannedBinding}"
-                            Text="{local:Localize SafetyIntervention7_LegalIntPlanned}" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize SafetyIntervention7_LegalIntPlanned}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.OtherSafetyInterventionsBinding}"
-                            Text="{local:Localize SafetyIntervention8_OtherSafetyInterventions}" />
-                        <formctls:FormEntry 
+                            Text="{local:Localize SafetyIntervention8_OtherSafetyInterventions}"
+                        />
+                        <formctls:FormEntry
                             IsVisible="{Binding Interventions.OtherSafetyInterventionsBinding}"
                             FieldNameIsVisible="False"
                             Placeholder="{local:Localize Other}"
-                            Text="{Binding Interventions.CmtSafetyInterventionsBinding}" />
-                        <formctls:FormCheckBox 
+                            Text="{Binding Interventions.CmtSafetyInterventionsBinding}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.ChildOutsideHomeBinding}"
-                            Text="{local:Localize SafetyIntervention9_ChildOutsideHome}" />
-                        <formctls:FormCheckBox 
+                            Text="{local:Localize SafetyIntervention9_ChildOutsideHome}"
+                        />
+                        <formctls:FormCheckBox
                             IsChecked="{Binding Interventions.ChildRemovedBinding}"
-                            Text="{local:Localize SafetyIntervention10_ChildRemoved}" />
-
+                            Text="{local:Localize SafetyIntervention10_ChildRemoved}"
+                        />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Style="{StaticResource FormVsl}">
-
                         <Label
                             Style="{StaticResource AssessmentHeader}"
-                            Text="{local:Localize SafetyDecision}" />
+                            Text="{local:Localize SafetyDecision}"
+                        />
 
                         <Label Text="{local:Localize SafetyDecision_Prompt}" />
 
                         <Border Style="{StaticResource AssessmentBorder}">
                             <VerticalStackLayout Spacing="10">
-                                <VerticalStackLayout 
+                                <VerticalStackLayout
                                     Spacing="10"
                                     RadioButtonGroup.GroupName="{Static safetyAssess:SafetyAssessmentEditViewModel.SafetyDecisionGroup}"
-                                    RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionBinding}">
+                                    RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionBinding}"
+                                >
                                     <formctls:FormRadioButton
                                         Value="{Static safetyModels:SafetyDecisionOption.Safe}"
                                         IsChecked="{Binding SafeChecked}"
-                                        GroupName="{Static safetyAssess:SafetyAssessmentEditViewModel.SafetyDecisionGroup}" 
-                                        Text="{local:Localize SafetyDecision1_NoSafetyFactors}" />
+                                        GroupName="{Static safetyAssess:SafetyAssessmentEditViewModel.SafetyDecisionGroup}"
+                                        Text="{local:Localize SafetyDecision1_NoSafetyFactors}"
+                                    />
                                     <formctls:FormRadioButton
                                         Value="{Static safetyModels:SafetyDecisionOption.SafeWithInterventions}"
                                         IsChecked="{Binding SafeWithInterventionsChecked}"
                                         GroupName="{Static safetyAssess:SafetyAssessmentEditViewModel.SafetyDecisionGroup}"
-                                        Text="{local:Localize SafetyDecision2_SafeInterventions}" />
+                                        Text="{local:Localize SafetyDecision2_SafeInterventions}"
+                                    />
                                     <formctls:FormRadioButton
                                         Value="{Static safetyModels:SafetyDecisionOption.Unsafe}"
                                         IsChecked="{Binding UnsafeChecked}"
                                         GroupName="{Static safetyAssess:SafetyAssessmentEditViewModel.SafetyDecisionGroup}"
-                                        Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}" />
+                                        Text="{local:Localize SafetyDecision3_UnsafeSafetyFactors}"
+                                    />
                                 </VerticalStackLayout>
 
-                                <VerticalStackLayout 
+                                <VerticalStackLayout
                                     IsVisible="{Binding UnsafeChecked}"
                                     Spacing="10"
                                     Margin="30,0,0,0"
                                     RadioButtonGroup.GroupName="{Static safetyAssess:SafetyAssessmentEditViewModel.WhichChildrenPlaced}"
-                                    RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionUnsafeBinding}">
-                                    <formctls:FormRadioButton 
+                                    RadioButtonGroup.SelectedValue="{Binding Decisions.DecisionUnsafeBinding}"
+                                >
+                                    <formctls:FormRadioButton
                                         GroupName="{Static safetyAssess:SafetyAssessmentEditViewModel.WhichChildrenPlaced}"
                                         IsChecked="{Binding AllChildrenPlaced}"
                                         Value="{Static safetyModels:SafetyDecisions.AllChildrenPlaced}"
-                                        Text="{local:Localize SafetyDecision_AllYouth}" />
-                                    <formctls:FormRadioButton 
+                                        Text="{local:Localize SafetyDecision_AllYouth}"
+                                    />
+                                    <formctls:FormRadioButton
                                         GroupName="{Static safetyAssess:SafetyAssessmentEditViewModel.WhichChildrenPlaced}"
                                         IsChecked="{Binding SomeChildrenPlaced}"
                                         CheckedChanged="SomeChildrenPlaced_CheckedChanged"
                                         Value="{Static safetyModels:SafetyDecisions.SomeChildrenPlaced}"
-                                        Text="{local:Localize SafetyDecision_SelectedYouth}" />
+                                        Text="{local:Localize SafetyDecision_SelectedYouth}"
+                                    />
                                 </VerticalStackLayout>
                             </VerticalStackLayout>
                         </Border>
 
-                        <Label 
+                        <Label
                             IsVisible="{Binding SafeWithInterventionsChecked}"
                             Style="{StaticResource MidsectionHeader}"
-                            Text="{local:Localize SafetyPlan}" />
+                            Text="{local:Localize SafetyPlan}"
+                        />
 
-                        <formctls:FormEntry 
+                        <formctls:FormEntry
                             IsVisible="{Binding SafeWithInterventionsChecked}"
                             FieldName="{local:Localize SafetyPlanDescription}"
                             Placeholder="{local:Localize SafetyPlan}"
                             MaxLength="{Static safetyModels:SafetyDecisions.CommentsMaxLength}"
-                            Text="{Binding Decisions.CommentsBinding}"/>
+                            Text="{Binding Decisions.CommentsBinding}"
+                        />
 
-                        <Label 
+                        <Label
                             Style="{StaticResource MidsectionHeader}"
-                            Text="{local:Localize Narrative}" />
+                            Text="{local:Localize Narrative}"
+                        />
 
-                        <formctls:FormEntry 
+                        <formctls:FormEntry
                             FieldName="{local:Localize NarrativeDescription}"
                             Placeholder="{local:Localize Narrative}"
                             MaxLength="{Static safetyModels:SafetyDecisions.NarrativeMaxLength}"
-                            Text="{Binding Decisions.NarrativeBinding}"/>
-
+                            Text="{Binding Decisions.NarrativeBinding}"
+                        />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout
                         x:Name="ChildrenInCareSection"
                         IsVisible="{Binding SomeChildrenPlaced}"
-                        Style="{StaticResource FormVsl}">
-
+                        Style="{StaticResource FormVsl}"
+                    >
                         <Label
                             Style="{StaticResource AssessmentHeader}"
-                            Text="{local:Localize ChildrenInOutCare}" />
+                            Text="{local:Localize ChildrenInOutCare}"
+                        />
 
-                        <Label 
-                            Text="{local:Localize SelectChildrenPrompt}"
-                            Margin="0,5,0,20"/>
+                        <Label Text="{local:Localize SelectChildrenPrompt}" Margin="0,5,0,20" />
 
-                        <Grid
-                            RowDefinitions="Auto,0.5"
-                            RowSpacing="5"
-                            ColumnSpacing="5">
-
+                        <Grid RowDefinitions="Auto,0.5" RowSpacing="5" ColumnSpacing="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.CheckBoxGridLength}" />
                                 <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.LastNameGridLength}" />
@@ -501,62 +560,59 @@
                                 <ColumnDefinition Width="{Static safetyAssess:ChildInOutCareItem.GenderGridLength}" />
                             </Grid.ColumnDefinitions>
 
-                            <Label
-                                Grid.Column="1"
-                                Text="{local:Localize LastName}" />
+                            <Label Grid.Column="1" Text="{local:Localize LastName}" />
 
-                            <Label
-                                Grid.Column="2"
-                                Text="{local:Localize FirstName}" />
+                            <Label Grid.Column="2" Text="{local:Localize FirstName}" />
 
-                            <Label
-                                Grid.Column="3"
-                                Text="{local:Localize DateOfBirth}" />
+                            <Label Grid.Column="3" Text="{local:Localize DateOfBirth}" />
 
-                            <Label
-                                Grid.Column="4"
-                                Text="{local:Localize Gender}" />
+                            <Label Grid.Column="4" Text="{local:Localize Gender}" />
 
-                            <BoxView 
+                            <BoxView
                                 Grid.Row="1"
                                 Grid.ColumnSpan="5"
-                                Color="{StaticResource SeparatorColor}" />
+                                Color="{StaticResource SeparatorColor}"
+                            />
                         </Grid>
 
-                        <CollectionView
-                            ItemsSource="{Binding AvailableChildrenInOutCare}"
-                            SelectionMode="Multiple"
-                            SelectedItems="{Binding SelectedChildren}"
-                            IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}">
-
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="peopleModels:IcmContact">
-                                    <safetyAssess:ChildInOutCareItem />
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-
+                        <Grid RowDefinitions="Auto">
+                            <!-- FIXME: Wrapping CollectionView with an auto-sizing Grid to work
+                            around a layout issue on iOS where the CollectionView usually renders
+                            with a size of 0 even though it has elements it can display. -->
+                            <CollectionView
+                                ItemsSource="{Binding AvailableChildrenInOutCare}"
+                                SelectionMode="Multiple"
+                                SelectedItems="{Binding SelectedChildren}"
+                                IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolNegationConverter}}"
+                            >
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="peopleModels:IcmContact">
+                                        <safetyAssess:ChildInOutCareItem />
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </Grid>
                     </VerticalStackLayout>
 
-                    <VerticalStackLayout
-                        Style="{StaticResource FormVsl}">
-
+                    <VerticalStackLayout Style="{StaticResource FormVsl}">
                         <Label
                             Style="{StaticResource AssessmentHeader}"
-                            Text="{local:Localize SendToTeamLeader}" />
+                            Text="{local:Localize SendToTeamLeader}"
+                        />
 
                         <formctls:FormCheckBox
                             IsChecked="{Binding Decisions.ReadyFinalizeBinding}"
-                            Text="{local:Localize ReadyToFinalize}" />
+                            Text="{local:Localize ReadyToFinalize}"
+                        />
 
                         <formctls:FormEntry
                             IsVisible="False"
                             FieldName="{local:Localize SocialWorkerName}"
-                            Text="{Binding Assessment.WorkerIdBinding}" />
-
+                            Text="{Binding Assessment.WorkerIdBinding}"
+                        />
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
     </Border>
-</baseClasses:ViewModelContentView>
+</baseClasses:IcmRecordContentView>

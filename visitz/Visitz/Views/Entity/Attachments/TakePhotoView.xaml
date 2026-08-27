@@ -1,136 +1,147 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<baseClasses:ViewModelContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<baseClasses:IcmRecordContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:icons="clr-namespace:Visitz.FontIcons"
-	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Entity.Attachments.TakePhotoView"
-	x:DataType="attachments:TakePhotoViewModel"
-	BackgroundColor="Black">
+    x:DataType="attachments:TakePhotoViewModel"
+    x:TypeArguments="attachments:TakePhotoViewModel"
+    BackgroundColor="Black"
+>
+    <baseClasses:BaseContentView.Resources>
+        <x:Double x:Key="ButtonSize">64</x:Double>
+        <x:Double x:Key="HalfButtonSize">32</x:Double>
 
-	<baseClasses:BaseContentView.Resources>
-		<x:Double x:Key="ButtonSize">64</x:Double>
-		<x:Double x:Key="HalfButtonSize">32</x:Double>
-		
-		<ResourceDictionary>
-			<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
-		</ResourceDictionary>
-	</baseClasses:BaseContentView.Resources>
+        <ResourceDictionary>
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </baseClasses:BaseContentView.Resources>
 
-	<AbsoluteLayout>
-		<ActivityIndicator
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="0.5,0.5"
-			HeightRequest="{StaticResource ButtonSize}"
-			WidthRequest="{StaticResource ButtonSize}"
-			Color="{StaticResource BC_Gold}"
-			IsRunning="True" />
+    <Grid>
+        <ActivityIndicator
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            HeightRequest="{StaticResource ButtonSize}"
+            WidthRequest="{StaticResource ButtonSize}"
+            Color="{StaticResource BC_Gold}"
+            IsRunning="True"
+        />
 
-        <toolkit:CameraView
-			x:Name="Camera"
-			AbsoluteLayout.LayoutFlags="All"
-			AbsoluteLayout.LayoutBounds="0,0,1,1"
-			SelectedCamera="{Binding SelectedCamera}" />
+        <toolkit:CameraView x:Name="Camera" SelectedCamera="{Binding SelectedCamera}" />
 
         <BoxView
-			x:Name="SnapshotLayer"
-			AbsoluteLayout.LayoutFlags="All"
-			AbsoluteLayout.LayoutBounds="0,0,1,1"
-			Color="Black"
-			IsVisible="False"/>
+            x:Name="SnapshotLayer"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
+            Color="Black"
+            IsVisible="False"
+        />
 
-		<HorizontalStackLayout
-			AbsoluteLayout.LayoutFlags="XProportional,YProportional,WidthProportional"
-			AbsoluteLayout.LayoutBounds="0,0,1,-1"
-			BackgroundColor="{StaticResource Black55Scrim}"
-			Padding="{StaticResource DefaultPadding}">
+        <Border
+            BackgroundColor="{StaticResource Black55Scrim}"
+            Margin="{StaticResource DefaultMargin}"
+            StrokeThickness="0"
+            StrokeShape="RoundRectangle 40"
+        >
+            <Border.Behaviors>
+                <behaviors:StickToEdgeBehavior EdgeRequest="Top" />
+            </Border.Behaviors>
 
-			<controls:CloseButton />
+            <controls:CloseButton />
+        </Border>
 
-		</HorizontalStackLayout>
+        <Grid
+            ColumnDefinitions="*,Auto,*"
+            ColumnSpacing="{StaticResource DefaultSpacing}"
+            Margin="{StaticResource DefaultMargin}"
+        >
+            <Grid.Behaviors>
+                <behaviors:StickToEdgeBehavior EdgeRequest="Bottom" />
+            </Grid.Behaviors>
 
-		<Grid
-			AbsoluteLayout.LayoutFlags="XProportional,YProportional,HeightProportional"
-			AbsoluteLayout.LayoutBounds="1,0,-1,1"
-			RowDefinitions="*,Auto,*"
-			RowSpacing="{StaticResource DefaultSpacing}">
+            <Border
+                Grid.Column="0"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Stroke="White"
+                StrokeThickness="2"
+            >
+                <Border.Behaviors>
+                    <behaviors:StayUprightBehavior />
+                </Border.Behaviors>
+                <ImageButton
+                    x:Name="CameraRollButton"
+                    HeightRequest="48"
+                    WidthRequest="48"
+                    Aspect="AspectFill"
+                    Clicked="CameraRollButton_Clicked"
+                    CornerRadius="0"
+                    Source="{Binding RollBytes, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                />
+            </Border>
 
-			<VerticalStackLayout
-				Grid.Row="0"
-				VerticalOptions="End">
-				<Button
-					Style="{StaticResource MinimalButton}"
-					BorderWidth="0"
-					HorizontalOptions="Center"
-					Command="{Binding SelectNextCameraCommand}">
-					<Button.ImageSource>
-						<FontImageSource
-							Glyph="{Static icons:MaterialIcons.Camera_rear}"
-							FontFamily="MaterialIconsRoundedUnfilled" />
-					</Button.ImageSource>
-				</Button>
-			</VerticalStackLayout>
+            <Border
+                Grid.Column="1"
+                Stroke="White"
+                StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
+                StrokeThickness="2"
+                Padding="{StaticResource DefaultSpacing}"
+                Margin="30,0,30,0"
+            >
+                <Grid>
+                    <BoxView
+                        Color="White"
+                        HeightRequest="{StaticResource ButtonSize}"
+                        WidthRequest="{StaticResource ButtonSize}"
+                        CornerRadius="{StaticResource ButtonSize}"
+                    />
 
-			<Border
-				Grid.Row="1"
-				StrokeShape="{RoundRectangle CornerRadius={StaticResource ButtonSize}}"
-				Stroke="White"
-				StrokeThickness="2"
-				Padding="{StaticResource DefaultSpacing}"
-				Margin="20">
-
-				<Grid>
-					<BoxView
-						Color="White"
-						HeightRequest="{StaticResource ButtonSize}"
-						WidthRequest="{StaticResource ButtonSize}"
-						CornerRadius="{StaticResource ButtonSize}"/>
-
-					<Button
-						Style="{StaticResource SecondaryButton}"
-						FontAutoScalingEnabled="False"
-						BorderWidth="0"
-						BackgroundColor="White"
-						HeightRequest="{StaticResource ButtonSize}"
-						WidthRequest="{StaticResource ButtonSize}"
-						CornerRadius="{Binding Source={StaticResource HalfButtonSize}}"
-						Command="{Binding TakePictureCommand,
+                    <Button
+                        Style="{StaticResource SecondaryButton}"
+                        FontAutoScalingEnabled="False"
+                        BorderWidth="0"
+                        BackgroundColor="White"
+                        HeightRequest="{StaticResource ButtonSize}"
+                        WidthRequest="{StaticResource ButtonSize}"
+                        CornerRadius="{Binding Source={StaticResource HalfButtonSize}}"
+                        Command="{Binding TakePictureCommand,
 						Source={RelativeSource AncestorType={x:Type attachments:TakePhotoView}}}"
-						IsEnabled="{Binding WaitingToProcess}"/>
+                        IsEnabled="{Binding WaitingToProcess}"
+                    />
 
-					<ActivityIndicator
-						HeightRequest="{StaticResource ButtonSize}"
-						WidthRequest="{StaticResource ButtonSize}"
-						InputTransparent="True"
-						IsRunning="{Binding Processing}"
-						IsVisible="{Binding Processing}" />
-				</Grid>
-			</Border>
+                    <ActivityIndicator
+                        HeightRequest="{StaticResource ButtonSize}"
+                        WidthRequest="{StaticResource ButtonSize}"
+                        InputTransparent="True"
+                        IsRunning="{Binding Processing}"
+                        IsVisible="{Binding Processing}"
+                    />
+                </Grid>
+            </Border>
 
-			<VerticalStackLayout
-				Grid.Row="2"
-				VerticalOptions="Start">
-				<Border
-					HorizontalOptions="Center"
-					Stroke="White"
-					StrokeThickness="2">
-
-					<ImageButton
-						x:Name="CameraRollButton"
-						HeightRequest="48"
-						WidthRequest="48"
-						Aspect="AspectFill"
-						Clicked="CameraRollButton_Clicked"
-						CornerRadius="0"
-						Source="{Binding RollBytes, Converter={StaticResource ByteArrayToImageSourceConverter}}" />
-				</Border>
-			</VerticalStackLayout>
-			
-		</Grid>
-
-	</AbsoluteLayout>
-
-</baseClasses:ViewModelContentView>
+            <Button
+                Grid.Column="2"
+                Style="{StaticResource MinimalButton}"
+                BorderWidth="0"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Command="{Binding SelectNextCameraCommand}"
+            >
+                <Button.Behaviors>
+                    <behaviors:StayUprightBehavior />
+                </Button.Behaviors>
+                <Button.ImageSource>
+                    <FontImageSource
+                        Glyph="{Static icons:MaterialIcons.Camera_rear}"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                    />
+                </Button.ImageSource>
+            </Button>
+        </Grid>
+    </Grid>
+</baseClasses:IcmRecordContentView>

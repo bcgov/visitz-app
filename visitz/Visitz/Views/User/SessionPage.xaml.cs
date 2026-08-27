@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Oidc;
 using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
@@ -5,9 +6,11 @@ using Visitz.Views.Debugging;
 
 namespace Visitz.Views.User;
 
-public partial class SessionPage : VisitzPage
+public partial class SessionPage : VisitzPage<SessionPage, SessionViewModel>
 {
-    static SemaphoreSlim _semaphore = new(1);
+    static readonly SemaphoreSlim s_semaphore = new(1);
+
+    bool _disposed;
 
     public static bool IsOpen
     {
@@ -19,26 +22,39 @@ public partial class SessionPage : VisitzPage
         }
     }
 
-    public SessionPage(SessionViewModel viewModel) : base(viewModel)
+    public SessionPage(SessionViewModel viewModel, ILogger<SessionPage> logger)
+        : base(viewModel, logger)
     {
         InitializeComponent();
         BindingContext = viewModel;
         viewModel.AuthorizationSuccess = () => Navigator.Navigation.RemovePage(this);
+
+        SizeChanged += SessionPage_SizeChanged;
+        ApplyOrientation();
     }
 
-    public static async Task TryOpenAsync(
-        Page fromPage = null,
-        bool modal = false,
-        bool animated = true)
+    protected override void Dispose(bool disposing)
     {
-        await _semaphore.WaitAsync();
+        if (!_disposed && disposing)
+        {
+            SizeChanged -= SessionPage_SizeChanged;
+            _disposed = true;
+        }
+        base.Dispose(disposing);
+    }
+
+    public static async Task TryOpenAsync(Page? fromPage = null, bool modal = false, bool animated = true)
+    {
+        await s_semaphore.WaitAsync();
 
         try
         {
-            if (IsOpen
+            if (
+                IsOpen
                 || await OidcSession.SessionExistsAsync()
-                && (await OidcSession.IsAuthorizedAsync() ?? false)
-                && (!await OidcSession.IsSessionStale(DebugOptions.StaleThresholdMinutes) ?? false))
+                    && (await OidcSession.IsAuthorizedAsync() ?? false)
+                    && (!await OidcSession.IsSessionStale(DebugOptions.Default.StaleThresholdMinutes) ?? false)
+            )
                 return;
 
             await Navigator.GoToPage<SessionPage>(fromPage, modal: modal, animated: animated);
@@ -47,14 +63,24 @@ public partial class SessionPage : VisitzPage
         {
             try
             {
-                _semaphore.Release();
+                s_semaphore.Release();
             }
-            catch {}
+            catch { }
         }
     }
 
     protected override bool OnBackButtonPressed()
     {
         return AppLockPage.BackButtonEnabled;
+    }
+
+    private void SessionPage_SizeChanged(object? sender, EventArgs e)
+    {
+        ApplyOrientation();
+    }
+
+    void ApplyOrientation()
+    {
+        RotateBehavior.Orientation = Width >= 500 ? ItemsLayoutOrientation.Horizontal : ItemsLayoutOrientation.Vertical;
     }
 }

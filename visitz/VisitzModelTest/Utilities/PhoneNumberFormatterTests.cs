@@ -4,7 +4,6 @@ namespace VisitzModelTest.Utilities;
 
 public class PhoneNumberFormatterTests
 {
-
     const string ArbitraryNumber1 = "1";
     const string ArbitraryNumber2 = "12";
     const string ArbitraryNumber3 = "123";

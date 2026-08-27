@@ -1,17 +1,20 @@
+using System.Collections.Concurrent;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Models.Visits;
 using VisitzApi.Requests;
+using VisitzModel.Extensions;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Visits;
 
-#nullable enable
-
 internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
+    readonly ConcurrentBag<VisitJson> _visits = [];
+
     public static string MakeId(string caseId)
     {
         return nameof(GetVisitsService) + caseId;
@@ -34,13 +37,19 @@ internal class GetVisitsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagination
         return MakeId(CaseId);
     }
 
-    override protected async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
         var (total, visits) = await Vpi.GetVisitsAsync(CaseId, pagination);
 
-        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await PersonVisit.SaveVisitsAsync(realm, visits));
+        _visits.AddAll(visits);
 
         return total;
+    }
+
+    protected override async Task AfterRun()
+    {
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await PersonVisit.SynchronizeAsync(realm, _visits, CaseId)
+        );
     }
 }

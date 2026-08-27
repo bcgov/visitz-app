@@ -1,8 +1,8 @@
+using System.Diagnostics;
+using System.Globalization;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Oidc;
-using System.Diagnostics;
-using System.Globalization;
 using Visitz.Controls;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
@@ -15,10 +15,10 @@ public partial class WebViewPage
     const string _logoutPath = "/logout";
     const string _logoutResponse = "/logout_response";
 
-    Uri _baseRedirectUri;
-    Uri _authDomain;
+    Uri? _baseRedirectUri;
+    Uri? _authDomain;
 
-    Func<Task> SessionTask { get; set; }
+    Func<Task>? SessionTask { get; set; }
 
     partial void Setup()
     {
@@ -31,9 +31,13 @@ public partial class WebViewPage
         CloseButton.Closing += CloseButton_Closing;
     }
 
-    private static async Task<CoreWebView2> GetCoreWebView(WebView webView)
+    private static async Task<CoreWebView2> GetCoreWebView(WebView? webView)
     {
-        var winWebView = webView.Handler.PlatformView as WebView2;
+        ArgumentNullException.ThrowIfNull(webView?.Handler);
+
+        var winWebView = webView.Handler?.PlatformView as WebView2;
+
+        ArgumentNullException.ThrowIfNull(winWebView);
 
         await winWebView.EnsureCoreWebView2Async();
 
@@ -43,16 +47,18 @@ public partial class WebViewPage
 #if DEBUG
             settings.AreDevToolsEnabled = true;
 #else
-			settings.AreDevToolsEnabled = false;
+            settings.AreDevToolsEnabled = false;
 #endif
         }
 
         return winWebView.CoreWebView2;
     }
 
-    private async void MainWebView_Loaded(object sender, EventArgs e)
+    private async void MainWebView_Loaded(object? sender, EventArgs e)
     {
-        var webView = sender as WebView;
+        ArgumentNullException.ThrowIfNull(sender);
+
+        var webView = (WebView)sender;
         var coreWebView = await GetCoreWebView(webView);
 
         coreWebView.NavigationStarting += (sender, args) =>
@@ -78,9 +84,11 @@ public partial class WebViewPage
 
         coreWebView.ProcessFailed += async (_, args) =>
         {
-            await DisplayAlert(LocalizedStrings.Error,
+            await DisplayAlertAsync(
+                LocalizedStrings.Error,
                 args.Reason + "\n\n" + args.ProcessDescription,
-                LocalizedStrings.Ok);
+                LocalizedStrings.Ok
+            );
 
             await Navigator.Navigation.PopModalAsync();
         };
@@ -99,6 +107,7 @@ public partial class WebViewPage
 
     private bool IsLocalRedirect(string url)
     {
+        ArgumentNullException.ThrowIfNull(_baseRedirectUri);
         return url.StartsWith(_baseRedirectUri.Scheme, StringComparison.InvariantCultureIgnoreCase);
     }
 
@@ -111,6 +120,7 @@ public partial class WebViewPage
 
     private bool IsLogoutRedirect(string url)
     {
+        ArgumentNullException.ThrowIfNull(_authDomain);
         return url.StartsWith(_authDomain.ToString(), true, CultureInfo.InvariantCulture)
             && url.Contains(_logoutResponse, StringComparison.InvariantCultureIgnoreCase);
     }
@@ -119,11 +129,7 @@ public partial class WebViewPage
     {
         try
         {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = uri,
-                UseShellExecute = true,
-            });
+            Process.Start(new ProcessStartInfo { FileName = uri, UseShellExecute = true });
         }
         catch (Exception ex)
         {
@@ -145,7 +151,7 @@ public partial class WebViewPage
         await OidcSession.LocalLogoutAsync();
     }
 
-    private void CloseButton_Closing(object sender, ClosingEventArgs e)
+    private void CloseButton_Closing(object? sender, ClosingEventArgs e)
     {
         CancelTokenSource?.Cancel();
     }

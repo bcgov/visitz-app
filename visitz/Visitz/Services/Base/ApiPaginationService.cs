@@ -4,57 +4,47 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.Base;
 
-#nullable enable
-
-internal abstract class ApiPaginationService : VisitzApiService
+internal abstract class ApiPaginationService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     // TODO: Rearchitect services and start messages with generics to make it
     // easier to pass things like Pagination in
     public Pagination? Pagination { get; set; }
 
-    ParallelOptions ParallelOptions { get; }
+    public ParallelOptions ParallelOptions { get; } =
+        new()
+        {
+            CancellationToken = CancellationToken.None,
+            MaxDegreeOfParallelism = ParallelServiceDefaults.MaxParallelism,
+        };
 
     protected List<Exception> Exceptions { get; } = [];
 
-    protected ApiPaginationService(
-        Vpi vpi,
-        LastUpdatedPrefs prefs,
-        ParallelOptions? parallelOptions = null) : base(vpi, prefs)
+    protected virtual Task BeforeRun()
     {
-        if (parallelOptions != null
-            && (parallelOptions.CancellationToken == default
-            || parallelOptions.CancellationToken == CancellationToken.None))
-        {
-            parallelOptions.CancellationToken = CancelTokenSource.Token;
-        }
-        
-        ParallelOptions = parallelOptions ?? new()
-        {
-            CancellationToken = CancelTokenSource.Token,
-            MaxDegreeOfParallelism = Environment.ProcessorCount,
-        };
+        return Task.CompletedTask;
     }
 
-    virtual protected Task BeforeRun() { return Task.CompletedTask; }
-
-    Task<int> TryRunPaginatedService(Pagination pagination)
+    async Task<int> TryRunPaginatedService(Pagination pagination)
     {
         try
         {
-            return RunPaginatedService(pagination);
+            return await RunPageInParallelAsync(pagination);
         }
         catch (Exception ex)
         {
             Exceptions.Add(ex);
-            return Task.FromResult(int.MinValue);
+            return int.MinValue;
         }
     }
 
-    abstract protected Task<int> RunPaginatedService(Pagination pagination);
+    protected abstract Task<int> RunPageInParallelAsync(Pagination pagination);
 
-    virtual protected Task AfterRun() { return Task.CompletedTask; }
+    protected virtual Task AfterRun()
+    {
+        return Task.CompletedTask;
+    }
 
-    protected override sealed async Task RunApiServiceAsync()
+    protected sealed override async Task RunApiServiceAsync()
     {
         await BeforeRun();
         Pagination ??= new();
@@ -72,10 +62,18 @@ internal abstract class ApiPaginationService : VisitzApiService
             await Parallel.ForEachAsync(
                 pagination,
                 ParallelOptions,
-                async (item, _) => await RunPaginatedService(item));
+                async (item, _) => await TryRunPaginatedService(item)
+            );
         }
 
-        await AfterRun();
+        try
+        {
+            await AfterRun();
+        }
+        catch (Exception ex)
+        {
+            Exceptions.Add(ex);
+        }
 
         if (Exceptions.Count > 1)
             throw new AggregateException(Exceptions);

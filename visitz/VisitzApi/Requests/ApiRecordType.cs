@@ -1,4 +1,4 @@
-namespace VisitzApi;
+namespace VisitzApi.Requests;
 
 public enum ApiRecordType
 {

@@ -13,9 +13,9 @@ public class ErrorVibrateAnimation : BaseAnimation
 
         // Refer to https://developer.apple.com/design/human-interface-guidelines/playing-haptics#Notification
         // The "Error" pattern. Two short bursts, a more powerful burst, then a longer & less powerful burst.
-        await view.TranslateTo(originalX + Distance, view.Y, DurationMs, Easing.CubicIn);
-        await view.TranslateTo(originalX - Distance, view.Y, DurationMs, Easing.Linear);
-        await view.TranslateTo(originalX + Distance + Distance, view.Y, DurationMs, Easing.Linear);
-        await view.TranslateTo(originalX, view.Y, DurationMs + DurationMs, Easing.CubicOut);
+        await view.TranslateToAsync(originalX + Distance, view.Y, DurationMs, Easing.CubicIn);
+        await view.TranslateToAsync(originalX - Distance, view.Y, DurationMs, Easing.Linear);
+        await view.TranslateToAsync(originalX + Distance + Distance, view.Y, DurationMs, Easing.Linear);
+        await view.TranslateToAsync(originalX, view.Y, DurationMs + DurationMs, Easing.CubicOut);
     }
 }

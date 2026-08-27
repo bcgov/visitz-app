@@ -1,116 +1,69 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<baseClasses:ViewModelContentView 
+<baseClasses:IcmRecordContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:details="clr-namespace:Visitz.Views.Entity.Details"
-	xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
     xmlns:fonticons="clr-namespace:Visitz.FontIcons"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:models="clr-namespace:VisitzModel.Models;assembly=VisitzModel"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.Details.EntityDetailsView"
-    x:DataType="details:EntityDetailsViewModel">
-
+    x:DataType="details:EntityDetailsViewModel"
+    x:TypeArguments="details:EntityDetailsViewModel"
+>
     <ScrollView>
+        <FlexLayout
+            AlignItems="Start"
+            AlignContent="Start"
+            Direction="Row"
+            JustifyContent="Center"
+            Position="Absolute"
+            Wrap="Wrap"
+            Padding="{StaticResource DefaultPaddingHalf}"
+        >
+            <FlexLayout.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="BackgroundColor" Value="{StaticResource CardGrayBg}" />
+                    <Setter Property="Margin" Value="{StaticResource DefaultMarginHalf}" />
+                    <Setter Property="Padding" Value="{StaticResource DefaultPadding}" />
+                    <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+                    <Setter Property="StrokeThickness" Value="0" />
+                    <Setter Property="WidthRequest" Value="{OnIdiom Phone=300, Default=400}" />
+                </Style>
+                <Style TargetType="VerticalStackLayout">
+                    <Setter Property="Spacing" Value="{StaticResource DefaultSpacing}" />
+                </Style>
+            </FlexLayout.Resources>
 
-        <Grid 
-            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-            ColumnDefinitions="Auto,*"
-            RowSpacing="15"
-            ColumnSpacing="15"
-            Padding="10,20,10,20">
+            <Border>
+                <VerticalStackLayout>
+                    <Label FontFamily="BCSansBold" Text="{local:Localize RecordInformation}" />
 
-            <Label
-                Grid.Row="0"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize OpenDate}" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding RecordInfoItems}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="formControls:InfoItem">
+                                <formControls:InfoItemView />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
 
-            <Label
-                Grid.Row="0"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding BusinessObject.DisplayDate}" />
+            <Border>
+                <VerticalStackLayout>
+                    <Label FontFamily="BCSansBold" Text="{local:Localize KeyPlayerInformation}" />
 
-            <Label
-                Grid.Row="1"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize Id}" />
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding BusinessObject.FileNumber}" />
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize AssignedTo}" />
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding BusinessObject.DisplayAssignees}" />
-
-            <Label
-                Grid.Row="3"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize ServiceOffice}" />
-
-            <Label
-                Grid.Row="3"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding BusinessObject.ServiceOffice}" />
-
-            <Label
-                Grid.Row="4"
-                Grid.Column="0"
-                HorizontalOptions="End"
-                FontFamily="BCSansBold"
-                Text="{local:Localize Address}" />
-
-            <Label
-                Grid.Row="4"
-                Grid.Column="1"
-                HorizontalOptions="Start"
-                Text="{Binding KeyPlayer.PrimaryAddress}" />
-
-			<Label
-				Grid.Row="5"
-				Grid.Column="0"
-				HorizontalOptions="End"
-				FontFamily="BCSansBold"
-				Text="{local:Localize HomeNumber}" />
-
-			<Label
-				Grid.Row="5"
-				Grid.Column="1"
-				HorizontalOptions="Start"
-				Text="{Binding KeyPlayer.HomePhoneFormatted}" />
-
-			<Label
-				Grid.Row="6"
-				Grid.Column="0"
-				HorizontalOptions="End"
-				FontFamily="BCSansBold"
-				Text="{local:Localize CellNumber}" />
-
-			<Label
-				Grid.Row="6"
-				Grid.Column="1"
-				HorizontalOptions="Start"
-				Text="{Binding KeyPlayer.CellPhoneFormatted}" />
-
-		</Grid>
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding ContactInfoItems}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="formControls:InfoItem">
+                                <formControls:InfoItemView />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </FlexLayout>
     </ScrollView>
-</baseClasses:ViewModelContentView>
+</baseClasses:IcmRecordContentView>

@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:local="clr-namespace:Visitz.Localization"
-	xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.LastUpdatedBanner"
-	x:DataType="views:LastUpdatedBanner"
-	x:Name="this"
-	BackgroundColor="{StaticResource BC_Background_Light}">
+    x:DataType="views:LastUpdatedBanner"
+    x:Name="this"
+    BackgroundColor="{StaticResource BC_Background_Light}"
+>
+    <FlyoutBase.ContextFlyout>
+        <MenuFlyout x:Name="Menu">
+            <MenuFlyoutItem
+                Text="{local:Localize LocalCaseloadStats}"
+                Clicked="MenuFlyoutItem_Clicked"
+            />
+        </MenuFlyout>
+    </FlyoutBase.ContextFlyout>
 
-	<HorizontalStackLayout
-		BindingContext="{Reference this}"
-		Margin="8"
-		Spacing="5"
-		HorizontalOptions="End">
-		<Label
-			TextColor="{StaticResource BC_InputControlsTextColor}"
-			Text="{local:Localize LastUpdated}" />
-
-		<Label
-			x:Name="LastUpdatedLabel" />
-	</HorizontalStackLayout>
-	
+    <Label BindingContext="{Reference this}" Margin="8" HorizontalOptions="End">
+        <Label.FormattedText>
+            <FormattedString>
+                <Span
+                    TextColor="{StaticResource BC_InputControlsTextColor}"
+                    Text="{local:Localize LastRefreshed}"
+                />
+                <Span Text=" " />
+                <Span x:Name="LastUpdatedSpan" />
+            </FormattedString>
+        </Label.FormattedText>
+    </Label>
 </ContentView>

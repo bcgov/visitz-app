@@ -3,39 +3,41 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Oidc.Network;
 using Visitz.Resources.Localization;
-using Visitz.Services;
 using Visitz.Services.Base;
 using Visitz.Services.Caseload;
+using Visitz.Services.Messages;
 using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
+public partial class DataRefreshViewModel : VisitzViewModel, IRecipient<ServiceStateMessage>
 {
     [ObservableProperty]
-    public bool superMessageVisible = false;
+    public partial bool CanShowSuperMessage { get; set; } = true;
 
     [ObservableProperty]
-    public string superMessage;
+    public partial bool SuperMessageVisible { get; set; } = false;
 
     [ObservableProperty]
-    public StackOrientation orientation = StackOrientation.Vertical;
+    public partial string SuperMessage { get; set; }
 
     [ObservableProperty]
-    public bool caseloadActivity;
+    public partial StackOrientation Orientation { get; set; } = StackOrientation.Vertical;
 
-    protected override Task InitAsync()
+    [ObservableProperty]
+    public partial bool CaseloadActivity { get; set; }
+
+    protected override async Task InitAsync()
     {
-        base.InitAsync();
+        await base.InitAsync();
 
         SetConnectivityMessage();
         Connectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
         WeakReferenceMessenger.Default.Register(this, GetAllDataForOfflineService.MakeId());
-
-        return Task.CompletedTask;
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -47,7 +49,7 @@ internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<Servic
         base.Dispose(disposing);
     }
 
-    private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+    private void Current_ConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
     {
         SetConnectivityMessage();
     }
@@ -65,7 +67,17 @@ internal partial class DataRefreshViewModel : VisitzViewModel, IRecipient<Servic
 
     partial void OnSuperMessageChanged(string value)
     {
-        SuperMessageVisible = !string.IsNullOrWhiteSpace(value);
+        ApplyVisibility();
+    }
+
+    partial void OnCanShowSuperMessageChanged(bool value)
+    {
+        ApplyVisibility();
+    }
+
+    void ApplyVisibility()
+    {
+        SuperMessageVisible = CanShowSuperMessage && !string.IsNullOrWhiteSpace(SuperMessage);
     }
 
     public void Receive(ServiceStateMessage message)

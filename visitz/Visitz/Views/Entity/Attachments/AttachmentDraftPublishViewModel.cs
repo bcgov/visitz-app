@@ -4,6 +4,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Attachments;
 using Visitz.Services.Base;
+using Visitz.Services.Messages;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
 using VisitzApi.Models.Attachments;
@@ -15,9 +16,9 @@ using VisitzModel.Storage.Filesystem;
 
 namespace Visitz.Views.Entity.Attachments;
 
-internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
+internal partial class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
-    AttachmentDraft attachmentDraft;
+    AttachmentDraft? attachmentDraft;
 
     public AttachmentDraft AttachmentDraft
     {
@@ -31,27 +32,26 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
 
     public EntityType EntityType { get; private set; }
 
-    public string RecordId { get; private set; }
+    public string RecordId { get; private set; } = string.Empty;
 
-    string getAttachmentsServiceId;
-    string submitAttachmentsServiceId;
-    RecordServiceInfo recordServiceInfo;
+    string getAttachmentsServiceId = string.Empty;
+    string submitAttachmentsServiceId = string.Empty;
+    RecordServiceInfo? recordServiceInfo;
 
-    string relativePath;
+    string relativePath = string.Empty;
 
-    string submittedAttachmentId;
+    string? submittedAttachmentId;
 
-    string AttachmentName => attachmentDraft.Attachment.Filename;
+    string AttachmentName => attachmentDraft?.Attachment?.Filename ?? string.Empty;
 
-    public AttachmentFiler AttachmentFiler { get; private set; }
+    public AttachmentFiler? AttachmentFiler { get; private set; }
 
-    public AttachmentFormData AttachmentToSubmit { get; private set; }
+    public AttachmentFormData? AttachmentToSubmit { get; private set; }
 
-    public async Task SetPayload(
-        IBusinessObject item,
-        AttachmentDraft draft,
-        AttachmentFiler filer = null)
+    public async Task SetPayload(IBusinessObject item, AttachmentDraft draft, AttachmentFiler? filer = null)
     {
+        ArgumentNullException.ThrowIfNull(draft.Attachment);
+
         RecordId = item.Id;
         EntityType = item.EntityType;
         attachmentDraft = draft;
@@ -59,26 +59,28 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         AttachmentFiler = filer ?? await VisitzFiles.GetAsync(item);
         var keyPlayer = item.GetKeyPlayer();
 
+        ArgumentNullException.ThrowIfNull(keyPlayer);
+
         recordServiceInfo = new RecordServiceInfo(
-                attachmentDraft.RelatedEntityType,
-                attachmentDraft.RelatedEntitySubtype,
-                RecordId,
-                attachmentDraft.Attachment.FileNumber,
-                keyPlayer.FirstName,
-                keyPlayer.LastName);
+            attachmentDraft.RelatedEntityType,
+            attachmentDraft.RelatedEntitySubtype,
+            RecordId,
+            attachmentDraft.Attachment.FileNumber,
+            keyPlayer.FirstName,
+            keyPlayer.LastName
+        );
     }
 
     protected override async Task InitAsync()
-	{
-		await base.InitAsync();
+    {
+        await base.InitAsync();
 
-        getAttachmentsServiceId = GetAttachmentsService.MakeId(
-            attachmentDraft.RelatedEntityType,
-            RecordId);
+        ArgumentNullException.ThrowIfNull(attachmentDraft);
+        ArgumentNullException.ThrowIfNull(AttachmentFiler);
 
-        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(
-            attachmentDraft.RelatedEntityType,
-            RecordId);
+        getAttachmentsServiceId = GetAttachmentsService.MakeId(attachmentDraft.RelatedEntityType, RecordId);
+
+        submitAttachmentsServiceId = SubmitAttachmentService.MakeId(attachmentDraft.RelatedEntityType, RecordId);
 
         WeakReferenceMessenger.Default.Register(this, submitAttachmentsServiceId);
         WeakReferenceMessenger.Default.Register(this, getAttachmentsServiceId);
@@ -91,11 +93,12 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
         {
-		    WeakReferenceMessenger.Default.UnregisterAll(this);
+            WeakReferenceMessenger.Default.UnregisterAll(this);
 
             disposed = true;
         }
@@ -103,17 +106,18 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
     }
 
     public override void Publish()
-	{
-        var startMessage = SubmitAttachmentService.MakeStartMessage(
-            EntityType,
-            RecordId,
-            AttachmentToSubmit);
+    {
+        ArgumentNullException.ThrowIfNull(AttachmentToSubmit);
+
+        var startMessage = SubmitAttachmentService.MakeStartMessage(EntityType, RecordId, AttachmentToSubmit);
 
         WeakReferenceMessenger.Default.Send(startMessage);
     }
 
     private void CallGetService()
     {
+        ArgumentNullException.ThrowIfNull(recordServiceInfo);
+
         var startMessage = GetAttachmentsService.MakeStartMessage(recordServiceInfo);
         WeakReferenceMessenger.Default.Send(startMessage);
     }
@@ -127,9 +131,11 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Published(LocalizedStrings.AttachmentPublishSuccess.Format(AttachmentName));
-                relativePath = attachmentDraft.Attachment.RelativePath;
+
+                relativePath = attachmentDraft?.Attachment?.RelativePath ?? string.Empty;
                 submittedAttachmentId = message.ReturnPayload as string;
-                await DiscardAttachmentDraft();
+
+                await MoveAttachmentToIcmDataRealm(submittedAttachmentId);
                 CallGetService();
             }
             else if (message.FinishedCancelled)
@@ -144,16 +150,6 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
             else if (message.FinishedSuccess)
             {
                 Refreshed(LocalizedStrings.RefreshedAttachmentsOnDevice);
-
-                using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
-
-                if (realm.Find<Attachment>(submittedAttachmentId) is Attachment newAttachment)
-                    // TODO: sometimes we can't find the new attachment.
-                    // Need to look into this, but since the user can just
-                    // refresh their caseload normally it's not the highest
-                    // priority.
-                    newAttachment.RelativePathBinding = relativePath;
-
                 Complete();
             }
             else if (message.FinishedError)
@@ -164,8 +160,17 @@ internal class AttachmentDraftPublishViewModel : PublishViewModel, IRecipient<Se
         }
     }
 
-    async Task DiscardAttachmentDraft()
+    async Task MoveAttachmentToIcmDataRealm(string? newDatabaseId)
     {
-        await attachmentDraft.Attachment.DeleteAsync(removeContent: false);
+        if (newDatabaseId == null || attachmentDraft == null || attachmentDraft.Attachment == null)
+            return;
+
+        using Realm realm = await VisitzRealms.GetIcmDataRealmAsync();
+
+        Attachment attachment = new() { Id = newDatabaseId, RelativePath = attachmentDraft.Attachment.RelativePath };
+        attachment.CopyFrom(attachmentDraft.Attachment);
+
+        await attachmentDraft.DeleteAsync(deleteAttachment: true, deleteAttachmentFile: false);
+        await realm.CommitAsync(() => realm.Add(attachment));
     }
 }

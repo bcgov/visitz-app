@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <baseClasses:ViewModelContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:snackbar="clr-namespace:Visitz.Views.Snackbar"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:snackbar="clr-namespace:Visitz.Views.Snackbar"
     x:Class="Visitz.Views.Snackbar.VisitzSnackbar"
-	x:DataType="snackbar:VisitzSnackbarViewModel"
-	BackgroundColor="Transparent">
+    x:DataType="snackbar:VisitzSnackbarViewModel"
+    x:TypeArguments="snackbar:VisitzSnackbarViewModel"
+    BackgroundColor="Transparent"
+>
+    <Border
+        VerticalOptions="Start"
+        HorizontalOptions="Start"
+        BackgroundColor="{StaticResource BC_TextColor}"
+        Stroke="Transparent"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 4"
+    >
+        <Grid Padding="16" ColumnSpacing="8" ColumnDefinitions="*,Auto">
+            <Label
+                Grid.Column="0"
+                Text="{Binding Message}"
+                TextColor="White"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+            />
 
-	<Border
-		VerticalOptions="Start"
-		HorizontalOptions="Start"
-		BackgroundColor="{StaticResource BC_TextColor}"
-		Stroke="Transparent"
-		StrokeThickness="0"
-		StrokeShape="RoundRectangle 4">
-		
-		<HorizontalStackLayout
-			Padding="16"
-			Spacing="8">
-			
-			<Label
-				Text="{Binding Message}"
-				TextColor="White"
-				VerticalOptions="Center" 
-				HorizontalOptions="Start" />
-
-			<Button
-				Style="{StaticResource SecondaryButtonDark}"
-				Padding="8, -1"
-				BorderWidth="0"
-				TextColor="White"
-				FontFamily="BCSansBold"
-				Command="{Binding ActionButtonSelectedCommand}"
-				Text="{Binding ActionText}"
-				IsVisible="{Binding ActionVisible}" />
-		</HorizontalStackLayout>
-	</Border>
+            <Button
+                Grid.Column="1"
+                Style="{StaticResource SecondaryButtonDark}"
+                Padding="8, -1"
+                BorderWidth="0"
+                TextColor="White"
+                FontFamily="BCSansBold"
+                Command="{Binding ActionButtonSelectedCommand}"
+                Text="{Binding ActionText}"
+                IsVisible="{Binding ActionVisible}"
+                VerticalOptions="Center"
+            />
+        </Grid>
+    </Border>
 </baseClasses:ViewModelContentView>

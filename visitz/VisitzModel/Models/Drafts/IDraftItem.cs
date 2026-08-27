@@ -5,13 +5,13 @@ using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.Drafts;
 
-#nullable enable
-
-public interface IDraftItem : IRealmObject, IRecordInfo
+public interface IDraftItem : IRealmObject, IRecordInfo, IComparable<IDraftItem>
 {
     DateTimeOffset DraftCreated { get; set; }
 
     DateTimeOffset LastUpdated { get; set; }
+
+    DateTimeOffset LastUpdatedBinding { get; set; }
 
     string Preview { get; }
 
@@ -40,7 +40,20 @@ public static class IDraftItemExtensions
             EntityType.Incident => IncidentRecord.GetByDraftItem(realm, item),
             EntityType.Memo => MemoRecord.GetByDraftItem(realm, item),
             EntityType.ServiceRequest => ServiceRequestRecord.GetByDraftItem(realm, item),
-            _ => throw new NotImplementedException()
+            _ => throw new NotImplementedException(),
         };
+    }
+
+    public static int CompareDraftItem(this IDraftItem? x, IDraftItem? y)
+    {
+        if (x == null)
+            return y == null ? 0 : -1;
+        else
+        {
+            if (y == null)
+                return 1;
+
+            return x.LastUpdatedBinding.CompareTo(y.LastUpdatedBinding);
+        }
     }
 }

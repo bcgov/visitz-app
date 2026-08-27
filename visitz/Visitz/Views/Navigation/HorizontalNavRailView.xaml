@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <baseClasses:ViewModelContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:icons="clr-namespace:Visitz.FontIcons"
-	xmlns:views="clr-namespace:Visitz.Views"
-	xmlns:nav="clr-namespace:Visitz.Views.Navigation"
-	xmlns:selView="clr-namespace:Visitz.Views.SelectionView"
-	xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-	x:Class="Visitz.Views.Navigation.HorizontalNavRailView"
-	x:DataType="nav:NavRailViewModel"
-	BackgroundColor="{StaticResource BuildBarBackgroundColor}"
-	MaximumHeightRequest="72">
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:caseload="clr-namespace:Visitz.Views.Caseload"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:nav="clr-namespace:Visitz.Views.Navigation"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Class="Visitz.Views.Navigation.HorizontalNavRailView"
+    x:DataType="nav:NavRailViewModel"
+    x:TypeArguments="nav:NavRailViewModel"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+    MinimumHeightRequest="64"
+>
+    <Grid>
+        <views:IndeterminateProgressView
+            x:Name="ProgressIndicator"
+            Color="{StaticResource BC_Gold}"
+            HeightRequest="4"
+            VerticalOptions="Start"
+        />
+        <Grid HorizontalOptions="{OnIdiom Phone=Fill, Default=Center}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <nav:NavItemView MinimumWidthRequest="{OnIdiom Phone=-1, Default=80}" />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
 
-	<Grid ColumnDefinitions="Auto,*,Auto,Auto">
-		<selView:SelectionList
-			Grid.Column="0"
-			Orientation="Horizontal"
-			ItemsSource="{Binding NavigationItems}"
-			SelectedItem="{Binding SelectedNavItem}">
+            <Grid.Behaviors>
+                <behaviors:SelectionLayoutBehavior
+                    ItemsSource="{Binding NavigationItems}"
+                    SelectedItem="{Binding SelectedNavItem}"
+                    StickySelection="True"
+                />
 
-			<selView:SelectionList.ItemTemplate>
-				<DataTemplate>
-					<nav:NavItemView Orientation="Horizontal" MinimumWidthRequest="72" />
-				</DataTemplate>
-			</selView:SelectionList.ItemTemplate>
-		</selView:SelectionList>
-
-		<caseload:DataRefreshButton
-			Grid.Column="2"
-			Orientation="Horizontal"
-			HorizontalOptions="Center" />
-
-		<Image 
-			Grid.Column="3"
-			VerticalOptions="Center"
-			Source="bc_logo_vertical_reverse.png"/>
-	</Grid>
-	
+                <behaviors:AutoAddColumnBehavior />
+            </Grid.Behaviors>
+        </Grid>
+    </Grid>
 </baseClasses:ViewModelContentView>

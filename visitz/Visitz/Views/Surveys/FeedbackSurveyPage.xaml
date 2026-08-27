@@ -1,72 +1,70 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:localize="clr-namespace:Visitz.Localization"
-	xmlns:surveys="clr-namespace:Visitz.Views.Surveys"
-	xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:localize="clr-namespace:Visitz.Localization"
+    xmlns:surveys="clr-namespace:Visitz.Views.Surveys"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Surveys.FeedbackSurveyPage"
-	x:DataType="surveys:FeedbackSurveyPage"
+    x:DataType="surveys:FeedbackSurveyPage"
     Title="Feedback Survey"
-	NavigationPage.HasNavigationBar="False"
-	NavigationPage.HasBackButton="False"
-	WidthRequest="600"
-	HeightRequest="700"
-	Background="Transparent">
+    NavigationPage.HasNavigationBar="False"
+    NavigationPage.HasBackButton="False"
+    MaximumWidthRequest="600"
+    MaximumHeightRequest="700"
+    Background="Transparent"
+>
+    <Border Background="Black" StrokeThickness="0" StrokeShape="RoundRectangle 10">
+        <AbsoluteLayout>
+            <views:FeaturedBackgroundUnderlay
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                ImageDisplayOptions="TextReadable"
+            />
 
-	<Border
-		Background="Black"
-		StrokeThickness="0"
-		StrokeShape="RoundRectangle 10">
+            <Grid
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                RowDefinitions="*,*,*"
+                Margin="32"
+            >
+                <Label
+                    Grid.Row="0"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    FontSize="{StaticResource DisplaySmallFontSize}"
+                    HorizontalTextAlignment="Center"
+                    Text="{localize:Localize WeWantYourFeedback}"
+                    TextColor="White"
+                />
 
-		<AbsoluteLayout>
+                <Label
+                    Grid.Row="1"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    FontSize="{StaticResource BodyLargeFontSize}"
+                    HorizontalTextAlignment="Center"
+                    Text="{localize:Localize FeedbackRequestDescription}"
+                    TextColor="White"
+                />
 
-			<views:FeaturedBackgroundUnderlay
-				AbsoluteLayout.LayoutFlags="All"
-				AbsoluteLayout.LayoutBounds="0,0,1,1"
-				ImageDisplayOptions="TextReadable" />
+                <Button
+                    Grid.Row="2"
+                    StyleClass="FeatureButton,GoldBorderButton"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Text="{localize:Localize StartSurvey}"
+                    Clicked="StartSurvey_Clicked"
+                />
+            </Grid>
 
-			<Grid
-				AbsoluteLayout.LayoutFlags="All"
-				AbsoluteLayout.LayoutBounds="0,0,1,1"
-				RowDefinitions="*,*,*"
-				Margin="32">
-
-				<Label
-					Grid.Row="0"
-					VerticalOptions="Center"
-					HorizontalOptions="Center"
-					FontSize="{StaticResource DisplaySmallFontSize}"
-					HorizontalTextAlignment="Center"
-					Text="{localize:Localize WeWantYourFeedback}"
-					TextColor="White" />
-
-				<Label
-					Grid.Row="1"
-					VerticalOptions="Center"
-					HorizontalOptions="Center"
-					FontSize="{StaticResource BodyLargeFontSize}"
-					HorizontalTextAlignment="Center"
-					Text="{localize:Localize FeedbackRequestDescription}"
-					TextColor="White" />
-
-				<Button
-					Grid.Row="2"
-					StyleClass="FeatureButton,GoldBorderButton"
-					VerticalOptions="Center"
-					HorizontalOptions="Center"
-					Text="{localize:Localize StartSurvey}"
-					Clicked="StartSurvey_Clicked" />
-			
-			</Grid>
-
-			<controls:CloseButton
-				AbsoluteLayout.LayoutFlags="PositionProportional"
-				AbsoluteLayout.LayoutBounds="0,0"
-				Margin="16"
-				HorizontalOptions="Start" />
-
-		</AbsoluteLayout>
-	</Border>
+            <controls:CloseButton
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0,0"
+                Margin="16"
+                HorizontalOptions="Start"
+            />
+        </AbsoluteLayout>
+    </Border>
 </ContentPage>

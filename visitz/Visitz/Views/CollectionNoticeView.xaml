@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:controls="clr-namespace:Visitz.Controls"
-	xmlns:local="clr-namespace:Visitz.Localization"
-	xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.CollectionNoticeView"
-	x:DataType="views:CollectionNoticeView"
-	BackgroundColor="{StaticResource Default_Background}">
+    x:DataType="views:CollectionNoticeView"
+    BackgroundColor="{StaticResource Default_Background}"
+>
+    <Grid RowDefinitions="*,6*" Padding="16,0">
+        <controls:CloseButton
+            Grid.Row="0"
+            TextColor="{StaticResource Gray600}"
+            HorizontalOptions="Start"
+        />
 
-	<Grid
-		RowDefinitions="*,6*"
-		Padding="16,0">
+        <Label
+            Grid.Row="0"
+            FontSize="{StaticResource TitleLargeFontSize}"
+            Text="{local:Localize CollectionNotice}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+        />
 
-		<controls:CloseButton
-			Grid.Row="0"
-			TextColor="{StaticResource Gray600}"
-			HorizontalOptions="Start" />
-		
-		<Label
-			Grid.Row="0"
-			FontSize="{StaticResource TitleLargeFontSize}"
-			Text="{local:Localize CollectionNotice}"
-			VerticalOptions="Center" 
-			HorizontalOptions="Center" />
-
-		<Label
-			Grid.Row="1"
-			Margin="16"
-			MaximumWidthRequest="700"
-			Text="{local:Localize CollectionNoticeDesc}"
-			VerticalOptions="Start"
-			HorizontalOptions="Center" />
-	</Grid>
+        <Label
+            Grid.Row="1"
+            Margin="16"
+            MaximumWidthRequest="700"
+            Text="{local:Localize CollectionNoticeDesc}"
+            VerticalOptions="Start"
+            HorizontalOptions="Center"
+        />
+    </Grid>
 </ContentView>

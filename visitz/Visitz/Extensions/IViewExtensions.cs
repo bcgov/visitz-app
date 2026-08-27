@@ -19,7 +19,7 @@ public static class IViewExtensions
         return disposables;
     }
 
-    public static IDisposable FindFirstDisposable(this IView view)
+    public static IDisposable? FindFirstDisposable(this IView view)
     {
         if (view is IDisposable disposable)
             return disposable;

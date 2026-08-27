@@ -1,10 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Oidc;
-using Visitz.Services;
 using Visitz.Services.Caseload;
 using Visitz.Settings;
+using Visitz.Views.AppLock;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Surveys;
+using Visitz.Views.User;
 using VisitzModel.Extensions;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
@@ -14,67 +16,40 @@ namespace Visitz.Views.Debugging;
 public partial class DebugOptionsViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public bool dryFireSubmitNotes;
+    public partial DebugOptions Options { get; set; } = DebugOptions.Default;
 
     [ObservableProperty]
-    public bool dryFireSubmitNotesSimulateSuccess;
+    public partial string AppId { get; set; }
 
     [ObservableProperty]
-    public bool dryFirePostVisitService;
+    public partial string DotnetVersion { get; set; }
 
     [ObservableProperty]
-    public bool dryFirePostVisitServiceSimulateSuccess;
+    public partial string ApiDomain { get; set; }
 
     [ObservableProperty]
-    public string appId;
+    public partial string AuthenticationDomain { get; set; }
 
     [ObservableProperty]
-    public string dotnetVersion;
+    public partial int LogicalProcessorCount { get; set; } = Environment.ProcessorCount;
 
     [ObservableProperty]
-    public string apiDomain;
-
-    [ObservableProperty]
-    public string authenticationDomain;
-
-    [ObservableProperty]
-    public bool buildingInDebug;
-
-    [ObservableProperty]
-    public bool skipLocalAuth;
-
-    [ObservableProperty]
-    public bool requireAttachmentFileContent;
-
-    [ObservableProperty]
-    public bool keepSafetyAssessmentDraftOnPublish;
+    public partial bool BuildingInDebug { get; set; }
 
     readonly LastUpdatedPrefs lastUpdatedPrefs = ServiceProvider.GetService<LastUpdatedPrefs>();
 
     [ObservableProperty]
-    public DateTime caseloadLastUpdated;
+    public partial DateTime CaseloadLastUpdated { get; set; }
 
     [ObservableProperty]
-    public DateTime maxDate = DateTimeExtensions.LocalNow;
+    public partial DateTime MaxDate { get; set; } = DateTimeExtensions.LocalNow;
 
     [ObservableProperty]
-    public string mockPersonVisitsParentId;
+    public partial string MockPersonVisitsParentId { get; set; }
 
-    [ObservableProperty]
-    public bool autoCaseloadRefreshDisabled;
-
-    [ObservableProperty]
-    public double staleSessionMinutes;
-
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        base.InitAsync();
-
-        DryFireSubmitNotes = DebugOptions.DryFireSubmitNotes;
-        DryFireSubmitNotesSimulateSuccess = DebugOptions.DryFireSubmitNotesSimulateSuccess;
-
-        DryFirePostVisitService = DebugOptions.DryFirePostVisitService;
-        DryFirePostVisitServiceSimulateSuccess = DebugOptions.DryFirePostVisitServiceSimulateSuccess;
+        await base.InitAsync();
 
         AppId = AppInfo.Current.PackageName;
         DotnetVersion = Environment.Version.ToString();
@@ -84,11 +59,6 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 #else
         BuildingInDebug = false;
 #endif
-        SkipLocalAuth = BuildingInDebug && DebugOptions.SkipLocalAuth;
-
-        RequireAttachmentFileContent = DebugOptions.RequireAttachmentFileContent;
-        KeepSafetyAssessmentDraftOnPublish = DebugOptions.KeepSafetyAssessmentDraftOnPublish;
-
         var settings = new AppSettings();
 
         ApiDomain = settings.Api.ApiDomain;
@@ -96,94 +66,53 @@ public partial class DebugOptionsViewModel : VisitzViewModel
 
         CaseloadLastUpdated = lastUpdatedPrefs.Get(GetCaseloadService.MakeId(), DateTimeExtensions.LocalNow);
 
-        AutoCaseloadRefreshDisabled = DebugOptions.AutoCaseloadRefreshDisabled;
-
-        StaleSessionMinutes = DebugOptions.StaleThresholdMinutes;
-
-        return Task.CompletedTask;
+        if (Application.Current?.Windows[0] is Window window)
+        {
+            window.SizeChanged += Window_SizeChanged;
+        }
     }
 
-    partial void OnDryFireSubmitNotesChanged(bool value)
+    bool _disposed;
+
+    protected override void Dispose(bool disposing)
     {
-        DebugOptions.DryFireSubmitNotes = value;
+        if (!_disposed && disposing)
+        {
+            if (Application.Current?.Windows[0] is Window window)
+                window.SizeChanged -= Window_SizeChanged;
+
+            _disposed = true;
+        }
+        base.Dispose(disposing);
     }
 
-    partial void OnDryFireSubmitNotesSimulateSuccessChanged(bool value)
+    private void Window_SizeChanged(object? sender, EventArgs e)
     {
-        DebugOptions.DryFireSubmitNotesSimulateSuccess = value;
-    }
-
-    partial void OnDryFirePostVisitServiceChanged(bool value)
-    {
-        DebugOptions.DryFirePostVisitService = value;
-    }
-
-    partial void OnDryFirePostVisitServiceSimulateSuccessChanged(bool value)
-    {
-        DebugOptions.DryFirePostVisitServiceSimulateSuccess = value;
-    }
-
-    partial void OnSkipLocalAuthChanged(bool value)
-    {
-        DebugOptions.SkipLocalAuth = value;
-    }
-
-    partial void OnRequireAttachmentFileContentChanged(bool value)
-    {
-        DebugOptions.RequireAttachmentFileContent = value;
-    }
-
-    partial void OnKeepSafetyAssessmentDraftOnPublishChanged(bool value)
-    {
-        DebugOptions.KeepSafetyAssessmentDraftOnPublish = value;
-    }
-
-    partial void OnAutoCaseloadRefreshDisabledChanged(bool value)
-    {
-        DebugOptions.AutoCaseloadRefreshDisabled = value;
-    }
-
-    partial void OnStaleSessionMinutesChanged(double value)
-    {
-        DebugOptions.StaleThresholdMinutes = value;
+        if (sender is Window window)
+        {
+            Options.WindowHeight = window.Height;
+            Options.WindowWidth = window.Width;
+        }
     }
 
     [RelayCommand]
     public static void DeleteAccessToken()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             TokenHolder.DeleteAccessToken();
     }
 
     [RelayCommand]
     public static void DeleteRefreshToken()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             TokenHolder.DeleteRefreshToken();
-    }
-
-    [RelayCommand]
-    public static async Task ClearRealmData()
-    {
-        await DebugOptions.ClearRealmData();
-    }
-
-    [RelayCommand]
-    public static async Task ClearSafetyAssessmentDraft()
-    {
-        await DebugOptions.ClearSafetyAssessmentDraftsRealm();
-    }
-
-    [RelayCommand]
-    public static async Task ClearAttachmentDraft()
-    {
-        await DebugOptions.ClearAttachmentDraftsRealm();
     }
 
     [RelayCommand]
     public static async Task Logout()
     {
-        if (DebugOptions.Enabled)
+        if (DebugOptions.Default.Enabled)
             await OidcSession.LogoutAsync();
     }
 
@@ -200,68 +129,44 @@ public partial class DebugOptionsViewModel : VisitzViewModel
     }
 
     [RelayCommand]
-    public static void OpenAppDataDirectory()
-    {
-        DebugOptions.OpenAppDataDirectory();
-    }
-
-    [RelayCommand]
-    public static void OpenCacheDirectory()
-    {
-        DebugOptions.OpenCacheDirectory();
-    }
-
-    [RelayCommand]
-    public static void ClearSecureStorage()
-    {
-        DebugOptions.ClearSecureStorage();
-    }
-
-    [RelayCommand]
     public async Task LoadMockPersonVisits()
     {
-        await DebugOptions.LoadPersonVisitsMockData(MockPersonVisitsParentId);
+        await DebugOptions.Default.LoadPersonVisitsMockData(MockPersonVisitsParentId);
     }
 
     [RelayCommand]
     public static async Task SetWarning()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Warning);
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Warning);
     }
 
     [RelayCommand]
     public static async Task SetDanger()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Danger);
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Danger);
     }
 
     [RelayCommand]
     public static async Task SetCritical()
     {
-        await DebugOptions.SetThreshold(VisitDaysThreshold.Critical);
+        await DebugOptions.Default.SetThreshold(VisitDaysThreshold.Critical);
     }
 
     [RelayCommand]
-    public static Task ClearOfficeNames()
+    public static async Task ShowFeedbackPopupAsync()
     {
-        return DebugOptions.ClearOfficeNames();
+        await Navigator.Navigation.PushModalAsync(new FeedbackSurveyPage());
     }
 
     [RelayCommand]
-    public static async Task RunRecordCleanup()
+    public static async Task OpenAppLockAsync()
     {
-        await DebugOptions.RunRecordCleanupService();
+        await Navigator.Navigation.PushModalAsync(ServiceProvider.GetService<AppLockPage>());
     }
 
     [RelayCommand]
-    public static void RunAutoCaseloadRefreshService()
+    public static async Task OpenSessionPageAsync()
     {
-        _ = DebugOptions.RunAutoCaseloadRefreshService();
-    }
-
-    [RelayCommand]
-    public static void ResetAutoCaseloadRefresh()
-    {
-        DebugOptions.ResetAutoCaseloadRefresh();
+        await Navigator.Navigation.PushModalAsync(ServiceProvider.GetService<SessionPage>());
     }
 }

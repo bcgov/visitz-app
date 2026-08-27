@@ -1,23 +1,25 @@
-﻿namespace Visitz.Behaviors;
+namespace Visitz.Behaviors;
 
-public class AutoAddColumnBehavior : Behavior<Grid>
+public partial class AutoAddColumnBehavior : Behavior<Grid>
 {
-    protected override void OnAttachedTo(Grid bindable)
+    protected override void OnAttachedTo(Grid grid)
     {
-        base.OnAttachedTo(bindable);
+        base.OnAttachedTo(grid);
 
-        bindable.ChildAdded += Bindable_ChildAdded;
+        grid.ChildAdded += Bindable_ChildAdded;
     }
 
-    protected override void OnDetachingFrom(Grid bindable)
+    protected override void OnDetachingFrom(Grid grid)
     {
-        bindable.ChildAdded -= Bindable_ChildAdded;
+        grid.ChildAdded -= Bindable_ChildAdded;
 
-        base.OnDetachingFrom(bindable);
+        base.OnDetachingFrom(grid);
     }
 
-    private void Bindable_ChildAdded(object sender, ElementEventArgs e)
+    private void Bindable_ChildAdded(object? sender, ElementEventArgs e)
     {
+        ArgumentNullException.ThrowIfNull(sender);
+
         Grid grid = (Grid)sender;
 
         grid.AddColumnDefinition(new ColumnDefinition());

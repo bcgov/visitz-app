@@ -1,7 +1,5 @@
 namespace VisitzApi.Models.SafetyAssess;
 
-#nullable enable
-
 public class SubmitSafetyFactorsJson
 {
     public string PhysicalHarm { get; set; } = string.Empty;

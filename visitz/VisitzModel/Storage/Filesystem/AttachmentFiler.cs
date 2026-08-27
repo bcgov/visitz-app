@@ -1,5 +1,5 @@
-using Realms;
 using System.Globalization;
+using Realms;
 using VisitzApi.Models.Attachments;
 using VisitzModel.Encryption;
 using VisitzModel.Formats;
@@ -16,9 +16,8 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
 
     string TypeNumberId => $"{entityType}_{fileNumber}";
 
-    string ContextualName => string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName)
-            ? TypeNumberId
-            : $"{lastName}_{firstName}";
+    string ContextualName =>
+        string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) ? TypeNumberId : $"{lastName}_{firstName}";
 
     static string AppDataPath =>
 #if WINDOWS
@@ -29,8 +28,8 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), BasePath);
 #endif
 
-    public static string MakeTimestamp() => DateTimeOffset.Now
-        .ToString(IcmDateFormats.ImageTimestamp, CultureInfo.InvariantCulture);
+    public static string MakeTimestamp() =>
+        DateTimeOffset.Now.ToString(IcmDateFormats.ImageTimestamp, CultureInfo.InvariantCulture);
 
     public string MakeFilename(string prepend, string extension)
     {
@@ -80,7 +79,12 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
         return await SaveFileAsync(memoryStream, extension);
     }
 
-    public async Task SaveAttachmentDetailsAsync(Realm realm, AttachmentJson item, EntityType entityType, string entityId)
+    public async Task SaveAttachmentDetailsAsync(
+        Realm realm,
+        AttachmentJson item,
+        EntityType entityType,
+        string entityId
+    )
     {
         Attachment attachment = new(item, entityId, entityType);
         string relativePath = await SaveFileAsync(item.AttachmentId, item.FileExt);
@@ -110,8 +114,7 @@ public class AttachmentFiler(EntityType entityType, string fileNumber, string fi
     {
         string uniqueName;
 
-        do
-            uniqueName = Guid.NewGuid().ToString() + extension;
+        do uniqueName = Guid.NewGuid().ToString() + extension;
         while (File.Exists(Path.Join(path, uniqueName)));
 
         return uniqueName;

@@ -2,107 +2,116 @@ using CommunityToolkit.Mvvm.Messaging;
 using Visitz.Resources.Localization;
 using Visitz.Services;
 using Visitz.Services.Base;
+using Visitz.Services.Messages;
 using Visitz.Services.Notes;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses.Publishing;
-using VisitzApi.Models;
+using VisitzApi.Models.Notes;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Notes;
 
-namespace Visitz.Views.Entity.Notes
+namespace Visitz.Views.Entity.Notes;
+
+public partial class NotePublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
 {
-    public partial class NotePublishViewModel : PublishViewModel, IRecipient<ServiceStateMessage>
+    private SubmitNoteEntity? submitNoteEntity;
+    private RecordServiceInfo? parentInfo;
+
+    private string? submitAndGetNotesServiceId;
+    private string? submitNotesServiceId;
+    private string? getNotesServiceId;
+
+    public void Init(IBusinessObject businessObject, SubmitNoteEntity submitNote)
     {
-        private SubmitNoteEntity submitNoteEntity;
+        Title = businessObject.DisplayName;
+        submitNoteEntity = submitNote;
+        parentInfo = new(businessObject);
 
-        private string submitAndGetNotesServiceId;
-        private string submitNotesServiceId;
-        private string getNotesServiceId;
+        var info = new RecordServiceInfo(businessObject);
+        var notePeriod = submitNoteEntity.NotePeriod;
 
-        public void Init(IBusinessObject businessObject, SubmitNoteEntity submitNote)
+        submitAndGetNotesServiceId = SubmitAndGetNotesService.MakeId(info, notePeriod);
+        submitNotesServiceId = SubmitNoteService.MakeId(info, notePeriod);
+        getNotesServiceId = GetNotesService.MakeId(info);
+    }
+
+    protected override async Task InitAsync()
+    {
+        await base.InitAsync();
+
+        Wait(LocalizedStrings.LoginToSubmitNotes);
+
+        ArgumentNullException.ThrowIfNull(submitAndGetNotesServiceId);
+        ArgumentNullException.ThrowIfNull(submitNotesServiceId);
+        ArgumentNullException.ThrowIfNull(getNotesServiceId);
+
+        WeakReferenceMessenger.Default.Register(this, submitAndGetNotesServiceId);
+        WeakReferenceMessenger.Default.Register(this, submitNotesServiceId);
+        WeakReferenceMessenger.Default.Register(this, getNotesServiceId);
+
+        Publish();
+    }
+
+    bool disposed;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!disposed && disposing)
         {
-            Title = businessObject.DisplayName;
-            submitNoteEntity = submitNote;
-
-            var id = businessObject.FileNumber;
-            var notePeriod = submitNoteEntity.NotePeriod;
-
-            submitAndGetNotesServiceId = SubmitAndGetNotesService.MakeId(id, notePeriod);
-            submitNotesServiceId = SubmitNoteService.MakeId(id, notePeriod);
-            getNotesServiceId = GetNotesService.MakeId(id);
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+            disposed = true;
         }
 
-        protected override Task InitAsync()
+        base.Dispose(disposing);
+    }
+
+    public override void Publish()
+    {
+        ArgumentNullException.ThrowIfNull(submitNoteEntity);
+        ArgumentNullException.ThrowIfNull(parentInfo);
+
+        WeakReferenceMessenger.Default.Send(SubmitAndGetNotesService.MakeStartMessage(submitNoteEntity, parentInfo));
+    }
+
+    public async void Receive(ServiceStateMessage message)
+    {
+        if (message.ServiceId == submitAndGetNotesServiceId)
         {
-            var init = base.InitAsync();
-
-            Wait(LocalizedStrings.LoginToSubmitNotes);
-
-            WeakReferenceMessenger.Default.Register(this, submitAndGetNotesServiceId);
-            WeakReferenceMessenger.Default.Register(this, submitNotesServiceId);
-            WeakReferenceMessenger.Default.Register(this, getNotesServiceId);
-
-            Publish();
-
-            return init;
+            if (message.Status == VisitzService.State.Running)
+                Publishing(LocalizedStrings.PublishingNotesToIcm);
+            else if (message.FinishedSuccess)
+                Complete();
+            else if (message.FinishedError)
+                PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
+            else if (message.FinishedCancelled)
+                Cancel(LocalizedStrings.LoginToSubmitNotes);
         }
-
-        bool disposed;
-        protected override void Dispose(bool disposing)
+        else if (message.ServiceId == submitNotesServiceId)
         {
-            if (!disposed && disposing)
+            if (message.FinishedSuccess)
             {
-                WeakReferenceMessenger.Default.UnregisterAll(this);
-                disposed = true;
+                Published(LocalizedStrings.NotesPublishedToIcm);
+                await DiscardPublishedDraft();
             }
-
-            base.Dispose(disposing);
+            if (message.FinishedError)
+                PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
         }
-
-        public override void Publish()
+        else if (message.ServiceId == getNotesServiceId)
         {
-            WeakReferenceMessenger.Default.Send(SubmitAndGetNotesService.MakeStartMessage(submitNoteEntity));
-        }
-
-        public async void Receive(ServiceStateMessage message)
-        {
-            if (message.ServiceId == submitAndGetNotesServiceId)
-            {
-                if (message.Status == VisitzService.State.Running)
-                    Publishing(LocalizedStrings.PublishingNotesToIcm);
-                else if (message.FinishedSuccess)
-                    Complete();
-                else if (message.FinishedError)
-                    PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
-                else if (message.FinishedCancelled)
-                    Cancel(LocalizedStrings.LoginToSubmitNotes);
-            }
-            else if (message.ServiceId == submitNotesServiceId)
-            {
-                if (message.FinishedSuccess)
-                {
-                    Published(LocalizedStrings.NotesPublishedToIcm);
-                    await DiscardPublishedDraft();
-                }
-                if (message.FinishedError)
-                    PublishError(LocalizedStrings.FailedToPublishToIcm, message.Message);
-            }
-            else if (message.ServiceId == getNotesServiceId)
-            {
-                if (message.Status == VisitzService.State.Running)
-                    Refreshing(LocalizedStrings.RefreshingNotes);
-                else if (message.FinishedSuccess)
-                    Refreshed(LocalizedStrings.RefreshedNotesOnDevice);
-                else if (message.FinishedError)
-                    RefreshError(LocalizedStrings.FailedToRefreshNotes, message.Message);
-            }
-        }
-
-        private async Task DiscardPublishedDraft()
-        {
-            using var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
-            await NoteDraft.Delete(realm, submitNoteEntity.EntityNumber);
+            if (message.Status == VisitzService.State.Running)
+                Refreshing(LocalizedStrings.RefreshingNotes);
+            else if (message.FinishedSuccess)
+                Refreshed(LocalizedStrings.RefreshedNotesOnDevice);
+            else if (message.FinishedError)
+                RefreshError(LocalizedStrings.FailedToRefreshNotes, message.Message);
         }
     }
-}
 
+    private async Task DiscardPublishedDraft()
+    {
+        ArgumentNullException.ThrowIfNull(submitNoteEntity);
+
+        using var realm = await VisitzRealms.GetNoteDraftsRealmAsync();
+        await NoteDraft.Delete(realm, submitNoteEntity.EntityNumber);
+    }
+}

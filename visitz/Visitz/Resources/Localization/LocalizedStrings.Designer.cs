@@ -70,6 +70,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional information.
+        /// </summary>
+        public static string AdditionalInformation {
+            get {
+                return ResourceManager.GetString("AdditionalInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add new.
         /// </summary>
         public static string AddNew {
@@ -169,6 +178,33 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All types.
+        /// </summary>
+        public static string AllTypes {
+            get {
+                return ResourceManager.GetString("AllTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apple Maps.
+        /// </summary>
+        public static string AppleMaps {
+            get {
+                return ResourceManager.GetString("AppleMaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approved.
+        /// </summary>
+        public static string Approved {
+            get {
+                return ResourceManager.GetString("Approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approved by.
         /// </summary>
         public static string ApprovedBy {
@@ -259,6 +295,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bing Maps.
+        /// </summary>
+        public static string BingMaps {
+            get {
+                return ResourceManager.GetString("BingMaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Birthdate.
         /// </summary>
         public static string Birthdate {
@@ -282,6 +327,24 @@ namespace Visitz.Resources.Localization {
         public static string ButtonToRefreshCaseload {
             get {
                 return ResourceManager.GetString("ButtonToRefreshCaseload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Call details.
+        /// </summary>
+        public static string CallDetails {
+            get {
+                return ResourceManager.GetString("CallDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Call information.
+        /// </summary>
+        public static string CallInformation {
+            get {
+                return ResourceManager.GetString("CallInformation", resourceCulture);
             }
         }
         
@@ -369,7 +432,7 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search by key player&apos;s name.
+        ///   Looks up a localized string similar to Search caseload by name or number.
         /// </summary>
         public static string CaseloadSearchHint {
             get {
@@ -499,6 +562,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concerns.
+        /// </summary>
+        public static string Concerns {
+            get {
+                return ResourceManager.GetString("Concerns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect to the internet before trying again..
         /// </summary>
         public static string ConnectBeforeRetry {
@@ -513,6 +585,42 @@ namespace Visitz.Resources.Localization {
         public static string ConnectedNoInternet {
             get {
                 return ResourceManager.GetString("ConnectedNoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact education.
+        /// </summary>
+        public static string ContactEducation {
+            get {
+                return ResourceManager.GetString("ContactEducation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ContactLanguages.
+        /// </summary>
+        public static string ContactLanguages {
+            get {
+                return ResourceManager.GetString("ContactLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact legal authority.
+        /// </summary>
+        public static string ContactLegalAuthority {
+            get {
+                return ResourceManager.GetString("ContactLegalAuthority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact medical behavioral.
+        /// </summary>
+        public static string ContactMedicalBehavioral {
+            get {
+                return ResourceManager.GetString("ContactMedicalBehavioral", resourceCulture);
             }
         }
         
@@ -553,6 +661,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created by: {0}.
+        /// </summary>
+        public static string CreatedByLabel {
+            get {
+                return ResourceManager.GetString("CreatedByLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created date.
         /// </summary>
         public static string CreatedDate {
@@ -562,11 +679,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created {0} by {1}.
+        /// </summary>
+        public static string CreatedWhenByUserLabel {
+            get {
+                return ResourceManager.GetString("CreatedWhenByUserLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date: {0}.
+        /// </summary>
+        public static string DateLabel {
+            get {
+                return ResourceManager.GetString("DateLabel", resourceCulture);
             }
         }
         
@@ -630,15 +765,6 @@ namespace Visitz.Resources.Localization {
         public static string DeviceAuthReason {
             get {
                 return ResourceManager.GetString("DeviceAuthReason", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unlock MCFD Mobility.
-        /// </summary>
-        public static string DeviceAuthTitle {
-            get {
-                return ResourceManager.GetString("DeviceAuthTitle", resourceCulture);
             }
         }
         
@@ -842,6 +968,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Due:.
+        /// </summary>
+        public static string Due {
+            get {
+                return ResourceManager.GetString("Due", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
         public static string Ellipsis {
@@ -856,6 +991,15 @@ namespace Visitz.Resources.Localization {
         public static string EnableDeviceSecurity {
             get {
                 return ResourceManager.GetString("EnableDeviceSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date.
+        /// </summary>
+        public static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
             }
         }
         
@@ -1031,6 +1175,33 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File missing.
+        /// </summary>
+        public static string FileMissing {
+            get {
+                return ResourceManager.GetString("FileMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter drafts.
+        /// </summary>
+        public static string FilterDrafts {
+            get {
+                return ResourceManager.GetString("FilterDrafts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string FirstName {
@@ -1045,6 +1216,15 @@ namespace Visitz.Resources.Localization {
         public static string Gender {
             get {
                 return ResourceManager.GetString("Gender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Google Maps.
+        /// </summary>
+        public static string GoogleMaps {
+            get {
+                return ResourceManager.GetString("GoogleMaps", resourceCulture);
             }
         }
         
@@ -1094,6 +1274,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inactive.
+        /// </summary>
+        public static string Inactive {
+            get {
+                return ResourceManager.GetString("Inactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incident concern.
+        /// </summary>
+        public static string IncidentConcern {
+            get {
+                return ResourceManager.GetString("IncidentConcern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incident number.
         /// </summary>
         public static string IncidentNumber {
@@ -1130,6 +1328,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In progress.
+        /// </summary>
+        public static string InProgress {
+            get {
+                return ResourceManager.GetString("InProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert.
         /// </summary>
         public static string Insert {
@@ -1153,6 +1360,15 @@ namespace Visitz.Resources.Localization {
         public static string KeyPlayer {
             get {
                 return ResourceManager.GetString("KeyPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key player information.
+        /// </summary>
+        public static string KeyPlayerInformation {
+            get {
+                return ResourceManager.GetString("KeyPlayerInformation", resourceCulture);
             }
         }
         
@@ -1184,6 +1400,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refreshed.
+        /// </summary>
+        public static string LastRefreshed {
+            get {
+                return ResourceManager.GetString("LastRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last updated.
         /// </summary>
         public static string LastUpdated {
@@ -1198,6 +1423,15 @@ namespace Visitz.Resources.Localization {
         public static string LastVisit {
             get {
                 return ResourceManager.GetString("LastVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local caseload statistics.
+        /// </summary>
+        public static string LocalCaseloadStats {
+            get {
+                return ResourceManager.GetString("LocalCaseloadStats", resourceCulture);
             }
         }
         
@@ -1334,6 +1568,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My offices.
+        /// </summary>
+        public static string MyOffices {
+            get {
+                return ResourceManager.GetString("MyOffices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to N/A.
         /// </summary>
         public static string NA {
@@ -1393,6 +1636,15 @@ namespace Visitz.Resources.Localization {
         public static string NextVisitDueBy {
             get {
                 return ResourceManager.GetString("NextVisitDueBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera and microphone permissions disabled.
+        /// </summary>
+        public static string NoCameraMicrophonePermissionsPrompt {
+            get {
+                return ResourceManager.GetString("NoCameraMicrophonePermissionsPrompt", resourceCulture);
             }
         }
         
@@ -1541,6 +1793,24 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open in map.
+        /// </summary>
+        public static string OpenInMap {
+            get {
+                return ResourceManager.GetString("OpenInMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OpenStreetMap.
+        /// </summary>
+        public static string OpenStreetMap {
+            get {
+                return ResourceManager.GetString("OpenStreetMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Other.
         /// </summary>
         public static string Other {
@@ -1555,6 +1825,15 @@ namespace Visitz.Resources.Localization {
         public static string Overdue {
             get {
                 return ResourceManager.GetString("Overdue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overdue child/youth visit.
+        /// </summary>
+        public static string OverdueVisit {
+            get {
+                return ResourceManager.GetString("OverdueVisit", resourceCulture);
             }
         }
         
@@ -1582,6 +1861,15 @@ namespace Visitz.Resources.Localization {
         public static string PdfContentMissing {
             get {
                 return ResourceManager.GetString("PdfContentMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MCFD Mobility does not have full permission to use your device&apos;s camera and microphone. Go to your system&apos;s settings page and turn on Camera and Microphone..
+        /// </summary>
+        public static string PhotoPermissionsErrorDesc {
+            get {
+                return ResourceManager.GetString("PhotoPermissionsErrorDesc", resourceCulture);
             }
         }
         
@@ -1784,6 +2072,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read more.
+        /// </summary>
+        public static string ReadMore {
+            get {
+                return ResourceManager.GetString("ReadMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Read-only.
         /// </summary>
         public static string ReadOnly {
@@ -1811,6 +2108,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record information.
+        /// </summary>
+        public static string RecordInformation {
+            get {
+                return ResourceManager.GetString("RecordInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} &apos;{1}&apos; removed from device.
         /// </summary>
         public static string RecordRemovedFromCaseload {
@@ -1827,6 +2133,15 @@ namespace Visitz.Resources.Localization {
         public static string RecordRemovedFromCaseloadDetails {
             get {
                 return ResourceManager.GetString("RecordRemovedFromCaseloadDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh caseload.
+        /// </summary>
+        public static string RefreshCaseload {
+            get {
+                return ResourceManager.GetString("RefreshCaseload", resourceCulture);
             }
         }
         
@@ -1917,6 +2232,28 @@ namespace Visitz.Resources.Localization {
         public static string RefreshInterruptedDesc {
             get {
                 return ResourceManager.GetString("RefreshInterruptedDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file for this draft attachment is missing from the device.
+        ///
+        ///It is unlikely that the file can be recovered..
+        /// </summary>
+        public static string RelatedDraftAttachmentMissingDesc {
+            get {
+                return ResourceManager.GetString("RelatedDraftAttachmentMissingDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file for this attachment is missing from the device.
+        ///
+        ///Refreshing your caseload may fix this error..
+        /// </summary>
+        public static string RelatedIcmAttachmentMissingDesc {
+            get {
+                return ResourceManager.GetString("RelatedIcmAttachmentMissingDesc", resourceCulture);
             }
         }
         
@@ -2465,6 +2802,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Section 13 concerns.
+        /// </summary>
+        public static string Section13Concerns {
+            get {
+                return ResourceManager.GetString("Section13Concerns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MCFD Mobility requires your device to be secured by passcode, biometrics, or other security. Enable security in your device settings and try again..
         /// </summary>
         public static string SecureDeviceAndTryAgain {
@@ -2510,11 +2856,29 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort.
+        /// </summary>
+        public static string Sort {
+            get {
+                return ResourceManager.GetString("Sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Caseload information on your device is out of date and needs to be refreshed before you can use the app..
         /// </summary>
         public static string StaleSessionDesc {
             get {
                 return ResourceManager.GetString("StaleSessionDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start date.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
             }
         }
         
@@ -2642,6 +3006,33 @@ namespace Visitz.Resources.Localization {
         public static string UnauthorizedForApi {
             get {
                 return ResourceManager.GetString("UnauthorizedForApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlock app.
+        /// </summary>
+        public static string UnlockApp {
+            get {
+                return ResourceManager.GetString("UnlockApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upcoming child/youth visit.
+        /// </summary>
+        public static string UpcomingVisit {
+            get {
+                return ResourceManager.GetString("UpcomingVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
             }
         }
         

@@ -1,450 +1,673 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <baseClasses:ViewModelContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
-	xmlns:debug="clr-namespace:Visitz.Views.Debugging"
-	x:Class="Visitz.Views.Debugging.DebugOptionsView"
-	x:DataType="debug:DebugOptionsViewModel"
-	BackgroundColor="White">
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:debug="clr-namespace:Visitz.Views.Debugging"
+    x:Class="Visitz.Views.Debugging.DebugOptionsView"
+    x:DataType="debug:DebugOptionsViewModel"
+    x:TypeArguments="debug:DebugOptionsViewModel"
+    BackgroundColor="White"
+>
+    <baseClasses:ViewModelContentView.Resources>
+        <Style TargetType="View" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugLayout">
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style TargetType="Label" CanCascade="True" Class="DebugLabel">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+        <Style
+            TargetType="InputView"
+            ApplyToDerivedTypes="True"
+            CanCascade="True"
+            Class="DebugInputView"
+        >
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="ColumnSpacing" Value="16" />
+            <Setter Property="RowSpacing" Value="16" />
+            <Setter Property="ColumnDefinitions" Value="1*,2*" />
+        </Style>
+    </baseClasses:ViewModelContentView.Resources>
 
-	<baseClasses:ViewModelContentView.Resources>
-		<Style TargetType="View" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugLayout">
-			<Setter Property="HorizontalOptions" Value="Start" />
-			<Setter Property="VerticalOptions" Value="Center" />
-		</Style>
-		<Style TargetType="Label" CanCascade="True" Class="DebugLabel">
-			<Setter Property="FontSize" Value="16" />
-			<Setter Property="Padding" Value="10" />
-		</Style>
-		<Style TargetType="InputView" ApplyToDerivedTypes="True" CanCascade="True" Class="DebugInputView">
-			<Setter Property="FontSize" Value="16" />
-		</Style>
-		<Style TargetType="Grid">
-			<Setter Property="Padding" Value="8" />
-			<Setter Property="ColumnSpacing" Value="16" />
-			<Setter Property="RowSpacing" Value="16" />
-			<Setter Property="ColumnDefinitions" Value="1*,2*" />
-		</Style>
-	</baseClasses:ViewModelContentView.Resources>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="General"
+            />
 
-	<ScrollView>
-
-		<VerticalStackLayout>
-			<Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="Session" />
-
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="0"
-					Grid.Column="1"
-					Command="{Binding DeleteAccessTokenCommand}"
-					Text="Delete access token"/>
-
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="1"
-					Grid.Column="1"
-					Command="{Binding DeleteRefreshTokenCommand}"
-					Text="Delete refresh token" />
-
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="2"
-					Grid.Column="1"
-					Command="{Binding LogoutCommand}"
-					Text="Logout" />
-
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="3"
-					Grid.Column="0"
-					IsEnabled="{Binding BuildingInDebug}"
-					Text="Skip local auth (#DEBUG only)"/>
-
-				<Switch
-					Grid.Row="3"
-					Grid.Column="1"
-					IsEnabled="{Binding BuildingInDebug}"
-					IsToggled="{Binding SkipLocalAuth}" />
-
-                <Button
-				    StyleClass="DebugLayout"
-				    Grid.Row="4"
-				    Grid.Column="1"
-				    Command="{Binding ClearOfficeNamesCommand}"
-				    Text="Clear office names" />
-
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                 <Label
-				    StyleClass="DebugLayout,DebugLabel"
-				    Grid.Row="5"
-				    Grid.Column="0"
-				    IsEnabled="{Binding BuildingInDebug}"
-				    Text="Stale sessions threshold in minutes (enter 0 to reset)"/>
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    Text="Disable privacy scrim (#DEBUG only)"
+                />
 
-                <Entry
-                    Grid.Row="5"
+                <Switch
+                    Grid.Row="0"
                     Grid.Column="1"
-                    Text="{Binding StaleSessionMinutes, TargetNullValue='0'}"
-                    HorizontalOptions="Start"
-                    WidthRequest="100"/>
-			</Grid>
-
-			<Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="Database" />
-
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="0"
-					Grid.Column="1"
-					Command="{Binding ClearRealmDataCommand}"
-					Text="Clear IcmDataRealm data" />
-
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="1"
-					Grid.Column="1"
-					Command="{Binding ClearSafetyAssessmentDraftCommand}"
-					Text="Clear SafetyAssessmentDraft data" />
-
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="2"
-					Grid.Column="1"
-					Command="{Binding ClearAttachmentDraftCommand}"
-					Text="Clear AttachmentDraft data" />
+                    IsEnabled="{Binding BuildingInDebug}"
+                    IsToggled="{Binding Options.DisablePrivacyScrim}"
+                />
 
                 <Button
-				    StyleClass="DebugLayout"
-				    Grid.Row="3"
-				    Grid.Column="1"
-				    Command="{Binding RunRecordCleanupCommand}"
-				    Text="Run RecordCleanupService" />
-
-				<HorizontalStackLayout
-					Grid.Row="4"
-					Grid.Column="1"
-					Spacing="5">
-					<Entry Text="{Binding MockPersonVisitsParentId, TargetNullValue='1-0000000'}" />
-
-					<Button
-						StyleClass="DebugLayout"
-						Command="{Binding LoadMockPersonVisitsCommand}"
-						CommandParameter=""
-						Text="Load mock PersonVisits" />
-				</HorizontalStackLayout>
-			</Grid>
-
-			<Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="Preferences" />            
-
-			<Grid RowDefinitions="Auto,Auto,Auto">
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="0"
-					Grid.Column="1"
-					Command="{Binding ClearFeedbackSurveyPrefsCommand}"
-					Text="Clear feedback survey preferences" />
-
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="1"
-					Grid.Column="0"
-					IsEnabled="{Binding BuildingInDebug}"
-					Text="Caseload last updated"/>
-
-				<HorizontalStackLayout
-					Grid.Row="1"
-					Grid.Column="1"
-					Spacing="5">
-					<DatePicker
-						Date="{Binding CaseloadLastUpdated}"
-						MaximumDate="{Binding MaxDate}" />
-
-					<Button
-						Command="{Binding ApplyCaseloadLastUpdatedCommand}"
-						Text="Apply" />
-				</HorizontalStackLayout>
-
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="2"
-					Grid.Column="1"
-					Command="{Binding ClearSecureStorageCommand}"
-					Text="Clear secure storage" />
-			</Grid>
-
-			<Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="Attachments" />
-
-			<Grid RowDefinitions="Auto,Auto">
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="0"
-					Grid.Column="0"
-					Text="Require file content to exist on download and throw errors if not"/>
-
-				<Switch
-					StyleClass="DebugLayout"
-					Grid.Row="0"
-					Grid.Column="1"
-					IsToggled="{Binding RequireAttachmentFileContent}"/>
-			</Grid>
-
-			<Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="Services" />
-
-            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-                <Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="0"
-					Grid.Column="0"
-					Text="Dry-fire SubmitNotes"/>
-
-                <Switch
-					StyleClass="DebugLayout"
-					Grid.Row="0"
-					Grid.Column="1"
-					IsToggled="{Binding DryFireSubmitNotes}"/>
-
-                <Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="1"
-					Grid.Column="0"
-					Text="Dry-fire SubmitNotes: simulate success"/>
-
-                <Switch
-					StyleClass="DebugLayout"
-					Grid.Row="1"
-					Grid.Column="1"
-					IsToggled="{Binding DryFireSubmitNotesSimulateSuccess}"/>
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding ClearFeedbackSurveyPrefsCommand}"
+                    Text="Clear feedback survey preferences"
+                />
 
                 <Button
-				    StyleClass="DebugLayout"
-				    Grid.Row="2"
-				    Grid.Column="1"
-				    Command="{Binding RunAutoCaseloadRefreshServiceCommand}"
-				    Text="Run auto caseload refresh service" />
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Command="{Binding ShowFeedbackPopupCommand}"
+                    Text="Show feedback popup"
+                />
 
                 <Button
                     StyleClass="DebugLayout"
                     Grid.Row="3"
                     Grid.Column="1"
-                    Command="{Binding ResetAutoCaseloadRefreshCommand}"
-                    Text="Reset auto caseload refresh cooldown" />
+                    Command="{Binding OpenAppLockCommand}"
+                    Text="Open app lock page"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Command="{Binding OpenSessionPageCommand}"
+                    Text="Open session page"
+                />
 
                 <Label
-				    StyleClass="DebugLayout,DebugLabel"
-				    Grid.Row="4"
-				    Grid.Column="0"
-				    Text="Dry-fire auto caseload refresh: run checks without refresh"/>
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    Text="Caseload last updated"
+                />
 
-                <Switch
-				    StyleClass="DebugLayout"
-				    Grid.Row="4"
-				    Grid.Column="1"
-				    IsToggled="{Binding AutoCaseloadRefreshDisabled}"/>
+                <HorizontalStackLayout Grid.Row="5" Grid.Column="1" Spacing="5">
+                    <DatePicker
+                        Date="{Binding CaseloadLastUpdated}"
+                        MaximumDate="{Binding MaxDate}"
+                    />
+
+                    <Button
+                        Command="{Binding ApplyCaseloadLastUpdatedCommand}"
+                        Text="Apply"
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Command="{Binding Options.ClearSecureStorageCommand}"
+                    Text="Clear secure storage"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Command="{Binding Options.ShowSnackbarCommand}"
+                    Text="Show snackbar"
+                />
             </Grid>
 
             <Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="Child/youth visits" />
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Window"
+            />
 
-			<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="0"
-					Grid.Column="0"
-					Text="Dry-fire PostVisitService"/>
+            <Grid
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                IsEnabled="{OnIdiom Desktop=True, Default=False}"
+            >
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    Text="Set window dimensions (width, height)"
+                />
 
-				<Switch
-					StyleClass="DebugLayout"
-					Grid.Row="0"
-					Grid.Column="1"
-					IsToggled="{Binding DryFirePostVisitService}"/>
-
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="1"
-					Grid.Column="0"
-					Text="Dry-fire PostVisitService: simulate success"/>
-
-				<Switch
-					StyleClass="DebugLayout"
-					Grid.Row="1"
-					Grid.Column="1"
-					IsToggled="{Binding DryFirePostVisitServiceSimulateSuccess}"/>
-
-                <Button
-					StyleClass="DebugLayout"
-					Grid.Row="2"
-					Grid.Column="1"
-					Command="{Binding SetWarningCommand}"
-					Text="Set Warning threshold" />
-
-                <Button
-					StyleClass="DebugLayout"
-					Grid.Row="3"
-					Grid.Column="1"
-					Command="{Binding SetDangerCommand}"
-					Text="Set Danger threshold" />
+                <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
+                    <Entry
+                        Text="{Binding Options.WindowWidth, Mode=OneWay}"
+                        Placeholder="Width"
+                        WidthRequest="50"
+                        VerticalOptions="Center"
+                        Focused="Entry_HighlightWhenFocused"
+                        Unfocused="WindowWidthEntry_Unfocused"
+                    />
+                    <Entry
+                        Text="{Binding Options.WindowHeight, Mode=OneWay}"
+                        Placeholder="Height"
+                        WidthRequest="50"
+                        VerticalOptions="Center"
+                        Focused="Entry_HighlightWhenFocused"
+                        Unfocused="WindowHeightEntry_Unfocused"
+                    />
+                </HorizontalStackLayout>
 
                 <Button
-					StyleClass="DebugLayout"
-					Grid.Row="4"
-					Grid.Column="1"
-					Command="{Binding SetCriticalCommand}"
-					Text="Set Critical threshold" />
-			</Grid>
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding Options.SwapWindowWidthAndHeightCommand}"
+                    Text="Swap window width and height"
+                />
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="Apply phone dimensions"
+                    Command="{Binding Options.ApplyPhoneDimensionsCommand}"
+                />
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Text="Apply tablet dimensions"
+                    Command="{Binding Options.ApplyTabletDimensionsCommand}"
+                />
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Text="Apply default desktop dimenions"
+                    Command="{Binding Options.ApplyDefaultDesktopDimensionsCommand}"
+                />
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Text="Show bottom nav bar on Windows (needs app restart)"
+                />
+
+                <Switch
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.ShowBottomNavOnWindows}"
+                />
+            </Grid>
 
             <Label
-	            StyleClass="DebugLayout,DebugLabel"
-	            HorizontalOptions="FillAndExpand"
-	            FontSize="20"
-	            Background="AliceBlue"
-	            Text="Safety assessment" />
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Session"
+            />
+
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Command="{Binding DeleteAccessTokenCommand}"
+                    Text="Delete access token"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding DeleteRefreshTokenCommand}"
+                    Text="Delete refresh token"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Command="{Binding LogoutCommand}"
+                    Text="Logout"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    Text="Skip local auth (#DEBUG only)"
+                />
+
+                <Switch
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    IsToggled="{Binding Options.SkipLocalAuth}"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Command="{Binding Options.ClearOfficeNamesCommand}"
+                    Text="Clear office names"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Command="{Binding Options.RemoveOneOfficeCommand}"
+                    Text="Remove one office name"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    IsEnabled="{Binding BuildingInDebug}"
+                    Text="Stale sessions threshold in minutes (enter 0 to reset)"
+                />
+
+                <Entry
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Text="{Binding Options.StaleThresholdMinutes, TargetNullValue='0'}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    WidthRequest="100"
+                    Focused="Entry_HighlightWhenFocused"
+                />
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Database"
+            />
+
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Command="{Binding Options.ClearRealmDataCommand}"
+                    Text="Clear IcmDataRealm data"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding Options.ClearSafetyAssessmentDraftsRealmCommand}"
+                    Text="Clear SafetyAssessmentDraft data"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Command="{Binding Options.ClearAttachmentDraftsRealmCommand}"
+                    Text="Clear AttachmentDraft data"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding Options.RunRecordCleanupServiceCommand}"
+                    Text="Run RecordCleanupService"
+                />
+
+                <HorizontalStackLayout Grid.Row="4" Grid.Column="1" Spacing="5">
+                    <Entry
+                        Text="{Binding MockPersonVisitsParentId, TargetNullValue='1-0000000'}"
+                        Focused="Entry_HighlightWhenFocused"
+                    />
+
+                    <Button
+                        StyleClass="DebugLayout"
+                        Command="{Binding LoadMockPersonVisitsCommand}"
+                        CommandParameter=""
+                        Text="Load mock PersonVisits"
+                    />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Attachments"
+            />
 
             <Grid RowDefinitions="Auto,Auto">
                 <Label
-				    StyleClass="DebugLayout,DebugLabel"
-				    Grid.Row="0"
-				    Grid.Column="0"
-				    Text="Keep safety assessment draft after successful publish"/>
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Require file content to exist on download and throw errors if not"
+                />
 
                 <Switch
-				    StyleClass="DebugLayout"
-				    Grid.Row="0"
-				    Grid.Column="1"
-				    IsToggled="{Binding KeepSafetyAssessmentDraftOnPublish}"/>
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.RequireAttachmentFileContent}"
+                />
             </Grid>
 
             <Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="File system" />
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Services"
+            />
 
-			<Grid
-				RowDefinitions="Auto,Auto,Auto">
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="0"
-					Grid.Column="1"
-					IsEnabled="{OnIdiom Desktop=True, Default=False}"
-					Command="{Binding OpenAppDataDirectoryCommand}"
-					Text="Open AppDataDirectory" />
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Write API timings to desktop (.csv)"
+                    IsEnabled="{OnIdiom Desktop=True, Default=False}"
+                />
 
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="1"
-					Grid.Column="1"
-					IsEnabled="{OnIdiom Desktop=True, Default=False}"
-					Command="{Binding OpenCacheDirectoryCommand}"
-					Text="Open CacheDirectory" />
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.WriteApiTimings}"
+                />
 
-				<Button
-					StyleClass="DebugLayout"
-					Grid.Row="2"
-					Grid.Column="1"
-					Clicked="ShowDocumentsButton_Clicked"
-					Text="Show Documents' files" />
-			</Grid>
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Dry-fire SubmitNotes"
+                />
 
-			<Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="App information" />
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.DryFireSubmitNotes}"
+                />
 
-			<Grid RowDefinitions="Auto,Auto">
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="0"
-					Grid.Column="0"
-					Text="App ID" />
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Dry-fire SubmitNotes: simulate success"
+                />
 
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="0"
-					Grid.Column="1"
-					Text="{Binding AppId}" />
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.DryFireSubmitNotesSimulateSuccess}"
+                />
 
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="1"
-					Grid.Column="0"
-					Text=".NET version" />
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding Options.RunAutoCaseloadRefreshServiceCommand}"
+                    Text="Run auto caseload refresh service"
+                />
 
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="1"
-					Grid.Column="1"
-					Text="{Binding DotnetVersion}" />
-			</Grid>
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Command="{Binding Options.ResetAutoCaseloadRefreshCommand}"
+                    Text="Reset auto caseload refresh cooldown"
+                />
 
-			<Label
-				StyleClass="DebugLayout,DebugLabel"
-				HorizontalOptions="FillAndExpand"
-				FontSize="20"
-				Background="AliceBlue"
-				Text="Compile-time settings" />
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Text="Dry-fire auto caseload refresh: run checks without refresh"
+                />
 
-			<Grid RowDefinitions="Auto,Auto">
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.AutoCaseloadRefreshDisabled}"
+                />
+            </Grid>
 
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="0"
-					Grid.Column="0"
-					Text="ApiDomain" />
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Child/youth visits"
+            />
 
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="0"
-					Grid.Column="1"
-					Text="{Binding ApiDomain}" />
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Dry-fire PostVisitService"
+                />
 
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="1"
-					Grid.Column="0"
-					Text="AuthenticationDomain" />
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.DryFirePostVisitService}"
+                />
 
-				<Label
-					StyleClass="DebugLayout,DebugLabel"
-					Grid.Row="1"
-					Grid.Column="1"
-					Text="{Binding AuthenticationDomain}" />
-			</Grid>
-		</VerticalStackLayout>
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Dry-fire PostVisitService: simulate success"
+                />
 
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.DryFirePostVisitServiceSimulateSuccess}"
+                />
 
-	</ScrollView>
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Command="{Binding SetWarningCommand}"
+                    Text="Set Warning threshold"
+                />
 
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding SetDangerCommand}"
+                    Text="Set Danger threshold"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Command="{Binding SetCriticalCommand}"
+                    Text="Set Critical threshold"
+                />
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Safety assessment"
+            />
+
+            <Grid RowDefinitions="Auto,Auto">
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Keep safety assessment draft after successful publish"
+                />
+
+                <Switch
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.KeepSafetyAssessmentDraftOnPublish}"
+                />
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="File system"
+            />
+
+            <Grid RowDefinitions="Auto,Auto,Auto">
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsEnabled="{OnIdiom Desktop=True, Default=False}"
+                    Command="{Binding Options.OpenAppDataDirectoryCommand}"
+                    Text="Open AppDataDirectory"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    IsEnabled="{OnIdiom Desktop=True, Default=False}"
+                    Command="{Binding Options.OpenCacheDirectoryCommand}"
+                    Text="Open CacheDirectory"
+                />
+
+                <Button
+                    StyleClass="DebugLayout"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Clicked="ShowDocumentsButton_Clicked"
+                    Text="Show Documents' files"
+                />
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="App information"
+            />
+
+            <Grid RowDefinitions="Auto,Auto">
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="App ID"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding AppId}"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text=".NET version"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding DotnetVersion}"
+                />
+            </Grid>
+
+            <Label
+                StyleClass="DebugLayout,DebugLabel"
+                HorizontalOptions="Fill"
+                FontSize="20"
+                Background="AliceBlue"
+                Text="Compile-time settings"
+            />
+
+            <Grid RowDefinitions="Auto,Auto,Auto">
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="ApiDomain"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding ApiDomain}"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="AuthenticationDomain"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding AuthenticationDomain}"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Logical processor count"
+                />
+
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding LogicalProcessorCount}"
+                />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </baseClasses:ViewModelContentView>

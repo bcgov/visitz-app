@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:form="clr-namespace:Visitz.Views.FormControls"
+    x:Class="Visitz.Views.FormControls.InfoItemView"
+    x:DataType="form:InfoItem"
+>
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </ContentView.GestureRecognizers>
+    <Grid
+        ColumnDefinitions="Auto,*"
+        RowDefinitions="Auto,Auto"
+        ColumnSpacing="{StaticResource DefaultSpacing}"
+    >
+        <Label
+            FontFamily="{Binding FontFamily}"
+            FontSize="16"
+            Text="{Binding IconGlyph}"
+            TextColor="{StaticResource Gray500}"
+            VerticalOptions="Center"
+        />
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            TextColor="{StaticResource Gray600}"
+            Text="{Binding Label}"
+            VerticalOptions="Center"
+        />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding Value}"
+            VerticalOptions="Center"
+            TextDecorations="{Binding ValueTextDecorations}"
+            TextColor="{Binding ValueColor, TargetNullValue={StaticResource BC_TextColor}}"
+        />
+    </Grid>
+</ContentView>

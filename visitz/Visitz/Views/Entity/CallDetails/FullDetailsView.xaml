@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:callDetails="clr-namespace:Visitz.Views.Entity.CallDetails"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    x:Class="Visitz.Views.Entity.CallDetails.FullDetailsView"
+    x:DataType="callDetails:FullDetailsView"
+    x:Name="self"
+>
+    <Border
+        BindingContext="{Reference self}"
+        BackgroundColor="White"
+        StrokeShape="RoundRectangle 10"
+        StrokeThickness="0"
+        Padding="{StaticResource DefaultPadding}"
+    >
+        <Grid RowDefinitions="Auto,*" RowSpacing="{StaticResource DefaultSpacing}">
+            <formControls:FormAppBar Grid.Row="0" IsReadOnly="True" />
+
+            <ScrollView Grid.Row="1">
+                <controls:SelectableLabel
+                    Text="{Binding Text}"
+                    TextColor="{StaticResource BC_TextColor}"
+                />
+            </ScrollView>
+        </Grid>
+    </Border>
+</ContentView>

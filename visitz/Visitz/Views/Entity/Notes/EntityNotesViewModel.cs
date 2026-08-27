@@ -1,45 +1,44 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using Visitz.Extensions;
+using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Navigation;
 using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
-public partial class EntityNotesViewModel :
-    VisitzViewModel,
-    IBusinessObjectHolder,
-    IRequestedEntitySection
+public partial class EntityNotesViewModel : IcmRecordViewModel, IRequestedEntitySection
 {
     [ObservableProperty]
-    public IBusinessObject businessObject;
+    public partial ObservableCollection<NoteItemGroup> Notes { get; set; } = [];
 
     [ObservableProperty]
-    public ObservableCollection<NoteItemGroup> notes;
-
-    [ObservableProperty]
-    public bool isNotesEmtpy;
+    public partial bool IsNotesEmtpy { get; set; }
 
     private readonly ObservableRealmQueryMap realmQueryMap = new();
 
-    public NoteItemGroup LastNoteItemGroup => Notes?.LastOrDefault();
+    public NoteItemGroup? LastNoteItemGroup => Notes.LastOrDefault();
 
-    public NoteItem LastNoteItem => LastNoteItemGroup?.LastOrDefault();
-
-    [ObservableProperty]
-    public EntitySection requestedSection;
+    public NoteItem? LastNoteItem => LastNoteItemGroup?.LastOrDefault();
 
     [ObservableProperty]
-    public string openNoteEntryText;
+    public partial EntitySection RequestedSection { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsDraftAvailable { get; set; }
+
+    [ObservableProperty]
+    public partial string OpenNoteEntryIconGlyph { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string OpenNoteEntryText { get; set; } = string.Empty;
 
     public readonly TaskCompletionSource notesLoadedTcs = new();
 
@@ -47,28 +46,36 @@ public partial class EntityNotesViewModel :
     {
         await base.InitAsync();
 
-        var realm = await VisitzRealms.GetIcmDataRealmAsync();
+        if (DataRealm == null)
+            return;
 
         realmQueryMap.ItemsChanged += RealmQueryMap_ItemsChanged;
-        realmQueryMap.Subscribe(realm, NoteItem.GetNotesByFileNumber(realm, BusinessObject.FileNumber));
+        realmQueryMap.Subscribe(
+            DataRealm,
+            NoteItem.GetNotesByParent(DataRealm, BusinessObject.EntityType, BusinessObject.Id)
+        );
 
         var noteDraftRealm = await VisitzRealms.GetNoteDraftsRealmAsync();
 
-        realmQueryMap.Subscribe(noteDraftRealm, noteDraftRealm.All<NoteDraft>()
-            .Where(draft => draft.ParentEntityId == BusinessObject.FileNumber));
+        realmQueryMap.Subscribe(
+            noteDraftRealm,
+            noteDraftRealm.All<NoteDraft>().Where(draft => draft.ParentEntityId == BusinessObject.FileNumber)
+        );
+
+        OnIsDraftAvailableChanged(false);
 
         if (RequestedSection == EntitySection.NoteEntry)
             await OpenNoteEntry();
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
         {
-            if (Notes != null)
-                Notes.CollectionChanged -= Notes_CollectionChanged;
-            Notes = null;
+            Notes.CollectionChanged -= Notes_CollectionChanged;
+            Notes.Clear();
 
             realmQueryMap.Dispose();
 
@@ -80,35 +87,40 @@ public partial class EntityNotesViewModel :
 
     private void InitNotesCollection(List<NoteItemGroup> items)
     {
-        if (Notes != null)
-            Notes.CollectionChanged -= Notes_CollectionChanged;
+        Notes.CollectionChanged -= Notes_CollectionChanged;
 
-        Notes = new ObservableCollection<NoteItemGroup>(items);
+        Notes.Clear();
+        foreach (var item in items)
+            Notes.Add(item);
+
         Notes.CollectionChanged += Notes_CollectionChanged;
 
         IsNotesEmtpy = items.Count == 0;
     }
 
-    private void Notes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void Notes_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         IsNotesEmtpy = !Notes?.Any() ?? true;
     }
 
-    private void RealmQueryMap_ItemsChanged(object sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQueryMap_ItemsChanged(
+        object? sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
+    )
     {
         if (e.Type == typeof(NoteItem))
-            UpdateNotesList(e.Items as IRealmCollection<NoteItem>, e.Changes);
+            UpdateNotesList((IRealmCollection<NoteItem>)e.Items, e.Changes);
         else if (e.Type == typeof(NoteDraft))
-            UpdateOpenNoteEntryText(e.Items.Any());
+            IsDraftAvailable = e.Items.Any();
     }
 
-    private void UpdateNotesList(IRealmCollection<NoteItem> realmNotes, ChangeSet changes)
+    private void UpdateNotesList(IRealmCollection<NoteItem> realmNotes, ChangeSet? changes)
     {
         if (changes == null)
         {
             var groups = NoteItemGroup.GetGroupsFromNotesQuery(
                 BusinessObject.EntityType,
-                realmQueryMap[typeof(NoteItem)].Query as IQueryable<NoteItem>,
+                (IQueryable<NoteItem>)realmQueryMap[typeof(NoteItem)].Query,
                 LocalizedStrings.NotePageNumberHeader
             );
 
@@ -128,13 +140,24 @@ public partial class EntityNotesViewModel :
             NoteItemGroup.RemoveFromSortedGroups(Notes, deletedIndex);
 
         foreach (var insertedIndex in changes.InsertedIndices)
-            NoteItemGroup.InsertInSortedGroups(Notes, realmNotes[insertedIndex],
-                BusinessObject.EntityType, LocalizedStrings.NotePageNumberHeader);
+            NoteItemGroup.InsertInSortedGroups(
+                Notes,
+                realmNotes[insertedIndex],
+                BusinessObject.EntityType,
+                LocalizedStrings.NotePageNumberHeader
+            );
+
+        foreach (var changedIndex in changes.NewModifiedIndices)
+        {
+            (int groupIndex, int noteIndex) = NoteItemGroup.GetJaggedIndex(Notes, changedIndex);
+            Notes[groupIndex][noteIndex] = realmNotes[changedIndex];
+        }
     }
 
-    private void UpdateOpenNoteEntryText(bool draftAvailable)
+    partial void OnIsDraftAvailableChanged(bool value)
     {
-        OpenNoteEntryText = draftAvailable ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddNotes;
+        OpenNoteEntryIconGlyph = value ? MaterialIcons.Edit : MaterialIcons.Add;
+        OpenNoteEntryText = value ? LocalizedStrings.ContinueDraft : LocalizedStrings.AddNotes;
     }
 
     [RelayCommand]
@@ -146,7 +169,8 @@ public partial class EntityNotesViewModel :
     private async Task OpenNoteEntry()
     {
         var noteEntryView = ServiceProvider.GetService<NoteEntryView>();
-        noteEntryView.BusinessObject = BusinessObject;
+        noteEntryView.RowId = RowId;
+        noteEntryView.EntityType = EntityType;
 
         await Navigator.Navigation.PushModalAsync(noteEntryView, ViewModalSize.Wide);
     }

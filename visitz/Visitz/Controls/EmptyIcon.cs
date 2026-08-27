@@ -6,7 +6,8 @@ namespace Visitz.Controls;
 
 internal partial class EmptyIcon : Label
 {
-    public EmptyIcon() : base()
+    public EmptyIcon()
+        : base()
     {
         FontFamily = MaterialIcons.RoundedUnfilled.FontFamily;
         FontSize = 200;

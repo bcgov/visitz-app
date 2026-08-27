@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<base:ViewModelContentView
+<base:IcmRecordContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:banners="clr-namespace:Visitz.Views.Banners"
@@ -8,149 +8,59 @@
     xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     xmlns:local="clr-namespace:Visitz.Localization"
-    xmlns:models="clr-namespace:VisitzModel.Models.InPersonVisits;assembly=VisitzModel"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.ChildYouthVisits.ChildYouthVisitListView"
-    x:DataType="childYouthVisit:ChildYouthVisitListViewModel">
-
-    <Grid
-        HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand"
-        RowDefinitions="Auto, Auto, 0.5, *, 0.5, Auto">
-
+    x:DataType="childYouthVisit:ChildYouthVisitListViewModel"
+    x:TypeArguments="childYouthVisit:ChildYouthVisitListViewModel"
+>
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill" RowDefinitions="Auto, Auto, *, 0.5, Auto">
         <banners:InfoBanner
             Grid.Row="0"
             Margin="{StaticResource DefaultMargin}"
             IsVisible="{Binding HasVisitData}"
             Level="{Binding BannerLevel}"
-            Text="{Binding BannerText}"/>
-
-        <Grid
-            Grid.Row="1"
-            Margin="{StaticResource DefaultMargin}"
-            ColumnSpacing="{StaticResource DefaultSpacing}"
-            IsVisible="{Binding HasVisitData}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Label
-                Text="{local:Localize Date}"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-                FontFamily="BCSansBold"/>
-            <Label
-                Text="{local:Localize Details}"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                Grid.Column="1"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-                FontFamily="BCSansBold"/>
-            <Label
-                Text="{local:Localize Description}"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                Grid.Column="2"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-                FontFamily="BCSansBold"/>
-            <Label
-                Text="{local:Localize CreatedBy}"
-                HorizontalTextAlignment="Start"
-                VerticalTextAlignment="Center"
-                Grid.Column="3"
-                TextColor="{StaticResource BC_TextColor_Lighter}"
-                FontFamily="BCSansBold"/>
-        </Grid>
-        <BoxView
-            Grid.Row="2"
-            HeightRequest="0.5"
-            IsVisible="{Binding HasVisitData}"
-            Color="{StaticResource SeparatorColor}"/>
+            Text="{Binding BannerText}"
+        />
 
         <CollectionView
             x:Name="VisitsCollectionView"
-            Grid.Row="3"
+            Grid.Row="2"
             IsVisible="{Binding HasVisitData}"
             ItemsSource="{Binding PersonVisits}"
-            VerticalOptions="FillAndExpand"
-            SelectionMode="None">
-
+            VerticalOptions="Fill"
+            SelectionMode="None"
+        >
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:PersonVisit">
-                    <ContentView>
-                        <ContentView.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Path=OpenVisitEntryCommand, Source={RelativeSource AncestorType={x:Type childYouthVisit:ChildYouthVisitListViewModel}}}"
-                                CommandParameter="{Binding .}"/>
-                        </ContentView.GestureRecognizers>
-                        <VerticalStackLayout>
-                            <Grid
-                                ColumnSpacing="{StaticResource DefaultSpacing}"
-                                Padding="{StaticResource DefaultPadding}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Label
-                                    Text="{Binding DateOfVisit, StringFormat='{0:MMMM dd, yyyy}'}"
-                                    FontFamily="BCSansBold"
-                                    Grid.Column="0"/>
-                                <Label
-                                    Text="{Binding FirstVisitDetail}"
-                                    Grid.Column="1"/>
-                                <Label
-                                    Text="{Binding VisitDescription}"
-                                    Grid.Column="2"
-                                    MaxLines="10"
-                                    LineBreakMode="TailTruncation"/>
-                                <Label
-                                    Text="{Binding CreatedBy}"
-                                    Grid.Column="3"/>
-                            </Grid>
-                            <BoxView
-                                Color="{StaticResource Gray200}"
-                                HeightRequest="0.5"/>
-                        </VerticalStackLayout>
-                    </ContentView>
+                <DataTemplate x:DataType="childYouthVisit:ChildYouthVisitListItemViewModel">
+                    <childYouthVisit:ChildYouthVisitListItemView />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <controls:EmptyIcon
-            Grid.Row="3"
-            IsVisible="{Binding ShowEmptyIcon}"/>
+        <controls:EmptyIcon Grid.Row="2" IsVisible="{Binding ShowEmptyIcon}" />
 
-        <BoxView
-            Grid.Row="4"
-            HeightRequest="0.5"
-            Color="{StaticResource SeparatorColor}"/>
+        <BoxView Grid.Row="3" HeightRequest="0.5" Color="{StaticResource SeparatorColor}" />
 
         <Grid
-            Grid.Row="5"
+            Grid.Row="4"
             Padding="{StaticResource DefaultPadding}"
             RowDefinitions="Auto"
             ColumnSpacing="{StaticResource DefaultSpacing}"
-            ColumnDefinitions="Auto,*,Auto">
-
+            ColumnDefinitions="Auto,*,Auto"
+        >
             <Button
                 Grid.Column="2"
                 Text="{Binding OpenAddVisitText, TargetNullValue={local:Localize AddVisit}}"
-                Command="{Binding OpenVisitEntryCommand}">
+                Command="{Binding OpenVisitEntryCommand}"
+            >
                 <Button.ImageSource>
                     <FontImageSource
-                        Glyph="{Static icons:MaterialIcons.Edit}"
+                        Glyph="{Binding OpenAddVisitIconGlyph}"
                         FontFamily="MaterialIconsRoundedUnfilled"
-                        Size="20"/>
+                        Size="20"
+                    />
                 </Button.ImageSource>
             </Button>
         </Grid>
-
     </Grid>
-</base:ViewModelContentView>
+</base:IcmRecordContentView>

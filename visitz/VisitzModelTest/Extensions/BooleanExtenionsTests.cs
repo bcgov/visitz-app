@@ -1,4 +1,4 @@
-﻿using VisitzModel.Extensions;
+using VisitzModel.Extensions;
 
 namespace VisitzTest.Extensions;
 

@@ -4,8 +4,6 @@ using VisitzModel.Models.EntityTypes;
 
 namespace VisitzModel.Models.Interfaces;
 
-#nullable enable
-
 public interface IRecordInfo : IDisposable
 {
     string RelatedEntityId { get; set; }
@@ -42,67 +40,38 @@ public static class IRecordInfoExtensions
 {
     public static IRecordInfo InitWith(this IRecordInfo item, IBusinessObject businessObject)
     {
-        item.RelatedEntityId = businessObject.FileNumber;
+        item.RelatedEntityId = businessObject.Id;
         item.RelatedEntityType = businessObject.EntityType;
         item.RelatedEntitySubtype = businessObject.EntitySubtype;
 
         return item;
     }
 
-    public static bool? IsAvailable(this IRecordInfo recordInfo)
-    {
-        if (recordInfo.RelatedEntityRealm is Realm realm)
-        {
-            return IBusinessObjectExtensions.GetByIdType(
-                realm,
-                recordInfo.RelatedEntityId,
-                recordInfo.RelatedEntityType) != null;
-        }
-        return null;
-    }
-
-    public static bool? IsDownloaded(this IRecordInfo recordInfo)
-    {
-        if (recordInfo.RelatedEntityRealm is Realm realm)
-        {
-            var bo = IBusinessObjectExtensions.GetByIdType(
-                realm,
-                recordInfo.RelatedEntityId,
-                recordInfo.RelatedEntityType);
-
-            if (bo is IBusinessObject businessObject)
-                return businessObject.LocalState.ShouldDownloadDuringRefresh;
-        }
-        return null;
-    }
-
     public static void SubscribeRelatedState(this IRecordInfo recordInfo, Realm? realm)
     {
         recordInfo.RelatedEntityRealm = realm;
-
-        if (recordInfo.RelatedEntitySubscriptionToken != null)
-        {
-            recordInfo.RelatedEntitySubscriptionToken.Dispose();
-            recordInfo.RelatedEntitySubscriptionToken = null;
-        }
+        recordInfo.RelatedEntitySubscriptionToken?.Dispose();
+        recordInfo.RelatedEntitySubscriptionToken = null;
 
         if (realm != null)
         {
-            recordInfo.RelatedEntitySubscriptionQuery = IBusinessObjectExtensions
-                .GetQueryableByRelaxedIdType(realm,
-                    recordInfo.RelatedEntityId,
-                    recordInfo.RelatedEntityType);
+            recordInfo.RelatedEntitySubscriptionQuery = IBusinessObject.GetQueryableByRelaxedIdType(
+                realm,
+                recordInfo.RelatedEntityId,
+                recordInfo.RelatedEntityType
+            );
 
             recordInfo.RelatedEntitySubscriptionToken =
-                recordInfo.RelatedEntitySubscriptionQuery
-                    .SubscribeForNotifications((items, changes) =>
-            {
-                recordInfo.RelatedEntityAvailable = items.Any();
-                recordInfo.RelatedEntityDownloaded = items.FirstOrDefault()
-                    is IBusinessObject businessObject
-                        && businessObject.LocalState is BoLocalState state
+                recordInfo.RelatedEntitySubscriptionQuery.SubscribeForNotifications(
+                    (items, changes) =>
+                    {
+                        recordInfo.RelatedEntityAvailable = items.Any();
+                        recordInfo.RelatedEntityDownloaded =
+                            items.FirstOrDefault() is IBusinessObject businessObject
+                            && businessObject.LocalState is BoLocalState state
                             && state.ShouldDownloadDuringRefresh;
-            });
+                    }
+                );
         }
     }
 }

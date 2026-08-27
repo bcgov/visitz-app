@@ -1,28 +1,30 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Visitz.Extensions;
-using Visitz.Views.BaseClasses;
+using CommunityToolkit.Mvvm.Messaging;
 using Oidc;
-using Visitz.Settings;
+using Visitz.Extensions;
 using Visitz.Resources.Localization;
+using Visitz.Settings;
+using Visitz.Views.BaseClasses;
+using VisitzModel.Messaging;
 
 namespace Visitz.Views.User;
 
-internal partial class UserViewModel : VisitzViewModel
+public partial class UserViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public string displayName;
+    public partial string DisplayName { get; set; }
 
     [ObservableProperty]
-    public string buildNumber = AppInfo.Current.BuildString;
+    public partial string BuildNumber { get; set; } = AppInfo.Current.BuildString;
 
     [ObservableProperty]
-    public string appVersion = AppInfo.Current.VersionString;
+    public partial string AppVersion { get; set; } = AppInfo.Current.VersionString;
 
     [ObservableProperty]
-    public string feedbackUrl;
+    public partial string FeedbackUrl { get; set; }
 
-    OidcSessionInfo SessionInfo;
+    OidcSessionInfo? SessionInfo;
 
     protected override async Task InitAsync()
     {
@@ -38,6 +40,7 @@ internal partial class UserViewModel : VisitzViewModel
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -51,21 +54,24 @@ internal partial class UserViewModel : VisitzViewModel
     [RelayCommand]
     static async Task OpenCollectionNotice()
     {
-        await Navigator.Navigation.PopModalAsync(animated: false);
-
         var noticeView = ServiceProvider.GetService<CollectionNoticeView>();
         await Navigator.Navigation.PushModalAsync(noticeView, ViewModalSize.Fullscreen);
+        CloseNavDrawer();
     }
 
     [RelayCommand]
-    static async Task OpenFeedbackUrl(string feedbackUrl)
+    async Task OpenFeedbackUrl()
     {
-        await Browser.Default.OpenAsync(feedbackUrl, new BrowserLaunchOptions
-        {
-            LaunchMode = BrowserLaunchMode.SystemPreferred,
-            TitleMode = BrowserTitleMode.Hide,
-            Flags = BrowserLaunchFlags.PresentAsPageSheet,
-        });
+        await Browser.Default.OpenAsync(
+            FeedbackUrl,
+            new BrowserLaunchOptions
+            {
+                LaunchMode = BrowserLaunchMode.SystemPreferred,
+                TitleMode = BrowserTitleMode.Hide,
+                Flags = BrowserLaunchFlags.PresentAsPageSheet,
+            }
+        );
+        CloseNavDrawer();
     }
 
     [RelayCommand]
@@ -82,20 +88,21 @@ internal partial class UserViewModel : VisitzViewModel
 
     static async Task<bool> PromptLogout()
     {
-        return await Navigator.CurrentOpenPage.DisplayAlert(
+        return await Navigator.CurrentOpenPage.DisplayAlertAsync(
             LocalizedStrings.LogoutAndClearData,
             LocalizedStrings.LogoutAndClearDataDesc,
             LocalizedStrings.Logout,
-            LocalizedStrings.Cancel);
+            LocalizedStrings.Cancel
+        );
     }
 
-    async void OidcSession_SessionChanged(object sender, Oidc.Events.SessionChangedEventArgs e)
+    async void OidcSession_SessionChanged(object? sender, Oidc.Events.SessionChangedEventArgs e)
     {
         if (!await OidcSession.SessionExistsAsync())
         {
             // Delay was the only thing I could do to get this working. App
             // wasn't playing nice on Windows waiting for WebViewPage to close
-            // and this Pop call kept silently failing.
+            // and no UI updates were firing.
             await Task.Delay(100);
 
             await GoToLoginScreen();
@@ -106,9 +113,14 @@ internal partial class UserViewModel : VisitzViewModel
     {
         try
         {
-            await Navigator.Navigation.PopModalAsync(animated: true);
+            CloseNavDrawer();
             await SessionPage.TryOpenAsync(animated: false);
         }
         catch (InvalidOperationException) { }
+    }
+
+    static void CloseNavDrawer()
+    {
+        StrongReferenceMessenger.Default.Send(new NavDrawerMessage(isOpen: false));
     }
 }

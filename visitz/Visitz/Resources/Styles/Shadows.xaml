@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ResourceDictionary 
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+>
     <!-- 
         Custom shadow levels based on guidance from Material and Fluent design systems
     
@@ -37,7 +37,6 @@
         Top App Bar
     -->
 
-    
     <!-- 
         Shadow level 1. 
     
@@ -56,13 +55,7 @@
         Slider (Handle)
         Suggestion Chip (Elevated)
     -->
-    <Shadow 
-        x:Key="RestingLevel1"
-        Brush="Black"
-        Offset="0,0.5"
-        Radius="1.5"
-        Opacity="0.20"/>
-
+    <Shadow x:Key="RestingLevel1" Brush="Black" Offset="0,0.5" Radius="1.5" Opacity="0.20" />
 
     <!-- 
         Shadow level 2. 
@@ -78,12 +71,7 @@
         Rich Tooltip
         Top App Bar (Scrolled)
     -->
-    <Shadow
-        x:Key="RestingLevel2"
-        Brush="Black"
-        Offset="0,1"
-        Radius="3"
-        Opacity="0.18" />
+    <Shadow x:Key="RestingLevel2" Brush="Black" Offset="0,1" Radius="3" Opacity="0.18" />
 
     <!-- 
         Shadow level 3. 
@@ -101,35 +89,19 @@
         Time Picker
         Time Input
     -->
-    <Shadow
-        x:Key="RestingLevel3"
-        Brush="Black"
-        Offset="0,3"
-        Radius="6"
-        Opacity="0.16" />
+    <Shadow x:Key="RestingLevel3" Brush="Black" Offset="0,3" Radius="6" Opacity="0.16" />
 
     <!-- 
         Shadow level 4. 
 
         Applicable to: (not assigned as resting level)
     -->
-    <Shadow
-        x:Key="Level4"
-        Brush="Black"
-        Offset="0,4"
-        Radius="8"
-        Opacity="0.14" />
+    <Shadow x:Key="Level4" Brush="Black" Offset="0,4" Radius="8" Opacity="0.14" />
 
     <!-- 
         Shadow level 5. 
 
         Applicable to: (not assigned as resting level)
     -->
-    <Shadow
-        x:Key="Level5"
-        Brush="Black"
-        Offset="0,6"
-        Radius="12"
-        Opacity="0.12" />
-
+    <Shadow x:Key="Level5" Brush="Black" Offset="0,6" Radius="12" Opacity="0.12" />
 </ResourceDictionary>

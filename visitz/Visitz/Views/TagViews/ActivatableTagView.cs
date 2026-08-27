@@ -4,9 +4,9 @@ namespace Visitz.Views.TagViews;
 
 public partial class ActivatableTagView : TagView, IActiveState
 {
-    public event EventHandler<IActiveState.ActiveChangedEventArgs> ActiveStateChanged;
+    public event EventHandler<IActiveState.ActiveChangedEventArgs>? ActiveStateChanged;
 
-    public event CancelTapEventDelegate ShouldCancelTapEvent;
+    public event CancelTapEventDelegate? ShouldCancelTapEvent;
 
     public delegate bool CancelTapEventDelegate(ActivatableTagView sender, TappedEventArgs e);
 
@@ -22,14 +22,15 @@ public partial class ActivatableTagView : TagView, IActiveState
         }
     }
 
-    public ActivatableTagView() : base()
+    public ActivatableTagView()
+        : base()
     {
         var tap = new TapGestureRecognizer();
         tap.Tapped += Tapped;
         GestureRecognizers.Add(tap);
     }
 
-    private void Tapped(object sender, TappedEventArgs e)
+    private void Tapped(object? sender, TappedEventArgs e)
     {
         if (ShouldCancelTapEvent?.Invoke(this, e) ?? false)
             return;

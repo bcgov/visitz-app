@@ -1,30 +1,35 @@
 using System.Text.Json;
+using VisitzApi.Extensions;
 using VisitzApi.Json;
 using VisitzApi.Models.Caseload;
-
-#nullable enable
+using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.Caseload;
 
-internal class GetCaseloadEndpoint(string baseUrl, DateTimeOffset? after = null)
-    : VisitzBaseEndpoint<CaseloadJson>(baseUrl, Vpi.V2, CaseloadPath)
+internal class GetCaseloadEndpoint(string baseUrl, Pagination? pagination = null)
+    : VisitzBaseEndpoint<(int TotalRecords, CaseloadJson)>(baseUrl, Vpi.V2, CaseloadPath)
 {
     static readonly string CaseloadPath = "/caseload";
 
-    readonly DateTimeOffset? After = after;
+    readonly Pagination? Pagination = pagination;
 
     public override HttpRequestMessage MakeRequest()
     {
         return new HttpRequestMessage()
         {
             Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(after: After),
+            RequestUri = WithQueryParams(pagination: Pagination),
         };
     }
 
-    public override CaseloadJson HandleResponse(HttpResponseMessage _, string responseContent)
+    public override (int TotalRecords, CaseloadJson) HandleResponse(
+        HttpResponseMessage response,
+        string responseContent
+    )
     {
-        return JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet)
-            ?? CaseloadJson.Empty;
+        var json =
+            JsonSerializer.Deserialize<CaseloadJson>(responseContent, PayloadOptions.SiebelGet) ?? new CaseloadJson();
+
+        return (response.GetRecordCount(), json);
     }
 }

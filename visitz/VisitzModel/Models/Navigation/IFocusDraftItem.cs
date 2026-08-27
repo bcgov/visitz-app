@@ -4,5 +4,5 @@ namespace VisitzModel.Models.Navigation;
 
 public interface IFocusDraftItem
 {
-    IDraftItem FocusedDraftItem { get; set; }
+    IDraftItem? FocusedDraftItem { get; set; }
 }

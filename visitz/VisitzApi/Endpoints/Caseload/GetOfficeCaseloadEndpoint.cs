@@ -4,8 +4,6 @@ using VisitzApi.Json;
 using VisitzApi.Models.Caseload;
 using VisitzApi.Requests;
 
-#nullable enable
-
 namespace VisitzApi.Endpoints.Caseload;
 
 internal class GetOfficeCaseloadEndpoint(string baseUrl, Pagination? pagination = null)
@@ -24,11 +22,14 @@ internal class GetOfficeCaseloadEndpoint(string baseUrl, Pagination? pagination 
         };
     }
 
-    public override (int TotalRecords, OfficeCaseloadJson)
-        HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (int TotalRecords, OfficeCaseloadJson) HandleResponse(
+        HttpResponseMessage response,
+        string responseContent
+    )
     {
-        var json = JsonSerializer.Deserialize<OfficeCaseloadJson>(responseContent, PayloadOptions.SiebelGet)
-            ?? OfficeCaseloadJson.Empty;
+        var json =
+            JsonSerializer.Deserialize<OfficeCaseloadJson>(responseContent, PayloadOptions.SiebelGet)
+            ?? new OfficeCaseloadJson();
 
         return (response.GetRecordCount(), json);
     }

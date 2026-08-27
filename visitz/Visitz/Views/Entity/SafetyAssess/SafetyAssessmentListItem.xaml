@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:Visitz.Converters"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:icons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:safety="clr-namespace:Visitz.Views.Entity.SafetyAssess"
+    xmlns:tagView="clr-namespace:Visitz.Views.TagViews"
+    x:Class="Visitz.Views.Entity.SafetyAssess.SafetyAssessmentListItem"
+    x:DataType="safety:SafetyAssessmentListItemViewModel"
+>
+    <ContentView.Resources>
+        <converters:DateTimeOffsetShortTimestampConverter x:Key="ShortTimestampConverter" />
+    </ContentView.Resources>
+
+    <ContentView.GestureRecognizers>
+        <TapGestureRecognizer
+            Command="{Binding OpenSafetyAssessmentViewCommand,
+            Source={RelativeSource
+                AncestorType={x:Type safety:SafetyAssessmentListViewModel}}}"
+            CommandParameter="{Binding SafetyAssessment}"
+        />
+    </ContentView.GestureRecognizers>
+
+    <Border
+        BackgroundColor="White"
+        Margin="{StaticResource DefaultMargin}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
+    >
+        <effectsView:SfEffectsView TouchDownEffects="Ripple">
+            <Grid
+                ColumnDefinitions="Auto,*"
+                RowDefinitions="Auto,Auto"
+                ColumnSpacing="{StaticResource DefaultSpacing}"
+                RowSpacing="{StaticResource DefaultSpacingHalf}"
+                Padding="{StaticResource DefaultPadding}"
+            >
+                <Label
+                    Grid.Column="0"
+                    Grid.RowSpan="2"
+                    FontFamily="MaterialIconsRoundedUnfilled"
+                    FontSize="24"
+                    Text="{Static icons:MaterialIcons.Assignment}"
+                />
+
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Spacing="{StaticResource DefaultSpacing}"
+                    VerticalOptions="Center"
+                >
+                    <Label
+                        Text="{local:Localize SafetyAssessment}"
+                        FontFamily="BCSansBold"
+                        VerticalOptions="Center"
+                    />
+
+                    <tagView:TagView
+                        Padding="8,0"
+                        BackgroundColor="{Binding TagBackgroundColor}"
+                        Text="{Binding TagText}"
+                        TextColor="{Binding TagTextColor}"
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
+
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    VerticalOptions="Center"
+                    Text="{Binding Metadata}"
+                />
+            </Grid>
+        </effectsView:SfEffectsView>
+    </Border>
+</ContentView>

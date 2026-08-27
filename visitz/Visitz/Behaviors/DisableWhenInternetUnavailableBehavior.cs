@@ -4,7 +4,7 @@ namespace Visitz.Behaviors;
 
 public partial class DisableWhenInternetUnavailableBehavior : Behavior<View>
 {
-    private View View { get; set; }
+    private View? View { get; set; }
 
     protected override void OnAttachedTo(View bindable)
     {
@@ -23,18 +23,18 @@ public partial class DisableWhenInternetUnavailableBehavior : Behavior<View>
         base.OnDetachingFrom(bindable);
     }
 
-    private void Bindable_BindingContextChanged(object sender, EventArgs e)
+    private void Bindable_BindingContextChanged(object? sender, EventArgs e)
     {
         ApplyNetworkStyles();
     }
 
-    private void Current_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+    private void Current_ConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
     {
         ApplyNetworkStyles();
     }
 
     private void ApplyNetworkStyles()
     {
-        View.IsEnabled = NetworkHelper.InternetAvailable;
+        View?.IsEnabled = NetworkHelper.InternetAvailable;
     }
 }

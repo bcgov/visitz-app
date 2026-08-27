@@ -1,27 +1,18 @@
 using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Services;
+using Visitz.Resources.Localization;
+using Visitz.Services.Messages;
 using Visitz.Services.Visits;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Navigation;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
-public partial class ChildYouthVisitListView : ViewModelContentView,
-    IBusinessObjectHolder,
-    IRequestedEntitySection,
-    IRecipient<ServiceStateMessage>
+public partial class ChildYouthVisitListView
+    : IcmRecordContentView<ChildYouthVisitListViewModel>,
+        IRequestedEntitySection,
+        IRecipient<ServiceStateMessage>
 {
     bool _disposed;
-
-    new ChildYouthVisitListViewModel ViewModel => base.ViewModel as ChildYouthVisitListViewModel;
-
-    public IBusinessObject BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
 
     public EntitySection RequestedSection
     {
@@ -29,7 +20,8 @@ public partial class ChildYouthVisitListView : ViewModelContentView,
         set => ViewModel.RequestedSection = value;
     }
 
-    public ChildYouthVisitListView() : base(ServiceProvider.GetService<ChildYouthVisitListViewModel>())
+    public ChildYouthVisitListView()
+        : base(ServiceProvider.GetService<ChildYouthVisitListViewModel>(), LocalizedStrings.ChildYouthVisits)
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -39,7 +31,7 @@ public partial class ChildYouthVisitListView : ViewModelContentView,
     {
         await base.InitAsync();
 
-        WeakReferenceMessenger.Default.Register(this, PostAndRefreshVisitService.MakeId(BusinessObject.Id));
+        WeakReferenceMessenger.Default.Register(this, PostAndRefreshVisitService.MakeId(ViewModel.BusinessObject.Id));
     }
 
     protected override void Dispose(bool disposing)

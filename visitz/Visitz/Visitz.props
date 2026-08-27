@@ -1,21 +1,20 @@
 <Project>
-
 	<PropertyGroup>
-		<CommunityToolkitMvvmVersion>8.4.0</CommunityToolkitMvvmVersion>
+		<CSharpierVersion>1.2.6</CSharpierVersion>
+		<CommunityToolkitMvvmVersion>8.4.2</CommunityToolkitMvvmVersion>
 		<CoverletCollectorVersion>6.0.4</CoverletCollectorVersion>
-		<MauiPackageVersion>9.0.110</MauiPackageVersion>
-		<NETTestSdkVersion>17.14.1</NETTestSdkVersion>
+		<MauiPackageVersion>10.0.51</MauiPackageVersion>
+		<NETTestSdkVersion>18.0.1</NETTestSdkVersion>
 		<RealmVersion>20.1.0</RealmVersion>
 		<SecurityCodeScanVersion>5.6.7</SecurityCodeScanVersion>
-		<SharpSourceVersion>1.27.1</SharpSourceVersion>
-		<VisitzVersion>2.9.1</VisitzVersion>
-		<XUnitRunnerVsVersion>3.1.4</XUnitRunnerVsVersion>
-		<XUnitVersion>2.9.3</XUnitVersion>
+		<SharpSourceVersion>1.31.1</SharpSourceVersion>
+		<VisitzVersion>3.0.0</VisitzVersion>
+		<XUnitRunnerVsVersion>3.1.5</XUnitRunnerVsVersion>
+		<XUnitVersion>3.2.2</XUnitVersion>
 	</PropertyGroup>
 
 	<!-- If no BuildTypeColor was provided, use our default "developer build" color -->
 	<PropertyGroup Condition=" '$(BuildTypeColor)' == '' ">
 		<BuildTypeColor>#440066</BuildTypeColor>
 	</PropertyGroup>
-
 </Project>

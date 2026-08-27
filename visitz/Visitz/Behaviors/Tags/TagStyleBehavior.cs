@@ -1,4 +1,4 @@
-﻿using Visitz.Views.TagViews;
+using Visitz.Views.TagViews;
 
 namespace Visitz.Behaviors.Tags;
 
@@ -19,9 +19,10 @@ public abstract class TagStyleBehavior : Behavior<TagView>
         tag.BindingContextChanged -= TagView_OnBindingContextChanged;
     }
 
-    private void TagView_OnBindingContextChanged(object sender, EventArgs e)
+    private void TagView_OnBindingContextChanged(object? sender, EventArgs e)
     {
-        ApplyTagStyle(sender as TagView);
+        if (sender != null)
+            ApplyTagStyle((TagView)sender);
     }
 
     protected abstract void ApplyTagStyle(TagView tag);

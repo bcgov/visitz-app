@@ -3,76 +3,83 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:behaviors="clr-namespace:Visitz.Behaviors"
+    xmlns:drawer="clr-namespace:Syncfusion.Maui.Toolkit.NavigationDrawer;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:foldable="clr-namespace:Microsoft.Maui.Controls.Foldable;assembly=Microsoft.Maui.Controls.Foldable"
     xmlns:nav="clr-namespace:Visitz.Views.Navigation"
     xmlns:root="clr-namespace:Visitz.Views.Root"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="Visitz.Views.Root.RootPage"
     x:DataType="root:RootViewModel"
-    NavigationPage.HasNavigationBar="False"
-    BackgroundColor="{StaticResource BuildBarBackgroundColor}">
-
+    x:TypeArguments="root:RootPage,root:RootViewModel"
+    BackgroundColor="{StaticResource BuildBarBackgroundColor}"
+    SafeAreaEdges="Container"
+>
     <baseClasses:VisitzPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarStyle="LightContent" StatusBarColor="{StaticResource BuildBarBackgroundColor}" />
+        <toolkit:StatusBarBehavior
+            StatusBarStyle="LightContent"
+            StatusBarColor="{StaticResource BuildBarBackgroundColor}"
+        />
     </baseClasses:VisitzPage.Behaviors>
 
-	<AbsoluteLayout x:Name="RootAbsoluteLayout">
-		<StackLayout
-			AbsoluteLayout.LayoutFlags="All"
-			AbsoluteLayout.LayoutBounds="0,0,1,1"
-			Orientation="Vertical">
-			
-			<StackLayout 
-				Orientation="Horizontal"
-				HorizontalOptions="FillAndExpand" 
-				VerticalOptions="FillAndExpand">
-
-				<!-- 
+    <Grid x:Name="RootGrid">
+        <foldable:TwoPaneView
+            x:Name="TwoPane"
+            TallModeConfiguration="BottomTop"
+            Pane1Length="Auto"
+            MinWideModeWidth="{Binding MinScreenSize}"
+            MinTallModeHeight="0"
+            ModeChanged="TwoPaneView_ModeChanged"
+        >
+            <foldable:TwoPaneView.Pane1>
+                <!-- 
 					For some reason it seems that the ContentView's implicit binding context changes, so we need to
 					specifically reference RootViewModel.
 				-->
-				<nav:VerticalNavRailView IsVisible="{Binding IsLandscape, 
-					Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
+                <Grid>
+                    <nav:VerticalNavRailView
+                        IsVisible="{Binding IsLandscape, 
+					            Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}"
+                    />
 
-				<BoxView 
-					IsVisible="{Binding IsLandscape}"
-					WidthRequest="2"
-					Color="{StaticResource BC_Gold}" />
+                    <nav:HorizontalNavRailView
+                        IsVisible="{Binding IsPortrait, 
+				                Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}"
+                    />
+                </Grid>
+            </foldable:TwoPaneView.Pane1>
 
-				<StackLayout
-					x:Name="ContentPane"
+            <foldable:TwoPaneView.Pane2>
+                <StackLayout
+                    x:Name="ContentPane"
                     BackgroundColor="White"
-					Orientation="Horizontal"
-					HorizontalOptions="FillAndExpand" 
-					VerticalOptions="FillAndExpand" />
-
-			</StackLayout>
-
-			<BoxView 
-				IsVisible="{Binding IsPortrait}"
-				HeightRequest="2"
-				Color="{StaticResource BC_Gold}" />
-
-			<!-- 
-				For some reason it seems that the ContentView's implicit binding context changes, so we need to
-				specifically reference RootViewModel.
-			-->
-			<nav:HorizontalNavRailView IsVisible="{Binding IsPortrait, 
-				Source={RelativeSource AncestorType={x:Type root:RootViewModel}}}" />
-
-		</StackLayout>
+                    Orientation="Horizontal"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                />
+            </foldable:TwoPaneView.Pane2>
+        </foldable:TwoPaneView>
 
         <ActivityIndicator
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
             IsRunning="{Binding ShowActivity}"
-            IsVisible="{Binding ShowActivity}" />
+            IsVisible="{Binding ShowActivity}"
+        />
 
         <ContentView
-			x:Name="SnackbarContainer"
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="0.5,1"
-			Margin="48"
-			IsVisible="False" />
-	</AbsoluteLayout>
-    
+            x:Name="SnackbarContainer"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            IsVisible="False"
+        >
+            <ContentView.Margin>
+                <Thickness
+                    Left="{StaticResource DefaultMargin}"
+                    Right="{StaticResource DefaultMargin}"
+                    Bottom="48"
+                />
+            </ContentView.Margin>
+        </ContentView>
+    </Grid>
 </baseClasses:VisitzPage>

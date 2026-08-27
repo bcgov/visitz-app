@@ -132,8 +132,8 @@
   <data name="DeviceAuthReason" xml:space="preserve">
     <value>MCFD Mobility contains Private Information and may only be accessed by authorized users.</value>
   </data>
-  <data name="DeviceAuthTitle" xml:space="preserve">
-    <value>Unlock MCFD Mobility</value>
+  <data name="UnlockApp" xml:space="preserve">
+    <value>Unlock app</value>
   </data>
   <data name="UserCancelledAuth" xml:space="preserve">
     <value>User cancelled IDIR login.</value>
@@ -201,7 +201,7 @@ Logging out won't affect your unpublished drafts.</value>
     <value>Your profile is not active in ICM—please contact your Office Manager to resolve this issue.</value>
   </data>
   <data name="CaseloadSearchHint" xml:space="preserve">
-    <value>Search by key player's name</value>
+    <value>Search caseload by name or number</value>
   </data>
   <data name="CaseloadIsEmpty" xml:space="preserve">
     <value>All clear! Nothing is assigned to you.</value>
@@ -770,6 +770,12 @@ You can view the details of this error or try again later.</value>
   <data name="NoCameraPermissionsPrompt" xml:space="preserve">
     <value>Camera permissions disabled</value>
   </data>
+  <data name="NoCameraMicrophonePermissionsPrompt" xml:space="preserve">
+    <value>Camera and microphone permissions disabled</value>
+  </data>
+  <data name="PhotoPermissionsErrorDesc" xml:space="preserve">
+    <value>MCFD Mobility does not have full permission to use your device's camera and microphone. Go to your system's settings page and turn on Camera and Microphone.</value>
+  </data>
   <data name="RecordRemovedFromCaseload" xml:space="preserve">
     <value>{0} '{1}' removed from device</value>
     <comment>0 = Entity type, 1 = Key player name</comment>
@@ -1044,5 +1050,135 @@ Do you want to download information for this record?</value>
   </data>
   <data name="ConnectBeforeRetry" xml:space="preserve">
     <value>Connect to the internet before trying again.</value>
+  </data>
+  <data name="IncidentConcern" xml:space="preserve">
+    <value>Incident concern</value>
+  </data>
+  <data name="CallInformation" xml:space="preserve">
+    <value>Call information</value>
+  </data>
+  <data name="AdditionalInformation" xml:space="preserve">
+    <value>Additional information</value>
+  </data>
+  <data name="ContactMedicalBehavioral" xml:space="preserve">
+    <value>Contact medical behavioral</value>
+  </data>
+  <data name="ContactLegalAuthority" xml:space="preserve">
+    <value>Contact legal authority</value>
+  </data>
+  <data name="ContactLanguages" xml:space="preserve">
+    <value>ContactLanguages</value>
+  </data>
+  <data name="ContactEducation" xml:space="preserve">
+    <value>Contact education</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="AllTypes" xml:space="preserve">
+    <value>All types</value>
+  </data>
+  <data name="MyOffices" xml:space="preserve">
+    <value>My offices</value>
+  </data>
+  <data name="FilterDrafts" xml:space="preserve">
+    <value>Filter drafts</value>
+  </data>
+  <data name="Due" xml:space="preserve">
+    <value>Due:</value>
+  </data>
+  <data name="UpcomingVisit" xml:space="preserve">
+    <value>Upcoming child/youth visit</value>
+  </data>
+  <data name="OverdueVisit" xml:space="preserve">
+    <value>Overdue child/youth visit</value>
+  </data>
+  <data name="RefreshCaseload" xml:space="preserve">
+    <value>Refresh caseload</value>
+  </data>
+  <data name="RecordInformation" xml:space="preserve">
+    <value>Record information</value>
+  </data>
+  <data name="KeyPlayerInformation" xml:space="preserve">
+    <value>Key player information</value>
+  </data>
+  <data name="LocalCaseloadStats" xml:space="preserve">
+    <value>Local caseload statistics</value>
+  </data>
+  <data name="Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="DateLabel" xml:space="preserve">
+    <value>Date: {0}</value>
+    <comment>0 = Date to display</comment>
+  </data>
+  <data name="CreatedByLabel" xml:space="preserve">
+    <value>Created by: {0}</value>
+    <comment>0 = Username of who created a resource</comment>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="InProgress" xml:space="preserve">
+    <value>In progress</value>
+  </data>
+  <data name="FileMissing" xml:space="preserve">
+    <value>File missing</value>
+  </data>
+  <data name="RelatedIcmAttachmentMissingDesc" xml:space="preserve">
+    <value>The file for this attachment is missing from the device.
+
+Refreshing your caseload may fix this error.</value>
+  </data>
+  <data name="RelatedDraftAttachmentMissingDesc" xml:space="preserve">
+    <value>The file for this draft attachment is missing from the device.
+
+It is unlikely that the file can be recovered.</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="CallDetails" xml:space="preserve">
+    <value>Call details</value>
+  </data>
+  <data name="Section13Concerns" xml:space="preserve">
+    <value>Section 13 concerns</value>
+  </data>
+  <data name="ReadMore" xml:space="preserve">
+    <value>Read more</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="Concerns" xml:space="preserve">
+    <value>Concerns</value>
+  </data>
+  <data name="GoogleMaps" xml:space="preserve">
+    <value>Google Maps</value>
+  </data>
+  <data name="AppleMaps" xml:space="preserve">
+    <value>Apple Maps</value>
+  </data>
+  <data name="OpenStreetMap" xml:space="preserve">
+    <value>OpenStreetMap</value>
+  </data>
+  <data name="BingMaps" xml:space="preserve">
+    <value>Bing Maps</value>
+  </data>
+  <data name="OpenInMap" xml:space="preserve">
+    <value>Open in map</value>
+  </data>
+  <data name="LastRefreshed" xml:space="preserve">
+    <value>Refreshed</value>
+  </data>
+  <data name="CreatedWhenByUserLabel" xml:space="preserve">
+    <value>Created {0} by {1}</value>
+    <comment>0 = created date, 1 = username</comment>
   </data>
 </root>

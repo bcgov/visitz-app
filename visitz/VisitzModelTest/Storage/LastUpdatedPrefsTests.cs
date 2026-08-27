@@ -1,6 +1,7 @@
 using VisitzModel.Events;
 using VisitzModel.Extensions;
 using VisitzModel.Storage;
+using VisitzModelTest.Mocks;
 
 namespace VisitzModelTest.Storage;
 
@@ -61,7 +62,8 @@ public class LastUpdatedPrefsTests
         Assert.Raises<LastUpdatedChangedEventArgs>(
             handler => luPrefs.LastUpdatedChanged += handler,
             handler => luPrefs.LastUpdatedChanged -= handler,
-            () => luPrefs.Set(ArbitraryKey, localNow));
+            () => luPrefs.Set(ArbitraryKey, localNow)
+        );
     }
 
     [Fact]

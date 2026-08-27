@@ -1,7 +1,7 @@
-﻿/*
-	Partial class implementation of a Realm + compiled bindings workaround.
+/*
+    Partial class implementation of a Realm + compiled bindings workaround.
 
-	https://github.com/realm/realm-dotnet/issues/2270#issuecomment-786720318
+    https://github.com/realm/realm-dotnet/issues/2270#issuecomment-786720318
  */
 
 using VisitzModel.Extensions;
@@ -12,9 +12,9 @@ public partial class FactorInfluence
 {
     private const string Binding = "Binding";
 
-    partial void OnPropertyChanged(string propertyName)
+    partial void OnPropertyChanged(string? propertyName)
     {
-        if (!propertyName.EndsWith(Binding))
+        if (propertyName != null && !propertyName.EndsWith(Binding))
             RaisePropertyChanged($"{propertyName}{Binding}");
     }
 

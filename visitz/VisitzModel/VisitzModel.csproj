@@ -1,95 +1,116 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-ios;net9.0-maccatalyst;net9.0</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net10.0-ios;net10.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))"
+			>$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks
+		>
 
 		<UseMaui>true</UseMaui>
 		<SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
-		
+
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>enable</Nullable>
 
 		<Version>$(VisitzVersion)</Version>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
+			>15.0</SupportedOSPlatformVersion
+		>
+		<SupportedOSPlatformVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'"
+			>13.1</SupportedOSPlatformVersion
+		>
+		<SupportedOSPlatformVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
+			>10.0.17763.0</SupportedOSPlatformVersion
+		>
+		<TargetPlatformMinVersion
+			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
+			>10.0.17763.0</TargetPlatformMinVersion
+		>
 	</PropertyGroup>
 
 	<Import Project="..\Visitz\Visitz.props" />
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="$(CommunityToolkitMvvmVersion)" />
+		<PackageReference Include="CSharpier.MsBuild" Version="$(CSharpierVersion)">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiPackageVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiPackageVersion)" />
+		<PackageReference
+			Include="Microsoft.Maui.Controls.Compatibility"
+			Version="$(MauiPackageVersion)"
+		/>
 		<PackageReference Include="Realm" Version="$(RealmVersion)" />
 		<PackageReference Include="SecurityCodeScan.VS2019" Version="$(SecurityCodeScanVersion)">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<PackageReference Include="System.Diagnostics.EventLog" Version="9.0.9" />
+		<PackageReference Include="System.Diagnostics.EventLog" Version="10.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
+		<ProjectReference Include="..\VisitzApi\VisitzApi.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Resources\Localization\EntityInitialisms.Designer.cs">
-	    <DependentUpon>EntityInitialisms.resx</DependentUpon>
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	  </Compile>
-	  <Compile Update="Resources\Localization\EntitySubtypeStrings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>EntitySubtypeStrings.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\Localization\EntityTypeStrings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>EntityTypeStrings.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\Localization\GeneralStrings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>GeneralStrings.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\Localization\PersonVisitDetails.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>PersonVisitDetails.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Resources\Localization\EntityInitialisms.Designer.cs">
+			<DependentUpon>EntityInitialisms.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Resources\Localization\EntitySubtypeStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>EntitySubtypeStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Localization\EntityTypeStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>EntityTypeStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Localization\GeneralStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>GeneralStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Localization\PersonVisitDetails.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>PersonVisitDetails.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Localization\EntityInitialisms.resx">
-	    <LastGenOutput>EntityInitialisms.Designer.cs</LastGenOutput>
-	    <Generator>ResXFileCodeGenerator</Generator>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Localization\EntitySubtypeStrings.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>EntitySubtypeStrings.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Localization\EntityTypeStrings.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>EntityTypeStrings.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Localization\GeneralStrings.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>GeneralStrings.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Localization\PersonVisitDetails.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>PersonVisitDetails.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Resources\Localization\EntityInitialisms.resx">
+			<LastGenOutput>EntityInitialisms.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Localization\EntitySubtypeStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>EntitySubtypeStrings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Localization\EntityTypeStrings.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>EntityTypeStrings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Localization\GeneralStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>GeneralStrings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Localization\PersonVisitDetails.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>PersonVisitDetails.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 </Project>

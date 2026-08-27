@@ -4,19 +4,19 @@ using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Snackbar;
 
-internal partial class VisitzSnackbarViewModel : VisitzViewModel
+public partial class VisitzSnackbarViewModel : VisitzViewModel
 {
     [ObservableProperty]
-    public string message;
+    public partial string Message { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public string actionText;
+    public partial string? ActionText { get; set; }
 
     [ObservableProperty]
-    public Action action;
+    public partial Action? Action { get; set; }
 
     [ObservableProperty]
-    public bool actionVisible = false;
+    public partial bool ActionVisible { get; set; } = false;
 
     [RelayCommand]
     public void ActionButtonSelected()
@@ -24,12 +24,12 @@ internal partial class VisitzSnackbarViewModel : VisitzViewModel
         Action?.Invoke();
     }
 
-    partial void OnActionChanged(Action value)
+    partial void OnActionChanged(Action? value)
     {
         UpdateActionVisible();
     }
 
-    partial void OnActionTextChanged(string value)
+    partial void OnActionTextChanged(string? value)
     {
         UpdateActionVisible();
     }

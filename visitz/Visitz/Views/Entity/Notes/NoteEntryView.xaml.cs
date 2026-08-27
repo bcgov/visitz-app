@@ -1,39 +1,33 @@
 using Visitz.Animations.Haptic;
-using Visitz.Resources.Localization;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Snackbar;
+using Visitz.Views.Debugging;
 using VisitzModel.Events;
-using VisitzModel.Interfaces;
-using VisitzModel.Models.Caseload;
+using VisitzModel.Extensions;
+using VisitzModel.Models.Notes;
 
 namespace Visitz.Views.Entity.Notes;
 
-public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
+public partial class NoteEntryView : IcmRecordContentView<NoteEntryViewModel>
 {
     bool _disposed;
 
-    new NoteEntryViewModel ViewModel => base.ViewModel as NoteEntryViewModel;
-
-    public IBusinessObject BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
-
-    public NoteEntryView() : base(ServiceProvider.GetService<NoteEntryViewModel>())
+    public NoteEntryView()
+        : base(ServiceProvider.GetService<NoteEntryViewModel>())
     {
         InitializeComponent();
         BindingContext = ViewModel;
 
         ViewModel.DraftError += NoteEntryView_DraftError;
-        ViewModel.SaveStateHandler.SaveStateChanged += NoteEntryView_DraftSaveStateChanged;
+
+        if (DebugOptions.Default.Enabled)
+            AddDebugContextMenu();
     }
 
     protected override void Dispose(bool disposing)
     {
         if (!_disposed && disposing)
         {
-            ViewModel.SaveStateHandler.SaveStateChanged -= NoteEntryView_DraftSaveStateChanged;
             ViewModel.SaveStateHandler.Dispose();
             ViewModel.DraftError -= NoteEntryView_DraftError;
 
@@ -43,17 +37,12 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
         base.Dispose(disposing);
     }
 
-    private async void NoteEntryView_DraftError(object sender, DraftErrorEventArgs e)
+    private async void NoteEntryView_DraftError(object? sender, DraftErrorEventArgs e)
     {
         await ShowEditorError(e.ErrorMessage);
     }
 
-    private async void NoteEntryView_DraftSaveStateChanged(object sender, DraftSaveStatusEventArgs e)
-    {
-        await DraftSavedIndicator.SetState(e.State);
-    }
-
-    async void NotesEditor_TextChanged(object sender, TextChangedEventArgs e)
+    async void NotesEditor_TextChanged(object? sender, TextChangedEventArgs e)
     {
         await ViewModel.EditorTextChanged(e);
     }
@@ -82,22 +71,33 @@ public partial class NoteEntryView : ViewModelContentView, IBusinessObjectHolder
         await vibrateErrorAnim.Animate(NotesEditor);
     }
 
-    private async void Discard_Clicked(object sender, EventArgs e)
+    private void NotesEditor_Loaded(object? sender, EventArgs e)
     {
-        if (await PromptDiscard())
-        {
-            await ViewModel.ResetDraftAsync();
-            await Navigator.Navigation.PopModalAsync();
-            SnackbarHandler.ShowText(LocalizedStrings.DiscardNoteDraft);
-        }
+#if WINDOWS
+        NotesEditor.Focus();
+
+        if (!string.IsNullOrEmpty(NotesEditor.Text))
+            NotesEditor.CursorPosition = NotesEditor.Text.Length;
+#endif
     }
 
-    private static async Task<bool> PromptDiscard()
+    void AddDebugContextMenu()
     {
-        return await Navigator.CurrentOpenPage.DisplayAlert(
-            LocalizedStrings.DiscardDraftQuestion,
-            LocalizedStrings.DiscardNoteDraftDescription,
-            LocalizedStrings.Discard,
-            LocalizedStrings.Cancel);
+        MenuFlyoutItem item = new() { Text = "Write without upload" };
+        item.Clicked += async (s, e) =>
+        {
+            var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+            if (
+                ViewModel != null
+                && NoteItem.GetNotesByParent(dataRealm, BusinessObject.EntityType, BusinessObject.Id).LastOrDefault()
+                    is NoteItem latest
+            )
+            {
+                await dataRealm.CommitAsync(() => latest.Content += ViewModel.NoteDraft.Draft);
+            }
+        };
+
+        MenuFlyout menu = [item];
+        FlyoutBase.SetContextFlyout(this, menu);
     }
 }

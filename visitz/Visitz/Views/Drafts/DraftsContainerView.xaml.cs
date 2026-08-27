@@ -1,23 +1,34 @@
-using Visitz.Views.SplitView;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Drafts;
 
-public partial class DraftsContainerView : SplitLayoutView
+public partial class DraftsContainerView : ViewModelContentView<DraftsContainerViewModel>
 {
-    static IView StartView;
-    static IView EndView;
+    bool _disposed;
+
+    readonly DraftsList _draftsList;
 
     public DraftsContainerView()
+        : base(ServiceProvider.GetService<DraftsContainerViewModel>())
     {
         InitializeComponent();
 
-        StartPaneColumnWidth = GridLength.Auto;
-        StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
+        BindingContext = ViewModel;
 
-        StartView ??= ServiceProvider.GetService<DraftsMasterList>();
-        SetStartPane(StartView);
+        _draftsList = ServiceProvider.GetService<DraftsList>();
 
-        EndView ??= ServiceProvider.GetService<DraftsList>();
-        SetEndPane(EndView);
+        MainContent.Content = _draftsList;
+
+        ViewModel.DraftsListViewModel = _draftsList.ViewModel;
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (!_disposed && disposing)
+        {
+            _draftsList.Dispose();
+            _disposed = true;
+        }
+        base.Dispose(disposing);
     }
 }

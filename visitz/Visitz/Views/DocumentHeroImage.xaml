@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView
-	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:views="clr-namespace:Visitz.Views"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.DocumentHeroImage"
-	x:DataType="views:DocumentHeroImage"
-	MaximumHeightRequest="{Static views:DocumentHeroImage.MaximumSize}"
-	MaximumWidthRequest="{Static views:DocumentHeroImage.MaximumSize}">
-	
+    x:DataType="views:DocumentHeroImage"
+    MaximumHeightRequest="{Static views:DocumentHeroImage.MaximumSize}"
+    MaximumWidthRequest="{Static views:DocumentHeroImage.MaximumSize}"
+>
     <AbsoluteLayout>
-		<Image
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="0.5,0.5"
-			MaximumHeightRequest="{Static views:DocumentHeroImage.MaximumSize}"
-			MaximumWidthRequest="{Static views:DocumentHeroImage.MaximumSize}"
-			Source="tilted_rectangle_bg.png" />
-		
-		<Image
-			AbsoluteLayout.LayoutFlags="PositionProportional"
-			AbsoluteLayout.LayoutBounds="0.5,0.5"
-			MaximumHeightRequest="{Static views:DocumentHeroImage.MaximumSize}"
-			MaximumWidthRequest="{Static views:DocumentHeroImage.MaximumSize}"
-			Source="file_folder.png" />
-	</AbsoluteLayout>
+        <Image
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            MaximumHeightRequest="{Static views:DocumentHeroImage.MaximumSize}"
+            MaximumWidthRequest="{Static views:DocumentHeroImage.MaximumSize}"
+            Source="tilted_rectangle_bg.png"
+        />
+
+        <Image
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            MaximumHeightRequest="{Static views:DocumentHeroImage.MaximumSize}"
+            MaximumWidthRequest="{Static views:DocumentHeroImage.MaximumSize}"
+            Source="file_folder.png"
+        />
+    </AbsoluteLayout>
 </ContentView>

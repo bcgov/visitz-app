@@ -5,9 +5,15 @@ namespace Visitz.Extensions;
 
 public static class ILoggerExtensions
 {
+#if DEBUG
     static int TraceCount;
+#endif
 
-    public static void TraceMethod<T>(this ILogger<T> logger, object instance, [CallerMemberName] string callerName = "")
+    public static void TraceMethod<T>(
+        this ILogger<T> logger,
+        object instance,
+        [CallerMemberName] string callerName = ""
+    )
     {
         TraceMethod((ILogger)logger, instance, callerName);
     }
@@ -16,7 +22,8 @@ public static class ILoggerExtensions
         this ILogger logger,
         object instance,
         string message = "",
-        [CallerMemberName] string callerName = "")
+        [CallerMemberName] string callerName = ""
+    )
     {
 #if DEBUG
         logger.LogTrace(
@@ -24,7 +31,13 @@ public static class ILoggerExtensions
             TraceCount++,
             instance.GetType().Name,
             callerName,
-            message);
+            message
+        );
 #endif
+    }
+
+    public static void LogError<T>(this ILogger<T> logger, Exception exception)
+    {
+        logger.LogError(exception, exception.Message);
     }
 }

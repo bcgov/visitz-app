@@ -1,87 +1,92 @@
-using CommunityToolkit.Mvvm.Messaging;
-using Visitz.Views.Entity;
-using Visitz.Views.Entity.Navigation;
-using Visitz.Views.SplitView;
-using VisitzModel.Messaging;
-using VisitzModel.Models.Caseload;
-using VisitzModel.Models.Drafts;
-using VisitzModel.Models.Navigation;
+using CommunityToolkit.Maui.Core.Platform;
+using Visitz.Views.BaseClasses;
 
 namespace Visitz.Views.Caseload;
 
-public partial class CaseloadContainerView : SplitLayoutView
+public partial class CaseloadContainerView : ViewModelContentView<CaseloadContainerViewModel>
 {
-    static IView CaseloadView;
-    static IView CaseloadDetailView;
+    readonly Task<CaseloadListView> _loadListView;
 
-    public CaseloadContainerView()
+    public CaseloadContainerView(CaseloadContainerViewModel viewModel)
+        : base(viewModel)
     {
         InitializeComponent();
+        BindingContext = ViewModel;
+
+        _loadListView = InitListView();
+
+        for (int i = 0; i < 25; i++)
+            CustomShimmerContainer.Add(new CaseloadItemShimmerStencil());
     }
 
-    protected override async Task InitAsync()
+    static async Task<CaseloadListView> InitListView()
     {
-        await base.InitAsync();
+        CaseloadListView listView = ServiceProvider.GetService<CaseloadListView>();
 
-        StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
-        StartPane.MinimumWidthRequest = SplitLayoutDimensions.MinimumStartPaneWidth;
+        await listView.StartInitAsync();
+        listView.Opacity = 0.0d;
 
-        RegisterReceivers();
+        return listView;
+    }
 
-        CaseloadView ??= ServiceProvider.GetService<CaseloadView>();
-        CaseloadDetailView ??= ServiceProvider.GetService<CaseloadDetailView>();
+    protected override async Task OnFirstLoadAsync()
+    {
+        await base.OnFirstLoadAsync();
 
-        NavigateBack();
+        CaseloadListView listView = await _loadListView;
+        ViewModel.ListViewModel = listView.ViewModel;
+        listView.ViewModel.SelectedOfficeFilter = ViewModel.SelectedOffice;
+        listView.ViewModel.SelectedFilter = ViewModel.SelectedFilter;
+        listView.ViewModel.SelectedSort = ViewModel.SelectedSort;
+
+        MainGrid.Add(listView, 0, 1);
+
+        await Task.WhenAll(
+            listView.FadeToAsync(1.0d, easing: Easing.Linear),
+            LoadingShimmer.FadeToAsync(0.0d, easing: Easing.Linear)
+        );
+        LoadingShimmer.IsVisible = false;
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
         {
-            StrongReferenceMessenger.Default.UnregisterAll(this);
             disposed = true;
         }
 
         base.Dispose(disposing);
     }
 
-    private void RegisterReceivers()
+    void SearchActionButton_Clicked(object? sender, EventArgs e)
     {
-        StrongReferenceMessenger.Default.Register<BusinessObjectSelectedMessage>(this, (recipient, message) =>
-        {
-            (recipient as CaseloadContainerView).OpenBusinessObject(message);
-        });
-
-        StrongReferenceMessenger.Default.Register<EntityNavBackMessage>(this, (recipient, message) =>
-        {
-            (recipient as CaseloadContainerView).NavigateBack();
-        });
+        ViewModel.ShowSearchBar = true;
+        CaseloadSearchBar.Focus();
     }
 
-    private void OpenBusinessObject(BusinessObjectSelectedMessage message)
+#if MACCATALYST
+    void CaseloadSearchBar_SearchButtonPressed(object? sender, EventArgs e)
+#else
+    async void CaseloadSearchBar_SearchButtonPressed(object? sender, EventArgs e)
+#endif
     {
-        IBusinessObject item = message.Value;
-        EntitySection section = message.Section;
-        IDraftItem draftItem = message.DraftItem;
+        ViewModel.SearchByQuery();
 
-        var containerView = ServiceProvider.GetService<EntityContainerView>();
-        containerView.BusinessObject = item;
-        SetEndPane(containerView);
-
-        var entityNav = ServiceProvider.GetService<EntityNavView>();
-        entityNav.BusinessObject = item;
-        entityNav.SetRequestedSection(section, draftItem);
-        SetStartPane(entityNav);
-
-        StartPaneColumnWidth = GridLength.Auto;
+#if !MACCATALYST
+        await CaseloadSearchBar.HideKeyboardAsync(CancellationToken.None);
+#endif
     }
 
-    private void NavigateBack()
+    void CaseloadSearchBar_TextChanged(object? sender, TextChangedEventArgs e)
     {
-        SetStartPane(CaseloadView);
-        SetEndPane(CaseloadDetailView);
+        ViewModel.SearchByQuery();
+    }
 
-        StartPaneColumnWidth = SplitLayoutDimensions.StartPaneCaseloadViewLength;
+    void CaseloadSearchBar_Unfocused(object? sender, FocusEventArgs e)
+    {
+        if (ViewModel.SearchQuery.Length <= 0)
+            ViewModel.ShowSearchBar = false;
     }
 }

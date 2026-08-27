@@ -5,31 +5,29 @@ using VisitzModel.Models.EntityTypes;
 
 namespace Visitz.Views.TagViews;
 
-#nullable enable
-
 public class EntityTypeBadge : TagView
 {
-    public static readonly BindableProperty EntityTypeProperty =
-        BindableProperty.Create(
-            nameof(EntityType),
-            typeof(EntityType),
-            typeof(EntityTypeBadge),
-            propertyChanged: (bound, _, _) =>
-            {
-                if (bound is EntityTypeBadge badge)
-                    badge.ApplyEntityTypes();
-            });
+    public static readonly BindableProperty EntityTypeProperty = BindableProperty.Create(
+        nameof(EntityType),
+        typeof(EntityType),
+        typeof(EntityTypeBadge),
+        propertyChanged: (bound, _, _) =>
+        {
+            if (bound is EntityTypeBadge badge)
+                badge.ApplyEntityTypes();
+        }
+    );
 
-    public static readonly BindableProperty EntitySubtypeProperty =
-        BindableProperty.Create(
-            nameof(EntitySubtype),
-            typeof(EntitySubtype),
-            typeof(EntityTypeBadge),
-            propertyChanged: (bound, _, _) =>
-            {
-                if (bound is EntityTypeBadge badge)
-                    badge.ApplyEntityTypes();
-            });
+    public static readonly BindableProperty EntitySubtypeProperty = BindableProperty.Create(
+        nameof(EntitySubtype),
+        typeof(EntitySubtype),
+        typeof(EntityTypeBadge),
+        propertyChanged: (bound, _, _) =>
+        {
+            if (bound is EntityTypeBadge badge)
+                badge.ApplyEntityTypes();
+        }
+    );
 
     public EntityType EntityType
     {

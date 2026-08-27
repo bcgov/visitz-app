@@ -3,8 +3,6 @@ using VisitzApi.Models.Base;
 
 namespace VisitzApi.Models.SafetyAssess;
 
-#nullable enable
-
 public class GetSafetyAsessmentJson : BaseRecordJson
 {
     public class ChildContacts

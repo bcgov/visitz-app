@@ -1,19 +1,22 @@
+using System.Collections.Concurrent;
 using Visitz.Services.Base;
 using Visitz.Services.Messages;
 using Visitz.Storage;
 using VisitzApi;
+using VisitzApi.Models.Attachments;
 using VisitzApi.Requests;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Storage;
 
 namespace Visitz.Services.Attachments;
 
-#nullable enable
-
 internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPaginationService(vpi, prefs)
 {
     RecordServiceInfo Info => (RecordServiceInfo)Payload;
+
+    readonly ConcurrentBag<AttachmentJson> _attachments = [];
 
     public static string MakeId(EntityType type, string id)
     {
@@ -35,19 +38,19 @@ internal class GetAttachmentsService(Vpi vpi, LastUpdatedPrefs prefs) : ApiPagin
         return MakeId(Info.Type, Info.Id);
     }
 
-    override protected async Task<int> RunPaginatedService(Pagination pagination)
+    protected override async Task<int> RunPageInParallelAsync(Pagination pagination)
     {
-        pagination.PageSize = 5; // FIXME Temporary stop-gap fix only for downloading Attachment rows.
-        // Remove this once upstream data row issues have been fixed or a workaround is found.
+        var (total, attachments) = await Vpi.GetAttachmentsAsync((ApiRecordType)Info.Type, Info.Id, pagination);
 
-        var (total, attachments) = await Vpi.GetAttachmentsAsync(
-            (ApiRecordType)Info.Type,
-            Info.Id,
-            pagination);
-
-        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
-            await Attachment.SaveAttachmentsAsync(realm, attachments, Info.Id, Info.Type));
+        _attachments.AddAll(attachments);
 
         return total;
+    }
+
+    protected override async Task AfterRun()
+    {
+        await VisitzRealms.EnqueueIcmDataActionAsync(async realm =>
+            await Attachment.SynchronizeAsync(realm, _attachments, Info.Id, Info.Type)
+        );
     }
 }

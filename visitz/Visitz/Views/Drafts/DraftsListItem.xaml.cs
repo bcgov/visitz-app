@@ -1,40 +1,69 @@
 using Microsoft.Extensions.Logging;
-using Visitz.Services;
+using Visitz.FontIcons;
 using Visitz.Services.Base;
+using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Models.Interfaces;
+using VisitzModel.Models.Attachments;
+using VisitzModel.Models.Caseload;
+using VisitzModel.Models.Drafts;
+using VisitzModel.Models.InPersonVisits;
+using VisitzModel.Models.Notes;
+using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
 
-#nullable enable
-
 public partial class DraftsListItem : BaseContentView
 {
-    readonly ServiceHandler serviceHandler = ServiceProvider.GetService<ServiceHandler>();
+    readonly ServiceActivityListener _activityListener = new();
 
-    IRecordInfo? Previous { get; set; }
+    public DraftsListItem()
+    {
+        InitializeComponent();
+        _activityListener.Started += ActivityListener_Started;
+        _activityListener.Stopped += ActivityListener_Stopped;
+    }
 
-	public DraftsListItem()
-	{
-		InitializeComponent();
-
-        serviceHandler.ServiceStarted += ServiceHandler_ServiceStarted;
-        serviceHandler.ServiceFinished += ServiceHandler_ServiceFinished;
-	}
-
-    protected override void OnBindingContextChanged()
+    protected override async void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
+
+        if (BindingContext is IDraftItem item)
+        {
+            Icon.Text = GetIconGlyph(item);
+
+            using var realm = await VisitzRealms.GetIcmDataRealmAsync();
+            if (item.GetRelatedBusinessObjectFrom(realm) is IBusinessObject record)
+                _activityListener.RegisterForMessages(record);
+        }
+        else
+        {
+            Icon.Text = string.Empty;
+            _activityListener.UnregisterFromMessages();
+        }
 
         UpdateDownloadActivityIndicator();
     }
 
-    private void ServiceHandler_ServiceFinished(object? sender, VisitzService e)
+    static string GetIconGlyph(IDraftItem item)
+    {
+        if (item is PersonVisitDraft)
+            return MaterialIcons.Person_pin_circle;
+        else if (item is NoteDraft)
+            return MaterialIcons.Edit_document;
+        else if (item is AssessmentDraft)
+            return MaterialIcons.Assignment;
+        else if (item is AttachmentDraft)
+            return MaterialIcons.Attachment;
+        else
+            return MaterialIcons.Unknown_document;
+    }
+
+    void ActivityListener_Started(object? sender, EventArgs e)
     {
         MainThread.BeginInvokeOnMainThread(UpdateDownloadActivityIndicator);
     }
 
-    private void ServiceHandler_ServiceStarted(object? sender, string e)
+    void ActivityListener_Stopped(object? sender, EventArgs e)
     {
         MainThread.BeginInvokeOnMainThread(UpdateDownloadActivityIndicator);
     }
@@ -43,11 +72,8 @@ public partial class DraftsListItem : BaseContentView
     {
         try
         {
-            bool isRunning = BindingContext is IRecordInfo info
-                && serviceHandler.IsAnyServiceRunning(info.RelatedEntityId);
-
-            DownloadActivity.IsRunning = isRunning;
-            DownloadActivity.IsVisible = isRunning;
+            DownloadActivity.IsRunning = _activityListener.HasActivity;
+            DownloadActivity.IsVisible = _activityListener.HasActivity;
         }
         catch (Exception ex)
         {

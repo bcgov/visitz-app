@@ -1,59 +1,54 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Realms;
-using System.Collections.ObjectModel;
-using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
 using VisitzModel.Models;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.SupportNetwork;
 
-#nullable enable
-
-internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessObjectHolder
+public partial class SupportNetworkListViewModel : IcmRecordViewModel
 {
     private bool _disposed;
 
     readonly ObservableRealmQueryMap realmQuery = new();
 
     [ObservableProperty]
-    public ObservableCollection<SupportNetworkItemUi> supportNetworksList = [];
+    public partial ObservableCollection<SupportNetworkItemUi> SupportNetworksList { get; set; } = [];
 
     [ObservableProperty]
-    public IBusinessObject? businessObject;
-
-    [ObservableProperty]
-    public bool showEmptyIcon;
+    public partial bool ShowEmptyIcon { get; set; }
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        Realm icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
-        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
+        if (DataRealm == null)
+            return;
 
-        if (BusinessObject != null)
-        {
-            realmQuery.Subscribe(icmDataRealm,
-                SupportNetworkItem.GetSupportNetworkByCaseId(icmDataRealm, BusinessObject.Id));
-        }
+        realmQuery.ItemsChanged += RealmQuery_ItemsChanged;
+        realmQuery.Subscribe(
+            DataRealm,
+            SupportNetworkItem.GetByParentIdType(DataRealm, BusinessObject.Id, BusinessObject.EntityType)
+        );
     }
 
-    private void RealmQuery_ItemsChanged(object? sender, (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    private void RealmQuery_ItemsChanged(
+        object? sender,
+        (Type Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e
+    )
     {
         if (e.Type == typeof(SupportNetworkItem))
             UpdateSupportNetworkList(e.Items, e.Changes);
     }
 
-    private void UpdateSupportNetworkList(IRealmCollection<IRealmObject> items, ChangeSet changes)
+    private void UpdateSupportNetworkList(IRealmCollection<IRealmObject> items, ChangeSet? changes)
     {
         if (changes == null)
         {
             foreach (var item in items)
-                SupportNetworksList.Add(new SupportNetworkItemUi(item as SupportNetworkItem));
+                SupportNetworksList.Add(new SupportNetworkItemUi((SupportNetworkItem)item));
         }
         else
         {
@@ -61,7 +56,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessO
                 SupportNetworksList.RemoveAt(deleted);
 
             foreach (int inserted in changes.InsertedIndices)
-                SupportNetworksList.Insert(inserted, new SupportNetworkItemUi(items[inserted] as SupportNetworkItem));
+                SupportNetworksList.Insert(inserted, new SupportNetworkItemUi((SupportNetworkItem)items[inserted]));
         }
 
         ShowEmptyIcon = SupportNetworksList.Count <= 0;
@@ -79,6 +74,7 @@ internal partial class SupportNetworkListViewModel : VisitzViewModel, IBusinessO
         {
             realmQuery.ItemsChanged -= RealmQuery_ItemsChanged;
             realmQuery.Dispose();
+            SupportNetworksList.Clear();
             _disposed = true;
         }
         base.Dispose(disposing);

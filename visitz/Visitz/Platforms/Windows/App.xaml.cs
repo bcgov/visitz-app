@@ -2,14 +2,16 @@
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Handlers.Items;
+using Microsoft.Maui.Handlers;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Oidc.WinWorkaround;
+using Visitz.Controls;
 using Visitz.Platforms.Windows.Visitz;
 using Visitz.Views.WebViewer;
 using VisitzModel.Platforms.Windows.Logging;
 using WebAuthenticator = Oidc.WinWorkaround.WebAuthenticator;
-
-#nullable enable
 
 namespace Visitz.WinUI;
 
@@ -41,6 +43,30 @@ public partial class App : MauiWinUIApplication
         }
 
         HandleOAuthRedirect();
+
+        SetupMappers();
+    }
+
+    private static void SetupMappers()
+    {
+        // https://github.com/dotnet/maui/issues/16066#issuecomment-2058487452
+
+        CollectionViewHandler.Mapper.AppendToMapping(
+            "DisableMultiselectCheckbox",
+            (handler, view) =>
+            {
+                handler.PlatformView.IsMultiSelectCheckBoxEnabled = false;
+            }
+        );
+
+        LabelHandler.Mapper.AppendToMapping(
+            nameof(SelectableLabel),
+            (handler, view) =>
+            {
+                if (view is SelectableLabel && handler.PlatformView is TextBlock textBlock)
+                    textBlock.IsTextSelectionEnabled = true;
+            }
+        );
     }
 
     private bool HandleOAuthRedirect()
@@ -69,18 +95,15 @@ public partial class App : MauiWinUIApplication
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 
-    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    private void App_UnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         WriteExceptionToEventViewer(e.Exception);
     }
 
     private void WriteExceptionToEventViewer(Exception exception)
     {
-        EventLogWriter.WriteEntry(
-            LogLevel.Error,
-            exception.Message,
-            GetType().FullName,
-            exception: exception);
+        string category = GetType()?.FullName ?? typeof(App).FullName ?? "<NULL CATEGORY>";
+        EventLogWriter.WriteEntry(LogLevel.Error, exception.Message, category, exception: exception);
     }
 
     private async void WebAuthenticator_PromptForCredentials(object? sender, InvokingAuthEventArgs e)

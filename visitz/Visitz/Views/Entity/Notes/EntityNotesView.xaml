@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<baseClasses:ViewModelContentView 
+<baseClasses:IcmRecordContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:baseClasses="clr-namespace:Visitz.Views.BaseClasses"
@@ -9,44 +9,16 @@
     xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:models="clr-namespace:VisitzModel.Models.Notes;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.Notes.EntityNotesView"
-    x:DataType="notes:EntityNotesViewModel">
-
-    <StackLayout Orientation="Vertical">
-        
-        <AbsoluteLayout VerticalOptions="FillAndExpand">
-            <VerticalStackLayout 
+    x:DataType="notes:EntityNotesViewModel"
+    x:TypeArguments="notes:EntityNotesViewModel"
+>
+    <Grid RowDefinitions="*, 0.5, Auto">
+        <AbsoluteLayout Grid.Row="0" VerticalOptions="Fill">
+            <controls:EmptyIcon
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 AbsoluteLayout.LayoutBounds="0.5,0.5"
-                IsVisible="{Binding IsNotesEmtpy}">
-
-                <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer 
-                        Command="{Binding AddNoteCommand}" 
-                        CommandParameter="{Binding .}"/>
-                </VerticalStackLayout.GestureRecognizers>
-
-                <controls:EmptyIcon />
-
-                <!-- TapGestureRecognizer isn't working in this instance, so hide the prompt for now.
-                    TODO: Get taps working here so we can show this prompt. -->
-                <HorizontalStackLayout 
-                    IsVisible="False"
-                    HorizontalOptions="Center"
-                    Spacing="5">
-                    <Label
-                        VerticalOptions="Center"
-                        FontSize="16"
-                        TextColor="{StaticResource SkyBlueText}"
-                        Text="Add notes" />
-
-                    <Label 
-                        VerticalOptions="Center"
-                        FontFamily="MaterialIconsRoundedUnfilled"
-                        FontSize="28"
-                        TextColor="{StaticResource SkyBlueText}"
-                        Text="{Static icons:MaterialIcons.Add_notes}" />
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
+                IsVisible="{Binding IsNotesEmtpy}"
+            />
 
             <CollectionView
                 AbsoluteLayout.LayoutFlags="All"
@@ -56,22 +28,18 @@
                 IsGrouped="True"
                 ItemsUpdatingScrollMode="KeepScrollOffset"
                 ItemsSource="{Binding Notes}"
-                ItemSizingStrategy="MeasureAllItems">
-
+                ItemSizingStrategy="MeasureAllItems"
+            >
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="models:NoteItemGroup">
-                        
-                        <!-- Fonts in Windows seem to have extra padding -->
-                        <ContentView 
-                            Padding="{OnPlatform WinUI='0', Default='10'}">
-                            
+                        <ContentView Padding="{OnPlatform WinUI='0', Default='10'}">
                             <Label
                                 VerticalOptions="Center"
                                 VerticalTextAlignment="Center"
-                                Text="{Binding Name}" 
-                                FontFamily="BCSansBold" 
-                                Padding="0"
-                                FontSize="20" />
+                                Text="{Binding Name}"
+                                FontFamily="BCSansBold"
+                                FontSize="{StaticResource TitleLargeFontSize}"
+                            />
                         </ContentView>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
@@ -79,46 +47,43 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:NoteItem">
                         <ContentView>
-                            <Label
-                                Margin="10,0,10,0"
-                                Text="{Binding Content}" />
+                            <controls:SelectableLabel
+                                Margin="10,0"
+                                Text="{Binding ContentBinding}"
+                                TextColor="{StaticResource BC_TextColor}"
+                            />
                         </ContentView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-
             </CollectionView>
         </AbsoluteLayout>
 
-        <BoxView 
-            Color="{StaticResource SeparatorColor}"
-            HeightRequest="0.5" />
+        <BoxView Grid.Row="1" Color="{StaticResource SeparatorColor}" HeightRequest="0.5" />
 
-        <Grid 
-            Padding="10"
-            RowDefinitions="Auto"
-            ColumnDefinitions="Auto,*,Auto">
-            
+        <Grid Grid.Row="2" Padding="10" RowDefinitions="Auto" ColumnDefinitions="Auto,*,Auto">
             <!-- TODO: Unhide this search button once notes search is implemented. -->
-            <Button 
+            <Button
                 IsVisible="False"
                 Grid.Column="0"
                 Style="{StaticResource MinimalButton}"
                 FontSize="20"
                 FontFamily="MaterialIconsRoundedUnfilled"
-                Text="{Static icons:MaterialIcons.Search}" />
+                Text="{Static icons:MaterialIcons.Search}"
+            />
 
-            <Button 
+            <Button
                 Grid.Column="2"
                 Text="{Binding OpenNoteEntryText, TargetNullValue={local:Localize AddNotes}}"
-                Command="{Binding AddNoteCommand}">
+                Command="{Binding AddNoteCommand}"
+            >
                 <Button.ImageSource>
-                    <FontImageSource 
-                        Glyph="{Static icons:MaterialIcons.Edit}"
+                    <FontImageSource
+                        Glyph="{Binding OpenNoteEntryIconGlyph}"
                         FontFamily="MaterialIconsRoundedUnfilled"
-                        Size="20"/>
+                        Size="20"
+                    />
                 </Button.ImageSource>
             </Button>
         </Grid>
-        
-    </StackLayout>
-</baseClasses:ViewModelContentView>
+    </Grid>
+</baseClasses:IcmRecordContentView>

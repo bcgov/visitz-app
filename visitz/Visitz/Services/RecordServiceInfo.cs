@@ -1,3 +1,4 @@
+using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.EntityTypes;
 
@@ -9,8 +10,8 @@ internal class RecordServiceInfo(
     string id,
     string fileNumber,
     string firstName,
-    string lastName)
-    : IEquatable<RecordServiceInfo>
+    string lastName
+) : IEquatable<RecordServiceInfo>
 {
     public EntityType Type { get; } = type;
 
@@ -24,22 +25,22 @@ internal class RecordServiceInfo(
 
     public string LastName { get; } = lastName;
 
-    public RecordServiceInfo(IBusinessObject record) : this(
+    public RecordServiceInfo(IBusinessObject record)
+        : this(
             record.EntityType,
             record.EntitySubtype,
             record.Id,
             record.FileNumber,
             record.GivenNames,
-            record.LastName)
-    { }
+            record.LastName
+        ) { }
 
-    public bool Equals(RecordServiceInfo other)
+    public bool Equals(RecordServiceInfo? other)
     {
-        return Type == other.Type
-            && Id == other.Id;
+        return Type == other?.Type && Id == other?.Id;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         return obj is RecordServiceInfo info ? Equals(info) : base.Equals(obj);
     }
@@ -48,17 +49,16 @@ internal class RecordServiceInfo(
     {
         return Type.GetHashCode() * Id.GetHashCode();
     }
-}
 
-internal static class RecordServiceInfoExtensions
-{
-    public static Exception CombineIntoException(this List<ApiRangeItemException<RecordServiceInfo>> list)
+    public override string ToString()
     {
-        var outString = list.Select(ex =>
+        try
         {
-            return $"• {ex.Item.Type} {ex.Item.FileNumber} -> {ex.Message}";
-        }).Aggregate((accum, item) => accum + Environment.NewLine + item);
-
-        return new Exception(outString);
+            return $"{Subtype.GetDisplayInitials()} {Type} {FileNumber} {LastName}, {FirstName}";
+        }
+        catch
+        {
+            return $"{Type} {FileNumber} {LastName}, {FirstName}";
+        }
     }
 }

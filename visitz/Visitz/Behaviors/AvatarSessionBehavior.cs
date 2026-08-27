@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Views;
 using Oidc;
 using Oidc.Events;
 
@@ -6,7 +6,7 @@ namespace Visitz.Behaviors;
 
 internal class AvatarSessionBehavior : Behavior<AvatarView>
 {
-    private AvatarView _avatarView;
+    private AvatarView? _avatarView;
 
     protected override async void OnAttachedTo(AvatarView bindable)
     {
@@ -24,7 +24,7 @@ internal class AvatarSessionBehavior : Behavior<AvatarView>
         base.OnDetachingFrom(bindable);
     }
 
-    private async void VisitzSession_SessionChanged(object sender, SessionChangedEventArgs e)
+    private async void VisitzSession_SessionChanged(object? sender, SessionChangedEventArgs e)
     {
         await SetInitials();
     }
@@ -33,6 +33,6 @@ internal class AvatarSessionBehavior : Behavior<AvatarView>
     {
         var info = await OidcSessionInfo.GetAsync();
 
-        _avatarView.Text = info.UserInitials ?? "--";
+        _avatarView?.Text = info.UserInitials ?? "--";
     }
 }

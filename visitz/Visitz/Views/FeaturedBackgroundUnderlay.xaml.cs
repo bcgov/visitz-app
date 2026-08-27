@@ -15,19 +15,21 @@ public partial class FeaturedBackgroundUnderlay : BaseContentView
     private static readonly double ClearOpacity = 0.0;
     private static readonly double TextReadableOpacity = 0.35;
 
-    public static readonly BindableProperty ImageDisplayOptionsProperty =
-        BindableProperty.Create(nameof(ImageDisplayOptions), typeof(DisplayOptions),
-            typeof(FeaturedBackgroundUnderlay), DisplayOptions.Clear,
-            propertyChanged: (boundObj, oldVal, newVal) =>
-            {
-                var featuredBg = (FeaturedBackgroundUnderlay)boundObj;
-                var newDisplayOptions = (DisplayOptions)newVal;
+    public static readonly BindableProperty ImageDisplayOptionsProperty = BindableProperty.Create(
+        nameof(ImageDisplayOptions),
+        typeof(DisplayOptions),
+        typeof(FeaturedBackgroundUnderlay),
+        DisplayOptions.Clear,
+        propertyChanged: (boundObj, oldVal, newVal) =>
+        {
+            var featuredBg = (FeaturedBackgroundUnderlay)boundObj;
+            var newDisplayOptions = (DisplayOptions)newVal;
 
-                var opacity = newDisplayOptions.Equals(DisplayOptions.TextReadable)
-                    ? TextReadableOpacity : ClearOpacity;
+            var opacity = newDisplayOptions.Equals(DisplayOptions.TextReadable) ? TextReadableOpacity : ClearOpacity;
 
-                featuredBg.OverlayBoxView.Opacity = opacity;
-            });
+            featuredBg.OverlayBoxView.Opacity = opacity;
+        }
+    );
 
     public DisplayOptions ImageDisplayOptions { get; set; }
 
@@ -36,12 +38,10 @@ public partial class FeaturedBackgroundUnderlay : BaseContentView
         InitializeComponent();
     }
 
-    protected override Task InitAsync()
+    protected override async Task InitAsync()
     {
-        base.InitAsync();
+        await base.InitAsync();
 
         FeatureImage.Source = BcGovAlbum.GetFeaturedPictureUri();
-
-        return Task.CompletedTask;
     }
 }

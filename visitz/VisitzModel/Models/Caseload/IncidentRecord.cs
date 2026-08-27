@@ -1,11 +1,11 @@
-using Realms;
 using System.Globalization;
-using System.Linq;
+using Realms;
 using VisitzApi.Models.Caseload;
 using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
+using VisitzModel.Models.CallDetails;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -16,130 +16,135 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.Caseload;
 
-public partial class IncidentRecord :
-    IRealmObject,
-    IRowMetadata,
-    IBusinessObject,
-    IAssignedMetadata,
-    IApiJson<IncidentJson>
+public partial class IncidentRecord
+    : IRealmObject,
+        IRowMetadata,
+        IBusinessObject,
+        IAssignedMetadata,
+        IApiJson<IncidentJson>
 {
     [PrimaryKey]
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; } = string.Empty;
 
-    public string CreatedById { get; set; }
+    public string CreatedById { get; set; } = string.Empty;
 
-    public string UpdatedBy { get; set; }
+    public string UpdatedBy { get; set; } = string.Empty;
 
-    public string UpdatedById { get; set; }
+    public string UpdatedById { get; set; } = string.Empty;
 
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public DateTimeOffset UpdatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
 
-    public string FileNumber { get; set; }
+    public string FileNumber { get; set; } = string.Empty;
 
     public EntityType EntityType => EntityType.Incident;
 
-    public string GivenNames { get; set; }
+    public string GivenNames { get; set; } = string.Empty;
 
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
-    public string AssignedTo { get; set; }
+    public string AssignedTo { get; set; } = string.Empty;
 
-    public string AssignedToId { get; set; }
+    public string AssignedToId { get; set; } = string.Empty;
 
-    public IList<string> Assignees { get; }
+    public IList<string> Assignees { get; } = null!;
 
-    public string DisplayAssignees => Assignees.Any()
-        ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)
-        : AssignedTo;
+    public string DisplayAssignees =>
+        Assignees.Any()
+            ? Assignees.Order().Aggregate((acc, assigned) => acc + Environment.NewLine + assigned)
+            : AssignedTo;
 
-    public string AddressComments { get; set; }
+    public string AddressComments { get; set; } = string.Empty;
 
-    public string Address { get; set; }
+    public string Address { get; set; } = string.Empty;
 
-    public string AreAnyOfTheFamilyMembersIndigenous { get; set; }
+    public string AreAnyOfTheFamilyMembersIndigenous { get; set; } = string.Empty;
 
-    public string CallerAddress { get; set; }
+    public string CallerAddress { get; set; } = string.Empty;
 
-    public string CallerEmail { get; set; }
+    public string CallerEmail { get; set; } = string.Empty;
 
-    public string CallerName { get; set; }
+    public string CallerName { get; set; } = string.Empty;
 
-    public string CallerPhone { get; set; }
+    public string CallerPhone { get; set; } = string.Empty;
 
-    public string Caseload { get; set; }
+    public string Caseload { get; set; } = string.Empty;
 
-    public string CellPhone { get; set; }
+    public string CellPhone { get; set; } = string.Empty;
 
     public DateTimeOffset? ClosedDate { get; set; }
 
-    public string CreatedByOffice { get; set; }
+    public string CreatedByOffice { get; set; } = string.Empty;
 
     public DateTimeOffset? DateReported { get; set; }
 
-    public string HomePhone { get; set; }
+    public string HomePhone { get; set; } = string.Empty;
 
-    public string MedicalExamRequired { get; set; }
+    public string MedicalExamRequired { get; set; } = string.Empty;
 
-    public string Method { get; set; }
+    public string Method { get; set; } = string.Empty;
 
-    public string NatureOfCall { get; set; }
+    public string NatureOfCall { get; set; } = string.Empty;
 
-    public string PccSummary { get; set; }
+    public string PccSummary { get; set; } = string.Empty;
 
-    public string PoliceForce { get; set; }
+    public string PoliceForce { get; set; } = string.Empty;
 
-    public string PoliceInvestigation { get; set; }
+    public string PoliceInvestigation { get; set; } = string.Empty;
 
     public DateTimeOffset? PoliceNotifiedDate { get; set; }
 
-    public string PoliceReportNumber { get; set; }
+    public string PoliceReportNumber { get; set; } = string.Empty;
 
-    public string PreferredContactMethod { get; set; }
+    public string PreferredContactMethod { get; set; } = string.Empty;
 
-    public string ProtectionResponse { get; set; }
+    public string ProtectionResponse { get; set; } = string.Empty;
 
-    public string Resolution { get; set; }
+    public string Resolution { get; set; } = string.Empty;
 
-    public string ResponsePriority { get; set; }
+    public string ResponsePriority { get; set; } = string.Empty;
 
     public bool RestrictedFlag { get; set; }
 
-    public string ServiceOffice { get; set; }
+    public string ServiceOffice { get; set; } = string.Empty;
 
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
-    private int TypeInt { get; set; }
+    internal int TypeInt { get; set; }
     public EntitySubtype EntitySubtype
     {
         get => (EntitySubtype)TypeInt;
         set => TypeInt = (int)value;
     }
 
+    public EntitySubtype EntitySubtypeBinding
+    {
+        get => IsValid ? EntitySubtype : EntitySubtype.Unknown;
+        set
+        {
+            if (!IsValid)
+                return;
+
+            EntitySubtype = value;
+            RaisePropertyChanged(nameof(EntitySubtype));
+        }
+    }
+
     public string EntitySubtypeInitials => EntitySubtype.GetDisplayInitials();
 
-    public string TypeOfCaller { get; set; }
+    public string TypeOfCaller { get; set; } = string.Empty;
 
-    public BoLocalState LocalState { get; set; }
+    public BoLocalState? LocalState { get; set; }
 
-    public string DisplayDate => DateReported?.ToString(
-        IBusinessObject.DisplayDateFormat,
-        CultureInfo.InvariantCulture) ?? "";
-
-    public string DisplayName => this.GetDisplayName();
-
-    public string FullType => this.GetFullType();
-
-    public IQueryable<IcmContact> Contacts => this.GetContacts();
+    public string DisplayDate =>
+        DateReported?.ToString(IBusinessObject.DisplayDateFormat, CultureInfo.InvariantCulture) ?? "";
 
     public IncidentRecord() { }
 
-    public IncidentRecord(
-        IncidentJson json,
-        string currentUsername = null)
+    public IncidentRecord(IncidentJson json, string? currentUsername = null)
     {
         Id = json.Id;
         CreatedBy = json.CreatedBy;
@@ -154,12 +159,10 @@ public partial class IncidentRecord :
         AssignedTo = json.AssignedTo;
         AssignedToId = json.AssignedToId;
 
-        if (!string.IsNullOrWhiteSpace(AssignedTo)
-            && !Assignees.Contains(AssignedTo))
+        if (!string.IsNullOrWhiteSpace(AssignedTo) && !Assignees.Contains(AssignedTo))
             Assignees.Add(AssignedTo);
 
-        if (!string.IsNullOrWhiteSpace(currentUsername)
-            && !Assignees.Contains(currentUsername))
+        if (!string.IsNullOrWhiteSpace(currentUsername) && !Assignees.Contains(currentUsername))
             Assignees.Add(currentUsername);
 
         AddressComments = json.AddressComments;
@@ -219,9 +222,9 @@ public partial class IncidentRecord :
             CallerPhone = CallerPhone,
             Caseload = Caseload,
             CellPhone = CellPhone,
-            ClosedDate = ClosedDate?.ToString(dateFormat),
+            ClosedDate = ClosedDate?.ToString(dateFormat) ?? string.Empty,
             CreatedByOffice = CreatedByOffice,
-            DateReported = DateReported?.ToString(dateFormat),
+            DateReported = DateReported?.ToString(dateFormat) ?? string.Empty,
             HomePhone = HomePhone,
             MedicalExamRequired = MedicalExamRequired,
             Method = Method,
@@ -229,7 +232,7 @@ public partial class IncidentRecord :
             PccSummary = PccSummary,
             PoliceForce = PoliceForce,
             PoliceInvestigation = PoliceInvestigation,
-            PoliceNotifiedDate = PoliceNotifiedDate?.ToString(dateFormat),
+            PoliceNotifiedDate = PoliceNotifiedDate?.ToString(dateFormat) ?? string.Empty,
             PoliceReportNumber = PoliceReportNumber,
             PreferredContactMethod = PreferredContactMethod,
             ProtectionResponse = ProtectionResponse,
@@ -245,7 +248,8 @@ public partial class IncidentRecord :
 
     public static List<IncidentRecord> FromApiJsonArray(
         IEnumerable<IncidentJson> jsonArray,
-        string currentUsername = null)
+        string? currentUsername = null
+    )
     {
         List<IncidentRecord> outList = [];
 
@@ -256,131 +260,80 @@ public partial class IncidentRecord :
         return outList;
     }
 
-    static IEnumerable<IncidentRecord> FilterUnsupportedSubtypes(IEnumerable<IncidentRecord> incidents)
+    public static IEnumerable<TItem> FilterUnsupportedSubtypes<TItem>(IEnumerable<TItem> businessObjects)
+        where TItem : IBusinessObject
     {
-        return incidents.Where(incident => incident.EntitySubtype == EntitySubtype.ChildProtection);
-    }
-
-    public static async Task SynchronizeAsync(
-        Realm realm,
-        IEnumerable<IncidentRecord> newOfficeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        string currentUsername,
-        bool isPersonalCaseload)
-    {
-        if (newOfficeIncidents == null)
-            return;
-
-        bool isOfficeCaseload = !isPersonalCaseload;
-        var incomingIncidents = FilterUnsupportedSubtypes(newOfficeIncidents);
-        var currentAssigned = GetAllByAssignee(realm, currentUsername, isOfficeCaseload).ToList();
-        var unassigned = currentAssigned.Except(incomingIncidents);
-
-        await RealmExtensions.CommitAsync(realm, () =>
-        {
-            CascadeDelete(realm, unassigned, userIgnoredPrefs);
-            foreach (var item in incomingIncidents)
-            {
-                realm.Add(item, update: true);
-                item.UpsertLocalState(realm, markForDownload: isPersonalCaseload);
-            }
-        });
-    }
-
-    public static Task SynchronizeAsync(
-        Realm realm,
-        IEnumerable<IncidentJson> newOfficeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs,
-        string currentUsername,
-        bool isPersonalCaseload)
-    {
-        return SynchronizeAsync(
-            realm,
-            FromApiJsonArray(newOfficeIncidents, currentUsername),
-            userIgnoredPrefs,
-            currentUsername,
-            isPersonalCaseload);
+        return businessObjects.Where(incident =>
+            incident is IncidentRecord && incident.EntitySubtype == EntitySubtype.ChildProtection
+        );
     }
 
     public void DeleteDependentData(
         UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm fromRealm = null,
-        bool deleteLocalState = true)
+        Realm? fromRealm = null,
+        bool deleteLocalState = true
+    )
     {
         fromRealm ??= Realm;
+        ArgumentNullException.ThrowIfNull(fromRealm);
 
-        NoteItem.RemoveByParentFileNumber(fromRealm, EntityType.Incident, FileNumber);
+        NoteItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
         IcmContact.RemoveByParent(fromRealm, EntityType.Incident, Id);
         SupportNetworkItem.RemoveByParent(fromRealm, EntityType.Incident, Id);
         Attachment.RemoveByParent(fromRealm, EntityType.Incident, Id, userIgnoredPrefs);
+        AdditionalInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
+        IncidentConcerns.RemoveByParent(fromRealm, Id);
+        CallInformation.RemoveByParent(fromRealm, EntityType.Incident, Id);
 
-        if (deleteLocalState)
+        if (deleteLocalState && LocalState != null)
             fromRealm.Remove(LocalState);
     }
 
-    public void Delete(UserIgnoredContentPrefs userIgnoredPrefs,
-        Realm fromRealm = null,
-        bool cascade = true,
-        bool deleteLocalState = true)
-    {
-        fromRealm ??= Realm;
-
-        if (cascade)
-            DeleteDependentData(userIgnoredPrefs, fromRealm, deleteLocalState);
-
-        fromRealm.Remove(this);
-    }
-
-    static void CascadeDelete(
-        Realm fromRealm,
-        IEnumerable<IncidentRecord> removeIncidents,
-        UserIgnoredContentPrefs userIgnoredPrefs)
-    {
-        foreach (var incident in removeIncidents)
-            incident.Delete(userIgnoredPrefs, fromRealm);
-    }
-
-    public static IBusinessObject GetByDraftItem(Realm realm, IDraftItem draftItem)
+    public static IBusinessObject? GetByDraftItem(Realm realm, IDraftItem draftItem)
     {
         return realm
             .All<IncidentRecord>()
-            .FirstOrDefault(incident => incident.Id == draftItem.RelatedEntityId
-                        || incident.FileNumber == draftItem.RelatedEntityId);
+            .FirstOrDefault(incident =>
+                incident.Id == draftItem.RelatedEntityId || incident.FileNumber == draftItem.RelatedEntityId
+            );
     }
 
-    public static IQueryable<IncidentRecord> GetAllByAssignee(
-        Realm realm,
-        string username,
-        bool invert = false)
+    public static IQueryable<IncidentRecord> GetAllByAssignee(Realm realm, string username, bool isAssignedTo = true)
     {
-        string operation = invert ? "NONE" : "ANY";
+        return GetAllByAssignee<IncidentRecord>(realm, username, isAssignedTo);
+    }
 
-        return realm
-            .All<IncidentRecord>()
-            .Filter($"$0 == {operation} {nameof(Assignees)}", username);
+    public static IQueryable<TItem> GetAllByAssignee<TItem>(Realm realm, string username, bool isAssignedTo = true)
+        where TItem : IBusinessObject
+    {
+        string operation = isAssignedTo ? "ANY" : "NONE";
+
+        return (IQueryable<TItem>)
+            realm.All<IncidentRecord>().Filter($"$0 == {operation} {nameof(Assignees)}", username);
     }
 
     public bool IsAssigned(string username)
     {
-        return AssignedTo == username || Assignees.Contains(username);
+        return AssignedTo == username || (Assignees?.Contains(username) ?? false);
     }
 
-    public bool Equals(IncidentRecord other)
+    public override bool Equals(object? obj)
     {
-        return other != null
-            && Id == other.Id
-            && EntityType == other.EntityType;
-    }
-
-    public override bool Equals(object obj)
-    {
-        return obj is IncidentRecord info ? Equals(info) : base.Equals(obj);
+        return obj is IBusinessObject info ? ((IBusinessObject)this).Equals(info) : base.Equals(obj);
     }
 
     public override int GetHashCode()
     {
-#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
-        return EntityType.GetHashCode() * Id.GetHashCode();
-#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
+        return ((IBusinessObject)this).MakeHashCode();
+    }
+
+    public void RaisePropertyChangedEvent(string propertyName)
+    {
+        RaisePropertyChanged(propertyName);
+    }
+
+    public override string ToString()
+    {
+        return ((IBusinessObject)this).MakeToString();
     }
 }

@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:Visitz.Views"
-             x:Class="Visitz.Views.InternetInfoView"
-             x:DataType="views:InternetInfoView"
-             IsVisible="{Binding ShouldShowView}">
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.InternetInfoView"
+    x:DataType="views:InternetInfoView"
+    x:Name="self"
+>
+    <HorizontalStackLayout
+        BindingContext="{Reference self}"
+        Spacing="5"
+        IsVisible="{Binding ShouldShowView}"
+    >
+        <Image VerticalOptions="Center" Source="{Binding ImageSource}" />
 
-    <HorizontalStackLayout Spacing="5">
-        
-        <Image
+        <Label
             VerticalOptions="Center"
-            Source="{Binding ImageSource}" />
-        
-        <Label 
-            VerticalOptions="Center" 
             Text="{Binding Message}"
-            TextColor="{Binding Color}" />
-        
+            TextColor="{Binding Color}"
+            IsVisible="{Binding ShowText}"
+        />
     </HorizontalStackLayout>
-    
 </ContentView>

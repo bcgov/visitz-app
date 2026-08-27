@@ -1,13 +1,16 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Realms;
-using System.Collections.ObjectModel;
+using Visitz.Controls;
 using Visitz.Extensions;
+using Visitz.Resources.Localization;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
-using Visitz.Views.Caseload;
+using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 using VisitzModel.Models;
 using VisitzModel.Models.Attachments;
@@ -21,30 +24,73 @@ using VisitzModel.Models.SafetyAssess;
 
 namespace Visitz.Views.Drafts;
 
-internal partial class DraftsListViewModel : VisitzViewModel
+public partial class DraftsListViewModel : VisitzViewModel
 {
     bool _disposed;
 
     [ObservableProperty]
-    public ObservableCollection<IDraftItem> draftItems = [];
+    public partial bool ShowEmptyView { get; set; }
+
+    [ObservableProperty]
+    public partial ObservableCollection<IDraftItem> FilteredItems { get; set; } = [];
+
+    [ObservableProperty]
+    public partial ObservableCollection<IDraftItem> AllDraftItems { get; set; } = [];
+
+    ObservableCollection<AssessmentDraft> AssessmentDrafts { get; set; } = [];
+
+    ObservableCollection<AttachmentDraft> AttachmentDrafts { get; set; } = [];
+
+    ObservableCollection<NoteDraft> NoteDrafts { get; set; } = [];
+
+    ObservableCollection<PersonVisitDraft> VisitDrafts { get; set; } = [];
 
     readonly ObservableRealmQueryMap queryMap = new();
 
-    Realm DataRealm { get; set; }
+    Realm? DataRealm { get; set; }
 
     EntitySection SectionToOpen { get; set; }
 
-    public event EventHandler<IDraftItem> SelectedItemRelatedMissing;
+    public event EventHandler<IDraftItem>? SelectedItemRelatedMissing;
+
+    [ObservableProperty]
+    public partial FilterOption<IDraftItem> SelectedFilter { get; set; } = new(LocalizedStrings.AllTypes, _ => true);
 
     protected override async Task InitAsync()
     {
         await base.InitAsync();
 
-        StrongReferenceMessenger.Default.Register<DraftMasterSelectedMessage>(this, DraftMasterSelected);
-
         DataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
         queryMap.ItemsChanged += QueryMap_ItemsChanged;
+        await SubscribeForDrafts();
+    }
+
+    async Task SubscribeForDrafts()
+    {
+        AllDraftItems.CollectionChanged += AllDraftItems_CollectionChanged;
+
+        Task<Realm> assessmentsTask = VisitzRealms.GetSafetyAssessmentDraftRealmAsync();
+        Task<Realm> attachmentsTask = VisitzRealms.GetAttachmentDraftsRealmAsync();
+        Task<Realm> notesTask = VisitzRealms.GetNoteDraftsRealmAsync();
+        Task<Realm> visitsTask = VisitzRealms.GetPersonVisitDraftsRealmAsync();
+
+        Realm assessmentsRealm = await assessmentsTask;
+        Realm attachmentsRealm = await attachmentsTask;
+        Realm notesRealm = await notesTask;
+        Realm visitsRealm = await visitsTask;
+
+        queryMap.Subscribe(assessmentsRealm, assessmentsRealm.All<AssessmentDraft>());
+        AssessmentDrafts.CollectionChanged += SupportingLists_CollectionChanged;
+
+        queryMap.Subscribe(attachmentsRealm, attachmentsRealm.All<AttachmentDraft>());
+        AttachmentDrafts.CollectionChanged += SupportingLists_CollectionChanged;
+
+        queryMap.Subscribe(notesRealm, notesRealm.All<NoteDraft>());
+        NoteDrafts.CollectionChanged += SupportingLists_CollectionChanged;
+
+        queryMap.Subscribe(visitsRealm, visitsRealm.All<PersonVisitDraft>());
+        VisitDrafts.CollectionChanged += SupportingLists_CollectionChanged;
     }
 
     protected override void Dispose(bool disposing)
@@ -62,68 +108,110 @@ internal partial class DraftsListViewModel : VisitzViewModel
         base.Dispose(disposing);
     }
 
-#pragma warning disable SS001 // Async methods should return a Task to make them awaitable
-    // Ignoring SS001 because this function is used like an EventHandler
-    private async void DraftMasterSelected(object _, DraftMasterSelectedMessage message)
+    private void QueryMap_ItemsChanged(object? _, (Type, IRealmCollection<IRealmObject> Items, ChangeSet? Changes) e)
     {
-        await InitTask;
-
-        queryMap.UnsubscribeAll();
-
-        var (type, realm) = message.Value;
+        Type type = e.Item1;
 
         if (type == typeof(NoteDraft))
-        {
-            SortAndSubscribe(realm, realm.All<NoteDraft>());
-            SectionToOpen = EntitySection.NoteEntry;
-        }
+            UpdateSupportingList(e.Items, e.Changes, NoteDrafts);
         else if (type == typeof(AssessmentDraft))
-        {
-            SortAndSubscribe(realm, realm.All<AssessmentDraft>());
-            SectionToOpen = EntitySection.SafetyAssessmentEntry;
-        }
+            UpdateSupportingList(e.Items, e.Changes, AssessmentDrafts);
         else if (type == typeof(AttachmentDraft))
-        {
-            SortAndSubscribe(realm, realm.All<AttachmentDraft>());
-            SectionToOpen = EntitySection.Attachments;
-        }
+            UpdateSupportingList(e.Items, e.Changes, AttachmentDrafts);
         else if (type == typeof(PersonVisitDraft))
-        {
-            SortAndSubscribe(realm, realm.All<PersonVisitDraft>());
-            SectionToOpen = EntitySection.ChildYouthVisitsEntry;
-        }
+            UpdateSupportingList(e.Items, e.Changes, VisitDrafts);
         else
             throw new InvalidOperationException($"Type {type} not supported in Drafts view.");
-    }
-#pragma warning restore SS001 // Async methods should return a Task to make them awaitable
 
-    private void SortAndSubscribe<T>(Realm realm, IQueryable<T> query) where T : IRealmObject
-    {
-        var sortedQuery = query.Filter($"TRUEPREDICATE SORT({nameof(IDraftItem.LastUpdated)} DESC)");
-        queryMap.Subscribe(realm, sortedQuery);
+        ShowEmptyView = !AllDraftItems.Any();
     }
 
-    private void QueryMap_ItemsChanged(
-        object _,
-        (Type, IRealmCollection<IRealmObject> Items, ChangeSet Changes) e)
+    void UpdateSupportingList<T>(
+        IRealmCollection<IRealmObject> items,
+        ChangeSet? changes,
+        ObservableCollection<T> draftsList
+    )
+        where T : IDraftItem
     {
-        foreach (var draft in DraftItems)
-            draft.Dispose();
-
-        DraftItems.Clear();
-
-        foreach (var item in e.Items)
+        if (changes == null)
         {
-            IDraftItem draftItem = (IDraftItem)item;
-            draftItem.SubscribeRelatedState(DataRealm);
+            draftsList.AddAll(items.Cast<T>());
+        }
+        else
+        {
+            foreach (int deleteIndex in changes.DeletedIndices.Reverse())
+                draftsList.RemoveAt(deleteIndex);
 
-            DraftItems.Add(draftItem);
+            foreach (int insertIndex in changes.InsertedIndices)
+                draftsList.Add((T)items.ElementAt(insertIndex));
+
+            if (changes.NewModifiedIndices.Length > 0)
+                FilteredItems.Sort(ascending: false);
+        }
+    }
+
+    private void SupportingLists_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+        {
+            foreach (var draft in e.NewItems.Cast<IDraftItem>())
+            {
+                draft.SubscribeRelatedState(DataRealm);
+                AllDraftItems.Add(draft);
+            }
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var draft in e.OldItems.Cast<IDraftItem>())
+            {
+                draft.RelatedEntitySubscriptionToken?.Dispose();
+                AllDraftItems.Remove(draft);
+            }
+        }
+    }
+
+    private void AllDraftItems_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
+        {
+            foreach (var draft in e.NewItems.Cast<IDraftItem>())
+            {
+                if (SelectedFilter.WherePredicate(draft))
+                {
+                    draft.SubscribeRelatedState(DataRealm);
+                    FilteredItems.InsertSorted(draft, ascending: false);
+                }
+            }
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
+        {
+            foreach (var draft in e.OldItems.Cast<IDraftItem>())
+            {
+                draft.RelatedEntitySubscriptionToken?.Dispose();
+                FilteredItems.Remove(draft);
+            }
         }
     }
 
     [RelayCommand]
     private async Task DraftItemSelected(IDraftItem draftItem)
     {
+        if (DataRealm == null)
+        {
+            Logger.LogWarning("Realm unexpectedly null");
+            return;
+        }
+
+        Type type = draftItem.GetType();
+        if (type == typeof(NoteDraft))
+            SectionToOpen = EntitySection.NoteEntry;
+        else if (type == typeof(AssessmentDraft))
+            SectionToOpen = EntitySection.SafetyAssessmentEntry;
+        else if (type == typeof(AttachmentDraft))
+            SectionToOpen = EntitySection.Attachments;
+        else if (type == typeof(PersonVisitDraft))
+            SectionToOpen = EntitySection.ChildYouthVisitsEntry;
+
         if (draftItem.GetRelatedBusinessObjectFrom(DataRealm) is IBusinessObject bobj)
             await MarkForDownloadAndTryOpen(bobj, draftItem);
         else
@@ -132,7 +220,8 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
     private async Task MarkForDownloadAndTryOpen(IBusinessObject bobj, IDraftItem draftItem)
     {
-        bool markForDownload = !bobj.LocalState.ShouldDownloadDuringRefresh;
+        bool shouldDownload = bobj.LocalState?.ShouldDownloadDuringRefresh ?? true;
+        bool markForDownload = !shouldDownload;
 
         if (markForDownload)
         {
@@ -157,16 +246,19 @@ internal partial class DraftsListViewModel : VisitzViewModel
 
     static void NavigateTo(IBusinessObject businessObject, EntitySection section, IDraftItem draftItem)
     {
-        var appNav = new AppNavMessage(new() { ContentViewType = typeof(CaseloadContainerView) });
-        StrongReferenceMessenger.Default.Send(appNav);
-
         var caseloadNav = new BusinessObjectSelectedMessage(businessObject, section, draftItem);
         StrongReferenceMessenger.Default.Send(caseloadNav);
     }
 
-    public static async Task DeleteDraft(IDraftItem draft)
+    public async Task DeleteDraftAsync(IDraftItem draft)
     {
         var realm = draft.Realm;
+
+        if (realm == null)
+        {
+            Logger.LogWarning("Realm unexpectedly null");
+            return;
+        }
 
         await realm.WriteAsync(async () =>
         {
@@ -180,9 +272,14 @@ internal partial class DraftsListViewModel : VisitzViewModel
                 realm.Remove(draft);
             }
             else if (draft is AttachmentDraft attachmentDraft)
-                await attachmentDraft.Attachment.DeleteAsync();
+                await (attachmentDraft?.DeleteAsync(deleteAttachment: true) ?? Task.CompletedTask);
             else
                 realm.Remove(draft);
         });
+    }
+
+    partial void OnSelectedFilterChanged(FilterOption<IDraftItem> value)
+    {
+        FilteredItems = new(AllDraftItems.Where(value.WherePredicate).OrderDescending());
     }
 }

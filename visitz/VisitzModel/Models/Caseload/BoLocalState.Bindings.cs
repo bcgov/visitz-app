@@ -1,6 +1,7 @@
 using VisitzModel.Extensions;
 
 namespace VisitzModel.Models.Caseload;
+
 public partial class BoLocalState
 {
     public bool ShouldDownloadDuringRefreshBinding

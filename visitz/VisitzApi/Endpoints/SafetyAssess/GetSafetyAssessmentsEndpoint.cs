@@ -7,16 +7,8 @@ using VisitzApi.Requests;
 
 namespace VisitzApi.Endpoints.SafetyAssess;
 
-#nullable enable
-
-internal class GetSafetyAssessmentsEndpoint(
-    string baseUrl,
-    string incidentId,
-    Pagination? pagination = null)
-    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)>(
-        baseUrl,
-        Vpi.V2,
-        MakePath(incidentId))
+internal class GetSafetyAssessmentsEndpoint(string baseUrl, string incidentId, Pagination? pagination = null)
+    : VisitzBaseEndpoint<(int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)>(baseUrl, Vpi.V2, MakePath(incidentId))
 {
     static readonly string AssessmentsPath = "/incident/{0}/safety-assessments";
 
@@ -29,25 +21,19 @@ internal class GetSafetyAssessmentsEndpoint(
 
     public override HttpRequestMessage MakeRequest()
     {
-        return new HttpRequestMessage()
-        {
-            Method = HttpMethod.Get,
-            RequestUri = WithQueryParams(Pagination),
-        };
+        return new HttpRequestMessage() { Method = HttpMethod.Get, RequestUri = WithQueryParams(Pagination) };
     }
 
-    public override (int TotalRecords, IEnumerable<GetSafetyAsessmentJson>)
-        HandleResponse(HttpResponseMessage response, string responseContent)
+    public override (int TotalRecords, IEnumerable<GetSafetyAsessmentJson>) HandleResponse(
+        HttpResponseMessage response,
+        string responseContent
+    )
     {
         if (response.StatusCode == HttpStatusCode.NoContent)
             return (-1, []);
 
-        var json = JsonSerializer.Deserialize<GetSafetyAssessmentItemsJson>
-            (responseContent, PayloadOptions.SiebelGet);
+        var json = JsonSerializer.Deserialize<GetSafetyAssessmentItemsJson>(responseContent, PayloadOptions.SiebelGet);
 
-        return (
-            response.GetRecordCount(),
-            json?.Items?.First().IcmIncidentSafetyAssessmentBc ?? []
-        );
+        return (response.GetRecordCount(), json?.Items?.First().IcmIncidentSafetyAssessmentBc ?? []);
     }
 }

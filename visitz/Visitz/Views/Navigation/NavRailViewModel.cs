@@ -1,9 +1,8 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Realms;
-using System.Collections.ObjectModel;
-using Visitz.Extensions;
 using Visitz.FontIcons;
 using Visitz.Messaging;
 using Visitz.Resources.Localization;
@@ -29,17 +28,17 @@ public partial class NavRailViewModel : VisitzViewModel
 #if IOS
     static readonly double IosIconSize = 34;
 #else
-    static readonly double DefaultIconSize = 24;
+    static readonly double DefaultIconSize = 21;
 #endif
 
     [ObservableProperty]
-    public ObservableCollection<object> navigationItems = [];
+    public partial ObservableCollection<NavItem> NavigationItems { get; set; } = [];
 
     [ObservableProperty]
-    public NavItem selectedNavItem;
+    public partial NavItem? SelectedNavItem { get; set; }
 
-    private IDisposable _personVisitToken;
-    private Realm _icmDataRealm;
+    private IDisposable? _personVisitToken;
+    private Realm? _icmDataRealm;
 
     public static double IconSize
     {
@@ -54,44 +53,52 @@ public partial class NavRailViewModel : VisitzViewModel
     }
 
     [ObservableProperty]
-    public NavItem todoNavItem = new()
-    {
-        Text = LocalizedStrings.Todo,
-        ContentViewType = typeof(TodoContainerView),
-        Color = Colors.White,
-        IconSize = IconSize,
-        SelectedImageSource = MaterialIcons.Checklist.GetFilledMaterialIcon(Colors.White),
-        UnselectedImageSource = MaterialIcons.Checklist.GetUnfilledMaterialIcon(Colors.White),
-    };
+    public partial NavItem TodoNavItem { get; set; } =
+        new()
+        {
+            Text = LocalizedStrings.Todo,
+            ContentViewType = typeof(TodoContainerView),
+            Color = Colors.White,
+            IconSize = IconSize,
+            SelectedImageSource = MaterialIcons.Checklist.GetFilledMaterialIcon(Colors.White),
+            UnselectedImageSource = MaterialIcons.Checklist.GetUnfilledMaterialIcon(Colors.White),
+        };
 
     [ObservableProperty]
-    public NavItem caseloadNavItem = new()
-    {
-        Text = LocalizedStrings.Caseload,
-        ContentViewType = typeof(CaseloadContainerView),
-        Color = Colors.White,
-        IconSize = IconSize,
-        SelectedImageSource = MaterialIcons.Folder_open.GetFilledMaterialIcon(Colors.White),
-        UnselectedImageSource = MaterialIcons.Folder_open.GetUnfilledMaterialIcon(Colors.White),
-    };
+    public partial NavItem CaseloadNavItem { get; set; } =
+        new()
+        {
+            Text = LocalizedStrings.Caseload,
+            ContentViewType = typeof(CaseloadContainerView),
+            Color = Colors.White,
+            IconSize = IconSize,
+            SelectedImageSource = MaterialIcons.Folder_open.GetFilledMaterialIcon(Colors.White),
+            UnselectedImageSource = MaterialIcons.Folder_open.GetUnfilledMaterialIcon(Colors.White),
+        };
 
     [ObservableProperty]
-    public NavItem draftsNavItem = new()
-    {
-        Text = LocalizedStrings.Drafts,
-        ContentViewType = typeof(DraftsContainerView),
-        Color = Colors.White,
-        IconSize = IconSize,
-        SelectedImageSource = MaterialIcons.Draft.GetFilledMaterialIcon(Colors.White),
-        UnselectedImageSource = MaterialIcons.Draft.GetUnfilledMaterialIcon(Colors.White),
-    };
+    public partial NavItem DraftsNavItem { get; set; } =
+        new()
+        {
+            Text = LocalizedStrings.Drafts,
+            ContentViewType = typeof(DraftsContainerView),
+            Color = Colors.White,
+            IconSize = IconSize,
+            SelectedImageSource = MaterialIcons.Draft.GetFilledMaterialIcon(Colors.White),
+            UnselectedImageSource = MaterialIcons.Draft.GetUnfilledMaterialIcon(Colors.White),
+        };
 
     [ObservableProperty]
-    public NavItem debugNavItem = new()
-    {
-        Text = "",
-        ContentViewType = typeof(DebugOptionsView),
-    };
+    public partial NavItem UserNavItem { get; set; } =
+        new()
+        {
+            Text = LocalizedStrings.User,
+            ContentViewType = typeof(NavDrawerContentView),
+            Color = Colors.White,
+            IconSize = IconSize,
+            SelectedImageSource = MaterialIcons.Account_circle.GetFilledMaterialIcon(Colors.White),
+            UnselectedImageSource = MaterialIcons.Account_circle.GetUnfilledMaterialIcon(Colors.White),
+        };
 
     readonly ObservableRealmCount realmCount = new();
 
@@ -110,6 +117,7 @@ public partial class NavRailViewModel : VisitzViewModel
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
@@ -133,9 +141,7 @@ public partial class NavRailViewModel : VisitzViewModel
         NavigationItems.Add(TodoNavItem);
         NavigationItems.Add(CaseloadNavItem);
         NavigationItems.Add(DraftsNavItem);
-
-        if (DebugOptions.Enabled)
-            NavigationItems.Add(DebugNavItem);
+        NavigationItems.Add(UserNavItem);
     }
 
     private async Task SubscribeToAllDraftCounts()
@@ -152,17 +158,21 @@ public partial class NavRailViewModel : VisitzViewModel
     {
         _icmDataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var query = PersonVisit.GetAllByType(_icmDataRealm);
+        var query = _icmDataRealm.All<PersonVisit>();
         var collection = query.AsRealmCollection();
 
-        _personVisitToken = collection.SubscribeForNotifications((sender, changes) =>
-        {
-            int updatedCount = PersonVisit.GetUpcomingVisits(_icmDataRealm).Count();
-            StrongReferenceMessenger.Default.Send(new TodoBadgeCountMessage(updatedCount));
+        _personVisitToken = collection.SubscribeForNotifications(
+            (sender, changes) =>
+            {
+                int updatedCount = PersonVisit
+                    .GetLatestVisitsPerParentRecord(_icmDataRealm)
+                    .Count(PersonVisit.IsUpcomingVisit);
+                StrongReferenceMessenger.Default.Send(new TodoBadgeCountMessage(updatedCount));
 
-            if (changes == null)
-                FirstLoadNavigate(updatedCount > 0 ? TodoNavItem : CaseloadNavItem);
-        });
+                if (changes == null)
+                    FirstLoadNavigate(updatedCount > 0 ? TodoNavItem : CaseloadNavItem);
+            }
+        );
     }
 
     private void FirstLoadNavigate(NavItem navItem)
@@ -170,21 +180,17 @@ public partial class NavRailViewModel : VisitzViewModel
         SelectedNavItem = navItem;
     }
 
-    partial void OnSelectedNavItemChanged(NavItem value)
+    partial void OnSelectedNavItemChanged(NavItem? value)
     {
+        if (value == null)
+            return;
+
         StrongReferenceMessenger.Default.Send(new AppNavMessage(value));
     }
 
-    [RelayCommand]
-    private static async Task OpenSessionPage()
+    private void RealmCount_CountChanged(object? sender, (Type Kind, int Count) e)
     {
-        var userView = ServiceProvider.GetService<UserView>();
-        await Navigator.Navigation.PushModalAsync(userView);
-    }
-
-    private void RealmCount_CountChanged(object sender, (Type Kind, int Count) e)
-    {
-        DraftsNavItem.BadgeCount = (sender as ObservableRealmCount).Total;
+        DraftsNavItem.BadgeCount = (sender as ObservableRealmCount)?.Total ?? 0;
     }
 
     private void ReceiveAppNavMessage(object recipient, AppNavMessage message)
@@ -198,8 +204,39 @@ public partial class NavRailViewModel : VisitzViewModel
         TodoNavItem.BadgeCount = message.Value;
     }
 
-    private NavItem GetNavItemByType(Type contentViewType)
+    private NavItem? GetNavItemByType(Type? contentViewType)
     {
-        return (NavItem)NavigationItems.FirstOrDefault(item => (item as NavItem).ContentViewType == contentViewType);
+        return NavigationItems.FirstOrDefault(item => item.ContentViewType == contentViewType);
+    }
+
+    [RelayCommand]
+    private static async Task OpenDebugOptions()
+    {
+        if (DebugOptions.Default.Enabled)
+            await Navigator.GoToPage<DebugOptionsPage>();
+    }
+
+    [RelayCommand]
+    public static void SwapWindowDimensions()
+    {
+        DebugOptions.Default.SwapWindowWidthAndHeight();
+    }
+
+    [RelayCommand]
+    public static void ApplyPhoneDimensions()
+    {
+        DebugOptions.Default.ApplyPhoneDimensions();
+    }
+
+    [RelayCommand]
+    public static void ApplyTabletDimensions()
+    {
+        DebugOptions.Default.ApplyTabletDimensions();
+    }
+
+    [RelayCommand]
+    public static void ApplyDefaultDesktopDimensions()
+    {
+        DebugOptions.Default.ApplyDefaultDesktopDimensions();
     }
 }

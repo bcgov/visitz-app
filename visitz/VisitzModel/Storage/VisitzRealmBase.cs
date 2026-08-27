@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Realms;
 using Realms.Schema;
-
 #if WINDOWS
 using VisitzModel.Platforms.Windows.Logging;
 using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
@@ -17,6 +16,7 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
     public static readonly ulong Version2_7_0 = 4;
     public static readonly ulong Version2_7_1 = 5;
     public static readonly ulong Version2_8_0 = 6;
+    public static readonly ulong Version3_0_0 = 7;
 
     public string RealmName { get; private set; } = realmName;
 
@@ -38,9 +38,9 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
 #endif
     }
 
-    abstract protected RealmSchema MakeRealmSchema();
+    protected abstract RealmSchema MakeRealmSchema();
 
-    abstract protected void MigrateRealm(Migration migration, ulong oldSchemaVersion);
+    protected abstract void MigrateRealm(Migration migration, ulong oldSchemaVersion);
 
     private RealmConfiguration MakeRealmConfiguration()
     {
@@ -53,9 +53,9 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         };
     }
 
-    public async Task<Realm> GetAsync(ILogger logger = null)
+    public async Task<Realm> GetAsync(ILogger? logger = null)
     {
-        RealmConfiguration realmConfig = null;
+        RealmConfiguration? realmConfig = null;
 
         try
         {
@@ -67,7 +67,8 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         }
         catch (Exception ex)
         {
-            string message = $"{ex.GetType()}: Unable to open Realm '{RealmName}/{Version}' from path '{realmConfig?.DatabasePath ?? "<path not available>"}'";
+            string message =
+                $"{ex.GetType()}: Unable to open Realm '{RealmName}/{Version}' from path '{realmConfig?.DatabasePath ?? "<path not available>"}'";
 
             var invalidOpExeption = new InvalidOperationException(message, ex);
 
@@ -75,7 +76,10 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
                 logger?.LogError(invalidOpExeption, message);
 #if WINDOWS
             else
-                EventLogWriter.WriteEntry(LogLevel.Error, message, GetType().FullName, exception: invalidOpExeption);
+            {
+                string category = GetType()?.FullName ?? typeof(VisitzRealmBase).FullName ?? "<type not available>";
+                EventLogWriter.WriteEntry(LogLevel.Error, message, category, exception: invalidOpExeption);
+            }
 #endif
 
             throw invalidOpExeption;
@@ -91,5 +95,19 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
     public void DeleteRealm()
     {
         Realm.DeleteRealm(new RealmConfiguration(GetRealmPath(RealmName)));
+    }
+
+    internal static void MapAll<TNewType>(
+        string oldTypeName,
+        Migration migration,
+        Action<TNewType, IRealmObject> mapper
+    )
+        where TNewType : IRealmObject
+    {
+        var olds = migration.OldRealm.DynamicApi.All(oldTypeName).ToList();
+        var news = migration.NewRealm.All<TNewType>().ToList();
+
+        for (int i = 0; i < news.Count; i++)
+            mapper(news[i], olds[i]);
     }
 }

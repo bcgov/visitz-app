@@ -27,17 +27,15 @@ public static class VisitzKey
         await SecureStorage.Default.SetAsync(namespacedKey, encodedKey);
     }
 
-    private static async Task<byte[]> GetKeyFromStorage(string keyName)
+    private static async Task<byte[]?> GetKeyFromStorage(string keyName)
     {
         var namespacedKey = _encryptionKeyName + keyName;
         var encodedKey = await SecureStorage.Default.GetAsync(namespacedKey);
 
-        return encodedKey != null
-            ? Convert.FromBase64String(encodedKey)
-            : null;
+        return encodedKey != null ? Convert.FromBase64String(encodedKey) : null;
     }
 
-    public static async Task<byte[]> GetKey(string keyName, int? keySizeIfNew = null)
+    public static async Task<byte[]?> GetKey(string keyName, int? keySizeIfNew = null)
     {
         await _semaphore.WaitAsync();
 
@@ -55,9 +53,9 @@ public static class VisitzKey
         }
     }
 
-    static async Task<byte[]> DoGetKey(string keyName, int? keySizeIfNew = null)
+    static async Task<byte[]?> DoGetKey(string keyName, int? keySizeIfNew = null)
     {
-        byte[] encryptionKey = await GetKeyFromStorage(keyName);
+        byte[]? encryptionKey = await GetKeyFromStorage(keyName);
 
         if (encryptionKey == null)
         {

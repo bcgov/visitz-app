@@ -1,7 +1,5 @@
 namespace VisitzApi.Models.SafetyAssess;
 
-#nullable enable
-
 public class SubmitSafetyInterventionsJson
 {
     public string DirectIntervention { get; set; } = string.Empty;

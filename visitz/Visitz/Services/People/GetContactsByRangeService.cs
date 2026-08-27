@@ -5,10 +5,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.People;
 
-internal class GetContactsByRangeService(
-    Vpi vpi,
-    LastUpdatedPrefs prefs,
-    ServiceHandler serviceHandler)
+internal class GetContactsByRangeService(Vpi vpi, LastUpdatedPrefs prefs, ServiceHandler serviceHandler)
     : VisitzApiRangeService<RecordServiceInfo>(vpi, prefs, serviceHandler)
 {
     public static string MakeId()
@@ -34,10 +31,5 @@ internal class GetContactsByRangeService(
     protected override async Task RunInParallelAsync(ServiceHandler serviceHandler, RecordServiceInfo item)
     {
         await ServiceHandler.TryRunServiceAsync(GetContactsService.MakeStartMessage(item));
-    }
-
-    protected override Exception MakePartialException(List<ApiRangeItemException<RecordServiceInfo>> exceptions)
-    {
-        return exceptions.CombineIntoException();
     }
 }

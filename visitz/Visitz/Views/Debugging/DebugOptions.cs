@@ -1,13 +1,17 @@
+using System.Runtime.CompilerServices;
 using System.Text;
-using Visitz.Storage;
-using VisitzModel.Models.InPersonVisits;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Oidc;
 using Visitz.Services;
 using Visitz.Services.Caseload;
+using Visitz.Storage;
+using Visitz.Views.Snackbar;
+using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
-
 #if WINDOWS
 using Windows.Storage;
+using Microsoft.Maui.Controls.Internals;
 #endif
 
 #if WINDOWS || MACCATALYST
@@ -16,23 +20,32 @@ using System.Diagnostics;
 
 namespace Visitz.Views.Debugging;
 
-public class DebugOptions
+public partial class DebugOptions(IPreferences preferences) : ObservableObject
 {
-    private static readonly string DryFireSubmitNotesKey = "DryFireSubmitNotes";
-    private static readonly string DryFireSubmitNotesSimulateSuccessKey = "DryFireSubmitNotesSimulateSuccess";
-    private static readonly string DryFirePostVisitServiceKey = "DryFirePostVisitService";
-    private static readonly string DryFirePostVisitServiceSimulateSuccessKey = "DryFirePostVisitServiceSimulateSuccess";
-    private static readonly string SkipLocalAuthKey = "SkipLocalAuth";
-    private static readonly string ShouldExpectFileContentKey = "ShouldExpectFileContent";
-    private static readonly string KeepSafetyAssessmentDraftOnPublishKey = "KeepSafetyAssessmentDraftOnPublish";
-    private static readonly string AutoCaseloadRefreshDisabledKey = "AutoCaseloadRefreshDisabled";
-    private static readonly string StaleThresholdMinutesKey = "StaleThresholdMinutes";
+    const string DryFireSubmitNotesKey = "DryFireSubmitNotes";
+    const string DryFireSubmitNotesSimulateSuccessKey = "DryFireSubmitNotesSimulateSuccess";
+    const string DryFirePostVisitServiceKey = "DryFirePostVisitService";
+    const string DryFirePostVisitServiceSimulateSuccessKey = "DryFirePostVisitServiceSimulateSuccess";
+    const string SkipLocalAuthKey = "SkipLocalAuth";
+    const string ShouldExpectFileContentKey = "ShouldExpectFileContent";
+    const string KeepSafetyAssessmentDraftOnPublishKey = "KeepSafetyAssessmentDraftOnPublish";
+    const string AutoCaseloadRefreshDisabledKey = "AutoCaseloadRefreshDisabled";
+    const string StaleThresholdMinutesKey = "StaleThresholdMinutes";
+    const string DisablePrivacyScrimKey = "EnableObscuringScrim";
+    const string WriteApiTimingsKey = "WriteApiTimings";
+    const string WindowHeightKey = "WindowHeight";
+    const string WindowWidthKey = "WindowWidth";
+    const string ShowBottomNavOnWindowsKey = "ShowBottomNavOnWindows";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
-    public static bool Enabled => Preferences.Default.Get(EnableOptionsKey, false);
+    public static readonly DebugOptions Default = new(Preferences.Default);
 
-    public static void TryStartShakeDetector(Action actionOnShake)
+    IPreferences AppPreferences { get; set; } = preferences;
+
+    public bool Enabled => AppPreferences.Get(EnableOptionsKey, false);
+
+    public void TryStartShakeDetector(Action actionOnShake)
     {
         if (!Enabled)
             return;
@@ -46,44 +59,46 @@ public class DebugOptions
             Console.WriteLine("Accelerometer not supported");
     }
 
-    private static T Get<T>(string key, T defaultValue)
+    T Get<T>(string key, T defaultValue)
     {
-        return Enabled
-            ? Preferences.Default.Get(key, defaultValue)
-            : defaultValue;
+        return Enabled ? AppPreferences.Get(key, defaultValue) : defaultValue;
     }
 
-    private static void Set<T>(string key, T value)
+    void Set<T>(string key, T value, [CallerMemberName] string caller = "")
     {
-        if (Enabled)
-            Preferences.Default.Set(key, value);
+        if (!Enabled)
+            return;
+
+        OnPropertyChanging(caller);
+        AppPreferences.Set(key, value);
+        OnPropertyChanged(caller);
     }
 
-    public static bool DryFireSubmitNotes
+    public bool DryFireSubmitNotes
     {
         get => Get(DryFireSubmitNotesKey, false);
         set => Set(DryFireSubmitNotesKey, value);
     }
 
-    public static bool DryFireSubmitNotesSimulateSuccess
+    public bool DryFireSubmitNotesSimulateSuccess
     {
         get => DryFireSubmitNotes && Get(DryFireSubmitNotesSimulateSuccessKey, false);
         set => Set(DryFireSubmitNotesSimulateSuccessKey, value);
     }
 
-    public static bool DryFirePostVisitService
+    public bool DryFirePostVisitService
     {
         get => Get(DryFirePostVisitServiceKey, false);
         set => Set(DryFirePostVisitServiceKey, value);
     }
 
-    public static bool DryFirePostVisitServiceSimulateSuccess
+    public bool DryFirePostVisitServiceSimulateSuccess
     {
         get => DryFirePostVisitService && Get(DryFirePostVisitServiceSimulateSuccessKey, false);
         set => Set(DryFirePostVisitServiceSimulateSuccessKey, value);
     }
 
-    public static bool SkipLocalAuth
+    public bool SkipLocalAuth
     {
         get
         {
@@ -96,43 +111,86 @@ public class DebugOptions
         set => Set(SkipLocalAuthKey, value);
     }
 
-    public static bool RequireAttachmentFileContent
+    public bool RequireAttachmentFileContent
     {
         get => Get(ShouldExpectFileContentKey, true);
         set => Set(ShouldExpectFileContentKey, value);
     }
 
-    public static bool KeepSafetyAssessmentDraftOnPublish
+    public bool KeepSafetyAssessmentDraftOnPublish
     {
         get => Get(KeepSafetyAssessmentDraftOnPublishKey, false);
         set => Set(KeepSafetyAssessmentDraftOnPublishKey, value);
     }
 
-    public static bool AutoCaseloadRefreshDisabled
+    public bool AutoCaseloadRefreshDisabled
     {
         get => Get(AutoCaseloadRefreshDisabledKey, false);
         set => Set(AutoCaseloadRefreshDisabledKey, value);
     }
 
-    public static double StaleThresholdMinutes
+    public double StaleThresholdMinutes
     {
         get => Get(StaleThresholdMinutesKey, OidcSession.StaleThresholdMinutes);
-        set => Set(StaleThresholdMinutesKey, value > 0.0d? value : OidcSession.StaleThresholdMinutes);
+        set => Set(StaleThresholdMinutesKey, value > 0.0d ? value : OidcSession.StaleThresholdMinutes);
     }
 
-    public static async Task ClearRealmData()
+    public bool DisablePrivacyScrim
+    {
+        get => Get(DisablePrivacyScrimKey, false);
+        set => Set(DisablePrivacyScrimKey, value);
+    }
+
+    public bool WriteApiTimings
+    {
+        get => Get(WriteApiTimingsKey, false);
+        set => Set(WriteApiTimingsKey, value);
+    }
+
+    public double WindowHeight
+    {
+        get => Get(WindowHeightKey, Application.Current?.Windows[0].Height ?? 0.0d);
+        set
+        {
+            double val = Math.Clamp(value, 100, DeviceDisplay.MainDisplayInfo.Height * 2);
+            Set(WindowHeightKey, val);
+            Application.Current?.Windows[0].Height = val;
+        }
+    }
+
+    public double WindowWidth
+    {
+        get => Get(WindowWidthKey, Application.Current?.Windows[0].Width ?? 0.0d);
+        set
+        {
+            double val = Math.Clamp(value, 100, DeviceDisplay.MainDisplayInfo.Width * 2);
+            Set(WindowWidthKey, val);
+            Application.Current?.Windows[0].Width = val;
+        }
+    }
+
+    public bool ShowBottomNavOnWindows
+    {
+        get => Get(ShowBottomNavOnWindowsKey, false);
+        set => Set(ShowBottomNavOnWindowsKey, value);
+    }
+
+    [RelayCommand]
+    public async Task ClearRealmData()
     {
         if (Enabled)
             await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
     }
 
-    public static async Task ClearSafetyAssessmentDraftsRealm()
+    [RelayCommand]
+    public async Task ClearSafetyAssessmentDraftsRealm()
     {
         if (Enabled)
             await (await VisitzRealms.GetSafetyAssessmentDraftAsync()).ClearAllData();
     }
 
-    public static async Task ClearAttachmentDraftsRealm()
+    [RelayCommand]
+    public async Task ClearAttachmentDraftsRealm()
     {
         if (Enabled)
         {
@@ -145,7 +203,8 @@ public class DebugOptions
         }
     }
 
-    public static void OpenAppDataDirectory()
+    [RelayCommand]
+    public void OpenAppDataDirectory()
     {
 #if WINDOWS || MACCATALYST
         if (Enabled)
@@ -153,7 +212,8 @@ public class DebugOptions
 #endif
     }
 
-    public static void OpenCacheDirectory()
+    [RelayCommand]
+    public void OpenCacheDirectory()
     {
 #if WINDOWS || MACCATALYST
         if (Enabled)
@@ -163,10 +223,11 @@ public class DebugOptions
 
     static string ListFilesRecursively(string path)
     {
-        string[] files = Directory.GetFileSystemEntries(path, "**", new EnumerationOptions()
-        {
-            RecurseSubdirectories = true,
-        });
+        string[] files = Directory.GetFileSystemEntries(
+            path,
+            "**",
+            new EnumerationOptions() { RecurseSubdirectories = true }
+        );
 
         StringBuilder filesOut = new();
 
@@ -178,54 +239,54 @@ public class DebugOptions
         return filesOut.ToString();
     }
 
-    public static string ListDocumentsFiles()
+    public string ListDocumentsFiles()
     {
 #if WINDOWS
         string path = FileSystem.AppDataDirectory;
 #else
         string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 #endif
-        return Enabled
-            ? ListFilesRecursively(path)
-            : string.Empty;
+        return Enabled ? ListFilesRecursively(path) : string.Empty;
     }
 
-    public static void ClearSecureStorage()
+    [RelayCommand]
+    public void ClearSecureStorage()
     {
         if (Enabled)
             SecureStorage.Default.RemoveAll();
     }
 
 #if WINDOWS
-    public static Dictionary<string, string> GetAllValuesFromLocalSettings()
+    public Dictionary<string, string> GetAllValuesFromLocalSettings()
     {
         if (!Enabled)
-            return default;
+            return [];
 
         return GetAllValuesFrom(ApplicationData.Current.LocalSettings);
     }
 #endif
 
 #if WINDOWS
-    static Dictionary<string, string> GetAllValuesFrom(ApplicationDataContainer container)
+    Dictionary<string, string> GetAllValuesFrom(ApplicationDataContainer container)
     {
         Dictionary<string, string> result = [];
 
         foreach (var key in container.Values.Keys)
-            result[$"({container.Name}), Key '{key}'"] = container.Values[key]?.ToString();
+            result[$"({container.Name}), Key '{key}'"] = container.Values[key]?.ToString() ?? string.Empty;
 
         foreach (var subContainer in container.Containers)
-            foreach (var valuesResult in GetAllValuesFrom(subContainer.Value))
-                if (result.ContainsKey(valuesResult.Key))
-                    result[subContainer.Key + " > " + valuesResult.Key + "+"] = valuesResult.Value;
-                else
-                    result[subContainer.Key + " > " + valuesResult.Key] = valuesResult.Value;
+        foreach (var valuesResult in GetAllValuesFrom(subContainer.Value))
+            if (result.ContainsKey(valuesResult.Key))
+                result[subContainer.Key + " > " + valuesResult.Key + "+"] = valuesResult.Value;
+            else
+                result[subContainer.Key + " > " + valuesResult.Key] = valuesResult.Value;
 
         return result;
     }
 #endif
 
-    public static async Task LoadPersonVisitsMockData(string parentId)
+    [RelayCommand]
+    public async Task LoadPersonVisitsMockData(string parentId)
     {
         if (!Enabled)
             return;
@@ -235,14 +296,15 @@ public class DebugOptions
         await icmData.WriteAsync(() => icmData.Add(SimpleMockData.MockPersonVisits(parentId), update: true));
     }
 
-    public static async Task SetThreshold(VisitDaysThreshold threshold)
+    [RelayCommand]
+    public async Task SetThreshold(VisitDaysThreshold threshold)
     {
         if (!Enabled)
             return;
 
         using var icmData = await VisitzRealms.GetIcmDataRealmAsync();
 
-        var latestVisits = PersonVisit.GetAllByType(icmData);
+        var latestVisits = icmData.All<PersonVisit>();
 
         var extraDay = threshold == VisitDaysThreshold.Critical ? 1 : 0;
         var targetDueDate = DateTimeOffset.Now.Date.AddDays((int)threshold - extraDay);
@@ -256,7 +318,8 @@ public class DebugOptions
         });
     }
 
-    public static async Task ClearOfficeNames()
+    [RelayCommand]
+    public async Task ClearOfficeNames()
     {
         if (!Enabled)
             return;
@@ -265,16 +328,27 @@ public class DebugOptions
         info.OfficeNames = [];
     }
 
-    public static async Task RunRecordCleanupService()
+    [RelayCommand]
+    public async Task RemoveOneOffice()
     {
         if (!Enabled)
             return;
 
-        await ServiceProvider.GetService<ServiceHandler>()
-            .TryRunServiceAsync(RecordCleanupService.MakeStartMessage());
+        var info = await OidcSession.GetInfoAsync();
+        info.OfficeNames = info.OfficeNames.Skip(1).ToHashSet();
     }
 
-    public static async Task RunAutoCaseloadRefreshService()
+    [RelayCommand]
+    public async Task RunRecordCleanupService()
+    {
+        if (!Enabled)
+            return;
+
+        await ServiceProvider.GetService<ServiceHandler>().TryRunServiceAsync(RecordCleanupService.MakeStartMessage());
+    }
+
+    [RelayCommand]
+    public async Task RunAutoCaseloadRefreshService()
     {
         if (!Enabled)
             return;
@@ -283,12 +357,72 @@ public class DebugOptions
         await handler.TryRunServiceAsync(AutoRefreshService.MakeStartMessage());
     }
 
-    public static void ResetAutoCaseloadRefresh()
+    [RelayCommand]
+    public void ResetAutoCaseloadRefresh()
     {
         if (!Enabled)
             return;
 
         LastUpdatedPrefs prefs = ServiceProvider.GetService<LastUpdatedPrefs>();
         prefs.Set(AutoRefreshService.CooldownTimestampUtc, DateTime.MinValue);
+    }
+
+    [RelayCommand]
+    public void SwapWindowWidthAndHeight()
+    {
+        if (!Enabled)
+            return;
+
+        if (Application.Current?.Windows[0] is Window window)
+        {
+            (window.Width, window.Height) = (window.Height, window.Width);
+
+            WindowWidth = window.Width;
+            WindowHeight = window.Height;
+        }
+    }
+
+    [RelayCommand]
+    public void ApplyPhoneDimensions()
+    {
+        if (!Enabled)
+            return;
+
+        // iPhone SE dims manually collected from runtime
+        WindowHeight = 667;
+        WindowWidth = 375;
+    }
+
+    [RelayCommand]
+    public void ApplyTabletDimensions()
+    {
+        if (!Enabled)
+            return;
+
+        // iPad Air 4 dims manually collected from runtime
+        WindowHeight = 820;
+        WindowWidth = 1180;
+    }
+
+    [RelayCommand]
+    public void ApplyDefaultDesktopDimensions()
+    {
+        if (!Enabled)
+            return;
+
+        WindowHeight = VisitzWindow.InitialHeight;
+        WindowWidth = VisitzWindow.InitialHeight * VisitzWindow.InitialWidthRatio;
+    }
+
+    [RelayCommand]
+    public static void ShowSnackbar(string? text = null)
+    {
+        text ??= $"An example string of text written for this snackbar to display for {int.MaxValue} seconds.";
+        SnackbarHandler.ShowTextWithDetails(
+            text,
+            "testing title",
+            "testing message",
+            TimeSpan.FromSeconds(int.MaxValue)
+        );
     }
 }

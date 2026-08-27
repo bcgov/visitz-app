@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<base:ViewModelContentView
+<base:IcmRecordContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:attachments="clr-namespace:Visitz.Views.Entity.Attachments"
@@ -9,30 +9,34 @@
     xmlns:icons="clr-namespace:Visitz.FontIcons"
     x:Class="Visitz.Views.Entity.Attachments.PdfDetailsView"
     x:DataType="attachments:PdfDetailsViewModel"
-    Background="White">
-
+    x:TypeArguments="attachments:PdfDetailsViewModel"
+    Background="White"
+>
     <Grid
         RowDefinitions="Auto,*"
         ColumnDefinitions="Auto,*,Auto,Auto,Auto"
         ColumnSpacing="{StaticResource DefaultSpacing}"
-        Padding="{StaticResource DefaultPadding}">
-
+        Padding="{StaticResource DefaultPadding}"
+    >
         <controls:CloseButton
             Grid.Column="0"
             VerticalOptions="Center"
-            TextColor="{StaticResource BC_TextColor}" />
+            TextColor="{StaticResource BC_TextColor}"
+        />
 
         <Label
             Grid.Column="1"
             VerticalOptions="Center"
-            Text="{Binding Attachment.FilenameBinding}" />
+            Text="{Binding Attachment.FilenameBinding}"
+        />
 
         <controls:RenameButton
             Grid.Column="2"
             VerticalOptions="Center"
             IsVisible="{Binding ShowDraftButtons}"
             Renaming="{Binding Attachment.FilenameBinding}"
-            TextColor="{StaticResource BC_TextColor}" />
+            TextColor="{StaticResource BC_TextColor}"
+        />
 
         <controls:FontIconButton
             Grid.Column="3"
@@ -41,7 +45,8 @@
             Text="{Static icons:MaterialIcons.Delete}"
             TextColor="{StaticResource BC_TextColor}"
             FontFamily="MaterialIconsRoundedUnfilled"
-            Command="{Binding PromptDiscardAttachmentDraftCommand}" />
+            Command="{Binding PromptDiscardAttachmentDraftCommand}"
+        />
 
         <controls:FontIconButton
             Grid.Column="4"
@@ -49,9 +54,10 @@
             IsVisible="{Binding ShowDraftButtons}"
             Style="{StaticResource PrimaryButtonLight}"
             Padding="0"
-            Text="{Static icons:MaterialIcons.Publish}"
+            Text="{Static icons:MaterialIcons.Send}"
             FontFamily="MaterialIconsRoundedUnfilled"
-            Command="{Binding PublishAttachmentDraftCommand}" />
+            Command="{Binding PublishAttachmentDraftCommand}"
+        />
 
         <controls:FontIconButton
             Grid.Column="4"
@@ -61,25 +67,27 @@
             Text="{Static icons:FluentIcons.Subtract_circle_20_regular}"
             FontFamily="FluentIconsRegular"
             TextColor="{StaticResource BC_TextColor}"
-            Command="{Binding PromptRemoveFromDeviceCommand}" />
+            Command="{Binding PromptRemoveFromDeviceCommand}"
+        />
 
         <ActivityIndicator
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            IsRunning="{Binding ShowActivityIndicator}" />
+            IsRunning="{Binding ShowActivityIndicator}"
+        />
 
         <Label
             Grid.Row="1"
             Grid.ColumnSpan="5"
             IsVisible="{Binding HasError}"
-            Text="{Binding ErrorText}" />
+            Text="{Binding ErrorText}"
+        />
 
         <WebView
             Grid.Row="1"
             Grid.ColumnSpan="5"
             Source="{Binding Source}"
-            Navigated="WebView_Navigated">
-        </WebView>
+            Navigated="WebView_Navigated"
+        ></WebView>
     </Grid>
-
-</base:ViewModelContentView>
+</base:IcmRecordContentView>

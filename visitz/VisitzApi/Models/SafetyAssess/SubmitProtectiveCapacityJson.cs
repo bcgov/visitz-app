@@ -1,7 +1,5 @@
 namespace VisitzApi.Models.SafetyAssess;
 
-#nullable enable
-
 public class SubmitProtectiveCapacityJson
 {
     public string ChildCognitive { get; set; } = string.Empty;

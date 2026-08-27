@@ -28,20 +28,24 @@ public static class RealmExtensions
             await realm.WriteAsync(action);
     }
 
-    public static void Upsert<T>(this Realm realm, T item) where T : IRealmObject
+    public static void Upsert<T>(this Realm realm, T item)
+        where T : IRealmObject
     {
         realm.Add(item, update: true);
     }
 
-    public static void Upsert<T>(this Realm realm, IEnumerable<T> enumerable) where T : IRealmObject
+    public static void Upsert<T>(this Realm realm, IEnumerable<T> enumerable)
+        where T : IRealmObject
     {
         foreach (var item in enumerable)
             realm.Add(item, update: true);
     }
 
-    public static void DeleteByIds<T>(this Realm realm, IEnumerable<string> ids) where T : IRealmObject
+    public static void DeleteByIds<T>(this Realm realm, IEnumerable<string> ids)
+        where T : IRealmObject
     {
         foreach (var id in ids)
-            realm.Remove(realm.Find<T>(id));
+            if (realm.Find<T>(id) is T found)
+                realm.Remove(found);
     }
 }

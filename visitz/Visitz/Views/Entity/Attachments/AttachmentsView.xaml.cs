@@ -1,42 +1,28 @@
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
-using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
-using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
 using VisitzModel.Models.Navigation;
-using Tab = Visitz.Views.Navigation.Tab;
 
 namespace Visitz.Views.Entity.Attachments;
 
-public partial class AttachmentsView :
-    ViewModelContentView,
-    IBusinessObjectHolder,
-    IFocusDraftItem
+public partial class AttachmentsView : IcmRecordContentView<AttachmentsViewModel>, IFocusDraftItem
 {
-    static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes
-        .Concat(Attachment.AllowedDocumentTypes);
+    static readonly IEnumerable<string> AllowedTypes = Attachment.AllowedImageTypes.Concat(
+        Attachment.AllowedDocumentTypes
+    );
 
-    new AttachmentsViewModel ViewModel => base.ViewModel as AttachmentsViewModel;
+    AttachmentsListView? _attachmentsListView;
 
-    Tab DownloadedTab;
-
-    Tab DraftsTab;
-
-    public IBusinessObject BusinessObject
-    {
-        get => ViewModel.BusinessObject;
-        set => ViewModel.BusinessObject = value;
-    }
-
-    public IDraftItem FocusedDraftItem
+    public IDraftItem? FocusedDraftItem
     {
         get => ViewModel.FocusedDraftItem;
         set => ViewModel.FocusedDraftItem = value;
     }
 
-    public AttachmentsView() : base(ServiceProvider.GetService<AttachmentsViewModel>())
+    public AttachmentsView()
+        : base(ServiceProvider.GetService<AttachmentsViewModel>(), LocalizedStrings.Attachments)
     {
         InitializeComponent();
         BindingContext = ViewModel;
@@ -44,58 +30,54 @@ public partial class AttachmentsView :
 
     protected override async Task InitAsync()
     {
-        await base.InitAsync();
-
-        DownloadedTab = new Tab(LocalizedStrings.InIcm, () =>
+        try
         {
-            var listView = ServiceProvider.GetService<AttachmentsListView>();
-            listView.BusinessObject = BusinessObject;
-            return listView;
-        });
+            await base.InitAsync();
 
-        DraftsTab = new(LocalizedStrings.OnMyDevice, () =>
+            _attachmentsListView = ServiceProvider.GetService<AttachmentsListView>();
+            _attachmentsListView.RowId = RowId;
+            _attachmentsListView.EntityType = EntityType;
+            _attachmentsListView.FocusedDraftItem = FocusedDraftItem;
+
+            MainGrid.Add(_attachmentsListView, 0, 0);
+        }
+        catch (Exception ex)
         {
-            var draftsView = ServiceProvider.GetService<AttachmentDraftsListView>();
-            draftsView.BusinessObject = BusinessObject;
-            draftsView.FocusedDraftItem = FocusedDraftItem;
-            return draftsView;
-        });
-
-        AttachmentsTabs.PairedDisplayView = TabDisplayView;
-        AttachmentsTabs.Tabs = [DownloadedTab, DraftsTab];
-
-        if (FocusedDraftItem != null)
-            AttachmentsTabs.SelectedTab = DraftsTab;
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
+        }
     }
 
     bool disposed;
+
     protected override void Dispose(bool disposing)
     {
         if (!disposed && disposing)
         {
-            AttachmentsTabs.Dispose();
-
+            _attachmentsListView?.Dispose();
+            _attachmentsListView = null;
             disposed = true;
         }
         base.Dispose(disposing);
     }
 
-    private async void AddPhotos_Clicked(object sender, EventArgs e)
+    private async void AddPhotos_Clicked(object? sender, EventArgs e)
     {
         await OpenTakePhotoView();
     }
 
-    private async void Browse_Clicked(object sender, EventArgs e)
+    private async void Browse_Clicked(object? sender, EventArgs e)
     {
-        var result = await FilePicker.Default.PickAsync(new()
-        {
-            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
+        var result = await FilePicker.Default.PickAsync(
+            new()
             {
-                { DevicePlatform.WinUI, AllowedTypes },
-            }),
-        });
+                FileTypes = new FilePickerFileType(
+                    new Dictionary<DevicePlatform, IEnumerable<string>>() { { DevicePlatform.WinUI, AllowedTypes } }
+                ),
+            }
+        );
 
-        await SaveFile(result);
+        if (result != null)
+            await SaveFile(result);
     }
 
     private async Task SaveFile(FileResult result)
@@ -106,9 +88,6 @@ public partial class AttachmentsView :
         try
         {
             await ViewModel.SaveFile(result);
-            // TODO: Switch to drafts tab on successful save.
-            // Had some weird issues where Realm was getting disposed seemingly randomly.
-            // Don't have time to debug it right now, so leaving this TODO here.
         }
         catch (Exception ex)
         {

@@ -7,7 +7,8 @@ namespace VisitzApiTest.Models.Base;
 public class AssignableRecordJsonTests
 {
     const string availableData =
-"{" + $"""
+        "{"
+        + $"""
     "Id": "{BaseRecordJsonTests.ArbitraryId}",
 	"Row Id": "{BaseRecordJsonTests.ArbitraryId}",
 	"Assigned To": "{BaseRecordJsonTests.SomeName}",
@@ -18,16 +19,19 @@ public class AssignableRecordJsonTests
 	"Updated By": "{BaseRecordJsonTests.SomeName}",
 	"Updated By Id": "{BaseRecordJsonTests.SomeNameId}",
 	"Updated Date": "{BaseRecordJsonTests.UpdatedDateValue}"
-""" + "}";
+"""
+        + "}";
 
     const string missingIdFields =
-"{" + $"""
+        "{"
+        + $"""
 	"Assigned To": "{BaseRecordJsonTests.SomeName}",
 	"Created By": "{BaseRecordJsonTests.OtherName}",
 	"Created Date": "{BaseRecordJsonTests.CreatedDateValue}",
 	"Updated By": "{BaseRecordJsonTests.SomeName}",
 	"Updated Date": "{BaseRecordJsonTests.UpdatedDateValue}"
-""" + "}";
+"""
+        + "}";
 
     [Theory]
     [InlineData(BaseRecordJsonTests.SomeName, nameof(AssignableRecordJson.AssignedTo))]
@@ -35,7 +39,9 @@ public class AssignableRecordJsonTests
     public void ParsesStringFieldsCorrectly(string expectedValue, string propertyName)
     {
         BaseRecordJson baseRecord = JsonSerializer.Deserialize<AssignableRecordJson>(
-            availableData, PayloadOptions.SiebelGet)!;
+            availableData,
+            PayloadOptions.SiebelGet
+        )!;
 
         string actual = (string)baseRecord.GetType().GetProperty(propertyName)!.GetValue(baseRecord)!;
 
@@ -46,7 +52,8 @@ public class AssignableRecordJsonTests
     [InlineData(missingIdFields)]
     public void ThrowWhenFieldsMissing(string json)
     {
-        Assert.ThrowsAny<Exception>(() => JsonSerializer.Deserialize<AssignableRecordJson>(
-            json, PayloadOptions.SiebelGet));
+        Assert.ThrowsAny<Exception>(() =>
+            JsonSerializer.Deserialize<AssignableRecordJson>(json, PayloadOptions.SiebelGet)
+        );
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Visitz.Services
-{
-    public class ServiceInfoMessage
-    {
-        public string ServiceId { get; set; }
+namespace Visitz.Services.Messages;
 
-        public Type ServiceType { get; set; }
-    }
+public class ServiceInfoMessage
+{
+    public required string ServiceId { get; set; }
+
+    public required Type ServiceType { get; set; }
 }
