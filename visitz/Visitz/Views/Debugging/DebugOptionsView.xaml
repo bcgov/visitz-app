@@ -139,7 +139,7 @@
             />
 
             <Grid
-                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
                 IsEnabled="{OnIdiom Desktop=True, Default=False}"
             >
                 <Label
@@ -196,6 +196,18 @@
                     Grid.Column="1"
                     Text="Apply default desktop dimenions"
                     Command="{Binding Options.ApplyDefaultDesktopDimensionsCommand}"
+                />
+                <Label
+                    StyleClass="DebugLayout,DebugLabel"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Text="Show bottom nav bar on Windows (needs app restart)"
+                />
+
+                <Switch
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    IsToggled="{Binding Options.ShowBottomNavOnWindows}"
                 />
             </Grid>
 

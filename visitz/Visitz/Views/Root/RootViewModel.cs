@@ -7,6 +7,7 @@ using Visitz.Resources.Localization;
 using Visitz.Services.Caseload;
 using Visitz.Services.Messages;
 using Visitz.Views.BaseClasses;
+using Visitz.Views.Debugging;
 using Visitz.Views.Navigation;
 using Visitz.Views.User;
 using VisitzModel.Messaging;
@@ -15,6 +16,10 @@ namespace Visitz.Views.Root;
 
 public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>, IRecipient<ServiceStateMessage>
 {
+    const double DisabledOnDesktop = 0;
+
+    const double MinimumSizeBreakpoint = 700; // 700 arbitrarily chosen
+
     [ObservableProperty]
     public partial bool IsLandscape { get; set; } = false;
 
@@ -32,7 +37,7 @@ public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>,
     static double GetMinSize()
     {
         if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
-            return 700; // 700 arbitrarily chosen
+            return DebugOptions.Default.ShowBottomNavOnWindows ? MinimumSizeBreakpoint : DisabledOnDesktop;
         else
         {
             double min = Math.Min(DeviceDisplay.MainDisplayInfo.Height, DeviceDisplay.MainDisplayInfo.Width);
