@@ -91,7 +91,7 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
             },
             DotnetRuntime = Environment.Version.ToString(),
             Level = MapType(log.LogLevel),
-            Message = new { Content = log.Message },
+            Message = MakeMessage(log),
             SourceName = log.Source,
             AppTimestamp = (ulong)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
         };
@@ -108,6 +108,16 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
             LogLevel.Critical => AppLogLevel.Critical,
             LogLevel.Trace => AppLogLevel.Verbose,
             _ => throw new InvalidOperationException($"Unsupported LogLevel '{level}'"),
+        };
+    }
+
+    static object MakeMessage(LogEntry log)
+    {
+        return log.LogLevel switch
+        {
+            LogLevel.Critical or LogLevel.Error => new { Error = log.Message },
+            LogLevel.Warning => new { Warning = log.Message },
+            _ => new { Content = log.Message },
         };
     }
 
