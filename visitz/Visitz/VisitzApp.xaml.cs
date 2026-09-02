@@ -8,7 +8,6 @@ using Visitz.Storage;
 using Visitz.Views.AppLock;
 using Visitz.Views.Debugging;
 using Visitz.Views.Root;
-using VisitzModel.Extensions;
 
 namespace Visitz;
 
@@ -37,7 +36,6 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
 
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
-        TryClearLogs();
         CleanupStaleRecords();
     }
 
@@ -61,18 +59,6 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
     private static async Task ClearIcmData()
     {
         await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
-    }
-
-    private void TryClearLogs()
-    {
-        try
-        {
-            _ = ClearRealmLogs.ClearLogData();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogException(ex);
-        }
     }
 
     private static void CleanupStaleRecords()
