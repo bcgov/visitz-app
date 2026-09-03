@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Realms;
 using Visitz.Services.Base;
@@ -6,6 +8,7 @@ using Visitz.Storage;
 using Visitz.Views.Debugging;
 using VisitzApi;
 using VisitzApi.Models.AppLogs;
+using VisitzModel.Formats;
 using VisitzModel.Models.Logging;
 using VisitzModel.Storage;
 
@@ -13,6 +16,9 @@ namespace Visitz.Services.AppLogs;
 
 internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
+    // Max limit 5MB with a buffer amount to account for extra JSON characters
+    static readonly int s_maxUploadSize = (int)(5 * Sizes.MB * 0.90d);
+
     public static string MakeId()
     {
         return nameof(SendAppLogsService);
@@ -37,7 +43,7 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
         }
 
         using Realm logRealm = await VisitzRealms.GetLogRealmAsync();
-        IList<LogEntry> savedLogs = logRealm.All<LogEntry>().ToList();
+        IList<LogEntry> savedLogs = logRealm.All<LogEntry>().OrderBy(log => log.Timestamp).ToList();
 
         if (savedLogs.Count <= 0)
         {
@@ -51,7 +57,12 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
 
     async Task<(Result, string?)> UploadLogs(IList<LogEntry> savedLogs, Realm logRealm)
     {
-        IList<AppLogJson> uploadLogs = savedLogs.Select(ToAppLogJson).ToList();
+        // To keep this service simpler, we'll only upload within
+        // s_maxUploadSize of the oldest logs per service run. We will assume
+        // the app does not produce more logs than can be uploaded and
+        // truncated per upload interval (at the time of writing: caseload
+        // refreshes).
+        var (onePageLogs, uploadLogs) = LimitAndMapLogs(savedLogs);
 
         Result? resultCode = null;
         string? resultMessage = null;
@@ -68,7 +79,7 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
         {
             await logRealm.WriteAsync(() =>
             {
-                foreach (var log in savedLogs)
+                foreach (var log in onePageLogs)
                     logRealm.Remove(log);
             });
         }
@@ -76,7 +87,34 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
         return (resultCode ?? Result.Successful, resultMessage);
     }
 
-    AppLogJson ToAppLogJson(LogEntry log)
+    static (List<LogEntry>, List<AppLogJson>) LimitAndMapLogs(IList<LogEntry> savedLogs)
+    {
+        int totalSize = 0;
+        int index = 0;
+        List<LogEntry> onePageLogs = [];
+        List<AppLogJson> uploadLogs = [];
+
+        while (totalSize < s_maxUploadSize && index < savedLogs.Count)
+        {
+            LogEntry log = savedLogs[index];
+            AppLogJson logJson = ToAppLogJson(log);
+
+            string serializedLog = JsonSerializer.Serialize(logJson);
+            int nextSize = Encoding.UTF8.GetByteCount(serializedLog);
+
+            if (totalSize + nextSize < s_maxUploadSize)
+            {
+                onePageLogs.Add(log);
+                uploadLogs.Add(logJson);
+                totalSize += nextSize;
+            }
+            index++;
+        }
+
+        return (onePageLogs, uploadLogs);
+    }
+
+    static AppLogJson ToAppLogJson(LogEntry log)
     {
         return new()
         {
