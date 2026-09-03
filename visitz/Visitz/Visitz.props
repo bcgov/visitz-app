@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<CSharpierVersion>1.2.6</CSharpierVersion>
+		<CSharpierVersion>1.3.0</CSharpierVersion>
 		<CommunityToolkitMvvmVersion>8.4.2</CommunityToolkitMvvmVersion>
 		<CoverletCollectorVersion>6.0.4</CoverletCollectorVersion>
 		<MauiPackageVersion>10.0.100</MauiPackageVersion>
