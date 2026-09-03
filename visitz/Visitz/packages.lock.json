@@ -187,9 +187,9 @@
       },
       "Syncfusion.Maui.Toolkit": {
         "type": "Direct",
-        "requested": "[1.0.9, )",
-        "resolved": "1.0.9",
-        "contentHash": "T7GJRt37VoYScF3hpWEFZwLn8ooz0k4HRvQgAe55g0ftWkKvHpTog+za4N7kXVgwDoMwfEmIW1qW3z/OAcpxng=="
+        "requested": "[1.0.11, )",
+        "resolved": "1.0.11",
+        "contentHash": "4xZwjAppzE2BbwPdNqz9OSx3c/5Ju2UPQIySBhGmLl4Xve7jGMkMml0gUjIXcWPL1VnyE+zbjBTkt/FY2pJUcA=="
       },
       "CommunityToolkit.Maui.Core": {
         "type": "Transitive",
@@ -752,9 +752,9 @@
       },
       "Syncfusion.Maui.Toolkit": {
         "type": "Direct",
-        "requested": "[1.0.9, )",
-        "resolved": "1.0.9",
-        "contentHash": "T7GJRt37VoYScF3hpWEFZwLn8ooz0k4HRvQgAe55g0ftWkKvHpTog+za4N7kXVgwDoMwfEmIW1qW3z/OAcpxng=="
+        "requested": "[1.0.11, )",
+        "resolved": "1.0.11",
+        "contentHash": "4xZwjAppzE2BbwPdNqz9OSx3c/5Ju2UPQIySBhGmLl4Xve7jGMkMml0gUjIXcWPL1VnyE+zbjBTkt/FY2pJUcA=="
       },
       "CommunityToolkit.Maui.Core": {
         "type": "Transitive",
