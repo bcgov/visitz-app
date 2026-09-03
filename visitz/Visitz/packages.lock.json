@@ -103,26 +103,26 @@
       },
       "Microsoft.Maui.Controls": {
         "type": "Direct",
-        "requested": "[10.0.51, )",
-        "resolved": "10.0.51",
-        "contentHash": "TLYYNFKykbsoA2vm6sRjgf9bGPNhyzyvgH9B39knqomS3rj/1jy9CHEg8b6xwB0RttgmuSBk+l9QSCTDbhChxw==",
+        "requested": "[10.0.100, )",
+        "resolved": "10.0.100",
+        "contentHash": "vIW7URxjJJw2pD4GC25AZO97OV3n4ljUDTa1aGJuNvVnqW3FRYO/9VpLeZh2YLJFCJuMIoke0O5mPFtcqR7nSg==",
         "dependencies": {
-          "Microsoft.Maui.Controls.Build.Tasks": "10.0.51",
-          "Microsoft.Maui.Controls.Core": "10.0.51",
-          "Microsoft.Maui.Controls.Xaml": "10.0.51",
-          "Microsoft.Maui.Resizetizer": "10.0.51"
+          "Microsoft.Maui.Controls.Build.Tasks": "10.0.100",
+          "Microsoft.Maui.Controls.Core": "10.0.100",
+          "Microsoft.Maui.Controls.Xaml": "10.0.100",
+          "Microsoft.Maui.Resizetizer": "10.0.100"
         }
       },
       "Microsoft.Maui.Controls.Compatibility": {
         "type": "Direct",
-        "requested": "[10.0.51, )",
-        "resolved": "10.0.51",
-        "contentHash": "eZIFC5DzoUFsN3fbdY/6A8wsDII2hJn2OwzKR+dUK3g91sDiVG0/aPC8fDEVD68nhNc+Ow1sq496WJSvxfsbqw==",
+        "requested": "[10.0.100, )",
+        "resolved": "10.0.100",
+        "contentHash": "ymr5Omja8ZKTYiWoDhVuhhFc9XlaDgj8npvKu3+di3/Dyj8h3dsKqz7aZAoipm90n/VpRBIx/O26fXgrMtff8A==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Maui.Controls.Core": "10.0.51",
-          "Microsoft.Maui.Controls.Xaml": "10.0.51"
+          "Microsoft.Maui.Controls.Core": "10.0.100",
+          "Microsoft.Maui.Controls.Xaml": "10.0.100"
         }
       },
       "Microsoft.Maui.Controls.Foldable": {
@@ -406,66 +406,66 @@
       },
       "Microsoft.Maui.Controls.Build.Tasks": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "nUIQPuFDdeBa9DjQ+icri2aWgC7tE3wTapY5Yii7Tmq9E50qck1Gag3Bm4QtUpO6xPcW84gY44Lj5NnQmQc2dw==",
+        "resolved": "10.0.100",
+        "contentHash": "M38jx/ZO/gMWvwdtPpI87Q66/1dmzJSEPgrhMst6K/wcb4shE6JXqwM139MlwaeuQvi/+1WGXrX5XZO5vQF3eA==",
         "dependencies": {
-          "Microsoft.Maui.Controls.Core": "10.0.51",
-          "Microsoft.Maui.Controls.Xaml": "10.0.51"
+          "Microsoft.Maui.Controls.Core": "10.0.100",
+          "Microsoft.Maui.Controls.Xaml": "10.0.100"
         }
       },
       "Microsoft.Maui.Controls.Core": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "qstQi4JkE5aMbWn1vcAf7F8bmbeoEaRiHudwWB6GWFBwRbvW/INCUgWOW3o4U2wQ+kFk6umkARhYILgM6p7KQA==",
+        "resolved": "10.0.100",
+        "contentHash": "jTZ9bWy5c9KAsIu2glgmnHE9bQlOc7Qv2+OKYNTxhr9VN97vtlrzktxq6xJtqzitoVyMvPTZ+DjWkvBYkg7NsA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
           "Microsoft.Extensions.Logging": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Maui.Core": "10.0.51"
+          "Microsoft.Maui.Core": "10.0.100"
         }
       },
       "Microsoft.Maui.Controls.Xaml": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "mS8xpYrQnTLgxYkzLhUn5PBy//i+7a5KbrySHC9VJ9t3HIiJkQNE4Rw3EGXSaT8m4UrPuRTn4I++Q4slMOg5mg==",
+        "resolved": "10.0.100",
+        "contentHash": "yj2KHtS3x1D1Ef5HeAW4WRAYfDZnFuWKUXswFKQ0NMav/iCUQs3pXxlYC+z4PDh4fGNcpCEIkmwCXtxPVf0BOg==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
-          "Microsoft.Maui.Controls.Core": "10.0.51",
-          "Microsoft.Maui.Core": "10.0.51"
+          "Microsoft.Maui.Controls.Core": "10.0.100",
+          "Microsoft.Maui.Core": "10.0.100"
         }
       },
       "Microsoft.Maui.Core": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "lqxvceuYFwb2NN3ZYrqMFx2NmNOS7eyf4ERc/iuwH1XwJ6QnuG+vaYOCTlFiQDgw27KGlorw8o5o6vCzZFvceQ==",
+        "resolved": "10.0.100",
+        "contentHash": "89RpsQ6wnqpnQ46HwBSA78/QweCe0xrL9CDV1YQ54AfQ3aqnGwQIOgiYk5CF5bB/QaADV0XncLO9tKjYjq9whw==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
           "Microsoft.Extensions.Logging": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Maui.Essentials": "10.0.51",
-          "Microsoft.Maui.Graphics": "10.0.51"
+          "Microsoft.Maui.Essentials": "10.0.100",
+          "Microsoft.Maui.Graphics": "10.0.100"
         }
       },
       "Microsoft.Maui.Essentials": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "DrfNYW3DKevP5TmiIN2wBRmu/xC5Utyn5YmpaMmzdhAS/ZqCDTgj3BmLPwGsn0R+JYDNAv83q4TI5Ap2VyXvig==",
+        "resolved": "10.0.100",
+        "contentHash": "52RhGDbzk4YPZ5ADaNZALO2o0uL03tpTuRVEmGBeCt6ax35rY8UwYpjH7QPbbXaw3O3zlBNe2V6C4swdpDyvvA==",
         "dependencies": {
-          "Microsoft.Maui.Graphics": "10.0.51"
+          "Microsoft.Maui.Graphics": "10.0.100"
         }
       },
       "Microsoft.Maui.Graphics": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "1oSojQn4xnSA7tVu6xILmxD24aAMqmiPqRKfavuhp3apCon4KV70Ic/5S3DvbQ67tFloAsv9JOybR2qa65m51g=="
+        "resolved": "10.0.100",
+        "contentHash": "r7kAHiW5yRbqscJYKjjMNef/BOJB6A7m9vymklA6x1in9d3SD62hS/rNFzRjw7Hd0UeZnZmfHTaUgch/hyeShQ=="
       },
       "Microsoft.Maui.Resizetizer": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "ublCz8lzZEuG0/Nc5Dy+Y8bLPpbB/bCJ684HHRlHcsDE72rcK3CWJqW0HUMfvZsHqYqhfivgOpUgf+NyId0MNA=="
+        "resolved": "10.0.100",
+        "contentHash": "Azlu0jBy8rBjk8m3Ed/vyjISN9ckpIi0NWnyMavLlMFXCrcIftvJ9luPSd0pJNlPaQq0uKhedsUgoIJ/C2sUTw=="
       },
       "MongoDB.Bson": {
         "type": "Transitive",
@@ -510,8 +510,8 @@
         "type": "Project",
         "dependencies": {
           "IdentityModel.OidcClient": "[6.0.0, )",
-          "Microsoft.Maui.Controls": "[10.0.51, )",
-          "Microsoft.Maui.Controls.Compatibility": "[10.0.51, )",
+          "Microsoft.Maui.Controls": "[10.0.100, )",
+          "Microsoft.Maui.Controls.Compatibility": "[10.0.100, )",
           "System.IdentityModel.Tokens.Jwt": "[8.15.0, )"
         }
       },
@@ -525,8 +525,8 @@
         "type": "Project",
         "dependencies": {
           "CommunityToolkit.Mvvm": "[8.4.2, )",
-          "Microsoft.Maui.Controls": "[10.0.51, )",
-          "Microsoft.Maui.Controls.Compatibility": "[10.0.51, )",
+          "Microsoft.Maui.Controls": "[10.0.100, )",
+          "Microsoft.Maui.Controls.Compatibility": "[10.0.100, )",
           "Realm": "[20.1.0, )",
           "SixLabors.ImageSharp": "[3.1.12, )",
           "VisitzApi": "[1.0.0, )"
@@ -671,26 +671,26 @@
       },
       "Microsoft.Maui.Controls": {
         "type": "Direct",
-        "requested": "[10.0.51, )",
-        "resolved": "10.0.51",
-        "contentHash": "TLYYNFKykbsoA2vm6sRjgf9bGPNhyzyvgH9B39knqomS3rj/1jy9CHEg8b6xwB0RttgmuSBk+l9QSCTDbhChxw==",
+        "requested": "[10.0.100, )",
+        "resolved": "10.0.100",
+        "contentHash": "vIW7URxjJJw2pD4GC25AZO97OV3n4ljUDTa1aGJuNvVnqW3FRYO/9VpLeZh2YLJFCJuMIoke0O5mPFtcqR7nSg==",
         "dependencies": {
-          "Microsoft.Maui.Controls.Build.Tasks": "10.0.51",
-          "Microsoft.Maui.Controls.Core": "10.0.51",
-          "Microsoft.Maui.Controls.Xaml": "10.0.51",
-          "Microsoft.Maui.Resizetizer": "10.0.51"
+          "Microsoft.Maui.Controls.Build.Tasks": "10.0.100",
+          "Microsoft.Maui.Controls.Core": "10.0.100",
+          "Microsoft.Maui.Controls.Xaml": "10.0.100",
+          "Microsoft.Maui.Resizetizer": "10.0.100"
         }
       },
       "Microsoft.Maui.Controls.Compatibility": {
         "type": "Direct",
-        "requested": "[10.0.51, )",
-        "resolved": "10.0.51",
-        "contentHash": "eZIFC5DzoUFsN3fbdY/6A8wsDII2hJn2OwzKR+dUK3g91sDiVG0/aPC8fDEVD68nhNc+Ow1sq496WJSvxfsbqw==",
+        "requested": "[10.0.100, )",
+        "resolved": "10.0.100",
+        "contentHash": "ymr5Omja8ZKTYiWoDhVuhhFc9XlaDgj8npvKu3+di3/Dyj8h3dsKqz7aZAoipm90n/VpRBIx/O26fXgrMtff8A==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Maui.Controls.Core": "10.0.51",
-          "Microsoft.Maui.Controls.Xaml": "10.0.51"
+          "Microsoft.Maui.Controls.Core": "10.0.100",
+          "Microsoft.Maui.Controls.Xaml": "10.0.100"
         }
       },
       "Microsoft.Maui.Controls.Foldable": {
@@ -936,10 +936,10 @@
       },
       "Microsoft.Graphics.Win2D": {
         "type": "Transitive",
-        "resolved": "1.3.2",
-        "contentHash": "xAv4+Xj8wePW1innIUSXebX6UHMGDzOxwKPwYNUNY7mBrsRL/hPFEtuPLpBSxc3iBnuaCogPDCDeN7T4b1xV0Q==",
+        "resolved": "1.4.0",
+        "contentHash": "/04yyf3xEOxeBK+SXxGB6OYLjXBVuujcLQF04mREcRcBT59IMI+oDbXOZZG2c/mJL8kKFC8r3wqz6MyA6IP3oA==",
         "dependencies": {
-          "Microsoft.WindowsAppSDK": "1.6.241114003"
+          "Microsoft.WindowsAppSDK.WinUI": "1.8.260204000"
         }
       },
       "Microsoft.IdentityModel.Abstractions": {
@@ -979,88 +979,88 @@
       },
       "Microsoft.Maui.Controls.Build.Tasks": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "nUIQPuFDdeBa9DjQ+icri2aWgC7tE3wTapY5Yii7Tmq9E50qck1Gag3Bm4QtUpO6xPcW84gY44Lj5NnQmQc2dw==",
+        "resolved": "10.0.100",
+        "contentHash": "M38jx/ZO/gMWvwdtPpI87Q66/1dmzJSEPgrhMst6K/wcb4shE6JXqwM139MlwaeuQvi/+1WGXrX5XZO5vQF3eA==",
         "dependencies": {
-          "Microsoft.Maui.Controls.Core": "10.0.51",
-          "Microsoft.Maui.Controls.Xaml": "10.0.51"
+          "Microsoft.Maui.Controls.Core": "10.0.100",
+          "Microsoft.Maui.Controls.Xaml": "10.0.100"
         }
       },
       "Microsoft.Maui.Controls.Core": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "qstQi4JkE5aMbWn1vcAf7F8bmbeoEaRiHudwWB6GWFBwRbvW/INCUgWOW3o4U2wQ+kFk6umkARhYILgM6p7KQA==",
+        "resolved": "10.0.100",
+        "contentHash": "jTZ9bWy5c9KAsIu2glgmnHE9bQlOc7Qv2+OKYNTxhr9VN97vtlrzktxq6xJtqzitoVyMvPTZ+DjWkvBYkg7NsA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
           "Microsoft.Extensions.Logging": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Maui.Core": "10.0.51"
+          "Microsoft.Maui.Core": "10.0.100"
         }
       },
       "Microsoft.Maui.Controls.Xaml": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "mS8xpYrQnTLgxYkzLhUn5PBy//i+7a5KbrySHC9VJ9t3HIiJkQNE4Rw3EGXSaT8m4UrPuRTn4I++Q4slMOg5mg==",
+        "resolved": "10.0.100",
+        "contentHash": "yj2KHtS3x1D1Ef5HeAW4WRAYfDZnFuWKUXswFKQ0NMav/iCUQs3pXxlYC+z4PDh4fGNcpCEIkmwCXtxPVf0BOg==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
-          "Microsoft.Maui.Controls.Core": "10.0.51",
-          "Microsoft.Maui.Core": "10.0.51"
+          "Microsoft.Maui.Controls.Core": "10.0.100",
+          "Microsoft.Maui.Core": "10.0.100"
         }
       },
       "Microsoft.Maui.Core": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "lqxvceuYFwb2NN3ZYrqMFx2NmNOS7eyf4ERc/iuwH1XwJ6QnuG+vaYOCTlFiQDgw27KGlorw8o5o6vCzZFvceQ==",
+        "resolved": "10.0.100",
+        "contentHash": "89RpsQ6wnqpnQ46HwBSA78/QweCe0xrL9CDV1YQ54AfQ3aqnGwQIOgiYk5CF5bB/QaADV0XncLO9tKjYjq9whw==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
           "Microsoft.Extensions.Logging": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Graphics.Win2D": "1.3.2",
-          "Microsoft.Maui.Essentials": "10.0.51",
-          "Microsoft.Maui.Graphics": "10.0.51",
-          "Microsoft.Maui.Graphics.Win2D.WinUI.Desktop": "10.0.51",
+          "Microsoft.Graphics.Win2D": "1.4.0",
+          "Microsoft.Maui.Essentials": "10.0.100",
+          "Microsoft.Maui.Graphics": "10.0.100",
+          "Microsoft.Maui.Graphics.Win2D.WinUI.Desktop": "10.0.100",
           "Microsoft.Web.WebView2": "1.0.3179.45",
-          "Microsoft.Windows.SDK.BuildTools": "10.0.26100.4654",
-          "Microsoft.WindowsAppSDK": "1.8.251106002"
+          "Microsoft.Windows.SDK.BuildTools": "10.0.26100.8249",
+          "Microsoft.WindowsAppSDK": "1.8.260529003"
         }
       },
       "Microsoft.Maui.Essentials": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "DrfNYW3DKevP5TmiIN2wBRmu/xC5Utyn5YmpaMmzdhAS/ZqCDTgj3BmLPwGsn0R+JYDNAv83q4TI5Ap2VyXvig==",
+        "resolved": "10.0.100",
+        "contentHash": "52RhGDbzk4YPZ5ADaNZALO2o0uL03tpTuRVEmGBeCt6ax35rY8UwYpjH7QPbbXaw3O3zlBNe2V6C4swdpDyvvA==",
         "dependencies": {
-          "Microsoft.Maui.Graphics": "10.0.51",
+          "Microsoft.Maui.Graphics": "10.0.100",
           "Microsoft.Web.WebView2": "1.0.3179.45",
-          "Microsoft.WindowsAppSDK": "1.8.251106002"
+          "Microsoft.WindowsAppSDK": "1.8.260529003"
         }
       },
       "Microsoft.Maui.Graphics": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "1oSojQn4xnSA7tVu6xILmxD24aAMqmiPqRKfavuhp3apCon4KV70Ic/5S3DvbQ67tFloAsv9JOybR2qa65m51g==",
+        "resolved": "10.0.100",
+        "contentHash": "r7kAHiW5yRbqscJYKjjMNef/BOJB6A7m9vymklA6x1in9d3SD62hS/rNFzRjw7Hd0UeZnZmfHTaUgch/hyeShQ==",
         "dependencies": {
-          "Microsoft.Graphics.Win2D": "1.3.2",
+          "Microsoft.Graphics.Win2D": "1.4.0",
           "Microsoft.IO.RecyclableMemoryStream": "3.0.1",
-          "Microsoft.WindowsAppSDK": "1.8.251106002"
+          "Microsoft.WindowsAppSDK": "1.8.260529003"
         }
       },
       "Microsoft.Maui.Graphics.Win2D.WinUI.Desktop": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "M0JIGi5VVHVjDwU3AqfqHH2GN+gKXATU87Z/laLPnF6sUpuCqkvDOAlPjWtbdDIA/txE9hLnHMEvJoXkpfJipA==",
+        "resolved": "10.0.100",
+        "contentHash": "KVgEw3z96VI8OdfpGOwi3HONZeaRjAKSK42tHPRVzK0pvD5+cGCVHxN9tt5xGd87vz3l+Cxc3nVzk6JP/hdazA==",
         "dependencies": {
-          "Microsoft.Graphics.Win2D": "1.3.2",
-          "Microsoft.Maui.Graphics": "10.0.51",
-          "Microsoft.WindowsAppSDK": "1.8.251106002"
+          "Microsoft.Graphics.Win2D": "1.4.0",
+          "Microsoft.Maui.Graphics": "10.0.100",
+          "Microsoft.WindowsAppSDK": "1.8.260529003"
         }
       },
       "Microsoft.Maui.Resizetizer": {
         "type": "Transitive",
-        "resolved": "10.0.51",
-        "contentHash": "ublCz8lzZEuG0/Nc5Dy+Y8bLPpbB/bCJ684HHRlHcsDE72rcK3CWJqW0HUMfvZsHqYqhfivgOpUgf+NyId0MNA=="
+        "resolved": "10.0.100",
+        "contentHash": "Azlu0jBy8rBjk8m3Ed/vyjISN9ckpIi0NWnyMavLlMFXCrcIftvJ9luPSd0pJNlPaQq0uKhedsUgoIJ/C2sUTw=="
       },
       "Microsoft.Web.WebView2": {
         "type": "Transitive",
@@ -1069,8 +1069,8 @@
       },
       "Microsoft.Windows.SDK.BuildTools": {
         "type": "Transitive",
-        "resolved": "10.0.26100.4654",
-        "contentHash": "2mgcOlj/t2RfSyyw+pVESfO+Tk1RkfQzto9Vrq42M1lUQIfQEwbi8QLha9GXWIOj+TFzeHIEJckIoF25mgiM8A=="
+        "resolved": "10.0.26100.8249",
+        "contentHash": "WJ+X+fVbBcZFc5q1MufkqBNjeMqWUblbG6PmijNG0tMVt+VXdE5cdaD30dbZ90RwUTidbjxv/tmgovl5czLlrg=="
       },
       "Microsoft.Windows.SDK.BuildTools.MSIX": {
         "type": "Transitive",
@@ -1079,27 +1079,27 @@
       },
       "Microsoft.WindowsAppSDK": {
         "type": "Transitive",
-        "resolved": "1.8.260101001",
-        "contentHash": "sXb7YljdIpG2MFG/i/es69lxOdfcTYKj+85jhOQU815imDFU+tk4LmT8eRDZUEmDNHyQMtAEZdGWecbA+Hu3QQ==",
+        "resolved": "1.8.260529003",
+        "contentHash": "KdHP8LqgzpYlPdXtUQUeqkvihgmiZ9M2XoG7n53m91H9zx3GvW7lSqPJmuYnlnIU41m1+ZNcjoxqXdQh5HdEJg==",
         "dependencies": {
-          "Microsoft.WindowsAppSDK.AI": "[1.8.44]",
+          "Microsoft.WindowsAppSDK.AI": "[1.8.76]",
           "Microsoft.WindowsAppSDK.Base": "[1.8.251216001]",
           "Microsoft.WindowsAppSDK.DWrite": "[1.8.25122902]",
-          "Microsoft.WindowsAppSDK.Foundation": "[1.8.251220000]",
-          "Microsoft.WindowsAppSDK.InteractiveExperiences": "[1.8.251217001]",
-          "Microsoft.WindowsAppSDK.ML": "[1.8.2119]",
-          "Microsoft.WindowsAppSDK.Runtime": "[1.8.260101001]",
+          "Microsoft.WindowsAppSDK.Foundation": "[1.8.260527000]",
+          "Microsoft.WindowsAppSDK.InteractiveExperiences": "[1.8.260525001]",
+          "Microsoft.WindowsAppSDK.ML": "[1.8.2197]",
+          "Microsoft.WindowsAppSDK.Runtime": "[1.8.260529003]",
           "Microsoft.WindowsAppSDK.Widgets": "[1.8.251231004]",
-          "Microsoft.WindowsAppSDK.WinUI": "[1.8.251222000]"
+          "Microsoft.WindowsAppSDK.WinUI": "[1.8.260528001]"
         }
       },
       "Microsoft.WindowsAppSDK.AI": {
         "type": "Transitive",
-        "resolved": "1.8.44",
-        "contentHash": "6b9ib6x5IMF+WMqypCReB7CItqEpyV0eViZ0jX1d00Po60/xAYvEiFSSSj99c8p+Qb1rlAq9tbrCLLCiIR0cpg==",
+        "resolved": "1.8.76",
+        "contentHash": "Ayn9QybcwzH+c8eQlE7dm2oO3Jrcn2uohLcsHJpCbLOAfcisjzwtSBe0oyulbaJ86R4eDSX3RDS25tsjGpIqyQ==",
         "dependencies": {
           "Microsoft.WindowsAppSDK.Base": "1.8.251216001",
-          "Microsoft.WindowsAppSDK.Foundation": "1.8.251220000"
+          "Microsoft.WindowsAppSDK.Foundation": "1.8.260501000"
         }
       },
       "Microsoft.WindowsAppSDK.Base": {
@@ -1121,35 +1121,35 @@
       },
       "Microsoft.WindowsAppSDK.Foundation": {
         "type": "Transitive",
-        "resolved": "1.8.251220000",
-        "contentHash": "3S64+LoMIXLO/488auf1/qk1gt5Hr7RpdF0iUb82A+NoByX+6eScNhL3kZf2TIiOcwxfGjtefYJC4MOqXD2IrA==",
+        "resolved": "1.8.260527000",
+        "contentHash": "zS6YwSkF+0z9Dr6iDoo/Rzh2bjt7DY3sQ0HNUrakcFwofW2DQJQPZj+36sx/An4Ms4X4EIah8QC318p2kfy/6Q==",
         "dependencies": {
           "Microsoft.WindowsAppSDK.Base": "1.8.251216001",
-          "Microsoft.WindowsAppSDK.InteractiveExperiences": "1.8.251217001"
+          "Microsoft.WindowsAppSDK.InteractiveExperiences": "1.8.260525001"
         }
       },
       "Microsoft.WindowsAppSDK.InteractiveExperiences": {
         "type": "Transitive",
-        "resolved": "1.8.251217001",
-        "contentHash": "npyHn+Qi8/DD0xBASL8+Ga9iWYz4P9M8BeiYYCRWOY8DMZkYQd8PCuJkA81Qm+2yNXGcn7osz7RgycZiIv0ONQ==",
+        "resolved": "1.8.260525001",
+        "contentHash": "dqURBXVIFFGje61D1T4rIgFl36Ch7SmAb88NVgObc3cwHDgjRUF0DfL5gK1TOZg3HYg/roTHqb0jSn/8FkCN8w==",
         "dependencies": {
           "Microsoft.WindowsAppSDK.Base": "1.8.251216001"
         }
       },
       "Microsoft.WindowsAppSDK.ML": {
         "type": "Transitive",
-        "resolved": "1.8.2119",
-        "contentHash": "hIOkLSBBVxp/MfK3NwU1H1y7x6fDFS2Fn+HDQHYVroDYV1QJ43GFuKW6BAUb0OFZveyK0vGiEFWF7Zp9q6vUIg==",
+        "resolved": "1.8.2197",
+        "contentHash": "6Bc1SOLd5HicY3GbF+zr76YBfH4iZOKeEGxTK/lHKAK2ExZTWavOADxB2CKSi/irF4dWSngUdRFopWPmckJ6fA==",
         "dependencies": {
           "Microsoft.WindowsAppSDK.Base": "1.8.251216001",
-          "Microsoft.WindowsAppSDK.Foundation": "1.8.251220000",
+          "Microsoft.WindowsAppSDK.Foundation": "1.8.260505001",
           "System.Numerics.Tensors": "9.0.0"
         }
       },
       "Microsoft.WindowsAppSDK.Runtime": {
         "type": "Transitive",
-        "resolved": "1.8.260101001",
-        "contentHash": "owDHXr1nmfO1V8mH/fCGT6izgkDZlufBAt7mUP335GpqkDPQ6RiRdAnEp2PWQiLrCcom1fL7WKyhrA3vN5ERZw==",
+        "resolved": "1.8.260529003",
+        "contentHash": "VAVOtE30SaOlxBedxQe4x5adPWJtA1IyYMokWh8G+r71Ksbtr3tFvhErbaDAFGmNQEyUXhPKtIu6NFaHVFCorA==",
         "dependencies": {
           "Microsoft.WindowsAppSDK.Base": "1.8.251216001"
         }
@@ -1164,13 +1164,13 @@
       },
       "Microsoft.WindowsAppSDK.WinUI": {
         "type": "Transitive",
-        "resolved": "1.8.251222000",
-        "contentHash": "IbokgSGS7od6SJL5VD5PvA+EdZpoO+b9vDxxc6Myjspnhba3iYv53iM2q2MgxPGPvElKjpQrSx9+Q7ToFNeHpw==",
+        "resolved": "1.8.260528001",
+        "contentHash": "E4Q2NhfpPrQsaOfYbnsnaw7Ryn7EqM7/xDQyrMoBgSGW8K6aPvhMvyxeqJ8UmwUDragvycFbPLLw9vM9/1yZpQ==",
         "dependencies": {
           "Microsoft.Web.WebView2": "1.0.3179.45",
           "Microsoft.WindowsAppSDK.Base": "1.8.251216001",
-          "Microsoft.WindowsAppSDK.Foundation": "1.8.251220000",
-          "Microsoft.WindowsAppSDK.InteractiveExperiences": "1.8.251217001"
+          "Microsoft.WindowsAppSDK.Foundation": "1.8.260527000",
+          "Microsoft.WindowsAppSDK.InteractiveExperiences": "1.8.260525001"
         }
       },
       "MongoDB.Bson": {
@@ -1226,8 +1226,8 @@
         "type": "Project",
         "dependencies": {
           "IdentityModel.OidcClient": "[6.0.0, )",
-          "Microsoft.Maui.Controls": "[10.0.51, )",
-          "Microsoft.Maui.Controls.Compatibility": "[10.0.51, )",
+          "Microsoft.Maui.Controls": "[10.0.100, )",
+          "Microsoft.Maui.Controls.Compatibility": "[10.0.100, )",
           "System.IdentityModel.Tokens.Jwt": "[8.15.0, )"
         }
       },
@@ -1241,8 +1241,8 @@
         "type": "Project",
         "dependencies": {
           "CommunityToolkit.Mvvm": "[8.4.2, )",
-          "Microsoft.Maui.Controls": "[10.0.51, )",
-          "Microsoft.Maui.Controls.Compatibility": "[10.0.51, )",
+          "Microsoft.Maui.Controls": "[10.0.100, )",
+          "Microsoft.Maui.Controls.Compatibility": "[10.0.100, )",
           "Realm": "[20.1.0, )",
           "SixLabors.ImageSharp": "[3.1.12, )",
           "System.Diagnostics.EventLog": "[10.0.2, )",
@@ -1264,10 +1264,10 @@
       },
       "Microsoft.Graphics.Win2D": {
         "type": "Transitive",
-        "resolved": "1.3.2",
-        "contentHash": "xAv4+Xj8wePW1innIUSXebX6UHMGDzOxwKPwYNUNY7mBrsRL/hPFEtuPLpBSxc3iBnuaCogPDCDeN7T4b1xV0Q==",
+        "resolved": "1.4.0",
+        "contentHash": "/04yyf3xEOxeBK+SXxGB6OYLjXBVuujcLQF04mREcRcBT59IMI+oDbXOZZG2c/mJL8kKFC8r3wqz6MyA6IP3oA==",
         "dependencies": {
-          "Microsoft.WindowsAppSDK": "1.6.241114003"
+          "Microsoft.WindowsAppSDK.WinUI": "1.8.260204000"
         }
       },
       "Microsoft.Web.WebView2": {
@@ -1277,11 +1277,11 @@
       },
       "Microsoft.WindowsAppSDK.Foundation": {
         "type": "Transitive",
-        "resolved": "1.8.251220000",
-        "contentHash": "3S64+LoMIXLO/488auf1/qk1gt5Hr7RpdF0iUb82A+NoByX+6eScNhL3kZf2TIiOcwxfGjtefYJC4MOqXD2IrA==",
+        "resolved": "1.8.260527000",
+        "contentHash": "zS6YwSkF+0z9Dr6iDoo/Rzh2bjt7DY3sQ0HNUrakcFwofW2DQJQPZj+36sx/An4Ms4X4EIah8QC318p2kfy/6Q==",
         "dependencies": {
           "Microsoft.WindowsAppSDK.Base": "1.8.251216001",
-          "Microsoft.WindowsAppSDK.InteractiveExperiences": "1.8.251217001"
+          "Microsoft.WindowsAppSDK.InteractiveExperiences": "1.8.260525001"
         }
       },
       "System.Diagnostics.EventLog": {
@@ -1314,10 +1314,10 @@
       },
       "Microsoft.Graphics.Win2D": {
         "type": "Transitive",
-        "resolved": "1.3.2",
-        "contentHash": "xAv4+Xj8wePW1innIUSXebX6UHMGDzOxwKPwYNUNY7mBrsRL/hPFEtuPLpBSxc3iBnuaCogPDCDeN7T4b1xV0Q==",
+        "resolved": "1.4.0",
+        "contentHash": "/04yyf3xEOxeBK+SXxGB6OYLjXBVuujcLQF04mREcRcBT59IMI+oDbXOZZG2c/mJL8kKFC8r3wqz6MyA6IP3oA==",
         "dependencies": {
-          "Microsoft.WindowsAppSDK": "1.6.241114003"
+          "Microsoft.WindowsAppSDK.WinUI": "1.8.260204000"
         }
       },
       "Microsoft.Web.WebView2": {
@@ -1327,11 +1327,11 @@
       },
       "Microsoft.WindowsAppSDK.Foundation": {
         "type": "Transitive",
-        "resolved": "1.8.251220000",
-        "contentHash": "3S64+LoMIXLO/488auf1/qk1gt5Hr7RpdF0iUb82A+NoByX+6eScNhL3kZf2TIiOcwxfGjtefYJC4MOqXD2IrA==",
+        "resolved": "1.8.260527000",
+        "contentHash": "zS6YwSkF+0z9Dr6iDoo/Rzh2bjt7DY3sQ0HNUrakcFwofW2DQJQPZj+36sx/An4Ms4X4EIah8QC318p2kfy/6Q==",
         "dependencies": {
           "Microsoft.WindowsAppSDK.Base": "1.8.251216001",
-          "Microsoft.WindowsAppSDK.InteractiveExperiences": "1.8.251217001"
+          "Microsoft.WindowsAppSDK.InteractiveExperiences": "1.8.260525001"
         }
       },
       "System.Diagnostics.EventLog": {
