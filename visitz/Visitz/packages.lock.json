@@ -127,9 +127,9 @@
       },
       "Microsoft.Maui.Controls.Foldable": {
         "type": "Direct",
-        "requested": "[10.0.31, )",
-        "resolved": "10.0.31",
-        "contentHash": "kzCqGyBzefPj1PtiR6d2YyztaZT90ujW9FC44QyRJElbd7Ur+JFIB/8P26W0oiVbG70aIQZ9mHj6syN7j5Mpxg==",
+        "requested": "[10.0.100, )",
+        "resolved": "10.0.100",
+        "contentHash": "5ZjgmhqIwQNS5yCzRdn2/FPqg9ATyUIUk1IUbObtr6aLANXe3a8MVEjb8FVBP6KvXFUbAhfoIirkSijYvDY3Bw==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
@@ -695,9 +695,9 @@
       },
       "Microsoft.Maui.Controls.Foldable": {
         "type": "Direct",
-        "requested": "[10.0.31, )",
-        "resolved": "10.0.31",
-        "contentHash": "kzCqGyBzefPj1PtiR6d2YyztaZT90ujW9FC44QyRJElbd7Ur+JFIB/8P26W0oiVbG70aIQZ9mHj6syN7j5Mpxg==",
+        "requested": "[10.0.100, )",
+        "resolved": "10.0.100",
+        "contentHash": "5ZjgmhqIwQNS5yCzRdn2/FPqg9ATyUIUk1IUbObtr6aLANXe3a8MVEjb8FVBP6KvXFUbAhfoIirkSijYvDY3Bw==",
         "dependencies": {
           "Microsoft.Extensions.Configuration": "10.0.0",
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
