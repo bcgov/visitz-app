@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Oidc;
 using Realms;
 using Visitz.Services.Base;
@@ -83,7 +82,7 @@ internal class RecordCleanupService : VisitzService
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Deleting dependent data failed");
+            Logger.LogException(ex, "Deleting dependent data failed");
         }
     }
 }

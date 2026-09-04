@@ -234,7 +234,7 @@ public partial class DraftsListViewModel : VisitzViewModel
                 catch (OperationCanceledException) { }
                 catch (Exception ex)
                 {
-                    Logger.LogError(ex, ex.Message);
+                    Logger.LogException(ex, ex.Message);
                     await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
                 }
             }

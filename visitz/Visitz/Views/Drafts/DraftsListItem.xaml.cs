@@ -3,6 +3,7 @@ using Visitz.FontIcons;
 using Visitz.Services.Base;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.Drafts;
@@ -77,7 +78,7 @@ public partial class DraftsListItem : BaseContentView
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Couldn't update network activity UI for {nameof(DraftsListItem)}");
+            Logger.LogException(ex, $"Couldn't update network activity UI for {nameof(DraftsListItem)}");
         }
     }
 }

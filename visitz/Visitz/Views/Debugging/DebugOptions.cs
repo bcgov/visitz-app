@@ -2,11 +2,17 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using Oidc;
+using Visitz.Extensions;
 using Visitz.Services;
+using Visitz.Services.AppLogs;
 using Visitz.Services.Caseload;
 using Visitz.Storage;
+using Visitz.Views.AppLogs;
 using Visitz.Views.Snackbar;
+using VisitzModel.Extensions;
 using VisitzModel.Models.InPersonVisits;
 using VisitzModel.Storage;
 #if WINDOWS
@@ -36,6 +42,9 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
     const string WindowHeightKey = "WindowHeight";
     const string WindowWidthKey = "WindowWidth";
     const string ShowBottomNavOnWindowsKey = "ShowBottomNavOnWindows";
+    const string RunAppLogsServiceInDebugKey = "RunAppLogsServiceInDebug";
+    const string DryFireSendAppLogsKey = "DryFireSendAppLogs";
+    const string KeepLogsAfterSendingKey = "DeleteLogsAfterSending";
 
     public static readonly string EnableOptionsKey = "EnableDebugOptions";
 
@@ -173,6 +182,24 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
     {
         get => Get(ShowBottomNavOnWindowsKey, false);
         set => Set(ShowBottomNavOnWindowsKey, value);
+    }
+
+    public bool RunAppLogsServiceInDebug
+    {
+        get => Get(RunAppLogsServiceInDebugKey, false);
+        set => Set(RunAppLogsServiceInDebugKey, value);
+    }
+
+    public bool DryFireSendAppLogs
+    {
+        get => Get(DryFireSendAppLogsKey, false);
+        set => Set(DryFireSendAppLogsKey, value);
+    }
+
+    public bool KeepLogsAfterSending
+    {
+        get => Get(KeepLogsAfterSendingKey, false);
+        set => Set(KeepLogsAfterSendingKey, value);
     }
 
     [RelayCommand]
@@ -424,5 +451,48 @@ public partial class DebugOptions(IPreferences preferences) : ObservableObject
             "testing message",
             TimeSpan.FromSeconds(int.MaxValue)
         );
+    }
+
+    [RelayCommand]
+    public static void RunSendAppLogsService()
+    {
+        WeakReferenceMessenger.Default.Send(SendAppLogsService.MakeStartMessage());
+    }
+
+    [RelayCommand]
+    public static async Task OpenLogsWindow()
+    {
+        await Navigator.Navigation.PushModalAsync(new AppLogsList(new()), ViewModalSize.Fullscreen);
+    }
+
+    [RelayCommand]
+    public static void WriteTestingLogs()
+    {
+        var logger = ServiceProvider.GetService<ILogger<DebugOptions>>();
+        logger.LogTrace("Trace log");
+        logger.LogDebug("Debug log");
+        logger.LogInformation("Information log");
+        logger.LogWarning("Warning log");
+        logger.LogError("Error log");
+
+        try
+        {
+            throw new Exception("log exception");
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ex);
+        }
+
+        try
+        {
+            throw new Exception("log exception");
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ex, "log exception with custom message");
+        }
+
+        logger.LogCritical("Critical log");
     }
 }

@@ -7,6 +7,7 @@ using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.FormControls;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 using VisitzModel.Models.People;
 
@@ -139,7 +140,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                         }
                         catch (Exception ex)
                         {
-                            Logger.LogError(ex);
+                            Logger.LogException(ex);
                             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
                         }
                     },
@@ -157,7 +158,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             _ = Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }

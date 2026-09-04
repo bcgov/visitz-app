@@ -36,7 +36,6 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
 
         ServiceHandler = ServiceProvider.Current.GetService<ServiceHandler>();
 
-        TryClearLogs();
         CleanupStaleRecords();
     }
 
@@ -60,18 +59,6 @@ public partial class VisitzApp : Application, IRecipient<AppLockMessage>
     private static async Task ClearIcmData()
     {
         await (await VisitzRealms.GetIcmDataAsync()).ClearAllData();
-    }
-
-    private void TryClearLogs()
-    {
-        try
-        {
-            _ = ClearRealmLogs.ClearLogData();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, ex.Message);
-        }
     }
 
     private static void CleanupStaleRecords()

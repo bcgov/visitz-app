@@ -28,7 +28,7 @@ public partial class ConcernListItemView : BaseContentView
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex.Message, ex);
+            Logger.LogException(ex);
         }
     }
 }

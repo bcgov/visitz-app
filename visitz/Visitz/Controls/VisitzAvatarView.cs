@@ -6,6 +6,7 @@ using Oidc.Events;
 using Visitz.Resources.Styles;
 using Visitz.Views.Entity;
 using Visitz.VisitzConfig;
+using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 
 namespace Visitz.Controls;
@@ -58,7 +59,7 @@ internal partial class VisitzAvatarView : AvatarView, IAsyncInitialize
         }
         catch (Exception ex)
         {
-            ServiceProvider.GetService<ILogger<VisitzAvatarView>>().LogError(ex.Message, ex);
+            ServiceProvider.GetService<ILogger<VisitzAvatarView>>().LogException(ex);
             Text = "??";
         }
     }

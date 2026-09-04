@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
-namespace Visitz.Extensions;
+namespace VisitzModel.Extensions;
 
 public static class ILoggerExtensions
 {
@@ -36,8 +36,13 @@ public static class ILoggerExtensions
 #endif
     }
 
-    public static void LogError<T>(this ILogger<T> logger, Exception exception)
+    public static void LogException<T>(this ILogger<T> logger, Exception exception, string? message = null)
     {
-        logger.LogError(exception, exception.Message);
+        LogException((ILogger)logger, exception, message);
+    }
+
+    public static void LogException(this ILogger logger, Exception exception, string? message = null)
+    {
+        logger.LogError(exception, (message ?? exception.Message) + " -> " + exception.ToString());
     }
 }

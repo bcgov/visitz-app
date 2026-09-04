@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Visitz.Extensions;
 using Visitz.Resources.Localization;
+using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
 using VisitzModel.Models.Attachments;
 using VisitzModel.Storage.Filesystem;
@@ -24,7 +25,7 @@ public partial class PhotoDetailsViewModel : AttachmentDetailsViewModel, IBusine
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
             await Navigator.Navigation.PopAsync();
         }

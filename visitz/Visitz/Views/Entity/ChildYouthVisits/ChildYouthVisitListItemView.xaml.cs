@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 
 namespace Visitz.Views.Entity.ChildYouthVisits;
 
@@ -22,7 +23,7 @@ public partial class ChildYouthVisitListItemView : BaseContentView
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex.Message, ex);
+            Logger.LogException(ex);
         }
     }
 

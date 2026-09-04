@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
-using Visitz.Extensions;
 using Visitz.Views.Entity;
+using VisitzModel.Extensions;
 
 namespace Visitz.Views.BaseClasses;
 
@@ -10,11 +10,16 @@ namespace Visitz.Views.BaseClasses;
 /// </summary>
 public partial class VisitzViewModel : ObservableObject, IDisposable, IAsyncInitialize
 {
-    protected virtual ILogger<VisitzViewModel> Logger { get; } = ServiceProvider.GetService<ILogger<VisitzViewModel>>();
+    protected ILogger Logger { get; }
 
     bool _disposedValue;
 
     public Task? InitTask { get; private set; }
+
+    public VisitzViewModel()
+    {
+        Logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger(GetType());
+    }
 
     public virtual Task StartInitAsync()
     {

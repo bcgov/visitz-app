@@ -7,6 +7,7 @@ using Visitz.Extensions;
 using Visitz.Resources.Localization;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Snackbar;
+using VisitzModel.Extensions;
 using VisitzModel.Models.Caseload;
 
 namespace Visitz.Views.Entity.Attachments;
@@ -73,7 +74,7 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
         catch (Exception ex)
         {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
     }
 
@@ -135,7 +136,7 @@ public partial class TakePhotoView : IcmRecordContentView<TakePhotoViewModel>
         catch (Exception ex)
         {
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
         finally
         {

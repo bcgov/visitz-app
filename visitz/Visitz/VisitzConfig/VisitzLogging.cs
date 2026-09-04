@@ -1,8 +1,6 @@
 using MetroLog.MicrosoftExtensions;
 using Microsoft.Extensions.Logging;
 using Visitz.Storage;
-using MetroLogLevel = MetroLog.LogLevel;
-using MicrosoftLogLevel = Microsoft.Extensions.Logging.LogLevel;
 #if WINDOWS
 using Visitz.Platforms.Windows.Visitz.Storage;
 #endif
@@ -16,21 +14,27 @@ public static class VisitzLogging
         // IStringLocalizer appears to be dependent on a logging service
         builder.Services.AddLogging();
 
+        LogLevel minimumLogLevel = LogLevel.Error;
+
 #if DEBUG
-        builder.Logging.AddDebug();
-#endif
+        minimumLogLevel = LogLevel.Debug;
+
         builder
-            .Logging.SetMinimumLevel((MicrosoftLogLevel)MetroLogLevel.Trace)
-            .AddTraceLogger(options =>
-            {
-                options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
-            })
+            .Logging.AddDebug()
             .AddConsoleLogger(options =>
             {
-                options.MaxLevel = (MicrosoftLogLevel?)MetroLogLevel.Fatal;
+                options.MinLevel = minimumLogLevel;
+                options.MaxLevel = LogLevel.Critical;
             });
+#endif
 
-        builder.Logging.Services.AddSingleton<ILoggerProvider, RealmAsyncTarget>();
+        builder
+            .Logging.SetMinimumLevel(minimumLogLevel)
+            .AddRealmLogger(options =>
+            {
+                options.MinimumLogLevel = minimumLogLevel;
+                options.MaximumLogLevel = LogLevel.Critical;
+            });
 
 #if WINDOWS
         builder.Logging.Services.AddSingleton<ILoggerProvider, EventViewerLoggingProvider>();

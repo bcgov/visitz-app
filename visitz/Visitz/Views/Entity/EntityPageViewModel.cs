@@ -9,6 +9,7 @@ using Visitz.Services.Base;
 using Visitz.Services.Caseload;
 using Visitz.Services.Messages;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Extensions.EntityTypes;
 using VisitzModel.Messaging;
 using VisitzModel.Models.Caseload;
@@ -75,7 +76,7 @@ public partial class EntityPageViewModel(ServiceActivityListener activityListene
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
     }
 
@@ -87,7 +88,7 @@ public partial class EntityPageViewModel(ServiceActivityListener activityListene
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
     }
 

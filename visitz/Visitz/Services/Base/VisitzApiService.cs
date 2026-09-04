@@ -10,6 +10,7 @@ using Visitz.Storage;
 using Visitz.Views.Snackbar;
 using VisitzApi;
 using VisitzApi.ErrorHandling;
+using VisitzModel.Extensions;
 using VisitzModel.Storage;
 #if WINDOWS
 using Visitz.WinUI;
@@ -146,7 +147,7 @@ public abstract class VisitzApiService(Vpi vpi, LastUpdatedPrefs prefs) : Visitz
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex);
         }
     }
 

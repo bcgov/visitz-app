@@ -7,6 +7,7 @@ using Visitz.FontIcons;
 using Visitz.Resources.Localization;
 using Visitz.Resources.Styles;
 using Visitz.Views.BaseClasses;
+using VisitzModel.Extensions;
 using VisitzModel.Models.People;
 
 namespace Visitz.Views.Entity.FamilyMembers;
@@ -66,7 +67,7 @@ public partial class ContactItemViewModel : VisitzViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
@@ -81,7 +82,7 @@ public partial class ContactItemViewModel : VisitzViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             _ = Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }

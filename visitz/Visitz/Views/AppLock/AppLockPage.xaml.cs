@@ -4,6 +4,7 @@ using Oidc;
 using Visitz.Extensions;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
+using VisitzModel.Extensions;
 
 namespace Visitz.Views.AppLock;
 
@@ -72,7 +73,7 @@ public partial class AppLockPage : VisitzPage<AppLockPage, AppLockViewModel>
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex.Message);
         }
     }

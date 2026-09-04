@@ -1,10 +1,24 @@
+using Microsoft.Extensions.Logging;
 using Realms;
 
 namespace VisitzModel.Models.Logging;
 
 public partial class LogEntry : IRealmObject
 {
-    public string Type { get; set; } = string.Empty;
+    [MapTo("Type")]
+    public string LevelText { get; set; } = string.Empty;
+
+    private int LogLevelInt { get; set; }
+
+    public LogLevel LogLevel
+    {
+        get => (LogLevel)LogLevelInt;
+        set
+        {
+            LogLevelInt = (int)value;
+            LevelText = value.ToString();
+        }
+    }
 
     public string Message { get; set; } = string.Empty;
 
@@ -12,38 +26,8 @@ public partial class LogEntry : IRealmObject
 
     public DateTimeOffset Timestamp { get; set; }
 
-    public static async Task AddLogEntry(
-        string logType,
-        string logMessage,
-        string logSource,
-        DateTimeOffset timeStamp,
-        Realm realm
-    )
-    {
-        var logEntry = new LogEntry
-        {
-            Type = logType,
-            Message = logMessage,
-            Source = logSource,
-            Timestamp = timeStamp,
-        };
-        try
-        {
-            await realm.WriteAsync(() => realm.Add(logEntry));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-        }
-    }
-
-    public static List<LogEntry> GetLogEntries(Realm realm)
-    {
-        return realm.All<LogEntry>().ToList();
-    }
-
     public override string ToString()
     {
-        return $"[{Timestamp}] {Type}: {Message} (Source: {Source})";
+        return $"[{Timestamp}] {Source}: {LevelText}: {Message}";
     }
 }

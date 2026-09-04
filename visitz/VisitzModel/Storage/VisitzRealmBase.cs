@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Realms;
 using Realms.Schema;
+using VisitzModel.Extensions;
 #if WINDOWS
 using VisitzModel.Platforms.Windows.Logging;
 using MauiFileSystem = Microsoft.Maui.Storage.FileSystem;
@@ -17,6 +18,7 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
     public static readonly ulong Version2_7_1 = 5;
     public static readonly ulong Version2_8_0 = 6;
     public static readonly ulong Version3_0_0 = 7;
+    public static readonly ulong Version3_1_0 = 8;
 
     public string RealmName { get; private set; } = realmName;
 
@@ -61,7 +63,10 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
         {
             realmConfig = MakeRealmConfiguration();
 
-            ConsoleTrace.TraceMethod(typeof(VisitzRealmBase), Path.GetFileName(realmConfig.DatabasePath));
+#if DEBUG
+            if (ShouldUseLoggerInGetAsync)
+                logger?.TraceMethod(this, Path.GetFileName(realmConfig.DatabasePath));
+#endif
 
             return await Realm.GetInstanceAsync(realmConfig);
         }
@@ -73,7 +78,7 @@ public abstract class VisitzRealmBase(string realmName, ulong version, byte[] en
             var invalidOpExeption = new InvalidOperationException(message, ex);
 
             if (ShouldUseLoggerInGetAsync)
-                logger?.LogError(invalidOpExeption, message);
+                logger?.LogException(invalidOpExeption, message);
 #if WINDOWS
             else
             {

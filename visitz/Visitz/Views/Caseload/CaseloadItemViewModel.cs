@@ -52,9 +52,6 @@ public partial class CaseloadItemViewModel
     [ObservableProperty]
     public partial bool CanRemoveFromDevice { get; set; }
 
-    protected override ILogger<VisitzViewModel> Logger { get; } =
-        ServiceProvider.GetService<ILogger<CaseloadItemViewModel>>();
-
     public CaseloadItemViewModel(
         DraftIndicatorHelper indicatorHelper,
         IBusinessObject businessObject,
@@ -260,7 +257,7 @@ public partial class CaseloadItemViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
         }
     }
 
@@ -272,7 +269,7 @@ public partial class CaseloadItemViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, ex.Message);
+            Logger.LogException(ex, ex.Message);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
@@ -285,7 +282,7 @@ public partial class CaseloadItemViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }
@@ -301,13 +298,13 @@ public partial class CaseloadItemViewModel
         {
             if (message.FinishedError && message.UncaughtException != null)
             {
-                Logger.LogError(message.UncaughtException);
+                Logger.LogException(message.UncaughtException);
                 await Navigator.CurrentOpenPage.DisplayErrorAlert(message.UncaughtException);
             }
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
         }
     }

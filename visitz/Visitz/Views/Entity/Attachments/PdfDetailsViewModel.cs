@@ -38,7 +38,7 @@ public partial class PdfDetailsViewModel : AttachmentDetailsViewModel
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex);
+            Logger.LogException(ex);
             await Navigator.CurrentOpenPage.DisplayErrorAlert(ex);
             await Navigator.Navigation.PopAsync();
         }

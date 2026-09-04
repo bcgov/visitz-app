@@ -10,6 +10,7 @@ using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
 using Visitz.Views.Navigation;
 using Visitz.Views.User;
+using VisitzModel.Extensions;
 using VisitzModel.Messaging;
 
 namespace Visitz.Views.Root;
@@ -105,7 +106,7 @@ public partial class RootViewModel : VisitzViewModel, IRecipient<AppNavMessage>,
         {
             if (message.FinishedError && !SessionPage.IsOpen && message.UncaughtException is Exception ex)
             {
-                Logger.LogError(ex.Message, ex);
+                Logger.LogException(ex);
                 await Navigator.CurrentOpenPage.DisplayErrorAlert(
                     ex,
                     LocalizedStrings.CaseloadError,

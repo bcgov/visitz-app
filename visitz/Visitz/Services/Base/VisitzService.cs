@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Visitz.Services.Messages;
+using VisitzModel.Extensions;
 
 namespace Visitz.Services.Base;
 
@@ -57,11 +58,18 @@ public abstract class VisitzService
 
     public Exception? UncaughtException { get; protected set; }
 
-    protected virtual ILogger Logger { get; set; } = ServiceProvider.GetService<ILogger<VisitzService>>();
+    protected ILogger Logger { get; }
 
-    static readonly string LoggerTemplate = "{id} -> {stateMessage}";
+#if DEBUG
+    static readonly string LoggerTemplate = "Id '{id}' -> {stateMessage}";
+#endif
 
     protected CancellationTokenSource CancelTokenSource { get; } = new();
+
+    public VisitzService()
+    {
+        Logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger(GetType());
+    }
 
     private void PublishCurrentState(State status)
     {
@@ -103,13 +111,15 @@ public abstract class VisitzService
             if (ex is OperationCanceledException)
             {
                 ResultCode = Result.Cancelled;
+#if DEBUG
                 Logger.LogDebug(LoggerTemplate, GetId(), "Service cancelled");
+#endif
             }
             else
             {
                 UncaughtException = ex;
                 ResultCode = Result.Error;
-                Logger.LogError(LoggerTemplate, GetId(), ex.ToString());
+                Logger.LogException(ex, $"Id '{GetId()}'");
             }
 
             ResultMessage = ex.Message;

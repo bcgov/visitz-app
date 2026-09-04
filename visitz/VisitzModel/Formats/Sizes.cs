@@ -4,8 +4,8 @@ namespace VisitzModel.Formats;
 
 public static class Sizes
 {
-    public const int KB = 1024;
-    public const int MB = KB * KB;
+    public static readonly int KB = 1024;
+    public static readonly int MB = KB * KB;
 
     // https://stackoverflow.com/a/11124118
     public static string BytesToString(long value)

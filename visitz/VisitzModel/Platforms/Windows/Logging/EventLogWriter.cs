@@ -8,7 +8,11 @@ public static class EventLogWriter
 {
     static readonly string _logSource = "Application";
     static readonly int _defaultEventId = 1;
-    static readonly int _maxLogLength = 32766; // Event Viewer limitation
+
+    // Event Viewer limitation is 32766, but we'll go lower to as a more
+    // simple way to handle boundaries instead of calculating UTF8 byte
+    // boundaries.
+    static readonly int _maxLogLength = 20000;
 
     public static void WriteEntry(
         LogLevel logLevel,
@@ -18,22 +22,26 @@ public static class EventLogWriter
         Exception? exception = null
     )
     {
+        string id = Guid.NewGuid().ToString();
         string level = logLevel.ToString().ToUpperInvariant();
         Assembly? assembly = Assembly.GetEntryAssembly();
 
-        string outputMessage =
+        string header =
             @$"{assembly?.GetName().Name ?? "NULL ASSEMBLY ERROR"} {AppInfo.Current.VersionString}
+Log ID: {id}
 Level: {level}
-Category: {categoryName}
-Message: {message}";
+Category: {categoryName}";
 
         if (exception != null)
-            outputMessage += "\nStack trace: " + exception.ToString();
+            message += "\nStack trace: " + exception.ToString();
 
-        if (outputMessage.Length > _maxLogLength)
-            outputMessage = outputMessage[.._maxLogLength];
-
-        EventLog.WriteEntry(_logSource, outputMessage, ConvertLogLevel(logLevel), eventId ?? _defaultEventId);
+        foreach (char[] messageChunk in message.Chunk(_maxLogLength))
+            EventLog.WriteEntry(
+                _logSource,
+                $"{header}:\n\n{new string(messageChunk)}",
+                ConvertLogLevel(logLevel),
+                eventId ?? _defaultEventId
+            );
     }
 
     static EventLogEntryType ConvertLogLevel(LogLevel logLevel)
