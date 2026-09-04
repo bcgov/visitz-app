@@ -26,6 +26,6 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SharpSource" Version="$(SharpSourceVersion)" PrivateAssets="All" />
-		<PackageReference Include="System.Threading.RateLimiting" Version="10.0.2" />
+		<PackageReference Include="System.Threading.RateLimiting" Version="10.0.11" />
 	</ItemGroup>
 </Project>

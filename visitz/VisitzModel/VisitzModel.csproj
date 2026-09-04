@@ -2,8 +2,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-ios;net10.0</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))"
-			>$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks
-		>
+			>$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
 
 		<UseMaui>true</UseMaui>
 		<SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
@@ -17,20 +16,16 @@
 
 		<SupportedOSPlatformVersion
 			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"
-			>15.0</SupportedOSPlatformVersion
-		>
+			>15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion
 			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'"
-			>13.1</SupportedOSPlatformVersion
-		>
+			>13.1</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion
 			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
-			>10.0.17763.0</SupportedOSPlatformVersion
-		>
+			>10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion
 			Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
-			>10.0.17763.0</TargetPlatformMinVersion
-		>
+			>10.0.17763.0</TargetPlatformMinVersion>
 	</PropertyGroup>
 
 	<Import Project="..\Visitz\Visitz.props" />
@@ -56,7 +51,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<PackageReference Include="System.Diagnostics.EventLog" Version="10.0.2" />
+		<PackageReference Include="System.Diagnostics.EventLog" Version="10.0.11" />
 	</ItemGroup>
 
 	<ItemGroup>
