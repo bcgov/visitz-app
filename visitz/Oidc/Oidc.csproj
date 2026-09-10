@@ -26,8 +26,6 @@
 			>10.0.17763.0</TargetPlatformMinVersion>
 	</PropertyGroup>
 
-	<Import Project="..\Visitz\Visitz.props" />
-
 	<ItemGroup>
 		<PackageReference Include="CSharpier.MsBuild" Version="$(CSharpierVersion)">
 			<PrivateAssets>all</PrivateAssets>
