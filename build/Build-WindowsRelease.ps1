@@ -29,7 +29,6 @@ param(
 )
 
 Set-Variable CertificateThumbprintName -Option Constant -Value "Visitz_WinCertThumbprint"
-Set-Variable CertificateSubjectName -Option Constant -Value "Visitz_WinCertSubject"
 Set-Variable Oidc_AuthenticationDomainName -Option Constant -Value "Oidc_AuthenticationDomain"
 Set-Variable Oidc_ClientIdName -Option Constant -Value "Oidc_ClientId"
 Set-Variable Oidc_RedirectUriName -Option Constant -Value "Oidc_RedirectUri"
@@ -126,7 +125,7 @@ if (!$CertificateThumbprint) {
 
 # Commas need to be escaped: use %2C
 # e.g. "CN=BCGOV%2C O=SDPR" is equivalent to "CN=BCGOV, O=SDPR"
-[string] $CertificateSubject = Ensure-Env -Name $CertificateSubjectName -Scope $EnvScope
+[string] $CertificateSubject = .\Get-CertificateSubject.ps1 -CertificateThumbprint $CertificateThumbprint
 
 [string] $Oidc_AuthenticationDomain = Ensure-Env -Name $Oidc_AuthenticationDomainName -Scope $EnvScope
 [string] $Oidc_ClientId = Ensure-Env -Name $Oidc_ClientIdName -Scope $EnvScope
