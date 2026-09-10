@@ -14,7 +14,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.AppLogs;
 
-internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+internal partial class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     // Max limit 5MB with a buffer amount to account for extra JSON characters
     static readonly int s_maxUploadSize = (int)(5 * Sizes.MB * 0.90d);
@@ -173,9 +173,17 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
 
 #if DEBUG
         string name = nameof(DebugOptions.Default.RunAppLogsServiceInDebug);
-        Logger.LogDebug(nameof(ShouldRun) + $"? {result} -> isDebug: {isDebug}, {name}: {runInDebug}");
+        LogShouldRun(Logger, result, isDebug, name, runInDebug);
 #endif
-
         return result;
     }
+
+#if DEBUG
+    [LoggerMessage(
+        EventId = 0,
+        Level = LogLevel.Debug,
+        Message = "ShouldRun? {result} -> isDebug: {isDebug}, {name}: {runInDebug}"
+    )]
+    static partial void LogShouldRun(ILogger logger, bool result, bool isDebug, string name, bool runInDebug);
+#endif
 }
