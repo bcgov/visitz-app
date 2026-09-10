@@ -26,7 +26,11 @@ public static partial class ILoggerExtensions
     )
     {
 #if DEBUG
-        LogTraceMethod(logger, TraceCount++, instance.GetType().Name, callerName, message);
+        if (logger.IsEnabled(LogLevel.Trace))
+        {
+            Interlocked.Increment(ref TraceCount);
+            LogTraceMethod(logger, TraceCount, instance.GetType().Name, callerName, message);
+        }
 #endif
     }
 
