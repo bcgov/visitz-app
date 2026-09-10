@@ -43,7 +43,7 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
         }
 
         using Realm logRealm = await VisitzRealms.GetLogRealmAsync();
-        IList<LogEntry> savedLogs = logRealm.All<LogEntry>().OrderBy(log => log.Timestamp).ToList();
+        List<LogEntry> savedLogs = logRealm.All<LogEntry>().OrderBy(log => log.Timestamp).ToList();
 
         if (savedLogs.Count <= 0)
         {
