@@ -6,8 +6,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
-	<Import Project="..\Visitz\Visitz.props" />
-
 	<ItemGroup>
 		<InternalsVisibleTo Include="VisitzApiTest" />
 	</ItemGroup>

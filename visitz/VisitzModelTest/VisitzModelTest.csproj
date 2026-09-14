@@ -8,8 +8,6 @@
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 
-	<Import Project="..\Visitz\Visitz.props" />
-
 	<ItemGroup>
 		<PackageReference Include="CSharpier.MsBuild" Version="$(CSharpierVersion)">
 			<PrivateAssets>all</PrivateAssets>

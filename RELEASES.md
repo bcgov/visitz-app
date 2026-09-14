@@ -49,3 +49,7 @@
 1. Decide on the next version number and create the next `dev/x.y.z` branch
 
 	- We use (Semver)[https://semver.org/spec/v2.0.0.html] (Major.Minor.Patch).
+
+1. On the new branch, with the new version number, update the `VisitzVersion` property in the [Directory.build.props](visitz/Directory.build.props) file. Commit it and push the dev branch to remote.
+
+> ℹ️ Note you may need to clean the solution before the new version number is visible in the app.

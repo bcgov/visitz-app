@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace VisitzModel.Extensions;
 
-public static class ILoggerExtensions
+public static partial class ILoggerExtensions
 {
 #if DEBUG
     static int TraceCount;
@@ -26,13 +26,11 @@ public static class ILoggerExtensions
     )
     {
 #if DEBUG
-        logger.LogTrace(
-            "{traceCount}|{instance}.{caller} {message}",
-            TraceCount++,
-            instance.GetType().Name,
-            callerName,
-            message
-        );
+        if (logger.IsEnabled(LogLevel.Trace))
+        {
+            Interlocked.Increment(ref TraceCount);
+            LogTraceMethod(logger, TraceCount, instance.GetType().Name, callerName, message);
+        }
 #endif
     }
 
@@ -43,6 +41,14 @@ public static class ILoggerExtensions
 
     public static void LogException(this ILogger logger, Exception exception, string? message = null)
     {
-        logger.LogError(exception, (message ?? exception.Message) + " -> " + exception.ToString());
+        LogError(logger, exception, message ?? exception.Message);
     }
+
+#if DEBUG
+    [LoggerMessage(Level = LogLevel.Trace, Message = "{traceCount}|{instance}.{caller} {message}")]
+    static partial void LogTraceMethod(ILogger logger, int traceCount, string instance, string caller, string message);
+#endif
+
+    [LoggerMessage(EventId = (int)LogLevel.Error, Level = LogLevel.Error, Message = "{message}")]
+    static partial void LogError(ILogger logger, Exception exception, string message);
 }

@@ -14,7 +14,7 @@ using VisitzModel.Storage;
 
 namespace Visitz.Services.AppLogs;
 
-internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
+internal partial class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiService(vpi, prefs)
 {
     // Max limit 5MB with a buffer amount to account for extra JSON characters
     static readonly int s_maxUploadSize = (int)(5 * Sizes.MB * 0.90d);
@@ -43,7 +43,7 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
         }
 
         using Realm logRealm = await VisitzRealms.GetLogRealmAsync();
-        IList<LogEntry> savedLogs = logRealm.All<LogEntry>().OrderBy(log => log.Timestamp).ToList();
+        List<LogEntry> savedLogs = logRealm.All<LogEntry>().OrderBy(log => log.Timestamp).ToList();
 
         if (savedLogs.Count <= 0)
         {
@@ -168,14 +168,22 @@ internal class SendAppLogsService(Vpi vpi, LastUpdatedPrefs prefs) : VisitzApiSe
 #else
         bool isDebug = false;
 #endif
-        string name = nameof(DebugOptions.Default.RunAppLogsServiceInDebug);
         bool runInDebug = DebugOptions.Default.RunAppLogsServiceInDebug;
         bool result = !isDebug || runInDebug;
 
 #if DEBUG
-        Logger.LogDebug(nameof(ShouldRun) + $"? {result} -> isDebug: {isDebug}, {name}: {runInDebug}");
+        string name = nameof(DebugOptions.Default.RunAppLogsServiceInDebug);
+        LogShouldRun(Logger, result, isDebug, name, runInDebug);
 #endif
-
         return result;
     }
+
+#if DEBUG
+    [LoggerMessage(
+        EventId = 0,
+        Level = LogLevel.Debug,
+        Message = "ShouldRun? {result} -> isDebug: {isDebug}, {name}: {runInDebug}"
+    )]
+    static partial void LogShouldRun(ILogger logger, bool result, bool isDebug, string name, bool runInDebug);
+#endif
 }

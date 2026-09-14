@@ -535,7 +535,7 @@
           "Microsoft.Maui.Controls.Compatibility": "[10.0.100, )",
           "Realm": "[20.1.0, )",
           "SixLabors.ImageSharp": "[3.1.12, )",
-          "VisitzApi": "[1.0.0, )"
+          "VisitzApi": "[3.1.0, )"
         }
       }
     },
@@ -1257,7 +1257,7 @@
           "Realm": "[20.1.0, )",
           "SixLabors.ImageSharp": "[3.1.12, )",
           "System.Diagnostics.EventLog": "[10.0.11, )",
-          "VisitzApi": "[1.0.0, )"
+          "VisitzApi": "[3.1.0, )"
         }
       }
     },
