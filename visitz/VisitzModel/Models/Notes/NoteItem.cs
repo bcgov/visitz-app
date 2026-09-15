@@ -1,6 +1,7 @@
 using System.Globalization;
 using Realms;
 using VisitzApi.Models.Notes;
+using VisitzModel.Extensions;
 using VisitzModel.Formats;
 using VisitzModel.Models.EntityTypes;
 using VisitzModel.Models.Interfaces;
@@ -176,38 +177,10 @@ public partial class NoteItem : IRealmObject, IParentRecord, IEquatable<NoteItem
             // Case notes older <= 2012 may have a blank note period.
             incomingNotes = SimulateNotePeriods(incomingNotes);
 
-        var currentNotes = GetNotesByParent(realm, parentType, parentId).ToList().Order(_fullIdComparer).ToList();
-
-        // ToList required because of Realm object lifecycles
-        var updateNotes = incomingNotes
-            .Intersect(currentNotes)
-            .Where(incoming => ShouldUpdate(currentNotes, incoming))
-            .ToList();
-        var deletedNotes = currentNotes.Except(incomingNotes).ToList();
-        var insertNotes = incomingNotes.Except(currentNotes).ToList();
-
-        await realm.WriteAsync(() =>
-        {
-            foreach (var deletedNote in deletedNotes)
-                realm.Remove(deletedNote);
-
-            foreach (var insertNote in insertNotes)
-                realm.Add(insertNote);
-
-            foreach (var updateNote in updateNotes)
-                realm.Add(updateNote, update: true);
-        });
-    }
-
-    static bool ShouldUpdate(List<NoteItem> currentNotes, NoteItem updateNote)
-    {
-        int index = currentNotes.BinarySearch(updateNote, _fullIdComparer);
-        if (index < 0)
-            // updateNote not in currentNotes, fail early. If it's not here, it should've been added from insertNotes.
-            return false;
-
-        NoteItem currentNote = currentNotes[index];
-        return !currentNote.DeepEquals(updateNote);
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: incomingNotes,
+            existingQuery: GetNotesByParent(realm, parentType, parentId)
+        );
     }
 
     static List<NoteItem> SimulateNotePeriods(IEnumerable<NoteItem> notes)
