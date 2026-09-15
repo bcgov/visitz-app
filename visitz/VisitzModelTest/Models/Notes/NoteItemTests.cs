@@ -57,4 +57,49 @@ public partial class NoteItemTests
         Assert.Equal(UpdatedByNameValue, narrativeNote.UpdatedByName);
         Assert.Equal(ParentIdValue, narrativeNote.ParentId);
     }
+
+    [Fact]
+    public async Task AssessmentsSynchronizeInsertionCorrectly()
+    {
+        var realm = await TestingUtilities.MakeRealm<NoteItemTests>();
+
+        string parentId = "10";
+        IEnumerable<NoteItem> notes = NoteItem.FromApiEntities(parentId, [NextCaseNoteJson]);
+        await NoteItem.SynchronizeAsync(realm, parentId, EntityType.Case, notes);
+
+        Assert.Equal(1, realm.All<NoteItem>().Count());
+    }
+
+    [Fact]
+    public async Task AssessmentsSynchronizeDeletionCorrectly()
+    {
+        var realm = await TestingUtilities.MakeRealm<NoteItemTests>();
+
+        // Add two notes with different parent IDs
+
+        string firstParentId = "10";
+        CaseNoteJson firstNote = NextCaseNoteJson;
+        firstNote.Id = "1";
+        await NoteItem.SynchronizeAsync(
+            realm,
+            firstParentId,
+            EntityType.Case,
+            NoteItem.FromApiEntities(firstParentId, [firstNote])
+        );
+
+        string secondParentId = "20";
+        CaseNoteJson secondNote = NextCaseNoteJson;
+        secondNote.Id = "2";
+        await NoteItem.SynchronizeAsync(
+            realm,
+            secondParentId,
+            EntityType.Case,
+            NoteItem.FromApiEntities(secondParentId, [secondNote])
+        );
+
+        // Sync one of the parent's notes with an empty collection to delete it
+        await NoteItem.SynchronizeAsync(realm, secondParentId, EntityType.Case, []);
+
+        Assert.Equal(1, realm.All<NoteItem>().Count());
+    }
 }
