@@ -513,6 +513,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Child/youth info.
+        /// </summary>
+        public static string ChildYouthInfoTitle {
+            get {
+                return ResourceManager.GetString("ChildYouthInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Child/youth visits.
         /// </summary>
         public static string ChildYouthVisits {
