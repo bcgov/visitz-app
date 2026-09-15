@@ -118,37 +118,11 @@ public partial class CallInformation : IRealmObject, IApiJson<CallInformationJso
         EntityType type
     )
     {
-        if (callInformation == null)
-            return;
-
-        var incomingCallInformation = FromApiJsonArray(callInformation, type, parentId);
-        var incomingCallInformationIds = incomingCallInformation.Select(item => item.Id);
-
-        var allCallInformation = realm
-            .All<CallInformation>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
-        var allCallInformationIds = allCallInformation.AsEnumerable().Select(item => item.Id);
-
-        var callInformationIdsToDelete = allCallInformationIds.Except(incomingCallInformationIds);
-        var callInformationToDelete = allCallInformation
-            .ToList()
-            .Where(item => callInformationIdsToDelete.Contains(item.Id));
-
-        if (!callInformationToDelete.Any() && !incomingCallInformationIds.Any())
-            return;
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (var item in callInformationToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-
-                realm.Upsert(incomingCallInformation);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiJsonArray(callInformation, type, parentId),
+            existingQuery: realm
+                .All<CallInformation>()
+                .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
         );
     }
 

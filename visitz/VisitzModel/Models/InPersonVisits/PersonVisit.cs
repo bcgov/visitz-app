@@ -7,7 +7,7 @@ using VisitzModel.Models.Interfaces;
 
 namespace VisitzModel.Models.InPersonVisits;
 
-public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord
+public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParentRecord, IEquatable<PersonVisit>
 {
     static readonly string _defaultType = "In Person Child Youth";
 
@@ -119,27 +119,9 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
 
     public static async Task SynchronizeAsync(Realm realm, IEnumerable<VisitJson> visits, string parentId)
     {
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                var incomingVisits = FromApiArray(visits);
-                var existingVisits = GetVisitsByCaseId(realm, parentId).ToList();
-
-                var visitsToDelete = existingVisits
-                    .Except(
-                        incomingVisits,
-                        EqualityComparer<PersonVisit>.Create((l, r) => l?.Id == r?.Id, visit => visit.Id.GetHashCode())
-                    )
-                    .ToList();
-
-                foreach (var item in visitsToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-                realm.Upsert(incomingVisits);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiArray(visits),
+            existingQuery: GetVisitsByCaseId(realm, parentId)
         );
     }
 
@@ -196,5 +178,18 @@ public partial class PersonVisit : IRealmObject, IApiJson<PostVisitJson>, IParen
         });
 
         RaisePropertyChanged(nameof(VisitDetails));
+    }
+
+    public bool Equals(PersonVisit? other)
+    {
+        return ReferenceEquals(this, other) || Id == other?.Id;
+    }
+
+    public override int GetHashCode()
+    {
+#pragma warning disable SS008 // GetHashCode() refers to mutable or static member
+        // Id is not meant to be changed
+        return Id.GetHashCode();
+#pragma warning restore SS008 // GetHashCode() refers to mutable or static member
     }
 }

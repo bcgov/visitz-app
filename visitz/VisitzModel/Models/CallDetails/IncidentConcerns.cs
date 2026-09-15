@@ -87,35 +87,9 @@ public partial class IncidentConcerns : IRealmObject, IApiJson<IncidentConcernsJ
         string parentId
     )
     {
-        if (newIncidentConcerns == null)
-            return;
-
-        var incomingIncidentConcerns = FromApiJsonArray(newIncidentConcerns);
-        var incomingIncidentConcernIds = incomingIncidentConcerns.Select(item => item.Id);
-
-        var allIncidentConcerns = realm.All<IncidentConcerns>().Where(item => item.IncidentId == parentId);
-        var allIncidentConcernIds = allIncidentConcerns.AsEnumerable().Select(item => item.Id);
-
-        var incidentConcernIdsToDelete = allIncidentConcernIds.Except(incomingIncidentConcernIds);
-        var incidentConcernsToDelete = allIncidentConcerns
-            .ToList()
-            .Where(item => incidentConcernIdsToDelete.Contains(item.Id));
-
-        if (!incidentConcernsToDelete.Any() && !incomingIncidentConcernIds.Any())
-            return;
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (var item in incidentConcernsToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-
-                realm.Upsert(incomingIncidentConcerns);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiJsonArray(newIncidentConcerns),
+            existingQuery: realm.All<IncidentConcerns>().Where(item => item.IncidentId == parentId)
         );
     }
 

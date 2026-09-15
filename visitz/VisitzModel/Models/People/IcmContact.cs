@@ -432,20 +432,10 @@ public partial class IcmContact
         EntityType type
     )
     {
-        await realm.CommitAsync(() =>
-        {
-            var incomingContacts = FromApiArray(contacts, parentId, type);
-            var existingContacts = GetByParentIdType(realm, parentId, type).ToList();
-            var contactsToDelete = existingContacts.Except(incomingContacts).ToList();
-
-            foreach (var item in contactsToDelete)
-            {
-                if (item != null && item.IsValid)
-                    realm.Remove(item);
-            }
-
-            realm.Upsert(incomingContacts);
-        });
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiArray(contacts, parentId, type),
+            existingQuery: GetByParentIdType(realm, parentId, type)
+        );
     }
 
     public static void RemoveByParent(Realm realm, EntityType type, string parentId)

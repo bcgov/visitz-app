@@ -103,35 +103,9 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
         string parentContactId
     )
     {
-        if (contactEducation == null)
-            return;
-
-        var incomingContactEducation = FromApiJsonArray(contactEducation, parentContactId);
-        var incomingContactEducationIds = incomingContactEducation.Select(item => item.Id);
-
-        var allContactEducation = realm.All<ContactEducation>().Where(item => item.ParentContactId == parentContactId);
-        var allContactEducationIds = allContactEducation.AsEnumerable().Select(item => item.Id);
-
-        var contactEducationIdsToDelete = allContactEducationIds.Except(incomingContactEducationIds);
-        var contactEducationToDelete = allContactEducation
-            .ToList()
-            .Where(item => contactEducationIdsToDelete.Contains(item.Id));
-
-        if (!contactEducationToDelete.Any() && !incomingContactEducationIds.Any())
-            return;
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (var item in contactEducationToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-
-                realm.Upsert(incomingContactEducation);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiJsonArray(contactEducation, parentContactId),
+            existingQuery: realm.All<ContactEducation>().Where(item => item.ParentContactId == parentContactId)
         );
     }
 

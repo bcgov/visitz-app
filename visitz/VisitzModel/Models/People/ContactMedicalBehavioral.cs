@@ -112,39 +112,9 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
         string parentContactId
     )
     {
-        if (contactMedicalBehavioral == null)
-            return;
-
-        var incomingContactMedicalBehavioral = FromApiJsonArray(contactMedicalBehavioral, parentContactId);
-        var incomingContactMedicalBehavioralIds = incomingContactMedicalBehavioral.Select(item => item.Id);
-
-        var allContactMedicalBehavioral = realm
-            .All<ContactMedicalBehavioral>()
-            .Where(item => item.ParentContactId == parentContactId);
-        var allContactMedicalBehavioralIds = allContactMedicalBehavioral.AsEnumerable().Select(item => item.Id);
-
-        var contactMedicalBehavioralIdsToDelete = allContactMedicalBehavioralIds.Except(
-            incomingContactMedicalBehavioralIds
-        );
-        var contactMedicalBehavioralToDelete = allContactMedicalBehavioral
-            .ToList()
-            .Where(item => contactMedicalBehavioralIdsToDelete.Contains(item.Id));
-
-        if (!contactMedicalBehavioralToDelete.Any() && !incomingContactMedicalBehavioralIds.Any())
-            return;
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (var item in contactMedicalBehavioralToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-
-                realm.Upsert(incomingContactMedicalBehavioral);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiJsonArray(contactMedicalBehavioral, parentContactId),
+            existingQuery: realm.All<ContactMedicalBehavioral>().Where(item => item.ParentContactId == parentContactId)
         );
     }
 

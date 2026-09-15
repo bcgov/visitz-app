@@ -230,6 +230,8 @@ public partial interface IBusinessObject : IRealmObject
     {
         bool isOfficeCaseload = !isPersonalCaseload;
 
+        // TODO: Use RealmExtensions.SynchronizeByQueryAsync here
+
         var filteredUpsertItems = FilterUnsupportedSubtypes(incomingItems);
         var currentAssigned = GetAllByAssignee<TItem>(realm, currentUsername, isPersonalCaseload).ToList();
         var unassigned = currentAssigned.Except(filteredUpsertItems);

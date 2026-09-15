@@ -154,37 +154,9 @@ public partial class ContactLegalAuthority : IRealmObject, IApiJson<ContactLegal
         string parentContactId
     )
     {
-        if (contactLegalAuthority == null)
-            return;
-
-        var incomingContactLegalAuthority = FromApiJsonArray(contactLegalAuthority, parentContactId);
-        var incomingContactLegalAuthorityIds = incomingContactLegalAuthority.Select(item => item.Id);
-
-        var allContactLegalAuthority = realm
-            .All<ContactLegalAuthority>()
-            .Where(item => item.ParentContactId == parentContactId);
-        var allContactLegalAuthorityIds = allContactLegalAuthority.AsEnumerable().Select(item => item.Id);
-
-        var contactLegalAuthorityIdsToDelete = allContactLegalAuthorityIds.Except(incomingContactLegalAuthorityIds);
-        var contactLegalAuthorityToDelete = allContactLegalAuthority
-            .ToList()
-            .Where(item => contactLegalAuthorityIdsToDelete.Contains(item.Id));
-
-        if (!contactLegalAuthorityIdsToDelete.Any() && !incomingContactLegalAuthorityIds.Any())
-            return;
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (var item in contactLegalAuthorityToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-
-                realm.Upsert(incomingContactLegalAuthority);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiJsonArray(contactLegalAuthority, parentContactId),
+            existingQuery: realm.All<ContactLegalAuthority>().Where(item => item.ParentContactId == parentContactId)
         );
     }
 

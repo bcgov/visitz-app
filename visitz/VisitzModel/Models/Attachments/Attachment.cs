@@ -334,33 +334,12 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
         EntityType type
     )
     {
-        // Issues with Realm object lifetime and IEnumerable, so materialize everything to lists instead
-        var incomingAttachments = FromApiArray(items, parentId, type);
-        var existingAttachments = GetAttachments(realm, type, parentId).ToList();
-        var remove = existingAttachments.Except(incomingAttachments).ToList();
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (Attachment item in remove)
-                {
-                    if (item.IsValid)
-                    {
-                        if (item.FileExistsLocally)
-                            item.RemoveFileFromDevice();
-                        realm.Remove(item);
-                    }
-                }
-
-                foreach (var upsertAttachment in incomingAttachments)
-                {
-                    if (realm.Find<Attachment>(upsertAttachment.Id) is Attachment existing)
-                        existing.CopyFrom(upsertAttachment);
-                    else
-                        realm.Add(upsertAttachment);
-                }
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiArray(items, parentId, type),
+            existingQuery: GetAttachments(realm, type, parentId),
+            beforeDelete: deletingItem => deletingItem.TryRemoveFileFromDevice(),
+            updateMapper: static (existing, incoming) => existing.CopyFrom(incoming),
+            updateComparer: Comparer<Attachment>.Create((l, r) => l.Id.CompareTo(r.Id))
         );
     }
 
@@ -416,6 +395,17 @@ public partial class Attachment : IRealmObject, IRecordInfo, IApiJson<Attachment
     {
         AttachmentFiler.DeleteFileFromDevice(RelativePath);
         RelativePathBinding = string.Empty;
+    }
+
+    public bool TryRemoveFileFromDevice()
+    {
+        if (IsValid && FileExistsLocally)
+        {
+            RemoveFileFromDevice();
+            return true;
+        }
+        else
+            return false;
     }
 
     public static void RemoveByParent(

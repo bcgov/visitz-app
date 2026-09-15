@@ -117,37 +117,11 @@ public partial class AdditionalInformation : IRealmObject, IApiJson<AdditionalIn
         EntityType type
     )
     {
-        if (additionalInformation == null)
-            return;
-
-        var incomingadditionalinformation = FromApiJsonArray(additionalInformation, type, parentId);
-        var incomingIncidentConcernIds = incomingadditionalinformation.Select(item => item.Id);
-
-        var allIncidentConcerns = realm
-            .All<AdditionalInformation>()
-            .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type);
-        var allIncidentConcernIds = allIncidentConcerns.AsEnumerable().Select(item => item.Id);
-
-        var additionalInformationIdsToDelete = allIncidentConcernIds.Except(incomingIncidentConcernIds);
-        var incidentConcernsToDelete = allIncidentConcerns
-            .ToList()
-            .Where(item => additionalInformationIdsToDelete.Contains(item.Id));
-
-        if (!incidentConcernsToDelete.Any() && !incomingIncidentConcernIds.Any())
-            return;
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (var item in incidentConcernsToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-
-                realm.Upsert(incomingadditionalinformation);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiJsonArray(additionalInformation, type, parentId),
+            existingQuery: realm
+                .All<AdditionalInformation>()
+                .Where(item => item.ParentId == parentId && item.ParentTypeInt == (int)type)
         );
     }
 
