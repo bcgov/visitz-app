@@ -88,6 +88,9 @@ public static class RealmExtensions
         // lists instead
         List<TSource> currentItems = existingQuery.ToList();
 
+        if (currentItems.Count == 0 && !incomingItems.Any())
+            return;
+
         List<TSource> deleteItems = currentItems.Except(incomingItems, equalityComparer).ToList();
         List<TSource> insertItems = incomingItems.Except(currentItems, equalityComparer).ToList();
         List<TSource> updateItems = incomingItems.Intersect(currentItems, equalityComparer).ToList();
