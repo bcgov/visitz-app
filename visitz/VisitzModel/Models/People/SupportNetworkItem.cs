@@ -130,21 +130,9 @@ public partial class SupportNetworkItem
         EntityType type
     )
     {
-        var upsertItems = FromApiArray(jsonItems, parentId, type);
-        var currentItems = GetByParentIdType(realm, parentId, type).ToList();
-        var removeItems = currentItems.Except(upsertItems).ToList();
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (SupportNetworkItem item in removeItems)
-                {
-                    if (item.IsValid)
-                        realm.Remove(item);
-                }
-                realm.Upsert(upsertItems);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiArray(jsonItems, parentId, type),
+            existingQuery: GetByParentIdType(realm, parentId, type)
         );
     }
 

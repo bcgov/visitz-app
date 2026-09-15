@@ -87,34 +87,9 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
         string parentContactId
     )
     {
-        if (newContactLanguages == null)
-            return;
-
-        var incomingContactLanguages = FromApiJsonArray(newContactLanguages, parentContactId);
-        var incomingContactLanguageIds = incomingContactLanguages.Select(item => item.Id);
-
-        var allContactLanguages = realm.All<ContactLanguage>().Where(item => item.ParentContactId == parentContactId);
-        var allContactLanguageIds = allContactLanguages.AsEnumerable().Select(item => item.Id);
-
-        var contactLanguageIdsToDelete = allContactLanguageIds.Except(incomingContactLanguageIds);
-        var contactLanguagesToDelete = allContactLanguages
-            .ToList()
-            .Where(item => contactLanguageIdsToDelete.Contains(item.Id));
-
-        if (!contactLanguageIdsToDelete.Any() && !incomingContactLanguageIds.Any())
-            return;
-
-        await RealmExtensions.CommitAsync(
-            realm,
-            () =>
-            {
-                foreach (var item in contactLanguagesToDelete)
-                {
-                    if (item != null && item.IsValid)
-                        realm.Remove(item);
-                }
-                realm.Upsert(incomingContactLanguages);
-            }
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: FromApiJsonArray(newContactLanguages, parentContactId),
+            existingQuery: realm.All<ContactLanguage>().Where(item => item.ParentContactId == parentContactId)
         );
     }
 
