@@ -59,7 +59,6 @@ public static class RealmExtensions
     /// the query.</para>
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
     /// <param name="realm">The database to synchronize.</param>
     /// <param name="existingQuery">The current TSource objects in the database used for synchronization
     /// operations.</param>
