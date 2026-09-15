@@ -234,14 +234,9 @@ public partial class SafetyAssessment : IRealmObject, IRowMetadata, IApiJson<Sub
 
     public static async Task SynchronizeAsync(Realm realm, string fileNumber, IEnumerable<SafetyAssessment> assessments)
     {
-        var newIds = assessments.Select(a => a.Id);
-
-        var idsToRemove = GetAllByFileNumber(realm, fileNumber).AsEnumerable().Select(a => a.Id).Except(newIds);
-
-        await realm.CommitAsync(() =>
-        {
-            realm.DeleteByIds<SafetyAssessment>(idsToRemove);
-            realm.Upsert(assessments);
-        });
+        await realm.SynchronizeByQueryAsync(
+            incomingItems: assessments,
+            existingQuery: GetAllByFileNumber(realm, fileNumber)
+        );
     }
 }
