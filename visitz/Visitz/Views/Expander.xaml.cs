@@ -50,12 +50,21 @@ public partial class Expander : BaseContentView
     {
         try
         {
-            // Because UI items in a collection inherit BindingContext, we can reasonably assume we
-            // can use it directory to scroll the parent.
-            if (BindingContext != null && IsExpanded && Parent.FindFirstParent<CollectionView>() is CollectionView cv)
+            if (BindingContext == null || !IsExpanded)
+                return;
+
+            await Task.Delay(10); // not a fan but it's the easiest way to let the layout settle
+
+            if (Parent.FindFirstParent<CollectionView>() is CollectionView cv)
             {
-                await Task.Delay(10); // not a fan but it's the easiest way to let the layout settle
+                // Because UI items in a collection inherit BindingContext, we can reasonably assume we
+                // can use it directory to scroll the parent.
+
                 cv.ScrollTo(BindingContext, position: ScrollToPosition.Start);
+            }
+            else if (Parent.FindFirstParent<ScrollView>() is ScrollView sv)
+            {
+                await sv.ScrollToAsync(this, ScrollToPosition.Start, true);
             }
         }
         catch (Exception ex)
