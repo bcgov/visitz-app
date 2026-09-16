@@ -11,72 +11,40 @@
     xmlns:supportNetwork="clr-namespace:Visitz.Views.Entity.SupportNetwork"
     xmlns:tagBehaviors="clr-namespace:Visitz.Behaviors.Tags"
     xmlns:tagview="clr-namespace:Visitz.Views.TagViews"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.SupportNetwork.SupportNetworkListItem"
     x:DataType="supportNetwork:SupportNetworkItemUi"
 >
-    <base:BaseContentView.GestureRecognizers>
-        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-    </base:BaseContentView.GestureRecognizers>
-
-    <Border
-        BackgroundColor="{StaticResource CardGrayBg}"
-        Margin="{StaticResource DefaultMargin}"
-        StrokeThickness="0"
-        StrokeShape="RoundRectangle 5"
-        Shadow="{StaticResource RestingLevel2}"
-    >
-        <VerticalStackLayout>
-            <effectsView:SfEffectsView TouchDownEffects="Ripple">
-                <Grid
-                    BackgroundColor="White"
-                    ColumnDefinitions="*,Auto"
-                    ColumnSpacing="{StaticResource DefaultSpacing}"
-                    RowDefinitions="Auto,Auto"
-                    Padding="{StaticResource DefaultPadding}"
-                >
-                    <HorizontalStackLayout
-                        Grid.Row="0"
-                        Spacing="{StaticResource DefaultSpacingHalf}"
-                    >
-                        <Label
-                            Text="{Binding SupportNetwork.NameBinding}"
-                            FontFamily="BCSansBold"
-                            VerticalOptions="Center"
-                            FontSize="{StaticResource BodyMediumFontSize}"
-                        />
-
-                        <tagview:TagView
-                            Padding="8,0"
-                            BackgroundColor="{Binding ActiveTagBackgroundColor}"
-                            Text="{Binding ActiveTagText}"
-                            TextColor="{Binding ActiveTagTextColor}"
-                            VerticalOptions="Center"
-                        />
-                    </HorizontalStackLayout>
-
-                    <HorizontalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center">
-                        <Label
-                            FontFamily="MaterialIconsRoundedUnfilled"
-                            FontSize="{StaticResource LayoutChevronFontSize}"
-                            Text="{Binding ExpandedChevronGlyph}"
-                        />
-                    </HorizontalStackLayout>
-
-                    <Label Grid.Row="1" Text="{Binding SupportNetwork.RelationshipBinding}" />
-                </Grid>
-            </effectsView:SfEffectsView>
-
-            <BoxView
-                Grid.Row="1"
-                Color="{StaticResource Gray100}"
-                HeightRequest="0.5"
-                IsVisible="{Binding IsExpanded}"
-            />
-
-            <VerticalStackLayout
-                IsVisible="{Binding IsExpanded}"
-                Padding="{StaticResource DefaultPadding}"
+    <views:Expander Margin="{StaticResource DefaultMargin}">
+        <views:Expander.HeaderView>
+            <Grid
+                BackgroundColor="White"
+                ColumnDefinitions="*,Auto"
+                ColumnSpacing="{StaticResource DefaultSpacing}"
+                RowDefinitions="Auto,Auto"
             >
+                <HorizontalStackLayout Grid.Row="0" Spacing="{StaticResource DefaultSpacingHalf}">
+                    <Label
+                        Text="{Binding SupportNetwork.NameBinding}"
+                        FontFamily="BCSansBold"
+                        VerticalOptions="Center"
+                        FontSize="{StaticResource BodyMediumFontSize}"
+                    />
+
+                    <tagview:TagView
+                        Padding="8,0"
+                        BackgroundColor="{Binding ActiveTagBackgroundColor}"
+                        Text="{Binding ActiveTagText}"
+                        TextColor="{Binding ActiveTagTextColor}"
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
+
+                <Label Grid.Row="1" Text="{Binding SupportNetwork.RelationshipBinding}" />
+            </Grid>
+        </views:Expander.HeaderView>
+        <views:Expander.ExpandedView>
+            <VerticalStackLayout>
                 <VerticalStackLayout.Resources>
                     <Style TargetType="Label" Class="MarginEnd">
                         <Setter Property="Margin">
@@ -146,6 +114,6 @@
                 />
                 <Label Text="{Binding SupportNetwork.CommentsBinding}" />
             </VerticalStackLayout>
-        </VerticalStackLayout>
-    </Border>
+        </views:Expander.ExpandedView>
+    </views:Expander>
 </base:BaseContentView>
