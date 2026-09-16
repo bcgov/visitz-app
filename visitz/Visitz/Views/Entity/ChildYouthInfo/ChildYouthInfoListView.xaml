@@ -4,7 +4,93 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ChildYouthInfoListView"
     x:DataType="childYouthInfo:ChildYouthInfoListViewModel"
     x:TypeArguments="childYouthInfo:ChildYouthInfoListViewModel"
-></base:IcmRecordContentView>
+>
+    <Grid>
+        <ActivityIndicator
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsRunning="{Binding IsLoading}"
+        />
+
+        <ScrollView Margin="{StaticResource DefaultMargin}">
+            <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                <Label FontSize="{StaticResource TitleLargeFontSize}" Text="Education" />
+                <CollectionView ItemsSource="{Binding Education.Items}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="people:ContactEducation">
+                            <views:Expander Margin="{StaticResource DefaultMargin}">
+                                <views:Expander.HeaderView>
+                                    <VerticalStackLayout>
+                                        <Label
+                                            FontFamily="BCSansBold"
+                                            Text="{Binding SchoolName}"
+                                        />
+                                        <Label Text="{Binding LearningAssistant}" />
+                                    </VerticalStackLayout>
+                                </views:Expander.HeaderView>
+                                <views:Expander.ExpandedView>
+                                    <VerticalStackLayout>
+                                        <Label Text="Learning Assistant" />
+                                        <Label Text="{Binding LearningAssistant}" />
+                                    </VerticalStackLayout>
+                                </views:Expander.ExpandedView>
+                            </views:Expander>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label FontSize="{StaticResource TitleLargeFontSize}" Text="Medical/behavioural" />
+                <CollectionView ItemsSource="{Binding MedicalBehavioral.Items}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="people:ContactMedicalBehavioral">
+                            <views:Expander Margin="{StaticResource DefaultMargin}">
+                                <views:Expander.HeaderView>
+                                    <VerticalStackLayout>
+                                        <Label FontFamily="BCSansBold" Text="{Binding Condition}" />
+                                        <Label Text="{Binding Name}" />
+                                    </VerticalStackLayout>
+                                </views:Expander.HeaderView>
+                                <views:Expander.ExpandedView>
+                                    <VerticalStackLayout>
+                                        <Label Text="Category" />
+                                        <Label Text="{Binding Category}" />
+                                    </VerticalStackLayout>
+                                </views:Expander.ExpandedView>
+                            </views:Expander>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label FontSize="{StaticResource TitleLargeFontSize}" Text="Languages" />
+                <CollectionView ItemsSource="{Binding Languages.Items}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="people:ContactLanguage">
+                            <views:Expander Margin="{StaticResource DefaultMargin}">
+                                <views:Expander.HeaderView>
+                                    <VerticalStackLayout>
+                                        <Label
+                                            FontFamily="BCSansBold"
+                                            Text="{Binding LanguageName}"
+                                        />
+                                        <Label Text="{Binding SSAPrimaryField}" />
+                                    </VerticalStackLayout>
+                                </views:Expander.HeaderView>
+                                <views:Expander.ExpandedView>
+                                    <VerticalStackLayout>
+                                        <Label Text="Is Primary?" />
+                                        <Label Text="{Binding SSAPrimaryField}" />
+                                    </VerticalStackLayout>
+                                </views:Expander.ExpandedView>
+                            </views:Expander>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</base:IcmRecordContentView>
