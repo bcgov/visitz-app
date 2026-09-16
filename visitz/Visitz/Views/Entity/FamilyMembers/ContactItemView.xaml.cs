@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Debugging;
@@ -16,32 +15,6 @@ public partial class ContactItemView : BaseContentView
 
         if (DebugOptions.Default.Enabled)
             AddDebugContextMenu();
-    }
-
-    async void TapGestureRecognizer_Tapped(object? sender, TappedEventArgs e)
-    {
-        try
-        {
-            if (
-                BindingContext is ContactItemViewModel vm
-                && sender is ContactItemView item
-                && item.Parent is CollectionView cv
-            )
-            {
-                vm.ItemTapped();
-                await ScrollTo(cv, vm);
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogException(ex);
-        }
-    }
-
-    static async Task ScrollTo(CollectionView cv, ContactItemViewModel vm)
-    {
-        await Task.Delay(10); // not a fan but it's the easiest way to let the layout settle
-        cv.ScrollTo(vm, position: ScrollToPosition.Start);
     }
 
     void AddDebugContextMenu()
