@@ -30,7 +30,7 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
     ObservableCollection<TQueryObject> QueryItems { get; } = [];
 
     [ObservableProperty]
-    public partial ObservableCollection<TListItem> Items { get; private set; } = [];
+    public partial ObservableCollection<TListItem> Items { get; private set; }
 
     public delegate void ItemMapperDelegate(TQueryObject itemToMap, ObservableCollection<TListItem> targetList);
 
@@ -47,9 +47,19 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
         ItemMapperDelegate addItem,
         ItemMapperDelegate removeItem
     )
+        : this(realm, query, [], addItem, removeItem) { }
+
+    public ObservableQuery(
+        Realm realm,
+        IQueryable<TQueryObject> query,
+        ObservableCollection<TListItem> targetList,
+        ItemMapperDelegate addItem,
+        ItemMapperDelegate removeItem
+    )
     {
         Realm = realm;
         RealmQuery = query;
+        Items = targetList;
         AddItemMapper = addItem;
         RemoveItemMapper = removeItem;
 
@@ -131,10 +141,15 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
 public partial class ObservableQuery<TQueryObject> : ObservableQuery<TQueryObject, TQueryObject>
     where TQueryObject : IRealmObject
 {
-    public ObservableQuery(Realm realm, IQueryable<TQueryObject> query)
+    public ObservableQuery(
+        Realm realm,
+        IQueryable<TQueryObject> query,
+        ObservableCollection<TQueryObject>? targetList = null
+    )
         : base(
             realm,
             query,
+            targetList ?? [],
             (addItem, targetList) => targetList.Add(addItem),
             (removeItem, targetList) => targetList.Remove(removeItem)
         ) { }
@@ -142,8 +157,9 @@ public partial class ObservableQuery<TQueryObject> : ObservableQuery<TQueryObjec
     public ObservableQuery(
         Realm realm,
         IQueryable<TQueryObject> query,
+        ObservableCollection<TQueryObject> targetList,
         ItemMapperDelegate addItem,
         ItemMapperDelegate removeItem
     )
-        : base(realm, query, addItem, removeItem) { }
+        : base(realm, query, targetList, addItem, removeItem) { }
 }
