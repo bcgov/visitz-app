@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:effectsView="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Expander"
+    x:DataType="views:Expander"
+>
+    <Border
+        BackgroundColor="{StaticResource CardGrayBg}"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 5"
+        Shadow="{StaticResource RestingLevel2}"
+    >
+        <VerticalStackLayout>
+            <effectsView:SfEffectsView BackgroundColor="White" TouchDownEffects="Ripple">
+                <effectsView:SfEffectsView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Header_Tapped" />
+                </effectsView:SfEffectsView.GestureRecognizers>
+
+                <Grid
+                    RowDefinitions="*"
+                    ColumnDefinitions="*,Auto"
+                    Padding="{StaticResource DefaultPadding}"
+                >
+                    <ContentView
+                        Grid.Column="0"
+                        Content="{Binding HeaderView, Source={RelativeSource AncestorType=views:Expander}}"
+                    />
+
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="MaterialIconsRoundedUnfilled"
+                        FontSize="{StaticResource LayoutChevronFontSize}"
+                        Text="{Binding ExpandedChevronGlyph, Source={RelativeSource AncestorType=views:Expander}}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                    />
+                </Grid>
+            </effectsView:SfEffectsView>
+
+            <BoxView
+                Grid.Row="1"
+                Color="{StaticResource Gray100}"
+                HeightRequest="0.5"
+                IsVisible="{Binding IsExpanded, Source={RelativeSource AncestorType=views:Expander}}"
+            />
+
+            <ContentView
+                IsVisible="{Binding IsExpanded, Source={RelativeSource AncestorType=views:Expander}}"
+                Content="{Binding ExpandedView, Source={RelativeSource AncestorType=views:Expander}}"
+                Padding="{StaticResource DefaultPadding}"
+            />
+        </VerticalStackLayout>
+    </Border>
+</base:BaseContentView>
