@@ -1184,4 +1184,13 @@ It is unlikely that the file can be recovered.</value>
   <data name="ChildYouthInfoTitle" xml:space="preserve">
     <value>Child/youth info</value>
   </data>
+  <data name="Education" xml:space="preserve">
+    <value>Education</value>
+  </data>
+  <data name="MedicalBehavioural" xml:space="preserve">
+    <value>Medical / behavioural</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Languages</value>
+  </data>
 </root>

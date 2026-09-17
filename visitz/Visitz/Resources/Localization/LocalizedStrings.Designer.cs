@@ -986,6 +986,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Education.
+        /// </summary>
+        public static string Education {
+            get {
+                return ResourceManager.GetString("Education", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
         public static string Ellipsis {
@@ -1391,6 +1400,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Languages.
+        /// </summary>
+        public static string Languages {
+            get {
+                return ResourceManager.GetString("Languages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last modified.
         /// </summary>
         public static string LastModified {
@@ -1546,6 +1564,15 @@ namespace Visitz.Resources.Localization {
         public static string MarkForDownload {
             get {
                 return ResourceManager.GetString("MarkForDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medical / behavioural.
+        /// </summary>
+        public static string MedicalBehavioural {
+            get {
+                return ResourceManager.GetString("MedicalBehavioural", resourceCulture);
             }
         }
         

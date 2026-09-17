@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     xmlns:views="clr-namespace:Visitz.Views"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ChildYouthInfoListView"
@@ -19,7 +20,10 @@
 
         <ScrollView Margin="{StaticResource DefaultMargin}">
             <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
-                <Label FontSize="{StaticResource TitleLargeFontSize}" Text="Education" />
+                <Label
+                    FontSize="{StaticResource TitleLargeFontSize}"
+                    Text="{local:Localize Education}"
+                />
                 <CollectionView ItemsSource="{Binding Education.Items}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="people:ContactEducation">
@@ -44,7 +48,10 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Label FontSize="{StaticResource TitleLargeFontSize}" Text="Medical/behavioural" />
+                <Label
+                    FontSize="{StaticResource TitleLargeFontSize}"
+                    Text="{local:Localize MedicalBehavioural}"
+                />
                 <CollectionView ItemsSource="{Binding MedicalBehavioral.Items}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="people:ContactMedicalBehavioral">
@@ -66,7 +73,10 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Label FontSize="{StaticResource TitleLargeFontSize}" Text="Languages" />
+                <Label
+                    FontSize="{StaticResource TitleLargeFontSize}"
+                    Text="{local:Localize Languages}"
+                />
                 <CollectionView ItemsSource="{Binding Languages.Items}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="people:ContactLanguage">
