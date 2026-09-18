@@ -21,6 +21,10 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
 {
     bool _disposedValue;
 
+    readonly TaskCompletionSource _loadedTcs = new();
+
+    public Task Loaded => _loadedTcs.Task;
+
     public Realm Realm { get; }
 
     public IQueryable<TQueryObject> RealmQuery { get; private set; }
@@ -97,7 +101,21 @@ public partial class ObservableQuery<TQueryObject, TListItem> : ObservableObject
     void Query_ItemsChanged(IRealmCollection<TQueryObject> queriedItems, ChangeSet? changes)
     {
         if (changes == null)
-            QueryItems.AddAll(queriedItems);
+        {
+            try
+            {
+                QueryItems.AddAll(queriedItems);
+                _loadedTcs.TrySetResult();
+            }
+            catch (OperationCanceledException)
+            {
+                _loadedTcs.TrySetCanceled();
+            }
+            catch (Exception ex)
+            {
+                _loadedTcs.TrySetException(ex);
+            }
+        }
         else
         {
             foreach (int deletedIndex in changes.DeletedIndices.Reverse())
