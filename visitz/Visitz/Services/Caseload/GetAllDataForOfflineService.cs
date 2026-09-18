@@ -76,6 +76,9 @@ public class GetAllDataForOfflineService(Vpi vpi, ServiceHandler serviceHandler,
 
     protected override async Task FinishServiceAsync()
     {
+        if (ResultCode is Result.Successful or Result.Error)
+            LastUpdatedPrefs.SetUtcNow(AutoRefreshService.CooldownTimestampUtc);
+
         // Send logs after getting all data so we can send any new logs we might've generated
         await SendLogsAsync();
     }
