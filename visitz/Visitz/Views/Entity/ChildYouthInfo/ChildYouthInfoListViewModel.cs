@@ -26,6 +26,8 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
     {
         await base.InitAsync();
 
+        IsLoading = true;
+
         var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
         Education = new(dataRealm, query: dataRealm.All<ContactEducation>());
@@ -33,6 +35,9 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
         MedicalBehavioral = new(dataRealm, query: dataRealm.All<ContactMedicalBehavioral>());
 
         Languages = new(dataRealm, query: dataRealm.All<ContactLanguage>());
+
+        await Task.WhenAll(Education.Loaded, MedicalBehavioral.Loaded, Languages.Loaded);
+        IsLoading = false;
     }
 
     protected override void Dispose(bool disposing)
