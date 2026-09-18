@@ -14,13 +14,13 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
     public partial bool IsLoading { get; set; }
 
     [ObservableProperty]
-    public partial ObservableQuery<ContactEducation> Education { get; private set; }
+    public partial ObservableQuery<ContactEducation>? Education { get; private set; }
 
     [ObservableProperty]
-    public partial ObservableQuery<ContactMedicalBehavioral> MedicalBehavioral { get; private set; }
+    public partial ObservableQuery<ContactMedicalBehavioral>? MedicalBehavioral { get; private set; }
 
     [ObservableProperty]
-    public partial ObservableQuery<ContactLanguage> Languages { get; private set; }
+    public partial ObservableQuery<ContactLanguage>? Languages { get; private set; }
 
     protected override async Task InitAsync()
     {
@@ -39,9 +39,9 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
     {
         if (!_disposed && disposing)
         {
-            Education.Dispose();
-            MedicalBehavioral.Dispose();
-            Languages.Dispose();
+            Education?.Dispose();
+            MedicalBehavioral?.Dispose();
+            Languages?.Dispose();
             _disposed = true;
         }
         base.Dispose(disposing);
