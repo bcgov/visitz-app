@@ -68,28 +68,28 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
             new()
             {
                 IconGlyph = MaterialIcons.Barcode,
-                FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
+                IconFontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                 Label = LocalizedStrings.Id,
                 Value = BusinessObject.FileNumberBinding,
             },
             new()
             {
                 IconGlyph = MaterialIcons.Assignment_ind,
-                FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
+                IconFontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                 Label = LocalizedStrings.AssignedTo,
                 Value = BusinessObject.DisplayAssignees,
             },
             new()
             {
                 IconGlyph = MaterialIcons.Calendar_today,
-                FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
+                IconFontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                 Label = LocalizedStrings.OpenDate,
                 Value = BusinessObject.DisplayDate,
             },
             new()
             {
                 IconGlyph = MaterialIcons.Corporate_fare,
-                FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
+                IconFontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                 Label = LocalizedStrings.ServiceOffice,
                 Value = BusinessObject.ServiceOfficeBinding,
             },
@@ -102,7 +102,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                 new()
                 {
                     IconGlyph = MaterialIcons.Phone,
-                    FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
+                    IconFontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.HomeNumber,
                     Value = KeyPlayer.HomePhoneFormatted,
 #if IOS
@@ -114,7 +114,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                 new()
                 {
                     IconGlyph = MaterialIcons.Phone,
-                    FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
+                    IconFontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.CellNumber,
                     Value = KeyPlayer.CellPhoneFormatted,
 #if IOS
@@ -126,7 +126,7 @@ public partial class EntityDetailsViewModel : IcmRecordViewModel
                 new()
                 {
                     IconGlyph = MaterialIcons.Home,
-                    FontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
+                    IconFontFamily = MaterialIcons.RoundedUnfilled.FontFamily,
                     Label = LocalizedStrings.Address,
                     Value = KeyPlayer.PrimaryAddressBinding,
                     ValueColor = Colors.Blue,
