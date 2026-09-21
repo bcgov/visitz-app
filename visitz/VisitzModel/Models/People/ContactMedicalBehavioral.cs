@@ -2,6 +2,7 @@ using RealmBindings;
 using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Interfaces;
 using VisitzModel.Utilities;
 
@@ -34,6 +35,12 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     public string ParentContactId { get; set; } = string.Empty;
     public DateTimeOffset? StartDate { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
+
+    public string? DisplayDiagnosisDate => DiagnosisDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
+
+    public string? DisplayStartDate => StartDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
+
+    public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
     public ContactMedicalBehavioral() { }
 

@@ -68,16 +68,13 @@
                                         <VerticalStackLayout>
                                             <Label
                                                 FontFamily="BCSansBold"
-                                                Text="{Binding Condition}"
+                                                Text="{Binding CategoryBinding}"
                                             />
-                                            <Label Text="{Binding Name}" />
+                                            <Label Text="{Binding ConditionBinding}" />
                                         </VerticalStackLayout>
                                     </views:Expander.HeaderView>
                                     <views:Expander.ExpandedView>
-                                        <VerticalStackLayout>
-                                            <Label Text="Category" />
-                                            <Label Text="{Binding Category}" />
-                                        </VerticalStackLayout>
+                                        <childYouthInfo:ContactMedicalBehavioralListItem />
                                     </views:Expander.ExpandedView>
                                 </views:Expander>
                             </ContentView>
