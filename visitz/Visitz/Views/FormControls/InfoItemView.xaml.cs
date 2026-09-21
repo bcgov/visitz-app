@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui;
+using Visitz.Resources.Styles;
 
 namespace Visitz.Views.FormControls;
 
@@ -27,6 +28,9 @@ public partial class InfoItemView : ContentView
 
     [BindableProperty]
     public partial GridLength IconColumnWidth { get; set; } = new GridLength(0.0d);
+
+    [BindableProperty]
+    public partial double ColumnSpacing { get; set; }
 
     public InfoItemView()
     {
@@ -62,9 +66,18 @@ public partial class InfoItemView : ContentView
 
     static void IconGlyph_PropertyChanged(BindableObject bindable, object _, object newValue)
     {
-        if (bindable is InfoItemView itemView)
+        if (bindable is not InfoItemView itemView)
+            return;
+
+        if (newValue is string { Length: > 0 })
         {
-            itemView.IconColumnWidth = newValue is string { Length: > 0 } ? GridLength.Auto : new GridLength(0.0d);
+            itemView.IconColumnWidth = GridLength.Auto;
+            itemView.ColumnSpacing = VisitzDimensions.DefaultSpacing;
+        }
+        else
+        {
+            itemView.IconColumnWidth = new GridLength(0.0d);
+            itemView.ColumnSpacing = 0.0d;
         }
     }
 }
