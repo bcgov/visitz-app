@@ -287,23 +287,21 @@ public sealed class RealmBindingSourceGenerator : IIncrementalGenerator
             return IsSupportedScalarType(nullableType.TypeArguments[0]);
         }
 
-        // Supported primitive types
+        // Supported primitive types per Realm .NET documentation:
+        // bool, byte, short, int, long, float, double, decimal, char, string
         return type.SpecialType switch
         {
-            SpecialType.System_Boolean or
-            SpecialType.System_Byte or
-            SpecialType.System_SByte or
-            SpecialType.System_Int16 or
-            SpecialType.System_UInt16 or
-            SpecialType.System_Int32 or
-            SpecialType.System_UInt32 or
-            SpecialType.System_Int64 or
-            SpecialType.System_UInt64 or
-            SpecialType.System_Single or
-            SpecialType.System_Double or
-            SpecialType.System_Decimal or
-            SpecialType.System_String or
-            SpecialType.System_DateTime => true,
+            SpecialType.System_Boolean or      // bool
+            SpecialType.System_Byte or         // byte
+            SpecialType.System_SByte or        // sbyte (signed byte)
+            SpecialType.System_Char or         // char
+            SpecialType.System_Int16 or        // short
+            SpecialType.System_Int32 or        // int
+            SpecialType.System_Int64 or        // long
+            SpecialType.System_Single or       // float
+            SpecialType.System_Double or       // double
+            SpecialType.System_Decimal or      // decimal
+            SpecialType.System_String => true, // string
 
             _ => IsSupportedNamedType(type)
         };
@@ -318,14 +316,17 @@ public sealed class RealmBindingSourceGenerator : IIncrementalGenerator
 
         string fullName = namedType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
-        // Supported named types
+        // Supported named types per Realm .NET documentation:
+        // DateTimeOffset, Guid, byte[] (underlying array type)
+        // Note: FullyQualifiedFormat includes global:: prefix
         return fullName switch
         {
-            "System.DateTimeOffset" or
-            "System.Guid" or
-            "System.Byte[]" or
-            "System.Collections.Generic.IList<System.Byte>" or
-            "MongoDB.Bson.ObjectId" => true,
+            "global::System.DateTimeOffset" or  // DateTimeOffset
+            "System.DateTimeOffset" or          // fallback without prefix
+            "global::System.Guid" or            // Guid
+            "System.Guid" or                    // fallback without prefix
+            "global::System.Byte[]" or          // byte[]
+            "System.Byte[]" => true,            // fallback without prefix
 
             _ => false
         };
@@ -366,50 +367,28 @@ public sealed class RealmBindingSourceGenerator : IIncrementalGenerator
 
         string originalDefinition = namedType.OriginalDefinition.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
-        // IList<T>, ISet<T>, IDictionary<K,V> are supported
-        bool isIList = originalDefinition == "System.Collections.Generic.IList<T>";
-        bool isISet = originalDefinition == "System.Collections.Generic.ISet<T>";
-        bool isIDictionary = originalDefinition == "System.Collections.Generic.IDictionary<TKey, TValue>";
-
-        if (!isIList && !isISet && !isIDictionary)
+        // Per Realm .NET documentation, only IList<T> is supported for collections
+        if (originalDefinition != "System.Collections.Generic.IList<T>")
         {
             return false;
         }
 
-        // Validate collection element types
-        if (isIList || isISet)
+        // Validate the element type
+        if (namedType.TypeArguments.Length != 1)
         {
-            ITypeSymbol elementType = namedType.TypeArguments[0];
-            // Collections cannot contain collections
-            if (IsSupportedCollectionType(elementType))
-            {
-                return false;
-            }
-            return IsSupportedScalarType(elementType) || IsRealmObject(elementType);
+            return false;
         }
 
-        if (isIDictionary)
+        ITypeSymbol elementType = namedType.TypeArguments[0];
+
+        // Collections cannot contain collections (no nested collections)
+        if (IsSupportedCollectionType(elementType))
         {
-            ITypeSymbol keyType = namedType.TypeArguments[0];
-            ITypeSymbol valueType = namedType.TypeArguments[1];
-
-            // Dictionary keys must be scalar types, not collections
-            if (!IsSupportedScalarType(keyType) || IsSupportedCollectionType(keyType))
-            {
-                return false;
-            }
-
-            // Dictionary values: scalar types or Realm objects
-            // Note: Collections cannot be dictionary values
-            if (IsSupportedCollectionType(valueType))
-            {
-                return false;
-            }
-
-            return IsSupportedScalarType(valueType) || IsRealmObject(valueType);
+            return false;
         }
 
-        return false;
+        // Element type must be a supported scalar type or a Realm object
+        return IsSupportedScalarType(elementType) || IsRealmObject(elementType);
     }
 
     private static string GetFallbackExpression(
