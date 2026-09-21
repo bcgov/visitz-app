@@ -1,3 +1,8 @@
+/*
+    This class was made using LLMs, because I don't know enough about code generation and have
+    deadlines to meet. 
+ */
+
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
