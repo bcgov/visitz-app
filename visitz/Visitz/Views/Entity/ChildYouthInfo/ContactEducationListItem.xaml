@@ -8,10 +8,36 @@
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactEducationListItem"
     x:DataType="peopleModels:ContactEducation"
 >
-    <VerticalStackLayout>
+    <ContentView.Resources>
+        <Style TargetType="formControls:InfoItemView">
+            <Setter Property="LabelFontFamily" Value="BCSansBold" />
+        </Style>
+    </ContentView.Resources>
+
+    <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+        <formControls:InfoItemView Label="SchoolName" Value="{Binding SchoolNameBinding}" />
+        <formControls:InfoItemView Label="Year" Value="{Binding DisplayYear}" />
         <formControls:InfoItemView
-            Label="Learning assistant!"
-            Value="{Binding LearningAssistant}"
+            Label="DateLastAttended"
+            Value="{Binding DateLastAttendedBinding}"
         />
+        <formControls:InfoItemView
+            Label="IndividualEducationPlan"
+            Value="{Binding IndividualEducationPlanBinding}"
+        />
+        <formControls:InfoItemView
+            Label="LearningAssistant"
+            Value="{Binding LearningAssistantBinding}"
+        />
+        <formControls:InfoItemView Label="Degree" Value="{Binding DegreeBinding}" />
+        <formControls:InfoItemView
+            Label="ContactPersonRole"
+            Value="{Binding ContactPersonRoleBinding}"
+        />
+        <formControls:InfoItemView Label="PhoneNum" Value="{Binding PhoneNumBinding}" />
+        <formControls:InfoItemView Label="Address" Value="{Binding AddressBinding}" />
+        <formControls:InfoItemView Label="StartDate" Value="{Binding DisplayStartDate}" />
+        <formControls:InfoItemView Label="EndDate" Value="{Binding DisplayEndDate}" />
+        <formControls:InfoItemView Label="Comments" Value="{Binding CommentsBinding}" />
     </VerticalStackLayout>
 </ContentView>

@@ -2,6 +2,7 @@ using RealmBindings;
 using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Interfaces;
 using VisitzModel.Utilities;
 
@@ -32,6 +33,12 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
     public string PhoneNum { get; set; } = string.Empty;
     public DateTimeOffset? DateLastAttended { get; set; }
     public string ParentContactId { get; set; } = string.Empty;
+
+    public string? DisplayYear => YearBinding?.ToString("yyyy");
+
+    public string? DisplayStartDate => StartDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
+
+    public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
     public ContactEducation() { }
 

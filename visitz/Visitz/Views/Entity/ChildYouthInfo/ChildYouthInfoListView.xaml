@@ -40,9 +40,9 @@
                                         <VerticalStackLayout>
                                             <Label
                                                 FontFamily="BCSansBold"
-                                                Text="{Binding SchoolName}"
+                                                Text="{Binding SchoolNameBinding}"
                                             />
-                                            <Label Text="{Binding LearningAssistant}" />
+                                            <Label Text="{Binding DisplayYear}" />
                                         </VerticalStackLayout>
                                     </views:Expander.HeaderView>
                                     <views:Expander.ExpandedView>
