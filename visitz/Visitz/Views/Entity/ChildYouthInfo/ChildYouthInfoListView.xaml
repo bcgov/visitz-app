@@ -40,22 +40,19 @@
         />
 
         <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
-            <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+            <VerticalStackLayout>
                 <ContentView x:Name="DummyItemForSpacing" />
 
-                <HorizontalStackLayout>
-                    <controls:LabelIcon
-                        Text="{Static fontIcons:MaterialIcons.School}"
-                        VerticalOptions="Center"
-                    />
-                    <Label StyleClass="SectionHeaderText" Text="{local:Localize Education}" />
-                </HorizontalStackLayout>
-
-                <CollectionView ItemsSource="{Binding Education.Items}">
-                    <CollectionView.ItemTemplate>
+                <childYouthInfo:ExpandableSection
+                    HeaderGlyph="{Static fontIcons:MaterialIcons.School}"
+                    HeaderText="{local:Localize Education}"
+                    ItemsSource="{Binding Education.Items}"
+                    Margin="{StaticResource DefaultMargin}"
+                >
+                    <childYouthInfo:ExpandableSection.ItemTemplate>
                         <DataTemplate x:DataType="people:ContactEducation">
                             <ContentView>
-                                <views:Expander Margin="{StaticResource DefaultMargin}">
+                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
                                     <views:Expander.HeaderView>
                                         <VerticalStackLayout>
                                             <Label
@@ -74,25 +71,19 @@
                                 </views:Expander>
                             </ContentView>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </childYouthInfo:ExpandableSection.ItemTemplate>
+                </childYouthInfo:ExpandableSection>
 
-                <HorizontalStackLayout>
-                    <controls:LabelIcon
-                        Text="{Static fontIcons:MaterialIcons.Monitor_heart}"
-                        VerticalOptions="Center"
-                    />
-                    <Label
-                        StyleClass="SectionHeaderText"
-                        Text="{local:Localize MedicalBehavioural}"
-                    />
-                </HorizontalStackLayout>
-
-                <CollectionView ItemsSource="{Binding MedicalBehavioral.Items}">
-                    <CollectionView.ItemTemplate>
+                <childYouthInfo:ExpandableSection
+                    HeaderGlyph="{Static fontIcons:MaterialIcons.Monitor_heart}"
+                    HeaderText="{local:Localize MedicalBehavioural}"
+                    ItemsSource="{Binding MedicalBehavioral.Items}"
+                    Margin="{StaticResource DefaultMargin}"
+                >
+                    <childYouthInfo:ExpandableSection.ItemTemplate>
                         <DataTemplate x:DataType="people:ContactMedicalBehavioral">
                             <ContentView>
-                                <views:Expander Margin="{StaticResource DefaultMargin}">
+                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
                                     <views:Expander.HeaderView>
                                         <VerticalStackLayout>
                                             <Label
@@ -111,22 +102,19 @@
                                 </views:Expander>
                             </ContentView>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </childYouthInfo:ExpandableSection.ItemTemplate>
+                </childYouthInfo:ExpandableSection>
 
-                <HorizontalStackLayout>
-                    <controls:LabelIcon
-                        Text="{Static fontIcons:MaterialIcons.Globe}"
-                        VerticalOptions="Center"
-                    />
-                    <Label StyleClass="SectionHeaderText" Text="{local:Localize Languages}" />
-                </HorizontalStackLayout>
-
-                <CollectionView ItemsSource="{Binding Languages.Items}">
-                    <CollectionView.ItemTemplate>
+                <childYouthInfo:ExpandableSection
+                    HeaderGlyph="{Static fontIcons:MaterialIcons.Globe}"
+                    HeaderText="{local:Localize Languages}"
+                    ItemsSource="{Binding Languages.Items}"
+                    Margin="{StaticResource DefaultMargin}"
+                >
+                    <childYouthInfo:ExpandableSection.ItemTemplate>
                         <DataTemplate x:DataType="people:ContactLanguage">
                             <ContentView>
-                                <views:Expander Margin="{StaticResource DefaultMargin}">
+                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
                                     <views:Expander.HeaderView>
                                         <VerticalStackLayout>
                                             <Label
@@ -145,8 +133,8 @@
                                 </views:Expander>
                             </ContentView>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </childYouthInfo:ExpandableSection.ItemTemplate>
+                </childYouthInfo:ExpandableSection>
             </VerticalStackLayout>
         </ScrollView>
     </AbsoluteLayout>
