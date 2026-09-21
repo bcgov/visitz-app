@@ -2,6 +2,7 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:form="clr-namespace:Visitz.Views.FormControls"
     x:Class="Visitz.Views.FormControls.InfoItemView"
     x:DataType="form:InfoItemView"
@@ -20,7 +21,7 @@
             <ColumnDefinition Width="{Binding IconColumnWidth}" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <Label
             FontFamily="{Binding IconFontFamily}"
             FontSize="16"
@@ -37,7 +38,7 @@
             VerticalOptions="Center"
         />
 
-        <Label
+        <controls:SelectableLabel
             Grid.Row="1"
             Grid.Column="1"
             Text="{Binding Value}"
