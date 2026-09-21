@@ -18,8 +18,9 @@
                     VerticalOptions="Center"
                 />
                 <Label
-                    StyleClass="SectionHeaderText"
+                    FontSize="{StaticResource TitleLargeFontSize}"
                     Text="{Binding HeaderText, Source={RelativeSource AncestorType=childYouthInfo:ExpandableSection}}"
+                    VerticalOptions="Center"
                 />
             </HorizontalStackLayout>
         </views:Expander.HeaderView>

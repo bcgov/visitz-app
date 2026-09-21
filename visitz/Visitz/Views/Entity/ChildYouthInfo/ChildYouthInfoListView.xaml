@@ -13,23 +13,6 @@
     x:DataType="childYouthInfo:ChildYouthInfoListViewModel"
     x:TypeArguments="childYouthInfo:ChildYouthInfoListViewModel"
 >
-    <base:IcmRecordContentView.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Label" Class="SectionHeaderText">
-                <Setter Property="FontSize" Value="{StaticResource TitleLargeFontSize}" />
-                <Setter Property="VerticalOptions" Value="Center" />
-            </Style>
-            <Style TargetType="HorizontalStackLayout">
-                <Setter Property="Margin">
-                    <Thickness
-                        Left="{StaticResource DefaultMargin}"
-                        Right="{StaticResource DefaultMargin}"
-                    />
-                </Setter>
-                <Setter Property="Spacing" Value="{StaticResource DefaultSpacingHalf}" />
-            </Style>
-        </ResourceDictionary>
-    </base:IcmRecordContentView.Resources>
     <AbsoluteLayout>
         <ActivityIndicator
             AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -63,10 +46,7 @@
                                         </VerticalStackLayout>
                                     </views:Expander.HeaderView>
                                     <views:Expander.ExpandedView>
-                                        <VerticalStackLayout>
-                                            <Label Text="Learning Assistant" />
-                                            <Label Text="{Binding LearningAssistant}" />
-                                        </VerticalStackLayout>
+                                        <childYouthInfo:ContactEducationListItem />
                                     </views:Expander.ExpandedView>
                                 </views:Expander>
                             </ContentView>
