@@ -1,3 +1,4 @@
+using RealmBindings;
 using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
@@ -6,6 +7,7 @@ using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.People;
 
+[GenerateRealmBindings]
 public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMedicalBehavioralJson>
 {
     [PrimaryKey]

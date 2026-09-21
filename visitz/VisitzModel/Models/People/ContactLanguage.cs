@@ -1,3 +1,4 @@
+using RealmBindings;
 using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
@@ -5,6 +6,7 @@ using VisitzModel.Interfaces;
 
 namespace VisitzModel.Models.People;
 
+[GenerateRealmBindings]
 public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJson>
 {
     [PrimaryKey]
