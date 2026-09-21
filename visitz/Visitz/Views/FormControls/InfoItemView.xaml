@@ -33,6 +33,7 @@
         <Label
             Grid.Row="0"
             Grid.Column="1"
+            FontFamily="{Binding LabelFontFamily}"
             TextColor="{StaticResource Gray600}"
             Text="{Binding Label}"
             VerticalOptions="Center"

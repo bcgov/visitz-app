@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui;
 using Visitz.Resources.Styles;
+using Visitz.VisitzConfig;
 
 namespace Visitz.Views.FormControls;
 
@@ -31,6 +32,9 @@ public partial class InfoItemView : ContentView
 
     [BindableProperty]
     public partial double ColumnSpacing { get; set; }
+
+    [BindableProperty]
+    public partial string LabelFontFamily { get; set; } = VisitzFonts.BcSansRegularAlias;
 
     public InfoItemView()
     {
