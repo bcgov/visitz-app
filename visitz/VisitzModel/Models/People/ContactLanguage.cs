@@ -89,7 +89,7 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     {
         await realm.SynchronizeByQueryAsync(
             incomingItems: FromApiJsonArray(newContactLanguages, parentContactId),
-            existingQuery: realm.All<ContactLanguage>().Where(item => item.ParentContactId == parentContactId)
+            existingQuery: GetAllByParent(realm, parentContactId)
         );
     }
 
@@ -105,5 +105,10 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
 
             realm.RemoveRange(contactLanguagesToBeDeleted);
         }
+    }
+
+    public static IQueryable<ContactLanguage> GetAllByParent(Realm realm, string parentContactId)
+    {
+        return realm.All<ContactLanguage>().Where(item => item.ParentContactId == parentContactId);
     }
 }

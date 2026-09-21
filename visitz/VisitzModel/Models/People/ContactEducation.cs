@@ -105,7 +105,7 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
     {
         await realm.SynchronizeByQueryAsync(
             incomingItems: FromApiJsonArray(contactEducation, parentContactId),
-            existingQuery: realm.All<ContactEducation>().Where(item => item.ParentContactId == parentContactId)
+            existingQuery: GetAllByParent(realm, parentContactId)
         );
     }
 
@@ -121,5 +121,10 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
 
             realm.RemoveRange(contactEducationToBeDeleted);
         }
+    }
+
+    public static IQueryable<ContactEducation> GetAllByParent(Realm realm, string parentContactId)
+    {
+        return realm.All<ContactEducation>().Where(item => item.ParentContactId == parentContactId);
     }
 }

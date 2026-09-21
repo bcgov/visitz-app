@@ -1,4 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Logging;
+using Visitz.Extensions;
 using Visitz.Storage;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
@@ -28,15 +30,25 @@ public partial class ChildYouthInfoListViewModel : IcmRecordViewModel
 
         IsLoading = true;
 
-        var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
+        if (BusinessObject.GetKeyPlayer() is IcmContact keyPlayer)
+        {
+            var dataRealm = await VisitzRealms.GetIcmDataRealmAsync();
 
-        Education = new(dataRealm, query: dataRealm.All<ContactEducation>());
+            Education = new(dataRealm, query: ContactEducation.GetAllByParent(dataRealm, keyPlayer.Id));
 
-        MedicalBehavioral = new(dataRealm, query: dataRealm.All<ContactMedicalBehavioral>());
+            MedicalBehavioral = new(dataRealm, query: ContactMedicalBehavioral.GetAllByParent(dataRealm, keyPlayer.Id));
 
-        Languages = new(dataRealm, query: dataRealm.All<ContactLanguage>());
+            Languages = new(dataRealm, query: ContactLanguage.GetAllByParent(dataRealm, keyPlayer.Id));
 
-        await Task.WhenAll(Education.Loaded, MedicalBehavioral.Loaded, Languages.Loaded);
+            await Task.WhenAll(Education.Loaded, MedicalBehavioral.Loaded, Languages.Loaded);
+        }
+        else
+        {
+            string error = $"Unable to find key player for {BusinessObject.DisplayName}";
+            Logger.LogError(error);
+            await Navigator.CurrentOpenPage.DisplayErrorAlert(error);
+        }
+
         IsLoading = false;
     }
 

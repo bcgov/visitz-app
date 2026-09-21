@@ -114,7 +114,7 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     {
         await realm.SynchronizeByQueryAsync(
             incomingItems: FromApiJsonArray(contactMedicalBehavioral, parentContactId),
-            existingQuery: realm.All<ContactMedicalBehavioral>().Where(item => item.ParentContactId == parentContactId)
+            existingQuery: GetAllByParent(realm, parentContactId)
         );
     }
 
@@ -130,5 +130,10 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
 
             realm.RemoveRange(contactMedicalBehavioral);
         }
+    }
+
+    public static IQueryable<ContactMedicalBehavioral> GetAllByParent(Realm realm, string parentContactId)
+    {
+        return realm.All<ContactMedicalBehavioral>().Where(item => item.ParentContactId == parentContactId);
     }
 }
