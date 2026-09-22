@@ -102,10 +102,7 @@
                                         </VerticalStackLayout>
                                     </views:Expander.HeaderView>
                                     <views:Expander.ExpandedView>
-                                        <VerticalStackLayout>
-                                            <Label Text="Is Primary?" />
-                                            <Label Text="{Binding SSAPrimaryField}" />
-                                        </VerticalStackLayout>
+                                        <childYouthInfo:ContactLanguageListItem />
                                     </views:Expander.ExpandedView>
                                 </views:Expander>
                             </ContentView>
