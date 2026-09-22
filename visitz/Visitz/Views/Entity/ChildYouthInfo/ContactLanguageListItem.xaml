@@ -15,7 +15,7 @@
     </ContentView.Resources>
 
     <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
-        <formControls:InfoItemView Label="LanguageName" Value="{Binding LanguageNameBinding}" />
+        <formControls:InfoItemView Label="Language name" Value="{Binding LanguageNameBinding}" />
         <formControls:InfoItemView Label="Preferred" Value="{Binding SSAPrimaryFieldBinding}" />
         <formControls:InfoItemView Label="Type" Value="{Binding ICMTypeBinding}" />
         <formControls:InfoItemView

@@ -34,9 +34,7 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
     public DateTimeOffset? DateLastAttended { get; set; }
     public string ParentContactId { get; set; } = string.Empty;
 
-    public string? DisplayYear => YearBinding?.ToString("yyyy");
-
-    public string? DisplayStartDate => StartDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
+    public string? DisplayStartDate => StartDateBinding?.ToString(IcmDateFormats.BasicTimestampShort);
 
     public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 

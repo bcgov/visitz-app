@@ -15,14 +15,13 @@
     </ContentView.Resources>
 
     <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
-        <formControls:InfoItemView Label="Category" Value="{Binding CategoryBinding}" />
         <formControls:InfoItemView Label="Condition" Value="{Binding ConditionBinding}" />
-        <formControls:InfoItemView Label="Type" Value="{Binding TypeBinding}" />
-        <formControls:InfoItemView Label="DiagnosedBy" Value="{Binding DiagnosedByBinding}" />
-        <formControls:InfoItemView Label="DiagnosisDate" Value="{Binding DisplayDiagnosisDate}" />
-        <formControls:InfoItemView Label="TreatmentPlan" Value="{Binding TreatmentPlanBinding}" />
-        <formControls:InfoItemView Label="StartDate" Value="{Binding DisplayStartDate}" />
-        <formControls:InfoItemView Label="EndDate" Value="{Binding DisplayEndDate}" />
+        <formControls:InfoItemView Label="Category" Value="{Binding CategoryBinding}" />
         <formControls:InfoItemView Label="Comments" Value="{Binding CommentsBinding}" />
+        <formControls:InfoItemView Label="Diagnosed by" Value="{Binding DiagnosedByBinding}" />
+        <formControls:InfoItemView Label="Diagnosis date" Value="{Binding DisplayDiagnosisDate}" />
+        <formControls:InfoItemView Label="Treatment plan" Value="{Binding TreatmentPlanBinding}" />
+        <formControls:InfoItemView Label="Start date" Value="{Binding DisplayStartDate}" />
+        <formControls:InfoItemView Label="End date" Value="{Binding DisplayEndDate}" />
     </VerticalStackLayout>
 </ContentView>

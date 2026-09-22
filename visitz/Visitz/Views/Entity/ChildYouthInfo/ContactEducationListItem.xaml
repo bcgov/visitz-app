@@ -15,29 +15,17 @@
     </ContentView.Resources>
 
     <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
-        <formControls:InfoItemView Label="SchoolName" Value="{Binding SchoolNameBinding}" />
-        <formControls:InfoItemView Label="Year" Value="{Binding DisplayYear}" />
+        <formControls:InfoItemView Label="School name" Value="{Binding SchoolNameBinding}" />
+        <formControls:InfoItemView Label="Last grade completed" Value="{Binding DegreeBinding}" />
         <formControls:InfoItemView
-            Label="DateLastAttended"
-            Value="{Binding DateLastAttendedBinding}"
-        />
+            Label="Contact person"
+            Value="{Binding ContactPersonBinding}" />
         <formControls:InfoItemView
-            Label="IndividualEducationPlan"
-            Value="{Binding IndividualEducationPlanBinding}"
-        />
-        <formControls:InfoItemView
-            Label="LearningAssistant"
-            Value="{Binding LearningAssistantBinding}"
-        />
-        <formControls:InfoItemView Label="Degree" Value="{Binding DegreeBinding}" />
-        <formControls:InfoItemView
-            Label="ContactPersonRole"
+            Label="Contact person role"
             Value="{Binding ContactPersonRoleBinding}"
         />
-        <formControls:InfoItemView Label="PhoneNum" Value="{Binding PhoneNumBinding}" />
+        <formControls:InfoItemView Label="Phone" Value="{Binding PhoneNumBinding}" />
         <formControls:InfoItemView Label="Address" Value="{Binding AddressBinding}" />
-        <formControls:InfoItemView Label="StartDate" Value="{Binding DisplayStartDate}" />
-        <formControls:InfoItemView Label="EndDate" Value="{Binding DisplayEndDate}" />
-        <formControls:InfoItemView Label="Comments" Value="{Binding CommentsBinding}" />
+        <formControls:InfoItemView Label="Start date" Value="{Binding DisplayStartDate}" />
     </VerticalStackLayout>
 </ContentView>

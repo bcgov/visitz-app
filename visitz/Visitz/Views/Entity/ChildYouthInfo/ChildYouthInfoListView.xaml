@@ -42,7 +42,7 @@
                                                 FontFamily="BCSansBold"
                                                 Text="{Binding SchoolNameBinding}"
                                             />
-                                            <Label Text="{Binding DisplayYear}" />
+                                            <Label Text="{Binding DisplayStartDate}" />
                                         </VerticalStackLayout>
                                     </views:Expander.HeaderView>
                                     <views:Expander.ExpandedView>
@@ -65,13 +65,26 @@
                             <ContentView>
                                 <views:Expander Margin="{StaticResource DefaultMarginHalf}">
                                     <views:Expander.HeaderView>
-                                        <VerticalStackLayout>
+                                        <Grid RowDefinitions="Auto,Auto">
                                             <Label
                                                 FontFamily="BCSansBold"
-                                                Text="{Binding CategoryBinding}"
+                                                Text="{Binding ConditionBinding}"
                                             />
-                                            <Label Text="{Binding ConditionBinding}" />
-                                        </VerticalStackLayout>
+
+                                            <Label
+                                                Grid.Row="1"
+                                                LineBreakMode="TailTruncation"
+                                                HorizontalOptions="Fill"
+                                            >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding CategoryBinding}" />
+                                                        <Span Text=": " />
+                                                        <Span Text="{Binding CommentsBinding}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Grid>
                                     </views:Expander.HeaderView>
                                     <views:Expander.ExpandedView>
                                         <childYouthInfo:ContactMedicalBehavioralListItem />
