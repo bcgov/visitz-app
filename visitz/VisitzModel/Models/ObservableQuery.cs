@@ -168,7 +168,13 @@ public partial class ObservableQuery<TQueryObject> : ObservableQuery<TQueryObjec
             realm,
             query,
             targetList ?? [],
-            (addItem, targetList) => targetList.Add(addItem),
+            (addItem, targetList) =>
+            {
+                if (addItem is IComparable<TQueryObject> comparableItem)
+                    targetList.InsertSorted(addItem, Comparer<TQueryObject>.Default);
+                else
+                    targetList.Add(addItem);
+            },
             (removeItem, targetList) => targetList.Remove(removeItem)
         ) { }
 
