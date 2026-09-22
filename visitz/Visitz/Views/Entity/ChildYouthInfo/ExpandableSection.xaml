@@ -18,7 +18,7 @@
                     VerticalOptions="Center"
                 />
                 <Label
-                    FontSize="{StaticResource TitleLargeFontSize}"
+                    FontFamily="BCSansBold"
                     Text="{Binding HeaderText, Source={RelativeSource AncestorType=childYouthInfo:ExpandableSection}}"
                     VerticalOptions="Center"
                 />
