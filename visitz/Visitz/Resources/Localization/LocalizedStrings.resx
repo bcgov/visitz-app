@@ -1193,4 +1193,43 @@ It is unlikely that the file can be recovered.</value>
   <data name="Languages" xml:space="preserve">
     <value>Languages</value>
   </data>
+  <data name="TreatmentPlan" xml:space="preserve">
+    <value>Treatment plan</value>
+  </data>
+  <data name="DiagnosisDate" xml:space="preserve">
+    <value>Diagnosis date</value>
+  </data>
+  <data name="DiagnosedBy" xml:space="preserve">
+    <value>Diagnosed by</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Condition" xml:space="preserve">
+    <value>Condition</value>
+  </data>
+  <data name="SchoolName" xml:space="preserve">
+    <value>School name</value>
+  </data>
+  <data name="LastGradeCompleted" xml:space="preserve">
+    <value>Last grade completed</value>
+  </data>
+  <data name="ContactPerson" xml:space="preserve">
+    <value>Contact person</value>
+  </data>
+  <data name="ContactPersonRole" xml:space="preserve">
+    <value>Contact person role</value>
+  </data>
+  <data name="LanguageName" xml:space="preserve">
+    <value>Language name</value>
+  </data>
+  <data name="TranslatorInterpreterRequired" xml:space="preserve">
+    <value>Translator / interpreter required</value>
+  </data>
+  <data name="Preferred" xml:space="preserve">
+    <value>Preferred</value>
+  </data>
+  <data name="OtherLanguage" xml:space="preserve">
+    <value>Other language</value>
+  </data>
 </root>

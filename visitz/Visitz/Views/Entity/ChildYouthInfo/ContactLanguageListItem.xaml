@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactLanguageListItem"
     x:DataType="peopleModels:ContactLanguage"
@@ -15,13 +16,22 @@
     </ContentView.Resources>
 
     <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
-        <formControls:InfoItemView Label="Language name" Value="{Binding LanguageNameBinding}" />
-        <formControls:InfoItemView Label="Preferred" Value="{Binding SSAPrimaryFieldBinding}" />
-        <formControls:InfoItemView Label="Type" Value="{Binding ICMTypeBinding}" />
         <formControls:InfoItemView
-            Label="Translator/interpreter required"
+            Label="{local:Localize LanguageName}"
+            Value="{Binding LanguageNameBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Preferred}"
+            Value="{Binding SSAPrimaryFieldBinding}"
+        />
+        <formControls:InfoItemView Label="{local:Localize Type}" Value="{Binding ICMTypeBinding}" />
+        <formControls:InfoItemView
+            Label="{local:Localize TranslatorInterpreterRequired}"
             Value="{Binding TranslatorReqBinding}"
         />
-        <formControls:InfoItemView Label="Other language" Value="{Binding OtherLanguageBinding}" />
+        <formControls:InfoItemView
+            Label="{local:Localize OtherLanguage}"
+            Value="{Binding OtherLanguageBinding}"
+        />
     </VerticalStackLayout>
 </ContentView>

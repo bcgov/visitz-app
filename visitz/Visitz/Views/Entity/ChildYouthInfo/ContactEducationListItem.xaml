@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactEducationListItem"
     x:DataType="peopleModels:ContactEducation"
@@ -15,17 +16,33 @@
     </ContentView.Resources>
 
     <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
-        <formControls:InfoItemView Label="School name" Value="{Binding SchoolNameBinding}" />
-        <formControls:InfoItemView Label="Last grade completed" Value="{Binding DegreeBinding}" />
         <formControls:InfoItemView
-            Label="Contact person"
-            Value="{Binding ContactPersonBinding}" />
+            Label="{local:Localize SchoolName}"
+            Value="{Binding SchoolNameBinding}"
+        />
         <formControls:InfoItemView
-            Label="Contact person role"
+            Label="{local:Localize Last grade completed}"
+            Value="{Binding DegreeBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Contact person}"
+            Value="{Binding ContactPersonBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Contact person role}"
             Value="{Binding ContactPersonRoleBinding}"
         />
-        <formControls:InfoItemView Label="Phone" Value="{Binding PhoneNumBinding}" />
-        <formControls:InfoItemView Label="Address" Value="{Binding AddressBinding}" />
-        <formControls:InfoItemView Label="Start date" Value="{Binding DisplayStartDate}" />
+        <formControls:InfoItemView
+            Label="{local:Localize Phone}"
+            Value="{Binding PhoneNumBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Address}"
+            Value="{Binding AddressBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize StartDate}"
+            Value="{Binding DisplayStartDate}"
+        />
     </VerticalStackLayout>
 </ContentView>

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
     xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
     xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
     x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactMedicalBehavioralListItem"
     x:DataType="peopleModels:ContactMedicalBehavioral"
@@ -15,13 +16,37 @@
     </ContentView.Resources>
 
     <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
-        <formControls:InfoItemView Label="Condition" Value="{Binding ConditionBinding}" />
-        <formControls:InfoItemView Label="Category" Value="{Binding CategoryBinding}" />
-        <formControls:InfoItemView Label="Comments" Value="{Binding CommentsBinding}" />
-        <formControls:InfoItemView Label="Diagnosed by" Value="{Binding DiagnosedByBinding}" />
-        <formControls:InfoItemView Label="Diagnosis date" Value="{Binding DisplayDiagnosisDate}" />
-        <formControls:InfoItemView Label="Treatment plan" Value="{Binding TreatmentPlanBinding}" />
-        <formControls:InfoItemView Label="Start date" Value="{Binding DisplayStartDate}" />
-        <formControls:InfoItemView Label="End date" Value="{Binding DisplayEndDate}" />
+        <formControls:InfoItemView
+            Label="{local:Localize Condition}"
+            Value="{Binding ConditionBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Category}"
+            Value="{Binding CategoryBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Comments}"
+            Value="{Binding CommentsBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize DiagnosedBy}"
+            Value="{Binding DiagnosedByBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize DiagnosisDate}"
+            Value="{Binding DisplayDiagnosisDate}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize TreatmentPlan}"
+            Value="{Binding TreatmentPlanBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize StartDate}"
+            Value="{Binding DisplayStartDate}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize EndDate}"
+            Value="{Binding DisplayEndDate}"
+        />
     </VerticalStackLayout>
 </ContentView>
