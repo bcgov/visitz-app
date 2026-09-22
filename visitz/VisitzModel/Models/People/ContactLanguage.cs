@@ -7,7 +7,7 @@ using VisitzModel.Interfaces;
 namespace VisitzModel.Models.People;
 
 [GenerateRealmBindings]
-public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJson>
+public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJson>, IComparable<ContactLanguage>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -112,5 +112,17 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     public static IQueryable<ContactLanguage> GetAllByParent(Realm realm, string parentContactId)
     {
         return realm.All<ContactLanguage>().Where(item => item.ParentContactId == parentContactId);
+    }
+
+    public int CompareTo(ContactLanguage? other)
+    {
+        if (other == null)
+            return 1;
+
+        int preferredCompare = SSAPrimaryFieldBinding.CompareTo(other.SSAPrimaryFieldBinding);
+        if (preferredCompare != 0)
+            return preferredCompare * -1; // Descending order
+
+        return LanguageNameBinding.CompareTo(other.LanguageNameBinding);
     }
 }

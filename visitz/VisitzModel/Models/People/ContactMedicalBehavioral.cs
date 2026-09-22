@@ -9,7 +9,10 @@ using VisitzModel.Utilities;
 namespace VisitzModel.Models.People;
 
 [GenerateRealmBindings]
-public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMedicalBehavioralJson>
+public partial class ContactMedicalBehavioral
+    : IRealmObject,
+        IApiJson<ContactMedicalBehavioralJson>,
+        IComparable<ContactMedicalBehavioral>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -144,5 +147,25 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     public static IQueryable<ContactMedicalBehavioral> GetAllByParent(Realm realm, string parentContactId)
     {
         return realm.All<ContactMedicalBehavioral>().Where(item => item.ParentContactId == parentContactId);
+    }
+
+    public int CompareTo(ContactMedicalBehavioral? other)
+    {
+        if (other == null)
+            return 1;
+
+        int conditionCompare = ConditionBinding.CompareTo(other.ConditionBinding);
+        if (conditionCompare != 0)
+            return conditionCompare;
+
+        int categoryCompare = CategoryBinding.CompareTo(other.CategoryBinding);
+        if (categoryCompare != 0)
+            return categoryCompare;
+
+        int commentsCompare = CommentsBinding.CompareTo(other.CommentsBinding);
+        if (commentsCompare != 0)
+            return commentsCompare;
+
+        return CreatedBinding.CompareTo(other.CreatedBinding);
     }
 }
