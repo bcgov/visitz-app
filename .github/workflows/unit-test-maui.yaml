@@ -39,6 +39,8 @@ jobs:
           dotnet --version
           dotnet workload install maui ios maccatalyst maui-ios maui-windows maui-maccatalyst
 
+      # Need to make sure this file exists for the build process, even though it shouldn't
+      # be necessary unless we're making a Release build.
       - name: Copy template stub
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
