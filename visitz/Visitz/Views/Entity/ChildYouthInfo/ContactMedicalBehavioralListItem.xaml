@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactMedicalBehavioralListItem"
+    x:DataType="peopleModels:ContactMedicalBehavioral"
+>
+    <ContentView.Resources>
+        <Style TargetType="formControls:InfoItemView">
+            <Setter Property="LabelFontFamily" Value="BCSansBold" />
+        </Style>
+    </ContentView.Resources>
+
+    <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+        <formControls:InfoItemView
+            Label="{local:Localize Condition}"
+            Value="{Binding ConditionBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Category}"
+            Value="{Binding CategoryBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Comments}"
+            Value="{Binding CommentsBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize DiagnosedBy}"
+            Value="{Binding DiagnosedByBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize DiagnosisDate}"
+            Value="{Binding DisplayDiagnosisDate}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize TreatmentPlan}"
+            Value="{Binding TreatmentPlanBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize StartDate}"
+            Value="{Binding DisplayStartDate}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize EndDate}"
+            Value="{Binding DisplayEndDate}"
+        />
+    </VerticalStackLayout>
+</ContentView>

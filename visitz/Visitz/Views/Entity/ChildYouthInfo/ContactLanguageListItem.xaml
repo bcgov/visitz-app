@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:formControls="clr-namespace:Visitz.Views.FormControls"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    x:Class="Visitz.Views.Entity.ChildYouthInfo.ContactLanguageListItem"
+    x:DataType="peopleModels:ContactLanguage"
+>
+    <ContentView.Resources>
+        <Style TargetType="formControls:InfoItemView">
+            <Setter Property="LabelFontFamily" Value="BCSansBold" />
+        </Style>
+    </ContentView.Resources>
+
+    <VerticalStackLayout Spacing="{StaticResource DefaultSpacing}">
+        <formControls:InfoItemView
+            Label="{local:Localize LanguageName}"
+            Value="{Binding LanguageNameBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize Preferred}"
+            Value="{Binding PreferredBinding}"
+        />
+        <formControls:InfoItemView Label="{local:Localize Type}" Value="{Binding ICMTypeBinding}" />
+        <formControls:InfoItemView
+            Label="{local:Localize TranslatorInterpreterRequired}"
+            Value="{Binding TranslatorReqBinding}"
+        />
+        <formControls:InfoItemView
+            Label="{local:Localize OtherLanguage}"
+            Value="{Binding OtherLanguageBinding}"
+        />
+    </VerticalStackLayout>
+</ContentView>

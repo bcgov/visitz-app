@@ -39,22 +39,19 @@ jobs:
           dotnet --version
           dotnet workload install maui ios maccatalyst maui-ios maui-windows maui-maccatalyst
 
-      - name: Build solution
+      # Need to make sure this file exists for the build process, even though it shouldn't
+      # be necessary unless we're making a Release build.
+      - name: Copy template stub
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
-          dotnet --version
-          dotnet build --framework net10.0
+          Copy-Item Visitz\appSettings.json.template Visitz\appSettings.json
 
-      # Running with --no-build to work around an MSBuild targets issue.
-      # (Details: build throws an error about a missing "Visitz.appSettings.json" file. That file should only exist
-      # when running a build in Release mode.)
-      - name: Run tests
+      - name: Build and run tests
         working-directory: ${{ env.BASE_PROJPATH }}
         run: |
           dotnet --version
           dotnet test `
             --framework net10.0 `
-            --no-build `
             --report-xunit-trx `
             --report-xunit-trx-filename "${{ env.TEST_RESULTS }}.trx"
 

@@ -9,6 +9,7 @@ using Visitz.Views.Drafts;
 using Visitz.Views.Entity;
 using Visitz.Views.Entity.Attachments;
 using Visitz.Views.Entity.CallDetails;
+using Visitz.Views.Entity.ChildYouthInfo;
 using Visitz.Views.Entity.ChildYouthVisits;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
@@ -96,6 +97,9 @@ public static class VisitzScreens
 
         builder.Services.AddTransient<ChildYouthVisitListView>();
         builder.Services.AddTransient<ChildYouthVisitListViewModel>();
+
+        builder.Services.AddTransient<ChildYouthInfoListView>();
+        builder.Services.AddTransient<ChildYouthInfoListViewModel>();
 
         builder.Services.AddTransient<PublishPage>();
         builder.Services.AddTransient<NotePublishViewModel>();

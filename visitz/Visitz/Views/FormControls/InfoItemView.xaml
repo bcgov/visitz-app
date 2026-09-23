@@ -2,20 +2,28 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Visitz.Controls"
     xmlns:form="clr-namespace:Visitz.Views.FormControls"
     x:Class="Visitz.Views.FormControls.InfoItemView"
-    x:DataType="form:InfoItem"
+    x:DataType="form:InfoItemView"
+    x:Name="self"
 >
     <ContentView.GestureRecognizers>
         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
     </ContentView.GestureRecognizers>
+
     <Grid
-        ColumnDefinitions="Auto,*"
+        BindingContext="{Reference self}"
         RowDefinitions="Auto,Auto"
         ColumnSpacing="{StaticResource DefaultSpacing}"
     >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding IconColumnWidth}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
         <Label
-            FontFamily="{Binding FontFamily}"
+            FontFamily="{Binding IconFontFamily}"
             FontSize="16"
             Text="{Binding IconGlyph}"
             TextColor="{StaticResource Gray500}"
@@ -25,14 +33,16 @@
         <Label
             Grid.Row="0"
             Grid.Column="1"
+            FontFamily="{Binding LabelFontFamily}"
             TextColor="{StaticResource Gray600}"
             Text="{Binding Label}"
             VerticalOptions="Center"
         />
 
-        <Label
+        <controls:SelectableLabel
             Grid.Row="1"
             Grid.Column="1"
+            IsSelectionEnabled="{Binding IsValueTextSelectable}"
             Text="{Binding Value}"
             VerticalOptions="Center"
             TextDecorations="{Binding ValueTextDecorations}"

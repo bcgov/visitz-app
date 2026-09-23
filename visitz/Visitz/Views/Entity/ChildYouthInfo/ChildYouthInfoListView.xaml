@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:IcmRecordContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:fontIcons="clr-namespace:Visitz.FontIcons"
+    xmlns:local="clr-namespace:Visitz.Localization"
+    xmlns:people="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Entity.ChildYouthInfo.ChildYouthInfoListView"
+    x:DataType="childYouthInfo:ChildYouthInfoListViewModel"
+    x:TypeArguments="childYouthInfo:ChildYouthInfoListViewModel"
+>
+    <AbsoluteLayout>
+        <ActivityIndicator
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            AbsoluteLayout.LayoutBounds="0.5,0.5"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsRunning="{Binding IsLoading}"
+        />
+
+        <ScrollView AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+            <VerticalStackLayout>
+                <ContentView x:Name="DummyItemForSpacing" />
+
+                <childYouthInfo:ExpandableSection
+                    HeaderGlyph="{Static fontIcons:MaterialIcons.School}"
+                    HeaderText="{local:Localize Education}"
+                    ItemsSource="{Binding Education.Items}"
+                    Margin="{StaticResource DefaultMargin}"
+                >
+                    <childYouthInfo:ExpandableSection.ItemTemplate>
+                        <DataTemplate x:DataType="people:ContactEducation">
+                            <ContentView>
+                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
+                                    <views:Expander.HeaderView>
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontFamily="BCSansBold"
+                                                Text="{Binding SchoolNameBinding}"
+                                            />
+                                            <Label Text="{Binding DisplayStartDate}" />
+                                        </VerticalStackLayout>
+                                    </views:Expander.HeaderView>
+                                    <views:Expander.ExpandedView>
+                                        <childYouthInfo:ContactEducationListItem />
+                                    </views:Expander.ExpandedView>
+                                </views:Expander>
+                            </ContentView>
+                        </DataTemplate>
+                    </childYouthInfo:ExpandableSection.ItemTemplate>
+                </childYouthInfo:ExpandableSection>
+
+                <childYouthInfo:ExpandableSection
+                    HeaderGlyph="{Static fontIcons:MaterialIcons.Monitor_heart}"
+                    HeaderText="{local:Localize MedicalBehavioural}"
+                    ItemsSource="{Binding MedicalBehavioral.Items}"
+                    Margin="{StaticResource DefaultMargin}"
+                >
+                    <childYouthInfo:ExpandableSection.ItemTemplate>
+                        <DataTemplate x:DataType="people:ContactMedicalBehavioral">
+                            <ContentView>
+                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
+                                    <views:Expander.HeaderView>
+                                        <Grid RowDefinitions="Auto,Auto">
+                                            <Label
+                                                FontFamily="BCSansBold"
+                                                Text="{Binding ConditionBinding}"
+                                            />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                LineBreakMode="TailTruncation"
+                                                HorizontalOptions="Fill"
+                                            >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding CategoryBinding}" />
+                                                        <Span Text=": " />
+                                                        <Span Text="{Binding CommentsBinding}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Grid>
+                                    </views:Expander.HeaderView>
+                                    <views:Expander.ExpandedView>
+                                        <childYouthInfo:ContactMedicalBehavioralListItem />
+                                    </views:Expander.ExpandedView>
+                                </views:Expander>
+                            </ContentView>
+                        </DataTemplate>
+                    </childYouthInfo:ExpandableSection.ItemTemplate>
+                </childYouthInfo:ExpandableSection>
+
+                <childYouthInfo:ExpandableSection
+                    HeaderGlyph="{Static fontIcons:MaterialIcons.Globe}"
+                    HeaderText="{local:Localize Languages}"
+                    ItemsSource="{Binding Languages.Items}"
+                    Margin="{StaticResource DefaultMargin}"
+                >
+                    <childYouthInfo:ExpandableSection.ItemTemplate>
+                        <DataTemplate x:DataType="people:ContactLanguage">
+                            <ContentView>
+                                <views:Expander Margin="{StaticResource DefaultMarginHalf}">
+                                    <views:Expander.HeaderView>
+                                        <VerticalStackLayout>
+                                            <Label
+                                                FontFamily="BCSansBold"
+                                                Text="{Binding LanguageName}"
+                                            />
+                                            <Label Text="{Binding DisplayPreferred}" />
+                                        </VerticalStackLayout>
+                                    </views:Expander.HeaderView>
+                                    <views:Expander.ExpandedView>
+                                        <childYouthInfo:ContactLanguageListItem />
+                                    </views:Expander.ExpandedView>
+                                </views:Expander>
+                            </ContentView>
+                        </DataTemplate>
+                    </childYouthInfo:ExpandableSection.ItemTemplate>
+                </childYouthInfo:ExpandableSection>
+            </VerticalStackLayout>
+        </ScrollView>
+    </AbsoluteLayout>
+</base:IcmRecordContentView>

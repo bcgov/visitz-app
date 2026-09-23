@@ -3,6 +3,7 @@ using Syncfusion.Maui.Toolkit.TabView;
 using Visitz.Views.BaseClasses;
 using Visitz.Views.Entity.Attachments;
 using Visitz.Views.Entity.CallDetails;
+using Visitz.Views.Entity.ChildYouthInfo;
 using Visitz.Views.Entity.ChildYouthVisits;
 using Visitz.Views.Entity.Details;
 using Visitz.Views.Entity.FamilyMembers;
@@ -69,6 +70,9 @@ public partial class EntityViewModel
         if (ShouldShowCallDetails())
             TabItems.Add(MakeTab<CallDetailsView>());
 
+        if (ShouldShowChildYouthInfo())
+            TabItems.Add(MakeTab<ChildYouthInfoListView>());
+
         TabItems.Add(MakeTab<EntityContactsView>());
         TabItems.Add(MakeTab<EntityNotesView>());
         TabItems.Add(MakeTab<AttachmentsView>());
@@ -131,6 +135,11 @@ public partial class EntityViewModel
     bool ShouldShowSafetyAssessment()
     {
         return BusinessObject.EntityType == EntityType.Incident;
+    }
+
+    bool ShouldShowChildYouthInfo()
+    {
+        return ShouldShowChildYouthVisits();
     }
 
     bool ShouldShowChildYouthVisits()

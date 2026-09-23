@@ -8,7 +8,7 @@ public partial class InfoItem : ObservableObject
     public partial string IconGlyph { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string FontFamily { get; set; } = string.Empty;
+    public partial string IconFontFamily { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Label { get; set; } = string.Empty;
@@ -22,5 +22,14 @@ public partial class InfoItem : ObservableObject
     [ObservableProperty]
     public partial TextDecorations ValueTextDecorations { get; set; } = TextDecorations.None;
 
-    public Action? TapAction { get; set; }
+    [ObservableProperty]
+    public partial Action? TapAction { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsValueTextSelectable { get; set; } = true;
+
+    partial void OnTapActionChanged(Action? value)
+    {
+        IsValueTextSelectable = value == null;
+    }
 }

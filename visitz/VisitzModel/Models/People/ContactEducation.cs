@@ -1,12 +1,15 @@
+using RealmBindings;
 using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Interfaces;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.People;
 
-public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJson>
+[GenerateRealmBindings]
+public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJson>, IComparable<ContactEducation>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -30,6 +33,10 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
     public string PhoneNum { get; set; } = string.Empty;
     public DateTimeOffset? DateLastAttended { get; set; }
     public string ParentContactId { get; set; } = string.Empty;
+
+    public string? DisplayStartDate => StartDateBinding?.ToString(IcmDateFormats.BasicTimestampShort);
+
+    public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
     public ContactEducation() { }
 
@@ -105,7 +112,7 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
     {
         await realm.SynchronizeByQueryAsync(
             incomingItems: FromApiJsonArray(contactEducation, parentContactId),
-            existingQuery: realm.All<ContactEducation>().Where(item => item.ParentContactId == parentContactId)
+            existingQuery: GetAllByParent(realm, parentContactId)
         );
     }
 
@@ -121,5 +128,22 @@ public partial class ContactEducation : IRealmObject, IApiJson<ContactEducationJ
 
             realm.RemoveRange(contactEducationToBeDeleted);
         }
+    }
+
+    public static IQueryable<ContactEducation> GetAllByParent(Realm realm, string parentContactId)
+    {
+        return realm.All<ContactEducation>().Where(item => item.ParentContactId == parentContactId);
+    }
+
+    public int CompareTo(ContactEducation? other)
+    {
+        if (other == null)
+            return 1;
+
+        int startDateCompare = Nullable.Compare(StartDateBinding, other.StartDateBinding);
+        if (startDateCompare != 0)
+            return startDateCompare * -1; // Descending order
+
+        return SchoolNameBinding.CompareTo(other.SchoolNameBinding);
     }
 }

@@ -459,6 +459,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        public static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cell #.
         /// </summary>
         public static string CellNumber {
@@ -509,6 +518,15 @@ namespace Visitz.Resources.Localization {
         public static string ChildrenInOutCareIssueWarning {
             get {
                 return ResourceManager.GetString("ChildrenInOutCareIssueWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Child/youth info.
+        /// </summary>
+        public static string ChildYouthInfoTitle {
+            get {
+                return ResourceManager.GetString("ChildYouthInfoTitle", resourceCulture);
             }
         }
         
@@ -571,6 +589,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Condition.
+        /// </summary>
+        public static string Condition {
+            get {
+                return ResourceManager.GetString("Condition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect to the internet before trying again..
         /// </summary>
         public static string ConnectBeforeRetry {
@@ -621,6 +648,24 @@ namespace Visitz.Resources.Localization {
         public static string ContactMedicalBehavioral {
             get {
                 return ResourceManager.GetString("ContactMedicalBehavioral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact person.
+        /// </summary>
+        public static string ContactPerson {
+            get {
+                return ResourceManager.GetString("ContactPerson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact person role.
+        /// </summary>
+        public static string ContactPersonRole {
+            get {
+                return ResourceManager.GetString("ContactPersonRole", resourceCulture);
             }
         }
         
@@ -787,6 +832,24 @@ namespace Visitz.Resources.Localization {
         public static string DeviceOfflineDesc {
             get {
                 return ResourceManager.GetString("DeviceOfflineDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diagnosed by.
+        /// </summary>
+        public static string DiagnosedBy {
+            get {
+                return ResourceManager.GetString("DiagnosedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diagnosis date.
+        /// </summary>
+        public static string DiagnosisDate {
+            get {
+                return ResourceManager.GetString("DiagnosisDate", resourceCulture);
             }
         }
         
@@ -973,6 +1036,15 @@ namespace Visitz.Resources.Localization {
         public static string Due {
             get {
                 return ResourceManager.GetString("Due", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Education.
+        /// </summary>
+        public static string Education {
+            get {
+                return ResourceManager.GetString("Education", resourceCulture);
             }
         }
         
@@ -1382,6 +1454,33 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language name.
+        /// </summary>
+        public static string LanguageName {
+            get {
+                return ResourceManager.GetString("LanguageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Languages.
+        /// </summary>
+        public static string Languages {
+            get {
+                return ResourceManager.GetString("Languages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last grade completed.
+        /// </summary>
+        public static string LastGradeCompleted {
+            get {
+                return ResourceManager.GetString("LastGradeCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last modified.
         /// </summary>
         public static string LastModified {
@@ -1537,6 +1636,15 @@ namespace Visitz.Resources.Localization {
         public static string MarkForDownload {
             get {
                 return ResourceManager.GetString("MarkForDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medical / behavioural.
+        /// </summary>
+        public static string MedicalBehavioural {
+            get {
+                return ResourceManager.GetString("MedicalBehavioural", resourceCulture);
             }
         }
         
@@ -1820,6 +1928,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Other language.
+        /// </summary>
+        public static string OtherLanguage {
+            get {
+                return ResourceManager.GetString("OtherLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Overdue.
         /// </summary>
         public static string Overdue {
@@ -1870,6 +1987,15 @@ namespace Visitz.Resources.Localization {
         public static string PhotoPermissionsErrorDesc {
             get {
                 return ResourceManager.GetString("PhotoPermissionsErrorDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred.
+        /// </summary>
+        public static string Preferred {
+            get {
+                return ResourceManager.GetString("Preferred", resourceCulture);
             }
         }
         
@@ -2802,6 +2928,15 @@ namespace Visitz.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to School name.
+        /// </summary>
+        public static string SchoolName {
+            get {
+                return ResourceManager.GetString("SchoolName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Section 13 concerns.
         /// </summary>
         public static string Section13Concerns {
@@ -2961,6 +3096,24 @@ namespace Visitz.Resources.Localization {
         public static string TodoIsEmpty {
             get {
                 return ResourceManager.GetString("TodoIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translator / interpreter required.
+        /// </summary>
+        public static string TranslatorInterpreterRequired {
+            get {
+                return ResourceManager.GetString("TranslatorInterpreterRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Treatment plan.
+        /// </summary>
+        public static string TreatmentPlan {
+            get {
+                return ResourceManager.GetString("TreatmentPlan", resourceCulture);
             }
         }
         

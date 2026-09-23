@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Realms;
 using Visitz.Views.BaseClasses;
 using VisitzModel.Models;
@@ -60,12 +59,6 @@ public partial class SupportNetworkListViewModel : IcmRecordViewModel
         }
 
         ShowEmptyIcon = SupportNetworksList.Count <= 0;
-    }
-
-    [RelayCommand]
-    public static void SelectedSupportNetworkItem(SupportNetworkItemUi tappedItem)
-    {
-        tappedItem.IsExpanded = !tappedItem.IsExpanded;
     }
 
     protected override void Dispose(bool disposing)

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BaseContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:Visitz.Views.BaseClasses"
+    xmlns:controls="clr-namespace:Visitz.Controls"
+    xmlns:childYouthInfo="clr-namespace:Visitz.Views.Entity.ChildYouthInfo"
+    xmlns:peopleModels="clr-namespace:VisitzModel.Models.People;assembly=VisitzModel"
+    xmlns:views="clr-namespace:Visitz.Views"
+    x:Class="Visitz.Views.Entity.ChildYouthInfo.ExpandableSection"
+    x:DataType="childYouthInfo:ExpandableSection"
+>
+    <views:Expander IsExpanded="{Binding IsExpanded, Source={RelativeSource AncestorType=childYouthInfo:ExpandableSection}}">
+        <views:Expander.HeaderView>
+            <HorizontalStackLayout Spacing="{StaticResource DefaultSpacing}">
+                <controls:LabelIcon
+                    Text="{Binding HeaderGlyph, Source={RelativeSource AncestorType=childYouthInfo:ExpandableSection}}"
+                    VerticalOptions="Center"
+                />
+                <Label
+                    FontFamily="BCSansBold"
+                    Text="{Binding HeaderText, Source={RelativeSource AncestorType=childYouthInfo:ExpandableSection}}"
+                    VerticalOptions="Center"
+                />
+            </HorizontalStackLayout>
+        </views:Expander.HeaderView>
+
+        <views:Expander.ExpandedView>
+            <CollectionView
+                ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType=childYouthInfo:ExpandableSection}}"
+                ItemTemplate="{Binding ItemTemplate, Source={RelativeSource AncestorType=childYouthInfo:ExpandableSection}}"
+            />
+        </views:Expander.ExpandedView>
+    </views:Expander>
+</base:BaseContentView>

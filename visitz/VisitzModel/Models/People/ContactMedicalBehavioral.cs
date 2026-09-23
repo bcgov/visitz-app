@@ -1,12 +1,18 @@
+using RealmBindings;
 using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
+using VisitzModel.Formats;
 using VisitzModel.Interfaces;
 using VisitzModel.Utilities;
 
 namespace VisitzModel.Models.People;
 
-public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMedicalBehavioralJson>
+[GenerateRealmBindings]
+public partial class ContactMedicalBehavioral
+    : IRealmObject,
+        IApiJson<ContactMedicalBehavioralJson>,
+        IComparable<ContactMedicalBehavioral>
 {
     [PrimaryKey]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -32,6 +38,12 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     public string ParentContactId { get; set; } = string.Empty;
     public DateTimeOffset? StartDate { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
+
+    public string? DisplayDiagnosisDate => DiagnosisDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
+
+    public string? DisplayStartDate => StartDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
+
+    public string? DisplayEndDate => EndDateBinding?.ToString(IcmDateFormats.BasicTimestamp);
 
     public ContactMedicalBehavioral() { }
 
@@ -114,7 +126,7 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
     {
         await realm.SynchronizeByQueryAsync(
             incomingItems: FromApiJsonArray(contactMedicalBehavioral, parentContactId),
-            existingQuery: realm.All<ContactMedicalBehavioral>().Where(item => item.ParentContactId == parentContactId)
+            existingQuery: GetAllByParent(realm, parentContactId)
         );
     }
 
@@ -130,5 +142,30 @@ public partial class ContactMedicalBehavioral : IRealmObject, IApiJson<ContactMe
 
             realm.RemoveRange(contactMedicalBehavioral);
         }
+    }
+
+    public static IQueryable<ContactMedicalBehavioral> GetAllByParent(Realm realm, string parentContactId)
+    {
+        return realm.All<ContactMedicalBehavioral>().Where(item => item.ParentContactId == parentContactId);
+    }
+
+    public int CompareTo(ContactMedicalBehavioral? other)
+    {
+        if (other == null)
+            return 1;
+
+        int conditionCompare = ConditionBinding.CompareTo(other.ConditionBinding);
+        if (conditionCompare != 0)
+            return conditionCompare;
+
+        int categoryCompare = CategoryBinding.CompareTo(other.CategoryBinding);
+        if (categoryCompare != 0)
+            return categoryCompare;
+
+        int commentsCompare = CommentsBinding.CompareTo(other.CommentsBinding);
+        if (commentsCompare != 0)
+            return commentsCompare;
+
+        return CreatedBinding.CompareTo(other.CreatedBinding);
     }
 }
