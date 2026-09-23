@@ -25,15 +25,15 @@
             Value="{Binding DisplayStartDate}"
         />
         <formControls:InfoItemView
-            Label="{local:Localize Last grade completed}"
+            Label="{local:Localize LastGradeCompleted}"
             Value="{Binding DegreeBinding}"
         />
         <formControls:InfoItemView
-            Label="{local:Localize Contact person}"
+            Label="{local:Localize ContactPerson}"
             Value="{Binding ContactPersonBinding}"
         />
         <formControls:InfoItemView
-            Label="{local:Localize Contact person role}"
+            Label="{local:Localize ContactPersonRole}"
             Value="{Binding ContactPersonRoleBinding}"
         />
         <formControls:InfoItemView
