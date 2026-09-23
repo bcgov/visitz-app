@@ -88,11 +88,29 @@ namespace VisitzModel.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferred.
+        /// </summary>
+        internal static string Preferred {
+            get {
+                return ResourceManager.GetString("Preferred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Safety assessment.
         /// </summary>
         internal static string SafetyAssessment {
             get {
                 return ResourceManager.GetString("SafetyAssessment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secondary.
+        /// </summary>
+        internal static string Secondary {
+            get {
+                return ResourceManager.GetString("Secondary", resourceCulture);
             }
         }
         

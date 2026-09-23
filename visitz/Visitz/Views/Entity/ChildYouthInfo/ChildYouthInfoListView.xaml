@@ -111,7 +111,7 @@
                                                 FontFamily="BCSansBold"
                                                 Text="{Binding LanguageName}"
                                             />
-                                            <Label Text="{Binding SSAPrimaryField}" />
+                                            <Label Text="{Binding DisplayPreferred}" />
                                         </VerticalStackLayout>
                                     </views:Expander.HeaderView>
                                     <views:Expander.ExpandedView>

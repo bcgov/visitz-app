@@ -22,7 +22,7 @@
         />
         <formControls:InfoItemView
             Label="{local:Localize Preferred}"
-            Value="{Binding SSAPrimaryFieldBinding}"
+            Value="{Binding PreferredBinding}"
         />
         <formControls:InfoItemView Label="{local:Localize Type}" Value="{Binding ICMTypeBinding}" />
         <formControls:InfoItemView

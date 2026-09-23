@@ -3,6 +3,7 @@ using Realms;
 using VisitzApi.Models.People;
 using VisitzModel.Extensions;
 using VisitzModel.Interfaces;
+using VisitzModel.Resources.Localization;
 
 namespace VisitzModel.Models.People;
 
@@ -13,7 +14,10 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
     public string Type { get; set; } = string.Empty;
-    public string SSAPrimaryField { get; set; } = string.Empty;
+
+    [MapTo("SSAPrimaryField")]
+    public string Preferred { get; set; } = string.Empty;
+
     public DateTimeOffset Updated { get; set; } = DateTimeOffset.UtcNow;
     public string TranslatorReq { get; set; } = string.Empty;
     public string Comments { get; set; } = string.Empty;
@@ -26,6 +30,9 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
     public string CreatedByName { get; set; } = string.Empty;
     public string ICMType { get; set; } = string.Empty;
 
+    public string DisplayPreferred =>
+        PreferredBinding.ParseWordTruthiness() ? GeneralStrings.Preferred : GeneralStrings.Secondary;
+
     public ContactLanguage() { }
 
     public ContactLanguage(ContactLanguageJson json, string parentContactId)
@@ -35,7 +42,7 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
         Created = DateTimeOffset.Parse(json.Created);
         UpdatedBy = json.UpdatedBy;
         Type = json.Type;
-        SSAPrimaryField = json.SSAPrimaryField;
+        Preferred = json.SSAPrimaryField;
         Updated = DateTimeOffset.Parse(json.Updated);
         TranslatorReq = json.TranslatorReq;
         Comments = json.Comments;
@@ -56,7 +63,7 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
             Created = Created.ToString(dateFormat) ?? string.Empty,
             UpdatedBy = UpdatedBy,
             Type = Type,
-            SSAPrimaryField = SSAPrimaryField,
+            SSAPrimaryField = Preferred,
             Updated = Updated.ToString(dateFormat) ?? string.Empty,
             TranslatorReq = TranslatorReq,
             Comments = Comments,
@@ -119,7 +126,7 @@ public partial class ContactLanguage : IRealmObject, IApiJson<ContactLanguageJso
         if (other == null)
             return 1;
 
-        int preferredCompare = SSAPrimaryFieldBinding.CompareTo(other.SSAPrimaryFieldBinding);
+        int preferredCompare = PreferredBinding.CompareTo(other.PreferredBinding);
         if (preferredCompare != 0)
             return preferredCompare * -1; // Descending order
 

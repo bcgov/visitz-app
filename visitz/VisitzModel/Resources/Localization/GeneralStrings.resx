@@ -127,8 +127,14 @@
   <data name="Note" xml:space="preserve">
     <value>Note</value>
   </data>
+  <data name="Preferred" xml:space="preserve">
+    <value>Preferred</value>
+  </data>
   <data name="SafetyAssessment" xml:space="preserve">
     <value>Safety assessment</value>
+  </data>
+  <data name="Secondary" xml:space="preserve">
+    <value>Secondary</value>
   </data>
   <data name="Visit" xml:space="preserve">
     <value>Child/youth visit</value>
