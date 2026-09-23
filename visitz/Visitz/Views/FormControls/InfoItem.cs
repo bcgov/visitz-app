@@ -24,4 +24,12 @@ public partial class InfoItem : ObservableObject
 
     [ObservableProperty]
     public partial Action? TapAction { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsValueTextSelectable { get; set; } = true;
+
+    partial void OnTapActionChanged(Action? value)
+    {
+        IsValueTextSelectable = value == null;
+    }
 }

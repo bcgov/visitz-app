@@ -24,7 +24,7 @@ public partial class InfoItemView : ContentView
     [BindableProperty]
     public partial TextDecorations ValueTextDecorations { get; set; } = TextDecorations.None;
 
-    [BindableProperty]
+    [BindableProperty(PropertyChangedMethodName = nameof(TapAction_PropertyChanged))]
     public partial Action? TapAction { get; set; }
 
     [BindableProperty]
@@ -35,6 +35,9 @@ public partial class InfoItemView : ContentView
 
     [BindableProperty]
     public partial string LabelFontFamily { get; set; } = VisitzFonts.BcSansRegularAlias;
+
+    [BindableProperty]
+    public partial bool IsValueTextSelectable { get; set; } = true;
 
     public InfoItemView()
     {
@@ -60,6 +63,11 @@ public partial class InfoItemView : ContentView
                 source: item
             );
             this.SetBinding(TapActionProperty, static (InfoItem source) => source.TapAction, source: item);
+            this.SetBinding(
+                IsValueTextSelectableProperty,
+                static (InfoItem source) => source.IsValueTextSelectable,
+                source: item
+            );
         }
     }
 
@@ -83,5 +91,11 @@ public partial class InfoItemView : ContentView
             itemView.IconColumnWidth = new GridLength(0.0d);
             itemView.ColumnSpacing = 0.0d;
         }
+    }
+
+    static void TapAction_PropertyChanged(BindableObject bindable, object _, object newValue)
+    {
+        if (bindable is InfoItemView itemView)
+            itemView.IsValueTextSelectable = newValue == null;
     }
 }
