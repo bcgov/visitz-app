@@ -15,6 +15,10 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace RealmBindingGenerator;
 
+/// <summary>
+/// Generates additional "Binding" properties for Realm objects (classes implementing IRealmObject)
+/// for every property that Realm considers valid.
+/// </summary>
 [Generator(LanguageNames.CSharp)]
 public sealed class RealmBindingSourceGenerator : IIncrementalGenerator
 {
